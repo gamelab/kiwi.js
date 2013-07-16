@@ -132,7 +132,7 @@ if ($state == false)
 ?>
 
     <div id="header">
-        <a href="index.php"><img src="/kiwitest/assets/suite/logo.png" /></a>
+        <a href="index.php"><img src="/examples/webpage_assets/kiwi_logo.png" /></a>
         <h1 id="title">Test Suite</h1>
     </div>
 
