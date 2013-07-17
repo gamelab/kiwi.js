@@ -21,16 +21,25 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="assets\coin.png" />
+    <Content Include="assets\firstState.jpg" />
+    <Content Include="assets\indiana.png" />
+    <Content Include="assets\secondState.jpg" />
+    <Content Include="assets\shinyball.png" />
+    <Content Include="assets\spartan.png" />
+    <Content Include="assets\sprite.png" />
     <Content Include="examples.css" />
+    <Content Include="GameObjects\AddingSprite.ts" />
+    <Content Include="GameObjects\ClickingButton.ts" />
+    <Content Include="GameObjects\Mouse_MoveAndClick.ts" />
+    <Content Include="GameObjects\MovingSpriteWithKeys.ts" />
     <Content Include="jquery-1.9.1.d.ts" />
     <Content Include="jquery-1.9.1.js" />
     <TypeScriptCompile Include="sprites\Sprite1.ts" />
     <Content Include="how to setup tests.txt" />
     <Content Include="index.php" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assets\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
