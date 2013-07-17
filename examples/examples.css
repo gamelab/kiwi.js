@@ -5,7 +5,7 @@
 
 body
 {
-	background: url(/kiwitest/assets/suite/background.png);
+	background: url(/examples/webpage_assets/back.png);
     color: white;
     font-family: 'Arial', sans-serif
 	-webkit-touch-callout: none;
@@ -18,7 +18,7 @@ body
 
 * {
 	user-select: none;
-	-webkit-tap-highlight-color: rgb(0, 0, 0, 0);
+	-webkit-tap-highlight-color: rgb(0, 0, 0);
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-moz-user-select: none;

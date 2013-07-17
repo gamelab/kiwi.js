@@ -28,10 +28,7 @@ Thumbs.db
 *.map
 *.config
 [Bb]in
-[Dd]ebug*/
 *.lib
 *.sbr
-obj/
-[Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
