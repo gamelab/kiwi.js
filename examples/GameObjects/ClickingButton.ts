@@ -1,4 +1,4 @@
-/// <reference path="../../kiwi/kiwi.ts" />
+/// <reference path="../../src/kiwi.ts" />
 /**
 * Creating a sprite
 **/
