@@ -31,15 +31,20 @@
     <Content Include="examples.css" />
     <Content Include="GameObjects\AddingSprite.ts" />
     <Content Include="GameObjects\ClickingButton.ts" />
+    <Content Include="GameObjects\LoadingImagesStaticImages.ts" />
     <Content Include="GameObjects\Mouse_MoveAndClick.ts" />
     <Content Include="GameObjects\MovingSpriteWithKeys.ts" />
+    <Content Include="groups\CreatingUsingGroups.ts" />
     <Content Include="jquery-1.9.1.d.ts" />
     <Content Include="jquery-1.9.1.js" />
+    <Content Include="sprites\CreateAnimatedSprite.ts" />
     <TypeScriptCompile Include="sprites\Sprite1.ts" />
     <Content Include="how to setup tests.txt" />
     <Content Include="index.php" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="states\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
