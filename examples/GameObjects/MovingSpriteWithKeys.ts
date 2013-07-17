@@ -1,4 +1,5 @@
-/// <reference path="../../kiwi/kiwi.ts" />
+/// <reference path="../../src/Kiwi.ts" />
+
 /**
 * Moving a sprite with keys
 **/
@@ -21,7 +22,7 @@ class myState extends Kiwi.State {
     preload() {
         ///////////////////////////////////////
         //Adding Image for Sprite to Cache
-        this.addImage('mySprite', '../assets/sprite.png');
+        this.addImage('mySprite', 'assets/sprite.png');
     }
 
 
