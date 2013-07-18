@@ -489,14 +489,14 @@
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs4A2.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsD0B1.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES3</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs4A2.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsD0B1.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
