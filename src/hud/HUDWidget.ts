@@ -3,12 +3,16 @@
 
 module Kiwi.HUD {
 
+    export interface IHUDWidget {
+        setTemplate(): boolean;
+    }
 
     export class HUDWidget {
         // Constructor
         constructor(name: string,x:number,y:number) {
             //this._game = game;
             this.name = name;
+            this.dictionary = new Kiwi.Structs.Dictionary();
             this.container = <HTMLDivElement>document.createElement("div");
             this.container.id = "HUD-widget-" + name; //tis should be changed to an id
             this.container.innerText = this.container.id;
@@ -19,7 +23,7 @@ module Kiwi.HUD {
             this._updateCSS();
         }
 
-
+        public dictionary: Kiwi.Structs.Dictionary;
 
         public position: Kiwi.Components.Position;
 

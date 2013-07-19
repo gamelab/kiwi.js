@@ -10318,15 +10318,31 @@ var Kiwi;
             };
 
             HUDDisplay.prototype.removeWidget = function (widget) {
+                if (this.destroyWidget(widget)) {
+                    var i = this._widgets.indexOf(widget);
+
+                    if (i !== -1) {
+                        this._widgets.splice(i, 1);
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            HUDDisplay.prototype.removeAllWidgets = function () {
+                for (var i = 0; i < this._widgets.length; i++) {
+                    this.destroyWidget(this._widgets[i]);
+                }
+
+                this._widgets = [];
+            };
+
+            HUDDisplay.prototype.destroyWidget = function (widget) {
                 if (this.container.contains(widget.container)) {
                     this.container.removeChild(widget.container);
+                    return true;
                 }
-
-                var i = this._widgets.indexOf(widget);
-
-                if (i !== -1) {
-                    this._widgets.splice(i, 1);
-                }
+                return false;
             };
 
             HUDDisplay.prototype.update = function () {
@@ -10362,6 +10378,7 @@ var Kiwi;
                 this._huds = new Array();
 
                 this._defaultHUD = this.createHUD("defaultHUD");
+
                 this._currentHUD = this._defaultHUD;
 
                 this.setHUD(this._defaultHUD);
@@ -10422,6 +10439,8 @@ var Kiwi;
                 if (i !== -1) {
                     this._huds.splice(i, 1);
                 }
+
+                return true;
             };
 
             HUDManager.prototype.destroyHUD = function (hud) {
@@ -10453,6 +10472,7 @@ var Kiwi;
         var HUDWidget = (function () {
             function HUDWidget(name, x, y) {
                 this.name = name;
+                this.dictionary = new Kiwi.Structs.Dictionary();
                 this.container = document.createElement("div");
                 this.container.id = "HUD-widget-" + name;
                 this.container.innerText = this.container.id;
@@ -10523,7 +10543,7 @@ var Kiwi;
                 this._tempParent.removeChild(containerElement);
                 this.container.appendChild(containerElement);
 
-                console.log('Theoretically worked');
+                return true;
             };
 
             TextField.prototype.removeTemplate = function () {
@@ -10537,6 +10557,8 @@ var Kiwi;
 
                 this._textField = this.container;
                 this._textField.innerText = this._text;
+
+                return true;
             };
 
             TextField.prototype.text = function (val) {

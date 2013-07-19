@@ -22,7 +22,7 @@ module Kiwi.HUD {
 
         private _tempContainer: HTMLElement;
 
-        public setTemplate(main: string, field: string) {
+        public setTemplate(main: string, field: string):boolean {
 
             var containerElement:HTMLElement = document.getElementById(main);
             if (containerElement === undefined) {
@@ -37,6 +37,7 @@ module Kiwi.HUD {
             }
 
 
+
             //remove text from container, add it to the field
             this.container.innerText = '';
             this._textField = fieldElement;
@@ -48,10 +49,10 @@ module Kiwi.HUD {
             this._tempParent.removeChild(containerElement);
             this.container.appendChild(containerElement);
 
-            console.log('Theoretically worked');
+            return true;
         }
 
-        public removeTemplate() {
+        public removeTemplate():boolean {
             //check if it is not the container
             if (this._textField === this.container) {
                 console.log('No template is currently in affect');
@@ -66,6 +67,7 @@ module Kiwi.HUD {
             this._textField = this.container;
             this._textField.innerText = this._text;
             
+            return true;
         }
 
         public text(val?: string):string {

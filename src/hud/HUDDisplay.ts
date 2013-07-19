@@ -32,20 +32,47 @@ module Kiwi.HUD {
 
         }
 
-        public removeWidget(widget: Kiwi.HUD.HUDWidget) {
-            //remove off screen
-            if (this.container.contains(widget.container)) {
-                this.container.removeChild(widget.container);
-            }
-            //remove from array
-            var i = this._widgets.indexOf(widget);
+        /* 
+        * Removes a singular widget from the display
+        * 
+        * @method removeWidget
+        * @param {Kiwi.HUD.HUDWidget} widget - The widget to be removed.
+        * @return {boolean}
+        */
+        public removeWidget(widget: Kiwi.HUD.HUDWidget):boolean {
 
-            if (i !== -1) {
-                this._widgets.splice(i, 1);
+            if (this.destroyWidget(widget)) {
+
+                var i = this._widgets.indexOf(widget);
+
+                if (i !== -1) {
+                    this._widgets.splice(i, 1);
+                    return true;
+                }
             }
+            return false;
         }
 
-        
+        /*
+        * Removes all of the widgets on this display.
+        *
+        * @method removeAllWidgets
+        */
+        public removeAllWidgets() {
+            for (var i = 0; i < this._widgets.length; i++) {
+                this.destroyWidget(this._widgets[i]);
+            }
+
+            this._widgets = [];
+        }
+
+        private destroyWidget(widget:Kiwi.HUD.HUDWidget):boolean {
+            if (this.container.contains(widget.container)) {
+                this.container.removeChild(widget.container);
+                return true;
+            }
+            return false;
+        }
 
         public update() {
             for (var i = 0; i < this._widgets.length; i++) {

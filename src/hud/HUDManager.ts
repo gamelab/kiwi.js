@@ -3,57 +3,95 @@
 
 module Kiwi.HUD {
 
-    
     export class HUDManager {
-        // Constructor
+        
+        /** 
+        * 
+        * @constructor
+        * @param {Kiwi.Game} game
+        **/
         constructor(game: Kiwi.Game) {
             this._game = game;
         }
 
+        /**
+        * 
+        * @property _game
+        * @type Kiwi.Game
+        * @private
+        **/
         private _game: Kiwi.Game;
 
+        /**
+        *
+        * @property _hudContainer
+        * @type HTMLDivElement
+        * @private
+        **/
         private _hudContainer: HTMLDivElement;
 
+        /**
+        * The DOM is ready, so if the current state is pending we can boot up the HUD now.
+        * @method boot
+        **/
         public boot() {
-
-            //create hudcontainer
 
             this._hudContainer = <HTMLDivElement>document.createElement("div");
             this._hudContainer.id = "HUDContainer";
             this._hudContainer.style.position = "absolute";
             this._hudContainer.style.width = "100%";
             this._hudContainer.style.height = "100%";
-            //this._hudContainer.style.backgroundColor = "green";
-            //this._hudContainer.style.opacity = ".4";
-            
-           
 
-            //layer on top of the stage container
             this._game.stage.container.appendChild(this._hudContainer);
 
             this._huds = new Array<HUDDisplay>();
 
             this._defaultHUD = this.createHUD("defaultHUD");
+            
             this._currentHUD = this._defaultHUD;
-           // console.log(this._currentHUD);
+            
             this.setHUD(this._defaultHUD);
             
-
         }
 
+        /**
+        * Returns the type of object this is.
+        * @method objType
+        **/
         public objType():string {
             return "HUDManager";
         }
 
+        /**
+        * @property _huds
+        * @type Kiwi.Structs.Dictionary
+        * @private
+        **/
         private _huds: Array<Kiwi.HUD.HUDDisplay>;
 
+        /**
+        * The defaultHUD to be displayed onscreen.
+        * @property _defaultHUD
+        * @type Kiwi.HUD.HUDDisplay
+        * @private
+        **/
         private _defaultHUD: Kiwi.HUD.HUDDisplay;
 
+        /**
+        * The currentHUD that is in use.
+        * @property _currentHUD
+        * @type Kiwi.HUD.HUDDisplay
+        * @private
+        **/
         private _currentHUD: Kiwi.HUD.HUDDisplay;
 
-        /*
-            Sets or returns the default hud
-        */
+        /**
+        * Allows you get the defaultHUD that is being used, or set the defaultHUD.
+        *
+        * @method defaultHUD
+        * @param {Kiwi.HUD.HUDDisplay} val - The new defaultHUD.
+        * @return {Kiwi.HUD.HUDDisplay}
+        **/
         public defaultHUD(val?: Kiwi.HUD.HUDDisplay): Kiwi.HUD.HUDDisplay {
             if (val) {
 
@@ -68,31 +106,42 @@ module Kiwi.HUD {
             return this._defaultHUD;
         }
 
-        //swaps to hud
+        /**
+        * Swaps to the current displayed HUD.
+        * 
+        * @method setHUD
+        * @param {Kiwi.HUD.HUDDisplay} hud - Reference to the HUD you want to display. 
+        **/
         public setHUD(hud: Kiwi.HUD.HUDDisplay) {
             this.hideHUD();
             this._currentHUD = hud;
             this.showHUD();
         }
 
-        /*
-            Shows the current HUD
-        */
+        /**
+        * Displays the currently active HUD.
+        * @method showHUD
+        **/
         public showHUD() {
             this._currentHUD.container.style.display = 'block';
         }
 
-        /*
-            Hides the current HUD.
-        */
+        /**
+        * Hides the active HUDDisplay
+        * @method hideHUD
+        **/
         public hideHUD() {
             this._currentHUD.container.style.display = 'none';
         }
 
        
-        /*
-            Creates a new HUD
-        */
+        /**
+        * Creates a new HUDDisplay.
+        * 
+        * @method createHUD
+        * @param {string} name - Name of the new HUD.
+        * @return {Kiwi.HUD.HUDDisplay}
+        **/
         public createHUD(name: string): Kiwi.HUD.HUDDisplay{
             
             var hud: Kiwi.HUD.HUDDisplay = new Kiwi.HUD.HUDDisplay(this._game, name);
@@ -102,40 +151,42 @@ module Kiwi.HUD {
             return hud;
         }
 
-        /*
-            Removes a hud off the screen.
-        */
+        /**
+        * Removes a HUD from the game.
+        *
+        * @method removeHUD
+        * @param {Kiwi.HUD.HUDDisplay} hud - The hud you want to remove.
+        * @returns {boolean} 
+        **/
         public removeHUD(hud: Kiwi.HUD.HUDDisplay) {
             
-            //is it the default hud?
             if (hud === this._defaultHUD) {
-                //go away. you no remove this hud! >:(
                 klog.error("Cannot remove the default HUD.");
                 return false;
             }
 
-            //is it the current hud?
             if (this._currentHUD === hud) {
-                this.setHUD(this._defaultHUD);  //switch to the default?
+                this.setHUD(this._defaultHUD); 
             }
 
-            //remove of the stage if it is there
             this.destroyHUD(hud);
 
-            //remove from the array
             var i = this._huds.indexOf(hud);
 
             if (i !== -1) {
-                //  kill the hud
                 this._huds.splice(i, 1);
             }
 
+            return true;
         }
 
-        /*
-            Deletes the hud from the manager
-        */
-        public destroyHUD(hud: Kiwi.HUD.HUDDisplay) {
+        /**
+        * Removes the HUD from the screen
+        *
+        * @method destroyHUD
+        * @param {Kiwi.HUD.HUDDisplay} hud - The hud to be removed
+        **/
+        private destroyHUD(hud: Kiwi.HUD.HUDDisplay) {
 
             if (this._hudContainer.contains(hud.container)) {
                 this._hudContainer.removeChild(hud.container);
@@ -144,12 +195,18 @@ module Kiwi.HUD {
             hud = null;
         }
 
+        /**
+        * Game loop
+        **/
         public update() {
             for (var i = 0; i < this._huds.length; i++) {
                 this._huds[i].update();
             }
         }
 
+        /**
+        * Render
+        **/
         public render() {
             this._currentHUD.render();
         }
