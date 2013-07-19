@@ -36,7 +36,6 @@ module Kiwi.HUD {
             //remove off screen
             if (this.container.contains(widget.container)) {
                 this.container.removeChild(widget.container);
-                console.log('REMOVE ME!! I\'M NOT HERE');
             }
             //remove from array
             var i = this._widgets.indexOf(widget);

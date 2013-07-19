@@ -35,6 +35,22 @@
     <Content Include="GameObjects\Mouse_MoveAndClick.ts" />
     <Content Include="GameObjects\MovingSpriteWithKeys.ts" />
     <Content Include="groups\CreatingUsingGroups.ts" />
+    <TypeScriptCompile Include="hud\Basics.ts" />
+    <Content Include="hud\hud1.js">
+      <DependentUpon>Basics.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\Switching.ts" />
+    <Content Include="hud\Hud2.js">
+      <DependentUpon>Switching.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\ShowAndHide.ts" />
+    <Content Include="hud\Hud3.js">
+      <DependentUpon>ShowAndHide.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\RemovingWidgets.ts" />
+    <Content Include="hud\Hud4.js">
+      <DependentUpon>RemovingWidgets.ts</DependentUpon>
+    </Content>
     <Content Include="jquery-1.9.1.d.ts" />
     <Content Include="jquery-1.9.1.js" />
     <Content Include="sprites\CreateAnimatedSprite.ts" />
@@ -86,9 +102,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-
-
-</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo hello

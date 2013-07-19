@@ -70,18 +70,15 @@ module Kiwi.HUD {
 
         //swaps to hud
         public setHUD(hud: Kiwi.HUD.HUDDisplay) {
-            console.log(hud);
-            this.removeHUD(this._currentHUD);
-            this._hudContainer.appendChild(hud.container);
+            this.hideHUD();
             this._currentHUD = hud;
-
+            this.showHUD();
         }
 
         /*
             Shows the current HUD
         */
         public showHUD() {
-            console.log('visible');
             this._currentHUD.container.style.display = 'block';
         }
 
@@ -89,7 +86,6 @@ module Kiwi.HUD {
             Hides the current HUD.
         */
         public hideHUD() {
-            console.log('hidden');
             this._currentHUD.container.style.display = 'none';
         }
 
@@ -100,8 +96,9 @@ module Kiwi.HUD {
         public createHUD(name: string): Kiwi.HUD.HUDDisplay{
             
             var hud: Kiwi.HUD.HUDDisplay = new Kiwi.HUD.HUDDisplay(this._game, name);
+            hud.container.style.display = 'none';
             this._huds.push(hud);
-            console.log(hud);
+            this._hudContainer.appendChild(hud.container);
             return hud;
         }
 
@@ -109,19 +106,7 @@ module Kiwi.HUD {
             Removes a hud off the screen.
         */
         public removeHUD(hud: Kiwi.HUD.HUDDisplay) {
-             
-            if (this._hudContainer.contains(hud.container)) {       
-                this._hudContainer.removeChild(hud.container); 
-            }
-
-        }
-
-        /*
-            Deletes the hud from the manager
-        */
-        public destroyHUD(hud: Kiwi.HUD.HUDDisplay) {
-            console.log(this._huds);
-
+            
             //is it the default hud?
             if (hud === this._defaultHUD) {
                 //go away. you no remove this hud! >:(
@@ -135,7 +120,7 @@ module Kiwi.HUD {
             }
 
             //remove of the stage if it is there
-            this.removeHUD(hud);
+            this.destroyHUD(hud);
 
             //remove from the array
             var i = this._huds.indexOf(hud);
@@ -143,6 +128,17 @@ module Kiwi.HUD {
             if (i !== -1) {
                 //  kill the hud
                 this._huds.splice(i, 1);
+            }
+
+        }
+
+        /*
+            Deletes the hud from the manager
+        */
+        public destroyHUD(hud: Kiwi.HUD.HUDDisplay) {
+
+            if (this._hudContainer.contains(hud.container)) {
+                this._hudContainer.removeChild(hud.container);
             }
 
             hud = null;

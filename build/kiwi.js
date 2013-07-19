@@ -10320,7 +10320,6 @@ var Kiwi;
             HUDDisplay.prototype.removeWidget = function (widget) {
                 if (this.container.contains(widget.container)) {
                     this.container.removeChild(widget.container);
-                    console.log('REMOVE ME!! I\'M NOT HERE');
                 }
 
                 var i = this._widgets.indexOf(widget);
@@ -10385,38 +10384,28 @@ var Kiwi;
             };
 
             HUDManager.prototype.setHUD = function (hud) {
-                console.log(hud);
-                this.removeHUD(this._currentHUD);
-                this._hudContainer.appendChild(hud.container);
+                this.hideHUD();
                 this._currentHUD = hud;
+                this.showHUD();
             };
 
             HUDManager.prototype.showHUD = function () {
-                console.log('visible');
                 this._currentHUD.container.style.display = 'block';
             };
 
             HUDManager.prototype.hideHUD = function () {
-                console.log('hidden');
                 this._currentHUD.container.style.display = 'none';
             };
 
             HUDManager.prototype.createHUD = function (name) {
                 var hud = new Kiwi.HUD.HUDDisplay(this._game, name);
+                hud.container.style.display = 'none';
                 this._huds.push(hud);
-                console.log(hud);
+                this._hudContainer.appendChild(hud.container);
                 return hud;
             };
 
             HUDManager.prototype.removeHUD = function (hud) {
-                if (this._hudContainer.contains(hud.container)) {
-                    this._hudContainer.removeChild(hud.container);
-                }
-            };
-
-            HUDManager.prototype.destroyHUD = function (hud) {
-                console.log(this._huds);
-
                 if (hud === this._defaultHUD) {
                     klog.error("Cannot remove the default HUD.");
                     return false;
@@ -10426,12 +10415,18 @@ var Kiwi;
                     this.setHUD(this._defaultHUD);
                 }
 
-                this.removeHUD(hud);
+                this.destroyHUD(hud);
 
                 var i = this._huds.indexOf(hud);
 
                 if (i !== -1) {
                     this._huds.splice(i, 1);
+                }
+            };
+
+            HUDManager.prototype.destroyHUD = function (hud) {
+                if (this._hudContainer.contains(hud.container)) {
+                    this._hudContainer.removeChild(hud.container);
                 }
 
                 hud = null;
@@ -10502,8 +10497,48 @@ var Kiwi;
                 _super.call(this, "textField", x, y);
 
                 this._text = text;
-                this.container.innerText = text;
+
+                this._textField = this.container;
+                this._textField.innerText = text;
             }
+            TextField.prototype.setTemplate = function (main, field) {
+                var containerElement = document.getElementById(main);
+                if (containerElement === undefined) {
+                    console.log('Container element not found');
+                    return false;
+                }
+
+                var fieldElement = document.getElementById(field);
+                if (fieldElement === undefined) {
+                    console.log('Field element not found');
+                    return false;
+                }
+
+                this.container.innerText = '';
+                this._textField = fieldElement;
+                this._textField.innerText = this._text;
+
+                this._tempContainer = containerElement;
+                this._tempParent = containerElement.parentElement;
+                this._tempParent.removeChild(containerElement);
+                this.container.appendChild(containerElement);
+
+                console.log('Theoretically worked');
+            };
+
+            TextField.prototype.removeTemplate = function () {
+                if (this._textField === this.container) {
+                    console.log('No template is currently in affect');
+                    return false;
+                }
+
+                this.container.removeChild(this._tempContainer);
+                this._tempParent.appendChild(this._tempContainer);
+
+                this._textField = this.container;
+                this._textField.innerText = this._text;
+            };
+
             TextField.prototype.text = function (val) {
                 if (val !== undefined) {
                     this._text = val;
@@ -10512,8 +10547,7 @@ var Kiwi;
             };
 
             TextField.prototype.update = function () {
-                console.log("update widget textfield");
-                this.container.innerText = this._text;
+                this._textField.innerText = this._text;
             };
             return TextField;
         })(Kiwi.HUD.HUDWidget);
@@ -10531,7 +10565,8 @@ var Kiwi;
                 this.counter = this.components.add(new Kiwi.Components.Counter(0, 1));
             }
             BasicScore.prototype.update = function () {
-                this.container.innerText = String(this.counter.value());
+                this.text(String(this.counter.value()));
+                _super.prototype.update.call(this);
             };
             return BasicScore;
         })(Kiwi.HUD.TextField);
