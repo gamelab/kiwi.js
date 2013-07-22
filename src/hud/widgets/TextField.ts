@@ -1,4 +1,5 @@
 
+
 module Kiwi.HUD {
 
     // Class
@@ -14,14 +15,35 @@ module Kiwi.HUD {
 
         }
 
+        /**
+        * The text current being displayed
+        * @private
+        **/
         private _text: string;
 
+        /**
+        * @private
+        **/
         private _textField: HTMLElement;
         
+        /**
+        * @private
+        **/
         private _tempParent: HTMLElement;
-
+        
+        /**
+        * @private
+        **/
         private _tempContainer: HTMLElement;
-
+        
+        /**
+        * Set Template allows you 
+        *
+        * @method setTemplate
+        * @param {string} main - ID of the DOM element you would like to use.
+        * @param {string} field - ID of an element inside of the main param. Location that the text will be.
+        * @return {boolean}
+        **/
         public setTemplate(main: string, field: string):boolean {
 
             var containerElement:HTMLElement = document.getElementById(main);
@@ -29,10 +51,10 @@ module Kiwi.HUD {
                 console.log('Container element not found');
                 return false;
             }
-
+            
             var fieldElement:HTMLElement = document.getElementById(field);
-            if (fieldElement === undefined) {
-                console.log('Field element not found');
+            if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
+                console.log('Field element not found inside container');
                 return false;
             }
 
@@ -79,6 +101,7 @@ module Kiwi.HUD {
 
         public update() {
             this._textField.innerText = this._text;
+            super.update();
         }
 
       

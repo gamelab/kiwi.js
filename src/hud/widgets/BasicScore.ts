@@ -1,3 +1,4 @@
+/// <reference path="Textfield.ts" />
 
 module Kiwi.HUD {
 

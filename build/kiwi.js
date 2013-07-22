@@ -10305,7 +10305,7 @@ var Kiwi;
                 this._game = game;
                 this.name = name;
                 this.container = document.createElement("div");
-                this.container.id = "HUD-layer-" + name;
+                this.container.id = "HUD-layer-" + game.rnd.uuid();
                 this.container.style.width = "100%";
                 this.container.style.height = "100%";
                 this.container.style.position = "absolute";
@@ -10313,6 +10313,7 @@ var Kiwi;
                 this._widgets = new Array();
             }
             HUDDisplay.prototype.addWidget = function (widget) {
+                widget.container.id = 'HUD-widget-' + this._game.rnd.uuid();
                 this._widgets.push(widget);
                 this.container.appendChild(widget.container);
             };
@@ -10472,10 +10473,8 @@ var Kiwi;
         var HUDWidget = (function () {
             function HUDWidget(name, x, y) {
                 this.name = name;
-                this.dictionary = new Kiwi.Structs.Dictionary();
                 this.container = document.createElement("div");
-                this.container.id = "HUD-widget-" + name;
-                this.container.innerText = this.container.id;
+
                 this.container.style.position = "absolute";
                 this.components = new Kiwi.ComponentManager(Kiwi.HUD_WIDGET, this);
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
@@ -10496,7 +10495,6 @@ var Kiwi;
             };
 
             HUDWidget.prototype.update = function () {
-                console.log("update widget super");
                 this.components.update();
             };
 
@@ -10529,8 +10527,8 @@ var Kiwi;
                 }
 
                 var fieldElement = document.getElementById(field);
-                if (fieldElement === undefined) {
-                    console.log('Field element not found');
+                if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
+                    console.log('Field element not found inside container');
                     return false;
                 }
 
@@ -10570,10 +10568,289 @@ var Kiwi;
 
             TextField.prototype.update = function () {
                 this._textField.innerText = this._text;
+                _super.prototype.update.call(this);
             };
             return TextField;
         })(Kiwi.HUD.HUDWidget);
         HUD.TextField = TextField;
+    })(Kiwi.HUD || (Kiwi.HUD = {}));
+    var HUD = Kiwi.HUD;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (HUD) {
+        var Bar = (function (_super) {
+            __extends(Bar, _super);
+            function Bar(current, max, x, y) {
+                _super.call(this, "bar", x, y);
+
+                this._horizontal = true;
+                this._min = 0;
+                this._current = current;
+                this._max = max;
+
+                this._bar = document.createElement('div');
+                this._bar.className = 'innerBar';
+
+                this.bar = this._bar;
+                this.container.appendChild(this.bar);
+
+                this._bar.style.height = '100%';
+                this._bar.style.width = '100%';
+
+                this.updateCSS();
+            }
+            Bar.prototype.horizontal = function (val) {
+                if (val !== undefined) {
+                    this._horizontal = val;
+                    this.updateCSS();
+                }
+                return this._horizontal;
+            };
+
+            Bar.prototype.vertical = function (val) {
+                if (val !== undefined) {
+                    this._horizontal = !val;
+                    this.updateCSS();
+                }
+                return !this._horizontal;
+            };
+
+            Bar.prototype.max = function (val) {
+                if (val !== undefined) {
+                    this._max = val;
+                    this.updateCSS();
+                }
+                return this._max;
+            };
+
+            Bar.prototype.min = function (val) {
+                if (val !== undefined) {
+                    this._min = val;
+                    this.updateCSS();
+                }
+                return this._min;
+            };
+
+            Bar.prototype.current = function (val) {
+                if (val !== undefined) {
+                    if (this._current > this._max) {
+                        this._current = this._max;
+                    } else if (this._current < this._min) {
+                        this._current = this._min;
+                    } else {
+                        this._current = val;
+                    }
+                    this.updateCSS();
+                }
+                return this._current;
+            };
+
+            Bar.prototype.decrease = function (val) {
+                if (typeof val === "undefined") { val = 1; }
+                if (this._current > this._min) {
+                    if (this._current - val < this._min) {
+                        this._current = this._min;
+                    } else {
+                        this._current -= val;
+                    }
+                    this.updateCSS();
+                }
+            };
+
+            Bar.prototype.increase = function (val) {
+                if (typeof val === "undefined") { val = 1; }
+                if (this._current < this._max) {
+                    if (this._current + val > this._max) {
+                        this._current = this._max;
+                    } else {
+                        this._current += val;
+                    }
+                    this.updateCSS();
+                }
+            };
+
+            Bar.prototype.currentPercent = function () {
+                return ((this.current() - this.min()) / (this.max() - this.min())) * 100;
+            };
+
+            Bar.prototype.setTemplate = function (main, innerbar) {
+                var containerElement = document.getElementById(main);
+                if (containerElement === undefined) {
+                    console.log('Container element not found');
+                    return false;
+                }
+
+                var fieldElement = document.getElementById(innerbar);
+                if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
+                    console.log('Field element not found inside container');
+                    return false;
+                }
+
+                this.container.removeChild(this.bar);
+                this.bar = fieldElement;
+
+                this._tempContainer = containerElement;
+                this._tempParent = containerElement.parentElement;
+                this._tempParent.removeChild(containerElement);
+                this.container.appendChild(containerElement);
+                this.updateCSS();
+
+                return true;
+            };
+
+            Bar.prototype.removeTemplate = function () {
+                if (this.bar === this._bar) {
+                    console.log('No template is currently in affect');
+                    return false;
+                }
+
+                this.container.removeChild(this._tempContainer);
+                this._tempParent.appendChild(this._tempContainer);
+
+                this.bar = this._bar;
+                this.container.appendChild(this.bar);
+                this.updateCSS();
+            };
+
+            Bar.prototype.updateCSS = function () {
+            };
+
+            Bar.prototype.update = function () {
+                _super.prototype.update.call(this);
+            };
+
+            Bar.prototype.render = function () {
+            };
+            return Bar;
+        })(Kiwi.HUD.HUDWidget);
+        HUD.Bar = Bar;
+    })(Kiwi.HUD || (Kiwi.HUD = {}));
+    var HUD = Kiwi.HUD;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (HUD) {
+        var Icon = (function (_super) {
+            __extends(Icon, _super);
+            function Icon(cacheID, cache, x, y) {
+                _super.call(this, 'Icon', x, y);
+
+                if (cache.checkImageCacheID(cacheID, cache) == false) {
+                    console.log('Missing texture', cacheID);
+                    return;
+                }
+
+                this._cache = cache;
+                this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
+                this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
+
+                this.icon = this.container;
+                this._applyCSS();
+            }
+            Icon.prototype.changeIcon = function (cacheID) {
+                if (this._cache.checkImageCacheID(cacheID, this._cache) == false) {
+                    console.log('Missing texture', cacheID);
+                    return;
+                }
+
+                this.components.removeComponent(this.texture, true);
+                this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, this._cache));
+
+                this.size.setTo(this.texture.file.data.width, this.texture.file.data.height);
+                this._applyCSS();
+            };
+
+            Icon.prototype._removeCSS = function () {
+                this.icon.style.width = '';
+                this.icon.style.height = '';
+                this.icon.style.backgroundImage = '';
+                this.icon.style.backgroundRepeat = '';
+                this.icon.style.backgroundSize = '';
+            };
+
+            Icon.prototype._applyCSS = function () {
+                this.size.setCSS(this.icon);
+                this.icon.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
+                this.icon.style.backgroundRepeat = 'no-repeat';
+                this.icon.style.backgroundSize = '100%';
+            };
+
+            Icon.prototype.update = function () {
+                _super.prototype.update.call(this);
+            };
+
+            Icon.prototype.setTemplate = function (main, icon) {
+                var containerElement = document.getElementById(main);
+                if (containerElement === undefined) {
+                    console.log('Container element not found');
+                    return false;
+                }
+
+                var fieldElement = document.getElementById(icon);
+                if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
+                    console.log('Field element not found inside container');
+                    return false;
+                }
+
+                this._removeCSS();
+
+                this.icon = fieldElement;
+                this._tempContainer = containerElement;
+                this._tempParent = containerElement.parentElement;
+                this._tempParent.removeChild(containerElement);
+                this.container.appendChild(containerElement);
+
+                this._applyCSS();
+
+                return true;
+            };
+
+            Icon.prototype.removeTemplate = function () {
+                if (this.icon === this.container) {
+                    console.log('No template is currently in affect');
+                    return false;
+                }
+
+                this.container.removeChild(this._tempContainer);
+                this._tempParent.appendChild(this._tempContainer);
+
+                this._removeCSS();
+                this.icon = this.container;
+                this._applyCSS();
+
+                return true;
+            };
+            return Icon;
+        })(Kiwi.HUD.HUDWidget);
+        HUD.Icon = Icon;
+    })(Kiwi.HUD || (Kiwi.HUD = {}));
+    var HUD = Kiwi.HUD;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (HUD) {
+        var BasicBar = (function (_super) {
+            __extends(BasicBar, _super);
+            function BasicBar(current, max, x, y) {
+                _super.call(this, current, max, x, y);
+
+                this.container.style.width = '100px';
+                this.container.style.height = '20px';
+            }
+            BasicBar.prototype.updateCSS = function () {
+                if (this.horizontal() === true) {
+                    this.bar.style.width = String(this.currentPercent()) + '%';
+                    this.bar.style.height = '100%';
+                } else {
+                    this.bar.style.height = String(this.currentPercent()) + '%';
+                    this.bar.style.width = '100%';
+                }
+                _super.prototype.update.call(this);
+            };
+            return BasicBar;
+        })(Kiwi.HUD.Bar);
+        HUD.BasicBar = BasicBar;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
@@ -10593,6 +10870,22 @@ var Kiwi;
             return BasicScore;
         })(Kiwi.HUD.TextField);
         HUD.BasicScore = BasicScore;
+    })(Kiwi.HUD || (Kiwi.HUD = {}));
+    var HUD = Kiwi.HUD;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (HUD) {
+        var Button = (function (_super) {
+            __extends(Button, _super);
+            function Button(cacheID, cache, x, y) {
+                _super.call(this, cacheID, cache, x, y);
+
+                this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height()));
+            }
+            return Button;
+        })(Kiwi.HUD.Icon);
+        HUD.Button = Button;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
@@ -10622,9 +10915,41 @@ var Kiwi;
                     this._value += this.step;
                 }
             };
+
+            Counter.prototype.decrement = function (val) {
+                if (val !== undefined) {
+                    this._value -= val;
+                } else {
+                    this._value -= this.step;
+                }
+            };
             return Counter;
         })(Kiwi.Component);
         Components.Counter = Counter;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Components) {
+        var WidgetInput = (function (_super) {
+            __extends(WidgetInput, _super);
+            function WidgetInput(element, bounds) {
+                _super.call(this, 'WidgetInput', true, true, true);
+            }
+            WidgetInput.prototype.objType = function () {
+                return "Input";
+            };
+
+            WidgetInput.prototype.update = function () {
+            };
+
+            WidgetInput.prototype.toString = function () {
+                return '[{WidgetInput (x=' + this.withinBounds + ')}]';
+            };
+            return WidgetInput;
+        })(Kiwi.Component);
+        Components.WidgetInput = WidgetInput;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
@@ -14038,6 +14363,23 @@ var Kiwi;
         GameObjects.LinkedGroup = LinkedGroup;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (HUD) {
+        var BasicTime = (function (_super) {
+            __extends(BasicTime, _super);
+            function BasicTime(x, y) {
+                _super.call(this, 'basictime', x, y);
+            }
+            BasicTime.prototype.update = function () {
+                _super.prototype.update.call(this);
+            };
+            return BasicTime;
+        })(Kiwi.HUD.TextField);
+        HUD.BasicTime = BasicTime;
+    })(Kiwi.HUD || (Kiwi.HUD = {}));
+    var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {

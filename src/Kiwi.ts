@@ -75,8 +75,13 @@
 /// <reference path="hud/HUDManager.ts" />
 /// <reference path="hud/HUDWidget.ts" />
 /// <reference path="hud/widgets/Textfield.ts" />
+/// <reference path="hud/widgets/Bar.ts" />
+/// <reference path="hud/widgets/Icon.ts" />
+/// <reference path="hud/widgets/BasicBar.ts" />
 /// <reference path="hud/widgets/BasicScore.ts" />
+/// <reference path="hud/widgets/Button.ts" />
 /// <reference path="hud/components/Counter.ts" />
+/// <reference path="hud/components/WidgetInput.ts" />
 
 /// <reference path="input/Finger.ts" />
 /// <reference path="input/Key.ts" />

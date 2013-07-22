@@ -294,18 +294,40 @@
     </Content>
     <Content Include="hud\components\Counter.js" />
     <Content Include="hud\components\Counter.ts" />
-    <Content Include="hud\HUD.js" />
+    <TypeScriptCompile Include="hud\components\WidgetInput.ts" />
+    <Content Include="hud\components\WidgetInput.js">
+      <DependentUpon>WidgetInput.ts</DependentUpon>
+    </Content>
     <Content Include="hud\HUDDisplay.js" />
     <Content Include="hud\HUDDisplay.ts" />
     <Content Include="hud\HUDManager.js" />
     <Content Include="hud\HUDManager.ts" />
     <Content Include="hud\HUDWidget.js" />
     <Content Include="hud\HUDWidget.ts" />
+    <TypeScriptCompile Include="hud\widgets\Bar.ts" />
+    <Content Include="hud\widgets\Bar.js">
+      <DependentUpon>Bar.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\widgets\BasicBar.ts" />
+    <Content Include="hud\widgets\BasicBar.js">
+      <DependentUpon>BasicBar.ts</DependentUpon>
+    </Content>
     <Content Include="hud\widgets\BasicScore.js" />
     <Content Include="hud\widgets\BasicScore.ts" />
-    <Content Include="hud\widgets\file1.js" />
+    <TypeScriptCompile Include="hud\widgets\Icon.ts" />
+    <TypeScriptCompile Include="hud\widgets\Button.ts" />
+    <Content Include="hud\widgets\Button.js">
+      <DependentUpon>Button.ts</DependentUpon>
+    </Content>
+    <Content Include="hud\widgets\Icon.js">
+      <DependentUpon>Icon.ts</DependentUpon>
+    </Content>
     <Content Include="hud\widgets\Textfield.js" />
     <Content Include="hud\widgets\TextField.ts" />
+    <TypeScriptCompile Include="hud\widgets\Time.ts" />
+    <Content Include="hud\widgets\Time.js">
+      <DependentUpon>Time.ts</DependentUpon>
+    </Content>
     <Content Include="input\Finger.js">
       <DependentUpon>Finger.ts</DependentUpon>
     </Content>

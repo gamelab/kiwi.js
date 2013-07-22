@@ -36,6 +36,14 @@
     <Content Include="GameObjects\MovingSpriteWithKeys.ts" />
     <Content Include="groups\CreatingUsingGroups.ts" />
     <TypeScriptCompile Include="hud\Basics.ts" />
+    <TypeScriptCompile Include="hud\BasicBar.ts" />
+    <Content Include="hud\Bar.js">
+      <DependentUpon>BasicBar.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\Buttons.ts" />
+    <Content Include="hud\Buttons.js">
+      <DependentUpon>Buttons.ts</DependentUpon>
+    </Content>
     <Content Include="hud\hud1.js">
       <DependentUpon>Basics.ts</DependentUpon>
     </Content>
@@ -50,6 +58,10 @@
     <TypeScriptCompile Include="hud\RemovingWidgets.ts" />
     <Content Include="hud\Hud4.js">
       <DependentUpon>RemovingWidgets.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\Icons.ts" />
+    <Content Include="hud\Icons.js">
+      <DependentUpon>Icons.ts</DependentUpon>
     </Content>
     <Content Include="jquery-1.9.1.d.ts" />
     <Content Include="jquery-1.9.1.js" />
