@@ -17,6 +17,7 @@ class CreateAnimatedSprite extends Kiwi.State {
 
         this.sprite = new Kiwi.GameObjects.Sprite('coin', this.game.cache, 100, 100);
         this.sprite.animation.add('anim1', 0.1);
+        
     }
 
     update() {

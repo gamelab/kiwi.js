@@ -22,12 +22,82 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="assets\coin.png" />
+    <Content Include="assets\explosion.png" />
     <Content Include="assets\firstState.jpg" />
     <Content Include="assets\indiana.png" />
+    <Content Include="assets\longBackground.png" />
     <Content Include="assets\secondState.jpg" />
     <Content Include="assets\shinyball.png" />
     <Content Include="assets\spartan.png" />
     <Content Include="assets\sprite.png" />
+    <TypeScriptCompile Include="cameras\CreatingAndMovingCameras.ts" />
+    <Content Include="assets\sprites\planetcute\Brown Block.png" />
+    <Content Include="assets\sprites\planetcute\Character Boy.png" />
+    <Content Include="assets\sprites\planetcute\Character Cat Girl.png" />
+    <Content Include="assets\sprites\planetcute\Character Horn Girl.png" />
+    <Content Include="assets\sprites\planetcute\Character Pink Girl.png" />
+    <Content Include="assets\sprites\planetcute\Character Princess Girl.png" />
+    <Content Include="assets\sprites\planetcute\Chest Closed.png" />
+    <Content Include="assets\sprites\planetcute\Chest Lid.png" />
+    <Content Include="assets\sprites\planetcute\Chest Open.png" />
+    <Content Include="assets\sprites\planetcute\Dirt Block.png" />
+    <Content Include="assets\sprites\planetcute\Door Tall Closed.png" />
+    <Content Include="assets\sprites\planetcute\Door Tall Open.png" />
+    <Content Include="assets\sprites\planetcute\Enemy Bug.png" />
+    <Content Include="assets\sprites\planetcute\Gem Blue.png" />
+    <Content Include="assets\sprites\planetcute\Gem Green.png" />
+    <Content Include="assets\sprites\planetcute\Gem Orange.png" />
+    <Content Include="assets\sprites\planetcute\Grass Block.png" />
+    <Content Include="assets\sprites\planetcute\Heart.png" />
+    <Content Include="assets\sprites\planetcute\Key.png" />
+    <Content Include="assets\sprites\planetcute\Plain Block.png" />
+    <Content Include="assets\sprites\planetcute\PlanetCuteShadowMockup.jpg" />
+    <Content Include="assets\sprites\planetcute\PlanetCuteShadowTest.png" />
+    <Content Include="assets\sprites\planetcute\Ramp East.png" />
+    <Content Include="assets\sprites\planetcute\Ramp North.png" />
+    <Content Include="assets\sprites\planetcute\Ramp South.png" />
+    <Content Include="assets\sprites\planetcute\Ramp West.png" />
+    <Content Include="assets\sprites\planetcute\Rock.png" />
+    <Content Include="assets\sprites\planetcute\Roof East.png" />
+    <Content Include="assets\sprites\planetcute\Roof North East.png" />
+    <Content Include="assets\sprites\planetcute\Roof North West.png" />
+    <Content Include="assets\sprites\planetcute\Roof North.png" />
+    <Content Include="assets\sprites\planetcute\Roof South East.png" />
+    <Content Include="assets\sprites\planetcute\Roof South West.png" />
+    <Content Include="assets\sprites\planetcute\Roof South.png" />
+    <Content Include="assets\sprites\planetcute\Roof West.png" />
+    <Content Include="assets\sprites\planetcute\Selector.png" />
+    <Content Include="assets\sprites\planetcute\Shadow East.png" />
+    <Content Include="assets\sprites\planetcute\Shadow North East.png" />
+    <Content Include="assets\sprites\planetcute\Shadow North West.png" />
+    <Content Include="assets\sprites\planetcute\Shadow North.png" />
+    <Content Include="assets\sprites\planetcute\Shadow Side West.png" />
+    <Content Include="assets\sprites\planetcute\Shadow South East.png" />
+    <Content Include="assets\sprites\planetcute\Shadow South West.png" />
+    <Content Include="assets\sprites\planetcute\Shadow South.png" />
+    <Content Include="assets\sprites\planetcute\Shadow West.png" />
+    <Content Include="assets\sprites\planetcute\SpeechBubble.png" />
+    <Content Include="assets\sprites\planetcute\Star.png" />
+    <Content Include="assets\sprites\planetcute\Stone Block Tall.png" />
+    <Content Include="assets\sprites\planetcute\Stone Block.png" />
+    <Content Include="assets\sprites\planetcute\Tree Short.png" />
+    <Content Include="assets\sprites\planetcute\Tree Tall.png" />
+    <Content Include="assets\sprites\planetcute\Tree Ugly.png" />
+    <Content Include="assets\sprites\planetcute\Wall Block Tall.png" />
+    <Content Include="assets\sprites\planetcute\Wall Block.png" />
+    <Content Include="assets\sprites\planetcute\Water Block.png" />
+    <Content Include="assets\sprites\planetcute\Window Tall.png" />
+    <Content Include="assets\sprites\planetcute\Wood Block.png" />
+    <Content Include="assets\zombie.png" />
+    <Content Include="assets\zombieSprite.png" />
+    <TypeScriptCompile Include="components\AlphaComponent.ts" />
+    <TypeScriptCompile Include="components\AnimationComponent.ts" />
+    <TypeScriptCompile Include="components\ColorComponent.ts" />
+    <TypeScriptCompile Include="components\PositionComponent.ts" />
+    <TypeScriptCompile Include="components\RotateComponent.ts" />
+    <TypeScriptCompile Include="components\SizeComponent.ts" />
+    <TypeScriptCompile Include="components\TextureComponent.ts" />
+    <TypeScriptCompile Include="components\VisibleComponent.ts" />
     <Content Include="examples.css" />
     <TypeScriptCompile Include="GameObjects\AddingSprite.ts" />
     <TypeScriptCompile Include="GameObjects\ClickingButton.ts" />
@@ -35,6 +105,46 @@
     <TypeScriptCompile Include="GameObjects\Mouse_MoveAndClick.ts" />
     <TypeScriptCompile Include="GameObjects\MovingSpriteWithKeys.ts" />
     <TypeScriptCompile Include="groups\CreatingUsingGroups.ts" />
+    <TypeScriptCompile Include="hud\Basics.ts" />
+    <TypeScriptCompile Include="hud\BasicBar.ts" />
+    <Content Include="hud\Bar.js">
+      <DependentUpon>BasicBar.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\Buttons.ts" />
+    <TypeScriptCompile Include="hud\BasicTime.ts" />
+    <Content Include="hud\BasicTime.js">
+      <DependentUpon>BasicTime.ts</DependentUpon>
+    </Content>
+    <Content Include="hud\Buttons.js">
+      <DependentUpon>Buttons.ts</DependentUpon>
+    </Content>
+    <Content Include="hud\hud1.js">
+      <DependentUpon>Basics.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\Switching.ts" />
+    <Content Include="hud\Hud2.js">
+      <DependentUpon>Switching.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\ShowAndHide.ts" />
+    <Content Include="hud\Hud3.js">
+      <DependentUpon>ShowAndHide.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\RemovingWidgets.ts" />
+    <Content Include="hud\Hud4.js">
+      <DependentUpon>RemovingWidgets.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\Icons.ts" />
+    <TypeScriptCompile Include="hud\IconCounter.ts" />
+    <Content Include="hud\IconCounter.js">
+      <DependentUpon>IconCounter.ts</DependentUpon>
+    </Content>
+    <Content Include="hud\Icons.js">
+      <DependentUpon>Icons.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\Menu.ts" />
+    <Content Include="hud\Menu.js">
+      <DependentUpon>Menu.ts</DependentUpon>
+    </Content>
     <Content Include="jquery-1.9.1.d.ts" />
     <Content Include="jquery-1.9.1.js" />
     <TypeScriptCompile Include="sprites\CreateAnimatedSprite.ts" />

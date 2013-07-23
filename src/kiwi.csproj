@@ -294,18 +294,60 @@
     </Content>
     <Content Include="hud\components\Counter.js" />
     <Content Include="hud\components\Counter.ts" />
-    <Content Include="hud\HUD.js" />
+    <TypeScriptCompile Include="hud\components\WidgetInput.ts" />
+    <TypeScriptCompile Include="hud\components\Range.ts" />
+    <Content Include="hud\components\Range.js">
+      <DependentUpon>Range.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\components\Time.ts" />
+    <Content Include="hud\components\Time.js">
+      <DependentUpon>Time.ts</DependentUpon>
+    </Content>
+    <Content Include="hud\components\WidgetInput.js">
+      <DependentUpon>WidgetInput.ts</DependentUpon>
+    </Content>
     <Content Include="hud\HUDDisplay.js" />
     <Content Include="hud\HUDDisplay.ts" />
     <Content Include="hud\HUDManager.js" />
     <Content Include="hud\HUDManager.ts" />
     <Content Include="hud\HUDWidget.js" />
     <Content Include="hud\HUDWidget.ts" />
+    <TypeScriptCompile Include="hud\widgets\Bar.ts" />
+    <Content Include="hud\widgets\Bar.js">
+      <DependentUpon>Bar.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\widgets\BasicBar.ts" />
+    <Content Include="hud\widgets\BasicBar.js">
+      <DependentUpon>BasicBar.ts</DependentUpon>
+    </Content>
     <Content Include="hud\widgets\BasicScore.js" />
     <Content Include="hud\widgets\BasicScore.ts" />
-    <Content Include="hud\widgets\file1.js" />
+    <TypeScriptCompile Include="hud\widgets\Icon.ts" />
+    <TypeScriptCompile Include="hud\widgets\Button.ts" />
+    <Content Include="hud\widgets\Button.js">
+      <DependentUpon>Button.ts</DependentUpon>
+    </Content>
+    <Content Include="hud\widgets\Icon.js">
+      <DependentUpon>Icon.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\widgets\IconCounter.ts" />
+    <Content Include="hud\widgets\IconBar.js">
+      <DependentUpon>IconCounter.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\widgets\Menu.ts" />
+    <Content Include="hud\widgets\Menu.js">
+      <DependentUpon>Menu.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\widgets\MenuItem.ts" />
+    <Content Include="hud\widgets\MenuItem.js">
+      <DependentUpon>MenuItem.ts</DependentUpon>
+    </Content>
     <Content Include="hud\widgets\Textfield.js" />
     <Content Include="hud\widgets\TextField.ts" />
+    <TypeScriptCompile Include="hud\widgets\Time.ts" />
+    <Content Include="hud\widgets\Time.js">
+      <DependentUpon>Time.ts</DependentUpon>
+    </Content>
     <Content Include="input\Finger.js">
       <DependentUpon>Finger.ts</DependentUpon>
     </Content>
@@ -455,6 +497,17 @@
     <Content Include="utils\RequestAnimationFrame.js">
       <DependentUpon>RequestAnimationFrame.ts</DependentUpon>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

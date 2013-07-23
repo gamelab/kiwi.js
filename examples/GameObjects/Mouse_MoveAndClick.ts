@@ -4,10 +4,10 @@
 /**
 * Moving a sprite with keys
 **/
-class myState extends Kiwi.State {
+class Mouse_MoveAndClick extends Kiwi.State {
 
     constructor() {
-        super('myState');
+        super('mousemoveandclick');
 
     }
 

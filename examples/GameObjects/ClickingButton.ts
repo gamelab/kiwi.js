@@ -2,10 +2,10 @@
 /**
 * Creating a sprite
 **/
-class mouseButton extends Kiwi.State {
+class ClickingButton extends Kiwi.State {
 
     constructor() {
-        super('mouseButton');
+        super('ClickingButton');
 
     }
 
