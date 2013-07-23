@@ -49,7 +49,7 @@ class mouseButton extends Kiwi.State {
             
             if (this.mySprite.bounds.getRect().containsPoint(this.myMouse.point)) {
 
-                console.log("inside the method - zach"  + this.spriteVisible.alpha.alpha());
+               // console.log("inside the method - zach"  + this.spriteVisible.alpha.alpha());
                 //other sprite alpha  === 100 or 0
 
                 if (this.spriteVisible.alpha.alpha() === 1) {
