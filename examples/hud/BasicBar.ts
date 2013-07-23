@@ -16,6 +16,8 @@ class BasicBar extends Kiwi.State {
         this.health = new Kiwi.HUD.BasicBar(100,100,10,10);
         this.second = new Kiwi.HUD.BasicBar(0, 200, 10, 50);
 
+        this.health.range.min(10);
+
         this.health.container.style.backgroundColor = 'red';
         this.health.bar.style.backgroundColor = 'green';
 
@@ -35,7 +37,7 @@ class BasicBar extends Kiwi.State {
     preload() {
         this.addImage('tree', 'assets/sprites/planetcute/Tree Tall.png', false);
     }
-
+    
     create() {
         this.tree = new Kiwi.GameObjects.Sprite('tree', this.cache, 200, 100);
 
@@ -43,8 +45,8 @@ class BasicBar extends Kiwi.State {
     }
 
     update() {
-        this.second.increase();
-        this.health.decrease();
+        this.second.range.increase();
+        this.health.range.decrease();
     }
 
 }

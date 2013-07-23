@@ -28,11 +28,11 @@ module Kiwi.HUD {
 
         public icon: HTMLElement;
 
-        private _tempContainer: HTMLElement;
+        public changeIcon(cacheID: string, cache?:any) {    //perhaps should be on the texture component
 
-        private _tempParent: HTMLElement;
-
-        public changeIcon(cacheID) {
+            if (cache !== undefined) {
+                this._cache = cache;
+            }
 
             if (this._cache.checkImageCacheID(cacheID, this._cache) == false)
             {
@@ -66,27 +66,15 @@ module Kiwi.HUD {
             super.update();
         }
         
-        public setTemplate(main: string, icon: string): boolean {   //optimise a little
-
-            var containerElement: HTMLElement = document.getElementById(main);
-            if (containerElement === undefined) {
-                console.log('Container element not found');
-                return false;
-            }
-
-            var fieldElement: HTMLElement = document.getElementById(icon);
-            if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
-                console.log('Field element not found inside container');
-                return false;
-            }
+        public setTemplate(main: string, icon?: string) {  
 
             this._removeCSS();
 
-            this.icon = fieldElement;
-            this._tempContainer = containerElement;
-            this._tempParent = containerElement.parentElement;
-            this._tempParent.removeChild(containerElement);
-            this.container.appendChild(containerElement);
+            super.setTemplate(main, icon);
+            
+            if (this.tempElement !== undefined) {
+                this.icon = this.tempElement;
+            }
 
             this._applyCSS();
 
@@ -94,15 +82,9 @@ module Kiwi.HUD {
 
         }
 
-        public removeTemplate():boolean {
+        public removeTemplate() {
 
-            if (this.icon === this.container) {
-                console.log('No template is currently in affect');
-                return false;
-            }
-
-            this.container.removeChild(this._tempContainer);
-            this._tempParent.appendChild(this._tempContainer);
+            super.removeTemplate();
 
             this._removeCSS();
             this.icon = this.container;

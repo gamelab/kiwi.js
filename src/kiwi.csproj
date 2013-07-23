@@ -295,6 +295,14 @@
     <Content Include="hud\components\Counter.js" />
     <Content Include="hud\components\Counter.ts" />
     <TypeScriptCompile Include="hud\components\WidgetInput.ts" />
+    <TypeScriptCompile Include="hud\components\Range.ts" />
+    <Content Include="hud\components\Range.js">
+      <DependentUpon>Range.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\components\Time.ts" />
+    <Content Include="hud\components\Time.js">
+      <DependentUpon>Time.ts</DependentUpon>
+    </Content>
     <Content Include="hud\components\WidgetInput.js">
       <DependentUpon>WidgetInput.ts</DependentUpon>
     </Content>
@@ -321,6 +329,10 @@
     </Content>
     <Content Include="hud\widgets\Icon.js">
       <DependentUpon>Icon.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\widgets\IconBar.ts" />
+    <Content Include="hud\widgets\IconBar.js">
+      <DependentUpon>IconBar.ts</DependentUpon>
     </Content>
     <Content Include="hud\widgets\Textfield.js" />
     <Content Include="hud\widgets\TextField.ts" />

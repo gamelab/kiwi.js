@@ -19,7 +19,7 @@ export class Buttons extends Kiwi.State {
     }
 
     create() {
-        this.button = new Kiwi.HUD.Button(this.buttonState, this.cache, 50, 50);
+        this.button = new Kiwi.HUD.Button(this.game, this.buttonState, this.cache, 50, 50);
         
         this.game.huds.defaultHUD().addWidget(this.button);
 

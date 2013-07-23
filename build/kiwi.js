@@ -10481,6 +10481,38 @@ var Kiwi;
                 this.position.updated.add(this._updatePosition, this);
                 this._updateCSS();
             }
+            HUDWidget.prototype.setTemplate = function (main, element) {
+                var containerElement = document.getElementById(main);
+                if (containerElement === undefined) {
+                    console.log('Container element not found');
+                    return;
+                }
+
+                if (element === undefined) {
+                    var fieldElement = containerElement;
+                } else {
+                    var fieldElement = document.getElementById(element);
+                    if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
+                        console.log('Field element not found inside container');
+                        return;
+                    }
+                }
+
+                this.tempElement = fieldElement;
+                this._tempContainer = containerElement;
+                this._tempParent = containerElement.parentElement;
+                this._tempParent.removeChild(containerElement);
+                this.container.appendChild(containerElement);
+            };
+
+            HUDWidget.prototype.removeTemplate = function () {
+                if (this.tempElement !== undefined) {
+                    this.container.removeChild(this._tempContainer);
+                    this._tempParent.appendChild(this._tempContainer);
+                    this.tempElement = undefined;
+                }
+            };
+
             HUDWidget.prototype.setStyle = function (cssClass) {
                 this.container.className = cssClass;
             };
@@ -10520,43 +10552,20 @@ var Kiwi;
                 this._textField.innerText = text;
             }
             TextField.prototype.setTemplate = function (main, field) {
-                var containerElement = document.getElementById(main);
-                if (containerElement === undefined) {
-                    console.log('Container element not found');
-                    return false;
-                }
+                this._textField.innerText = '';
+                _super.prototype.setTemplate.call(this, main, field);
 
-                var fieldElement = document.getElementById(field);
-                if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
-                    console.log('Field element not found inside container');
-                    return false;
+                if (this.tempElement !== undefined) {
+                    this._textField = this.tempElement;
                 }
-
-                this.container.innerText = '';
-                this._textField = fieldElement;
                 this._textField.innerText = this._text;
-
-                this._tempContainer = containerElement;
-                this._tempParent = containerElement.parentElement;
-                this._tempParent.removeChild(containerElement);
-                this.container.appendChild(containerElement);
-
-                return true;
             };
 
             TextField.prototype.removeTemplate = function () {
-                if (this._textField === this.container) {
-                    console.log('No template is currently in affect');
-                    return false;
-                }
-
-                this.container.removeChild(this._tempContainer);
-                this._tempParent.appendChild(this._tempContainer);
+                _super.prototype.removeTemplate.call(this);
 
                 this._textField = this.container;
                 this._textField.innerText = this._text;
-
-                return true;
             };
 
             TextField.prototype.text = function (val) {
@@ -10585,12 +10594,10 @@ var Kiwi;
                 _super.call(this, "bar", x, y);
 
                 this._horizontal = true;
-                this._min = 0;
-                this._current = current;
-                this._max = max;
-
                 this._bar = document.createElement('div');
                 this._bar.className = 'innerBar';
+
+                this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));
 
                 this.bar = this._bar;
                 this.container.appendChild(this.bar);
@@ -10616,97 +10623,16 @@ var Kiwi;
                 return !this._horizontal;
             };
 
-            Bar.prototype.max = function (val) {
-                if (val !== undefined) {
-                    this._max = val;
-                    this.updateCSS();
-                }
-                return this._max;
-            };
-
-            Bar.prototype.min = function (val) {
-                if (val !== undefined) {
-                    this._min = val;
-                    this.updateCSS();
-                }
-                return this._min;
-            };
-
-            Bar.prototype.current = function (val) {
-                if (val !== undefined) {
-                    if (this._current > this._max) {
-                        this._current = this._max;
-                    } else if (this._current < this._min) {
-                        this._current = this._min;
-                    } else {
-                        this._current = val;
-                    }
-                    this.updateCSS();
-                }
-                return this._current;
-            };
-
-            Bar.prototype.decrease = function (val) {
-                if (typeof val === "undefined") { val = 1; }
-                if (this._current > this._min) {
-                    if (this._current - val < this._min) {
-                        this._current = this._min;
-                    } else {
-                        this._current -= val;
-                    }
-                    this.updateCSS();
-                }
-            };
-
-            Bar.prototype.increase = function (val) {
-                if (typeof val === "undefined") { val = 1; }
-                if (this._current < this._max) {
-                    if (this._current + val > this._max) {
-                        this._current = this._max;
-                    } else {
-                        this._current += val;
-                    }
-                    this.updateCSS();
-                }
-            };
-
-            Bar.prototype.currentPercent = function () {
-                return ((this.current() - this.min()) / (this.max() - this.min())) * 100;
-            };
-
             Bar.prototype.setTemplate = function (main, innerbar) {
-                var containerElement = document.getElementById(main);
-                if (containerElement === undefined) {
-                    console.log('Container element not found');
-                    return false;
+                _super.prototype.setTemplate.call(this, main, innerbar);
+
+                if (this.tempElement !== undefined) {
+                    this.bar = this.tempElement;
                 }
-
-                var fieldElement = document.getElementById(innerbar);
-                if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
-                    console.log('Field element not found inside container');
-                    return false;
-                }
-
-                this.container.removeChild(this.bar);
-                this.bar = fieldElement;
-
-                this._tempContainer = containerElement;
-                this._tempParent = containerElement.parentElement;
-                this._tempParent.removeChild(containerElement);
-                this.container.appendChild(containerElement);
-                this.updateCSS();
-
-                return true;
             };
 
             Bar.prototype.removeTemplate = function () {
-                if (this.bar === this._bar) {
-                    console.log('No template is currently in affect');
-                    return false;
-                }
-
-                this.container.removeChild(this._tempContainer);
-                this._tempParent.appendChild(this._tempContainer);
+                _super.prototype.removeTemplate.call(this);
 
                 this.bar = this._bar;
                 this.container.appendChild(this.bar);
@@ -10717,6 +10643,7 @@ var Kiwi;
             };
 
             Bar.prototype.update = function () {
+                this.updateCSS();
                 _super.prototype.update.call(this);
             };
 
@@ -10748,7 +10675,11 @@ var Kiwi;
                 this.icon = this.container;
                 this._applyCSS();
             }
-            Icon.prototype.changeIcon = function (cacheID) {
+            Icon.prototype.changeIcon = function (cacheID, cache) {
+                if (cache !== undefined) {
+                    this._cache = cache;
+                }
+
                 if (this._cache.checkImageCacheID(cacheID, this._cache) == false) {
                     console.log('Missing texture', cacheID);
                     return;
@@ -10781,25 +10712,13 @@ var Kiwi;
             };
 
             Icon.prototype.setTemplate = function (main, icon) {
-                var containerElement = document.getElementById(main);
-                if (containerElement === undefined) {
-                    console.log('Container element not found');
-                    return false;
-                }
-
-                var fieldElement = document.getElementById(icon);
-                if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
-                    console.log('Field element not found inside container');
-                    return false;
-                }
-
                 this._removeCSS();
 
-                this.icon = fieldElement;
-                this._tempContainer = containerElement;
-                this._tempParent = containerElement.parentElement;
-                this._tempParent.removeChild(containerElement);
-                this.container.appendChild(containerElement);
+                _super.prototype.setTemplate.call(this, main, icon);
+
+                if (this.tempElement !== undefined) {
+                    this.icon = this.tempElement;
+                }
 
                 this._applyCSS();
 
@@ -10807,13 +10726,7 @@ var Kiwi;
             };
 
             Icon.prototype.removeTemplate = function () {
-                if (this.icon === this.container) {
-                    console.log('No template is currently in affect');
-                    return false;
-                }
-
-                this.container.removeChild(this._tempContainer);
-                this._tempParent.appendChild(this._tempContainer);
+                _super.prototype.removeTemplate.call(this);
 
                 this._removeCSS();
                 this.icon = this.container;
@@ -10840,17 +10753,50 @@ var Kiwi;
             }
             BasicBar.prototype.updateCSS = function () {
                 if (this.horizontal() === true) {
-                    this.bar.style.width = String(this.currentPercent()) + '%';
+                    this.bar.style.width = String(this.range.currentPercent()) + '%';
                     this.bar.style.height = '100%';
                 } else {
-                    this.bar.style.height = String(this.currentPercent()) + '%';
+                    this.bar.style.height = String(this.range.currentPercent()) + '%';
                     this.bar.style.width = '100%';
                 }
+            };
+
+            BasicBar.prototype.update = function () {
                 _super.prototype.update.call(this);
             };
             return BasicBar;
         })(Kiwi.HUD.Bar);
         HUD.BasicBar = BasicBar;
+    })(Kiwi.HUD || (Kiwi.HUD = {}));
+    var HUD = Kiwi.HUD;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (HUD) {
+        var IconBar = (function (_super) {
+            __extends(IconBar, _super);
+            function IconBar(cacheID, cache, current, max, x, y) {
+                _super.call(this, current, max, x, y);
+
+                this.container.style.width = '100px';
+                this.container.style.height = '20px';
+            }
+            IconBar.prototype.updateCSS = function () {
+                if (this.horizontal() === true) {
+                    this.bar.style.width = String(this.range.currentPercent()) + '%';
+                    this.bar.style.height = '100%';
+                } else {
+                    this.bar.style.height = String(this.range.currentPercent()) + '%';
+                    this.bar.style.width = '100%';
+                }
+            };
+
+            IconBar.prototype.update = function () {
+                _super.prototype.update.call(this);
+            };
+            return IconBar;
+        })(Kiwi.HUD.Bar);
+        HUD.IconBar = IconBar;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
@@ -10878,14 +10824,85 @@ var Kiwi;
     (function (HUD) {
         var Button = (function (_super) {
             __extends(Button, _super);
-            function Button(cacheID, cache, x, y) {
+            function Button(game, cacheID, cache, x, y) {
                 _super.call(this, cacheID, cache, x, y);
 
+                this.game = game;
+
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height()));
+
+                this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
             }
             return Button;
         })(Kiwi.HUD.Icon);
         HUD.Button = Button;
+    })(Kiwi.HUD || (Kiwi.HUD = {}));
+    var HUD = Kiwi.HUD;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (HUD) {
+        var Time = (function (_super) {
+            __extends(Time, _super);
+            function Time(format, x, y) {
+                _super.call(this, 'time', x, y);
+
+                this.time = this.components.add(new Kiwi.Components.Time(0));
+
+                this.format(format);
+                this.updateTime();
+            }
+            Time.prototype.setTime = function (milliseconds, seconds, minutes, hours) {
+                this.time.setTime(milliseconds, seconds, minutes, hours);
+
+                this.text(this.updateTime());
+            };
+
+            Time.prototype.format = function (val) {
+                if (val !== undefined) {
+                    this._format = val;
+                }
+                return this._format;
+            };
+
+            Time.prototype.updateTime = function () {
+                var ms = String(this.time.milliseconds());
+                var s = String(this.time.seconds());
+                var m = String(this.time.minutes());
+                var h = String(this.time.hours());
+
+                if (s.length < 2)
+                    var ss = '0' + s; else
+                    var ss = s;
+                if (m.length < 2)
+                    var mm = '0' + m; else
+                    var mm = m;
+                if (h.length < 2)
+                    var hh = '0' + h; else
+                    var hh = h;
+
+                var time = this._format;
+                time = time.replace('ms', ms);
+
+                time = time.replace('ss', ss);
+                time = time.replace('mm', mm);
+                time = time.replace('hh', hh);
+                time = time.replace('s', s);
+                time = time.replace('m', m);
+                time = time.replace('h', h);
+
+                return time;
+            };
+
+            Time.prototype.update = function () {
+                if (!this.time.paused)
+                    this.text(this.updateTime());
+
+                _super.prototype.update.call(this);
+            };
+            return Time;
+        })(Kiwi.HUD.TextField);
+        HUD.Time = Time;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
@@ -10934,14 +10951,61 @@ var Kiwi;
     (function (Components) {
         var WidgetInput = (function (_super) {
             __extends(WidgetInput, _super);
-            function WidgetInput(element, bounds) {
+            function WidgetInput(game, bounds) {
                 _super.call(this, 'WidgetInput', true, true, true);
+
+                this.game = game;
+
+                this.inputEntered = new Kiwi.Signal();
+                this.inputLeft = new Kiwi.Signal();
+                this.inputOnDown = new Kiwi.Signal();
+                this.inputOnRelease = new Kiwi.Signal();
+
+                this._bounds = bounds;
+                this.pointDown = new Kiwi.Geom.Point();
+
+                this.distance = new Kiwi.Geom.Point();
+                this.withinBounds = false;
+                this.outsideBounds = true;
+                this.isUp = true;
+                this.isDown = false;
             }
             WidgetInput.prototype.objType = function () {
                 return "Input";
             };
 
             WidgetInput.prototype.update = function () {
+                if (this._bounds.pointWithin(this.game.input.position)) {
+                    this.distance.x = this.game.input.position.x - this._bounds.getRect().left();
+                    this.distance.y = this.game.input.position.y - this._bounds.getRect().top();
+
+                    if (this.withinBounds === false) {
+                        this.withinBounds = true;
+                        this.outsideBounds = false;
+                        this.inputEntered.dispatch(this.distance.x, this.distance.y);
+                    }
+                } else {
+                    if (this.withinBounds === true) {
+                        this.withinBounds = false;
+                        this.outsideBounds = true;
+                        this.inputLeft.dispatch();
+                    }
+                }
+
+                if (this.game.input.isDown === true) {
+                    if (this.withinBounds === true && this.isDown === false) {
+                        this.isDown = true;
+                        this.isUp = false;
+                        this.pointDown.copyFrom(this.distance);
+                        this.inputOnDown.dispatch(this.pointDown.x, this.pointDown.y);
+                    }
+                } else {
+                    if (this.isDown === true) {
+                        this.isDown = false;
+                        this.isUp = true;
+                        this.inputOnRelease.dispatch();
+                    }
+                }
             };
 
             WidgetInput.prototype.toString = function () {
@@ -10950,6 +11014,190 @@ var Kiwi;
             return WidgetInput;
         })(Kiwi.Component);
         Components.WidgetInput = WidgetInput;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Components) {
+        var Range = (function (_super) {
+            __extends(Range, _super);
+            function Range(current, max, min) {
+                _super.call(this, "counter", true, true, true);
+
+                this._current = current;
+
+                this._max = max;
+
+                this._min = min;
+            }
+            Range.prototype.max = function (val) {
+                if (val !== undefined) {
+                    this._max = val;
+                }
+                return this._max;
+            };
+
+            Range.prototype.min = function (val) {
+                if (val !== undefined) {
+                    this._min = val;
+                }
+                return this._min;
+            };
+
+            Range.prototype.current = function (val) {
+                if (val !== undefined) {
+                    if (this._current > this._max) {
+                        this._current = this._max;
+                    } else if (this._current < this._min) {
+                        this._current = this._min;
+                    } else {
+                        this._current = val;
+                    }
+                }
+                return this._current;
+            };
+
+            Range.prototype.decrease = function (val) {
+                if (typeof val === "undefined") { val = 1; }
+                if (this._current > this._min) {
+                    if (this._current - val < this._min) {
+                        this._current = this._min;
+                    } else {
+                        this._current -= val;
+                    }
+                }
+            };
+
+            Range.prototype.increase = function (val) {
+                if (typeof val === "undefined") { val = 1; }
+                if (this._current < this._max) {
+                    if (this._current + val > this._max) {
+                        this._current = this._max;
+                    } else {
+                        this._current += val;
+                    }
+                }
+            };
+
+            Range.prototype.currentPercent = function () {
+                return ((this.current()) / (this.max())) * 100;
+            };
+            return Range;
+        })(Kiwi.Component);
+        Components.Range = Range;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Components) {
+        var Time = (function (_super) {
+            __extends(Time, _super);
+            function Time(milliseconds, seconds, minutes, hours) {
+                _super.call(this, "time", true, true, true);
+
+                this.paused = true;
+                this._countDown = true;
+
+                this._lastTime = Date.now();
+                this.setTime(milliseconds, seconds, minutes, hours);
+            }
+            Time.prototype.countingDown = function (val) {
+                if (val !== undefined) {
+                    if (val == true)
+                        this.paused = false;
+
+                    this._countDown = val;
+                }
+                return this._countDown;
+            };
+
+            Time.prototype.countingUp = function (val) {
+                if (val !== undefined) {
+                    if (val == true)
+                        this.paused = false;
+
+                    this._countDown = !val;
+                }
+                return !this._countDown;
+            };
+
+            Time.prototype.setTime = function (milliseconds, seconds, minutes, hours) {
+                if (seconds !== undefined)
+                    milliseconds += this.convertToMilli(seconds, 's');
+                if (minutes !== undefined)
+                    milliseconds += this.convertToMilli(minutes, 'm');
+                if (hours !== undefined)
+                    milliseconds += this.convertToMilli(hours, 'h');
+
+                this._milliseconds = milliseconds;
+
+                return this._milliseconds;
+            };
+
+            Time.prototype.convertToMilli = function (val, unit) {
+                var num = 0;
+
+                if (unit === 'milli' || unit === 'milliseconds' || unit === 'ms') {
+                    num = val;
+                } else if (unit === 'seconds' || unit === 's') {
+                    num = val * 1000;
+                } else if (unit === 'minutes' || unit === 'm') {
+                    num = val * 1000 * 60;
+                } else if (unit === 'hours' || unit === 'h') {
+                    num = val * 1000 * 60 * 60;
+                }
+
+                return num;
+            };
+
+            Time.prototype.milliseconds = function (val) {
+                if (val !== undefined) {
+                    this._milliseconds = val;
+                }
+                return this._milliseconds;
+            };
+
+            Time.prototype.seconds = function (val) {
+                if (val !== undefined) {
+                    this._milliseconds = this.convertToMilli(val, 's');
+                }
+                return Math.floor(this._milliseconds / 1000) % 60;
+            };
+
+            Time.prototype.minutes = function (val) {
+                if (val !== undefined) {
+                    this._milliseconds = this.convertToMilli(val, 'm');
+                }
+                return Math.floor(this._milliseconds / 1000 / 60) % 60;
+            };
+
+            Time.prototype.hours = function (val) {
+                if (val !== undefined) {
+                    this._milliseconds = this.convertToMilli(val, 'h');
+                }
+                return Math.floor(this._milliseconds / 1000 / 60 / 60);
+            };
+
+            Time.prototype.update = function () {
+                if (!this.paused) {
+                    var newTime = Date.now();
+                    var difference = newTime - this._lastTime;
+                    this._lastTime = newTime;
+
+                    if (this._countDown) {
+                        this.milliseconds(this._milliseconds - difference);
+                    } else {
+                        this.milliseconds(this._milliseconds + difference);
+                    }
+                }
+
+                _super.prototype.update.call(this);
+            };
+            return Time;
+        })(Kiwi.Component);
+        Components.Time = Time;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
@@ -14363,23 +14611,6 @@ var Kiwi;
         GameObjects.LinkedGroup = LinkedGroup;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (HUD) {
-        var BasicTime = (function (_super) {
-            __extends(BasicTime, _super);
-            function BasicTime(x, y) {
-                _super.call(this, 'basictime', x, y);
-            }
-            BasicTime.prototype.update = function () {
-                _super.prototype.update.call(this);
-            };
-            return BasicTime;
-        })(Kiwi.HUD.TextField);
-        HUD.BasicTime = BasicTime;
-    })(Kiwi.HUD || (Kiwi.HUD = {}));
-    var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {

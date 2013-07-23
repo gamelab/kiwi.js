@@ -27,6 +27,49 @@ module Kiwi.HUD {
 
         public game: Kiwi.Game;
 
+        //element in the template that gets the effects/info added to.
+        public tempElement: HTMLElement;
+
+        //template containers parent
+        private _tempParent: HTMLElement;
+
+        //template container element
+        private _tempContainer: HTMLElement; 
+
+        public setTemplate(main: string, element?: string) {
+
+            var containerElement: HTMLElement = document.getElementById(main);
+            if (containerElement === undefined) {
+                console.log('Container element not found');
+                return;
+            }
+
+            if (element === undefined) {
+                var fieldElement = containerElement;
+            
+            } else {
+                var fieldElement: HTMLElement = document.getElementById(element);
+                if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
+                    console.log('Field element not found inside container')
+                    return;
+                }
+            }
+            
+            this.tempElement = fieldElement;
+            this._tempContainer = containerElement;
+            this._tempParent = containerElement.parentElement;
+            this._tempParent.removeChild(containerElement);
+            this.container.appendChild(containerElement);
+        }
+
+        public removeTemplate() {
+            if (this.tempElement !== undefined) {
+                this.container.removeChild(this._tempContainer);
+                this._tempParent.appendChild(this._tempContainer);
+                this.tempElement = undefined;
+            }
+        }
+
         public setStyle(cssClass: string) {
             this.container.className = cssClass;
         }

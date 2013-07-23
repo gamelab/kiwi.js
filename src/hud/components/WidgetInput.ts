@@ -3,10 +3,12 @@ module Kiwi.Components {
 
     export class WidgetInput extends Component {
 
-        constructor(element: HTMLElement, bounds: Kiwi.Components.Bounds) {
+        constructor(game: Kiwi.Game, bounds: Kiwi.Components.Bounds) {
 
             super('WidgetInput', true, true, true);
-            /*
+            
+            this.game = game;
+
             //  Signals
             this.inputEntered = new Kiwi.Signal();
             this.inputLeft = new Kiwi.Signal();
@@ -22,7 +24,7 @@ module Kiwi.Components {
             this.outsideBounds = true;
             this.isUp = true;
             this.isDown = false;
-            */
+            
         }
 
         public objType() {
@@ -58,7 +60,7 @@ module Kiwi.Components {
         //  Need to add a click timer?
 
         public update() {
-            /*
+            
             //  Is the input within the bounds now?
             if (this._bounds.pointWithin(this.game.input.position))
             {
@@ -106,7 +108,7 @@ module Kiwi.Components {
                     this.inputOnRelease.dispatch();
                 }
             }
-            */
+            
         }
 
         /**

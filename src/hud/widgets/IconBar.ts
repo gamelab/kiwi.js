@@ -2,11 +2,12 @@
 
 module Kiwi.HUD {
 
-    export class BasicBar extends Kiwi.HUD.Bar {
+    export class IconBar extends Kiwi.HUD.Bar {
 
-        constructor( current: number, max: number, x: number, y: number) {
-            super( current, max, x, y);
-            
+        //to be done....
+        constructor(cacheID: string, cache: any, current: number, max: number, x: number, y: number) {
+            super(current, max, x, y);
+
             this.container.style.width = '100px';
             this.container.style.height = '20px';
         }

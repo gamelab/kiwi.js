@@ -41,6 +41,10 @@
       <DependentUpon>BasicBar.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="hud\Buttons.ts" />
+    <TypeScriptCompile Include="hud\BasicTime.ts" />
+    <Content Include="hud\BasicTime.js">
+      <DependentUpon>BasicTime.ts</DependentUpon>
+    </Content>
     <Content Include="hud\Buttons.js">
       <DependentUpon>Buttons.ts</DependentUpon>
     </Content>
