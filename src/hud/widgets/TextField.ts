@@ -1,4 +1,5 @@
 
+
 module Kiwi.HUD {
 
     // Class
@@ -8,13 +9,51 @@ module Kiwi.HUD {
             super("textField",x,y);
             
             this._text = text;
-            this.container.innerText = text;
+
+            this._textField = this.container;
+            this._textField.innerText = text;
 
         }
 
+        /**
+        * The text current being displayed
+        * @private
+        **/
+        private _text: string;
+
+        /**
+        * @private
+        **/
+        private _textField: HTMLElement;
         
-        
-        private _text:string;
+        /**
+        * Set Template allows you 
+        *
+        * @method setTemplate
+        * @param {string} main - ID of the DOM element you would like to use.
+        * @param {string} field - ID of an element inside of the main param. Location that the text will be.
+        * @return {boolean}
+        **/
+        public setTemplate(main: string, field?: string) {
+
+            this._textField.innerText = '';
+            super.setTemplate(main, field);
+
+            if (this.tempElement !== undefined) {
+                this._textField = this.tempElement;
+            }
+            this._textField.innerText = this._text;
+
+        }
+
+        public removeTemplate() {
+            
+            super.removeTemplate();
+
+            //reset the text field
+            this._textField = this.container;
+            this._textField.innerText = this._text;
+        }
 
         public text(val?: string):string {
             if (val !== undefined) {
@@ -24,12 +63,9 @@ module Kiwi.HUD {
         }
 
         public update() {
-            console.log("update widget textfield")
-            this.container.innerText = this._text;
+            this._textField.innerText = this._text;
+            super.update();
         }
-
-        
-
 
       
     }
