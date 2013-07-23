@@ -27,7 +27,7 @@ class myState extends Kiwi.State {
     create() {
         ///////////////////////////////////////
         //Creating Sprite
-        this.mySprite = new Kiwi.GameObjects.Sprite('mySprite', game.cache, 50, 50);
+        this.mySprite = new Kiwi.GameObjects.Sprite('mySprite', this.game.cache, 50, 50);
 
         ///////////////////////////////////////
         //Creating mouse
@@ -69,8 +69,3 @@ class myState extends Kiwi.State {
 
     }
 }
-
-var game = new Kiwi.Game();
-
-game.states.addState(myState);
-game.states.switchState("myState");

@@ -29,15 +29,15 @@
     <Content Include="assets\spartan.png" />
     <Content Include="assets\sprite.png" />
     <Content Include="examples.css" />
-    <Content Include="GameObjects\AddingSprite.ts" />
-    <Content Include="GameObjects\ClickingButton.ts" />
-    <Content Include="GameObjects\LoadingImagesStaticImages.ts" />
-    <Content Include="GameObjects\Mouse_MoveAndClick.ts" />
-    <Content Include="GameObjects\MovingSpriteWithKeys.ts" />
-    <Content Include="groups\CreatingUsingGroups.ts" />
+    <TypeScriptCompile Include="GameObjects\AddingSprite.ts" />
+    <TypeScriptCompile Include="GameObjects\ClickingButton.ts" />
+    <TypeScriptCompile Include="GameObjects\LoadingImagesStaticImages.ts" />
+    <TypeScriptCompile Include="GameObjects\Mouse_MoveAndClick.ts" />
+    <TypeScriptCompile Include="GameObjects\MovingSpriteWithKeys.ts" />
+    <TypeScriptCompile Include="groups\CreatingUsingGroups.ts" />
     <Content Include="jquery-1.9.1.d.ts" />
     <Content Include="jquery-1.9.1.js" />
-    <Content Include="sprites\CreateAnimatedSprite.ts" />
+    <TypeScriptCompile Include="sprites\CreateAnimatedSprite.ts" />
     <TypeScriptCompile Include="sprites\Sprite1.ts" />
     <Content Include="how to setup tests.txt" />
     <Content Include="index.php" />
@@ -86,9 +86,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-
-
-</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>echo hello
