@@ -8320,7 +8320,7 @@ var Kiwi;
                 klog.info('Sprite added to Layer: ' + layer.name);
 
                 if (this.type === Kiwi.TYPE_DOM) {
-                    this.domElement.element.style.backgroundImage = 'url(' + this.texture.getURL() + ')';
+                    this.domElement.element.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
                     this.domElement.element.style.backgroundRepeat = this.texture.repeat();
                     this.domElement.element.style.backgroundSize = '100%';
 
