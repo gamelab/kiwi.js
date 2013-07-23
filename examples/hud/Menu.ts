@@ -8,7 +8,7 @@ export class Menu extends Kiwi.State {
 
     public menuItems: Kiwi.HUD.MenuItem[];
     public menu: Kiwi.HUD.Menu;
-    public colors;
+    public colors: Array;
     public current: number;
     
     init() {
@@ -39,7 +39,8 @@ export class Menu extends Kiwi.State {
 
     change() {
         
-        this.current++;
+        this.current = this.current + 1;
+        //if (this.current >= this.colors.length ) this.current = 0;
         if (this.current >= this.colors.length) this.current = 0;
         this.game.stage.container.style.backgroundColor = this.colors[this.current];
 

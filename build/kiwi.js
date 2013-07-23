@@ -10983,7 +10983,20 @@ var Kiwi;
                 }
             };
 
-            Menu.prototype.setTemplate = function () {
+            Menu.prototype.setTemplate = function (main, sub) {
+                var mainElement = document.getElementById(main);
+                if (mainElement === undefined) {
+                    console.log('Failed find container');
+                    return;
+                }
+
+                var subElements = mainElement.getElementsByTagName(sub);
+                if (subElements === undefined) {
+                    console.log('No menu items found');
+                    return;
+                }
+
+                _super.prototype.setTemplate.call(this, main);
             };
 
             Menu.prototype.removeTemplate = function () {
