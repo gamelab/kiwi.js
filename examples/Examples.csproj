@@ -21,6 +21,8 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="animations\PlayOnceAndLoop.ts" />
+    <TypeScriptCompile Include="animations\CreatingAndSwitchingAnimations.ts" />
     <Content Include="assets\coin.png" />
     <Content Include="assets\explosion.png" />
     <Content Include="assets\firstState.jpg" />
