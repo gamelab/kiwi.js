@@ -32,7 +32,15 @@ module Kiwi.Components {
             } else {
                 this._value += this.step;
             }
-            
+        
+        }
+
+        public decrement(val?: number) {
+            if (val !== undefined) {
+                this._value -= val;
+            } else {
+                this._value -= this.step;
+            }
         }
      
     }
