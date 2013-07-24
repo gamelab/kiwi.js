@@ -1,7 +1,7 @@
 /// <reference path="../../src/Kiwi.ts" />
 
 
-    export class RotateComponent extends Kiwi.State {
+   class RotateComponent extends Kiwi.State {
 
         constructor() {
 

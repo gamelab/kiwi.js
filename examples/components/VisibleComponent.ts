@@ -1,5 +1,5 @@
 /// <reference path="../../src/Kiwi.ts" />
-    export class VisibleComponent extends Kiwi.State {
+    class VisibleComponent extends Kiwi.State {
 
         constructor() {
 

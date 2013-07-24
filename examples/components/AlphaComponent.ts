@@ -1,6 +1,6 @@
 /// <reference path="../../src/Kiwi.ts" />
 
-    export class AlphaComponent extends Kiwi.State {
+  class AlphaComponent extends Kiwi.State {
 
         constructor() {
 
