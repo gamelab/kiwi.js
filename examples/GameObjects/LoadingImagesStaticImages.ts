@@ -12,6 +12,7 @@ class LoadingImagesStaticImages extends Kiwi.State {
     preload() {
 
         //Add images to the state using the addImage function.
+        this.addImage('background', 'assets/remember_me.jpg');
         this.addImage('spartan', 'assets/spartan.png');
         this.addImage('indiana', 'assets/indiana.png');
 
@@ -23,10 +24,12 @@ class LoadingImagesStaticImages extends Kiwi.State {
     create() {
 
         //Create new variables for the static images
+        var background = new Kiwi.GameObjects.StaticImage('background', this.game.cache, 0, 0);
         var s1 = new Kiwi.GameObjects.StaticImage('spartan', this.game.cache, 50, 100);
         var s2 = new Kiwi.GameObjects.StaticImage('indiana', this.game.cache, 200, 300);
 
         //The static images need to be added as children of the state before they will be rendered onto the screen
+        this.addChild(background);
         this.addChild(s1);
         this.addChild(s2);
     

@@ -21,15 +21,27 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="assets\bunny.png" />
     <Content Include="assets\coin.png" />
     <Content Include="assets\explosion.png" />
     <Content Include="assets\firstState.jpg" />
+    <Content Include="assets\foss3.jpg" />
     <Content Include="assets\indiana.png" />
     <Content Include="assets\longBackground.png" />
+    <Content Include="assets\remember_me.jpg" />
     <Content Include="assets\secondState.jpg" />
     <Content Include="assets\shinyball.png" />
     <Content Include="assets\spartan.png" />
     <Content Include="assets\sprite.png" />
+    <TypeScriptCompile Include="components\InputComponent.ts" />
+    <TypeScriptCompile Include="components\ScaleComponent.ts" />
+    <Content Include="components\ScaleComponent.js">
+      <DependentUpon>ScaleComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="layers\CreatingLayers.js">
+      <DependentUpon>CreatingLayers.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="layers\CreatingLayers.ts" />
     <TypeScriptCompile Include="cameras\CreatingAndMovingCameras.ts" />
     <Content Include="assets\sprites\planetcute\Brown Block.png" />
     <Content Include="assets\sprites\planetcute\Character Boy.png" />
@@ -147,7 +159,6 @@
     </Content>
     <Content Include="jquery-1.9.1.d.ts" />
     <Content Include="jquery-1.9.1.js" />
-    <TypeScriptCompile Include="sprites\CreateAnimatedSprite.ts" />
     <TypeScriptCompile Include="sprites\Sprite1.ts" />
     <Content Include="how to setup tests.txt" />
     <Content Include="index.php" />

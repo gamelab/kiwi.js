@@ -1,7 +1,7 @@
 /// <reference path="../../src/Kiwi.ts" />
 
 
-    export class PositionComponent extends Kiwi.State {
+ class PositionComponent extends Kiwi.State {
 
         constructor() {
 
@@ -22,7 +22,7 @@
 
             this.zombie = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 7, 40);
             this.zombie2 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 138, 100);
-            this.zombie3 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 269, 300);
+            this.zombie3 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 300, 300);
 
             this.zombie2.position.z(50);
             this.zombie3.position.z(-50);
@@ -35,6 +35,11 @@
         update() {
 
             super.update();
+
+            if (this.zombie3.position.x() > 0)
+                this.zombie3.position.x(this.zombie3.position.x()-1);
+            else
+                this.zombie3.position.x(300);
 
         }
 

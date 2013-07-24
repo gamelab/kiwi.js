@@ -1,6 +1,6 @@
 /// <reference path="../../src/Kiwi.ts" />
 
-    export class ColorComponent extends Kiwi.State {
+  class ColorComponent extends Kiwi.State {
 
         constructor() {
 
@@ -8,28 +8,23 @@
 
         }
 
-        zombie: Kiwi.GameObjects.Sprite;
-        zombie2: Kiwi.GameObjects.Sprite;
-        zombie3: Kiwi.GameObjects.Sprite;
-
-        preload() {
-
-            this.addImage('zombie', 'assets/zombie.png');
-        }
+        pix1: Kiwi.GameObjects.Pixel;
+        pix2: Kiwi.GameObjects.Pixel;
+        pix3: Kiwi.GameObjects.Pixel;
 
         create() {
 
-            this.zombie = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 7, 40);
-            this.zombie2 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 138, 40);
-            this.zombie3 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 269, 40);
+            this.pix1 = new Kiwi.GameObjects.Pixel(20, 20, 0xfff000000, 40);
+            this.pix2 = new Kiwi.GameObjects.Pixel(80, 20, 0xfff000000, 40);
+            this.pix3 = new Kiwi.GameObjects.Pixel(140, 20, 0xfff000000, 40);
 
-            this.zombie2.components.add(new Kiwi.Components.Color(50, 200, 60));
-            this.zombie2.components.add(new Kiwi.Components.Color(150, 0, 150));
-
-            this.addChild(this.zombie);
-            this.addChild(this.zombie2);
-            this.addChild(this.zombie3);
-
+            this.pix1.color.setRGBA(0, 255, 0);
+            this.pix2.color.setRGBA(255, 0, 0);
+            this.pix3.color.setRandomColor();
+            
+            this.addChild(this.pix1);
+            this.addChild(this.pix2);
+            this.addChild(this.pix3);
         }
 
         update() {
