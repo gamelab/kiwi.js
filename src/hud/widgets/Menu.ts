@@ -49,7 +49,7 @@ module Kiwi.HUD {
         }
 
         //does nothing just yet
-        public setTemplate(main:string, sub:string) {
+        public setTemplate(main:string, sub?:string) {
             var mainElement = document.getElementById(main)
             if (mainElement === undefined) {
                 console.log('Failed find container');
@@ -65,7 +65,6 @@ module Kiwi.HUD {
             super.setTemplate(main);
             //do something with each item
             
-
         }
 
         //again nothing just yet.
