@@ -47,7 +47,7 @@ module Kiwi.HUD {
             this._applyCSS();
         }
 
-        private _removeCSS() {
+        public _removeCSS() {
             this.icon.style.width = '';
             this.icon.style.height = '';
             this.icon.style.backgroundImage = '';
@@ -55,7 +55,7 @@ module Kiwi.HUD {
             this.icon.style.backgroundSize = '';
         }
 
-        private _applyCSS() {
+        public _applyCSS() {
             this.size.setCSS(this.icon);
             this.icon.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
             this.icon.style.backgroundRepeat = 'no-repeat';

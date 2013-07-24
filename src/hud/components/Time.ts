@@ -72,7 +72,7 @@ module Kiwi.Components {
             if (val !== undefined) {
                 this._milliseconds = val;
             }
-            return this._milliseconds;
+            return this._milliseconds % 1000;
         }
 
         public seconds(val?: number):number {

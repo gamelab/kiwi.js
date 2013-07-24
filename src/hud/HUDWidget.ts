@@ -25,8 +25,6 @@ module Kiwi.HUD {
 
         public name: string;
 
-        public game: Kiwi.Game;
-
         //element in the template that gets the effects/info added to.
         public tempElement: HTMLElement;
 
@@ -46,7 +44,6 @@ module Kiwi.HUD {
 
             if (element === undefined) {
                 var fieldElement = containerElement;
-            
             } else {
                 var fieldElement: HTMLElement = document.getElementById(element);
                 if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {

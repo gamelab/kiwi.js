@@ -10773,30 +10773,67 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        var IconBar = (function (_super) {
-            __extends(IconBar, _super);
-            function IconBar(cacheID, cache, current, max, x, y) {
-                _super.call(this, current, max, x, y);
+        var IconCounter = (function (_super) {
+            __extends(IconCounter, _super);
+            function IconCounter(cacheID, cache, current, max, x, y) {
+                _super.call(this, cacheID, cache, x, y);
 
-                this.container.style.width = '100px';
-                this.container.style.height = '20px';
-            }
-            IconBar.prototype.updateCSS = function () {
-                if (this.horizontal() === true) {
-                    this.bar.style.width = String(this.range.currentPercent()) + '%';
-                    this.bar.style.height = '100%';
-                } else {
-                    this.bar.style.height = String(this.range.currentPercent()) + '%';
-                    this.bar.style.width = '100%';
+                if (cache.checkImageCacheID(cacheID, cache) == false) {
+                    console.log('Missing texture', cacheID);
+                    return;
                 }
+
+                this._horizontal = true;
+
+                this._current = current;
+
+                this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));
+
+                this._applyCSS();
+            }
+            IconCounter.prototype._applyCSS = function () {
+                if (this._current === undefined)
+                    return;
+
+                this.icon.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
+
+                if (this._horizontal) {
+                    this.icon.style.backgroundRepeat = 'repeat-x';
+                    this.size.setTo(this.texture.file.data.width * this.range.current(), this.texture.file.data.height);
+                } else {
+                    this.icon.style.backgroundRepeat = 'repeat-y';
+                    this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current());
+                }
+                this.size.setCSS(this.icon);
+                this.icon.style.backgroundSize = this.texture.file.data.width + 'px ' + this.texture.file.data.height + 'px';
             };
 
-            IconBar.prototype.update = function () {
+            IconCounter.prototype.horizontal = function (val) {
+                if (val !== undefined) {
+                    this._horizontal = val;
+                    this._applyCSS();
+                }
+                return this._horizontal;
+            };
+
+            IconCounter.prototype.vertical = function (val) {
+                if (val !== undefined) {
+                    this._horizontal = !val;
+                    this._applyCSS();
+                }
+                return !this._horizontal;
+            };
+
+            IconCounter.prototype.update = function () {
+                if (this._current != this.range.current()) {
+                    this._applyCSS();
+                    this._current = this.range.current();
+                }
                 _super.prototype.update.call(this);
             };
-            return IconBar;
-        })(Kiwi.HUD.Bar);
-        HUD.IconBar = IconBar;
+            return IconCounter;
+        })(Kiwi.HUD.Icon);
+        HUD.IconCounter = IconCounter;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
@@ -10903,6 +10940,102 @@ var Kiwi;
             return Time;
         })(Kiwi.HUD.TextField);
         HUD.Time = Time;
+    })(Kiwi.HUD || (Kiwi.HUD = {}));
+    var HUD = Kiwi.HUD;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (HUD) {
+        var Menu = (function (_super) {
+            __extends(Menu, _super);
+            function Menu(game, x, y) {
+                _super.call(this, 'menu', x, y);
+
+                this.game = game;
+                this._menuItems = [];
+            }
+            Menu.prototype.addMenuItem = function (item) {
+                this._menuItems.push(item);
+                this.container.appendChild(item.container);
+                item.addedToStage(this.game, this);
+
+                return item;
+            };
+
+            Menu.prototype.addMenuItems = function (items) {
+                for (var i = 0; i < items.length; i++) {
+                    this.addMenuItem(items[i]);
+                }
+            };
+
+            Menu.prototype.getMenuItem = function (val) {
+                if (typeof val === 'string') {
+                    var menuItem;
+                    for (var i = 0; i < this._menuItems.length; i++) {
+                        if (this._menuItems[i].name == val) {
+                            menuItem = this._menuItems[i];
+                        }
+                    }
+                    return menuItem;
+                }
+                if (typeof val === 'number') {
+                    return this._menuItems[val];
+                }
+            };
+
+            Menu.prototype.setTemplate = function () {
+            };
+
+            Menu.prototype.removeTemplate = function () {
+            };
+
+            Menu.prototype.update = function () {
+                for (var i = 0; i < this._menuItems.length; i++) {
+                    this._menuItems[i].update();
+                }
+                _super.prototype.update.call(this);
+            };
+            return Menu;
+        })(Kiwi.HUD.HUDWidget);
+        HUD.Menu = Menu;
+    })(Kiwi.HUD || (Kiwi.HUD = {}));
+    var HUD = Kiwi.HUD;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (HUD) {
+        var MenuItem = (function (_super) {
+            __extends(MenuItem, _super);
+            function MenuItem(name, width, height, x, y) {
+                _super.call(this, name, x, y);
+
+                this.size = this.components.add(new Kiwi.Components.Size(width, height));
+
+                this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height()));
+
+                this.container.innerText = name;
+                this._applyCSS();
+            }
+            MenuItem.prototype.addedToStage = function (game, menu) {
+                this.game = game;
+                this.menu = menu;
+                this._applyCSS();
+                this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
+            };
+
+            MenuItem.prototype._applyCSS = function () {
+                this.size.setCSS(this.container);
+                var addX = 0;
+                var addY = 0;
+                if (this.menu !== undefined) {
+                    addX += this.menu.position.x();
+                    addY += this.menu.position.y();
+                }
+                this.bounds.setTo(this.position.x() + addX, this.position.y() + addY, this.size.width(), this.size.height());
+            };
+            return MenuItem;
+        })(Kiwi.HUD.HUDWidget);
+        HUD.MenuItem = MenuItem;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
 })(Kiwi || (Kiwi = {}));
@@ -11156,7 +11289,7 @@ var Kiwi;
                 if (val !== undefined) {
                     this._milliseconds = val;
                 }
-                return this._milliseconds;
+                return this._milliseconds % 1000;
             };
 
             Time.prototype.seconds = function (val) {

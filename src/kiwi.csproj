@@ -330,9 +330,17 @@
     <Content Include="hud\widgets\Icon.js">
       <DependentUpon>Icon.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="hud\widgets\IconBar.ts" />
+    <TypeScriptCompile Include="hud\widgets\IconCounter.ts" />
     <Content Include="hud\widgets\IconBar.js">
-      <DependentUpon>IconBar.ts</DependentUpon>
+      <DependentUpon>IconCounter.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\widgets\Menu.ts" />
+    <Content Include="hud\widgets\Menu.js">
+      <DependentUpon>Menu.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="hud\widgets\MenuItem.ts" />
+    <Content Include="hud\widgets\MenuItem.js">
+      <DependentUpon>MenuItem.ts</DependentUpon>
     </Content>
     <Content Include="hud\widgets\Textfield.js" />
     <Content Include="hud\widgets\TextField.ts" />
