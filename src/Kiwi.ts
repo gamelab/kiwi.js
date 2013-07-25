@@ -55,6 +55,7 @@
 /// <reference path="gameobjects/StaticImage.ts" />
 /// <reference path="gameobjects/StaticObject.ts" />
 /// <reference path="gameobjects/Textfield.ts" />
+/// <reference path="gameobjects/LinkedGroup.ts" />
 /// <reference path="gameobjects/tilemap/Tile.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
 /// <reference path="gameobjects/tilemap/TileMapLayer.ts" />

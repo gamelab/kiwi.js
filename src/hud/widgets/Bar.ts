@@ -11,7 +11,8 @@ module Kiwi.HUD {
             this._bar = document.createElement('div');
             this._bar.className = 'innerBar';
 
-            this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));
+            this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));//add updated component to range
+            this.range.updated.add(this.updateCSS, this);
 
             this.bar = this._bar;
             this.container.appendChild(this.bar);
@@ -65,7 +66,6 @@ module Kiwi.HUD {
 
         //removes the template
         public removeTemplate() {
-            
             super.removeTemplate();
 
             this.bar = this._bar;
@@ -78,7 +78,6 @@ module Kiwi.HUD {
         }
 
         public update() {
-            this.updateCSS();
             super.update();
         }
 

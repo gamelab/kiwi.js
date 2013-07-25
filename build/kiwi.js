@@ -1497,6 +1497,15 @@ var Kiwi;
                 this.differenceY = Kiwi.Utils.GameMath.difference(this._oldY, this._point.y);
                 this.differenceZ = Kiwi.Utils.GameMath.difference(this._oldZ, this._z);
 
+                if (!this.autoRound) {
+                    if (this._oldX > this._point.x)
+                        this.differenceX = -this.differenceX;
+                    if (this._oldY > this._point.y)
+                        this.differenceY = -this.differenceY;
+                    if (this._oldZ > this._z)
+                        this.differenceZ = -this.differenceZ;
+                }
+
                 this.cssTranslate3d = 'translate3d(' + this._point.x + 'px, ' + this._point.y + 'px, ' + this._z + 'px)';
                 this.cssLeft = this._point.x + 'px';
                 this.cssTop = this._point.y + 'px';
@@ -3024,15 +3033,8 @@ var Kiwi;
                 _super.call(this, 'Texture', true, true, true);
                 this.file = null;
 
-                if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
-                    klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                    this.ready = false;
+                if (!this._setTexture(cacheID, cache))
                     return;
-                }
-
-                this.cacheID = cacheID;
-                this.file = cache.images.getFile(cacheID);
-                this.image = this.file.data;
 
                 this.position = new Kiwi.Components.Position();
                 this.size = new Kiwi.Components.Size(this.file.data.width, this.file.data.height);
@@ -3040,7 +3042,31 @@ var Kiwi;
                 this.ready = true;
 
                 this.updatedRepeat = new Kiwi.Signal();
+                this.updated = new Kiwi.Signal();
             }
+            Texture.prototype.changeTexture = function (cacheID, cache) {
+                if (!this._setTexture(cacheID, cache))
+                    return;
+
+                this.size.setTo(this.file.data.width, this.file.data.height);
+                this.ready = true;
+
+                this.updated.dispatch(this.getURL(), this.file.data.width, this.file.data.height);
+            };
+
+            Texture.prototype._setTexture = function (cacheID, cache) {
+                if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
+                    klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                    this.ready = false;
+                    return;
+                }
+                this.cacheID = cacheID;
+                this.file = cache.images.getFile(cacheID);
+                this.image = this.file.data;
+
+                return true;
+            };
+
             Texture.prototype.objType = function () {
                 return "Texture";
             };
@@ -3053,6 +3079,11 @@ var Kiwi;
                 }
 
                 return this._repeat;
+            };
+
+            Texture.prototype.setCSS = function (element) {
+                element.style.backgroundImage = 'url("' + this.getURL() + '")';
+                element.style.backgroundRepeat = this._repeat;
             };
 
             Texture.prototype.getURL = function () {
@@ -5286,8 +5317,24 @@ var Kiwi;
             return child;
         };
 
-        State.prototype.removeChild = function (child) {
+        State.prototype.removeChild = function (child, layer) {
+            if (typeof layer === "undefined") { layer = null; }
             child.modify(Kiwi.REMOVED_FROM_STATE, this);
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === child.id) {
+                    this.members.slice(i, 1);
+
+                    if (layer !== null) {
+                        layer.remove(child);
+                    } else {
+                        this.currentLayer.remove(child);
+                    }
+                    return true;
+                }
+            }
+
+            return false;
         };
 
         State.prototype.destroy = function () {
@@ -6442,10 +6489,6 @@ var Kiwi;
             for (var i = 0; i < this._renderList.length; i++) {
                 if (this._renderList[i].id === child.id) {
                     this._renderList.slice(i, 1);
-
-                    if (this.type === Kiwi.TYPE_DOM) {
-                        child.domElement.unlink();
-                    }
 
                     child.modify(Kiwi.REMOVED_FROM_LAYER, this);
 
@@ -8231,6 +8274,7 @@ var Kiwi;
                 this.rotation.updated.add(this._updateRotation, this);
                 this.scale.updated.add(this._updateScale, this);
                 this.texture.updatedRepeat.add(this._updateRepeat, this);
+                this.texture.updated.add(this._updateTexture, this);
                 this.texture.position.updated.add(this._updateTexturePosition, this);
                 this.size.updated.add(this._updateSize, this);
 
@@ -8314,6 +8358,13 @@ var Kiwi;
                 if (this.type === Kiwi.TYPE_DOM) {
                     this.addStyleUpdate('backgroundRepeat', value);
                 }
+            };
+
+            Sprite.prototype._updateTexture = function (value, width, height) {
+                if (this.type === Kiwi.TYPE_DOM) {
+                    this.domElement.element.style.backgroundImage = 'url("' + value + '")';
+                }
+                this.size.setTo(width, height);
             };
 
             Sprite.prototype._onAddedToLayer = function (layer) {
@@ -8435,6 +8486,11 @@ var Kiwi;
                 if (typeof y === "undefined") { y = 0; }
                 _super.call(this, true, true, false);
 
+                if (cache.checkImageCacheID(cacheID, cache) == false) {
+                    console.log('Missing texture', cacheID);
+                    return;
+                }
+
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
                 this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
@@ -8444,6 +8500,7 @@ var Kiwi;
 
                 this.position.updated.add(this._updatePosition, this);
                 this.texture.updatedRepeat.add(this._updateRepeat, this);
+                this.texture.updated.add(this._updateTexture, this);
                 this.texture.position.updated.add(this._updateTexturePosition, this);
                 this.size.updated.add(this._updateSize, this);
 
@@ -8476,6 +8533,13 @@ var Kiwi;
                 }
             };
 
+            StaticImage.prototype._updateTexture = function (value) {
+                if (this.type === Kiwi.TYPE_DOM) {
+                    this.domElement.element.style.backgroundImage = 'url("' + value + '")';
+                }
+                this.size.setTo(this.texture.image.width, this.texture.image.height);
+            };
+
             StaticImage.prototype._updateRepeat = function (value) {
                 if (this.type === Kiwi.TYPE_DOM) {
                     this.addStyleUpdate('backgroundRepeat', value);
@@ -8486,7 +8550,7 @@ var Kiwi;
                 klog.info('StaticImage added to Layer: ' + layer.name + ' type: ' + this.type);
 
                 if (this.type === Kiwi.TYPE_DOM) {
-                    this.domElement.element.style.backgroundImage = 'url(' + this.texture.getURL() + ')';
+                    this.domElement.element.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
                     this.domElement.element.style.backgroundRepeat = this.texture.repeat();
                     this.domElement.element.style.backgroundSize = '100%';
                     this.size.addStyleImmediately(this);
@@ -8581,12 +8645,13 @@ var Kiwi;
     (function (GameObjects) {
         var Textfield = (function (_super) {
             __extends(Textfield, _super);
-            function Textfield(text, x, y, color, size, weight) {
+            function Textfield(text, x, y, color, size, weight, fontFamily) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof color === "undefined") { color = '#ffffff'; }
                 if (typeof size === "undefined") { size = '32px'; }
-                if (typeof weight === "undefined") { weight = 'none'; }
+                if (typeof weight === "undefined") { weight = 'normal'; }
+                if (typeof fontFamily === "undefined") { fontFamily = 'cursive'; }
                 _super.call(this, true, true, false);
 
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
@@ -8597,7 +8662,9 @@ var Kiwi;
                 this._fontWeight = weight;
                 this._fontSize = size;
                 this._fontColor = color;
-                this._fontFamily = 'Arial';
+                this._fontFamily = fontFamily;
+                this._lineHeight = '1em';
+                this._textAlign = 'left';
 
                 this.alpha.updated.add(this._updateAlpha, this);
                 this.onAddedToLayer.add(this._onAddedToLayer, this);
@@ -8617,6 +8684,61 @@ var Kiwi;
                 }
             };
 
+            Textfield.prototype.setSize = function (width, height) {
+                this.size = this.components.add(new Kiwi.Components.Size(width, height));
+                this.size.updated.add(this._updateSize, this);
+                this._updateSize();
+            };
+
+            Textfield.prototype._updateSize = function () {
+                if (this.type === Kiwi.TYPE_DOM) {
+                    console.log('updatedSize');
+                    this.size.addStyleUpdates(this);
+                }
+            };
+
+            Textfield.prototype.fontColor = function (val) {
+                if (val !== undefined) {
+                    this._fontColor = val;
+                }
+                return this._fontColor;
+            };
+
+            Textfield.prototype.fontWeight = function (val) {
+                if (val !== undefined) {
+                    this._fontWeight = val;
+                }
+                return this._fontWeight;
+            };
+
+            Textfield.prototype.fontSize = function (val) {
+                if (val !== undefined) {
+                    this._fontSize = val;
+                }
+                return this._fontSize;
+            };
+
+            Textfield.prototype.fontFamily = function (val) {
+                if (val !== undefined) {
+                    this._fontFamily = val;
+                }
+                return this._fontFamily;
+            };
+
+            Textfield.prototype.lineHeight = function (val) {
+                if (val !== undefined) {
+                    this._lineHeight = val;
+                }
+                return this._lineHeight;
+            };
+
+            Textfield.prototype.textAlign = function (val) {
+                if (val !== undefined) {
+                    this._textAlign = val;
+                }
+                return this._textAlign;
+            };
+
             Textfield.prototype._updateAlpha = function (value) {
                 if (this.type === Kiwi.TYPE_DOM) {
                     this.alpha.addStyleUpdates(this);
@@ -8631,10 +8753,14 @@ var Kiwi;
                     this.domElement.element.style.fontSize = this._fontSize;
                     this.domElement.element.style.fontWeight = this._fontWeight;
                     this.domElement.element.style.color = this._fontColor;
+                    this.domElement.element.style.lineHeight = this._lineHeight;
+                    this.domElement.element.style.textAlign = this._textAlign;
                     this.domElement.element.innerHTML = this._text;
 
                     this.position.addStyleImmediately(this);
                     this.alpha.addStyleImmediately(this);
+                    if (this.size !== undefined)
+                        this.size.addStyleImmediately(this);
                 }
 
                 return true;
@@ -8656,10 +8782,16 @@ var Kiwi;
                     }
 
                     this.layer.canvas.context.font = this._fontWeight + ' ' + this._fontSize + ' ' + this._fontFamily;
-                    this.layer.canvas.context.textAlign = 'left';
+                    this.layer.canvas.context.textAlign = this._textAlign;
                     this.layer.canvas.context.textBaseline = 'top';
                     this.layer.canvas.context.fillStyle = this._fontColor;
-                    this.layer.canvas.context.fillText(this._text, this.position.x(), this.position.y());
+
+                    if (this.size !== undefined) {
+                        this.layer.canvas.context.fillText(this._text, this.position.x(), this.position.y(), this.size.width());
+                    } else {
+                        this.layer.canvas.context.fillText(this._text, this.position.x(), this.position.y());
+                    }
+
                     if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
                         this.layer.canvas.context.restore();
                     }
@@ -8668,6 +8800,41 @@ var Kiwi;
             return Textfield;
         })(Kiwi.Entity);
         GameObjects.Textfield = Textfield;
+    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
+    var GameObjects = Kiwi.GameObjects;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (GameObjects) {
+        var LinkedGroup = (function (_super) {
+            __extends(LinkedGroup, _super);
+            function LinkedGroup(name, x, y, z) {
+                if (typeof name === "undefined") { name = ''; }
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof z === "undefined") { z = 0; }
+                _super.call(this, name);
+
+                this.position = this.components.add(new Kiwi.Components.Position(x, y, z));
+                this.position.autoRound = false;
+                this.position.updated.add(this._updatedPosition, this);
+            }
+            LinkedGroup.prototype.objType = function () {
+                return "LinkedGroup";
+            };
+
+            LinkedGroup.prototype._updatedPosition = function (x, y, z) {
+                this.forEach(this, this._updateChild, x, y);
+            };
+
+            LinkedGroup.prototype._updateChild = function (child, x, y) {
+                if (child.components.hasActiveComponent('Position')) {
+                    child.components.getComponent('Position').addTo(this.position.differenceX, this.position.differenceY);
+                }
+            };
+            return LinkedGroup;
+        })(Kiwi.Group);
+        GameObjects.LinkedGroup = LinkedGroup;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
@@ -10598,6 +10765,7 @@ var Kiwi;
                 this._bar.className = 'innerBar';
 
                 this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));
+                this.range.updated.add(this.updateCSS, this);
 
                 this.bar = this._bar;
                 this.container.appendChild(this.bar);
@@ -10643,7 +10811,6 @@ var Kiwi;
             };
 
             Bar.prototype.update = function () {
-                this.updateCSS();
                 _super.prototype.update.call(this);
             };
 
@@ -10668,28 +10835,16 @@ var Kiwi;
                     return;
                 }
 
-                this._cache = cache;
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
                 this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
+                this.texture.updated.add(this._changeTexture, this);
+                this.size.updated.add(this._applyCSS, this);
 
                 this.icon = this.container;
                 this._applyCSS();
             }
-            Icon.prototype.changeIcon = function (cacheID, cache) {
-                if (cache !== undefined) {
-                    this._cache = cache;
-                }
-
-                if (this._cache.checkImageCacheID(cacheID, this._cache) == false) {
-                    console.log('Missing texture', cacheID);
-                    return;
-                }
-
-                this.components.removeComponent(this.texture, true);
-                this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, this._cache));
-
-                this.size.setTo(this.texture.file.data.width, this.texture.file.data.height);
-                this._applyCSS();
+            Icon.prototype._changeTexture = function (value, width, height) {
+                this.size.setTo(width, height);
             };
 
             Icon.prototype._removeCSS = function () {
@@ -10778,33 +10933,29 @@ var Kiwi;
             function IconCounter(cacheID, cache, current, max, x, y) {
                 _super.call(this, cacheID, cache, x, y);
 
-                if (cache.checkImageCacheID(cacheID, cache) == false) {
-                    console.log('Missing texture', cacheID);
-                    return;
-                }
-
                 this._horizontal = true;
 
                 this._current = current;
 
                 this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));
+                this.range.updated.add(this._changeSize, this);
 
+                this._changeSize();
                 this._applyCSS();
             }
-            IconCounter.prototype._applyCSS = function () {
-                if (this._current === undefined)
-                    return;
-
-                this.icon.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
-
+            IconCounter.prototype._changeSize = function () {
                 if (this._horizontal) {
-                    this.icon.style.backgroundRepeat = 'repeat-x';
+                    this.texture.repeat('repeat-x');
                     this.size.setTo(this.texture.file.data.width * this.range.current(), this.texture.file.data.height);
                 } else {
-                    this.icon.style.backgroundRepeat = 'repeat-y';
+                    this.texture.repeat('repeat-y');
                     this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current());
                 }
-                this.size.setCSS(this.icon);
+            };
+
+            IconCounter.prototype._applyCSS = function () {
+                _super.prototype._applyCSS.call(this);
+                this.icon.style.backgroundRepeat = this.texture.repeat();
                 this.icon.style.backgroundSize = this.texture.file.data.width + 'px ' + this.texture.file.data.height + 'px';
             };
 
@@ -10867,7 +11018,6 @@ var Kiwi;
                 this.game = game;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height()));
-
                 this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
             }
             return Button;
@@ -11023,8 +11173,9 @@ var Kiwi;
                 _super.call(this, name, x, y);
 
                 this.size = this.components.add(new Kiwi.Components.Size(width, height));
-
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height()));
+
+                this.size.updated.add(this._applyCSS);
 
                 this.container.innerText = name;
                 this._applyCSS();
@@ -11176,10 +11327,13 @@ var Kiwi;
                 this._max = max;
 
                 this._min = min;
+
+                this.updated = new Kiwi.Signal();
             }
             Range.prototype.max = function (val) {
                 if (val !== undefined) {
                     this._max = val;
+                    this.updated.dispatch(this._current, this._max, this._min);
                 }
                 return this._max;
             };
@@ -11187,6 +11341,7 @@ var Kiwi;
             Range.prototype.min = function (val) {
                 if (val !== undefined) {
                     this._min = val;
+                    this.updated.dispatch(this._current, this._max, this._min);
                 }
                 return this._min;
             };
@@ -11200,6 +11355,7 @@ var Kiwi;
                     } else {
                         this._current = val;
                     }
+                    this.updated.dispatch(this._current, this._max, this._min);
                 }
                 return this._current;
             };
@@ -11212,6 +11368,7 @@ var Kiwi;
                     } else {
                         this._current -= val;
                     }
+                    this.updated.dispatch(this._current, this._max, this._min);
                 }
             };
 
@@ -11223,6 +11380,7 @@ var Kiwi;
                     } else {
                         this._current += val;
                     }
+                    this.updated.dispatch(this._current, this._max, this._min);
                 }
             };
 
@@ -14720,41 +14878,6 @@ var Kiwi;
             return MouseDebug;
         })(Kiwi.Entity);
         GameObjects.MouseDebug = MouseDebug;
-    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-    var GameObjects = Kiwi.GameObjects;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (GameObjects) {
-        var LinkedGroup = (function (_super) {
-            __extends(LinkedGroup, _super);
-            function LinkedGroup(name, x, y, z) {
-                if (typeof name === "undefined") { name = ''; }
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof z === "undefined") { z = 0; }
-                _super.call(this, name);
-
-                this.position = this.components.add(new Kiwi.Components.Position(x, y, z));
-
-                this.position.updated.add(this._updatedPosition, this);
-            }
-            LinkedGroup.prototype.objType = function () {
-                return "LinkedGroup";
-            };
-
-            LinkedGroup.prototype._updatedPosition = function (x, y, z) {
-                this.forEach(this, this._updateChild, x, y);
-            };
-
-            LinkedGroup.prototype._updateChild = function (child, x, y) {
-                if (child.components.hasActiveComponent('Position')) {
-                    child.components.getComponent('Position').addTo(this.position.differenceX, this.position.differenceY);
-                }
-            };
-            return LinkedGroup;
-        })(Kiwi.Group);
-        GameObjects.LinkedGroup = LinkedGroup;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));

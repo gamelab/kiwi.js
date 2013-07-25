@@ -236,6 +236,12 @@ module Kiwi.Components {
             this.differenceY = Kiwi.Utils.GameMath.difference(this._oldY, this._point.y);
             this.differenceZ = Kiwi.Utils.GameMath.difference(this._oldZ, this._z);
 
+            if (!this.autoRound) {
+                if (this._oldX > this._point.x) this.differenceX = -this.differenceX;
+                if (this._oldY > this._point.y) this.differenceY = -this.differenceY;
+                if (this._oldZ > this._z) this.differenceZ = -this.differenceZ;
+            }
+
             this.cssTranslate3d = 'translate3d(' + this._point.x + 'px, ' + this._point.y + 'px, ' + this._z + 'px)';
             this.cssLeft = this._point.x + 'px';
             this.cssTop = this._point.y + 'px';

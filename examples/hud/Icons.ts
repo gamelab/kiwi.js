@@ -39,7 +39,7 @@ export class Icons extends Kiwi.State {
         this.currentIcon++;
         if (this.currentIcon >= this.icons.length) this.currentIcon = 0;
 
-        this.icon.changeIcon( this.icons[this.currentIcon] );
+        this.icon.texture.changeTexture( this.icons[this.currentIcon], this.cache );
 
     }
 

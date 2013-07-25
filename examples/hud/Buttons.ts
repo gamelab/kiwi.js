@@ -30,7 +30,7 @@ export class Buttons extends Kiwi.State {
         if (this.buttonState === 'chestclosed') this.buttonState = 'chestopen';
         else this.buttonState = 'chestclosed';
 
-        this.button.changeIcon(this.buttonState);
+        this.button.texture.changeTexture(this.buttonState, this.cache);
     }
 
 }

@@ -136,12 +136,13 @@ module Kiwi.DOM {
             //this.element.innerText = '';
             //this.element.innerHTML = '';
             this.element.parentNode.removeChild(this.element);
-
+            
+            
             this.element = <HTMLElement> document.createElement(this.type);
             this.element.id = this.id;
             this.element.style.display = 'block';
             this.element.style.position = 'absolute';
-
+            
 
         }
 

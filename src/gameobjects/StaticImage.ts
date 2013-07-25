@@ -33,6 +33,12 @@ module Kiwi.GameObjects {
         constructor(cacheID: string, cache: Kiwi.Cache, x: number = 0, y: number = 0) {
 
             super(true, true, false);
+            
+            if (cache.checkImageCacheID(cacheID, cache) == false)
+            {
+                console.log('Missing texture', cacheID);
+                return;
+            }
 
             //  Properties
 
@@ -47,6 +53,7 @@ module Kiwi.GameObjects {
 
             this.position.updated.add(this._updatePosition, this);
             this.texture.updatedRepeat.add(this._updateRepeat, this);
+            this.texture.updated.add(this._updateTexture, this);
             this.texture.position.updated.add(this._updateTexturePosition, this);
             this.size.updated.add(this._updateSize, this);
 
@@ -145,6 +152,19 @@ module Kiwi.GameObjects {
 
         }
 
+        /**
+        *
+        * @method _updateTexture
+        * @param {String} value
+        **/
+        private _updateTexture(value: string) {
+            if (this.type === Kiwi.TYPE_DOM)
+            {
+                this.domElement.element.style.backgroundImage = 'url("' + value + '")';
+            }
+            this.size.setTo(this.texture.image.width, this.texture.image.height);
+        }
+
         /** 
 	     * 
 	     * @method _updateRepeat
@@ -172,7 +192,7 @@ module Kiwi.GameObjects {
 
             if (this.type === Kiwi.TYPE_DOM)
             {
-                this.domElement.element.style.backgroundImage = 'url(' + this.texture.getURL() + ')';
+                this.domElement.element.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
                 this.domElement.element.style.backgroundRepeat = this.texture.repeat();
                 this.domElement.element.style.backgroundSize = '100%';
                 this.size.addStyleImmediately(this);

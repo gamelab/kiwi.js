@@ -32,7 +32,7 @@ module Kiwi.HUD {
             }
         }
 
-        //get a menu item
+        //get a menu item - need to test
         public getMenuItem(val: any): Kiwi.HUD.MenuItem {
             if (typeof val === 'string') {
                 var menuItem;

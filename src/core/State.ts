@@ -290,11 +290,31 @@ module Kiwi {
         
         }
 
-        public removeChild(child) {
+        //remove child!---
+        public removeChild(child, layer:Kiwi.Layer = null):boolean {
+            
 
             //  Needs validation
             child.modify(Kiwi.REMOVED_FROM_STATE, this);
 
+            //check that is exists...
+            for (var i = 0; i < this.members.length; i++) {
+
+                if (this.members[i].id === child.id) {
+
+                    this.members.slice(i, 1);
+
+                    if (layer !== null) {
+                        layer.remove(child);
+                    } else {
+                        this.currentLayer.remove(child);
+                    }
+                    return true;
+                }  
+                  
+            }
+            
+            return false;
         }
 
         /**
