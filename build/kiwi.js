@@ -283,7 +283,8 @@ var Kiwi;
             };
 
             Alpha.prototype.setContext = function (canvas) {
-                if (this._alpha0 > 0 && this._alpha0 < 1) {
+                if (this._alpha0 >= 0 && this._alpha0 < 1) {
+                    console.log('canvas', this._alpha0);
                     canvas.context.globalAlpha = this._alpha0;
                 }
             };
@@ -8428,7 +8429,7 @@ var Kiwi;
                         this.bounds.drawCanvasDebugOutline(this.layer);
                     }
 
-                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
+                    if (this.alpha.alpha() >= 0 && this.alpha.alpha() <= 1) {
                         this.layer.canvas.context.save();
                         this.alpha.setContext(this.layer.canvas);
                     }
@@ -10641,7 +10642,6 @@ var Kiwi;
             function HUDWidget(name, x, y) {
                 this.name = name;
                 this.container = document.createElement("div");
-
                 this.container.style.position = "absolute";
                 this.components = new Kiwi.ComponentManager(Kiwi.HUD_WIDGET, this);
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
@@ -10676,7 +10676,9 @@ var Kiwi;
                 if (this.tempElement !== undefined) {
                     this.container.removeChild(this._tempContainer);
                     this._tempParent.appendChild(this._tempContainer);
-                    this.tempElement = undefined;
+                    this.tempElement = null;
+                    this._tempParent = null;
+                    this._tempContainer = null;
                 }
             };
 

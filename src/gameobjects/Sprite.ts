@@ -463,7 +463,7 @@ module Kiwi.GameObjects {
                     this.bounds.drawCanvasDebugOutline(this.layer);
                 }
 
-                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)
+                if (this.alpha.alpha() >= 0 && this.alpha.alpha() <= 1)
                 {
                     this.layer.canvas.context.save();
                     this.alpha.setContext(this.layer.canvas);

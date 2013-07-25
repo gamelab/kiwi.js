@@ -5,7 +5,12 @@ module Kiwi.HUD {
 
     export class HUDDisplay {
         
-        // Constructor
+        /**
+        * 
+        * @constructor
+        * @param {Kiwi.Game} game 
+        * @param {string} name 
+        **/
         constructor(game: Kiwi.Game,name:string) {
             this._game = game;
             this.name = name;
