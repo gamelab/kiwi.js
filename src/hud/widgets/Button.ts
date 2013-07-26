@@ -1,27 +1,33 @@
 module Kiwi.HUD {
 
-    //Does the button even need to extend icon? You could have a button without a icon 
+    export class Button extends Kiwi.HUD.HUDWidget {
 
-    //The input needs to have the game passed to it to get the input. Could be just use normal DOM event binding?
+        constructor(game: Kiwi.Game, width:number, height:number, x: number, y: number) {
 
-    export class Button extends Kiwi.HUD.Icon {
-
-        constructor(game: Kiwi.Game, cacheID: any, cache: any, x: number, y: number) {
-
-            super(cacheID, cache, x, y);
+            super('button', x, y);
 
             this.game = game;
 
+            this.size = this.components.add(new Kiwi.Components.Size(width, height);
             this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height())); //create custom bounds for HUD
             this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
+            
+            this.position.updated.add(this._changed, this);
+            this.size.updated.add(this._changed, this);
             
         }
 
         public game: Kiwi.Game;
+        
+        public size: Kiwi.Components.Size;
 
         public input: Kiwi.Components.WidgetInput;
 
         public bounds: Kiwi.Components.Bounds;
+
+        private _changed() {
+            this.bounds.setTo(this.position.x(), this.position.y(), this.size.width(), this.size.height());
+        }
 
     }
 

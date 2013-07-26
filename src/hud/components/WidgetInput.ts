@@ -3,6 +3,12 @@ module Kiwi.Components {
 
     export class WidgetInput extends Component {
 
+        /**
+        * 
+        * @constructor
+        * @param {Kiwi.Game} game
+        * @param {Kiwi.Components.Bounds} bounds
+        **/
         constructor(game: Kiwi.Game, bounds: Kiwi.Components.Bounds) {
 
             super('WidgetInput', true, true, true);
@@ -24,10 +30,14 @@ module Kiwi.Components {
             this.outsideBounds = true;
             this.isUp = true;
             this.isDown = false;
-            
+        
         }
 
-        public objType() {
+        /**
+        * reutrns the object type
+        * @method objType
+        **/
+        public objType():string {
             return "Input";
         }
 

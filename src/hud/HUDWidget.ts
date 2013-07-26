@@ -1,5 +1,18 @@
 ///<reference path="../kiwi.ts" />
 
+/*
+ *	Kiwi - HUD - HUDWidget
+ *
+ *	@desc		The HUDWidget is an abstract class containing all of the fundamentals that every HUDWidget will need to have.
+ *
+ *	@version	1.0 - 26th July 2013
+ *				
+ *  @author     Ross Kettle
+ *	@author 	Ben Harding
+ *				
+ *	@url		http://www.kiwijs.org
+ *
+*/
 
 module Kiwi.HUD {
 
@@ -11,6 +24,7 @@ module Kiwi.HUD {
         * @param {string} name - Name of the type of HUDWidget.
         * @param {number} x 
         * @param {number} y
+        * @return {Kiwi.HUD.HUDWidget}
         **/
         constructor(name: string,x:number,y:number) {
             this.name = name;
@@ -67,7 +81,9 @@ module Kiwi.HUD {
         /**
         * This method is used to remove existing DOM elements and place them inside a HUDWidget's container element.
         * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
-        * 
+        *
+        * Can be used by itself but maybe more useful if you customise it to suit your own needs. 
+        *
         * @method setTemplate
         * @param {string} main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
         * @param {string} element - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.

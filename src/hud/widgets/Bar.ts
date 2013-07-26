@@ -1,5 +1,18 @@
 /// <reference path="..\..\Kiwi.ts" />
 
+/*
+ *	Kiwi - HUD - Bar
+ *
+ *	@desc		An abstract class that contains all of the fundametals for the control of a bar widget.
+ *
+ *	@version	1.0 - 26th July 2013
+ *				
+ *	@author 	Ben Harding
+ *				
+ *	@url		http://www.kiwijs.org
+ *
+*/
+
 module Kiwi.HUD {
 
     export class Bar extends Kiwi.HUD.HUDWidget {
@@ -56,7 +69,7 @@ module Kiwi.HUD {
         public range: Kiwi.Components.Range;
         
         /**
-        * Used to set the bar to be horizontal or vertical by passing a 
+        * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @param {boolean} val
         * @public
         **/
@@ -68,7 +81,11 @@ module Kiwi.HUD {
             return this._horizontal;
         }
 
-        //sets the bar to horizontal
+        /**
+        * Used to set the bar to be horizontal or vertical by passing a boolean.
+        * @param {boolean} val
+        * @public
+        **/
         public vertical(val?: boolean):boolean {
             if (val !== undefined) {
                 this._horizontal = !val;
@@ -78,7 +95,14 @@ module Kiwi.HUD {
         }
 
 
-        //sets the template
+        /**
+        * This method is used to remove existing DOM elements and place them inside a HUDWidget's container element.
+        * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
+        * 
+        * @method setTemplate
+        * @param {string} main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
+        * @param {string} innerbar - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
+        **/
         public setTemplate(main: string, innerbar?: string) {
 
             super.setTemplate(main, innerbar);
@@ -89,7 +113,11 @@ module Kiwi.HUD {
 
         }
 
-        //removes the template
+        /**
+        * Used to remove any the template HTML from this HUDWidget.
+        * 
+        * @method removeTemplate
+        **/
         public removeTemplate() {
             super.removeTemplate();
 
@@ -98,16 +126,13 @@ module Kiwi.HUD {
             this.updateCSS();
         }
 
+        /**
+        * Will be called when the range has been updated and thus you will want to preform the render of the bar here.
+        * This should be overriden by subclasses so that you have your own custom bars. 
+        * @public
+        **/
         public updateCSS() {
             //update the CSS
-        }
-
-        public update() {
-            super.update();
-        }
-
-        public render() {
-
         }
 
     }

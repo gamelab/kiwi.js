@@ -10740,13 +10740,9 @@ var Kiwi;
             TextField.prototype.text = function (val) {
                 if (val !== undefined) {
                     this._text = val;
+                    this._textField.innerText = this._text;
                 }
                 return this._text;
-            };
-
-            TextField.prototype.update = function () {
-                this._textField.innerText = this._text;
-                _super.prototype.update.call(this);
             };
             return TextField;
         })(Kiwi.HUD.HUDWidget);
@@ -10811,13 +10807,6 @@ var Kiwi;
 
             Bar.prototype.updateCSS = function () {
             };
-
-            Bar.prototype.update = function () {
-                _super.prototype.update.call(this);
-            };
-
-            Bar.prototype.render = function () {
-            };
             return Bar;
         })(Kiwi.HUD.HUDWidget);
         HUD.Bar = Bar;
@@ -10864,10 +10853,6 @@ var Kiwi;
                 this.icon.style.backgroundSize = '100%';
             };
 
-            Icon.prototype.update = function () {
-                _super.prototype.update.call(this);
-            };
-
             Icon.prototype.setTemplate = function (main, icon) {
                 this._removeCSS();
 
@@ -10878,8 +10863,6 @@ var Kiwi;
                 }
 
                 this._applyCSS();
-
-                return true;
             };
 
             Icon.prototype.removeTemplate = function () {
@@ -10888,8 +10871,6 @@ var Kiwi;
                 this._removeCSS();
                 this.icon = this.container;
                 this._applyCSS();
-
-                return true;
             };
             return Icon;
         })(Kiwi.HUD.HUDWidget);
@@ -10917,10 +10898,6 @@ var Kiwi;
                     this.bar.style.width = '100%';
                 }
             };
-
-            BasicBar.prototype.update = function () {
-                _super.prototype.update.call(this);
-            };
             return BasicBar;
         })(Kiwi.HUD.Bar);
         HUD.BasicBar = BasicBar;
@@ -10936,8 +10913,6 @@ var Kiwi;
                 _super.call(this, cacheID, cache, x, y);
 
                 this._horizontal = true;
-
-                this._current = current;
 
                 this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));
                 this.range.updated.add(this._changeSize, this);
@@ -10964,7 +10939,7 @@ var Kiwi;
             IconCounter.prototype.horizontal = function (val) {
                 if (val !== undefined) {
                     this._horizontal = val;
-                    this._applyCSS();
+                    this._changeSize();
                 }
                 return this._horizontal;
             };
@@ -10972,17 +10947,9 @@ var Kiwi;
             IconCounter.prototype.vertical = function (val) {
                 if (val !== undefined) {
                     this._horizontal = !val;
-                    this._applyCSS();
+                    this._changeSize();
                 }
                 return !this._horizontal;
-            };
-
-            IconCounter.prototype.update = function () {
-                if (this._current != this.range.current()) {
-                    this._applyCSS();
-                    this._current = this.range.current();
-                }
-                _super.prototype.update.call(this);
             };
             return IconCounter;
         })(Kiwi.HUD.Icon);
@@ -10998,10 +10965,10 @@ var Kiwi;
             function BasicScore(x, y) {
                 _super.call(this, "basicScore", x, y);
                 this.counter = this.components.add(new Kiwi.Components.Counter(0, 1));
+                this.counter.updated.add(this._updateText, this);
             }
-            BasicScore.prototype.update = function () {
+            BasicScore.prototype._updateText = function () {
                 this.text(String(this.counter.value()));
-                _super.prototype.update.call(this);
             };
             return BasicScore;
         })(Kiwi.HUD.TextField);
@@ -11037,6 +11004,7 @@ var Kiwi;
                 _super.call(this, 'time', x, y);
 
                 this.time = this.components.add(new Kiwi.Components.Time(0));
+                this.time.updated.add(this.updateTime, this);
 
                 this.format(format);
                 this.updateTime();
@@ -11044,7 +11012,8 @@ var Kiwi;
             Time.prototype.setTime = function (milliseconds, seconds, minutes, hours) {
                 this.time.setTime(milliseconds, seconds, minutes, hours);
 
-                this.text(this.updateTime());
+                this.updateTime();
+                return this.time.milliseconds();
             };
 
             Time.prototype.format = function (val) {
@@ -11080,14 +11049,7 @@ var Kiwi;
                 time = time.replace('m', m);
                 time = time.replace('h', h);
 
-                return time;
-            };
-
-            Time.prototype.update = function () {
-                if (!this.time.paused)
-                    this.text(this.updateTime());
-
-                _super.prototype.update.call(this);
+                this.text(time);
             };
             return Time;
         })(Kiwi.HUD.TextField);
@@ -11211,14 +11173,18 @@ var Kiwi;
         var Counter = (function (_super) {
             __extends(Counter, _super);
             function Counter(initial, step) {
+                if (typeof step === "undefined") { step = 1; }
                 _super.call(this, "counter", true, true, true);
                 this._value = 0;
                 this._value = initial;
                 this.step = step;
+
+                this.updated = new Kiwi.Signal();
             }
             Counter.prototype.value = function (val) {
                 if (val !== undefined) {
                     this._value = val;
+                    this.updated.dispatch(this._value);
                 }
 
                 return this._value;
@@ -11230,6 +11196,8 @@ var Kiwi;
                 } else {
                     this._value += this.step;
                 }
+                this.updated.dispatch(this._value);
+                return this._value;
             };
 
             Counter.prototype.decrement = function (val) {
@@ -11238,6 +11206,8 @@ var Kiwi;
                 } else {
                     this._value -= this.step;
                 }
+                this.updated.dispatch(this._value);
+                return this._value;
             };
             return Counter;
         })(Kiwi.Component);
@@ -11372,6 +11342,7 @@ var Kiwi;
                     }
                     this.updated.dispatch(this._current, this._max, this._min);
                 }
+                return this._current;
             };
 
             Range.prototype.increase = function (val) {
@@ -11384,6 +11355,7 @@ var Kiwi;
                     }
                     this.updated.dispatch(this._current, this._max, this._min);
                 }
+                return this._current;
             };
 
             Range.prototype.currentPercent = function () {
@@ -11405,7 +11377,7 @@ var Kiwi;
 
                 this.paused = true;
                 this._countDown = true;
-
+                this.updated = new Kiwi.Signal();
                 this._lastTime = Date.now();
                 this.setTime(milliseconds, seconds, minutes, hours);
             }
@@ -11438,13 +11410,41 @@ var Kiwi;
                     milliseconds += this.convertToMilli(hours, 'h');
 
                 this._milliseconds = milliseconds;
+                this.updated.dispatch();
+
+                return this._milliseconds;
+            };
+
+            Time.prototype.increaseTime = function (milliseconds, seconds, minutes, hours) {
+                if (seconds !== undefined)
+                    milliseconds += this.convertToMilli(seconds, 's');
+                if (minutes !== undefined)
+                    milliseconds += this.convertToMilli(minutes, 'm');
+                if (hours !== undefined)
+                    milliseconds += this.convertToMilli(hours, 'h');
+
+                this._milliseconds += milliseconds;
+                this.updated.dispatch();
+
+                return this._milliseconds;
+            };
+
+            Time.prototype.decreaseTime = function (milliseconds, seconds, minutes, hours) {
+                if (seconds !== undefined)
+                    milliseconds += this.convertToMilli(seconds, 's');
+                if (minutes !== undefined)
+                    milliseconds += this.convertToMilli(minutes, 'm');
+                if (hours !== undefined)
+                    milliseconds += this.convertToMilli(hours, 'h');
+
+                this._milliseconds += milliseconds;
+                this.updated.dispatch();
 
                 return this._milliseconds;
             };
 
             Time.prototype.convertToMilli = function (val, unit) {
                 var num = 0;
-
                 if (unit === 'milli' || unit === 'milliseconds' || unit === 'ms') {
                     num = val;
                 } else if (unit === 'seconds' || unit === 's') {
@@ -11461,6 +11461,7 @@ var Kiwi;
             Time.prototype.milliseconds = function (val) {
                 if (val !== undefined) {
                     this._milliseconds = val;
+                    this.updated.dispatch();
                 }
                 return this._milliseconds % 1000;
             };
@@ -11468,6 +11469,7 @@ var Kiwi;
             Time.prototype.seconds = function (val) {
                 if (val !== undefined) {
                     this._milliseconds = this.convertToMilli(val, 's');
+                    this.updated.dispatch();
                 }
                 return Math.floor(this._milliseconds / 1000) % 60;
             };
@@ -11475,6 +11477,7 @@ var Kiwi;
             Time.prototype.minutes = function (val) {
                 if (val !== undefined) {
                     this._milliseconds = this.convertToMilli(val, 'm');
+                    this.updated.dispatch();
                 }
                 return Math.floor(this._milliseconds / 1000 / 60) % 60;
             };
@@ -11482,6 +11485,7 @@ var Kiwi;
             Time.prototype.hours = function (val) {
                 if (val !== undefined) {
                     this._milliseconds = this.convertToMilli(val, 'h');
+                    this.updated.dispatch();
                 }
                 return Math.floor(this._milliseconds / 1000 / 60 / 60);
             };
@@ -11497,6 +11501,7 @@ var Kiwi;
                     } else {
                         this.milliseconds(this._milliseconds + difference);
                     }
+                    this.updated.dispatch();
                 }
 
                 _super.prototype.update.call(this);
