@@ -62,6 +62,7 @@ module Kiwi.GameObjects {
             this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
             this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
             this.visible = this.components.add(new Kiwi.Components.Visible(true));
+            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
 
             if (this.texture.file !== null)
             {
@@ -128,6 +129,8 @@ module Kiwi.GameObjects {
         //    }
 
         //}
+
+        public physics: Kiwi.Components.ArcadePhysics;
 
         /** 
 	     * The Alpha component that controls the opacity of this Game Object

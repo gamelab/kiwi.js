@@ -8258,6 +8258,7 @@ var Kiwi;
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
                 this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
                 this.visible = this.components.add(new Kiwi.Components.Visible(true));
+                this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
 
                 if (this.texture.file !== null) {
                     if (this.texture.file.dataType === Kiwi.File.IMAGE) {
@@ -10981,16 +10982,29 @@ var Kiwi;
     (function (HUD) {
         var Button = (function (_super) {
             __extends(Button, _super);
-            function Button(game, cacheID, cache, x, y) {
-                _super.call(this, cacheID, cache, x, y);
+            function Button(game, width, height, x, y) {
+                _super.call(this, 'button', x, y);
 
                 this.game = game;
 
+                this.size = this.components.add(new Kiwi.Components.Size(width, height));
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height()));
                 this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
+
+                this.position.updated.add(this._changed, this);
+                this.size.updated.add(this._changed, this);
+                this._applyCSS();
             }
+            Button.prototype._changed = function () {
+                this.bounds.setTo(this.position.x(), this.position.y(), this.size.width(), this.size.height());
+                this._applyCSS();
+            };
+
+            Button.prototype._applyCSS = function () {
+                this.size.setCSS(this.container);
+            };
             return Button;
-        })(Kiwi.HUD.Icon);
+        })(Kiwi.HUD.TextField);
         HUD.Button = Button;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
     var HUD = Kiwi.HUD;
