@@ -2539,8 +2539,13 @@ var Kiwi;
 
             this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
 
-            klog.info('blob support found');
-            this._useTagLoader = false;
+            if (Kiwi.DEVICE.blob) {
+                klog.info('blob support found - using blob loader');
+                this._useTagLoader = false;
+            } else {
+                klog.info('blob support NOT found - using tag loader');
+                this._useTagLoader = true;
+            }
 
             this._saveToCache = saveToCache;
             this._cache = cache;
@@ -4840,6 +4845,7 @@ var Kiwi;
             this.localStorage = false;
             this.webGL = false;
             this.worker = false;
+            this.blob = false;
             this.touch = false;
             this.css3D = false;
             this.arora = false;
@@ -4895,6 +4901,9 @@ var Kiwi;
         };
 
         Device.prototype._checkFeatures = function () {
+            if (typeof window['Blob'] !== 'undefined')
+                this.blob = true;
+
             this.canvas = !!window['CanvasRenderingContext2D'];
 
             try  {
@@ -5034,6 +5043,7 @@ var Kiwi;
 
             output = output.concat('\n');
             output = output.concat('Features\n');
+            output = output.concat('Blob: ' + this.blob + '\n');
             output = output.concat('Canvas: ' + this.canvas + '\n');
             output = output.concat('File: ' + this.file + '\n');
             output = output.concat('FileSystem: ' + this.fileSystem + '\n');

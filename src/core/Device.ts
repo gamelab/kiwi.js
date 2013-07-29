@@ -130,6 +130,14 @@ module Kiwi {
 
         /**
         * 
+        * @property blob
+        * @type Boolean
+        */
+        public blob: bool = false;
+
+
+        /**
+        * 
         * @property touch
         * @type Boolean
         */
@@ -331,6 +339,8 @@ module Kiwi {
         * @private
         */
         private _checkFeatures() {
+
+            if (typeof window['Blob'] !== 'undefined') this.blob = true;
 
             this.canvas = !!window['CanvasRenderingContext2D'];
 
@@ -538,6 +548,7 @@ module Kiwi {
 
             output = output.concat('\n');
             output = output.concat('Features\n');
+            output = output.concat('Blob: ' + this.blob + '\n');
             output = output.concat('Canvas: ' + this.canvas + '\n');
             output = output.concat('File: ' + this.file + '\n');
             output = output.concat('FileSystem: ' + this.fileSystem + '\n');

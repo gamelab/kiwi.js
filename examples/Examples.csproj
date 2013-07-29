@@ -40,6 +40,10 @@
     <Content Include="components\ScaleComponent.js">
       <DependentUpon>ScaleComponent.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="devices\DeviceInfo.ts" />
+    <Content Include="devices\DeviceInfo.js">
+      <DependentUpon>DeviceInfo.ts</DependentUpon>
+    </Content>
     <Content Include="layers\CreatingLayers.js">
       <DependentUpon>CreatingLayers.ts</DependentUpon>
     </Content>
