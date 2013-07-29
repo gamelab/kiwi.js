@@ -125,6 +125,14 @@
     <TypeScriptCompile Include="groups\CreatingUsingGroups.ts" />
     <TypeScriptCompile Include="hud\Basics.ts" />
     <TypeScriptCompile Include="hud\BasicBar.ts" />
+    <TypeScriptCompile Include="GameObjects\Textfield.ts" />
+    <TypeScriptCompile Include="GameObjects\RemoveChild.ts" />
+    <Content Include="GameObjects\Remove.js">
+      <DependentUpon>RemoveChild.ts</DependentUpon>
+    </Content>
+    <Content Include="GameObjects\Textfield.js">
+      <DependentUpon>Textfield.ts</DependentUpon>
+    </Content>
     <Content Include="hud\Bar.js">
       <DependentUpon>BasicBar.ts</DependentUpon>
     </Content>

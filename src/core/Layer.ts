@@ -296,13 +296,15 @@ module Kiwi {
             {
                 if (this._renderList[i].id === child.id)
                 {
-                    this._renderList.slice(i, 1);
 
+                    this._renderList.slice(i, 1);
+                    /*
                     if (this.type === Kiwi.TYPE_DOM)
                     {
+                        console.log('1');
                         child.domElement.unlink();
                     }
-
+                    */
                     child.modify(Kiwi.REMOVED_FROM_LAYER, this);
 
                     return true;

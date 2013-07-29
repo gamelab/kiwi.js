@@ -87,6 +87,7 @@ module Kiwi.GameObjects {
             this.rotation.updated.add(this._updateRotation, this);
             this.scale.updated.add(this._updateScale, this);
             this.texture.updatedRepeat.add(this._updateRepeat, this);
+            this.texture.updated.add(this._updateTexture, this);
             this.texture.position.updated.add(this._updateTexturePosition, this);
             this.size.updated.add(this._updateSize, this);
             //this.input.inputDragStarted.add(this._dragStarted, this);
@@ -354,6 +355,21 @@ module Kiwi.GameObjects {
 
         }
 
+        /**
+        *
+        * @method _updateTexture
+        * @param {String} value
+        * @param {Number} width
+        * @param {Number} height
+        **/
+        private _updateTexture(value: string, width:number, height:number) {
+            if (this.type === Kiwi.TYPE_DOM)
+            {
+                this.domElement.element.style.backgroundImage = 'url("' + value + '")';
+            }    
+            this.size.setTo(width, height);
+        }
+
 	    /**
 	     * Called when this Game Object is added to a Layer, usually as a result of an addChild() call or being in a Group that was added.
 	     * @method _onAddedToLayer
@@ -447,7 +463,7 @@ module Kiwi.GameObjects {
                     this.bounds.drawCanvasDebugOutline(this.layer);
                 }
 
-                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)
+                if (this.alpha.alpha() >= 0 && this.alpha.alpha() <= 1)
                 {
                     this.layer.canvas.context.save();
                     this.alpha.setContext(this.layer.canvas);

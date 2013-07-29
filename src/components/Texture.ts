@@ -32,19 +32,8 @@ module Kiwi.Components {
 
             super('Texture', true, true, true);
 
-            if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false)
-            {
-                klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                this.ready = false;
-                return;
-            }
-
-      
-
-            this.cacheID = cacheID;
-            this.file = cache.images.getFile(cacheID);
-            this.image = this.file.data;
-
+            if (!this._setTexture(cacheID, cache)) return;
+            
             //  Properties
 
             this.position = new Kiwi.Components.Position();
@@ -53,9 +42,44 @@ module Kiwi.Components {
             this.ready = true;
 
             //  Signals
-
             this.updatedRepeat = new Kiwi.Signal();
+            this.updated = new Kiwi.Signal();
+        }
 
+        /*
+        *
+        * @method changeTexture
+        * @param {String} cacheID
+        * @param {cache}
+        */
+        public changeTexture(cacheID: string, cache) {
+            if (!this._setTexture(cacheID, cache)) return;
+
+            this.size.setTo(this.file.data.width, this.file.data.height);
+            this.ready = true;
+
+            this.updated.dispatch( this.getURL(), this.file.data.width, this.file.data.height ); //modify
+        }
+
+        /*
+        *
+        * @method _setTexture
+        * @param {String} cacheID
+        * @param {Kiwi.Cache} cache
+        * @return {Boolean} 
+        */
+        private _setTexture(cacheID: string, cache: Kiwi.Cache):boolean {
+            if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false)
+            {
+                klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                this.ready = false;
+                return;
+            }
+            this.cacheID = cacheID;
+            this.file = cache.images.getFile(cacheID);
+            this.image = this.file.data;
+
+            return true;
         }
 
         public objType() {
@@ -90,6 +114,13 @@ module Kiwi.Components {
         * @type Kiwi.Signal
         */
         public updatedRepeat: Kiwi.Signal;
+        
+        /*
+        *
+        * @property updated
+        * @type Kiwi.Signal
+        */
+        public updated: Kiwi.Signal;
 
         /*
         * 
@@ -160,6 +191,16 @@ module Kiwi.Components {
 
             return this._repeat;
 
+        }
+
+        /*
+        *
+        * @method setCSS
+        * @param {HTMLElement} element
+        */
+        public setCSS(element: HTMLElement) {
+            element.style.backgroundImage = 'url("' + this.getURL() + '")';
+            element.style.backgroundRepeat = this._repeat;
         }
 
         /*

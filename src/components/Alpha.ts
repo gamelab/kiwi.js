@@ -156,8 +156,9 @@ module Kiwi.Components {
 
         public setContext(canvas: Kiwi.Utils.Canvas) {
 
-            if (this._alpha0 > 0 && this._alpha0 < 1)
+            if (this._alpha0 >= 0 && this._alpha0 < 1)
             {
+                console.log('canvas', this._alpha0);
                 canvas.context.globalAlpha = this._alpha0;
             }
 

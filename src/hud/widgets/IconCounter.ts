@@ -3,23 +3,18 @@ module Kiwi.HUD {
 
     export class IconCounter extends Kiwi.HUD.Icon {
 
-        //to be done.... Do it later...
         constructor(cacheID: string, cache: any, current: number, max: number, x: number, y: number) {
             
             super(cacheID, cache, x, y);
-
-            if (cache.checkImageCacheID(cacheID, cache) == false)
-            {
-                console.log('Missing texture', cacheID);
-                return;
-            }
 
             this._horizontal = true;
 
             this._current = current;
 
             this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));
-            
+            this.range.updated.add(this._changeSize, this);
+
+            this._changeSize();
             this._applyCSS();
         }
 
@@ -29,22 +24,22 @@ module Kiwi.HUD {
 
         public range: Kiwi.Components.Range;
 
-        public _applyCSS() {
-            if (this._current === undefined)     return;
+        public _changeSize() {
             
-
-            this.icon.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
-
             if (this._horizontal) {
-                this.icon.style.backgroundRepeat = 'repeat-x';
+                this.texture.repeat('repeat-x');
                 this.size.setTo(this.texture.file.data.width * this.range.current(), this.texture.file.data.height);
             } else {
-                this.icon.style.backgroundRepeat = 'repeat-y';
+                this.texture.repeat('repeat-y');
                 this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current());
             }
-            this.size.setCSS(this.icon);
-            this.icon.style.backgroundSize = this.texture.file.data.width+'px '+this.texture.file.data.height+'px';
-            
+
+        }
+
+        public _applyCSS() {
+            super._applyCSS();
+            this.icon.style.backgroundRepeat = this.texture.repeat();
+            this.icon.style.backgroundSize = this.texture.file.data.width + 'px ' + this.texture.file.data.height + 'px';
         }
 
         //sets the bar to vertical

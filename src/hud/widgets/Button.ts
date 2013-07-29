@@ -13,9 +13,8 @@ module Kiwi.HUD {
             this.game = game;
 
             this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height())); //create custom bounds for HUD
-
             this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
-        
+            
         }
 
         public game: Kiwi.Game;

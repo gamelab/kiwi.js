@@ -12,15 +12,14 @@ module Kiwi.HUD {
                 return;
             }
 
-            this._cache = cache;
             this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
             this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
+            this.texture.updated.add(this._changeTexture, this);
+            this.size.updated.add(this._applyCSS, this);
 
             this.icon = this.container;
             this._applyCSS();
         }
-
-        private _cache: any;
 
         public texture: Kiwi.Components.Texture;
 
@@ -28,23 +27,8 @@ module Kiwi.HUD {
 
         public icon: HTMLElement;
 
-        public changeIcon(cacheID: string, cache?:any) {    //perhaps should be on the texture component
-
-            if (cache !== undefined) {
-                this._cache = cache;
-            }
-
-            if (this._cache.checkImageCacheID(cacheID, this._cache) == false)
-            {
-                console.log('Missing texture', cacheID);
-                return;
-            }
-
-            this.components.removeComponent(this.texture, true);
-            this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, this._cache));
-
-            this.size.setTo(this.texture.file.data.width, this.texture.file.data.height);
-            this._applyCSS();
+        private _changeTexture(value:string, width:number, height:number) {    
+            this.size.setTo(width, height);
         }
 
         public _removeCSS() {

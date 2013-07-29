@@ -9,8 +9,9 @@ module Kiwi.HUD {
             super(name, x, y);
 
             this.size = this.components.add(new Kiwi.Components.Size(width, height));
-
             this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height())); 
+
+            this.size.updated.add(this._applyCSS);
 
             this.container.innerText = name;
             this._applyCSS();

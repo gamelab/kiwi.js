@@ -14,7 +14,7 @@ module Kiwi.Components {
 
             this._min = min;
 
-
+            this.updated = new Kiwi.Signal();
         }
 
         private _current: number;
@@ -23,10 +23,13 @@ module Kiwi.Components {
 
         private _min: number;
 
+        public updated: Kiwi.Signal; 
+
         //maximum value
         public max(val?: number) {
             if (val !== undefined) {
                 this._max = val;
+                this.updated.dispatch(this._current, this._max, this._min);
             }
             return this._max;
         }
@@ -35,6 +38,7 @@ module Kiwi.Components {
         public min(val?: number) {
             if (val !== undefined) {
                 this._min = val;
+                this.updated.dispatch(this._current, this._max, this._min);
             }
             return this._min;
         }
@@ -49,6 +53,7 @@ module Kiwi.Components {
                 } else {
                     this._current = val;
                 }
+                this.updated.dispatch(this._current, this._max, this._min);
             }
             return this._current;
         }
@@ -61,6 +66,7 @@ module Kiwi.Components {
                 } else {
                     this._current -= val;
                 }
+                this.updated.dispatch(this._current, this._max, this._min);
             }
         }
 
@@ -72,6 +78,7 @@ module Kiwi.Components {
                 } else {
                     this._current += val;
                 }
+                this.updated.dispatch(this._current, this._max, this._min);
             }
         }
 
