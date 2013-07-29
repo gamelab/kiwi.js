@@ -16,7 +16,7 @@
 
 module Kiwi {
 
-    export class Group {
+    export class Group implements Kiwi.IChild {
 
         /*
         * 
@@ -53,9 +53,18 @@ module Kiwi {
         * Returns the type of this object
         * @return {String} The type of this object
         */
-        public objType():string {
-            return "Group";
+        public childType():number {
+            return Kiwi.GROUP;
         }
+
+        public parent: Kiwi.Group = null;
+
+       /**
+       * A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging
+       * @property name
+       * @type string
+       */
+        public name: string = '';
 
         //  Subscribe to these signals for update information
         public onAddedToLayer: Kiwi.Signal;
@@ -112,12 +121,7 @@ module Kiwi {
     	*/
         public id: string;
 
-        /**
-        * A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging.
-        * @property name
-        * @type string
-    	*/
-        public name: string = '';
+       
 
         /**
         * The type of Entities that can be added to this Group (Kiwi.TYPE_CANVAS, Kiwi.TYPE_DOM or Kiwi.TYPE_WEBGL)
@@ -131,7 +135,7 @@ module Kiwi {
         * @property members
         * @type Kiwi.Entity
         **/
-        public members: Kiwi.Entity[];
+        public members: Kiwi.IChild[];
 
         /**
         * The Layer this Group has been added to.
@@ -165,43 +169,50 @@ module Kiwi {
 
         }
 
+
+        private _dirty: bool = true;
         /**
         * Sets all children of the Group to be dirty.
         * @method dirty
         * @param {Boolean} The value to be set on all children
 		*/
-        public dirty(value: bool) {
+        public dirty(value?: bool):bool {
 
-            for (var i = 0; i < this.members.length; i++)
-            {
-                this.members[i].dirty = value;
+            if (value !== undefined) {
+                this._dirty = value;
+                for (var i = 0; i < this.members.length; i++)
+                {
+                    this.members[i].dirty(value);
+                }
             }
-
+            return this._dirty;
         }
 
 
         /**
-	    * Checks if the given entity is in this group
-	    * @method contains
-	    * @param {Kiwi.Entity} The entity to be checked.
-	    * @return {bool} true if entity exists in group.
-	    **/
-        public contains(child: Kiwi.Entity): bool {
+        * Checks if the given entity is in this group
+        * @method contains
+        * @param {Kiwi.Entity} The entity to be checked.
+        * @return {bool} true if entity exists in group.
+        **/
+        public contains(child: Kiwi.IChild): bool {
             return (this.members.indexOf(child) === -1) ? false : true;
         }
 
         /**
-	    * Adds an Entity to this Group. The Entity must not already be in this Group and it must be supported by the Group.
-	    * @method addChild
-	    * @param {Kiwi.Entity} The child to be added.
-	    * @return {Kiwi.Entity} The child.
-	    **/
-        public addChild(child: Kiwi.Entity): Kiwi.Entity {
+        * Adds an Entity to this Group. The Entity must not already be in this Group and it must be supported by the Group.
+        * @method addChild
+        * @param {Kiwi.Entity} The child to be added.
+        * @return {Kiwi.Entity} The child.
+        **/
+        public addChild(child: Kiwi.IChild): Kiwi.IChild {
 
-            if (child.supportsType(this.type) === false)
-            {
-                klog.warn('Warning - Entity has been added to a Group that exists on a Layer it cannot render to');
-                return null;
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((<Kiwi.Entity>child).supportsType(this.type) === false)
+                {
+                    klog.warn('Warning - Entity has been added to a Group that exists on a Layer it cannot render to');
+                    return null;
+                }
             }
 
             klog.info('Group.addChild ' + this.members.length);
@@ -218,19 +229,23 @@ module Kiwi {
 
         }
 
-        /**
-	    * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
-        * @method addChildAt
-	    * @param {Kiwi.Entity} The child to be added.
-        * @param {Number} The index the child will be set at.
-	    * @return {Kiwi.Entity} The child.
-		*/
-        public addChildAt(child: Kiwi.Entity, index: number): Kiwi.Entity {
+       
 
-            if (child.supportsType(this.type) === false)
-            {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
+        /**
+        * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
+        * @method addChildAt
+        * @param {Kiwi.Entity} The child to be added.
+        * @param {Number} The index the child will be set at.
+        * @return {Kiwi.Entity} The child.
+        */
+        public addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild {
+
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((<Kiwi.Entity>child).supportsType(this.type) === false)
+                {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
             }
 
             klog.info('Group.addChildAt ' + child.id);
@@ -247,19 +262,20 @@ module Kiwi {
         }
 
         /**
-	    * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
+        * Adds an Entity to this Group before another child. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildBefore
-	    * @param {Kiwi.Entity} The child to be added.
+        * @param {Kiwi.Entity} The child to be added.
         * @param {Kiwi.Entity} The child before which the child will be added.
-	    * @return {Kiwi.Entity} The child.
-		*/
-        public addChildBefore(child: Kiwi.Entity, beforeChild: Kiwi.Entity): Kiwi.Entity {
+        * @return {Kiwi.Entity} The child.
+        */
+        public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {
 
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((<Kiwi.Entity>child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
             }
-
             klog.info('Group.addChildBefore ' + child.id);
 
             if (child.parent !== this && beforeChild.parent === this) {
@@ -275,17 +291,18 @@ module Kiwi {
         }
 
         /**
-	    * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
+        * Adds an Entity to this Group after another child. The Entity must not already be in this Group and it must be supported by the Group..
         * @method addChildAfter
-	    * @param {Kiwi.Entity} The child to be added.
+        * @param {Kiwi.Entity} The child to be added.
         * @param {Kiwi.Entity} The child after which the child will be added.
-	    * @return {Kiwi.Entity} The child.
-		*/
-        public addChildAfter(child: Kiwi.Entity, beforeChild: Kiwi.Entity): Kiwi.Entity {
-
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
+        * @return {Kiwi.Entity} The child.
+        */
+        public addChildAfter(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((<Kiwi.Entity>child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
             }
 
             klog.info('Group.addChildAfter ' + child.id);
@@ -303,12 +320,12 @@ module Kiwi {
         }
 
         /**
-	    * Get the child at a specific position in this Group by its index.
+        * Get the child at a specific position in this Group by its index.
         * @method getChildAt
         * @param {Number} The index of the child
-	    * @return {Kiwi.Entity} The child, if found or null if not.
-		*/
-        public getChildAt(index: number): Kiwi.Entity {
+        * @return {Kiwi.Entity} The child, if found or null if not.
+        */
+        public getChildAt(index: number): Kiwi.IChild {
 
             if (this.members[index])
             {
@@ -322,12 +339,12 @@ module Kiwi {
         }
 
         /**
-	    * Get a child from this Group by its name.
+        * Get a child from this Group by its name.
         * @method getChildByName
         * @param {String} The name of the child
-	    * @return {Kiwi.Entity} The child, if found or null if not.
-		*/
-        public getChildByName(name: string): Kiwi.Entity {
+        * @return {Kiwi.Entity} The child, if found or null if not.
+        */
+        public getChildByName(name: string): Kiwi.IChild {
 
             for (var i = 0; i < this.members.length; i++)
             {
@@ -342,12 +359,12 @@ module Kiwi {
         }
 
         /**
-	    * Get a child from this Group by its UUID.
+        * Get a child from this Group by its UUID.
         * @method getChildByID
         * @param {String} The ID of the child.
-	    * @return {Kiwi.Entity} The child, if found or null if not.
-		*/
-        public getChildByID(id: string): Kiwi.Entity {
+        * @return {Kiwi.Entity} The child, if found or null if not.
+        */
+        public getChildByID(id: string): Kiwi.IChild {
 
             for (var i = 0; i < this.members.length; i++)
             {
@@ -366,20 +383,20 @@ module Kiwi {
         * @method getChildIndex
         * @param {Kiwi.Entity} The child.
         * @return {Number} The index of the child or -1 if not found.
-		*/
-        public getChildIndex(child: Kiwi.Entity): number {
+        */
+        public getChildIndex(child: Kiwi.IChild): number {
 
             return this.members.indexOf(child);
 
         }
 
         /**
-	    * Removes an Entity from this Group if it is a child of it.
-	    * @method removeChild
-	    * @param {Kiwi.Entity} The child to be removed.
-	    * @return {Kiwi.Entity} The child.
-	    **/
-        public removeChild(child: Kiwi.Entity): Kiwi.Entity {
+        * Removes an Entity from this Group if it is a child of it.
+        * @method removeChild
+        * @param {Kiwi.Entity} The child to be removed.
+        * @return {Kiwi.Entity} The child.
+        **/
+        public removeChild(child: Kiwi.IChild): Kiwi.IChild {
 
             if (child && child.parent === this)
             {
@@ -400,16 +417,16 @@ module Kiwi {
         }
 
         /**
-	    * Removes the Entity from this Group at the given position.
+        * Removes the Entity from this Group at the given position.
         * @method removeChildAt
         * @param {Number} The index of the child to be removed.
-	    * @return {Kiwi.Entity} The child, or null.
-		*/
-        public removeChildAt(index: number): Kiwi.Entity {
+        * @return {Kiwi.Entity} The child, or null.
+        */
+        public removeChildAt(index: number): Kiwi.IChild {
 
             if (this.members[index])
             {
-                var child: Kiwi.Entity = this.members[index];
+                var child: Kiwi.IChild = this.members[index];
 
                 if (child)
                 {
@@ -439,7 +456,7 @@ module Kiwi {
 
             end -= begin;
             
-            var removed: Kiwi.Entity[] = this.members.splice(begin, end);
+            var removed: Kiwi.IChild[] = this.members.splice(begin, end);
 
             for (var i = 0; i < removed.length; i++)
             {
@@ -456,9 +473,9 @@ module Kiwi {
         * @method setChildIndex
         * @param {Kiwi.Entity} The child in this Group to change.
         * @param {Number} The index for the child to be set at.
-	    * @return {Boolean} true if the Entity was moved to the new position, otherwise false.
-		*/
-        public setChildIndex(child: Kiwi.Entity, index: number): bool {
+        * @return {Boolean} true if the Entity was moved to the new position, otherwise false.
+        */
+        public setChildIndex(child: Kiwi.IChild, index: number): bool {
         
             //  If the Entity isn't in this Group, or is already at that index then bail out
             if (child.parent !== this || this.getChildIndex(child) === index)
@@ -478,9 +495,9 @@ module Kiwi {
         * @method swapChildren
         * @param {Kiwi.Entity} The first child in this Group to swap.
         * @param {Kiwi.Entity} The second child in this Group to swap.
-	    * @return {Boolean} true if the Entities were swapped successfully, otherwise false.
-		*/
-        public swapChildren(child1: Kiwi.Entity, child2: Kiwi.Entity):bool {
+        * @return {Boolean} true if the Entities were swapped successfully, otherwise false.
+        */
+        public swapChildren(child1: Kiwi.IChild, child2: Kiwi.IChild):bool {
         
             //  If either Entity isn't in this Group, or is already at that index then bail out
             if (child1.parent !== this || child2.parent !== this)
@@ -506,6 +523,12 @@ module Kiwi {
 
         }
 
+        public _changedPosition(group: Kiwi.Group, index: number) {
+
+            klog.info('Group changed position within the group');
+
+        }
+
 
         /**
         * Swaps the position of two existing Entities within the Group based on their index.
@@ -522,8 +545,8 @@ module Kiwi {
                 return false;
             }
 
-            var child1: Kiwi.Entity = this.getChildAt(index1);
-            var child2: Kiwi.Entity = this.getChildAt(index2);
+            var child1: Kiwi.IChild = this.getChildAt(index1);
+            var child2: Kiwi.IChild = this.getChildAt(index2);
 
             if (child1 !== null && child2 !== null)
             {
@@ -545,18 +568,19 @@ module Kiwi {
         * @method replaceChild
         * @param {Kiwi.Entity} The Entity in this Group to be removed.
         * @param {Kiwi.Entity} The new Entity to insert into this Group at the old Entities position.
-	    * @return {Boolean} true if the Entities were replaced successfully, otherwise false.
-		*/
-        public replaceChild(oldChild: Kiwi.Entity, newChild: Kiwi.Entity): bool {
+        * @return {Boolean} true if the Entities were replaced successfully, otherwise false.
+        */
+        public replaceChild(oldChild: Kiwi.IChild, newChild: Kiwi.IChild): bool {
             console.log(this.members[0]);
             klog.info("replaceChild on group " + this.name);
 
-            if (newChild.supportsType(this.type) === false)
-            {
-                klog.warn('Invalid Entity Type added to Group: ' + newChild.id);
-                return null;
+            if (newChild.childType() === Kiwi.ENTITY) {
+                if ((<Kiwi.Entity>newChild).supportsType(this.type) === false)
+                {
+                    klog.warn('Invalid Entity Type added to Group: ' + newChild.id);
+                    return null;
+                }
             }
-
             //fall through if replacing child with the same child
             if (oldChild === newChild) return;
 
@@ -695,13 +719,58 @@ module Kiwi {
         * Calls the update method on an alive child
         * @method processUpdate
         * @param {Kiwi.Entity} 
-		*/
-        public processUpdate(child: Kiwi.Entity) {
+        */
+        public processUpdate(child: Kiwi.IChild) {
 
             if (child.active() === true)
             {
                 child.update();
             }
+
+        }
+
+        /**
+        * If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
+        * @property exists 
+        * @type Boolean
+        **/
+        private _exists: bool;
+
+        /**
+        * Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
+        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+        **/
+        //********TODO  - set children - as below
+        public exists(value?: bool): bool {
+
+            if (value !== undefined)
+            {
+                this._exists = value;
+            }
+
+            return this._exists;
+
+        }
+
+        /**
+       * An active Entity is one that has its update method called by its parent.
+       * @property _active
+       * @type Boolean
+       **/
+        private _active: bool;
+
+        /**
+        * Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
+        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+        **/
+        public active(value?: bool): bool {
+
+            if (value !== undefined)
+            {
+                this._active = value;
+            }
+
+            return this._active;
 
         }
 
@@ -723,12 +792,14 @@ module Kiwi {
 
         }
 
+        
+
         /**
         * Calls the render method on all alive children
         * @method processRender
         * @param {Kiwi.Entity} 
-		*/
-        public processRender(child: Kiwi.Entity,camera:Kiwi.Camera) {
+        */
+        public processRender(child: Kiwi.IChild,camera:Kiwi.Camera) {
 
             if (child.active() === true)
             {
@@ -740,9 +811,9 @@ module Kiwi {
         /**
         * Removes the first Entity from this Group marked as 'alive'
         * @method removeFirstAlive
-	    * @return {Kiwi.Entity} The Entity that was removed from this Group if alive, otherwise null
-		*/
-        public removeFirstAlive(): Kiwi.Entity { 
+        * @return {Kiwi.Entity} The Entity that was removed from this Group if alive, otherwise null
+        */
+        public removeFirstAlive(): Kiwi.IChild { 
 
             return this.removeChild(this.getFirstAlive());
         
@@ -836,7 +907,7 @@ module Kiwi {
 		 * 
 		 * @return	A child from the members list.
 		 */
-        public getRandom(start: number = 0, length: number = 0): Kiwi.Entity { 
+        public getRandom(start: number = 0, length: number = 0): Kiwi.IChild { 
         
             if (this.members.length === 0)
             {
@@ -882,49 +953,7 @@ module Kiwi {
 
         }
 
-        /**
-		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
-        * @property exists 
-        * @type Boolean
-		**/
-        private _exists: bool;
-
-        /**
-		* Toggles the exitence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
-		**/
-        public exists(value?: bool): bool {
-
-            if (value)
-            {
-                this._exists = value;
-            }
-
-            return this._exists;
-
-        }
-
-        /**
-		* An active Entity is one that has its update method called by its parent.
-        * @property _active
-        * @type Boolean
-		**/
-        private _active: bool;
-
-        /**
-		* Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
-        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
-		**/
-        public active(value?: bool): bool {
-
-            if (value)
-            {
-                this._active = value;
-            }
-
-            return this._active;
-
-        }
+       
 
         /**
 		* Controls whether render is automatically called by the parent.

@@ -1,6 +1,7 @@
 /// <reference path="Game.ts" />
 /// <reference path="State.ts" />
 
+
 /*
  *	Kiwi - Core - Entity
  *				
@@ -18,7 +19,7 @@
 
 module Kiwi {
 
-    export class Entity {
+    export class Entity implements Kiwi.IChild {
 
         /**
         * 
@@ -52,8 +53,9 @@ module Kiwi {
 
         }
 
-        public objType() {
-            return "Entity";
+
+        public childType():number {
+            return Kiwi.ENTITY;
         }
 
         //  Subscribe to these signals for update information
@@ -289,7 +291,15 @@ module Kiwi {
         * @property dirty
         * @type Boolean
     	*/
-        public dirty: bool;
+        private _dirty: bool;
+
+        public dirty(value?: bool): bool {
+            if (value !== undefined) {
+                this._dirty = value;
+              
+            }
+            return this._dirty;
+        }
 
         /**
         * 

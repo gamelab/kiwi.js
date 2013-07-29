@@ -54,7 +54,6 @@
     <Content Include="components\Animation.js">
       <DependentUpon>Animation.ts</DependentUpon>
     </Content>
-    <Content Include="components\ArcadePhysics.ts" />
     <Content Include="components\Bounds.js">
       <DependentUpon>Bounds.ts</DependentUpon>
     </Content>
@@ -171,6 +170,10 @@
     </Content>
     <TypeScriptCompile Include="core\Loader.ts" />
     <TypeScriptCompile Include="core\Layer.ts" />
+    <TypeScriptCompile Include="core\IChild.ts" />
+    <Content Include="core\IGroupable.js">
+      <DependentUpon>IChild.ts</DependentUpon>
+    </Content>
     <Content Include="core\Layer.js">
       <DependentUpon>Layer.ts</DependentUpon>
     </Content>

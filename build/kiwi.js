@@ -307,353 +307,6 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Components) {
-        var ArcadePhysics = (function (_super) {
-            __extends(ArcadePhysics, _super);
-            function ArcadePhysics(entity, position, size) {
-                _super.call(this, 'ArcadePhysics', true, true, true);
-
-                this._parent = entity;
-                this.position = position;
-                this.size = size;
-
-                this.last = new Kiwi.Geom.Point(this.position.x(), this.position.y());
-                this.mass = 1.0;
-                this.elasticity = 0.0;
-
-                this.immovable = false;
-                this.moves = true;
-
-                this.touching = ArcadePhysics.NONE;
-                this.wasTouching = ArcadePhysics.NONE;
-                this.allowCollisions = ArcadePhysics.ANY;
-
-                this.velocity = new Kiwi.Geom.Point();
-                this.acceleration = new Kiwi.Geom.Point();
-                this.drag = new Kiwi.Geom.Point();
-                this.maxVelocity = new Kiwi.Geom.Point(10000, 10000);
-
-                this.angle = 0;
-                this.angularVelocity = 0;
-                this.angularAcceleration = 0;
-                this.angularDrag = 0;
-                this.maxAngular = 10000;
-            }
-            ArcadePhysics.prototype.objType = function () {
-                return "ArcadePhysics";
-            };
-
-            ArcadePhysics.prototype.solid = function (value) {
-                if (value !== undefined) {
-                    if (value)
-                        this.allowCollisions = ArcadePhysics.ANY; else
-                        this.allowCollisions = ArcadePhysics.NONE;
-                }
-
-                return (this.allowCollisions & ArcadePhysics.ANY) > ArcadePhysics.NONE;
-            };
-
-            ArcadePhysics.collide = function (gameObject1, gameObject2, notifyCallback) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                return ArcadePhysics.overlaps(gameObject1, gameObject2, notifyCallback, true);
-            };
-
-            ArcadePhysics.collideGroup = function (gameObject, group, notifyCallback) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                return ArcadePhysics.overlapsObjectGroup(gameObject, group, notifyCallback, true);
-            };
-
-            ArcadePhysics.collideGroupGroup = function (group1, group2, notifyCallback) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                return ArcadePhysics.overlapsGroupGroup(group1, group2, notifyCallback, true);
-            };
-
-            ArcadePhysics.overlaps = function (gameObject1, gameObject2, notifyCallback, separateObjects) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                if (typeof separateObjects === "undefined") { separateObjects = true; }
-                var obj1Physics = gameObject1.components.getComponent("ArcadePhysics");
-
-                return obj1Physics.overlaps(gameObject2, true);
-            };
-
-            ArcadePhysics.overlapsObjectGroup = function (gameObject, group, notifyCallback, separateObjects) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                if (typeof separateObjects === "undefined") { separateObjects = true; }
-                var objPhysics = gameObject.components.getComponent("ArcadePhysics");
-                return objPhysics.overlapsGroup(group, separateObjects);
-            };
-
-            ArcadePhysics.overlapsGroupGroup = function (group1, group2, notifyCallback, separateObjects) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                if (typeof separateObjects === "undefined") { separateObjects = true; }
-                var result = false;
-                var members = group1.members;
-                var i = 0;
-                while (i < group1.members.length) {
-                    result = ArcadePhysics.overlapsObjectGroup(members[i++], group2, notifyCallback, separateObjects);
-                }
-                return result;
-            };
-
-            ArcadePhysics.separate = function (object1, object2) {
-                var separatedX = this.separateX(object1, object2);
-                var separatedY = this.separateY(object1, object2);
-                return separatedX || separatedY;
-            };
-
-            ArcadePhysics.separateX = function (object1, object2) {
-                var phys1 = object1.components._components["ArcadePhysics"];
-                var phys2 = object2.components._components["ArcadePhysics"];
-
-                var obj1immovable = phys1.immovable;
-                var obj2immovable = phys2.immovable;
-                if (obj1immovable && obj2immovable)
-                    return false;
-
-                var overlap = 0;
-                var obj1delta = phys1.position.x() - phys1.last.x;
-                var obj2delta = phys2.position.x() - phys2.last.x;
-                if (obj1delta != obj2delta) {
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.position.x() - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.size.width() + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.size.height());
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.position.x() - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.size.width() + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.size.height());
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                        if (obj1delta > obj2delta) {
-                            overlap = phys1.position.x() + phys1.size.width() - phys2.position.x();
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT))
-                                overlap = 0; else {
-                                phys1.touching |= ArcadePhysics.RIGHT;
-                                phys2.touching |= ArcadePhysics.LEFT;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = phys1.position.x() - phys1.size.width() - phys2.position.x();
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT))
-                                overlap = 0; else {
-                                phys1.touching |= ArcadePhysics.LEFT;
-                                phys2.touching |= ArcadePhysics.RIGHT;
-                            }
-                        }
-                    }
-                }
-
-                if (overlap != 0) {
-                    var obj1v = phys1.velocity.x;
-                    var obj2v = phys2.velocity.x;
-
-                    if (!obj1immovable && !obj2immovable) {
-                        overlap *= 0.5;
-                        phys1.position.x(phys1.position.x() - overlap);
-                        phys2.position.x(phys2.position.x() + overlap);
-
-                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
-                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
-                        var average = (obj1velocity + obj2velocity) * 0.5;
-                        obj1velocity -= average;
-                        obj2velocity -= average;
-                        phys1.velocity.x = average + obj1velocity * phys1.elasticity;
-                        phys2.velocity.x = average + obj2velocity * phys2.elasticity;
-                    } else if (!obj1immovable) {
-                        phys1.position.x(phys1.position.x() - overlap);
-                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
-                    } else if (!obj2immovable) {
-                        phys2.position.x(phys2.position.x() + overlap);
-                        phys2.velocity.x = obj1v - obj2v * phys2.elasticity;
-                    }
-                    return true;
-                } else
-                    return false;
-            };
-
-            ArcadePhysics.separateY = function (object1, object2) {
-                var phys1 = object1.components._components["ArcadePhysics"];
-                var phys2 = object2.components._components["ArcadePhysics"];
-
-                var obj1immovable = phys1.immovable;
-                var obj2immovable = phys2.immovable;
-                if (obj1immovable && obj2immovable)
-                    return false;
-
-                var overlap = 0;
-
-                var obj1delta = phys1.position.y() - phys1.last.y;
-
-                var obj2delta = phys2.position.y() - phys2.last.y;
-                if (obj1delta != obj2delta) {
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.position.x(), phys1.position.y() - ((obj1delta > 0) ? obj1delta : 0), phys1.size.width(), phys1.size.height() + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.position.x(), phys2.position.y() - ((obj2delta > 0) ? obj2delta : 0), phys2.size.width(), phys2.size.height() + obj2deltaAbs);
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                        if (obj1delta > obj2delta) {
-                            overlap = phys1.position.y() + phys1.size.height() - phys2.position.y();
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.DOWN;
-                                phys2.touching |= ArcadePhysics.UP;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = phys1.position.y() - phys1.size.height() - phys2.position.y();
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.UP;
-                                phys2.touching |= ArcadePhysics.DOWN;
-                            }
-                        }
-                    }
-                }
-
-                if (overlap != 0) {
-                    var obj1v = phys1.velocity.y;
-                    var obj2v = phys2.velocity.y;
-
-                    if (!obj1immovable && !obj2immovable) {
-                        overlap *= 0.5;
-                        phys1.position.y(phys1.position.y() - overlap);
-                        phys2.position.y(phys2.position.y() + overlap);
-
-                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
-                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
-                        var average = (obj1velocity + obj2velocity) * 0.5;
-                        obj1velocity -= average;
-                        obj2velocity -= average;
-                        phys1.velocity.y = average + obj1velocity * phys1.elasticity;
-                        phys2.velocity.y = average + obj2velocity * phys2.elasticity;
-                    } else if (!obj1immovable) {
-                        phys1.position.y(phys1.position.y() - overlap);
-                        phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
-
-                        if (object2.active && phys2.moves && (obj1delta > obj2delta))
-                            phys1.position.x(phys1.position.x() + object2.x - phys2.last.x);
-                    } else if (!obj2immovable) {
-                        phys2.position.y(phys2.position.y() + overlap);
-                        phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
-
-                        if (object1.active && phys1.moves && (obj1delta < obj2delta))
-                            phys1.position.x(phys2.position.x() + object1.x - phys1.last.x);
-                    }
-                    return true;
-                } else
-                    return false;
-            };
-
-            ArcadePhysics.computeVelocity = function (velocity, acceleration, drag, max) {
-                if (typeof acceleration === "undefined") { acceleration = 0; }
-                if (typeof drag === "undefined") { drag = 0; }
-                if (typeof max === "undefined") { max = 10000; }
-                if (acceleration != 0)
-                    velocity += acceleration * ArcadePhysics.updateInterval; else if (drag != 0) {
-                    drag = drag * ArcadePhysics.updateInterval;
-                    if (velocity - drag > 0)
-                        velocity = velocity - drag; else if (velocity + drag < 0)
-                        velocity += drag; else
-                        velocity = 0;
-                }
-                if ((velocity != 0) && (max != 10000)) {
-                    if (velocity > max)
-                        velocity = max; else if (velocity < -max)
-                        velocity = -max;
-                }
-                return velocity;
-            };
-
-            ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                if (!gameObject.components.hasComponent("Size") || !gameObject.components.hasComponent("Position")) {
-                    return false;
-                }
-                var objPosition = gameObject.components.getComponent("Position");
-                var objSize = gameObject.components.getComponent("Size");
-
-                var result = (objPosition.x() + objSize.width() > this.position.x()) && (objPosition.x() < this.position.x() + this.size.width()) && (objPosition.y() + objSize.height() > this.position.y()) && (objPosition.y() < this.position.y() + this.size.height());
-
-                if (result && separateObjects) {
-                    ArcadePhysics.separate(this._parent, gameObject);
-                }
-
-                return result;
-            };
-
-            ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                var results = false;
-
-                var childPhysics;
-                for (var i = 0; i < group.members.length; i++) {
-                    childPhysics = group.members[i].components._components["ArcadePhysics"];
-                    childPhysics.overlaps(this._parent, true);
-                }
-
-                return results;
-            };
-
-            ArcadePhysics.prototype.updateMotion = function () {
-                var delta;
-                var velocityDelta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
-                this.angularVelocity += velocityDelta;
-                this.angle += this.angularVelocity * ArcadePhysics.updateInterval;
-                this.angularVelocity += velocityDelta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
-                this.velocity.x += velocityDelta;
-                delta = this.velocity.x * ArcadePhysics.updateInterval;
-                this.velocity.x += velocityDelta;
-                this.position.x(this.position.x() + delta);
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
-                this.velocity.y += velocityDelta;
-                delta = this.velocity.y * ArcadePhysics.updateInterval;
-                this.velocity.y += velocityDelta;
-                this.position.y(this.position.y() + delta);
-            };
-
-            ArcadePhysics.prototype.update = function () {
-                this.last.x = this.position.x();
-                this.last.y = this.position.y();
-
-                if (this.moves)
-                    this.updateMotion();
-
-                this.wasTouching = this.touching;
-                this.touching = ArcadePhysics.NONE;
-            };
-            ArcadePhysics.updateInterval = 1 / 10;
-
-            ArcadePhysics.LEFT = 0x0001;
-
-            ArcadePhysics.RIGHT = 0x0010;
-
-            ArcadePhysics.UP = 0x0100;
-
-            ArcadePhysics.DOWN = 0x1000;
-
-            ArcadePhysics.NONE = 0;
-
-            ArcadePhysics.CEILING = ArcadePhysics.UP;
-
-            ArcadePhysics.FLOOR = ArcadePhysics.DOWN;
-
-            ArcadePhysics.WALL = ArcadePhysics.LEFT | ArcadePhysics.RIGHT;
-
-            ArcadePhysics.ANY = ArcadePhysics.LEFT | ArcadePhysics.RIGHT | ArcadePhysics.UP | ArcadePhysics.DOWN;
-
-            ArcadePhysics.OVERLAP_BIAS = 4;
-            return ArcadePhysics;
-        })(Kiwi.Component);
-        Components.ArcadePhysics = ArcadePhysics;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
         var Bounds = (function (_super) {
             __extends(Bounds, _super);
             function Bounds(x, y, width, height) {
@@ -5388,8 +5041,8 @@ var Kiwi;
             this.onRemovedFromLayer = new Kiwi.Signal();
             this.onRemovedFromState = new Kiwi.Signal();
         }
-        Entity.prototype.objType = function () {
-            return "Entity";
+        Entity.prototype.childType = function () {
+            return Kiwi.ENTITY;
         };
 
         Entity.prototype.modify = function (action, parent) {
@@ -5447,6 +5100,13 @@ var Kiwi;
             }
 
             return this._clock;
+        };
+
+        Entity.prototype.dirty = function (value) {
+            if (value !== undefined) {
+                this._dirty = value;
+            }
+            return this._dirty;
         };
 
         Entity.prototype.supportsType = function (type) {
@@ -5650,13 +5310,15 @@ var Kiwi;
     var Group = (function () {
         function Group(name) {
             if (typeof name === "undefined") { name = ''; }
+            this.parent = null;
+            this.name = '';
             this.game = null;
             this.state = null;
-            this.name = '';
             this.type = Kiwi.TYPE_UNASSIGNED;
             this.layer = null;
             this.domElement = null;
             this._cssStack = [];
+            this._dirty = true;
             this.name = name;
             this.type = Kiwi.TYPE_UNASSIGNED;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
@@ -5674,8 +5336,8 @@ var Kiwi;
 
             klog.info('Created Group ' + this.name);
         }
-        Group.prototype.objType = function () {
-            return "Group";
+        Group.prototype.childType = function () {
+            return Kiwi.GROUP;
         };
 
         Group.prototype.modify = function (type, parent) {
@@ -5695,9 +5357,13 @@ var Kiwi;
         };
 
         Group.prototype.dirty = function (value) {
-            for (var i = 0; i < this.members.length; i++) {
-                this.members[i].dirty = value;
+            if (value !== undefined) {
+                this._dirty = value;
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i].dirty(value);
+                }
             }
+            return this._dirty;
         };
 
         Group.prototype.contains = function (child) {
@@ -5705,9 +5371,11 @@ var Kiwi;
         };
 
         Group.prototype.addChild = function (child) {
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Warning - Entity has been added to a Group that exists on a Layer it cannot render to');
-                return null;
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Warning - Entity has been added to a Group that exists on a Layer it cannot render to');
+                    return null;
+                }
             }
 
             klog.info('Group.addChild ' + this.members.length);
@@ -5722,9 +5390,11 @@ var Kiwi;
         };
 
         Group.prototype.addChildAt = function (child, index) {
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
             }
 
             klog.info('Group.addChildAt ' + child.id);
@@ -5739,11 +5409,12 @@ var Kiwi;
         };
 
         Group.prototype.addChildBefore = function (child, beforeChild) {
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
             }
-
             klog.info('Group.addChildBefore ' + child.id);
 
             if (child.parent !== this && beforeChild.parent === this) {
@@ -5758,9 +5429,11 @@ var Kiwi;
         };
 
         Group.prototype.addChildAfter = function (child, beforeChild) {
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
             }
 
             klog.info('Group.addChildAfter ' + child.id);
@@ -5884,6 +5557,10 @@ var Kiwi;
             return false;
         };
 
+        Group.prototype._changedPosition = function (group, index) {
+            klog.info('Group changed position within the group');
+        };
+
         Group.prototype.swapChildrenAt = function (index1, index2) {
             if (child1.parent !== this || child2.parent !== this) {
                 return false;
@@ -5909,9 +5586,11 @@ var Kiwi;
             console.log(this.members[0]);
             klog.info("replaceChild on group " + this.name);
 
-            if (newChild.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + newChild.id);
-                return null;
+            if (newChild.childType() === Kiwi.ENTITY) {
+                if ((newChild).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + newChild.id);
+                    return null;
+                }
             }
 
             if (oldChild === newChild)
@@ -6005,6 +5684,22 @@ var Kiwi;
             if (child.active() === true) {
                 child.update();
             }
+        };
+
+        Group.prototype.exists = function (value) {
+            if (value !== undefined) {
+                this._exists = value;
+            }
+
+            return this._exists;
+        };
+
+        Group.prototype.active = function (value) {
+            if (value !== undefined) {
+                this._active = value;
+            }
+
+            return this._active;
         };
 
         Group.prototype.render = function (camera) {
@@ -6108,22 +5803,6 @@ var Kiwi;
             }
 
             this.members.length = 0;
-        };
-
-        Group.prototype.exists = function (value) {
-            if (value) {
-                this._exists = value;
-            }
-
-            return this._exists;
-        };
-
-        Group.prototype.active = function (value) {
-            if (value) {
-                this._active = value;
-            }
-
-            return this._active;
         };
 
         Group.prototype.willRender = function (value) {
