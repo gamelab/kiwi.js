@@ -13,7 +13,7 @@ class GroupGraph extends Kiwi.State {
     preload() {
 
         for (var i = 0; i < 10; i++) {
-            this.addImage('ball' + i, 'assets/sprites/Enemy Bug.png');
+            this.addImage('ball' + i, 'assets/sprites/planetcute/Enemy Bug.png');
         }
 
     }

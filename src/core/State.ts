@@ -1,6 +1,7 @@
 /// <reference path="Cache.ts" />
 /// <reference path="Entity.ts" />
 /// <reference path="StateConfig.ts" />
+/// <reference path="Group.ts" />
 
 /**
  *  Kiwi - Core - State
@@ -25,6 +26,7 @@ module Kiwi {
         */
         constructor(name: string) {
             super(name);
+            
             klog.debug('----------- State created: ' + name + ' -----------');
 
             this.config = new Kiwi.StateConfig(this, name);

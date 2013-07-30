@@ -33,6 +33,7 @@
 /// <reference path="core/File.ts" />
 /// <reference path="core/FileCache.ts" />
 /// <reference path="core/Game.ts" />
+/// <reference path="core/State.ts" /> //must be initialised before group - typescript issue #599
 /// <reference path="core/Group.ts" />
 /// <reference path="core/IChild.ts" />
 /// <reference path="core/Layer.ts" />
@@ -41,7 +42,7 @@
 /// <reference path="core/Signal.ts" />
 /// <reference path="core/SignalBinding.ts" />
 /// <reference path="core/Stage.ts" />
-/// <reference path="core/State.ts" />
+
 /// <reference path="core/StateConfig.ts" />
 /// <reference path="core/StateManager.ts" />
 

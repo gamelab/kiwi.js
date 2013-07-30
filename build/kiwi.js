@@ -4851,459 +4851,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var State = (function (_super) {
-        __extends(State, _super);
-        function State(name) {
-            _super.call(this, name);
-            this.game = null;
-            klog.debug('----------- State created: ' + name + ' -----------');
-
-            this.config = new Kiwi.StateConfig(this, name);
-            this.cache = new Kiwi.Cache(this.game);
-            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
-        }
-        State.prototype.objType = function () {
-            return "State";
-        };
-
-        State.prototype.boot = function () {
-            klog.info('State booted: ', this.config.name);
-
-            this.cache.boot();
-
-            klog.info('Current Layer: ' + this.game.layers.currentLayer);
-
-            this.currentLayer = this.game.layers.currentLayer;
-        };
-
-        State.prototype.init = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preload = function () {
-        };
-
-        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
-        };
-
-        State.prototype.loadComplete = function () {
-        };
-
-        State.prototype.loadUpdate = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active() === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.create = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preUpdate = function () {
-            this.components.preUpdate();
-        };
-
-        State.prototype.update = function () {
-            this.components.update();
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active() === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.postUpdate = function () {
-            this.components.postUpdate();
-        };
-
-        State.prototype.postRender = function () {
-        };
-
-        State.prototype.setType = function (value) {
-            if (this.config.isInitialised === false) {
-                this.config.type = value;
-            } else {
-                klog.warn('State default type can only be changed in init()');
-            }
-        };
-
-        State.prototype.swapLayer = function (layer) {
-            this.currentLayer = layer;
-        };
-
-        State.prototype.addImage = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addImage(cacheID, url, this.game.cache.images);
-            } else {
-                this.game.loader.addImage(cacheID, url, this.cache.images);
-            }
-        };
-
-        State.prototype.addJSON = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
-            } else {
-                this.game.loader.addJSON(cacheID, url, this.cache.data);
-            }
-        };
-
-        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images);
-            } else {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images);
-            }
-        };
-
-        State.prototype.addChild = function (child) {
-            child.modify(Kiwi.ADDED_TO_STATE, this);
-
-            var layer = null;
-            _super.prototype.addChild.call(this, child);
-            if (layer !== null) {
-                layer.add(child);
-            } else {
-                this.currentLayer.add(child);
-            }
-
-            return child;
-        };
-
-        State.prototype.removeChild = function (child) {
-            child.modify(Kiwi.REMOVED_FROM_STATE, this);
-            var layer;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === child.id) {
-                    this.members.slice(i, 1);
-
-                    if (layer !== null) {
-                        layer.remove(child);
-                    } else {
-                        this.currentLayer.remove(child);
-                    }
-                }
-            }
-            return child;
-        };
-
-        State.prototype.destroy = function () {
-            for (var i = 0; i < this.members.length; i++) {
-            }
-        };
-        return State;
-    })(Kiwi.Group);
-    Kiwi.State = State;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Entity = (function () {
-        function Entity(supportsCanvas, supportsDOM, supportsWebGL) {
-            this.game = null;
-            this.state = null;
-            this.name = '';
-            this.type = Kiwi.TYPE_UNASSIGNED;
-            this.layer = null;
-            this.parent = null;
-            this.domElement = null;
-            this.domElementType = 'div';
-            this._cssStack = {};
-            this._cssTransformStack = {};
-            this._clock = null;
-            this._supportsCanvas = supportsCanvas;
-            this._supportsDOM = supportsDOM;
-            this._supportsWebGL = supportsWebGL;
-
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
-
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-        }
-        Entity.prototype.childType = function () {
-            return Kiwi.ENTITY;
-        };
-
-        Entity.prototype.modify = function (action, parent) {
-            if (action === Kiwi.ADDED_TO_GROUP) {
-                return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (action === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
-                return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
-            } else if (action === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            }
-        };
-
-        Entity.prototype.exists = function (value) {
-            if (value !== undefined) {
-                this._exists = value;
-            }
-
-            return this._exists;
-        };
-
-        Entity.prototype.active = function (value) {
-            if (value !== undefined) {
-                this._active = value;
-            }
-
-            return this._active;
-        };
-
-        Entity.prototype.willRender = function (value) {
-            if (value) {
-                this._willRender = value;
-            }
-
-            return this._willRender;
-        };
-
-        Entity.prototype.inputEnabled = function (value) {
-            if (value) {
-                this._inputEnabled = value;
-            }
-
-            return this._inputEnabled;
-        };
-
-        Entity.prototype.clock = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._clock = value;
-            }
-
-            return this._clock;
-        };
-
-        Entity.prototype.dirty = function (value) {
-            if (value !== undefined) {
-                this._dirty = value;
-            }
-            return this._dirty;
-        };
-
-        Entity.prototype.supportsType = function (type) {
-            if (type === Kiwi.TYPE_UNASSIGNED) {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas) {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_DOM && this._supportsDOM) {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL) {
-                return true;
-            }
-
-            return false;
-        };
-
-        Entity.prototype.isGroup = function () {
-            return false;
-        };
-
-        Entity.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Entity already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                if (this.supportsType(layer.type) === true) {
-                    this.layer = layer;
-                    this.type = this.layer.type;
-
-                    if (layer.game !== null) {
-                        this.game = layer.game;
-
-                        if (this._clock === null) {
-                            this._clock = this.game.time.clock;
-                        }
-                    }
-
-                    if (this.type === Kiwi.TYPE_DOM && this.domElement === null) {
-                        this.layer.domCache.assignElement(this);
-                    }
-
-                    this.onAddedToLayer.dispatch(this, this.layer);
-
-                    return true;
-                } else {
-                    klog.warn('Warning - Entity does not support Layer of this type: ' + layer.type);
-                    return false;
-                }
-            }
-        };
-
-        Entity.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            if (this.domElement) {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
-
-            this.type = Kiwi.TYPE_UNASSIGNED;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
-
-        Entity.prototype._addedToState = function (state) {
-            klog.info('Entity added to State');
-
-            this.state = state;
-
-            this.game = this.state.game;
-
-            if (this._clock === null) {
-                this._clock = this.game.time.clock;
-            }
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-        };
-
-        Entity.prototype._removedFromState = function (state) {
-            klog.info('Entity removed from State');
-
-            this.state = null;
-
-            this.game = null;
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Entity.prototype._addedToGroup = function (group) {
-            klog.info('Entity added to Group');
-
-            if (this.parent === group || this.supportsType(group.type) === false) {
-                klog.warn('Entity.addedToGroup() called but parent already set or type not supported');
-                return;
-            } else {
-                this.type = group.type;
-            }
-
-            if (this.parent !== null) {
-                this.parent.removeChild(this);
-            }
-
-            this.parent = group;
-
-            if (group.game !== null) {
-                this.game = group.game;
-
-                if (this._clock === null) {
-                    this._clock = this.game.time.clock;
-                }
-            }
-
-            this.onAddedToGroup.dispatch(this, group);
-
-            if (this.parent.layer !== null) {
-                this._addedToLayer(this.parent.layer);
-            }
-        };
-
-        Entity.prototype._removedFromGroup = function (group) {
-            klog.info('Entity removed from Group');
-
-            if (this.parent !== null) {
-            }
-
-            this.parent = null;
-
-            if (this.type === Kiwi.TYPE_DOM && this.domElement !== null) {
-                this.domElement.unlink();
-            }
-
-            this.onRemovedFromGroup.dispatch(this, group);
-        };
-
-        Entity.prototype._changedPosition = function (group, index) {
-            klog.info('Entity changed position within the group');
-        };
-
-        Entity.prototype.addStyleUpdate = function (key, value) {
-            this._cssStack[key] = value;
-        };
-
-        Entity.prototype.addStyleTransformUpdate = function (key, value) {
-            this._cssTransformStack[key] = value;
-        };
-
-        Entity.prototype.applyTransformStyle = function () {
-            var cssValue = "";
-            for (var key in this._cssTransformStack) {
-                cssValue += this._cssTransformStack[key] + " ";
-            }
-
-            this.domElement.element.style.transform = cssValue;
-            this.domElement.element.style['-o-transform'] = cssValue;
-            this.domElement.element.style['-ms-transform'] = cssValue;
-            this.domElement.element.style['-moz-transform'] = cssValue;
-            this.domElement.element.style['-webkit-transform'] = cssValue;
-        };
-
-        Entity.prototype.update = function () {
-        };
-
-        Entity.prototype.render = function (camera) {
-            if (this.domElement) {
-                for (var key in this._cssStack) {
-                    this.domElement.element.style[key] = this._cssStack[key];
-                    delete this._cssStack[key];
-                }
-                this.applyTransformStyle();
-            }
-        };
-
-        Entity.prototype.destroy = function () {
-            if (this.domElement) {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
-
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-            this._cssStack = {};
-        };
-        return Entity;
-    })();
-    Kiwi.Entity = Entity;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var Group = (function () {
         function Group(name) {
             if (typeof name === "undefined") { name = ''; }
@@ -5883,6 +5430,460 @@ var Kiwi;
         return Group;
     })();
     Kiwi.Group = Group;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var State = (function (_super) {
+        __extends(State, _super);
+        function State(name) {
+            _super.call(this, name);
+            this.game = null;
+
+            klog.debug('----------- State created: ' + name + ' -----------');
+
+            this.config = new Kiwi.StateConfig(this, name);
+            this.cache = new Kiwi.Cache(this.game);
+            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
+        }
+        State.prototype.objType = function () {
+            return "State";
+        };
+
+        State.prototype.boot = function () {
+            klog.info('State booted: ', this.config.name);
+
+            this.cache.boot();
+
+            klog.info('Current Layer: ' + this.game.layers.currentLayer);
+
+            this.currentLayer = this.game.layers.currentLayer;
+        };
+
+        State.prototype.init = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preload = function () {
+        };
+
+        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
+        };
+
+        State.prototype.loadComplete = function () {
+        };
+
+        State.prototype.loadUpdate = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active() === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.create = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preUpdate = function () {
+            this.components.preUpdate();
+        };
+
+        State.prototype.update = function () {
+            this.components.update();
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active() === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.postUpdate = function () {
+            this.components.postUpdate();
+        };
+
+        State.prototype.postRender = function () {
+        };
+
+        State.prototype.setType = function (value) {
+            if (this.config.isInitialised === false) {
+                this.config.type = value;
+            } else {
+                klog.warn('State default type can only be changed in init()');
+            }
+        };
+
+        State.prototype.swapLayer = function (layer) {
+            this.currentLayer = layer;
+        };
+
+        State.prototype.addImage = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addImage(cacheID, url, this.game.cache.images);
+            } else {
+                this.game.loader.addImage(cacheID, url, this.cache.images);
+            }
+        };
+
+        State.prototype.addJSON = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
+            } else {
+                this.game.loader.addJSON(cacheID, url, this.cache.data);
+            }
+        };
+
+        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images);
+            } else {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images);
+            }
+        };
+
+        State.prototype.addChild = function (child) {
+            child.modify(Kiwi.ADDED_TO_STATE, this);
+
+            var layer = null;
+            _super.prototype.addChild.call(this, child);
+            if (layer !== null) {
+                layer.add(child);
+            } else {
+                this.currentLayer.add(child);
+            }
+
+            return child;
+        };
+
+        State.prototype.removeChild = function (child) {
+            child.modify(Kiwi.REMOVED_FROM_STATE, this);
+            var layer;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === child.id) {
+                    this.members.slice(i, 1);
+
+                    if (layer !== null) {
+                        layer.remove(child);
+                    } else {
+                        this.currentLayer.remove(child);
+                    }
+                }
+            }
+            return child;
+        };
+
+        State.prototype.destroy = function () {
+            for (var i = 0; i < this.members.length; i++) {
+            }
+        };
+        return State;
+    })(Kiwi.Group);
+    Kiwi.State = State;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Entity = (function () {
+        function Entity(supportsCanvas, supportsDOM, supportsWebGL) {
+            this.game = null;
+            this.state = null;
+            this.name = '';
+            this.type = Kiwi.TYPE_UNASSIGNED;
+            this.layer = null;
+            this.parent = null;
+            this.domElement = null;
+            this.domElementType = 'div';
+            this._cssStack = {};
+            this._cssTransformStack = {};
+            this._clock = null;
+            this._supportsCanvas = supportsCanvas;
+            this._supportsDOM = supportsDOM;
+            this._supportsWebGL = supportsWebGL;
+
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+
+            this.onAddedToGroup = new Kiwi.Signal();
+            this.onAddedToLayer = new Kiwi.Signal();
+            this.onAddedToState = new Kiwi.Signal();
+            this.onRemovedFromGroup = new Kiwi.Signal();
+            this.onRemovedFromLayer = new Kiwi.Signal();
+            this.onRemovedFromState = new Kiwi.Signal();
+        }
+        Entity.prototype.childType = function () {
+            return Kiwi.ENTITY;
+        };
+
+        Entity.prototype.modify = function (action, parent) {
+            if (action === Kiwi.ADDED_TO_GROUP) {
+                return this._addedToGroup(parent);
+            } else if (action === Kiwi.ADDED_TO_LAYER) {
+                return this._addedToLayer(parent);
+            } else if (action === Kiwi.ADDED_TO_STATE) {
+                return this._addedToState(parent);
+            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
+                return this._removedFromGroup(parent);
+            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
+                return this._removedFromLayer(parent);
+            } else if (action === Kiwi.REMOVED_FROM_STATE) {
+                return this._removedFromState(parent);
+            }
+        };
+
+        Entity.prototype.exists = function (value) {
+            if (value !== undefined) {
+                this._exists = value;
+            }
+
+            return this._exists;
+        };
+
+        Entity.prototype.active = function (value) {
+            if (value !== undefined) {
+                this._active = value;
+            }
+
+            return this._active;
+        };
+
+        Entity.prototype.willRender = function (value) {
+            if (value) {
+                this._willRender = value;
+            }
+
+            return this._willRender;
+        };
+
+        Entity.prototype.inputEnabled = function (value) {
+            if (value) {
+                this._inputEnabled = value;
+            }
+
+            return this._inputEnabled;
+        };
+
+        Entity.prototype.clock = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            if (value !== null) {
+                this._clock = value;
+            }
+
+            return this._clock;
+        };
+
+        Entity.prototype.dirty = function (value) {
+            if (value !== undefined) {
+                this._dirty = value;
+            }
+            return this._dirty;
+        };
+
+        Entity.prototype.supportsType = function (type) {
+            if (type === Kiwi.TYPE_UNASSIGNED) {
+                return true;
+            }
+
+            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas) {
+                return true;
+            }
+
+            if (type === Kiwi.TYPE_DOM && this._supportsDOM) {
+                return true;
+            }
+
+            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL) {
+                return true;
+            }
+
+            return false;
+        };
+
+        Entity.prototype.isGroup = function () {
+            return false;
+        };
+
+        Entity.prototype._addedToLayer = function (layer) {
+            if (this.layer !== null) {
+                klog.warn('Entity already exists on Layer ' + this.layer.id);
+
+                return false;
+            } else {
+                if (this.supportsType(layer.type) === true) {
+                    this.layer = layer;
+                    this.type = this.layer.type;
+
+                    if (layer.game !== null) {
+                        this.game = layer.game;
+
+                        if (this._clock === null) {
+                            this._clock = this.game.time.clock;
+                        }
+                    }
+
+                    if (this.type === Kiwi.TYPE_DOM && this.domElement === null) {
+                        this.layer.domCache.assignElement(this);
+                    }
+
+                    this.onAddedToLayer.dispatch(this, this.layer);
+
+                    return true;
+                } else {
+                    klog.warn('Warning - Entity does not support Layer of this type: ' + layer.type);
+                    return false;
+                }
+            }
+        };
+
+        Entity.prototype._removedFromLayer = function (layer) {
+            this.layer = null;
+
+            if (this.domElement) {
+                this.domElement.unlink();
+                this.domElement = null;
+            }
+
+            this.type = Kiwi.TYPE_UNASSIGNED;
+
+            this.onRemovedFromLayer.dispatch(this, layer);
+        };
+
+        Entity.prototype._addedToState = function (state) {
+            klog.info('Entity added to State');
+
+            this.state = state;
+
+            this.game = this.state.game;
+
+            if (this._clock === null) {
+                this._clock = this.game.time.clock;
+            }
+
+            this.id = this.game.rnd.uuid();
+
+            this.onAddedToState.dispatch(this, this.state);
+
+            return true;
+        };
+
+        Entity.prototype._removedFromState = function (state) {
+            klog.info('Entity removed from State');
+
+            this.state = null;
+
+            this.game = null;
+
+            this.onAddedToState.dispatch(this, state);
+        };
+
+        Entity.prototype._addedToGroup = function (group) {
+            klog.info('Entity added to Group');
+
+            if (this.parent === group || this.supportsType(group.type) === false) {
+                klog.warn('Entity.addedToGroup() called but parent already set or type not supported');
+                return;
+            } else {
+                this.type = group.type;
+            }
+
+            if (this.parent !== null) {
+                this.parent.removeChild(this);
+            }
+
+            this.parent = group;
+
+            if (group.game !== null) {
+                this.game = group.game;
+
+                if (this._clock === null) {
+                    this._clock = this.game.time.clock;
+                }
+            }
+
+            this.onAddedToGroup.dispatch(this, group);
+
+            if (this.parent.layer !== null) {
+                this._addedToLayer(this.parent.layer);
+            }
+        };
+
+        Entity.prototype._removedFromGroup = function (group) {
+            klog.info('Entity removed from Group');
+
+            if (this.parent !== null) {
+            }
+
+            this.parent = null;
+
+            if (this.type === Kiwi.TYPE_DOM && this.domElement !== null) {
+                this.domElement.unlink();
+            }
+
+            this.onRemovedFromGroup.dispatch(this, group);
+        };
+
+        Entity.prototype._changedPosition = function (group, index) {
+            klog.info('Entity changed position within the group');
+        };
+
+        Entity.prototype.addStyleUpdate = function (key, value) {
+            this._cssStack[key] = value;
+        };
+
+        Entity.prototype.addStyleTransformUpdate = function (key, value) {
+            this._cssTransformStack[key] = value;
+        };
+
+        Entity.prototype.applyTransformStyle = function () {
+            var cssValue = "";
+            for (var key in this._cssTransformStack) {
+                cssValue += this._cssTransformStack[key] + " ";
+            }
+
+            this.domElement.element.style.transform = cssValue;
+            this.domElement.element.style['-o-transform'] = cssValue;
+            this.domElement.element.style['-ms-transform'] = cssValue;
+            this.domElement.element.style['-moz-transform'] = cssValue;
+            this.domElement.element.style['-webkit-transform'] = cssValue;
+        };
+
+        Entity.prototype.update = function () {
+        };
+
+        Entity.prototype.render = function (camera) {
+            if (this.domElement) {
+                for (var key in this._cssStack) {
+                    this.domElement.element.style[key] = this._cssStack[key];
+                    delete this._cssStack[key];
+                }
+                this.applyTransformStyle();
+            }
+        };
+
+        Entity.prototype.destroy = function () {
+            if (this.domElement) {
+                this.domElement.unlink();
+                this.domElement = null;
+            }
+
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+            this._cssStack = {};
+        };
+        return Entity;
+    })();
+    Kiwi.Entity = Entity;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
