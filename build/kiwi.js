@@ -4851,10 +4851,11 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var State = (function () {
+    var State = (function (_super) {
+        __extends(State, _super);
         function State(name) {
+            _super.call(this, name);
             this.game = null;
-            this.members = [];
             klog.debug('----------- State created: ' + name + ' -----------');
 
             this.config = new Kiwi.StateConfig(this, name);
@@ -4966,12 +4967,11 @@ var Kiwi;
             }
         };
 
-        State.prototype.addChild = function (child, layer) {
-            if (typeof layer === "undefined") { layer = null; }
+        State.prototype.addChild = function (child) {
             child.modify(Kiwi.ADDED_TO_STATE, this);
 
-            this.members.push(child);
-
+            var layer = null;
+            _super.prototype.addChild.call(this, child);
             if (layer !== null) {
                 layer.add(child);
             } else {
@@ -4981,9 +4981,9 @@ var Kiwi;
             return child;
         };
 
-        State.prototype.removeChild = function (child, layer) {
-            if (typeof layer === "undefined") { layer = null; }
+        State.prototype.removeChild = function (child) {
             child.modify(Kiwi.REMOVED_FROM_STATE, this);
+            var layer;
 
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === child.id) {
@@ -4994,20 +4994,17 @@ var Kiwi;
                     } else {
                         this.currentLayer.remove(child);
                     }
-                    return true;
                 }
             }
-
-            return false;
+            return child;
         };
 
         State.prototype.destroy = function () {
             for (var i = 0; i < this.members.length; i++) {
-                this.members[i].destroy();
             }
         };
         return State;
-    })();
+    })(Kiwi.Group);
     Kiwi.State = State;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;

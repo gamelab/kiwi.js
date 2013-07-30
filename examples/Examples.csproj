@@ -44,6 +44,10 @@
     <Content Include="devices\DeviceInfo.js">
       <DependentUpon>DeviceInfo.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="groups\GroupGraph.ts" />
+    <Content Include="groups\GroupGraph.js">
+      <DependentUpon>GroupGraph.ts</DependentUpon>
+    </Content>
     <Content Include="layers\CreatingLayers.js">
       <DependentUpon>CreatingLayers.ts</DependentUpon>
     </Content>
