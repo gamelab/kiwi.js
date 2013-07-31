@@ -5552,6 +5552,7 @@ var Kiwi;
 
         State.prototype.addChild = function (child) {
             child.modify(Kiwi.ADDED_TO_STATE, this);
+            _super.prototype.removeChild.call(this, child);
 
             var layer = null;
             _super.prototype.addChild.call(this, child);
@@ -5566,7 +5567,7 @@ var Kiwi;
 
         State.prototype.removeChild = function (child) {
             child.modify(Kiwi.REMOVED_FROM_STATE, this);
-            var layer;
+            var layer = null;
 
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === child.id) {

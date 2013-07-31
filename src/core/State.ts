@@ -276,7 +276,7 @@ module Kiwi {
         public addChild(child: Kiwi.IChild): Kiwi.IChild {
 
             child.modify(Kiwi.ADDED_TO_STATE, this);
-
+            super.removeChild(child);
             //this.members.push(child);
             var layer = null;
             super.addChild(child);
@@ -299,7 +299,7 @@ module Kiwi {
 
             //  Needs validation
             child.modify(Kiwi.REMOVED_FROM_STATE, this);
-            var layer;
+            var layer = null;
             //check that is exists...
             for (var i = 0; i < this.members.length; i++) {
 

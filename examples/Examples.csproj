@@ -182,6 +182,7 @@
     <Content Include="index.php" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="lib\" />
     <Folder Include="states\" />
   </ItemGroup>
   <PropertyGroup>
