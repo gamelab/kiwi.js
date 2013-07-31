@@ -40,7 +40,7 @@ class getMovingTile extends Kiwi.State {
     }
 
     getTile() {
-        this.textfield.setText(this.tileMap.getTileFromInputXY().toString());
+        this.textfield.setText(this.tileMap.getTileFromInputXY().tile.toString());
     }
 
     update() {

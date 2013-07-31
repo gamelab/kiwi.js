@@ -258,7 +258,8 @@
     <Content Include="gameobjects\Textfield.js">
       <DependentUpon>Textfield.ts</DependentUpon>
     </Content>
-    <Content Include="gameobjects\tilemap\Tile.ts" />
+    <TypeScriptCompile Include="gameobjects\tilemap\Tile.ts" />
+    <Content Include="gameobjects\tilemap\TileType.ts" />
     <Content Include="gameobjects\tilemap\Tile.js">
       <DependentUpon>Tile.ts</DependentUpon>
     </Content>

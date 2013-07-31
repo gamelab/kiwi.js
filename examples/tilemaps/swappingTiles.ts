@@ -1,17 +1,20 @@
 /// <reference path="../../src/Kiwi.ts" /> 
 
-class getTile extends Kiwi.State {
+class swappingTiles extends Kiwi.State {
 
     constructor() {
-        super('basics');
+        super('swappingTiles');
     }
 
     init() {
-
+        this.indexA = 31;
+        this.indexB = 30;
     }
 
     public tileMap: Kiwi.GameObjects.TileMap;
-    public textfield: Kiwi.GameObjects.Textfield;
+    
+    public indexA: number;
+    public indexB: number;
 
     preload() {
         this.addSpriteSheet('desert', 'assets/tiles/tmw_desert_spacing.png', 33, 33, false);
@@ -22,18 +25,13 @@ class getTile extends Kiwi.State {
         this.tileMap = new Kiwi.GameObjects.TileMap();
         this.tileMap.createFromCache('desertTiles', this.cache, 'desert', this.cache, this.game, Kiwi.GameObjects.TileMap.FORMAT_TILED_JSON);
 
-        this.textfield = new Kiwi.GameObjects.Textfield('', this.game.stage.size.halfWidth, 0, '#000', '14px');
-        this.textfield.textAlign('center');
-
         this.addChild(this.tileMap);
-        this.addChild(this.textfield);
-        this.game.input.mouse.mouseUp.add(this.getTile, this);
+        
+        this.game.input.mouse.mouseUp.add(this.swap, this);
     }
 
-    getTile() {
-        
-        this.textfield.setText(this.tileMap.getTileFromWorldXY( this.game.input.mouse.x(), this.game.input.mouse.y() ).tile.toString() );
-
+    swap() {
+        this.tileMap.currentLayer.swapTiles(this.indexA, this.indexB);
     }
 
 }

@@ -24,6 +24,14 @@
     <Content Include="tilemaps\basics.js">
       <DependentUpon>basics.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="tilemaps\replaceTiles.ts" />
+    <Content Include="tilemaps\replaceTiles.js">
+      <DependentUpon>replaceTiles.ts</DependentUpon>
+    </Content>
+    <Content Include="tilemaps\swappingTiles.js">
+      <DependentUpon>swappingTiles.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="tilemaps\swappingTiles.ts" />
     <TypeScriptCompile Include="tilemaps\fillTiles.ts" />
     <Content Include="tilemaps\fillTiles.js">
       <DependentUpon>fillTiles.ts</DependentUpon>

@@ -8846,8 +8846,37 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
-        var Tile = (function () {
-            function Tile(game, tilemap, index, width, height) {
+        var Tile = (function (_super) {
+            __extends(Tile, _super);
+            function Tile(parentLayer, type, width, height, x, y) {
+                _super.call(this, true, false, false);
+
+                this.parentLayer = parentLayer;
+                this.type = type;
+
+                this.iX = x;
+                this.iY = y;
+                this.position = this.components.add(new Kiwi.Components.Position(x, y));
+                this.size = this.components.add(new Kiwi.Components.Size(width, height));
+            }
+            Tile.prototype.objType = function () {
+                return "Tile";
+            };
+
+            Tile.prototype.updatePosition = function (pX, pY) {
+                this.position.setTo(this.iX + pX, this.iY + pY);
+            };
+            return Tile;
+        })(Kiwi.Entity);
+        GameObjects.Tile = Tile;
+    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
+    var GameObjects = Kiwi.GameObjects;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (GameObjects) {
+        var TileType = (function () {
+            function TileType(game, tilemap, index, width, height) {
                 this.mass = 1.0;
                 this.collideLeft = false;
                 this.collideRight = false;
@@ -8863,11 +8892,11 @@ var Kiwi;
                 this.height = height;
                 this.allowCollisions = 0;
             }
-            Tile.prototype.destroy = function () {
+            TileType.prototype.destroy = function () {
                 this.tilemap = null;
             };
 
-            Tile.prototype.setCollision = function (collision, resetCollisions, separateX, separateY) {
+            TileType.prototype.setCollision = function (collision, resetCollisions, separateX, separateY) {
                 if (resetCollisions) {
                     this.resetCollision();
                 }
@@ -8878,19 +8907,19 @@ var Kiwi;
                 this.allowCollisions = collision;
             };
 
-            Tile.prototype.resetCollision = function () {
+            TileType.prototype.resetCollision = function () {
                 this.collideLeft = false;
                 this.collideRight = false;
                 this.collideUp = false;
                 this.collideDown = false;
             };
 
-            Tile.prototype.toString = function () {
+            TileType.prototype.toString = function () {
                 return "[{Tile (index=" + this.index + " collisions=" + this.allowCollisions + " width=" + this.width + " height=" + this.height + ")}]";
             };
-            return Tile;
+            return TileType;
         })();
-        GameObjects.Tile = Tile;
+        GameObjects.TileType = TileType;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
@@ -8998,13 +9027,15 @@ var Kiwi;
                     var c = 0;
                     var row;
 
+                    var tileQuantity = layer.parseTileOffsets();
+                    this.generateTiles(layer, tileQuantity);
+
                     for (var t = 0; t < mapObj.layers[i].data.length; t++) {
                         if (c == 0) {
                             row = [];
                         }
 
-                        row.push(mapObj.layers[i].data[t]);
-
+                        row.push(this.tiles[parseInt(mapObj.layers[i].data[t])]);
                         c++;
 
                         if (c == mapObj.layers[i].width) {
@@ -9015,20 +9046,16 @@ var Kiwi;
 
                     layer.updateBounds();
 
-                    var tileQuantity = layer.parseTileOffsets();
-
                     this.currentLayer = layer;
 
                     this.layers.push(layer);
                 }
-
-                this.generateTiles(tileQuantity);
             };
 
-            TileMap.prototype.generateTiles = function (qty) {
+            TileMap.prototype.generateTiles = function (layer, qty) {
                 console.log("Generate Tiles", qty);
                 for (var i = 0; i < qty; i++) {
-                    this.tiles.push(new GameObjects.Tile(this._game, this, i, this.currentLayer.tileWidth, this.currentLayer.tileHeight));
+                    this.tiles.push(new GameObjects.TileType(this._game, this, i, layer.tileWidth, layer.tileHeight));
                 }
             };
 
@@ -9040,7 +9067,7 @@ var Kiwi;
                 return this.currentLayer.heightInPixels;
             };
 
-            TileMap.prototype.getTileByIndex = function (value) {
+            TileMap.prototype.getTileTypeByIndex = function (value) {
                 if (this.tiles[value]) {
                     return this.tiles[value];
                 }
@@ -9055,7 +9082,7 @@ var Kiwi;
                     var usedLayer = this.layers[layer];
                 }
 
-                return this.tiles[usedLayer.getTileIndex(x, y)];
+                return usedLayer.getTile(x, y);
             };
 
             TileMap.prototype.getTileFromWorldXY = function (x, y, layer) {
@@ -9065,7 +9092,7 @@ var Kiwi;
                     var usedLayer = this.layers[layer];
                 }
 
-                return this.tiles[usedLayer.getTileFromWorldXY(x, y)];
+                return usedLayer.getTileFromWorldXY(x, y);
             };
 
             TileMap.prototype.getTileFromInputXY = function (layer) {
@@ -9075,7 +9102,7 @@ var Kiwi;
                     var usedLayer = this.layers[layer];
                 }
 
-                return this.tiles[usedLayer.getTileFromWorldXY(this._game.input.mouse.x() + usedLayer.position.x(), this._game.input.mouse.y() + usedLayer.position.y())];
+                return usedLayer.getTileFromWorldXY(this._game.input.mouse.x() + usedLayer.position.x(), this._game.input.mouse.y() + usedLayer.position.y());
             };
 
             TileMap.prototype.putTile = function (x, y, index, layer) {
@@ -9085,7 +9112,7 @@ var Kiwi;
                     var usedLayer = this.layers[layer];
                 }
 
-                usedLayer.putTile(x, y, index);
+                usedLayer.putTile(x, y, this.tiles[index]);
             };
             TileMap.FORMAT_CSV = 0;
             TileMap.FORMAT_TILED_JSON = 1;
@@ -9117,7 +9144,6 @@ var Kiwi;
                 this.heightInPixels = 0;
                 this.tileMargin = 0;
                 this.tileSpacing = 0;
-                this.once = false;
                 this._game = game;
                 this._parent = parent;
 
@@ -9135,14 +9161,16 @@ var Kiwi;
                 this.position = this.components.add(new Kiwi.Components.Position(0, 0, 0));
                 this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
                 this.visible = this.components.add(new Kiwi.Components.Visible(true));
+
+                this.position.updated.add(this._updatedPosition, this);
             }
-            TileMapLayer.prototype.putTile = function (x, y, index) {
+            TileMapLayer.prototype.putTile = function (x, y, tileType) {
                 x = Kiwi.Utils.GameMath.snapToFloor(x, this.tileWidth) / this.tileWidth;
                 y = Kiwi.Utils.GameMath.snapToFloor(y, this.tileHeight) / this.tileHeight;
 
                 if (y >= 0 && y < this.mapData.length) {
                     if (x >= 0 && x < this.mapData[y].length) {
-                        this.mapData[y][x] = index;
+                        this.mapData[y][x].type = tileType;
                     }
                 }
             };
@@ -9159,11 +9187,41 @@ var Kiwi;
                 }
             };
 
+            TileMapLayer.prototype.swapTiles = function (indexA, indexB, x, y, width, height) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof width === "undefined") { width = this.widthInTiles; }
+                if (typeof height === "undefined") { height = this.heightInTiles; }
+                this.getTempBlock(x, y, width, height);
+
+                for (var r = 0; r < this._tempTileBlock.length; r++) {
+                    if (this._tempTileBlock[r].tile.index === indexA) {
+                        this.mapData[this._tempTileBlock[r].y][this._tempTileBlock[r].x] = indexB;
+                    } else if (this._tempTileBlock[r].tile.index === indexB) {
+                        this.mapData[this._tempTileBlock[r].y][this._tempTileBlock[r].x] = indexA;
+                    }
+                }
+            };
+
+            TileMapLayer.prototype.replaceTiles = function (indexA, indexB, x, y, width, height) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof width === "undefined") { width = this.widthInTiles; }
+                if (typeof height === "undefined") { height = this.heightInTiles; }
+                this.getTempBlock(x, y, width, height);
+
+                for (var r = 0; r < this._tempTileBlock.length; r++) {
+                    if (this._tempTileBlock[r].tile.index === indexA) {
+                        this.mapData[this._tempTileBlock[r].y][this._tempTileBlock[r].x] = indexB;
+                    }
+                }
+            };
+
             TileMapLayer.prototype.getTileFromWorldXY = function (x, y) {
                 x = Kiwi.Utils.GameMath.snapToFloor(x, this.tileWidth) / this.tileWidth;
                 y = Kiwi.Utils.GameMath.snapToFloor(y, this.tileHeight) / this.tileHeight;
 
-                return this.getTileIndex(x, y);
+                return this.getTile(x, y);
             };
 
             TileMapLayer.prototype.getTempBlock = function (x, y, width, height, collisionOnly) {
@@ -9189,7 +9247,20 @@ var Kiwi;
                 }
             };
 
+            TileMapLayer.prototype.getTileOverlaps = function (object) {
+            };
+
             TileMapLayer.prototype.getTileIndex = function (x, y) {
+                if (y >= 0 && y < this.mapData.length) {
+                    if (x >= 0 && x < this.mapData[y].length) {
+                        return this.mapData[y][x].type.index;
+                    }
+                }
+
+                return null;
+            };
+
+            TileMapLayer.prototype.getTile = function (x, y) {
                 if (y >= 0 && y < this.mapData.length) {
                     if (x >= 0 && x < this.mapData[y].length) {
                         return this.mapData[y][x];
@@ -9203,7 +9274,7 @@ var Kiwi;
                 var data = [];
 
                 for (var c = 0; c < row.length; c++) {
-                    data[c] = parseInt(row[c]);
+                    data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth, this.heightInPixels);
                 }
 
                 if (this.widthInTiles == 0) {
@@ -9242,8 +9313,16 @@ var Kiwi;
                 return this._tileOffsets.length;
             };
 
+            TileMapLayer.prototype._updatedPosition = function () {
+                for (var c = 0; c < this.mapData.length; c++) {
+                    for (var r = 0; r < this.mapData[c].length; r++) {
+                        this.mapData[c][r].updatePosition(this.position.x(), this.position.y());
+                    }
+                }
+            };
+
             TileMapLayer.prototype.render = function (camera) {
-                if (this.visible.visible() === false || this.alpha.alpha() < 0.1) {
+                if (this.visible.visible() === false || this.alpha.alpha() < 0.1 || this.exists === false) {
                     return;
                 }
 
@@ -9287,8 +9366,8 @@ var Kiwi;
                     this._columnData = this.mapData[column];
 
                     for (var tile = this._startX; tile < this._startX + this._maxX; tile++) {
-                        if (this._tileOffsets[this._columnData[tile]]) {
-                            ctx.drawImage(this._texture, this._tileOffsets[this._columnData[tile]].x, this._tileOffsets[this._columnData[tile]].y, this.tileWidth, this.tileHeight, this._tx, this._ty, this.tileWidth, this.tileHeight);
+                        if (this._tileOffsets[this._columnData[tile].type.index]) {
+                            ctx.drawImage(this._texture, this._tileOffsets[this._columnData[tile].type.index].x, this._tileOffsets[this._columnData[tile].type.index].y, this.tileWidth, this.tileHeight, this._tx, this._ty, this.tileWidth, this.tileHeight);
                         }
 
                         this._tx += this.tileWidth;
@@ -9297,12 +9376,10 @@ var Kiwi;
                     this._tx = this._dx;
                     this._ty += this.tileHeight;
                 }
-
                 if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
                     ctx.restore();
                 }
 
-                this.once = true;
                 return true;
             };
             return TileMapLayer;

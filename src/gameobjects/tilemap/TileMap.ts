@@ -4,7 +4,6 @@ module Kiwi.GameObjects {
 
     export class TileMap extends Kiwi.Entity {
 
-        
         constructor() {
             console.log('TileMap Constructor');
             super(true, false, false);
@@ -96,7 +95,10 @@ module Kiwi.GameObjects {
         public static FORMAT_CSV: number = 0;
         public static FORMAT_TILED_JSON: number = 1;
 
-        public tiles: Tile[];
+        /*
+        * Contains an array of all of the tile types.
+        */
+        public tiles: TileType[];
         public layers: TileMapLayer[];
         public currentLayer: TileMapLayer;
         public mapFormat: number;
@@ -133,13 +135,15 @@ module Kiwi.GameObjects {
                 var c = 0;
                 var row;
 
+                var tileQuantity = layer.parseTileOffsets();
+                this.generateTiles(layer, tileQuantity);
+
                 for (var t = 0; t < mapObj.layers[i].data.length; t++) {
                     if (c == 0) {
                         row = [];
                     }
 
-                    row.push(mapObj.layers[i].data[t]);
-
+                    row.push(this.tiles[parseInt(mapObj.layers[i].data[t])]);
                     c++;
 
                     if (c == mapObj.layers[i].width) { 
@@ -150,16 +154,11 @@ module Kiwi.GameObjects {
 
                 layer.updateBounds();
 
-                var tileQuantity = layer.parseTileOffsets();
-
                 this.currentLayer = layer;
-          //      this.collisionLayer = layer;
 
                 this.layers.push(layer);
-
             }
 
-            this.generateTiles(tileQuantity);
 
         }
 
@@ -169,16 +168,18 @@ module Kiwi.GameObjects {
         * @method generateTiles
         * @param {number} qty - number of tiles
         */
-        private generateTiles(qty: number) {
+        private generateTiles(layer: Kiwi.GameObjects.TileMapLayer, qty: number) {
             console.log("Generate Tiles",qty);
             for (var i = 0; i < qty; i++) {
-                this.tiles.push(new Tile(this._game, this, i, this.currentLayer.tileWidth, this.currentLayer.tileHeight));
+                this.tiles.push(new TileType(this._game, this, i, layer.tileWidth, layer.tileHeight));
             }
 
         }
         
         /*
         * Gets the currentLayers width in pixels
+        * @method widthInPixels
+        * @returns {number}
         */
         public widthInPixels(): number {
             return this.currentLayer.widthInPixels;
@@ -186,6 +187,8 @@ module Kiwi.GameObjects {
 
         /*
         * Gets the currentLayers height in pixels
+        * @method heightInPixels
+        * @returns {number}
         */
         public heightInPixels(): number {
             return this.currentLayer.heightInPixels;
@@ -194,13 +197,13 @@ module Kiwi.GameObjects {
         //  Tile Management
 
         /*
-        * Gets a tile by a index provided.
+        * Gets a tiletype by a index provided.
         * 
         * @method getTileByIndex
         * @param {number} value
         * @return {Tile}
         */
-        public getTileByIndex(value: number): Tile {
+        public getTileTypeByIndex(value: number): TileType {
 
             if (this.tiles[value]) {
                 return this.tiles[value];
@@ -217,7 +220,7 @@ module Kiwi.GameObjects {
         * @param {number} y 
         * @param {number} layer 
         */
-        public getTile(x: number, y: number, layer?: number): Tile {
+        public getTile(x: number, y: number, layer?: number): Tile {   
 
             if (layer === undefined) {
                 var usedLayer:TileMapLayer = this.currentLayer;
@@ -225,7 +228,7 @@ module Kiwi.GameObjects {
                 var usedLayer:TileMapLayer = this.layers[layer];
             }
 
-            return this.tiles[usedLayer.getTileIndex(x, y)];
+            return usedLayer.getTile(x, y);
         }
 
         /*
@@ -245,7 +248,7 @@ module Kiwi.GameObjects {
                 var usedLayer: TileMapLayer = this.layers[layer];
             }
 
-            return this.tiles[usedLayer.getTileFromWorldXY(x, y)];
+            return usedLayer.getTileFromWorldXY(x, y);
         }
 
         /*
@@ -262,7 +265,7 @@ module Kiwi.GameObjects {
                 var usedLayer: TileMapLayer = this.layers[layer];
             }
 
-            return this.tiles[usedLayer.getTileFromWorldXY(this._game.input.mouse.x() + usedLayer.position.x(), this._game.input.mouse.y() + usedLayer.position.y())];
+            return usedLayer.getTileFromWorldXY(this._game.input.mouse.x() + usedLayer.position.x(), this._game.input.mouse.y() + usedLayer.position.y());
         }
         /*
         public getTileOverlaps(object: GameObject) {
@@ -287,7 +290,7 @@ module Kiwi.GameObjects {
                 var usedLayer: TileMapLayer = this.layers[layer];
             }
 
-            usedLayer.putTile(x, y, index);
+            usedLayer.putTile(x, y, this.tiles[index]);
         }
 
 

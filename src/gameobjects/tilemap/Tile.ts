@@ -1,117 +1,39 @@
-
-
 module Kiwi.GameObjects {
 
-    export class Tile {
+    export class Tile extends Kiwi.Entity {
 
-        constructor(game: Game, tilemap: Kiwi.GameObjects.TileMap, index: number, width: number, height: number) {
+        constructor(parentLayer: Kiwi.GameObjects.TileMapLayer, type: Kiwi.GameObjects.TileType, width: number, height: number, x: number, y: number) {
+            super(true, false, false);
 
-            this._game = game;
-            this.tilemap = tilemap;
-            this.index = index;
+            this.parentLayer = parentLayer;
+            this.type = type;
 
-            this.width = width;
-            this.height = height;
-            this.allowCollisions = 0//Collision.NONE;
+            this.iX = x;
+            this.iY = y;
+            this.position = this.components.add(new Kiwi.Components.Position(x, y));
+            this.size = this.components.add(new Kiwi.Components.Size(width, height));
 
+            //physics
         }
 
-        private _game: Game;
-
-        //  You can give this Tile a friendly name to help with debugging. Never used internally.
-        public name: string;
-
-        public mass: number = 1.0;
-        public width: number;
-        public height: number;
-
-        public allowCollisions: number;
-
-        public collideLeft: bool = false;
-        public collideRight: bool = false;
-        public collideUp: bool = false;
-        public collideDown: bool = false;
-
-        public separateX: bool = true;
-        public separateY: bool = true;
-
-        /**
-         * A reference to the tilemap this tile object belongs to.
-         */
-        public tilemap: TileMap;
-
-        /**
-         * The index of this tile type in the core map data.
-         * For example, if your map only has 16 tiles in it,
-         * this number is usually between 0 and 15.
-         */
-        public index: number;
-
-        /**
-         * Clean up memory.
-         */
-        public destroy() {
-
-            this.tilemap = null;
-
+        public objType() {
+            return "Tile";
         }
 
-        public setCollision(collision: number, resetCollisions: bool, separateX: bool, separateY: bool) {
+        public parentLayer: Kiwi.GameObjects.TileMapLayer;
 
-            if (resetCollisions) {
-                this.resetCollision();
-            }
+        public iX: number;
 
-            this.separateX = separateX;
-            this.separateY = separateY;
+        public iY: number;
 
-            this.allowCollisions = collision;
-            /*
-        //    if (collision & Collision.ANY) {
-                this.collideLeft = true;
-                this.collideRight = true;
-                this.collideUp = true;
-                this.collideDown = true;
-                return;
-          ///  }
+        public type: Kiwi.GameObjects.TileType;
 
-            if (collision & Collision.LEFT || collision & Collision.WALL) {
-                this.collideLeft = true;
-            }
+        public position: Kiwi.Components.Position;
 
-            if (collision & Collision.RIGHT || collision & Collision.WALL) {
-                this.collideRight = true;
-            }
+        public size: Kiwi.Components.Size;
 
-            if (collision & Collision.UP || collision & Collision.CEILING) {
-                this.collideUp = true;
-            }
-
-            if (collision & Collision.DOWN || collision & Collision.CEILING) {
-                this.collideDown = true;
-            }
-            */
-        }
-
-        public resetCollision() {
-
-            //this.allowCollisions = Collision.NONE;
-            this.collideLeft = false;
-            this.collideRight = false;
-            this.collideUp = false;
-            this.collideDown = false;
-
-        }
-
-        /**
-        * Returns a string representation of this object.
-        * @method toString
-        * @return {string} a string representation of the object.
-        **/
-        public toString(): string {
-
-            return "[{Tile (index=" + this.index + " collisions=" + this.allowCollisions + " width=" + this.width + " height=" + this.height + ")}]";
-
+        public updatePosition(pX:number, pY: number) {
+            this.position.setTo(this.iX + pX, this.iY + pY);
         }
 
     }
