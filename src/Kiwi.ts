@@ -156,6 +156,7 @@ module Kiwi {
     export var ENTITY: number = 3;
     export var CAMERA: number = 4;
     export var HUD_WIDGET: number = 5;
+    export var TILE_LAYER: number = 6;
 
     
     export class GameManager {

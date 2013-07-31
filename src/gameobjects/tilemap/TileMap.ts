@@ -5,9 +5,7 @@ module Kiwi.GameObjects {
     export class TileMap extends Kiwi.Entity {
 
         
-        constructor() {//tileMapDataKey: string, tileMapDataCache: Kiwi.Cache, tileMapImageKey: string, tileMapImageCache: Kiwi.Cache, game: Game,format:number) {
-
-
+        constructor() {
             console.log('TileMap Constructor');
             super(true, false, false);
         }
@@ -37,32 +35,33 @@ module Kiwi.GameObjects {
                 this.parseTiledJSON(tileMapData);
             }
             console.log('Created TileMap Game Object');
-           // console.log(this.tiles);
-           // console.log(this.layers);
         }
 
         public createFromCache(tileMapDataKey: string, tileMapDataCache: Kiwi.Cache, tileMapImageKey: string, tileMapImageCache: Kiwi.Cache, game: Game, format: number) {
-      
+            //get the json
             if (tileMapDataCache.checkDataCacheID(tileMapDataKey, tileMapDataCache) == false) {
                 console.log('Missing json data', tileMapDataKey);
                 return;
             }
-
+            //get the sprite sheet
             if (tileMapImageCache.checkImageCacheID(tileMapImageKey, tileMapImageCache) == false) {
                 console.log('Missing tilemap image data', tileMapImageKey);
                 return;
             }
-
+            //save the data information
             this._tileMapDataKey = tileMapDataKey;
             this._tileMapDataCache = tileMapDataCache;
             this._tileMapImageKey = tileMapImageKey;
             this._tileMapImageCache = tileMapImageCache;
 
+            //create the tiles
             this.tiles = [];
             this.layers = [];
 
+            //save the game
             this._game = game;
 
+            //save the format
             this.mapFormat = format;
 
             switch (format) {
@@ -70,6 +69,7 @@ module Kiwi.GameObjects {
                     //this.parseCSV(game.cache.getText(mapData), key, tileWidth, tileHeight);
                     break;
 
+                //load the json map
                 case TileMap.FORMAT_TILED_JSON:
                     var obj = JSON.parse(tileMapDataCache.data.getFile(tileMapDataKey).data);
 
@@ -78,14 +78,8 @@ module Kiwi.GameObjects {
                     break;
             }
 
-
-
             console.log('Created TileMap Game Object');
-           // console.log(this.tiles);
-          //  console.log(this.layers);
         }
-
-
 
         public objType() {
             return "TileMap";
@@ -96,7 +90,6 @@ module Kiwi.GameObjects {
 
         private _tileMapImageKey: string;
         private _tileMapImageCache: Kiwi.Cache;
-
 
         private _game: Game;
 
@@ -109,9 +102,9 @@ module Kiwi.GameObjects {
         public mapFormat: number;
 
         public update() {
+
         }
         
-
         public render(camera: Kiwi.Camera) {
             
             for (var i = 0; i < this.layers.length; i++) {
@@ -126,16 +119,14 @@ module Kiwi.GameObjects {
         private parseTiledJSON(data:any) {
             console.log("parsing tiled json");
 
-            //  Trim any rogue whitespace from the data
-           // data = data.trim();
-
             var mapObj = data;
-            //console.log(JSON.stringify(data,undefined,2));
+
             for (var i = 0; i < mapObj.layers.length; i++) {
                 var layer: TileMapLayer = new TileMapLayer(this._game, this,this._tileMapImageCache,this._tileMapImageKey, TileMap.FORMAT_TILED_JSON, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
-               
-                layer.alpha = mapObj.layers[i].opacity;
-                layer.visible = mapObj.layers[i].visible;
+                
+                layer.position.setTo(mapObj.layers[i].x, mapObj.layers[i].y);
+                layer.alpha.alpha(parseInt(mapObj.layers[i].opacity));
+                layer.visible.visible(mapObj.layers[i].visible);
                 layer.tileMargin = mapObj.tilesets[0].margin;
                 layer.tileSpacing = mapObj.tilesets[0].spacing;
 
@@ -151,14 +142,13 @@ module Kiwi.GameObjects {
 
                     c++;
 
-                    if (c == mapObj.layers[i].width) {
-                        layer.addColumn(row);
+                    if (c == mapObj.layers[i].width) { 
+                        layer.addRow(row);
                         c = 0;
                     }
                 }
 
                 layer.updateBounds();
-
 
                 var tileQuantity = layer.parseTileOffsets();
 
@@ -173,24 +163,43 @@ module Kiwi.GameObjects {
 
         }
 
+        /*
+        * This method generates a number of tile objects based on the quantity passed. These tiles are based of the current layer.
+        *
+        * @method generateTiles
+        * @param {number} qty - number of tiles
+        */
         private generateTiles(qty: number) {
-            console.log("generate tiles" + qty);
+            console.log("Generate Tiles",qty);
             for (var i = 0; i < qty; i++) {
                 this.tiles.push(new Tile(this._game, this, i, this.currentLayer.tileWidth, this.currentLayer.tileHeight));
             }
 
         }
+        
         /*
-        public get widthInPixels(): number {
+        * Gets the currentLayers width in pixels
+        */
+        public widthInPixels(): number {
             return this.currentLayer.widthInPixels;
         }
 
-        public get heightInPixels(): number {
+        /*
+        * Gets the currentLayers height in pixels
+        */
+        public heightInPixels(): number {
             return this.currentLayer.heightInPixels;
         }
-        */
+        
         //  Tile Management
 
+        /*
+        * Gets a tile by a index provided.
+        * 
+        * @method getTileByIndex
+        * @param {number} value
+        * @return {Tile}
+        */
         public getTileByIndex(value: number): Tile {
 
             if (this.tiles[value]) {
@@ -198,25 +207,62 @@ module Kiwi.GameObjects {
             }
 
             return null;
-
         }
 
-        public getTile(x: number, y: number, layer: number = 0): Tile {
-
-            return this.tiles[this.layers[layer].getTileIndex(x, y)];
-
-        }
-
-        public getTileFromWorldXY(x: number, y: number, layer: number = 0): Tile {
-
-            return null; //this.tiles[this.layers[layer].getTileFromWorldXY(x, y)];
-
-        }
         /*
-        public getTileFromInputXY(layer?: number = 0): Tile {
+        * Gets a single tile either off the tile layer passed otherwise off the currentLayer if no layer number passed.
+        *
+        * @method getTile
+        * @param {number} x 
+        * @param {number} y 
+        * @param {number} layer 
+        */
+        public getTile(x: number, y: number, layer?: number): Tile {
 
-            return this.tiles[this.layers[layer].getTileFromWorldXY(this._game.input.worldX, this._game.input.worldY)];
+            if (layer === undefined) {
+                var usedLayer:TileMapLayer = this.currentLayer;
+            } else {
+                var usedLayer:TileMapLayer = this.layers[layer];
+            }
 
+            return this.tiles[usedLayer.getTileIndex(x, y)];
+        }
+
+        /*
+        * Gets a tile based on the passed X and Y. 
+        * Caution! If the tilemap has moved make sure you put that into account.
+        * 
+        * @method getTileFromWorldXY
+        * @param {number} x
+        * @param {number} y
+        * @param {number} layer
+        * @return {Kiwi.GameObjects.Tile}
+        */
+        public getTileFromWorldXY(x: number, y: number, layer?: number): Tile {
+            if (layer === undefined) {
+                var usedLayer: TileMapLayer = this.currentLayer;
+            } else {
+                var usedLayer: TileMapLayer = this.layers[layer];
+            }
+
+            return this.tiles[usedLayer.getTileFromWorldXY(x, y)];
+        }
+
+        /*
+        * Gets a tile based on the mouse's current X and Y coordinates.
+        * 
+        * @method getTileFromInputXY
+        * @param {number} layer
+        * @return {Kiwi.GameObjects.Tile}
+        */
+        public getTileFromInputXY(layer?: number): Tile {
+            if (layer === undefined) {
+                var usedLayer: TileMapLayer = this.currentLayer;
+            } else {
+                var usedLayer: TileMapLayer = this.layers[layer];
+            }
+
+            return this.tiles[usedLayer.getTileFromWorldXY(this._game.input.mouse.x() + usedLayer.position.x(), this._game.input.mouse.y() + usedLayer.position.y())];
         }
         /*
         public getTileOverlaps(object: GameObject) {
@@ -225,13 +271,25 @@ module Kiwi.GameObjects {
 
         }*/
 
-        public putTile(x: number, y: number, index: number, layer: number = 0) {
+        /*
+        * Adds/Reassign's a tile on the point in the map.
+        *
+        * @method putTile
+        * @param {number} x
+        * @param {number} y
+        * @param {number} index
+        * @param {number} layer
+        */
+        public putTile(x: number, y: number, index: number, layer?: number) {
+            if (layer === undefined) {
+                var usedLayer: TileMapLayer = this.currentLayer;
+            } else {
+                var usedLayer: TileMapLayer = this.layers[layer];
+            }
 
-            this.layers[layer].putTile(x, y, index);
-
+            usedLayer.putTile(x, y, index);
         }
 
-        
 
     }
 

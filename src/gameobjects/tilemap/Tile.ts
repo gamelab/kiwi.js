@@ -42,7 +42,7 @@ module Kiwi.GameObjects {
 
         /**
          * The index of this tile type in the core map data.
-         * For example, if your map only has 16 kinds of tiles in it,
+         * For example, if your map only has 16 tiles in it,
          * this number is usually between 0 and 15.
          */
         public index: number;
@@ -110,7 +110,7 @@ module Kiwi.GameObjects {
         **/
         public toString(): string {
 
-            return "[{Tiled (index=" + this.index + " collisions=" + this.allowCollisions + " width=" + this.width + " height=" + this.height + ")}]";
+            return "[{Tile (index=" + this.index + " collisions=" + this.allowCollisions + " width=" + this.width + " height=" + this.height + ")}]";
 
         }
 

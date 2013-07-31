@@ -1,9 +1,9 @@
 /// <reference path="../../src/Kiwi.ts" /> 
 
-class basics extends Kiwi.State {
+class putTiles extends Kiwi.State {
 
     constructor() {
-        super('basics');
+        super('putTiles');
     }
 
     init() {
@@ -23,7 +23,13 @@ class basics extends Kiwi.State {
 
         this.addChild(this.tileMap);
         
+        this.game.input.mouse.mouseUp.add(this.putTile, this);
     }
 
+    putTile() {
+        
+        this.tileMap.putTile(this.game.input.mouse.x() + this.tileMap.currentLayer.position.x(), this.game.input.mouse.y() + this.tileMap.currentLayer.position.y(), 31);
+
+    }
 
 }

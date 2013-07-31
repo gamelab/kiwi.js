@@ -1,6 +1,6 @@
 /// <reference path="../../src/Kiwi.ts" /> 
 
-class basics extends Kiwi.State {
+class getTile extends Kiwi.State {
 
     constructor() {
         super('basics');
@@ -11,6 +11,7 @@ class basics extends Kiwi.State {
     }
 
     public tileMap: Kiwi.GameObjects.TileMap;
+    public textfield: Kiwi.GameObjects.Textfield;
 
     preload() {
         this.addSpriteSheet('desert', 'assets/tiles/tmw_desert_spacing.png', 33, 33, false);
@@ -21,9 +22,18 @@ class basics extends Kiwi.State {
         this.tileMap = new Kiwi.GameObjects.TileMap();
         this.tileMap.createFromCache('desertTiles', this.cache, 'desert', this.cache, this.game, Kiwi.GameObjects.TileMap.FORMAT_TILED_JSON);
 
+        this.textfield = new Kiwi.GameObjects.Textfield('', this.game.stage.size.halfWidth, 0, '#000', '14px');
+        this.textfield.textAlign('center');
+
         this.addChild(this.tileMap);
-        
+        this.addChild(this.textfield);
+        this.game.input.mouse.mouseUp.add(this.getTile, this);
     }
 
+    getTile() {
+        
+        this.textfield.setText(this.tileMap.getTileFromWorldXY( this.game.input.mouse.x(), this.game.input.mouse.y() ).toString() );
+
+    }
 
 }

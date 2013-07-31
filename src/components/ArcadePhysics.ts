@@ -309,10 +309,12 @@ module Kiwi.Components {
             var overlap: number = 0;
             var obj1delta: number = phys1.position.x() - phys1.last.x;
             var obj2delta: number = phys2.position.x() - phys2.last.x;
+
             if (obj1delta != obj2delta) {
                 //Check if the X hulls actually overlap
                 var obj1deltaAbs: number = (obj1delta > 0) ? obj1delta : -obj1delta;
                 var obj2deltaAbs: number = (obj2delta > 0) ? obj2delta : -obj2delta;
+                //where they were before
                 var obj1rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(phys1.position.x() - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.size.width() + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.size.height());
                 var obj2rect: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle(phys2.position.x() - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.size.width() + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.size.height());
                 if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
@@ -329,7 +331,7 @@ module Kiwi.Components {
                         }
                     }
                     else if (obj1delta < obj2delta) {
-                        overlap = phys1.position.x() - phys1.size.width() - phys2.position.x();
+                        overlap = phys1.position.x() - phys2.size.width() - phys2.position.x();
                         if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT))
                             overlap = 0;
                         else {
@@ -344,8 +346,9 @@ module Kiwi.Components {
             if (overlap != 0) {
                 var obj1v: number = phys1.velocity.x;
                 var obj2v: number = phys2.velocity.x;
+                
 
-                if (!obj1immovable && !obj2immovable) {
+                if (!obj1immovable && !obj2immovable) { //no beans...
                     overlap *= 0.5;
                     phys1.position.x(phys1.position.x() - overlap);
                     phys2.position.x(phys2.position.x() + overlap);
@@ -357,12 +360,14 @@ module Kiwi.Components {
                     obj2velocity -= average;
                     phys1.velocity.x = average + obj1velocity * phys1.elasticity;
                     phys2.velocity.x = average + obj2velocity * phys2.elasticity;
+
                 }
                 else if (!obj1immovable) {
                     phys1.position.x(phys1.position.x() - overlap);
                     phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
                 }
                 else if (!obj2immovable) {
+
                     phys2.position.x(phys2.position.x() + overlap);
                     phys2.velocity.x = obj1v - obj2v * phys2.elasticity;
                 }
@@ -411,7 +416,7 @@ module Kiwi.Components {
                         }
                     }
                     else if (obj1delta < obj2delta) {
-                        overlap = phys1.position.y() - phys1.size.height() - phys2.position.y();
+                        overlap = phys1.position.y() - phys2.size.height() - phys2.position.y();
                         if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
                             overlap = 0;
                         } else {
@@ -445,14 +450,14 @@ module Kiwi.Components {
                     phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
                     //This is special case code that handles cases like horizontal moving platforms you can ride
                     if (object2.active && phys2.moves && (obj1delta > obj2delta))
-                        phys1.position.x(phys1.position.x() + object2.x - phys2.last.x);
+                        phys1.position.x(phys1.position.x() + object2.position.x() - phys2.last.x); 
                 }
                 else if (!obj2immovable) {
                     phys2.position.y(phys2.position.y() + overlap);
                     phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
                     //This is special case code that handles cases like horizontal moving platforms you can ride
                     if (object1.active && phys1.moves && (obj1delta < obj2delta))
-                        phys1.position.x(phys2.position.x() + object1.x - phys1.last.x);
+                        phys2.position.x(phys2.position.x() + object1.position.x() - phys1.last.x); 
                 }
                 return true;
             }
@@ -501,7 +506,6 @@ module Kiwi.Components {
 
           
             if (result && separateObjects) {
-               
                 ArcadePhysics.separate(this._parent, gameObject);
             }
 
@@ -552,9 +556,9 @@ module Kiwi.Components {
         public update() {
 
             //Flixel preupdate
-            
             this.last.x = this.position.x();
             this.last.y = this.position.y();
+
 
             //Flixel postupdate
             if (this.moves)

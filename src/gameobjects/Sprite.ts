@@ -429,9 +429,7 @@ module Kiwi.GameObjects {
         public update() {
             
             super.update();
-
-
-
+            
             this.input.update();
 
             if (this.input.isDragging === true)
@@ -448,7 +446,8 @@ module Kiwi.GameObjects {
                 this.size.setTo(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
             }
 
-           
+            
+            this.physics.update();
         }
 
         /**
@@ -459,14 +458,14 @@ module Kiwi.GameObjects {
 
             super.render(camera);
 
-            if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true && this.visible.visible() === true)
+            if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0)
             {
                 if (this.bounds.showDebug === true)
                 {
                     this.bounds.drawCanvasDebugOutline(this.layer);
                 }
 
-                if (this.alpha.alpha() >= 0 && this.alpha.alpha() <= 1)
+                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)
                 {
                     this.layer.canvas.context.save();
                     this.alpha.setContext(this.layer.canvas);
@@ -522,8 +521,6 @@ module Kiwi.GameObjects {
                 
 
               if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)
-
-
                 {
                     this.layer.canvas.context.restore();
                 }

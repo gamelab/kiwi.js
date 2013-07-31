@@ -158,7 +158,6 @@ module Kiwi.Components {
 
             if (this._alpha0 >= 0 && this._alpha0 < 1)
             {
-                console.log('canvas', this._alpha0);
                 canvas.context.globalAlpha = this._alpha0;
             }
 
