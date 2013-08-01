@@ -2,38 +2,49 @@ module Kiwi.GameObjects {
 
     export class Tile extends Kiwi.Entity {
 
-        constructor(parentLayer: Kiwi.GameObjects.TileMapLayer, type: Kiwi.GameObjects.TileType, width: number, height: number, x: number, y: number) {
+        constructor(tileLayer: Kiwi.GameObjects.TileMapLayer, tileType: Kiwi.GameObjects.TileType, width: number, height: number, x: number, y: number) {
             super(true, false, false);
 
-            this.parentLayer = parentLayer;
-            this.type = type;
+            this.tileLayer = tileLayer;
 
-            this.iX = x;
-            this.iY = y;
+            this._iX = x;
+            this._iY = y;
+
             this.position = this.components.add(new Kiwi.Components.Position(x, y));
             this.size = this.components.add(new Kiwi.Components.Size(width, height));
-
-            //physics
+            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
+            this.tileUpdate(tileType);
         }
 
         public objType() {
             return "Tile";
         }
 
-        public parentLayer: Kiwi.GameObjects.TileMapLayer;
+        public tileUpdate(tileType: Kiwi.GameObjects.TileType) {
+            this.tileType = tileType;
+            this.physics.mass = this.tileType.mass;
+            this.physics.allowCollisions = this.tileType.allowCollisions;
+            this.physics.immovable = this.tileType.immovable;
+        }
 
-        public iX: number;
+        public tileLayer: Kiwi.GameObjects.TileMapLayer;
 
-        public iY: number;
-
-        public type: Kiwi.GameObjects.TileType;
+        public tileType: Kiwi.GameObjects.TileType;
 
         public position: Kiwi.Components.Position;
 
         public size: Kiwi.Components.Size;
 
-        public updatePosition(pX:number, pY: number) {
-            this.position.setTo(this.iX + pX, this.iY + pY);
+        public physics: Kiwi.Components.ArcadePhysics;
+        
+        private _iX: number;
+
+        private _iY: number;
+
+        public updatePos(x: number, y: number) {
+
+            this.position.setTo(x + this._iX, y + this._iY);
+
         }
 
     }

@@ -254,7 +254,7 @@ module Kiwi.Components {
             //object vs object
             var obj1Physics: ArcadePhysics = gameObject1.components.getComponent("ArcadePhysics");
 
-            return obj1Physics.overlaps(gameObject2, true);
+            return obj1Physics.overlaps(gameObject2, separateObjects);
 
         }
 
@@ -309,9 +309,10 @@ module Kiwi.Components {
             var overlap: number = 0;
             var obj1delta: number = phys1.position.x() - phys1.last.x;
             var obj2delta: number = phys2.position.x() - phys2.last.x;
-
+            
             if (obj1delta != obj2delta) {
                 //Check if the X hulls actually overlap
+                console.log('1');
                 var obj1deltaAbs: number = (obj1delta > 0) ? obj1delta : -obj1delta;
                 var obj2deltaAbs: number = (obj2delta > 0) ? obj2delta : -obj2delta;
                 //where they were before
@@ -323,18 +324,18 @@ module Kiwi.Components {
                     //If they did overlap (and can), figure out by how much and flip the corresponding flags
                     if (obj1delta > obj2delta) {
                         overlap = phys1.position.x() + phys1.size.width() - phys2.position.x();
-                        if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT))
+                        if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
                             overlap = 0;
-                        else {
+                    } else {
                             phys1.touching |= ArcadePhysics.RIGHT;
                             phys2.touching |= ArcadePhysics.LEFT;
                         }
                     }
                     else if (obj1delta < obj2delta) {
                         overlap = phys1.position.x() - phys2.size.width() - phys2.position.x();
-                        if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT))
+                        if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
                             overlap = 0;
-                        else {
+                        } else {
                             phys1.touching |= ArcadePhysics.LEFT;
                             phys2.touching |= ArcadePhysics.RIGHT;
                         }
@@ -347,7 +348,6 @@ module Kiwi.Components {
                 var obj1v: number = phys1.velocity.x;
                 var obj2v: number = phys2.velocity.x;
                 
-
                 if (!obj1immovable && !obj2immovable) { //no beans...
                     overlap *= 0.5;
                     phys1.position.x(phys1.position.x() - overlap);

@@ -33,7 +33,7 @@ class movement extends Kiwi.State {
         this.game.input.keyboard.addKey(movement.LEFT);
         this.game.input.keyboard.addKey(movement.RIGHT);
     }
-
+    
     update() {
         var vx = 0;
         var vy = 0;
@@ -54,13 +54,13 @@ class movement extends Kiwi.State {
         }
 
         if (this.ship.position.x() > this.game.stage.size.width() - 100 && vx > 0 || this.ship.position.x() < 100 && vx < 0) {
-            this.tileMap.currentLayer.position.addTo(vx);
+            this.tileMap.currentLayer.position.addTo(-vx);
         } else {
             this.ship.position.addTo(vx);
         }
 
         if (this.ship.position.y() > this.game.stage.size.height() - 100 && vy > 0 || this.ship.position.y() < 100 && vy < 0) {
-            this.tileMap.currentLayer.position.addTo(0, vy);
+            this.tileMap.currentLayer.position.addTo(0, -vy);
         } else {
             this.ship.position.addTo(0, vy);
         }

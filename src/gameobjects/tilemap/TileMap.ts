@@ -265,7 +265,7 @@ module Kiwi.GameObjects {
                 var usedLayer: TileMapLayer = this.layers[layer];
             }
 
-            return usedLayer.getTileFromWorldXY(this._game.input.mouse.x() + usedLayer.position.x(), this._game.input.mouse.y() + usedLayer.position.y());
+            return usedLayer.getTileFromWorldXY(this._game.input.mouse.x() - usedLayer.position.x(), this._game.input.mouse.y() - usedLayer.position.y());
         }
         /*
         public getTileOverlaps(object: GameObject) {
@@ -293,6 +293,60 @@ module Kiwi.GameObjects {
             usedLayer.putTile(x, y, this.tiles[index]);
         }
 
+        //collision stuff
+
+        /*
+        * Sets the collision of a range of tiletypes.
+        *
+        * @method setCollisionRange
+        * @params {number} start
+        * @params {number} end
+        * @params {number} collision
+        * @params {bool} seperate
+        */
+        public setCollisionRange(start: number, end: number, collision: number = Kiwi.Components.ArcadePhysics.ANY, seperate: bool = true) {
+
+            for (var i = start; i <= end; i++) {
+                this.setCollisionByIndex(i, collision, seperate);
+            }
+
+        }
+
+        /*
+        * Sets the collision of a single tiletype by the index.
+        *
+        * @method setCollisionIndex
+        * @params {number} index
+        * @params {number} collision
+        * @params {bool} seperate
+        */
+        public setCollisionByIndex(index: number, collision: number = Kiwi.Components.ArcadePhysics.ANY, seperate: bool = true) {
+            this.tiles[index].seperate = seperate;
+            this.tiles[index].allowCollisions = collision;
+            console.log('Collision Set:',index);
+            var tiles = this.currentLayer.getTilesByIndex(index);
+
+            for (var t = 0; t < tiles.length; t++) {
+                tiles[t].physics.seperate = seperate;
+                tiles[t].physics.allowCollisions = collision;
+            }
+        }
+
+        /*
+        * Checks to see if an object is currently colliding with the given game objects
+        */
+        public collideSingle(object: Kiwi.Entity) {
+            
+            if (object.exists() === false || !object.components.hasComponent('ArcadePhysics')) return;
+
+            var tiles = this.currentLayer.getTileOverlaps(object);
+
+            if (tiles !== undefined) {
+                for (var i = 0; i < tiles.length; i++) {
+                    object.components.getComponent('ArcadePhysics').overlaps(tiles[i], tiles[i].tileType.seperate);
+                }
+            }
+        }
 
     }
 

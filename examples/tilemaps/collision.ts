@@ -1,9 +1,9 @@
 /// <reference path="../../src/Kiwi.ts" /> 
 
-class getMovingTile extends Kiwi.State {
+class collision extends Kiwi.State {
 
     constructor() {
-        super('getMovingTile');
+        super('overlaps');
     }
 
     init() {
@@ -11,7 +11,6 @@ class getMovingTile extends Kiwi.State {
     }
 
     public tileMap: Kiwi.GameObjects.TileMap;
-    public textfield: Kiwi.GameObjects.Textfield;
     public ship: Kiwi.GameObjects.Sprite;
 
     preload() {
@@ -24,40 +23,41 @@ class getMovingTile extends Kiwi.State {
         this.tileMap = new Kiwi.GameObjects.TileMap();
         this.tileMap.createFromCache('desertTiles', this.cache, 'desert', this.cache, this.game, Kiwi.GameObjects.TileMap.FORMAT_TILED_JSON);
 
-        this.textfield = new Kiwi.GameObjects.Textfield('', this.game.stage.size.halfWidth, 0, '#000', '14px');
-        this.textfield.textAlign('center');
+        this.tileMap.setCollisionRange(1, 3);
+        this.tileMap.setCollisionRange(17, 19);
+        this.tileMap.setCollisionRange(9, 11);
+        this.tileMap.setCollisionRange(25, 27);
+        this.tileMap.setCollisionRange(33, 35);
+        this.tileMap.setCollisionRange(36, 37);
+        this.tileMap.setCollisionRange(44, 45);
+        this.tileMap.setCollisionRange(41, 43);
+
         this.ship = new Kiwi.GameObjects.Sprite('ship', this.cache, 200, 150);
 
         this.addChild(this.tileMap);
-        this.addChild(this.textfield);
         this.addChild(this.ship);
 
-        this.game.input.mouse.mouseUp.add(this.getTile, this);
-        this.game.input.keyboard.addKey(getMovingTile.UP);
-        this.game.input.keyboard.addKey(getMovingTile.DOWN);
-        this.game.input.keyboard.addKey(getMovingTile.LEFT);
-        this.game.input.keyboard.addKey(getMovingTile.RIGHT);
-    }
-
-    getTile() {
-        this.textfield.setText(this.tileMap.getTileFromInputXY().tileType.toString());
+        this.game.input.keyboard.addKey(overlaps.UP);
+        this.game.input.keyboard.addKey(overlaps.DOWN);
+        this.game.input.keyboard.addKey(overlaps.LEFT);
+        this.game.input.keyboard.addKey(overlaps.RIGHT);
     }
 
     update() {
         var vx = 0;
         var vy = 0;
-        if (this.game.input.keyboard.isDown(getMovingTile.LEFT)) {
+        if (this.game.input.keyboard.isDown(overlaps.LEFT)) {
             vx = -5;
             this.ship.rotation.angle(180);
-        } else if (this.game.input.keyboard.isDown(getMovingTile.RIGHT)) {
+        } else if (this.game.input.keyboard.isDown(overlaps.RIGHT)) {
             vx = 5;
             this.ship.rotation.angle(0);
         }
 
-        if (this.game.input.keyboard.isDown(getMovingTile.UP)) {
+        if (this.game.input.keyboard.isDown(overlaps.UP)) {
             vy = -5;
             this.ship.rotation.angle(-90);
-        } else if (this.game.input.keyboard.isDown(getMovingTile.DOWN)) {
+        } else if (this.game.input.keyboard.isDown(overlaps.DOWN)) {
             vy = 5;
             this.ship.rotation.angle(90);
         }
@@ -74,11 +74,12 @@ class getMovingTile extends Kiwi.State {
             this.ship.position.addTo(0, vy);
         }
 
-        if (this.game.input.keyboard.isDown(getMovingTile.LEFT) && this.game.input.keyboard.isDown(getMovingTile.DOWN)) this.ship.rotation.angle(135);
-        if (this.game.input.keyboard.isDown(getMovingTile.LEFT) && this.game.input.keyboard.isDown(getMovingTile.UP)) this.ship.rotation.angle(-135);
-        if (this.game.input.keyboard.isDown(getMovingTile.RIGHT) && this.game.input.keyboard.isDown(getMovingTile.DOWN)) this.ship.rotation.angle(45);
-        if (this.game.input.keyboard.isDown(getMovingTile.RIGHT) && this.game.input.keyboard.isDown(getMovingTile.UP)) this.ship.rotation.angle(-45);
-
+        if (this.game.input.keyboard.isDown(overlaps.LEFT) && this.game.input.keyboard.isDown(overlaps.DOWN)) this.ship.rotation.angle(135);
+        if (this.game.input.keyboard.isDown(overlaps.LEFT) && this.game.input.keyboard.isDown(overlaps.UP)) this.ship.rotation.angle(-135);
+        if (this.game.input.keyboard.isDown(overlaps.RIGHT) && this.game.input.keyboard.isDown(overlaps.DOWN)) this.ship.rotation.angle(45);
+        if (this.game.input.keyboard.isDown(overlaps.RIGHT) && this.game.input.keyboard.isDown(overlaps.UP)) this.ship.rotation.angle(-45);
+        
+        this.tileMap.collideSingle(this.ship);
         super.update();
     }
 
@@ -86,6 +87,4 @@ class getMovingTile extends Kiwi.State {
     public static LEFT: number = 65;
     public static DOWN: number = 83;
     public static RIGHT: number = 68;
-
 }
-

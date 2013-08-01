@@ -12,8 +12,13 @@ module Kiwi.GameObjects {
 
             this.width = width;
             this.height = height;
-            this.allowCollisions = 0//Collision.NONE;
 
+            this.tx = 0;
+            this.ty = 0;
+
+            this.allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
+            this.seperate = false;
+            this.immovable = true;
         }
 
         private _game: Game;
@@ -25,15 +30,14 @@ module Kiwi.GameObjects {
         public width: number;
         public height: number;
 
+        public tx:number;
+        public ty: number;
+        public immovable: boolean;
+        /*
+        * Which side or if the user can collide on anyside.
+        */
         public allowCollisions: number;
-
-        public collideLeft: bool = false;
-        public collideRight: bool = false;
-        public collideUp: bool = false;
-        public collideDown: bool = false;
-
-        public separateX: bool = true;
-        public separateY: bool = true;
+        public seperate: bool;
 
         /**
          * A reference to the tilemap this tile object belongs to.
@@ -55,54 +59,6 @@ module Kiwi.GameObjects {
             this.tilemap = null;
 
         }
-
-        public setCollision(collision: number, resetCollisions: bool, separateX: bool, separateY: bool) {
-
-            if (resetCollisions) {
-                this.resetCollision();
-            }
-
-            this.separateX = separateX;
-            this.separateY = separateY;
-
-            this.allowCollisions = collision;
-            /*
-        //    if (collision & Collision.ANY) {
-                this.collideLeft = true;
-                this.collideRight = true;
-                this.collideUp = true;
-                this.collideDown = true;
-                return;
-          ///  }
-
-            if (collision & Collision.LEFT || collision & Collision.WALL) {
-                this.collideLeft = true;
-            }
-
-            if (collision & Collision.RIGHT || collision & Collision.WALL) {
-                this.collideRight = true;
-            }
-
-            if (collision & Collision.UP || collision & Collision.CEILING) {
-                this.collideUp = true;
-            }
-
-            if (collision & Collision.DOWN || collision & Collision.CEILING) {
-                this.collideDown = true;
-            }
-            */
-        }
-
-        public resetCollision() {
-
-            //this.allowCollisions = Collision.NONE;
-            this.collideLeft = false;
-            this.collideRight = false;
-            this.collideUp = false;
-            this.collideDown = false;
-
-        }
-
         /**
         * Returns a string representation of this object.
         * @method toString

@@ -32,7 +32,7 @@ class getTile extends Kiwi.State {
 
     getTile() {
         
-        this.textfield.setText(this.tileMap.getTileFromWorldXY( this.game.input.mouse.x(), this.game.input.mouse.y() ).tile.toString() );
+        this.textfield.setText(this.tileMap.getTileFromWorldXY(this.game.input.mouse.x(), this.game.input.mouse.y()).tileType.toString() );
 
     }
 

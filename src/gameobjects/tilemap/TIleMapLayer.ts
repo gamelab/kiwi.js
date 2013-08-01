@@ -18,10 +18,10 @@ module Kiwi.GameObjects {
 
             this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
             this.position = this.components.add(new Kiwi.Components.Position(0, 0, 0));
+            this.position.updated.add(this._updatePosition, this);
             this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
             this.visible = this.components.add(new Kiwi.Components.Visible(true));
 
-            this.position.updated.add(this._updatedPosition, this);
         }
 
         private _game: Game;
@@ -86,19 +86,14 @@ module Kiwi.GameObjects {
         private _oldCameraY: number = 0;
 
         /*
-        * Various properties used when dealing with tile manipulation.
-        */
-        private _tempTileX: number;
-        private _tempTileY: number;
-        private _tempTileW: number;
-        private _tempTileH: number;
-
-        /*
         * Holds a set of tile information that is used when manipulating tiles. 
         * @private
         */
         private _tempTileBlock;
-        private _tempBlockResults;
+        private _tempTileX: number;
+        private _tempTileY: number;
+        private _tempTileW: number;
+        private _tempTileH: number;
 
         public name: string;
         public exists: bool = true;
@@ -151,7 +146,7 @@ module Kiwi.GameObjects {
 
             if (y >= 0 && y < this.mapData.length) {
                 if (x >= 0 && x < this.mapData[y].length) {
-                    this.mapData[y][x].type = tileType;
+                    this.mapData[y][x].tileUpdate(tileType);
                 }
             }
 
@@ -169,10 +164,10 @@ module Kiwi.GameObjects {
         */
         public fillTiles(index: number, x: number = 0, y: number = 0, width: number = this.widthInTiles, height: number = this.heightInTiles) {
 
-            this.getTempBlock(x, y, width, height);
+            this.getTempBlock(x, y, width, height); 
 
             for (var r = 0; r < this._tempTileBlock.length; r++) {
-                this.mapData[this._tempTileBlock[r].y][this._tempTileBlock[r].x] = index;
+                this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[index]);
             }
 
         }
@@ -194,11 +189,11 @@ module Kiwi.GameObjects {
 
             for (var r = 0; r < this._tempTileBlock.length; r++) {
 
-                if (this._tempTileBlock[r].tile.index === indexA) {
-                    this.mapData[this._tempTileBlock[r].y][this._tempTileBlock[r].x] = indexB;
+                if (this._tempTileBlock[r].tile.tileType.index === indexA) {
+                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
 
-                } else if (this._tempTileBlock[r].tile.index === indexB) {
-                    this.mapData[this._tempTileBlock[r].y][this._tempTileBlock[r].x] = indexA;
+                } else if (this._tempTileBlock[r].tile.tileType.index === indexB) {
+                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexA]);
                 }
 
             }
@@ -215,15 +210,14 @@ module Kiwi.GameObjects {
         * @param {number} y
         * @param {number} width
         * @param {number} height
-        */ //redo
+        */ 
         public replaceTiles(indexA: number, indexB: number, x: number = 0, y: number = 0, width: number = this.widthInTiles, height: number= this.heightInTiles) {
             this.getTempBlock(x, y, width, height);
 
             for (var r = 0; r < this._tempTileBlock.length; r++) {
 
-                if (this._tempTileBlock[r].tile.index === indexA) {
-                    this.mapData[this._tempTileBlock[r].y][this._tempTileBlock[r].x] = indexB;
-
+                if (this._tempTileBlock[r].tile.tileType.index === indexA) {
+                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
                 }
 
             }
@@ -247,6 +241,27 @@ module Kiwi.GameObjects {
         }
 
         /*
+        * Gets all of the tiles by the index number you pass. 
+        *
+        * @method getTilesByIndex
+        * @param {number} index
+        * @returns {Array}
+        */
+        public getTilesByIndex(index: number) {
+            var tiles = [];
+            for (var ty = 0; ty < this.mapData.length; ty++) {
+                for (var tx = 0; tx < this.mapData[ty].length; tx++) {
+
+                    if (this.mapData[ty][tx].tileType.index === index) {
+                        tiles.push(this.mapData[ty][tx]);
+                    }
+
+                }
+            }
+            return tiles;
+        }
+
+        /*
         * Creates a set of temporary tile blocks based on the current map data.
         * Perhaps add another param which is by a certain tile index?
         * 
@@ -255,34 +270,30 @@ module Kiwi.GameObjects {
         * @param {number} y
         * @param {number} width - In Tiles.
         * @param {number} height - In Tiles.
-        * @param {bool} collisionOnly - Ger only the tiles that can have collisions.
-        */ //redo
+        * @param {bool} collisionOnly - Get only the tiles that can have collisions.
+        */ 
         private getTempBlock(x: number, y: number, width: number, height: number, collisionOnly: bool = false) {
 
             if (x < 0) x = 0;
             if (y < 0) y = 0;
 
-            if (width > this.widthInTiles) width = this.widthInTiles;
-            if (height > this.heightInTiles) height = this.heightInTiles;
+            if (x + width > this.widthInTiles) width = this.widthInTiles - x + 1;     
+            if (y + height > this.heightInTiles) height = this.heightInTiles - y + 1; 
 
             this._tempTileBlock = [];
 
             for (var ty = y; ty < y + height; ty++) {
                 for (var tx = x; tx < x + width; tx++) {
-                    /*
                     if (collisionOnly) {
                         //  We only want to consider the tile for checking if you can actually collide with it
-                        if (this.mapData[ty] && this.mapData[ty][tx] && this._parent.tiles[this.mapData[ty][tx]].allowCollisions != Collision.NONE) {
-                            this._tempTileBlock.push({ x: tx, y: ty, tile: this._parent.tiles[this.mapData[ty][tx]] });
+                        if (this.mapData[ty] && this.mapData[ty][tx] && this.mapData[ty][tx].tileType.allowCollisions != Kiwi.Components.ArcadePhysics.NONE) {
+                            this._tempTileBlock.push( this.mapData[ty][tx] );
+                        }
+                    } else {
+                        if (this.mapData[ty] && this.mapData[ty][tx]) {
+                            this._tempTileBlock.push(this.mapData[ty][tx] );
                         }
                     }
-                    colliding blocks...
-                    
-                    else {*/
-                    if (this.mapData[ty] && this.mapData[ty][tx]) {
-                        this._tempTileBlock.push({ x: tx, y: ty, tile: this._parent.tiles[this.mapData[ty][tx]] });
-                    }
-                    //}
                 }
             }
 
@@ -290,13 +301,36 @@ module Kiwi.GameObjects {
 
         /*
         * Returns all of the tiles that overlap a given entity. 
-        * Returns an array with each index containing the tiles {x, y, tile}
+        * Returns an array with each index containing the tiles
         *
         * @method getTileOverlaps
         * @param {Kiwi.Entity} object
         * @return {Array}
         */
         public getTileOverlaps(object: Kiwi.Entity) {
+            
+            //if the object is within the bounds at all.?
+            if (!object.components.hasComponent("Size") || !object.components.hasComponent("Position")) {
+                return;
+            }
+
+            var objPos = object.components.getComponent('Position');
+            var objSize = object.components.getComponent('Size');
+
+            if (objPos.x() > this.position.x() + this.widthInPixels || objPos.x() + objSize.width() < this.position.x() || objPos.y() > this.position.y() + this.heightInPixels || objPos.y() + objSize.height() < this.position.y()) {
+                return;
+            }
+
+            //get the starting... quadtree hererere
+            this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x() - this.position.x(), this.tileWidth) / this.tileWidth;
+            this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y() - this.position.y(), this.tileHeight) / this.tileHeight;
+            
+            this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(objSize.width(), this.tileWidth) / this.tileWidth;
+            this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(objSize.height(), this.tileHeight) / this.tileHeight;
+
+            this.getTempBlock(this._tempTileX, this._tempTileY, this._tempTileW + 1, this._tempTileH + 1, true);
+            
+            return this._tempTileBlock;
 
         }
 
@@ -312,7 +346,7 @@ module Kiwi.GameObjects {
 
             if (y >= 0 && y < this.mapData.length) {        //if it is with the bounds
                 if (x >= 0 && x < this.mapData[y].length) {
-                    return this.mapData[y][x].type.index;              //return
+                    return this.mapData[y][x].tileType.index;              //return
                 }
             }
 
@@ -349,7 +383,9 @@ module Kiwi.GameObjects {
             var data = [];
             
             for (var c = 0; c < row.length; c++) {
-                data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth, this.heightInPixels);
+                data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.position.x(), this.heightInPixels + this.position.y());
+                data[c].ty = this.heightInTiles;
+                data[c].tx = c;
             }
 
             if (this.widthInTiles == 0) {
@@ -378,7 +414,7 @@ module Kiwi.GameObjects {
         * Loops through the texture that was given and assign's each sprite to the _tileOffset, with its coordinates.
         */
         public parseTileOffsets(): number {
-            console.log("parseTileOffsets");
+
             this._tileOffsets = [];
 
             var i = 0;
@@ -401,10 +437,11 @@ module Kiwi.GameObjects {
 
         }
 
-        private _updatedPosition() {
-            for (var c = 0; c < this.mapData.length; c++) {
-                for (var r = 0; r < this.mapData[c].length; r++) {
-                    this.mapData[c][r].updatePosition(this.position.x(), this.position.y());
+        //callback when the position is updated - lags the game out...
+        private _updatePosition() {
+            for (var x = 0; x < this.mapData.length; x++) {
+                for (var y = 0; y < this.mapData.length; y++) {
+                    this.mapData[y][x].updatePos(this.position.x(), this.position.y());
                 }
             }
         }
@@ -427,8 +464,8 @@ module Kiwi.GameObjects {
             this._maxY = Math.min(Math.ceil(camera.size.height() / this.tileHeight) + 1,this.heightInTiles);
             
             //  And now work out where in the tilemap the camera actually is
-            this._startX = Math.floor((camera.position.x() + this.position.x()) / this.tileWidth);
-            this._startY = Math.floor((camera.position.y() + this.position.y()) / this.tileHeight);
+            this._startX = Math.floor((camera.position.x() - this.position.x()) / this.tileWidth);
+            this._startY = Math.floor((camera.position.y() - this.position.y()) / this.tileHeight);
             
             //boundaries check
             if (this._startX < 0) this._startX = 0;
@@ -441,45 +478,37 @@ module Kiwi.GameObjects {
             if (this._startY + this._maxY > this.heightInTiles) this._startY = this.heightInTiles - this._maxY;
 
             //stop the rendering of 'canvas' when parts of it are off screen. To Do.
-
-            // the starting position in pixels
-            this._dx = -this.position.x(); 
-            this._dy = -this.position.y(); 
-            this._dx += -(camera.position.x() - (this._startX * this.tileWidth));
-            this._dy += -(camera.position.y() - (this._startY * this.tileHeight));
-
-            //add the component here position here.
-            this._tx = this._dx;
-            this._ty = this._dy;
+            
+            //use dx and tx
 
             for (var column = this._startY; column < this._startY + this._maxY; column++) {
                 this._columnData = this.mapData[column]; //get the column data
                 //careful here.
                 for (var tile = this._startX; tile < this._startX + this._maxX; tile++) {
-                        
-                    if (this._tileOffsets[this._columnData[tile].type.index]) { //if the tile exists
+                    
+                    if (this._tileOffsets[this._columnData[tile].tileType.index]) {        //if the tile exists
                         ctx.drawImage(
-                            this._texture,	                                //  Source Image
-                            this._tileOffsets[this._columnData[tile].type.index].x,    //  Source X (location within the source image)
-                            this._tileOffsets[this._columnData[tile].type.index].y,    //  Source Y
-                            this.tileWidth, 	                            //	Source Width
-                            this.tileHeight, 	                            //	Source Height
-                            this._tx, 	    	                            //	Destination X (where on the canvas it'll be drawn)
-                            this._ty,	    	                            //	Destination Y
+                            this._texture,	                                               //  Source Image
+                            this._tileOffsets[this._columnData[tile].tileType.index].x,    //  Source X (location within the source image)
+                            this._tileOffsets[this._columnData[tile].tileType.index].y,    //  Source Y
+                            this.tileWidth, 	                                           //	Source Width
+                            this.tileHeight, 	                                           //	Source Height
+                            this._columnData[tile].position.x(), 	   //	Destination X (where on the canvas it'll be drawn)
+                            this._columnData[tile].position.y(),	   //	Destination Y
                             this.tileWidth, 	                            //	Destination Width (always same as Source Width unless scaled)
                             this.tileHeight	                                //	Destination Height (always same as Source Height unless scaled)
                             );
 
                     }
 
-                    this._tx += this.tileWidth;
-
+                    //update the position here as well
+                    this._columnData[tile].physics.update();
                 }
 
-                this._tx = this._dx;
-                this._ty += this.tileHeight;
+                
 
             }
+
             if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
                 ctx.restore();
             }
