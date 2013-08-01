@@ -807,7 +807,6 @@ var Kiwi;
                 this.green(green);
                 this.blue(blue);
                 this.alpha(alpha);
-
                 this._skipUpdate = false;
 
                 this._processUpdate();
@@ -8112,7 +8111,7 @@ var Kiwi;
                 _super.prototype.render.call(this, camera);
 
                 if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true) {
-                    this.layer.canvas.context.fillStyle = this.color.cssColorRGB;
+                    this.layer.canvas.context.fillStyle = this.color.cssColorRGBA;
                     this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), this._pixelSize, this._pixelSize);
                 }
             };
@@ -8856,9 +8855,6 @@ var Kiwi;
 
                 this.tileLayer = tileLayer;
 
-                this._iX = x;
-                this._iY = y;
-
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
                 this.size = this.components.add(new Kiwi.Components.Size(width, height));
                 this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
@@ -8873,10 +8869,6 @@ var Kiwi;
                 this.physics.mass = this.tileType.mass;
                 this.physics.allowCollisions = this.tileType.allowCollisions;
                 this.physics.immovable = this.tileType.immovable;
-            };
-
-            Tile.prototype.updatePos = function (x, y) {
-                this.position.setTo(x + this._iX, y + this._iY);
             };
             return Tile;
         })(Kiwi.Entity);
@@ -8896,9 +8888,6 @@ var Kiwi;
 
                 this.width = width;
                 this.height = height;
-
-                this.tx = 0;
-                this.ty = 0;
 
                 this.allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
                 this.seperate = false;
@@ -8923,8 +8912,8 @@ var Kiwi;
         var TileMap = (function (_super) {
             __extends(TileMap, _super);
             function TileMap() {
-                console.log('TileMap Constructor');
                 _super.call(this, true, false, false);
+                this._collisionCallback = null;
             }
             TileMap.prototype.createFromData = function (tileMapData, tileMapImageKey, tileMapImageCache, game, format) {
                 var data;
@@ -8950,7 +8939,6 @@ var Kiwi;
                 } else {
                     this.parseTiledJSON(tileMapData);
                 }
-                console.log('Created TileMap Game Object');
             };
 
             TileMap.prototype.createFromCache = function (tileMapDataKey, tileMapDataCache, tileMapImageKey, tileMapImageCache, game, format) {
@@ -8977,18 +8965,11 @@ var Kiwi;
                 this.mapFormat = format;
 
                 switch (format) {
-                    case TileMap.FORMAT_CSV:
-                        break;
-
                     case TileMap.FORMAT_TILED_JSON:
                         var obj = JSON.parse(tileMapDataCache.data.getFile(tileMapDataKey).data);
-
                         this.parseTiledJSON(obj);
-
                         break;
                 }
-
-                console.log('Created TileMap Game Object');
             };
 
             TileMap.prototype.objType = function () {
@@ -9005,18 +8986,17 @@ var Kiwi;
             };
 
             TileMap.prototype.parseTiledJSON = function (data) {
-                console.log("parsing tiled json");
-
                 var mapObj = data;
 
                 for (var i = 0; i < mapObj.layers.length; i++) {
-                    var layer = new GameObjects.TileMapLayer(this._game, this, this._tileMapImageCache, this._tileMapImageKey, TileMap.FORMAT_TILED_JSON, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
+                    var layer = new GameObjects.TileMapLayer(this._game, this, this._tileMapImageCache, this._tileMapImageKey, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
 
                     layer.position.setTo(mapObj.layers[i].x, mapObj.layers[i].y);
                     layer.alpha.alpha(parseInt(mapObj.layers[i].opacity));
                     layer.visible.visible(mapObj.layers[i].visible);
                     layer.tileMargin = mapObj.tilesets[0].margin;
                     layer.tileSpacing = mapObj.tilesets[0].spacing;
+                    layer.name = mapObj.tilesets[0].name;
 
                     var c = 0;
                     var row;
@@ -9038,8 +9018,6 @@ var Kiwi;
                         }
                     }
 
-                    layer.updateBounds();
-
                     this.currentLayer = layer;
 
                     this.layers.push(layer);
@@ -9047,7 +9025,6 @@ var Kiwi;
             };
 
             TileMap.prototype.generateTiles = function (layer, qty) {
-                console.log("Generate Tiles", qty);
                 for (var i = 0; i < qty; i++) {
                     this.tiles.push(new GameObjects.TileType(this._game, this, i, layer.tileWidth, layer.tileHeight));
                 }
@@ -9071,32 +9048,42 @@ var Kiwi;
 
             TileMap.prototype.getTile = function (x, y, layer) {
                 if (layer === undefined) {
-                    var usedLayer = this.currentLayer;
+                    return this.currentLayer.getTile(x, y);
+                    ;
                 } else {
-                    var usedLayer = this.layers[layer];
+                    return this.layers[layer].getTile(x, y);
+                    ;
                 }
+            };
 
-                return usedLayer.getTile(x, y);
+            TileMap.prototype.getTilesByType = function (index, layer) {
+                if (layer === undefined) {
+                    return this.currentLayer.getTilesByIndex(index);
+                } else {
+                    return this.layers[layer].getTilesByIndex(index);
+                }
             };
 
             TileMap.prototype.getTileFromWorldXY = function (x, y, layer) {
                 if (layer === undefined) {
-                    var usedLayer = this.currentLayer;
+                    return this.currentLayer.getTileFromWorldXY(x, y);
                 } else {
-                    var usedLayer = this.layers[layer];
+                    return this.layers[layer].getTileFromWorldXY(x, y);
                 }
-
-                return usedLayer.getTileFromWorldXY(x, y);
             };
 
             TileMap.prototype.getTileFromInputXY = function (layer) {
                 if (layer === undefined) {
-                    var usedLayer = this.currentLayer;
+                    return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x() - this.currentLayer.position.x(), this._game.input.mouse.y() - this.currentLayer.position.y());
+                    ;
                 } else {
-                    var usedLayer = this.layers[layer];
+                    return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x() - this.layers[layer].position.x(), this._game.input.mouse.y() - this.layers[layer].position.y());
+                    ;
                 }
+            };
 
-                return usedLayer.getTileFromWorldXY(this._game.input.mouse.x() - usedLayer.position.x(), this._game.input.mouse.y() - usedLayer.position.y());
+            TileMap.prototype.getTileOverlaps = function (object) {
+                return this.currentLayer.getTileOverlaps(object);
             };
 
             TileMap.prototype.putTile = function (x, y, index, layer) {
@@ -9107,6 +9094,11 @@ var Kiwi;
                 }
 
                 usedLayer.putTile(x, y, this.tiles[index]);
+            };
+
+            TileMap.prototype.setCollisionCallback = function (callback, context) {
+                this._collisionCallback = callback;
+                this._collisionCallbackContext = context;
             };
 
             TileMap.prototype.setCollisionRange = function (start, end, collision, seperate) {
@@ -9122,9 +9114,8 @@ var Kiwi;
                 if (typeof seperate === "undefined") { seperate = true; }
                 this.tiles[index].seperate = seperate;
                 this.tiles[index].allowCollisions = collision;
-                console.log('Collision Set:', index);
-                var tiles = this.currentLayer.getTilesByIndex(index);
 
+                var tiles = this.currentLayer.getTilesByIndex(index);
                 for (var t = 0; t < tiles.length; t++) {
                     tiles[t].physics.seperate = seperate;
                     tiles[t].physics.allowCollisions = collision;
@@ -9133,14 +9124,26 @@ var Kiwi;
 
             TileMap.prototype.collideSingle = function (object) {
                 if (object.exists() === false || !object.components.hasComponent('ArcadePhysics'))
-                    return;
+                    return false;
 
                 var tiles = this.currentLayer.getTileOverlaps(object);
 
                 if (tiles !== undefined) {
                     for (var i = 0; i < tiles.length; i++) {
-                        object.components.getComponent('ArcadePhysics').overlaps(tiles[i], tiles[i].tileType.seperate);
+                        if (object.components.getComponent('ArcadePhysics').overlaps(tiles[i], tiles[i].tileType.seperate)) {
+                            if (this._collisionCallback !== null) {
+                                this._collisionCallback.call(this._collisionCallbackContext, object, tiles[i]);
+                            }
+                        }
                     }
+                    return true;
+                }
+                return false;
+            };
+
+            TileMap.prototype.collideGroup = function (group) {
+                for (var i = 0; i < group.members.length; i++) {
+                    this.collideSingle(group.members[i]);
                 }
             };
             TileMap.FORMAT_CSV = 0;
@@ -9155,7 +9158,7 @@ var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
         var TileMapLayer = (function () {
-            function TileMapLayer(game, parent, imageCache, imageKey, mapFormat, name, tileWidth, tileHeight) {
+            function TileMapLayer(game, parent, imageCache, imageKey, name, tileWidth, tileHeight) {
                 this._startX = 0;
                 this._startY = 0;
                 this._maxX = 0;
@@ -9164,8 +9167,6 @@ var Kiwi;
                 this._ty = 0;
                 this._dx = 0;
                 this._dy = 0;
-                this._oldCameraX = 0;
-                this._oldCameraY = 0;
                 this.exists = true;
                 this.widthInTiles = 0;
                 this.heightInTiles = 0;
@@ -9177,10 +9178,8 @@ var Kiwi;
                 this._parent = parent;
 
                 this.name = name;
-                this.mapFormat = mapFormat;
                 this.tileWidth = tileWidth;
                 this.tileHeight = tileHeight;
-                this.boundsInTiles = new Kiwi.Geom.Rectangle();
 
                 this.mapData = [];
                 this._tempTileBlock = [];
@@ -9188,7 +9187,6 @@ var Kiwi;
 
                 this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
                 this.position = this.components.add(new Kiwi.Components.Position(0, 0, 0));
-                this.position.updated.add(this._updatePosition, this);
                 this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
                 this.visible = this.components.add(new Kiwi.Components.Visible(true));
             }
@@ -9215,6 +9213,18 @@ var Kiwi;
                 }
             };
 
+            TileMapLayer.prototype.randomiseTiles = function (tiles, x, y, width, height) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof width === "undefined") { width = this.widthInTiles; }
+                if (typeof height === "undefined") { height = this.heightInTiles; }
+                this.getTempBlock(x, y, width, height);
+
+                for (var r = 0; r < this._tempTileBlock.length; r++) {
+                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[this._game.rnd.pick(tiles)]);
+                }
+            };
+
             TileMapLayer.prototype.swapTiles = function (indexA, indexB, x, y, width, height) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
@@ -9223,9 +9233,9 @@ var Kiwi;
                 this.getTempBlock(x, y, width, height);
 
                 for (var r = 0; r < this._tempTileBlock.length; r++) {
-                    if (this._tempTileBlock[r].tile.tileType.index === indexA) {
+                    if (this._tempTileBlock[r].tileType.index === indexA) {
                         this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
-                    } else if (this._tempTileBlock[r].tile.tileType.index === indexB) {
+                    } else if (this._tempTileBlock[r].tileType.index === indexB) {
                         this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexA]);
                     }
                 }
@@ -9239,7 +9249,7 @@ var Kiwi;
                 this.getTempBlock(x, y, width, height);
 
                 for (var r = 0; r < this._tempTileBlock.length; r++) {
-                    if (this._tempTileBlock[r].tile.tileType.index === indexA) {
+                    if (this._tempTileBlock[r].tileType.index === indexA) {
                         this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
                     }
                 }
@@ -9356,16 +9366,12 @@ var Kiwi;
                 this.heightInPixels += this.tileHeight;
             };
 
-            TileMapLayer.prototype.updateBounds = function () {
-                this.boundsInTiles.setTo(0, 0, this.widthInTiles, this.heightInTiles);
-            };
-
             TileMapLayer.prototype.parseTileOffsets = function () {
                 this._tileOffsets = [];
 
                 var i = 0;
 
-                if (this.mapFormat == GameObjects.TileMap.FORMAT_TILED_JSON) {
+                if (this._parent.mapFormat == GameObjects.TileMap.FORMAT_TILED_JSON) {
                     this._tileOffsets[0] = null;
                     i = 1;
                 }
@@ -9378,14 +9384,6 @@ var Kiwi;
                 }
 
                 return this._tileOffsets.length;
-            };
-
-            TileMapLayer.prototype._updatePosition = function () {
-                for (var x = 0; x < this.mapData.length; x++) {
-                    for (var y = 0; y < this.mapData.length; y++) {
-                        this.mapData[y][x].updatePos(this.position.x(), this.position.y());
-                    }
-                }
             };
 
             TileMapLayer.prototype.render = function (camera) {
@@ -9406,31 +9404,53 @@ var Kiwi;
                 this._startX = Math.floor((camera.position.x() - this.position.x()) / this.tileWidth);
                 this._startY = Math.floor((camera.position.y() - this.position.y()) / this.tileHeight);
 
-                if (this._startX < 0)
+                if (this._startX < 0) {
+                    this._maxX = this._maxX + this._startX;
                     this._startX = 0;
-                if (this._startY < 0)
+                }
+                if (this._startY < 0) {
+                    this._maxY = this._maxY + this._startX;
                     this._startY = 0;
+                }
 
                 if (this._maxX > this.widthInTiles)
                     this._maxX = this.widthInTiles;
                 if (this._maxY > this.heightInTiles)
                     this._maxY = this.heightInTiles;
 
-                if (this._startX + this._maxX > this.widthInTiles)
-                    this._startX = this.widthInTiles - this._maxX;
-                if (this._startY + this._maxY > this.heightInTiles)
-                    this._startY = this.heightInTiles - this._maxY;
+                if (this._startX + this._maxX > this.widthInTiles) {
+                    this._maxX = this.widthInTiles - this._startX;
+                }
+                if (this._startY + this._maxY > this.heightInTiles) {
+                    this._maxY = this.heightInTiles - this._startY;
+                }
+
+                console.log(this._startX, this._maxX);
+
+                this._dx = 0;
+                this._dy = 0;
+
+                this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.position.x();
+                this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.position.y();
+
+                this._tx = this._dx;
+                this._ty = this._dy;
 
                 for (var column = this._startY; column < this._startY + this._maxY; column++) {
                     this._columnData = this.mapData[column];
 
                     for (var tile = this._startX; tile < this._startX + this._maxX; tile++) {
                         if (this._tileOffsets[this._columnData[tile].tileType.index]) {
-                            ctx.drawImage(this._texture, this._tileOffsets[this._columnData[tile].tileType.index].x, this._tileOffsets[this._columnData[tile].tileType.index].y, this.tileWidth, this.tileHeight, this._columnData[tile].position.x(), this._columnData[tile].position.y(), this.tileWidth, this.tileHeight);
+                            ctx.drawImage(this._texture, this._tileOffsets[this._columnData[tile].tileType.index].x, this._tileOffsets[this._columnData[tile].tileType.index].y, this.tileWidth, this.tileHeight, this._tx, this._ty, this.tileWidth, this.tileHeight);
                         }
 
                         this._columnData[tile].physics.update();
+                        this._columnData[tile].position.setTo(this._tx, this._ty);
+                        this._tx += this.tileWidth;
                     }
+
+                    this._tx = this._dx;
+                    this._ty += this.tileHeight;
                 }
 
                 if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
@@ -9438,6 +9458,22 @@ var Kiwi;
                 }
 
                 return true;
+            };
+
+            TileMapLayer.prototype.destory = function () {
+                this.mapData = null;
+                this.position = null;
+                this.alpha = null;
+                this._parent = null;
+                this._dx = null;
+                this._dy = null;
+                this._tx = null;
+                this._ty = null;
+                this._startX = null;
+                this._startY = null;
+                this._maxX = null;
+                this._maxY = null;
+                this._texture = null;
             };
             return TileMapLayer;
         })();

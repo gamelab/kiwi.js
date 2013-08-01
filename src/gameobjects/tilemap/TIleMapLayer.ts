@@ -2,15 +2,25 @@ module Kiwi.GameObjects {
 
     export class TileMapLayer {
 
-        constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.TileMap, imageCache: Kiwi.Cache, imageKey: string, mapFormat: number, name: string, tileWidth: number, tileHeight: number) {
+        /*
+        *
+        * @constructor
+        * @param {Kiwi.Game} game
+        * @param {Kiwi.GameObjects.TileMap} parent
+        * @param {Kiwi.Cache} imageCache
+        * @param {string} imageKey
+        * @param {number} mapFormat
+        * @param {string} name
+        * @param {number} tileWidth
+        * @param {number} tileHeight
+        */
+        constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.TileMap, imageCache: Kiwi.Cache, imageKey: string, name: string, tileWidth: number, tileHeight: number) {
             this._game = game;
             this._parent = parent;
 
             this.name = name;
-            this.mapFormat = mapFormat;
             this.tileWidth = tileWidth;
             this.tileHeight = tileHeight;
-            this.boundsInTiles = new Kiwi.Geom.Rectangle();
 
             this.mapData = [];
             this._tempTileBlock = [];
@@ -18,16 +28,30 @@ module Kiwi.GameObjects {
 
             this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
             this.position = this.components.add(new Kiwi.Components.Position(0, 0, 0));
-            this.position.updated.add(this._updatePosition, this);
             this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
             this.visible = this.components.add(new Kiwi.Components.Visible(true));
 
         }
 
+        /*
+        * The game
+        */
         private _game: Game;
+
+        /*
+        * The parent tileMap of this layer.
+        */
         private _parent: Kiwi.GameObjects.TileMap;
-        private _texture;
+        
+        /*
+        * Holds all of the components for the layer
+        */
         private components: Kiwi.ComponentManager;
+
+        /*
+        * The texture/image daat for this tileLayer
+        */
+        private _texture;
 
         /*
         * The component position.
@@ -80,12 +104,6 @@ module Kiwi.GameObjects {
         private _columnData;
 
         /*
-        * Not used yet
-        */
-        private _oldCameraX: number = 0;
-        private _oldCameraY: number = 0;
-
-        /*
         * Holds a set of tile information that is used when manipulating tiles. 
         * @private
         */
@@ -95,17 +113,25 @@ module Kiwi.GameObjects {
         private _tempTileW: number;
         private _tempTileH: number;
 
+        /*
+        * The name of the layer. This is never used so it can just be for niceties 
+        */
         public name: string;
+
+        /*
+        * Weither this tileMapLyaer exists or not
+        */
         public exists: bool = true;
-        public orientation: string;
-        public properties: {};
 
         /*
         * Holds all of the map's tile information.
         */
         public mapData;
+
+        /*
+        * The format that the m
+        */
         public mapFormat: number;
-        public boundsInTiles: Kiwi.Geom.Rectangle;
 
         /*
         * The width/height of a single tile.
@@ -126,7 +152,8 @@ module Kiwi.GameObjects {
         public heightInPixels: number = 0;
 
         /*
-        * The spacing between each tile.
+        * The spacing around the edges of the image.
+        * The spacing in between each sprite.
         */
         public tileMargin: number = 0;
         public tileSpacing: number = 0;
@@ -173,6 +200,25 @@ module Kiwi.GameObjects {
         }
 
         /*
+        * Randomises a section of tiles on the map bsaed on the tiles you want there.
+        *
+        * @method randomiseTiles
+        * @param {number[]} tiles
+        * @param {number} x
+        * @param {number} y
+        * @param {number} width
+        * @param {number} height
+        */
+        public randomiseTiles(tiles: number[], x: number= 0, y: number = 0, width: number= this.widthInTiles, height: number= this.heightInTiles) {
+            
+            this.getTempBlock(x, y, width, height);
+
+            for (var r = 0; r < this._tempTileBlock.length; r++) {
+                this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[this._game.rnd.pick(tiles)]);
+            }
+        } 
+
+        /*
         * Swaps all of the tiles of indexA with tiles of indexB and the same alternatively.
         * 
         * @method swapTiles
@@ -189,10 +235,10 @@ module Kiwi.GameObjects {
 
             for (var r = 0; r < this._tempTileBlock.length; r++) {
 
-                if (this._tempTileBlock[r].tile.tileType.index === indexA) {
+                if (this._tempTileBlock[r].tileType.index === indexA) {
                     this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
 
-                } else if (this._tempTileBlock[r].tile.tileType.index === indexB) {
+                } else if (this._tempTileBlock[r].tileType.index === indexB) {
                     this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexA]);
                 }
 
@@ -216,7 +262,7 @@ module Kiwi.GameObjects {
 
             for (var r = 0; r < this._tempTileBlock.length; r++) {
 
-                if (this._tempTileBlock[r].tile.tileType.index === indexA) {
+                if (this._tempTileBlock[r].tileType.index === indexA) {
                     this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
                 }
 
@@ -321,7 +367,6 @@ module Kiwi.GameObjects {
                 return;
             }
 
-            //get the starting... quadtree hererere
             this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x() - this.position.x(), this.tileWidth) / this.tileWidth;
             this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y() - this.position.y(), this.tileHeight) / this.tileHeight;
             
@@ -400,18 +445,10 @@ module Kiwi.GameObjects {
         }
 
         /*
-        * Updates the boundsInTiles rectangle.
+        * Loops through the texture that was given and assign's each sprite inside of it to the _tileOffset, with its coordinates.
         * 
-        * @method updateBounds
-        */
-        public updateBounds() {
-
-            this.boundsInTiles.setTo(0, 0, this.widthInTiles, this.heightInTiles);
-
-        }
-
-        /*
-        * Loops through the texture that was given and assign's each sprite to the _tileOffset, with its coordinates.
+        * @method parseTileOffsets
+        * @return {number}
         */
         public parseTileOffsets(): number {
 
@@ -419,7 +456,7 @@ module Kiwi.GameObjects {
 
             var i = 0;
 
-            if (this.mapFormat == TileMap.FORMAT_TILED_JSON) {
+            if (this._parent.mapFormat == TileMap.FORMAT_TILED_JSON) {
                 //  For some reason Tiled counts from 1 not 0 - perhaps 0 means no tile but exists?
                 this._tileOffsets[0] = null;
                 i = 1;
@@ -437,17 +474,14 @@ module Kiwi.GameObjects {
 
         }
 
-        //callback when the position is updated - lags the game out...
-        private _updatePosition() {
-            for (var x = 0; x < this.mapData.length; x++) {
-                for (var y = 0; y < this.mapData.length; y++) {
-                    this.mapData[y][x].updatePos(this.position.x(), this.position.y());
-                }
-            }
-        }
+        /*
+        * Renders the tileMap to the stage. It also updates the position component of all of the tiles that appear.
+        *
+        * @method render
+        * @param {Kiwi.Camera}
+        */ 
+        public render(camera: Kiwi.Camera): bool { 
 
-        public render( camera: Kiwi.Camera): bool {
-            //if it is not there...
             if (this.visible.visible() === false || this.alpha.alpha() < 0.1 || this.exists === false) {
                 return;
             }
@@ -467,19 +501,34 @@ module Kiwi.GameObjects {
             this._startX = Math.floor((camera.position.x() - this.position.x()) / this.tileWidth);
             this._startY = Math.floor((camera.position.y() - this.position.y()) / this.tileHeight);
             
-            //boundaries check
-            if (this._startX < 0) this._startX = 0;
-            if (this._startY < 0) this._startY = 0;
+            //boundaries check 
+            if (this._startX < 0) {
+                this._maxX = this._maxX + this._startX;
+                this._startX = 0;    
+            }    
+            if (this._startY < 0) {
+                this._maxY = this._maxY + this._startX;
+                this._startY = 0;
+            }
 
             if (this._maxX > this.widthInTiles) this._maxX = this.widthInTiles;
             if (this._maxY > this.heightInTiles) this._maxY = this.heightInTiles;
 
-            if (this._startX + this._maxX > this.widthInTiles) this._startX = this.widthInTiles - this._maxX;
-            if (this._startY + this._maxY > this.heightInTiles) this._startY = this.heightInTiles - this._maxY;
+            if (this._startX + this._maxX > this.widthInTiles) {
+                this._maxX = this.widthInTiles - this._startX;
+            }    
+            if (this._startY + this._maxY > this.heightInTiles) {
+                this._maxY = this.heightInTiles - this._startY;
+            }
 
-            //stop the rendering of 'canvas' when parts of it are off screen. To Do.
-            
-            //use dx and tx
+            this._dx = 0;
+            this._dy = 0;
+
+            this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.position.x();
+            this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.position.y();
+
+            this._tx = this._dx;
+            this._ty = this._dy;
 
             for (var column = this._startY; column < this._startY + this._maxY; column++) {
                 this._columnData = this.mapData[column]; //get the column data
@@ -493,20 +542,21 @@ module Kiwi.GameObjects {
                             this._tileOffsets[this._columnData[tile].tileType.index].y,    //  Source Y
                             this.tileWidth, 	                                           //	Source Width
                             this.tileHeight, 	                                           //	Source Height
-                            this._columnData[tile].position.x(), 	   //	Destination X (where on the canvas it'll be drawn)
-                            this._columnData[tile].position.y(),	   //	Destination Y
-                            this.tileWidth, 	                            //	Destination Width (always same as Source Width unless scaled)
-                            this.tileHeight	                                //	Destination Height (always same as Source Height unless scaled)
+                            this._tx, 	                                                   //	Destination X (where on the canvas it'll be drawn)
+                            this._ty,	                                                   //	Destination Y
+                            this.tileWidth, 	                                           //	Destination Width (always same as Source Width unless scaled)
+                            this.tileHeight	                                               //	Destination Height (always same as Source Height unless scaled)
                             );
 
                     }
 
-                    //update the position here as well
                     this._columnData[tile].physics.update();
+                    this._columnData[tile].position.setTo(this._tx, this._ty);
+                    this._tx += this.tileWidth;
                 }
 
-                
-
+                this._tx = this._dx;
+                this._ty += this.tileHeight;
             }
 
             if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
@@ -516,7 +566,25 @@ module Kiwi.GameObjects {
             return true;
 
         }
-    
+        
+        /*
+        * Destorys the tileMapLayer saving memory
+        */
+        public destroy() {
+            this.mapData = null;
+            this.position = null;
+            this.alpha = null;
+            this._parent = null;
+            this._dx = null;
+            this._dy = null;
+            this._tx = null;       
+            this._ty = null;
+            this._startX = null;
+            this._startY = null;
+            this._maxX = null;
+            this._maxY = null;
+            this._texture = null;
+        }
 
     }
 }

@@ -20,6 +20,7 @@ class collision extends Kiwi.State {
     }
 
     create() {
+
         this.tileMap = new Kiwi.GameObjects.TileMap();
         this.tileMap.createFromCache('desertTiles', this.cache, 'desert', this.cache, this.game, Kiwi.GameObjects.TileMap.FORMAT_TILED_JSON);
 

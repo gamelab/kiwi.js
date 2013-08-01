@@ -42,8 +42,7 @@ module Kiwi.Components {
             this.green(green);
             this.blue(blue);
             this.alpha(alpha);
-
-            this._skipUpdate = false;
+          this._skipUpdate = false;
 
             this._processUpdate();
 

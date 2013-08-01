@@ -26,8 +26,13 @@
     </Content>
     <TypeScriptCompile Include="tilemaps\replaceTiles.ts" />
     <TypeScriptCompile Include="tilemaps\collision.ts" />
-    <Content Include="tilemaps\overlaps.js">
-      <DependentUpon>collision.ts</DependentUpon>
+    <TypeScriptCompile Include="tilemaps\randomise.ts" />
+    <TypeScriptCompile Include="tilemaps\collisionPart2.ts" />
+    <Content Include="tilemaps\collisionPart2.js">
+      <DependentUpon>collisionPart2.ts</DependentUpon>
+    </Content>
+    <Content Include="tilemaps\randomise.js">
+      <DependentUpon>randomise.ts</DependentUpon>
     </Content>
     <Content Include="tilemaps\replaceTiles.js">
       <DependentUpon>replaceTiles.ts</DependentUpon>

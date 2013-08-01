@@ -156,7 +156,7 @@ module Kiwi.GameObjects {
 
             if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true)
             {
-                this.layer.canvas.context.fillStyle = this.color.cssColorRGB;
+                this.layer.canvas.context.fillStyle = this.color.cssColorRGBA;
                 this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), this._pixelSize, this._pixelSize);
             }
 

@@ -4,6 +4,15 @@ module Kiwi.GameObjects {
 
     export class TileType {
 
+        /*
+        * 
+        * @constructor
+        * @param {Kiwi.Game}
+        * @param {Kiwi.GameObjects.TileMap} tilemap
+        * @param {number} index
+        * @param {number} width
+        * @param {number} height
+        */
         constructor(game: Game, tilemap: Kiwi.GameObjects.TileMap, index: number, width: number, height: number) {
 
             this._game = game;
@@ -13,30 +22,46 @@ module Kiwi.GameObjects {
             this.width = width;
             this.height = height;
 
-            this.tx = 0;
-            this.ty = 0;
-
             this.allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
             this.seperate = false;
             this.immovable = true;
         }
 
+        /*
+        * The game that this tiletype belongs to 
+        */
         private _game: Game;
 
-        //  You can give this Tile a friendly name to help with debugging. Never used internally.
+        /*
+        *  You can give this Tile a friendly name to help with debugging. Never used internally.
+        */
         public name: string;
 
+        /*
+        * The mass of the tile.
+        */
         public mass: number = 1.0;
+        
+        /*
+        * The width/height of the tile
+        */
         public width: number;
         public height: number;
 
-        public tx:number;
-        public ty: number;
+        /*
+        * If the tilemap is immovable or not.
+        */
         public immovable: boolean;
+
         /*
         * Which side or if the user can collide on anyside.
+        * @public
         */
         public allowCollisions: number;
+        
+        /*
+        * If when collided with seperate the objects it collided with.
+        */
         public seperate: bool;
 
         /**
@@ -55,10 +80,9 @@ module Kiwi.GameObjects {
          * Clean up memory.
          */
         public destroy() {
-
             this.tilemap = null;
-
         }
+
         /**
         * Returns a string representation of this object.
         * @method toString

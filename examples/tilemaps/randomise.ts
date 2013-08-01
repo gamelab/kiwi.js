@@ -1,9 +1,9 @@
 /// <reference path="../../src/Kiwi.ts" /> 
 
-class basics extends Kiwi.State {
+class randomise extends Kiwi.State {
 
     constructor() {
-        super('basics');
+        super('randomise');
     }
 
     init() {
@@ -22,7 +22,14 @@ class basics extends Kiwi.State {
         this.tileMap.createFromCache('desertTiles', this.cache, 'desert', this.cache, this.game, Kiwi.GameObjects.TileMap.FORMAT_TILED_JSON);
 
         this.addChild(this.tileMap);
-    
+        
+        this.game.input.mouse.mouseUp.add(this.random, this);
+    }
+
+    random() {
+        //To put more favour into one tile than another add more of it into the array.
+        var random = [30, 30,30,30,30,31,31,31,40,40, 40, 38, 48, 39, 46, 32, 47];
+        this.tileMap.currentLayer.randomiseTiles(random);
     }
 
 
