@@ -25,9 +25,9 @@
       <DependentUpon>basics.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="tilemaps\replaceTiles.ts" />
-    <TypeScriptCompile Include="tilemaps\overlaps.ts" />
+    <TypeScriptCompile Include="tilemaps\collision.ts" />
     <Content Include="tilemaps\overlaps.js">
-      <DependentUpon>overlaps.ts</DependentUpon>
+      <DependentUpon>collision.ts</DependentUpon>
     </Content>
     <Content Include="tilemaps\replaceTiles.js">
       <DependentUpon>replaceTiles.ts</DependentUpon>

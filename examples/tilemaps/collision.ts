@@ -3,7 +3,7 @@
 class collision extends Kiwi.State {
 
     constructor() {
-        super('overlaps');
+        super('collision');
     }
 
     init() {
@@ -37,27 +37,27 @@ class collision extends Kiwi.State {
         this.addChild(this.tileMap);
         this.addChild(this.ship);
 
-        this.game.input.keyboard.addKey(overlaps.UP);
-        this.game.input.keyboard.addKey(overlaps.DOWN);
-        this.game.input.keyboard.addKey(overlaps.LEFT);
-        this.game.input.keyboard.addKey(overlaps.RIGHT);
+        this.game.input.keyboard.addKey(collision.UP);
+        this.game.input.keyboard.addKey(collision.DOWN);
+        this.game.input.keyboard.addKey(collision.LEFT);
+        this.game.input.keyboard.addKey(collision.RIGHT);
     }
 
     update() {
         var vx = 0;
         var vy = 0;
-        if (this.game.input.keyboard.isDown(overlaps.LEFT)) {
+        if (this.game.input.keyboard.isDown(collision.LEFT)) {
             vx = -5;
             this.ship.rotation.angle(180);
-        } else if (this.game.input.keyboard.isDown(overlaps.RIGHT)) {
+        } else if (this.game.input.keyboard.isDown(collision.RIGHT)) {
             vx = 5;
             this.ship.rotation.angle(0);
         }
 
-        if (this.game.input.keyboard.isDown(overlaps.UP)) {
+        if (this.game.input.keyboard.isDown(collision.UP)) {
             vy = -5;
             this.ship.rotation.angle(-90);
-        } else if (this.game.input.keyboard.isDown(overlaps.DOWN)) {
+        } else if (this.game.input.keyboard.isDown(collision.DOWN)) {
             vy = 5;
             this.ship.rotation.angle(90);
         }
@@ -74,10 +74,10 @@ class collision extends Kiwi.State {
             this.ship.position.addTo(0, vy);
         }
 
-        if (this.game.input.keyboard.isDown(overlaps.LEFT) && this.game.input.keyboard.isDown(overlaps.DOWN)) this.ship.rotation.angle(135);
-        if (this.game.input.keyboard.isDown(overlaps.LEFT) && this.game.input.keyboard.isDown(overlaps.UP)) this.ship.rotation.angle(-135);
-        if (this.game.input.keyboard.isDown(overlaps.RIGHT) && this.game.input.keyboard.isDown(overlaps.DOWN)) this.ship.rotation.angle(45);
-        if (this.game.input.keyboard.isDown(overlaps.RIGHT) && this.game.input.keyboard.isDown(overlaps.UP)) this.ship.rotation.angle(-45);
+        if (this.game.input.keyboard.isDown(collision.LEFT) && this.game.input.keyboard.isDown(collision.DOWN)) this.ship.rotation.angle(135);
+        if (this.game.input.keyboard.isDown(collision.LEFT) && this.game.input.keyboard.isDown(collision.UP)) this.ship.rotation.angle(-135);
+        if (this.game.input.keyboard.isDown(collision.RIGHT) && this.game.input.keyboard.isDown(collision.DOWN)) this.ship.rotation.angle(45);
+        if (this.game.input.keyboard.isDown(collision.RIGHT) && this.game.input.keyboard.isDown(collision.UP)) this.ship.rotation.angle(-45);
         
         this.tileMap.collideSingle(this.ship);
         super.update();
