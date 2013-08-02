@@ -1,17 +1,13 @@
 /// <reference path="../../src/Kiwi.ts" />
 
-class CreatingAndSwitchingAnimations extends Kiwi.State { 
+class PlayAnimationAtFrame extends Kiwi.State {
 
     constructor() {
-        super("Creating_SwitchingAnimations");
-        
+        super("PlayAnimationAtFrame");
     }
 
     sprite: Kiwi.GameObjects.Sprite;
-
-    //mouse
-    myMouse: Kiwi.Input.Mouse;
-
+    animation: string;
 
     preload() {
 
@@ -27,29 +23,26 @@ class CreatingAndSwitchingAnimations extends Kiwi.State {
         this.sprite.animation.add('rotateRight', 0.1, [5, 4, 3, 2, 1, 0], Kiwi.Anims.PLAY_LOOP);
 
         this.sprite.animation.play('rotateLeft');
-
+        this.animation = 'rotateLeft';
         this.addChild(this.sprite);
-
-        
 
         ////////////////////////////////////////
         //Creating Mouse 
-        this.myMouse = this.game.input.mouse;
-        this.myMouse.start();
+        this.game.input.mouse.mouseUp.add(this.swap, this);
     }
 
-    update() {
-        super.update();
-
-
-
-        if (this.myMouse.justPressed()) {
-
-            this.sprite.animation.switchTo('rotateRight');
-            this.sprite.animation.play('rotateRight');
-
-            this.myMouse.reset();
+    swap() {
+        
+        if (this.animation == 'rotateLeft') {
+            this.animation = 'rotateRight';
+        } else {
+            this.animation = 'rotateLeft';
         }
+
+        var point = (6 - this.sprite.animation.getFrame().position) - 1;
+        
+        this.sprite.animation.switchTo(this.animation);
+        this.sprite.animation.playAt(point, this.animation);
 
     }
 

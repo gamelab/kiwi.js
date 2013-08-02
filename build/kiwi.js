@@ -3700,13 +3700,14 @@ var Kiwi;
 (function (Kiwi) {
     (function (Anims) {
         var Frame = (function () {
-            function Frame(x, y, width, height) {
+            function Frame(x, y, width, height, position) {
                 this.rotated = false;
                 this.rotationDirection = 'cw';
                 this.x = x;
                 this.y = y;
                 this.width = width;
                 this.height = height;
+                this.position = position;
 
                 this.rotated = false;
                 this.trimmed = false;
@@ -4225,7 +4226,9 @@ var Kiwi;
         var Animation = (function () {
             function Animation(name, file, frames, playSpeed, repeat) {
                 this._clock = null;
+                this._startTime = null;
                 this._playPendingState = false;
+                this._uniqueFrameIndex = null;
                 this.name = name;
                 this.file = file;
 
@@ -4235,11 +4238,21 @@ var Kiwi;
                 this._length = frames.length;
                 this._repeat = repeat;
                 this._isPlaying = true;
+                this.updated = new Kiwi.Signal();
 
                 this.currentFrame = this.getFrame(this._frameIndex);
             }
             Animation.prototype.objType = function () {
                 return "Animation";
+            };
+
+            Animation.prototype._start = function (index) {
+                if (typeof index === "undefined") { index = 0; }
+                this._startTime = this._clock.elapsed();
+                this._tick = this._startTime + this._speed;
+                this._frameIndex = index;
+                this.currentFrame = this.getFrame(this._frameIndex);
+                this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
             };
 
             Animation.prototype.clock = function (value) {
@@ -4249,19 +4262,114 @@ var Kiwi;
 
                     if (this._playPendingState === true) {
                         this._playPendingState = false;
-                        this._startTime = this._clock.elapsed();
-                        this._tick = this._startTime + this._speed;
-                        this._frameIndex = 0;
-                        this.currentFrame = this.getFrame(this._frameIndex);
+
+                        if (this._uniqueFrameIndex !== null) {
+                            this._start(this._uniqueFrameIndex);
+                            this._uniqueFrameIndex = null;
+                        } else {
+                            this._start();
+                        }
                     }
                 }
 
                 return this._clock;
             };
 
+            Animation.prototype.play = function () {
+                this._isPlaying = true;
+
+                if (this._clock === null) {
+                    this._playPendingState = true;
+                } else {
+                    this._start();
+                }
+            };
+
+            Animation.prototype.playAt = function (index) {
+                this._isPlaying = true;
+
+                if (this._clock === null) {
+                    this._playPendingState = true;
+                    this._uniqueFrameIndex = index;
+                } else {
+                    this._start(index);
+                }
+            };
+
+            Animation.prototype.pause = function () {
+                this.stop();
+            };
+
+            Animation.prototype.resume = function () {
+                if (this._startTime === null) {
+                    klog.warn('Animation\'s can only resume if they have been played before!');
+                } else {
+                    this._isPlaying = true;
+                }
+            };
+
+            Animation.prototype.stop = function () {
+                this._isPlaying = false;
+            };
+
+            Animation.prototype.update = function () {
+                if (this._playPendingState === false && this._clock.elapsed() >= this._tick) {
+                    this._tick = this._clock.elapsed() + this._speed;
+
+                    if (this._isPlaying) {
+                        this._frameIndex++;
+                        if (this._frameIndex === this._length && this._repeat != Kiwi.Anims.PLAY_ONCE) {
+                            this._frameIndex = 0;
+                        } else if (this._frameIndex === this._length && this._repeat == Kiwi.Anims.PLAY_ONCE) {
+                            this._frameIndex = this._length - 1;
+                            this.stop();
+                        }
+                    }
+
+                    this.currentFrame = this.getFrame(this._frameIndex);
+                    this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+                }
+            };
+
+            Animation.prototype.renderToCanvas = function (layer, x, y) {
+                layer.canvas.context.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
+            };
+
+            Animation.prototype.drawFrameToCanvasLayer = function (layer, frameNumber, x, y) {
+                var frame = this.getFrame(frameNumber);
+
+                if (frame !== null) {
+                    layer.canvas.context.drawImage(this.file.data, frame.x, frame.y, frame.width, frame.height, x, y, frame.width, frame.height);
+                }
+            };
+
+            Animation.prototype.frameExists = function (frameIndex) {
+                if (frameIndex <= this._length) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Animation.prototype.getFrame = function (index) {
+                if (typeof index === "undefined") { index = null; }
+                if (index === null) {
+                    return this._frames[this._frameIndex];
+                } else if (this.frameExists(index)) {
+                    return this._frames[index];
+                }
+
+                return;
+            };
+
             Animation.prototype.setFrame = function (value) {
                 this._frameIndex = value;
                 this.currentFrame = this.getFrame(this._frameIndex);
+                this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+            };
+
+            Animation.prototype.isPlaying = function () {
+                return this._isPlaying;
             };
 
             Animation.prototype.speed = function (value) {
@@ -4279,80 +4387,6 @@ var Kiwi;
 
             Animation.prototype.length = function () {
                 return this._length;
-            };
-
-            Animation.prototype.play = function () {
-                this._isPlaying = true;
-
-                if (this._clock === null) {
-                    this._playPendingState = true;
-                } else {
-                    this._startTime = this._clock.elapsed();
-                    this._tick = this._startTime + this._speed;
-                    this._frameIndex = 0;
-                    this.currentFrame = this.getFrame(this._frameIndex);
-                }
-            };
-
-            Animation.prototype.pause = function () {
-            };
-
-            Animation.prototype.resume = function () {
-                this._isPlaying = true;
-            };
-
-            Animation.prototype.stop = function () {
-                this._isPlaying = false;
-            };
-
-            Animation.prototype.update = function () {
-                if (this._playPendingState) {
-                } else if (this._clock.elapsed() >= this._tick) {
-                    this._tick = this._clock.elapsed() + this._speed;
-                    if (this._isPlaying) {
-                        this._frameIndex++;
-
-                        if (this._frameIndex === this._length && this._repeat != Kiwi.Anims.PLAY_ONCE) {
-                            this._frameIndex = 0;
-                        } else if (this._frameIndex === this._length && this._repeat == Kiwi.Anims.PLAY_ONCE) {
-                            this._frameIndex = this._length - 1;
-                            this.stop();
-                        }
-                    }
-                    this.currentFrame = this.getFrame(this._frameIndex);
-                }
-            };
-
-            Animation.prototype.renderToCanvas = function (layer, x, y) {
-                layer.canvas.context.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
-            };
-
-            Animation.prototype.drawFrameToCanvasLayer = function (layer, frameNumber, x, y) {
-                var frame = this.getFrame(frameNumber);
-
-                if (frame !== null) {
-                    layer.canvas.context.drawImage(this.file.data, frame.x, frame.y, frame.width, frame.height, x, y, frame.width, frame.height);
-                }
-            };
-
-            Animation.prototype.frameExists = function (value) {
-                if (value <= this._length) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Animation.prototype.getFrame = function (value) {
-                if (this.frameExists(value)) {
-                    return this._frames[value];
-                }
-
-                return null;
-            };
-
-            Animation.prototype.isPlaying = function () {
-                return this._isPlaying;
             };
             return Animation;
         })();
@@ -4389,7 +4423,7 @@ var Kiwi;
                     var y = 0;
 
                     for (var i = 0; i < total; i++) {
-                        data.addFrame(new Anims.Frame(x, y, frameWidth, frameHeight));
+                        data.addFrame(new Anims.Frame(x, y, frameWidth, frameHeight, i));
 
                         x += frameWidth;
 
@@ -8130,31 +8164,32 @@ var Kiwi;
                 _super.call(this, 'Animation', true, true, true);
                 this.currentAnimation = null;
                 this.isPlaying = false;
+                this._clock = null;
 
                 this.updated = new Kiwi.Signal();
-
                 this._entity = entity;
-
                 this._animations = {};
 
                 var texture = this._entity.components.getComponent('Texture');
 
                 if (texture.file !== null && (texture.file.dataType === Kiwi.File.SPRITE_SHEET || texture.file.dataType === Kiwi.File.TEXTURE_ATLAS)) {
                     this._animations['default'] = new Kiwi.Anims.Animation(name, texture.file, texture.file.frames.getAllFrames(), 0, 0);
-
                     this.currentAnimation = this._animations['default'];
                 } else {
                     return;
                 }
             }
+            Animation.prototype.clock = function (clock) {
+                this._clock = clock;
+                this.currentAnimation.clock(clock);
+            };
+
             Animation.prototype.objType = function () {
                 return "Animation";
             };
 
-            Animation.prototype.setFrame = function (value) {
-                if (this.currentAnimation) {
-                    this.currentAnimation.setFrame(value);
-                }
+            Animation.prototype._updatedAnimationFrame = function (x, y) {
+                this.updated.dispatch(x, y);
             };
 
             Animation.prototype.add = function (name, speed, frames, repeat) {
@@ -8168,22 +8203,59 @@ var Kiwi;
                     this._animations[name] = new Kiwi.Anims.Animation(name, texture.file, texture.file.frames.getFrames(frames), speed, repeat);
                 }
 
-                this.currentAnimation = this._animations[name];
+                this._animations[name].updated.add(this._updatedAnimationFrame, this);
+
+                if (this.currentAnimation === this._animations['default'])
+                    this.currentAnimation = this._animations[name];
             };
 
             Animation.prototype.play = function (name) {
+                if (typeof name === "undefined") { name = null; }
                 this.isPlaying = true;
+                if (name !== null) {
+                    this._setCurrentAnimation(name);
+                } else {
+                    this.currentAnimation.play();
+                }
+            };
 
-                this.currentAnimation = this._animations[name];
+            Animation.prototype.playAt = function (index, name) {
+                if (typeof name === "undefined") { name = null; }
+                this.play(name);
+                this.currentAnimation.playAt(index);
+            };
 
-                this._animations[name].play();
+            Animation.prototype.stop = function () {
+                if (this.isPlaying === true) {
+                    this.isPlaying = false;
+                    this.currentAnimation.stop();
+                }
+            };
+
+            Animation.prototype.getFrame = function () {
+                return this.currentAnimation.getFrame();
+            };
+
+            Animation.prototype.setFrame = function (index) {
+                if (this.currentAnimation) {
+                    this.currentAnimation.setFrame(index);
+                }
             };
 
             Animation.prototype.switchTo = function (name) {
-                if (!(this.currentAnimation.name == name)) {
-                    this.currentAnimation.stop();
+                if (this.currentAnimation.name !== name) {
+                    this._setCurrentAnimation(name);
+                }
+            };
 
-                    this.play(name);
+            Animation.prototype._setCurrentAnimation = function (name) {
+                this.currentAnimation.stop();
+                this.currentAnimation = this._animations[name];
+
+                if (this.isPlaying) {
+                    this.currentAnimation.play();
+                    if (this._clock !== null)
+                        this.currentAnimation.clock(this._clock);
                 }
             };
 
@@ -8291,6 +8363,10 @@ var Kiwi;
                 this._transform = new Kiwi.Geom.Transform();
                 this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
 
+                if (this._isAnimated) {
+                    this.animation.updated.add(this._updateAnimationTexturePosition, this);
+                }
+
                 klog.info('Created Sprite Game Object');
             }
             Sprite.prototype.objType = function () {
@@ -8359,6 +8435,12 @@ var Kiwi;
                 }
             };
 
+            Sprite.prototype._updateAnimationTexturePosition = function (x, y) {
+                if (this.type === Kiwi.TYPE_DOM) {
+                    this.texture.position.setTo(x, y);
+                }
+            };
+
             Sprite.prototype._updateRepeat = function (value) {
                 if (this.type === Kiwi.TYPE_DOM) {
                     this.addStyleUpdate('backgroundRepeat', value);
@@ -8378,7 +8460,9 @@ var Kiwi;
                 if (this.type === Kiwi.TYPE_DOM) {
                     this.domElement.element.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
                     this.domElement.element.style.backgroundRepeat = this.texture.repeat();
-                    this.domElement.element.style.backgroundSize = '100%';
+
+                    if (this.texture.file.dataType === Kiwi.File.IMAGE)
+                        this.domElement.element.style.backgroundSize = '100%';
 
                     this.alpha.addStyleImmediately(this);
                     this.size.addStyleImmediately(this);
@@ -8389,7 +8473,7 @@ var Kiwi;
                 }
 
                 if (this._isAnimated) {
-                    this.animation.currentAnimation.clock(this.clock());
+                    this.animation.clock(this.clock());
                 }
 
                 return true;
@@ -8401,7 +8485,7 @@ var Kiwi;
                 this.motion.setClock(this.clock());
 
                 if (this._isAnimated) {
-                    this.animation.currentAnimation.clock(this.clock());
+                    this.animation.clock(this.clock());
                 }
 
                 return true;
@@ -9146,6 +9230,18 @@ var Kiwi;
                     this.collideSingle(group.members[i]);
                 }
             };
+
+            TileMap.prototype.destroy = function () {
+                this.tiles = null;
+                for (var i = 0; i < this.layers.length; i++) {
+                    this.layers[i].destroy();
+                }
+                this.layers = null;
+                this._tileMapDataKey = null;
+                this._tileMapDataCache = null;
+                this._tileMapImageCache = null;
+                this._tileMapImageKey = null;
+            };
             TileMap.FORMAT_CSV = 0;
             TileMap.FORMAT_TILED_JSON = 1;
             return TileMap;
@@ -9425,8 +9521,6 @@ var Kiwi;
                     this._maxY = this.heightInTiles - this._startY;
                 }
 
-                console.log(this._startX, this._maxX);
-
                 this._dx = 0;
                 this._dy = 0;
 
@@ -9460,7 +9554,7 @@ var Kiwi;
                 return true;
             };
 
-            TileMapLayer.prototype.destory = function () {
+            TileMapLayer.prototype.destroy = function () {
                 this.mapData = null;
                 this.position = null;
                 this.alpha = null;

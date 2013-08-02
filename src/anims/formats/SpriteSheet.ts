@@ -64,7 +64,7 @@ module Kiwi.Anims.Formats {
 
             for (var i = 0; i < total; i++)
             {
-                data.addFrame(new Frame(x, y, frameWidth, frameHeight));
+                data.addFrame(new Frame(x, y, frameWidth, frameHeight, i));
 
                 //console.log('Frame', i, '=', x, y);
 

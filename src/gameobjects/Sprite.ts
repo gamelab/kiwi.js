@@ -73,7 +73,7 @@ module Kiwi.GameObjects {
                 else if (this.texture.file.dataType === Kiwi.File.SPRITE_SHEET || this.texture.file.dataType === Kiwi.File.TEXTURE_ATLAS)
                 {
                     this._isAnimated = true;
-                this.size.setTo(this.texture.file.frameWidth, this.texture.file.frameHeight);
+                    this.size.setTo(this.texture.file.frameWidth, this.texture.file.frameHeight);
                 }
             }
             else
@@ -100,6 +100,10 @@ module Kiwi.GameObjects {
             // transform
             this._transform = new Kiwi.Geom.Transform();
             this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
+
+            if (this._isAnimated) {
+                this.animation.updated.add(this._updateAnimationTexturePosition, this);
+            }
 
             klog.info('Created Sprite Game Object');
 
@@ -130,6 +134,11 @@ module Kiwi.GameObjects {
 
         //}
 
+        /**
+         * The Physics component that used for basic collision detection with other entities.
+         * @property physics
+         * @type Kiwi.Components.ArcadePhysics
+         **/
         public physics: Kiwi.Components.ArcadePhysics;
 
         /** 
@@ -344,6 +353,18 @@ module Kiwi.GameObjects {
 
         }
 
+        /**
+         *
+         * @method _updateAnimationPosition 
+         * 
+         * 
+         **/
+        private _updateAnimationTexturePosition(x: number, y: number) {
+            if (this.type === Kiwi.TYPE_DOM) {
+                this.texture.position.setTo(x, y);
+            }
+        }
+
         /** 
 	     * 
 	     * @method _updateRepeat
@@ -388,7 +409,9 @@ module Kiwi.GameObjects {
             {
                 this.domElement.element.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
                 this.domElement.element.style.backgroundRepeat = this.texture.repeat();
-                this.domElement.element.style.backgroundSize = '100%';
+
+                if (this.texture.file.dataType === Kiwi.File.IMAGE)
+                    this.domElement.element.style.backgroundSize = '100%';
 
                 this.alpha.addStyleImmediately(this);
                 this.size.addStyleImmediately(this);
@@ -396,11 +419,12 @@ module Kiwi.GameObjects {
                 this.rotation.addStyleImmediately(this);
                 this.scale.addStyleImmediately(this);
                 this.visible.addStyleImmediately(this);
+                ///---------------------------------------------------------> animation here
             }
 
             if (this._isAnimated)
             {
-                this.animation.currentAnimation.clock(this.clock());
+                this.animation.clock(this.clock());
             }
 
             return true;
@@ -415,7 +439,7 @@ module Kiwi.GameObjects {
 
             if (this._isAnimated)
             {
-                this.animation.currentAnimation.clock(this.clock());
+                this.animation.clock(this.clock());
             }
 
             return true;

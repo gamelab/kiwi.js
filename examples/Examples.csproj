@@ -21,6 +21,10 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="animations\PlayAnimationAtFrame.ts" />
+    <Content Include="animations\smoothSwitchingAnimations.js">
+      <DependentUpon>PlayAnimationAtFrame.ts</DependentUpon>
+    </Content>
     <Content Include="tilemaps\basics.js">
       <DependentUpon>basics.ts</DependentUpon>
     </Content>

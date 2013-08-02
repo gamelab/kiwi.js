@@ -19,15 +19,19 @@ module Kiwi.Anims {
         /**
         * 
         * @constructor
-        * @param {Kiwi.Game} game.
-        * @return {Kiwi.Time.Manager} This Object.
+        * @param {number} x
+        * @param {number} y
+        * @param {number} width
+        * @param {number} height
+        * @param {number} position
         */
-        constructor(x: number, y: number, width: number, height: number) {
+        constructor(x: number, y: number, width: number, height: number, position: number) {
 
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
+            this.position = position;
 
             this.rotated = false;
             this.trimmed = false;
@@ -52,6 +56,7 @@ module Kiwi.Anims {
         public y;
         public width;
         public height;
+        public position;
 
         //  support?
         public rotated: bool = false;

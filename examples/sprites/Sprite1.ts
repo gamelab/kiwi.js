@@ -14,23 +14,22 @@ class Sprite1 extends Kiwi.State {
 
     preload() {
 
-        this.addImage('character', 'assets/sprites/planetcute/Character Horn Girl.png',false);
+        this.addImage('character', 'assets/sprites/planetcute/Character Horn Girl.png', false);
+        this.addSpriteSheet('cat', 'assets/sprites/baddie_cat_1.png', 16, 16, false);
 
     }
 
     public character: Kiwi.GameObjects.Sprite;
-   
+    public cat: Kiwi.GameObjects.Sprite;
 
     create() {
 
         this.character = new Kiwi.GameObjects.Sprite('character', this.cache, 100, 0);
-        
-        
+        this.cat = new Kiwi.GameObjects.Sprite('cat', this.cache, 10, 50);
       
         this.addChild(this.character);
-        
-        this.character.position.setTo(20, 200);
-        
+        this.addChild(this.cat);
+
     }
 
    

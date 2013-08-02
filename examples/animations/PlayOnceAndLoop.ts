@@ -20,8 +20,7 @@ class PlayOnceAndLoop extends Kiwi.State {
     create() {
 
         this.spriteLoop = new Kiwi.GameObjects.Sprite('coin', this.game.cache, 100, 100);
-       this.spriteOnce = new Kiwi.GameObjects.Sprite('coin', this.game.cache, 200, 100);
-
+        this.spriteOnce = new Kiwi.GameObjects.Sprite('coin', this.game.cache, 200, 100);
 
         this.spriteLoop.animation.add('rotateLeft', 0.1, [0, 1, 2, 3, 4, 5], Kiwi.Anims.PLAY_LOOP);
         this.spriteOnce.animation.add('rotateRight', 0.1, [5, 4, 3, 2, 1, 0], Kiwi.Anims.PLAY_ONCE);
@@ -31,8 +30,6 @@ class PlayOnceAndLoop extends Kiwi.State {
 
         this.addChild(this.spriteLoop);
         this.addChild(this.spriteOnce);
-
-        
 
     }
 
