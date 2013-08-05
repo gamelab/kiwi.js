@@ -40,7 +40,8 @@ module Kiwi.Components {
             this.isUp = true;
             this.isDown = false;
             this.isDragging = false;
-
+            this._justEntered = false;
+            this._tempDragDisabled = false;
         }
 
         public objType() {
@@ -77,6 +78,8 @@ module Kiwi.Components {
         public isDragging: bool;
         public withinBounds: bool;
         public outsideBounds: bool;
+        private _justEntered: bool;
+        private _tempDragDisabled: bool;
 
         public pointDown: Kiwi.Geom.Point;
         private _bounds: Kiwi.Components.Bounds;
@@ -121,13 +124,14 @@ module Kiwi.Components {
                 {
                     this.withinBounds = true;
                     this.outsideBounds = false;
+                    this._justEntered = true;
                     this.inputEntered.dispatch(this._entity, this.distance.x, this.distance.y);
                 }
             }
             else
             {
                 //  It's outside the bounds now, was it previously in?
-                if (this.withinBounds === true)
+                if (this.withinBounds === true && this.isDragging === false)
                 {
                     this.withinBounds = false;
                     this.outsideBounds = true;
@@ -138,6 +142,12 @@ module Kiwi.Components {
             //  Input is down (click/touch)
             if (this._entity.game.input.isDown === true)
             {
+                if (this._justEntered) {
+                    this.isDown = true;
+                    this.isUp = false;
+                    this._tempDragDisabled = true;
+                }
+
                 //  Within bounds?
                 if (this.withinBounds === true && this.isDown === false)
                 {
@@ -148,7 +158,7 @@ module Kiwi.Components {
                 }
 
                 //  Start Drag check
-                if (this._dragEnabled === true && this.isDragging === false)
+                if (this._dragEnabled === true && this.isDragging === false && this._tempDragDisabled === false)
                 {
                     //  Turn drag on?
                     if (this.isDown === true && this.pointDown.distanceTo(this.distance) >= this._dragDistance)
@@ -173,6 +183,8 @@ module Kiwi.Components {
                     this.isDragging = false;
                     this.inputDragStopped.dispatch(this._entity);
                 }
+                
+                if (this._tempDragDisabled === true) this._tempDragDisabled = false;
 
                 if (this.isDown === true)
                 {
@@ -182,6 +194,7 @@ module Kiwi.Components {
                 }
             }
 
+            if (this._justEntered) this._justEntered = false;
         }
 
 	    /**

@@ -18,27 +18,31 @@ module Kiwi.GameObjects {
     export class Textfield extends Kiwi.Entity {
 
         /**
-	     * 
-	     * @param {Number} x - The new x coordinate from the Position component
-	     * @param {Number} y - The new y coordinate from the Position component
-	     * @param {Number} color - The color of the pixel in 0xAARRGGBB format. Default is 0xFF000000 (black).
-	     * @param {Number} size - Yes we know pixels don't really have a size, but on large monitors you need to pump them up a bit! (defaults to 1)
-	     * @return {Kiwi.GameObjects.Textfield} This Game Object.
-	     **/
-        constructor(text: string, x: number = 0, y: number = 0, color: string = '#ffffff', size: string = '32px', weight:string = 'normal', fontFamily:string = 'cursive') {
+         * 
+         * @constructor
+         * @param {Number} x - The new x coordinate from the Position component
+         * @param {Number} y - The new y coordinate from the Position component
+         * @param {Number} width - The width of the text area
+         * @param {Number} height - The height of the text area
+         * @param {Number} color - The color of the pixel in 0xAARRGGBB format. Default is 0xFF000000 (black).
+         * @param {Number} size - Yes we know pixels don't really have a size, but on large monitors you need to pump them up a bit!
+         * @return {Kiwi.GameObjects.Textfield} This Game Object.
+         **/
+        constructor(text: string, x: number = 0, y: number = 0, width: number = 200, height: number = 100, color: string = '#ffffff', size: number = 32, weight: string = 'normal', fontFamily: string = 'cursive') {
 
             super(true, true, false);
 
             this.position = this.components.add(new Kiwi.Components.Position(x, y));
             //this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, size, size));
             this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
-            
-            this._text = text;
+            this.size = this.components.add(new Kiwi.Components.Size(width, height));
+
+            this.setText(text);
             this._fontWeight = weight;
             this._fontSize = size;
             this._fontColor = color;
             this._fontFamily = fontFamily;
-            this._lineHeight = '1em';
+            this._lineHeight = 1;
             this._textAlign = 'left';
 
             //  Signals
@@ -46,36 +50,86 @@ module Kiwi.GameObjects {
             this.alpha.updated.add(this._updateAlpha, this);
             this.onAddedToLayer.add(this._onAddedToLayer, this);
             this.position.updated.add(this._updatePosition, this);
+            this.size.updated.add(this._updateSize, this);
 
             klog.info('Created Textfield Game Object');
 
         }
 
+        /*
+        * Returns the type of object that this is
+        * @method objType
+        * @param {string}
+        */
         public objType() {
             return "Textfield";
         }
 
         /** 
-	     * The Alpha component that controls the opacity of this Game Object
-	     * @property alpha
-	     * @type Kiwi.Components.Alpha
-	     **/
+         * The Alpha component that controls the opacity of this Game Object
+         * @property alpha
+         * @type Kiwi.Components.Alpha
+         **/
         public alpha: Kiwi.Components.Alpha;
 
+        /**
+         * The Size component that controls the width/height of this Game Object
+         * @property size
+         * @type Kiwi.Components.Size
+         **/
         public size: Kiwi.Components.Size;
 
+        /**
+         * The text that is to be rendered.
+         **/
         private _text: string;
+        
+        /**
+         * Exploded version of the text
+         **/
+        private _explodedText: string[];
+
+        /**
+         * The weight of the font.
+         **/
         private _fontWeight: string;
-        private _fontSize: string;
+
+        /**
+         * The size of the font.
+         **/
+        private _fontSize: number;
+
+        /**
+         * The color of the text.
+         **/
         private _fontColor: string;
+
+        /**
+         * The font family that is to be rendered.
+         **/
         private _fontFamily: string;
-        private _lineHeight: string;
+
+        /**
+         * The line height. This is a relational measurement.
+         **/
+        private _lineHeight: number;
+
+        /**
+         * The alignment of the font
+         **/
         private _textAlign: string;
 
+        /**
+         * Sets the text that is to appear.
+         * 
+         * @method setText
+         * @param {string} value
+         **/
         public setText(value: string) {
 
             this._text = value;
-
+            this._explodedText = this._text.split(" ");
+            console.log(this._explodedText);
             if (this.type === Kiwi.TYPE_DOM)
             {
                 this.domElement.element.innerHTML = this._text;
@@ -83,58 +137,99 @@ module Kiwi.GameObjects {
 
         }
 
-        public setSize(width: number, height: number) {
-            
-            this.size = this.components.add(new Kiwi.Components.Size(width, height));
-            this.size.updated.add(this._updateSize, this);
-            this._updateSize();
-        }
-
+        /**
+         * Callback that runs when the size updates
+         * @method _updateSize
+         **/
         private _updateSize() {
 
             if (this.type === Kiwi.TYPE_DOM)
             {
-            console.log('updatedSize');
                 this.size.addStyleUpdates(this);
-            }    
+            }
         }
 
-        public fontColor(val?: string) {
+        /**
+         * Allows the setting of the font colour if a parameter has been passed. 
+         * Returns the current font colour.
+         * 
+         * @method fontColor
+         * @param {string} val
+         * @return {string} 
+         **/
+        public fontColor(val?: string):string {
             if (val !== undefined) {
                 this._fontColor = val;
             }
             return this._fontColor;
         }
 
-        public fontWeight(val?: string) {
+        /**
+         * Allows the changing of the font weight. Returns the current font weight.
+         * 
+         * @method fontWeight
+         * @param {string} val
+         * @return {string}
+         **/
+        public fontWeight(val?: string):string {
             if (val !== undefined) {
                 this._fontWeight = val;
             }
             return this._fontWeight;
         }
 
-        public fontSize(val?: string) {
+        /**
+         * Changes the font size if a parameter is passed. Returns the current font size.
+         * 
+         * @method fontSize
+         * @param {number} val
+         * @return {number}
+         **/
+        public fontSize(val?: number):number {
             if (val !== undefined) {
+                    
                 this._fontSize = val;
             }
             return this._fontSize;
         }
 
-        public fontFamily(val?: string) {
+        /**
+         * Allows the modification of the font family. Returns the current font family.
+         * 
+         * @method fontFamily
+         * @param {string} val
+         * @return {string}
+         **/
+        public fontFamily(val?: string):string {
             if (val !== undefined) {
                 this._fontFamily = val;
             }
             return this._fontFamily;
         }
 
-        public lineHeight(val?: string) {
+        /**
+         * Modify the spacing between lines in the textfield. This is a relative messurement that is in relation to your font-size.
+         * Example: If you font size is 18px and your line height is 1.5 then each line will be roughly 18 * 1.5 = 27 pixels high.
+         * 
+         * @method lineHeight
+         * @param {number} val
+         * @return {number}
+         **/
+        public lineHeight(val?: number):number {
             if (val !== undefined) {
                 this._lineHeight = val;
             }
             return this._lineHeight;
         }
 
-        public textAlign(val?: string) {
+        /**
+         * Lets you change the text alignment.
+         *
+         * @method textAlign
+         * @param {string} val
+         * @return {string} 
+         **/
+        public textAlign(val?: string):string {
             if (val !== undefined) {
                 this._textAlign = val;
             }
@@ -142,7 +237,7 @@ module Kiwi.GameObjects {
         }
 
          /** 
-	     * 
+	     * Callback that runs when the alpha component gets modified.
 	     * @method _updateAlpha
          * @param {Number} value
 	     **/
@@ -163,7 +258,7 @@ module Kiwi.GameObjects {
         public position: Kiwi.Components.Position;
 
         /** 
-	     * The Boounds component that controls the bounding box around this Game Object
+	     * The Bounds component that controls the bounding box around this Game Object
 	     * @property bounds
 	     * @type Kiwi.Components.Bounds
 	     **/
@@ -180,13 +275,12 @@ module Kiwi.GameObjects {
 
             klog.info('Textfield added to Layer ' + layer.name);
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
+            if (this.type === Kiwi.TYPE_DOM) {
                 this.domElement.element.style.fontFamily = this._fontFamily;
-                this.domElement.element.style.fontSize = this._fontSize;
+                this.domElement.element.style.fontSize = this._fontSize+'px';
                 this.domElement.element.style.fontWeight = this._fontWeight;
                 this.domElement.element.style.color = this._fontColor;
-                this.domElement.element.style.lineHeight = this._lineHeight;
+                this.domElement.element.style.lineHeight = this._lineHeight+'em';
                 this.domElement.element.style.textAlign = this._textAlign;
                 this.domElement.element.innerHTML = this._text;
 
@@ -196,7 +290,6 @@ module Kiwi.GameObjects {
             }
 
             return true;
-
         }
 
         private _updatePosition(x: number, y: number, z: number, cssTranslate3d: string, cssLeft: string, cssTop: string) {
@@ -205,8 +298,6 @@ module Kiwi.GameObjects {
             {
                 this.position.addStyleUpdates(this);
             }
-
-            //this.bounds.setTo(x, y, this._pixelSize, this._pixelSize);
 
         }
 
@@ -227,15 +318,39 @@ module Kiwi.GameObjects {
                     this.alpha.setContext(this.layer.canvas);
                 }
 
-                this.layer.canvas.context.font = this._fontWeight + ' ' + this._fontSize + ' ' + this._fontFamily;
+                this.layer.canvas.context.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
                 this.layer.canvas.context.textAlign = this._textAlign;
                 this.layer.canvas.context.textBaseline = 'top';
                 this.layer.canvas.context.fillStyle = this._fontColor;
 
-                if (this.size !== undefined) {
-                    this.layer.canvas.context.fillText(this._text, this.position.x(), this.position.y(), this.size.width());
+                var dx = this.position.x();
+                var dy = this.position.y();
+                var textWidth = this.layer.canvas.context.measureText(this._text);
+                
+                // Render the text like normal
+                if (this._textAlign === 'center') {
+                    dx += this.size.halfWidth;
+                } else if (this._textAlign === 'right') {
+                    dx += this.size.width();
+                } 
+
+                if (this.size.width() < textWidth.width ) {
+                    
+                    var text = '';
+                    for (var i = 0; i < this._explodedText.length; i++) {
+
+                        if (this.layer.canvas.context.measureText((text + this._explodedText[i])).width < this.size.width()) {
+                            text += this._explodedText[i] + ' ';
+                        } else {
+                            this.layer.canvas.context.fillText(text, dx, dy);
+                            dy += (this._fontSize * this._lineHeight);
+                            text = this._explodedText[i] + ' ';
+                        }
+                    }
+                    this.layer.canvas.context.fillText(text, dx, dy);
+                    
                 } else {
-                    this.layer.canvas.context.fillText(this._text, this.position.x(), this.position.y());
+                    this.layer.canvas.context.fillText(this._text, dx, dy);
                 }
 
                 if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)          

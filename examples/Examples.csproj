@@ -25,6 +25,10 @@
     <Content Include="animations\smoothSwitchingAnimations.js">
       <DependentUpon>PlayAnimationAtFrame.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="GameObjects\Mouse_ClickAndDrag.ts" />
+    <Content Include="GameObjects\Mouse_ ClickAndDrag.js">
+      <DependentUpon>Mouse_ClickAndDrag.ts</DependentUpon>
+    </Content>
     <Content Include="tilemaps\basics.js">
       <DependentUpon>basics.ts</DependentUpon>
     </Content>

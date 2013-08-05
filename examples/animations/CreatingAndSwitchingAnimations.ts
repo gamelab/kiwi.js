@@ -8,10 +8,7 @@ class CreatingAndSwitchingAnimations extends Kiwi.State {
     }
 
     sprite: Kiwi.GameObjects.Sprite;
-
-    //mouse
     myMouse: Kiwi.Input.Mouse;
-
 
     preload() {
 

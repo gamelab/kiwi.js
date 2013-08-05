@@ -1007,6 +1007,8 @@ var Kiwi;
                 this.isUp = true;
                 this.isDown = false;
                 this.isDragging = false;
+                this._justEntered = false;
+                this._tempDragDisabled = false;
             }
             Input.prototype.objType = function () {
                 return "Input";
@@ -1038,10 +1040,11 @@ var Kiwi;
                     if (this.withinBounds === false) {
                         this.withinBounds = true;
                         this.outsideBounds = false;
+                        this._justEntered = true;
                         this.inputEntered.dispatch(this._entity, this.distance.x, this.distance.y);
                     }
                 } else {
-                    if (this.withinBounds === true) {
+                    if (this.withinBounds === true && this.isDragging === false) {
                         this.withinBounds = false;
                         this.outsideBounds = true;
                         this.inputLeft.dispatch(this._entity);
@@ -1049,6 +1052,12 @@ var Kiwi;
                 }
 
                 if (this._entity.game.input.isDown === true) {
+                    if (this._justEntered) {
+                        this.isDown = true;
+                        this.isUp = false;
+                        this._tempDragDisabled = true;
+                    }
+
                     if (this.withinBounds === true && this.isDown === false) {
                         this.isDown = true;
                         this.isUp = false;
@@ -1056,7 +1065,7 @@ var Kiwi;
                         this.inputOnDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
                     }
 
-                    if (this._dragEnabled === true && this.isDragging === false) {
+                    if (this._dragEnabled === true && this.isDragging === false && this._tempDragDisabled === false) {
                         if (this.isDown === true && this.pointDown.distanceTo(this.distance) >= this._dragDistance) {
                             this.isDragging = true;
 
@@ -1073,12 +1082,18 @@ var Kiwi;
                         this.inputDragStopped.dispatch(this._entity);
                     }
 
+                    if (this._tempDragDisabled === true)
+                        this._tempDragDisabled = false;
+
                     if (this.isDown === true) {
                         this.isDown = false;
                         this.isUp = true;
                         this.inputOnRelease.dispatch(this._entity);
                     }
                 }
+
+                if (this._justEntered)
+                    this._justEntered = false;
             };
 
             Input.prototype.toString = function () {
@@ -8265,34 +8280,6 @@ var Kiwi;
                 }
             };
 
-            Animation.prototype.addStyleUpdates = function (entity) {
-                if (entity === null) {
-                    return;
-                }
-
-                if (Kiwi.DEVICE.css3D) {
-                    entity.addStyleUpdate('-webkit-super-thingy', this.cssExampleProperty);
-                } else {
-                    entity.addStyleUpdate('less-super', this.cssExampleProperty);
-                }
-            };
-
-            Animation.prototype.addStyleImmediately = function (entity) {
-                if (entity.domElement === null || entity.domElement.element === null) {
-                    return;
-                }
-
-                if (Kiwi.DEVICE.css3D) {
-                    entity.domElement.element.style.transform = this.cssExampleProperty;
-                } else {
-                    entity.domElement.element.style.left = this.cssExampleProperty;
-                }
-            };
-
-            Animation.prototype._processUpdate = function () {
-                this.dirty = true;
-            };
-
             Animation.prototype.toString = function () {
                 return '[{Animation (x=' + this.active + ')}]';
             };
@@ -8736,11 +8723,13 @@ var Kiwi;
     (function (GameObjects) {
         var Textfield = (function (_super) {
             __extends(Textfield, _super);
-            function Textfield(text, x, y, color, size, weight, fontFamily) {
+            function Textfield(text, x, y, width, height, color, size, weight, fontFamily) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
+                if (typeof width === "undefined") { width = 200; }
+                if (typeof height === "undefined") { height = 100; }
                 if (typeof color === "undefined") { color = '#ffffff'; }
-                if (typeof size === "undefined") { size = '32px'; }
+                if (typeof size === "undefined") { size = 32; }
                 if (typeof weight === "undefined") { weight = 'normal'; }
                 if (typeof fontFamily === "undefined") { fontFamily = 'cursive'; }
                 _super.call(this, true, true, false);
@@ -8748,18 +8737,20 @@ var Kiwi;
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
 
                 this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
+                this.size = this.components.add(new Kiwi.Components.Size(width, height));
 
-                this._text = text;
+                this.setText(text);
                 this._fontWeight = weight;
                 this._fontSize = size;
                 this._fontColor = color;
                 this._fontFamily = fontFamily;
-                this._lineHeight = '1em';
+                this._lineHeight = 1;
                 this._textAlign = 'left';
 
                 this.alpha.updated.add(this._updateAlpha, this);
                 this.onAddedToLayer.add(this._onAddedToLayer, this);
                 this.position.updated.add(this._updatePosition, this);
+                this.size.updated.add(this._updateSize, this);
 
                 klog.info('Created Textfield Game Object');
             }
@@ -8769,21 +8760,15 @@ var Kiwi;
 
             Textfield.prototype.setText = function (value) {
                 this._text = value;
-
+                this._explodedText = this._text.split(" ");
+                console.log(this._explodedText);
                 if (this.type === Kiwi.TYPE_DOM) {
                     this.domElement.element.innerHTML = this._text;
                 }
             };
 
-            Textfield.prototype.setSize = function (width, height) {
-                this.size = this.components.add(new Kiwi.Components.Size(width, height));
-                this.size.updated.add(this._updateSize, this);
-                this._updateSize();
-            };
-
             Textfield.prototype._updateSize = function () {
                 if (this.type === Kiwi.TYPE_DOM) {
-                    console.log('updatedSize');
                     this.size.addStyleUpdates(this);
                 }
             };
@@ -8841,10 +8826,10 @@ var Kiwi;
 
                 if (this.type === Kiwi.TYPE_DOM) {
                     this.domElement.element.style.fontFamily = this._fontFamily;
-                    this.domElement.element.style.fontSize = this._fontSize;
+                    this.domElement.element.style.fontSize = this._fontSize + 'px';
                     this.domElement.element.style.fontWeight = this._fontWeight;
                     this.domElement.element.style.color = this._fontColor;
-                    this.domElement.element.style.lineHeight = this._lineHeight;
+                    this.domElement.element.style.lineHeight = this._lineHeight + 'em';
                     this.domElement.element.style.textAlign = this._textAlign;
                     this.domElement.element.innerHTML = this._text;
 
@@ -8872,15 +8857,35 @@ var Kiwi;
                         this.alpha.setContext(this.layer.canvas);
                     }
 
-                    this.layer.canvas.context.font = this._fontWeight + ' ' + this._fontSize + ' ' + this._fontFamily;
+                    this.layer.canvas.context.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
                     this.layer.canvas.context.textAlign = this._textAlign;
                     this.layer.canvas.context.textBaseline = 'top';
                     this.layer.canvas.context.fillStyle = this._fontColor;
 
-                    if (this.size !== undefined) {
-                        this.layer.canvas.context.fillText(this._text, this.position.x(), this.position.y(), this.size.width());
+                    var dx = this.position.x();
+                    var dy = this.position.y();
+                    var textWidth = this.layer.canvas.context.measureText(this._text);
+
+                    if (this._textAlign === 'center') {
+                        dx += this.size.halfWidth;
+                    } else if (this._textAlign === 'right') {
+                        dx += this.size.width();
+                    }
+
+                    if (this.size.width() < textWidth.width) {
+                        var text = '';
+                        for (var i = 0; i < this._explodedText.length; i++) {
+                            if (this.layer.canvas.context.measureText((text + this._explodedText[i])).width < this.size.width()) {
+                                text += this._explodedText[i] + ' ';
+                            } else {
+                                this.layer.canvas.context.fillText(text, dx, dy);
+                                dy += (this._fontSize * this._lineHeight);
+                                text = this._explodedText[i] + ' ';
+                            }
+                        }
+                        this.layer.canvas.context.fillText(text, dx, dy);
                     } else {
-                        this.layer.canvas.context.fillText(this._text, this.position.x(), this.position.y());
+                        this.layer.canvas.context.fillText(this._text, dx, dy);
                     }
 
                     if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
