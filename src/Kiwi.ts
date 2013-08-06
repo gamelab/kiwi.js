@@ -91,6 +91,9 @@
 /// <reference path="hud/components/Range.ts" />
 /// <reference path="hud/components/Time.ts" />
 
+/// <reference path="sound/AudioManager.ts" />
+/// <reference path="sound/Audio.ts" />
+
 /// <reference path="input/Finger.ts" />
 /// <reference path="input/Key.ts" />
 /// <reference path="input/Keyboard.ts" />

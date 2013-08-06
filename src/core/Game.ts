@@ -43,7 +43,7 @@ module Kiwi {
             this._dom = new Kiwi.DOM.Bootstrap();
 
             this.anims = new Kiwi.Anims.Manager(this);
-            //this.audio = new Kiwi.Audio.Manager(this);
+            this.audio = new Kiwi.Sound.AudioManager(this);
             this.browser = new Kiwi.DOM.Browser(this);
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
@@ -96,8 +96,14 @@ module Kiwi {
         */
         public id: number;
 
-        anims: Kiwi.Anims.Manager = null;
-        //audio: Kiwi.Audio.Manager = null;
+        public anims: Kiwi.Anims.Manager = null;
+        
+        /*
+        *
+        * @property audio
+        * @type Kiwi.Audio.AudioManager
+        */
+        public audio: Kiwi.Sound.AudioManager = null;
 
         /*
         * 
@@ -201,7 +207,7 @@ module Kiwi {
             this.huds.boot();
             this.time.boot();
             this.anims.boot();
-            //this.audio.boot();
+            this.audio.boot();
             this.input.boot();
             this.cache.boot();
             this.loader.boot();
@@ -222,6 +228,7 @@ module Kiwi {
         private loop() {
 
             this.time.update();
+            this.audio.update();
             this.input.update();
             this.tweens.update();
             this.cameras.update();

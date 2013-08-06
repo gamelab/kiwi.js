@@ -265,6 +265,19 @@ module Kiwi {
 
         }
 
+        public addAudio(cacheID: string, url: string, globalCache: bool = true) {
+
+            if (globalCache === true)
+            {
+                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
+            }
+            else
+            {
+                this.game.loader.addAudio(cacheID, url, this.cache.audio);
+            }
+
+        }
+
         /**
         * Add a child to this State. Child can be any Game Object that extends Kiwi.Entity or Kiwi.Group
         * @method addChild

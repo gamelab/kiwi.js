@@ -29,6 +29,26 @@
     <Content Include="GameObjects\Mouse_ ClickAndDrag.js">
       <DependentUpon>Mouse_ClickAndDrag.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="sound\loading_playing.ts" />
+    <Content Include="sound\basics.js">
+      <DependentUpon>loading_playing.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="sound\looping.ts" />
+    <Content Include="sound\looping.js">
+      <DependentUpon>looping.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="sound\pausing_resuming.ts" />
+    <TypeScriptCompile Include="sound\muting.ts" />
+    <Content Include="sound\muting.js">
+      <DependentUpon>muting.ts</DependentUpon>
+    </Content>
+    <Content Include="sound\pausing_resuming.js">
+      <DependentUpon>pausing_resuming.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="sound\changing_volume.ts" />
+    <Content Include="sound\volume.js">
+      <DependentUpon>changing_volume.ts</DependentUpon>
+    </Content>
     <Content Include="tilemaps\basics.js">
       <DependentUpon>basics.ts</DependentUpon>
     </Content>
