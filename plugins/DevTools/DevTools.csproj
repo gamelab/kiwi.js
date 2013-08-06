@@ -21,7 +21,6 @@
     <Content Include="app.js">
       <DependentUpon>app.ts</DependentUpon>
     </Content>
-    <Content Include="lib\d3.d.ts" />
     <Content Include="lib\d3.min.js" />
     <Content Include="src\SceneGraphViewer.js">
       <DependentUpon>SceneGraphViewer.ts</DependentUpon>

@@ -5371,7 +5371,7 @@ var Kiwi;
 
                 this.layer = layer;
                 this.type = this.layer.type;
-
+                console.log(this.type);
                 for (var i = 0; i < this.members.length; i++) {
                     if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
                         this.members[i].exists(false);
@@ -7930,6 +7930,7 @@ var Kiwi;
                     return;
                 }
 
+                this.name = cacheID;
                 this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
                 this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
