@@ -413,7 +413,6 @@ var Kiwi;
                 var obj2delta = phys2.position.x() - phys2.last.x;
 
                 if (obj1delta != obj2delta) {
-                    console.log('1');
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
@@ -590,7 +589,8 @@ var Kiwi;
                 var childPhysics;
                 for (var i = 0; i < group.members.length; i++) {
                     childPhysics = group.members[i].components._components["ArcadePhysics"];
-                    childPhysics.overlaps(this._parent, true);
+                    if (childPhysics.overlaps(this._parent, true))
+                        results = true;
                 }
 
                 return results;

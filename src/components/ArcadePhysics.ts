@@ -312,7 +312,6 @@ module Kiwi.Components {
             
             if (obj1delta != obj2delta) {
                 //Check if the X hulls actually overlap
-                console.log('1');
                 var obj1deltaAbs: number = (obj1delta > 0) ? obj1delta : -obj1delta;
                 var obj2deltaAbs: number = (obj2delta > 0) ? obj2delta : -obj2delta;
                 //where they were before
@@ -520,7 +519,7 @@ module Kiwi.Components {
             var childPhysics: ArcadePhysics;
             for (var i = 0; i < group.members.length; i++) {
                 childPhysics = <ArcadePhysics>group.members[i].components._components["ArcadePhysics"];
-                childPhysics.overlaps(this._parent, true);
+                if (childPhysics.overlaps(this._parent, true)) results = true;
             }
 
             return results;
