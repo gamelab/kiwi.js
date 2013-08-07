@@ -27,7 +27,7 @@ class Marker_Playing extends Kiwi.State {
 
         this.random.addMarker('boy', 0, 28, true);
         this.random.addMarker('horn', 63, 80, true);
-        this.random.addMarker('prin', 85, 96, true);
+        this.random.addMarker('prin', 85, 96, false);
 
         this.random.play('boy');
         

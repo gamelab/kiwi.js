@@ -48,6 +48,10 @@
     </Content>
     <TypeScriptCompile Include="sound\AudioManager.ts" />
     <TypeScriptCompile Include="sound\Audio.ts" />
+    <TypeScriptCompile Include="components\Sound.ts" />
+    <Content Include="components\Sound.js">
+      <DependentUpon>Sound.ts</DependentUpon>
+    </Content>
     <Content Include="sound\Audio.js">
       <DependentUpon>Audio.ts</DependentUpon>
     </Content>

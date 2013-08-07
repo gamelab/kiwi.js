@@ -50,6 +50,10 @@
       <DependentUpon>pausing_resuming.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="sound\changing_volume.ts" />
+    <TypeScriptCompile Include="sound\SoundComponent.ts" />
+    <Content Include="sound\SoundComponent.js">
+      <DependentUpon>SoundComponent.ts</DependentUpon>
+    </Content>
     <Content Include="sound\volume.js">
       <DependentUpon>changing_volume.ts</DependentUpon>
     </Content>

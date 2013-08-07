@@ -2523,6 +2523,84 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Components) {
+        var Sound = (function (_super) {
+            __extends(Sound, _super);
+            function Sound(game) {
+                _super.call(this, 'Sound', true, true, true);
+
+                this._game = game;
+                this._audio = [];
+            }
+            Sound.prototype.addSound = function (name, cacheID, cache, volume, loop) {
+                if (this._validate(name) == true)
+                    return;
+
+                var audio = this._game.audio.add(cacheID, cache, volume, loop);
+                this._audio[name] = audio;
+
+                return audio;
+            };
+
+            Sound.prototype.removeSound = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].stop();
+                this._audio[name].destroy();
+                delete this._audio[name];
+            };
+
+            Sound.prototype.getSound = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                return this._audio[name];
+            };
+
+            Sound.prototype._validate = function (name) {
+                if (this._audio[name] === undefined) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            Sound.prototype.play = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].play();
+            };
+
+            Sound.prototype.stop = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].stop();
+            };
+
+            Sound.prototype.pause = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].pause();
+            };
+
+            Sound.prototype.resume = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].resume();
+            };
+            return Sound;
+        })(Kiwi.Component);
+        Components.Sound = Sound;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var File = (function () {
         function File(game, dataType, path, cacheID, saveToCache, cache) {
             if (typeof cacheID === "undefined") { cacheID = ''; }
