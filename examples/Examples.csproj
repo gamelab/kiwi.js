@@ -39,6 +39,10 @@
     </Content>
     <TypeScriptCompile Include="sound\pausing_resuming.ts" />
     <TypeScriptCompile Include="sound\muting.ts" />
+    <TypeScriptCompile Include="sound\Marker_Playing.ts" />
+    <Content Include="sound\markers.js">
+      <DependentUpon>Marker_Playing.ts</DependentUpon>
+    </Content>
     <Content Include="sound\muting.js">
       <DependentUpon>muting.ts</DependentUpon>
     </Content>

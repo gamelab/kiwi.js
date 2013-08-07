@@ -47,6 +47,9 @@ module Kiwi.Sound {
             this._muteVolume = volume;
             this._loop = loop;
 
+            //add the default marker
+            this.addMarker('default', 0, this.totalDuration, this._loop);
+
             //tonnes of signals to go here.
             this.onPlay = new Kiwi.Signal();
             this.onStop = new Kiwi.Signal();
@@ -134,7 +137,7 @@ module Kiwi.Sound {
         * The total duration of the audio in seconds
         * @public
         */
-        public totalDuration: number;
+        public totalDuration: number = 0;
         
         /*
         * The current duration of the section of audio that is being played. In milliseconds
@@ -195,6 +198,19 @@ module Kiwi.Sound {
         * @private
         */
         private _stopTime: number;
+
+        /*
+        * An array of all of the markers that are on this piece of audio. 
+        * @private
+        */
+        private _markers: any = [];
+
+        /*
+        * The current marker that is being used.
+        * @private
+        */
+        private _currentMarker: string = 'default';
+
 
         /*
         * Tonnes of signals
@@ -270,9 +286,9 @@ module Kiwi.Sound {
         public volume(val?:number) {
 
             if (val !== undefined) {
-                if (val > 1) val = 1;
-                if (val < 0) val = 0;
 
+                val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
+                
                 this._volume = val;
 
                 if (this._muted) {
@@ -308,8 +324,8 @@ module Kiwi.Sound {
                     this.volume(0);
                     this._muted = true;
                 } else {
-                    this.volume(this._muteVolume);
                     this._muted = false;
+                    this.volume(this._muteVolume);
                 }
                 this.onMute.dispatch(this._muted);
             }
@@ -318,19 +334,60 @@ module Kiwi.Sound {
         }
 
         /*
+        * Adds a new marker to the audio which will then allow for that section of audio to be played.
+        * 
+        * @method addMarker
+        * @param {string} name
+        * @param {number} start - The starting point of the audio. In seconds.
+        * @param {number} stop - The stopping point of the audio. In seconds.
+        * @param {bool} loop
+        */
+        public addMarker(name:string, start:number, stop: number, loop:bool = false) {
+            this._markers[name] = { start: start, stop: stop, duration: stop - start, loop: loop };
+        }
+
+        /*
+        * Removes a currently existing marker from this audio.
+        *
+        * @method removeMarker
+        */
+        public removeMarker(name: string) {
+            if (name == 'default') return; //cannot delete the default
+
+            if (this.isPlaying && this._currentMarker == name) {
+                this.stop();    
+                this._currentMarker = 'default';
+            }
+            delete this._markers[name];
+        }
+
+
+        /*
         * Plays the current sound/audio from the start.
         *
         * @method play
+        * @param {string} marker - the marker that is to be played.
+        * @param {bool} forceRestart - force the audio to stop and start again.
         */
-        public play() {
+        public play(marker:string=this._currentMarker, forceRestart:bool = false) {
+            
+            if (this.isPlaying && forceRestart == false) return;
+
+            if (forceRestart) this.stop();
+            
             this.paused = false;
+
+            if (this._markers[marker] == undefined) return;
+
+            if(this._currentMarker === marker && this.isPlaying) return;
+
+            this._currentMarker = marker;
+            this.duration = this._markers[this._currentMarker].duration * 1000;
+            this._loop = this._markers[this._currentMarker].loop;
 
             if (this._usingWebAudio) {
                 if (this._decoded === true) {
 
-                    if (this.isPlaying) return;
-
-                    //if the buffer is null
                     if (this._buffer == null) this._buffer = this._file.data.buffer;
 
                     this._sound = this.context.createBufferSource();
@@ -344,9 +401,9 @@ module Kiwi.Sound {
 
                     //start
                     if (this._sound.start === undefined) {
-                        this._sound.noteGrainOn(0, 0, this.duration / 1000);
+                        this._sound.noteGrainOn(0, this._markers[this._currentMarker].start, this.duration / 1000);
                     } else {
-                        this._sound.start(0, 0, this.duration / 1000);
+                        this._sound.start(0, this._markers[this._currentMarker].start, this.duration / 1000);
                     }
                     
                     this.isPlaying = true;
@@ -366,7 +423,8 @@ module Kiwi.Sound {
 
                 if (this._muted) this._sound.volume = 0;
                 else this._sound.volume = this.volume;
-                
+
+                this._sound.currentTime = this._markers[this._currentMarker].start;
                 this._sound.play();
                 this.isPlaying = true;
                 this._startTime = this._game.time.now();
@@ -434,13 +492,13 @@ module Kiwi.Sound {
                     this._sound.connect(this.gainNode);
                     
                     if (this._sound.start === undefined) {
-                        this._sound.noteGrainOn(0, (this._currentTime / 1000), this.duration / 1000);
+                        this._sound.noteGrainOn(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
                     } else {
-                        this._sound.start(0, (this._currentTime / 1000), this.duration / 1000);
+                        this._sound.start(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
                     }
 
                 } else {
-                    this._sound.currentTime = this._currentTime / 1000;
+                    this._sound.currentTime = this._markers[this._currentMarker].start + this._currentTime / 1000;
                     this._sound.play();
                 }
 
@@ -475,8 +533,14 @@ module Kiwi.Sound {
                     if (this._usingWebAudio) {
 
                         if (this._loop) {
-                            this._currentTime = 0;
-                            this._startTime = this._game.time.now();
+
+                            if (this._currentMarker == 'default') {
+                                this._currentTime = 0;
+                                this._startTime = this._game.time.now();
+                            } else {
+                                this.play(this._currentMarker, true);
+                            }
+
                             this.onLoop.dispatch();
                         } else {
                             this.stop();

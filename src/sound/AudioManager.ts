@@ -226,7 +226,7 @@ module Kiwi.Sound {
         */
         public add( cacheID:string, cache: Kiwi.Cache, volume: number = 1, loop: bool = false): Kiwi.Sound.Audio {
 
-            if (!this.noAudio) return;
+            if (this.noAudio) return;
 
             var sound: Kiwi.Sound.Audio = new Kiwi.Sound.Audio(this._game, cacheID, cache, volume, loop);
             this._sounds.push(sound);

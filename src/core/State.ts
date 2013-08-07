@@ -229,7 +229,7 @@ module Kiwi {
         * @param {Kiwi.FileCache} [cache]
         */
         public addImage(cacheID: string, url: string, globalCache:bool = true) {
-
+            
             if (globalCache === true)
             {
                 this.game.loader.addImage(cacheID, url, this.game.cache.images);
