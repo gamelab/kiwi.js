@@ -3,76 +3,95 @@ module Kiwi.Sound {
 
     export class AudioManager {
 
+        /*
+        *
+        * @constructor
+        * @param {Kiwi.Game} game
+        */
         constructor(game: Kiwi.Game) {
             
             this._game = game;
 
         }
 
+        /*
+        * The game that this manager belongs to.
+        * @property _game
+        */
         private _game: Kiwi.Game;
         
         /*
-        * The volume of all of the games audio.
-        * 
+        * The global volume of all of the games audio.
+        * @property _volume
         */
         private _volume: number;
 
         /*
         * A boolean that controls weither the whole games audio should be muted or not.
-        *
+        * @property _muted
         */
         private _muted: bool;
 
         /*
         * An array containing all of the sounds on the game.
-        * 
         * @property _sounds
         */
         private _sounds: any;
         
         /*
         * The number of channels that are supported.
+        * Not in much use at this point in time.
+        * @property channels
         */
         public channels: number;
 
         /*
-        * If audio should be used or not.
+        * If the current game has audio support or not.
+        * @property noAudio
         */
         public noAudio: bool = false;
 
         /*
-        * Weither webAudio is to be used or not.
+        * If the game is currently using the Web Audio API for the sound.
+        * @property usingWebAudio
         */
         public usingWebAudio: bool = false;
 
         /*
-        * Should I use the audio tag or not.
+        * If the game is using audio tags for the sound. This is the fallback if the web audio api is not supported. 
+        * @property usingAudioTag
         */
         public usingAudioTag: bool = false;
 
         /*
-        * The context when it comes to playing sound.
+        * Web Audio API ONLY - The audio context that is used for decoding audio, e.t.c. 
+        * @property context
         */
         public context: any = null;
 
         /*
-        * The master gain node through which all sounds play.
+        * Web Audio API ONLY - The master gain node through which all sounds play.
+        * @property masterGain
         */
         public masterGain: any = null;
 
         /*
-        * The volumn before the device was muted.
+        * The volume of the audio before it was muted. This is used so that when the audio is unmuted the volume will resume at this point.
+        * @property _muteVolume
         */
         private _muteVolume: number;
         
         /*
-        * A boolean that says if the sound should be decoded automatically.
+        * Web Audio API ONLY - Indicators weither or not the sound (once downloaded) should be decoded right away. If true this happens during the loading stage.
+        * True = longer loading times (especally for large audio files), but instant audio playback when the game has loaded.
+        * False = shorter loading times (only waits for the file and doesn't decode), but may have no audio in game while while it decodes.
         */
         public predecode: bool = true;
 
         /*
-        *
         * The boot manager.
+        *
+        * @method boot
         */
         boot() {
 
@@ -89,8 +108,6 @@ module Kiwi.Sound {
 
             this.usingWebAudio = true;
             this.usingAudioTag = false;
-
-            //return;
 
             if (!!window['AudioContext']) {//if audio context is supported
                 this.context = new window['AudioContext']();
@@ -164,7 +181,7 @@ module Kiwi.Sound {
         }
 
         /*
-        * Global setting and getting of the volumn. A number between 0 (silence) and 1 (full volume)
+        * Global setting and getting of the volume. A number between 0 (silence) and 1 (full volume)
         *
         * @method volume
         * @param {number} value
@@ -177,6 +194,11 @@ module Kiwi.Sound {
                 value = Kiwi.Utils.GameMath.clamp(value, 1, 0);
                 this._volume = value;
                 
+                if (this._muted) {
+                    this._muteVolume = this._volume;
+                    return this._volume;
+                }
+
                 if (this.usingWebAudio) {
                     this.masterGain.gain.value = value;
 
@@ -189,14 +211,22 @@ module Kiwi.Sound {
 
             }
 
-            if (this.usingWebAudio) {
-                return this.masterGain.gain.value;
-            } else {
-                return this._volume;
-            }
+            return this._volume;
         }
 
+        /*
+        * Used to create a new sound on the audio manager. Returns the newly created sound.
+        * 
+        * @method add
+        * @param {string} cacheID
+        * @param {Kiwi.Cache} cache
+        * @param {number} volume
+        * @param {bool} loop
+        * @return {Kiwi.Sound.Audio}
+        */
         public add( cacheID:string, cache: Kiwi.Cache, volume: number = 1, loop: bool = false): Kiwi.Sound.Audio {
+
+            if (!this.noAudio) return;
 
             var sound: Kiwi.Sound.Audio = new Kiwi.Sound.Audio(this._game, cacheID, cache, volume, loop);
             this._sounds.push(sound);
@@ -204,12 +234,18 @@ module Kiwi.Sound {
 
         }
 
+        /*
+        * Removes the passed sound from the audio manager. Needs testing.
+        *
+        * @method remove
+        * @param { Kiwi.Sound.Audio} sound
+        */
         public remove(sound: Kiwi.Sound.Audio) {
             //needs testing
             for (var i = 0; i < this._sounds.length; i++) {
 
                 if (sound == this._sounds[i]) {
-                    this._sounds[i].remove();
+                    this._sounds[i].gainNode.disconnect();
                     this._sounds.splice(i, 1, 0);
                     i--;
                 }
@@ -218,7 +254,11 @@ module Kiwi.Sound {
 
         }
         
-        //management methods
+        /*
+        * Plays all of the sounds listed in the audio manager.
+        *
+        * @method playAll
+        */
         public playAll() {
             for (var i = 0; i < this._sounds.length; i++) {
 
@@ -228,7 +268,12 @@ module Kiwi.Sound {
 
             }
         }
-
+    
+        /*
+        * Stops all of the sounds that are listed in the audio manager from playing.
+        *
+        * @method playAll
+        */
         public stopAll() {
 
             for (var i = 0; i < this._sounds.length; i++) {
@@ -240,7 +285,12 @@ module Kiwi.Sound {
             }
 
         }
-
+    
+        /*
+        * Pauses all of the sounds listed in the audio manager.
+        *
+        * @method playAll
+        */
         public pauseAll() {
 
             for (var i = 0; i < this._sounds.length; i++) {
@@ -252,7 +302,12 @@ module Kiwi.Sound {
             }
 
         }
-
+        
+        /*
+        * Resumes all of the sounds listed in the audio manager.
+        *
+        * @method playAll
+        */
         public resumeAll() {
 
             for (var i = 0; i < this._sounds.length; i++) {
@@ -267,15 +322,14 @@ module Kiwi.Sound {
 
 
         /*
-        * 
         * Update Loop
         */
         update() {
-
-            for (var i = 0; i < this._sounds.length; i++) {
-                this._sounds[i].update();
+            if (!this.noAudio) {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    this._sounds[i].update();
+                }
             }
-
         }
 
     }

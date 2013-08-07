@@ -3,6 +3,15 @@ module Kiwi.Sound {
 
     export class Audio {
 
+        /*
+        *
+        * @constructor
+        * @param {Kiwi.Game}
+        * @param {string} cacheID
+        * @param {Kiwi.Cache} cache
+        * @param {number} volume - A number between 0 (silence) and 1 (loud).
+        * @param {bool} loop 
+        */
         constructor(game: Kiwi.Game, cacheID:string, cache: Kiwi.Cache, volume:number, loop:bool) {
             
             this._game = game;
@@ -13,9 +22,6 @@ module Kiwi.Sound {
             if (!this._setAudio(cacheID, cache)) return;
 
             if (this._usingWebAudio) {
-                console.log('Web Audio');
-
-                //do stuff
                 this.context = this._game.audio.context;
                 this.masterGainNode = this._game.audio.masterGain;
 
@@ -26,16 +32,12 @@ module Kiwi.Sound {
                     this.gainNode = this.context.createGain();
                 }
                 
-                //decode
+                //make sure the audio is decoded.
                 this._decode();
 
-                //set volumn
-                this.gainNode.gain.value = volume * this._game.audio.volume();
+                this.gainNode.gain.value = volume * this._game.audio.volume();      //this may need to change.....
                 this.gainNode.connect(this.masterGainNode); 
             } else {
-                console.log('Audio');
-
-                //do stuff
                 this.totalDuration = this._sound.duration;
                 this._sound.volume = volume * this._game.audio.volume();
             }
@@ -43,83 +45,166 @@ module Kiwi.Sound {
             this.duration = 0;
             this.volume(volume);
             this._muteVolume = volume;
-            this.loop = loop;
+            this._loop = loop;
 
             //tonnes of signals to go here.
+            this.onPlay = new Kiwi.Signal();
+            this.onStop = new Kiwi.Signal();
+            this.onPause = new Kiwi.Signal();
+            this.onResume = new Kiwi.Signal();
+            this.onLoop = new Kiwi.Signal();
+            this.onMute = new Kiwi.Signal();
         }
 
+        /*
+        * The game that this sound belongs to.
+        * @private
+        */
         private _game: Kiwi.Game;
 
         /*
-        * Web Audio API controls.
+        * Web Audio API ONLY - A reference to the audio context that the game's audio manager has.
+        * @public
         */
         public context: any;
+        
+        /*
+        * Web Audio API ONLY - A reference to the master gain node on the audio manager.
+        * @public
+        */
         public masterGainNode: any;
+
+        /*
+        * Web Audio API ONLY - This sounds local gainNode that it uses.
+        * @public
+        */
         public gainNode: any;
 
         /*
-        * If the sound is using the audioTag or the 
+        * A boolean indicating weither or not that audio tags are being used to generate sounds.
+        * @private
         */
         private _usingAudioTag: bool;
+
+        /*
+        * A boolean indicating weither or not the webAuduio api is being used. 
+        * @private
+        */
         private _usingWebAudio: bool;
 
         /*
-        * The sound controls. They need to be updated.
+        * A private indicator of weither this audio is currently muted or not.
+        * @private
         */
         private _muted: bool = false;  
+        
+        /*
+        * A number between 0 and 1 representing the current volume of this audio piece. 
+        * @private
+        */
         private _volume: number;  
-        public loop: bool;
+        
+        /*
+        * A boolean indicating weither this piece of audio should loop or not.
+        * @private
+        */
+        private _loop: bool;
 
         /*
-        * The cacheID of the audio
+        * The cacheID that was used to get th  audio i formation.
+        * @public
         */
         public cacheID: string;
         
         /*
-        * The sound/file information
+        * The property containing the file information about the audio.
+        * @private
         */
         private _file: Kiwi.File;
         private _sound: any;
 
         /*
         * A boolean that controls/knows if the audio is ready to be played or not.
+        * This is just an indicator of if the file has been retrieved successfully from the cache or not.
+        * @public
         */
         public ready: bool;
 
         /*
-        * Audio Tag Specific variables.
+        * The total duration of the audio in seconds
+        * @public
         */
         public totalDuration: number;
+        
+        /*
+        * The current duration of the section of audio that is being played. In milliseconds
+        * @public
+        */
         public duration: number;
+        
+        /*
+        * Web Audio API ONLY - The audio buffer that is to be used when playing audio segments.
+        * @private
+        */
         private _buffer = null;
+
+        /*
+        * Web Audio API ONLY - A boolean to indicate if the audio has been decoded or not yet. If not you will need to run the decode() method.
+        * @private
+        */
         private _decoded: bool = false;
 
         /*
-        * The volumn before the sound was muted.
+        * A private property that holds the volume before the sound was muted. Used so that when unmuted the sound will resume at its old spot.
+        * @private
         */
         private _muteVolume: number;
 
         /*
-        * Controls if the sound is playing.
+        * Indicates weither or not the sound is currently playing.
+        * @public
         */
         public isPlaying: bool;
 
         /*
-        * If the sound is currently paused or not
+        * A indicator of if the sound is currently paused.
+        * @public
         */
         public paused: bool;
 
         /*
         * If the sound needs to be played but is waiting on something.
+        * @private 
         */
         private _pending: bool;
 
         /*
-        * All of the time time stuff...
+        * When the audio started playing. In milliseconds
+        * @private 
         */
         private _startTime: number;
+
+        /*
+        * When the audio is playing, this is the current time we are at with it playing. In milliseconds
+        * @private.
+        */
         private _currentTime: number;
+
+        /*
+        * The time at which the audio should stop playing. In milliseconds. This is assuming that the audio is not on loop.
+        * @private
+        */
         private _stopTime: number;
+
+        /*
+        * Tonnes of signals
+        */
+        public onPlay: Kiwi.Signal;
+        public onStop: Kiwi.Signal;
+        public onPause: Kiwi.Signal;
+        public onResume: Kiwi.Signal;
+        public onLoop: Kiwi.Signal;
+        public onMute: Kiwi.Signal;
 
         /*
         * Retrieves the audio data from the cache.
@@ -127,6 +212,7 @@ module Kiwi.Sound {
         * @method _setAudio
         * @param {string} cacheID
         * @param {Kiwi.Cache} cache
+        * @return {boolean}
         */
         private _setAudio(cacheID: string, cache: Kiwi.Cache): boolean {
             if (cacheID == '' || cache === null || cache.audio === null || cache.audio.exists(cacheID) === false)
@@ -146,7 +232,8 @@ module Kiwi.Sound {
 
         /*
         * Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.
-        *
+        * 
+        * @method _decode
         */
         private _decode() {
             
@@ -157,19 +244,18 @@ module Kiwi.Sound {
             if (this._file.data.decoded === true && this._file.data.buffer !== null) {
                 this._buffer = this._file.data.buffer;
                 this._decoded = true;
-                console.log('decoded already');
+                return;
             }
 
             //the audio hasn't been decoded yet but it is decoding?
             if (this._game.audio.predecode == true && this._file.data.decode == false) {
-                console.log('decoding in progress....waiting');
+                return;
             }
 
             var that = this;
             this.context.decodeAudioData(this._file.data.raw, function (buffer) {
                 that._buffer = buffer;
                 that._decoded = true;
-                console.log('decoded');
             });
 
         }
@@ -189,14 +275,19 @@ module Kiwi.Sound {
 
                 this._volume = val;
 
+                if (this._muted) {
+                    this._muteVolume = this._volume;
+                    return this._volume;
+                }
+
                 if (this._usingWebAudio) {
-                    this.gainNode.gain.value = this._volume * this._game.audio.volume();
+                    this.gainNode.gain.value = this._volume * this._game.audio.volume();            //this may need to change....
 
                 } else if (this._usingAudioTag) {
                     this._sound.volume = this._volume * this._game.audio.volume();
 
                 }
-                console.log('volume update');
+
             }
 
             return this._volume;
@@ -216,19 +307,20 @@ module Kiwi.Sound {
                     this._muteVolume = this._volume;
                     this.volume(0);
                     this._muted = true;
-                    console.log('muted');
                 } else {
                     this.volume(this._muteVolume);
                     this._muted = false;
-                    console.log('unmuted');
                 }
+                this.onMute.dispatch(this._muted);
             }
             
             return this._muted;
         }
 
         /*
-        * Plays the current sound/audio
+        * Plays the current sound/audio from the start.
+        *
+        * @method play
         */
         public play() {
             this.paused = false;
@@ -237,8 +329,6 @@ module Kiwi.Sound {
                 if (this._decoded === true) {
 
                     if (this.isPlaying) return;
-
-                    console.log('Should be playing');
 
                     //if the buffer is null
                     if (this._buffer == null) this._buffer = this._file.data.buffer;
@@ -250,7 +340,7 @@ module Kiwi.Sound {
 
                     if (this.duration == 0) this.duration = this.totalDuration * 1000;
 
-                    if (this.loop) this._sound.loop = true;
+                    if (this._loop) this._sound.loop = true;
 
                     //start
                     if (this._sound.start === undefined) {
@@ -263,15 +353,14 @@ module Kiwi.Sound {
                     this._startTime = this._game.time.now();
                     this._currentTime = 0;
                     this._stopTime = this._startTime + this.duration;
+                    this.onPlay.dispatch();
 
                 } else {
-                    console.log('Pending');
                     this._pending = true;
                     this._decode();
                 }
 
             } else {
-                console.log('Playing Fallback');
 
                 if (this.duration == 0) this.duration = this.totalDuration * 1000;
 
@@ -283,11 +372,15 @@ module Kiwi.Sound {
                 this._startTime = this._game.time.now();
                 this._currentTime = 0;
                 this._stopTime = this._startTime + this.duration;
+
+                if(!this.paused) this.onPlay.dispatch();
             }
         }
 
         /*
-        * Stop the sound from playing .
+        * Stop the sound from playing.
+        *
+        * @method stop
         */
         public stop() {
 
@@ -304,24 +397,30 @@ module Kiwi.Sound {
                     this._sound.pause();
                     this._sound.currentTime = 0;
                 }
+                 
+                if(this.paused == false) this.onStop.dispatch();
             }
 
             this.isPlaying = false;
         }
         
         /*
-        * Stops a sound from playing without reseting the time. Used with resume.
+        * Pauses the sound so that you can resume it from at point to paused it at.
+        *
+        * @method pause
         */
         public pause() {
             if (this.isPlaying) {
                 this.paused = true;
                 this.stop();
+                this.onPause.dispatch();
             }
-
         }
         
         /*
-        * Reumes a sound from when it was paused. 
+        * Plays the sound from when you paused the sound.
+        *
+        * @method resume
         */
         public resume() {
 
@@ -339,14 +438,15 @@ module Kiwi.Sound {
                     } else {
                         this._sound.start(0, (this._currentTime / 1000), this.duration / 1000);
                     }
+
                 } else {
                     this._sound.currentTime = this._currentTime / 1000;
                     this._sound.play();
-
                 }
 
                 this.paused = false;
                 this.isPlaying = true;
+                this.onResume.dispatch();
 
             }
 
@@ -356,37 +456,38 @@ module Kiwi.Sound {
         * Le Update Loop
         */
         public update() {
-            //time management stuff
+            //Check to see that the audio is ready
             if (!this.ready) return;
 
+            //Is the audio ready to be played and was waiting?
             if (this._pending === true && this._decoded === true || this._pending && this._file.data.decoded) {
                 console.log('Pending Stopped, Playing Now');
                 this._pending = false;
                 this.play();
             }
 
+            //if the audio is playing
             if (this.isPlaying) {
 
                 this._currentTime = this._game.time.now() - this._startTime;
 
-                //is the time greater than the duration
                 if (this._currentTime >= this.duration) {
                     if (this._usingWebAudio) {
 
-                        if (this.loop) {
+                        if (this._loop) {
                             this._currentTime = 0;
                             this._startTime = this._game.time.now();
+                            this.onLoop.dispatch();
                         } else {
                             this.stop();
                         }
 
                     } else {
 
-                        if (this.loop) {
-                            console.log('play again');
+                        if (this._loop) {
                             this.play();
+                            this.onLoop.dispatch();
                         } else {
-                            console.log('stop playing');
                             this.stop();
                         }
 
@@ -395,12 +496,12 @@ module Kiwi.Sound {
             }
 
         }
-
-        public remove() {
-            this.gainNode.disconnect();
-            //more should go here...
-        }
-
+        
+        /*
+        * This method handles the destruction of all of the properties when the audio is no longer needed.
+        * 
+        * @method destroy
+        */
         public destroy() {
             this._sound = null;
             this._currentTime = null;
