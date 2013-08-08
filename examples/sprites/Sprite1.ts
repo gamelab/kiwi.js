@@ -38,9 +38,9 @@ class Sprite1 extends Kiwi.State {
 
     update() {
         super.update();
-    
-        this.cat.transform.x(this.aaa);
-        this.cat.transform.rotation(this.bbb);
+        
+        this.cat.transform.x = this.aaa;
+        this.cat.transform.rotation = this.bbb;
         this.bbb += 0.01;
 
         this.aaa++;

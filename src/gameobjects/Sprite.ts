@@ -92,8 +92,8 @@ module Kiwi.GameObjects {
             //this.onAddedToLayer.add(this._onAddedToLayer, this);
             this.onAddedToState.add(this._onAddedToState, this);
 
-            this.transform.x(x);
-            this.transform.y(y);
+            this.transform.x = x;
+            this.transform.y = y;
 
             
             this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);

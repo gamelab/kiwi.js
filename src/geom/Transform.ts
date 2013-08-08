@@ -516,7 +516,7 @@ module Kiwi.Geom {
 	     */
         public checkAncestor(transform: Transform): bool {
             
-            if (transform === this)
+            /*if (transform === this)
             {
                 klog.warn("transform cannot be a parent to itself or an ancestor");
                 return true
@@ -525,7 +525,7 @@ module Kiwi.Geom {
             if (transform.parent !== null)
             {
                 return (this.checkAncestor(transform._parent))
-            }
+            }*/
         
             return false;
 

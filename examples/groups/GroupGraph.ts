@@ -50,8 +50,8 @@ class GroupGraph extends Kiwi.State {
     update() {
         super.update();
 
-        this.subGroup.transform.x(this.aaa++);
-        this.subGroup.transform.rotation(this.bbb);
+        this.subGroup.transform.x = this.aaa++;
+        this.subGroup.transform.rotation = this.bbb;
         this.bbb += 0.01;
 
     }

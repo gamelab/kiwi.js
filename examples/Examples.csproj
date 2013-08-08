@@ -53,6 +53,7 @@
     <Content Include="sound\volume.js">
       <DependentUpon>changing_volume.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="sprites\MultiSprite.ts" />
     <Content Include="tilemaps\basics.js">
       <DependentUpon>basics.ts</DependentUpon>
     </Content>

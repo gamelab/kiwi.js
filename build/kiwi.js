@@ -5832,7 +5832,7 @@ var Kiwi;
             this.config = new Kiwi.StateConfig(this, name);
             this.cache = new Kiwi.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
-            this.transform.parent(null);
+            this.transform.parent = null;
         }
         State.prototype.objType = function () {
             return "State";
@@ -7365,9 +7365,10 @@ var Kiwi;
 
             Rectangle.prototype.scale = function (x, y, translation) {
                 var trans = new Kiwi.Geom.Transform();
-                trans.scale(x, y);
-                trans.x(translation.x);
-                trans.y(translation.y);
+                trans.scaleX = x;
+                trans.scaleY = y;
+                trans.x = translation.x;
+                trans.y = translation.y;
 
                 var tl = this.topLeft();
                 trans.transformPoint(tl);
@@ -8180,8 +8181,8 @@ var Kiwi;
 
                 this.onAddedToState.add(this._onAddedToState, this);
 
-                this.transform.x(x);
-                this.transform.y(y);
+                this.transform.x = x;
+                this.transform.y = y;
 
                 this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
 
@@ -10493,15 +10494,6 @@ var Kiwi;
             };
 
             Transform.prototype.checkAncestor = function (transform) {
-                if (transform === this) {
-                    klog.warn("transform cannot be a parent to itself or an ancestor");
-                    return true;
-                }
-
-                if (transform.parent !== null) {
-                    return (this.checkAncestor(transform._parent));
-                }
-
                 return false;
             };
 
@@ -13117,7 +13109,7 @@ var Kiwi;
 
                         var m = child.transform.getConcatenatedMatrix();
                         ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                        ctx.drawImage((child).texture.image, 0, 0, (child).size.width(), (child).size.height());
+
                         ctx.restore();
                     }
                 }
