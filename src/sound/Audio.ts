@@ -19,6 +19,8 @@ module Kiwi.Sound {
             this._usingAudioTag = this._game.audio.usingAudioTag;
             this._usingWebAudio = this._game.audio.usingWebAudio; 
 
+            if (this._game.audio.noAudio) return;
+
             if (!this._setAudio(cacheID, cache)) return;
 
             if (this._usingWebAudio) {
@@ -37,9 +39,12 @@ module Kiwi.Sound {
 
                 this.gainNode.gain.value = volume * this._game.audio.volume();      //this may need to change.....
                 this.gainNode.connect(this.masterGainNode); 
-            } else {
+            } else if (this._usingAudioTag) {
+
                 this.totalDuration = this._sound.duration;
                 this._sound.volume = volume * this._game.audio.volume();
+
+                if (isNaN(this.totalDuration)) this._pending = true;    //this should never need to happen once we get the loading clear.
             }
 
             this.duration = 0;
@@ -285,6 +290,8 @@ module Kiwi.Sound {
         */
         public volume(val?:number) {
 
+            if (this._game.audio.noAudio) return;
+
             if (val !== undefined) {
 
                 val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
@@ -317,6 +324,8 @@ module Kiwi.Sound {
         * @return {bool}
         */
         public mute(val?: bool) {
+            
+            if (this._game.audio.noAudio) return;
 
             if (val !== undefined && this._muted !== val) {
                 if (val === true) {
@@ -371,7 +380,7 @@ module Kiwi.Sound {
         */
         public play(marker:string=this._currentMarker, forceRestart:bool = false) {
             
-            if (this.isPlaying && forceRestart == false) return;
+            if (this.isPlaying && forceRestart == false || this._game.audio.noAudio) return;
 
             if (forceRestart) this.stop();
             
@@ -417,13 +426,13 @@ module Kiwi.Sound {
                     this._decode();
                 }
 
-            } else {
-
-                if (this.duration == 0) this.duration = this.totalDuration * 1000;
-
+            } else if(this._usingAudioTag) {
+                
+                if (this.duration == 0 || isNaN(this.duration)) this.duration = this.totalDuration * 1000;
+                    
                 if (this._muted) this._sound.volume = 0;
-                else this._sound.volume = this.volume;
-
+                else this._sound.volume = this._volume;
+                    
                 this._sound.currentTime = this._markers[this._currentMarker].start;
                 this._sound.play();
                 this.isPlaying = true;
@@ -431,7 +440,8 @@ module Kiwi.Sound {
                 this._currentTime = 0;
                 this._stopTime = this._startTime + this.duration;
 
-                if(!this.paused) this.onPlay.dispatch();
+                if (!this.paused) this.onPlay.dispatch();
+ 
             }
         }
 
@@ -517,18 +527,26 @@ module Kiwi.Sound {
             //Check to see that the audio is ready
             if (!this.ready) return;
 
+
             //Is the audio ready to be played and was waiting?
-            if (this._pending === true && this._decoded === true || this._pending && this._file.data.decoded) {
-                console.log('Pending Stopped, Playing Now');
-                this._pending = false;
-                this.play();
-            }
+            if (this._pending) {
+                if (this._decoded === true || this._file.data.decoded) {
+                    this._pending = false;
+                    this.play();
+                } else if (this._usingAudioTag && !isNaN(this._sound.duration)) {
+                    this.totalDuration = this._sound.duration;
+                    this._markers['default'].duration = this.totalDuration;
+                    this._pending = false;      //again shouldn't need once audio tag loader works.
+
+                    if(this.isPlaying && this._currentMarker == 'default') this.duration = this.totalDuration;
+                }
+            } 
 
             //if the audio is playing
             if (this.isPlaying) {
 
                 this._currentTime = this._game.time.now() - this._startTime;
-
+                
                 if (this._currentTime >= this.duration) {
                     if (this._usingWebAudio) {
 
@@ -546,10 +564,11 @@ module Kiwi.Sound {
                             this.stop();
                         }
 
-                    } else {
+                    } else if(this._usingAudioTag) {
 
                         if (this._loop) {
-                            this.play();
+
+                            this.play(this._currentMarker, true);
                             this.onLoop.dispatch();
                         } else {
                             this.stop();

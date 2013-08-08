@@ -106,7 +106,7 @@ module Kiwi.Sound {
 
             //check to see if the device is locked here...
 
-            this.usingWebAudio = true;
+            this.usingWebAudio = true;  //we hope for the best....
             this.usingAudioTag = false;
 
             if (!!window['AudioContext']) {//if audio context is supported
@@ -121,7 +121,7 @@ module Kiwi.Sound {
             }
             else {//they have no audio support........no sound for you :(
                 this.usingWebAudio = false;
-                this.noAudio = true;
+                this.noAudio = true; //prepared for the worst :(
             }
 
             if (this.context !== null) {

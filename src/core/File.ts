@@ -1,4 +1,5 @@
 /// <reference path="FileCache.ts" />
+/// <reference path="../Kiwi.ts" />
 
 /**
  *  Kiwi - Core - File
@@ -16,7 +17,7 @@
  */
 
 module Kiwi {
-
+     
     export class File {
 
         /*
@@ -370,20 +371,6 @@ module Kiwi {
         public frameWidth: number;
         public frameHeight: number;
 
-        /*
-        * Can set to make the information load using its tag loader
-        *
-        * @method tagLoader
-        * @param {bool} val
-        * @return {bool}
-        */
-        public setTagLoader(val?:bool):bool {
-            if (val !== undefined) {
-                this._useTagLoader = val;
-            }
-            return this._useTagLoader;
-        }
-
         /**
         * @method load
         * @param {Any} [onCompleteCallback]
@@ -452,16 +439,21 @@ module Kiwi {
                 this.data.onload = (event) => this.tagLoaderOnLoad(event);
                 this.data.onerror = (event) => this.tagLoaderOnError(event);        //To be remade
                 this.data.onreadystatechange = (event) => this.tagLoaderOnReadyStateChange(event);
+                this.data.load();
 
             } else if (this.dataType === Kiwi.File.AUDIO) {
+                console.log('Ewww...disgusting...your loading by the audio tags....');
+
                 this.data = new Audio();
                 this.data.src = this.fileURL;
                 this.data.preload = 'auto';
                 this.data.onerror = (event) => this.tagLoaderOnError(event);
-                this.data.addEventListener('canplaythrough', () => this.tagLoaderOnLoad(event), false);
-                this.data.onload = (event) => this.tagLoaderOnLoad(event);
-                this.data.load();
+                //this.data.addEventListener('canplaythrough', (event) => this.tagLoaderOnLoad(event), false); //never firing.?.?.?
+                //this.data.onload = (event) => this.tagLoaderOnLoad(event);
+                //this.data.load();
                 
+
+                this.tagLoaderOnLoad(null);     //need to fix....for some reason the audio does not want to load...
             }
             
         }
