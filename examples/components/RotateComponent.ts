@@ -24,8 +24,8 @@
             this.zombie2 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 138, 40);
             this.zombie3 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 269, 40);
 
-            this.zombie2.rotation.rotateClockwise(60);
-            this.zombie3.rotation.rotateCounterClockwise(100);
+        //    this.zombie2.rotation.rotateClockwise(60);
+         //   this.zombie3.rotation.rotateCounterClockwise(100);
 
             this.addChild(this.zombie);
             this.addChild(this.zombie2);

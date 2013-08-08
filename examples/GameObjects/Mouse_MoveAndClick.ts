@@ -45,8 +45,8 @@ class Mouse_MoveAndClick extends Kiwi.State {
 
         ///////////////////////////////////////////
         ///Moves sprite to mouse position
-        this.mySprite.position.x(this.myMouse.x() - 25);
-        this.mySprite.position.y(this.myMouse.y() - 25);
+      //  this.mySprite.position.x(this.myMouse.x() - 25);
+       // this.mySprite.position.y(this.myMouse.y() - 25);
 
 
 

@@ -186,7 +186,7 @@ module Kiwi.GameObjects {
 	     * @property motion
 	     * @type Kiwi.Componenets.Motion
 	     **/
-        public motion: Kiwi.Components.Motion;
+        //public motion: Kiwi.Components.Motion;
 
         /** 
 	     * 
@@ -290,7 +290,7 @@ module Kiwi.GameObjects {
             
             klog.info('Sprite added to State');
 
-            this.motion.setClock(this.clock());
+           // this.motion.setClock(this.clock());
 
             if (this._isAnimated)
             {
@@ -317,7 +317,7 @@ module Kiwi.GameObjects {
                 //this.position.setTo(this.game.input.position.x - this.input.pointDown.x, this.game.input.position.y - this.input.pointDown.y);
             }
 
-            this.motion.update();
+            //this.motion.update();
 
             if (this._isAnimated)
             {
@@ -327,7 +327,7 @@ module Kiwi.GameObjects {
             }
 
             
-            this.physics.update();
+           // this.physics.update();
         }
 
         /**

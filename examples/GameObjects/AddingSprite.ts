@@ -33,7 +33,7 @@ class addingSprite extends Kiwi.State {
         ////////////////////////////////////////
         //Adding to Stage
         this.addChild(this.mySprite);
-        this.mySprite.position.setTo(50, 50);
+       // this.mySprite.position.setTo(50, 50);
 
     }
 

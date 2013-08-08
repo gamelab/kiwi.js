@@ -21,10 +21,6 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="animations\PlayAnimationAtFrame.ts" />
-    <Content Include="animations\smoothSwitchingAnimations.js">
-      <DependentUpon>PlayAnimationAtFrame.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="GameObjects\Mouse_ClickAndDrag.ts" />
     <Content Include="GameObjects\Mouse_ ClickAndDrag.js">
       <DependentUpon>Mouse_ClickAndDrag.ts</DependentUpon>
@@ -98,8 +94,6 @@
     </Content>
     <TypeScriptCompile Include="tilemaps\movement.ts" />
     <TypeScriptCompile Include="tilemaps\basics.ts" />
-    <TypeScriptCompile Include="animations\PlayOnceAndLoop.ts" />
-    <TypeScriptCompile Include="animations\CreatingAndSwitchingAnimations.ts" />
     <Content Include="assets\bunny.png" />
     <Content Include="assets\coin.png" />
     <Content Include="assets\explosion.png" />
@@ -129,7 +123,6 @@
       <DependentUpon>CreatingLayers.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="layers\CreatingLayers.ts" />
-    <TypeScriptCompile Include="cameras\CreatingAndMovingCameras.ts" />
     <Content Include="assets\sprites\planetcute\Brown Block.png" />
     <Content Include="assets\sprites\planetcute\Character Boy.png" />
     <Content Include="assets\sprites\planetcute\Character Cat Girl.png" />

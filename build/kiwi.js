@@ -8152,20 +8152,12 @@ var Kiwi;
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
                 this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
 
-                this.position = this.components.add(new Kiwi.Components.Position(x, y));
-
-                this.position.transformPoint(new Kiwi.Geom.Point(this.size.width() / 2, this.size.height() / 2));
-
-                this.rotation = this.components.add(new Kiwi.Components.Rotation());
-                this.scale = this.components.add(new Kiwi.Components.Scale());
-
                 this.animation = this.components.add(new Kiwi.Components.Animation(this));
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
-                this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
+
                 this.visible = this.components.add(new Kiwi.Components.Visible(true));
-                this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
 
                 if (this.texture.file !== null) {
                     if (this.texture.file.dataType === Kiwi.File.IMAGE) {
@@ -8179,9 +8171,6 @@ var Kiwi;
                 }
 
                 this.alpha.updated.add(this._updateAlpha, this);
-                this.position.updated.add(this._updatePosition, this);
-                this.rotation.updated.add(this._updateRotation, this);
-                this.scale.updated.add(this._updateScale, this);
                 this.texture.updatedRepeat.add(this._updateRepeat, this);
                 this.texture.updated.add(this._updateTexture, this);
                 this.texture.position.updated.add(this._updateTexturePosition, this);
@@ -8189,13 +8178,11 @@ var Kiwi;
 
                 this.visible.updated.add(this._updateVisible, this);
 
-                this.onAddedToLayer.add(this._onAddedToLayer, this);
                 this.onAddedToState.add(this._onAddedToState, this);
 
                 this.transform.x(x);
                 this.transform.y(y);
 
-                this._transform = new Kiwi.Geom.Transform();
                 this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
 
                 if (this._isAnimated) {
@@ -8212,25 +8199,6 @@ var Kiwi;
                 return this._center;
             };
 
-            Sprite.prototype._updatePosition = function (x, y, z) {
-                this._center.x = this.position.x() + this.size.width() / 2;
-                this._center.y = this.position.y() + this.size.height() / 2;
-
-                this.bounds.calculateBounds(this._transform, this.position, this.size);
-            };
-
-            Sprite.prototype._updateRotation = function (angle) {
-                this._transform.rotation(angle * Math.PI / 180);
-
-                this.bounds.calculateBounds(this._transform, this.position, this.size);
-            };
-
-            Sprite.prototype._updateScale = function (x, y, z) {
-                this._transform.scale(x, y);
-
-                this.bounds.calculateBounds(this._transform, this.position, this.size);
-            };
-
             Sprite.prototype._updateAlpha = function (value) {
             };
 
@@ -8238,7 +8206,6 @@ var Kiwi;
             };
 
             Sprite.prototype._updateSize = function (width, height) {
-                this.bounds.setTo(this.position.x(), this.position.y(), width, height);
             };
 
             Sprite.prototype._updateTexturePosition = function (x, y) {
@@ -8254,20 +8221,8 @@ var Kiwi;
                 this.size.setTo(width, height);
             };
 
-            Sprite.prototype._onAddedToLayer = function (layer) {
-                klog.info('Sprite added to Layer: ' + layer.name);
-
-                if (this._isAnimated) {
-                    this.animation.clock(this.clock());
-                }
-
-                return true;
-            };
-
             Sprite.prototype._onAddedToState = function (state) {
                 klog.info('Sprite added to State');
-
-                this.motion.setClock(this.clock());
 
                 if (this._isAnimated) {
                     this.animation.clock(this.clock());
@@ -8282,69 +8237,16 @@ var Kiwi;
                 this.input.update();
 
                 if (this.input.isDragging === true) {
-                    this.position.setTo(this.game.input.position.x - this.input.pointDown.x, this.game.input.position.y - this.input.pointDown.y);
                 }
-
-                this.motion.update();
 
                 if (this._isAnimated) {
                     this.animation.update();
                     this.bounds.setSize(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
                     this.size.setTo(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
                 }
-
-                this.physics.update();
             };
 
             Sprite.prototype.render = function (camera) {
-                _super.prototype.render.call(this, camera);
-
-                if (this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0) {
-                    if (this.bounds.showDebug === true) {
-                        this.bounds.drawCanvasDebugOutline(this.layer);
-                    }
-
-                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                        this.layer.canvas.context.save();
-                        this.alpha.setContext(this.layer.canvas);
-                    }
-
-                    var offsetX = camera.position.x();
-                    var offsetY = camera.position.y();
-
-                    var dx = this.position.x();
-                    var dy = this.position.y();
-                    var dw = this.size.width();
-                    var dh = this.size.height();
-
-                    if (this.rotation.angle() !== 0) {
-                        this.layer.canvas.context.save();
-
-                        this.layer.canvas.context.translate(dx + (dw / 2), dy + (dh / 2));
-
-                        this.layer.canvas.context.rotate(this.rotation.angle() * (Math.PI / 180));
-                        this.layer.canvas.context.scale(this.scale.x(), this.scale.y());
-                        dx = -(dw / 2);
-                        dy = -(dh / 2);
-                    }
-
-                     {
-                        if (this._isAnimated === true) {
-                            this.animation.currentAnimation.renderToCanvas(this.layer, dx, dy);
-                        } else {
-                            this.layer.canvas.context.drawImage(this.texture.image, dx - offsetX, dy - offsetY, dw, dh);
-                        }
-                    }
-
-                    if (this.rotation.angle() !== 0) {
-                        this.layer.canvas.context.translate(0, 0);
-                        this.layer.canvas.context.restore();
-                    }
-
-                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                        this.layer.canvas.context.restore();
-                    }
-                }
             };
             return Sprite;
         })(Kiwi.Entity);
