@@ -13,7 +13,7 @@ module Kiwi.GameObjects {
         * @param {number} y
         */
         constructor(tileLayer: Kiwi.GameObjects.TileMapLayer, tileType: Kiwi.GameObjects.TileType, width: number, height: number, x: number, y: number) {
-            super(true, false, false);
+            super();
 
             this.tileLayer = tileLayer;
 

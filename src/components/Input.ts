@@ -19,7 +19,7 @@ module Kiwi.Components {
 
         constructor(entity: Kiwi.Entity, bounds:Kiwi.Components.Bounds) {
 
-            super('Input', true, true, true);
+            super('Input');
 
             //  Signals
             this.inputEntered = new Kiwi.Signal();

@@ -30,7 +30,7 @@ module Kiwi.Components {
         */
         constructor(red: number = 0, green: number = 0, blue: number = 0, alpha: number = 1) {
 
-            super('Color', true, true, true);
+            super('Color');
 
             //  Signals
             this.updated = new Kiwi.Signal();

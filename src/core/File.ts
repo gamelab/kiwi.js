@@ -53,10 +53,16 @@ module Kiwi {
             this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
 
             //  TODO - Determine blob support properly, defaulting to tag loader for now :(
-            //if (typeof window['Blob'] !== 'undefined')
-            //{
-                klog.info('blob support found');
-                this._useTagLoader = false;
+
+            if (Kiwi.DEVICE.blob) {
+                //if (typeof window['Blob'] !== 'undefined')
+                //{
+                klog.info('blob support found - using blob loader');
+                this._useTagLoader = true;
+            } else {
+                klog.info('blob support NOT found - using tag loader');
+                this._useTagLoader = true;
+            }
             //this._useTagLoader = true;
             //}
 

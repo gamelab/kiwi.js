@@ -34,7 +34,7 @@ module Kiwi {
         * @param {Any} state
         * @return {Kiwi.Game}
         */
-        constructor (domParent: string = '', defaultType: number = Kiwi.TYPE_DOM, name: string = 'KiwiGame', state: any = null) {
+        constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null) {
 
 
 
@@ -48,9 +48,11 @@ module Kiwi {
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this.stage = new Kiwi.Stage(this, name, defaultType);
-            this.layers = new Kiwi.LayerManager(this, defaultType);
-            this.cameras = new Kiwi.CameraManager(this, false);
+            this.stage = new Kiwi.Stage(this, name);
+            this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
+
+            //this.layers = new Kiwi.LayerManager(this);
+            this.cameras = new Kiwi.CameraManager(this);
             this.huds = new Kiwi.HUD.HUDManager(this);
 
             this.loader = new Kiwi.Loader(this);
@@ -60,6 +62,7 @@ module Kiwi {
             this.time = new Kiwi.Time.Manager(this);
             this.tweens = new Kiwi.Tweens.Manager(this);
             
+
             //  If we have a state then pass it to the StateManager
             if (state !== null)
             {
@@ -74,7 +77,8 @@ module Kiwi {
 
         }
 
-        
+        public renderer: IRenderer;
+
         public huds: Kiwi.HUD.HUDManager;
 
         public objType() {
@@ -131,7 +135,7 @@ module Kiwi {
         * @property layers
         * @type Kiwi.LayerManager
         */
-        public layers: Kiwi.LayerManager = null;
+        //public layers: Kiwi.LayerManager = null;
 
         /*
         * 
@@ -202,8 +206,8 @@ module Kiwi {
 
             this.browser.boot();
             this.stage.boot(this._dom);
-            this.layers.boot();
-            this.cameras.boot(this._dom.domLayers);
+            //this.layers.boot();
+            this.cameras.boot();
             this.huds.boot();
             this.time.boot();
             this.anims.boot();
@@ -232,13 +236,13 @@ module Kiwi {
             this.input.update();
             this.tweens.update();
             this.cameras.update();
-            this.layers.update();
+            //this.layers.update();
             this.huds.update();
 
             this.states.update();
             
 
-          //  this.layers.render();
+          
             this.cameras.render();
             this.huds.render();
 

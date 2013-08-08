@@ -1,6 +1,7 @@
 /// <reference path="Game.ts" />
 /// <reference path="State.ts" />
 
+
 /*
  *	Kiwi - Core - Entity
  *				
@@ -18,7 +19,7 @@
 
 module Kiwi {
 
-    export class Entity {
+    export class Entity implements Kiwi.IChild {
 
         /**
         * 
@@ -28,18 +29,16 @@ module Kiwi {
         * @param {Boolean} supportsWebGL
         * @return {Kiwi.Entity}
         */
-        constructor(supportsCanvas: bool, supportsDOM: bool, supportsWebGL: bool) {
+        constructor() {
 
             //  Properties
 
-            this._supportsCanvas = supportsCanvas;
-            this._supportsDOM = supportsDOM;
-            this._supportsWebGL = supportsWebGL;
-
+            
             this._exists = true;
             this._active = true;
             this._willRender = true;
             this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+            this.transform = new Kiwi.Geom.Transform();
 
             //  Signals
 
@@ -52,8 +51,11 @@ module Kiwi {
 
         }
 
-        public objType() {
-            return "Entity";
+        public transform: Kiwi.Geom.Transform;
+        
+
+        public childType():number {
+            return Kiwi.ENTITY;
         }
 
         //  Subscribe to these signals for update information
@@ -129,12 +131,7 @@ module Kiwi {
     	*/
         public name: string = '';
 
-        /**
-        * The Entity type. Can be either Kiwi.TYPE_CANVAS, Kiwi.TYPE_DOM or Kiwi.TYPE_WEBGL. Default is -1 (unassigned)
-        * @property type
-        * @type number
-    	*/
-        public type: number = Kiwi.TYPE_UNASSIGNED;
+       
 
         /**
         * The Layer this Entity has been added to.
@@ -148,7 +145,7 @@ module Kiwi {
         * @property parent
         * @type Kiwi.Group
         **/
-        public parent: Kiwi.Group = null;
+        //public parent: Kiwi.Group = null;
 
         /**
         * If this Entity is a DOM entity, then this contains a reference to the DOM Element it is bound to.
@@ -289,7 +286,15 @@ module Kiwi {
         * @property dirty
         * @type Boolean
     	*/
-        public dirty: bool;
+        private _dirty: bool;
+
+        public dirty(value?: bool): bool {
+            if (value !== undefined) {
+                this._dirty = value;
+              
+            }
+            return this._dirty;
+        }
 
         /**
         * 
@@ -315,38 +320,7 @@ module Kiwi {
         */
         private _supportsWebGL: bool;
 
-        /**
-        * 
-        * @method supportsType
-        * @param {Number} type
-        * @return {Boolean}
-        */
-        public supportsType(type: number): bool {
-
-            if (type === Kiwi.TYPE_UNASSIGNED)
-            {
-                //  The Group hasn't been added to a Layer yet, so the type is unknown
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas)
-            {
-                return true;
-            }
-            
-            if (type === Kiwi.TYPE_DOM && this._supportsDOM)
-            {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL)
-            {
-                return true;
-            }
-
-            return false;
-
-        }
+       
 
         /**
         * 
@@ -373,11 +347,7 @@ module Kiwi {
             }
             else
             {
-                if (this.supportsType(layer.type) === true)
-                {
-                    this.layer = layer;
-                    this.type = this.layer.type;
-
+               
                     if (layer.game !== null)
                     {
                         this.game = layer.game;
@@ -388,20 +358,11 @@ module Kiwi {
                         }
                     }
 
-                    if (this.type === Kiwi.TYPE_DOM && this.domElement === null)
-                    {
-                        this.layer.domCache.assignElement(this);
-                    }
-
+               
                     this.onAddedToLayer.dispatch(this, this.layer);
 
                     return true;
-                }
-                else
-                {
-                    klog.warn('Warning - Entity does not support Layer of this type: ' + layer.type);
-                    return false;
-                }
+              
 
             }
 
@@ -422,7 +383,7 @@ module Kiwi {
                 this.domElement = null;
             }
 
-            this.type = Kiwi.TYPE_UNASSIGNED;
+            
 
             this.onRemovedFromLayer.dispatch(this, layer);
 
@@ -478,25 +439,21 @@ module Kiwi {
 	    * @param {Kiwi.Group} group. The Group this Entity is being added to.
 		**/
         private _addedToGroup(group: Kiwi.Group) {
-
+            /*
             klog.info('Entity added to Group');
 
-            if (this.parent === group || this.supportsType(group.type) === false)
+            if (this.transform.parent(group.transform) )
             {
-                klog.warn('Entity.addedToGroup() called but parent already set or type not supported');
+                klog.warn('Entity.addedToGroup() called but parent already set d');
                 return;
             }
-            else
-            {
-                this.type = group.type;
-            }
-
+          
             if (this.parent !== null)
             {
                 //  Notify the current parent this child has been removed, they can only exist in one Group at once
                 this.parent.removeChild(this);
             }
-
+        
             this.parent = group;
 
             if (group.game !== null)
@@ -517,7 +474,7 @@ module Kiwi {
             {
                 this._addedToLayer(this.parent.layer);
             }
-
+        */
         }
 
         /**
@@ -528,7 +485,7 @@ module Kiwi {
         private _removedFromGroup(group: Kiwi.Group) {
 
             klog.info('Entity removed from Group');
-
+            /*
             if (this.parent !== null)
             {
                 //  TODO: Notify the current parent this child has been removed?
@@ -536,12 +493,8 @@ module Kiwi {
 
             this.parent = null;
 
-            //  Unlink from the DOM
-            if (this.type === Kiwi.TYPE_DOM && this.domElement !== null)
-            {
-                this.domElement.unlink();
-            }
-
+           
+        */
             this.onRemovedFromGroup.dispatch(this, group);
 
         }

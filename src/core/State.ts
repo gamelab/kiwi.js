@@ -1,6 +1,7 @@
 /// <reference path="Cache.ts" />
 /// <reference path="Entity.ts" />
 /// <reference path="StateConfig.ts" />
+/// <reference path="Group.ts" />
 
 /**
  *  Kiwi - Core - State
@@ -15,7 +16,7 @@
 
 module Kiwi {
 
-    export class State {
+    export class State extends Group {
 
         /**
         * Create a new Kiwi.State
@@ -24,12 +25,14 @@ module Kiwi {
         * @return {State} This Object
         */
         constructor(name: string) {
-
+            super(name);
+            
             klog.debug('----------- State created: ' + name + ' -----------');
 
             this.config = new Kiwi.StateConfig(this, name);
             this.cache = new Kiwi.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
+            this.transform.parent(null);
 
         }
 
@@ -63,7 +66,7 @@ module Kiwi {
         * @property members
         * @type Array
         **/
-        public members = [];
+        //public members = [];
 
         /**
         * The Component Manager
@@ -83,10 +86,7 @@ module Kiwi {
             this.cache.boot();
             //this.cache = this.game.cache;
 
-            klog.info('Current Layer: ' + this.game.layers.currentLayer);
-
-            this.currentLayer = this.game.layers.currentLayer;
-        
+            
         }
 
         /**
@@ -284,32 +284,28 @@ module Kiwi {
         * @param {Any} child
         * @param {Kiwi.Layer} layer
         **/
-        public addChild(child, layer:Kiwi.Layer = null) {
+        public addChild(child: Kiwi.IChild): Kiwi.IChild {
 
             child.modify(Kiwi.ADDED_TO_STATE, this);
-
-            this.members.push(child);
-
-            if (layer !== null)
-            {
-                layer.add(child);
-            }
-            else
-            {
-                this.currentLayer.add(child);
-            }
+            super.removeChild(child);
+            //this.members.push(child);
+            
+            super.addChild(child);
+            
+            //    this.currentLayer.add(child);
+            
 
             return child;
         
         }
 
         //remove child!---
-        public removeChild(child, layer:Kiwi.Layer = null):boolean {
+        public removeChild(child: Kiwi.IChild): Kiwi.IChild {
             
 
             //  Needs validation
             child.modify(Kiwi.REMOVED_FROM_STATE, this);
-
+            var layer = null;
             //check that is exists...
             for (var i = 0; i < this.members.length; i++) {
 
@@ -322,12 +318,12 @@ module Kiwi {
                     } else {
                         this.currentLayer.remove(child);
                     }
-                    return true;
+                    //return true;
                 }  
                   
             }
-            
-            return false;
+            return child;
+           // return false;
         }
 
         /**
@@ -338,7 +334,7 @@ module Kiwi {
 
             for (var i = 0; i < this.members.length; i++)
             {
-                this.members[i].destroy();
+                //this.members[i].destroy();
             }
         
         }

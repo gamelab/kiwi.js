@@ -59,7 +59,7 @@ module Kiwi.Components {
         * @return {Kiwi.Components.ArcadePhysics}
         */
         constructor(entity:Kiwi.Entity,position:Kiwi.Components.Position,size:Kiwi.Components.Size) {
-            super('ArcadePhysics',true,true,true);
+            super('ArcadePhysics');
             
             this._parent = entity;
             this.position = position;
@@ -358,11 +358,11 @@ module Kiwi.Components {
         */
         public static overlapsGroupGroup(group1: Group, group2: Group, separateObjects: bool = true): bool {
             var result: bool = false;
-            var members: Entity[] = group1.members;
+            /*var members: IChild[] = group1.members;
             var i: number = 0;
             while (i < group1.members.length) {
                 if(ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects)) result = true;
-            }
+            }*/
             return result;
 
         }

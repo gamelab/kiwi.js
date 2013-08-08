@@ -30,7 +30,7 @@ module Kiwi.GameObjects {
          **/
         constructor(text: string, x: number = 0, y: number = 0, width: number = 200, height: number = 100, color: string = '#ffffff', size: number = 32, weight: string = 'normal', fontFamily: string = 'cursive') {
 
-            super(true, true, false);
+            super();
 
             this.position = this.components.add(new Kiwi.Components.Position(x, y));
             //this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, size, size));
@@ -129,12 +129,7 @@ module Kiwi.GameObjects {
 
             this._text = value;
             this._explodedText = this._text.split(" ");
-            console.log(this._explodedText);
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.domElement.element.innerHTML = this._text;
-            }
-
+       
         }
 
         /**
@@ -143,10 +138,7 @@ module Kiwi.GameObjects {
          **/
         private _updateSize() {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.size.addStyleUpdates(this);
-            }
+          
         }
 
         /**
@@ -243,10 +235,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateAlpha(value: number) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.alpha.addStyleUpdates(this);
-            }
+          
 
         }
 
@@ -275,29 +264,14 @@ module Kiwi.GameObjects {
 
             klog.info('Textfield added to Layer ' + layer.name);
 
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.domElement.element.style.fontFamily = this._fontFamily;
-                this.domElement.element.style.fontSize = this._fontSize+'px';
-                this.domElement.element.style.fontWeight = this._fontWeight;
-                this.domElement.element.style.color = this._fontColor;
-                this.domElement.element.style.lineHeight = this._lineHeight+'em';
-                this.domElement.element.style.textAlign = this._textAlign;
-                this.domElement.element.innerHTML = this._text;
-
-                this.position.addStyleImmediately(this);
-                this.alpha.addStyleImmediately(this);
-                if(this.size !== undefined) this.size.addStyleImmediately(this);
-            }
+          
 
             return true;
         }
 
         private _updatePosition(x: number, y: number, z: number, cssTranslate3d: string, cssLeft: string, cssTop: string) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.position.addStyleUpdates(this);
-            }
+           
 
         }
 
@@ -309,7 +283,7 @@ module Kiwi.GameObjects {
 
             super.render(camera);
 
-            if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true)
+            if (this.willRender() === true)
             {
 
                 if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)

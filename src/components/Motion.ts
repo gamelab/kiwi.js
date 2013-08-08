@@ -21,7 +21,7 @@ module Kiwi.Components {
         //constructor(clock: Kiwi.Time.Clock, position: Kiwi.Components.Position) {
         constructor(position: Kiwi.Components.Position) {
 
-            super('Motion', true, true, true);
+            super('Motion');
 
             //this._entity = entity;
             this._clock = null;

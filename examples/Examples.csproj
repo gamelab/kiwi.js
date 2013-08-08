@@ -117,6 +117,14 @@
     <Content Include="components\ScaleComponent.js">
       <DependentUpon>ScaleComponent.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="devices\DeviceInfo.ts" />
+    <Content Include="devices\DeviceInfo.js">
+      <DependentUpon>DeviceInfo.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="groups\GroupGraph.ts" />
+    <Content Include="groups\GroupGraph.js">
+      <DependentUpon>GroupGraph.ts</DependentUpon>
+    </Content>
     <Content Include="layers\CreatingLayers.js">
       <DependentUpon>CreatingLayers.ts</DependentUpon>
     </Content>
@@ -251,6 +259,7 @@
     <Content Include="index.php" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="lib\" />
     <Folder Include="states\" />
   </ItemGroup>
   <PropertyGroup>

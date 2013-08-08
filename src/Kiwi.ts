@@ -34,14 +34,16 @@
 /// <reference path="core/File.ts" />
 /// <reference path="core/FileCache.ts" />
 /// <reference path="core/Game.ts" />
+/// <reference path="core/State.ts" /> //must be initialised before group - typescript issue #599
 /// <reference path="core/Group.ts" />
+/// <reference path="core/IChild.ts" />
 /// <reference path="core/Layer.ts" />
 /// <reference path="core/LayerManager.ts" />
 /// <reference path="core/Loader.ts" />
 /// <reference path="core/Signal.ts" />
 /// <reference path="core/SignalBinding.ts" />
 /// <reference path="core/Stage.ts" />
-/// <reference path="core/State.ts" />
+
 /// <reference path="core/StateConfig.ts" />
 /// <reference path="core/StateManager.ts" />
 
@@ -50,7 +52,7 @@
 /// <reference path="dom/Cache.ts" />
 /// <reference path="dom/Element.ts" />
 
-/// <reference path="gameobjects/dom/Button.ts" />
+
 /// <reference path="gameobjects/Pixel.ts" />
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
@@ -105,6 +107,8 @@
 
 /// <reference path="plugins/gamefroot/TileMapConverter.ts" />
 
+/// <reference path="renderers/CanvasRenderer.ts" />
+
 /// <reference path="structs/Dictionary.ts" />
 /// <reference path="structs/LinkedList.ts" />
 
@@ -138,11 +142,13 @@ module Kiwi {
 
     export var VERSION: string = "1.0";
     
-    export var TYPE_UNASSIGNED:number = 0;
-    export var TYPE_CANVAS:number = 1;
-    export var TYPE_DOM:number = 2;
-    export var TYPE_WEBGL:number = 3;
-    export var TYPE_AUTODETECT:number = 4;
+    //export var TYPE_UNASSIGNED:number = 0;
+    //export var TYPE_CANVAS:number = 1;
+    //export var TYPE_DOM:number = 2;
+    //export var TYPE_WEBGL:number = 3;
+    //export var TYPE_AUTODETECT:number = 4;
+
+    export var TARGET_COCOON:bool = false;
 
     export var DEVICE: Kiwi.Device = null;
 

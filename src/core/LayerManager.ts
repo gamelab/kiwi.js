@@ -24,13 +24,13 @@ module Kiwi {
         * @param {Number} defaultType
         * @return {Kiwi.LayerManager}
     	*/
-        constructor(game: Kiwi.Game, defaultType: number) {
+        constructor(game: Kiwi.Game) {
 
             klog.info('Layer Manager created');
 
             this._game = game;
 
-            this._defaultType = defaultType;
+          
 
             this.layers = [];
 
@@ -50,13 +50,7 @@ module Kiwi {
     	*/
         private _game: Kiwi.Game;
 
-        /**
-		* 
-        * @property _defaultType
-        * @type Number
-        * @private
-    	*/
-        private _defaultType: number;
+        
 
         /**
 		* 
@@ -94,15 +88,8 @@ module Kiwi {
     	*/
         public boot() {
 
-            if (this._defaultType === Kiwi.TYPE_CANVAS)
-            {
-                this.createCanvasLayer(null, 'default');
-            }
-            else if (this._defaultType === Kiwi.TYPE_DOM)
-            {
-                this.createDOMLayer(null, 'default');
-            }
-
+            this.createCanvasLayer(null, 'default');
+     
             this.defaultLayer = this.layers[0];
 
         }
@@ -121,28 +108,13 @@ module Kiwi {
 
             klog.info('Creating Canvas Layer');
 
-            return this.create(Kiwi.TYPE_CANVAS, state, name);
+            return this.create( state, name);
 
         }
 
         //  If you don't pass a State then the Layer will NOT be automatically removed on State change
 
-        /**
-		* 
-        * @method createDOMLayer
-        * @param {Kiwi.State} state
-        * @param {String} name
-        * @param {Number} size
-        * @return {Kiwi.Layer}
-    	*/
-        public createDOMLayer(state: Kiwi.State = null, name: string = '', size:number = 100): Kiwi.Layer {
-
-            klog.info('Creating DOM Layer');
-
-            return this.create(Kiwi.TYPE_DOM, state, name);
-
-        }
-
+     
         /**
 		* 
         * @method create
@@ -152,14 +124,11 @@ module Kiwi {
         * @param {Number} size
         * @return {Kiwi.Layer}
     	*/
-        private create(type: number, state: Kiwi.State = null, name: string = '', size:number = 100): Kiwi.Layer {
+        private create(state: Kiwi.State = null, name: string = '', size:number = 100): Kiwi.Layer {
 
-            if (this._game.cameras.multiCameraMode() == true && type === Kiwi.TYPE_DOM) {
-                klog.error("Cannot create DOM layers in multicamera mode");
-                return null;
-            }
+           
 
-            var newLayer: Kiwi.Layer = new Kiwi.Layer(this._game, this._nextLayerID, type, name, size);
+            var newLayer: Kiwi.Layer = new Kiwi.Layer(this._game, this._nextLayerID,  name, size);
 
             newLayer.parent = state;
 
@@ -175,6 +144,7 @@ module Kiwi {
 
         }
 
+        /*
         public offsetCanvasLayers(x: number, y: number) {
             var domContainer: HTMLDivElement;
             for (var i = 0; i < this.layers.length; i++) {
@@ -186,7 +156,7 @@ module Kiwi {
                 }
             }
         }
-
+        */
         /**
 		* 
         * @method remove

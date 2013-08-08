@@ -31,13 +31,13 @@ class CreatingLayers extends Kiwi.State {
         this.rememberme = new Kiwi.GameObjects.StaticImage('rememberme', this.game.cache, 0, 0);
         this.foss = new Kiwi.GameObjects.StaticImage('foss', this.game.cache, 100, 100);
 
-        this.layer1 = this.game.layers.createCanvasLayer(this, 'layer1', 600);
-        this.layer2 = this.game.layers.createCanvasLayer(this, 'layer2', 600);
-        this.layer3 = this.game.layers.createCanvasLayer(this, 'layer3', 600);
+        //this.layer1 = this.game.layers.createCanvasLayer(this, 'layer1', 600);
+        //this.layer2 = this.game.layers.createCanvasLayer(this, 'layer2', 600);
+        //this.layer3 = this.game.layers.createCanvasLayer(this, 'layer3', 600);
 
-        this.addChild(this.bunny, this.layer1);
-        this.addChild(this.rememberme, this.layer2);
-        this.addChild(this.foss, this.layer3);
+        //this.addChild(this.bunny, this.layer1);
+        //this.addChild(this.rememberme, this.layer2);
+        //this.addChild(this.foss, this.layer3);
 
     }
 

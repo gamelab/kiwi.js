@@ -32,7 +32,7 @@ module Kiwi.Components {
         constructor(x: number = 0, y: number = 0, width: number = 0, height: number = 0) {
             
             //  The components name and the layer types it works with: canvas, dom, webgl
-            super('Bounds', true, true, true);
+            super('Bounds');
 
             //  Signals
 
@@ -202,8 +202,7 @@ module Kiwi.Components {
         */
         public drawCanvasDebugOutline(layer: Kiwi.Layer) {
 
-            if (layer.type === Kiwi.TYPE_CANVAS && this.showDebug === true)
-            {
+           
                 //layer.canvas.context.fillStyle = 'rgba(255, 0, 0, 0.5)';
                 layer.canvas.context.strokeStyle = 'rgba(0, 255, 0, 0.8)';
                 layer.canvas.context.beginPath();
@@ -211,7 +210,7 @@ module Kiwi.Components {
                 layer.canvas.context.stroke();
                 layer.canvas.context.closePath();
                 //layer.canvas.context.fillRect(this._rect.x, this._rect.y, this._rect.width, this._rect.height);
-            }
+            
 
         }
 

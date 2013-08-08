@@ -5,7 +5,7 @@ module Kiwi.GameObjects {
     export class TileMap extends Kiwi.Entity {
 
         constructor() {
-            super(true, false, false);
+            super();
         }
 
         /*
@@ -458,7 +458,7 @@ module Kiwi.GameObjects {
         public collideGroup(group: Kiwi.Group) {
 
             for (var i = 0; i < group.members.length; i++) {
-                this.collideSingle(group.members[i]);
+                //this.collideSingle(group.members[i]);
             }
 
         }

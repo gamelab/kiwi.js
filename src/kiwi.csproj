@@ -23,7 +23,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="core\Game.ts" />
     <TypeScriptCompile Include="components\Position.ts" />
-    <TypeScriptCompile Include="components\dom\filters\Blur.ts" />
     <TypeScriptCompile Include="components\Color.ts" />
     <TypeScriptCompile Include="components\Alpha.ts" />
     <TypeScriptCompile Include="anims\Manager.ts" />
@@ -66,29 +65,13 @@
     <Content Include="components\Animation.js">
       <DependentUpon>Animation.ts</DependentUpon>
     </Content>
-    <Content Include="components\ArcadePhysics.ts" />
     <Content Include="components\Bounds.js">
       <DependentUpon>Bounds.ts</DependentUpon>
     </Content>
     <Content Include="components\Color.js">
       <DependentUpon>Color.ts</DependentUpon>
     </Content>
-    <Content Include="components\dom\filters\Blur.js">
-      <DependentUpon>Blur.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="components\dom\transforms\Skew.ts" />
-    <TypeScriptCompile Include="components\dom\Gradient.ts" />
-    <Content Include="components\dom\Gradient.js">
-      <DependentUpon>Gradient.ts</DependentUpon>
-    </Content>
-    <Content Include="components\dom\transforms\Skew.js">
-      <DependentUpon>Skew.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="components\math\SinewaveGenerator.ts" />
-    <TypeScriptCompile Include="components\dom\Translate3D.ts" />
-    <Content Include="components\dom\Translate3D.js">
-      <DependentUpon>Translate3D.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="components\Input.ts" />
     <Content Include="components\Input.js">
       <DependentUpon>Input.ts</DependentUpon>
@@ -183,6 +166,10 @@
     </Content>
     <TypeScriptCompile Include="core\Loader.ts" />
     <TypeScriptCompile Include="core\Layer.ts" />
+    <TypeScriptCompile Include="core\IChild.ts" />
+    <Content Include="core\IGroupable.js">
+      <DependentUpon>IChild.ts</DependentUpon>
+    </Content>
     <Content Include="core\Layer.js">
       <DependentUpon>Layer.ts</DependentUpon>
     </Content>
@@ -234,18 +221,6 @@
     </Content>
     <Content Include="ECMA262-5.js" />
     <TypeScriptCompile Include="gameobjects\Pixel.ts" />
-    <TypeScriptCompile Include="gameobjects\dom\Button.ts" />
-    <TypeScriptCompile Include="gameobjects\canvas\Grid.ts" />
-    <Content Include="gameobjects\canvas\Grid.js">
-      <DependentUpon>Grid.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="gameobjects\canvas\Starfield.ts" />
-    <Content Include="gameobjects\canvas\Starfield.js">
-      <DependentUpon>Starfield.ts</DependentUpon>
-    </Content>
-    <Content Include="gameobjects\dom\Button.js">
-      <DependentUpon>Button.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="gameobjects\MouseDebug.ts" />
     <TypeScriptCompile Include="gameobjects\LinkedGroup.ts" />
     <Content Include="gameobjects\LinkedGroup.js">
@@ -409,6 +384,10 @@
       <DependentUpon>TileMapConverter.ts</DependentUpon>
     </Content>
     <Content Include="plugins\gamefroot\TileMapConverter.ts" />
+    <TypeScriptCompile Include="renderers\CanvasRenderer.ts" />
+    <Content Include="renderers\CanvasRenderer.js">
+      <DependentUpon>CanvasRenderer.ts</DependentUpon>
+    </Content>
     <Content Include="structs\Dictionary.js">
       <DependentUpon>Dictionary.ts</DependentUpon>
     </Content>
@@ -548,18 +527,18 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsD0B1.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs795D.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsD0B1.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs795D.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

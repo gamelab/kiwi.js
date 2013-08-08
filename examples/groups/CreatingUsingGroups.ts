@@ -45,26 +45,26 @@ class CreatingUsingGroups extends Kiwi.State {
 
         if (this.left.isDown) {
             for (var i: number = 0; i < m.length; i++) {
-                var b = m[i];
+                var b = <Kiwi.Entity>m[i];
                 console.log(b.components.getComponent("Position").x());
                 b.components.getComponent("Position").x(b.components.getComponent("Position").x() - 1);
             }
         }
         if (this.right.isDown) {
             for (var i: number = 0; i < m.length; i++) {
-                var b = m[i];
+                var b = <Kiwi.Entity> m[i];
                 b.components.getComponent("Position").x(b.components.getComponent("Position").x() + 1);
             }
         }
         if (this.up.isDown) {
             for (var i: number = 0; i < m.length; i++) {
-                var b = m[i];
+                var b = <Kiwi.Entity>m[i];
                 b.components.getComponent("Position").y(b.components.getComponent("Position").y() - 1);
             }
         }
         if (this.down.isDown) {
             for (var i: number = 0; i < m.length; i++) {
-                var b = m[i];
+                var b = <Kiwi.Entity>m[i];
                 b.components.getComponent("Position").y(b.components.getComponent("Position").y() + 1);
             }
         }
