@@ -105,7 +105,8 @@ module Kiwi {
     	*/
         public domReady: bool;
 
-       
+        public ctx: CanvasRenderingContext2D;
+        public canvas: HTMLCanvasElement;
 
         /**
         * The parent div in which the layers and input live
@@ -114,18 +115,7 @@ module Kiwi {
         */
         public container:HTMLDivElement = null;
 
-        /**
-        * The div inside which all game Layers live
-        * @property container
-        * @type HTMLDivElement
-        */
-        public layers: HTMLDivElement = null;
-
-        public domLayers: HTMLDivElement = null;
-        public domLayersMask: HTMLDivElement = null;
-
-        public canvasLayers: HTMLDivElement = null;
-
+        
         /**
         * The DOM is ready, so if we have things to do we can set them now
         * @method boot
@@ -140,11 +130,7 @@ module Kiwi {
             this.domReady = true;
 
             this.container = dom.container;
-           // this.layers = dom.layers;
-            this.domLayers = dom.domLayers;
-            this.canvasLayers = dom.canvasLayers;
-            this.domLayersMask = dom.domLayersMask;
-
+        
             this.offset = this._game.browser.getOffsetPoint(this.container);
 
             this.position.setTo(this.offset.x, this.offset.y);
@@ -155,8 +141,33 @@ module Kiwi {
             this.color.updated.add(this._updatedColor, this);
             this.position.updated.add(this._updatedPosition, this);
             this.size.updated.add(this._updatedSize, this);
+            this._createCompositeCanvas();
+        }
+
+
+        private _createCompositeCanvas() {
+            this.canvas = <HTMLCanvasElement>document.createElement("canvas");
+            this.ctx = this.canvas.getContext("2d");
+            this.ctx.fillStyle = this.color.cssColorHex;
+
+            this.canvas.id = this._game.id + "compositeCanvas";
+            this.canvas.style.position = "absolute";
+
+            this.canvas.width = this.size.width();
+            this.canvas.height = this.size.height();
+            
+            this.container.appendChild(this.canvas);
+            
 
         }
+
+        
+
+        
+        
+
+        
+
 
         /**
 		* 
@@ -229,7 +240,7 @@ module Kiwi {
         * @type Number
         * @private
         */
-        private _framerate: number = 30;
+        private _framerate: number = 3;
 
         /**
 		* Returns the frameRate of this Stage. If a value is given the framerate is set and then returned.

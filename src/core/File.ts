@@ -55,7 +55,7 @@ module Kiwi {
                 //if (typeof window['Blob'] !== 'undefined')
                 //{
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = false;
+                this._useTagLoader = true;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;

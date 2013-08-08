@@ -64,7 +64,7 @@ module Kiwi.Geom {
         * @return {Number} The X value of the transform.
         */
         public x(value: number = null): number {
-
+            
             if (value !== null && value !== this._x)
             {
                 this._x = value;
@@ -540,7 +540,7 @@ module Kiwi.Geom {
 	     * @return {Boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
 	     */
         public checkAncestor(transform: Transform): bool {
-
+            /*
             if (transform === this)
             {
                 klog.warn("transform cannot be a parent to itself or an ancestor");
@@ -551,7 +551,7 @@ module Kiwi.Geom {
             {
                 return (this.checkAncestor(transform._parent))
             }
-
+        */
             return false;
 
         }

@@ -40,14 +40,6 @@ module Kiwi {
             this.components.add(this.size);
             this.components.add(this.position);
 
-            if (Kiwi.DEVICE.canvas) {  
-                this._createCompositeCanvas();
-
-            } else {
-                klog.warn("Canvas is not supported - no canvas was created on camera " + name);
-            }
-
-
            
 
             
@@ -63,31 +55,6 @@ module Kiwi {
             return "Camera";
         }
 
-        private _createCompositeCanvas() {
-            this._compositeCanvas = <HTMLCanvasElement>document.createElement("canvas");
-            this._ctx = this._compositeCanvas.getContext("2d");
-
-            this._compositeCanvas.id = this._game.id + "compositeCanvas";
-           // this._compositeCanvas.style.width = "100%";
-            //this._compositeCanvas.style.height = "100%";
-            this._compositeCanvas.style.position = "absolute";
-
-            this._resizeCompositeCanvas();
-          
-            this._game.stage.canvasLayers.appendChild(this._compositeCanvas);
-            this._compositeCanvasCreated = true;
-
-        }
-
-        private _resizeCompositeCanvas() {
-            this._compositeCanvas.width = this.size.width();
-            this._compositeCanvas.height = this.size.height();
-        }
-
-        private _compositeCanvas: HTMLCanvasElement;
-        private _ctx: CanvasRenderingContext2D;
-
-        private _compositeCanvasCreated: bool = false;
 
         // if true then the camera will be resized to fit the stage when the stage is resized
         public fitToStage:bool = true;
@@ -111,7 +78,7 @@ module Kiwi {
 
            
             this.size.setTo(width, height);
-            this._resizeCompositeCanvas();
+          
 
         }
 
@@ -122,7 +89,7 @@ module Kiwi {
         * @param {Number} height
 		**/
         private _updatedSize(width: number, height: number) {
-            this._game.stage.domLayersMask.style.width = width + "px";
+           /* this._game.stage.domLayersMask.style.width = width + "px";
             this._game.stage.domLayersMask.style.height = height + "px";
             this._resizeCompositeCanvas();
             for (var i = 0; i < this._game.layers.layers.length; i++) {
@@ -132,7 +99,7 @@ module Kiwi {
                
 
             }
-           
+           */
         }
 
 
@@ -218,33 +185,17 @@ module Kiwi {
         }
 
         public render() {
-            //console.log("render cam " + this.name);
             
-            if (this._compositeCanvasCreated) {
-                //clear this
-                this._compositeCanvas.width = this.size.width();
-                var layer: Kiwi.Layer;
-                for (var i = 0; i < this._game.layers.layers.length; i++) {
-                    
-                    layer = this._game.layers.layers[i];
-                    
-                    
-                       
-                        this._ctx.drawImage(layer.canvas.domElement, 0, 0, this.size.width(), this.size.height(), 0, 0, this.size.width(), this.size.height());
-                        
-                    
-                }
-                    
+            this._game.renderer.render(this);
 
-            }
+        }
 
             
 
 
 
-            //composite each layer canvas onto this one.
+        
         }
 
     }
 
-}

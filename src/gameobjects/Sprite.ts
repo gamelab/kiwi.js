@@ -54,6 +54,9 @@ module Kiwi.GameObjects {
             this.position = this.components.add(new Kiwi.Components.Position(x, y));
             //set the transform point to the middle by default - which is what the browser treats it as anyway
             this.position.transformPoint(new Kiwi.Geom.Point(this.size.width() / 2, this.size.height() / 2));
+
+            
+
             this.rotation = this.components.add(new Kiwi.Components.Rotation());
             this.scale = this.components.add(new Kiwi.Components.Scale());
                         
@@ -97,6 +100,9 @@ module Kiwi.GameObjects {
 
             this.onAddedToLayer.add(this._onAddedToLayer, this);
             this.onAddedToState.add(this._onAddedToState, this);
+
+            this.transform.x(x);
+            this.transform.y(y);
 
             // transform
             this._transform = new Kiwi.Geom.Transform();
@@ -219,14 +225,7 @@ module Kiwi.GameObjects {
 	     **/
         public visible: Kiwi.Components.Visible;
 
-        /** 
-	     * 
-	     * @property _transformCSS
-	     * @type String
-         * @private
-	     **/
-        private _transformCSS: string;
-
+       
          /** 
 	     * 
 	     * @method _updatePosition
@@ -236,14 +235,18 @@ module Kiwi.GameObjects {
 	     **/
         private _updatePosition(x: number, y: number, z: number) {
             
-           
+            
+
 
             //update center
             this._center.x = this.position.x() + this.size.width() /2;
             this._center.y = this.position.y() + this.size.height() /2;
 
+
+
             //update bounds
             this.bounds.calculateBounds(this._transform, this.position, this.size);
+
 
         }
 
@@ -256,7 +259,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateRotation(angle:number) {
             
-          
+            
 
             this._transform.rotation(angle * Math.PI / 180);
 

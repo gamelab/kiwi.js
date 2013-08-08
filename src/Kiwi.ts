@@ -103,6 +103,8 @@
 
 /// <reference path="plugins/gamefroot/TileMapConverter.ts" />
 
+/// <reference path="renderers/CanvasRenderer.ts" />
+
 /// <reference path="structs/Dictionary.ts" />
 /// <reference path="structs/LinkedList.ts" />
 

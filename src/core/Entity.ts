@@ -38,6 +38,7 @@ module Kiwi {
             this._active = true;
             this._willRender = true;
             this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+            this.transform = new Kiwi.Geom.Transform();
 
             //  Signals
 
@@ -50,6 +51,8 @@ module Kiwi {
 
         }
 
+        public transform: Kiwi.Geom.Transform;
+        
 
         public childType():number {
             return Kiwi.ENTITY;
@@ -142,7 +145,7 @@ module Kiwi {
         * @property parent
         * @type Kiwi.Group
         **/
-        public parent: Kiwi.Group = null;
+        //public parent: Kiwi.Group = null;
 
         /**
         * If this Entity is a DOM entity, then this contains a reference to the DOM Element it is bound to.
@@ -436,10 +439,10 @@ module Kiwi {
 	    * @param {Kiwi.Group} group. The Group this Entity is being added to.
 		**/
         private _addedToGroup(group: Kiwi.Group) {
-
+            /*
             klog.info('Entity added to Group');
 
-            if (this.parent === group )
+            if (this.transform.parent(group.transform) )
             {
                 klog.warn('Entity.addedToGroup() called but parent already set d');
                 return;
@@ -450,7 +453,7 @@ module Kiwi {
                 //  Notify the current parent this child has been removed, they can only exist in one Group at once
                 this.parent.removeChild(this);
             }
-
+        
             this.parent = group;
 
             if (group.game !== null)
@@ -471,7 +474,7 @@ module Kiwi {
             {
                 this._addedToLayer(this.parent.layer);
             }
-
+        */
         }
 
         /**
@@ -482,7 +485,7 @@ module Kiwi {
         private _removedFromGroup(group: Kiwi.Group) {
 
             klog.info('Entity removed from Group');
-
+            /*
             if (this.parent !== null)
             {
                 //  TODO: Notify the current parent this child has been removed?
@@ -491,7 +494,7 @@ module Kiwi {
             this.parent = null;
 
            
-
+        */
             this.onRemovedFromGroup.dispatch(this, group);
 
         }

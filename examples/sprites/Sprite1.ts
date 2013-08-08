@@ -22,11 +22,13 @@ class Sprite1 extends Kiwi.State {
     public character: Kiwi.GameObjects.Sprite;
     public cat: Kiwi.GameObjects.Sprite;
 
+    public aaa: number = 0;
+    public bbb: number = 0;
     create() {
 
         this.character = new Kiwi.GameObjects.Sprite('character', this.cache, 100, 0);
         this.cat = new Kiwi.GameObjects.Sprite('cat', this.cache, 10, 50);
-      
+        
         this.addChild(this.character);
         this.addChild(this.cat);
 
@@ -36,6 +38,12 @@ class Sprite1 extends Kiwi.State {
 
     update() {
         super.update();
+    
+        this.cat.transform.x(this.aaa);
+        this.cat.transform.rotation(this.bbb);
+        this.bbb += 0.01;
+
+        this.aaa++;
     }
 
 }

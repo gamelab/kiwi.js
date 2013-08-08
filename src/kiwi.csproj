@@ -375,6 +375,10 @@
       <DependentUpon>TileMapConverter.ts</DependentUpon>
     </Content>
     <Content Include="plugins\gamefroot\TileMapConverter.ts" />
+    <TypeScriptCompile Include="renderers\CanvasRenderer.ts" />
+    <Content Include="renderers\CanvasRenderer.js">
+      <DependentUpon>CanvasRenderer.ts</DependentUpon>
+    </Content>
     <Content Include="structs\Dictionary.js">
       <DependentUpon>Dictionary.ts</DependentUpon>
     </Content>
@@ -514,14 +518,14 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs795D.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>

@@ -29,6 +29,10 @@
     <Content Include="GameObjects\Mouse_ ClickAndDrag.js">
       <DependentUpon>Mouse_ClickAndDrag.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="sprites\MultiSprite.ts" />
+    <Content Include="sprites\MultiSprite.js">
+      <DependentUpon>MultiSprite.ts</DependentUpon>
+    </Content>
     <Content Include="tilemaps\basics.js">
       <DependentUpon>basics.ts</DependentUpon>
     </Content>

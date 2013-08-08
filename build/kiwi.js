@@ -2523,7 +2523,7 @@ var Kiwi;
 
             if (Kiwi.DEVICE.blob) {
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = false;
+                this._useTagLoader = true;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
@@ -4519,7 +4519,6 @@ var Kiwi;
 (function (Kiwi) {
     var Camera = (function () {
         function Camera(game, id, name, x, y, width, height) {
-            this._compositeCanvasCreated = false;
             this.fitToStage = true;
             this._game = game;
             this.id = id;
@@ -4532,12 +4531,6 @@ var Kiwi;
             this.components.add(this.size);
             this.components.add(this.position);
 
-            if (Kiwi.DEVICE.canvas) {
-                this._createCompositeCanvas();
-            } else {
-                klog.warn("Canvas is not supported - no canvas was created on camera " + name);
-            }
-
             this._game.stage.size.updated.add(this._updatedStageSize, this);
 
             this.size.updated.add(this._updatedSize, this);
@@ -4548,39 +4541,11 @@ var Kiwi;
             return "Camera";
         };
 
-        Camera.prototype._createCompositeCanvas = function () {
-            this._compositeCanvas = document.createElement("canvas");
-            this._ctx = this._compositeCanvas.getContext("2d");
-
-            this._compositeCanvas.id = this._game.id + "compositeCanvas";
-
-            this._compositeCanvas.style.position = "absolute";
-
-            this._resizeCompositeCanvas();
-
-            this._game.stage.canvasLayers.appendChild(this._compositeCanvas);
-            this._compositeCanvasCreated = true;
-        };
-
-        Camera.prototype._resizeCompositeCanvas = function () {
-            this._compositeCanvas.width = this.size.width();
-            this._compositeCanvas.height = this.size.height();
-        };
-
         Camera.prototype._updatedStageSize = function (width, height) {
             this.size.setTo(width, height);
-            this._resizeCompositeCanvas();
         };
 
         Camera.prototype._updatedSize = function (width, height) {
-            this._game.stage.domLayersMask.style.width = width + "px";
-            this._game.stage.domLayersMask.style.height = height + "px";
-            this._resizeCompositeCanvas();
-            for (var i = 0; i < this._game.layers.layers.length; i++) {
-                var layer = this._game.layers.layers[i];
-                layer.domContainer.style.width = width + "px";
-                layer.domContainer.style.height = height + "px";
-            }
         };
 
         Camera.prototype.visible = function (value) {
@@ -4602,15 +4567,7 @@ var Kiwi;
         };
 
         Camera.prototype.render = function () {
-            if (this._compositeCanvasCreated) {
-                this._compositeCanvas.width = this.size.width();
-                var layer;
-                for (var i = 0; i < this._game.layers.layers.length; i++) {
-                    layer = this._game.layers.layers[i];
-
-                    this._ctx.drawImage(layer.canvas.domElement, 0, 0, this.size.width(), this.size.height(), 0, 0, this.size.width(), this.size.height());
-                }
-            }
+            this._game.renderer.render(this);
         };
         return Camera;
     })();
@@ -4619,7 +4576,7 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var CameraManager = (function () {
-        function CameraManager(game, multiCameraMode) {
+        function CameraManager(game) {
             klog.info('Layer Manager created');
 
             this._game = game;
@@ -4627,33 +4584,18 @@ var Kiwi;
             this._cameras = [];
 
             this._nextCameraID = 0;
-
-            this._multiCameraMode = multiCameraMode;
         }
         CameraManager.prototype.objType = function () {
             return "CameraManager";
         };
 
-        CameraManager.prototype.multiCameraMode = function (val) {
-            if (val !== undefined) {
-                this._multiCameraMode = val;
-            }
-            return this._multiCameraMode;
-        };
-
-        CameraManager.prototype.boot = function (domCamera) {
+        CameraManager.prototype.boot = function () {
             this.create("defaultCamera", 0, 0, this._game.stage.size.width(), this._game.stage.size.height());
 
             this.defaultCamera = this._cameras[0];
-            this._domCamera = domCamera;
         };
 
         CameraManager.prototype.create = function (name, x, y, width, height) {
-            if (this._multiCameraMode === false && this._cameras.length > 0) {
-                klog.error("Cannot add additional cameras in single camera mode. You can create other cameras assign them as default.");
-                return null;
-            }
-
             var newCamera = new Kiwi.Camera(this._game, this._nextCameraID++, name, x, y, width, height);
 
             this._cameras.push(newCamera);
@@ -4679,21 +4621,8 @@ var Kiwi;
                 return false;
             }
 
-            if (!this._multiCameraMode) {
-                this._cameras[0].update();
-
-                this._domCamera.style.left = (-this._cameras[0].position.x()) + "px";
-                this._domCamera.style.top = (-this._cameras[0].position.y()) + "px";
-
-                for (var i = 0; i < this._game.layers.layers.length; i++) {
-                    var layer = this._game.layers.layers[i];
-                }
-
-                return;
-            } else {
-                for (var i = 0; i < this._cameras.length; i++) {
-                    this._cameras[i].update();
-                }
+            for (var i = 0; i < this._cameras.length; i++) {
+                this._cameras[i].update();
             }
         };
 
@@ -4703,8 +4632,6 @@ var Kiwi;
             }
 
             for (var i = 0; i < this._cameras.length; i++) {
-                this._game.layers.render(this._cameras[i]);
-
                 this._cameras[i].render();
             }
         };
@@ -5218,13 +5145,15 @@ var Kiwi;
             this._active = true;
             this._willRender = true;
 
+            this.transform = new Kiwi.Geom.Transform();
+
             this.members = [];
 
             this.onAddedToLayer = new Kiwi.Signal();
             this.onAddedToState = new Kiwi.Signal();
             this.onRemovedFromLayer = new Kiwi.Signal();
             this.onRemovedFromState = new Kiwi.Signal();
-
+            this._willRender = true;
             klog.info('Created Group ' + this.name);
         }
         Group.prototype.childType = function () {
@@ -5264,8 +5193,9 @@ var Kiwi;
         Group.prototype.addChild = function (child) {
             klog.info('Group.addChild ' + this.members.length);
 
-            if (child.parent !== this) {
+            if (child.transform.parent() !== this.transform) {
                 this.members.push(child);
+                child.transform.parent(this.transform);
 
                 child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
@@ -5276,7 +5206,7 @@ var Kiwi;
         Group.prototype.addChildAt = function (child, index) {
             klog.info('Group.addChildAt ' + child.id);
 
-            if (child.parent !== this) {
+            if (child.transform.parent() !== this.transform) {
                 this.members.splice(index, 0, child);
 
                 child.modify(Kiwi.ADDED_TO_GROUP, this);
@@ -5288,7 +5218,7 @@ var Kiwi;
         Group.prototype.addChildBefore = function (child, beforeChild) {
             klog.info('Group.addChildBefore ' + child.id);
 
-            if (child.parent !== this && beforeChild.parent === this) {
+            if (child.transform.parent() !== this.transform && beforeChild.transform.parent() === this.transform) {
                 var index = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
@@ -5302,7 +5232,7 @@ var Kiwi;
         Group.prototype.addChildAfter = function (child, beforeChild) {
             klog.info('Group.addChildAfter ' + child.id);
 
-            if (child.parent !== this && beforeChild.parent === this) {
+            if (child.transform.parent() !== this.transform && beforeChild.transform.parent() === this.transform) {
                 var index = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
@@ -5346,7 +5276,7 @@ var Kiwi;
         };
 
         Group.prototype.removeChild = function (child) {
-            if (child && child.parent === this) {
+            if (child && child.transform.parent() === this.transform) {
                 var index = this.getChildIndex(child);
 
                 if (index > -1) {
@@ -5390,7 +5320,7 @@ var Kiwi;
         };
 
         Group.prototype.setChildIndex = function (child, index) {
-            if (child.parent !== this || this.getChildIndex(child) === index) {
+            if (child.transform.parent() !== this.transform || this.getChildIndex(child) === index) {
                 return false;
             }
 
@@ -5401,7 +5331,7 @@ var Kiwi;
         };
 
         Group.prototype.swapChildren = function (child1, child2) {
-            if (child1.parent !== this || child2.parent !== this) {
+            if (child1.transform.parent() !== this.transform || child2.transform.parent() !== this.transform) {
                 return false;
             }
 
@@ -5426,7 +5356,7 @@ var Kiwi;
         };
 
         Group.prototype.swapChildrenAt = function (index1, index2) {
-            if (child1.parent !== this || child2.parent !== this) {
+            if (child1.transform.parent() !== this.transform || child2.transform.parent() !== this.transform) {
                 return false;
             }
 
@@ -5447,9 +5377,6 @@ var Kiwi;
         };
 
         Group.prototype.replaceChild = function (oldChild, newChild) {
-            console.log(this.members[0]);
-            klog.info("replaceChild on group " + this.name);
-
             if (oldChild === newChild)
                 return;
 
@@ -5465,7 +5392,7 @@ var Kiwi;
                 this.addChildAt(newChild, index);
 
                 oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
-                newChild.parent = null;
+                newChild.transform.parent(null);
                 newChild.modify(Kiwi.ADDED_TO_GROUP, this);
                 console.log(this.members[0]);
                 return true;
@@ -5754,6 +5681,7 @@ var Kiwi;
             this.config = new Kiwi.StateConfig(this, name);
             this.cache = new Kiwi.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
+            this.transform.parent(null);
         }
         State.prototype.objType = function () {
             return "State";
@@ -5763,10 +5691,6 @@ var Kiwi;
             klog.info('State booted: ', this.config.name);
 
             this.cache.boot();
-
-            klog.info('Current Layer: ' + this.game.layers.currentLayer);
-
-            this.currentLayer = this.game.layers.currentLayer;
         };
 
         State.prototype.init = function () {
@@ -5903,7 +5827,6 @@ var Kiwi;
             this.state = null;
             this.name = '';
             this.layer = null;
-            this.parent = null;
             this.domElement = null;
             this.domElementType = 'div';
             this._cssStack = {};
@@ -5913,6 +5836,7 @@ var Kiwi;
             this._active = true;
             this._willRender = true;
             this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+            this.transform = new Kiwi.Geom.Transform();
 
             this.onAddedToGroup = new Kiwi.Signal();
             this.onAddedToLayer = new Kiwi.Signal();
@@ -6053,41 +5977,10 @@ var Kiwi;
         };
 
         Entity.prototype._addedToGroup = function (group) {
-            klog.info('Entity added to Group');
-
-            if (this.parent === group) {
-                klog.warn('Entity.addedToGroup() called but parent already set d');
-                return;
-            }
-
-            if (this.parent !== null) {
-                this.parent.removeChild(this);
-            }
-
-            this.parent = group;
-
-            if (group.game !== null) {
-                this.game = group.game;
-
-                if (this._clock === null) {
-                    this._clock = this.game.time.clock;
-                }
-            }
-
-            this.onAddedToGroup.dispatch(this, group);
-
-            if (this.parent.layer !== null) {
-                this._addedToLayer(this.parent.layer);
-            }
         };
 
         Entity.prototype._removedFromGroup = function (group) {
             klog.info('Entity removed from Group');
-
-            if (this.parent !== null) {
-            }
-
-            this.parent = null;
 
             this.onRemovedFromGroup.dispatch(this, group);
         };
@@ -7341,11 +7234,7 @@ var Kiwi;
         function Stage(game, name) {
             this.offset = new Kiwi.Geom.Point();
             this.container = null;
-            this.layers = null;
-            this.domLayers = null;
-            this.domLayersMask = null;
-            this.canvasLayers = null;
-            this._framerate = 30;
+            this._framerate = 3;
             this._game = game;
 
             this.name = name;
@@ -7368,10 +7257,6 @@ var Kiwi;
 
             this.container = dom.container;
 
-            this.domLayers = dom.domLayers;
-            this.canvasLayers = dom.canvasLayers;
-            this.domLayersMask = dom.domLayersMask;
-
             this.offset = this._game.browser.getOffsetPoint(this.container);
 
             this.position.setTo(this.offset.x, this.offset.y);
@@ -7381,6 +7266,21 @@ var Kiwi;
             this.color.updated.add(this._updatedColor, this);
             this.position.updated.add(this._updatedPosition, this);
             this.size.updated.add(this._updatedSize, this);
+            this._createCompositeCanvas();
+        };
+
+        Stage.prototype._createCompositeCanvas = function () {
+            this.canvas = document.createElement("canvas");
+            this.ctx = this.canvas.getContext("2d");
+            this.ctx.fillStyle = this.color.cssColorHex;
+
+            this.canvas.id = this._game.id + "compositeCanvas";
+            this.canvas.style.position = "absolute";
+
+            this.canvas.width = this.size.width();
+            this.canvas.height = this.size.height();
+
+            this.container.appendChild(this.canvas);
         };
 
         Stage.prototype._updatedPosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
@@ -8083,6 +7983,7 @@ var Kiwi;
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
 
                 this.position.transformPoint(new Kiwi.Geom.Point(this.size.width() / 2, this.size.height() / 2));
+
                 this.rotation = this.components.add(new Kiwi.Components.Rotation());
                 this.scale = this.components.add(new Kiwi.Components.Scale());
 
@@ -8118,6 +8019,9 @@ var Kiwi;
 
                 this.onAddedToLayer.add(this._onAddedToLayer, this);
                 this.onAddedToState.add(this._onAddedToState, this);
+
+                this.transform.x(x);
+                this.transform.y(y);
 
                 this._transform = new Kiwi.Geom.Transform();
                 this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
@@ -10473,15 +10377,6 @@ var Kiwi;
             };
 
             Transform.prototype.checkAncestor = function (transform) {
-                if (transform === this) {
-                    klog.warn("transform cannot be a parent to itself or an ancestor");
-                    return true;
-                }
-
-                if (transform._parent !== null) {
-                    return (this.checkAncestor(transform._parent));
-                }
-
                 return false;
             };
 
@@ -12552,6 +12447,55 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Renderers) {
+        var CanvasRenderer = (function () {
+            function CanvasRenderer(game) {
+                this._game = game;
+            }
+            CanvasRenderer.prototype.boot = function () {
+            };
+
+            CanvasRenderer.prototype._recurse = function (child) {
+                if (!child.willRender())
+                    return;
+
+                if (child.childType() === Kiwi.GROUP) {
+                    for (var i = 0; i < (child).members.length; i++) {
+                        this._recurse((child).members[i]);
+                    }
+                } else {
+                    var ctx = this._game.stage.ctx;
+
+                    if ((child).objType() === "Sprite") {
+                        ctx.save();
+                        child = child;
+
+                        var m = child.transform.getConcatenatedMatrix();
+                        ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                        ctx.drawImage((child).texture.image, 0, 0, (child).size.width(), (child).size.height());
+                        ctx.restore();
+                    }
+                }
+            };
+
+            CanvasRenderer.prototype.render = function (camera) {
+                this._currentCamera = camera;
+                var root = this._game.states.current.members;
+
+                this._game.stage.ctx.fillRect(0, 0, this._game.stage.size.width(), this._game.stage.size.height());
+
+                for (var i = 0; i < root.length; i++) {
+                    this._recurse(root[i]);
+                }
+            };
+            return CanvasRenderer;
+        })();
+        Renderers.CanvasRenderer = CanvasRenderer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     (function (Utils) {
         var Common = (function () {
             function Common() {
@@ -14209,7 +14153,6 @@ var Kiwi;
             this.browser = null;
             this.cache = null;
             this.input = null;
-            this.layers = null;
             this.cameras = null;
             this.loader = null;
             this.raf = null;
@@ -14229,8 +14172,9 @@ var Kiwi;
             this.input = new Kiwi.Input.Manager(this);
 
             this.stage = new Kiwi.Stage(this, name);
-            this.layers = new Kiwi.LayerManager(this);
-            this.cameras = new Kiwi.CameraManager(this, false);
+            this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
+
+            this.cameras = new Kiwi.CameraManager(this);
             this.huds = new Kiwi.HUD.HUDManager(this);
 
             this.loader = new Kiwi.Loader(this);
@@ -14262,8 +14206,8 @@ var Kiwi;
 
             this.browser.boot();
             this.stage.boot(this._dom);
-            this.layers.boot();
-            this.cameras.boot(this._dom.domLayers);
+
+            this.cameras.boot();
             this.huds.boot();
             this.time.boot();
             this.anims.boot();
@@ -14287,7 +14231,7 @@ var Kiwi;
             this.input.update();
             this.tweens.update();
             this.cameras.update();
-            this.layers.update();
+
             this.huds.update();
 
             this.states.update();

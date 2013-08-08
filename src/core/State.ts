@@ -32,6 +32,7 @@ module Kiwi {
             this.config = new Kiwi.StateConfig(this, name);
             this.cache = new Kiwi.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
+            this.transform.parent(null);
 
         }
 
@@ -85,10 +86,7 @@ module Kiwi {
             this.cache.boot();
             //this.cache = this.game.cache;
 
-            klog.info('Current Layer: ' + this.game.layers.currentLayer);
-
-            this.currentLayer = this.game.layers.currentLayer;
-        
+            
         }
 
         /**
