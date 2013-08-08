@@ -2618,7 +2618,7 @@ var Kiwi;
 
             if (Kiwi.DEVICE.blob) {
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = true;
+                this._useTagLoader = false;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
