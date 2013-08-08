@@ -458,7 +458,7 @@ module Kiwi.GameObjects {
         public collideGroup(group: Kiwi.Group) {
 
             for (var i = 0; i < group.members.length; i++) {
-                this.collideSingle(group.members[i]);
+                //this.collideSingle(group.members[i]);
             }
 
         }

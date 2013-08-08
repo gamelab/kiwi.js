@@ -268,11 +268,11 @@ module Kiwi.Components {
 
         public static overlapsGroupGroup(group1: Group, group2: Group, notifyCallback: Function = null, separateObjects: bool = true): bool {
             var result: bool = false;
-            var members: Entity[] = group1.members;
+            /*var members: IChild[] = group1.members;
             var i: number = 0;
             while (i < group1.members.length) {
                 result = ArcadePhysics.overlapsObjectGroup(members[i++], group2, notifyCallback, separateObjects);
-            }
+            }*/
             return result;
 
         }

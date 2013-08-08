@@ -1,5 +1,5 @@
 /// <reference path="components/Alpha.ts" />
- //<reference path="components/ArcadePhysics.ts" />
+/// <reference path="components/ArcadePhysics.ts" />
 /// <reference path="components/Bounds.ts" />
 /// <reference path="components/Color.ts" />
 /// <reference path="components/Input.ts" />

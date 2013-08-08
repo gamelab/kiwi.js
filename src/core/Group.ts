@@ -979,7 +979,7 @@ module Kiwi {
 
                 this.layer = layer;
                 
-                console.log(this.type);
+                
                 for (var i = 0; i < this.members.length; i++)
                 {
                     //if (this.members[i]._addedToLayer(this.layer) === false)

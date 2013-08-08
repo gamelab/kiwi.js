@@ -10,6 +10,7 @@ module Kiwi {
         parent: Group;
         id: string;
         name: string;
+        components: Kiwi.ComponentManager;
         modify(type: number, parent);
         _changedPosition(group: Kiwi.Group, index: number);
         exists(value?: bool): bool;

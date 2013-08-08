@@ -266,6 +266,7 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Components) {
+<<<<<<< HEAD
         var ArcadePhysics = (function (_super) {
             __extends(ArcadePhysics, _super);
             function ArcadePhysics(entity, position, size) {
@@ -345,7 +346,11 @@ var Kiwi;
                 if (typeof notifyCallback === "undefined") { notifyCallback = null; }
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var result = false;
-
+                var members = group1.members;
+                var i = 0;
+                while (i < group1.members.length) {
+                    result = ArcadePhysics.overlapsObjectGroup(members[i++], group2, notifyCallback, separateObjects);
+                }
                 return result;
             };
 
@@ -614,6 +619,8 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Components) {
+=======
+>>>>>>> StackingRefactor
         var Bounds = (function (_super) {
             __extends(Bounds, _super);
             function Bounds(x, y, width, height) {
@@ -5207,11 +5214,13 @@ var Kiwi;
             this.name = '';
             this.game = null;
             this.state = null;
+            this.type = Kiwi.TYPE_UNASSIGNED;
             this.layer = null;
             this.domElement = null;
             this._cssStack = [];
             this._dirty = true;
             this.name = name;
+            this.type = Kiwi.TYPE_UNASSIGNED;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
 
             this._exists = true;
@@ -5262,6 +5271,13 @@ var Kiwi;
         };
 
         Group.prototype.addChild = function (child) {
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Warning - Entity has been added to a Group that exists on a Layer it cannot render to');
+                    return null;
+                }
+            }
+
             klog.info('Group.addChild ' + this.members.length);
 
             if (child.parent !== this) {
@@ -5274,6 +5290,13 @@ var Kiwi;
         };
 
         Group.prototype.addChildAt = function (child, index) {
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
+            }
+
             klog.info('Group.addChildAt ' + child.id);
 
             if (child.parent !== this) {
@@ -5286,6 +5309,12 @@ var Kiwi;
         };
 
         Group.prototype.addChildBefore = function (child, beforeChild) {
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
+            }
             klog.info('Group.addChildBefore ' + child.id);
 
             if (child.parent !== this && beforeChild.parent === this) {
@@ -5300,6 +5329,21 @@ var Kiwi;
         };
 
         Group.prototype.addChildAfter = function (child, beforeChild) {
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
+            }
+
+<<<<<<< HEAD
+            this.members.push(child);
+            child.layer = this.currentLayer;
+            if (layer !== null) {
+                layer.add(child);
+            } else {
+                this.currentLayer.add(child);
+=======
             klog.info('Group.addChildAfter ' + child.id);
 
             if (child.parent !== this && beforeChild.parent === this) {
@@ -5308,6 +5352,7 @@ var Kiwi;
                 this.members.splice(index, 0, child);
 
                 child.modify(Kiwi.ADDED_TO_GROUP, this);
+>>>>>>> StackingRefactor
             }
 
             return child;
@@ -5337,6 +5382,32 @@ var Kiwi;
                     return this.members[i];
                 }
             }
+<<<<<<< HEAD
+        };
+        return State;
+    })();
+    Kiwi.State = State;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Entity = (function () {
+        function Entity() {
+            this.game = null;
+            this.state = null;
+            this.name = '';
+            this.layer = null;
+            this.parent = null;
+            this.domElement = null;
+            this.domElementType = 'div';
+            this._cssStack = {};
+            this._cssTransformStack = {};
+            this._clock = null;
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+=======
+>>>>>>> StackingRefactor
 
             return null;
         };
@@ -5400,6 +5471,10 @@ var Kiwi;
             return true;
         };
 
+<<<<<<< HEAD
+        Entity.prototype.isGroup = function () {
+            return false;
+=======
         Group.prototype.swapChildren = function (child1, child2) {
             if (child1.parent !== this || child2.parent !== this) {
                 return false;
@@ -5423,11 +5498,24 @@ var Kiwi;
 
         Group.prototype._changedPosition = function (group, index) {
             klog.info('Group changed position within the group');
+>>>>>>> StackingRefactor
         };
 
         Group.prototype.swapChildrenAt = function (index1, index2) {
             if (child1.parent !== this || child2.parent !== this) {
                 return false;
+<<<<<<< HEAD
+            } else {
+                if (layer.game !== null) {
+                    this.game = layer.game;
+
+                    if (this._clock === null) {
+                        this._clock = this.game.time.clock;
+                    }
+                }
+
+                this.onAddedToLayer.dispatch(this, this.layer);
+=======
             }
 
             var child1 = this.getChildAt(index1);
@@ -5439,6 +5527,7 @@ var Kiwi;
 
                 child1._changedPosition(this, index2);
                 child2._changedPosition(this, index1);
+>>>>>>> StackingRefactor
 
                 return true;
             }
@@ -5450,8 +5539,20 @@ var Kiwi;
             console.log(this.members[0]);
             klog.info("replaceChild on group " + this.name);
 
+            if (newChild.childType() === Kiwi.ENTITY) {
+                if ((newChild).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + newChild.id);
+                    return null;
+                }
+            }
+
+<<<<<<< HEAD
+            this.onRemovedFromLayer.dispatch(this, layer);
+        };
+=======
             if (oldChild === newChild)
                 return;
+>>>>>>> StackingRefactor
 
             if (this.getChildIndex(newChild)) {
                 this.removeChild(newChild);
@@ -5499,6 +5600,11 @@ var Kiwi;
             }
         };
 
+<<<<<<< HEAD
+            if (this.parent === group) {
+                klog.warn('Entity.addedToGroup() called but parent already set d');
+                return;
+=======
         Group.prototype.setAll = function (componentName, property, value) {
             if (componentName === null) {
                 for (var i = 0; i < this.members.length; i++) {
@@ -5508,6 +5614,7 @@ var Kiwi;
                 for (var i = 0; i < this.members.length; i++) {
                     this.members[i][componentName][property] = value;
                 }
+>>>>>>> StackingRefactor
             }
         };
 
@@ -5551,12 +5658,16 @@ var Kiwi;
             return this._exists;
         };
 
+<<<<<<< HEAD
+            this.onRemovedFromGroup.dispatch(this, group);
+=======
         Group.prototype.active = function (value) {
             if (value !== undefined) {
                 this._active = value;
             }
 
             return this._active;
+>>>>>>> StackingRefactor
         };
 
         Group.prototype.render = function (camera) {
@@ -5605,6 +5716,37 @@ var Kiwi;
 
             return null;
         };
+<<<<<<< HEAD
+        return Entity;
+    })();
+    Kiwi.Entity = Entity;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Group = (function () {
+        function Group(name) {
+            if (typeof name === "undefined") { name = ''; }
+            this.game = null;
+            this.state = null;
+            this.name = '';
+            this.layer = null;
+            this.domElement = null;
+            this._cssStack = [];
+            this.name = name;
+            this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
+
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+
+            this.members = [];
+
+            this.onAddedToLayer = new Kiwi.Signal();
+            this.onAddedToState = new Kiwi.Signal();
+            this.onRemovedFromLayer = new Kiwi.Signal();
+            this.onRemovedFromState = new Kiwi.Signal();
+=======
+>>>>>>> StackingRefactor
 
         Group.prototype.countLiving = function () {
             var total = 0;
@@ -5630,6 +5772,22 @@ var Kiwi;
             return total;
         };
 
+<<<<<<< HEAD
+        Group.prototype.addChild = function (child) {
+            klog.info('Group.addChild ' + this.members.length);
+
+            if (child.parent !== this) {
+                this.members.push(child);
+
+                child.modify(Kiwi.ADDED_TO_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.addChildAt = function (child, index) {
+            klog.info('Group.addChildAt ' + child.id);
+=======
         Group.prototype.getRandom = function (start, length) {
             if (typeof start === "undefined") { start = 0; }
             if (typeof length === "undefined") { length = 0; }
@@ -5646,6 +5804,7 @@ var Kiwi;
             }
 
             var rnd = start + (Math.random() * (start + length));
+>>>>>>> StackingRefactor
 
             if (rnd > this.members.length) {
                 return this.members[this.members.length - 1];
@@ -5654,6 +5813,15 @@ var Kiwi;
             }
         };
 
+<<<<<<< HEAD
+        Group.prototype.addChildBefore = function (child, beforeChild) {
+            klog.info('Group.addChildBefore ' + child.id);
+
+            if (child.parent !== this && beforeChild.parent === this) {
+                var index = this.getChildIndex(beforeChild);
+
+                this.members.splice(index, 0, child);
+=======
         Group.prototype.clear = function () {
             for (var i = 0; i < this.members.length; i++) {
                 this.members[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
@@ -5661,6 +5829,7 @@ var Kiwi;
 
             this.members.length = 0;
         };
+>>>>>>> StackingRefactor
 
         Group.prototype.willRender = function (value) {
             if (value) {
@@ -5670,6 +5839,10 @@ var Kiwi;
             return this._willRender;
         };
 
+<<<<<<< HEAD
+        Group.prototype.addChildAfter = function (child, beforeChild) {
+            klog.info('Group.addChildAfter ' + child.id);
+=======
         Group.prototype.isGroup = function () {
             return true;
         };
@@ -5677,13 +5850,15 @@ var Kiwi;
         Group.prototype._addedToLayer = function (layer) {
             if (this.layer !== null) {
                 klog.warn('Group already exists on Layer ' + this.layer.id);
+>>>>>>> StackingRefactor
 
                 return false;
             } else {
                 klog.info('Group added to Layer. Checking children: ' + this.members.length);
 
                 this.layer = layer;
-
+                this.type = this.layer.type;
+                console.log(this.type);
                 for (var i = 0; i < this.members.length; i++) {
                     if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
                         this.members[i].exists(false);
@@ -5702,6 +5877,8 @@ var Kiwi;
                 this.domElement.unlink();
                 this.domElement = null;
             }
+
+            this.type = Kiwi.TYPE_UNASSIGNED;
 
             this.onRemovedFromLayer.dispatch(this, layer);
         };
@@ -5793,6 +5970,14 @@ var Kiwi;
             }
         };
 
+<<<<<<< HEAD
+        Group.prototype.replaceChild = function (oldChild, newChild) {
+            console.log(this.members[0]);
+            klog.info("replaceChild on group " + this.name);
+
+            if (oldChild === newChild)
+                return;
+=======
         State.prototype.create = function () {
             var paramsArr = [];
             for (var _i = 0; _i < (arguments.length - 0); _i++) {
@@ -5803,6 +5988,7 @@ var Kiwi;
         State.prototype.preUpdate = function () {
             this.components.preUpdate();
         };
+>>>>>>> StackingRefactor
 
         State.prototype.update = function () {
             this.components.update();
@@ -5864,7 +6050,13 @@ var Kiwi;
             child.modify(Kiwi.ADDED_TO_STATE, this);
             _super.prototype.removeChild.call(this, child);
 
+            var layer = null;
             _super.prototype.addChild.call(this, child);
+            if (layer !== null) {
+                layer.add(child);
+            } else {
+                this.currentLayer.add(child);
+            }
 
             return child;
         };
@@ -5898,10 +6090,11 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Entity = (function () {
-        function Entity() {
+        function Entity(supportsCanvas, supportsDOM, supportsWebGL) {
             this.game = null;
             this.state = null;
             this.name = '';
+            this.type = Kiwi.TYPE_UNASSIGNED;
             this.layer = null;
             this.parent = null;
             this.domElement = null;
@@ -5909,6 +6102,10 @@ var Kiwi;
             this._cssStack = {};
             this._cssTransformStack = {};
             this._clock = null;
+            this._supportsCanvas = supportsCanvas;
+            this._supportsDOM = supportsDOM;
+            this._supportsWebGL = supportsWebGL;
+
             this._exists = true;
             this._active = true;
             this._willRender = true;
@@ -5989,6 +6186,26 @@ var Kiwi;
             return this._dirty;
         };
 
+        Entity.prototype.supportsType = function (type) {
+            if (type === Kiwi.TYPE_UNASSIGNED) {
+                return true;
+            }
+
+            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas) {
+                return true;
+            }
+
+            if (type === Kiwi.TYPE_DOM && this._supportsDOM) {
+                return true;
+            }
+
+            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL) {
+                return true;
+            }
+
+            return false;
+        };
+
         Entity.prototype.isGroup = function () {
             return false;
         };
@@ -5999,17 +6216,33 @@ var Kiwi;
 
                 return false;
             } else {
-                if (layer.game !== null) {
-                    this.game = layer.game;
+                if (this.supportsType(layer.type) === true) {
+                    this.layer = layer;
+                    this.type = this.layer.type;
 
-                    if (this._clock === null) {
-                        this._clock = this.game.time.clock;
+<<<<<<< HEAD
+                this.layer = layer;
+=======
+                    if (layer.game !== null) {
+                        this.game = layer.game;
+>>>>>>> StackingRefactor
+
+                        if (this._clock === null) {
+                            this._clock = this.game.time.clock;
+                        }
                     }
+
+                    if (this.type === Kiwi.TYPE_DOM && this.domElement === null) {
+                        this.layer.domCache.assignElement(this);
+                    }
+
+                    this.onAddedToLayer.dispatch(this, this.layer);
+
+                    return true;
+                } else {
+                    klog.warn('Warning - Entity does not support Layer of this type: ' + layer.type);
+                    return false;
                 }
-
-                this.onAddedToLayer.dispatch(this, this.layer);
-
-                return true;
             }
         };
 
@@ -6055,9 +6288,11 @@ var Kiwi;
         Entity.prototype._addedToGroup = function (group) {
             klog.info('Entity added to Group');
 
-            if (this.parent === group) {
-                klog.warn('Entity.addedToGroup() called but parent already set d');
+            if (this.parent === group || this.supportsType(group.type) === false) {
+                klog.warn('Entity.addedToGroup() called but parent already set or type not supported');
                 return;
+            } else {
+                this.type = group.type;
             }
 
             if (this.parent !== null) {
@@ -6088,6 +6323,10 @@ var Kiwi;
             }
 
             this.parent = null;
+
+            if (this.type === Kiwi.TYPE_DOM && this.domElement !== null) {
+                this.domElement.unlink();
+            }
 
             this.onRemovedFromGroup.dispatch(this, group);
         };
@@ -8882,6 +9121,7 @@ var Kiwi;
 
             TileMap.prototype.collideGroup = function (group) {
                 for (var i = 0; i < group.members.length; i++) {
+                    this.collideSingle(group.members[i]);
                 }
             };
 

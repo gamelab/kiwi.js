@@ -278,16 +278,11 @@ module Kiwi {
             child.modify(Kiwi.ADDED_TO_STATE, this);
             super.removeChild(child);
             //this.members.push(child);
-            child.layer = this.currentLayer;
+            
             super.addChild(child);
-            if (layer !== null)
-            {
-                layer.add(child);
-            }
-            else
-            {
-                this.currentLayer.add(child);
-            }
+            
+            //    this.currentLayer.add(child);
+            
 
             return child;
         
