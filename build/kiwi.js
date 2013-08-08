@@ -681,8 +681,8 @@ var Kiwi;
 
                 this._AABB = new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
 
-                var sx = Math.abs(transform.scaleX());
-                var sy = Math.abs(transform.scaleY());
+                var sx = Math.abs(transform.scaleX);
+                var sy = Math.abs(transform.scaleY);
 
                 var ubW = (size.width() - this.offsetWidth) * sx;
                 var ubH = (size.height() - this.offsetHeight) * sy;
@@ -5344,9 +5344,9 @@ var Kiwi;
         Group.prototype.addChild = function (child) {
             klog.info('Group.addChild ' + this.members.length);
 
-            if (child.transform.parent() !== this.transform) {
+            if (child.transform.parent !== this.transform) {
                 this.members.push(child);
-                child.transform.parent(this.transform);
+                child.transform.parent = this.transform;
 
                 child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
@@ -5357,7 +5357,7 @@ var Kiwi;
         Group.prototype.addChildAt = function (child, index) {
             klog.info('Group.addChildAt ' + child.id);
 
-            if (child.transform.parent() !== this.transform) {
+            if (child.transform.parent !== this.transform) {
                 this.members.splice(index, 0, child);
 
                 child.modify(Kiwi.ADDED_TO_GROUP, this);
@@ -5369,7 +5369,7 @@ var Kiwi;
         Group.prototype.addChildBefore = function (child, beforeChild) {
             klog.info('Group.addChildBefore ' + child.id);
 
-            if (child.transform.parent() !== this.transform && beforeChild.transform.parent() === this.transform) {
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
@@ -5383,7 +5383,7 @@ var Kiwi;
         Group.prototype.addChildAfter = function (child, beforeChild) {
             klog.info('Group.addChildAfter ' + child.id);
 
-            if (child.transform.parent() !== this.transform && beforeChild.transform.parent() === this.transform) {
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
@@ -5427,7 +5427,7 @@ var Kiwi;
         };
 
         Group.prototype.removeChild = function (child) {
-            if (child && child.transform.parent() === this.transform) {
+            if (child && child.transform.parent === this.transform) {
                 var index = this.getChildIndex(child);
 
                 if (index > -1) {
@@ -5471,7 +5471,7 @@ var Kiwi;
         };
 
         Group.prototype.setChildIndex = function (child, index) {
-            if (child.transform.parent() !== this.transform || this.getChildIndex(child) === index) {
+            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index) {
                 return false;
             }
 
@@ -5482,7 +5482,7 @@ var Kiwi;
         };
 
         Group.prototype.swapChildren = function (child1, child2) {
-            if (child1.transform.parent() !== this.transform || child2.transform.parent() !== this.transform) {
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
                 return false;
             }
 
@@ -5507,7 +5507,7 @@ var Kiwi;
         };
 
         Group.prototype.swapChildrenAt = function (index1, index2) {
-            if (child1.transform.parent() !== this.transform || child2.transform.parent() !== this.transform) {
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
                 return false;
             }
 
@@ -5543,7 +5543,7 @@ var Kiwi;
                 this.addChildAt(newChild, index);
 
                 oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
-                newChild.transform.parent(null);
+                newChild.transform.parent = null;
                 newChild.modify(Kiwi.ADDED_TO_GROUP, this);
                 console.log(this.members[0]);
                 return true;
@@ -10220,9 +10220,13 @@ var Kiwi;
                 return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
             };
 
-            Matrix.prototype.toString = function () {
-                return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
-            };
+            Object.defineProperty(Matrix.prototype, "toString", {
+                get: function () {
+                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
             return Matrix;
         })();
         Geom.Matrix = Matrix;
@@ -10260,91 +10264,127 @@ var Kiwi;
                 return "Transform";
             };
 
-            Transform.prototype.x = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._x) {
+
+            Object.defineProperty(Transform.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                set: function (value) {
                     this._x = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._x;
-            };
 
-            Transform.prototype.y = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._y) {
+            Object.defineProperty(Transform.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                set: function (value) {
                     this._y = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._y;
-            };
 
-            Transform.prototype.scaleX = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._scaleX) {
+            Object.defineProperty(Transform.prototype, "scaleX", {
+                get: function () {
+                    return this._scaleX;
+                },
+                set: function (value) {
                     this._scaleX = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._scaleX;
-            };
 
-            Transform.prototype.scaleY = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._scaleY) {
+            Object.defineProperty(Transform.prototype, "scaleY", {
+                get: function () {
+                    return this._scaleY;
+                },
+                set: function (value) {
                     this._scaleY = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._scaleY;
-            };
 
-            Transform.prototype.rotation = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._rotation) {
+            Object.defineProperty(Transform.prototype, "rotation", {
+                get: function () {
+                    return this._rotation;
+                },
+                set: function (value) {
                     this._rotation = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._rotation;
-            };
 
-            Transform.prototype.regX = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._regX) {
+            Object.defineProperty(Transform.prototype, "regX", {
+                get: function () {
+                    return this._regX;
+                },
+                set: function (value) {
                     this._regX = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._regX;
-            };
 
-            Transform.prototype.regY = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._regY) {
+            Object.defineProperty(Transform.prototype, "regY", {
+                get: function () {
+                    return this._regY;
+                },
+                set: function (value) {
                     this._regY = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._regY;
-            };
+            Object.defineProperty(Transform.prototype, "matrix", {
+                get: function () {
+                    return this._matrix;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Transform.prototype.matrix = function () {
-                return this._matrix;
-            };
+            Object.defineProperty(Transform.prototype, "worldX", {
+                get: function () {
+                    return this.getConcatenatedMatrix().tx;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Transform.prototype.worldX = function () {
-                return this.getConcatenatedMatrix().tx;
-            };
+            Object.defineProperty(Transform.prototype, "worldY", {
+                get: function () {
+                    return this.getConcatenatedMatrix().ty;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Transform.prototype.worldY = function () {
-                return this.getConcatenatedMatrix().ty;
-            };
 
-            Transform.prototype.parent = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null) {
+            Object.defineProperty(Transform.prototype, "parent", {
+                get: function () {
+                    return this._parent;
+                },
+                set: function (value) {
                     if (!this.checkAncestor(value)) {
                         this._parent = value;
                     }
-                }
-
-                return this._parent;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Transform.prototype.setPosition = function (x, y) {
                 this._x = x;
@@ -10372,12 +10412,14 @@ var Kiwi;
                 return output.setTo(this._x, this._y);
             };
 
-            Transform.prototype.scale = function (scaleX, scaleY) {
-                this._scaleX = scaleX;
-                this._scaleY = scaleY;
-
-                return this;
-            };
+            Object.defineProperty(Transform.prototype, "scale", {
+                set: function (value) {
+                    this._scaleX = value;
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, regX, regY) {
                 if (typeof x === "undefined") { x = 0; }
@@ -10428,11 +10470,11 @@ var Kiwi;
             };
 
             Transform.prototype.copyFrom = function (source) {
-                this.setTransform(source.x(), source.y(), source.scaleX(), source.scaleY(), source.rotation(), source.regX(), source.regY());
+                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
 
                 this.parent = source.parent;
 
-                this._matrix = source.matrix().clone();
+                this._matrix = source.matrix.clone();
 
                 return this;
             };
@@ -10451,12 +10493,25 @@ var Kiwi;
             };
 
             Transform.prototype.checkAncestor = function (transform) {
+                if (transform === this) {
+                    klog.warn("transform cannot be a parent to itself or an ancestor");
+                    return true;
+                }
+
+                if (transform.parent !== null) {
+                    return (this.checkAncestor(transform._parent));
+                }
+
                 return false;
             };
 
-            Transform.prototype.toString = function () {
-                return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
-            };
+            Object.defineProperty(Transform.prototype, "toString", {
+                get: function () {
+                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
             return Transform;
         })();
         Geom.Transform = Transform;
