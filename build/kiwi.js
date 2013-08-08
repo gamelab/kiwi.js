@@ -4328,10 +4328,10 @@ var Kiwi;
             };
 
             Animation.prototype.update = function () {
-                if (this._playPendingState === false && this._clock.elapsed() >= this._tick) {
-                    this._tick = this._clock.elapsed() + this._speed;
+                if (this._isPlaying) {
+                    if (this._playPendingState === false && this._clock.elapsed() >= this._tick) {
+                        this._tick = this._clock.elapsed() + this._speed;
 
-                    if (this._isPlaying) {
                         this._frameIndex++;
                         if (this._frameIndex === this._length && this._repeat != Kiwi.Anims.PLAY_ONCE) {
                             this._frameIndex = 0;
@@ -4339,10 +4339,10 @@ var Kiwi;
                             this._frameIndex = this._length - 1;
                             this.stop();
                         }
-                    }
 
-                    this.currentFrame = this.getFrame(this._frameIndex);
-                    this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+                        this.currentFrame = this.getFrame(this._frameIndex);
+                        this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+                    }
                 }
             };
 
@@ -8230,6 +8230,8 @@ var Kiwi;
                 if (name !== null) {
                     this._setCurrentAnimation(name);
                 } else {
+                    if (this._clock !== null)
+                        this.currentAnimation.clock(this._clock);
                     this.currentAnimation.play();
                 }
             };
@@ -8268,14 +8270,14 @@ var Kiwi;
                 this.currentAnimation = this._animations[name];
 
                 if (this.isPlaying) {
-                    this.currentAnimation.play();
                     if (this._clock !== null)
                         this.currentAnimation.clock(this._clock);
+                    this.currentAnimation.play();
                 }
             };
 
             Animation.prototype.update = function () {
-                if (this.currentAnimation) {
+                if (this.currentAnimation && this.isPlaying) {
                     this.currentAnimation.update();
                 }
             };

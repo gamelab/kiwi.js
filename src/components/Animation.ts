@@ -146,6 +146,7 @@ module Kiwi.Components {
                 this._setCurrentAnimation(name);
 
             } else {
+                if (this._clock !== null) this.currentAnimation.clock(this._clock); 
                 this.currentAnimation.play();
             }
         }
@@ -205,7 +206,6 @@ module Kiwi.Components {
         * @param {string} name
         */
         public switchTo(name: string) { 
-
             if (this.currentAnimation.name !== name) {
                 this._setCurrentAnimation(name);
             }
@@ -218,12 +218,13 @@ module Kiwi.Components {
         * @param {string} name
         */
         private _setCurrentAnimation(name: string) {
+
             this.currentAnimation.stop();
             this.currentAnimation = this._animations[name];
 
             if (this.isPlaying) {
-                this.currentAnimation.play();
                 if (this._clock !== null) this.currentAnimation.clock(this._clock); 
+                this.currentAnimation.play();
             }    
         }
 
@@ -234,7 +235,7 @@ module Kiwi.Components {
         */
         public update() {
 
-            if (this.currentAnimation)
+            if (this.currentAnimation && this.isPlaying)
             {
                 this.currentAnimation.update();
             }

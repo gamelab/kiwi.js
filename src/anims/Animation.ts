@@ -162,7 +162,7 @@ module Kiwi.Anims {
         * 
         * @method clock
         * @param {Kiwi.Time.Clock} clock
-        * @return {Kiwi.Time.Clock
+        * @return {Kiwi.Time.Clock}
         */
         public clock(value: Kiwi.Time.Clock = null): Kiwi.Time.Clock {
 
@@ -249,11 +249,11 @@ module Kiwi.Anims {
         */
         public update() {
 
-            if (this._playPendingState === false && this._clock.elapsed() >= this._tick) {
+            if (this._isPlaying) {
 
-                this._tick = this._clock.elapsed() + this._speed;
+                if (this._playPendingState === false && this._clock.elapsed() >= this._tick) {
 
-                if (this._isPlaying) {
+                    this._tick = this._clock.elapsed() + this._speed;
 
                     this._frameIndex++;
                     if (this._frameIndex === this._length && this._repeat != Kiwi.Anims.PLAY_ONCE) {
@@ -264,12 +264,11 @@ module Kiwi.Anims {
                         this.stop();
                     }
 
-                }
 
-                this.currentFrame = this.getFrame(this._frameIndex);
-                this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+                    this.currentFrame = this.getFrame(this._frameIndex);
+                    this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+                }
             }
-            
         }
 
         /*
