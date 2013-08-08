@@ -51,22 +51,16 @@ module Kiwi.GameObjects {
             this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
             this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
 
-            this.position = this.components.add(new Kiwi.Components.Position(x, y));
-            //set the transform point to the middle by default - which is what the browser treats it as anyway
-            this.position.transformPoint(new Kiwi.Geom.Point(this.size.width() / 2, this.size.height() / 2));
-
-            
-
-            this.rotation = this.components.add(new Kiwi.Components.Rotation());
-            this.scale = this.components.add(new Kiwi.Components.Scale());
-                        
+                       
             this.animation = this.components.add(new Kiwi.Components.Animation(this));
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
-            this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
+            //FIX/////////////
+            //this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
             this.visible = this.components.add(new Kiwi.Components.Visible(true));
-            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
+            //FIX/////////////
+            //this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
 
             if (this.texture.file !== null)
             {
@@ -88,9 +82,6 @@ module Kiwi.GameObjects {
             //  Signals
 
             this.alpha.updated.add(this._updateAlpha, this);
-            this.position.updated.add(this._updatePosition, this);
-            this.rotation.updated.add(this._updateRotation, this);
-            this.scale.updated.add(this._updateScale, this);
             this.texture.updatedRepeat.add(this._updateRepeat, this);
             this.texture.updated.add(this._updateTexture, this);
             this.texture.position.updated.add(this._updateTexturePosition, this);
@@ -98,14 +89,13 @@ module Kiwi.GameObjects {
             //this.input.inputDragStarted.add(this._dragStarted, this);
             this.visible.updated.add(this._updateVisible, this);
 
-            this.onAddedToLayer.add(this._onAddedToLayer, this);
+            //this.onAddedToLayer.add(this._onAddedToLayer, this);
             this.onAddedToState.add(this._onAddedToState, this);
 
             this.transform.x(x);
             this.transform.y(y);
 
-            // transform
-            this._transform = new Kiwi.Geom.Transform();
+            
             this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
 
             if (this._isAnimated) {
@@ -120,7 +110,7 @@ module Kiwi.GameObjects {
             return "Sprite";
         }
 
-        private _transform: Kiwi.Geom.Transform;
+      
 
         private _center: Kiwi.Geom.Point;
 
@@ -162,27 +152,7 @@ module Kiwi.GameObjects {
 	     **/
         public animation: Kiwi.Components.Animation;
 
-        /** 
-	     * The Position component that controls the location of this Game Object within the game world
-	     * @property position
-	     * @type Kiwi.Components.Position
-	     **/
-        public position: Kiwi.Components.Position;
-
-        /**
-	     * The Rotation component that controls the rotation of this Game Object
-	     * @property rotation
-	     * @type Kiwi.Components.Rotation
-	     **/
-        public rotation: Kiwi.Components.Rotation;
-
-        /**
-	     * The Scale component that controls the scale of this Game Object
-	     * @property scale
-	     * @type Kiwi.Components.Scale
-	     **/
-        public scale: Kiwi.Components.Scale;
-
+       
         /** 
 	     * The Boounds component that controls the bounding box around this Game Object
 	     * @property bounds
@@ -226,67 +196,12 @@ module Kiwi.GameObjects {
         public visible: Kiwi.Components.Visible;
 
        
-         /** 
-	     * 
-	     * @method _updatePosition
-         * @param {Number} x
-         * @param {Number} y 
-	     * @param {Number} z
-	     **/
-        private _updatePosition(x: number, y: number, z: number) {
-            
-            
+      
 
 
-            //update center
-            this._center.x = this.position.x() + this.size.width() /2;
-            this._center.y = this.position.y() + this.size.height() /2;
+    
 
-
-
-            //update bounds
-            this.bounds.calculateBounds(this._transform, this.position, this.size);
-
-
-        }
-
-
-         /** 
-	     * 
-	     * @method _updateRotation
-         * @param {Number} angle
-         
-	     **/
-        private _updateRotation(angle:number) {
-            
-            
-
-            this._transform.rotation(angle * Math.PI / 180);
-
-            //update bounds
-            this.bounds.calculateBounds(this._transform, this.position, this.size);
-            
-        }
-
-         /** 
-	     * Make adjustments resulting from scale operation
-	     * @method _updateScale
-         * @param {Number} x
-         * @param {Number} y 
-	     * @param {Number} z
-	     **/
-        private _updateScale(x: number, y: number, z: number) {
-           
-           
-
-            this._transform.scale(x,y);
-            //update bounds
-
-            //update bounds
-            this.bounds.calculateBounds(this._transform, this.position, this.size);
-            //update size
-            
-        }
+      
 
          /** 
 	     * 
@@ -320,7 +235,7 @@ module Kiwi.GameObjects {
 
            
 
-            this.bounds.setTo(this.position.x(), this.position.y(), width, height);
+            //this.bounds.setTo(this.position.x(), this.position.y(), width, height);
 
         }
 
@@ -369,27 +284,7 @@ module Kiwi.GameObjects {
             this.size.setTo(width, height);
         }
 
-	    /**
-	     * Called when this Game Object is added to a Layer, usually as a result of an addChild() call or being in a Group that was added.
-	     * @method _onAddedToLayer
-	     * @param {Kiwi.Layer} layer - The Layer onto which this Game Object was added
-	     * @return {Boolean} true if the Game Object was successfully added, otherwise false
-	     * @private
-	     **/
-        private _onAddedToLayer(layer: Kiwi.Layer): bool {
-
-            klog.info('Sprite added to Layer: ' + layer.name);
-
-           
-
-            if (this._isAnimated)
-            {
-                this.animation.clock(this.clock());
-            }
-
-            return true;
-
-        }
+	  
 
         private _onAddedToState(state: Kiwi.State): bool {
             
@@ -418,7 +313,8 @@ module Kiwi.GameObjects {
 
             if (this.input.isDragging === true)
             {
-                this.position.setTo(this.game.input.position.x - this.input.pointDown.x, this.game.input.position.y - this.input.pointDown.y);
+                /////////FIX////////////
+                //this.position.setTo(this.game.input.position.x - this.input.pointDown.x, this.game.input.position.y - this.input.pointDown.y);
             }
 
             this.motion.update();
@@ -439,7 +335,7 @@ module Kiwi.GameObjects {
 	     * @method render
 	     **/
         public render(camera:Kiwi.Camera) {
-
+            /*
             super.render(camera);
             
             if ( this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0)
@@ -515,6 +411,7 @@ module Kiwi.GameObjects {
 
             }
 
+    */
         }
 
 
