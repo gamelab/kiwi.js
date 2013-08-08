@@ -26,7 +26,7 @@ module Kiwi.Components {
 
             super('Animation', true, true, true);
 
-            this.updated = new Kiwi.Signal();
+            this.onUpdate = new Kiwi.Signal();
             this._entity = entity;
             this._animations = {};
 
@@ -52,7 +52,7 @@ module Kiwi.Components {
         * A Kiwi.Signal that dispatches an event when the texture's position should change.
         * Also dispatches the new coordinates it should change to.
         */
-        public updated: Kiwi.Signal;
+        public onUpdate: Kiwi.Signal;
 
         /*
         * An associactive array of all of the animations that this component has.
@@ -104,20 +104,21 @@ module Kiwi.Components {
         * @param {number} x
         * @param {number} y
         */
-        private _updatedAnimationFrame(x:number, y:number) {
-            this.updated.dispatch(x, y);
+        private _updatedAnimationFrame(index: number, x:number, y:number) {
+            this.onUpdate.dispatch(x, y);
         }
 
         /*
-        * Adds a new animation to the component
+        * Adds a new animation to this animation component.
         *
         * @method add
         * @param {string} name
         * @param {number} speed
         * @param {number[]} frames
         * @param {number} repeat
+        * @return {Kiwi.Anims.Animation}
         */
-        public add(name: string, speed: number, frames: number[] = null, repeat: number = Kiwi.Anims.PLAY_LOOP) {
+        public add(name: string, speed: number, frames: number[] = null, repeat: number = Kiwi.Anims.PLAY_LOOP): Kiwi.Anims.Animation {
 
             var texture: Kiwi.Components.Texture = this._entity.components.getComponent('Texture');
             
@@ -127,10 +128,29 @@ module Kiwi.Components {
                 this._animations[name] = new Kiwi.Anims.Animation(name, texture.file, texture.file.frames.getFrames(frames), speed, repeat);
             }
 
-            this._animations[name].updated.add(this._updatedAnimationFrame, this);
+            this._animations[name].onUpdate.add(this._updatedAnimationFrame, this);
 
             if(this.currentAnimation === this._animations['default']) 
-            this.currentAnimation = this._animations[name];
+                this.currentAnimation = this._animations[name];
+
+            return this._animations[name];
+        }
+        
+        /*
+        * Returns the animation object for the name that you pass.
+        *
+        * @method getAnimation
+        * @param {string} name
+        * @return {Kiwi.Anims.Animation}
+        */
+        public getAnimation(name:string): Kiwi.Anims.Animation {
+            
+            if (this._animations[name] === null) {
+                return;
+            } else {
+                return this._animations[name];
+            }
+
         }
 
         /*

@@ -38,9 +38,13 @@ module Kiwi.Anims {
             this._length = frames.length;
             this._repeat = repeat;
             this._isPlaying = true;
-            this.updated = new Kiwi.Signal();
 
             this.currentFrame = this.getFrame(this._frameIndex);
+
+            this.onUpdate = new Kiwi.Signal();
+            this.onPlay = new Kiwi.Signal();
+            this.onStop = new Kiwi.Signal();
+            this.onComplete = new Kiwi.Signal();
         }
 
         /*
@@ -120,7 +124,25 @@ module Kiwi.Anims {
         * A Kiwi.Signal to dispatch events when the animation has/needs to change
         * @public
         */
-        public updated: Kiwi.Signal;
+        public onUpdate: Kiwi.Signal;
+
+        /*
+        * A Kiwi.Signal that will dispatch an event when the animation has completed once.
+        * @public
+        */
+        public onComplete: Kiwi.Signal;
+
+        /*
+        * A Kiwi.Signal that will dispatch an event when the animation has stopped.
+        * @public
+        */
+        public onStop: Kiwi.Signal;
+
+        /*
+        * A Kiwi.Signal that will dispatch an event when the animation 'truely' starts.
+        * @public
+        */
+        public onPlay: Kiwi.Signal;
 
         /*
         * A boolean to signal if the clock has been set or not. 
@@ -154,7 +176,8 @@ module Kiwi.Anims {
             this._tick = this._startTime + this._speed;
             this._frameIndex = index;
             this.currentFrame = this.getFrame(this._frameIndex);
-            this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+            this.onUpdate.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
+            this.onPlay.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
         }
 
         /*
@@ -240,6 +263,7 @@ module Kiwi.Anims {
         */
         public stop() {
             this._isPlaying = false;
+            this.onStop.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
         }
 
         /*
@@ -254,19 +278,23 @@ module Kiwi.Anims {
                 if (this._playPendingState === false && this._clock.elapsed() >= this._tick) {
 
                     this._tick = this._clock.elapsed() + this._speed;
-
                     this._frameIndex++;
+
                     if (this._frameIndex === this._length && this._repeat != Kiwi.Anims.PLAY_ONCE) {
                         this._frameIndex = 0;
+                        this.onComplete.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
 
                     } else if (this._frameIndex === this._length && this._repeat == Kiwi.Anims.PLAY_ONCE) {
                         this._frameIndex = this._length - 1;
+                        this.onComplete.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
                         this.stop();
+
+
                     }
 
-
                     this.currentFrame = this.getFrame(this._frameIndex);
-                    this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+                    this.onUpdate.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
+
                 }
             }
         }
@@ -349,7 +377,7 @@ module Kiwi.Anims {
 
             this._frameIndex = value;
             this.currentFrame = this.getFrame(this._frameIndex);
-            this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+            this.onUpdate.dispatch(-this.currentFrame.x, -this.currentFrame.y);
         }
 
         /*

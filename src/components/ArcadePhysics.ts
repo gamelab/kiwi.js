@@ -32,11 +32,32 @@ module Kiwi.Components {
 
     export class ArcadePhysics extends Kiwi.Component {
 
+        /*
+        * The Entity that this physics component belongs to.
+        * @private
+        */
         private _parent: Entity;
+        
+        /*
+        * The position component that this physics component uses.
+        * @public
+        */
         public position: Kiwi.Components.Position;
+        
+        /*
+        * The size component that this physics component uses.
+        * @public
+        */
         public size: Kiwi.Components.Size;
 
-
+        /*
+        *
+        * @constructor
+        * @param {Kiwi.Entity} entity 
+        * @param {Kiwi.Components.Position} position
+        * @param {Kiwi.Components.Size} size
+        * @return {Kiwi.Components.ArcadePhysics}
+        */
         constructor(entity:Kiwi.Entity,position:Kiwi.Components.Position,size:Kiwi.Components.Size) {
             super('ArcadePhysics',true,true,true);
             
@@ -67,6 +88,12 @@ module Kiwi.Components {
             this.maxAngular = 10000;
         }
 
+        /*
+        * The type of object that this is.
+        * 
+        * @method objType
+        * @return {string}
+        */
         public objType() {
             return "ArcadePhysics";
         }
@@ -205,8 +232,23 @@ module Kiwi.Components {
 		 */
         public last: Kiwi.Geom.Point;
 
-
+        /*
+        * A boolean to indicate if this object is solid or not.
+        * @private
+        */
         private _solid: bool;
+
+        /*
+        * A function that is to execute when this object overlaps with another.
+        * @private
+        */
+        private _callbackFunction: any = null;
+
+        /*
+        * The context that the callback method should have when it executes.
+        * @private
+        */
+        private _callbackContext: any = null;
 
         /**
 		 * Whether the object collides or not.  For more control over what directions
@@ -228,27 +270,59 @@ module Kiwi.Components {
 
         ////////Static functions/////////
 
-        
+        /*
+        * A Static method to check to see if two objects collide or not. Returns a boolean indicating weither they overlaped or not.
+        *
+        * @method collide
+        * @param {Kiwi.GameObjects.Entity} gameObject1
+        * @param {Kiwi.GameObjects.Entity} gameObject2
+        * @param {bool} seperate
+        * @return {bool}
+        */
+        public static collide(gameObject1: Entity, gameObject2: Entity, seperate:bool = true): bool {
 
-
-        public static collide(gameObject1: Entity, gameObject2: Entity, notifyCallback: Function = null): bool {
-
-            return ArcadePhysics.overlaps(gameObject1, gameObject2, notifyCallback, true);
+            return ArcadePhysics.overlaps(gameObject1, gameObject2, seperate);
         }
 
-        public static collideGroup(gameObject: Entity, group: Group, notifyCallback: Function = null): bool {
+        /*
+        * A Static method to check to see if a single entity collides with a group of entities. Returns a boolean indicating weither they overlaped or not.
+        *
+        * @method collideGroup
+        * @param {Kiwi.GameObjects.Entity} gameObject1
+        * @param {Kiwi.Group} group
+        * @param {bool} seperate
+        * @return {bool}
+        */
+        public static collideGroup(gameObject: Entity, group: Group, seperate:bool = true): bool {
 
-            return ArcadePhysics.overlapsObjectGroup(gameObject, group, notifyCallback, true);
+            return ArcadePhysics.overlapsObjectGroup(gameObject, group, seperate);
         }
 
-        public static collideGroupGroup(group1: Group, group2: Group, notifyCallback: Function = null): bool {
+        /*
+        * A Static method to check to see if a group of entities overlap with another group of entities. Returns a boolean indicating weither they overlaped or not.
+        *
+        * @method collideGroupGroup
+        * @param {Kiwi.GameObjects.Entity} gameObject1
+        * @param {Kiwi.Group} group
+        * @param {bool} seperate
+        * @return {bool}
+        */
+        public static collideGroupGroup(group1: Group, group2: Group, seperate:bool = true): bool {
 
-            return ArcadePhysics.overlapsGroupGroup(group1, group2, notifyCallback, true);
+            return ArcadePhysics.overlapsGroupGroup(group1, group2, seperate);
         }
 
-        public static overlaps(gameObject1: Entity, gameObject2: Entity, notifyCallback: Function = null, separateObjects: bool = true): bool {
+        /*
+        * A Static method to that checks to see if two objects overlap. Returns a boolean indicating weither they did or not.
+        *
+        * @method overlaps
+        * @param {Kiwi.GameObjects.Entity} gameObject1
+        * @param {Kiwi.Group} gameObject2
+        * @param {bool} separate
+        * @return {bool}
+        */
+        public static overlaps(gameObject1: Entity, gameObject2: Entity, separateObjects: bool = true): bool {
 
-            //check if there is an overlap
             //Flixel uses quadtree here
 
             //object vs object
@@ -258,27 +332,51 @@ module Kiwi.Components {
 
         }
 
-
-        //notify callbacks not currently set up - should use signals?
-        public static overlapsObjectGroup(gameObject: Entity, group: Group, notifyCallback: Function = null, separateObjects: bool = true): bool {
+        /*
+        * A Static method to that checks to see if a single object overlaps with a group of entities. Returns a boolean indicating weither they did or not.
+        *
+        * @method overlaps
+        * @param {Kiwi.GameObjects.Entity} gameObject1
+        * @param {Kiwi.Group} group
+        * @param {bool} separate - If they overlap should the seperate or not
+        * @return {bool}
+        */
+        public static overlapsObjectGroup(gameObject: Entity, group: Group, separateObjects: bool = true): bool {
 
             var objPhysics: ArcadePhysics = gameObject.components.getComponent("ArcadePhysics");
             return objPhysics.overlapsGroup(group, separateObjects);
         }
 
-        public static overlapsGroupGroup(group1: Group, group2: Group, notifyCallback: Function = null, separateObjects: bool = true): bool {
+        /*
+        * A Static method that checks to see if any objects in a group overlap with objects in another group.
+        *
+        * @method overlaps
+        * @param {Kiwi.GameObjects.Entity} gameObject1
+        * @param {Kiwi.Group} gameObject2
+        * @param {bool} separate - If they overlap should the seperate or not
+        * @return {bool}
+        */
+        public static overlapsGroupGroup(group1: Group, group2: Group, separateObjects: bool = true): bool {
             var result: bool = false;
             var members: Entity[] = group1.members;
             var i: number = 0;
             while (i < group1.members.length) {
-                result = ArcadePhysics.overlapsObjectGroup(members[i++], group2, notifyCallback, separateObjects);
+                if(ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects)) result = true;
             }
             return result;
 
         }
 
-        public static separate(object1, object2): Boolean {
-
+        /*
+        * A static method for seperating two objects. Both objects need to have physics, position and size components in order for this to work.
+        * 
+        * @method seperate
+        * @param {Kiwi.Entity} object1
+        * @param {Kiwi.Entity} object2
+        * @return {bool}
+        */
+        public static separate(object1:Kiwi.Entity, object2:Kiwi.Entity): bool {
+            
             var separatedX: bool = this.separateX(object1, object2);
             var separatedY: bool = this.separateY(object1, object2);
             return separatedX || separatedY;
@@ -302,8 +400,6 @@ module Kiwi.Components {
             var obj2immovable: bool = phys2.immovable;
             if (obj1immovable && obj2immovable)
                 return false;
-
-            //removed tilemaps
 
             //First, get the two object deltas
             var overlap: number = 0;
@@ -376,7 +472,14 @@ module Kiwi.Components {
                 return false;
         }
 
-
+        /**
+		 * The Y-axis component of the object separation process.
+		 * 
+		 * @param	Object1 	Any <code>FlxObject</code>.
+		 * @param	Object2		Any other <code>FlxObject</code>.
+		 * 
+		 * @return	Whether the objects in fact touched and were separated along the Y axis.
+		 */
         public static separateY(object1, object2): bool {
 
             var phys1: ArcadePhysics = <ArcadePhysics>object1.components._components["ArcadePhysics"];
@@ -465,7 +568,9 @@ module Kiwi.Components {
 
         }
 
-
+        /*
+        * CURRENTLY UNTESTED...
+        */
         public static computeVelocity(velocity: number, acceleration: number = 0, drag: number = 0, max: number = 10000): number {
 
             if (acceleration != 0)
@@ -491,6 +596,14 @@ module Kiwi.Components {
 
         ////////Instance Functions/////////
 
+        /*
+        * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
+        * 
+        * @method overlaps
+        * @param { Kiwi.Entity } gameObject
+        * @param { bool } seperateObjects
+        * @return { bool }
+        */
         public overlaps(gameObject:Entity, separateObjects: bool = false): bool {
             if (!gameObject.components.hasComponent("Size") || !gameObject.components.hasComponent("Position")) {
                 
@@ -503,15 +616,26 @@ module Kiwi.Components {
             var result: bool = (objPosition.x() + objSize.width() > this.position.x()) && (objPosition.x() < this.position.x() + this.size.width()) &&
                     (objPosition.y() + objSize.height() > this.position.y()) && (objPosition.y() < this.position.y() + this.size.height());
 
-          
             if (result && separateObjects) {
                 ArcadePhysics.separate(this._parent, gameObject);
+            }
+
+            if (result && this._callbackFunction !== null && this._callbackContext !== null) {
+                this._callbackFunction.call(this._callbackContext, this._parent, gameObject);
             }
 
             return result;
 
         }
 
+        /*
+        * A method to check to see if the parent of this physics component overlaps with another group of objects
+        * 
+        * @method overlaps
+        * @param { Kiwi.Group } gameObject
+        * @param { bool } seperateObjects
+        * @return { bool }
+        */
         public overlapsGroup(group: Kiwi.Group, separateObjects: bool = false): bool {
             
             var results: bool = false;
@@ -519,14 +643,21 @@ module Kiwi.Components {
             var childPhysics: ArcadePhysics;
             for (var i = 0; i < group.members.length; i++) {
                 childPhysics = <ArcadePhysics>group.members[i].components._components["ArcadePhysics"];
-                if (childPhysics.overlaps(this._parent, true)) results = true;
+                if (childPhysics.overlaps(this._parent, true)) {
+                    if (this._callbackContext !== null && this._callbackFunction !== null)
+                        this._callbackFunction.call(this._callbackContext, this._parent, childPhysics.parent());
+                    results = true;
+                }    
             }
 
             return results;
 
         }
 
-        
+        /*
+        * Updates the motion...
+        * UNTESTED.
+        */
         public updateMotion() {
             
             var delta: number;
@@ -551,13 +682,39 @@ module Kiwi.Components {
             this.position.y(this.position.y() + delta);
 
         }
+    
+        /*
+        * Sets up a callback function that will run when this object overlaps with another.
+        * 
+        * @method setCallback
+        * @param {function} callbackFunction
+        * @param {any} callbackContext
+        */
+        public setCallback(callbackFunction, callbackContext) {
+            
+            this._callbackFunction = callbackFunction;
+            this._callbackContext = callbackContext;
 
+        }
+
+        /*
+        * Returns the parent of this entity. Mainly used for executing callbacks.
+        *
+        * @method parent
+        * @return {Kiwi.Entity}
+        */
+        public parent() {
+            return this._parent;
+        }
+
+        /*
+        * The Update loop of the physics component
+        */
         public update() {
 
             //Flixel preupdate
             this.last.x = this.position.x();
             this.last.y = this.position.y();
-
 
             //Flixel postupdate
             if (this.moves)

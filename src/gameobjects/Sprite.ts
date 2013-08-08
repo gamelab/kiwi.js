@@ -102,7 +102,7 @@ module Kiwi.GameObjects {
             this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
 
             if (this._isAnimated) {
-                this.animation.updated.add(this._updateAnimationTexturePosition, this);
+                this.animation.onUpdate.add(this._updateAnimationTexturePosition, this);
             }
 
             klog.info('Created Sprite Game Object');
@@ -356,8 +356,8 @@ module Kiwi.GameObjects {
         /**
          *
          * @method _updateAnimationPosition 
-         * 
-         * 
+         * @param {Number} x
+         * @param {Number} y
          **/
         private _updateAnimationTexturePosition(x: number, y: number) {
             if (this.type === Kiwi.TYPE_DOM) {

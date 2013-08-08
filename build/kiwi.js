@@ -310,6 +310,8 @@ var Kiwi;
             __extends(ArcadePhysics, _super);
             function ArcadePhysics(entity, position, size) {
                 _super.call(this, 'ArcadePhysics', true, true, true);
+                this._callbackFunction = null;
+                this._callbackContext = null;
 
                 this._parent = entity;
                 this.position = position;
@@ -351,44 +353,42 @@ var Kiwi;
                 return (this.allowCollisions & ArcadePhysics.ANY) > ArcadePhysics.NONE;
             };
 
-            ArcadePhysics.collide = function (gameObject1, gameObject2, notifyCallback) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                return ArcadePhysics.overlaps(gameObject1, gameObject2, notifyCallback, true);
+            ArcadePhysics.collide = function (gameObject1, gameObject2, seperate) {
+                if (typeof seperate === "undefined") { seperate = true; }
+                return ArcadePhysics.overlaps(gameObject1, gameObject2, seperate);
             };
 
-            ArcadePhysics.collideGroup = function (gameObject, group, notifyCallback) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                return ArcadePhysics.overlapsObjectGroup(gameObject, group, notifyCallback, true);
+            ArcadePhysics.collideGroup = function (gameObject, group, seperate) {
+                if (typeof seperate === "undefined") { seperate = true; }
+                return ArcadePhysics.overlapsObjectGroup(gameObject, group, seperate);
             };
 
-            ArcadePhysics.collideGroupGroup = function (group1, group2, notifyCallback) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                return ArcadePhysics.overlapsGroupGroup(group1, group2, notifyCallback, true);
+            ArcadePhysics.collideGroupGroup = function (group1, group2, seperate) {
+                if (typeof seperate === "undefined") { seperate = true; }
+                return ArcadePhysics.overlapsGroupGroup(group1, group2, seperate);
             };
 
-            ArcadePhysics.overlaps = function (gameObject1, gameObject2, notifyCallback, separateObjects) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
+            ArcadePhysics.overlaps = function (gameObject1, gameObject2, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var obj1Physics = gameObject1.components.getComponent("ArcadePhysics");
 
                 return obj1Physics.overlaps(gameObject2, separateObjects);
             };
 
-            ArcadePhysics.overlapsObjectGroup = function (gameObject, group, notifyCallback, separateObjects) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
+            ArcadePhysics.overlapsObjectGroup = function (gameObject, group, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var objPhysics = gameObject.components.getComponent("ArcadePhysics");
                 return objPhysics.overlapsGroup(group, separateObjects);
             };
 
-            ArcadePhysics.overlapsGroupGroup = function (group1, group2, notifyCallback, separateObjects) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
+            ArcadePhysics.overlapsGroupGroup = function (group1, group2, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var result = false;
                 var members = group1.members;
                 var i = 0;
                 while (i < group1.members.length) {
-                    result = ArcadePhysics.overlapsObjectGroup(members[i++], group2, notifyCallback, separateObjects);
+                    if (ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects))
+                        result = true;
                 }
                 return result;
             };
@@ -579,6 +579,10 @@ var Kiwi;
                     ArcadePhysics.separate(this._parent, gameObject);
                 }
 
+                if (result && this._callbackFunction !== null && this._callbackContext !== null) {
+                    this._callbackFunction.call(this._callbackContext, this._parent, gameObject);
+                }
+
                 return result;
             };
 
@@ -589,8 +593,11 @@ var Kiwi;
                 var childPhysics;
                 for (var i = 0; i < group.members.length; i++) {
                     childPhysics = group.members[i].components._components["ArcadePhysics"];
-                    if (childPhysics.overlaps(this._parent, true))
+                    if (childPhysics.overlaps(this._parent, true)) {
+                        if (this._callbackContext !== null && this._callbackFunction !== null)
+                            this._callbackFunction.call(this._callbackContext, this._parent, childPhysics.parent());
                         results = true;
+                    }
                 }
 
                 return results;
@@ -616,6 +623,15 @@ var Kiwi;
                 delta = this.velocity.y * ArcadePhysics.updateInterval;
                 this.velocity.y += velocityDelta;
                 this.position.y(this.position.y() + delta);
+            };
+
+            ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
+                this._callbackFunction = callbackFunction;
+                this._callbackContext = callbackContext;
+            };
+
+            ArcadePhysics.prototype.parent = function () {
+                return this._parent;
             };
 
             ArcadePhysics.prototype.update = function () {
@@ -4253,9 +4269,13 @@ var Kiwi;
                 this._length = frames.length;
                 this._repeat = repeat;
                 this._isPlaying = true;
-                this.updated = new Kiwi.Signal();
 
                 this.currentFrame = this.getFrame(this._frameIndex);
+
+                this.onUpdate = new Kiwi.Signal();
+                this.onPlay = new Kiwi.Signal();
+                this.onStop = new Kiwi.Signal();
+                this.onComplete = new Kiwi.Signal();
             }
             Animation.prototype.objType = function () {
                 return "Animation";
@@ -4267,7 +4287,8 @@ var Kiwi;
                 this._tick = this._startTime + this._speed;
                 this._frameIndex = index;
                 this.currentFrame = this.getFrame(this._frameIndex);
-                this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+                this.onUpdate.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
+                this.onPlay.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
             };
 
             Animation.prototype.clock = function (value) {
@@ -4325,23 +4346,26 @@ var Kiwi;
 
             Animation.prototype.stop = function () {
                 this._isPlaying = false;
+                this.onStop.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
             };
 
             Animation.prototype.update = function () {
                 if (this._isPlaying) {
                     if (this._playPendingState === false && this._clock.elapsed() >= this._tick) {
                         this._tick = this._clock.elapsed() + this._speed;
-
                         this._frameIndex++;
+
                         if (this._frameIndex === this._length && this._repeat != Kiwi.Anims.PLAY_ONCE) {
                             this._frameIndex = 0;
+                            this.onComplete.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
                         } else if (this._frameIndex === this._length && this._repeat == Kiwi.Anims.PLAY_ONCE) {
                             this._frameIndex = this._length - 1;
+                            this.onComplete.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
                             this.stop();
                         }
 
                         this.currentFrame = this.getFrame(this._frameIndex);
-                        this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+                        this.onUpdate.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
                     }
                 }
             };
@@ -4380,7 +4404,7 @@ var Kiwi;
             Animation.prototype.setFrame = function (value) {
                 this._frameIndex = value;
                 this.currentFrame = this.getFrame(this._frameIndex);
-                this.updated.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+                this.onUpdate.dispatch(-this.currentFrame.x, -this.currentFrame.y);
             };
 
             Animation.prototype.isPlaying = function () {
@@ -8181,7 +8205,7 @@ var Kiwi;
                 this.isPlaying = false;
                 this._clock = null;
 
-                this.updated = new Kiwi.Signal();
+                this.onUpdate = new Kiwi.Signal();
                 this._entity = entity;
                 this._animations = {};
 
@@ -8203,8 +8227,8 @@ var Kiwi;
                 return "Animation";
             };
 
-            Animation.prototype._updatedAnimationFrame = function (x, y) {
-                this.updated.dispatch(x, y);
+            Animation.prototype._updatedAnimationFrame = function (index, x, y) {
+                this.onUpdate.dispatch(x, y);
             };
 
             Animation.prototype.add = function (name, speed, frames, repeat) {
@@ -8218,10 +8242,20 @@ var Kiwi;
                     this._animations[name] = new Kiwi.Anims.Animation(name, texture.file, texture.file.frames.getFrames(frames), speed, repeat);
                 }
 
-                this._animations[name].updated.add(this._updatedAnimationFrame, this);
+                this._animations[name].onUpdate.add(this._updatedAnimationFrame, this);
 
                 if (this.currentAnimation === this._animations['default'])
                     this.currentAnimation = this._animations[name];
+
+                return this._animations[name];
+            };
+
+            Animation.prototype.getAnimation = function (name) {
+                if (this._animations[name] === null) {
+                    return;
+                } else {
+                    return this._animations[name];
+                }
             };
 
             Animation.prototype.play = function (name) {
@@ -8353,7 +8387,7 @@ var Kiwi;
                 this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
 
                 if (this._isAnimated) {
-                    this.animation.updated.add(this._updateAnimationTexturePosition, this);
+                    this.animation.onUpdate.add(this._updateAnimationTexturePosition, this);
                 }
 
                 klog.info('Created Sprite Game Object');
