@@ -38,7 +38,7 @@ module Kiwi.Components {
 
 
         constructor(entity:Kiwi.Entity,position:Kiwi.Components.Position,size:Kiwi.Components.Size) {
-            super('ArcadePhysics',true,true,true);
+            super('ArcadePhysics');
             
             this._parent = entity;
             this.position = position;

@@ -29,7 +29,6 @@ module Kiwi {
             //  Properties
 
             this.name = name;
-            this.type = Kiwi.TYPE_UNASSIGNED;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
 
             this._exists = true;
@@ -119,12 +118,7 @@ module Kiwi {
     	*/
         public name: string = '';
 
-        /**
-        * The type of Entities that can be added to this Group (Kiwi.TYPE_CANVAS, Kiwi.TYPE_DOM or Kiwi.TYPE_WEBGL)
-        * @property type
-        * @type number
-	    */
-        public type: number = Kiwi.TYPE_UNASSIGNED;
+       
 
         /**
         * The collection of children belonging to this group
@@ -198,11 +192,7 @@ module Kiwi {
 	    **/
         public addChild(child: Kiwi.Entity): Kiwi.Entity {
 
-            if (child.supportsType(this.type) === false)
-            {
-                klog.warn('Warning - Entity has been added to a Group that exists on a Layer it cannot render to');
-                return null;
-            }
+           
 
             klog.info('Group.addChild ' + this.members.length);
 
@@ -227,11 +217,7 @@ module Kiwi {
 		*/
         public addChildAt(child: Kiwi.Entity, index: number): Kiwi.Entity {
 
-            if (child.supportsType(this.type) === false)
-            {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
-            }
+           
 
             klog.info('Group.addChildAt ' + child.id);
 
@@ -255,10 +241,7 @@ module Kiwi {
 		*/
         public addChildBefore(child: Kiwi.Entity, beforeChild: Kiwi.Entity): Kiwi.Entity {
 
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
-            }
+          
 
             klog.info('Group.addChildBefore ' + child.id);
 
@@ -283,11 +266,7 @@ module Kiwi {
 		*/
         public addChildAfter(child: Kiwi.Entity, beforeChild: Kiwi.Entity): Kiwi.Entity {
 
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
-            }
-
+          
             klog.info('Group.addChildAfter ' + child.id);
 
             if (child.parent !== this && beforeChild.parent === this) {
@@ -551,11 +530,7 @@ module Kiwi {
             console.log(this.members[0]);
             klog.info("replaceChild on group " + this.name);
 
-            if (newChild.supportsType(this.type) === false)
-            {
-                klog.warn('Invalid Entity Type added to Group: ' + newChild.id);
-                return null;
-            }
+            
 
             //fall through if replacing child with the same child
             if (oldChild === newChild) return;
@@ -979,7 +954,7 @@ module Kiwi {
                 klog.info('Group added to Layer. Checking children: ' + this.members.length);
 
                 this.layer = layer;
-                this.type = this.layer.type;
+                
 
                 for (var i = 0; i < this.members.length; i++)
                 {
@@ -1012,7 +987,7 @@ module Kiwi {
                 this.domElement = null;
             }
 
-            this.type = Kiwi.TYPE_UNASSIGNED;
+            
 
             this.onRemovedFromLayer.dispatch(this, layer);
 

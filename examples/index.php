@@ -90,7 +90,7 @@ window.onload = start;
 
 function start() {
     //  div to hook to, default layer type, game title, State to run
-    game = new Kiwi.Game('game', Kiwi.<?php echo $kiwiType?>, 'KiwiTests', <?php echo $state?>);
+    game = new Kiwi.Game('game', 'KiwiTests', <?php echo $state?>);
 }
 </script>
 

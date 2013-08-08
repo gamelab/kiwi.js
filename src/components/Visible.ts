@@ -26,7 +26,7 @@ module Kiwi.Components {
         */
         constructor(value: bool = true) {
 
-            super('Visible', true, true, true);
+            super('Visible');
 
             //  Signals
             this.updated = new Kiwi.Signal();

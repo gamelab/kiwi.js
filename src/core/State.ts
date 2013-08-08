@@ -276,7 +276,7 @@ module Kiwi {
             child.modify(Kiwi.ADDED_TO_STATE, this);
 
             this.members.push(child);
-
+            child.layer = this.currentLayer;
             if (layer !== null)
             {
                 layer.add(child);

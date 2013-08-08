@@ -28,7 +28,7 @@ module Kiwi.Components {
         */
         constructor(x: number = 1, y: number = 1, z: number = 1) {
 
-            super('Scale', true, true, true);
+            super('Scale');
 
             //  Signals
             this.updated = new Kiwi.Signal();

@@ -22,7 +22,7 @@ module Kiwi {
         * @param {Kiwi.Game} game
         * @return {Settings} This Object
         */
-        constructor(game: Kiwi.Game, name: string, defaultType: number) {
+        constructor(game: Kiwi.Game, name: string) {
 
             this._game = game;
 
@@ -30,7 +30,7 @@ module Kiwi {
 
             this.domReady = false;
 
-            this.defaultType = defaultType;
+           
 
             //  Properties
 
@@ -105,12 +105,7 @@ module Kiwi {
     	*/
         public domReady: bool;
 
-        /**
-        * The default Layer renderer to use. Kiwi.TYPE_DOM, Kiwi.TYPE_CANVAS, Kiwi.TYPE_WEBGL or Kiwi.TYPE_AUTODETECT.
-        * @property defaultType
-        * @type number
-        */
-        public defaultType: number;
+       
 
         /**
         * The parent div in which the layers and input live

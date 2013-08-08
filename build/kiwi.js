@@ -1,10 +1,7 @@
 ﻿var Kiwi;
 (function (Kiwi) {
     var Component = (function () {
-        function Component(name, supportsCanvas, supportsDOM, supportsWebGL) {
-            if (typeof supportsCanvas === "undefined") { supportsCanvas = true; }
-            if (typeof supportsDOM === "undefined") { supportsDOM = false; }
-            if (typeof supportsWebGL === "undefined") { supportsWebGL = false; }
+        function Component(name) {
             this.layer = null;
             this.state = null;
             this.group = null;
@@ -14,10 +11,6 @@
             this.dirty = false;
             this.name = name;
             this.active = true;
-
-            this._supportsCanvas = supportsCanvas;
-            this._supportsDOM = supportsDOM;
-            this._supportsWebGL = supportsWebGL;
 
             this.onAddedToState = new Kiwi.Signal();
             this.onAddedToLayer = new Kiwi.Signal();
@@ -58,20 +51,15 @@
 
                 return false;
             } else {
-                if (this.supportsType(layer.type) === true) {
-                    this.layer = layer;
+                this.layer = layer;
 
-                    if (layer.game !== null) {
-                        this.game = layer.game;
-                    }
-
-                    this.onAddedToLayer.dispatch(this, this.layer);
-
-                    return true;
-                } else {
-                    klog.warn('Warning - Component does not support Layer of this type: ' + layer.type);
-                    return false;
+                if (layer.game !== null) {
+                    this.game = layer.game;
                 }
+
+                this.onAddedToLayer.dispatch(this, this.layer);
+
+                return true;
             }
         };
 
@@ -143,34 +131,6 @@
             this.onRemovedFromEntity.dispatch(this, entity);
         };
 
-        Component.prototype.supportsType = function (type) {
-            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas) {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_DOM && this._supportsDOM) {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL) {
-                return true;
-            }
-
-            return false;
-        };
-
-        Component.prototype.supportsCanvas = function () {
-            return this._supportsCanvas;
-        };
-
-        Component.prototype.supportsDOM = function () {
-            return this._supportsDOM;
-        };
-
-        Component.prototype.supportsWebGL = function () {
-            return this._supportsWebGL;
-        };
-
         Component.prototype.preUpdate = function () {
         };
 
@@ -216,7 +176,7 @@ var Kiwi;
             __extends(Alpha, _super);
             function Alpha(value) {
                 if (typeof value === "undefined") { value = 0; }
-                _super.call(this, 'Alpha', true, true, true);
+                _super.call(this, 'Alpha');
                 this._alpha0 = 0;
 
                 this.updated = new Kiwi.Signal();
@@ -309,7 +269,7 @@ var Kiwi;
         var ArcadePhysics = (function (_super) {
             __extends(ArcadePhysics, _super);
             function ArcadePhysics(entity, position, size) {
-                _super.call(this, 'ArcadePhysics', true, true, true);
+                _super.call(this, 'ArcadePhysics');
 
                 this._parent = entity;
                 this.position = position;
@@ -665,7 +625,7 @@ var Kiwi;
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof width === "undefined") { width = 0; }
                 if (typeof height === "undefined") { height = 0; }
-                _super.call(this, 'Bounds', true, true, true);
+                _super.call(this, 'Bounds');
                 this.showDebug = false;
                 this.debugLineColor = 0xffff0000;
 
@@ -768,13 +728,11 @@ var Kiwi;
             };
 
             Bounds.prototype.drawCanvasDebugOutline = function (layer) {
-                if (layer.type === Kiwi.TYPE_CANVAS && this.showDebug === true) {
-                    layer.canvas.context.strokeStyle = 'rgba(0, 255, 0, 0.8)';
-                    layer.canvas.context.beginPath();
-                    layer.canvas.context.rect(this._rect.x, this._rect.y, this._rect.width, this._rect.height);
-                    layer.canvas.context.stroke();
-                    layer.canvas.context.closePath();
-                }
+                layer.canvas.context.strokeStyle = 'rgba(0, 255, 0, 0.8)';
+                layer.canvas.context.beginPath();
+                layer.canvas.context.rect(this._rect.x, this._rect.y, this._rect.width, this._rect.height);
+                layer.canvas.context.stroke();
+                layer.canvas.context.closePath();
             };
 
             Bounds.prototype.toString = function () {
@@ -796,7 +754,7 @@ var Kiwi;
                 if (typeof green === "undefined") { green = 0; }
                 if (typeof blue === "undefined") { blue = 0; }
                 if (typeof alpha === "undefined") { alpha = 1; }
-                _super.call(this, 'Color', true, true, true);
+                _super.call(this, 'Color');
                 this._skipUpdate = false;
 
                 this.updated = new Kiwi.Signal();
@@ -986,7 +944,7 @@ var Kiwi;
         var Input = (function (_super) {
             __extends(Input, _super);
             function Input(entity, bounds) {
-                _super.call(this, 'Input', true, true, true);
+                _super.call(this, 'Input');
                 this._dragEnabled = false;
                 this._dragSnapToCenter = false;
 
@@ -1183,7 +1141,7 @@ var Kiwi;
         var Motion = (function (_super) {
             __extends(Motion, _super);
             function Motion(position) {
-                _super.call(this, 'Motion', true, true, true);
+                _super.call(this, 'Motion');
                 this._motions = [];
 
                 this._clock = null;
@@ -1435,7 +1393,7 @@ var Kiwi;
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof z === "undefined") { z = 0; }
-                _super.call(this, 'Position', true, true, true);
+                _super.call(this, 'Position');
                 this._oldX = 0;
                 this._oldY = 0;
                 this._oldZ = 0;
@@ -2189,7 +2147,7 @@ var Kiwi;
             __extends(Rotation, _super);
             function Rotation(angle) {
                 if (typeof angle === "undefined") { angle = 0; }
-                _super.call(this, 'Rotation', true, true, true);
+                _super.call(this, 'Rotation');
 
                 this.updated = new Kiwi.Signal();
 
@@ -2302,7 +2260,7 @@ var Kiwi;
                 if (typeof x === "undefined") { x = 1; }
                 if (typeof y === "undefined") { y = 1; }
                 if (typeof z === "undefined") { z = 1; }
-                _super.call(this, 'Scale', true, true, true);
+                _super.call(this, 'Scale');
 
                 this.updated = new Kiwi.Signal();
 
@@ -2420,7 +2378,7 @@ var Kiwi;
             function Size(width, height) {
                 if (typeof width === "undefined") { width = 0; }
                 if (typeof height === "undefined") { height = 0; }
-                _super.call(this, 'Size', true, true, true);
+                _super.call(this, 'Size');
                 this._width = 0;
                 this._height = 0;
                 this.halfWidth = 0;
@@ -3049,7 +3007,7 @@ var Kiwi;
         var Texture = (function (_super) {
             __extends(Texture, _super);
             function Texture(cacheID, cache) {
-                _super.call(this, 'Texture', true, true, true);
+                _super.call(this, 'Texture');
                 this.file = null;
 
                 if (!this._setTexture(cacheID, cache))
@@ -3132,7 +3090,7 @@ var Kiwi;
             __extends(Visible, _super);
             function Visible(value) {
                 if (typeof value === "undefined") { value = true; }
-                _super.call(this, 'Visible', true, true, true);
+                _super.call(this, 'Visible');
 
                 this.updated = new Kiwi.Signal();
 
@@ -4649,9 +4607,7 @@ var Kiwi;
                 for (var i = 0; i < this._game.layers.layers.length; i++) {
                     layer = this._game.layers.layers[i];
 
-                    if (layer.type === Kiwi.TYPE_CANVAS) {
-                        this._ctx.drawImage(layer.canvas.domElement, 0, 0, this.size.width(), this.size.height(), 0, 0, this.size.width(), this.size.height());
-                    }
+                    this._ctx.drawImage(layer.canvas.domElement, 0, 0, this.size.width(), this.size.height(), 0, 0, this.size.width(), this.size.height());
                 }
             }
         };
@@ -4731,8 +4687,6 @@ var Kiwi;
                 for (var i = 0; i < this._game.layers.layers.length; i++) {
                     var layer = this._game.layers.layers[i];
                 }
-
-                this._game.layers.offsetCanvasLayers(this._cameras[0].position.x(), this._cameras[0].position.y());
 
                 return;
             } else {
@@ -5360,7 +5314,7 @@ var Kiwi;
             child.modify(Kiwi.ADDED_TO_STATE, this);
 
             this.members.push(child);
-
+            child.layer = this.currentLayer;
             if (layer !== null) {
                 layer.add(child);
             } else {
@@ -5402,11 +5356,10 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Entity = (function () {
-        function Entity(supportsCanvas, supportsDOM, supportsWebGL) {
+        function Entity() {
             this.game = null;
             this.state = null;
             this.name = '';
-            this.type = Kiwi.TYPE_UNASSIGNED;
             this.layer = null;
             this.parent = null;
             this.domElement = null;
@@ -5414,10 +5367,6 @@ var Kiwi;
             this._cssStack = {};
             this._cssTransformStack = {};
             this._clock = null;
-            this._supportsCanvas = supportsCanvas;
-            this._supportsDOM = supportsDOM;
-            this._supportsWebGL = supportsWebGL;
-
             this._exists = true;
             this._active = true;
             this._willRender = true;
@@ -5491,26 +5440,6 @@ var Kiwi;
             return this._clock;
         };
 
-        Entity.prototype.supportsType = function (type) {
-            if (type === Kiwi.TYPE_UNASSIGNED) {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas) {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_DOM && this._supportsDOM) {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL) {
-                return true;
-            }
-
-            return false;
-        };
-
         Entity.prototype.isGroup = function () {
             return false;
         };
@@ -5521,29 +5450,17 @@ var Kiwi;
 
                 return false;
             } else {
-                if (this.supportsType(layer.type) === true) {
-                    this.layer = layer;
-                    this.type = this.layer.type;
+                if (layer.game !== null) {
+                    this.game = layer.game;
 
-                    if (layer.game !== null) {
-                        this.game = layer.game;
-
-                        if (this._clock === null) {
-                            this._clock = this.game.time.clock;
-                        }
+                    if (this._clock === null) {
+                        this._clock = this.game.time.clock;
                     }
-
-                    if (this.type === Kiwi.TYPE_DOM && this.domElement === null) {
-                        this.layer.domCache.assignElement(this);
-                    }
-
-                    this.onAddedToLayer.dispatch(this, this.layer);
-
-                    return true;
-                } else {
-                    klog.warn('Warning - Entity does not support Layer of this type: ' + layer.type);
-                    return false;
                 }
+
+                this.onAddedToLayer.dispatch(this, this.layer);
+
+                return true;
             }
         };
 
@@ -5554,8 +5471,6 @@ var Kiwi;
                 this.domElement.unlink();
                 this.domElement = null;
             }
-
-            this.type = Kiwi.TYPE_UNASSIGNED;
 
             this.onRemovedFromLayer.dispatch(this, layer);
         };
@@ -5591,11 +5506,9 @@ var Kiwi;
         Entity.prototype._addedToGroup = function (group) {
             klog.info('Entity added to Group');
 
-            if (this.parent === group || this.supportsType(group.type) === false) {
-                klog.warn('Entity.addedToGroup() called but parent already set or type not supported');
+            if (this.parent === group) {
+                klog.warn('Entity.addedToGroup() called but parent already set d');
                 return;
-            } else {
-                this.type = group.type;
             }
 
             if (this.parent !== null) {
@@ -5626,10 +5539,6 @@ var Kiwi;
             }
 
             this.parent = null;
-
-            if (this.type === Kiwi.TYPE_DOM && this.domElement !== null) {
-                this.domElement.unlink();
-            }
 
             this.onRemovedFromGroup.dispatch(this, group);
         };
@@ -5695,12 +5604,10 @@ var Kiwi;
             this.game = null;
             this.state = null;
             this.name = '';
-            this.type = Kiwi.TYPE_UNASSIGNED;
             this.layer = null;
             this.domElement = null;
             this._cssStack = [];
             this.name = name;
-            this.type = Kiwi.TYPE_UNASSIGNED;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
 
             this._exists = true;
@@ -5747,11 +5654,6 @@ var Kiwi;
         };
 
         Group.prototype.addChild = function (child) {
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Warning - Entity has been added to a Group that exists on a Layer it cannot render to');
-                return null;
-            }
-
             klog.info('Group.addChild ' + this.members.length);
 
             if (child.parent !== this) {
@@ -5764,11 +5666,6 @@ var Kiwi;
         };
 
         Group.prototype.addChildAt = function (child, index) {
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
-            }
-
             klog.info('Group.addChildAt ' + child.id);
 
             if (child.parent !== this) {
@@ -5781,11 +5678,6 @@ var Kiwi;
         };
 
         Group.prototype.addChildBefore = function (child, beforeChild) {
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
-            }
-
             klog.info('Group.addChildBefore ' + child.id);
 
             if (child.parent !== this && beforeChild.parent === this) {
@@ -5800,11 +5692,6 @@ var Kiwi;
         };
 
         Group.prototype.addChildAfter = function (child, beforeChild) {
-            if (child.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + child.id);
-                return null;
-            }
-
             klog.info('Group.addChildAfter ' + child.id);
 
             if (child.parent !== this && beforeChild.parent === this) {
@@ -5950,11 +5837,6 @@ var Kiwi;
         Group.prototype.replaceChild = function (oldChild, newChild) {
             console.log(this.members[0]);
             klog.info("replaceChild on group " + this.name);
-
-            if (newChild.supportsType(this.type) === false) {
-                klog.warn('Invalid Entity Type added to Group: ' + newChild.id);
-                return null;
-            }
 
             if (oldChild === newChild)
                 return;
@@ -6189,7 +6071,6 @@ var Kiwi;
                 klog.info('Group added to Layer. Checking children: ' + this.members.length);
 
                 this.layer = layer;
-                this.type = this.layer.type;
 
                 for (var i = 0; i < this.members.length; i++) {
                     if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
@@ -6209,8 +6090,6 @@ var Kiwi;
                 this.domElement.unlink();
                 this.domElement = null;
             }
-
-            this.type = Kiwi.TYPE_UNASSIGNED;
 
             this.onRemovedFromLayer.dispatch(this, layer);
         };
@@ -6434,13 +6313,13 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Layer = (function () {
-        function Layer(game, id, type, name, size) {
+        function Layer(game, id, name, size) {
             this._renderList = [];
             console.log("create layer");
 
             this.game = game;
             this.id = id;
-            this.type = type;
+
             this.name = name;
             this.components = new Kiwi.ComponentManager(Kiwi.LAYER, this);
 
@@ -6453,34 +6332,26 @@ var Kiwi;
             this.domContainer.style.width = '100%';
             this.domContainer.style.height = '100%';
 
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.domCache = new Kiwi.DOM.Cache(this, this.game, size);
-                this.domContainer.id = 'KiwiDOMLayer' + this.id;
-                this.game.stage.domLayers.appendChild(this.domContainer);
-            } else if (this.type === Kiwi.TYPE_CANVAS) {
-                this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.size.width(), this.game.stage.size.height(), true, true);
+            this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.size.width(), this.game.stage.size.height(), true, true);
 
-                this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
-                this.canvas.domElement.style.position = 'absolute';
+            this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
+            this.canvas.domElement.style.position = 'absolute';
 
-                this.canvas.domElement.style.left = '0px';
-                this.canvas.domElement.style.top = '0px';
-                this.canvas.domElement.style.width = '100%';
-                this.canvas.domElement.style.height = '100%';
-            }
+            this.canvas.domElement.style.left = '0px';
+            this.canvas.domElement.style.top = '0px';
+            this.canvas.domElement.style.width = '100%';
+            this.canvas.domElement.style.height = '100%';
 
             this.game.stage.size.updated.add(this._updatedStageSize, this);
 
-            klog.info('Created Layer ' + this.id + ' of type ' + this.type);
+            klog.info('Created Layer ' + this.id);
         }
         Layer.prototype.objType = function () {
             return "Layer";
         };
 
         Layer.prototype._updatedStageSize = function (width, height) {
-            if (this.type === Kiwi.TYPE_CANVAS) {
-                this.canvas.size.setTo(width, height);
-            }
+            this.canvas.size.setTo(width, height);
         };
 
         Layer.prototype.numChildren = function () {
@@ -6492,15 +6363,7 @@ var Kiwi;
             if (value !== null && value !== this._visible) {
                 this._visible = value;
 
-                if (this.type === Kiwi.TYPE_DOM) {
-                    if (this._visible === false) {
-                        this.domContainer.style.display = 'none';
-                    } else {
-                        this.domContainer.style.display = 'block';
-                    }
-                } else if (this.type === Kiwi.TYPE_CANVAS) {
-                    this.canvas.visible(this._visible);
-                }
+                this.canvas.visible(this._visible);
             }
 
             return this._visible;
@@ -6516,22 +6379,14 @@ var Kiwi;
         };
 
         Layer.prototype.add = function (child) {
+            child.layer = this;
+
             if (child instanceof Kiwi.Entity) {
-                if (child.supportsType(this.type) === false) {
-                    klog.warn('Entity failed to be added to Layer renderList');
-                    return false;
-                } else {
-                    klog.info('Entity added to Layer renderList');
-                }
             } else {
                 klog.info('Group added to Layer renderList');
             }
 
             this._renderList.push(child);
-
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.domCache.assignElement(child);
-            }
 
             child.modify(Kiwi.ADDED_TO_LAYER, this);
 
@@ -6557,9 +6412,7 @@ var Kiwi;
         };
 
         Layer.prototype.render = function (camera) {
-            if (this.type === Kiwi.TYPE_CANVAS) {
-                this.canvas.clear();
-            }
+            this.canvas.clear();
 
             this.components.preRender();
 
@@ -6580,12 +6433,10 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var LayerManager = (function () {
-        function LayerManager(game, defaultType) {
+        function LayerManager(game) {
             klog.info('Layer Manager created');
 
             this._game = game;
-
-            this._defaultType = defaultType;
 
             this.layers = [];
 
@@ -6596,11 +6447,7 @@ var Kiwi;
         };
 
         LayerManager.prototype.boot = function () {
-            if (this._defaultType === Kiwi.TYPE_CANVAS) {
-                this.createCanvasLayer(null, 'default');
-            } else if (this._defaultType === Kiwi.TYPE_DOM) {
-                this.createDOMLayer(null, 'default');
-            }
+            this.createCanvasLayer(null, 'default');
 
             this.defaultLayer = this.layers[0];
         };
@@ -6611,28 +6458,14 @@ var Kiwi;
             if (typeof size === "undefined") { size = 100; }
             klog.info('Creating Canvas Layer');
 
-            return this.create(Kiwi.TYPE_CANVAS, state, name);
+            return this.create(state, name);
         };
 
-        LayerManager.prototype.createDOMLayer = function (state, name, size) {
+        LayerManager.prototype.create = function (state, name, size) {
             if (typeof state === "undefined") { state = null; }
             if (typeof name === "undefined") { name = ''; }
             if (typeof size === "undefined") { size = 100; }
-            klog.info('Creating DOM Layer');
-
-            return this.create(Kiwi.TYPE_DOM, state, name);
-        };
-
-        LayerManager.prototype.create = function (type, state, name, size) {
-            if (typeof state === "undefined") { state = null; }
-            if (typeof name === "undefined") { name = ''; }
-            if (typeof size === "undefined") { size = 100; }
-            if (this._game.cameras.multiCameraMode() == true && type === Kiwi.TYPE_DOM) {
-                klog.error("Cannot create DOM layers in multicamera mode");
-                return null;
-            }
-
-            var newLayer = new Kiwi.Layer(this._game, this._nextLayerID, type, name, size);
+            var newLayer = new Kiwi.Layer(this._game, this._nextLayerID, name, size);
 
             newLayer.parent = state;
 
@@ -6643,18 +6476,6 @@ var Kiwi;
             this.currentLayer = newLayer;
 
             return newLayer;
-        };
-
-        LayerManager.prototype.offsetCanvasLayers = function (x, y) {
-            var domContainer;
-            for (var i = 0; i < this.layers.length; i++) {
-                if (this.layers[i].type == Kiwi.TYPE_CANVAS) {
-                    domContainer = this.layers[i].domContainer;
-
-                    domContainer.style.left = x + "px";
-                    domContainer.style.top = y + "px";
-                }
-            }
         };
 
         LayerManager.prototype.remove = function (layer) {
@@ -7501,7 +7322,7 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Stage = (function () {
-        function Stage(game, name, defaultType) {
+        function Stage(game, name) {
             this.offset = new Kiwi.Geom.Point();
             this.container = null;
             this.layers = null;
@@ -7514,8 +7335,6 @@ var Kiwi;
             this.name = name;
 
             this.domReady = false;
-
-            this.defaultType = defaultType;
 
             this.alpha = new Kiwi.Components.Alpha();
             this.color = new Kiwi.Components.Color();
@@ -7631,7 +7450,6 @@ var Kiwi;
             }
 
             tempState.game = this._game;
-            tempState.config.type = this._game.stage.defaultType;
 
             if (this.checkValidState(tempState) === false) {
                 klog.info('checkValidState failed');
@@ -8051,54 +7869,6 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
-        (function (DOM) {
-            var Button = (function (_super) {
-                __extends(Button, _super);
-                function Button(text, x, y) {
-                    if (typeof x === "undefined") { x = 0; }
-                    if (typeof y === "undefined") { y = 0; }
-                    _super.call(this, false, true, false);
-
-                    this.type = Kiwi.TYPE_DOM;
-                    this.domElementType = 'button';
-                    this._tempText = text;
-
-                    this.position = new Kiwi.Components.Position(x, y);
-
-                    this.onAddedToLayer.add(this._onAddedToLayer, this);
-                    this.position.updated.add(this._updatePosition, this);
-
-                    klog.info('Created DOM Button Game Object');
-                }
-                Button.prototype.objType = function () {
-                    return "Button";
-                };
-
-                Button.prototype._updatePosition = function (x, y) {
-                    this.position.addStyleUpdates(this);
-                };
-
-                Button.prototype._onAddedToLayer = function (layer) {
-                    klog.info('DOM Button added to Layer');
-
-                    this.button = this.domElement.element;
-                    this.button.textContent = this._tempText;
-
-                    this.position.addStyleUpdates(this);
-
-                    return true;
-                };
-                return Button;
-            })(Kiwi.Entity);
-            DOM.Button = Button;
-        })(GameObjects.DOM || (GameObjects.DOM = {}));
-        var DOM = GameObjects.DOM;
-    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-    var GameObjects = Kiwi.GameObjects;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (GameObjects) {
         var Pixel = (function (_super) {
             __extends(Pixel, _super);
             function Pixel(x, y, color, size) {
@@ -8106,7 +7876,7 @@ var Kiwi;
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof color === "undefined") { color = 0xFF000000; }
                 if (typeof size === "undefined") { size = 1; }
-                _super.call(this, true, true, false);
+                _super.call(this);
 
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, size, size));
@@ -8128,29 +7898,14 @@ var Kiwi;
             Pixel.prototype._onAddedToLayer = function (layer) {
                 klog.info('Pixel added to Layer ' + layer.name);
 
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.domElement.element.style.width = this._pixelSize + 'px';
-                    this.domElement.element.style.height = this._pixelSize + 'px';
-
-                    this.position.addStyleImmediately(this);
-                    this.color.addStyleImmediately(this);
-                }
-
                 return true;
             };
 
             Pixel.prototype._updatePosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.position.addStyleUpdates(this);
-                }
-
                 this.bounds.setTo(x, y, this._pixelSize, this._pixelSize);
             };
 
             Pixel.prototype._updateColor = function () {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.color.addStyleUpdates(this);
-                }
             };
 
             Pixel.prototype.update = function () {
@@ -8159,7 +7914,7 @@ var Kiwi;
             Pixel.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
-                if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true) {
+                if (this.willRender() === true) {
                     this.layer.canvas.context.fillStyle = this.color.cssColorRGBA;
                     this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), this._pixelSize, this._pixelSize);
                 }
@@ -8176,7 +7931,7 @@ var Kiwi;
         var Animation = (function (_super) {
             __extends(Animation, _super);
             function Animation(entity) {
-                _super.call(this, 'Animation', true, true, true);
+                _super.call(this, 'Animation');
                 this.currentAnimation = null;
                 this.isPlaying = false;
                 this._clock = null;
@@ -8297,7 +8052,7 @@ var Kiwi;
             function Sprite(cacheID, cache, x, y) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
-                _super.call(this, true, true, false);
+                _super.call(this);
 
                 if (cache.checkImageCacheID(cacheID, cache) == false) {
                     console.log('Missing texture', cacheID);
@@ -8365,10 +8120,6 @@ var Kiwi;
             };
 
             Sprite.prototype._updatePosition = function (x, y, z) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.position.addStyleUpdates(this);
-                }
-
                 this._center.x = this.position.x() + this.size.width() / 2;
                 this._center.y = this.position.y() + this.size.height() / 2;
 
@@ -8376,88 +8127,42 @@ var Kiwi;
             };
 
             Sprite.prototype._updateRotation = function (angle) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.rotation.addStyleUpdates(this);
-                }
-
                 this._transform.rotation(angle * Math.PI / 180);
 
                 this.bounds.calculateBounds(this._transform, this.position, this.size);
             };
 
             Sprite.prototype._updateScale = function (x, y, z) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.scale.addStyleUpdates(this);
-                }
-
                 this._transform.scale(x, y);
 
                 this.bounds.calculateBounds(this._transform, this.position, this.size);
             };
 
             Sprite.prototype._updateAlpha = function (value) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.alpha.addStyleUpdates(this);
-                }
             };
 
             Sprite.prototype._updateVisible = function (value) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.visible.addStyleUpdates(this);
-                }
             };
 
             Sprite.prototype._updateSize = function (width, height) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.size.addStyleUpdates(this);
-                }
-
                 this.bounds.setTo(this.position.x(), this.position.y(), width, height);
             };
 
             Sprite.prototype._updateTexturePosition = function (x, y) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.addStyleUpdate('backgroundPositionX', x + 'px');
-                    this.addStyleUpdate('backgroundPositionY', y + 'px');
-                }
             };
 
             Sprite.prototype._updateAnimationTexturePosition = function (x, y) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.texture.position.setTo(x, y);
-                }
             };
 
             Sprite.prototype._updateRepeat = function (value) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.addStyleUpdate('backgroundRepeat', value);
-                }
             };
 
             Sprite.prototype._updateTexture = function (value, width, height) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.domElement.element.style.backgroundImage = 'url("' + value + '")';
-                }
                 this.size.setTo(width, height);
             };
 
             Sprite.prototype._onAddedToLayer = function (layer) {
                 klog.info('Sprite added to Layer: ' + layer.name);
-
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.domElement.element.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
-                    this.domElement.element.style.backgroundRepeat = this.texture.repeat();
-
-                    if (this.texture.file.dataType === Kiwi.File.IMAGE)
-                        this.domElement.element.style.backgroundSize = '100%';
-
-                    this.alpha.addStyleImmediately(this);
-                    this.size.addStyleImmediately(this);
-                    this.position.addStyleImmediately(this);
-                    this.rotation.addStyleImmediately(this);
-                    this.scale.addStyleImmediately(this);
-                    this.visible.addStyleImmediately(this);
-                }
 
                 if (this._isAnimated) {
                     this.animation.clock(this.clock());
@@ -8501,7 +8206,7 @@ var Kiwi;
             Sprite.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
-                if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0) {
+                if (this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0) {
                     if (this.bounds.showDebug === true) {
                         this.bounds.drawCanvasDebugOutline(this.layer);
                     }
@@ -8562,7 +8267,7 @@ var Kiwi;
             function StaticImage(cacheID, cache, x, y) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
-                _super.call(this, true, true, false);
+                _super.call(this);
 
                 if (cache.checkImageCacheID(cacheID, cache) == false) {
                     console.log('Missing texture', cacheID);
@@ -8589,52 +8294,25 @@ var Kiwi;
             };
 
             StaticImage.prototype._updatePosition = function (x, y, z) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.position.addStyleUpdates(this);
-                }
-
                 this.bounds.setTo(x, y, this.size.width(), this.size.height());
             };
 
             StaticImage.prototype._updateSize = function (width, height) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.size.addStyleUpdates(this);
-                }
-
                 this.bounds.setTo(this.position.x(), this.position.y(), width, height);
             };
 
             StaticImage.prototype._updateTexturePosition = function (x, y) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.addStyleUpdate('backgroundPositionX', x + 'px');
-                    this.addStyleUpdate('backgroundPositionY', y + 'px');
-                }
             };
 
             StaticImage.prototype._updateTexture = function (value) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.domElement.element.style.backgroundImage = 'url("' + value + '")';
-                }
                 this.size.setTo(this.texture.image.width, this.texture.image.height);
             };
 
             StaticImage.prototype._updateRepeat = function (value) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.addStyleUpdate('backgroundRepeat', value);
-                }
             };
 
             StaticImage.prototype._onAddedToLayer = function (layer) {
-                klog.info('StaticImage added to Layer: ' + layer.name + ' type: ' + this.type);
-
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.domElement.element.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
-                    this.domElement.element.style.backgroundRepeat = this.texture.repeat();
-                    this.domElement.element.style.backgroundSize = '100%';
-                    this.size.addStyleImmediately(this);
-                    this.position.addStyleImmediately(this);
-                    klog.info('StaticImage DOM set');
-                }
+                klog.info('StaticImage added to Layer: ' + layer.name);
 
                 return true;
             };
@@ -8642,7 +8320,7 @@ var Kiwi;
             StaticImage.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
-                if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true) {
+                if (this.willRender() === true) {
                     if (this.bounds.showDebug === true) {
                         this.bounds.drawCanvasDebugOutline(this.layer);
                     }
@@ -8666,7 +8344,7 @@ var Kiwi;
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof width === "undefined") { width = 1; }
                 if (typeof height === "undefined") { height = 1; }
-                _super.call(this, true, true, false);
+                _super.call(this);
 
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
                 this.size = this.components.add(new Kiwi.Components.Size(width, height));
@@ -8680,35 +8358,18 @@ var Kiwi;
                 klog.info('Created StaticObject Game Object');
             }
             StaticObject.prototype._updatePosition = function (x, y, z) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.position.addStyleUpdates(this);
-                }
-
                 this.bounds.setTo(x, y, this.size.width(), this.size.height());
             };
 
             StaticObject.prototype._updateSize = function (width, height) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.size.addStyleUpdates(this);
-                }
-
                 this.bounds.setTo(this.position.x(), this.position.y(), width, height);
             };
 
             StaticObject.prototype._updateRepeat = function (value) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.addStyleUpdate('backgroundRepeat', value);
-                }
             };
 
             StaticObject.prototype._onAddedToLayer = function (layer) {
-                klog.info('StaticObject added to Layer: ' + layer.name + ' type: ' + this.type);
-
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.size.addStyleImmediately(this);
-                    this.position.addStyleImmediately(this);
-                    klog.info('StaticObject DOM set');
-                }
+                klog.info('StaticObject added to Layer: ' + layer.name);
 
                 return true;
             };
@@ -8732,7 +8393,7 @@ var Kiwi;
                 if (typeof size === "undefined") { size = 32; }
                 if (typeof weight === "undefined") { weight = 'normal'; }
                 if (typeof fontFamily === "undefined") { fontFamily = 'cursive'; }
-                _super.call(this, true, true, false);
+                _super.call(this);
 
                 this.position = this.components.add(new Kiwi.Components.Position(x, y));
 
@@ -8761,16 +8422,9 @@ var Kiwi;
             Textfield.prototype.setText = function (value) {
                 this._text = value;
                 this._explodedText = this._text.split(" ");
-                console.log(this._explodedText);
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.domElement.element.innerHTML = this._text;
-                }
             };
 
             Textfield.prototype._updateSize = function () {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.size.addStyleUpdates(this);
-                }
             };
 
             Textfield.prototype.fontColor = function (val) {
@@ -8816,42 +8470,21 @@ var Kiwi;
             };
 
             Textfield.prototype._updateAlpha = function (value) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.alpha.addStyleUpdates(this);
-                }
             };
 
             Textfield.prototype._onAddedToLayer = function (layer) {
                 klog.info('Textfield added to Layer ' + layer.name);
 
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.domElement.element.style.fontFamily = this._fontFamily;
-                    this.domElement.element.style.fontSize = this._fontSize + 'px';
-                    this.domElement.element.style.fontWeight = this._fontWeight;
-                    this.domElement.element.style.color = this._fontColor;
-                    this.domElement.element.style.lineHeight = this._lineHeight + 'em';
-                    this.domElement.element.style.textAlign = this._textAlign;
-                    this.domElement.element.innerHTML = this._text;
-
-                    this.position.addStyleImmediately(this);
-                    this.alpha.addStyleImmediately(this);
-                    if (this.size !== undefined)
-                        this.size.addStyleImmediately(this);
-                }
-
                 return true;
             };
 
             Textfield.prototype._updatePosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
-                if (this.type === Kiwi.TYPE_DOM) {
-                    this.position.addStyleUpdates(this);
-                }
             };
 
             Textfield.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
-                if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true) {
+                if (this.willRender() === true) {
                     if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
                         this.layer.canvas.context.save();
                         this.alpha.setContext(this.layer.canvas);
@@ -8940,7 +8573,7 @@ var Kiwi;
         var Tile = (function (_super) {
             __extends(Tile, _super);
             function Tile(tileLayer, tileType, width, height, x, y) {
-                _super.call(this, true, false, false);
+                _super.call(this);
 
                 this.tileLayer = tileLayer;
 
@@ -9001,7 +8634,7 @@ var Kiwi;
         var TileMap = (function (_super) {
             __extends(TileMap, _super);
             function TileMap() {
-                _super.call(this, true, false, false);
+                _super.call(this);
                 this._collisionCallback = null;
             }
             TileMap.prototype.createFromData = function (tileMapData, tileMapImageKey, tileMapImageCache, game, format) {
@@ -11567,7 +11200,7 @@ var Kiwi;
             __extends(Counter, _super);
             function Counter(initial, step) {
                 if (typeof step === "undefined") { step = 1; }
-                _super.call(this, "counter", true, true, true);
+                _super.call(this, "counter");
                 this._value = 0;
                 this._value = initial;
                 this.step = step;
@@ -11614,7 +11247,7 @@ var Kiwi;
         var WidgetInput = (function (_super) {
             __extends(WidgetInput, _super);
             function WidgetInput(game, bounds) {
-                _super.call(this, 'WidgetInput', true, true, true);
+                _super.call(this, 'WidgetInput');
 
                 this.game = game;
 
@@ -11685,7 +11318,7 @@ var Kiwi;
         var Range = (function (_super) {
             __extends(Range, _super);
             function Range(current, max, min) {
-                _super.call(this, "counter", true, true, true);
+                _super.call(this, "counter");
 
                 this._current = current;
 
@@ -11766,7 +11399,7 @@ var Kiwi;
         var Time = (function (_super) {
             __extends(Time, _super);
             function Time(milliseconds, seconds, minutes, hours) {
-                _super.call(this, "time", true, true, true);
+                _super.call(this, "time");
 
                 this.paused = true;
                 this._countDown = true;
@@ -14503,11 +14136,7 @@ var Kiwi;
 (function (Kiwi) {
     Kiwi.VERSION = "1.0";
 
-    Kiwi.TYPE_UNASSIGNED = 0;
-    Kiwi.TYPE_CANVAS = 1;
-    Kiwi.TYPE_DOM = 2;
-    Kiwi.TYPE_WEBGL = 3;
-    Kiwi.TYPE_AUTODETECT = 4;
+    Kiwi.TARGET_COCOON = false;
 
     Kiwi.DEVICE = null;
 
@@ -14554,9 +14183,8 @@ var klog;
 var Kiwi;
 (function (Kiwi) {
     var Game = (function () {
-        function Game(domParent, defaultType, name, state) {
+        function Game(domParent, name, state) {
             if (typeof domParent === "undefined") { domParent = ''; }
-            if (typeof defaultType === "undefined") { defaultType = Kiwi.TYPE_DOM; }
             if (typeof name === "undefined") { name = 'KiwiGame'; }
             if (typeof state === "undefined") { state = null; }
             var _this = this;
@@ -14584,8 +14212,8 @@ var Kiwi;
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this.stage = new Kiwi.Stage(this, name, defaultType);
-            this.layers = new Kiwi.LayerManager(this, defaultType);
+            this.stage = new Kiwi.Stage(this, name);
+            this.layers = new Kiwi.LayerManager(this);
             this.cameras = new Kiwi.CameraManager(this, false);
             this.huds = new Kiwi.HUD.HUDManager(this);
 
@@ -14660,188 +14288,6 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Components) {
-        (function (DOM) {
-            (function (Filters) {
-                var Blur = (function (_super) {
-                    __extends(Blur, _super);
-                    function Blur(radius) {
-                        if (typeof radius === "undefined") { radius = 0; }
-                        _super.call(this, 'DOM.Filters.Blur', false, true, false);
-                        this._prefix = 'blur';
-                        this._unit = 'px';
-                        this._value = 0;
-                        this._filter = '';
-
-                        this.radius(radius);
-                    }
-                    Blur.prototype.objType = function () {
-                        return "Blur";
-                    };
-
-                    Blur.prototype.radius = function (value) {
-                        if (value && value !== this._value) {
-                            this._value = value;
-                            this._filter = this._prefix + '(' + this._value + this._unit + ')';
-                        }
-
-                        return this._value;
-                    };
-
-                    Blur.prototype.unit = function (value) {
-                        if (value && value !== this._unit) {
-                            this._unit = value;
-                            this._filter = this._prefix + '(' + this._value + this._unit + ')';
-                        }
-
-                        return this._unit;
-                    };
-
-                    Blur.prototype.toString = function () {
-                        return '[{Blur (value=' + this._value + ' unit=' + this._unit + ')}]';
-                    };
-                    return Blur;
-                })(Kiwi.Component);
-                Filters.Blur = Blur;
-            })(DOM.Filters || (DOM.Filters = {}));
-            var Filters = DOM.Filters;
-        })(Components.DOM || (Components.DOM = {}));
-        var DOM = Components.DOM;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        (function (DOM) {
-            (function (Transforms) {
-                var Skew = (function (_super) {
-                    __extends(Skew, _super);
-                    function Skew(x, y, asDegrees) {
-                        if (typeof x === "undefined") { x = 0; }
-                        if (typeof y === "undefined") { y = 0; }
-                        if (typeof asDegrees === "undefined") { asDegrees = true; }
-                        _super.call(this, 'DOM.Transforms.Skew', false, true, false);
-                        this.css = '';
-                        this._unit = '';
-                        this._skewX = 0;
-                        this._skewXUnit = 'deg';
-                        this._skewXTransform = '';
-                        this._skewY = 0;
-                        this._skewYUnit = 'deg';
-                        this._skewYTransform = '';
-
-                        if (asDegrees === true) {
-                            this.setDegrees();
-                        } else {
-                            this.setRadians();
-                        }
-
-                        this.setXY(x, y);
-                    }
-                    Skew.prototype.objType = function () {
-                        return "Skew";
-                    };
-
-                    Skew.prototype.xUnit = function (value) {
-                        if (value) {
-                            this.setUnit(value, this._skewXUnit);
-                        }
-
-                        return this._skewXUnit;
-                    };
-
-                    Skew.prototype.yUnit = function (value) {
-                        if (value) {
-                            this.setUnit(value, this._skewYUnit);
-                        }
-
-                        return this._skewYUnit;
-                    };
-
-                    Skew.prototype.x = function (value) {
-                        if (value && value !== this._skewX) {
-                            this._skewX = value;
-                            this._skewXTransform = 'skewX(' + value + this._skewXUnit + ') ';
-                            this.css = this._skewXTransform + this._skewYTransform;
-                        }
-
-                        return this._skewX;
-                    };
-
-                    Skew.prototype.y = function (value) {
-                        if (value && value !== this._skewY) {
-                            this._skewY = value;
-                            this._skewYTransform = 'skewY(' + value + this._skewYUnit + ') ';
-                            this.css = this._skewXTransform + this._skewYTransform;
-                        }
-
-                        return this._skewY;
-                    };
-
-                    Skew.prototype.setXY = function (x, y) {
-                        this.x(x);
-                        this.y(y);
-                    };
-
-                    Skew.prototype.setDegrees = function () {
-                        this._skewXUnit = 'deg';
-                        this._skewYUnit = 'deg';
-                    };
-
-                    Skew.prototype.setRadians = function () {
-                        this._skewXUnit = 'rad';
-                        this._skewYUnit = 'rad';
-                    };
-
-                    Skew.prototype.setUnit = function (unit, value) {
-                        if (unit === 'deg' || unit === 'rad') {
-                            value = unit;
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    };
-
-                    Skew.prototype.toString = function () {
-                        return "[{Skew (x=" + this._skewX + " y=" + this._skewY + " xUnit=" + this._skewXUnit + " yUnit=" + this._skewYUnit + ")}]";
-                    };
-                    return Skew;
-                })(Kiwi.Component);
-                Transforms.Skew = Skew;
-            })(DOM.Transforms || (DOM.Transforms = {}));
-            var Transforms = DOM.Transforms;
-        })(Components.DOM || (Components.DOM = {}));
-        var DOM = Components.DOM;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        (function (DOM) {
-            var Gradient = (function (_super) {
-                __extends(Gradient, _super);
-                function Gradient() {
-                    _super.call(this, 'DOM.Gradient', false, true, false);
-                }
-                Gradient.prototype.objType = function () {
-                    return "Gradient";
-                };
-
-                Gradient.prototype.toString = function () {
-                    return "";
-                };
-                return Gradient;
-            })(Kiwi.Component);
-            DOM.Gradient = Gradient;
-        })(Components.DOM || (Components.DOM = {}));
-        var DOM = Components.DOM;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
         (function (GameMath) {
             var SinewaveGenerator = (function (_super) {
                 __extends(SinewaveGenerator, _super);
@@ -14850,7 +14296,7 @@ var Kiwi;
                     if (typeof sinAmplitude === "undefined") { sinAmplitude = 1.0; }
                     if (typeof cosAmplitude === "undefined") { cosAmplitude = 1.0; }
                     if (typeof frequency === "undefined") { frequency = 1.0; }
-                    _super.call(this, 'SinewaveGenerator', true, true, true);
+                    _super.call(this, 'SinewaveGenerator');
 
                     this.cosTable = [];
                     this.sinTable = [];
@@ -14893,34 +14339,11 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Components) {
-        (function (DOM) {
-            var Translate3D = (function (_super) {
-                __extends(Translate3D, _super);
-                function Translate3D(x, y, z) {
-                    if (typeof x === "undefined") { x = 0; }
-                    if (typeof y === "undefined") { y = 0; }
-                    if (typeof z === "undefined") { z = 0; }
-                    _super.call(this, 'DOM.Translate3D', true, true, true);
-                }
-                Translate3D.prototype.objType = function () {
-                    return "Translate3D";
-                };
-                return Translate3D;
-            })(Kiwi.Component);
-            DOM.Translate3D = Translate3D;
-        })(Components.DOM || (Components.DOM = {}));
-        var DOM = Components.DOM;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
         var Template = (function (_super) {
             __extends(Template, _super);
             function Template(x) {
                 if (typeof x === "undefined") { x = 0; }
-                _super.call(this, 'Template', true, true, true);
+                _super.call(this, 'Template');
 
                 this.updated = new Kiwi.Signal();
 
@@ -14991,251 +14414,13 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
-        (function (Canvas) {
-            var Grid = (function (_super) {
-                __extends(Grid, _super);
-                function Grid(cellWidth, cellHeight, width, height, alternate, color1, color2) {
-                    if (typeof width === "undefined") { width = -1; }
-                    if (typeof height === "undefined") { height = -1; }
-                    if (typeof alternate === "undefined") { alternate = true; }
-                    if (typeof color1 === "undefined") { color1 = 0xffe7e6e6; }
-                    if (typeof color2 === "undefined") { color2 = 0xffd9d5d5; }
-                    _super.call(this, true, false, false);
-
-                    this.position = new Kiwi.Components.Position(0, 0);
-
-                    this.color1 = new Kiwi.Components.Color();
-                    this.color1.setColor(color1);
-
-                    this.color2 = new Kiwi.Components.Color();
-                    this.color2.setColor(color2);
-
-                    this.cellWidth = cellWidth;
-                    this.cellHeight = cellHeight;
-                    this.width = width;
-                    this.height = height;
-                    this.alternate = alternate;
-
-                    this.onAddedToLayer.add(this._onAddedToLayer, this);
-
-                    klog.info('Created Grid Game Object');
-                }
-                Grid.prototype.objType = function () {
-                    return "Grid";
-                };
-
-                Grid.prototype._onAddedToLayer = function (layer) {
-                    klog.info('Grid added to Layer ' + layer.name);
-
-                    if (this.width === -1 || this.height === -1) {
-                        this.width = layer.game.stage.size.width();
-                        this.height = layer.game.stage.size.height();
-                    }
-
-                    return true;
-                };
-
-                Grid.prototype.render = function (camera) {
-                    _super.prototype.render.call(this, camera);
-
-                    if (this.willRender() === false) {
-                        return;
-                    }
-
-                    var rowColor = this.color1.cssColorRGBA;
-                    var lastColor = this.color1.cssColorRGBA;
-
-                    for (var y = 0; y <= this.height; y += this.cellHeight) {
-                        if (y > 0 && lastColor == rowColor && this.alternate) {
-                            (lastColor == this.color1.cssColorRGBA) ? lastColor = this.color2.cssColorRGBA : lastColor = this.color1.cssColorRGBA;
-                        } else if (y > 0 && lastColor != rowColor && this.alternate == false) {
-                            (lastColor == this.color2.cssColorRGBA) ? lastColor = this.color1.cssColorRGBA : lastColor = this.color2.cssColorRGBA;
-                        }
-
-                        for (var x = 0; x <= this.width; x += this.cellWidth) {
-                            if (x == 0) {
-                                rowColor = lastColor;
-                            }
-
-                            this.layer.canvas.context.fillStyle = lastColor;
-                            this.layer.canvas.context.fillRect(this.position.x() + x, this.position.y() + y, this.cellWidth, this.cellHeight);
-
-                            if (lastColor == this.color1.cssColorRGBA) {
-                                lastColor = this.color2.cssColorRGBA;
-                            } else {
-                                lastColor = this.color1.cssColorRGBA;
-                            }
-                        }
-                    }
-                };
-                return Grid;
-            })(Kiwi.Entity);
-            Canvas.Grid = Grid;
-        })(GameObjects.Canvas || (GameObjects.Canvas = {}));
-        var Canvas = GameObjects.Canvas;
-    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-    var GameObjects = Kiwi.GameObjects;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (GameObjects) {
-        (function (Canvas) {
-            var Starfield = (function (_super) {
-                __extends(Starfield, _super);
-                function Starfield(x, y, width, height, quantity, type, updateInterval) {
-                    if (typeof quantity === "undefined") { quantity = 200; }
-                    if (typeof type === "undefined") { type = 1; }
-                    if (typeof updateInterval === "undefined") { updateInterval = 0; }
-                    _super.call(this, true, false, false);
-                    this.starXOffset = -1;
-                    this.starYOffset = 0;
-                    this.backgroundColor = 0xff000000;
-
-                    this.onAddedToLayer.add(this._onAddedToLayer, this);
-
-                    this.position = new Kiwi.Components.Position(x, y);
-
-                    this.starfieldType = type;
-
-                    this.updateSpeed = updateInterval;
-
-                    this.centerX = width >> 1;
-                    this.centerY = height >> 1;
-
-                    this._width = width;
-                    this._height = height;
-
-                    this.stars = [];
-
-                    for (var i = 0; i < quantity; i++) {
-                        var star = { x: Math.random() * width, y: Math.random() * height, d: 1, speed: Math.random(), alpha: 0, r: Math.random() * Math.PI * 2 };
-
-                        if (type == Kiwi.GameObjects.Canvas.Starfield.STARFIELD_TYPE_2D) {
-                            star.speed = 1 + Math.round(Math.random() * 5);
-                        }
-
-                        this.stars.push(star);
-                    }
-
-                    klog.info('Created Starfield Game Object');
-                }
-                Starfield.prototype.objType = function () {
-                    return "Starfield";
-                };
-
-                Starfield.prototype.setBackgroundColor = function (backgroundColor) {
-                };
-
-                Starfield.prototype.setStarDepthColors = function (depth, lowestColor, highestColor) {
-                    if (typeof lowestColor === "undefined") { lowestColor = 0xff585858; }
-                    if (typeof highestColor === "undefined") { highestColor = 0xffF4F4F4; }
-                };
-
-                Starfield.prototype.setStarSpeed = function (xShift, yShift) {
-                    this.starXOffset = xShift;
-                    this.starYOffset = yShift;
-                };
-
-                Starfield.prototype.speed = function (value) {
-                    if (typeof value === "undefined") { value = null; }
-                    if (value !== null) {
-                        this.updateSpeed = value;
-                    }
-
-                    return this.updateSpeed;
-                };
-
-                Starfield.prototype._onAddedToLayer = function (layer) {
-                    klog.info('Starfield added to Layer ' + layer.name);
-
-                    this.tick = layer.game.time.now();
-
-                    return true;
-                };
-
-                Starfield.prototype._render3DStarfield = function () {
-                    for (var i = 0; i < this.stars.length; i++) {
-                        this.stars[i].d *= 1.1;
-                        this.stars[i].x = this.centerX + ((Math.cos(this.stars[i].r) * this.stars[i].d) * this.stars[i].speed);
-                        this.stars[i].y = this.centerY + ((Math.sin(this.stars[i].r) * this.stars[i].d) * this.stars[i].speed);
-
-                        this.stars[i].alpha = this.stars[i].d * 2;
-
-                        if (this.stars[i].alpha > 255) {
-                            this.stars[i].alpha = 255;
-                        }
-
-                        this.layer.canvas.context.fillRect(this.position.x() + this.stars[i].x, this.position.y() + this.stars[i].y, 1, 1);
-
-                        if (this.stars[i].x < 0 || this.stars[i].x > this._width || this.stars[i].y < 0 || this.stars[i].y > this._height) {
-                            this.stars[i] = { x: 0, y: 0, d: 1, speed: Math.random(), alpha: 0, r: Math.random() * Math.PI * 2 };
-                        }
-                    }
-                };
-
-                Starfield.prototype._render2DStarfield = function () {
-                    for (var i = 0; i < this.stars.length; i++) {
-                        this.stars[i].x += (this.starXOffset * this.stars[i].speed);
-                        this.stars[i].y += (this.starYOffset * this.stars[i].speed);
-
-                        this.layer.canvas.context.fillRect(this.position.x() + this.stars[i].x, this.position.y() + this.stars[i].y, 1, 1);
-
-                        if (this.stars[i].x > this._width) {
-                            this.stars[i].x = 0;
-                        } else if (this.stars[i].x < 0) {
-                            this.stars[i].x = this._width;
-                        }
-
-                        if (this.stars[i].y > this._height) {
-                            this.stars[i].y = 0;
-                        } else if (this.stars[i].y < 0) {
-                            this.stars[i].y = this._height;
-                        }
-                    }
-                };
-
-                Starfield.prototype.render = function (camera) {
-                    _super.prototype.render.call(this, camera);
-
-                    if (this.willRender() === false) {
-                        return;
-                    }
-
-                    this.layer.canvas.context.fillStyle = 'rgb(255,255,255)';
-
-                    if (this.layer.game.time.now() > this.tick) {
-                        if (this.starfieldType === Kiwi.GameObjects.Canvas.Starfield.STARFIELD_TYPE_2D) {
-                            this._render2DStarfield();
-                        } else {
-                            this._render3DStarfield();
-                        }
-
-                        if (this.updateSpeed > 0) {
-                            this.tick = this.layer.game.time.now() + this.updateSpeed;
-                        }
-                    }
-                };
-                Starfield.STARFIELD_TYPE_2D = 1;
-
-                Starfield.STARFIELD_TYPE_3D = 2;
-                return Starfield;
-            })(Kiwi.Entity);
-            Canvas.Starfield = Starfield;
-        })(GameObjects.Canvas || (GameObjects.Canvas = {}));
-        var Canvas = GameObjects.Canvas;
-    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-    var GameObjects = Kiwi.GameObjects;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (GameObjects) {
         var MouseDebug = (function (_super) {
             __extends(MouseDebug, _super);
             function MouseDebug(x, y, followMouse) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof followMouse === "undefined") { followMouse = false; }
-                _super.call(this, true, true, false);
+                _super.call(this);
 
                 this.position = new Kiwi.Components.Position(x, y);
                 this._followMouse = followMouse;
@@ -15256,9 +14441,6 @@ var Kiwi;
             MouseDebug.prototype._onAddedToLayer = function (layer) {
                 klog.info('MouseDebug added to Layer');
 
-                if (this.layer.type === Kiwi.TYPE_DOM) {
-                }
-
                 this.position.addStyleUpdates(this);
 
                 return true;
@@ -15267,14 +14449,12 @@ var Kiwi;
             MouseDebug.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
-                if (this.layer.type === Kiwi.TYPE_CANVAS) {
-                    this.layer.canvas.context.fillStyle = 'rgba(0, 114, 188, 0.7)';
-                    this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), 200, 100);
-                    this.layer.canvas.context.font = '12px Arial';
-                    this.layer.canvas.context.fillStyle = '#ffffff';
-                    this.layer.canvas.context.fillText('X: ' + this.game.input.x(), this.position.x(), this.position.y() + 10);
-                    this.layer.canvas.context.fillText('Y: ' + this.game.input.y(), this.position.x(), this.position.y() + 24);
-                }
+                this.layer.canvas.context.fillStyle = 'rgba(0, 114, 188, 0.7)';
+                this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), 200, 100);
+                this.layer.canvas.context.font = '12px Arial';
+                this.layer.canvas.context.fillStyle = '#ffffff';
+                this.layer.canvas.context.fillText('X: ' + this.game.input.x(), this.position.x(), this.position.y() + 10);
+                this.layer.canvas.context.fillText('Y: ' + this.game.input.y(), this.position.x(), this.position.y() + 24);
             };
             return MouseDebug;
         })(Kiwi.Entity);

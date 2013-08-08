@@ -27,7 +27,7 @@ module Kiwi.Components {
         **/
         constructor(angle: number = 0) {
 
-            super('Rotation', true, true, true);
+            super('Rotation');
 
             //  Signals
             this.updated = new Kiwi.Signal();

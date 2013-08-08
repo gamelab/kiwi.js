@@ -30,7 +30,7 @@ module Kiwi.Components.GameMath {
 		 */
         constructor(length: number = 100, sinAmplitude: number = 1.0, cosAmplitude: number = 1.0, frequency: number = 1.0) {
 
-            super('SinewaveGenerator', true, true, true);
+            super('SinewaveGenerator');
 
             this.cosTable = [];
             this.sinTable = [];

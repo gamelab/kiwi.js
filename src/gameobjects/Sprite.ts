@@ -36,7 +36,7 @@ module Kiwi.GameObjects {
         */
         constructor(cacheID: string, cache: Kiwi.Cache, x: number = 0, y: number = 0) {
 
-            super(true, true, false);
+            super();
 
             if (cache.checkImageCacheID(cacheID, cache) == false)
             {
@@ -235,10 +235,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updatePosition(x: number, y: number, z: number) {
             
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.position.addStyleUpdates(this);
-            }
+           
 
             //update center
             this._center.x = this.position.x() + this.size.width() /2;
@@ -258,9 +255,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateRotation(angle:number) {
             
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.rotation.addStyleUpdates(this);
-            }
+          
 
             this._transform.rotation(angle * Math.PI / 180);
 
@@ -278,10 +273,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateScale(x: number, y: number, z: number) {
            
-            //adjust scale css if DOM
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.scale.addStyleUpdates(this);
-            }
+           
 
             this._transform.scale(x,y);
             //update bounds
@@ -299,10 +291,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateAlpha(value: number) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.alpha.addStyleUpdates(this);
-            }
+           
 
         }
 
@@ -313,10 +302,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateVisible(value: bool) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.visible.addStyleUpdates(this);
-            }
+          
 
         }
 
@@ -328,10 +314,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateSize(width: number, height: number) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.size.addStyleUpdates(this);
-            }
+           
 
             this.bounds.setTo(this.position.x(), this.position.y(), width, height);
 
@@ -345,11 +328,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateTexturePosition(x: number, y: number) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.addStyleUpdate('backgroundPositionX', x + 'px');
-                this.addStyleUpdate('backgroundPositionY', y + 'px');
-            }
+           
 
         }
 
@@ -360,9 +339,7 @@ module Kiwi.GameObjects {
          * 
          **/
         private _updateAnimationTexturePosition(x: number, y: number) {
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.texture.position.setTo(x, y);
-            }
+           
         }
 
         /** 
@@ -372,10 +349,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateRepeat(value:string) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.addStyleUpdate('backgroundRepeat', value);
-            }
+          
 
         }
 
@@ -387,10 +361,7 @@ module Kiwi.GameObjects {
         * @param {Number} height
         **/
         private _updateTexture(value: string, width:number, height:number) {
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.domElement.element.style.backgroundImage = 'url("' + value + '")';
-            }    
+            
             this.size.setTo(width, height);
         }
 
@@ -405,22 +376,7 @@ module Kiwi.GameObjects {
 
             klog.info('Sprite added to Layer: ' + layer.name);
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.domElement.element.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
-                this.domElement.element.style.backgroundRepeat = this.texture.repeat();
-
-                if (this.texture.file.dataType === Kiwi.File.IMAGE)
-                    this.domElement.element.style.backgroundSize = '100%';
-
-                this.alpha.addStyleImmediately(this);
-                this.size.addStyleImmediately(this);
-                this.position.addStyleImmediately(this);
-                this.rotation.addStyleImmediately(this);
-                this.scale.addStyleImmediately(this);
-                this.visible.addStyleImmediately(this);
-                ///---------------------------------------------------------> animation here
-            }
+           
 
             if (this._isAnimated)
             {
@@ -482,7 +438,7 @@ module Kiwi.GameObjects {
 
             super.render(camera);
 
-            if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0)
+            if ( this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0)
             {
                 if (this.bounds.showDebug === true)
                 {

@@ -22,7 +22,7 @@ module Kiwi.GameObjects {
 
         constructor(x: number = 0, y: number = 0, followMouse: bool = false) {
 
-            super(true, true, false);
+            super();
 
             //  Properties
 
@@ -57,9 +57,7 @@ module Kiwi.GameObjects {
 
             klog.info('MouseDebug added to Layer');
 
-            if (this.layer.type === Kiwi.TYPE_DOM)
-            {
-            }
+           
 
             //this.button = <HTMLButtonElement> this.domElement.element;
             //this.button.textContent = this._tempText;
@@ -89,15 +87,14 @@ module Kiwi.GameObjects {
 
             super.render(camera);
 
-            if (this.layer.type === Kiwi.TYPE_CANVAS)
-            {
+          
                 this.layer.canvas.context.fillStyle = 'rgba(0, 114, 188, 0.7)';
                 this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), 200, 100);
                 this.layer.canvas.context.font = '12px Arial';
                 this.layer.canvas.context.fillStyle = '#ffffff';
                 this.layer.canvas.context.fillText('X: ' + this.game.input.x(), this.position.x(), this.position.y() + 10);
                 this.layer.canvas.context.fillText('Y: ' + this.game.input.y(), this.position.x(), this.position.y() + 24);
-            }
+          
 
         }
 

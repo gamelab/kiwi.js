@@ -11,7 +11,7 @@ module Kiwi.Components {
         **/
         constructor(game: Kiwi.Game, bounds: Kiwi.Components.Bounds) {
 
-            super('WidgetInput', true, true, true);
+            super('WidgetInput');
             
             this.game = game;
 

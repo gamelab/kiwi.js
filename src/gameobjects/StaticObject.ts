@@ -32,7 +32,7 @@ module Kiwi.GameObjects {
         */
         constructor(x: number = 0, y: number = 0, width: number = 1, height: number = 1) {
 
-            super(true, true, false);
+            super();
 
             //  Properties
 
@@ -89,9 +89,7 @@ module Kiwi.GameObjects {
         **/
         private _updatePosition(x: number, y: number, z: number) {
 
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.position.addStyleUpdates(this);
-            }
+          
 
             this.bounds.setTo(x, y, this.size.width(), this.size.height());
 
@@ -105,9 +103,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateSize(width: number, height: number) {
 
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.size.addStyleUpdates(this);
-            }
+          
 
             this.bounds.setTo(this.position.x(), this.position.y(), width, height);
 
@@ -120,9 +116,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateRepeat(value: string) {
 
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.addStyleUpdate('backgroundRepeat', value);
-            }
+           
 
         }
 
@@ -135,13 +129,9 @@ module Kiwi.GameObjects {
 	     **/
         private _onAddedToLayer(layer: Kiwi.Layer): bool {
 
-            klog.info('StaticObject added to Layer: ' + layer.name + ' type: ' + this.type);
+            klog.info('StaticObject added to Layer: ' + layer.name);
 
-            if (this.type === Kiwi.TYPE_DOM) {
-                this.size.addStyleImmediately(this);
-                this.position.addStyleImmediately(this);
-                klog.info('StaticObject DOM set');
-            }
+          
 
             return true;
 

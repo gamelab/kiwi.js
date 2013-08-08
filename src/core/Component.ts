@@ -23,16 +23,12 @@ module Kiwi {
         * @param {string} componentType - The type of this component (i.e. "geom", "css", "effect")
         * @param {string} componentName - The name of this component.
         */
-        constructor (name:string, supportsCanvas: bool = true, supportsDOM: bool = false, supportsWebGL: bool = false) {
+        constructor (name:string) {
 
             //  Properties
 
             this.name = name;
             this.active = true;
-
-            this._supportsCanvas = supportsCanvas;
-            this._supportsDOM = supportsDOM;
-            this._supportsWebGL = supportsWebGL;
 
             //  Signals
 
@@ -148,8 +144,7 @@ module Kiwi {
             }
             else
             {
-                if (this.supportsType(layer.type) === true)
-                {
+               
                     this.layer = layer;
 
                     if (layer.game !== null)
@@ -160,13 +155,7 @@ module Kiwi {
                     this.onAddedToLayer.dispatch(this, this.layer);
 
                     return true;
-                }
-                else
-                {
-                    klog.warn('Warning - Component does not support Layer of this type: ' + layer.type);
-                    return false;
-                }
-
+               
             }
 
         }
@@ -330,58 +319,9 @@ module Kiwi {
         **/
         public name: string;
 
-        /**
-        * Returns true if this component supports the given render type
-        * @param {Number} Kiwi.TYPE_CANVAS, Kiwi.TYPE_DOM or Kiwi.TYPE_WEBGL
-        * @return Boolean
-        **/
-        public supportsType(type: number): bool {
+       
 
-            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas)
-            {
-                return true;
-            }
-            
-            if (type === Kiwi.TYPE_DOM && this._supportsDOM)
-            {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL)
-            {
-                return true;
-            }
-
-            return false;
-
-        }
-
-        /**
-        * Returns true if this component supports Canvas entities
-        * @method supportsCanvas
-        * @return Boolean
-        **/
-        public supportsCanvas(): bool {
-            return this._supportsCanvas;
-        }
-
-        /**
-        * Returns true if this component supports DOM entities
-        * @method supportsDOM
-        * @return Boolean
-        **/
-        public supportsDOM(): bool {
-            return this._supportsDOM;
-        }
-
-        /**
-        * Returns true if this component supports WebGL entities
-        * @method supportsWebGL
-        * @return Boolean
-        **/
-        public supportsWebGL(): bool {
-            return this._supportsWebGL;
-        }
+      
 
         /**
 		* An active Component is one that has its update method called by its parent.

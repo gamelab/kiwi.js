@@ -25,7 +25,7 @@ module Kiwi.Components {
         * @return {number}
         **/
         constructor(current: number, max: number, min: number) {
-            super("counter", true, true, true);
+            super("counter");
             
             this._current = current;
 

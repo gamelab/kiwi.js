@@ -203,7 +203,7 @@ module Kiwi {
 
                 }
 
-                this._game.layers.offsetCanvasLayers(this._cameras[0].position.x(),this._cameras[0].position.y());
+                //this._game.layers.offsetCanvasLayers(this._cameras[0].position.x(),this._cameras[0].position.y());
 
                 // the first child of domcam must be layers so get that
                 //var layerContainer: HTMLDivElement = <HTMLDivElement>this._domCamera.firstChild;

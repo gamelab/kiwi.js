@@ -5,7 +5,7 @@ module Kiwi.GameObjects {
     export class TileMap extends Kiwi.Entity {
 
         constructor() {
-            super(true, false, false);
+            super();
         }
 
         /*

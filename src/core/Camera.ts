@@ -228,11 +228,11 @@ module Kiwi {
                     
                     layer = this._game.layers.layers[i];
                     
-                    if (layer.type === Kiwi.TYPE_CANVAS) {
+                    
                        
                         this._ctx.drawImage(layer.canvas.domElement, 0, 0, this.size.width(), this.size.height(), 0, 0, this.size.width(), this.size.height());
                         
-                    }
+                    
                 }
                     
 

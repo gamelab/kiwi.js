@@ -130,7 +130,7 @@ module Kiwi {
             }
 
             tempState.game = this._game;
-            tempState.config.type = this._game.stage.defaultType;
+           
 
             if (this.checkValidState(tempState) === false)
             {

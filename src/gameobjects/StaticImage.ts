@@ -32,7 +32,7 @@ module Kiwi.GameObjects {
         */
         constructor(cacheID: string, cache: Kiwi.Cache, x: number = 0, y: number = 0) {
 
-            super(true, true, false);
+            super();
             
             if (cache.checkImageCacheID(cacheID, cache) == false)
             {
@@ -110,10 +110,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updatePosition(x: number, y: number, z: number) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.position.addStyleUpdates(this);
-            }
+          
 
             this.bounds.setTo(x, y, this.size.width(), this.size.height());
 
@@ -127,10 +124,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateSize(width: number, height: number) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.size.addStyleUpdates(this);
-            }
+          
 
             this.bounds.setTo(this.position.x(), this.position.y(), width, height);
 
@@ -144,11 +138,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateTexturePosition(x: number, y: number) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.addStyleUpdate('backgroundPositionX', x + 'px');
-                this.addStyleUpdate('backgroundPositionY', y + 'px');
-            }
+           
 
         }
 
@@ -158,10 +148,7 @@ module Kiwi.GameObjects {
         * @param {String} value
         **/
         private _updateTexture(value: string) {
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.domElement.element.style.backgroundImage = 'url("' + value + '")';
-            }
+           
             this.size.setTo(this.texture.image.width, this.texture.image.height);
         }
 
@@ -172,10 +159,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateRepeat(value:string) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.addStyleUpdate('backgroundRepeat', value);
-            }
+            
 
         }
 
@@ -188,17 +172,9 @@ module Kiwi.GameObjects {
 	     **/
         private _onAddedToLayer(layer: Kiwi.Layer): bool {
 
-            klog.info('StaticImage added to Layer: ' + layer.name + ' type: ' + this.type);
+            klog.info('StaticImage added to Layer: ' + layer.name);
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.domElement.element.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
-                this.domElement.element.style.backgroundRepeat = this.texture.repeat();
-                this.domElement.element.style.backgroundSize = '100%';
-                this.size.addStyleImmediately(this);
-                this.position.addStyleImmediately(this);
-                klog.info('StaticImage DOM set');
-            }
+           
 
             return true;
 
@@ -212,7 +188,7 @@ module Kiwi.GameObjects {
 
             super.render(camera);
 
-            if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true)
+            if (this.willRender() === true)
             {
                 if (this.bounds.showDebug === true)
                 {

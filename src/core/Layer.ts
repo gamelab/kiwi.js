@@ -30,12 +30,12 @@ module Kiwi {
         * @param {Number} size. Size in pixels of this layer.
         * @return {Kiwi.Layer} The new layer
 		**/
-        constructor(game: Kiwi.Game, id: number, type: number, name: string, size:number) {
+        constructor(game: Kiwi.Game, id: number, name: string, size:number) {
             console.log("create layer");
 
             this.game = game;
             this.id = id;
-            this.type = type;
+          
             this.name = name;
             this.components = new Kiwi.ComponentManager(Kiwi.LAYER, this);
 
@@ -50,14 +50,7 @@ module Kiwi {
 
     
 
-            if (this.type === Kiwi.TYPE_DOM) {
-
-                this.domCache = new Kiwi.DOM.Cache(this, this.game, size);
-                this.domContainer.id = 'KiwiDOMLayer' + this.id;
-                this.game.stage.domLayers.appendChild(this.domContainer);
-            }
-            else if (this.type === Kiwi.TYPE_CANVAS)
-            {
+           
                 this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.size.width(), this.game.stage.size.height(), true,true);
              //   this.domContainer.className = 'KiwiCanvasWrapper';
                 this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
@@ -71,11 +64,11 @@ module Kiwi {
                // this.domContainer.appendChild(this.canvas.domElement);
                 //this.game.stage.canvasLayers.appendChild(this.canvas.domElement);
 
-            }
+           
 
             this.game.stage.size.updated.add(this._updatedStageSize, this);
 
-            klog.info('Created Layer ' + this.id + ' of type ' + this.type);
+            klog.info('Created Layer ' + this.id );
 
         }
 
@@ -95,10 +88,9 @@ module Kiwi {
 		**/
         private _updatedStageSize(width: number, height: number) {
 
-            if (this.type === Kiwi.TYPE_CANVAS)
-            {
+           
                 this.canvas.size.setTo(width, height);
-            }
+           
 
         }
 
@@ -136,13 +128,7 @@ module Kiwi {
     	*/
         public name: string;
 
-        /**
-        * The type of Entities that this Layer can render (Kiwi.TYPE_CANVAS, Kiwi.TYPE_DOM or Kiwi.TYPE_WEBGL). You cannot mix types on the same Layer.
-        * @property type
-        * @type number
-	    */
-        public type: number;
-
+      
         /**
         * If this is a Kiwi.TYPE_DOM Layer then the dom entities are all added to this dom element, if Kiwi.TYPE_CANVAS the canvas is added within here
         * @property domContainer
@@ -200,21 +186,9 @@ module Kiwi {
             {
                 this._visible = value;
 
-                if (this.type === Kiwi.TYPE_DOM)
-                {
-                    if (this._visible === false)
-                    {
-                        this.domContainer.style.display = 'none';
-                    }
-                    else
-                    {
-                        this.domContainer.style.display = 'block';
-                    }
-                }
-                else if (this.type === Kiwi.TYPE_CANVAS)
-                {
+              
                     this.canvas.visible(this._visible);
-                }
+               
             }
 
             return this._visible;
@@ -254,17 +228,11 @@ module Kiwi {
     	*/
         public add(child): bool {
 
+            child.layer = this;
+
             if (child instanceof Kiwi.Entity)
             {
-                if (child.supportsType(this.type) === false)
-                {
-                    klog.warn('Entity failed to be added to Layer renderList');
-                    return false;
-                }
-                else
-                {
-                    klog.info('Entity added to Layer renderList');
-                }
+                
             }
             else
             {
@@ -273,10 +241,9 @@ module Kiwi {
 
             this._renderList.push(child);
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.domCache.assignElement(child);
-            }
+          
+               // this.domCache.assignElement(child);
+           
 
             child.modify(Kiwi.ADDED_TO_LAYER, this);
 
@@ -331,10 +298,9 @@ module Kiwi {
     	*/
         public render(camera:Kiwi.Camera) {
             
-            if (this.type === Kiwi.TYPE_CANVAS)
-            {
+            
                 this.canvas.clear();
-            }
+            
 
             this.components.preRender();
 

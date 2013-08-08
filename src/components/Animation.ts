@@ -24,7 +24,7 @@ module Kiwi.Components {
         */
         constructor(entity: Kiwi.Entity) {
 
-            super('Animation', true, true, true);
+            super('Animation');
 
             this.updated = new Kiwi.Signal();
             this._entity = entity;

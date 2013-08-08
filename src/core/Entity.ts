@@ -28,14 +28,11 @@ module Kiwi {
         * @param {Boolean} supportsWebGL
         * @return {Kiwi.Entity}
         */
-        constructor(supportsCanvas: bool, supportsDOM: bool, supportsWebGL: bool) {
+        constructor() {
 
             //  Properties
 
-            this._supportsCanvas = supportsCanvas;
-            this._supportsDOM = supportsDOM;
-            this._supportsWebGL = supportsWebGL;
-
+            
             this._exists = true;
             this._active = true;
             this._willRender = true;
@@ -129,12 +126,7 @@ module Kiwi {
     	*/
         public name: string = '';
 
-        /**
-        * The Entity type. Can be either Kiwi.TYPE_CANVAS, Kiwi.TYPE_DOM or Kiwi.TYPE_WEBGL. Default is -1 (unassigned)
-        * @property type
-        * @type number
-    	*/
-        public type: number = Kiwi.TYPE_UNASSIGNED;
+       
 
         /**
         * The Layer this Entity has been added to.
@@ -315,38 +307,7 @@ module Kiwi {
         */
         private _supportsWebGL: bool;
 
-        /**
-        * 
-        * @method supportsType
-        * @param {Number} type
-        * @return {Boolean}
-        */
-        public supportsType(type: number): bool {
-
-            if (type === Kiwi.TYPE_UNASSIGNED)
-            {
-                //  The Group hasn't been added to a Layer yet, so the type is unknown
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas)
-            {
-                return true;
-            }
-            
-            if (type === Kiwi.TYPE_DOM && this._supportsDOM)
-            {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL)
-            {
-                return true;
-            }
-
-            return false;
-
-        }
+       
 
         /**
         * 
@@ -373,11 +334,7 @@ module Kiwi {
             }
             else
             {
-                if (this.supportsType(layer.type) === true)
-                {
-                    this.layer = layer;
-                    this.type = this.layer.type;
-
+               
                     if (layer.game !== null)
                     {
                         this.game = layer.game;
@@ -388,20 +345,11 @@ module Kiwi {
                         }
                     }
 
-                    if (this.type === Kiwi.TYPE_DOM && this.domElement === null)
-                    {
-                        this.layer.domCache.assignElement(this);
-                    }
-
+               
                     this.onAddedToLayer.dispatch(this, this.layer);
 
                     return true;
-                }
-                else
-                {
-                    klog.warn('Warning - Entity does not support Layer of this type: ' + layer.type);
-                    return false;
-                }
+              
 
             }
 
@@ -422,7 +370,7 @@ module Kiwi {
                 this.domElement = null;
             }
 
-            this.type = Kiwi.TYPE_UNASSIGNED;
+            
 
             this.onRemovedFromLayer.dispatch(this, layer);
 
@@ -481,16 +429,12 @@ module Kiwi {
 
             klog.info('Entity added to Group');
 
-            if (this.parent === group || this.supportsType(group.type) === false)
+            if (this.parent === group )
             {
-                klog.warn('Entity.addedToGroup() called but parent already set or type not supported');
+                klog.warn('Entity.addedToGroup() called but parent already set d');
                 return;
             }
-            else
-            {
-                this.type = group.type;
-            }
-
+          
             if (this.parent !== null)
             {
                 //  Notify the current parent this child has been removed, they can only exist in one Group at once
@@ -536,11 +480,7 @@ module Kiwi {
 
             this.parent = null;
 
-            //  Unlink from the DOM
-            if (this.type === Kiwi.TYPE_DOM && this.domElement !== null)
-            {
-                this.domElement.unlink();
-            }
+           
 
             this.onRemovedFromGroup.dispatch(this, group);
 

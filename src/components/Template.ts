@@ -21,7 +21,7 @@ module Kiwi.Components {
         constructor(x: number = 0) {
 
             //  The components name and the layer types it works with: canvas, dom, webgl
-            super('Template', true, true, true);
+            super('Template');
 
             //  Signals
             this.updated = new Kiwi.Signal();

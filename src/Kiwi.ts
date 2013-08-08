@@ -49,7 +49,7 @@
 /// <reference path="dom/Cache.ts" />
 /// <reference path="dom/Element.ts" />
 
-/// <reference path="gameobjects/dom/Button.ts" />
+
 /// <reference path="gameobjects/Pixel.ts" />
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
@@ -134,11 +134,13 @@ module Kiwi {
 
     export var VERSION: string = "1.0";
     
-    export var TYPE_UNASSIGNED:number = 0;
-    export var TYPE_CANVAS:number = 1;
-    export var TYPE_DOM:number = 2;
-    export var TYPE_WEBGL:number = 3;
-    export var TYPE_AUTODETECT:number = 4;
+    //export var TYPE_UNASSIGNED:number = 0;
+    //export var TYPE_CANVAS:number = 1;
+    //export var TYPE_DOM:number = 2;
+    //export var TYPE_WEBGL:number = 3;
+    //export var TYPE_AUTODETECT:number = 4;
+
+    export var TARGET_COCOON:bool = false;
 
     export var DEVICE: Kiwi.Device = null;
 

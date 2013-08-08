@@ -34,7 +34,7 @@ module Kiwi {
         * @param {Any} state
         * @return {Kiwi.Game}
         */
-        constructor (domParent: string = '', defaultType: number = Kiwi.TYPE_DOM, name: string = 'KiwiGame', state: any = null) {
+        constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null) {
 
 
 
@@ -48,8 +48,8 @@ module Kiwi {
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this.stage = new Kiwi.Stage(this, name, defaultType);
-            this.layers = new Kiwi.LayerManager(this, defaultType);
+            this.stage = new Kiwi.Stage(this, name);
+            this.layers = new Kiwi.LayerManager(this);
             this.cameras = new Kiwi.CameraManager(this, false);
             this.huds = new Kiwi.HUD.HUDManager(this);
 

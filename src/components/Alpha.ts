@@ -26,7 +26,7 @@ module Kiwi.Components {
         */
         constructor(value: number = 0) {
 
-            super('Alpha', true, true, true);
+            super('Alpha');
 
             //  Signals
             this.updated = new Kiwi.Signal();

@@ -30,7 +30,7 @@ module Kiwi.Components {
         */
         constructor(cacheID:string, cache:Kiwi.Cache) {
 
-            super('Texture', true, true, true);
+            super('Texture');
 
             if (!this._setTexture(cacheID, cache)) return;
             

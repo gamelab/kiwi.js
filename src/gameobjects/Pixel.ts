@@ -28,7 +28,7 @@ module Kiwi.GameObjects {
 	     **/
         constructor(x: number = 0, y: number = 0, color: number = 0xFF000000, size: number = 1) {
 
-            super(true, true, false);
+            super();
 
             this.position = this.components.add(new Kiwi.Components.Position(x, y));
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, size, size));
@@ -81,15 +81,7 @@ module Kiwi.GameObjects {
 
             klog.info('Pixel added to Layer ' + layer.name);
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.domElement.element.style.width = this._pixelSize + 'px';
-                this.domElement.element.style.height = this._pixelSize + 'px';
-
-                this.position.addStyleImmediately(this);
-                this.color.addStyleImmediately(this);
-            }
-
+          
             return true;
 
         }
@@ -115,11 +107,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updatePosition(x: number, y: number, z: number, cssTranslate3d: string, cssLeft: string, cssTop: string) {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.position.addStyleUpdates(this);
-            }
-
+           
             this.bounds.setTo(x, y, this._pixelSize, this._pixelSize);
 
         }
@@ -131,10 +119,7 @@ module Kiwi.GameObjects {
 	     **/
         private _updateColor() {
 
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.color.addStyleUpdates(this);
-            }
+        
 
         }
 
@@ -154,7 +139,7 @@ module Kiwi.GameObjects {
 
             super.render(camera);
 
-            if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true)
+            if (this.willRender() === true)
             {
                 this.layer.canvas.context.fillStyle = this.color.cssColorRGBA;
                 this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), this._pixelSize, this._pixelSize);
