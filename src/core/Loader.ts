@@ -205,7 +205,7 @@ module Kiwi {
                 cache = this._game.cache.images;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.IMAGE, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.IMAGE, url, cacheID, true, cache));
 
         }
 
@@ -225,7 +225,7 @@ module Kiwi {
                 cache = this._game.cache.images;
             }
 
-            var file = new Kiwi.File(Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
+            var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
 
             file.frameWidth = frameWidth;
             file.frameHeight = frameHeight;
@@ -248,8 +248,8 @@ module Kiwi {
                 cache = this._game.cache.audio;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.AUDIO, url, cacheID, true, cache));
-
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.AUDIO, url, cacheID, true, cache));
+           
         }
 
         /**
@@ -266,7 +266,7 @@ module Kiwi {
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.JSON, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.JSON, url, cacheID, true, cache));
 
         }
 
@@ -284,7 +284,7 @@ module Kiwi {
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.XML, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.XML, url, cacheID, true, cache));
 
         }
 
@@ -302,7 +302,7 @@ module Kiwi {
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.BINARY_DATA, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.BINARY_DATA, url, cacheID, true, cache));
 
         }
 
@@ -320,7 +320,7 @@ module Kiwi {
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.TEXT_DATA, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.TEXT_DATA, url, cacheID, true, cache));
 
         }
 

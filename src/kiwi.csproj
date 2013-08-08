@@ -46,6 +46,18 @@
     <Content Include="anims\Manager.js">
       <DependentUpon>Manager.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="sound\AudioManager.ts" />
+    <TypeScriptCompile Include="sound\Audio.ts" />
+    <TypeScriptCompile Include="components\Sound.ts" />
+    <Content Include="components\Sound.js">
+      <DependentUpon>Sound.ts</DependentUpon>
+    </Content>
+    <Content Include="sound\Audio.js">
+      <DependentUpon>Audio.ts</DependentUpon>
+    </Content>
+    <Content Include="sound\AudioManager.js">
+      <DependentUpon>AudioManager.ts</DependentUpon>
+    </Content>
     <Content Include="components\Alpha.js">
       <DependentUpon>Alpha.ts</DependentUpon>
     </Content>
@@ -307,11 +319,8 @@
     <Content Include="hud\components\WidgetInput.js">
       <DependentUpon>WidgetInput.ts</DependentUpon>
     </Content>
-    <Content Include="hud\HUDDisplay.js" />
     <Content Include="hud\HUDDisplay.ts" />
-    <Content Include="hud\HUDManager.js" />
     <Content Include="hud\HUDManager.ts" />
-    <Content Include="hud\HUDWidget.js" />
     <Content Include="hud\HUDWidget.ts" />
     <TypeScriptCompile Include="hud\widgets\Bar.ts" />
     <Content Include="hud\widgets\Bar.js">

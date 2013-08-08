@@ -8,6 +8,7 @@
 /// <reference path="components/Rotation.ts" />
 /// <reference path="components/Scale.ts" />
 /// <reference path="components/Size.ts" />
+/// <reference path="components/Sound.ts" />
 /// <reference path="components/Texture.ts" />
 /// <reference path="components/Visible.ts" />
 
@@ -90,6 +91,9 @@
 /// <reference path="hud/components/WidgetInput.ts" />
 /// <reference path="hud/components/Range.ts" />
 /// <reference path="hud/components/Time.ts" />
+
+/// <reference path="sound/AudioManager.ts" />
+/// <reference path="sound/Audio.ts" />
 
 /// <reference path="input/Finger.ts" />
 /// <reference path="input/Key.ts" />

@@ -1,4 +1,5 @@
 /// <reference path="FileCache.ts" />
+/// <reference path="../Kiwi.ts" />
 
 /**
  *  Kiwi - Core - File
@@ -16,7 +17,7 @@
  */
 
 module Kiwi {
-
+     
     export class File {
 
         /*
@@ -29,7 +30,9 @@ module Kiwi {
         * @param {Kiwi.FileCache} cache
         * @return {Kiwi.File}
         */
-        constructor(dataType: number, path: string, cacheID: string = '', saveToCache: bool = false, cache: Kiwi.FileCache = null) {
+        constructor(game: Kiwi.Game, dataType: number, path: string, cacheID: string = '', saveToCache: bool = false, cache: Kiwi.FileCache = null) {
+
+            this._game = game;
 
             this.dataType = dataType;
 
@@ -54,8 +57,12 @@ module Kiwi {
             //{
                 klog.info('blob support found');
                 this._useTagLoader = false;
-                //this._useTagLoader = true;
+            //this._useTagLoader = true;
             //}
+
+            if (this.dataType === Kiwi.File.AUDIO && this._game.audio.usingAudioTag === true) {
+                this._useTagLoader = true;
+            }
 
             this._saveToCache = saveToCache;
             this._cache = cache;
@@ -124,6 +131,13 @@ module Kiwi {
         * @type number
     	*/
         public static TEXT_DATA: number = 7;
+
+        /**
+        * @property _game
+        * @type Kiwi.Game
+        * @private
+        */
+        private _game: Kiwi.Game;
 
         /**
         * @property _xhr
@@ -421,13 +435,27 @@ module Kiwi {
             if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS)
             {
                 this.data = new Image();
+                this.data.src = this.fileURL;
+                this.data.onload = (event) => this.tagLoaderOnLoad(event);
+                this.data.onerror = (event) => this.tagLoaderOnError(event);        //To be remade
+                this.data.onreadystatechange = (event) => this.tagLoaderOnReadyStateChange(event);
+                this.data.load();
+
+            } else if (this.dataType === Kiwi.File.AUDIO) {
+                console.log('Ewww...disgusting...your loading by the audio tags....');
+
+                this.data = new Audio();
+                this.data.src = this.fileURL;
+                this.data.preload = 'auto';
+                this.data.onerror = (event) => this.tagLoaderOnError(event);
+                //this.data.addEventListener('canplaythrough', (event) => this.tagLoaderOnLoad(event), false); //never firing.?.?.?
+                //this.data.onload = (event) => this.tagLoaderOnLoad(event);
+                //this.data.load();
+                
+
+                this.tagLoaderOnLoad(null);     //need to fix....for some reason the audio does not want to load...
             }
-
-            this.data.onload = (event) => this.tagLoaderOnLoad(event);
-            this.data.onerror = (event) => this.tagLoaderOnError(event);
-            this.data.onreadystatechange = (event) => this.tagLoaderOnReadyStateChange(event);
-            this.data.src = this.fileURL;
-
+            
         }
 
         /**
@@ -459,13 +487,22 @@ module Kiwi {
 
         }
 
+        private tagLoaderProgressThrough(event) {
+            console.log('progress');
+            this.stop(); //hasn't really stopped but oh well.
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        }
+
         /**
         * @method tagLoaderOnLoad
         * @param {Any}
 		*/
         private tagLoaderOnLoad(event) {
-
-            this.stop();
+            console.log('loaded');
+            this.stop(); 
 
             if (this._saveToCache === true)
             {
@@ -614,12 +651,35 @@ module Kiwi {
                 {
                     if (this.dataType === Kiwi.File.JSON) {
                         this.data = String.fromCharCode.apply(null, new Uint8Array(this._xhr.response));
+                        this.parseComplete();
+                    }
+                    
+                    if (this.dataType === Kiwi.File.AUDIO) {
+                        this.data = {
+                            raw: this._xhr.response,
+                            decoded: false,
+                            buffer: null
+                        }
 
+                        if (this._game.audio.predecode == true) {
+                            console.log('Audio is Decoding');
+                            //decode that audio
+                            var that = this;
+                            this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+                                if (buffer) {
+                                    that.data.buffer = buffer;
+                                    that.data.decoded = true;
+                                    that.parseComplete();
+                                    console.log('Audio Decoded');
+                                }
+                            });
+
+                        } else {
+                            this.parseComplete();
+                        }    
                     }
                     
                    
-                   
-                    this.parseComplete();
                 }
             }
             else

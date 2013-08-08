@@ -2539,8 +2539,86 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Components) {
+        var Sound = (function (_super) {
+            __extends(Sound, _super);
+            function Sound(game) {
+                _super.call(this, 'Sound', true, true, true);
+
+                this._game = game;
+                this._audio = [];
+            }
+            Sound.prototype.addSound = function (name, cacheID, cache, volume, loop) {
+                if (this._validate(name) == true)
+                    return;
+
+                var audio = this._game.audio.add(cacheID, cache, volume, loop);
+                this._audio[name] = audio;
+
+                return audio;
+            };
+
+            Sound.prototype.removeSound = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].stop();
+                this._audio[name].destroy();
+                delete this._audio[name];
+            };
+
+            Sound.prototype.getSound = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                return this._audio[name];
+            };
+
+            Sound.prototype._validate = function (name) {
+                if (this._audio[name] === undefined) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            Sound.prototype.play = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].play();
+            };
+
+            Sound.prototype.stop = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].stop();
+            };
+
+            Sound.prototype.pause = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].pause();
+            };
+
+            Sound.prototype.resume = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].resume();
+            };
+            return Sound;
+        })(Kiwi.Component);
+        Components.Sound = Sound;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var File = (function () {
-        function File(dataType, path, cacheID, saveToCache, cache) {
+        function File(game, dataType, path, cacheID, saveToCache, cache) {
             if (typeof cacheID === "undefined") { cacheID = ''; }
             if (typeof saveToCache === "undefined") { saveToCache = false; }
             if (typeof cache === "undefined") { cache = null; }
@@ -2569,6 +2647,8 @@ var Kiwi;
             this.onProgressCallback = null;
             this.lastProgress = 0;
             this.percentLoaded = 0;
+            this._game = game;
+
             this.dataType = dataType;
 
             this.fileURL = path;
@@ -2585,6 +2665,10 @@ var Kiwi;
 
             klog.info('blob support found');
             this._useTagLoader = false;
+
+            if (this.dataType === Kiwi.File.AUDIO && this._game.audio.usingAudioTag === true) {
+                this._useTagLoader = true;
+            }
 
             this._saveToCache = saveToCache;
             this._cache = cache;
@@ -2642,18 +2726,29 @@ var Kiwi;
             var _this = this;
             if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS) {
                 this.data = new Image();
-            }
+                this.data.src = this.fileURL;
+                this.data.onload = function (event) {
+                    return _this.tagLoaderOnLoad(event);
+                };
+                this.data.onerror = function (event) {
+                    return _this.tagLoaderOnError(event);
+                };
+                this.data.onreadystatechange = function (event) {
+                    return _this.tagLoaderOnReadyStateChange(event);
+                };
+                this.data.load();
+            } else if (this.dataType === Kiwi.File.AUDIO) {
+                console.log('Ewww...disgusting...your loading by the audio tags....');
 
-            this.data.onload = function (event) {
-                return _this.tagLoaderOnLoad(event);
-            };
-            this.data.onerror = function (event) {
-                return _this.tagLoaderOnError(event);
-            };
-            this.data.onreadystatechange = function (event) {
-                return _this.tagLoaderOnReadyStateChange(event);
-            };
-            this.data.src = this.fileURL;
+                this.data = new Audio();
+                this.data.src = this.fileURL;
+                this.data.preload = 'auto';
+                this.data.onerror = function (event) {
+                    return _this.tagLoaderOnError(event);
+                };
+
+                this.tagLoaderOnLoad(null);
+            }
         };
 
         File.prototype.tagLoaderOnReadyStateChange = function (event) {
@@ -2672,7 +2767,17 @@ var Kiwi;
             }
         };
 
+        File.prototype.tagLoaderProgressThrough = function (event) {
+            console.log('progress');
+            this.stop();
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
         File.prototype.tagLoaderOnLoad = function (event) {
+            console.log('loaded');
             this.stop();
 
             if (this._saveToCache === true) {
@@ -2777,9 +2882,32 @@ var Kiwi;
                 } else {
                     if (this.dataType === Kiwi.File.JSON) {
                         this.data = String.fromCharCode.apply(null, new Uint8Array(this._xhr.response));
+                        this.parseComplete();
                     }
 
-                    this.parseComplete();
+                    if (this.dataType === Kiwi.File.AUDIO) {
+                        this.data = {
+                            raw: this._xhr.response,
+                            decoded: false,
+                            buffer: null
+                        };
+
+                        if (this._game.audio.predecode == true) {
+                            console.log('Audio is Decoding');
+
+                            var that = this;
+                            this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+                                if (buffer) {
+                                    that.data.buffer = buffer;
+                                    that.data.decoded = true;
+                                    that.parseComplete();
+                                    console.log('Audio Decoded');
+                                }
+                            });
+                        } else {
+                            this.parseComplete();
+                        }
+                    }
                 }
             } else {
                 this.success = false;
@@ -5379,6 +5507,15 @@ var Kiwi;
             }
         };
 
+        State.prototype.addAudio = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
+            } else {
+                this.game.loader.addAudio(cacheID, url, this.cache.audio);
+            }
+        };
+
         State.prototype.addChild = function (child, layer) {
             if (typeof layer === "undefined") { layer = null; }
             child.modify(Kiwi.ADDED_TO_STATE, this);
@@ -6776,7 +6913,7 @@ var Kiwi;
                 cache = this._game.cache.images;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.IMAGE, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.IMAGE, url, cacheID, true, cache));
         };
 
         Loader.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, cache) {
@@ -6785,7 +6922,7 @@ var Kiwi;
                 cache = this._game.cache.images;
             }
 
-            var file = new Kiwi.File(Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
+            var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
 
             file.frameWidth = frameWidth;
             file.frameHeight = frameHeight;
@@ -6799,7 +6936,7 @@ var Kiwi;
                 cache = this._game.cache.audio;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.AUDIO, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.AUDIO, url, cacheID, true, cache));
         };
 
         Loader.prototype.addJSON = function (cacheID, url, cache) {
@@ -6808,7 +6945,7 @@ var Kiwi;
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.JSON, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.JSON, url, cacheID, true, cache));
         };
 
         Loader.prototype.addXML = function (cacheID, url, cache) {
@@ -6817,7 +6954,7 @@ var Kiwi;
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.XML, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.XML, url, cacheID, true, cache));
         };
 
         Loader.prototype.addBinaryFile = function (cacheID, url, cache) {
@@ -6826,7 +6963,7 @@ var Kiwi;
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.BINARY_DATA, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.BINARY_DATA, url, cacheID, true, cache));
         };
 
         Loader.prototype.addTextFile = function (cacheID, url, cache) {
@@ -6835,7 +6972,7 @@ var Kiwi;
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(Kiwi.File.TEXT_DATA, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.TEXT_DATA, url, cacheID, true, cache));
         };
 
         Loader.prototype.addCustomFile = function (file, cache) {
@@ -11943,6 +12080,522 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Sound) {
+        var AudioManager = (function () {
+            function AudioManager(game) {
+                this.noAudio = false;
+                this.usingWebAudio = false;
+                this.usingAudioTag = false;
+                this.context = null;
+                this.masterGain = null;
+                this.predecode = true;
+                this._game = game;
+            }
+            AudioManager.prototype.boot = function () {
+                this._volume = 1;
+                this._muted = false;
+                this._sounds = [];
+
+                if (Kiwi.DEVICE.iOS && Kiwi.DEVICE.webaudio == false) {
+                    this.channels = 1;
+                }
+
+                this.usingWebAudio = true;
+                this.usingAudioTag = false;
+
+                if (!!window['AudioContext']) {
+                    this.context = new window['AudioContext']();
+                } else if (!!window['webkitAudioContext']) {
+                    this.context = new window['webkitAudioContext']();
+                } else if (!!window['Audio']) {
+                    this.usingWebAudio = false;
+                    this.usingAudioTag = true;
+                } else {
+                    this.usingWebAudio = false;
+                    this.noAudio = true;
+                }
+
+                if (this.context !== null) {
+                    if (this.context.createGain === undefined) {
+                        this.masterGain = this.context.createGainNode();
+                    } else {
+                        this.masterGain = this.context.createGain();
+                    }
+
+                    this.masterGain.gain.value = 1;
+                    this.masterGain.connect(this.context.destination);
+                }
+            };
+
+            AudioManager.prototype.mute = function (value) {
+                if (value !== undefined) {
+                    if (value === true) {
+                        if (this._muted)
+                            return;
+                        this._muted = true;
+
+                        if (this.usingWebAudio) {
+                            this._muteVolume = this.masterGain.gain.value;
+                            this.masterGain.gain.value = 0;
+                        } else if (this.usingAudioTag) {
+                            for (var i = 0; i < this._sounds.length; i++) {
+                                this._sounds[i].mute(true);
+                            }
+                        }
+                    } else {
+                        if (this._muted == false)
+                            return;
+                        this._muted = false;
+
+                        if (this.usingWebAudio) {
+                            this.masterGain.gain.value = this._muteVolume;
+                        } else if (this.usingAudioTag) {
+                            for (var i = 0; i < this._sounds.length; i++) {
+                                this._sounds[i].mute(false);
+                            }
+                        }
+                    }
+                }
+
+                return this._muted;
+            };
+
+            AudioManager.prototype.volume = function (value) {
+                if (value !== undefined) {
+                    value = Kiwi.Utils.GameMath.clamp(value, 1, 0);
+                    this._volume = value;
+
+                    if (this._muted) {
+                        this._muteVolume = this._volume;
+                        return this._volume;
+                    }
+
+                    if (this.usingWebAudio) {
+                        this.masterGain.gain.value = value;
+                    } else if (this.usingAudioTag) {
+                        for (var i = 0; i < this._sounds.length; i++) {
+                            this._sounds[i].volume(this._sounds[i].volume());
+                        }
+                    }
+                }
+
+                return this._volume;
+            };
+
+            AudioManager.prototype.add = function (cacheID, cache, volume, loop) {
+                if (typeof volume === "undefined") { volume = 1; }
+                if (typeof loop === "undefined") { loop = false; }
+                if (this.noAudio)
+                    return;
+
+                var sound = new Kiwi.Sound.Audio(this._game, cacheID, cache, volume, loop);
+                this._sounds.push(sound);
+                return sound;
+            };
+
+            AudioManager.prototype.remove = function (sound) {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (sound == this._sounds[i]) {
+                        this._sounds[i].gainNode.disconnect();
+                        this._sounds.splice(i, 1, 0);
+                        i--;
+                    }
+                }
+            };
+
+            AudioManager.prototype.playAll = function () {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (this._sounds[i]) {
+                        this._sounds[i].play();
+                    }
+                }
+            };
+
+            AudioManager.prototype.stopAll = function () {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (this._sounds[i]) {
+                        this._sounds[i].stop();
+                    }
+                }
+            };
+
+            AudioManager.prototype.pauseAll = function () {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (this._sounds[i]) {
+                        this._sounds[i].pause();
+                    }
+                }
+            };
+
+            AudioManager.prototype.resumeAll = function () {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (this._sounds[i]) {
+                        this._sounds[i].resume();
+                    }
+                }
+            };
+
+            AudioManager.prototype.update = function () {
+                if (!this.noAudio) {
+                    for (var i = 0; i < this._sounds.length; i++) {
+                        this._sounds[i].update();
+                    }
+                }
+            };
+            return AudioManager;
+        })();
+        Sound.AudioManager = AudioManager;
+    })(Kiwi.Sound || (Kiwi.Sound = {}));
+    var Sound = Kiwi.Sound;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Sound) {
+        var Audio = (function () {
+            function Audio(game, cacheID, cache, volume, loop) {
+                this._muted = false;
+                this.totalDuration = 0;
+                this._buffer = null;
+                this._decoded = false;
+                this._markers = [];
+                this._currentMarker = 'default';
+                this._game = game;
+
+                this._usingAudioTag = this._game.audio.usingAudioTag;
+                this._usingWebAudio = this._game.audio.usingWebAudio;
+
+                if (this._game.audio.noAudio)
+                    return;
+
+                if (!this._setAudio(cacheID, cache))
+                    return;
+
+                if (this._usingWebAudio) {
+                    this.context = this._game.audio.context;
+                    this.masterGainNode = this._game.audio.masterGain;
+
+                    if (this.context.createGain === 'undefined') {
+                        this.gainNode = this.context.createGainNode();
+                    } else {
+                        this.gainNode = this.context.createGain();
+                    }
+
+                    this._decode();
+
+                    this.gainNode.gain.value = volume * this._game.audio.volume();
+                    this.gainNode.connect(this.masterGainNode);
+                } else if (this._usingAudioTag) {
+                    this.totalDuration = this._sound.duration;
+                    this._sound.volume = volume * this._game.audio.volume();
+
+                    if (isNaN(this.totalDuration))
+                        this._pending = true;
+                }
+
+                this.duration = 0;
+                this.volume(volume);
+                this._muteVolume = volume;
+                this._loop = loop;
+
+                this.addMarker('default', 0, this.totalDuration, this._loop);
+
+                this.onPlay = new Kiwi.Signal();
+                this.onStop = new Kiwi.Signal();
+                this.onPause = new Kiwi.Signal();
+                this.onResume = new Kiwi.Signal();
+                this.onLoop = new Kiwi.Signal();
+                this.onMute = new Kiwi.Signal();
+            }
+            Audio.prototype._setAudio = function (cacheID, cache) {
+                if (cacheID == '' || cache === null || cache.audio === null || cache.audio.exists(cacheID) === false) {
+                    klog.warn('Audio cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                    this.ready = false;
+                    return;
+                }
+
+                this.cacheID = cacheID;
+                this._file = cache.audio.getFile(cacheID);
+                this._sound = this._file.data;
+                this.ready = true;
+
+                return true;
+            };
+
+            Audio.prototype._decode = function () {
+                if (this._usingAudioTag)
+                    return;
+
+                if (this._file.data.decoded === true && this._file.data.buffer !== null) {
+                    this._buffer = this._file.data.buffer;
+                    this._decoded = true;
+                    return;
+                }
+
+                if (this._game.audio.predecode == true && this._file.data.decode == false) {
+                    return;
+                }
+
+                var that = this;
+                this.context.decodeAudioData(this._file.data.raw, function (buffer) {
+                    that._buffer = buffer;
+                    that._decoded = true;
+                });
+            };
+
+            Audio.prototype.volume = function (val) {
+                if (this._game.audio.noAudio)
+                    return;
+
+                if (val !== undefined) {
+                    val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
+
+                    this._volume = val;
+
+                    if (this._muted) {
+                        this._muteVolume = this._volume;
+                        return this._volume;
+                    }
+
+                    if (this._usingWebAudio) {
+                        this.gainNode.gain.value = this._volume * this._game.audio.volume();
+                    } else if (this._usingAudioTag) {
+                        this._sound.volume = this._volume * this._game.audio.volume();
+                    }
+                }
+
+                return this._volume;
+            };
+
+            Audio.prototype.mute = function (val) {
+                if (this._game.audio.noAudio)
+                    return;
+
+                if (val !== undefined && this._muted !== val) {
+                    if (val === true) {
+                        this._muteVolume = this._volume;
+                        this.volume(0);
+                        this._muted = true;
+                    } else {
+                        this._muted = false;
+                        this.volume(this._muteVolume);
+                    }
+                    this.onMute.dispatch(this._muted);
+                }
+
+                return this._muted;
+            };
+
+            Audio.prototype.addMarker = function (name, start, stop, loop) {
+                if (typeof loop === "undefined") { loop = false; }
+                this._markers[name] = { start: start, stop: stop, duration: stop - start, loop: loop };
+            };
+
+            Audio.prototype.removeMarker = function (name) {
+                if (name == 'default')
+                    return;
+
+                if (this.isPlaying && this._currentMarker == name) {
+                    this.stop();
+                    this._currentMarker = 'default';
+                }
+                delete this._markers[name];
+            };
+
+            Audio.prototype.play = function (marker, forceRestart) {
+                if (typeof marker === "undefined") { marker = this._currentMarker; }
+                if (typeof forceRestart === "undefined") { forceRestart = false; }
+                if (this.isPlaying && forceRestart == false || this._game.audio.noAudio)
+                    return;
+
+                if (forceRestart)
+                    this.stop();
+
+                this.paused = false;
+
+                if (this._markers[marker] == undefined)
+                    return;
+
+                if (this._currentMarker === marker && this.isPlaying)
+                    return;
+
+                this._currentMarker = marker;
+                this.duration = this._markers[this._currentMarker].duration * 1000;
+                this._loop = this._markers[this._currentMarker].loop;
+
+                if (this._usingWebAudio) {
+                    if (this._decoded === true) {
+                        if (this._buffer == null)
+                            this._buffer = this._file.data.buffer;
+
+                        this._sound = this.context.createBufferSource();
+                        this._sound.buffer = this._buffer;
+                        this._sound.connect(this.gainNode);
+                        this.totalDuration = this._sound.buffer.duration;
+
+                        if (this.duration == 0)
+                            this.duration = this.totalDuration * 1000;
+
+                        if (this._loop)
+                            this._sound.loop = true;
+
+                        if (this._sound.start === undefined) {
+                            this._sound.noteGrainOn(0, this._markers[this._currentMarker].start, this.duration / 1000);
+                        } else {
+                            this._sound.start(0, this._markers[this._currentMarker].start, this.duration / 1000);
+                        }
+
+                        this.isPlaying = true;
+                        this._startTime = this._game.time.now();
+                        this._currentTime = 0;
+                        this._stopTime = this._startTime + this.duration;
+                        this.onPlay.dispatch();
+                    } else {
+                        this._pending = true;
+                        this._decode();
+                    }
+                } else if (this._usingAudioTag) {
+                    if (this.duration == 0 || isNaN(this.duration))
+                        this.duration = this.totalDuration * 1000;
+
+                    if (this._muted)
+                        this._sound.volume = 0; else
+                        this._sound.volume = this._volume;
+
+                    this._sound.currentTime = this._markers[this._currentMarker].start;
+                    this._sound.play();
+                    this.isPlaying = true;
+                    this._startTime = this._game.time.now();
+                    this._currentTime = 0;
+                    this._stopTime = this._startTime + this.duration;
+
+                    if (!this.paused)
+                        this.onPlay.dispatch();
+                }
+            };
+
+            Audio.prototype.stop = function () {
+                if (this.isPlaying && this._sound) {
+                    if (this._usingWebAudio) {
+                        if (this._sound.stop === undefined) {
+                            this._sound.noteOff(0);
+                        } else {
+                            this._sound.stop(0);
+                        }
+                    } else if (this._usingAudioTag) {
+                        this._sound.pause();
+                        this._sound.currentTime = 0;
+                    }
+
+                    if (this.paused == false)
+                        this.onStop.dispatch();
+                }
+
+                this.isPlaying = false;
+            };
+
+            Audio.prototype.pause = function () {
+                if (this.isPlaying) {
+                    this.paused = true;
+                    this.stop();
+                    this.onPause.dispatch();
+                }
+            };
+
+            Audio.prototype.resume = function () {
+                if (this.paused && this.isPlaying == false) {
+                    if (this._usingWebAudio) {
+                        if (this._buffer == null)
+                            this._buffer = this._file.data.buffer;
+
+                        this._sound = this.context.createBufferSource();
+                        this._sound.buffer = this._buffer;
+                        this._sound.connect(this.gainNode);
+
+                        if (this._sound.start === undefined) {
+                            this._sound.noteGrainOn(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
+                        } else {
+                            this._sound.start(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
+                        }
+                    } else {
+                        this._sound.currentTime = this._markers[this._currentMarker].start + this._currentTime / 1000;
+                        this._sound.play();
+                    }
+
+                    this.paused = false;
+                    this.isPlaying = true;
+                    this.onResume.dispatch();
+                }
+            };
+
+            Audio.prototype.update = function () {
+                if (!this.ready)
+                    return;
+
+                if (this._pending) {
+                    if (this._decoded === true || this._file.data.decoded) {
+                        this._pending = false;
+                        this.play();
+                    } else if (this._usingAudioTag && !isNaN(this._sound.duration)) {
+                        this.totalDuration = this._sound.duration;
+                        this._markers['default'].duration = this.totalDuration;
+                        this._pending = false;
+
+                        if (this.isPlaying && this._currentMarker == 'default')
+                            this.duration = this.totalDuration;
+                    }
+                }
+
+                if (this.isPlaying) {
+                    this._currentTime = this._game.time.now() - this._startTime;
+
+                    if (this._currentTime >= this.duration) {
+                        if (this._usingWebAudio) {
+                            if (this._loop) {
+                                if (this._currentMarker == 'default') {
+                                    this._currentTime = 0;
+                                    this._startTime = this._game.time.now();
+                                } else {
+                                    this.play(this._currentMarker, true);
+                                }
+
+                                this.onLoop.dispatch();
+                            } else {
+                                this.stop();
+                            }
+                        } else if (this._usingAudioTag) {
+                            if (this._loop) {
+                                this.play(this._currentMarker, true);
+                                this.onLoop.dispatch();
+                            } else {
+                                this.stop();
+                            }
+                        }
+                    }
+                }
+            };
+
+            Audio.prototype.destroy = function () {
+                this._sound = null;
+                this._currentTime = null;
+                this._startTime = null;
+                this._stopTime = null;
+                this._pending = null;
+                this.masterGainNode = null;
+                this.gainNode = null;
+                this.totalDuration = null;
+                this.duration = null;
+                this._file = null;
+                this._buffer = null;
+                this._decoded = null;
+            };
+            return Audio;
+        })();
+        Sound.Audio = Audio;
+    })(Kiwi.Sound || (Kiwi.Sound = {}));
+    var Sound = Kiwi.Sound;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     (function (Input) {
         var Finger = (function () {
             function Finger(game) {
@@ -14598,6 +15251,7 @@ var Kiwi;
             var _this = this;
             this._dom = null;
             this.anims = null;
+            this.audio = null;
             this.browser = null;
             this.cache = null;
             this.input = null;
@@ -14615,7 +15269,7 @@ var Kiwi;
             this._dom = new Kiwi.DOM.Bootstrap();
 
             this.anims = new Kiwi.Anims.Manager(this);
-
+            this.audio = new Kiwi.Sound.AudioManager(this);
             this.browser = new Kiwi.DOM.Browser(this);
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
@@ -14659,7 +15313,7 @@ var Kiwi;
             this.huds.boot();
             this.time.boot();
             this.anims.boot();
-
+            this.audio.boot();
             this.input.boot();
             this.cache.boot();
             this.loader.boot();
@@ -14676,6 +15330,7 @@ var Kiwi;
 
         Game.prototype.loop = function () {
             this.time.update();
+            this.audio.update();
             this.input.update();
             this.tweens.update();
             this.cameras.update();

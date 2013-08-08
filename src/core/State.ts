@@ -229,7 +229,7 @@ module Kiwi {
         * @param {Kiwi.FileCache} [cache]
         */
         public addImage(cacheID: string, url: string, globalCache:bool = true) {
-
+            
             if (globalCache === true)
             {
                 this.game.loader.addImage(cacheID, url, this.game.cache.images);
@@ -261,6 +261,19 @@ module Kiwi {
             else
             {
                 this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images);
+            }
+
+        }
+
+        public addAudio(cacheID: string, url: string, globalCache: bool = true) {
+
+            if (globalCache === true)
+            {
+                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
+            }
+            else
+            {
+                this.game.loader.addAudio(cacheID, url, this.cache.audio);
             }
 
         }
