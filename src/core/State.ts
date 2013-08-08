@@ -1,6 +1,7 @@
 /// <reference path="Cache.ts" />
 /// <reference path="Entity.ts" />
 /// <reference path="StateConfig.ts" />
+/// <reference path="Group.ts" />
 
 /**
  *  Kiwi - Core - State
@@ -15,7 +16,7 @@
 
 module Kiwi {
 
-    export class State {
+    export class State extends Group {
 
         /**
         * Create a new Kiwi.State
@@ -24,7 +25,8 @@ module Kiwi {
         * @return {State} This Object
         */
         constructor(name: string) {
-
+            super(name);
+            
             klog.debug('----------- State created: ' + name + ' -----------');
 
             this.config = new Kiwi.StateConfig(this, name);
@@ -63,7 +65,7 @@ module Kiwi {
         * @property members
         * @type Array
         **/
-        public members = [];
+        //public members = [];
 
         /**
         * The Component Manager
@@ -271,12 +273,13 @@ module Kiwi {
         * @param {Any} child
         * @param {Kiwi.Layer} layer
         **/
-        public addChild(child, layer:Kiwi.Layer = null) {
+        public addChild(child: Kiwi.IChild): Kiwi.IChild {
 
             child.modify(Kiwi.ADDED_TO_STATE, this);
-
-            this.members.push(child);
+            super.removeChild(child);
+            //this.members.push(child);
             child.layer = this.currentLayer;
+            super.addChild(child);
             if (layer !== null)
             {
                 layer.add(child);
@@ -291,12 +294,12 @@ module Kiwi {
         }
 
         //remove child!---
-        public removeChild(child, layer:Kiwi.Layer = null):boolean {
+        public removeChild(child: Kiwi.IChild): Kiwi.IChild {
             
 
             //  Needs validation
             child.modify(Kiwi.REMOVED_FROM_STATE, this);
-
+            var layer = null;
             //check that is exists...
             for (var i = 0; i < this.members.length; i++) {
 
@@ -309,12 +312,12 @@ module Kiwi {
                     } else {
                         this.currentLayer.remove(child);
                     }
-                    return true;
+                    //return true;
                 }  
                   
             }
-            
-            return false;
+            return child;
+           // return false;
         }
 
         /**
@@ -325,7 +328,7 @@ module Kiwi {
 
             for (var i = 0; i < this.members.length; i++)
             {
-                this.members[i].destroy();
+                //this.members[i].destroy();
             }
         
         }

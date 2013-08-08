@@ -35,9 +35,9 @@ class CreatingLayers extends Kiwi.State {
         this.layer2 = this.game.layers.createCanvasLayer(this, 'layer2', 600);
         this.layer3 = this.game.layers.createCanvasLayer(this, 'layer3', 600);
 
-        this.addChild(this.bunny, this.layer1);
-        this.addChild(this.rememberme, this.layer2);
-        this.addChild(this.foss, this.layer3);
+        //this.addChild(this.bunny, this.layer1);
+        //this.addChild(this.rememberme, this.layer2);
+        //this.addChild(this.foss, this.layer3);
 
     }
 

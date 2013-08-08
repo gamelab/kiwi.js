@@ -46,6 +46,7 @@ module Kiwi.GameObjects {
 
             //  Properties
 
+            this.name = cacheID;
             this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
             this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
             this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
@@ -437,9 +438,12 @@ module Kiwi.GameObjects {
         public render(camera:Kiwi.Camera) {
 
             super.render(camera);
-
+            
             if ( this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0)
+            //console.log("-0" + this.name + this.willRender());
+            //console.log("-0" + this.name + this.visible.visible());
             {
+              //  console.log("-1" + this.name);
                 if (this.bounds.showDebug === true)
                 {
                     this.bounds.drawCanvasDebugOutline(this.layer);
@@ -485,6 +489,7 @@ module Kiwi.GameObjects {
                     }
                     else
                     {
+                //        console.log("-2" + this.name);
                         //this.layer.canvas.context.drawImage(this.texture.image, this.position.x(), this.position.y(), this.size.width(), this.size.height());
                         this.layer.canvas.context.drawImage(this.texture.image, dx-offsetX, dy-offsetY, dw, dh);
                     }

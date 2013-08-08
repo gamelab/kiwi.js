@@ -266,358 +266,11 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Components) {
-        var ArcadePhysics = (function (_super) {
-            __extends(ArcadePhysics, _super);
-            function ArcadePhysics(entity, position, size) {
-                _super.call(this, 'ArcadePhysics');
 
-                this._parent = entity;
-                this.position = position;
-                this.size = size;
-
-                this.last = new Kiwi.Geom.Point(this.position.x(), this.position.y());
-                this.mass = 1.0;
-                this.elasticity = 0.0;
-
-                this.immovable = false;
-                this.moves = true;
-
-                this.touching = ArcadePhysics.NONE;
-                this.wasTouching = ArcadePhysics.NONE;
-                this.allowCollisions = ArcadePhysics.ANY;
-
-                this.velocity = new Kiwi.Geom.Point();
-                this.acceleration = new Kiwi.Geom.Point();
-                this.drag = new Kiwi.Geom.Point();
-                this.maxVelocity = new Kiwi.Geom.Point(10000, 10000);
-
-                this.angle = 0;
-                this.angularVelocity = 0;
-                this.angularAcceleration = 0;
-                this.angularDrag = 0;
-                this.maxAngular = 10000;
-            }
-            ArcadePhysics.prototype.objType = function () {
-                return "ArcadePhysics";
-            };
-
-            ArcadePhysics.prototype.solid = function (value) {
-                if (value !== undefined) {
-                    if (value)
-                        this.allowCollisions = ArcadePhysics.ANY; else
-                        this.allowCollisions = ArcadePhysics.NONE;
-                }
-
-                return (this.allowCollisions & ArcadePhysics.ANY) > ArcadePhysics.NONE;
-            };
-
-            ArcadePhysics.collide = function (gameObject1, gameObject2, notifyCallback) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                return ArcadePhysics.overlaps(gameObject1, gameObject2, notifyCallback, true);
-            };
-
-            ArcadePhysics.collideGroup = function (gameObject, group, notifyCallback) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                return ArcadePhysics.overlapsObjectGroup(gameObject, group, notifyCallback, true);
-            };
-
-            ArcadePhysics.collideGroupGroup = function (group1, group2, notifyCallback) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                return ArcadePhysics.overlapsGroupGroup(group1, group2, notifyCallback, true);
-            };
-
-            ArcadePhysics.overlaps = function (gameObject1, gameObject2, notifyCallback, separateObjects) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                if (typeof separateObjects === "undefined") { separateObjects = true; }
-                var obj1Physics = gameObject1.components.getComponent("ArcadePhysics");
-
-                return obj1Physics.overlaps(gameObject2, separateObjects);
-            };
-
-            ArcadePhysics.overlapsObjectGroup = function (gameObject, group, notifyCallback, separateObjects) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                if (typeof separateObjects === "undefined") { separateObjects = true; }
-                var objPhysics = gameObject.components.getComponent("ArcadePhysics");
-                return objPhysics.overlapsGroup(group, separateObjects);
-            };
-
-            ArcadePhysics.overlapsGroupGroup = function (group1, group2, notifyCallback, separateObjects) {
-                if (typeof notifyCallback === "undefined") { notifyCallback = null; }
-                if (typeof separateObjects === "undefined") { separateObjects = true; }
-                var result = false;
-                var members = group1.members;
-                var i = 0;
-                while (i < group1.members.length) {
-                    result = ArcadePhysics.overlapsObjectGroup(members[i++], group2, notifyCallback, separateObjects);
-                }
-                return result;
-            };
-
-            ArcadePhysics.separate = function (object1, object2) {
-                var separatedX = this.separateX(object1, object2);
-                var separatedY = this.separateY(object1, object2);
-                return separatedX || separatedY;
-            };
-
-            ArcadePhysics.separateX = function (object1, object2) {
-                var phys1 = object1.components._components["ArcadePhysics"];
-                var phys2 = object2.components._components["ArcadePhysics"];
-
-                var obj1immovable = phys1.immovable;
-                var obj2immovable = phys2.immovable;
-                if (obj1immovable && obj2immovable)
-                    return false;
-
-                var overlap = 0;
-                var obj1delta = phys1.position.x() - phys1.last.x;
-                var obj2delta = phys2.position.x() - phys2.last.x;
-
-                if (obj1delta != obj2delta) {
                     console.log('1');
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.position.x() - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.size.width() + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.size.height());
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.position.x() - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.size.width() + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.size.height());
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                        if (obj1delta > obj2delta) {
-                            overlap = phys1.position.x() + phys1.size.width() - phys2.position.x();
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
-                                overlap = 0;
                             } else {
-                                phys1.touching |= ArcadePhysics.RIGHT;
-                                phys2.touching |= ArcadePhysics.LEFT;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = phys1.position.x() - phys2.size.width() - phys2.position.x();
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
-                                overlap = 0;
                             } else {
-                                phys1.touching |= ArcadePhysics.LEFT;
-                                phys2.touching |= ArcadePhysics.RIGHT;
-                            }
-                        }
-                    }
-                }
-
-                if (overlap != 0) {
-                    var obj1v = phys1.velocity.x;
-                    var obj2v = phys2.velocity.x;
-
-                    if (!obj1immovable && !obj2immovable) {
-                        overlap *= 0.5;
-                        phys1.position.x(phys1.position.x() - overlap);
-                        phys2.position.x(phys2.position.x() + overlap);
-
-                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
-                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
-                        var average = (obj1velocity + obj2velocity) * 0.5;
-                        obj1velocity -= average;
-                        obj2velocity -= average;
-                        phys1.velocity.x = average + obj1velocity * phys1.elasticity;
-                        phys2.velocity.x = average + obj2velocity * phys2.elasticity;
-                    } else if (!obj1immovable) {
-                        phys1.position.x(phys1.position.x() - overlap);
-                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
-                    } else if (!obj2immovable) {
-                        phys2.position.x(phys2.position.x() + overlap);
-                        phys2.velocity.x = obj1v - obj2v * phys2.elasticity;
-                    }
-                    return true;
-                } else
-                    return false;
-            };
-
-            ArcadePhysics.separateY = function (object1, object2) {
-                var phys1 = object1.components._components["ArcadePhysics"];
-                var phys2 = object2.components._components["ArcadePhysics"];
-
-                var obj1immovable = phys1.immovable;
-                var obj2immovable = phys2.immovable;
-                if (obj1immovable && obj2immovable)
-                    return false;
-
-                var overlap = 0;
-
-                var obj1delta = phys1.position.y() - phys1.last.y;
-
-                var obj2delta = phys2.position.y() - phys2.last.y;
-                if (obj1delta != obj2delta) {
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.position.x(), phys1.position.y() - ((obj1delta > 0) ? obj1delta : 0), phys1.size.width(), phys1.size.height() + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.position.x(), phys2.position.y() - ((obj2delta > 0) ? obj2delta : 0), phys2.size.width(), phys2.size.height() + obj2deltaAbs);
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                        if (obj1delta > obj2delta) {
-                            overlap = phys1.position.y() + phys1.size.height() - phys2.position.y();
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.DOWN;
-                                phys2.touching |= ArcadePhysics.UP;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = phys1.position.y() - phys2.size.height() - phys2.position.y();
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.UP;
-                                phys2.touching |= ArcadePhysics.DOWN;
-                            }
-                        }
-                    }
-                }
-
-                if (overlap != 0) {
-                    var obj1v = phys1.velocity.y;
-                    var obj2v = phys2.velocity.y;
-
-                    if (!obj1immovable && !obj2immovable) {
-                        overlap *= 0.5;
-                        phys1.position.y(phys1.position.y() - overlap);
-                        phys2.position.y(phys2.position.y() + overlap);
-
-                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
-                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
-                        var average = (obj1velocity + obj2velocity) * 0.5;
-                        obj1velocity -= average;
-                        obj2velocity -= average;
-                        phys1.velocity.y = average + obj1velocity * phys1.elasticity;
-                        phys2.velocity.y = average + obj2velocity * phys2.elasticity;
-                    } else if (!obj1immovable) {
-                        phys1.position.y(phys1.position.y() - overlap);
-                        phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
-
-                        if (object2.active && phys2.moves && (obj1delta > obj2delta))
-                            phys1.position.x(phys1.position.x() + object2.position.x() - phys2.last.x);
-                    } else if (!obj2immovable) {
-                        phys2.position.y(phys2.position.y() + overlap);
-                        phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
-
-                        if (object1.active && phys1.moves && (obj1delta < obj2delta))
-                            phys2.position.x(phys2.position.x() + object1.position.x() - phys1.last.x);
-                    }
-                    return true;
-                } else
-                    return false;
-            };
-
-            ArcadePhysics.computeVelocity = function (velocity, acceleration, drag, max) {
-                if (typeof acceleration === "undefined") { acceleration = 0; }
-                if (typeof drag === "undefined") { drag = 0; }
-                if (typeof max === "undefined") { max = 10000; }
-                if (acceleration != 0)
-                    velocity += acceleration * ArcadePhysics.updateInterval; else if (drag != 0) {
-                    drag = drag * ArcadePhysics.updateInterval;
-                    if (velocity - drag > 0)
-                        velocity = velocity - drag; else if (velocity + drag < 0)
-                        velocity += drag; else
-                        velocity = 0;
-                }
-                if ((velocity != 0) && (max != 10000)) {
-                    if (velocity > max)
-                        velocity = max; else if (velocity < -max)
-                        velocity = -max;
-                }
-                return velocity;
-            };
-
-            ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                if (!gameObject.components.hasComponent("Size") || !gameObject.components.hasComponent("Position")) {
-                    return false;
-                }
-                var objPosition = gameObject.components.getComponent("Position");
-                var objSize = gameObject.components.getComponent("Size");
-
-                var result = (objPosition.x() + objSize.width() > this.position.x()) && (objPosition.x() < this.position.x() + this.size.width()) && (objPosition.y() + objSize.height() > this.position.y()) && (objPosition.y() < this.position.y() + this.size.height());
-
-                if (result && separateObjects) {
-                    ArcadePhysics.separate(this._parent, gameObject);
-                }
-
-                return result;
-            };
-
-            ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                var results = false;
-
-                var childPhysics;
-                for (var i = 0; i < group.members.length; i++) {
-                    childPhysics = group.members[i].components._components["ArcadePhysics"];
-                    childPhysics.overlaps(this._parent, true);
-                }
-
-                return results;
-            };
-
-            ArcadePhysics.prototype.updateMotion = function () {
-                var delta;
-                var velocityDelta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
-                this.angularVelocity += velocityDelta;
-                this.angle += this.angularVelocity * ArcadePhysics.updateInterval;
-                this.angularVelocity += velocityDelta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
-                this.velocity.x += velocityDelta;
-                delta = this.velocity.x * ArcadePhysics.updateInterval;
-                this.velocity.x += velocityDelta;
-                this.position.x(this.position.x() + delta);
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
-                this.velocity.y += velocityDelta;
-                delta = this.velocity.y * ArcadePhysics.updateInterval;
-                this.velocity.y += velocityDelta;
-                this.position.y(this.position.y() + delta);
-            };
-
-            ArcadePhysics.prototype.update = function () {
-                this.last.x = this.position.x();
-                this.last.y = this.position.y();
-
-                if (this.moves)
-                    this.updateMotion();
-
-                this.wasTouching = this.touching;
-                this.touching = ArcadePhysics.NONE;
-            };
-            ArcadePhysics.updateInterval = 1 / 10;
-
-            ArcadePhysics.LEFT = 0x0001;
-
-            ArcadePhysics.RIGHT = 0x0010;
-
-            ArcadePhysics.UP = 0x0100;
-
-            ArcadePhysics.DOWN = 0x1000;
-
-            ArcadePhysics.NONE = 0;
-
-            ArcadePhysics.CEILING = ArcadePhysics.UP;
-
-            ArcadePhysics.FLOOR = ArcadePhysics.DOWN;
-
-            ArcadePhysics.WALL = ArcadePhysics.LEFT | ArcadePhysics.RIGHT;
-
-            ArcadePhysics.ANY = ArcadePhysics.LEFT | ArcadePhysics.RIGHT | ArcadePhysics.UP | ArcadePhysics.DOWN;
-
-            ArcadePhysics.OVERLAP_BIAS = 4;
-            return ArcadePhysics;
-        })(Kiwi.Component);
-        Components.ArcadePhysics = ArcadePhysics;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
         var Bounds = (function (_super) {
             __extends(Bounds, _super);
             function Bounds(x, y, width, height) {
@@ -2525,8 +2178,13 @@ var Kiwi;
 
             this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
 
-            klog.info('blob support found');
-            this._useTagLoader = false;
+            if (Kiwi.DEVICE.blob) {
+                klog.info('blob support found - using blob loader');
+                this._useTagLoader = false;
+            } else {
+                klog.info('blob support NOT found - using tag loader');
+                this._useTagLoader = true;
+            }
 
             this._saveToCache = saveToCache;
             this._cache = cache;
@@ -4878,6 +4536,7 @@ var Kiwi;
             this.localStorage = false;
             this.webGL = false;
             this.worker = false;
+            this.blob = false;
             this.touch = false;
             this.css3D = false;
             this.arora = false;
@@ -4933,6 +4592,9 @@ var Kiwi;
         };
 
         Device.prototype._checkFeatures = function () {
+            if (typeof window['Blob'] !== 'undefined')
+                this.blob = true;
+
             this.canvas = !!window['CanvasRenderingContext2D'];
 
             try  {
@@ -5072,6 +4734,7 @@ var Kiwi;
 
             output = output.concat('\n');
             output = output.concat('Features\n');
+            output = output.concat('Blob: ' + this.blob + '\n');
             output = output.concat('Canvas: ' + this.canvas + '\n');
             output = output.concat('File: ' + this.file + '\n');
             output = output.concat('FileSystem: ' + this.fileSystem + '\n');
@@ -5194,419 +4857,17 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var State = (function () {
-        function State(name) {
-            this.game = null;
-            this.members = [];
-            klog.debug('----------- State created: ' + name + ' -----------');
-
-            this.config = new Kiwi.StateConfig(this, name);
-            this.cache = new Kiwi.Cache(this.game);
-            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
-        }
-        State.prototype.objType = function () {
-            return "State";
-        };
-
-        State.prototype.boot = function () {
-            klog.info('State booted: ', this.config.name);
-
-            this.cache.boot();
-
-            klog.info('Current Layer: ' + this.game.layers.currentLayer);
-
-            this.currentLayer = this.game.layers.currentLayer;
-        };
-
-        State.prototype.init = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preload = function () {
-        };
-
-        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
-        };
-
-        State.prototype.loadComplete = function () {
-        };
-
-        State.prototype.loadUpdate = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active() === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.create = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preUpdate = function () {
-            this.components.preUpdate();
-        };
-
-        State.prototype.update = function () {
-            this.components.update();
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active() === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.postUpdate = function () {
-            this.components.postUpdate();
-        };
-
-        State.prototype.postRender = function () {
-        };
-
-        State.prototype.setType = function (value) {
-            if (this.config.isInitialised === false) {
-                this.config.type = value;
-            } else {
-                klog.warn('State default type can only be changed in init()');
-            }
-        };
-
-        State.prototype.swapLayer = function (layer) {
-            this.currentLayer = layer;
-        };
-
-        State.prototype.addImage = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addImage(cacheID, url, this.game.cache.images);
-            } else {
-                this.game.loader.addImage(cacheID, url, this.cache.images);
-            }
-        };
-
-        State.prototype.addJSON = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
-            } else {
-                this.game.loader.addJSON(cacheID, url, this.cache.data);
-            }
-        };
-
-        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images);
-            } else {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images);
-            }
-        };
-
-        State.prototype.addChild = function (child, layer) {
-            if (typeof layer === "undefined") { layer = null; }
-            child.modify(Kiwi.ADDED_TO_STATE, this);
-
-            this.members.push(child);
-            child.layer = this.currentLayer;
-            if (layer !== null) {
-                layer.add(child);
-            } else {
-                this.currentLayer.add(child);
-            }
-
-            return child;
-        };
-
-        State.prototype.removeChild = function (child, layer) {
-            if (typeof layer === "undefined") { layer = null; }
-            child.modify(Kiwi.REMOVED_FROM_STATE, this);
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === child.id) {
-                    this.members.slice(i, 1);
-
-                    if (layer !== null) {
-                        layer.remove(child);
-                    } else {
-                        this.currentLayer.remove(child);
-                    }
-                    return true;
-                }
-            }
-
-            return false;
-        };
-
-        State.prototype.destroy = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                this.members[i].destroy();
-            }
-        };
-        return State;
-    })();
-    Kiwi.State = State;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Entity = (function () {
-        function Entity() {
-            this.game = null;
-            this.state = null;
-            this.name = '';
-            this.layer = null;
-            this.parent = null;
-            this.domElement = null;
-            this.domElementType = 'div';
-            this._cssStack = {};
-            this._cssTransformStack = {};
-            this._clock = null;
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
-
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-        }
-        Entity.prototype.objType = function () {
-            return "Entity";
-        };
-
-        Entity.prototype.modify = function (action, parent) {
-            if (action === Kiwi.ADDED_TO_GROUP) {
-                return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (action === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
-                return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
-            } else if (action === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            }
-        };
-
-        Entity.prototype.exists = function (value) {
-            if (value !== undefined) {
-                this._exists = value;
-            }
-
-            return this._exists;
-        };
-
-        Entity.prototype.active = function (value) {
-            if (value !== undefined) {
-                this._active = value;
-            }
-
-            return this._active;
-        };
-
-        Entity.prototype.willRender = function (value) {
-            if (value) {
-                this._willRender = value;
-            }
-
-            return this._willRender;
-        };
-
-        Entity.prototype.inputEnabled = function (value) {
-            if (value) {
-                this._inputEnabled = value;
-            }
-
-            return this._inputEnabled;
-        };
-
-        Entity.prototype.clock = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._clock = value;
-            }
-
-            return this._clock;
-        };
-
-        Entity.prototype.isGroup = function () {
-            return false;
-        };
-
-        Entity.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Entity already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                if (layer.game !== null) {
-                    this.game = layer.game;
-
-                    if (this._clock === null) {
-                        this._clock = this.game.time.clock;
-                    }
-                }
-
-                this.onAddedToLayer.dispatch(this, this.layer);
-
-                return true;
-            }
-        };
-
-        Entity.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            if (this.domElement) {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
-
-        Entity.prototype._addedToState = function (state) {
-            klog.info('Entity added to State');
-
-            this.state = state;
-
-            this.game = this.state.game;
-
-            if (this._clock === null) {
-                this._clock = this.game.time.clock;
-            }
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-        };
-
-        Entity.prototype._removedFromState = function (state) {
-            klog.info('Entity removed from State');
-
-            this.state = null;
-
-            this.game = null;
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Entity.prototype._addedToGroup = function (group) {
-            klog.info('Entity added to Group');
-
-            if (this.parent === group) {
-                klog.warn('Entity.addedToGroup() called but parent already set d');
-                return;
-            }
-
-            if (this.parent !== null) {
-                this.parent.removeChild(this);
-            }
-
-            this.parent = group;
-
-            if (group.game !== null) {
-                this.game = group.game;
-
-                if (this._clock === null) {
-                    this._clock = this.game.time.clock;
-                }
-            }
-
-            this.onAddedToGroup.dispatch(this, group);
-
-            if (this.parent.layer !== null) {
-                this._addedToLayer(this.parent.layer);
-            }
-        };
-
-        Entity.prototype._removedFromGroup = function (group) {
-            klog.info('Entity removed from Group');
-
-            if (this.parent !== null) {
-            }
-
-            this.parent = null;
-
-            this.onRemovedFromGroup.dispatch(this, group);
-        };
-
-        Entity.prototype._changedPosition = function (group, index) {
-            klog.info('Entity changed position within the group');
-        };
-
-        Entity.prototype.addStyleUpdate = function (key, value) {
-            this._cssStack[key] = value;
-        };
-
-        Entity.prototype.addStyleTransformUpdate = function (key, value) {
-            this._cssTransformStack[key] = value;
-        };
-
-        Entity.prototype.applyTransformStyle = function () {
-            var cssValue = "";
-            for (var key in this._cssTransformStack) {
-                cssValue += this._cssTransformStack[key] + " ";
-            }
-
-            this.domElement.element.style.transform = cssValue;
-            this.domElement.element.style['-o-transform'] = cssValue;
-            this.domElement.element.style['-ms-transform'] = cssValue;
-            this.domElement.element.style['-moz-transform'] = cssValue;
-            this.domElement.element.style['-webkit-transform'] = cssValue;
-        };
-
-        Entity.prototype.update = function () {
-        };
-
-        Entity.prototype.render = function (camera) {
-            if (this.domElement) {
-                for (var key in this._cssStack) {
-                    this.domElement.element.style[key] = this._cssStack[key];
-                    delete this._cssStack[key];
-                }
-                this.applyTransformStyle();
-            }
-        };
-
-        Entity.prototype.destroy = function () {
-            if (this.domElement) {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
-
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-            this._cssStack = {};
-        };
-        return Entity;
-    })();
-    Kiwi.Entity = Entity;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var Group = (function () {
         function Group(name) {
             if (typeof name === "undefined") { name = ''; }
+            this.parent = null;
+            this.name = '';
             this.game = null;
             this.state = null;
-            this.name = '';
             this.layer = null;
             this.domElement = null;
             this._cssStack = [];
+            this._dirty = true;
             this.name = name;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
 
@@ -5623,8 +4884,8 @@ var Kiwi;
 
             klog.info('Created Group ' + this.name);
         }
-        Group.prototype.objType = function () {
-            return "Group";
+        Group.prototype.childType = function () {
+            return Kiwi.GROUP;
         };
 
         Group.prototype.modify = function (type, parent) {
@@ -5644,9 +4905,13 @@ var Kiwi;
         };
 
         Group.prototype.dirty = function (value) {
-            for (var i = 0; i < this.members.length; i++) {
-                this.members[i].dirty = value;
+            if (value !== undefined) {
+                this._dirty = value;
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i].dirty(value);
+                }
             }
+            return this._dirty;
         };
 
         Group.prototype.contains = function (child) {
@@ -5654,6 +4919,12 @@ var Kiwi;
         };
 
         Group.prototype.addChild = function (child) {
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Warning - Entity has been added to a Group that exists on a Layer it cannot render to');
+                    return null;
+                }
+            }
             klog.info('Group.addChild ' + this.members.length);
 
             if (child.parent !== this) {
@@ -5666,6 +4937,12 @@ var Kiwi;
         };
 
         Group.prototype.addChildAt = function (child, index) {
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
+            }
             klog.info('Group.addChildAt ' + child.id);
 
             if (child.parent !== this) {
@@ -5678,6 +4955,12 @@ var Kiwi;
         };
 
         Group.prototype.addChildBefore = function (child, beforeChild) {
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
+            }
             klog.info('Group.addChildBefore ' + child.id);
 
             if (child.parent !== this && beforeChild.parent === this) {
@@ -5692,6 +4975,12 @@ var Kiwi;
         };
 
         Group.prototype.addChildAfter = function (child, beforeChild) {
+            if (child.childType() === Kiwi.ENTITY) {
+                if ((child).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + child.id);
+                    return null;
+                }
+            }
             klog.info('Group.addChildAfter ' + child.id);
 
             if (child.parent !== this && beforeChild.parent === this) {
@@ -5813,6 +5102,10 @@ var Kiwi;
             return false;
         };
 
+        Group.prototype._changedPosition = function (group, index) {
+            klog.info('Group changed position within the group');
+        };
+
         Group.prototype.swapChildrenAt = function (index1, index2) {
             if (child1.parent !== this || child2.parent !== this) {
                 return false;
@@ -5838,6 +5131,12 @@ var Kiwi;
             console.log(this.members[0]);
             klog.info("replaceChild on group " + this.name);
 
+            if (newChild.childType() === Kiwi.ENTITY) {
+                if ((newChild).supportsType(this.type) === false) {
+                    klog.warn('Invalid Entity Type added to Group: ' + newChild.id);
+                    return null;
+                }
+            }
             if (oldChild === newChild)
                 return;
 
@@ -5929,6 +5228,22 @@ var Kiwi;
             if (child.active() === true) {
                 child.update();
             }
+        };
+
+        Group.prototype.exists = function (value) {
+            if (value !== undefined) {
+                this._exists = value;
+            }
+
+            return this._exists;
+        };
+
+        Group.prototype.active = function (value) {
+            if (value !== undefined) {
+                this._active = value;
+            }
+
+            return this._active;
         };
 
         Group.prototype.render = function (camera) {
@@ -6034,22 +5349,6 @@ var Kiwi;
             this.members.length = 0;
         };
 
-        Group.prototype.exists = function (value) {
-            if (value) {
-                this._exists = value;
-            }
-
-            return this._exists;
-        };
-
-        Group.prototype.active = function (value) {
-            if (value) {
-                this._active = value;
-            }
-
-            return this._active;
-        };
-
         Group.prototype.willRender = function (value) {
             if (value) {
                 this._willRender = value;
@@ -6071,7 +5370,7 @@ var Kiwi;
                 klog.info('Group added to Layer. Checking children: ' + this.members.length);
 
                 this.layer = layer;
-
+                console.log(this.type);
                 for (var i = 0; i < this.members.length; i++) {
                     if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
                         this.members[i].exists(false);
@@ -6128,6 +5427,461 @@ var Kiwi;
         return Group;
     })();
     Kiwi.Group = Group;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var State = (function (_super) {
+        __extends(State, _super);
+        function State(name) {
+            _super.call(this, name);
+            this.game = null;
+
+            klog.debug('----------- State created: ' + name + ' -----------');
+
+            this.config = new Kiwi.StateConfig(this, name);
+            this.cache = new Kiwi.Cache(this.game);
+            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
+        }
+        State.prototype.objType = function () {
+            return "State";
+        };
+
+        State.prototype.boot = function () {
+            klog.info('State booted: ', this.config.name);
+
+            this.cache.boot();
+
+            klog.info('Current Layer: ' + this.game.layers.currentLayer);
+
+            this.currentLayer = this.game.layers.currentLayer;
+        };
+
+        State.prototype.init = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preload = function () {
+        };
+
+        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
+        };
+
+        State.prototype.loadComplete = function () {
+        };
+
+        State.prototype.loadUpdate = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active() === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.create = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preUpdate = function () {
+            this.components.preUpdate();
+        };
+
+        State.prototype.update = function () {
+            this.components.update();
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active() === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.postUpdate = function () {
+            this.components.postUpdate();
+        };
+
+        State.prototype.postRender = function () {
+        };
+
+        State.prototype.setType = function (value) {
+            if (this.config.isInitialised === false) {
+                this.config.type = value;
+            } else {
+                klog.warn('State default type can only be changed in init()');
+            }
+        };
+
+        State.prototype.swapLayer = function (layer) {
+            this.currentLayer = layer;
+        };
+
+        State.prototype.addImage = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addImage(cacheID, url, this.game.cache.images);
+            } else {
+                this.game.loader.addImage(cacheID, url, this.cache.images);
+            }
+        };
+
+        State.prototype.addJSON = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
+            } else {
+                this.game.loader.addJSON(cacheID, url, this.cache.data);
+            }
+        };
+
+        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images);
+            } else {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images);
+            }
+        };
+
+        State.prototype.addChild = function (child) {
+            child.modify(Kiwi.ADDED_TO_STATE, this);
+            _super.prototype.removeChild.call(this, child);
+
+            var layer = null;
+            _super.prototype.addChild.call(this, child);
+            if (layer !== null) {
+                layer.add(child);
+            } else {
+                this.currentLayer.add(child);
+            }
+
+            return child;
+        };
+
+        State.prototype.removeChild = function (child) {
+            child.modify(Kiwi.REMOVED_FROM_STATE, this);
+            var layer = null;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === child.id) {
+                    this.members.slice(i, 1);
+
+                    if (layer !== null) {
+                        layer.remove(child);
+                    } else {
+                        this.currentLayer.remove(child);
+                    }
+                }
+            }
+            return child;
+        };
+
+        State.prototype.destroy = function () {
+            for (var i = 0; i < this.members.length; i++) {
+            }
+        };
+        return State;
+    })(Kiwi.Group);
+    Kiwi.State = State;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Entity = (function () {
+        function Entity(supportsCanvas, supportsDOM, supportsWebGL) {
+            this.game = null;
+            this.state = null;
+            this.name = '';
+            this.type = Kiwi.TYPE_UNASSIGNED;
+            this.layer = null;
+            this.parent = null;
+            this.domElement = null;
+            this.domElementType = 'div';
+            this._cssStack = {};
+            this._cssTransformStack = {};
+            this._clock = null;
+            this._supportsCanvas = supportsCanvas;
+            this._supportsDOM = supportsDOM;
+            this._supportsWebGL = supportsWebGL;
+
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+
+            this.onAddedToGroup = new Kiwi.Signal();
+            this.onAddedToLayer = new Kiwi.Signal();
+            this.onAddedToState = new Kiwi.Signal();
+            this.onRemovedFromGroup = new Kiwi.Signal();
+            this.onRemovedFromLayer = new Kiwi.Signal();
+            this.onRemovedFromState = new Kiwi.Signal();
+        }
+        Entity.prototype.childType = function () {
+            return Kiwi.ENTITY;
+        };
+
+        Entity.prototype.modify = function (action, parent) {
+            if (action === Kiwi.ADDED_TO_GROUP) {
+                return this._addedToGroup(parent);
+            } else if (action === Kiwi.ADDED_TO_LAYER) {
+                return this._addedToLayer(parent);
+            } else if (action === Kiwi.ADDED_TO_STATE) {
+                return this._addedToState(parent);
+            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
+                return this._removedFromGroup(parent);
+            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
+                return this._removedFromLayer(parent);
+            } else if (action === Kiwi.REMOVED_FROM_STATE) {
+                return this._removedFromState(parent);
+            }
+        };
+
+        Entity.prototype.exists = function (value) {
+            if (value !== undefined) {
+                this._exists = value;
+            }
+
+            return this._exists;
+        };
+
+        Entity.prototype.active = function (value) {
+            if (value !== undefined) {
+                this._active = value;
+            }
+
+            return this._active;
+        };
+
+        Entity.prototype.willRender = function (value) {
+            if (value) {
+                this._willRender = value;
+            }
+
+            return this._willRender;
+        };
+
+        Entity.prototype.inputEnabled = function (value) {
+            if (value) {
+                this._inputEnabled = value;
+            }
+
+            return this._inputEnabled;
+        };
+
+        Entity.prototype.clock = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            if (value !== null) {
+                this._clock = value;
+            }
+
+            return this._clock;
+        };
+
+        Entity.prototype.dirty = function (value) {
+            if (value !== undefined) {
+                this._dirty = value;
+            }
+            return this._dirty;
+        };
+
+        Entity.prototype.supportsType = function (type) {
+            if (type === Kiwi.TYPE_UNASSIGNED) {
+                return true;
+            }
+
+            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas) {
+                return true;
+            }
+
+            if (type === Kiwi.TYPE_DOM && this._supportsDOM) {
+                return true;
+            }
+
+            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL) {
+                return true;
+            }
+
+            return false;
+        };
+
+        Entity.prototype.isGroup = function () {
+            return false;
+        };
+
+        Entity.prototype._addedToLayer = function (layer) {
+            if (this.layer !== null) {
+                klog.warn('Entity already exists on Layer ' + this.layer.id);
+
+                return false;
+            } else {
+                if (this.supportsType(layer.type) === true) {
+                    this.layer = layer;
+                    this.type = this.layer.type;
+
+                    if (layer.game !== null) {
+                        this.game = layer.game;
+
+                        if (this._clock === null) {
+                            this._clock = this.game.time.clock;
+                        }
+                    }
+
+                    if (this.type === Kiwi.TYPE_DOM && this.domElement === null) {
+                        this.layer.domCache.assignElement(this);
+                    }
+
+                    this.onAddedToLayer.dispatch(this, this.layer);
+
+                    return true;
+                } else {
+                    klog.warn('Warning - Entity does not support Layer of this type: ' + layer.type);
+                    return false;
+                }
+            }
+        };
+
+        Entity.prototype._removedFromLayer = function (layer) {
+            this.layer = null;
+
+            if (this.domElement) {
+                this.domElement.unlink();
+                this.domElement = null;
+            }
+
+            this.type = Kiwi.TYPE_UNASSIGNED;
+
+            this.onRemovedFromLayer.dispatch(this, layer);
+        };
+
+        Entity.prototype._addedToState = function (state) {
+            klog.info('Entity added to State');
+
+            this.state = state;
+
+            this.game = this.state.game;
+
+            if (this._clock === null) {
+                this._clock = this.game.time.clock;
+            }
+
+            this.id = this.game.rnd.uuid();
+
+            this.onAddedToState.dispatch(this, this.state);
+
+            return true;
+        };
+
+        Entity.prototype._removedFromState = function (state) {
+            klog.info('Entity removed from State');
+
+            this.state = null;
+
+            this.game = null;
+
+            this.onAddedToState.dispatch(this, state);
+        };
+
+        Entity.prototype._addedToGroup = function (group) {
+            klog.info('Entity added to Group');
+
+            if (this.parent === group || this.supportsType(group.type) === false) {
+                klog.warn('Entity.addedToGroup() called but parent already set or type not supported');
+                return;
+            } else {
+                this.type = group.type;
+            }
+
+            if (this.parent !== null) {
+                this.parent.removeChild(this);
+            }
+
+            this.parent = group;
+
+            if (group.game !== null) {
+                this.game = group.game;
+
+                if (this._clock === null) {
+                    this._clock = this.game.time.clock;
+                }
+            }
+
+            this.onAddedToGroup.dispatch(this, group);
+
+            if (this.parent.layer !== null) {
+                this._addedToLayer(this.parent.layer);
+            }
+        };
+
+        Entity.prototype._removedFromGroup = function (group) {
+            klog.info('Entity removed from Group');
+
+            if (this.parent !== null) {
+            }
+
+            this.parent = null;
+
+            if (this.type === Kiwi.TYPE_DOM && this.domElement !== null) {
+                this.domElement.unlink();
+            }
+
+            this.onRemovedFromGroup.dispatch(this, group);
+        };
+
+        Entity.prototype._changedPosition = function (group, index) {
+            klog.info('Entity changed position within the group');
+        };
+
+        Entity.prototype.addStyleUpdate = function (key, value) {
+            this._cssStack[key] = value;
+        };
+
+        Entity.prototype.addStyleTransformUpdate = function (key, value) {
+            this._cssTransformStack[key] = value;
+        };
+
+        Entity.prototype.applyTransformStyle = function () {
+            var cssValue = "";
+            for (var key in this._cssTransformStack) {
+                cssValue += this._cssTransformStack[key] + " ";
+            }
+
+            this.domElement.element.style.transform = cssValue;
+            this.domElement.element.style['-o-transform'] = cssValue;
+            this.domElement.element.style['-ms-transform'] = cssValue;
+            this.domElement.element.style['-moz-transform'] = cssValue;
+            this.domElement.element.style['-webkit-transform'] = cssValue;
+        };
+
+        Entity.prototype.update = function () {
+        };
+
+        Entity.prototype.render = function (camera) {
+            if (this.domElement) {
+                for (var key in this._cssStack) {
+                    this.domElement.element.style[key] = this._cssStack[key];
+                    delete this._cssStack[key];
+                }
+                this.applyTransformStyle();
+            }
+        };
+
+        Entity.prototype.destroy = function () {
+            if (this.domElement) {
+                this.domElement.unlink();
+                this.domElement = null;
+            }
+
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+            this._cssStack = {};
+        };
+        return Entity;
+    })();
+    Kiwi.Entity = Entity;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -8059,6 +7813,7 @@ var Kiwi;
                     return;
                 }
 
+                this.name = cacheID;
                 this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
                 this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
