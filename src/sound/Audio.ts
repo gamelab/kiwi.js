@@ -288,19 +288,18 @@ module Kiwi.Sound {
         * @param {number} val
         * @return {number}
         */
-        public volume(val?:number) {
+        public set volume(val: number) {
 
             if (this._game.audio.noAudio) return;
 
             if (val !== undefined) {
 
                 val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
-                
+
                 this._volume = val;
 
                 if (this._muted) {
                     this._muteVolume = this._volume;
-                    return this._volume;
                 }
 
                 if (this._usingWebAudio) {
@@ -312,8 +311,12 @@ module Kiwi.Sound {
                 }
 
             }
+        }
+
+        public get volume(): number {
 
             return this._volume;
+
         }
 
         /*
@@ -323,23 +326,27 @@ module Kiwi.Sound {
         * @param {bool} val
         * @return {bool}
         */
-        public mute(val?: bool) {
-            
+        public set mute(val: bool) {
+
             if (this._game.audio.noAudio) return;
 
             if (val !== undefined && this._muted !== val) {
                 if (val === true) {
                     this._muteVolume = this._volume;
-                    this.volume(0);
+                    this.volume = 0;
                     this._muted = true;
                 } else {
                     this._muted = false;
-                    this.volume(this._muteVolume);
+                    this.volume = this._muteVolume;
                 }
                 this.onMute.dispatch(this._muted);
             }
-            
+        }
+
+        public get mute(): bool {
+
             return this._muted;
+
         }
 
         /*
