@@ -74,8 +74,8 @@ module Kiwi.Components {
             //  Is the input within the bounds now?
             if (this._bounds.pointWithin(this.game.input.position))
             {
-                this.distance.x = this.game.input.position.x - this._bounds.getRect().left();
-                this.distance.y = this.game.input.position.y - this._bounds.getRect().top();
+                this.distance.x = this.game.input.position.x - this._bounds.getRect().left;
+                this.distance.y = this.game.input.position.y - this._bounds.getRect().top;
 
                 //  Has it just moved inside?
                 if (this.withinBounds === false)
