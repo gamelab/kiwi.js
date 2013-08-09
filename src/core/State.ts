@@ -32,7 +32,7 @@ module Kiwi {
             this.config = new Kiwi.StateConfig(this, name);
             this.cache = new Kiwi.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
-            this.transform.parent(null);
+            this.transform.parent = null;
 
         }
 

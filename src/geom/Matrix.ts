@@ -84,7 +84,7 @@ module Kiwi.Geom {
 	    * @Param {Number} rotation. 
 	    * @return (Object) This object.
 	    */
-        public setFromTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number) {
+          public setFromTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number) {
             this.identity();
             var cos = Math.cos(rotation);
             var sin = Math.sin(rotation);
@@ -372,7 +372,7 @@ module Kiwi.Geom {
 	     * @method toString
 	     * @return {string} a string representation of the instance.
 	     **/
-        public toString(): string {
+        public get toString(): string {
 
             return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
 
