@@ -200,7 +200,7 @@ module Kiwi.Geom {
         static lineToCircle(line: Line, circle: Circle, output: IntersectResult = new IntersectResult): IntersectResult {
 
             //  Get a perpendicular line running to the center of the circle
-            if (line.perp(circle.x, circle.y).length() <= circle.radius())
+            if (line.perp(circle.x, circle.y).length <= circle.radius)
             {
                 output.result = true;
             }
@@ -220,7 +220,7 @@ module Kiwi.Geom {
         static lineToRectangle(line: Line, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
 
             //  Top of the Rectangle vs the Line
-            Intersect.lineToRawSegment(line, rect.x, rect.y, rect.right(), rect.y, output);
+            Intersect.lineToRawSegment(line, rect.x, rect.y, rect.right, rect.y, output);
 
             if (output.result === true)
             {
@@ -228,7 +228,7 @@ module Kiwi.Geom {
             }
 
             //  Left of the Rectangle vs the Line
-            Intersect.lineToRawSegment(line, rect.x, rect.y, rect.x, rect.bottom(), output);
+            Intersect.lineToRawSegment(line, rect.x, rect.y, rect.x, rect.bottom, output);
 
             if (output.result === true)
             {
@@ -236,7 +236,7 @@ module Kiwi.Geom {
             }
 
             //  Bottom of the Rectangle vs the Line
-            Intersect.lineToRawSegment(line, rect.x, rect.bottom(), rect.right(), rect.bottom(), output);
+            Intersect.lineToRawSegment(line, rect.x, rect.bottom, rect.right, rect.bottom, output);
 
             if (output.result === true)
             {
@@ -244,7 +244,7 @@ module Kiwi.Geom {
             }
 
             //  Right of the Rectangle vs the Line
-            Intersect.lineToRawSegment(line, rect.right(), rect.y, rect.right(), rect.bottom(), output);
+            Intersect.lineToRawSegment(line, rect.right, rect.y, rect.right, rect.bottom, output);
 
             return output;
 
@@ -317,7 +317,7 @@ module Kiwi.Geom {
 
             var perp = seg.perp(circle.x, circle.y);
 
-            if (perp.length() <= circle.radius())
+            if (perp.length <= circle.radius)
             {
                 //  Line intersects circle - check if segment does
                 var maxX = Math.max(seg.x1, seg.x2);
@@ -360,7 +360,7 @@ module Kiwi.Geom {
             else
             {
                 //  Top of the Rectangle vs the Line
-                Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.right(), rect.bottom(), output);
+                Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.right, rect.bottom, output);
 
                 if (output.result === true)
                 {
@@ -368,7 +368,7 @@ module Kiwi.Geom {
                 }
 
                 //  Left of the Rectangle vs the Line
-                Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.x, rect.bottom(), output);
+                Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.x, rect.bottom, output);
 
                 if (output.result === true)
                 {
@@ -376,7 +376,7 @@ module Kiwi.Geom {
                 }
 
                 //  Bottom of the Rectangle vs the Line
-                Intersect.lineToRawSegment(seg, rect.x, rect.bottom(), rect.right(), rect.bottom(), output);
+                Intersect.lineToRawSegment(seg, rect.x, rect.bottom, rect.right, rect.bottom, output);
 
                 if (output.result === true)
                 {
@@ -384,7 +384,7 @@ module Kiwi.Geom {
                 }
 
                 //  Right of the Rectangle vs the Line
-                Intersect.lineToRawSegment(seg, rect.right(), rect.y, rect.right(), rect.bottom(), output);
+                Intersect.lineToRawSegment(seg, rect.right, rect.y, rect.right, rect.bottom, output);
 
                 return output;
 
@@ -477,7 +477,7 @@ module Kiwi.Geom {
 	     **/
         static circleToCircle(circle1: Circle, circle2: Circle, output: IntersectResult = new IntersectResult): IntersectResult {
 
-            output.result = ((circle1.radius() + circle2.radius()) * (circle1.radius() + circle2.radius())) >= Intersect.distanceSquared(circle1.x, circle1.y, circle2.x, circle2.y);
+            output.result = ((circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) >= Intersect.distanceSquared(circle1.x, circle1.y, circle2.x, circle2.y);
 
             return output;
 
@@ -495,7 +495,7 @@ module Kiwi.Geom {
 
             var inflatedRect: Rectangle = rect.clone();
 
-            inflatedRect.inflate(circle.radius(), circle.radius());
+            inflatedRect.inflate(circle.radius, circle.radius);
 
             output.result = inflatedRect.contains(circle.x, circle.y);
 
@@ -513,7 +513,7 @@ module Kiwi.Geom {
 	     **/
         static circleContainsPoint(circle: Circle, point: Point, output: IntersectResult = new IntersectResult): IntersectResult {
 
-            output.result = circle.radius() * circle.radius() >= Intersect.distanceSquared(circle.x, circle.y, point.x, point.y);
+            output.result = circle.radius * circle.radius >= Intersect.distanceSquared(circle.x, circle.y, point.x, point.y);
 
             return output;
 
@@ -553,16 +553,16 @@ module Kiwi.Geom {
         static rectangleToRectangle(rect1: Rectangle, rect2: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
 
             var leftX = Math.max(rect1.x, rect2.x);
-            var rightX = Math.min(rect1.right(), rect2.right());
+            var rightX = Math.min(rect1.right, rect2.right);
             var topY = Math.max(rect1.y, rect2.y);
-            var bottomY = Math.min(rect1.bottom(), rect2.bottom());
+            var bottomY = Math.min(rect1.bottom, rect2.bottom);
 
             output.setTo(leftX, topY, rightX - leftX, bottomY - topY, rightX - leftX, bottomY - topY);
 
             var cx = output.x + output.width * .5;
             var cy = output.y + output.height * .5;
 
-            if ((cx > rect1.x && cx < rect1.right()) && (cy > rect1.y && cy < rect1.bottom()))
+            if ((cx > rect1.x && cx < rect1.right) && (cy > rect1.y && cy < rect1.bottom))
             {
                 output.result = true;
             }
