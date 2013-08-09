@@ -17,9 +17,10 @@ module Kiwi.GameObjects {
 
             this.tileLayer = tileLayer;
 
-            this.position = this.components.add(new Kiwi.Components.Position(x, y));
+            this.transform.x = x;
+            this.transform.y = y;
             this.size = this.components.add(new Kiwi.Components.Size(width, height));
-            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
+            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.transform, this.size));
             this.tileUpdate(tileType);
         }
 
@@ -49,11 +50,6 @@ module Kiwi.GameObjects {
         * Reference to the type of tile that this tile is.
         */
         public tileType: Kiwi.GameObjects.TileType;
-
-        /*
-        * The position of the tile on the stage. This is only ever used as a reference and won't actually update the position of the tile when rendered.
-        */
-        public position: Kiwi.Components.Position;
 
         /*
         * The size of this tile. This is only ever used as a reference and won't actually update the size of the tile when rendered.

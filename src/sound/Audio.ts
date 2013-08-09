@@ -37,18 +37,18 @@ module Kiwi.Sound {
                 //make sure the audio is decoded.
                 this._decode();
 
-                this.gainNode.gain.value = volume * this._game.audio.volume();      //this may need to change.....
+                this.gainNode.gain.value = volume * this._game.audio.volume;      //this may need to change.....
                 this.gainNode.connect(this.masterGainNode); 
             } else if (this._usingAudioTag) {
 
                 this.totalDuration = this._sound.duration;
-                this._sound.volume = volume * this._game.audio.volume();
+                this._sound.volume = volume * this._game.audio.volume;
 
                 if (isNaN(this.totalDuration)) this._pending = true;    //this should never need to happen once we get the loading clear.
             }
 
             this.duration = 0;
-            this.volume(volume);
+            this.volume = volume;
             this._muteVolume = volume;
             this._loop = loop;
 
@@ -303,10 +303,10 @@ module Kiwi.Sound {
                 }
 
                 if (this._usingWebAudio) {
-                    this.gainNode.gain.value = this._volume * this._game.audio.volume();            //this may need to change....
+                    this.gainNode.gain.value = this._volume * this._game.audio.volume;            //this may need to change....
 
                 } else if (this._usingAudioTag) {
-                    this._sound.volume = this._volume * this._game.audio.volume();
+                    this._sound.volume = this._volume * this._game.audio.volume;
 
                 }
 
