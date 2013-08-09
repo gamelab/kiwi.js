@@ -345,7 +345,6 @@ var Kiwi;
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var result = false;
 
-                        result = true;
                 return result;
             };
 
@@ -2497,7 +2496,7 @@ var Kiwi;
         var Sound = (function (_super) {
             __extends(Sound, _super);
             function Sound(game) {
-                _super.call(this, 'Sound', true, true, true);
+                _super.call(this, 'Sound');
 
                 this._game = game;
                 this._audio = [];
@@ -5279,15 +5278,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-        State.prototype.addAudio = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
-            } else {
-                this.game.loader.addAudio(cacheID, url, this.cache.audio);
-            }
-        };
-
     var Group = (function () {
         function Group(name) {
             if (typeof name === "undefined") { name = ''; }
@@ -5942,6 +5932,15 @@ var Kiwi;
                 this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images);
             } else {
                 this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images);
+            }
+        };
+
+        State.prototype.addAudio = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
+            } else {
+                this.game.loader.addAudio(cacheID, url, this.cache.audio);
             }
         };
 

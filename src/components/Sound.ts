@@ -11,7 +11,7 @@ module Kiwi.Components {
         */
         constructor(game: Kiwi.Game) {
 
-            super('Sound', true, true, true);
+            super('Sound');
 
             this._game = game;
             this._audio = [];

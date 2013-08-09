@@ -11,6 +11,7 @@
 /// <reference path="components/Sound.ts" />
 /// <reference path="components/Texture.ts" />
 /// <reference path="components/Visible.ts" />
+/// <reference path="components/Sound.ts" />
 
 /// <reference path="components/particles/Particle.ts" />
 /// <reference path="components/particles/ParticleSystem.ts" />
