@@ -48,6 +48,7 @@
     <TypeScriptCompile Include="sound\AudioManager.ts" />
     <TypeScriptCompile Include="sound\Audio.ts" />
     <TypeScriptCompile Include="components\Sound.ts" />
+    <Content Include="components\ArcadePhysics.ts" />
     <Content Include="components\Sound.js">
       <DependentUpon>Sound.ts</DependentUpon>
     </Content>
@@ -221,14 +222,6 @@
     </Content>
     <Content Include="ECMA262-5.js" />
     <TypeScriptCompile Include="gameobjects\Pixel.ts" />
-    <TypeScriptCompile Include="gameobjects\MouseDebug.ts" />
-    <TypeScriptCompile Include="gameobjects\LinkedGroup.ts" />
-    <Content Include="gameobjects\LinkedGroup.js">
-      <DependentUpon>LinkedGroup.ts</DependentUpon>
-    </Content>
-    <Content Include="gameobjects\MouseDebug.js">
-      <DependentUpon>MouseDebug.ts</DependentUpon>
-    </Content>
     <Content Include="gameobjects\Pixel.js">
       <DependentUpon>Pixel.ts</DependentUpon>
     </Content>
@@ -531,14 +524,14 @@
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsAAB4.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsB939.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsAAB4.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsB939.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

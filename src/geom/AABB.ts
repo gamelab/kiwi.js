@@ -72,7 +72,7 @@ module Kiwi.Geom {
         * @method height
         * @return {Number}
         */
-        public height() {
+        public get height():number {
             return this.halfHeight * 2;
         }
 
@@ -81,7 +81,7 @@ module Kiwi.Geom {
         * @method width
         * @return {Number}
         */
-        public width() {
+        public get width():number {
             return this.halfWidth * 2;
         }
 

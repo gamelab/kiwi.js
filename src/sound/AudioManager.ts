@@ -145,38 +145,38 @@ module Kiwi.Sound {
         * @param {bool} value
         * @return {bool}
         */
-        public mute(value?: bool):bool {
-            if (value !== undefined) {
-                if (value === true) {
-                    if (this._muted) return;
-                    this._muted = true;
-                    
-                    //mute the sounds 
-                    if (this.usingWebAudio) {
-                        this._muteVolume = this.masterGain.gain.value;
-                        this.masterGain.gain.value = 0;
+        public set mute(value: bool) {
+            if (value === true) {
+                if (this._muted) return;
+                this._muted = true;
 
-                    } else if (this.usingAudioTag) {
-                        for (var i = 0; i < this._sounds.length; i++) {
-                            this._sounds[i].mute(true);
-                        }
+                //mute the sounds 
+                if (this.usingWebAudio) {
+                    this._muteVolume = this.masterGain.gain.value;
+                    this.masterGain.gain.value = 0;
+
+                } else if (this.usingAudioTag) {
+                    for (var i = 0; i < this._sounds.length; i++) {
+                        this._sounds[i].mute(true);
                     }
+                }
 
-                } else {
-                    if (this._muted == false) return;
-                    this._muted = false;
+            } else {
+                if (this._muted == false) return;
+                this._muted = false;
 
-                    if (this.usingWebAudio) {
-                        this.masterGain.gain.value = this._muteVolume;
+                if (this.usingWebAudio) {
+                    this.masterGain.gain.value = this._muteVolume;
 
-                    } else if(this.usingAudioTag) {
-                        for (var i = 0; i < this._sounds.length; i++) {
-                            this._sounds[i].mute(false);
-                        }
+                } else if (this.usingAudioTag) {
+                    for (var i = 0; i < this._sounds.length; i++) {
+                        this._sounds[i].mute(false);
                     }
                 }
             }
+        }
 
+        public get mute(): bool {
             return this._muted;
         }
 
@@ -187,22 +187,21 @@ module Kiwi.Sound {
         * @param {number} value
         * @return {number}
         */
-        public volume(value?: number) {
+        public set volume(value: number) {
 
             if (value !== undefined) {
-                
+
                 value = Kiwi.Utils.GameMath.clamp(value, 1, 0);
                 this._volume = value;
-                
+
                 if (this._muted) {
                     this._muteVolume = this._volume;
-                    return this._volume;
                 }
 
                 if (this.usingWebAudio) {
                     this.masterGain.gain.value = value;
 
-                } else if(this.usingAudioTag) {
+                } else if (this.usingAudioTag) {
                     for (var i = 0; i < this._sounds.length; i++) {
                         //for each sound tag to update.
                         this._sounds[i].volume(this._sounds[i].volume());
@@ -210,8 +209,12 @@ module Kiwi.Sound {
                 }
 
             }
+        }
+
+        public get volume(): number {
 
             return this._volume;
+
         }
 
         /*

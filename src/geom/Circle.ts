@@ -63,21 +63,25 @@ module Kiwi.Geom {
 	     **/
         public y: number = 0;
 
-	    /**
-	     * The diameter of the circle. The largest distance between any two points on the circle. The same as the radius * 2.
-	     * @method diameter
-	     * @param {Number} The diameter of the circle.
-	     * @return {Number}
-	     **/
-        public diameter(value?: number): number {
+        /**
+         * The diameter of the circle. The largest distance between any two points on the circle. The same as the radius * 2.
+         * @method diameter
+         * @param {Number} The diameter of the circle.
+         * @return {Number}
+         **/
+        public set diameter(value: number) {
 
-            if (value && value > 0)
+            if (value > 0)
             {
                 this._diameter = value;
                 this._radius = value * 0.5;
             }
 
-            return this._diameter;
+        }
+
+        public get diameter(): number {
+
+             return this._diameter;
 
         }
 
@@ -86,13 +90,17 @@ module Kiwi.Geom {
 	     * @method radius
 	     * @param {Number} The radius of the circle.
 	     **/
-        public radius(value?: number) {
+        public set radius(value: number) {
 
-            if (value && value > 0)
+            if (value > 0)
             {
                 this._radius = value;
                 this._diameter = value * 2;
             }
+
+        }
+
+        public get radius(): number {
 
             return this._radius;
 
@@ -103,20 +111,20 @@ module Kiwi.Geom {
 	     * @method circumference
 	     * @return {Number}
 	     **/
-        public circumference(): number {
+        public get circumference(): number {
 
             return 2 * (Math.PI * this._radius);
 
         }
 
-	    /**
-	     * The sum of the y and radius properties. Changing the bottom property of a Circle object has no effect on the x and y properties, but does change the diameter.
-	     * @method bottom
-	     * @param {Number} The value to adjust the height of the circle by.
-	     **/
-        public bottom(value?: number) {
+        /**
+         * The sum of the y and radius properties. Changing the bottom property of a Circle object has no effect on the x and y properties, but does change the diameter.
+         * @method bottom
+         * @param {Number} The value to adjust the height of the circle by.
+         **/
+        public set bottom(value: number) {
 
-            if (value && !isNaN(value))
+            if (!isNaN(value))
             {
                 if (value < this.y)
                 {
@@ -125,27 +133,30 @@ module Kiwi.Geom {
                 }
                 else
                 {
-
-                    this.radius(value - this.y);
+                    this.radius = value - this.y;
                 }
             }
+
+        }
+
+        public get bottom(): number {
 
             return this.y + this._radius;
 
         }
 
-	    /**
-	     * The x coordinate of the leftmost point of the circle. Changing the left property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
-	     * @method left
-	     * @param {Number} The value to adjust the position of the leftmost point of the circle by.
-	     **/
-        public left(value?: number) {
+        /**
+         * The x coordinate of the leftmost point of the circle. Changing the left property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+         * @method left
+         * @param {Number} The value to adjust the position of the leftmost point of the circle by.
+         **/
+        public set left(value: number) {
 
-            if (value && !isNaN(value))
+            if (!isNaN(value))
             {
                 if (value < this.x)
                 {
-                    this.radius(this.x - value);
+                    this.radius = this.x - value;
                 }
                 else
                 {
@@ -153,23 +164,27 @@ module Kiwi.Geom {
                     this._diameter = 0;
                 }
             }
+
+        }
+
+        public get left(): number {
 
             return this.x - this._radius;
 
         }
 
-	    /**
-	     * The x coordinate of the rightmost point of the circle. Changing the right property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
-	     * @method right
-	     * @param {Number} The amount to adjust the diameter of the circle by.
-	     **/
-        public right(value?: number) {
+        /**
+         * The x coordinate of the rightmost point of the circle. Changing the right property of a Circle object has no effect on the x and y properties. However it does affect the diameter, whereas changing the x value does not affect the diameter property.
+         * @method right
+         * @param {Number} The amount to adjust the diameter of the circle by.
+         **/
+        public set right(value: number) {
 
             if (value && !isNaN(value))
             {
                 if (value > this.x)
                 {
-                    this.radius(value - this.x);
+                    this.radius = value - this.x;
                 }
                 else
                 {
@@ -178,16 +193,20 @@ module Kiwi.Geom {
                 }
             }
 
+        }
+
+        public get right(): number {
+
             return this.x + this._radius;
 
         }
 
-	    /**
-	     * The sum of the y minus the radius property. Changing the top property of a Circle object has no effect on the x and y properties, but does change the diameter.
-	     * @method bottom
-	     * @param {Number} The amount to adjust the height of the circle by.
-	     **/
-        public top(value?: number) {
+        /**
+         * The sum of the y minus the radius property. Changing the top property of a Circle object has no effect on the x and y properties, but does change the diameter.
+         * @method bottom
+         * @param {Number} The amount to adjust the height of the circle by.
+         **/
+        public set top(value: number) {
 
             if (value && !isNaN(value))
             {
@@ -198,9 +217,13 @@ module Kiwi.Geom {
                 }
                 else
                 {
-                    this.radius(this.y - value);
+                    this.radius = this.y - value;
                 }
             }
+
+        }
+
+        public get top(): number {
 
             return this.y - this._radius;
 
@@ -211,7 +234,7 @@ module Kiwi.Geom {
 	     * @method area
 	     * @return {Number} This area of this circle.
 	     **/
-        public area(): number {
+        public get area(): number {
 
             if (this._radius > 0)
             {
@@ -229,7 +252,7 @@ module Kiwi.Geom {
 	     * @method isEmpty
 	     * @return {Boolean} A value of true if the Circle objects diameter is less than or equal to 0; otherwise false.
 	     **/
-        public isEmpty(): bool {
+        public get isEmpty(): bool {
 
             if (this._diameter <= 0)
             {
@@ -321,7 +344,7 @@ module Kiwi.Geom {
 	     **/
         public copyFrom(source: Circle): Circle {
 
-            return this.setTo(source.x, source.y, source.diameter());
+            return this.setTo(source.x, source.y, source.diameter);
 
         }
 
@@ -368,7 +391,7 @@ module Kiwi.Geom {
 	     **/
         public equals(toCompare: Circle): bool {
 
-            if (this.x === toCompare.x && this.y === toCompare.y && this.diameter() === toCompare.diameter())
+            if (this.x === toCompare.x && this.y === toCompare.y && this.diameter === toCompare.diameter)
             {
                 return true;
             }
@@ -474,7 +497,7 @@ module Kiwi.Geom {
 	     **/
         public toString(): string {
 
-            return "[{Circle (x=" + this.x + " y=" + this.y + " diameter=" + this.diameter() + " radius=" + this.radius() + ")}]";
+            return "[{Circle (x=" + this.x + " y=" + this.y + " diameter=" + this.diameter + " radius=" + this.radius + ")}]";
 
         }
 

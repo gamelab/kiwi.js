@@ -228,8 +228,8 @@ module Kiwi.Components {
 
             if (this._wrap !== null && this._wrap.containsPoint(this._point) === false)
             {
-                this._point.x = Kiwi.Utils.GameMath.wrap(this._point.x, this._wrap.right(), this._wrap.x);
-                this._point.y = Kiwi.Utils.GameMath.wrap(this._point.y, this._wrap.bottom(), this._wrap.y);
+                this._point.x = Kiwi.Utils.GameMath.wrap(this._point.x, this._wrap.right, this._wrap.x);
+                this._point.y = Kiwi.Utils.GameMath.wrap(this._point.y, this._wrap.bottom, this._wrap.y);
             }
 
             this.differenceX = Kiwi.Utils.GameMath.difference(this._oldX, this._point.x);

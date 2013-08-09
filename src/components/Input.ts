@@ -116,8 +116,8 @@ module Kiwi.Components {
             //  Is the input within the bounds now?
             if (this._bounds.pointWithin(this._entity.game.input.position))
             {
-                this.distance.x = this._entity.game.input.position.x - this._bounds.getRect().left();
-                this.distance.y = this._entity.game.input.position.y - this._bounds.getRect().top();
+                this.distance.x = this._entity.game.input.position.x - this._bounds.getRect().left;
+                this.distance.y = this._entity.game.input.position.y - this._bounds.getRect().top;
 
                 //  Has it just moved inside?
                 if (this.withinBounds === false)
@@ -168,7 +168,7 @@ module Kiwi.Components {
                         if (this._dragSnapToCenter === true)
                         {
                             //  Copy the mid-point coordinates into pointDown
-                            this._bounds.getRect().center(this.pointDown);
+                            this._bounds.getRect().center = this.pointDown;
                         }
 
                         this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
