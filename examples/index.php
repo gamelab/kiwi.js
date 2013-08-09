@@ -27,23 +27,17 @@ function dirToArray($dir) {
     return $result; 
 } 
 
-$state = false;
+$state = false;/*
 $kiwiType = 'TYPE_DOM';
-$canvas = false;
+$canvas = false;*/
 $canvasLink = '';
 
 if (isset($_GET['f']))
 {
     $js = $_GET['d'] . '/' . $_GET['f'];
     $state = substr($_GET['f'], 0, -3);
-    $domLink = $_SERVER["SCRIPT_NAME"] . '?f=' . $_GET['f'] . '&d=' . $_GET['d'];
-    $canvasLink = $_SERVER["SCRIPT_NAME"] . '?f=' . $_GET['f'] . '&d=' . $_GET['d'] . '&c=true';
+    $link = $_SERVER["SCRIPT_NAME"] . '?f=' . $_GET['f'] . '&d=' . $_GET['d'];
 
-    if (isset($_GET['c']))
-    {
-        $canvas = true;
-        $kiwiType = 'TYPE_CANVAS';
-    }
 }
 
 ?>
@@ -74,7 +68,7 @@ if (isset($_GET['f']))
 </head>
 <body>
 
-<a href="index.php">home</a> || <a href="<?php echo $canvasLink?>">run as canvas</a>
+<a href="index.php">Home</a>
 
     <div id="game"></div>
 
@@ -95,20 +89,8 @@ function start() {
 }
 </script>
 
-<div id="buttons" style="position: absolute; top: 620px">
+<div id="buttons" style="position:absolute; top: 630px;">
     <a href="index.php" class="button">Home</a>
-<?php
-    if ($canvas)
-    {
-?>
-    <a href="<?php echo $domLink?>" class="button">Run as DOM</a>
-<?php
-    } else {
-?>
-    <a href="<?php echo $canvasLink?>" class="button">Run as Canvas</a>
-<?php
-    }
-?>
 </div>
 
 <?php

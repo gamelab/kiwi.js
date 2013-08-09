@@ -14769,7 +14769,7 @@ var Kiwi;
 
     Kiwi.TARGET_BROWSER = 0;
     Kiwi.TARGET_COCOON = 1;
-    Kiwi.TARGET = 1;
+    Kiwi.TARGET = 0;
 
     Kiwi.DEVICE = null;
 
