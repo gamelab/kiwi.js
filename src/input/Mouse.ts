@@ -253,24 +253,24 @@ module Kiwi.Input {
         * @method start 
         */
         public start() {
-
-            if (Kiwi.DEVICE.ie && Kiwi.DEVICE.ieVersion < 9)
-            {
-                this._domElement.attachEvent('onmousedown', (event: MouseEvent) => this.onMouseDown(event));
-                this._domElement.attachEvent('onmousemove', (event: MouseEvent) => this.onMouseMove(event));
-                this._domElement.attachEvent('onmouseup', (event: MouseEvent) => this.onMouseUp(event));
-                this._domElement.attachEvent('onmousewheel', (event: WheelEvent) => this.onMouseWheel(event));
-                //this._domElement.attachEvent('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event));
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (Kiwi.DEVICE.ie && Kiwi.DEVICE.ieVersion < 9)
+                {
+                    this._domElement.attachEvent('onmousedown', (event: MouseEvent) => this.onMouseDown(event));
+                    this._domElement.attachEvent('onmousemove', (event: MouseEvent) => this.onMouseMove(event));
+                    this._domElement.attachEvent('onmouseup', (event: MouseEvent) => this.onMouseUp(event));
+                    this._domElement.attachEvent('onmousewheel', (event: WheelEvent) => this.onMouseWheel(event));
+                    //this._domElement.attachEvent('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event));
+                }
+                else
+                {
+                    this._domElement.addEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), true);
+                    this._domElement.addEventListener('mousemove', (event: MouseEvent) => this.onMouseMove(event), true);
+                    this._domElement.addEventListener('mouseup', (event: MouseEvent) => this.onMouseUp(event), true);
+                    this._domElement.addEventListener('mousewheel', (event: WheelEvent) => this.onMouseWheel(event), true);
+                    this._domElement.addEventListener('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event), true);
+                }
             }
-            else
-            {
-                this._domElement.addEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), true);
-                this._domElement.addEventListener('mousemove', (event: MouseEvent) => this.onMouseMove(event), true);
-                this._domElement.addEventListener('mouseup', (event: MouseEvent) => this.onMouseUp(event), true);
-                this._domElement.addEventListener('mousewheel', (event: WheelEvent) => this.onMouseWheel(event), true);
-                this._domElement.addEventListener('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event), true);
-            }
-
         }
 
         /** 
@@ -278,14 +278,14 @@ module Kiwi.Input {
         * @method stop 
         */
         public stop() {
-
-            this._domElement.removeEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), false);
-            this._domElement.removeEventListener('mousedown', this.onMouseDown, false);
-            this._domElement.removeEventListener('mousemove', this.onMouseMove, false);
-            this._domElement.removeEventListener('mouseup', this.onMouseUp, false);
-            this._domElement.removeEventListener('mousewheel', this.onMouseWheel, false);
-            this._domElement.removeEventListener('DOMMouseScroll', this.onMouseWheel, false);
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this._domElement.removeEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), false);
+                this._domElement.removeEventListener('mousedown', this.onMouseDown, false);
+                this._domElement.removeEventListener('mousemove', this.onMouseMove, false);
+                this._domElement.removeEventListener('mouseup', this.onMouseUp, false);
+                this._domElement.removeEventListener('mousewheel', this.onMouseWheel, false);
+                this._domElement.removeEventListener('DOMMouseScroll', this.onMouseWheel, false);
+            }
         }
 
         /** 

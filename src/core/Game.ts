@@ -53,8 +53,9 @@ module Kiwi {
 
             //this.layers = new Kiwi.LayerManager(this);
             this.cameras = new Kiwi.CameraManager(this);
-            this.huds = new Kiwi.HUD.HUDManager(this);
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds = new Kiwi.HUD.HUDManager(this);
+            }
             this.loader = new Kiwi.Loader(this);
             
             this.states = new Kiwi.StateManager(this);
@@ -72,8 +73,12 @@ module Kiwi {
                 }
             }
 
-            //  Wait for the DOM
-            this._dom.boot(domParent, () => this.start());
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                //  Wait for the DOM
+                this._dom.boot(domParent, () => this.start());
+            } else {
+                this.start();
+            }
 
         }
 
@@ -208,7 +213,9 @@ module Kiwi {
             this.stage.boot(this._dom);
             //this.layers.boot();
             this.cameras.boot();
-            this.huds.boot();
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds.boot();
+            }
             this.time.boot();
             this.anims.boot();
             this.audio.boot();
@@ -237,15 +244,17 @@ module Kiwi {
             this.tweens.update();
             this.cameras.update();
             //this.layers.update();
-            this.huds.update();
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds.update();
+            }
             this.states.update();
             
 
-          
+            
             this.cameras.render();
-            this.huds.render();
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds.render();
+            }
             this.states.postRender();
 
         }

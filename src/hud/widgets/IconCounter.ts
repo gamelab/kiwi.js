@@ -38,7 +38,7 @@ module Kiwi.HUD {
             this.range.updated.add(this._changeSize, this);
 
             this._changeSize();
-            this._applyCSS();
+           // this._applyCSS();
         }
 
         /**
@@ -68,16 +68,19 @@ module Kiwi.HUD {
             }
 
         }
-
+        
         /**
         * Applys the background image CSS.
         * @public
         **/
+        /*
         public _applyCSS() {
             super._applyCSS();
             this.icon.style.backgroundRepeat = this.texture.repeat();
             this.icon.style.backgroundSize = this.texture.file.data.width + 'px ' + this.texture.file.data.height + 'px';
         }
+        */
+
 
         /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.

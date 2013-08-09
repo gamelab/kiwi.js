@@ -207,16 +207,16 @@ module Kiwi.Input {
         * @method start 
         */
         public start() {
-
-            this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
-            this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
-            this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
-            this._domElement.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-            this._domElement.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-            this._domElement.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
-
-            document.addEventListener('touchmove', (event) => this.consumeTouchMove(event), false);
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                this._domElement.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                this._domElement.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                this._domElement.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+                
+                document.addEventListener('touchmove', (event) => this.consumeTouchMove(event), false);
+            }
         }
 
         /** 

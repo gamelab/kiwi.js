@@ -2442,8 +2442,7 @@ var Kiwi;
             Size.prototype._processUpdate = function () {
                 this.aspectRatio = this._width / this._height;
                 this.dirty = true;
-                this.cssWidth = this._width + 'px';
-                this.cssHeight = this._height + 'px';
+
                 this.halfWidth = Math.round(this._width / 2);
                 this.halfHeight = Math.round(this._height / 2);
                 this.updated.dispatch(this._width, this._height);
@@ -2460,25 +2459,12 @@ var Kiwi;
                 if (entity === null) {
                     return;
                 }
-
-                entity.addStyleUpdate('width', this.cssWidth);
-                entity.addStyleUpdate('height', this.cssHeight);
             };
 
             Size.prototype.addStyleImmediately = function (entity) {
                 if (entity.domElement === null || entity.domElement.element === null) {
                     return;
                 }
-
-                entity.domElement.element.style.width = this.cssWidth;
-                entity.domElement.element.style.height = this.cssHeight;
-            };
-
-            Size.prototype.setCSS = function (element) {
-                element.style.width = this.cssWidth;
-                element.style.height = this.cssHeight;
-
-                return element;
             };
 
             Size.prototype.toString = function () {
@@ -2618,7 +2604,7 @@ var Kiwi;
 
             if (Kiwi.DEVICE.blob) {
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = false;
+                this._useTagLoader = true;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
@@ -2694,7 +2680,6 @@ var Kiwi;
                 this.data.onreadystatechange = function (event) {
                     return _this.tagLoaderOnReadyStateChange(event);
                 };
-                this.data.load();
             } else if (this.dataType === Kiwi.File.AUDIO) {
                 console.log('Ewww...disgusting...your loading by the audio tags....');
 
@@ -7417,11 +7402,11 @@ var Kiwi;
             this.domReady = true;
 
             this.container = dom.container;
-
-            this.offset = this._game.browser.getOffsetPoint(this.container);
-
-            this.position.setTo(this.offset.x, this.offset.y);
-            this.size.setTo(parseInt(this.container.style.width), parseInt(this.container.style.height));
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.offset = this._game.browser.getOffsetPoint(this.container);
+                this.position.setTo(this.offset.x, this.offset.y);
+                this.size.setTo(parseInt(this.container.style.width), parseInt(this.container.style.height));
+            }
 
             this.alpha.updated.add(this._updatedAlpha, this);
             this.color.updated.add(this._updatedColor, this);
@@ -7438,10 +7423,14 @@ var Kiwi;
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
 
-            this.canvas.width = this.size.width();
-            this.canvas.height = this.size.height();
+            this.canvas.width = 800;
+            this.canvas.height = 600;
 
-            this.container.appendChild(this.canvas);
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.container.appendChild(this.canvas);
+            } else {
+                document.body.appendChild(this.canvas);
+            }
         };
 
         Stage.prototype._updatedPosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
@@ -7462,7 +7451,6 @@ var Kiwi;
         };
 
         Stage.prototype._updatedSize = function () {
-            this.size.setCSS(this.container);
         };
 
         Stage.prototype.frameRate = function (value) {
@@ -7733,8 +7721,6 @@ var Kiwi;
             function Bootstrap() {
                 this.isReady = false;
                 this.container = null;
-                this.domLayersMask = null;
-                this.domLayers = null;
                 this.canvasLayers = null;
                 this.input = null;
             }
@@ -7750,6 +7736,7 @@ var Kiwi;
 
                 this._callback = callback;
                 this._domParent = domParent;
+
                 this._createContainer = createContainer;
 
                 if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -7797,37 +7784,6 @@ var Kiwi;
                             klog.info('DOM Alive');
                         }
                     }
-
-                    this.domLayersMask = document.createElement('div');
-                    this.domLayersMask.id = this.container.id + 'LayersMask';
-                    this.domLayersMask.style.position = 'absolute';
-                    this.domLayersMask.style.overflow = 'hidden';
-                    this.domLayersMask.style.top = '0px';
-                    this.domLayersMask.style.left = '0px';
-                    this.domLayersMask.style.width = '100%';
-                    this.domLayersMask.style.height = '100%';
-
-                    this.domLayers = document.createElement('div');
-                    this.domLayers.id = this.container.id + 'domLayers';
-                    this.domLayers.style.position = 'absolute';
-                    this.domLayers.style.overflow = 'hidden';
-
-                    this.domLayers.style.top = '0px';
-                    this.domLayers.style.left = '0px';
-                    this.domLayers.style.width = '100%';
-                    this.domLayers.style.height = '100%';
-
-                    this.canvasLayers = document.createElement('div');
-                    this.canvasLayers.id = this.container.id + 'canvasLayers';
-                    this.canvasLayers.style.position = 'absolute';
-                    this.canvasLayers.style.top = '0px';
-                    this.canvasLayers.style.left = '0px';
-                    this.canvasLayers.style.width = '100%';
-                    this.canvasLayers.style.height = '100%';
-
-                    this.container.appendChild(this.domLayersMask);
-                    this.domLayersMask.appendChild(this.domLayers);
-                    this.container.appendChild(this.canvasLayers);
 
                     if (this._callback !== null) {
                         this._callback();
@@ -10874,10 +10830,8 @@ var Kiwi;
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
                 this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
                 this.texture.updated.add(this._changeTexture, this);
-                this.size.updated.add(this._applyCSS, this);
 
                 this.icon = this.container;
-                this._applyCSS();
             }
             Icon.prototype._changeTexture = function (value, width, height) {
                 this.size.setTo(width, height);
@@ -10891,13 +10845,6 @@ var Kiwi;
                 this.icon.style.backgroundSize = '';
             };
 
-            Icon.prototype._applyCSS = function () {
-                this.size.setCSS(this.icon);
-                this.icon.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
-                this.icon.style.backgroundRepeat = 'no-repeat';
-                this.icon.style.backgroundSize = '100%';
-            };
-
             Icon.prototype.setTemplate = function (main, icon) {
                 this._removeCSS();
 
@@ -10906,8 +10853,6 @@ var Kiwi;
                 if (this.tempElement !== undefined) {
                     this.icon = this.tempElement;
                 }
-
-                this._applyCSS();
             };
 
             Icon.prototype.removeTemplate = function () {
@@ -10915,7 +10860,6 @@ var Kiwi;
 
                 this._removeCSS();
                 this.icon = this.container;
-                this._applyCSS();
             };
             return Icon;
         })(Kiwi.HUD.HUDWidget);
@@ -10963,7 +10907,6 @@ var Kiwi;
                 this.range.updated.add(this._changeSize, this);
 
                 this._changeSize();
-                this._applyCSS();
             }
             IconCounter.prototype._changeSize = function () {
                 if (this._horizontal) {
@@ -10973,12 +10916,6 @@ var Kiwi;
                     this.texture.repeat('repeat-y');
                     this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current());
                 }
-            };
-
-            IconCounter.prototype._applyCSS = function () {
-                _super.prototype._applyCSS.call(this);
-                this.icon.style.backgroundRepeat = this.texture.repeat();
-                this.icon.style.backgroundSize = this.texture.file.data.width + 'px ' + this.texture.file.data.height + 'px';
             };
 
             IconCounter.prototype.horizontal = function (val) {
@@ -11037,15 +10974,9 @@ var Kiwi;
 
                 this.position.updated.add(this._changed, this);
                 this.size.updated.add(this._changed, this);
-                this._applyCSS();
             }
             Button.prototype._changed = function () {
                 this.bounds.setTo(this.position.x(), this.position.y(), this.size.width(), this.size.height());
-                this._applyCSS();
-            };
-
-            Button.prototype._applyCSS = function () {
-                this.size.setCSS(this.container);
             };
             return Button;
         })(Kiwi.HUD.TextField);
@@ -11210,7 +11141,6 @@ var Kiwi;
             };
 
             MenuItem.prototype._applyCSS = function () {
-                this.size.setCSS(this.container);
                 var addX = 0;
                 var addY = 0;
                 if (this.menu !== undefined) {
@@ -12293,22 +12223,26 @@ var Kiwi;
 
             Keyboard.prototype.start = function () {
                 var _this = this;
-                document.body.addEventListener('keydown', function (event) {
-                    return _this.onKeyDown(event);
-                }, false);
-                document.body.addEventListener('keyup', function (event) {
-                    return _this.onKeyUp(event);
-                }, false);
+                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                    document.body.addEventListener('keydown', function (event) {
+                        return _this.onKeyDown(event);
+                    }, false);
+                    document.body.addEventListener('keyup', function (event) {
+                        return _this.onKeyUp(event);
+                    }, false);
+                }
             };
 
             Keyboard.prototype.stop = function () {
                 var _this = this;
-                this._domElement.removeEventListener('keydown', function (event) {
-                    return _this.onKeyDown(event);
-                }, false);
-                this._domElement.removeEventListener('keyup', function (event) {
-                    return _this.onKeyUp(event);
-                }, false);
+                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                    this._domElement.removeEventListener('keydown', function (event) {
+                        return _this.onKeyDown(event);
+                    }, false);
+                    this._domElement.removeEventListener('keyup', function (event) {
+                        return _this.onKeyUp(event);
+                    }, false);
+                }
             };
 
             Keyboard.prototype.onKeyDown = function (event) {
@@ -12521,48 +12455,52 @@ var Kiwi;
 
             Mouse.prototype.start = function () {
                 var _this = this;
-                if (Kiwi.DEVICE.ie && Kiwi.DEVICE.ieVersion < 9) {
-                    this._domElement.attachEvent('onmousedown', function (event) {
-                        return _this.onMouseDown(event);
-                    });
-                    this._domElement.attachEvent('onmousemove', function (event) {
-                        return _this.onMouseMove(event);
-                    });
-                    this._domElement.attachEvent('onmouseup', function (event) {
-                        return _this.onMouseUp(event);
-                    });
-                    this._domElement.attachEvent('onmousewheel', function (event) {
-                        return _this.onMouseWheel(event);
-                    });
-                } else {
-                    this._domElement.addEventListener('mousedown', function (event) {
-                        return _this.onMouseDown(event);
-                    }, true);
-                    this._domElement.addEventListener('mousemove', function (event) {
-                        return _this.onMouseMove(event);
-                    }, true);
-                    this._domElement.addEventListener('mouseup', function (event) {
-                        return _this.onMouseUp(event);
-                    }, true);
-                    this._domElement.addEventListener('mousewheel', function (event) {
-                        return _this.onMouseWheel(event);
-                    }, true);
-                    this._domElement.addEventListener('DOMMouseScroll', function (event) {
-                        return _this.onMouseWheel(event);
-                    }, true);
+                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                    if (Kiwi.DEVICE.ie && Kiwi.DEVICE.ieVersion < 9) {
+                        this._domElement.attachEvent('onmousedown', function (event) {
+                            return _this.onMouseDown(event);
+                        });
+                        this._domElement.attachEvent('onmousemove', function (event) {
+                            return _this.onMouseMove(event);
+                        });
+                        this._domElement.attachEvent('onmouseup', function (event) {
+                            return _this.onMouseUp(event);
+                        });
+                        this._domElement.attachEvent('onmousewheel', function (event) {
+                            return _this.onMouseWheel(event);
+                        });
+                    } else {
+                        this._domElement.addEventListener('mousedown', function (event) {
+                            return _this.onMouseDown(event);
+                        }, true);
+                        this._domElement.addEventListener('mousemove', function (event) {
+                            return _this.onMouseMove(event);
+                        }, true);
+                        this._domElement.addEventListener('mouseup', function (event) {
+                            return _this.onMouseUp(event);
+                        }, true);
+                        this._domElement.addEventListener('mousewheel', function (event) {
+                            return _this.onMouseWheel(event);
+                        }, true);
+                        this._domElement.addEventListener('DOMMouseScroll', function (event) {
+                            return _this.onMouseWheel(event);
+                        }, true);
+                    }
                 }
             };
 
             Mouse.prototype.stop = function () {
                 var _this = this;
-                this._domElement.removeEventListener('mousedown', function (event) {
-                    return _this.onMouseDown(event);
-                }, false);
-                this._domElement.removeEventListener('mousedown', this.onMouseDown, false);
-                this._domElement.removeEventListener('mousemove', this.onMouseMove, false);
-                this._domElement.removeEventListener('mouseup', this.onMouseUp, false);
-                this._domElement.removeEventListener('mousewheel', this.onMouseWheel, false);
-                this._domElement.removeEventListener('DOMMouseScroll', this.onMouseWheel, false);
+                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                    this._domElement.removeEventListener('mousedown', function (event) {
+                        return _this.onMouseDown(event);
+                    }, false);
+                    this._domElement.removeEventListener('mousedown', this.onMouseDown, false);
+                    this._domElement.removeEventListener('mousemove', this.onMouseMove, false);
+                    this._domElement.removeEventListener('mouseup', this.onMouseUp, false);
+                    this._domElement.removeEventListener('mousewheel', this.onMouseWheel, false);
+                    this._domElement.removeEventListener('DOMMouseScroll', this.onMouseWheel, false);
+                }
             };
 
             Mouse.prototype.onMouseDown = function (event) {
@@ -12805,28 +12743,30 @@ var Kiwi;
 
             Touch.prototype.start = function () {
                 var _this = this;
-                this._domElement.addEventListener('touchstart', function (event) {
-                    return _this.onTouchStart(event);
-                }, false);
-                this._domElement.addEventListener('touchmove', function (event) {
-                    return _this.onTouchMove(event);
-                }, false);
-                this._domElement.addEventListener('touchend', function (event) {
-                    return _this.onTouchEnd(event);
-                }, false);
-                this._domElement.addEventListener('touchenter', function (event) {
-                    return _this.onTouchEnter(event);
-                }, false);
-                this._domElement.addEventListener('touchleave', function (event) {
-                    return _this.onTouchLeave(event);
-                }, false);
-                this._domElement.addEventListener('touchcancel', function (event) {
-                    return _this.onTouchCancel(event);
-                }, false);
+                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                    this._domElement.addEventListener('touchstart', function (event) {
+                        return _this.onTouchStart(event);
+                    }, false);
+                    this._domElement.addEventListener('touchmove', function (event) {
+                        return _this.onTouchMove(event);
+                    }, false);
+                    this._domElement.addEventListener('touchend', function (event) {
+                        return _this.onTouchEnd(event);
+                    }, false);
+                    this._domElement.addEventListener('touchenter', function (event) {
+                        return _this.onTouchEnter(event);
+                    }, false);
+                    this._domElement.addEventListener('touchleave', function (event) {
+                        return _this.onTouchLeave(event);
+                    }, false);
+                    this._domElement.addEventListener('touchcancel', function (event) {
+                        return _this.onTouchCancel(event);
+                    }, false);
 
-                document.addEventListener('touchmove', function (event) {
-                    return _this.consumeTouchMove(event);
-                }, false);
+                    document.addEventListener('touchmove', function (event) {
+                        return _this.consumeTouchMove(event);
+                    }, false);
+                }
             };
 
             Touch.prototype.consumeTouchMove = function (event) {
@@ -13109,7 +13049,7 @@ var Kiwi;
 
                         var m = child.transform.getConcatenatedMatrix();
                         ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-
+                        ctx.drawImage((child).texture.image, 0, 0, (child).size.width(), (child).size.height());
                         ctx.restore();
                     }
                 }
@@ -13119,7 +13059,8 @@ var Kiwi;
                 this._currentCamera = camera;
                 var root = this._game.states.current.members;
 
-                this._game.stage.ctx.fillRect(0, 0, this._game.stage.size.width(), this._game.stage.size.height());
+                this._game.stage.ctx.fillStyle = "blue";
+                this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(root[i]);
@@ -14733,7 +14674,9 @@ var Kiwi;
 (function (Kiwi) {
     Kiwi.VERSION = "1.0";
 
-    Kiwi.TARGET_COCOON = false;
+    Kiwi.TARGET_BROWSER = 0;
+    Kiwi.TARGET_COCOON = 1;
+    Kiwi.TARGET = 1;
 
     Kiwi.DEVICE = null;
 
@@ -14813,8 +14756,9 @@ var Kiwi;
             this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
 
             this.cameras = new Kiwi.CameraManager(this);
-            this.huds = new Kiwi.HUD.HUDManager(this);
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds = new Kiwi.HUD.HUDManager(this);
+            }
             this.loader = new Kiwi.Loader(this);
 
             this.states = new Kiwi.StateManager(this);
@@ -14828,9 +14772,13 @@ var Kiwi;
                 }
             }
 
-            this._dom.boot(domParent, function () {
-                return _this.start();
-            });
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this._dom.boot(domParent, function () {
+                    return _this.start();
+                });
+            } else {
+                this.start();
+            }
         }
         Game.prototype.objType = function () {
             return "Game";
@@ -14846,7 +14794,9 @@ var Kiwi;
             this.stage.boot(this._dom);
 
             this.cameras.boot();
-            this.huds.boot();
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds.boot();
+            }
             this.time.boot();
             this.anims.boot();
             this.audio.boot();
@@ -14871,13 +14821,15 @@ var Kiwi;
             this.tweens.update();
             this.cameras.update();
 
-            this.huds.update();
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds.update();
+            }
             this.states.update();
 
             this.cameras.render();
-            this.huds.render();
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds.render();
+            }
             this.states.postRender();
         };
         return Game;

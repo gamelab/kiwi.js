@@ -52,17 +52,7 @@ module Kiwi.DOM {
         */
         public container:HTMLDivElement = null;
 
-        /**
-        * The div inside which all game Layers live
-        * @property container
-        * @type HTMLDivElement
-        */
-       // public layers:HTMLDivElement = null;
-
-        
-        public domLayersMask:HTMLDivElement = null;
-
-        public domLayers: HTMLDivElement = null;
+    
 
         /**
         * This div sits on-top of all layers and captures user input
@@ -97,8 +87,10 @@ module Kiwi.DOM {
 
             this._callback = callback;
             this._domParent = domParent;
+            // if this is true a div will be created in browser
             this._createContainer = createContainer;
 
+            // wait until DOM is loaded and call ready
             if (document.readyState === 'complete' || document.readyState === 'interactive')
             {
                 this.ready();
@@ -118,6 +110,9 @@ module Kiwi.DOM {
         public ready() {
 
             klog.info('DOM Ready Check');
+
+
+
 
             if (this.isReady === true)
             {
@@ -163,49 +158,9 @@ module Kiwi.DOM {
                 }
 
 
-                this.domLayersMask = <HTMLDivElement> document.createElement('div');
-                this.domLayersMask.id = this.container.id + 'LayersMask';
-                this.domLayersMask.style.position = 'absolute';
-                this.domLayersMask.style.overflow = 'hidden';
-                this.domLayersMask.style.top = '0px';
-                this.domLayersMask.style.left = '0px';
-                this.domLayersMask.style.width = '100%';
-                this.domLayersMask.style.height = '100%';
-               /* this.layers = <HTMLDivElement> document.createElement('div');
-                this.layers.id = this.container.id + 'Layers';
-                this.layers.style.position = 'absolute';
-                this.layers.style.top = '0px';
-                this.layers.style.left = '0px';
-                this.layers.style.width = '100%';
-                this.layers.style.height = '100%';*/
+              
                 
-                
-                //create DOM layers container
-
-                this.domLayers = <HTMLDivElement> document.createElement('div');
-                this.domLayers.id = this.container.id + 'domLayers';
-                this.domLayers.style.position = 'absolute';
-                this.domLayers.style.overflow = 'hidden';
-
-                this.domLayers.style.top = '0px';
-                this.domLayers.style.left = '0px';
-                this.domLayers.style.width = '100%';
-                this.domLayers.style.height = '100%';
-                
-                //create Canvas layers container
-
-                this.canvasLayers = <HTMLDivElement> document.createElement('div');
-                this.canvasLayers.id = this.container.id + 'canvasLayers';
-                this.canvasLayers.style.position = 'absolute';
-                this.canvasLayers.style.top = '0px';
-                this.canvasLayers.style.left = '0px';
-                this.canvasLayers.style.width = '100%';
-                this.canvasLayers.style.height = '100%';
-
-                this.container.appendChild(this.domLayersMask);
-                this.domLayersMask.appendChild(this.domLayers);
-                this.container.appendChild(this.canvasLayers);
-                
+               
 
                 if (this._callback !== null)
                 {
