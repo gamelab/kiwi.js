@@ -27,36 +27,47 @@ function dirToArray($dir) {
     return $result; 
 } 
 
-$state = false;/*
+$state = false;
 $kiwiType = 'TYPE_DOM';
-$canvas = false;*/
+$canvas = false;
 $canvasLink = '';
 
 if (isset($_GET['f']))
 {
     $js = $_GET['d'] . '/' . $_GET['f'];
     $state = substr($_GET['f'], 0, -3);
-    $link = $_SERVER["SCRIPT_NAME"] . '?f=' . $_GET['f'] . '&d=' . $_GET['d'];
+    $domLink = $_SERVER["SCRIPT_NAME"] . '?f=' . $_GET['f'] . '&d=' . $_GET['d'];
+    $canvasLink = $_SERVER["SCRIPT_NAME"] . '?f=' . $_GET['f'] . '&d=' . $_GET['d'] . '&c=true';
 
+    if (isset($_GET['c']))
+    {
+        $canvas = true;
+        $kiwiType = 'TYPE_CANVAS';
+    }
 }
 
 ?>
-<!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0" />
-    <title>Kiwi Test Runner : <?php echo $state?></title>
-    <link rel="stylesheet" href="examples.css" type="text/css" />
-    <script type="text/javascript" src="log4javascript.js"></script>
-	<script type="text/javascript" src="jquery-1.9.1.js"></script>
+
+<html>
+
+<body>
+    
+    
+	
+    
+    
+    
+	
+	
     <script type="text/javascript">
-        var klog = log4javascript.getDefaultLogger();
+        var klog = {info:function(){},debug:function(){},warn:function(){}};
     </script>
-    <script src="ECMA262-5.js"></script>
-    <script src="kiwi.js"></script>
-	<script src="lib/SceneGraphViewer.js"></script>
+    
+	<script src="ECMA262-5.js"></script>
+    
+	<script src="kiwi.js"></script>
+	
 <?php
     if ($state)
     {
@@ -65,10 +76,10 @@ if (isset($_GET['f']))
 <?php
     }
 ?>
-</head>
-<body>
 
-<a href="index.php">Home</a>
+
+
+
 
     <div id="game"></div>
 
@@ -89,9 +100,6 @@ function start() {
 }
 </script>
 
-<div id="buttons" style="position:absolute; top: 630px;">
-    <a href="index.php" class="button">Home</a>
-</div>
 
 <?php
     }
@@ -104,7 +112,7 @@ function printJSLinks($dir, $files) {
     foreach ($files as $key => $value) {
 
         $value2 = substr($value, 0, -3);
-        echo "<a href=\"index.php?f=$value&d=$dir\" class=\"button\">$value2</a>";
+        echo "<a href=\"cocoon.php?f=$value&d=$dir\" class=\"button\">$value2</a>";
 
     }
 

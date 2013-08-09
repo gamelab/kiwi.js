@@ -37,10 +37,10 @@ module Kiwi.HUD {
             this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
             this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
             this.texture.updated.add(this._changeTexture, this);
-            this.size.updated.add(this._applyCSS, this);
+            //this.size.updated.add(this._applyCSS, this);
 
             this.icon = this.container;
-            this._applyCSS();
+            //this._applyCSS();
         }
 
         /**
@@ -82,16 +82,7 @@ module Kiwi.HUD {
             this.icon.style.backgroundSize = '';
         }
 
-        /**
-        * Apply's the CSS to the current Icon.
-        * @public
-        **/
-        public _applyCSS() {
-            this.size.setCSS(this.icon);
-            this.icon.style.backgroundImage = 'url("' + this.texture.getURL() + '")';
-            this.icon.style.backgroundRepeat = 'no-repeat';
-            this.icon.style.backgroundSize = '100%';
-        }
+     
 
         /**
         * This method is used to remove existing DOM elements and place them inside a HUDWidget's container element.
@@ -111,7 +102,7 @@ module Kiwi.HUD {
                 this.icon = this.tempElement;
             }
 
-            this._applyCSS();
+            //this._applyCSS();
 
         }
 
@@ -126,7 +117,7 @@ module Kiwi.HUD {
 
             this._removeCSS();
             this.icon = this.container;
-            this._applyCSS();
+            //this._applyCSS();
         }
 
     }

@@ -58,7 +58,7 @@ module Kiwi {
                 //if (typeof window['Blob'] !== 'undefined')
                 //{
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = false;
+                this._useTagLoader = true;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
@@ -445,7 +445,7 @@ module Kiwi {
                 this.data.onload = (event) => this.tagLoaderOnLoad(event);
                 this.data.onerror = (event) => this.tagLoaderOnError(event);        //To be remade
                 this.data.onreadystatechange = (event) => this.tagLoaderOnReadyStateChange(event);
-                this.data.load();
+               
 
             } else if (this.dataType === Kiwi.File.AUDIO) {
                 console.log('Ewww...disgusting...your loading by the audio tags....');

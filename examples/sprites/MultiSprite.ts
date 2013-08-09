@@ -14,14 +14,14 @@ class MultiSprite extends Kiwi.State {
 
     preload() {
 
-        this.addImage('character', 'assets/sprites/planetcute/Character Horn Girl.png', false);
+        this.addImage('character', 'assets/sprites/planetcute/Heart.png', false);
         
 
     }
 
     public sprites: Kiwi.GameObjects.Sprite[];
     public vels: number[];
-    public numSprites: number = 100;
+    public numSprites: number = 400;
 
     
     create() {

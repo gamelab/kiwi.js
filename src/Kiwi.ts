@@ -148,7 +148,9 @@ module Kiwi {
     //export var TYPE_WEBGL:number = 3;
     //export var TYPE_AUTODETECT:number = 4;
 
-    export var TARGET_COCOON:bool = false;
+    export var TARGET_BROWSER: number = 0;
+    export var TARGET_COCOON: number = 1;
+    export var TARGET: number = 0;
 
     export var DEVICE: Kiwi.Device = null;
 

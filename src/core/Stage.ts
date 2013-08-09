@@ -130,11 +130,12 @@ module Kiwi {
             this.domReady = true;
 
             this.container = dom.container;
-        
-            this.offset = this._game.browser.getOffsetPoint(this.container);
-
-            this.position.setTo(this.offset.x, this.offset.y);
-            this.size.setTo(parseInt(this.container.style.width), parseInt(this.container.style.height));
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.offset = this._game.browser.getOffsetPoint(this.container);
+                this.position.setTo(this.offset.x, this.offset.y);
+                this.size.setTo(parseInt(this.container.style.width), parseInt(this.container.style.height));
+            }
+           
 
             //  Signals
             this.alpha.updated.add(this._updatedAlpha, this);
@@ -153,10 +154,14 @@ module Kiwi {
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
 
-            this.canvas.width = this.size.width();
-            this.canvas.height = this.size.height();
+            this.canvas.width = 800;
+            this.canvas.height = 600;
             
-            this.container.appendChild(this.canvas);
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.container.appendChild(this.canvas);
+            } else {
+                document.body.appendChild(this.canvas);
+            }
             
 
         }
@@ -230,7 +235,7 @@ module Kiwi {
         */
         private _updatedSize() {
 
-            this.size.setCSS(this.container);
+         
 
         }
 

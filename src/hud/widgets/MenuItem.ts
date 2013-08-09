@@ -41,7 +41,7 @@ module Kiwi.HUD {
 
         //apply the css
         private _applyCSS() {
-            this.size.setCSS(this.container);
+           // this.size.setCSS(this.container);
             var addX = 0;
             var addY = 0;
             if (this.menu !== undefined) {

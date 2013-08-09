@@ -48,19 +48,7 @@ module Kiwi.Components {
         */
         public updated: Kiwi.Signal;
 
-        /*
-        * 
-        * @property cssWidth
-        * @type String
-        */
-        public cssWidth: string;
-
-        /*
-        * 
-        * @property cssHeight
-        * @type String
-        */
-        public cssHeight: string;
+      
 
         /*
         * 
@@ -164,8 +152,7 @@ module Kiwi.Components {
 
             this.aspectRatio = this._width / this._height;
             this.dirty = true;
-            this.cssWidth = this._width + 'px';
-            this.cssHeight = this._height + 'px';
+        
             this.halfWidth = Math.round(this._width / 2);
             this.halfHeight = Math.round(this._height / 2);
             this.updated.dispatch(this._width, this._height);
@@ -198,9 +185,7 @@ module Kiwi.Components {
                 return;
             }
 
-            entity.addStyleUpdate('width', this.cssWidth);
-            entity.addStyleUpdate('height', this.cssHeight);
-
+         
         }
 
         /*
@@ -215,25 +200,11 @@ module Kiwi.Components {
                 return;
             }
 
-            entity.domElement.element.style.width = this.cssWidth;
-            entity.domElement.element.style.height = this.cssHeight;
+        
 
         }
 
-        /*
-        * 
-        * @method setCSS
-        * @param {HTMLElement} element
-        * @return {HTMLElement}
-        */
-        public setCSS(element: HTMLElement): HTMLElement {
-
-            element.style.width = this.cssWidth;
-            element.style.height = this.cssHeight;
-
-            return element;
-
-        }
+    
 
         /**
 	     * Returns a string representation of this object.

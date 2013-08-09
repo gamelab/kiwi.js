@@ -95,12 +95,12 @@ module Kiwi.Input {
         * @method start
         */
         public start() {
-
-            //this._domElement.addEventListener('keydown', (event:KeyboardEvent) => this.onKeyDown(event), false);
-            //this._domElement.addEventListener('keyup', (event:KeyboardEvent) => this.onKeyUp(event), false);
-            document.body.addEventListener('keydown', (event:KeyboardEvent) => this.onKeyDown(event), false);
-            document.body.addEventListener('keyup', (event:KeyboardEvent) => this.onKeyUp(event), false);
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                //this._domElement.addEventListener('keydown', (event:KeyboardEvent) => this.onKeyDown(event), false);
+                //this._domElement.addEventListener('keyup', (event:KeyboardEvent) => this.onKeyUp(event), false);
+                document.body.addEventListener('keydown', (event: KeyboardEvent) => this.onKeyDown(event), false);
+                document.body.addEventListener('keyup', (event: KeyboardEvent) => this.onKeyUp(event), false);
+            }
         }
 
         /** 
@@ -108,12 +108,12 @@ module Kiwi.Input {
         * @method stop
         */
         public stop() {
-
-            //this._domElement.removeEventListener('keydown', (event:KeyboardEvent) => this.onKeyDown(event), false);
-            //this._domElement.removeEventListener('keyup', (event:KeyboardEvent) => this.onKeyUp(event), false);
-            this._domElement.removeEventListener('keydown', (event:KeyboardEvent) => this.onKeyDown(event), false);
-            this._domElement.removeEventListener('keyup', (event:KeyboardEvent) => this.onKeyUp(event), false);
-
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                //this._domElement.removeEventListener('keydown', (event:KeyboardEvent) => this.onKeyDown(event), false);
+                //this._domElement.removeEventListener('keyup', (event:KeyboardEvent) => this.onKeyUp(event), false);
+                this._domElement.removeEventListener('keydown', (event: KeyboardEvent) => this.onKeyDown(event), false);
+                this._domElement.removeEventListener('keyup', (event: KeyboardEvent) => this.onKeyUp(event), false);
+            }
         }
 
         /** 

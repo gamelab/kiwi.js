@@ -14,7 +14,7 @@ module Kiwi.HUD {
             
             this.position.updated.add(this._changed, this);
             this.size.updated.add(this._changed, this);
-            this._applyCSS();
+        
         }
 
         public game: Kiwi.Game;
@@ -27,12 +27,10 @@ module Kiwi.HUD {
 
         private _changed() {
             this.bounds.setTo(this.position.x(), this.position.y(), this.size.width(), this.size.height());
-            this._applyCSS();
+          
         }
 
-        private _applyCSS() {
-            this.size.setCSS(this.container);
-        }
+        
 
     }
 
