@@ -76,13 +76,20 @@ module Kiwi.Components {
         * @param {boolean} val
         * @return {boolean}
         **/
-        public countingDown(val?: boolean): boolean {
+        public set countingDown(val: boolean) {
+
             if (val !== undefined) {
                 if (val == true) this.paused = false;
 
                 this._countDown = val;
             }
+
+        }
+
+        public get countingDown(): boolean {
+            
             return this._countDown;
+
         }
 
         /**
@@ -92,13 +99,20 @@ module Kiwi.Components {
         * @param {boolean} val
         * @return {boolean}
         **/
-        public countingUp(val?: boolean): boolean {
+        public set countingUp(val: boolean) {
+
             if (val !== undefined) {
                 if (val == true) this.paused = false;
 
                 this._countDown = !val;
             }
+
+        }
+
+        public get countingUp(): boolean {
+
             return !this._countDown;
+
         }
 
         /**
@@ -198,12 +212,19 @@ module Kiwi.Components {
         * @param {number} val
         * @return {number}
         **/
-        public milliseconds(val?: number):number {
+        public set milliseconds(val: number) {
+
             if (val !== undefined) {
                 this._milliseconds = val;
                 this.updated.dispatch();
             }
+
+        }
+
+        public get milliseconds(): number {
+
             return this._milliseconds % 1000;
+
         }
         
         /**
@@ -213,12 +234,17 @@ module Kiwi.Components {
         * @param {number} val
         * @return {number}
         **/
-        public seconds(val?: number):number {
+        public set seconds(val: number) {
             if (val !== undefined) {
                 this._milliseconds = this.convertToMilli(val, 's');
                 this.updated.dispatch();
             }
+        }
+
+        public get seconds(): number {
+            
             return Math.floor(this._milliseconds / 1000) % 60;
+
         }
         
         /**
@@ -228,12 +254,17 @@ module Kiwi.Components {
         * @param {number} val
         * @return {number}
         **/
-        public minutes(val?: number):number {
+        public set minutes(val: number) {
             if (val !== undefined) {
                 this._milliseconds = this.convertToMilli(val, 'm');
                 this.updated.dispatch();
             }
+        }
+        
+        public get minutes(): number {
+            
             return Math.floor(this._milliseconds / 1000 / 60) % 60;
+
         }
         
         /**
@@ -243,12 +274,19 @@ module Kiwi.Components {
         * @param {number} val
         * @return {number}
         **/
-        public hours(val?: number):number {
+        public set hours(val: number) {
+
             if (val !== undefined) {
                 this._milliseconds = this.convertToMilli(val, 'h');
                 this.updated.dispatch();
             }
+
+        }
+        
+        public get hours(): number {
+
             return Math.floor(this._milliseconds / 1000 / 60 / 60);
+
         }
         
         /**
@@ -263,9 +301,9 @@ module Kiwi.Components {
                 this._lastTime = newTime;
 
                 if (this._countDown) {
-                    this.milliseconds(this._milliseconds - difference);
+                    this.milliseconds = this._milliseconds - difference;
                 } else {
-                    this.milliseconds(this._milliseconds + difference);
+                    this.milliseconds = this._milliseconds + difference;
                 }
                 this.updated.dispatch();
             }

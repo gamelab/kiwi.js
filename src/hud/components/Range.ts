@@ -61,47 +61,61 @@ module Kiwi.Components {
         public updated: Kiwi.Signal; 
 
         /**
-        * Allows setting of the maximum value that the range can be in. 
-        * If no parameter passed then only return's the maximum value.
+        * Set allows setting of the maximum value that the range can be in. 
+        * Get returns the maximum value.
         *
         * @method max
         * @param {number} val
         * @return {number}
         **/
-        public max(val?: number):number {
+        public set max(val: number) {
+
             if (val !== undefined) {
                 this._max = val;
                 this.updated.dispatch(this._current, this._max, this._min);
             }
+
+        }
+
+        public get max(): number {
+            
             return this._max;
+
         }
 
         /**
-        * Allows setting of the minimum value that the range can be in. 
-        * If no parameter passed then only return's the minimum value.
+        * Set allows setting of the minimum value that the range can be in. 
+        * Get returns the minimum value.
         *
         * @method min
         * @param {number} val
         * @return {number}
         **/
-        public min(val?: number): number {
+        public set min(val: number) {
+
             if (val !== undefined) {
                 this._min = val;
                 this.updated.dispatch(this._current, this._max, this._min);
             }
+
+        }
+
+        public get min(): number {
+            
             return this._min;
+
         }
 
         /**
-        * Allows setting of the current value that the range can be in. 
+        * Set allows setting of the current value that the range can be in. 
         * The current value will only change if it is within the maximum/minimum values.
-        * If no parameter passed then only return's the current value.
+        * Get returns the current value.
         *
-        * @method val
+        * @method current
         * @param {number } val
-        * @return {number }
+        * @return {number}
         **/
-        public current(val?: number): number {
+        public set current(val: number) {
             if (val !== undefined) {
                 if (this._current > this._max) {
                     this._current = this._max;
@@ -112,7 +126,12 @@ module Kiwi.Components {
                 }
                 this.updated.dispatch(this._current, this._max, this._min);
             }
+        }
+
+        public get current(): number {
+            
             return this._current;
+
         }
 
         /**
@@ -162,7 +181,7 @@ module Kiwi.Components {
         * @return {number}
         **/
         public currentPercent(): number {
-            return ((this.current()) / (this.max())) * 100;
+            return ((this.current) / (this.max)) * 100;
         }
     
     }
