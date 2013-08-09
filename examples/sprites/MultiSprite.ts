@@ -31,8 +31,8 @@ class MultiSprite extends Kiwi.State {
 
         for (var i = 0; i < this.numSprites; i++) {
             this.sprites.push(new Kiwi.GameObjects.Sprite('character', this.cache, 0, 0));
-            this.sprites[i].transform.x(Math.floor(Math.random() * 800));
-            this.sprites[i].transform.y(Math.floor(Math.random() * 600));
+            this.sprites[i].transform.x = Math.floor(Math.random() * 800);
+            this.sprites[i].transform.y = Math.floor(Math.random() * 600);
             this.addChild(this.sprites[i]);
             this.vels.push(Math.ceil(Math.random() * 10));
         }
@@ -45,10 +45,10 @@ class MultiSprite extends Kiwi.State {
     update() {
         super.update();
         for (var i = 0; i < this.numSprites; i++) {
-            this.sprites[i].transform.x(this.sprites[i].transform.x() + this.vels[i]);
-            this.sprites[i].transform.y(this.sprites[i].transform.y() + this.vels[i]);
-            if (this.sprites[i].transform.x() < 0 || this.sprites[i].transform.x() > 800) this.vels[i] = - this.vels[i];
-            if (this.sprites[i].transform.y() < 0 || this.sprites[i].transform.y() > 600) this.vels[i] = - this.vels[i];
+            this.sprites[i].transform.x += this.vels[i];
+            this.sprites[i].transform.y += this.vels[i];
+            if (this.sprites[i].transform.x < 0 || this.sprites[i].transform.x > 800) this.vels[i] = - this.vels[i];
+            if (this.sprites[i].transform.y < 0 || this.sprites[i].transform.y > 600) this.vels[i] = - this.vels[i];
         }
         
     }

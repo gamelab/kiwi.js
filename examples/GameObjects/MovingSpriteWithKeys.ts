@@ -50,14 +50,14 @@ class MovingSpriteWithKeys extends Kiwi.State {
         ///////////////////////////////////////////
         ///Checks if any of the arrow keys are down
 
-        if (this.leftKey.isDown)
-            this.mySprite.position.x(this.mySprite.position.x() - 2)
-        else if (this.rightKey.isDown)
-            this.mySprite.position.x(this.mySprite.position.x() + 2)
-        else if (this.upKey.isDown)
-            this.mySprite.position.y(this.mySprite.position.y() - 2)
-        else if (this.downKey.isDown)
-            this.mySprite.position.y(this.mySprite.position.y() + 2)
+        //if (this.leftKey.isDown)
+          //  this.mySprite.position.x(this.mySprite.position.x() - 2)
+        //else if (this.rightKey.isDown)
+         //   this.mySprite.position.x(this.mySprite.position.x() + 2)
+        //else if (this.upKey.isDown)
+         //   this.mySprite.position.y(this.mySprite.position.y() - 2)
+       // else if (this.downKey.isDown)
+         //   this.mySprite.position.y(this.mySprite.position.y() + 2)
 
     }
 }

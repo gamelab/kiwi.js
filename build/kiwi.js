@@ -681,8 +681,8 @@ var Kiwi;
 
                 this._AABB = new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
 
-                var sx = Math.abs(transform.scaleX());
-                var sy = Math.abs(transform.scaleY());
+                var sx = Math.abs(transform.scaleX);
+                var sy = Math.abs(transform.scaleY);
 
                 var ubW = (size.width() - this.offsetWidth) * sx;
                 var ubH = (size.height() - this.offsetHeight) * sy;
@@ -5344,9 +5344,9 @@ var Kiwi;
         Group.prototype.addChild = function (child) {
             klog.info('Group.addChild ' + this.members.length);
 
-            if (child.transform.parent() !== this.transform) {
+            if (child.transform.parent !== this.transform) {
                 this.members.push(child);
-                child.transform.parent(this.transform);
+                child.transform.parent = this.transform;
 
                 child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
@@ -5357,7 +5357,7 @@ var Kiwi;
         Group.prototype.addChildAt = function (child, index) {
             klog.info('Group.addChildAt ' + child.id);
 
-            if (child.transform.parent() !== this.transform) {
+            if (child.transform.parent !== this.transform) {
                 this.members.splice(index, 0, child);
 
                 child.modify(Kiwi.ADDED_TO_GROUP, this);
@@ -5369,7 +5369,7 @@ var Kiwi;
         Group.prototype.addChildBefore = function (child, beforeChild) {
             klog.info('Group.addChildBefore ' + child.id);
 
-            if (child.transform.parent() !== this.transform && beforeChild.transform.parent() === this.transform) {
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
@@ -5383,7 +5383,7 @@ var Kiwi;
         Group.prototype.addChildAfter = function (child, beforeChild) {
             klog.info('Group.addChildAfter ' + child.id);
 
-            if (child.transform.parent() !== this.transform && beforeChild.transform.parent() === this.transform) {
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
@@ -5427,7 +5427,7 @@ var Kiwi;
         };
 
         Group.prototype.removeChild = function (child) {
-            if (child && child.transform.parent() === this.transform) {
+            if (child && child.transform.parent === this.transform) {
                 var index = this.getChildIndex(child);
 
                 if (index > -1) {
@@ -5471,7 +5471,7 @@ var Kiwi;
         };
 
         Group.prototype.setChildIndex = function (child, index) {
-            if (child.transform.parent() !== this.transform || this.getChildIndex(child) === index) {
+            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index) {
                 return false;
             }
 
@@ -5482,7 +5482,7 @@ var Kiwi;
         };
 
         Group.prototype.swapChildren = function (child1, child2) {
-            if (child1.transform.parent() !== this.transform || child2.transform.parent() !== this.transform) {
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
                 return false;
             }
 
@@ -5507,7 +5507,7 @@ var Kiwi;
         };
 
         Group.prototype.swapChildrenAt = function (index1, index2) {
-            if (child1.transform.parent() !== this.transform || child2.transform.parent() !== this.transform) {
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
                 return false;
             }
 
@@ -5543,7 +5543,7 @@ var Kiwi;
                 this.addChildAt(newChild, index);
 
                 oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
-                newChild.transform.parent(null);
+                newChild.transform.parent = null;
                 newChild.modify(Kiwi.ADDED_TO_GROUP, this);
                 console.log(this.members[0]);
                 return true;
@@ -5832,7 +5832,7 @@ var Kiwi;
             this.config = new Kiwi.StateConfig(this, name);
             this.cache = new Kiwi.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
-            this.transform.parent(null);
+            this.transform.parent = null;
         }
         State.prototype.objType = function () {
             return "State";
@@ -7365,9 +7365,10 @@ var Kiwi;
 
             Rectangle.prototype.scale = function (x, y, translation) {
                 var trans = new Kiwi.Geom.Transform();
-                trans.scale(x, y);
-                trans.x(translation.x);
-                trans.y(translation.y);
+                trans.scaleX = x;
+                trans.scaleY = y;
+                trans.x = translation.x;
+                trans.y = translation.y;
 
                 var tl = this.topLeft();
                 trans.transformPoint(tl);
@@ -8152,20 +8153,12 @@ var Kiwi;
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
                 this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
 
-                this.position = this.components.add(new Kiwi.Components.Position(x, y));
-
-                this.position.transformPoint(new Kiwi.Geom.Point(this.size.width() / 2, this.size.height() / 2));
-
-                this.rotation = this.components.add(new Kiwi.Components.Rotation());
-                this.scale = this.components.add(new Kiwi.Components.Scale());
-
                 this.animation = this.components.add(new Kiwi.Components.Animation(this));
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
-                this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
+
                 this.visible = this.components.add(new Kiwi.Components.Visible(true));
-                this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
 
                 if (this.texture.file !== null) {
                     if (this.texture.file.dataType === Kiwi.File.IMAGE) {
@@ -8179,9 +8172,6 @@ var Kiwi;
                 }
 
                 this.alpha.updated.add(this._updateAlpha, this);
-                this.position.updated.add(this._updatePosition, this);
-                this.rotation.updated.add(this._updateRotation, this);
-                this.scale.updated.add(this._updateScale, this);
                 this.texture.updatedRepeat.add(this._updateRepeat, this);
                 this.texture.updated.add(this._updateTexture, this);
                 this.texture.position.updated.add(this._updateTexturePosition, this);
@@ -8189,13 +8179,11 @@ var Kiwi;
 
                 this.visible.updated.add(this._updateVisible, this);
 
-                this.onAddedToLayer.add(this._onAddedToLayer, this);
                 this.onAddedToState.add(this._onAddedToState, this);
 
-                this.transform.x(x);
-                this.transform.y(y);
+                this.transform.x = x;
+                this.transform.y = y;
 
-                this._transform = new Kiwi.Geom.Transform();
                 this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
 
                 if (this._isAnimated) {
@@ -8212,25 +8200,6 @@ var Kiwi;
                 return this._center;
             };
 
-            Sprite.prototype._updatePosition = function (x, y, z) {
-                this._center.x = this.position.x() + this.size.width() / 2;
-                this._center.y = this.position.y() + this.size.height() / 2;
-
-                this.bounds.calculateBounds(this._transform, this.position, this.size);
-            };
-
-            Sprite.prototype._updateRotation = function (angle) {
-                this._transform.rotation(angle * Math.PI / 180);
-
-                this.bounds.calculateBounds(this._transform, this.position, this.size);
-            };
-
-            Sprite.prototype._updateScale = function (x, y, z) {
-                this._transform.scale(x, y);
-
-                this.bounds.calculateBounds(this._transform, this.position, this.size);
-            };
-
             Sprite.prototype._updateAlpha = function (value) {
             };
 
@@ -8238,7 +8207,6 @@ var Kiwi;
             };
 
             Sprite.prototype._updateSize = function (width, height) {
-                this.bounds.setTo(this.position.x(), this.position.y(), width, height);
             };
 
             Sprite.prototype._updateTexturePosition = function (x, y) {
@@ -8254,20 +8222,8 @@ var Kiwi;
                 this.size.setTo(width, height);
             };
 
-            Sprite.prototype._onAddedToLayer = function (layer) {
-                klog.info('Sprite added to Layer: ' + layer.name);
-
-                if (this._isAnimated) {
-                    this.animation.clock(this.clock());
-                }
-
-                return true;
-            };
-
             Sprite.prototype._onAddedToState = function (state) {
                 klog.info('Sprite added to State');
-
-                this.motion.setClock(this.clock());
 
                 if (this._isAnimated) {
                     this.animation.clock(this.clock());
@@ -8282,69 +8238,16 @@ var Kiwi;
                 this.input.update();
 
                 if (this.input.isDragging === true) {
-                    this.position.setTo(this.game.input.position.x - this.input.pointDown.x, this.game.input.position.y - this.input.pointDown.y);
                 }
-
-                this.motion.update();
 
                 if (this._isAnimated) {
                     this.animation.update();
                     this.bounds.setSize(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
                     this.size.setTo(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
                 }
-
-                this.physics.update();
             };
 
             Sprite.prototype.render = function (camera) {
-                _super.prototype.render.call(this, camera);
-
-                if (this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0) {
-                    if (this.bounds.showDebug === true) {
-                        this.bounds.drawCanvasDebugOutline(this.layer);
-                    }
-
-                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                        this.layer.canvas.context.save();
-                        this.alpha.setContext(this.layer.canvas);
-                    }
-
-                    var offsetX = camera.position.x();
-                    var offsetY = camera.position.y();
-
-                    var dx = this.position.x();
-                    var dy = this.position.y();
-                    var dw = this.size.width();
-                    var dh = this.size.height();
-
-                    if (this.rotation.angle() !== 0) {
-                        this.layer.canvas.context.save();
-
-                        this.layer.canvas.context.translate(dx + (dw / 2), dy + (dh / 2));
-
-                        this.layer.canvas.context.rotate(this.rotation.angle() * (Math.PI / 180));
-                        this.layer.canvas.context.scale(this.scale.x(), this.scale.y());
-                        dx = -(dw / 2);
-                        dy = -(dh / 2);
-                    }
-
-                     {
-                        if (this._isAnimated === true) {
-                            this.animation.currentAnimation.renderToCanvas(this.layer, dx, dy);
-                        } else {
-                            this.layer.canvas.context.drawImage(this.texture.image, dx - offsetX, dy - offsetY, dw, dh);
-                        }
-                    }
-
-                    if (this.rotation.angle() !== 0) {
-                        this.layer.canvas.context.translate(0, 0);
-                        this.layer.canvas.context.restore();
-                    }
-
-                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                        this.layer.canvas.context.restore();
-                    }
-                }
             };
             return Sprite;
         })(Kiwi.Entity);
@@ -10318,9 +10221,13 @@ var Kiwi;
                 return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
             };
 
-            Matrix.prototype.toString = function () {
-                return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
-            };
+            Object.defineProperty(Matrix.prototype, "toString", {
+                get: function () {
+                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
             return Matrix;
         })();
         Geom.Matrix = Matrix;
@@ -10358,91 +10265,127 @@ var Kiwi;
                 return "Transform";
             };
 
-            Transform.prototype.x = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._x) {
+
+            Object.defineProperty(Transform.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                set: function (value) {
                     this._x = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._x;
-            };
 
-            Transform.prototype.y = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._y) {
+            Object.defineProperty(Transform.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                set: function (value) {
                     this._y = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._y;
-            };
 
-            Transform.prototype.scaleX = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._scaleX) {
+            Object.defineProperty(Transform.prototype, "scaleX", {
+                get: function () {
+                    return this._scaleX;
+                },
+                set: function (value) {
                     this._scaleX = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._scaleX;
-            };
 
-            Transform.prototype.scaleY = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._scaleY) {
+            Object.defineProperty(Transform.prototype, "scaleY", {
+                get: function () {
+                    return this._scaleY;
+                },
+                set: function (value) {
                     this._scaleY = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._scaleY;
-            };
 
-            Transform.prototype.rotation = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._rotation) {
+            Object.defineProperty(Transform.prototype, "rotation", {
+                get: function () {
+                    return this._rotation;
+                },
+                set: function (value) {
                     this._rotation = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._rotation;
-            };
 
-            Transform.prototype.regX = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._regX) {
+            Object.defineProperty(Transform.prototype, "regX", {
+                get: function () {
+                    return this._regX;
+                },
+                set: function (value) {
                     this._regX = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._regX;
-            };
 
-            Transform.prototype.regY = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._regY) {
+            Object.defineProperty(Transform.prototype, "regY", {
+                get: function () {
+                    return this._regY;
+                },
+                set: function (value) {
                     this._regY = value;
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._regY;
-            };
+            Object.defineProperty(Transform.prototype, "matrix", {
+                get: function () {
+                    return this._matrix;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Transform.prototype.matrix = function () {
-                return this._matrix;
-            };
+            Object.defineProperty(Transform.prototype, "worldX", {
+                get: function () {
+                    return this.getConcatenatedMatrix().tx;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Transform.prototype.worldX = function () {
-                return this.getConcatenatedMatrix().tx;
-            };
+            Object.defineProperty(Transform.prototype, "worldY", {
+                get: function () {
+                    return this.getConcatenatedMatrix().ty;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Transform.prototype.worldY = function () {
-                return this.getConcatenatedMatrix().ty;
-            };
 
-            Transform.prototype.parent = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null) {
+            Object.defineProperty(Transform.prototype, "parent", {
+                get: function () {
+                    return this._parent;
+                },
+                set: function (value) {
                     if (!this.checkAncestor(value)) {
                         this._parent = value;
                     }
-                }
-
-                return this._parent;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Transform.prototype.setPosition = function (x, y) {
                 this._x = x;
@@ -10470,12 +10413,14 @@ var Kiwi;
                 return output.setTo(this._x, this._y);
             };
 
-            Transform.prototype.scale = function (scaleX, scaleY) {
-                this._scaleX = scaleX;
-                this._scaleY = scaleY;
-
-                return this;
-            };
+            Object.defineProperty(Transform.prototype, "scale", {
+                set: function (value) {
+                    this._scaleX = value;
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, regX, regY) {
                 if (typeof x === "undefined") { x = 0; }
@@ -10526,11 +10471,11 @@ var Kiwi;
             };
 
             Transform.prototype.copyFrom = function (source) {
-                this.setTransform(source.x(), source.y(), source.scaleX(), source.scaleY(), source.rotation(), source.regX(), source.regY());
+                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
 
                 this.parent = source.parent;
 
-                this._matrix = source.matrix().clone();
+                this._matrix = source.matrix.clone();
 
                 return this;
             };
@@ -10552,9 +10497,13 @@ var Kiwi;
                 return false;
             };
 
-            Transform.prototype.toString = function () {
-                return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
-            };
+            Object.defineProperty(Transform.prototype, "toString", {
+                get: function () {
+                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
             return Transform;
         })();
         Geom.Transform = Transform;
@@ -13160,7 +13109,7 @@ var Kiwi;
 
                         var m = child.transform.getConcatenatedMatrix();
                         ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                        ctx.drawImage((child).texture.image, 0, 0, (child).size.width(), (child).size.height());
+
                         ctx.restore();
                     }
                 }

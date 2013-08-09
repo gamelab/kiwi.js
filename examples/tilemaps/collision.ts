@@ -49,36 +49,36 @@ class collision extends Kiwi.State {
         var vy = 0;
         if (this.game.input.keyboard.isDown(collision.LEFT)) {
             vx = -5;
-            this.ship.rotation.angle(180);
+           // this.ship.rotation.angle(180);
         } else if (this.game.input.keyboard.isDown(collision.RIGHT)) {
             vx = 5;
-            this.ship.rotation.angle(0);
+          //  this.ship.rotation.angle(0);
         }
 
         if (this.game.input.keyboard.isDown(collision.UP)) {
             vy = -5;
-            this.ship.rotation.angle(-90);
+         //   this.ship.rotation.angle(-90);
         } else if (this.game.input.keyboard.isDown(collision.DOWN)) {
             vy = 5;
-            this.ship.rotation.angle(90);
+          //  this.ship.rotation.angle(90);
         }
 
-        if (this.ship.position.x() > this.game.stage.size.width() - 100 && vx > 0 || this.ship.position.x() < 100 && vx < 0) {
-            this.tileMap.currentLayer.position.addTo(-vx);
-        } else {
-            this.ship.position.addTo(vx);
-        }
+      //  if (this.ship.position.x() > this.game.stage.size.width() - 100 && vx > 0 || this.ship.position.x() < 100 && vx < 0) {
+      //      this.tileMap.currentLayer.position.addTo(-vx);
+      //  } else {
+          //  this.ship.position.addTo(vx);
+      //  }
 
-        if (this.ship.position.y() > this.game.stage.size.height() - 100 && vy > 0 || this.ship.position.y() < 100 && vy < 0) {
-            this.tileMap.currentLayer.position.addTo(0, -vy);
-        } else {
-            this.ship.position.addTo(0, vy);
-        }
+     //   if (this.ship.position.y() > this.game.stage.size.height() - 100 && vy > 0 || this.ship.position.y() < 100 && vy < 0) {
+         //   this.tileMap.currentLayer.position.addTo(0, -vy);
+    //    } else {
+         //   this.ship.position.addTo(0, vy);
+   //     }
 
-        if (this.game.input.keyboard.isDown(collision.LEFT) && this.game.input.keyboard.isDown(collision.DOWN)) this.ship.rotation.angle(135);
-        if (this.game.input.keyboard.isDown(collision.LEFT) && this.game.input.keyboard.isDown(collision.UP)) this.ship.rotation.angle(-135);
-        if (this.game.input.keyboard.isDown(collision.RIGHT) && this.game.input.keyboard.isDown(collision.DOWN)) this.ship.rotation.angle(45);
-        if (this.game.input.keyboard.isDown(collision.RIGHT) && this.game.input.keyboard.isDown(collision.UP)) this.ship.rotation.angle(-45);
+       // if (this.game.input.keyboard.isDown(collision.LEFT) && this.game.input.keyboard.isDown(collision.DOWN)) this.ship.rotation.angle(135);
+       // if (this.game.input.keyboard.isDown(collision.LEFT) && this.game.input.keyboard.isDown(collision.UP)) this.ship.rotation.angle(-135);
+       // if (this.game.input.keyboard.isDown(collision.RIGHT) && this.game.input.keyboard.isDown(collision.DOWN)) this.ship.rotation.angle(45);
+       // if (this.game.input.keyboard.isDown(collision.RIGHT) && this.game.input.keyboard.isDown(collision.UP)) this.ship.rotation.angle(-45);
         
         this.tileMap.collideSingle(this.ship);
         super.update();

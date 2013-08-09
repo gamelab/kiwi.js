@@ -36,7 +36,7 @@ class changing_volume extends Kiwi.State {
 
     update() {
 
-        this.tommy.volume((this.player.position.x() - this.tomato.position.x()) / (this.pepper.position.x() - this.tomato.position.x()));
+      //  this.tommy.volume((this.player.position.x() - this.tomato.position.x()) / (this.pepper.position.x() - this.tomato.position.x()));
 
         super.update();
     }

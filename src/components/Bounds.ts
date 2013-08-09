@@ -117,8 +117,8 @@ module Kiwi.Components {
                 
             this._AABB = new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
 
-            var sx: number = Math.abs(transform.scaleX());
-            var sy: number = Math.abs(transform.scaleY());
+            var sx: number = Math.abs(transform.scaleX);
+            var sy: number = Math.abs(transform.scaleY);
 
             
 

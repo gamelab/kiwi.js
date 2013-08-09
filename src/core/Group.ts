@@ -206,15 +206,12 @@ module Kiwi {
         **/
         public addChild(child: Kiwi.IChild): Kiwi.IChild {
 
-           
-               
-
             klog.info('Group.addChild ' + this.members.length);
 
-            if (child.transform.parent() !== this.transform)
+            if (child.transform.parent !== this.transform)
             {
                 this.members.push(child);
-                child.transform.parent(this.transform);
+                child.transform.parent = this.transform;
                 //child._addedToGroup(this);
                 child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
@@ -239,7 +236,7 @@ module Kiwi {
 
             klog.info('Group.addChildAt ' + child.id);
 
-            if (child.transform.parent() !== this.transform)
+            if (child.transform.parent !== this.transform)
             {
                 this.members.splice(index, 0, child);
 
@@ -263,7 +260,7 @@ module Kiwi {
          
             klog.info('Group.addChildBefore ' + child.id);
 
-            if (child.transform.parent() !== this.transform && beforeChild.transform.parent() === this.transform) {
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index: number = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
@@ -287,7 +284,7 @@ module Kiwi {
           
             klog.info('Group.addChildAfter ' + child.id);
 
-            if (child.transform.parent() !== this.transform && beforeChild.transform.parent() === this.transform) {
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index: number = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
@@ -378,7 +375,7 @@ module Kiwi {
         **/
         public removeChild(child: Kiwi.IChild): Kiwi.IChild {
 
-            if (child && child.transform.parent() === this.transform)
+            if (child && child.transform.parent === this.transform)
             {
                 var index: number = this.getChildIndex(child);
 
@@ -458,7 +455,7 @@ module Kiwi {
         public setChildIndex(child: Kiwi.IChild, index: number): bool {
         
             //  If the Entity isn't in this Group, or is already at that index then bail out
-            if (child.transform.parent() !== this.transform || this.getChildIndex(child) === index)
+            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index)
             {
                 return false;
             }
@@ -480,7 +477,7 @@ module Kiwi {
         public swapChildren(child1: Kiwi.IChild, child2: Kiwi.IChild):bool {
         
             //  If either Entity isn't in this Group, or is already at that index then bail out
-            if (child1.transform.parent() !== this.transform || child2.transform.parent() !== this.transform)
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform)
             {
                 return false;
             }
@@ -519,7 +516,7 @@ module Kiwi {
 		*/
         public swapChildrenAt(index1: number, index2: number):boolean { 
             //  If either Entity isn't in this Group, or is already at that index then bail out
-            if (child1.transform.parent() !== this.transform || child2.transform.parent() !== this.transform)
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform)
             {
                 return false;
             }
@@ -572,7 +569,7 @@ module Kiwi {
                 this.addChildAt(newChild, index);
                 
                 oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
-                newChild.transform.parent(null);
+                newChild.transform.parent = null;
                 newChild.modify(Kiwi.ADDED_TO_GROUP, this);
                 console.log(this.members[0]);
                 return true;

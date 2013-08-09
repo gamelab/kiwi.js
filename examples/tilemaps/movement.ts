@@ -39,21 +39,21 @@ class movement extends Kiwi.State {
         var vy = 0;
         if (this.game.input.keyboard.isDown(movement.LEFT)) {
             vx = -5;
-            this.ship.rotation.angle(180);
+        //    this.ship.rotation.angle(180);
         } else if (this.game.input.keyboard.isDown(movement.RIGHT)) {
             vx = 5;
-            this.ship.rotation.angle(0);
+       //     this.ship.rotation.angle(0);
         }
 
         if (this.game.input.keyboard.isDown(movement.UP)) {
             vy = -5;
-            this.ship.rotation.angle(-90);
+      //      this.ship.rotation.angle(-90);
         } else if (this.game.input.keyboard.isDown(movement.DOWN)) {
             vy = 5;
-            this.ship.rotation.angle(90);
+      //      this.ship.rotation.angle(90);
         }
 
-        if (this.ship.position.x() > this.game.stage.size.width() - 100 && vx > 0 || this.ship.position.x() < 100 && vx < 0) {
+     /*   if (this.ship.position.x() > this.game.stage.size.width() - 100 && vx > 0 || this.ship.position.x() < 100 && vx < 0) {
             this.tileMap.currentLayer.position.addTo(-vx);
         } else {
             this.ship.position.addTo(vx);
@@ -64,11 +64,11 @@ class movement extends Kiwi.State {
         } else {
             this.ship.position.addTo(0, vy);
         }
-
-        if (this.game.input.keyboard.isDown(movement.LEFT) && this.game.input.keyboard.isDown(movement.DOWN)) this.ship.rotation.angle(135);
-        if (this.game.input.keyboard.isDown(movement.LEFT) && this.game.input.keyboard.isDown(movement.UP)) this.ship.rotation.angle(-135);
-        if (this.game.input.keyboard.isDown(movement.RIGHT) && this.game.input.keyboard.isDown(movement.DOWN)) this.ship.rotation.angle(45);
-        if (this.game.input.keyboard.isDown(movement.RIGHT) && this.game.input.keyboard.isDown(movement.UP)) this.ship.rotation.angle(-45);
+*/
+     //   if (this.game.input.keyboard.isDown(movement.LEFT) && this.game.input.keyboard.isDown(movement.DOWN)) this.ship.rotation.angle(135);
+      //  if (this.game.input.keyboard.isDown(movement.LEFT) && this.game.input.keyboard.isDown(movement.UP)) this.ship.rotation.angle(-135);
+       // if (this.game.input.keyboard.isDown(movement.RIGHT) && this.game.input.keyboard.isDown(movement.DOWN)) this.ship.rotation.angle(45);
+        //if (this.game.input.keyboard.isDown(movement.RIGHT) && this.game.input.keyboard.isDown(movement.UP)) this.ship.rotation.angle(-45);
 
         super.update();
     }
