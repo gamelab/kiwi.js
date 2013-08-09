@@ -268,16 +268,16 @@ var Kiwi;
     (function (Components) {
         var ArcadePhysics = (function (_super) {
             __extends(ArcadePhysics, _super);
-            function ArcadePhysics(entity, position, size) {
+            function ArcadePhysics(entity, transform, size) {
                 _super.call(this, 'ArcadePhysics');
                 this._callbackFunction = null;
                 this._callbackContext = null;
 
                 this._parent = entity;
-                this.position = position;
+                this.transform = transform;
                 this.size = size;
 
-                this.last = new Kiwi.Geom.Point(this.position.x(), this.position.y());
+                this.last = new Kiwi.Geom.Point(this.transform.x, this.transform.y);
                 this.mass = 1.0;
                 this.elasticity = 0.0;
 
@@ -364,20 +364,20 @@ var Kiwi;
                     return false;
 
                 var overlap = 0;
-                var obj1delta = phys1.position.x() - phys1.last.x;
-                var obj2delta = phys2.position.x() - phys2.last.x;
+                var obj1delta = phys1.transform.x - phys1.last.x;
+                var obj2delta = phys2.transform.x - phys2.last.x;
 
                 if (obj1delta != obj2delta) {
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.position.x() - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.size.width() + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.size.height());
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.position.x() - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.size.width() + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.size.height());
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.size.width() + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.size.height());
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.size.width() + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.size.height());
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.position.x() + phys1.size.width() - phys2.position.x();
+                            overlap = phys1.transform.x + phys1.size.width() - phys2.transform.x;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
                                 overlap = 0;
                             } else {
@@ -385,7 +385,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.LEFT;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.position.x() - phys2.size.width() - phys2.position.x();
+                            overlap = phys1.transform.x - phys2.size.width() - phys2.transform.x;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
                                 overlap = 0;
                             } else {
@@ -402,8 +402,8 @@ var Kiwi;
 
                     if (!obj1immovable && !obj2immovable) {
                         overlap *= 0.5;
-                        phys1.position.x(phys1.position.x() - overlap);
-                        phys2.position.x(phys2.position.x() + overlap);
+                        phys1.transform.x = phys1.transform.x - overlap;
+                        phys2.transform.x = phys2.transform.x + overlap;
 
                         var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
                         var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
@@ -413,10 +413,10 @@ var Kiwi;
                         phys1.velocity.x = average + obj1velocity * phys1.elasticity;
                         phys2.velocity.x = average + obj2velocity * phys2.elasticity;
                     } else if (!obj1immovable) {
-                        phys1.position.x(phys1.position.x() - overlap);
+                        phys1.transform.x = phys1.transform.x - overlap;
                         phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
                     } else if (!obj2immovable) {
-                        phys2.position.x(phys2.position.x() + overlap);
+                        phys2.transform.x = phys2.transform.x + overlap;
                         phys2.velocity.x = obj1v - obj2v * phys2.elasticity;
                     }
                     return true;
@@ -435,19 +435,19 @@ var Kiwi;
 
                 var overlap = 0;
 
-                var obj1delta = phys1.position.y() - phys1.last.y;
+                var obj1delta = phys1.transform.y - phys1.last.y;
 
-                var obj2delta = phys2.position.y() - phys2.last.y;
+                var obj2delta = phys2.transform.y - phys2.last.y;
                 if (obj1delta != obj2delta) {
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.position.x(), phys1.position.y() - ((obj1delta > 0) ? obj1delta : 0), phys1.size.width(), phys1.size.height() + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.position.x(), phys2.position.y() - ((obj2delta > 0) ? obj2delta : 0), phys2.size.width(), phys2.size.height() + obj2deltaAbs);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x, phys1.transform.y - ((obj1delta > 0) ? obj1delta : 0), phys1.size.width(), phys1.size.height() + obj1deltaAbs);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x, phys2.transform.y - ((obj2delta > 0) ? obj2delta : 0), phys2.size.width(), phys2.size.height() + obj2deltaAbs);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.position.y() + phys1.size.height() - phys2.position.y();
+                            overlap = phys1.transform.y + phys1.size.height() - phys2.transform.y;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
                                 overlap = 0;
                             } else {
@@ -455,7 +455,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.UP;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.position.y() - phys2.size.height() - phys2.position.y();
+                            overlap = phys1.transform.y - phys2.size.height() - phys2.transform.y;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
                                 overlap = 0;
                             } else {
@@ -472,8 +472,8 @@ var Kiwi;
 
                     if (!obj1immovable && !obj2immovable) {
                         overlap *= 0.5;
-                        phys1.position.y(phys1.position.y() - overlap);
-                        phys2.position.y(phys2.position.y() + overlap);
+                        phys1.transform.y = phys1.transform.y - overlap;
+                        phys2.transform.y = phys2.transform.y + overlap;
 
                         var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
                         var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
@@ -483,17 +483,17 @@ var Kiwi;
                         phys1.velocity.y = average + obj1velocity * phys1.elasticity;
                         phys2.velocity.y = average + obj2velocity * phys2.elasticity;
                     } else if (!obj1immovable) {
-                        phys1.position.y(phys1.position.y() - overlap);
+                        phys1.transform.y = phys1.transform.y - overlap;
                         phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
 
                         if (object2.active && phys2.moves && (obj1delta > obj2delta))
-                            phys1.position.x(phys1.position.x() + object2.position.x() - phys2.last.x);
+                            phys1.transform.x = phys1.transform.x + object2.transform.x - phys2.last.x;
                     } else if (!obj2immovable) {
-                        phys2.position.y(phys2.position.y() + overlap);
+                        phys2.transform.y = phys2.transform.y + overlap;
                         phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
 
                         if (object1.active && phys1.moves && (obj1delta < obj2delta))
-                            phys2.position.x(phys2.position.x() + object1.position.x() - phys1.last.x);
+                            phys2.transform.x = phys2.transform.x + object1.transform.x - phys1.last.x;
                     }
                     return true;
                 } else
@@ -522,13 +522,13 @@ var Kiwi;
 
             ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = false; }
-                if (!gameObject.components.hasComponent("Size") || !gameObject.components.hasComponent("Position")) {
+                if (!gameObject.components.hasComponent("Size")) {
                     return false;
                 }
-                var objPosition = gameObject.components.getComponent("Position");
+                var objTransform = gameObject.transform;
                 var objSize = gameObject.components.getComponent("Size");
 
-                var result = (objPosition.x() + objSize.width() > this.position.x()) && (objPosition.x() < this.position.x() + this.size.width()) && (objPosition.y() + objSize.height() > this.position.y()) && (objPosition.y() < this.position.y() + this.size.height());
+                var result = (objTransform.x + objSize.width() > this.transform.x) && (objTransform.x < this.transform.x + this.size.width()) && (objTransform.y + objSize.height() > this.transform.y) && (objTransform.y < this.transform.y + this.size.height());
 
                 if (result && separateObjects) {
                     ArcadePhysics.separate(this._parent, gameObject);
@@ -571,13 +571,13 @@ var Kiwi;
                 this.velocity.x += velocityDelta;
                 delta = this.velocity.x * ArcadePhysics.updateInterval;
                 this.velocity.x += velocityDelta;
-                this.position.x(this.position.x() + delta);
+                this.transform.x = this.transform.x + delta;
 
                 velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
                 this.velocity.y += velocityDelta;
                 delta = this.velocity.y * ArcadePhysics.updateInterval;
                 this.velocity.y += velocityDelta;
-                this.position.y(this.position.y() + delta);
+                this.transform.y = this.transform.y + delta;
             };
 
             ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
@@ -590,8 +590,8 @@ var Kiwi;
             };
 
             ArcadePhysics.prototype.update = function () {
-                this.last.x = this.position.x();
-                this.last.y = this.position.y();
+                this.last.x = this.transform.x;
+                this.last.y = this.transform.y;
 
                 if (this.moves)
                     this.updateMotion();
@@ -1003,8 +1003,8 @@ var Kiwi;
                 }
 
                 if (this._bounds.pointWithin(this._entity.game.input.position)) {
-                    this.distance.x = this._entity.game.input.position.x - this._bounds.getRect().left();
-                    this.distance.y = this._entity.game.input.position.y - this._bounds.getRect().top();
+                    this.distance.x = this._entity.game.input.position.x - this._bounds.getRect().left;
+                    this.distance.y = this._entity.game.input.position.y - this._bounds.getRect().top;
 
                     if (this.withinBounds === false) {
                         this.withinBounds = true;
@@ -1039,7 +1039,7 @@ var Kiwi;
                             this.isDragging = true;
 
                             if (this._dragSnapToCenter === true) {
-                                this._bounds.getRect().center(this.pointDown);
+                                this._bounds.getRect().center = this.pointDown;
                             }
 
                             this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
@@ -1477,8 +1477,8 @@ var Kiwi;
                 this._point = this._point.addTo(this._offset.x, this._offset.y);
 
                 if (this._wrap !== null && this._wrap.containsPoint(this._point) === false) {
-                    this._point.x = Kiwi.Utils.GameMath.wrap(this._point.x, this._wrap.right(), this._wrap.x);
-                    this._point.y = Kiwi.Utils.GameMath.wrap(this._point.y, this._wrap.bottom(), this._wrap.y);
+                    this._point.x = Kiwi.Utils.GameMath.wrap(this._point.x, this._wrap.right, this._wrap.x);
+                    this._point.y = Kiwi.Utils.GameMath.wrap(this._point.y, this._wrap.bottom, this._wrap.y);
                 }
 
                 this.differenceX = Kiwi.Utils.GameMath.difference(this._oldX, this._point.x);
@@ -7085,6 +7085,523 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
+        var Matrix = (function () {
+            function Matrix(a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                this.a = 1;
+                this.b = 0;
+                this.c = 0;
+                this.d = 1;
+                this.tx = 0;
+                this.ty = 0;
+                this.setTo(a, b, c, d, tx, ty);
+            }
+            Matrix.prototype.objType = function () {
+                return "Matrix";
+            };
+
+            Matrix.prototype.setTo = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                this.a = a;
+                this.b = b;
+                this.c = c;
+                this.d = d;
+                this.tx = tx;
+                this.ty = ty;
+
+                return this;
+            };
+
+            Matrix.prototype.setFromTransform = function (tx, ty, scaleX, scaleY, rotation) {
+                this.identity();
+                var cos = Math.cos(rotation);
+                var sin = Math.sin(rotation);
+
+                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty);
+
+                return this;
+            };
+
+            Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                var tx1 = this.tx;
+                var a1 = this.a;
+                var c1 = this.c;
+
+                this.a = a1 * a + this.b * c;
+                this.b = a1 * b + this.b * d;
+                this.c = c1 * a + this.d * c;
+                this.d = c1 * b + this.d * d;
+
+                this.tx = tx1 * a + this.ty * c + tx;
+                this.ty = tx1 * b + this.ty * d + ty;
+                return this;
+            };
+
+            Matrix.prototype.prependMatrix = function (m) {
+                var tx1 = this.tx;
+                var a1 = this.a;
+                var c1 = this.c;
+
+                this.a = a1 * m.a + this.b * m.c;
+                this.b = a1 * m.b + this.b * m.d;
+                this.c = c1 * m.a + this.d * m.c;
+                this.d = c1 * m.b + this.d * m.d;
+
+                this.tx = tx1 * m.a + this.ty * m.c + m.tx;
+                this.ty = tx1 * m.b + this.ty * m.d + m.ty;
+                return this;
+            };
+
+            Matrix.prototype.append = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+
+                this.a = a * a1 + b * c1;
+                this.b = a * b1 + b * d1;
+                this.c = c * a1 + d * c1;
+                this.d = c * b1 + d * d1;
+                this.tx = tx * a1 + ty * c1 + this.tx;
+                this.ty = tx * b1 + ty * d1 + this.ty;
+                return this;
+            };
+
+            Matrix.prototype.appendMatrix = function (m) {
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+
+                this.a = m.a * a1 + m.b * c1;
+                this.b = m.a * b1 + m.b * d1;
+                this.c = m.c * a1 + m.d * c1;
+                this.d = m.c * b1 + m.d * d1;
+                this.tx = m.tx * a1 + m.ty * c1 + this.tx;
+                this.ty = m.tx * b1 + m.ty * d1 + this.ty;
+                return this;
+            };
+
+            Matrix.prototype.setPosition = function (x, y) {
+                this.tx = x;
+                this.ty = y;
+                return this;
+            };
+
+            Matrix.prototype.setPositionPoint = function (p) {
+                this.tx = p.x;
+                this.ty = p.y;
+                return this;
+            };
+
+            Matrix.prototype.getPosition = function (output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                return output.setTo(this.tx, this.ty);
+            };
+
+            Matrix.prototype.identity = function () {
+                this.a = 1;
+                this.b = 0;
+                this.c = 0;
+                this.d = 1;
+                this.tx = 0;
+                this.ty = 0;
+                return this;
+            };
+
+            Matrix.prototype.rotate = function (radians) {
+                var cos = Math.cos(radians);
+                var sin = Math.sin(radians);
+
+                var a1 = this.a;
+                var c1 = this.c;
+                var tx1 = this.tx;
+
+                this.a = a1 * cos - this.b * sin;
+                this.b = a1 * sin + this.b * cos;
+                this.c = c1 * cos - this.d * sin;
+                this.d = c1 * sin + this.d * cos;
+                this.tx = tx1 * cos - this.ty * sin;
+                this.ty = tx1 * sin + this.ty * cos;
+                return this;
+            };
+
+            Matrix.prototype.translate = function (tx, ty) {
+                this.tx += tx;
+                this.ty += ty;
+                return this;
+            };
+
+            Matrix.prototype.scale = function (scaleX, scaleY) {
+                this.a *= scaleX;
+                this.d *= scaleY;
+                return this;
+            };
+
+            Matrix.prototype.transformPoint = function (pt) {
+                var x = pt.x;
+                var y = pt.y;
+                pt.x = this.a * x + this.c * y + this.tx;
+                pt.y = this.b * x + this.d * y + this.ty;
+                return pt;
+            };
+
+            Matrix.prototype.invert = function () {
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+                var tx1 = this.tx;
+                var n = a1 * d1 - b1 * c1;
+
+                this.a = d1 / n;
+                this.b = -b1 / n;
+                this.c = -c1 / n;
+                this.d = a1 / n;
+                this.tx = (c1 * this.ty - d1 * tx1) / n;
+                this.ty = -(a1 * this.ty - b1 * tx1) / n;
+                return this;
+            };
+
+            Matrix.prototype.copyFrom = function (m) {
+                this.a = m.a;
+                this.b = m.b;
+                this.c = m.c;
+                this.d = m.d;
+                this.tx = m.tx;
+                this.ty = m.ty;
+
+                return this;
+            };
+
+            Matrix.prototype.copyTo = function (m) {
+                m.a = this.a;
+                m.b = this.b;
+                m.c = this.c;
+                m.d = this.d;
+                m.tx = this.tx;
+                m.ty = this.ty;
+                return this;
+            };
+
+            Matrix.prototype.clone = function () {
+                return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
+            };
+
+            Object.defineProperty(Matrix.prototype, "toString", {
+                get: function () {
+                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Matrix;
+        })();
+        Geom.Matrix = Matrix;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Transform = (function () {
+            function Transform(x, y, scaleX, scaleY, rotation, regX, regY) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof scaleX === "undefined") { scaleX = 1; }
+                if (typeof scaleY === "undefined") { scaleY = 1; }
+                if (typeof rotation === "undefined") { rotation = 0; }
+                if (typeof regX === "undefined") { regX = 0; }
+                if (typeof regY === "undefined") { regY = 0; }
+                this._x = 0;
+                this._y = 0;
+                this._scaleX = 1;
+                this._scaleY = 1;
+                this._rotation = 0;
+                this._regX = 0;
+                this._regY = 0;
+                this.setTransform(x, y, scaleX, scaleY, rotation, regX, regY);
+
+                this._matrix = new Geom.Matrix();
+
+                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+
+                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
+            }
+            Transform.prototype.objType = function () {
+                return "Transform";
+            };
+
+
+            Object.defineProperty(Transform.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                set: function (value) {
+                    this._x = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                set: function (value) {
+                    this._y = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "scaleX", {
+                get: function () {
+                    return this._scaleX;
+                },
+                set: function (value) {
+                    this._scaleX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "scaleY", {
+                get: function () {
+                    return this._scaleY;
+                },
+                set: function (value) {
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "rotation", {
+                get: function () {
+                    return this._rotation;
+                },
+                set: function (value) {
+                    this._rotation = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "regX", {
+                get: function () {
+                    return this._regX;
+                },
+                set: function (value) {
+                    this._regX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "regY", {
+                get: function () {
+                    return this._regY;
+                },
+                set: function (value) {
+                    this._regY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "matrix", {
+                get: function () {
+                    return this._matrix;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "worldX", {
+                get: function () {
+                    return this.getConcatenatedMatrix().tx;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "worldY", {
+                get: function () {
+                    return this.getConcatenatedMatrix().ty;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "parent", {
+                get: function () {
+                    return this._parent;
+                },
+                set: function (value) {
+                    if (!this.checkAncestor(value)) {
+                        this._parent = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Transform.prototype.setPosition = function (x, y) {
+                this._x = x;
+                this._y = y;
+
+                return this;
+            };
+
+            Transform.prototype.setPositionFromPoint = function (point) {
+                this._x = point.x;
+                this._y = point.y;
+
+                return this;
+            };
+
+            Transform.prototype.translatePositionFromPoint = function (point) {
+                this._x += point.x;
+                this._y += point.y;
+
+                return this;
+            };
+
+            Transform.prototype.getPositionPoint = function (output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                return output.setTo(this._x, this._y);
+            };
+
+            Object.defineProperty(Transform.prototype, "scale", {
+                set: function (value) {
+                    this._scaleX = value;
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, regX, regY) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof scaleX === "undefined") { scaleX = 1; }
+                if (typeof scaleY === "undefined") { scaleY = 1; }
+                if (typeof rotation === "undefined") { rotation = 0; }
+                if (typeof regX === "undefined") { regX = 0; }
+                if (typeof regY === "undefined") { regY = 0; }
+                this._x = x;
+                this._y = y;
+                this._scaleX = scaleX;
+                this._scaleY = scaleY;
+                this._rotation = rotation;
+                this._regX = regX;
+                this._regY = regY;
+
+                return this;
+            };
+
+            Transform.prototype.getParentMatrix = function () {
+                if (this._parent) {
+                    return this._parent.getConcatenatedMatrix();
+                }
+
+                return null;
+            };
+
+            Transform.prototype.getConcatenatedMatrix = function () {
+                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+
+                var parentMatrix = this.getParentMatrix();
+
+                if (parentMatrix) {
+                    var matrix = this._matrix.clone();
+                    matrix.prependMatrix(parentMatrix);
+                    this._cachedConcatenatedMatrix.copyFrom(matrix);
+                    return matrix;
+                }
+
+                return this._matrix;
+            };
+
+            Transform.prototype.transformPoint = function (point) {
+                var mat = this.getConcatenatedMatrix();
+
+                return mat.transformPoint(point);
+            };
+
+            Transform.prototype.copyFrom = function (source) {
+                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
+
+                this.parent = source.parent;
+
+                this._matrix = source.matrix.clone();
+
+                return this;
+            };
+
+            Transform.prototype.copyTo = function (destination) {
+                destination.copyFrom(this);
+
+                return this;
+            };
+
+            Transform.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Transform(); }
+                output.copyFrom(this);
+
+                return output;
+            };
+
+            Transform.prototype.checkAncestor = function (transform) {
+                return false;
+            };
+
+            Object.defineProperty(Transform.prototype, "toString", {
+                get: function () {
+                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Transform;
+        })();
+        Geom.Transform = Transform;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
         var Rectangle = (function () {
             function Rectangle(x, y, width, height) {
                 if (typeof x === "undefined") { x = 0; }
@@ -7101,105 +7618,155 @@ var Kiwi;
                 return "Rectangle";
             };
 
-            Rectangle.prototype.bottom = function (value) {
-                if (value) {
-                    if (value < this.y) {
-                        this.height = 0;
-                    } else {
-                        this.height = value;
+
+            Object.defineProperty(Rectangle.prototype, "bottom", {
+                get: function () {
+                    return this.y + this.height;
+                },
+                set: function (value) {
+                    if (value) {
+                        if (value < this.y) {
+                            this.height = 0;
+                        } else {
+                            this.height = value;
+                        }
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this.y + this.height;
-            };
+            Object.defineProperty(Rectangle.prototype, "center", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Rectangle.prototype.center = function (output) {
-                if (typeof output === "undefined") { output = new Geom.Point(); }
-                return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
-            };
 
-            Rectangle.prototype.bottomRight = function (value, output) {
-                if (typeof output === "undefined") { output = new Geom.Point(); }
-                if (value) {
-                    this.right(value.x);
-                    this.bottom(value.y);
-                }
-
-                return output.setTo(this.right(), this.bottom());
-            };
-
-            Rectangle.prototype.left = function (value) {
-                if (value) {
-                    var diff = this.x - value;
-
-                    if (this.width + diff < 0) {
-                        this.width = 0;
-
-                        this.x = value;
-                    } else {
-                        this.width += diff;
-
-                        this.x = value;
+            Object.defineProperty(Rectangle.prototype, "bottomRight", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.right, this.bottom);
+                },
+                set: function (value) {
+                    if (value) {
+                        this.right = value.x;
+                        this.bottom = value.y;
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this.x;
-            };
 
-            Rectangle.prototype.right = function (value) {
-                if (value) {
-                    if (value < this.x) {
-                        this.width = 0;
+            Object.defineProperty(Rectangle.prototype, "left", {
+                get: function () {
+                    return this.x;
+                },
+                set: function (value) {
+                    if (value) {
+                        var diff = this.x - value;
 
-                        return this.x;
-                    } else {
-                        this.width = (value - this.x);
+                        if (this.width + diff < 0) {
+                            this.width = 0;
+
+                            this.x = value;
+                        } else {
+                            this.width += diff;
+
+                            this.x = value;
+                        }
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this.x + this.width;
-            };
 
-            Rectangle.prototype.size = function (output) {
-                if (typeof output === "undefined") { output = new Geom.Point(); }
-                return output.setTo(this.width, this.height);
-            };
-
-            Rectangle.prototype.volume = function () {
-                return this.width * this.height;
-            };
-
-            Rectangle.prototype.perimeter = function () {
-                return (this.width * 2) + (this.height * 2);
-            };
-
-            Rectangle.prototype.top = function (value) {
-                if (value) {
-                    var diff = this.y - value;
-
-                    if (this.height + diff < 0) {
-                        this.height = 0;
-
-                        this.y = value;
-                    } else {
-                        this.height += diff;
-
-                        this.y = value;
+            Object.defineProperty(Rectangle.prototype, "right", {
+                get: function () {
+                    return this.x + this.width;
+                },
+                set: function (value) {
+                    if (value) {
+                        if (value < this.x) {
+                            this.width = 0;
+                        } else {
+                            this.width = value - this.x;
+                        }
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this.y;
-            };
+            Object.defineProperty(Rectangle.prototype, "size", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.width, this.height);
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Rectangle.prototype.topLeft = function (value, output) {
-                if (typeof output === "undefined") { output = new Geom.Point(); }
-                if (value) {
-                    this.x = value.x;
-                    this.y = value.y;
-                }
+            Object.defineProperty(Rectangle.prototype, "volume", {
+                get: function () {
+                    return this.width * this.height;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return output.setTo(this.x, this.y);
-            };
+            Object.defineProperty(Rectangle.prototype, "perimeter", {
+                get: function () {
+                    return (this.width * 2) + (this.height * 2);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "top", {
+                get: function () {
+                    return this.y;
+                },
+                set: function (value) {
+                    if (value) {
+                        var diff = this.y - value;
+
+                        if (this.height + diff < 0) {
+                            this.height = 0;
+
+                            this.y = value;
+                        } else {
+                            this.height += diff;
+
+                            this.y = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "topLeft", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.x, this.y);
+                },
+                set: function (value) {
+                    if (value) {
+                        this.x = value.x;
+                        this.y = value.y;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Rectangle.prototype.clone = function (output) {
                 if (typeof output === "undefined") { output = new Rectangle(); }
@@ -7207,7 +7774,7 @@ var Kiwi;
             };
 
             Rectangle.prototype.contains = function (x, y) {
-                if (x >= this.x && x <= this.right() && y >= this.y && y <= this.bottom()) {
+                if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom) {
                     return true;
                 }
 
@@ -7223,7 +7790,7 @@ var Kiwi;
                     return false;
                 }
 
-                if (rect.x >= this.x && rect.y >= this.y && rect.right() <= this.right() && rect.bottom() <= this.bottom()) {
+                if (rect.x >= this.x && rect.y >= this.y && rect.right <= this.right && rect.bottom <= this.bottom) {
                     return true;
                 }
 
@@ -7267,27 +7834,27 @@ var Kiwi;
                 if (this.intersects(toIntersect) === true) {
                     output.x = Math.max(toIntersect.x, this.x);
                     output.y = Math.max(toIntersect.y, this.y);
-                    output.width = Math.min(toIntersect.right(), this.right()) - output.x;
-                    output.height = Math.min(toIntersect.bottom(), this.bottom()) - output.y;
+                    output.width = Math.min(toIntersect.right, this.right) - output.x;
+                    output.height = Math.min(toIntersect.bottom, this.bottom) - output.y;
                 }
 
                 return output;
             };
 
             Rectangle.prototype.intersects = function (toIntersect) {
-                if (toIntersect.x > this.right() - 1) {
+                if (toIntersect.x > this.right - 1) {
                     return false;
                 }
 
-                if (toIntersect.right() - 1 < this.x) {
+                if (toIntersect.right - 1 < this.x) {
                     return false;
                 }
 
-                if (toIntersect.bottom() - 1 < this.y) {
+                if (toIntersect.bottom - 1 < this.y) {
                     return false;
                 }
 
-                if (toIntersect.y > this.bottom() - 1) {
+                if (toIntersect.y > this.bottom - 1) {
                     return false;
                 }
 
@@ -7360,7 +7927,7 @@ var Kiwi;
 
             Rectangle.prototype.union = function (toUnion, output) {
                 if (typeof output === "undefined") { output = new Rectangle(); }
-                return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right(), this.right()), Math.max(toUnion.bottom(), this.bottom()));
+                return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right, this.right), Math.max(toUnion.bottom, this.bottom));
             };
 
             Rectangle.prototype.scale = function (x, y, translation) {
@@ -7370,9 +7937,9 @@ var Kiwi;
                 trans.x = translation.x;
                 trans.y = translation.y;
 
-                var tl = this.topLeft();
+                var tl = this.topLeft;
                 trans.transformPoint(tl);
-                this.topLeft(tl);
+                this.topLeft = tl;
 
                 this.width *= x;
                 this.height *= y;
@@ -7955,7 +8522,8 @@ var Kiwi;
                 if (typeof size === "undefined") { size = 1; }
                 _super.call(this);
 
-                this.position = this.components.add(new Kiwi.Components.Position(x, y));
+                this.transform.x = x;
+                this.transform.y = y;
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, size, size));
                 this.color = this.components.add(new Kiwi.Components.Color());
                 this.color.setColor(color);
@@ -7963,9 +8531,6 @@ var Kiwi;
                 this._pixelSize = size;
 
                 this.onAddedToLayer.add(this._onAddedToLayer, this);
-                this.position.updated.add(this._updatePosition, this);
-                this.color.updated.add(this._updateColor, this);
-
                 klog.info('Created Pixel Game Object');
             }
             Pixel.prototype.objType = function () {
@@ -7978,23 +8543,19 @@ var Kiwi;
                 return true;
             };
 
-            Pixel.prototype._updatePosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
-                this.bounds.setTo(x, y, this._pixelSize, this._pixelSize);
-            };
 
-            Pixel.prototype._updateColor = function () {
-            };
-
-            Pixel.prototype.update = function () {
-            };
+            Object.defineProperty(Pixel.prototype, "pixelSize", {
+                get: function () {
+                    return this._pixelSize;
+                },
+                set: function (value) {
+                    this._pixelSize = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Pixel.prototype.render = function (camera) {
-                _super.prototype.render.call(this, camera);
-
-                if (this.willRender() === true) {
-                    this.layer.canvas.context.fillStyle = this.color.cssColorRGBA;
-                    this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), this._pixelSize, this._pixelSize);
-                }
             };
             return Pixel;
         })(Kiwi.Entity);
@@ -8270,17 +8831,15 @@ var Kiwi;
                     return;
                 }
 
-                this.position = this.components.add(new Kiwi.Components.Position(x, y));
+                this.transform.x = x;
+                this.transform.y = y;
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
                 this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
 
                 this.onAddedToLayer.add(this._onAddedToLayer, this);
 
-                this.position.updated.add(this._updatePosition, this);
-                this.texture.updatedRepeat.add(this._updateRepeat, this);
                 this.texture.updated.add(this._updateTexture, this);
-                this.texture.position.updated.add(this._updateTexturePosition, this);
                 this.size.updated.add(this._updateSize, this);
 
                 klog.info('Created StaticImage Game Object');
@@ -8289,22 +8848,12 @@ var Kiwi;
                 return "StaticImage";
             };
 
-            StaticImage.prototype._updatePosition = function (x, y, z) {
-                this.bounds.setTo(x, y, this.size.width(), this.size.height());
-            };
-
             StaticImage.prototype._updateSize = function (width, height) {
-                this.bounds.setTo(this.position.x(), this.position.y(), width, height);
-            };
-
-            StaticImage.prototype._updateTexturePosition = function (x, y) {
+                this.bounds.setTo(this.transform.x, this.transform.y, width, height);
             };
 
             StaticImage.prototype._updateTexture = function (value) {
                 this.size.setTo(this.texture.image.width, this.texture.image.height);
-            };
-
-            StaticImage.prototype._updateRepeat = function (value) {
             };
 
             StaticImage.prototype._onAddedToLayer = function (layer) {
@@ -8314,15 +8863,6 @@ var Kiwi;
             };
 
             StaticImage.prototype.render = function (camera) {
-                _super.prototype.render.call(this, camera);
-
-                if (this.willRender() === true) {
-                    if (this.bounds.showDebug === true) {
-                        this.bounds.drawCanvasDebugOutline(this.layer);
-                    }
-
-                    this.layer.canvas.context.drawImage(this.texture.image, this.position.x(), this.position.y(), this.size.width(), this.size.height());
-                }
             };
             return StaticImage;
         })(Kiwi.Entity);
@@ -8380,34 +8920,29 @@ var Kiwi;
     (function (GameObjects) {
         var Textfield = (function (_super) {
             __extends(Textfield, _super);
-            function Textfield(text, x, y, width, height, color, size, weight, fontFamily) {
+            function Textfield(text, x, y, color, size, weight, fontFamily) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
-                if (typeof width === "undefined") { width = 200; }
-                if (typeof height === "undefined") { height = 100; }
                 if (typeof color === "undefined") { color = '#ffffff'; }
                 if (typeof size === "undefined") { size = 32; }
                 if (typeof weight === "undefined") { weight = 'normal'; }
                 if (typeof fontFamily === "undefined") { fontFamily = 'cursive'; }
                 _super.call(this);
 
-                this.position = this.components.add(new Kiwi.Components.Position(x, y));
-
+                this.transform.x = x;
+                this.transform.y = y;
                 this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
-                this.size = this.components.add(new Kiwi.Components.Size(width, height));
 
-                this.setText(text);
+                this._text = text;
                 this._fontWeight = weight;
                 this._fontSize = size;
                 this._fontColor = color;
                 this._fontFamily = fontFamily;
                 this._lineHeight = 1;
                 this._textAlign = 'left';
+                this._baseline = 'top';
 
-                this.alpha.updated.add(this._updateAlpha, this);
                 this.onAddedToLayer.add(this._onAddedToLayer, this);
-                this.position.updated.add(this._updatePosition, this);
-                this.size.updated.add(this._updateSize, this);
 
                 klog.info('Created Textfield Game Object');
             }
@@ -8415,58 +8950,101 @@ var Kiwi;
                 return "Textfield";
             };
 
-            Textfield.prototype.setText = function (value) {
-                this._text = value;
-                this._explodedText = this._text.split(" ");
-            };
 
-            Textfield.prototype._updateSize = function () {
-            };
+            Object.defineProperty(Textfield.prototype, "text", {
+                get: function () {
+                    return this._text;
+                },
+                set: function (value) {
+                    this._text = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Textfield.prototype.fontColor = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(Textfield.prototype, "color", {
+                get: function () {
+                    return this._fontColor;
+                },
+                set: function (val) {
                     this._fontColor = val;
-                }
-                return this._fontColor;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Textfield.prototype.fontWeight = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(Textfield.prototype, "fontWeight", {
+                get: function () {
+                    return this._fontWeight;
+                },
+                set: function (val) {
                     this._fontWeight = val;
-                }
-                return this._fontWeight;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Textfield.prototype.fontSize = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(Textfield.prototype, "fontSize", {
+                get: function () {
+                    return this._fontSize;
+                },
+                set: function (val) {
                     this._fontSize = val;
-                }
-                return this._fontSize;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Textfield.prototype.fontFamily = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(Textfield.prototype, "fontFamily", {
+                get: function () {
+                    return this._fontFamily;
+                },
+                set: function (val) {
                     this._fontFamily = val;
-                }
-                return this._fontFamily;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Textfield.prototype.lineHeight = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(Textfield.prototype, "lineHeight", {
+                get: function () {
+                    return this._lineHeight;
+                },
+                set: function (val) {
                     this._lineHeight = val;
-                }
-                return this._lineHeight;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Textfield.prototype.textAlign = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(Textfield.prototype, "textAlign", {
+                get: function () {
+                    return this._textAlign;
+                },
+                set: function (val) {
                     this._textAlign = val;
-                }
-                return this._textAlign;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Textfield.prototype._updateAlpha = function (value) {
-            };
+
+            Object.defineProperty(Textfield.prototype, "baseline", {
+                get: function () {
+                    return this._baseline;
+                },
+                set: function (val) {
+                    this._baseline = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Textfield.prototype._onAddedToLayer = function (layer) {
                 klog.info('Textfield added to Layer ' + layer.name);
@@ -8474,92 +9052,11 @@ var Kiwi;
                 return true;
             };
 
-            Textfield.prototype._updatePosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
-            };
-
             Textfield.prototype.render = function (camera) {
-                _super.prototype.render.call(this, camera);
-
-                if (this.willRender() === true) {
-                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                        this.layer.canvas.context.save();
-                        this.alpha.setContext(this.layer.canvas);
-                    }
-
-                    this.layer.canvas.context.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                    this.layer.canvas.context.textAlign = this._textAlign;
-                    this.layer.canvas.context.textBaseline = 'top';
-                    this.layer.canvas.context.fillStyle = this._fontColor;
-
-                    var dx = this.position.x();
-                    var dy = this.position.y();
-                    var textWidth = this.layer.canvas.context.measureText(this._text);
-
-                    if (this._textAlign === 'center') {
-                        dx += this.size.halfWidth;
-                    } else if (this._textAlign === 'right') {
-                        dx += this.size.width();
-                    }
-
-                    if (this.size.width() < textWidth.width) {
-                        var text = '';
-                        for (var i = 0; i < this._explodedText.length; i++) {
-                            if (this.layer.canvas.context.measureText((text + this._explodedText[i])).width < this.size.width()) {
-                                text += this._explodedText[i] + ' ';
-                            } else {
-                                this.layer.canvas.context.fillText(text, dx, dy);
-                                dy += (this._fontSize * this._lineHeight);
-                                text = this._explodedText[i] + ' ';
-                            }
-                        }
-                        this.layer.canvas.context.fillText(text, dx, dy);
-                    } else {
-                        this.layer.canvas.context.fillText(this._text, dx, dy);
-                    }
-
-                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                        this.layer.canvas.context.restore();
-                    }
-                }
             };
             return Textfield;
         })(Kiwi.Entity);
         GameObjects.Textfield = Textfield;
-    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-    var GameObjects = Kiwi.GameObjects;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (GameObjects) {
-        var LinkedGroup = (function (_super) {
-            __extends(LinkedGroup, _super);
-            function LinkedGroup(name, x, y, z) {
-                if (typeof name === "undefined") { name = ''; }
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof z === "undefined") { z = 0; }
-                _super.call(this, name);
-
-                this.position = this.components.add(new Kiwi.Components.Position(x, y, z));
-                this.position.autoRound = false;
-                this.position.updated.add(this._updatedPosition, this);
-            }
-            LinkedGroup.prototype.objType = function () {
-                return "LinkedGroup";
-            };
-
-            LinkedGroup.prototype._updatedPosition = function (x, y, z) {
-                this.forEach(this, this._updateChild, x, y);
-            };
-
-            LinkedGroup.prototype._updateChild = function (child, x, y) {
-                if (child.components.hasActiveComponent('Position')) {
-                    child.components.getComponent('Position').addTo(this.position.differenceX, this.position.differenceY);
-                }
-            };
-            return LinkedGroup;
-        })(Kiwi.Group);
-        GameObjects.LinkedGroup = LinkedGroup;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
@@ -8573,9 +9070,10 @@ var Kiwi;
 
                 this.tileLayer = tileLayer;
 
-                this.position = this.components.add(new Kiwi.Components.Position(x, y));
+                this.transform.x = x;
+                this.transform.y = y;
                 this.size = this.components.add(new Kiwi.Components.Size(width, height));
-                this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
+                this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.transform, this.size));
                 this.tileUpdate(tileType);
             }
             Tile.prototype.objType = function () {
@@ -9226,95 +9724,143 @@ var Kiwi;
                 return "Circle";
             };
 
-            Circle.prototype.diameter = function (value) {
-                if (value && value > 0) {
-                    this._diameter = value;
-                    this._radius = value * 0.5;
-                }
 
-                return this._diameter;
-            };
-
-            Circle.prototype.radius = function (value) {
-                if (value && value > 0) {
-                    this._radius = value;
-                    this._diameter = value * 2;
-                }
-
-                return this._radius;
-            };
-
-            Circle.prototype.circumference = function () {
-                return 2 * (Math.PI * this._radius);
-            };
-
-            Circle.prototype.bottom = function (value) {
-                if (value && !isNaN(value)) {
-                    if (value < this.y) {
-                        this._radius = 0;
-                        this._diameter = 0;
-                    } else {
-                        this.radius(value - this.y);
+            Object.defineProperty(Circle.prototype, "diameter", {
+                get: function () {
+                    return this._diameter;
+                },
+                set: function (value) {
+                    if (value > 0) {
+                        this._diameter = value;
+                        this._radius = value * 0.5;
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this.y + this._radius;
-            };
 
-            Circle.prototype.left = function (value) {
-                if (value && !isNaN(value)) {
-                    if (value < this.x) {
-                        this.radius(this.x - value);
-                    } else {
-                        this._radius = 0;
-                        this._diameter = 0;
+            Object.defineProperty(Circle.prototype, "radius", {
+                get: function () {
+                    return this._radius;
+                },
+                set: function (value) {
+                    if (value > 0) {
+                        this._radius = value;
+                        this._diameter = value * 2;
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this.x - this._radius;
-            };
+            Object.defineProperty(Circle.prototype, "circumference", {
+                get: function () {
+                    return 2 * (Math.PI * this._radius);
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Circle.prototype.right = function (value) {
-                if (value && !isNaN(value)) {
-                    if (value > this.x) {
-                        this.radius(value - this.x);
-                    } else {
-                        this._radius = 0;
-                        this._diameter = 0;
+
+            Object.defineProperty(Circle.prototype, "bottom", {
+                get: function () {
+                    return this.y + this._radius;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        if (value < this.y) {
+                            this._radius = 0;
+                            this._diameter = 0;
+                        } else {
+                            this.radius = value - this.y;
+                        }
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this.x + this._radius;
-            };
 
-            Circle.prototype.top = function (value) {
-                if (value && !isNaN(value)) {
-                    if (value > this.y) {
-                        this._radius = 0;
-                        this._diameter = 0;
-                    } else {
-                        this.radius(this.y - value);
+            Object.defineProperty(Circle.prototype, "left", {
+                get: function () {
+                    return this.x - this._radius;
+                },
+                set: function (value) {
+                    if (!isNaN(value)) {
+                        if (value < this.x) {
+                            this.radius = this.x - value;
+                        } else {
+                            this._radius = 0;
+                            this._diameter = 0;
+                        }
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this.y - this._radius;
-            };
 
-            Circle.prototype.area = function () {
-                if (this._radius > 0) {
-                    return Math.PI * this._radius * this._radius;
-                } else {
-                    return 0;
-                }
-            };
+            Object.defineProperty(Circle.prototype, "right", {
+                get: function () {
+                    return this.x + this._radius;
+                },
+                set: function (value) {
+                    if (value && !isNaN(value)) {
+                        if (value > this.x) {
+                            this.radius = value - this.x;
+                        } else {
+                            this._radius = 0;
+                            this._diameter = 0;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Circle.prototype.isEmpty = function () {
-                if (this._diameter <= 0) {
-                    return true;
-                }
 
-                return false;
-            };
+            Object.defineProperty(Circle.prototype, "top", {
+                get: function () {
+                    return this.y - this._radius;
+                },
+                set: function (value) {
+                    if (value && !isNaN(value)) {
+                        if (value > this.y) {
+                            this._radius = 0;
+                            this._diameter = 0;
+                        } else {
+                            this.radius = this.y - value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Circle.prototype, "area", {
+                get: function () {
+                    if (this._radius > 0) {
+                        return Math.PI * this._radius * this._radius;
+                    } else {
+                        return 0;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Circle.prototype, "isEmpty", {
+                get: function () {
+                    if (this._diameter <= 0) {
+                        return true;
+                    }
+
+                    return false;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Circle.prototype.clone = function (output) {
                 if (typeof output === "undefined") { output = new Circle(); }
@@ -9322,7 +9868,7 @@ var Kiwi;
             };
 
             Circle.prototype.copyFrom = function (source) {
-                return this.setTo(source.x, source.y, source.diameter());
+                return this.setTo(source.x, source.y, source.diameter);
             };
 
             Circle.prototype.copyTo = function (target) {
@@ -9342,7 +9888,7 @@ var Kiwi;
             };
 
             Circle.prototype.equals = function (toCompare) {
-                if (this.x === toCompare.x && this.y === toCompare.y && this.diameter() === toCompare.diameter()) {
+                if (this.x === toCompare.x && this.y === toCompare.y && this.diameter === toCompare.diameter) {
                     return true;
                 }
 
@@ -9393,7 +9939,7 @@ var Kiwi;
             };
 
             Circle.prototype.toString = function () {
-                return "[{Circle (x=" + this.x + " y=" + this.y + " diameter=" + this.diameter() + " radius=" + this.radius() + ")}]";
+                return "[{Circle (x=" + this.x + " y=" + this.y + " diameter=" + this.diameter + " radius=" + this.radius + ")}]";
             };
             return Circle;
         })();
@@ -9446,29 +9992,49 @@ var Kiwi;
                 return this;
             };
 
-            Line.prototype.length = function () {
-                return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
-            };
+            Object.defineProperty(Line.prototype, "length", {
+                get: function () {
+                    return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Line.prototype.getY = function (x) {
-                return this.slope() * x + this.yIntercept();
+                return this.slope * x + this.yIntercept;
             };
 
-            Line.prototype.angle = function () {
-                return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
-            };
+            Object.defineProperty(Line.prototype, "angle", {
+                get: function () {
+                    return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Line.prototype.slope = function () {
-                return (this.y2 - this.y1) / (this.x2 - this.x1);
-            };
+            Object.defineProperty(Line.prototype, "slope", {
+                get: function () {
+                    return (this.y2 - this.y1) / (this.x2 - this.x1);
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Line.prototype.perpSlope = function () {
-                return -((this.x2 - this.x1) / (this.y2 - this.y1));
-            };
+            Object.defineProperty(Line.prototype, "perpSlope", {
+                get: function () {
+                    return -((this.x2 - this.x1) / (this.y2 - this.y1));
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Line.prototype.yIntercept = function () {
-                return (this.y1 - this.slope() * this.x1);
-            };
+            Object.defineProperty(Line.prototype, "yIntercept", {
+                get: function () {
+                    return (this.y1 - this.slope * this.x1);
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Line.prototype.isPointOnLine = function (x, y) {
                 if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
@@ -9503,7 +10069,7 @@ var Kiwi;
                     }
                 }
 
-                var yInt = (y - this.perpSlope() * x);
+                var yInt = (y - this.perpSlope * x);
 
                 var pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
 
@@ -9653,7 +10219,7 @@ var Kiwi;
 
             Intersect.lineToCircle = function (line, circle, output) {
                 if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
-                if (line.perp(circle.x, circle.y).length() <= circle.radius()) {
+                if (line.perp(circle.x, circle.y).length <= circle.radius) {
                     output.result = true;
                 }
 
@@ -9662,25 +10228,25 @@ var Kiwi;
 
             Intersect.lineToRectangle = function (line, rect, output) {
                 if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
-                Intersect.lineToRawSegment(line, rect.x, rect.y, rect.right(), rect.y, output);
+                Intersect.lineToRawSegment(line, rect.x, rect.y, rect.right, rect.y, output);
 
                 if (output.result === true) {
                     return output;
                 }
 
-                Intersect.lineToRawSegment(line, rect.x, rect.y, rect.x, rect.bottom(), output);
+                Intersect.lineToRawSegment(line, rect.x, rect.y, rect.x, rect.bottom, output);
 
                 if (output.result === true) {
                     return output;
                 }
 
-                Intersect.lineToRawSegment(line, rect.x, rect.bottom(), rect.right(), rect.bottom(), output);
+                Intersect.lineToRawSegment(line, rect.x, rect.bottom, rect.right, rect.bottom, output);
 
                 if (output.result === true) {
                     return output;
                 }
 
-                Intersect.lineToRawSegment(line, rect.right(), rect.y, rect.right(), rect.bottom(), output);
+                Intersect.lineToRawSegment(line, rect.right, rect.y, rect.right, rect.bottom, output);
 
                 return output;
             };
@@ -9715,7 +10281,7 @@ var Kiwi;
                 if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
                 var perp = seg.perp(circle.x, circle.y);
 
-                if (perp.length() <= circle.radius()) {
+                if (perp.length <= circle.radius) {
                     var maxX = Math.max(seg.x1, seg.x2);
                     var minX = Math.min(seg.x1, seg.x2);
                     var maxY = Math.max(seg.y1, seg.y2);
@@ -9738,25 +10304,25 @@ var Kiwi;
                 if (rect.contains(seg.x1, seg.y1) && rect.contains(seg.x2, seg.y2)) {
                     output.result = true;
                 } else {
-                    Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.right(), rect.bottom(), output);
+                    Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.right, rect.bottom, output);
 
                     if (output.result === true) {
                         return output;
                     }
 
-                    Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.x, rect.bottom(), output);
+                    Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.x, rect.bottom, output);
 
                     if (output.result === true) {
                         return output;
                     }
 
-                    Intersect.lineToRawSegment(seg, rect.x, rect.bottom(), rect.right(), rect.bottom(), output);
+                    Intersect.lineToRawSegment(seg, rect.x, rect.bottom, rect.right, rect.bottom, output);
 
                     if (output.result === true) {
                         return output;
                     }
 
-                    Intersect.lineToRawSegment(seg, rect.right(), rect.y, rect.right(), rect.bottom(), output);
+                    Intersect.lineToRawSegment(seg, rect.right, rect.y, rect.right, rect.bottom, output);
 
                     return output;
                 }
@@ -9796,7 +10362,7 @@ var Kiwi;
 
             Intersect.circleToCircle = function (circle1, circle2, output) {
                 if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
-                output.result = ((circle1.radius() + circle2.radius()) * (circle1.radius() + circle2.radius())) >= Intersect.distanceSquared(circle1.x, circle1.y, circle2.x, circle2.y);
+                output.result = ((circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) >= Intersect.distanceSquared(circle1.x, circle1.y, circle2.x, circle2.y);
 
                 return output;
             };
@@ -9805,7 +10371,7 @@ var Kiwi;
                 if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
                 var inflatedRect = rect.clone();
 
-                inflatedRect.inflate(circle.radius(), circle.radius());
+                inflatedRect.inflate(circle.radius, circle.radius);
 
                 output.result = inflatedRect.contains(circle.x, circle.y);
 
@@ -9814,7 +10380,7 @@ var Kiwi;
 
             Intersect.circleContainsPoint = function (circle, point, output) {
                 if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
-                output.result = circle.radius() * circle.radius() >= Intersect.distanceSquared(circle.x, circle.y, point.x, point.y);
+                output.result = circle.radius * circle.radius >= Intersect.distanceSquared(circle.x, circle.y, point.x, point.y);
 
                 return output;
             };
@@ -9831,16 +10397,16 @@ var Kiwi;
             Intersect.rectangleToRectangle = function (rect1, rect2, output) {
                 if (typeof output === "undefined") { output = new Geom.IntersectResult(); }
                 var leftX = Math.max(rect1.x, rect2.x);
-                var rightX = Math.min(rect1.right(), rect2.right());
+                var rightX = Math.min(rect1.right, rect2.right);
                 var topY = Math.max(rect1.y, rect2.y);
-                var bottomY = Math.min(rect1.bottom(), rect2.bottom());
+                var bottomY = Math.min(rect1.bottom, rect2.bottom);
 
                 output.setTo(leftX, topY, rightX - leftX, bottomY - topY, rightX - leftX, bottomY - topY);
 
                 var cx = output.x + output.width * .5;
                 var cy = output.y + output.height * .5;
 
-                if ((cx > rect1.x && cx < rect1.right()) && (cy > rect1.y && cy < rect1.bottom())) {
+                if ((cx > rect1.x && cx < rect1.right) && (cy > rect1.y && cy < rect1.bottom)) {
                     output.result = true;
                 }
 
@@ -9870,13 +10436,21 @@ var Kiwi;
                 return "AABB";
             };
 
-            AABB.prototype.height = function () {
-                return this.halfHeight * 2;
-            };
+            Object.defineProperty(AABB.prototype, "height", {
+                get: function () {
+                    return this.halfHeight * 2;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            AABB.prototype.width = function () {
-                return this.halfWidth * 2;
-            };
+            Object.defineProperty(AABB.prototype, "width", {
+                get: function () {
+                    return this.halfWidth * 2;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             AABB.prototype.draw = function (ctx) {
                 ctx.beginPath();
@@ -9962,17 +10536,29 @@ var Kiwi;
                 return this;
             };
 
-            Ray.prototype.angle = function () {
-                return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
-            };
+            Object.defineProperty(Ray.prototype, "angle", {
+                get: function () {
+                    return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Ray.prototype.slope = function () {
-                return (this.y2 - this.y1) / (this.x2 - this.x1);
-            };
+            Object.defineProperty(Ray.prototype, "slope", {
+                get: function () {
+                    return (this.y2 - this.y1) / (this.x2 - this.x1);
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Ray.prototype.yIntercept = function () {
-                return (this.y1 - this.slope() * this.x1);
-            };
+            Object.defineProperty(Ray.prototype, "yIntercept", {
+                get: function () {
+                    return (this.y1 - this.slope * this.x1);
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Ray.prototype.isPointOnRay = function (x, y) {
                 if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
@@ -9990,523 +10576,6 @@ var Kiwi;
             return Ray;
         })();
         Geom.Ray = Ray;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Matrix = (function () {
-            function Matrix(a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                this.a = 1;
-                this.b = 0;
-                this.c = 0;
-                this.d = 1;
-                this.tx = 0;
-                this.ty = 0;
-                this.setTo(a, b, c, d, tx, ty);
-            }
-            Matrix.prototype.objType = function () {
-                return "Matrix";
-            };
-
-            Matrix.prototype.setTo = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                this.a = a;
-                this.b = b;
-                this.c = c;
-                this.d = d;
-                this.tx = tx;
-                this.ty = ty;
-
-                return this;
-            };
-
-            Matrix.prototype.setFromTransform = function (tx, ty, scaleX, scaleY, rotation) {
-                this.identity();
-                var cos = Math.cos(rotation);
-                var sin = Math.sin(rotation);
-
-                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty);
-
-                return this;
-            };
-
-            Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                var tx1 = this.tx;
-                var a1 = this.a;
-                var c1 = this.c;
-
-                this.a = a1 * a + this.b * c;
-                this.b = a1 * b + this.b * d;
-                this.c = c1 * a + this.d * c;
-                this.d = c1 * b + this.d * d;
-
-                this.tx = tx1 * a + this.ty * c + tx;
-                this.ty = tx1 * b + this.ty * d + ty;
-                return this;
-            };
-
-            Matrix.prototype.prependMatrix = function (m) {
-                var tx1 = this.tx;
-                var a1 = this.a;
-                var c1 = this.c;
-
-                this.a = a1 * m.a + this.b * m.c;
-                this.b = a1 * m.b + this.b * m.d;
-                this.c = c1 * m.a + this.d * m.c;
-                this.d = c1 * m.b + this.d * m.d;
-
-                this.tx = tx1 * m.a + this.ty * m.c + m.tx;
-                this.ty = tx1 * m.b + this.ty * m.d + m.ty;
-                return this;
-            };
-
-            Matrix.prototype.append = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-
-                this.a = a * a1 + b * c1;
-                this.b = a * b1 + b * d1;
-                this.c = c * a1 + d * c1;
-                this.d = c * b1 + d * d1;
-                this.tx = tx * a1 + ty * c1 + this.tx;
-                this.ty = tx * b1 + ty * d1 + this.ty;
-                return this;
-            };
-
-            Matrix.prototype.appendMatrix = function (m) {
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-
-                this.a = m.a * a1 + m.b * c1;
-                this.b = m.a * b1 + m.b * d1;
-                this.c = m.c * a1 + m.d * c1;
-                this.d = m.c * b1 + m.d * d1;
-                this.tx = m.tx * a1 + m.ty * c1 + this.tx;
-                this.ty = m.tx * b1 + m.ty * d1 + this.ty;
-                return this;
-            };
-
-            Matrix.prototype.setPosition = function (x, y) {
-                this.tx = x;
-                this.ty = y;
-                return this;
-            };
-
-            Matrix.prototype.setPositionPoint = function (p) {
-                this.tx = p.x;
-                this.ty = p.y;
-                return this;
-            };
-
-            Matrix.prototype.getPosition = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.setTo(this.tx, this.ty);
-            };
-
-            Matrix.prototype.identity = function () {
-                this.a = 1;
-                this.b = 0;
-                this.c = 0;
-                this.d = 1;
-                this.tx = 0;
-                this.ty = 0;
-                return this;
-            };
-
-            Matrix.prototype.rotate = function (radians) {
-                var cos = Math.cos(radians);
-                var sin = Math.sin(radians);
-
-                var a1 = this.a;
-                var c1 = this.c;
-                var tx1 = this.tx;
-
-                this.a = a1 * cos - this.b * sin;
-                this.b = a1 * sin + this.b * cos;
-                this.c = c1 * cos - this.d * sin;
-                this.d = c1 * sin + this.d * cos;
-                this.tx = tx1 * cos - this.ty * sin;
-                this.ty = tx1 * sin + this.ty * cos;
-                return this;
-            };
-
-            Matrix.prototype.translate = function (tx, ty) {
-                this.tx += tx;
-                this.ty += ty;
-                return this;
-            };
-
-            Matrix.prototype.scale = function (scaleX, scaleY) {
-                this.a *= scaleX;
-                this.d *= scaleY;
-                return this;
-            };
-
-            Matrix.prototype.transformPoint = function (pt) {
-                var x = pt.x;
-                var y = pt.y;
-                pt.x = this.a * x + this.c * y + this.tx;
-                pt.y = this.b * x + this.d * y + this.ty;
-                return pt;
-            };
-
-            Matrix.prototype.invert = function () {
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-                var tx1 = this.tx;
-                var n = a1 * d1 - b1 * c1;
-
-                this.a = d1 / n;
-                this.b = -b1 / n;
-                this.c = -c1 / n;
-                this.d = a1 / n;
-                this.tx = (c1 * this.ty - d1 * tx1) / n;
-                this.ty = -(a1 * this.ty - b1 * tx1) / n;
-                return this;
-            };
-
-            Matrix.prototype.copyFrom = function (m) {
-                this.a = m.a;
-                this.b = m.b;
-                this.c = m.c;
-                this.d = m.d;
-                this.tx = m.tx;
-                this.ty = m.ty;
-
-                return this;
-            };
-
-            Matrix.prototype.copyTo = function (m) {
-                m.a = this.a;
-                m.b = this.b;
-                m.c = this.c;
-                m.d = this.d;
-                m.tx = this.tx;
-                m.ty = this.ty;
-                return this;
-            };
-
-            Matrix.prototype.clone = function () {
-                return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
-            };
-
-            Object.defineProperty(Matrix.prototype, "toString", {
-                get: function () {
-                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Matrix;
-        })();
-        Geom.Matrix = Matrix;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Transform = (function () {
-            function Transform(x, y, scaleX, scaleY, rotation, regX, regY) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof scaleX === "undefined") { scaleX = 1; }
-                if (typeof scaleY === "undefined") { scaleY = 1; }
-                if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof regX === "undefined") { regX = 0; }
-                if (typeof regY === "undefined") { regY = 0; }
-                this._x = 0;
-                this._y = 0;
-                this._scaleX = 1;
-                this._scaleY = 1;
-                this._rotation = 0;
-                this._regX = 0;
-                this._regY = 0;
-                this.setTransform(x, y, scaleX, scaleY, rotation, regX, regY);
-
-                this._matrix = new Geom.Matrix();
-
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
-
-                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
-            }
-            Transform.prototype.objType = function () {
-                return "Transform";
-            };
-
-
-            Object.defineProperty(Transform.prototype, "x", {
-                get: function () {
-                    return this._x;
-                },
-                set: function (value) {
-                    this._x = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "y", {
-                get: function () {
-                    return this._y;
-                },
-                set: function (value) {
-                    this._y = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "scaleX", {
-                get: function () {
-                    return this._scaleX;
-                },
-                set: function (value) {
-                    this._scaleX = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "scaleY", {
-                get: function () {
-                    return this._scaleY;
-                },
-                set: function (value) {
-                    this._scaleY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "rotation", {
-                get: function () {
-                    return this._rotation;
-                },
-                set: function (value) {
-                    this._rotation = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "regX", {
-                get: function () {
-                    return this._regX;
-                },
-                set: function (value) {
-                    this._regX = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "regY", {
-                get: function () {
-                    return this._regY;
-                },
-                set: function (value) {
-                    this._regY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "matrix", {
-                get: function () {
-                    return this._matrix;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "worldX", {
-                get: function () {
-                    return this.getConcatenatedMatrix().tx;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "worldY", {
-                get: function () {
-                    return this.getConcatenatedMatrix().ty;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "parent", {
-                get: function () {
-                    return this._parent;
-                },
-                set: function (value) {
-                    if (!this.checkAncestor(value)) {
-                        this._parent = value;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Transform.prototype.setPosition = function (x, y) {
-                this._x = x;
-                this._y = y;
-
-                return this;
-            };
-
-            Transform.prototype.setPositionFromPoint = function (point) {
-                this._x = point.x;
-                this._y = point.y;
-
-                return this;
-            };
-
-            Transform.prototype.translatePositionFromPoint = function (point) {
-                this._x += point.x;
-                this._y += point.y;
-
-                return this;
-            };
-
-            Transform.prototype.getPositionPoint = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.setTo(this._x, this._y);
-            };
-
-            Object.defineProperty(Transform.prototype, "scale", {
-                set: function (value) {
-                    this._scaleX = value;
-                    this._scaleY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, regX, regY) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof scaleX === "undefined") { scaleX = 1; }
-                if (typeof scaleY === "undefined") { scaleY = 1; }
-                if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof regX === "undefined") { regX = 0; }
-                if (typeof regY === "undefined") { regY = 0; }
-                this._x = x;
-                this._y = y;
-                this._scaleX = scaleX;
-                this._scaleY = scaleY;
-                this._rotation = rotation;
-                this._regX = regX;
-                this._regY = regY;
-
-                return this;
-            };
-
-            Transform.prototype.getParentMatrix = function () {
-                if (this._parent) {
-                    return this._parent.getConcatenatedMatrix();
-                }
-
-                return null;
-            };
-
-            Transform.prototype.getConcatenatedMatrix = function () {
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
-
-                var parentMatrix = this.getParentMatrix();
-
-                if (parentMatrix) {
-                    var matrix = this._matrix.clone();
-                    matrix.prependMatrix(parentMatrix);
-                    this._cachedConcatenatedMatrix.copyFrom(matrix);
-                    return matrix;
-                }
-
-                return this._matrix;
-            };
-
-            Transform.prototype.transformPoint = function (point) {
-                var mat = this.getConcatenatedMatrix();
-
-                return mat.transformPoint(point);
-            };
-
-            Transform.prototype.copyFrom = function (source) {
-                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
-
-                this.parent = source.parent;
-
-                this._matrix = source.matrix.clone();
-
-                return this;
-            };
-
-            Transform.prototype.copyTo = function (destination) {
-                destination.copyFrom(this);
-
-                return this;
-            };
-
-            Transform.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Transform(); }
-                output.copyFrom(this);
-
-                return output;
-            };
-
-            Transform.prototype.checkAncestor = function (transform) {
-                return false;
-            };
-
-            Object.defineProperty(Transform.prototype, "toString", {
-                get: function () {
-                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Transform;
-        })();
-        Geom.Transform = Transform;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
@@ -11303,8 +11372,8 @@ var Kiwi;
 
             WidgetInput.prototype.update = function () {
                 if (this._bounds.pointWithin(this.game.input.position)) {
-                    this.distance.x = this.game.input.position.x - this._bounds.getRect().left();
-                    this.distance.y = this.game.input.position.y - this._bounds.getRect().top();
+                    this.distance.x = this.game.input.position.x - this._bounds.getRect().left;
+                    this.distance.y = this.game.input.position.y - this._bounds.getRect().top;
 
                     if (this.withinBounds === false) {
                         this.withinBounds = true;
@@ -11335,9 +11404,13 @@ var Kiwi;
                 }
             };
 
-            WidgetInput.prototype.toString = function () {
-                return '[{WidgetInput (x=' + this.withinBounds + ')}]';
-            };
+            Object.defineProperty(WidgetInput.prototype, "toString", {
+                get: function () {
+                    return '[{WidgetInput (x=' + this.withinBounds + ')}]';
+                },
+                enumerable: true,
+                configurable: true
+            });
             return WidgetInput;
         })(Kiwi.Component);
         Components.WidgetInput = WidgetInput;
@@ -11619,8 +11692,12 @@ var Kiwi;
                 }
             };
 
-            AudioManager.prototype.mute = function (value) {
-                if (value !== undefined) {
+
+            Object.defineProperty(AudioManager.prototype, "mute", {
+                get: function () {
+                    return this._muted;
+                },
+                set: function (value) {
                     if (value === true) {
                         if (this._muted)
                             return;
@@ -11647,32 +11724,37 @@ var Kiwi;
                             }
                         }
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._muted;
-            };
 
-            AudioManager.prototype.volume = function (value) {
-                if (value !== undefined) {
-                    value = Kiwi.Utils.GameMath.clamp(value, 1, 0);
-                    this._volume = value;
+            Object.defineProperty(AudioManager.prototype, "volume", {
+                get: function () {
+                    return this._volume;
+                },
+                set: function (value) {
+                    if (value !== undefined) {
+                        value = Kiwi.Utils.GameMath.clamp(value, 1, 0);
+                        this._volume = value;
 
-                    if (this._muted) {
-                        this._muteVolume = this._volume;
-                        return this._volume;
-                    }
+                        if (this._muted) {
+                            this._muteVolume = this._volume;
+                        }
 
-                    if (this.usingWebAudio) {
-                        this.masterGain.gain.value = value;
-                    } else if (this.usingAudioTag) {
-                        for (var i = 0; i < this._sounds.length; i++) {
-                            this._sounds[i].volume(this._sounds[i].volume());
+                        if (this.usingWebAudio) {
+                            this.masterGain.gain.value = value;
+                        } else if (this.usingAudioTag) {
+                            for (var i = 0; i < this._sounds.length; i++) {
+                                this._sounds[i].volume(this._sounds[i].volume());
+                            }
                         }
                     }
-                }
-
-                return this._volume;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             AudioManager.prototype.add = function (cacheID, cache, volume, loop) {
                 if (typeof volume === "undefined") { volume = 1; }
@@ -11774,18 +11856,18 @@ var Kiwi;
 
                     this._decode();
 
-                    this.gainNode.gain.value = volume * this._game.audio.volume();
+                    this.gainNode.gain.value = volume * this._game.audio.volume;
                     this.gainNode.connect(this.masterGainNode);
                 } else if (this._usingAudioTag) {
                     this.totalDuration = this._sound.duration;
-                    this._sound.volume = volume * this._game.audio.volume();
+                    this._sound.volume = volume * this._game.audio.volume;
 
                     if (isNaN(this.totalDuration))
                         this._pending = true;
                 }
 
                 this.duration = 0;
-                this.volume(volume);
+                this.volume = volume;
                 this._muteVolume = volume;
                 this._loop = loop;
 
@@ -11834,48 +11916,59 @@ var Kiwi;
                 });
             };
 
-            Audio.prototype.volume = function (val) {
-                if (this._game.audio.noAudio)
-                    return;
 
-                if (val !== undefined) {
-                    val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
+            Object.defineProperty(Audio.prototype, "volume", {
+                get: function () {
+                    return this._volume;
+                },
+                set: function (val) {
+                    if (this._game.audio.noAudio)
+                        return;
 
-                    this._volume = val;
+                    if (val !== undefined) {
+                        val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
 
-                    if (this._muted) {
-                        this._muteVolume = this._volume;
-                        return this._volume;
+                        this._volume = val;
+
+                        if (this._muted) {
+                            this._muteVolume = this._volume;
+                        }
+
+                        if (this._usingWebAudio) {
+                            this.gainNode.gain.value = this._volume * this._game.audio.volume;
+                        } else if (this._usingAudioTag) {
+                            this._sound.volume = this._volume * this._game.audio.volume;
+                        }
                     }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                    if (this._usingWebAudio) {
-                        this.gainNode.gain.value = this._volume * this._game.audio.volume();
-                    } else if (this._usingAudioTag) {
-                        this._sound.volume = this._volume * this._game.audio.volume();
+
+            Object.defineProperty(Audio.prototype, "mute", {
+                get: function () {
+                    return this._muted;
+                },
+                set: function (val) {
+                    if (this._game.audio.noAudio)
+                        return;
+
+                    if (val !== undefined && this._muted !== val) {
+                        if (val === true) {
+                            this._muteVolume = this._volume;
+                            this.volume = 0;
+                            this._muted = true;
+                        } else {
+                            this._muted = false;
+                            this.volume = this._muteVolume;
+                        }
+                        this.onMute.dispatch(this._muted);
                     }
-                }
-
-                return this._volume;
-            };
-
-            Audio.prototype.mute = function (val) {
-                if (this._game.audio.noAudio)
-                    return;
-
-                if (val !== undefined && this._muted !== val) {
-                    if (val === true) {
-                        this._muteVolume = this._volume;
-                        this.volume(0);
-                        this._muted = true;
-                    } else {
-                        this._muted = false;
-                        this.volume(this._muteVolume);
-                    }
-                    this.onMute.dispatch(this._muted);
-                }
-
-                return this._muted;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Audio.prototype.addMarker = function (name, start, stop, loop) {
                 if (typeof loop === "undefined") { loop = false; }
@@ -13109,7 +13202,7 @@ var Kiwi;
 
                         var m = child.transform.getConcatenatedMatrix();
                         ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-
+                        ctx.drawImage((child).texture.image, 0, 0, (child).size.width(), (child).size.height());
                         ctx.restore();
                     }
                 }
@@ -15009,57 +15102,6 @@ var Kiwi;
         Components.Template = Template;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (GameObjects) {
-        var MouseDebug = (function (_super) {
-            __extends(MouseDebug, _super);
-            function MouseDebug(x, y, followMouse) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof followMouse === "undefined") { followMouse = false; }
-                _super.call(this);
-
-                this.position = new Kiwi.Components.Position(x, y);
-                this._followMouse = followMouse;
-
-                this.onAddedToLayer.add(this._onAddedToLayer, this);
-                this.position.updated.add(this._updatePosition, this);
-
-                klog.info('Created MouseDebug Game Object');
-            }
-            MouseDebug.prototype.objType = function () {
-                return "MouseDebug";
-            };
-
-            MouseDebug.prototype._updatePosition = function (x, y) {
-                this.position.addStyleUpdates(this);
-            };
-
-            MouseDebug.prototype._onAddedToLayer = function (layer) {
-                klog.info('MouseDebug added to Layer');
-
-                this.position.addStyleUpdates(this);
-
-                return true;
-            };
-
-            MouseDebug.prototype.render = function (camera) {
-                _super.prototype.render.call(this, camera);
-
-                this.layer.canvas.context.fillStyle = 'rgba(0, 114, 188, 0.7)';
-                this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), 200, 100);
-                this.layer.canvas.context.font = '12px Arial';
-                this.layer.canvas.context.fillStyle = '#ffffff';
-                this.layer.canvas.context.fillText('X: ' + this.game.input.x(), this.position.x(), this.position.y() + 10);
-                this.layer.canvas.context.fillText('Y: ' + this.game.input.y(), this.position.x(), this.position.y() + 24);
-            };
-            return MouseDebug;
-        })(Kiwi.Entity);
-        GameObjects.MouseDebug = MouseDebug;
-    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-    var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {

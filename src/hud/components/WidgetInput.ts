@@ -126,7 +126,7 @@ module Kiwi.Components {
          * @method toString
          * @return {string} A string representation of this object.
          **/
-        public toString(): string {
+        public get toString(): string {
 
             return '[{WidgetInput (x=' + this.withinBounds + ')}]';
 

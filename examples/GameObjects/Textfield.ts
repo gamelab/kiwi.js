@@ -14,21 +14,21 @@
         
         var text = 'Hello World, this is awesome text that appears. Loren Ipsum dolor set e.t.c. e.t.c.';
 
-        var textField = new Kiwi.GameObjects.Textfield(text, 100, 50, 400);
-        textField.fontSize(18);
-        textField.lineHeight(2);
-        textField.textAlign('center');
+        var textField = new Kiwi.GameObjects.Textfield(text, 500, 50);
+        textField.fontSize = 18;
+        textField.lineHeight = 2;
+        textField.textAlign = 'center';
         this.addChild(textField);
         
-        var textField = new Kiwi.GameObjects.Textfield(text, 100, 150, 500);
-        textField.fontSize(18);
-        textField.lineHeight(1.2);
-        textField.textAlign('left');
+        var textField = new Kiwi.GameObjects.Textfield(text, 500, 150);
+        textField.fontSize = 18;
+        textField.lineHeight = 1.2;
+        textField.textAlign = 'left';
         this.addChild(textField);
 
-        var textField = new Kiwi.GameObjects.Textfield(text, 100, 250, 550);
-        textField.fontSize(18);
-        textField.textAlign('right');
+        var textField = new Kiwi.GameObjects.Textfield(text, 500, 250);
+        textField.fontSize = 18;
+        textField.textAlign = 'right';
         this.addChild(textField);
         
     }

@@ -22,8 +22,8 @@ class getTile extends Kiwi.State {
         this.tileMap = new Kiwi.GameObjects.TileMap();
         this.tileMap.createFromCache('desertTiles', this.cache, 'desert', this.cache, this.game, Kiwi.GameObjects.TileMap.FORMAT_TILED_JSON);
 
-        this.textfield = new Kiwi.GameObjects.Textfield('', 0, 0, this.game.stage.size.width(), this.game.stage.size.height(), '#000', 14);
-        this.textfield.textAlign('center');
+        this.textfield = new Kiwi.GameObjects.Textfield('', this.game.stage.size.width(), 10, '#000', 14);
+        this.textfield.textAlign = 'center';
 
         this.addChild(this.tileMap);
         this.addChild(this.textfield);
@@ -32,7 +32,7 @@ class getTile extends Kiwi.State {
 
     getTile() {
         
-        this.textfield.setText(this.tileMap.getTileFromWorldXY(this.game.input.mouse.x(), this.game.input.mouse.y()).tileType.toString() );
+        this.textfield.text = this.tileMap.getTileFromWorldXY(this.game.input.mouse.x(), this.game.input.mouse.y()).tileType.toString();
 
     }
 

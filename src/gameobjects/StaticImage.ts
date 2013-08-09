@@ -42,7 +42,8 @@ module Kiwi.GameObjects {
 
             //  Properties
 
-            this.position = this.components.add(new Kiwi.Components.Position(x, y));
+            this.transform.x = x;
+            this.transform.y = y;
             this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
             this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
@@ -51,10 +52,7 @@ module Kiwi.GameObjects {
 
             this.onAddedToLayer.add(this._onAddedToLayer, this);
 
-            this.position.updated.add(this._updatePosition, this);
-            this.texture.updatedRepeat.add(this._updateRepeat, this);
             this.texture.updated.add(this._updateTexture, this);
-            this.texture.position.updated.add(this._updateTexturePosition, this);
             this.size.updated.add(this._updateSize, this);
 
             klog.info('Created StaticImage Game Object');
@@ -64,13 +62,6 @@ module Kiwi.GameObjects {
         public objType() {
             return "StaticImage";
         }
-
-        /** 
-	     * The Position component that controls the location of this Game Object within the game world
-	     * @property position
-	     * @type Kiwi.Components.Position
-	     **/
-        public position: Kiwi.Components.Position;
 
         /** 
 	     * The Boounds component that controls the bounding box around this Game Object
@@ -95,50 +86,13 @@ module Kiwi.GameObjects {
 
         /** 
 	     * 
-	     * @property _transformCSS
-	     * @type String
-         * @private
-	     **/
-        private _transformCSS: string;
-
-         /** 
-	     * 
-	     * @method _updatePosition
-         * @param {Number} x
-         * @param {Number} y 
-	     * @param {Number} z
-	     **/
-        private _updatePosition(x: number, y: number, z: number) {
-
-          
-
-            this.bounds.setTo(x, y, this.size.width(), this.size.height());
-
-        }
-
-        /** 
-	     * 
 	     * @method _updateSize
          * @param {Number} width
          * @param {Number} height
 	     **/
         private _updateSize(width: number, height: number) {
 
-          
-
-            this.bounds.setTo(this.position.x(), this.position.y(), width, height);
-
-        }
-
-        /** 
-	     * 
-	     * @method _updateTexturePosition
-         * @param {Number} x
-         * @param {Number} y
-	     **/
-        private _updateTexturePosition(x: number, y: number) {
-
-           
+            this.bounds.setTo(this.transform.x, this.transform.y, width, height);
 
         }
 
@@ -152,17 +106,6 @@ module Kiwi.GameObjects {
             this.size.setTo(this.texture.image.width, this.texture.image.height);
         }
 
-        /** 
-	     * 
-	     * @method _updateRepeat
-         * @param {String} value
-	     **/
-        private _updateRepeat(value:string) {
-
-            
-
-        }
-
 	    /**
 	     * Called when this Game Object is added to a Layer, usually as a result of an addChild() call or being in a Group that was added.
 	     * @method _addedToLayer
@@ -174,8 +117,6 @@ module Kiwi.GameObjects {
 
             klog.info('StaticImage added to Layer: ' + layer.name);
 
-           
-
             return true;
 
         }
@@ -185,7 +126,7 @@ module Kiwi.GameObjects {
 	     * @method render
 	     **/
         public render(camera: Kiwi.Camera) {
-
+            /*
             super.render(camera);
 
             if (this.willRender() === true)
@@ -195,10 +136,10 @@ module Kiwi.GameObjects {
                     this.bounds.drawCanvasDebugOutline(this.layer);
                 }
 
-                this.layer.canvas.context.drawImage(this.texture.image, this.position.x(), this.position.y(), this.size.width(), this.size.height());
+                this.layer.canvas.context.drawImage(this.texture.image, this.transform.x, this.transform.y, this.size.width(), this.size.height());
 
             }
-
+            */
         }
 
 

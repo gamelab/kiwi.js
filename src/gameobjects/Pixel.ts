@@ -30,7 +30,8 @@ module Kiwi.GameObjects {
 
             super();
 
-            this.position = this.components.add(new Kiwi.Components.Position(x, y));
+            this.transform.x = x;
+            this.transform.y = y;
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, size, size));
             this.color = this.components.add(new Kiwi.Components.Color());
             this.color.setColor(color);
@@ -38,9 +39,6 @@ module Kiwi.GameObjects {
             this._pixelSize = size;
 
             this.onAddedToLayer.add(this._onAddedToLayer, this);
-            this.position.updated.add(this._updatePosition, this);
-            this.color.updated.add(this._updateColor, this);
-
             klog.info('Created Pixel Game Object');
 
         }
@@ -48,13 +46,6 @@ module Kiwi.GameObjects {
         public objType() {
             return "Pixel";
         }
-
-        /** 
-	     * The Position component that controls the location of this Game Object within the game world
-	     * @property position
-	     * @type Kiwi.Components.Position
-	     **/
-        public position: Kiwi.Components.Position;
 
         /** 
 	     * The Color component that controls the color of this pixel
@@ -94,41 +85,12 @@ module Kiwi.GameObjects {
 	     **/
         private _pixelSize: number;
 
-        /**
-	     * Called when this Game Object receives a Signal from the Position component
-	     * @method _updatePosition
-	     * @param {Number} x - The new x coordinate from the Position component
-	     * @param {Number} y - The new y coordinate from the Position component
-	     * @param {Number} z - The new z coordinate from the Position component
-	     * @param {String} cssTranslate3d - The updated translate3d CSS style
-	     * @param {String} cssLeft - The updated left CSS style
-	     * @param {String} cssTop - The updated top CSS style
-	     * @private
-	     **/
-        private _updatePosition(x: number, y: number, z: number, cssTranslate3d: string, cssLeft: string, cssTop: string) {
-
-           
-            this.bounds.setTo(x, y, this._pixelSize, this._pixelSize);
-
+        public set pixelSize(value: number) {
+            this._pixelSize = value;
         }
 
-        /**
-	     * Called when this Game Object receives a Signal from the Color component
-	     * @method _updatePosition
-	     * @private
-	     **/
-        private _updateColor() {
-
-        
-
-        }
-
-        /**
-	     * Called by the State to which this Game Object is attached
-	     * @method update
-	     **/
-        public update() {
-            //  Nothing to do for this Game Object, it's all handled by the signals
+        public get pixelSize(): number {
+            return this._pixelSize;
         }
 
         /**
@@ -136,15 +98,15 @@ module Kiwi.GameObjects {
 	     * @method render
 	     **/
         public render(camera: Kiwi.Camera) {
-
+            /*
             super.render(camera);
 
             if (this.willRender() === true)
             {
                 this.layer.canvas.context.fillStyle = this.color.cssColorRGBA;
-                this.layer.canvas.context.fillRect(this.position.x(), this.position.y(), this._pixelSize, this._pixelSize);
+                this.layer.canvas.context.fillRect(this.transform.x, this.transform.y, this._pixelSize, this._pixelSize);
             }
-
+            */
         }
 
     }
