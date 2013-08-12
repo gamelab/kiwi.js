@@ -3800,6 +3800,62 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    var Atlas = (function () {
+        function Atlas(name, cells, texture, sequences) {
+            this.name = name;
+            this.cells = cells || new Array();
+            this.sequences = sequences || new Array();
+            this.texture = texture;
+        }
+        Atlas.prototype.readJSON = function (atlasJSON) {
+            var obj = JSON.parse(atlasJSON);
+            this.name = obj.name;
+            this.cells = obj.cells;
+            if (obj.sequences) {
+                this.sequences = obj.sequence;
+            }
+        };
+        return Atlas;
+    })();
+    Kiwi.Atlas = Atlas;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Sequence = (function () {
+        function Sequence(name, cells) {
+            this.name = name;
+            this.cells = new Array();
+        }
+        return Sequence;
+    })();
+    Kiwi.Sequence = Sequence;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var SpriteSheet = (function (_super) {
+        __extends(SpriteSheet, _super);
+        function SpriteSheet(name, texture, cellWidth, cellHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            this.cellWidth = cellWidth;
+            this.cellHeight = cellHeight;
+            this.cols = cols || texture.width / cellWidth;
+            this.rows = rows || texture.height / cellHeight;
+            this.numCells = numCells || cols * rows;
+            this.sheetOffsetX = sheetOffsetX || 0;
+            this.sheetOffsetY = sheetOffsetY || 0;
+            this.cellOffsetX = cellOffsetX || 0;
+            this.cellOffsetY = cellOffsetY || 0;
+
+            _super.call(this, name, this.generateAtlasCells(), texture);
+        }
+        SpriteSheet.prototype.generateAtlasCells = function () {
+            return new Array();
+        };
+        return SpriteSheet;
+    })(Kiwi.Atlas);
+    Kiwi.SpriteSheet = SpriteSheet;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     (function (Anims) {
         var Frame = (function () {
             function Frame(x, y, width, height, position) {
@@ -14769,7 +14825,7 @@ var Kiwi;
 
     Kiwi.TARGET_BROWSER = 0;
     Kiwi.TARGET_COCOON = 1;
-    Kiwi.TARGET = 1;
+    Kiwi.TARGET = 0;
 
     Kiwi.DEVICE = null;
 
