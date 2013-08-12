@@ -36,7 +36,7 @@ export class IconCounter extends Kiwi.State {
     }
 
     removal() {
-        this.balls.range.current(1);
+        this.balls.range.current = 1;
     }
 
 }

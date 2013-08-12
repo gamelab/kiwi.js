@@ -559,7 +559,7 @@ module Kiwi {
         * @method render
         */
         public render(camera:Kiwi.Camera) {
-
+            /*
             if (this.domElement)
             {
                 
@@ -570,7 +570,7 @@ module Kiwi {
                 }
                 this.applyTransformStyle();
             }
-        
+            */
         }
 
         /**

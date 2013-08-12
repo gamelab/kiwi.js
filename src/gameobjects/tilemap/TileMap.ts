@@ -2,10 +2,10 @@
 
 module Kiwi.GameObjects {
 
-    export class TileMap extends Kiwi.Entity {
+    export class TileMap extends Kiwi.Group {
 
         constructor() {
-            super();
+            super('TileMap');
         }
 
         /*
@@ -163,11 +163,11 @@ module Kiwi.GameObjects {
         * The render loop
         */
         public render(camera: Kiwi.Camera) {
-            
+            /*
             for (var i = 0; i < this.layers.length; i++) {
                 this.layers[i].render(camera);
             }
-            
+            */
         }
 
         /*

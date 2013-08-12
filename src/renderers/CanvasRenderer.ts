@@ -34,6 +34,9 @@ module Kiwi.Renderers {
                 }
             } else {
 
+                child.render(this._currentCamera);
+
+                /*
                 var ctx: CanvasRenderingContext2D = this._game.stage.ctx;
                 
                 if ((<Kiwi.GameObjects.Sprite>child).objType() === "Sprite") {
@@ -46,6 +49,7 @@ module Kiwi.Renderers {
                     ctx.drawImage((<Kiwi.GameObjects.Sprite>child).texture.image, 0, 0, (<Kiwi.GameObjects.Sprite>child).size.width(), (<Kiwi.GameObjects.Sprite>child).size.height());
                     ctx.restore();
                 }
+                */
             }
 
         

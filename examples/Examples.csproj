@@ -23,6 +23,14 @@
   <ItemGroup>
     <Content Include="cocoon.php" />
     <TypeScriptCompile Include="sound\loading_playing.ts" />
+    <TypeScriptCompile Include="GameObjects\StaticImages.ts" />
+    <Content Include="GameObjects\StaticImages.js">
+      <DependentUpon>StaticImages.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="GameObjects\TextField.ts" />
+    <Content Include="GameObjects\TextField.js">
+      <DependentUpon>TextField.ts</DependentUpon>
+    </Content>
     <Content Include="sound\basics.js">
       <DependentUpon>loading_playing.ts</DependentUpon>
     </Content>

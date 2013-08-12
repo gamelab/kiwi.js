@@ -61,12 +61,12 @@ module Kiwi.HUD {
             
             if (this._horizontal) {
                 this.texture.repeat('repeat-x');
-                this.size.setTo(this.texture.file.data.width * this.range.current(), this.texture.file.data.height);
+                this.size.setTo(this.texture.file.data.width * this.range.current, this.texture.file.data.height);
             } else {
                 this.texture.repeat('repeat-y');
-                this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current());
+                this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current);
             }
-
+        
         }
         
         /**

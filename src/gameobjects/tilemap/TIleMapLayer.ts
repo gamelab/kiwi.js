@@ -1,6 +1,6 @@
 module Kiwi.GameObjects {
 
-    export class TileMapLayer {
+    export class TileMapLayer extends Kiwi.Group {
 
         /*
         *
@@ -15,6 +15,8 @@ module Kiwi.GameObjects {
         * @param {number} tileHeight
         */
         constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.TileMap, imageCache: Kiwi.Cache, imageKey: string, name: string, tileWidth: number, tileHeight: number) {
+            
+            super('TileMapLayer');
             this._game = game;
             this._parent = parent;
 
@@ -46,7 +48,7 @@ module Kiwi.GameObjects {
         /*
         * Holds all of the components for the layer
         */
-        private components: Kiwi.ComponentManager;
+        public components: Kiwi.ComponentManager;
 
         /*
         * The texture/image daat for this tileLayer
@@ -117,11 +119,6 @@ module Kiwi.GameObjects {
         * The name of the layer. This is never used so it can just be for niceties 
         */
         public name: string;
-
-        /*
-        * Weither this tileMapLyaer exists or not
-        */
-        public exists: bool = true;
 
         /*
         * Holds all of the map's tile information.
@@ -480,9 +477,9 @@ module Kiwi.GameObjects {
         * @method render
         * @param {Kiwi.Camera}
         */ 
-        public render(camera: Kiwi.Camera): bool { 
-
-            if (this.visible.visible() === false || this.alpha.alpha() < 0.1 || this.exists === false) {
+        public render(camera: Kiwi.Camera) { 
+            
+            if (this.visible.visible() === false || this.alpha.alpha() < 0.1 || this.exists() === false) {
                 return;
             }
             
@@ -564,7 +561,7 @@ module Kiwi.GameObjects {
             }
 
             return true;
-
+        
         }
         
         /*
