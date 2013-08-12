@@ -248,30 +248,32 @@ module Kiwi.GameObjects {
 	     * @method render
 	     **/
         public render(camera:Kiwi.Camera) {
-            /*
+            
             super.render(camera);
 
-            if (this.willRender() === true)
+            if (this.willRender() === true && this.alpha.alpha() > 0)
             {
+                var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
+                ctx.save();
 
-                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)
-                {
-                    this.layer.canvas.context.save();
-                    this.alpha.setContext(this.layer.canvas);
-                }
+                var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
-                this.layer.canvas.context.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                this.layer.canvas.context.textAlign = this._textAlign;
-                this.layer.canvas.context.textBaseline = this._baseline;
-                this.layer.canvas.context.fillStyle = this._fontColor;
-
-                this.layer.canvas.context.fillText(this._text, this.transform.x, this.transform.y);
-                
                 if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                    this.layer.canvas.context.restore();
+                    ctx.globalAlpha = this.alpha.alpha();
                 }
+
+                ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                ctx.textAlign = this._textAlign;
+                ctx.textBaseline = this._baseline;
+                ctx.fillStyle = this._fontColor;
+
+                ctx.fillText(this._text, this.transform.x, this.transform.y);
+                
+                ctx.restore();
+                
             }
-            */
+            
         }
 
     }

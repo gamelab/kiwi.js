@@ -1039,7 +1039,7 @@ var Kiwi;
                             this.isDragging = true;
 
                             if (this._dragSnapToCenter === true) {
-                                this._bounds.getRect().center = this.pointDown;
+                                this.pointDown = this._bounds.getRect().center;
                             }
 
                             this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
@@ -2604,7 +2604,7 @@ var Kiwi;
 
             if (Kiwi.DEVICE.blob) {
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = true;
+                this._useTagLoader = false;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
@@ -4497,8 +4497,8 @@ var Kiwi;
                 }
             };
 
-            Animation.prototype.renderToCanvas = function (layer, x, y) {
-                layer.canvas.context.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
+            Animation.prototype.renderToCanvas = function (ctx, x, y) {
+                ctx.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
             };
 
             Animation.prototype.drawFrameToCanvasLayer = function (layer, frameNumber, x, y) {
@@ -6215,13 +6215,6 @@ var Kiwi;
         };
 
         Entity.prototype.render = function (camera) {
-            if (this.domElement) {
-                for (var key in this._cssStack) {
-                    this.domElement.element.style[key] = this._cssStack[key];
-                    delete this._cssStack[key];
-                }
-                this.applyTransformStyle();
-            }
         };
 
         Entity.prototype.destroy = function () {
@@ -6362,29 +6355,39 @@ var Kiwi;
                 }
             };
 
-            Canvas.prototype.visible = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._visible) {
-                    this._visible = value;
 
-                    if (value === true) {
-                        this.domElement.style.display = 'block';
-                    } else {
-                        this.domElement.style.display = 'none';
+            Object.defineProperty(Canvas.prototype, "visible", {
+                get: function () {
+                    return this._visible;
+                },
+                set: function (value) {
+                    if (value !== null && value !== this._visible) {
+                        this._visible = value;
+
+                        if (value === true) {
+                            this.domElement.style.display = 'block';
+                        } else {
+                            this.domElement.style.display = 'none';
+                        }
                     }
-                }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                return this._visible;
-            };
 
-            Canvas.prototype.clearMode = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA) {
-                    this._clearMode = value;
-                }
-
-                return this._clearMode;
-            };
+            Object.defineProperty(Canvas.prototype, "clearMode", {
+                get: function () {
+                    return this._clearMode;
+                },
+                set: function (value) {
+                    if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA) {
+                        this._clearMode = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Canvas.prototype.clear = function () {
                 if (this._clearMode === Canvas.CLEARMODE_NONE) {
@@ -6473,7 +6476,7 @@ var Kiwi;
             if (value !== null && value !== this._visible) {
                 this._visible = value;
 
-                this.canvas.visible(this._visible);
+                this.canvas.visible = this._visible;
             }
 
             return this._visible;
@@ -8821,6 +8824,27 @@ var Kiwi;
             };
 
             Sprite.prototype.render = function (camera) {
+                _super.prototype.render.call(this, camera);
+
+                if (this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0) {
+                    var ctx = this.game.stage.ctx;
+                    ctx.save();
+
+                    var m = this.transform.getConcatenatedMatrix();
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+
+                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
+                        ctx.globalAlpha = this.alpha.alpha();
+                    }
+
+                    if (this._isAnimated === true) {
+                        this.animation.currentAnimation.renderToCanvas(ctx, 0, 0);
+                    } else {
+                        ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                    }
+
+                    ctx.restore();
+                }
             };
             return Sprite;
         })(Kiwi.Entity);
@@ -8875,6 +8899,22 @@ var Kiwi;
             };
 
             StaticImage.prototype.render = function (camera) {
+                _super.prototype.render.call(this, camera);
+
+                if (this.willRender() === true) {
+                    if (this.bounds.showDebug === true) {
+                        this.bounds.drawCanvasDebugOutline(this.layer);
+                    }
+
+                    var ctx = this.game.stage.ctx;
+                    ctx.save();
+
+                    var m = this.transform.getConcatenatedMatrix();
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+
+                    ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                    ctx.restore();
+                }
             };
             return StaticImage;
         })(Kiwi.Entity);
@@ -9065,6 +9105,28 @@ var Kiwi;
             };
 
             Textfield.prototype.render = function (camera) {
+                _super.prototype.render.call(this, camera);
+
+                if (this.willRender() === true && this.alpha.alpha() > 0) {
+                    var ctx = this.game.stage.ctx;
+                    ctx.save();
+
+                    var m = this.transform.getConcatenatedMatrix();
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+
+                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
+                        ctx.globalAlpha = this.alpha.alpha();
+                    }
+
+                    ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                    ctx.textAlign = this._textAlign;
+                    ctx.textBaseline = this._baseline;
+                    ctx.fillStyle = this._fontColor;
+
+                    ctx.fillText(this._text, this.transform.x, this.transform.y);
+
+                    ctx.restore();
+                }
             };
             return Textfield;
         })(Kiwi.Entity);
@@ -9097,6 +9159,9 @@ var Kiwi;
                 this.physics.mass = this.tileType.mass;
                 this.physics.allowCollisions = this.tileType.allowCollisions;
                 this.physics.immovable = this.tileType.immovable;
+            };
+
+            Tile.prototype.render = function (camera) {
             };
             return Tile;
         })(Kiwi.Entity);
@@ -9140,7 +9205,7 @@ var Kiwi;
         var TileMap = (function (_super) {
             __extends(TileMap, _super);
             function TileMap() {
-                _super.call(this);
+                _super.call(this, 'TileMap');
                 this._collisionCallback = null;
             }
             TileMap.prototype.createFromData = function (tileMapData, tileMapImageKey, tileMapImageCache, game, format) {
@@ -9204,13 +9269,7 @@ var Kiwi;
                 return "TileMap";
             };
 
-            TileMap.prototype.update = function () {
-            };
-
             TileMap.prototype.render = function (camera) {
-                for (var i = 0; i < this.layers.length; i++) {
-                    this.layers[i].render(camera);
-                }
             };
 
             TileMap.prototype.parseTiledJSON = function (data) {
@@ -9219,7 +9278,7 @@ var Kiwi;
                 for (var i = 0; i < mapObj.layers.length; i++) {
                     var layer = new GameObjects.TileMapLayer(this._game, this, this._tileMapImageCache, this._tileMapImageKey, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
 
-                    layer.position.setTo(mapObj.layers[i].x, mapObj.layers[i].y);
+                    layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                     layer.alpha.alpha(parseInt(mapObj.layers[i].opacity));
                     layer.visible.visible(mapObj.layers[i].visible);
                     layer.tileMargin = mapObj.tilesets[0].margin;
@@ -9249,6 +9308,7 @@ var Kiwi;
                     this.currentLayer = layer;
 
                     this.layers.push(layer);
+                    this.addChild(layer);
                 }
             };
 
@@ -9302,10 +9362,10 @@ var Kiwi;
 
             TileMap.prototype.getTileFromInputXY = function (layer) {
                 if (layer === undefined) {
-                    return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x() - this.currentLayer.position.x(), this._game.input.mouse.y() - this.currentLayer.position.y());
+                    return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x() - this.currentLayer.transform.x, this._game.input.mouse.y() - this.currentLayer.transform.y);
                     ;
                 } else {
-                    return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x() - this.layers[layer].position.x(), this._game.input.mouse.y() - this.layers[layer].position.y());
+                    return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x() - this.layers[layer].transform.x, this._game.input.mouse.y() - this.layers[layer].transform.y);
                     ;
                 }
             };
@@ -9388,7 +9448,7 @@ var Kiwi;
             TileMap.FORMAT_CSV = 0;
             TileMap.FORMAT_TILED_JSON = 1;
             return TileMap;
-        })(Kiwi.Entity);
+        })(Kiwi.Group);
         GameObjects.TileMap = TileMap;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
@@ -9396,8 +9456,10 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (GameObjects) {
-        var TileMapLayer = (function () {
+        var TileMapLayer = (function (_super) {
+            __extends(TileMapLayer, _super);
             function TileMapLayer(game, parent, imageCache, imageKey, name, tileWidth, tileHeight) {
+                _super.call(this);
                 this._startX = 0;
                 this._startY = 0;
                 this._maxX = 0;
@@ -9406,13 +9468,13 @@ var Kiwi;
                 this._ty = 0;
                 this._dx = 0;
                 this._dy = 0;
-                this.exists = true;
                 this.widthInTiles = 0;
                 this.heightInTiles = 0;
                 this.widthInPixels = 0;
                 this.heightInPixels = 0;
                 this.tileMargin = 0;
                 this.tileSpacing = 0;
+
                 this._game = game;
                 this._parent = parent;
 
@@ -9425,7 +9487,6 @@ var Kiwi;
                 this._texture = imageCache.images.getFile(imageKey).data;
 
                 this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
-                this.position = this.components.add(new Kiwi.Components.Position(0, 0, 0));
                 this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
                 this.visible = this.components.add(new Kiwi.Components.Visible(true));
             }
@@ -9543,19 +9604,19 @@ var Kiwi;
             };
 
             TileMapLayer.prototype.getTileOverlaps = function (object) {
-                if (!object.components.hasComponent("Size") || !object.components.hasComponent("Position")) {
+                if (!object.components.hasComponent("Size")) {
                     return;
                 }
 
-                var objPos = object.components.getComponent('Position');
+                var objPos = object.transform;
                 var objSize = object.components.getComponent('Size');
 
-                if (objPos.x() > this.position.x() + this.widthInPixels || objPos.x() + objSize.width() < this.position.x() || objPos.y() > this.position.y() + this.heightInPixels || objPos.y() + objSize.height() < this.position.y()) {
+                if (objPos.x > this.transform.x + this.widthInPixels || objPos.x + objSize.width() < this.transform.x || objPos.y > this.transform.y + this.heightInPixels || objPos.y + objSize.height() < this.transform.y) {
                     return;
                 }
 
-                this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x() - this.position.x(), this.tileWidth) / this.tileWidth;
-                this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y() - this.position.y(), this.tileHeight) / this.tileHeight;
+                this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x - this.transform.x, this.tileWidth) / this.tileWidth;
+                this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y - this.transform.y, this.tileHeight) / this.tileHeight;
 
                 this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(objSize.width(), this.tileWidth) / this.tileWidth;
                 this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(objSize.height(), this.tileHeight) / this.tileHeight;
@@ -9589,7 +9650,7 @@ var Kiwi;
                 var data = [];
 
                 for (var c = 0; c < row.length; c++) {
-                    data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.position.x(), this.heightInPixels + this.position.y());
+                    data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
                     data[c].ty = this.heightInTiles;
                     data[c].tx = c;
                 }
@@ -9626,22 +9687,21 @@ var Kiwi;
             };
 
             TileMapLayer.prototype.render = function (camera) {
-                if (this.visible.visible() === false || this.alpha.alpha() < 0.1 || this.exists === false) {
+                if (this.visible.visible() === false || this.alpha.alpha() < 0.1 || this.exists() === false) {
                     return;
                 }
 
-                var ctx = this._parent.layer.canvas.context;
+                var ctx = this.game.stage.ctx;
+                ctx.save();
 
                 if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                    ctx.save();
-                    this.alpha.setContext(this._parent.layer.canvas);
                 }
 
                 this._maxX = Math.min(Math.ceil(camera.size.width() / this.tileWidth) + 1, this.widthInTiles);
                 this._maxY = Math.min(Math.ceil(camera.size.height() / this.tileHeight) + 1, this.heightInTiles);
 
-                this._startX = Math.floor((camera.position.x() - this.position.x()) / this.tileWidth);
-                this._startY = Math.floor((camera.position.y() - this.position.y()) / this.tileHeight);
+                this._startX = Math.floor((camera.position.x() - this.transform.x) / this.tileWidth);
+                this._startY = Math.floor((camera.position.y() - this.transform.y) / this.tileHeight);
 
                 if (this._startX < 0) {
                     this._maxX = this._maxX + this._startX;
@@ -9667,8 +9727,8 @@ var Kiwi;
                 this._dx = 0;
                 this._dy = 0;
 
-                this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.position.x();
-                this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.position.y();
+                this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.transform.x;
+                this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.transform.y;
 
                 this._tx = this._dx;
                 this._ty = this._dy;
@@ -9682,7 +9742,8 @@ var Kiwi;
                         }
 
                         this._columnData[tile].physics.update();
-                        this._columnData[tile].position.setTo(this._tx, this._ty);
+                        this._columnData[tile].transform.x = this._tx;
+                        this._columnData[tile].transform.y = this._ty;
                         this._tx += this.tileWidth;
                     }
 
@@ -9690,16 +9751,12 @@ var Kiwi;
                     this._ty += this.tileHeight;
                 }
 
-                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                    ctx.restore();
-                }
-
+                ctx.restore();
                 return true;
             };
 
             TileMapLayer.prototype.destroy = function () {
                 this.mapData = null;
-                this.position = null;
                 this.alpha = null;
                 this._parent = null;
                 this._dx = null;
@@ -9713,7 +9770,7 @@ var Kiwi;
                 this._texture = null;
             };
             return TileMapLayer;
-        })();
+        })(Kiwi.Entity);
         GameObjects.TileMapLayer = TileMapLayer;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
@@ -11036,10 +11093,10 @@ var Kiwi;
             IconCounter.prototype._changeSize = function () {
                 if (this._horizontal) {
                     this.texture.repeat('repeat-x');
-                    this.size.setTo(this.texture.file.data.width * this.range.current(), this.texture.file.data.height);
+                    this.size.setTo(this.texture.file.data.width * this.range.current, this.texture.file.data.height);
                 } else {
                     this.texture.repeat('repeat-y');
-                    this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current());
+                    this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current);
                 }
             };
 
@@ -11075,7 +11132,7 @@ var Kiwi;
                 this.counter.updated.add(this._updateText, this);
             }
             BasicScore.prototype._updateText = function () {
-                this.text(String(this.counter.value()));
+                this.text(String(this.counter.value));
             };
             return BasicScore;
         })(Kiwi.HUD.TextField);
@@ -11127,7 +11184,7 @@ var Kiwi;
                 this.time.setTime(milliseconds, seconds, minutes, hours);
 
                 this.updateTime();
-                return this.time.milliseconds();
+                return this.time.milliseconds;
             };
 
             Time.prototype.format = function (val) {
@@ -11138,10 +11195,10 @@ var Kiwi;
             };
 
             Time.prototype.updateTime = function () {
-                var ms = String(this.time.milliseconds());
-                var s = String(this.time.seconds());
-                var m = String(this.time.minutes());
-                var h = String(this.time.hours());
+                var ms = String(this.time.milliseconds);
+                var s = String(this.time.seconds);
+                var m = String(this.time.minutes);
+                var h = String(this.time.hours);
 
                 if (s.length < 2)
                     var ss = '0' + s; else
@@ -11294,14 +11351,20 @@ var Kiwi;
 
                 this.updated = new Kiwi.Signal();
             }
-            Counter.prototype.value = function (val) {
-                if (val !== undefined) {
-                    this._value = val;
-                    this.updated.dispatch(this._value);
-                }
 
-                return this._value;
-            };
+            Object.defineProperty(Counter.prototype, "value", {
+                get: function () {
+                    return this._value;
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        this._value = val;
+                        this.updated.dispatch(this._value);
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Counter.prototype.increment = function (val) {
                 if (val !== undefined) {
@@ -11419,35 +11482,56 @@ var Kiwi;
 
                 this.updated = new Kiwi.Signal();
             }
-            Range.prototype.max = function (val) {
-                if (val !== undefined) {
-                    this._max = val;
-                    this.updated.dispatch(this._current, this._max, this._min);
-                }
-                return this._max;
-            };
 
-            Range.prototype.min = function (val) {
-                if (val !== undefined) {
-                    this._min = val;
-                    this.updated.dispatch(this._current, this._max, this._min);
-                }
-                return this._min;
-            };
-
-            Range.prototype.current = function (val) {
-                if (val !== undefined) {
-                    if (this._current > this._max) {
-                        this._current = this._max;
-                    } else if (this._current < this._min) {
-                        this._current = this._min;
-                    } else {
-                        this._current = val;
+            Object.defineProperty(Range.prototype, "max", {
+                get: function () {
+                    return this._max;
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        this._max = val;
+                        this.updated.dispatch(this._current, this._max, this._min);
                     }
-                    this.updated.dispatch(this._current, this._max, this._min);
-                }
-                return this._current;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Range.prototype, "min", {
+                get: function () {
+                    return this._min;
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        this._min = val;
+                        this.updated.dispatch(this._current, this._max, this._min);
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Range.prototype, "current", {
+                get: function () {
+                    return this._current;
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        if (this._current > this._max) {
+                            this._current = this._max;
+                        } else if (this._current < this._min) {
+                            this._current = this._min;
+                        } else {
+                            this._current = val;
+                        }
+                        this.updated.dispatch(this._current, this._max, this._min);
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Range.prototype.decrease = function (val) {
                 if (typeof val === "undefined") { val = 1; }
@@ -11476,7 +11560,7 @@ var Kiwi;
             };
 
             Range.prototype.currentPercent = function () {
-                return ((this.current()) / (this.max())) * 100;
+                return ((this.current) / (this.max)) * 100;
             };
             return Range;
         })(Kiwi.Component);
@@ -11498,25 +11582,39 @@ var Kiwi;
                 this._lastTime = Date.now();
                 this.setTime(milliseconds, seconds, minutes, hours);
             }
-            Time.prototype.countingDown = function (val) {
-                if (val !== undefined) {
-                    if (val == true)
-                        this.paused = false;
 
-                    this._countDown = val;
-                }
-                return this._countDown;
-            };
+            Object.defineProperty(Time.prototype, "countingDown", {
+                get: function () {
+                    return this._countDown;
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        if (val == true)
+                            this.paused = false;
 
-            Time.prototype.countingUp = function (val) {
-                if (val !== undefined) {
-                    if (val == true)
-                        this.paused = false;
+                        this._countDown = val;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                    this._countDown = !val;
-                }
-                return !this._countDown;
-            };
+
+            Object.defineProperty(Time.prototype, "countingUp", {
+                get: function () {
+                    return !this._countDown;
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        if (val == true)
+                            this.paused = false;
+
+                        this._countDown = !val;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Time.prototype.setTime = function (milliseconds, seconds, minutes, hours) {
                 if (seconds !== undefined)
@@ -11575,37 +11673,65 @@ var Kiwi;
                 return num;
             };
 
-            Time.prototype.milliseconds = function (val) {
-                if (val !== undefined) {
-                    this._milliseconds = val;
-                    this.updated.dispatch();
-                }
-                return this._milliseconds % 1000;
-            };
 
-            Time.prototype.seconds = function (val) {
-                if (val !== undefined) {
-                    this._milliseconds = this.convertToMilli(val, 's');
-                    this.updated.dispatch();
-                }
-                return Math.floor(this._milliseconds / 1000) % 60;
-            };
+            Object.defineProperty(Time.prototype, "milliseconds", {
+                get: function () {
+                    return this._milliseconds % 1000;
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        this._milliseconds = val;
+                        this.updated.dispatch();
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Time.prototype.minutes = function (val) {
-                if (val !== undefined) {
-                    this._milliseconds = this.convertToMilli(val, 'm');
-                    this.updated.dispatch();
-                }
-                return Math.floor(this._milliseconds / 1000 / 60) % 60;
-            };
 
-            Time.prototype.hours = function (val) {
-                if (val !== undefined) {
-                    this._milliseconds = this.convertToMilli(val, 'h');
-                    this.updated.dispatch();
-                }
-                return Math.floor(this._milliseconds / 1000 / 60 / 60);
-            };
+            Object.defineProperty(Time.prototype, "seconds", {
+                get: function () {
+                    return Math.floor(this._milliseconds / 1000) % 60;
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        this._milliseconds = this.convertToMilli(val, 's');
+                        this.updated.dispatch();
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Time.prototype, "minutes", {
+                get: function () {
+                    return Math.floor(this._milliseconds / 1000 / 60) % 60;
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        this._milliseconds = this.convertToMilli(val, 'm');
+                        this.updated.dispatch();
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Time.prototype, "hours", {
+                get: function () {
+                    return Math.floor(this._milliseconds / 1000 / 60 / 60);
+                },
+                set: function (val) {
+                    if (val !== undefined) {
+                        this._milliseconds = this.convertToMilli(val, 'h');
+                        this.updated.dispatch();
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Time.prototype.update = function () {
                 if (!this.paused) {
@@ -11614,9 +11740,9 @@ var Kiwi;
                     this._lastTime = newTime;
 
                     if (this._countDown) {
-                        this.milliseconds(this._milliseconds - difference);
+                        this.milliseconds = this._milliseconds - difference;
                     } else {
-                        this.milliseconds(this._milliseconds + difference);
+                        this.milliseconds = this._milliseconds + difference;
                     }
                     this.updated.dispatch();
                 }
@@ -13182,6 +13308,8 @@ var Kiwi;
             };
 
             CanvasRenderer.prototype._recurse = function (child) {
+                console.log(child.childType());
+
                 if (!child.willRender())
                     return;
 
@@ -13190,17 +13318,8 @@ var Kiwi;
                         this._recurse((child).members[i]);
                     }
                 } else {
-                    var ctx = this._game.stage.ctx;
-
-                    if ((child).objType() === "Sprite") {
-                        ctx.save();
-                        child = child;
-
-                        var m = child.transform.getConcatenatedMatrix();
-                        ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                        ctx.drawImage((child).texture.image, 0, 0, (child).size.width(), (child).size.height());
-                        ctx.restore();
-                    }
+                    console.log(child);
+                    child.render(this._currentCamera);
                 }
             };
 

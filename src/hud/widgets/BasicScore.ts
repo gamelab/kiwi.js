@@ -42,7 +42,7 @@ module Kiwi.HUD {
         * @private
         **/
         private _updateText() {
-            this.text( String(this.counter.value()) );
+            this.text( String(this.counter.value) );
         }
 
 

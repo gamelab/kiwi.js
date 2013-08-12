@@ -51,19 +51,24 @@ module Kiwi.Components {
         public updated: Kiwi.Signal;
 
         /**
-        * Allows you to get the current value of the counter or change the current value if you pass a value.
+        * Set allows you to get the current value of the counter
+        * Get allows you to change the current value if you pass a value.
         *
         * @method value
         * @param {number} val
         * @return {number}
         **/
-        public value(val?: number):number {
+        public set value(val: number) {
             if (val !== undefined) {
                 this._value = val;
                 this.updated.dispatch(this._value);
             }
+        }
 
+        public get value(): number {
+            
             return this._value;
+
         }
 
         /**

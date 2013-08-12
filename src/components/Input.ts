@@ -168,7 +168,7 @@ module Kiwi.Components {
                         if (this._dragSnapToCenter === true)
                         {
                             //  Copy the mid-point coordinates into pointDown
-                            this._bounds.getRect().center = this.pointDown;
+                            this.pointDown = this._bounds.getRect().center;
                         }
 
                         this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);

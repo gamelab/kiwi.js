@@ -21,12 +21,20 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="GameObjects\Mouse_ClickAndDrag.ts" />
     <Content Include="cocoon.php" />
-    <Content Include="GameObjects\Mouse_ ClickAndDrag.js">
-      <DependentUpon>Mouse_ClickAndDrag.ts</DependentUpon>
+    <Content Include="tilemaps\basics.js">
+      <DependentUpon>basictiles.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="tilemaps\basictiles.ts" />
     <TypeScriptCompile Include="sound\loading_playing.ts" />
+    <TypeScriptCompile Include="GameObjects\StaticImages.ts" />
+    <Content Include="GameObjects\StaticImages.js">
+      <DependentUpon>StaticImages.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="GameObjects\TextField.ts" />
+    <Content Include="GameObjects\TextField.js">
+      <DependentUpon>TextField.ts</DependentUpon>
+    </Content>
     <Content Include="sound\basics.js">
       <DependentUpon>loading_playing.ts</DependentUpon>
     </Content>
@@ -46,56 +54,11 @@
     <Content Include="sound\pausing_resuming.js">
       <DependentUpon>pausing_resuming.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="sound\changing_volume.ts" />
     <TypeScriptCompile Include="sound\SoundComponent.ts" />
     <Content Include="sound\SoundComponent.js">
       <DependentUpon>SoundComponent.ts</DependentUpon>
     </Content>
-    <Content Include="sound\volume.js">
-      <DependentUpon>changing_volume.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="sprites\MultiSprite.ts" />
-    <Content Include="tilemaps\basics.js">
-      <DependentUpon>basics.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="tilemaps\replaceTiles.ts" />
-    <TypeScriptCompile Include="tilemaps\collision.ts" />
-    <TypeScriptCompile Include="tilemaps\randomise.ts" />
-    <TypeScriptCompile Include="tilemaps\collisionPart2.ts" />
-    <Content Include="tilemaps\collisionPart2.js">
-      <DependentUpon>collisionPart2.ts</DependentUpon>
-    </Content>
-    <Content Include="tilemaps\randomise.js">
-      <DependentUpon>randomise.ts</DependentUpon>
-    </Content>
-    <Content Include="tilemaps\replaceTiles.js">
-      <DependentUpon>replaceTiles.ts</DependentUpon>
-    </Content>
-    <Content Include="tilemaps\swappingTiles.js">
-      <DependentUpon>swappingTiles.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="tilemaps\swappingTiles.ts" />
-    <TypeScriptCompile Include="tilemaps\fillTiles.ts" />
-    <Content Include="tilemaps\fillTiles.js">
-      <DependentUpon>fillTiles.ts</DependentUpon>
-    </Content>
-    <Content Include="tilemaps\putTiles.js">
-      <DependentUpon>putTiles.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="tilemaps\putTiles.ts" />
-    <TypeScriptCompile Include="tilemaps\getTile.ts" />
-    <TypeScriptCompile Include="tilemaps\getMovingTile.ts" />
-    <Content Include="tilemaps\getMovingTile.js">
-      <DependentUpon>getMovingTile.ts</DependentUpon>
-    </Content>
-    <Content Include="tilemaps\getTile.js">
-      <DependentUpon>getTile.ts</DependentUpon>
-    </Content>
-    <Content Include="tilemaps\movement.js">
-      <DependentUpon>movement.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="tilemaps\movement.ts" />
-    <TypeScriptCompile Include="tilemaps\basics.ts" />
     <Content Include="assets\bunny.png" />
     <Content Include="assets\coin.png" />
     <Content Include="assets\explosion.png" />
@@ -108,11 +71,6 @@
     <Content Include="assets\shinyball.png" />
     <Content Include="assets\spartan.png" />
     <Content Include="assets\sprite.png" />
-    <TypeScriptCompile Include="components\InputComponent.ts" />
-    <TypeScriptCompile Include="components\ScaleComponent.ts" />
-    <Content Include="components\ScaleComponent.js">
-      <DependentUpon>ScaleComponent.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="devices\DeviceInfo.ts" />
     <Content Include="devices\DeviceInfo.js">
       <DependentUpon>DeviceInfo.ts</DependentUpon>
@@ -121,10 +79,6 @@
     <Content Include="groups\GroupGraph.js">
       <DependentUpon>GroupGraph.ts</DependentUpon>
     </Content>
-    <Content Include="layers\CreatingLayers.js">
-      <DependentUpon>CreatingLayers.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="layers\CreatingLayers.ts" />
     <Content Include="assets\sprites\planetcute\Brown Block.png" />
     <Content Include="assets\sprites\planetcute\Character Boy.png" />
     <Content Include="assets\sprites\planetcute\Character Cat Girl.png" />
@@ -184,31 +138,14 @@
     <Content Include="assets\sprites\planetcute\Wood Block.png" />
     <Content Include="assets\zombie.png" />
     <Content Include="assets\zombieSprite.png" />
-    <TypeScriptCompile Include="components\AlphaComponent.ts" />
-    <TypeScriptCompile Include="components\AnimationComponent.ts" />
-    <TypeScriptCompile Include="components\ColorComponent.ts" />
-    <TypeScriptCompile Include="components\PositionComponent.ts" />
-    <TypeScriptCompile Include="components\RotateComponent.ts" />
     <TypeScriptCompile Include="components\SizeComponent.ts" />
     <TypeScriptCompile Include="components\TextureComponent.ts" />
-    <TypeScriptCompile Include="components\VisibleComponent.ts" />
     <Content Include="examples.css" />
     <TypeScriptCompile Include="GameObjects\AddingSprite.ts" />
-    <TypeScriptCompile Include="GameObjects\ClickingButton.ts" />
-    <TypeScriptCompile Include="GameObjects\LoadingImagesStaticImages.ts" />
-    <TypeScriptCompile Include="GameObjects\Mouse_MoveAndClick.ts" />
     <TypeScriptCompile Include="GameObjects\MovingSpriteWithKeys.ts" />
     <TypeScriptCompile Include="groups\CreatingUsingGroups.ts" />
     <TypeScriptCompile Include="hud\Basics.ts" />
     <TypeScriptCompile Include="hud\BasicBar.ts" />
-    <TypeScriptCompile Include="GameObjects\Textfield.ts" />
-    <TypeScriptCompile Include="GameObjects\RemoveChild.ts" />
-    <Content Include="GameObjects\Remove.js">
-      <DependentUpon>RemoveChild.ts</DependentUpon>
-    </Content>
-    <Content Include="GameObjects\Textfield.js">
-      <DependentUpon>Textfield.ts</DependentUpon>
-    </Content>
     <Content Include="hud\Bar.js">
       <DependentUpon>BasicBar.ts</DependentUpon>
     </Content>
@@ -242,10 +179,6 @@
     </Content>
     <Content Include="hud\Icons.js">
       <DependentUpon>Icons.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="hud\Menu.ts" />
-    <Content Include="hud\Menu.js">
-      <DependentUpon>Menu.ts</DependentUpon>
     </Content>
     <Content Include="jquery-1.9.1.d.ts" />
     <Content Include="jquery-1.9.1.js" />

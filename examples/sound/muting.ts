@@ -32,11 +32,11 @@ class muting extends Kiwi.State {
     }
 
     mute() {
-        //this.tommy.mute(true);
+        this.tommy.mute(true);
     }
 
     unmute() {
-        //this.tommy.mute(false);
+        this.tommy.mute(false);
     }
     
 

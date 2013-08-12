@@ -335,15 +335,35 @@ module Kiwi.GameObjects {
 	     * @method render
 	     **/
         public render(camera:Kiwi.Camera) {
-            /*
+           
             super.render(camera);
+            
             
             if ( this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0)
             //console.log("-0" + this.name + this.willRender());
             //console.log("-0" + this.name + this.visible.visible());
             {
+                
+                var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
+                ctx.save();
+
+                var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+
+                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
+                    ctx.globalAlpha = this.alpha.alpha();
+                }
+
+                if (this._isAnimated === true) {
+                    this.animation.currentAnimation.renderToCanvas(ctx, 0, 0);
+                } else {
+                    ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                }    
+
+                ctx.restore();
+
               //  console.log("-1" + this.name);
-                if (this.bounds.showDebug === true)
+                /*if (this.bounds.showDebug === true)
                 {
                     this.bounds.drawCanvasDebugOutline(this.layer);
                 }
@@ -353,10 +373,11 @@ module Kiwi.GameObjects {
                     this.layer.canvas.context.save();
                     this.alpha.setContext(this.layer.canvas);
                 }
-
+                
                 var offsetX: number = camera.position.x();
                 var offsetY: number = camera.position.y();
               
+                
                 var dx = this.position.x();
                 var dy = this.position.y();
                 var dw = this.size.width();
@@ -374,10 +395,8 @@ module Kiwi.GameObjects {
                     dx = -(dw / 2);
                     dy = -(dh / 2);
                 }   
-
-                
-
-                {
+                        */
+               /* {
                     //  Animation frame?
                     if (this._isAnimated === true)
                     {
@@ -390,11 +409,11 @@ module Kiwi.GameObjects {
                     {
                 //        console.log("-2" + this.name);
                         //this.layer.canvas.context.drawImage(this.texture.image, this.position.x(), this.position.y(), this.size.width(), this.size.height());
-                        this.layer.canvas.context.drawImage(this.texture.image, dx-offsetX, dy-offsetY, dw, dh);
-                    }
+                        //this.layer.canvas.context.drawImage(this.texture.image, dx-offsetX, dy-offsetY, dw, dh);
+                    //}
 
                 }
-
+                
                 if (this.rotation.angle() !== 0)
                 {
                     this.layer.canvas.context.translate(0, 0);
@@ -407,11 +426,11 @@ module Kiwi.GameObjects {
               if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)
                 {
                     this.layer.canvas.context.restore();
-                }
+                }*/
 
             }
 
-    */
+    
         }
 
 

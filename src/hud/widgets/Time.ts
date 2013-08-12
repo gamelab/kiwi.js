@@ -11,6 +11,7 @@
  *				
  *	@url		http://www.kiwijs.org
  *
+ *  @todo       Replace with the time / clock manager
 */
 
 module Kiwi.HUD {
@@ -60,7 +61,7 @@ module Kiwi.HUD {
             this.time.setTime(milliseconds, seconds, minutes, hours);
 
             this.updateTime();
-            return this.time.milliseconds();
+            return this.time.milliseconds;
         }
 
         /**
@@ -84,10 +85,10 @@ module Kiwi.HUD {
         * @method updateTime
         **/
         public updateTime() {
-            var ms = String(this.time.milliseconds());
-            var s = String(this.time.seconds());
-            var m = String(this.time.minutes());
-            var h = String(this.time.hours());
+            var ms = String(this.time.milliseconds);
+            var s = String(this.time.seconds);
+            var m = String(this.time.minutes);
+            var h = String(this.time.hours);
 
             if (s.length < 2) var ss = '0' + s; else var ss = s;
             if (m.length < 2) var mm = '0' + m; else var mm = m;

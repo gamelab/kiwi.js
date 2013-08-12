@@ -174,7 +174,7 @@ module Kiwi.Utils {
         * @param {Boolean} value
         * @return {Boolean}
         */
-        public visible(value: bool = null): bool {
+        public set visible(value: boolean) {
 
             if (value !== null && value !== this._visible)
             {
@@ -191,6 +191,10 @@ module Kiwi.Utils {
                 }
             }
 
+        }
+
+        public get visible(): bool {
+
             return this._visible;
 
         }
@@ -200,12 +204,16 @@ module Kiwi.Utils {
         * @method clearMode
         * @return {Number} 
         */
-        public clearMode(value:number = null): number {
+        public set clearMode(value: number) {
 
             if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA)
             {
                 this._clearMode = value;
             }
+
+        }
+
+        public get clearMode(): number {
 
             return this._clearMode;
 

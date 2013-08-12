@@ -126,7 +126,7 @@ module Kiwi.GameObjects {
 	     * @method render
 	     **/
         public render(camera: Kiwi.Camera) {
-            /*
+            
             super.render(camera);
 
             if (this.willRender() === true)
@@ -135,11 +135,17 @@ module Kiwi.GameObjects {
                 {
                     this.bounds.drawCanvasDebugOutline(this.layer);
                 }
+                
+                var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
+                ctx.save();
 
-                this.layer.canvas.context.drawImage(this.texture.image, this.transform.x, this.transform.y, this.size.width(), this.size.height());
-
+                var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                
+                ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                ctx.restore();
             }
-            */
+            
         }
 
 

@@ -187,7 +187,7 @@ module Kiwi {
                 this._visible = value;
 
               
-                    this.canvas.visible(this._visible);
+                   this.canvas.visible = this._visible;
                
             }
 
