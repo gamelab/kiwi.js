@@ -177,8 +177,8 @@ module Kiwi.GameObjects {
                 var layer: TileMapLayer = new TileMapLayer(this._game, this,this._tileMapImageCache,this._tileMapImageKey, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
                 
                 layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
-                layer.alpha.alpha(parseInt(mapObj.layers[i].opacity));
-                layer.visible.visible(mapObj.layers[i].visible);
+                layer.alpha = parseInt(mapObj.layers[i].opacity);
+                layer.visiblity = mapObj.layers[i].visible;
                 layer.tileMargin = mapObj.tilesets[0].margin;
                 layer.tileSpacing = mapObj.tilesets[0].spacing;
                 layer.name = mapObj.tilesets[0].name;
@@ -425,7 +425,7 @@ module Kiwi.GameObjects {
         */
         public collideSingle(object: Kiwi.Entity):boolean {
             
-            if (object.exists() === false || !object.components.hasComponent('ArcadePhysics')) return false;
+            if (object.exists === false || !object.components.hasComponent('ArcadePhysics')) return false;
 
             var tiles = this.currentLayer.getTileOverlaps(object);
 

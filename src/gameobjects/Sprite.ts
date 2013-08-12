@@ -47,18 +47,18 @@ module Kiwi.GameObjects {
             //  Properties
 
             this.name = cacheID;
-            this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
+
             this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
+           
             this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
 
-                       
             this.animation = this.components.add(new Kiwi.Components.Animation(this));
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
             //FIX/////////////
             //this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
-            this.visible = this.components.add(new Kiwi.Components.Visible(true));
+            
             //FIX/////////////
             //this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
 
@@ -81,13 +81,11 @@ module Kiwi.GameObjects {
 
             //  Signals
 
-            this.alpha.updated.add(this._updateAlpha, this);
-            this.texture.updatedRepeat.add(this._updateRepeat, this);
-            this.texture.updated.add(this._updateTexture, this);
-            this.texture.position.updated.add(this._updateTexturePosition, this);
-            this.size.updated.add(this._updateSize, this);
+            //this.texture.updatedRepeat.add(this._updateRepeat, this);
+            //this.texture.updated.add(this._updateTexture, this);
+            //this.texture.position.updated.add(this._updateTexturePosition, this);
+            //this.size.updated.add(this._updateSize, this);
             //this.input.inputDragStarted.add(this._dragStarted, this);
-            this.visible.updated.add(this._updateVisible, this);
 
             //this.onAddedToLayer.add(this._onAddedToLayer, this);
             this.onAddedToState.add(this._onAddedToState, this);
@@ -95,7 +93,6 @@ module Kiwi.GameObjects {
             this.transform.x = x;
             this.transform.y = y;
 
-            
             this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
 
             if (this._isAnimated) {
@@ -137,13 +134,6 @@ module Kiwi.GameObjects {
          * @type Kiwi.Components.ArcadePhysics
          **/
         public physics: Kiwi.Components.ArcadePhysics;
-
-        /** 
-	     * The Alpha component that controls the opacity of this Game Object
-	     * @property alpha
-	     * @type Kiwi.Components.Alpha
-	     **/
-        public alpha: Kiwi.Components.Alpha;
 
         /** 
 	     * 
@@ -190,50 +180,11 @@ module Kiwi.GameObjects {
 
         /** 
 	     * 
-	     * @property visible
-	     * @type Kiwi.Components.Visible
-	     **/
-        public visible: Kiwi.Components.Visible;
-
-       
-      
-
-
-    
-
-      
-
-         /** 
-	     * 
-	     * @method _updateAlpha
-         * @param {Number} value
-	     **/
-        private _updateAlpha(value: number) {
-
-           
-
-        }
-
-         /** 
-	     * 
-	     * @method _updateVisible
-         * @param {Number} value
-	     **/
-        private _updateVisible(value: bool) {
-
-          
-
-        }
-
-        /** 
-	     * 
 	     * @method _updateSize
          * @param {Number} width
          * @param {Number} height
 	     **/
         private _updateSize(width: number, height: number) {
-
-           
 
             //this.bounds.setTo(this.position.x(), this.position.y(), width, height);
 
@@ -294,7 +245,7 @@ module Kiwi.GameObjects {
 
             if (this._isAnimated)
             {
-                this.animation.clock(this.clock());
+                this.animation.clock(this.clock);
             }
 
             return true;
@@ -326,8 +277,6 @@ module Kiwi.GameObjects {
                 this.size.setTo(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
             }
 
-            
-           // this.physics.update();
         }
 
         /**
@@ -338,11 +287,7 @@ module Kiwi.GameObjects {
            
             super.render(camera);
             
-            
-            if ( this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0)
-            //console.log("-0" + this.name + this.willRender());
-            //console.log("-0" + this.name + this.visible.visible());
-            {
+            if (this.alpha > 0 && this.visiblity) {
                 
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
@@ -350,8 +295,8 @@ module Kiwi.GameObjects {
                 var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
                 ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
-                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                    ctx.globalAlpha = this.alpha.alpha();
+                if (this.alpha > 0 && this.alpha <= 1) {
+                    ctx.globalAlpha = this.alpha;
                 }
 
                 if (this._isAnimated === true) {
@@ -362,7 +307,7 @@ module Kiwi.GameObjects {
 
                 ctx.restore();
 
-              //  console.log("-1" + this.name);
+              //  console.log("-1" + this.name); //not needed anymore.... :(
                 /*if (this.bounds.showDebug === true)
                 {
                     this.bounds.drawCanvasDebugOutline(this.layer);

@@ -236,10 +236,6 @@
       <DependentUpon>Element.ts</DependentUpon>
     </Content>
     <Content Include="ECMA262-5.js" />
-    <TypeScriptCompile Include="gameobjects\Pixel.ts" />
-    <Content Include="gameobjects\Pixel.js">
-      <DependentUpon>Pixel.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="gameobjects\StaticImage.ts" />
     <TypeScriptCompile Include="gameobjects\Sprite.ts" />
     <Content Include="gameobjects\Sprite.js">
@@ -539,14 +535,14 @@
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs7554.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsFC49.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs7554.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsFC49.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

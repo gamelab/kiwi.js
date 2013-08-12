@@ -61,7 +61,6 @@
 /// <reference path="dom/Element.ts" />
 
 
-/// <reference path="gameobjects/Pixel.ts" />
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
 /// <reference path="gameobjects/StaticObject.ts" />

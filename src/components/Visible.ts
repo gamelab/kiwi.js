@@ -100,7 +100,7 @@ module Kiwi.Components {
                 return;
             }
 
-            entity.addStyleUpdate('visibility', this.cssVisibility);
+            //entity.addStyleUpdate('visibility', this.cssVisibility);
 
         }
 
@@ -110,14 +110,14 @@ module Kiwi.Components {
         * @param {Kiwi.Entity} entity
         */
         public addStyleImmediately(entity: Kiwi.Entity) {
-
+            /*
             if (entity.domElement === null || entity.domElement.element === null)
             {
                 return;
             }
 
             entity.domElement.element.style.visibility = this.cssVisibility;
-
+        */
         }
 
         /*

@@ -127,25 +127,20 @@ module Kiwi.GameObjects {
 	     **/
         public render(camera: Kiwi.Camera) {
             
-            super.render(camera);
-
-            if (this.willRender() === true)
-            {
-                if (this.bounds.showDebug === true)
-                {
-                    this.bounds.drawCanvasDebugOutline(this.layer);
-                }
-                
+            if (this.visiblity && this.alpha > 0) {
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
 
+                if (this.alpha > 0 && this.alpha <= 1) {
+                    ctx.globalAlpha = this.alpha;
+                }
+
                 var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
                 ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                
+
                 ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
                 ctx.restore();
             }
-            
         }
 
 

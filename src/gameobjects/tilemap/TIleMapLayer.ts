@@ -30,9 +30,7 @@ module Kiwi.GameObjects {
             this._texture = imageCache.images.getFile(imageKey).data;
            
             this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
-            this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
-            this.visible = this.components.add(new Kiwi.Components.Visible(true));
-
+            
         }
 
         /*
@@ -54,16 +52,6 @@ module Kiwi.GameObjects {
         * The texture/image daat for this tileLayer
         */
         private _texture;
-
-        /*
-        * The alpha component.
-        */
-        public alpha: Kiwi.Components.Alpha;
-
-        /*
-        * Visibility component.
-        */
-        public visible: Kiwi.Components.Visible;
 
         /*
         * Holds the coordinates for each tile on the sprite sheet.
@@ -474,16 +462,15 @@ module Kiwi.GameObjects {
         */ 
         public render(camera: Kiwi.Camera) { 
             
-            if (this.visible.visible() === false || this.alpha.alpha() < 0.1 || this.exists() === false) {
+            if (this.visiblity === false || this.alpha < 0.1 || this.exists === false) {
                 return;
             }
             
             var ctx = this.game.stage.ctx;
             ctx.save();
 
-            if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                
-               // this.alpha.setContext(this._parent.layer.canvas);
+            if (this.alpha > 0 && this.alpha <= 1) {
+                ctx.globalAlpha = this.alpha;
             }
 
             //  Work out how many tiles we can fit into our camera and round it up for the edges
@@ -558,23 +545,6 @@ module Kiwi.GameObjects {
         
         }
         
-        /*
-        * Destorys the tileMapLayer saving memory
-        */
-        public destroy() {
-            this.mapData = null;
-            this.alpha = null;
-            this._parent = null;
-            this._dx = null;
-            this._dy = null;
-            this._tx = null;       
-            this._ty = null;
-            this._startX = null;
-            this._startY = null;
-            this._maxX = null;
-            this._maxY = null;
-            this._texture = null;
-        }
 
     }
 }

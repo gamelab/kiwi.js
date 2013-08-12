@@ -141,7 +141,8 @@ module Kiwi.Components {
             {
                 return;
             }
-
+            
+            /*
             if (Kiwi.DEVICE.ieVersion < 9)
             {
                 entity.addStyleUpdate('backgroundColor', this.cssColorHex);
@@ -149,7 +150,7 @@ module Kiwi.Components {
             else
             {
                 entity.addStyleUpdate('backgroundColor', this.cssColorRGBA);
-            }
+            }*/
 
         }
 
@@ -159,12 +160,12 @@ module Kiwi.Components {
         * @param {Kiwi.Entity} entity
         */
         public addStyleImmediately(entity: Kiwi.Entity) {
-
+/*
             if (entity.domElement === null || entity.domElement.element === null)
             {
                 return;
             }
-
+            
             if (Kiwi.DEVICE.ieVersion < 9)
             {
                 entity.domElement.element.style.backgroundColor = this.cssColorHex;
@@ -173,7 +174,7 @@ module Kiwi.Components {
             {
                 entity.domElement.element.style.backgroundColor = this.cssColorRGBA;
             }
-
+        */
         }
 
         /*

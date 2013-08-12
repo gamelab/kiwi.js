@@ -33,7 +33,6 @@ module Kiwi {
 
             //  Properties
 
-            
             this._exists = true;
             this._active = true;
             this._willRender = true;
@@ -53,7 +52,6 @@ module Kiwi {
 
         public transform: Kiwi.Geom.Transform;
         
-
         public childType():number {
             return Kiwi.ENTITY;
         }
@@ -96,6 +94,29 @@ module Kiwi {
 
         }
 
+        private _alpha: number = 1;
+
+        public set alpha(value: number) {
+            if (value <= 0) value = 0;
+            if (value > 1) value = 1;
+            this._alpha = value;
+        }
+
+        public get alpha(): number {
+            return this._alpha;
+        }
+
+
+        private _visible: bool = true;
+
+        public set visiblity(value: bool) {
+            this._visible = value;
+        }
+
+        public get visiblity(): bool {
+            return this._visible;
+        }
+
         /**
         * The Component Manager
         * @property components
@@ -131,8 +152,6 @@ module Kiwi {
     	*/
         public name: string = '';
 
-       
-
         /**
         * The Layer this Entity has been added to.
         * @property layer
@@ -148,29 +167,6 @@ module Kiwi {
         //public parent: Kiwi.Group = null;
 
         /**
-        * If this Entity is a DOM entity, then this contains a reference to the DOM Element it is bound to.
-        * @property domElement
-        * @type Kiwi.DOM.Element
-        **/
-        public domElement: Kiwi.DOM.Element = null;
-
-        /**
-        * If this Entity is a DOM entity, then this is the type of HTMLElement created (default is a div)
-        * @property domElementType
-        * @type string
-        **/
-        public domElementType: string = 'div';
-
-        /**
-        * Where all the pending css style updates are stored
-        * @property _cssStack
-        * @type Object
-    	*/
-        private _cssStack = {};
-
-        private _cssTransformStack = {};
-
-        /**
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property exists 
         * @type Boolean
@@ -181,15 +177,12 @@ module Kiwi {
 		* Toggles the exitence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
 		**/
-        public exists(value?: bool): bool {
+        public set exists(value: bool) {
+            this._exists = value;
+        }
 
-            if (value !== undefined)
-            {
-                this._exists = value;
-            }
-
+        public get exists():bool {
             return this._exists;
-
         }
 
         /**
@@ -203,19 +196,16 @@ module Kiwi {
 		* Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
 		**/
-        public active(value?: bool): bool {
+        public set active(value: bool) {
+            this._active = value;
+        }
 
-            if (value !== undefined)
-            {
-                this._active = value;
-            }
-
+        public get active():bool {
             return this._active;
-
         }
 
         /**
-		* Controls whether render is automatically called by the parent.
+		* Controls whether render is automatically called by the parent. 
         * @property _willRender
         * @type Boolean
 		*/
@@ -227,15 +217,12 @@ module Kiwi {
         * @param {Boolean} value
         * @return {Boolean}
 		**/
-        public willRender(value?: bool): bool {
+        public set willRender(value: bool) {
+            this._willRender = value;
+        }
 
-            if (value)
-            {
-                this._willRender = value;
-            }
-
+        public get willRender():bool {
             return this._willRender;
-
         }
 
         /**
@@ -249,17 +236,14 @@ module Kiwi {
 		* Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
         * This method should be over-ridden to handle specific game object implementations.
 		**/
-        public inputEnabled(value?: bool): bool {
-
-            if (value)
-            {
-                this._inputEnabled = value;
-            }
-
-            return this._inputEnabled;
-
+        public set inputEnabled(value: bool) {
+            this._inputEnabled = value;
         }
 
+        public get inputEnabled():bool {
+            return this._inputEnabled;
+        }
+        
         /**
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property exists 
@@ -270,15 +254,12 @@ module Kiwi {
         /**
 		* The Clock used to update this all of this Entities components (defaults to the Game MasterClock)
 		**/
-        public clock(value: Kiwi.Time.Clock = null): Kiwi.Time.Clock {
+        public set clock(value: Kiwi.Time.Clock) {
+            this._clock = value;
+        }
 
-            if (value !== null)
-            {
-                this._clock = value;
-            }
-
+        public get clock(): Kiwi.Time.Clock {
             return this._clock;
-
         }
 
         /**
@@ -288,11 +269,11 @@ module Kiwi {
     	*/
         private _dirty: bool;
 
-        public dirty(value?: bool): bool {
-            if (value !== undefined) {
-                this._dirty = value;
-              
-            }
+        public set dirty(value: bool) {
+            this._dirty = value;
+        }
+
+        public get dirty():bool {
             return this._dirty;
         }
 
@@ -306,21 +287,11 @@ module Kiwi {
 
         /**
         * 
-        * @property _supportsDom
-        * @type Boolean
-        * @private
-        */
-        private _supportsDOM: bool;
-
-        /**
-        * 
         * @property _supportsWebGL
         * @type Boolean
         * @private
         */
         private _supportsWebGL: bool;
-
-       
 
         /**
         * 
@@ -376,14 +347,6 @@ module Kiwi {
         private _removedFromLayer(layer: Kiwi.Layer) {
 
             this.layer = null;
-
-            if (this.domElement)
-            {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
-
-            
 
             this.onRemovedFromLayer.dispatch(this, layer);
 
@@ -474,7 +437,7 @@ module Kiwi {
             {
                 this._addedToLayer(this.parent.layer);
             }
-        */
+            */
         }
 
         /**
@@ -517,7 +480,7 @@ module Kiwi {
         * @method addStyleUpdate
         * @param {String} key - The CSS style to add. If the style key already exists in the update queue it will be overwriten.
         * @param {String} value - The CSS value to be applied to the style.
-        */
+        
         public addStyleUpdate(key: string, value: string) {
 
             //  Allows for over-write, so only one style update of the same key will exist
@@ -544,7 +507,7 @@ module Kiwi {
             this.domElement.element.style['-webkit-transform'] = cssValue;
          
             
-        }
+        }*/ //--TO REMOVE
 
         //  Both of these methods can and often should be over-ridden by classes extending Entity to handle specific implementations
 
@@ -552,25 +515,17 @@ module Kiwi {
         * This isn't called until the Entity has been added to a Group or a State
         * @method update
         */
-        public update() {}
+        public update() {
+        
+        }
 
         /**
-        * This isn't called until the Entity has been added to a layer
+        * This isn't called until the Entity has been added to a layer.
+        * This functionality is handled by the sub classes. 
         * @method render
         */
         public render(camera:Kiwi.Camera) {
-            /*
-            if (this.domElement)
-            {
-                
-                for (var key in this._cssStack)
-                {
-                    this.domElement.element.style[key] = this._cssStack[key];
-                    delete this._cssStack[key];
-                }
-                this.applyTransformStyle();
-            }
-            */
+            
         }
 
         /**
@@ -579,22 +534,11 @@ module Kiwi {
         */
         public destroy() {
 
-            if (this.domElement)
-            {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
-
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            this._cssStack = {};
 
         }
-
-        //public toString(): string {
-
-        //}
 
     }
 

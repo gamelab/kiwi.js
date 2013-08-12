@@ -46,7 +46,7 @@ class Switching extends Kiwi.State {
         this.addChild(this.openedChest);
         this.addChild(this.closedChest);
 
-        this.openedChest.visible.visible(false);
+        this.openedChest.visiblity = false;
 
         this.openedChest.input.inputEntered.add(this.entered, this);
         this.closedChest.input.inputLeft.add(this.left, this);
@@ -54,20 +54,20 @@ class Switching extends Kiwi.State {
 
     entered() {
         this.game.huds.setHUD(this.hud);
-        this.closedChest.visible.visible(false);
-        this.openedChest.visible.visible(true);
+        this.closedChest.visiblity = false;
+        this.openedChest.visiblity = true;
     }
 
     left() {
         this.game.huds.setHUD(this.game.huds.defaultHUD());
-        this.closedChest.visible.visible(true);
-        this.openedChest.visible.visible(false);
+        this.closedChest.visiblity = true;
+        this.openedChest.visiblity = false;
     }
 
     update() {
         super.update();
 
-        if (this.openedChest.visible.visible()) {
+        if (this.openedChest.visiblity) {
             this.scoreHud.counter.increment(1);
         } else {
             this.scoreDefault.counter.increment(1);
