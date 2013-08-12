@@ -2,10 +2,10 @@
 
 module Kiwi.GameObjects {
 
-    export class TileMap extends Kiwi.Group {
+    export class TileMap extends Kiwi.Entity {
 
         constructor() {
-            super('TileMap');
+            super();
         }
 
         /*
@@ -156,11 +156,10 @@ module Kiwi.GameObjects {
         * The render loop. Should not be called I think
         */
         public render(camera: Kiwi.Camera) {
-            /*
+            
             for (var i = 0; i < this.layers.length; i++) {
                 this.layers[i].render(camera);
             }
-            */
             
         }
 
@@ -183,6 +182,7 @@ module Kiwi.GameObjects {
                 layer.tileMargin = mapObj.tilesets[0].margin;
                 layer.tileSpacing = mapObj.tilesets[0].spacing;
                 layer.name = mapObj.tilesets[0].name;
+                layer.game = this.game;
 
                 var c = 0;
                 var row;
@@ -207,7 +207,6 @@ module Kiwi.GameObjects {
                 this.currentLayer = layer;
 
                 this.layers.push(layer);
-                this.addChild(layer);
             }
 
 

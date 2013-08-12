@@ -423,7 +423,6 @@ module Kiwi.GameObjects {
                 data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
                 data[c].ty = this.heightInTiles;
                 data[c].tx = c;
-                //this.addChild(data[c]);
             }
 
             if (this.widthInTiles == 0) {
