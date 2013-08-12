@@ -2604,7 +2604,7 @@ var Kiwi;
 
             if (Kiwi.DEVICE.blob) {
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = true;
+                this._useTagLoader = false;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
@@ -4441,8 +4441,8 @@ var Kiwi;
                 }
             };
 
-            Animation.prototype.renderToCanvas = function (layer, x, y) {
-                layer.canvas.context.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
+            Animation.prototype.renderToCanvas = function (ctx, x, y) {
+                ctx.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
             };
 
             Animation.prototype.drawFrameToCanvasLayer = function (layer, frameNumber, x, y) {
@@ -8781,7 +8781,12 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha.alpha();
                     }
 
-                    ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                    if (this._isAnimated === true) {
+                        this.animation.currentAnimation.renderToCanvas(ctx, 0, 0);
+                    } else {
+                        ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                    }
+
                     ctx.restore();
                 }
             };
@@ -9099,6 +9104,9 @@ var Kiwi;
                 this.physics.allowCollisions = this.tileType.allowCollisions;
                 this.physics.immovable = this.tileType.immovable;
             };
+
+            Tile.prototype.render = function (camera) {
+            };
             return Tile;
         })(Kiwi.Entity);
         GameObjects.Tile = Tile;
@@ -9205,9 +9213,6 @@ var Kiwi;
                 return "TileMap";
             };
 
-            TileMap.prototype.update = function () {
-            };
-
             TileMap.prototype.render = function (camera) {
             };
 
@@ -9217,7 +9222,7 @@ var Kiwi;
                 for (var i = 0; i < mapObj.layers.length; i++) {
                     var layer = new GameObjects.TileMapLayer(this._game, this, this._tileMapImageCache, this._tileMapImageKey, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
 
-                    layer.position.setTo(mapObj.layers[i].x, mapObj.layers[i].y);
+                    layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                     layer.alpha.alpha(parseInt(mapObj.layers[i].opacity));
                     layer.visible.visible(mapObj.layers[i].visible);
                     layer.tileMargin = mapObj.tilesets[0].margin;
@@ -9247,6 +9252,7 @@ var Kiwi;
                     this.currentLayer = layer;
 
                     this.layers.push(layer);
+                    this.addChild(layer);
                 }
             };
 
@@ -9300,10 +9306,10 @@ var Kiwi;
 
             TileMap.prototype.getTileFromInputXY = function (layer) {
                 if (layer === undefined) {
-                    return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x() - this.currentLayer.position.x(), this._game.input.mouse.y() - this.currentLayer.position.y());
+                    return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x() - this.currentLayer.transform.x, this._game.input.mouse.y() - this.currentLayer.transform.y);
                     ;
                 } else {
-                    return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x() - this.layers[layer].position.x(), this._game.input.mouse.y() - this.layers[layer].position.y());
+                    return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x() - this.layers[layer].transform.x, this._game.input.mouse.y() - this.layers[layer].transform.y);
                     ;
                 }
             };
@@ -9397,7 +9403,7 @@ var Kiwi;
         var TileMapLayer = (function (_super) {
             __extends(TileMapLayer, _super);
             function TileMapLayer(game, parent, imageCache, imageKey, name, tileWidth, tileHeight) {
-                _super.call(this, 'TileMapLayer');
+                _super.call(this);
                 this._startX = 0;
                 this._startY = 0;
                 this._maxX = 0;
@@ -9412,6 +9418,7 @@ var Kiwi;
                 this.heightInPixels = 0;
                 this.tileMargin = 0;
                 this.tileSpacing = 0;
+
                 this._game = game;
                 this._parent = parent;
 
@@ -9424,7 +9431,6 @@ var Kiwi;
                 this._texture = imageCache.images.getFile(imageKey).data;
 
                 this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
-                this.position = this.components.add(new Kiwi.Components.Position(0, 0, 0));
                 this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
                 this.visible = this.components.add(new Kiwi.Components.Visible(true));
             }
@@ -9542,19 +9548,19 @@ var Kiwi;
             };
 
             TileMapLayer.prototype.getTileOverlaps = function (object) {
-                if (!object.components.hasComponent("Size") || !object.components.hasComponent("Position")) {
+                if (!object.components.hasComponent("Size")) {
                     return;
                 }
 
-                var objPos = object.components.getComponent('Position');
+                var objPos = object.transform;
                 var objSize = object.components.getComponent('Size');
 
-                if (objPos.x() > this.position.x() + this.widthInPixels || objPos.x() + objSize.width() < this.position.x() || objPos.y() > this.position.y() + this.heightInPixels || objPos.y() + objSize.height() < this.position.y()) {
+                if (objPos.x > this.transform.x + this.widthInPixels || objPos.x + objSize.width() < this.transform.x || objPos.y > this.transform.y + this.heightInPixels || objPos.y + objSize.height() < this.transform.y) {
                     return;
                 }
 
-                this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x() - this.position.x(), this.tileWidth) / this.tileWidth;
-                this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y() - this.position.y(), this.tileHeight) / this.tileHeight;
+                this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x - this.transform.x, this.tileWidth) / this.tileWidth;
+                this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y - this.transform.y, this.tileHeight) / this.tileHeight;
 
                 this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(objSize.width(), this.tileWidth) / this.tileWidth;
                 this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(objSize.height(), this.tileHeight) / this.tileHeight;
@@ -9588,7 +9594,7 @@ var Kiwi;
                 var data = [];
 
                 for (var c = 0; c < row.length; c++) {
-                    data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.position.x(), this.heightInPixels + this.position.y());
+                    data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
                     data[c].ty = this.heightInTiles;
                     data[c].tx = c;
                 }
@@ -9629,18 +9635,17 @@ var Kiwi;
                     return;
                 }
 
-                var ctx = this._parent.layer.canvas.context;
+                var ctx = this.game.stage.ctx;
+                ctx.save();
 
                 if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                    ctx.save();
-                    this.alpha.setContext(this._parent.layer.canvas);
                 }
 
                 this._maxX = Math.min(Math.ceil(camera.size.width() / this.tileWidth) + 1, this.widthInTiles);
                 this._maxY = Math.min(Math.ceil(camera.size.height() / this.tileHeight) + 1, this.heightInTiles);
 
-                this._startX = Math.floor((camera.position.x() - this.position.x()) / this.tileWidth);
-                this._startY = Math.floor((camera.position.y() - this.position.y()) / this.tileHeight);
+                this._startX = Math.floor((camera.position.x() - this.transform.x) / this.tileWidth);
+                this._startY = Math.floor((camera.position.y() - this.transform.y) / this.tileHeight);
 
                 if (this._startX < 0) {
                     this._maxX = this._maxX + this._startX;
@@ -9666,8 +9671,8 @@ var Kiwi;
                 this._dx = 0;
                 this._dy = 0;
 
-                this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.position.x();
-                this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.position.y();
+                this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.transform.x;
+                this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.transform.y;
 
                 this._tx = this._dx;
                 this._ty = this._dy;
@@ -9681,7 +9686,8 @@ var Kiwi;
                         }
 
                         this._columnData[tile].physics.update();
-                        this._columnData[tile].position.setTo(this._tx, this._ty);
+                        this._columnData[tile].transform.x = this._tx;
+                        this._columnData[tile].transform.y = this._ty;
                         this._tx += this.tileWidth;
                     }
 
@@ -9689,16 +9695,12 @@ var Kiwi;
                     this._ty += this.tileHeight;
                 }
 
-                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                    ctx.restore();
-                }
-
+                ctx.restore();
                 return true;
             };
 
             TileMapLayer.prototype.destroy = function () {
                 this.mapData = null;
-                this.position = null;
                 this.alpha = null;
                 this._parent = null;
                 this._dx = null;
@@ -9712,7 +9714,7 @@ var Kiwi;
                 this._texture = null;
             };
             return TileMapLayer;
-        })(Kiwi.Group);
+        })(Kiwi.Entity);
         GameObjects.TileMapLayer = TileMapLayer;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
@@ -13250,6 +13252,8 @@ var Kiwi;
             };
 
             CanvasRenderer.prototype._recurse = function (child) {
+                console.log(child.childType());
+
                 if (!child.willRender())
                     return;
 
@@ -13258,6 +13262,7 @@ var Kiwi;
                         this._recurse((child).members[i]);
                     }
                 } else {
+                    console.log(child);
                     child.render(this._currentCamera);
                 }
             };

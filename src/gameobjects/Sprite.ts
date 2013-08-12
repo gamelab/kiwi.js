@@ -354,7 +354,12 @@ module Kiwi.GameObjects {
                     ctx.globalAlpha = this.alpha.alpha();
                 }
 
-                ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                if (this._isAnimated === true) {
+                    this.animation.currentAnimation.renderToCanvas(ctx, 0, 0);
+                } else {
+                    ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                }    
+
                 ctx.restore();
 
               //  console.log("-1" + this.name);

@@ -307,9 +307,9 @@ module Kiwi.Anims {
         * @param {number} x
         * @param {number} y
         */
-        public renderToCanvas(layer: Kiwi.Layer, x: number, y: number) {
+        public renderToCanvas(ctx, x: number, y: number) {
 
-            layer.canvas.context.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
+            ctx.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
 
         }
 

@@ -66,6 +66,10 @@ module Kiwi.GameObjects {
         */ 
         public tx: number;
         public ty: number;
+
+        render(camera: Kiwi.Camera) {
+
+        }
     }
 
 }

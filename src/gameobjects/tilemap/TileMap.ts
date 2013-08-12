@@ -153,14 +153,7 @@ module Kiwi.GameObjects {
         private _collisionCallbackContext;
 
         /*
-        * An update loop that is not used. The updates are preformed at render to save memory.
-        */
-        public update() {
-
-        }
-        
-        /*
-        * The render loop
+        * The render loop. Should not be called I think
         */
         public render(camera: Kiwi.Camera) {
             /*
@@ -168,6 +161,7 @@ module Kiwi.GameObjects {
                 this.layers[i].render(camera);
             }
             */
+            
         }
 
         /*
@@ -183,7 +177,7 @@ module Kiwi.GameObjects {
             for (var i = 0; i < mapObj.layers.length; i++) {
                 var layer: TileMapLayer = new TileMapLayer(this._game, this,this._tileMapImageCache,this._tileMapImageKey, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
                 
-                layer.position.setTo(mapObj.layers[i].x, mapObj.layers[i].y);
+                layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                 layer.alpha.alpha(parseInt(mapObj.layers[i].opacity));
                 layer.visible.visible(mapObj.layers[i].visible);
                 layer.tileMargin = mapObj.tilesets[0].margin;
@@ -213,6 +207,7 @@ module Kiwi.GameObjects {
                 this.currentLayer = layer;
 
                 this.layers.push(layer);
+                this.addChild(layer);
             }
 
 
@@ -331,9 +326,9 @@ module Kiwi.GameObjects {
         */
         public getTileFromInputXY(layer?: number): Tile {
             if (layer === undefined) {
-                return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x() - this.currentLayer.position.x(), this._game.input.mouse.y() - this.currentLayer.position.y());;
+                return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x() - this.currentLayer.transform.x, this._game.input.mouse.y() - this.currentLayer.transform.y);;
             } else {
-                return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x() - this.layers[layer].position.x(), this._game.input.mouse.y() - this.layers[layer].position.y());;
+                return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x() - this.layers[layer].transform.x, this._game.input.mouse.y() - this.layers[layer].transform.y);;
             }
 
         }

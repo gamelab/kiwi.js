@@ -1,6 +1,6 @@
 module Kiwi.GameObjects {
 
-    export class TileMapLayer extends Kiwi.Group {
+    export class TileMapLayer extends Kiwi.Entity {
 
         /*
         *
@@ -16,7 +16,8 @@ module Kiwi.GameObjects {
         */
         constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.TileMap, imageCache: Kiwi.Cache, imageKey: string, name: string, tileWidth: number, tileHeight: number) {
             
-            super('TileMapLayer');
+            super();
+
             this._game = game;
             this._parent = parent;
 
@@ -27,9 +28,8 @@ module Kiwi.GameObjects {
             this.mapData = [];
             this._tempTileBlock = [];
             this._texture = imageCache.images.getFile(imageKey).data;
-
+           
             this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
-            this.position = this.components.add(new Kiwi.Components.Position(0, 0, 0));
             this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
             this.visible = this.components.add(new Kiwi.Components.Visible(true));
 
@@ -54,11 +54,6 @@ module Kiwi.GameObjects {
         * The texture/image daat for this tileLayer
         */
         private _texture;
-
-        /*
-        * The component position.
-        */
-        public position: Kiwi.Components.Position;
 
         /*
         * The alpha component.
@@ -353,19 +348,19 @@ module Kiwi.GameObjects {
         public getTileOverlaps(object: Kiwi.Entity) {
             
             //if the object is within the bounds at all.?
-            if (!object.components.hasComponent("Size") || !object.components.hasComponent("Position")) {
+            if (!object.components.hasComponent("Size")) {
                 return;
             }
 
-            var objPos = object.components.getComponent('Position');
+            var objPos = object.transform;
             var objSize = object.components.getComponent('Size');
 
-            if (objPos.x() > this.position.x() + this.widthInPixels || objPos.x() + objSize.width() < this.position.x() || objPos.y() > this.position.y() + this.heightInPixels || objPos.y() + objSize.height() < this.position.y()) {
+            if (objPos.x > this.transform.x + this.widthInPixels || objPos.x + objSize.width() < this.transform.x || objPos.y > this.transform.y + this.heightInPixels || objPos.y + objSize.height() < this.transform.y) {
                 return;
             }
 
-            this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x() - this.position.x(), this.tileWidth) / this.tileWidth;
-            this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y() - this.position.y(), this.tileHeight) / this.tileHeight;
+            this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x - this.transform.x, this.tileWidth) / this.tileWidth;
+            this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y - this.transform.y, this.tileHeight) / this.tileHeight;
             
             this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(objSize.width(), this.tileWidth) / this.tileWidth;
             this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(objSize.height(), this.tileHeight) / this.tileHeight;
@@ -425,9 +420,10 @@ module Kiwi.GameObjects {
             var data = [];
             
             for (var c = 0; c < row.length; c++) {
-                data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.position.x(), this.heightInPixels + this.position.y());
+                data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
                 data[c].ty = this.heightInTiles;
                 data[c].tx = c;
+                //this.addChild(data[c]);
             }
 
             if (this.widthInTiles == 0) {
@@ -483,11 +479,12 @@ module Kiwi.GameObjects {
                 return;
             }
             
-            var ctx = this._parent.layer.canvas.context;
-            
+            var ctx = this.game.stage.ctx;
+            ctx.save();
+
             if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                ctx.save();
-                this.alpha.setContext(this._parent.layer.canvas);
+                
+               // this.alpha.setContext(this._parent.layer.canvas);
             }
 
             //  Work out how many tiles we can fit into our camera and round it up for the edges
@@ -495,8 +492,8 @@ module Kiwi.GameObjects {
             this._maxY = Math.min(Math.ceil(camera.size.height() / this.tileHeight) + 1,this.heightInTiles);
             
             //  And now work out where in the tilemap the camera actually is
-            this._startX = Math.floor((camera.position.x() - this.position.x()) / this.tileWidth);
-            this._startY = Math.floor((camera.position.y() - this.position.y()) / this.tileHeight);
+            this._startX = Math.floor((camera.position.x() - this.transform.x) / this.tileWidth);
+            this._startY = Math.floor((camera.position.y() - this.transform.y) / this.tileHeight);
             
             //boundaries check 
             if (this._startX < 0) {
@@ -521,8 +518,8 @@ module Kiwi.GameObjects {
             this._dx = 0;
             this._dy = 0;
 
-            this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.position.x();
-            this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.position.y();
+            this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.transform.x;
+            this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.transform.y;
 
             this._tx = this._dx;
             this._ty = this._dy;
@@ -548,7 +545,8 @@ module Kiwi.GameObjects {
                     }
 
                     this._columnData[tile].physics.update();
-                    this._columnData[tile].position.setTo(this._tx, this._ty);
+                    this._columnData[tile].transform.x = this._tx;
+                    this._columnData[tile].transform.y = this._ty;
                     this._tx += this.tileWidth;
                 }
 
@@ -556,10 +554,7 @@ module Kiwi.GameObjects {
                 this._ty += this.tileHeight;
             }
 
-            if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                ctx.restore();
-            }
-
+            ctx.restore();
             return true;
         
         }
@@ -569,7 +564,6 @@ module Kiwi.GameObjects {
         */
         public destroy() {
             this.mapData = null;
-            this.position = null;
             this.alpha = null;
             this._parent = null;
             this._dx = null;

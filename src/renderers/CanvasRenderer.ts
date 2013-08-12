@@ -24,7 +24,7 @@ module Kiwi.Renderers {
 
         private _recurse(child: IChild) {
 
-            //console.log(child.childType());
+            console.log(child.childType());
 
             if (!child.willRender()) return;
 
@@ -33,7 +33,7 @@ module Kiwi.Renderers {
                     this._recurse((<Kiwi.Group>child).members[i]);
                 }
             } else {
-
+                console.log(child);
                 child.render(this._currentCamera);
 
                 /*

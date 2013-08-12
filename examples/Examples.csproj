@@ -22,6 +22,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="cocoon.php" />
+    <Content Include="tilemaps\basics.js">
+      <DependentUpon>basictiles.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="tilemaps\basictiles.ts" />
     <TypeScriptCompile Include="sound\loading_playing.ts" />
     <TypeScriptCompile Include="GameObjects\StaticImages.ts" />
     <Content Include="GameObjects\StaticImages.js">
