@@ -6242,6 +6242,13 @@ var Kiwi;
         };
 
         Entity.prototype._addedToGroup = function (group) {
+            if (group.game !== null) {
+                this.game = group.game;
+
+                if (this._clock === null) {
+                    this._clock = this.game.time.clock;
+                }
+            }
         };
 
         Entity.prototype._removedFromGroup = function (group) {
@@ -9169,8 +9176,6 @@ var Kiwi;
             };
 
             Textfield.prototype.render = function (camera) {
-                _super.prototype.render.call(this, camera);
-
                 if (this.willRender() === true && this.alpha.alpha() > 0) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
@@ -9187,7 +9192,7 @@ var Kiwi;
                     ctx.textBaseline = this._baseline;
                     ctx.fillStyle = this._fontColor;
 
-                    ctx.fillText(this._text, this.transform.x, this.transform.y);
+                    ctx.fillText(this._text, 0, 0);
 
                     ctx.restore();
                 }
@@ -9223,9 +9228,6 @@ var Kiwi;
                 this.physics.mass = this.tileType.mass;
                 this.physics.allowCollisions = this.tileType.allowCollisions;
                 this.physics.immovable = this.tileType.immovable;
-            };
-
-            Tile.prototype.render = function (camera) {
             };
             return Tile;
         })(Kiwi.Entity);
@@ -9269,7 +9271,7 @@ var Kiwi;
         var TileMap = (function (_super) {
             __extends(TileMap, _super);
             function TileMap() {
-                _super.call(this, 'TileMap');
+                _super.call(this);
                 this._collisionCallback = null;
             }
             TileMap.prototype.createFromData = function (tileMapData, tileMapImageKey, tileMapImageCache, game, format) {
@@ -9334,6 +9336,9 @@ var Kiwi;
             };
 
             TileMap.prototype.render = function (camera) {
+                for (var i = 0; i < this.layers.length; i++) {
+                    this.layers[i].render(camera);
+                }
             };
 
             TileMap.prototype.parseTiledJSON = function (data) {
@@ -9348,6 +9353,7 @@ var Kiwi;
                     layer.tileMargin = mapObj.tilesets[0].margin;
                     layer.tileSpacing = mapObj.tilesets[0].spacing;
                     layer.name = mapObj.tilesets[0].name;
+                    layer.game = this.game;
 
                     var c = 0;
                     var row;
@@ -9372,7 +9378,6 @@ var Kiwi;
                     this.currentLayer = layer;
 
                     this.layers.push(layer);
-                    this.addChild(layer);
                 }
             };
 
@@ -9512,7 +9517,7 @@ var Kiwi;
             TileMap.FORMAT_CSV = 0;
             TileMap.FORMAT_TILED_JSON = 1;
             return TileMap;
-        })(Kiwi.Group);
+        })(Kiwi.Entity);
         GameObjects.TileMap = TileMap;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
@@ -13372,8 +13377,6 @@ var Kiwi;
             };
 
             CanvasRenderer.prototype._recurse = function (child) {
-                console.log(child.childType());
-
                 if (!child.willRender())
                     return;
 
@@ -13382,7 +13385,6 @@ var Kiwi;
                         this._recurse((child).members[i]);
                     }
                 } else {
-                    console.log(child);
                     child.render(this._currentCamera);
                 }
             };

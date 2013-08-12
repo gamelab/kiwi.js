@@ -455,17 +455,17 @@ module Kiwi {
             }
         
             this.parent = group;
-
+            */
             if (group.game !== null)
             {
                 this.game = group.game;
-
+            
                 if (this._clock === null)
                 {
                     this._clock = this.game.time.clock;
                 }
             }
-
+            /*
             this.onAddedToGroup.dispatch(this, group);
 
             //  If the parent group has already been added to a layer then call addedToLayer on the Entity now,

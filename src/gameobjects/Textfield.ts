@@ -114,7 +114,6 @@ module Kiwi.GameObjects {
          * @param {string} value
          **/
         public set text(value: string) {
-
             this._text = value;
         
         }
@@ -249,7 +248,6 @@ module Kiwi.GameObjects {
 	     **/
         public render(camera:Kiwi.Camera) {
             
-            super.render(camera);
 
             if (this.willRender() === true && this.alpha.alpha() > 0)
             {
@@ -268,7 +266,7 @@ module Kiwi.GameObjects {
                 ctx.textBaseline = this._baseline;
                 ctx.fillStyle = this._fontColor;
 
-                ctx.fillText(this._text, this.transform.x, this.transform.y);
+                ctx.fillText(this._text, 0, 0);
                 
                 ctx.restore();
                 
