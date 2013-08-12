@@ -6,15 +6,15 @@ module Kiwi {
     
     export class Atlas {
 
-        constructor(name?: string, cells?: Array, texture?, sequences?:Array) {
+        constructor(name?: string, cells?: Array, image?:HTMLImageElement, sequences?:Array) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
-            this.texture = texture;
+            this.image = image;
         }
 
         public name: string;
-        public texture;
+        public image:HTMLImageElement;
         public cells: Array;
         public sequences: Array;
 

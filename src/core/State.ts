@@ -28,11 +28,12 @@ module Kiwi {
             super(name);
             
             klog.debug('----------- State created: ' + name + ' -----------');
-
+            
             this.config = new Kiwi.StateConfig(this, name);
             this.cache = new Kiwi.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
+           
 
         }
 
@@ -59,7 +60,17 @@ module Kiwi {
         * @property cache
         * @type Kiwi.Cache
         **/
+        //RENAME TO FILECACHE
         public cache: Kiwi.Cache;
+
+        /**
+        * 
+        * @property cache
+        * @type Kiwi.Cache
+        **/
+        public textureCache: Kiwi.TextureCache;
+
+        public textures: Object;
 
         /**
         * 
@@ -82,7 +93,8 @@ module Kiwi {
         public boot() {
 
             klog.info('State booted: ', this.config.name);
-
+            this.textureCache = new Kiwi.TextureCache(this.game);
+            this.textures = this.textureCache.textures;
             this.cache.boot();
             //this.cache = this.game.cache;
 

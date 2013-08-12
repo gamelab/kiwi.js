@@ -3049,6 +3049,19 @@ var Kiwi;
             return this._files[key];
         };
 
+        Object.defineProperty(FileCache.prototype, "keys", {
+            get: function () {
+                var keys = new Array();
+                for (var key in this._files) {
+                    keys.push(key);
+                }
+
+                return keys;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         FileCache.prototype.size = function () {
             return this._cacheSize;
         };
@@ -3865,11 +3878,11 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Atlas = (function () {
-        function Atlas(name, cells, texture, sequences) {
+        function Atlas(name, cells, image, sequences) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
-            this.texture = texture;
+            this.image = image;
         }
         Atlas.prototype.readJSON = function (atlasJSON) {
             var obj = JSON.parse(atlasJSON);
@@ -3917,6 +3930,25 @@ var Kiwi;
         return SpriteSheet;
     })(Kiwi.Atlas);
     Kiwi.SpriteSheet = SpriteSheet;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var SingleImage = (function (_super) {
+        __extends(SingleImage, _super);
+        function SingleImage(name, image, width, height, offsetX, offsetY) {
+            this.width = width || image.width;
+            this.height = height || image.height;
+            this.offsetX = offsetX || 0;
+            this.offsetY = offsetY || 0;
+
+            _super.call(this, name, this.generateAtlasCells(), image);
+        }
+        SingleImage.prototype.generateAtlasCells = function () {
+            return [this.offsetX, this.offsetY, this.width, this.height];
+        };
+        return SingleImage;
+    })(Kiwi.Atlas);
+    Kiwi.SingleImage = SingleImage;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -5945,7 +5977,8 @@ var Kiwi;
 
         State.prototype.boot = function () {
             klog.info('State booted: ', this.config.name);
-
+            this.textureCache = new Kiwi.TextureCache(this.game);
+            this.textures = this.textureCache.textures;
             this.cache.boot();
         };
 
@@ -6768,6 +6801,8 @@ var Kiwi;
 
             var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
 
+            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight };
+
             file.frameWidth = frameWidth;
             file.frameHeight = frameHeight;
 
@@ -6916,10 +6951,6 @@ var Kiwi;
                 if (this._onProgressCallback) {
                     this._onProgressCallback(this.getPercentLoaded(), 0, file);
                 }
-            }
-
-            if (file.dataType === Kiwi.File.SPRITE_SHEET) {
-                file.frames = this._game.anims.getSpriteSheetFrames(file.cacheID, file.cache(), file.frameWidth, file.frameHeight);
             }
 
             if (this._loadList.length === 0) {
@@ -8163,6 +8194,53 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    var TextureCache = (function () {
+        function TextureCache(game) {
+            this.textures = {};
+            console.log(game);
+            this._game = game;
+        }
+        TextureCache.prototype.clear = function () {
+        };
+
+        TextureCache.prototype.add = function (imageFile) {
+            switch (imageFile.dataType) {
+                case Kiwi.File.SPRITE_SHEET:
+                    this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
+                    break;
+                case Kiwi.File.IMAGE:
+                    this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
+                    break;
+                case Kiwi.File.TEXTURE_ATLAS:
+                    this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
+                    break;
+                default:
+                    klog.error("Image file is of unknown type and was not added to texture cache");
+                    break;
+            }
+        };
+
+        TextureCache.prototype._buildSpriteSheet = function (imageFile) {
+            imageFile.frameWidth = imageFile.metadata.frameWidth;
+            imageFile.frameHeight = imageFile.metadata.frameHeight;
+            console.log(this._game);
+            imageFile.frames = this._game.anims.getSpriteSheetFrames(imageFile.cacheID, imageFile.cache(), imageFile.frameWidth, imageFile.frameHeight);
+
+            var m = imageFile.metadata;
+            var spriteSheet = new Kiwi.SpriteSheet(imageFile.cacheID, imageFile.data, m.cellWidth, m.cellheight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
+            return spriteSheet;
+        };
+
+        TextureCache.prototype._buildImage = function (imageFile) {
+            var m = imageFile.metadata;
+            return new Kiwi.SingleImage(imageFile.cacheID, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
+        };
+        return TextureCache;
+    })();
+    Kiwi.TextureCache = TextureCache;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var StateManager = (function () {
         function StateManager(game) {
             this.current = null;
@@ -8375,6 +8453,8 @@ var Kiwi;
                 this.current.loadComplete();
             }
 
+            this.rebuildTextureCache();
+
             this.current.config.isReady = true;
 
             if (this.current.config.hasCreate === true) {
@@ -8386,6 +8466,22 @@ var Kiwi;
                     this.current.create.call(this.current);
                 }
             }
+        };
+
+        StateManager.prototype.rebuildTextureCache = function () {
+            this.current.textureCache.clear();
+
+            var gameCacheKeys = this._game.cache.images.keys;
+            var stateCacheKeys = this.current.cache.images.keys;
+
+            for (var i = 0; i < gameCacheKeys.length; i++) {
+                this.current.textureCache.add(this._game.cache.images.getFile(gameCacheKeys[i]));
+            }
+
+            for (var i = 0; i < stateCacheKeys.length; i++) {
+                this.current.textureCache.add(this.current.cache.images.getFile(gameCacheKeys[i]));
+            }
+            console.log(this.current.textureCache);
         };
 
         StateManager.prototype.update = function () {

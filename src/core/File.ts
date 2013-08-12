@@ -6,13 +6,7 @@
  *
  *  @desc       This class handles the loading of external data files via a tag loader or xhr + arraybuffer, and optionally saves to the game cache
  *
- *	@version 	0.1 - 7th December 2012
- *
- *	@author 	Richard Davey
- *
- *  @url        http://www.kiwijs.org
- *
- *  @todo       more data types
+
  *
  */
 
@@ -373,6 +367,14 @@ module Kiwi {
     	*/
         public data: any;
 
+        /**
+        * A dictionary, stores info needed for interpreting specific file types eg SPRITE_SHEET,
+        * @property data
+        * @type Any
+    	*/
+        public metadata: any;
+
+        //TO GO
         public frames: Kiwi.Anims.FrameData;
         public frameWidth: number;
         public frameHeight: number;

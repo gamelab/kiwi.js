@@ -59,6 +59,15 @@ module Kiwi {
 
         }
 
+        public get keys(): string[]{
+            var keys: string[] = new Array();
+            for (var key in this._files) {
+                keys.push(key);
+            }
+
+            return keys;
+        }
+
         /** 
         * Gets 
         * @method size
@@ -69,6 +78,8 @@ module Kiwi {
             return this._cacheSize;
 
         }
+
+
 
         /**
         * @method add

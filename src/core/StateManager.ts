@@ -400,6 +400,9 @@ module Kiwi {
                 this.current.loadComplete();
             }
 
+            
+            this.rebuildTextureCache()
+            
             this.current.config.isReady = true;
 
             if (this.current.config.hasCreate === true)
@@ -416,6 +419,30 @@ module Kiwi {
                 }
             }
 
+        }
+
+        public rebuildTextureCache() {
+          
+            
+            this.current.textureCache.clear();
+
+            var gameCacheKeys: Array = this._game.cache.images.keys;
+            var stateCacheKeys: Array = this.current.cache.images.keys;
+
+            //iterate through global cache
+         
+            for (var i = 0; i < gameCacheKeys.length; i++) {
+                this.current.textureCache.add(this._game.cache.images.getFile(gameCacheKeys[i]));
+                
+            }            
+
+            //iterate through state cache
+      
+            for (var i = 0; i < stateCacheKeys.length; i++) {
+                this.current.textureCache.add(this.current.cache.images.getFile(gameCacheKeys[i]));
+            
+            }    
+            console.log(this.current.textureCache);
         }
 
         /**

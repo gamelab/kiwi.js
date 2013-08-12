@@ -224,8 +224,10 @@ module Kiwi {
             {
                 cache = this._game.cache.images;
             }
-
+                        
             var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
+
+            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight };
 
             file.frameWidth = frameWidth;
             file.frameHeight = frameHeight;
@@ -487,10 +489,10 @@ module Kiwi {
             }
 
             //  Sprite sheet?
-            if (file.dataType === Kiwi.File.SPRITE_SHEET)
-            {
-                file.frames = this._game.anims.getSpriteSheetFrames(file.cacheID, file.cache(), file.frameWidth, file.frameHeight);
-            }
+            //if (file.dataType === Kiwi.File.SPRITE_SHEET)
+           // {
+            //    file.frames = this._game.anims.getSpriteSheetFrames(file.cacheID, file.cache(), file.frameWidth, file.frameHeight);
+            //}
             //else
             //{
             //    file.frames = this._game.anims.getSpriteSheetFrames(file.cacheID, file.cache(), file.data.width, file.data.height);
@@ -501,6 +503,7 @@ module Kiwi {
                 //  All files loaded
                 this._complete = true;
 
+                
                 if (this._onCompleteCallback)
                 {
                     klog.info('onCompleteCallback');
