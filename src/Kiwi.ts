@@ -19,6 +19,7 @@
 /// <reference path="components/particles/ParticleSystemShapes.ts" />
 /// <reference path="components/particles/ParticleSpriteSheet.ts" />
 
+/// <reference path="animation/Animation.ts" />
 /// <reference path="animation/Atlas.ts" />
 /// <reference path="animation/Sequence.ts" />
 /// <reference path="animation/SpriteSheet.ts" />

@@ -3187,11 +3187,6 @@ var Kiwi;
                 return this._repeat;
             };
 
-            Texture.prototype.setCSS = function (element) {
-                element.style.backgroundImage = 'url("' + this.getURL() + '")';
-                element.style.backgroundRepeat = this._repeat;
-            };
-
             Texture.prototype.getURL = function () {
                 return this.file.fileURL;
             };
@@ -3797,6 +3792,75 @@ var Kiwi;
         Particles.ParticleSystem = ParticleSystem;
     })(Kiwi.Particles || (Kiwi.Particles = {}));
     var Particles = Kiwi.Particles;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Animation = (function () {
+        function Animation(name, atlas, sequence, speed, loop, clock) {
+            this._uniqueFrameIndex = null;
+            this._clock = null;
+            this._startTime = null;
+            this.name = name;
+            this._atlas = atlas;
+            this._sequence = sequence;
+            this._speed = speed;
+            this._loop = loop;
+            this._clock = clock;
+
+            this._currentFrame = this._sequence.cells[0];
+
+            this.onUpdate = new Kiwi.Signal();
+            this.onPlay = new Kiwi.Signal();
+            this.onStop = new Kiwi.Signal();
+            this.onComplete = new Kiwi.Signal();
+        }
+        Object.defineProperty(Animation.prototype, "currentFrame", {
+            get: function () {
+                return this._currentFrame;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Animation.prototype._start = function (index) {
+            if (typeof index === "undefined") { index = 0; }
+            this._startTime = this._clock.elapsed();
+            this._tick = this._startTime + this._speed;
+            this.currentFrame = index;
+        };
+
+        Animation.prototype.play = function () {
+            this._isPlaying = true;
+
+            this._start();
+        };
+
+        Animation.prototype.playAt = function (index) {
+            this._isPlaying = true;
+
+            this._uniqueFrameIndex = index;
+
+            this._start(index);
+        };
+
+        Animation.prototype.pause = function () {
+            this.stop();
+        };
+
+        Animation.prototype.resume = function () {
+            if (this._startTime === null) {
+                klog.warn('Animation\'s can only resume if they have been played before!');
+            } else {
+                this._isPlaying = true;
+            }
+        };
+
+        Animation.prototype.stop = function () {
+            this._isPlaying = false;
+        };
+        return Animation;
+    })();
+    Kiwi.Animation = Animation;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {

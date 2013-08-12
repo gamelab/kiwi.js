@@ -28,6 +28,10 @@
     <TypeScriptCompile Include="anims\Manager.ts" />
     <TypeScriptCompile Include="anims\Frame.ts" />
     <TypeScriptCompile Include="anims\Animation.ts" />
+    <TypeScriptCompile Include="animation\Animation.ts" />
+    <Content Include="animation\Animation.js">
+      <DependentUpon>Animation.ts</DependentUpon>
+    </Content>
     <Content Include="animation\Atlas.ts" />
     <Content Include="animation\Sequence.ts" />
     <Content Include="animation\SpriteSheet.ts" />
