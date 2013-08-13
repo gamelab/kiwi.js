@@ -28,7 +28,7 @@ module Kiwi {
             // cell generation goes here
 
 
-            return [this.offsetX, this.offsetY,this.width,this.height];
+            return [{ x: this.offsetX, y:this.offsetY, w:this.width,h:this.height }];
         }
 
     }

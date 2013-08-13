@@ -198,14 +198,16 @@ module Kiwi {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addImage(cacheID: string, url: string, cache: Kiwi.FileCache = null) {
+        public addImage(cacheID: string, url: string, cache: Kiwi.FileCache = null, width?: number, height?: number, offsetX?: number, offsetY?: number) {
 
             if (cache === null)
             {
                 cache = this._game.cache.images;
             }
+            var file: Kiwi.File = new Kiwi.File(this._game, Kiwi.File.IMAGE, url, cacheID, true, cache);
+            file.metadata = { width: width, height: height ,offsetX:offsetX,offsetY:offsetY};
 
-            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.IMAGE, url, cacheID, true, cache));
+            this._fileList.push(file);
 
         }
 
@@ -218,7 +220,7 @@ module Kiwi {
         * @param {number} frameHeight
         * @param {Kiwi.FileCache} [cache]
         */
-        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, cache: Kiwi.FileCache = null) {
+        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, cache: Kiwi.FileCache = null, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
             if (cache === null)
             {
@@ -226,9 +228,27 @@ module Kiwi {
             }
                         
             var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
+          
+            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
+           
+            file.frameWidth = frameWidth;   
+            file.frameHeight = frameHeight;
 
-            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight };
+            this._fileList.push(file);
 
+        }
+        /// ***
+        public addTextureAtlas(cacheID: string, url: string, frameWidth: number, frameHeight: number, cache: Kiwi.FileCache = null, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+
+            if (cache === null)
+            {
+                cache = this._game.cache.images;
+            }
+            
+            var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
+            
+            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
+            
             file.frameWidth = frameWidth;
             file.frameHeight = frameHeight;
 

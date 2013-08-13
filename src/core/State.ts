@@ -240,15 +240,41 @@ module Kiwi {
         * @param {Boolean} globalCache - use the global game cache instead of the local one (which is destroyed when the state ends)
         * @param {Kiwi.FileCache} [cache]
         */
-        public addImage(cacheID: string, url: string, globalCache:bool = true) {
+        public addImage(cacheID: string, url: string, globalCache: bool = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
             
             if (globalCache === true)
             {
-                this.game.loader.addImage(cacheID, url, this.game.cache.images);
+                this.game.loader.addImage(cacheID, url, this.game.cache.images,width,height,offsetX,offsetY);
             }
             else
             {
-                this.game.loader.addImage(cacheID, url, this.cache.images);
+                this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
+            }
+
+        }
+
+        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, globalCache: bool = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+
+            if (globalCache === true)
+            {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells,rows,cols,sheetOffsetX, sheetOffsetY,cellOffsetX,cellOffsetY);
+            }
+            else
+            {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            }
+
+        }
+        ///****
+        public addTextureAtlas(cacheID: string, url: string, frameWidth: number, frameHeight: number, globalCache: bool = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+
+            if (globalCache === true)
+            {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            }
+            else
+            {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
             }
 
         }
@@ -264,18 +290,7 @@ module Kiwi {
 
         }
 
-        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, globalCache: bool = true) {
-
-            if (globalCache === true)
-            {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images);
-            }
-            else
-            {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images);
-            }
-
-        }
+        
 
         public addAudio(cacheID: string, url: string, globalCache: bool = true) {
 

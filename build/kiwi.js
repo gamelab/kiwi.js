@@ -230,16 +230,9 @@ var Kiwi;
                 if (entity === null) {
                     return;
                 }
-
-                entity.addStyleUpdate('opacity', this.cssOpactiy);
             };
 
             Alpha.prototype.addStyleImmediately = function (entity) {
-                if (entity.domElement === null || entity.domElement.element === null) {
-                    return;
-                }
-
-                entity.domElement.element.style.opacity = this.cssOpactiy;
             };
 
             Alpha.prototype.setContext = function (canvas) {
@@ -788,24 +781,9 @@ var Kiwi;
                 if (entity === null) {
                     return;
                 }
-
-                if (Kiwi.DEVICE.ieVersion < 9) {
-                    entity.addStyleUpdate('backgroundColor', this.cssColorHex);
-                } else {
-                    entity.addStyleUpdate('backgroundColor', this.cssColorRGBA);
-                }
             };
 
             Color.prototype.addStyleImmediately = function (entity) {
-                if (entity.domElement === null || entity.domElement.element === null) {
-                    return;
-                }
-
-                if (Kiwi.DEVICE.ieVersion < 9) {
-                    entity.domElement.element.style.backgroundColor = this.cssColorHex;
-                } else {
-                    entity.domElement.element.style.backgroundColor = this.cssColorRGBA;
-                }
             };
 
             Color.prototype._processUpdate = function () {
@@ -998,7 +976,7 @@ var Kiwi;
             };
 
             Input.prototype.update = function () {
-                if (!this._entity.game || this._entity.active() === false || this._entity.willRender() === false) {
+                if (!this._entity.game || this._entity.active === false || this._entity.willRender === false) {
                     return;
                 }
 
@@ -1444,33 +1422,9 @@ var Kiwi;
             };
 
             Position.prototype.addStyleUpdates = function (entity) {
-                if (entity === null) {
-                    return;
-                }
-
-                if (Kiwi.DEVICE.css3D) {
-                    this.entity.addStyleUpdate("-webkit-transform-origin", this._transformPoint.x + "px " + this._transformPoint.y + "px");
-
-                    entity.addStyleTransformUpdate("translate", this.cssTranslate3d);
-                } else {
-                    entity.addStyleUpdate('left', this.cssLeft);
-                    entity.addStyleUpdate('top', this.cssTop);
-                }
             };
 
             Position.prototype.addStyleImmediately = function (entity) {
-                if (entity.domElement === null || entity.domElement.element === null) {
-                    return;
-                }
-
-                if (Kiwi.DEVICE.css3D) {
-                    this.entity.addStyleTransformUpdate("translate", this.cssTranslate3d);
-                    this.entity.addStyleUpdate("-webkit-transform-origin", this._transformPoint.x + "px " + this._transformPoint.y + "px");
-                    this.entity.applyTransformStyle();
-                } else {
-                    entity.domElement.element.style.left = this.cssLeft;
-                    entity.domElement.element.style.top = this.cssTop;
-                }
             };
 
             Position.prototype._processUpdate = function () {
@@ -2177,20 +2131,12 @@ var Kiwi;
                 }
 
                 if (Kiwi.DEVICE.css3D) {
-                    entity.addStyleTransformUpdate("rotate", this.cssRotate3d);
                 } else {
-                    entity.addStyleUpdate('less-super', this.cssRotate3d);
                 }
             };
 
             Rotation.prototype.addStyleImmediately = function (entity) {
-                if (entity.domElement === null || entity.domElement.element === null) {
-                    return;
-                }
-
                 if (Kiwi.DEVICE.css3D) {
-                    this.entity.addStyleTransformUpdate("rotate", this.cssRotate3d);
-                    this.entity.applyTransformStyle();
                 } else {
                 }
             };
@@ -2326,19 +2272,12 @@ var Kiwi;
                 }
 
                 if (Kiwi.DEVICE.css3D) {
-                    entity.addStyleTransformUpdate("scale", this.cssScale3d);
                 } else {
                 }
             };
 
             Scale.prototype.addStyleImmediately = function (entity) {
-                if (entity.domElement === null || entity.domElement.element === null) {
-                    return;
-                }
-
                 if (Kiwi.DEVICE.css3D) {
-                    this.entity.addStyleTransformUpdate("scale", this.cssScale3d);
-                    this.entity.applyTransformStyle();
                 } else {
                 }
             };
@@ -2462,9 +2401,6 @@ var Kiwi;
             };
 
             Size.prototype.addStyleImmediately = function (entity) {
-                if (entity.domElement === null || entity.domElement.element === null) {
-                    return;
-                }
             };
 
             Size.prototype.toString = function () {
@@ -3259,16 +3195,9 @@ var Kiwi;
                 if (entity === null) {
                     return;
                 }
-
-                entity.addStyleUpdate('visibility', this.cssVisibility);
             };
 
             Visible.prototype.addStyleImmediately = function (entity) {
-                if (entity.domElement === null || entity.domElement.element === null) {
-                    return;
-                }
-
-                entity.domElement.element.style.visibility = this.cssVisibility;
             };
 
             Visible.prototype.setCSS = function (element) {
@@ -3912,20 +3841,47 @@ var Kiwi;
     var SpriteSheet = (function (_super) {
         __extends(SpriteSheet, _super);
         function SpriteSheet(name, texture, cellWidth, cellHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            console.log("CH" + cellHeight);
+
             this.cellWidth = cellWidth;
             this.cellHeight = cellHeight;
+
             this.cols = cols || texture.width / cellWidth;
             this.rows = rows || texture.height / cellHeight;
             this.numCells = numCells || cols * rows;
+
             this.sheetOffsetX = sheetOffsetX || 0;
             this.sheetOffsetY = sheetOffsetY || 0;
+
             this.cellOffsetX = cellOffsetX || 0;
             this.cellOffsetY = cellOffsetY || 0;
 
             _super.call(this, name, this.generateAtlasCells(), texture);
         }
         SpriteSheet.prototype.generateAtlasCells = function () {
-            return new Array();
+            console.log("spritesheet:generate cells");
+            var cells = new Array();
+
+            var dx = this.sheetOffsetX;
+            var dy = this.sheetOffsetY;
+
+            for (var y = 0; y < this.rows; y++) {
+                for (var x = 0; x < this.cols; x++) {
+                    cells.push({
+                        x: dx,
+                        y: dy,
+                        w: this.cellWidth,
+                        h: this.cellHeight
+                    });
+
+                    dx += this.cellOffsetX + this.cellWidth;
+                }
+                dx = this.sheetOffsetX;
+                dy += this.cellOffsetY + this.cellHeight;
+            }
+
+            console.log(cells);
+            return cells;
         };
         return SpriteSheet;
     })(Kiwi.Atlas);
@@ -3944,7 +3900,7 @@ var Kiwi;
             _super.call(this, name, this.generateAtlasCells(), image);
         }
         SingleImage.prototype.generateAtlasCells = function () {
-            return [this.offsetX, this.offsetY, this.width, this.height];
+            return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height }];
         };
         return SingleImage;
     })(Kiwi.Atlas);
@@ -5423,8 +5379,6 @@ var Kiwi;
             this.game = null;
             this.state = null;
             this.layer = null;
-            this.domElement = null;
-            this._cssStack = [];
             this._dirty = true;
             this.name = name;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
@@ -5464,15 +5418,22 @@ var Kiwi;
             return this.members.length;
         };
 
-        Group.prototype.dirty = function (value) {
-            if (value !== undefined) {
-                this._dirty = value;
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i].dirty(value);
+
+        Object.defineProperty(Group.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
+                if (value !== undefined) {
+                    this._dirty = value;
+                    for (var i = 0; i < this.members.length; i++) {
+                        this.members[i].dirty = value;
+                    }
                 }
-            }
-            return this._dirty;
-        };
+            },
+            enumerable: true,
+            configurable: true
+        });
 
         Group.prototype.contains = function (child) {
             return (this.members.indexOf(child) === -1) ? false : true;
@@ -5708,7 +5669,7 @@ var Kiwi;
             }
             if (this.members.length > 0) {
                 this.members.forEach(function (child) {
-                    if (child.exists())
+                    if (child.exists)
                         callback.apply(context, [child].concat(params));
                 });
             }
@@ -5753,26 +5714,34 @@ var Kiwi;
         };
 
         Group.prototype.processUpdate = function (child) {
-            if (child.active() === true) {
+            if (child.active === true) {
                 child.update();
             }
         };
 
-        Group.prototype.exists = function (value) {
-            if (value !== undefined) {
+
+        Object.defineProperty(Group.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
                 this._exists = value;
-            }
+            },
+            enumerable: true,
+            configurable: true
+        });
 
-            return this._exists;
-        };
 
-        Group.prototype.active = function (value) {
-            if (value !== undefined) {
+        Object.defineProperty(Group.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
                 this._active = value;
-            }
-
-            return this._active;
-        };
+            },
+            enumerable: true,
+            configurable: true
+        });
 
         Group.prototype.render = function (camera) {
             var _this = this;
@@ -5790,7 +5759,7 @@ var Kiwi;
         };
 
         Group.prototype.processRender = function (child, camera) {
-            if (child.active() === true) {
+            if (child.active === true) {
                 child.render(camera);
             }
         };
@@ -5801,7 +5770,7 @@ var Kiwi;
 
         Group.prototype.getFirstAlive = function () {
             for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists() === true) {
+                if (this.members[i].exists === true) {
                     return this.members[i];
                     break;
                 }
@@ -5812,7 +5781,7 @@ var Kiwi;
 
         Group.prototype.getFirstDead = function () {
             for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists() === false) {
+                if (this.members[i].exists === false) {
                     return this.members[i];
                     break;
                 }
@@ -5825,7 +5794,7 @@ var Kiwi;
             var total = 0;
 
             for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists() === true) {
+                if (this.members[i].exists === true) {
                     total++;
                 }
             }
@@ -5837,7 +5806,7 @@ var Kiwi;
             var total = 0;
 
             for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists() === false) {
+                if (this.members[i].exists === false) {
                     total++;
                 }
             }
@@ -5877,13 +5846,17 @@ var Kiwi;
             this.members.length = 0;
         };
 
-        Group.prototype.willRender = function (value) {
-            if (value) {
-                this._willRender = value;
-            }
 
-            return this._willRender;
-        };
+        Object.defineProperty(Group.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
+                this._willRender = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
 
         Group.prototype.isGroup = function () {
             return true;
@@ -5901,7 +5874,7 @@ var Kiwi;
 
                 for (var i = 0; i < this.members.length; i++) {
                     if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
-                        this.members[i].exists(false);
+                        this.members[i].exists = false;
                     }
                 }
 
@@ -5912,11 +5885,6 @@ var Kiwi;
 
         Group.prototype._removedFromLayer = function (layer) {
             this.layer = null;
-
-            if (this.domElement) {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
 
             this.onRemovedFromLayer.dispatch(this, layer);
         };
@@ -6000,7 +5968,7 @@ var Kiwi;
 
         State.prototype.loadUpdate = function () {
             for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active() === true) {
+                if (this.members[i].active === true) {
                     this.members[i].update();
                 }
             }
@@ -6021,7 +5989,7 @@ var Kiwi;
             this.components.update();
 
             for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active() === true) {
+                if (this.members[i].active === true) {
                     this.members[i].update();
                 }
             }
@@ -6046,12 +6014,21 @@ var Kiwi;
             this.currentLayer = layer;
         };
 
-        State.prototype.addImage = function (cacheID, url, globalCache) {
+        State.prototype.addImage = function (cacheID, url, globalCache, width, height, offsetX, offsetY) {
             if (typeof globalCache === "undefined") { globalCache = true; }
             if (globalCache === true) {
-                this.game.loader.addImage(cacheID, url, this.game.cache.images);
+                this.game.loader.addImage(cacheID, url, this.game.cache.images, width, height, offsetX, offsetY);
             } else {
-                this.game.loader.addImage(cacheID, url, this.cache.images);
+                this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
+            }
+        };
+
+        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            } else {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
             }
         };
 
@@ -6061,15 +6038,6 @@ var Kiwi;
                 this.game.loader.addJSON(cacheID, url, this.game.cache.data);
             } else {
                 this.game.loader.addJSON(cacheID, url, this.cache.data);
-            }
-        };
-
-        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images);
-            } else {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images);
             }
         };
 
@@ -6121,14 +6089,12 @@ var Kiwi;
 (function (Kiwi) {
     var Entity = (function () {
         function Entity() {
+            this._alpha = 1;
+            this._visible = true;
             this.game = null;
             this.state = null;
             this.name = '';
             this.layer = null;
-            this.domElement = null;
-            this.domElementType = 'div';
-            this._cssStack = {};
-            this._cssTransformStack = {};
             this._clock = null;
             this._exists = true;
             this._active = true;
@@ -6163,53 +6129,105 @@ var Kiwi;
             }
         };
 
-        Entity.prototype.exists = function (value) {
-            if (value !== undefined) {
+
+        Object.defineProperty(Entity.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                if (value <= 0)
+                    value = 0;
+                if (value > 1)
+                    value = 1;
+                this._alpha = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "visiblity", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
                 this._exists = value;
-            }
+            },
+            enumerable: true,
+            configurable: true
+        });
 
-            return this._exists;
-        };
 
-        Entity.prototype.active = function (value) {
-            if (value !== undefined) {
+        Object.defineProperty(Entity.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
                 this._active = value;
-            }
+            },
+            enumerable: true,
+            configurable: true
+        });
 
-            return this._active;
-        };
 
-        Entity.prototype.willRender = function (value) {
-            if (value) {
+        Object.defineProperty(Entity.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
                 this._willRender = value;
-            }
+            },
+            enumerable: true,
+            configurable: true
+        });
 
-            return this._willRender;
-        };
 
-        Entity.prototype.inputEnabled = function (value) {
-            if (value) {
+        Object.defineProperty(Entity.prototype, "inputEnabled", {
+            get: function () {
+                return this._inputEnabled;
+            },
+            set: function (value) {
                 this._inputEnabled = value;
-            }
+            },
+            enumerable: true,
+            configurable: true
+        });
 
-            return this._inputEnabled;
-        };
 
-        Entity.prototype.clock = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
+        Object.defineProperty(Entity.prototype, "clock", {
+            get: function () {
+                return this._clock;
+            },
+            set: function (value) {
                 this._clock = value;
-            }
+            },
+            enumerable: true,
+            configurable: true
+        });
 
-            return this._clock;
-        };
 
-        Entity.prototype.dirty = function (value) {
-            if (value !== undefined) {
+        Object.defineProperty(Entity.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
                 this._dirty = value;
-            }
-            return this._dirty;
-        };
+            },
+            enumerable: true,
+            configurable: true
+        });
 
         Entity.prototype.isGroup = function () {
             return false;
@@ -6237,11 +6255,6 @@ var Kiwi;
 
         Entity.prototype._removedFromLayer = function (layer) {
             this.layer = null;
-
-            if (this.domElement) {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
 
             this.onRemovedFromLayer.dispatch(this, layer);
         };
@@ -6294,27 +6307,6 @@ var Kiwi;
             klog.info('Entity changed position within the group');
         };
 
-        Entity.prototype.addStyleUpdate = function (key, value) {
-            this._cssStack[key] = value;
-        };
-
-        Entity.prototype.addStyleTransformUpdate = function (key, value) {
-            this._cssTransformStack[key] = value;
-        };
-
-        Entity.prototype.applyTransformStyle = function () {
-            var cssValue = "";
-            for (var key in this._cssTransformStack) {
-                cssValue += this._cssTransformStack[key] + " ";
-            }
-
-            this.domElement.element.style.transform = cssValue;
-            this.domElement.element.style['-o-transform'] = cssValue;
-            this.domElement.element.style['-ms-transform'] = cssValue;
-            this.domElement.element.style['-moz-transform'] = cssValue;
-            this.domElement.element.style['-webkit-transform'] = cssValue;
-        };
-
         Entity.prototype.update = function () {
         };
 
@@ -6322,15 +6314,9 @@ var Kiwi;
         };
 
         Entity.prototype.destroy = function () {
-            if (this.domElement) {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
-
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            this._cssStack = {};
         };
         return Entity;
     })();
@@ -6784,16 +6770,18 @@ var Kiwi;
             }
         };
 
-        Loader.prototype.addImage = function (cacheID, url, cache) {
+        Loader.prototype.addImage = function (cacheID, url, cache, width, height, offsetX, offsetY) {
             if (typeof cache === "undefined") { cache = null; }
             if (cache === null) {
                 cache = this._game.cache.images;
             }
+            var file = new Kiwi.File(this._game, Kiwi.File.IMAGE, url, cacheID, true, cache);
+            file.metadata = { width: width, height: height, offsetX: offsetX, offsetY: offsetY };
 
-            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.IMAGE, url, cacheID, true, cache));
+            this._fileList.push(file);
         };
 
-        Loader.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, cache) {
+        Loader.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, cache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
             if (typeof cache === "undefined") { cache = null; }
             if (cache === null) {
                 cache = this._game.cache.images;
@@ -6801,7 +6789,7 @@ var Kiwi;
 
             var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
 
-            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight };
+            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
 
             file.frameWidth = frameWidth;
             file.frameHeight = frameHeight;
@@ -8209,7 +8197,7 @@ var Kiwi;
                     this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
                     break;
                 case Kiwi.File.IMAGE:
-                    this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
+                    this.textures[imageFile.cacheID] = this._buildImage(imageFile);
                     break;
                 case Kiwi.File.TEXTURE_ATLAS:
                     this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
@@ -8227,7 +8215,8 @@ var Kiwi;
             imageFile.frames = this._game.anims.getSpriteSheetFrames(imageFile.cacheID, imageFile.cache(), imageFile.frameWidth, imageFile.frameHeight);
 
             var m = imageFile.metadata;
-            var spriteSheet = new Kiwi.SpriteSheet(imageFile.cacheID, imageFile.data, m.cellWidth, m.cellheight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
+
+            var spriteSheet = new Kiwi.SpriteSheet(imageFile.cacheID, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
             return spriteSheet;
         };
 
@@ -8474,12 +8463,15 @@ var Kiwi;
             var gameCacheKeys = this._game.cache.images.keys;
             var stateCacheKeys = this.current.cache.images.keys;
 
+            console.log(gameCacheKeys);
+            console.log(stateCacheKeys);
+
             for (var i = 0; i < gameCacheKeys.length; i++) {
                 this.current.textureCache.add(this._game.cache.images.getFile(gameCacheKeys[i]));
             }
 
             for (var i = 0; i < stateCacheKeys.length; i++) {
-                this.current.textureCache.add(this.current.cache.images.getFile(gameCacheKeys[i]));
+                this.current.textureCache.add(this.current.cache.images.getFile(stateCacheKeys[i]));
             }
             console.log(this.current.textureCache);
         };
@@ -8694,59 +8686,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (GameObjects) {
-        var Pixel = (function (_super) {
-            __extends(Pixel, _super);
-            function Pixel(x, y, color, size) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof color === "undefined") { color = 0xFF000000; }
-                if (typeof size === "undefined") { size = 1; }
-                _super.call(this);
-
-                this.transform.x = x;
-                this.transform.y = y;
-                this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, size, size));
-                this.color = this.components.add(new Kiwi.Components.Color());
-                this.color.setColor(color);
-
-                this._pixelSize = size;
-
-                this.onAddedToLayer.add(this._onAddedToLayer, this);
-                klog.info('Created Pixel Game Object');
-            }
-            Pixel.prototype.objType = function () {
-                return "Pixel";
-            };
-
-            Pixel.prototype._onAddedToLayer = function (layer) {
-                klog.info('Pixel added to Layer ' + layer.name);
-
-                return true;
-            };
-
-
-            Object.defineProperty(Pixel.prototype, "pixelSize", {
-                get: function () {
-                    return this._pixelSize;
-                },
-                set: function (value) {
-                    this._pixelSize = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Pixel.prototype.render = function (camera) {
-            };
-            return Pixel;
-        })(Kiwi.Entity);
-        GameObjects.Pixel = Pixel;
-    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-    var GameObjects = Kiwi.GameObjects;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (Components) {
         var Animation = (function (_super) {
             __extends(Animation, _super);
@@ -8892,16 +8831,15 @@ var Kiwi;
                 }
 
                 this.name = cacheID;
-                this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
+
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
+
                 this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
 
                 this.animation = this.components.add(new Kiwi.Components.Animation(this));
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
-
-                this.visible = this.components.add(new Kiwi.Components.Visible(true));
 
                 if (this.texture.file !== null) {
                     if (this.texture.file.dataType === Kiwi.File.IMAGE) {
@@ -8913,14 +8851,6 @@ var Kiwi;
                 } else {
                     this._isAnimated = false;
                 }
-
-                this.alpha.updated.add(this._updateAlpha, this);
-                this.texture.updatedRepeat.add(this._updateRepeat, this);
-                this.texture.updated.add(this._updateTexture, this);
-                this.texture.position.updated.add(this._updateTexturePosition, this);
-                this.size.updated.add(this._updateSize, this);
-
-                this.visible.updated.add(this._updateVisible, this);
 
                 this.onAddedToState.add(this._onAddedToState, this);
 
@@ -8943,12 +8873,6 @@ var Kiwi;
                 return this._center;
             };
 
-            Sprite.prototype._updateAlpha = function (value) {
-            };
-
-            Sprite.prototype._updateVisible = function (value) {
-            };
-
             Sprite.prototype._updateSize = function (width, height) {
             };
 
@@ -8969,7 +8893,7 @@ var Kiwi;
                 klog.info('Sprite added to State');
 
                 if (this._isAnimated) {
-                    this.animation.clock(this.clock());
+                    this.animation.clock(this.clock);
                 }
 
                 return true;
@@ -8993,15 +8917,15 @@ var Kiwi;
             Sprite.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
-                if (this.willRender() === true && this.visible.visible() === true && this.alpha.alpha() > 0) {
+                if (this.alpha > 0 && this.visiblity) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
                     var m = this.transform.getConcatenatedMatrix();
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
-                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                        ctx.globalAlpha = this.alpha.alpha();
+                    if (this.alpha > 0 && this.alpha <= 1) {
+                        ctx.globalAlpha = this.alpha;
                     }
 
                     if (this._isAnimated === true) {
@@ -9066,15 +8990,13 @@ var Kiwi;
             };
 
             StaticImage.prototype.render = function (camera) {
-                _super.prototype.render.call(this, camera);
-
-                if (this.willRender() === true) {
-                    if (this.bounds.showDebug === true) {
-                        this.bounds.drawCanvasDebugOutline(this.layer);
-                    }
-
+                if (this.visiblity && this.alpha > 0) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
+
+                    if (this.alpha > 0 && this.alpha <= 1) {
+                        ctx.globalAlpha = this.alpha;
+                    }
 
                     var m = this.transform.getConcatenatedMatrix();
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
@@ -9150,7 +9072,6 @@ var Kiwi;
 
                 this.transform.x = x;
                 this.transform.y = y;
-                this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
 
                 this._text = text;
                 this._fontWeight = weight;
@@ -9272,15 +9193,15 @@ var Kiwi;
             };
 
             Textfield.prototype.render = function (camera) {
-                if (this.willRender() === true && this.alpha.alpha() > 0) {
+                if (this.alpha > 0 && this.visiblity) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
                     var m = this.transform.getConcatenatedMatrix();
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
-                    if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                        ctx.globalAlpha = this.alpha.alpha();
+                    if (this.alpha > 0 && this.alpha <= 1) {
+                        ctx.globalAlpha = this.alpha;
                     }
 
                     ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
@@ -9444,8 +9365,8 @@ var Kiwi;
                     var layer = new GameObjects.TileMapLayer(this._game, this, this._tileMapImageCache, this._tileMapImageKey, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
 
                     layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
-                    layer.alpha.alpha(parseInt(mapObj.layers[i].opacity));
-                    layer.visible.visible(mapObj.layers[i].visible);
+                    layer.alpha = parseInt(mapObj.layers[i].opacity);
+                    layer.visiblity = mapObj.layers[i].visible;
                     layer.tileMargin = mapObj.tilesets[0].margin;
                     layer.tileSpacing = mapObj.tilesets[0].spacing;
                     layer.name = mapObj.tilesets[0].name;
@@ -9576,7 +9497,7 @@ var Kiwi;
             };
 
             TileMap.prototype.collideSingle = function (object) {
-                if (object.exists() === false || !object.components.hasComponent('ArcadePhysics'))
+                if (object.exists === false || !object.components.hasComponent('ArcadePhysics'))
                     return false;
 
                 var tiles = this.currentLayer.getTileOverlaps(object);
@@ -9652,8 +9573,6 @@ var Kiwi;
                 this._texture = imageCache.images.getFile(imageKey).data;
 
                 this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
-                this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
-                this.visible = this.components.add(new Kiwi.Components.Visible(true));
             }
             TileMapLayer.prototype.putTile = function (x, y, tileType) {
                 x = Kiwi.Utils.GameMath.snapToFloor(x, this.tileWidth) / this.tileWidth;
@@ -9852,14 +9771,15 @@ var Kiwi;
             };
 
             TileMapLayer.prototype.render = function (camera) {
-                if (this.visible.visible() === false || this.alpha.alpha() < 0.1 || this.exists() === false) {
+                if (this.visiblity === false || this.alpha < 0.1 || this.exists === false) {
                     return;
                 }
 
                 var ctx = this.game.stage.ctx;
                 ctx.save();
 
-                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
+                if (this.alpha > 0 && this.alpha <= 1) {
+                    ctx.globalAlpha = this.alpha;
                 }
 
                 this._maxX = Math.min(Math.ceil(camera.size.width() / this.tileWidth) + 1, this.widthInTiles);
@@ -9918,21 +9838,6 @@ var Kiwi;
 
                 ctx.restore();
                 return true;
-            };
-
-            TileMapLayer.prototype.destroy = function () {
-                this.mapData = null;
-                this.alpha = null;
-                this._parent = null;
-                this._dx = null;
-                this._dy = null;
-                this._tx = null;
-                this._ty = null;
-                this._startX = null;
-                this._startY = null;
-                this._maxX = null;
-                this._maxY = null;
-                this._texture = null;
             };
             return TileMapLayer;
         })(Kiwi.Entity);
@@ -13473,7 +13378,7 @@ var Kiwi;
             };
 
             CanvasRenderer.prototype._recurse = function (child) {
-                if (!child.willRender())
+                if (!child.willRender)
                     return;
 
                 if (child.childType() === Kiwi.GROUP) {
@@ -15342,22 +15247,11 @@ var Kiwi;
                 }
 
                 if (Kiwi.DEVICE.css3D) {
-                    entity.addStyleUpdate('-webkit-super-thingy', this.cssExampleProperty);
                 } else {
-                    entity.addStyleUpdate('less-super', this.cssExampleProperty);
                 }
             };
 
             Template.prototype.addStyleImmediately = function (entity) {
-                if (entity.domElement === null || entity.domElement.element === null) {
-                    return;
-                }
-
-                if (Kiwi.DEVICE.css3D) {
-                    entity.domElement.element.style.transform = this.cssExampleProperty;
-                } else {
-                    entity.domElement.element.style.left = this.cssExampleProperty;
-                }
             };
 
             Template.prototype._processUpdate = function () {

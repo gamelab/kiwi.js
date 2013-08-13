@@ -8,7 +8,7 @@ module Kiwi {
 
         constructor(name: string, texture:HTMLImageElement, cellWidth: number, cellHeight: number, numCells?:number,rows?:number,cols?:number,sheetOffsetX?: number, sheetOffsetY?:number,cellOffsetX?:number,cellOffsetY?:number) {
             
-                        
+            console.log("CH" + cellHeight);            
             
             this.cellWidth = cellWidth;
             this.cellHeight = cellHeight;
@@ -39,6 +39,7 @@ module Kiwi {
         
         public generateAtlasCells(): Array {
             // cell generation goes here
+            
             var cells = new Array();
 
             var dx = this.sheetOffsetX;
@@ -60,7 +61,7 @@ module Kiwi {
                 dy += this.cellOffsetY + this.cellHeight;
             }
 
-            console.log(cells);
+          
             return cells;
         }
 
