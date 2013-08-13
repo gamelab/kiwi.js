@@ -261,14 +261,15 @@ var Kiwi;
     (function (Components) {
         var ArcadePhysics = (function (_super) {
             __extends(ArcadePhysics, _super);
-            function ArcadePhysics(entity, transform, size) {
+            function ArcadePhysics(entity) {
                 _super.call(this, 'ArcadePhysics');
                 this._callbackFunction = null;
                 this._callbackContext = null;
 
                 this._parent = entity;
-                this.transform = transform;
-                this.size = size;
+                this.transform = this._parent.transform;
+                this.width = this._parent.width;
+                this.height = this._parent.height;
 
                 this.last = new Kiwi.Geom.Point(this.transform.x, this.transform.y);
                 this.mass = 1.0;
@@ -337,6 +338,20 @@ var Kiwi;
             ArcadePhysics.overlapsGroupGroup = function (group1, group2, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var result = false;
+                var members = group1.members;
+                var i = 0;
+
+                while (i < group1.members.length) {
+                    if (members[i].childType() == Kiwi.GROUP) {
+                        console.log('Branch');
+                        if (ArcadePhysics.overlapsGroupGroup(members[i++], group2, separateObjects))
+                            result = true;
+                    } else {
+                        console.log('Leaf');
+                        if (ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects))
+                            result = true;
+                    }
+                }
 
                 return result;
             };
@@ -364,13 +379,13 @@ var Kiwi;
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.size.width() + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.size.height());
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.size.width() + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.size.height());
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.height);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.height);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.x + phys1.size.width() - phys2.transform.x;
+                            overlap = phys1.transform.x + phys1.width - phys2.transform.x;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
                                 overlap = 0;
                             } else {
@@ -378,7 +393,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.LEFT;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.x - phys2.size.width() - phys2.transform.x;
+                            overlap = phys1.transform.x - phys2.width - phys2.transform.x;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
                                 overlap = 0;
                             } else {
@@ -434,13 +449,13 @@ var Kiwi;
                 if (obj1delta != obj2delta) {
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x, phys1.transform.y - ((obj1delta > 0) ? obj1delta : 0), phys1.size.width(), phys1.size.height() + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x, phys2.transform.y - ((obj2delta > 0) ? obj2delta : 0), phys2.size.width(), phys2.size.height() + obj2deltaAbs);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x, phys1.transform.y - ((obj1delta > 0) ? obj1delta : 0), phys1.width, phys1.height + obj1deltaAbs);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x, phys2.transform.y - ((obj2delta > 0) ? obj2delta : 0), phys2.width, phys2.height + obj2deltaAbs);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.y + phys1.size.height() - phys2.transform.y;
+                            overlap = phys1.transform.y + phys1.height - phys2.transform.y;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
                                 overlap = 0;
                             } else {
@@ -448,7 +463,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.UP;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.y - phys2.size.height() - phys2.transform.y;
+                            overlap = phys1.transform.y - phys2.height - phys2.transform.y;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
                                 overlap = 0;
                             } else {
@@ -515,13 +530,9 @@ var Kiwi;
 
             ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = false; }
-                if (!gameObject.components.hasComponent("Size")) {
-                    return false;
-                }
                 var objTransform = gameObject.transform;
-                var objSize = gameObject.components.getComponent("Size");
 
-                var result = (objTransform.x + objSize.width() > this.transform.x) && (objTransform.x < this.transform.x + this.size.width()) && (objTransform.y + objSize.height() > this.transform.y) && (objTransform.y < this.transform.y + this.size.height());
+                var result = (objTransform.x + gameObject.width > this.transform.x) && (objTransform.x < this.transform.x + this.width) && (objTransform.y + gameObject.height > this.transform.y) && (objTransform.y < this.transform.y + this.height);
 
                 if (result && separateObjects) {
                     ArcadePhysics.separate(this._parent, gameObject);
@@ -537,14 +548,21 @@ var Kiwi;
             ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = false; }
                 var results = false;
-
                 var childPhysics;
+
                 for (var i = 0; i < group.members.length; i++) {
-                    childPhysics = group.members[i].components._components["ArcadePhysics"];
-                    if (childPhysics.overlaps(this._parent, true)) {
-                        if (this._callbackContext !== null && this._callbackFunction !== null)
-                            this._callbackFunction.call(this._callbackContext, this._parent, childPhysics.parent());
-                        results = true;
+                    if (group.members[i].childType() === Kiwi.GROUP) {
+                        console.log('Group');
+
+                        this.overlapsGroup(group.members[i], separateObjects);
+                    } else {
+                        console.log('Entity');
+
+                        if (this.overlaps(group.members[i], separateObjects)) {
+                            if (this._callbackContext !== null && this._callbackFunction !== null)
+                                this._callbackFunction.call(this._callbackContext, this._parent, childPhysics.parent());
+                            results = true;
+                        }
                     }
                 }
 
@@ -585,6 +603,9 @@ var Kiwi;
             ArcadePhysics.prototype.update = function () {
                 this.last.x = this.transform.x;
                 this.last.y = this.transform.y;
+
+                this.width = this._parent.width;
+                this.height = this._parent.height;
 
                 if (this.moves)
                     this.updateMotion();
@@ -3859,7 +3880,6 @@ var Kiwi;
             _super.call(this, name, this.generateAtlasCells(), texture);
         }
         SpriteSheet.prototype.generateAtlasCells = function () {
-            console.log("spritesheet:generate cells");
             var cells = new Array();
 
             var dx = this.sheetOffsetX;
@@ -3880,7 +3900,6 @@ var Kiwi;
                 dy += this.cellOffsetY + this.cellHeight;
             }
 
-            console.log(cells);
             return cells;
         };
         return SpriteSheet;
@@ -6032,6 +6051,15 @@ var Kiwi;
             }
         };
 
+        State.prototype.addTextureAtlas = function (cacheID, url, frameWidth, frameHeight, globalCache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            } else {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            }
+        };
+
         State.prototype.addJSON = function (cacheID, url, globalCache) {
             if (typeof globalCache === "undefined") { globalCache = true; }
             if (globalCache === true) {
@@ -6091,6 +6119,8 @@ var Kiwi;
         function Entity() {
             this._alpha = 1;
             this._visible = true;
+            this.width = 0;
+            this.height = 0;
             this.game = null;
             this.state = null;
             this.name = '';
@@ -6782,6 +6812,22 @@ var Kiwi;
         };
 
         Loader.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, cache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            if (typeof cache === "undefined") { cache = null; }
+            if (cache === null) {
+                cache = this._game.cache.images;
+            }
+
+            var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
+
+            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
+
+            file.frameWidth = frameWidth;
+            file.frameHeight = frameHeight;
+
+            this._fileList.push(file);
+        };
+
+        Loader.prototype.addTextureAtlas = function (cacheID, url, frameWidth, frameHeight, cache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
             if (typeof cache === "undefined") { cache = null; }
             if (cache === null) {
                 cache = this._game.cache.images;
@@ -8185,7 +8231,6 @@ var Kiwi;
     var TextureCache = (function () {
         function TextureCache(game) {
             this.textures = {};
-            console.log(game);
             this._game = game;
         }
         TextureCache.prototype.clear = function () {
@@ -8200,7 +8245,7 @@ var Kiwi;
                     this.textures[imageFile.cacheID] = this._buildImage(imageFile);
                     break;
                 case Kiwi.File.TEXTURE_ATLAS:
-                    this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
+                    this.textures[imageFile.cacheID] = this._buildTextureAtlas(imageFile);
                     break;
                 default:
                     klog.error("Image file is of unknown type and was not added to texture cache");
@@ -8208,10 +8253,13 @@ var Kiwi;
             }
         };
 
+        TextureCache.prototype._buildTextureAtlas = function (imageFile) {
+            return null;
+        };
+
         TextureCache.prototype._buildSpriteSheet = function (imageFile) {
             imageFile.frameWidth = imageFile.metadata.frameWidth;
             imageFile.frameHeight = imageFile.metadata.frameHeight;
-            console.log(this._game);
             imageFile.frames = this._game.anims.getSpriteSheetFrames(imageFile.cacheID, imageFile.cache(), imageFile.frameWidth, imageFile.frameHeight);
 
             var m = imageFile.metadata;
@@ -8463,9 +8511,6 @@ var Kiwi;
             var gameCacheKeys = this._game.cache.images.keys;
             var stateCacheKeys = this.current.cache.images.keys;
 
-            console.log(gameCacheKeys);
-            console.log(stateCacheKeys);
-
             for (var i = 0; i < gameCacheKeys.length; i++) {
                 this.current.textureCache.add(this._game.cache.images.getFile(gameCacheKeys[i]));
             }
@@ -8473,7 +8518,6 @@ var Kiwi;
             for (var i = 0; i < stateCacheKeys.length; i++) {
                 this.current.textureCache.add(this.current.cache.images.getFile(stateCacheKeys[i]));
             }
-            console.log(this.current.textureCache);
         };
 
         StateManager.prototype.update = function () {
@@ -8834,11 +8878,12 @@ var Kiwi;
 
                 this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
 
-                this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
+                this.width = this.texture.file.data.width;
+                this.height = this.texture.file.data.height;
 
                 this.animation = this.components.add(new Kiwi.Components.Animation(this));
 
-                this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
+                this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
 
                 if (this.texture.file !== null) {
@@ -8846,22 +8891,21 @@ var Kiwi;
                         this._isAnimated = false;
                     } else if (this.texture.file.dataType === Kiwi.File.SPRITE_SHEET || this.texture.file.dataType === Kiwi.File.TEXTURE_ATLAS) {
                         this._isAnimated = true;
-                        this.size.setTo(this.texture.file.frameWidth, this.texture.file.frameHeight);
+                        this.width = this.texture.file.frameWidth;
+                        this.height = this.texture.file.frameHeight;
                     }
                 } else {
                     this._isAnimated = false;
                 }
+
+                this.texture.updated.add(this._updateTexture, this);
 
                 this.onAddedToState.add(this._onAddedToState, this);
 
                 this.transform.x = x;
                 this.transform.y = y;
 
-                this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
-
-                if (this._isAnimated) {
-                    this.animation.onUpdate.add(this._updateAnimationTexturePosition, this);
-                }
+                this._center = new Kiwi.Geom.Point(x + this.width / 2, y + this.height / 2);
 
                 klog.info('Created Sprite Game Object');
             }
@@ -8869,24 +8913,18 @@ var Kiwi;
                 return "Sprite";
             };
 
-            Sprite.prototype.center = function () {
-                return this._center;
-            };
+            Object.defineProperty(Sprite.prototype, "center", {
+                get: function () {
+                    this._center.setTo(this.transform.x + this.width / 2, this.transform.y + this.height / 2);
+                    return this._center;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Sprite.prototype._updateSize = function (width, height) {
-            };
-
-            Sprite.prototype._updateTexturePosition = function (x, y) {
-            };
-
-            Sprite.prototype._updateAnimationTexturePosition = function (x, y) {
-            };
-
-            Sprite.prototype._updateRepeat = function (value) {
-            };
-
-            Sprite.prototype._updateTexture = function (value, width, height) {
-                this.size.setTo(width, height);
+            Sprite.prototype._updateTexture = function (value) {
+                this.width = this.texture.image.width;
+                this.height = this.texture.image.height;
             };
 
             Sprite.prototype._onAddedToState = function (state) {
@@ -8910,7 +8948,8 @@ var Kiwi;
                 if (this._isAnimated) {
                     this.animation.update();
                     this.bounds.setSize(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
-                    this.size.setTo(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
+                    this.width = this.animation.currentAnimation.currentFrame.width;
+                    this.height = this.animation.currentAnimation.currentFrame.height;
                 }
             };
 
@@ -8931,7 +8970,7 @@ var Kiwi;
                     if (this._isAnimated === true) {
                         this.animation.currentAnimation.renderToCanvas(ctx, 0, 0);
                     } else {
-                        ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                        ctx.drawImage(this.texture.image, 0, 0, this.width, this.height);
                     }
 
                     ctx.restore();
@@ -8958,16 +8997,18 @@ var Kiwi;
                     return;
                 }
 
+                this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
+
                 this.transform.x = x;
                 this.transform.y = y;
-                this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-                this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
-                this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
+                this.width = this.texture.file.data.width;
+                this.height = this.texture.file.data.height;
+
+                this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
                 this.onAddedToLayer.add(this._onAddedToLayer, this);
 
                 this.texture.updated.add(this._updateTexture, this);
-                this.size.updated.add(this._updateSize, this);
 
                 klog.info('Created StaticImage Game Object');
             }
@@ -8975,12 +9016,9 @@ var Kiwi;
                 return "StaticImage";
             };
 
-            StaticImage.prototype._updateSize = function (width, height) {
-                this.bounds.setTo(this.transform.x, this.transform.y, width, height);
-            };
-
             StaticImage.prototype._updateTexture = function (value) {
-                this.size.setTo(this.texture.image.width, this.texture.image.height);
+                this.width = this.texture.image.width;
+                this.height = this.texture.image.height;
             };
 
             StaticImage.prototype._onAddedToLayer = function (layer) {
@@ -9001,7 +9039,7 @@ var Kiwi;
                     var m = this.transform.getConcatenatedMatrix();
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
-                    ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                    ctx.drawImage(this.texture.image, 0, 0, this.width, this.height);
                     ctx.restore();
                 }
             };
@@ -9232,8 +9270,7 @@ var Kiwi;
 
                 this.transform.x = x;
                 this.transform.y = y;
-                this.size = this.components.add(new Kiwi.Components.Size(width, height));
-                this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.transform, this.size));
+                this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
                 this.tileUpdate(tileType);
             }
             Tile.prototype.objType = function () {

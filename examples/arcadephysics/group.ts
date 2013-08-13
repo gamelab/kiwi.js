@@ -1,5 +1,5 @@
 /// <reference path="../../src/Kiwi.ts" />
-
+/*
 class group extends Kiwi.State {
 
     constructor() {
@@ -52,4 +52,4 @@ class custom extends Kiwi.GameObjects.Sprite {
         this.phy.update();
     }
 
-}
+}*/
