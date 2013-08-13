@@ -122,7 +122,7 @@ module Kiwi {
         public height: number = 0;  
 
 
-        public atlas: Atlas;
+        public atlas: Kiwi.Textures.TextureAtlas;
 
         /**
         * The Component Manager

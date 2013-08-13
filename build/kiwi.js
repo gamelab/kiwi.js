@@ -3827,28 +3827,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var Atlas = (function () {
-        function Atlas(name, cells, image, sequences) {
-            this.cellIndex = 0;
-            this.name = name;
-            this.cells = cells || new Array();
-            this.sequences = sequences || new Array();
-            this.image = image;
-        }
-        Atlas.prototype.readJSON = function (atlasJSON) {
-            var obj = JSON.parse(atlasJSON);
-            this.name = obj.name;
-            this.cells = obj.cells;
-            if (obj.sequences) {
-                this.sequences = obj.sequences;
-            }
-        };
-        return Atlas;
-    })();
-    Kiwi.Atlas = Atlas;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var Sequence = (function () {
         function Sequence(name, cells) {
             this.name = name;
@@ -3857,77 +3835,6 @@ var Kiwi;
         return Sequence;
     })();
     Kiwi.Sequence = Sequence;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var SpriteSheet = (function (_super) {
-        __extends(SpriteSheet, _super);
-        function SpriteSheet(name, texture, cellWidth, cellHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-            console.log("CH" + cellHeight);
-
-            this.cellWidth = cellWidth;
-            this.cellHeight = cellHeight;
-
-            this.cols = cols || texture.width / cellWidth;
-            this.rows = rows || texture.height / cellHeight;
-            this.numCells = numCells || cols * rows;
-
-            this.sheetOffsetX = sheetOffsetX || 0;
-            this.sheetOffsetY = sheetOffsetY || 0;
-
-            this.cellOffsetX = cellOffsetX || 0;
-            this.cellOffsetY = cellOffsetY || 0;
-
-            _super.call(this, name, this.generateAtlasCells(), texture);
-        }
-        SpriteSheet.prototype.generateAtlasCells = function () {
-            var cells = new Array();
-
-            var dx = this.sheetOffsetX;
-            var dy = this.sheetOffsetY;
-
-            for (var y = 0; y < this.rows; y++) {
-                for (var x = 0; x < this.cols; x++) {
-                    cells.push({
-                        x: dx,
-                        y: dy,
-                        w: this.cellWidth,
-                        h: this.cellHeight
-                    });
-
-                    dx += this.cellOffsetX + this.cellWidth;
-                }
-                dx = this.sheetOffsetX;
-                dy += this.cellOffsetY + this.cellHeight;
-            }
-
-            return cells;
-        };
-        return SpriteSheet;
-    })(Kiwi.Atlas);
-    Kiwi.SpriteSheet = SpriteSheet;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var SingleImage = (function (_super) {
-        __extends(SingleImage, _super);
-        function SingleImage(name, image, width, height, offsetX, offsetY) {
-            console.log("creating single image " + name);
-            console.log(image);
-
-            this.width = width || image.width;
-            this.height = height || image.height;
-            this.offsetX = offsetX || 0;
-            this.offsetY = offsetY || 0;
-
-            _super.call(this, name, this.generateAtlasCells(), image);
-        }
-        SingleImage.prototype.generateAtlasCells = function () {
-            return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height }];
-        };
-        return SingleImage;
-    })(Kiwi.Atlas);
-    Kiwi.SingleImage = SingleImage;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -8229,64 +8136,6 @@ var Kiwi;
         return Stage;
     })();
     Kiwi.Stage = Stage;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var TextureCache = (function () {
-        function TextureCache(game) {
-            this._game = game;
-            this.textures = {};
-        }
-        TextureCache.prototype.clear = function () {
-        };
-
-        TextureCache.prototype.add = function (imageFile) {
-            switch (imageFile.dataType) {
-                case Kiwi.File.SPRITE_SHEET:
-                    this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
-                    break;
-                case Kiwi.File.IMAGE:
-                    this.textures[imageFile.cacheID] = this._buildImage(imageFile);
-                    break;
-                case Kiwi.File.TEXTURE_ATLAS:
-                    this.textures[imageFile.cacheID] = this._buildTextureAtlas(imageFile);
-                    break;
-                default:
-                    klog.error("Image file is of unknown type and was not added to texture cache");
-                    break;
-            }
-        };
-
-        TextureCache.prototype._buildTextureAtlas = function (imageFile) {
-            var atlas = new Kiwi.Atlas(imageFile.cacheID, null, imageFile.data);
-            var m = imageFile.metadata;
-            var json = m.jsonCache.getFile(m.jsonID).data;
-            json.trim();
-            console.log(json);
-
-            atlas.readJSON(json);
-
-            return atlas;
-        };
-
-        TextureCache.prototype._buildSpriteSheet = function (imageFile) {
-            imageFile.frameWidth = imageFile.metadata.frameWidth;
-            imageFile.frameHeight = imageFile.metadata.frameHeight;
-            imageFile.frames = this._game.anims.getSpriteSheetFrames(imageFile.cacheID, imageFile.cache(), imageFile.frameWidth, imageFile.frameHeight);
-
-            var m = imageFile.metadata;
-
-            var spriteSheet = new Kiwi.SpriteSheet(imageFile.cacheID, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
-            return spriteSheet;
-        };
-
-        TextureCache.prototype._buildImage = function (imageFile) {
-            var m = imageFile.metadata;
-            return new Kiwi.SingleImage(imageFile.cacheID, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
-        };
-        return TextureCache;
-    })();
-    Kiwi.TextureCache = TextureCache;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -13932,6 +13781,166 @@ var Kiwi;
         Structs.LinkedList = LinkedList;
     })(Kiwi.Structs || (Kiwi.Structs = {}));
     var Structs = Kiwi.Structs;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var TextureCache = (function () {
+        function TextureCache(game) {
+            this._game = game;
+            this.textures = {};
+        }
+        TextureCache.prototype.clear = function () {
+        };
+
+        TextureCache.prototype.add = function (imageFile) {
+            switch (imageFile.dataType) {
+                case Kiwi.File.SPRITE_SHEET:
+                    this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
+                    break;
+                case Kiwi.File.IMAGE:
+                    this.textures[imageFile.cacheID] = this._buildImage(imageFile);
+                    break;
+                case Kiwi.File.TEXTURE_ATLAS:
+                    this.textures[imageFile.cacheID] = this._buildTextureAtlas(imageFile);
+                    break;
+                default:
+                    klog.error("Image file is of unknown type and was not added to texture cache");
+                    break;
+            }
+        };
+
+        TextureCache.prototype._buildTextureAtlas = function (imageFile) {
+            var atlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, null, imageFile.data);
+            var m = imageFile.metadata;
+            var json = m.jsonCache.getFile(m.jsonID).data;
+            json.trim();
+            console.log(json);
+
+            atlas.readJSON(json);
+
+            return atlas;
+        };
+
+        TextureCache.prototype._buildSpriteSheet = function (imageFile) {
+            imageFile.frameWidth = imageFile.metadata.frameWidth;
+            imageFile.frameHeight = imageFile.metadata.frameHeight;
+            imageFile.frames = this._game.anims.getSpriteSheetFrames(imageFile.cacheID, imageFile.cache(), imageFile.frameWidth, imageFile.frameHeight);
+
+            var m = imageFile.metadata;
+
+            var spriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.cacheID, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
+            return spriteSheet;
+        };
+
+        TextureCache.prototype._buildImage = function (imageFile) {
+            var m = imageFile.metadata;
+            return new Kiwi.Textures.SingleImage(imageFile.cacheID, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
+        };
+        return TextureCache;
+    })();
+    Kiwi.TextureCache = TextureCache;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Textures) {
+        var SpriteSheet = (function (_super) {
+            __extends(SpriteSheet, _super);
+            function SpriteSheet(name, texture, cellWidth, cellHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+                console.log("CH" + cellHeight);
+
+                this.cellWidth = cellWidth;
+                this.cellHeight = cellHeight;
+
+                this.cols = cols || texture.width / cellWidth;
+                this.rows = rows || texture.height / cellHeight;
+                this.numCells = numCells || cols * rows;
+
+                this.sheetOffsetX = sheetOffsetX || 0;
+                this.sheetOffsetY = sheetOffsetY || 0;
+
+                this.cellOffsetX = cellOffsetX || 0;
+                this.cellOffsetY = cellOffsetY || 0;
+
+                _super.call(this, name, this.generateAtlasCells(), texture);
+            }
+            SpriteSheet.prototype.generateAtlasCells = function () {
+                var cells = new Array();
+
+                var dx = this.sheetOffsetX;
+                var dy = this.sheetOffsetY;
+
+                for (var y = 0; y < this.rows; y++) {
+                    for (var x = 0; x < this.cols; x++) {
+                        cells.push({
+                            x: dx,
+                            y: dy,
+                            w: this.cellWidth,
+                            h: this.cellHeight
+                        });
+
+                        dx += this.cellOffsetX + this.cellWidth;
+                    }
+                    dx = this.sheetOffsetX;
+                    dy += this.cellOffsetY + this.cellHeight;
+                }
+
+                return cells;
+            };
+            return SpriteSheet;
+        })(Textures.TextureAtlas);
+        Textures.SpriteSheet = SpriteSheet;
+    })(Kiwi.Textures || (Kiwi.Textures = {}));
+    var Textures = Kiwi.Textures;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Textures) {
+        var SingleImage = (function (_super) {
+            __extends(SingleImage, _super);
+            function SingleImage(name, image, width, height, offsetX, offsetY) {
+                console.log("creating single image " + name);
+                console.log(image);
+
+                this.width = width || image.width;
+                this.height = height || image.height;
+                this.offsetX = offsetX || 0;
+                this.offsetY = offsetY || 0;
+
+                _super.call(this, name, this.generateAtlasCells(), image);
+            }
+            SingleImage.prototype.generateAtlasCells = function () {
+                return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height }];
+            };
+            return SingleImage;
+        })(Textures.TextureAtlas);
+        Textures.SingleImage = SingleImage;
+    })(Kiwi.Textures || (Kiwi.Textures = {}));
+    var Textures = Kiwi.Textures;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Textures) {
+        var TextureAtlas = (function () {
+            function TextureAtlas(name, cells, image, sequences) {
+                this.cellIndex = 0;
+                this.name = name;
+                this.cells = cells || new Array();
+                this.sequences = sequences || new Array();
+                this.image = image;
+            }
+            TextureAtlas.prototype.readJSON = function (atlasJSON) {
+                var obj = JSON.parse(atlasJSON);
+                this.name = obj.name;
+                this.cells = obj.cells;
+                if (obj.sequences) {
+                    this.sequences = obj.sequences;
+                }
+            };
+            return TextureAtlas;
+        })();
+        Textures.TextureAtlas = TextureAtlas;
+    })(Kiwi.Textures || (Kiwi.Textures = {}));
+    var Textures = Kiwi.Textures;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {

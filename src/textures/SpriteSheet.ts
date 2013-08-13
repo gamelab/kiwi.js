@@ -1,10 +1,10 @@
 
 
 
-module Kiwi {
+module Kiwi.Textures  {
 
 
-    export class SpriteSheet extends Atlas{
+    export class SpriteSheet extends TextureAtlas{
 
         constructor(name: string, texture:HTMLImageElement, cellWidth: number, cellHeight: number, numCells?:number,rows?:number,cols?:number,sheetOffsetX?: number, sheetOffsetY?:number,cellOffsetX?:number,cellOffsetY?:number) {
             

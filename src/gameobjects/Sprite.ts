@@ -34,7 +34,7 @@ module Kiwi.GameObjects {
         * @param {Number} y
         * @return {StaticImage}
         */
-        constructor(atlas:Atlas, x: number = 0, y: number = 0) {
+        constructor(atlas:Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
 
             super();
 

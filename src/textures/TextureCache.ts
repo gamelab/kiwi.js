@@ -38,8 +38,8 @@ module Kiwi {
 
         }
 
-        private _buildTextureAtlas(imageFile: File): Kiwi.Atlas {
-            var atlas: Atlas = new Kiwi.Atlas(imageFile.cacheID, null, imageFile.data);
+        private _buildTextureAtlas(imageFile: File): Kiwi.Textures.TextureAtlas {
+            var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, null, imageFile.data);
             var m = imageFile.metadata;
             var json = m.jsonCache.getFile(m.jsonID).data;
             json.trim();
@@ -52,7 +52,7 @@ module Kiwi {
             
         }
 
-        private _buildSpriteSheet(imageFile:File): Kiwi.SpriteSheet {
+        private _buildSpriteSheet(imageFile:File): Kiwi.Textures.SpriteSheet {
             // temp for old spritesheets
             imageFile.frameWidth = imageFile.metadata.frameWidth;
             imageFile.frameHeight = imageFile.metadata.frameHeight;
@@ -61,13 +61,13 @@ module Kiwi {
             var m = imageFile.metadata;
             
             //BEWARE THE SWITCH TO CELLWIDTH AND FRAMEWIDTH
-            var spriteSheet: SpriteSheet = new Kiwi.SpriteSheet(imageFile.cacheID,imageFile.data,m.frameWidth,m.frameHeight,m.numCells,m.rows,m.cols,m.sheetOffsetX,m.sheetOffsetY,m.cellOffsetX,m.cellOffsetY);
+            var spriteSheet: Kiwi.Textures.SpriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.cacheID,imageFile.data,m.frameWidth,m.frameHeight,m.numCells,m.rows,m.cols,m.sheetOffsetX,m.sheetOffsetY,m.cellOffsetX,m.cellOffsetY);
             return spriteSheet;
         }
 
-        private _buildImage(imageFile: File): Kiwi.SingleImage {
+        private _buildImage(imageFile: File): Kiwi.Textures.SingleImage {
             var m = imageFile.metadata;
-            return new Kiwi.SingleImage(imageFile.cacheID,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
+            return new Kiwi.Textures.SingleImage(imageFile.cacheID,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
         }
     }
 

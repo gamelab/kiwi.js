@@ -1,10 +1,10 @@
 
 
 
-module Kiwi {
+module Kiwi.Textures {
 
     
-    export class Atlas {
+    export class TextureAtlas {
 
         constructor(name:string,cells,image?:HTMLImageElement,sequences?) {
             this.name = name;

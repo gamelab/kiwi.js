@@ -4,7 +4,7 @@ module Kiwi {
 
     export class Animation {
 
-        constructor(name: string,atlas:Atlas,sequence:Sequence,speed:number,loop:boolean,clock:Kiwi.Time.Clock) {
+        constructor(name: string, atlas: Kiwi.Textures.TextureAtlas,sequence:Sequence,speed:number,loop:boolean,clock:Kiwi.Time.Clock) {
             
             this.name = name;
             this._atlas = atlas;
@@ -26,7 +26,7 @@ module Kiwi {
 
         public name: string;
         
-        private _atlas: Atlas;
+        private _atlas: Kiwi.Textures.TextureAtlas;
         private _sequence: Sequence;
         private _loop: boolean;
         

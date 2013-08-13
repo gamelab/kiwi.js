@@ -1,10 +1,10 @@
 
 
 
-module Kiwi {
+module Kiwi.Textures  {
 
 
-    export class SingleImage extends Atlas {
+    export class SingleImage extends TextureAtlas {
 
         constructor(name: string, image: HTMLImageElement, width?: number, height?: number, offsetX?: number, offsetY?: number) {
             console.log("creating single image " + name);

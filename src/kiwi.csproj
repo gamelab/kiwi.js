@@ -32,13 +32,10 @@
     <Content Include="animation\Animation.js">
       <DependentUpon>Animation.ts</DependentUpon>
     </Content>
-    <Content Include="animation\Atlas.ts" />
+    <Content Include="textures\TextureAtlas.ts" />
     <Content Include="animation\Sequence.ts" />
-    <TypeScriptCompile Include="animation\SingleImage.ts" />
-    <Content Include="animation\SingleImage.js">
-      <DependentUpon>SingleImage.ts</DependentUpon>
-    </Content>
-    <Content Include="animation\SpriteSheet.ts" />
+    <Content Include="textures\SingleImage.ts" />
+    <Content Include="textures\SpriteSheet.ts" />
     <Content Include="anims\Animation.js">
       <DependentUpon>Animation.ts</DependentUpon>
     </Content>
@@ -63,10 +60,7 @@
     <Content Include="components\Sound.js">
       <DependentUpon>Sound.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="core\TextureCache.ts" />
-    <Content Include="core\TextureCache.js">
-      <DependentUpon>TextureCache.ts</DependentUpon>
-    </Content>
+    <Content Include="textures\TextureCache.ts" />
     <Content Include="sound\Audio.js">
       <DependentUpon>Audio.ts</DependentUpon>
     </Content>
