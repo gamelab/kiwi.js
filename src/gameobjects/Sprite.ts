@@ -57,6 +57,8 @@ module Kiwi.GameObjects {
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
+            
+            this.animation = this.components.add(new Kiwi.Components.Animation(this));
             //FIX/////////////
             //this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
             
@@ -174,9 +176,7 @@ module Kiwi.GameObjects {
 
            // this.motion.setClock(this.clock());
 
-            if (this._isAnimated) {
-                this.animation.clock(this.clock);
-            }
+            this.animation.clock = this.clock;
 
             return true;
 
@@ -202,12 +202,14 @@ module Kiwi.GameObjects {
 
             //this.motion.update();
 
+            this.animation.update();
+            
             if (this._isAnimated)
             {
-                this.animation.update();
-                this.bounds.setSize(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
-                this.width = this.animation.currentAnimation.currentFrame.width;
-                this.height = this.animation.currentAnimation.currentFrame.height;
+                /*this.bounds.setSize(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);*/
+                this.width = this.atlas.cells[this.atlas.cellIndex].w;
+                this.height = this.atlas.cells[this.atlas.cellIndex].h;
+            
             }
 
         }
@@ -232,12 +234,9 @@ module Kiwi.GameObjects {
                     ctx.globalAlpha = this.alpha;
                 }
 
-                if (this._isAnimated === true) {
-                    this.animation.currentAnimation.renderToCanvas(ctx, 0, 0);
-                } else {
                     var cell = this.atlas.cells[this.atlas.cellIndex];
                     ctx.drawImage(this.atlas.image,cell.x, cell.y, cell.w, cell.h,0,0,cell.w,cell.h);
-                }    
+                
 
                 ctx.restore();
 

@@ -26,163 +26,79 @@ module Kiwi.Components {
 
             super('Animation');
 
-            this.onUpdate = new Kiwi.Signal();
             this._entity = entity;
             this._animations = {};
 
-            var texture: Kiwi.Components.Texture = this._entity.components.getComponent('Texture');
+            this._atlas = this._entity.atlas;
 
-            if (texture.file !== null && (texture.file.dataType === Kiwi.File.SPRITE_SHEET || texture.file.dataType === Kiwi.File.TEXTURE_ATLAS))
-            {
-                this._animations['default'] = new Kiwi.Anims.Animation(name, texture.file, texture.file.frames.getAllFrames(), 0, 0);
-                this.currentAnimation = this._animations['default'];
-
-            } else {
-                return;
-            }
+            //create animation
+            this.add('default', [this._atlas.cellIndex], 0, false, true); 
         }
 
-        /*
-        * The entity that this animation component belongs to 
-        * @private
-        */
         private _entity: Kiwi.Entity;
+
+        private _atlas: Kiwi.Textures.TextureAtlas;
         
-        /*
-        * A Kiwi.Signal that dispatches an event when the texture's position should change.
-        * Also dispatches the new coordinates it should change to.
-        */
-        public onUpdate: Kiwi.Signal;
+        private _animations: {};
 
-        /*
-        * An associactive array of all of the animations that this component has.
-        * @private
-        */
-        private _animations;
+        public currentAnimation: Kiwi.Animation = null;
 
-        /*
-        * A reference to the current animation that is playing.
-        * @public
-        */
-        public currentAnimation: Kiwi.Anims.Animation = null;
-
-        /*
-        * Boolean that knows weither the animation is playing or not.
-        * @public
-        */
         public isPlaying: bool = false;
 
-        /*
-        * Holds the clock that is used for animations.
-        * @private
-        */
         private _clock: Kiwi.Time.Clock = null;
 
-        /*
-        * Sets the clock that the animations will use. 
-        *
-        * @method clock
-        * @param {Kiwi.Time.Clock}
-        */
-        public clock(clock: Kiwi.Time.Clock) {
+        public set clock(clock: Kiwi.Time.Clock) {
+            if(this.clock == null) this.currentAnimation.clock = clock;
+            
             this._clock = clock;
-            this.currentAnimation.clock(clock);
         }
 
-        /*
-        * The type of object this is.
-        * @method objType
-        */
+        public get clock():Kiwi.Time.Clock {
+            return this._clock;
+        }
+
         public objType() {
             return "Animation";
         }
 
         /*
-        * Kiwi.Signal callback which runs when an animation has updated.
-        *
-        * @method _updatedAnimationFrame
-        * @param {number} x
-        * @param {number} y
+        * Adds a new animation.
         */
-        private _updatedAnimationFrame(index: number, x:number, y:number) {
-            this.onUpdate.dispatch(x, y);
+        public add(name: string, cells: number[], speed: number, loop: boolean=false, play:boolean=false) {
+            var newSequence = new Kiwi.Sequence(name, cells);
+            this._atlas.sequences.push(newSequence);
+            this.createFromSequence(newSequence, speed, loop, play);
+
         }
 
         /*
-        * Adds a new animation to this animation component.
-        *
-        * @method add
-        * @param {string} name
-        * @param {number} speed
-        * @param {number[]} frames
-        * @param {number} repeat
-        * @return {Kiwi.Anims.Animation}
+        * Creates a new animation from a sequence. This is the method
         */
-        public add(name: string, speed: number, frames: number[] = null, repeat: number = Kiwi.Anims.PLAY_LOOP): Kiwi.Anims.Animation {
-
-            var texture: Kiwi.Components.Texture = this._entity.components.getComponent('Texture');
+        public createFromSequence(sequence: Sequence, speed: number, loop: boolean, play: boolean= false) {
             
-            if (frames === null) {
-                this._animations[name] = new Kiwi.Anims.Animation(name, texture.file, texture.file.frames.getAllFrames(), speed, repeat);
-            } else {
-                this._animations[name] = new Kiwi.Anims.Animation(name, texture.file, texture.file.frames.getFrames(frames), speed, repeat);
-            }
+            this._animations[sequence.name] = new Kiwi.Animation(sequence.name, this._atlas, sequence, speed, loop, this.clock);
+            
+            if (play) this.play(sequence.name);
+        }
 
-            this._animations[name].onUpdate.add(this._updatedAnimationFrame, this);
+        public play(name: string = this.currentAnimation.name) {
 
-            if(this.currentAnimation === this._animations['default']) 
-                this.currentAnimation = this._animations[name];
-
-            return this._animations[name];
+            this._play(0, name);
         }
         
-        /*
-        * Returns the animation object for the name that you pass.
-        *
-        * @method getAnimation
-        * @param {string} name
-        * @return {Kiwi.Anims.Animation}
-        */
-        public getAnimation(name:string): Kiwi.Anims.Animation {
-            
-            if (this._animations[name] === null) {
-                return;
-            } else {
-                return this._animations[name];
-            }
+        public playAt(index: number, name: string = this.currentAnimation.name) {
 
-        }
-
-        /*
-        * Plays the current animation or otherwise the animation you pass to it.
-        *
-        * @method play
-        * @param {string} name
-        */
-        public play(name: string = null) {
-
-            this.isPlaying = true;
-            if (name !== null) {
-                this._setCurrentAnimation(name);
-
-            } else {
-                if (this._clock !== null) this.currentAnimation.clock(this._clock); 
-                this.currentAnimation.play();
-            }
-        }
-        
-        /*
-        * Plays the current animation or a different animation at the index you pass.
-        *
-        * @method playAt
-        * @param {number} index
-        * @param {string} name
-        */
-        public playAt(index: number, name: string = null) {
-
-            this.play(name);
-            this.currentAnimation.playAt(index);
+            this._play(index, name);
         } 
+
+        private _play(index: number, name: string) {
+            this.isPlaying = true;
+            this._setCurrentAnimation(name);
+            if (this._clock !== null) this.currentAnimation.clock = this._clock; 
+            
+            this.currentAnimation.playAt(index);
+            this._setCellIndex();
+        }
 
         /*
         * Stops the current animation from playing.
@@ -191,32 +107,9 @@ module Kiwi.Components {
         */
         public stop() {
             if (this.isPlaying === true) {
-                this.isPlaying = false;
                 this.currentAnimation.stop();
             }
-        }
-
-        /*
-        * Gets the current frame of the active animation
-        *
-        * @method getFrame
-        * @return {number} 
-        */
-        public getFrame():Kiwi.Anims.Frame {
-            return this.currentAnimation.getFrame();
-        }
-        
-        /*
-        * Sets the current frame of the animation by the index
-        *
-        * @method setFrame
-        * @param {number} value
-        */
-        public setFrame(index: number) {
-            if (this.currentAnimation)
-            {
-                this.currentAnimation.setFrame(index);
-            }
+            this.isPlaying = false;
         }
 
         /*
@@ -225,10 +118,14 @@ module Kiwi.Components {
         * @method switchTo
         * @param {string} name
         */
-        public switchTo(name: string) { 
+        public switchTo(name: string, play:bool=false) { 
             if (this.currentAnimation.name !== name) {
                 this._setCurrentAnimation(name);
             }
+
+            if (play) this.play();
+
+            if (play == false && this.isPlaying) this.isPlaying = false;
         }
 
         /*
@@ -239,13 +136,9 @@ module Kiwi.Components {
         */
         private _setCurrentAnimation(name: string) {
 
-            this.currentAnimation.stop();
+            if(this.currentAnimation !== null) this.currentAnimation.stop();
             this.currentAnimation = this._animations[name];
-
-            if (this.isPlaying) {
-                if (this._clock !== null) this.currentAnimation.clock(this._clock); 
-                this.currentAnimation.play();
-            }    
+    
         }
 
         /*
@@ -255,11 +148,17 @@ module Kiwi.Components {
         */
         public update() {
 
-            if (this.currentAnimation && this.isPlaying)
-            {
-                this.currentAnimation.update();
+            if (this.currentAnimation && this.isPlaying) {
+                if (this.currentAnimation.update()) {
+                    this._setCellIndex();
+                }
             }
 
+        }
+
+        private _setCellIndex() {
+            //this._entity.cellAtlas = this.currentAnimation.currentFrame;
+            this._atlas.cellIndex = this.currentAnimation.currentFrame;
         }
 
 	    /**
@@ -267,7 +166,7 @@ module Kiwi.Components {
 	     * @method toString
 	     * @return {string} A string representation of this object.
 	     **/
-        public toString(): string {
+        public get toString(): string {
 
             return '[{Animation (x=' + this.active + ')}]';
 

@@ -6,8 +6,7 @@ module Kiwi {
 
         constructor(name:string,cells:number[]) {
             this.name = name;
-            this.cells = new Array();
-            
+            this.cells = cells;
             
         }
 
