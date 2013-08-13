@@ -155,8 +155,6 @@
     <Content Include="assets\sprites\planetcute\Wood Block.png" />
     <Content Include="assets\zombie.png" />
     <Content Include="assets\zombieSprite.png" />
-    <TypeScriptCompile Include="components\SizeComponent.ts" />
-    <TypeScriptCompile Include="components\TextureComponent.ts" />
     <Content Include="examples.css" />
     <TypeScriptCompile Include="GameObjects\AddingSprite.ts" />
     <TypeScriptCompile Include="GameObjects\MovingSpriteWithKeys.ts" />

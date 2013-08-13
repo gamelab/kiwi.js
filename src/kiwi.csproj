@@ -21,6 +21,7 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="components\Texture.ts" />
     <Content Include="core\Game.ts" />
     <Content Include="components\Position.ts" />
     <Content Include="components\Color.ts" />
@@ -47,7 +48,6 @@
     <Content Include="components\Scale.ts" />
     <Content Include="components\Rotation.ts" />
     <Content Include="core\Cache.ts" />
-    <Content Include="components\Texture.ts" />
     <Content Include="components\Size.ts" />
     <Content Include="components\Template.ts" />
     <Content Include="components\Visible.ts" />

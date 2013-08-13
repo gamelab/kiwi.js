@@ -8716,38 +8716,25 @@ var Kiwi;
     (function (GameObjects) {
         var StaticImage = (function (_super) {
             __extends(StaticImage, _super);
-            function StaticImage(cacheID, cache, x, y) {
+            function StaticImage(atlas, x, y) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 _super.call(this);
 
-                if (cache.checkImageCacheID(cacheID, cache) == false) {
-                    console.log('Missing texture', cacheID);
-                    return;
-                }
-
-                this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-
+                this.atlas = atlas;
                 this.transform.x = x;
                 this.transform.y = y;
-                this.width = this.texture.file.data.width;
-                this.height = this.texture.file.data.height;
+                this.width = atlas.cells[0].w;
+                this.height = atlas.cells[0].h;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
                 this.onAddedToLayer.add(this._onAddedToLayer, this);
 
-                this.texture.updated.add(this._updateTexture, this);
-
                 klog.info('Created StaticImage Game Object');
             }
             StaticImage.prototype.objType = function () {
                 return "StaticImage";
-            };
-
-            StaticImage.prototype._updateTexture = function (value) {
-                this.width = this.texture.image.width;
-                this.height = this.texture.image.height;
             };
 
             StaticImage.prototype._onAddedToLayer = function (layer) {
@@ -8767,8 +8754,9 @@ var Kiwi;
 
                     var m = this.transform.getConcatenatedMatrix();
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                    var cell = this.atlas.cells[this.atlas.cellIndex];
+                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
 
-                    ctx.drawImage(this.texture.image, 0, 0, this.width, this.height);
                     ctx.restore();
                 }
             };

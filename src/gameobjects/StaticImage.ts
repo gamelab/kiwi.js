@@ -30,22 +30,15 @@ module Kiwi.GameObjects {
         * @param {Number} y
         * @return {StaticImage}
         */
-        constructor(cacheID: string, cache: Kiwi.Cache, x: number = 0, y: number = 0) {
+        constructor(atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
 
             super();
             
-            if (cache.checkImageCacheID(cacheID, cache) == false)
-            {
-                console.log('Missing texture', cacheID);
-                return;
-            }
-
-            this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-
+            this.atlas = atlas;
             this.transform.x = x;
             this.transform.y = y;
-            this.width = this.texture.file.data.width;
-            this.height = this.texture.file.data.height;
+            this.width = atlas.cells[0].w;
+            this.height = atlas.cells[0].h;
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
@@ -53,7 +46,7 @@ module Kiwi.GameObjects {
 
             this.onAddedToLayer.add(this._onAddedToLayer, this);
 
-            this.texture.updated.add(this._updateTexture, this);
+            
 
             klog.info('Created StaticImage Game Object');
 
@@ -70,23 +63,9 @@ module Kiwi.GameObjects {
 	     **/
         public bounds: Kiwi.Components.Bounds;
 
-        /** 
-	     * 
-	     * @property texture
-	     * @type Kiwi.Components.Texture
-	     **/
-        public texture: Kiwi.Components.Texture;
+        
 
-        /**
-        *
-        * @method _updateTexture
-        * @param {String} value
-        **/
-        private _updateTexture(value: string) {
-            
-            this.width = this.texture.image.width;
-            this.height = this.texture.image.height;
-        }
+       
 
 	    /**
 	     * Called when this Game Object is added to a Layer, usually as a result of an addChild() call or being in a Group that was added.
@@ -119,8 +98,9 @@ module Kiwi.GameObjects {
 
                 var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
                 ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-
-                ctx.drawImage(this.texture.image, 0, 0, this.width, this.height);
+                var cell = this.atlas.cells[this.atlas.cellIndex];
+                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
+              
                 ctx.restore();
             }
         }
