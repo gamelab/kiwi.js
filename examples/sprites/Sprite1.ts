@@ -25,9 +25,9 @@ class Sprite1 extends Kiwi.State {
     public aaa: number = 0;
     public bbb: number = 0;
     create() {
-
-        this.character = new Kiwi.GameObjects.Sprite('character', this.cache, 100, 0);
-        this.cat = new Kiwi.GameObjects.Sprite('cat', this.cache, 10, 50);
+        console.log(this.textures);
+        this.character = new Kiwi.GameObjects.Sprite(this.textures.character, 100, 0);
+        this.cat = new Kiwi.GameObjects.Sprite(this.textures.cat, 10, 50);
         
         this.addChild(this.character);
         this.addChild(this.cat);

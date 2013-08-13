@@ -238,21 +238,24 @@ module Kiwi {
 
         }
         /// ***
-        public addTextureAtlas(cacheID: string, url: string, frameWidth: number, frameHeight: number, cache: Kiwi.FileCache = null, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+        public addTextureAtlas(cache:Kiwi.Cache,imageID: string, imageURL: string, jsonID?: string, jsonURL?: string) {
+
+            console.log(imageID, imageURL, jsonID, jsonURL);
 
             if (cache === null)
             {
-                cache = this._game.cache.images;
+                cache = this._game.cache;
             }
             
-            var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
+            var imageFile = new Kiwi.File(this._game, Kiwi.File.TEXTURE_ATLAS, imageURL, imageID, true, cache.images);
+            var jsonFile = new Kiwi.File(this._game, Kiwi.File.JSON, jsonURL, jsonID, true, cache.data);
             
-            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
             
-            file.frameWidth = frameWidth;
-            file.frameHeight = frameHeight;
+            imageFile.metadata = { jsonCache: cache.data, jsonID: jsonID };
+            jsonFile.metadata = { imageCache:cache.images,imageID:imageID };
+            
 
-            this._fileList.push(file);
+            this._fileList.push(imageFile,jsonFile);
 
         }
 

@@ -40,8 +40,8 @@ class Switching extends Kiwi.State {
     }
 
     create() {
-        this.openedChest = new Kiwi.GameObjects.Sprite('opened', this.cache, 300, 200);
-        this.closedChest = new Kiwi.GameObjects.Sprite('closed', this.cache, 300, 200);
+        this.openedChest = new Kiwi.GameObjects.Sprite(this.textures.open, 300, 200);
+        this.closedChest = new Kiwi.GameObjects.Sprite(this.textures.closed, 300, 200);
 
         this.addChild(this.openedChest);
         this.addChild(this.closedChest);

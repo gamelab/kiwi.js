@@ -1,5 +1,5 @@
 /// <reference path="../../src/Kiwi.ts" />
-
+/*
 class overlaps extends Kiwi.State {
 
     constructor() {
@@ -55,3 +55,4 @@ class custom extends Kiwi.GameObjects.Sprite {
     }
 
 }
+*/

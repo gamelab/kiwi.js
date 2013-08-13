@@ -29,7 +29,7 @@ class CreatingUsingGroups extends Kiwi.State {
 
         //Create the group
         this.group = new Kiwi.Group();
-        this.group.addChild(this.addChild(new Kiwi.GameObjects.Sprite('ball', this.game.cache, Math.random() * 400 + 100, Math.random() * 400 + 100)));
+        this.group.addChild(this.addChild(new Kiwi.GameObjects.Sprite(this.textures.ball, Math.random() * 400 + 100, Math.random() * 400 + 100)));
 
         this.left = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.LEFT);
         this.right = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.RIGHT);
@@ -69,7 +69,7 @@ class CreatingUsingGroups extends Kiwi.State {
             }
         }
         if (this.space.isDown) {
-            this.group.addChild(this.addChild(new Kiwi.GameObjects.Sprite('ball', this.game.cache, Math.random() * 400 + 100, Math.random() * 400 + 100)));
+            this.group.addChild(this.addChild(new Kiwi.GameObjects.Sprite(this.textures.ball, Math.random() * 400 + 100, Math.random() * 400 + 100)));
         }
 
     }

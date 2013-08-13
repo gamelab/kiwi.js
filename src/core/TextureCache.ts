@@ -9,12 +9,12 @@ module Kiwi {
         constructor(game: Kiwi.Game) {
      
             this._game = game;
-        
+            this.textures = {};
         }
 
         private _game: Kiwi.Game;
 
-        public textures: Object = {};
+        public textures;
 
         public clear() {
 
@@ -39,7 +39,16 @@ module Kiwi {
         }
 
         private _buildTextureAtlas(imageFile: File): Kiwi.Atlas {
-            return null;
+            var atlas: Atlas = new Kiwi.Atlas(imageFile.cacheID, null, imageFile.data);
+            var m = imageFile.metadata;
+            var json = m.jsonCache.getFile(m.jsonID).data;
+            json.trim();
+            console.log(json);
+           
+
+            atlas.readJSON(json);
+
+            return atlas;
             
         }
 

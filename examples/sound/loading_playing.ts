@@ -20,7 +20,7 @@ class loading_playing extends Kiwi.State {
 
     create() {
 
-        this.button = new Kiwi.GameObjects.Sprite('star', this.cache, 150, 150);
+        this.button = new Kiwi.GameObjects.Sprite(this.textures.star, 150, 150);
         this.addChild(this.button);
 
         this.button.input.inputOnRelease.add(this.play, this);

@@ -121,6 +121,9 @@ module Kiwi {
 
         public height: number = 0;  
 
+
+        public atlas: Atlas;
+
         /**
         * The Component Manager
         * @property components

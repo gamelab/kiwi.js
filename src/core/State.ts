@@ -70,7 +70,7 @@ module Kiwi {
         **/
         public textureCache: Kiwi.TextureCache;
 
-        public textures: Object;
+        public textures;
 
         /**
         * 
@@ -266,15 +266,15 @@ module Kiwi {
 
         }
         ///****
-        public addTextureAtlas(cacheID: string, url: string, frameWidth: number, frameHeight: number, globalCache: bool = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+        public addTextureAtlas(imageID: string, imageURL: string, jsonID?:string,jsonURL?:string, globalCache: bool = true) {
 
             if (globalCache === true)
             {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+                this.game.loader.addTextureAtlas(this.game.cache,imageID,imageURL,jsonID,jsonURL);
             }
             else
             {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+                this.game.loader.addTextureAtlas(this.cache, imageID,imageURL, jsonID, jsonURL);
             }
 
         }

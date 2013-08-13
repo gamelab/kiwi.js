@@ -23,11 +23,11 @@ class ShowAndHide extends Kiwi.State {
     }
 
     preload() {
-        this.addImage('cat-girl', 'assets/sprites/planetcute/Character Cat Girl.png', false);
+        this.addImage('catgirl', 'assets/sprites/planetcute/Character Cat Girl.png', false);
     }
 
     create() {
-        this.girl = new Kiwi.GameObjects.Sprite('cat-girl', this.cache, 200, 200);
+        this.girl = new Kiwi.GameObjects.Sprite(this.textures.catgirl, 200, 200);
         this.addChild(this.girl);
 
         this.girl.input.inputEntered.add(this.show, this);

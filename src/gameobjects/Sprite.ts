@@ -34,26 +34,26 @@ module Kiwi.GameObjects {
         * @param {Number} y
         * @return {StaticImage}
         */
-        constructor(cacheID: string, cache: Kiwi.Cache, x: number = 0, y: number = 0) {
+        constructor(atlas:Atlas, x: number = 0, y: number = 0) {
 
             super();
 
-            if (cache.checkImageCacheID(cacheID, cache) == false)
-            {
-                console.log('Missing texture', cacheID);
-                return;
-            }
+            console.log(atlas);
+           
 
             //  Properties
 
-            this.name = cacheID;
+            this.name = atlas.name;
+            this.atlas = atlas;
 
-            this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
+            //this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
             
-            this.width = this.texture.file.data.width;
-            this.height = this.texture.file.data.height;
+            //may need to add an optional other cell frame index here
+            this.width = atlas.cells[0].w;
+            this.height = atlas.cells[0].h;
+            
 
-            this.animation = this.components.add(new Kiwi.Components.Animation(this));
+            //this.animation = this.components.add(new Kiwi.Components.Animation(this));
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
@@ -63,6 +63,7 @@ module Kiwi.GameObjects {
             //FIX/////////////
             //this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.position, this.size));
 
+            /*
             if (this.texture.file !== null)
             {
                 if (this.texture.file.dataType === Kiwi.File.IMAGE)
@@ -78,10 +79,12 @@ module Kiwi.GameObjects {
             } else {
                 this._isAnimated = false;
             }
+            */
+
 
             //  Signals
 
-            this.texture.updated.add(this._updateTexture, this);
+            //this.texture.updated.add(this._updateTexture, this);
             //this.texture.updatedRepeat.add(this._updateRepeat, this);
             //this.texture.position.updated.add(this._updateTexturePosition, this);
             //this.input.inputDragStarted.add(this._dragStarted, this);
@@ -155,7 +158,7 @@ module Kiwi.GameObjects {
 	     * @property texture
 	     * @type Kiwi.Components.Texture
 	     **/
-        public texture: Kiwi.Components.Texture;
+        //public texture: Kiwi.Components.Texture;
 
         /** 
          * 
@@ -164,17 +167,7 @@ module Kiwi.GameObjects {
          **/
         //public motion: Kiwi.Components.Motion;
         
-        /**
-        *
-        * @method _updateTexture
-        * @param {String} value
-        **/
-        private _updateTexture(value: string) {
-
-            this.width = this.texture.image.width;
-            this.height = this.texture.image.height;
-        }
-
+        
         private _onAddedToState(state: Kiwi.State): bool {
             
             klog.info('Sprite added to State');
@@ -242,76 +235,13 @@ module Kiwi.GameObjects {
                 if (this._isAnimated === true) {
                     this.animation.currentAnimation.renderToCanvas(ctx, 0, 0);
                 } else {
-                    ctx.drawImage(this.texture.image, 0, 0, this.width, this.height);
+                    var cell = this.atlas.cells[this.atlas.cellIndex];
+                    ctx.drawImage(this.atlas.image,cell.x, cell.y, cell.w, cell.h,0,0,cell.w,cell.h);
                 }    
 
                 ctx.restore();
 
-              //  console.log("-1" + this.name); //not needed anymore.... :(
-                /*if (this.bounds.showDebug === true)
-                {
-                    this.bounds.drawCanvasDebugOutline(this.layer);
-                }
-
-                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)
-                {
-                    this.layer.canvas.context.save();
-                    this.alpha.setContext(this.layer.canvas);
-                }
-                
-                var offsetX: number = camera.position.x();
-                var offsetY: number = camera.position.y();
-              
-                
-                var dx = this.position.x();
-                var dy = this.position.y();
-                var dw = this.size.width();
-                var dh = this.size.height();
-
-                if (this.rotation.angle() !== 0)
-                {
-                    this.layer.canvas.context.save();
-                    
-                    this.layer.canvas.context.translate(dx + (dw / 2), dy + (dh / 2));
-                    
-
-                    this.layer.canvas.context.rotate(this.rotation.angle() * (Math.PI / 180));
-                    this.layer.canvas.context.scale(this.scale.x(), this.scale.y());
-                    dx = -(dw / 2);
-                    dy = -(dh / 2);
-                }   
-                        */
-               /* {
-                    //  Animation frame?
-                    if (this._isAnimated === true)
-                    {
-                        //  Draw the current frame
-                        //this.animation.currentAnimation.drawFrameToCanvasLayer(this.layer, 1, 0, 0);
-                        //this.animation.currentAnimation.renderToCanvas(this.layer, this.position.x(), this.position.y());
-                        this.animation.currentAnimation.renderToCanvas(this.layer, dx, dy);
-                    }
-                    else
-                    {
-                //        console.log("-2" + this.name);
-                        //this.layer.canvas.context.drawImage(this.texture.image, this.position.x(), this.position.y(), this.size.width(), this.size.height());
-                        //this.layer.canvas.context.drawImage(this.texture.image, dx-offsetX, dy-offsetY, dw, dh);
-                    //}
-
-                }
-                
-                if (this.rotation.angle() !== 0)
-                {
-                    this.layer.canvas.context.translate(0, 0);
-                    this.layer.canvas.context.restore();
-              
-                }
-
-                
-
-              if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1)
-                {
-                    this.layer.canvas.context.restore();
-                }*/
+            
 
             }
 

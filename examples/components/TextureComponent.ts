@@ -21,12 +21,12 @@ class TextureComponent extends Kiwi.State {
 
         create() {
 
-            this.zombie = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 7, 40);
-            this.zombie2 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 138, 40);
-            this.zombie3 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 269, 40);
+            this.zombie = new Kiwi.GameObjects.Sprite(this.textures.zombie, 7, 40);
+            this.zombie2 = new Kiwi.GameObjects.Sprite(this.textures.zombie, 138, 40);
+            this.zombie3 = new Kiwi.GameObjects.Sprite(this.textures.zombie, 269, 40);
 
-            this.zombie2.texture = new Kiwi.Components.Texture('spartan', this.game.cache);
-            this.zombie3.texture = new Kiwi.Components.Texture('indiana', this.game.cache);
+            //this.zombie2.texture = new Kiwi.Components.Texture('spartan', this.game.cache);
+            //this.zombie3.texture = new Kiwi.Components.Texture('indiana', this.game.cache);
 
             this.addChild(this.zombie);
             this.addChild(this.zombie2);

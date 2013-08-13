@@ -18,8 +18,8 @@ class muting extends Kiwi.State {
 
     create() {
 
-        this.tomato = new Kiwi.GameObjects.Sprite('tomato', this.cache, 100, 100);
-        this.pepper = new Kiwi.GameObjects.Sprite('pepper', this.cache, 400, 100);
+        this.tomato = new Kiwi.GameObjects.Sprite(this.textures.tomato, 100, 100);
+        this.pepper = new Kiwi.GameObjects.Sprite(this.textures.pepper, 400, 100);
 
         this.tomato.input.inputOnRelease.add(this.mute, this);
         this.pepper.input.inputOnRelease.add(this.unmute, this);

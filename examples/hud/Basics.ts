@@ -22,11 +22,11 @@ class Basics extends Kiwi.State {
     }
 
     preload() {
-        this.addImage('horn-girl', 'assets/sprites/planetcute/Character Horn Girl.png', false);
+        this.addImage('horngirl', 'assets/sprites/planetcute/Character Horn Girl.png', false);
     }
 
     create() {
-        this.player = new Kiwi.GameObjects.Sprite('horn-girl', this.cache, 100, 200);
+        this.player = new Kiwi.GameObjects.Sprite(this.textures.horngirl, 100, 200);
 
         this.addChild(this.player);
     }

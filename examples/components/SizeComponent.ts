@@ -21,9 +21,9 @@
 
 
             //size component has been removed....
-            this.zombie = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 33, 40);
-            this.zombie2 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 216, 40);
-            this.zombie3 = new Kiwi.GameObjects.Sprite('zombie', this.game.cache, 320, 180);
+            this.zombie = new Kiwi.GameObjects.Sprite( this.textures.zombie, 33, 40);
+            this.zombie2 = new Kiwi.GameObjects.Sprite(this.textures.zombie, 216, 40);
+            this.zombie3 = new Kiwi.GameObjects.Sprite(this.textures.zombie, 320, 180);
 
             this.zombie2.width = 50;
             this.zombie2.height = 100;

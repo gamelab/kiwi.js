@@ -31,6 +31,10 @@
     </Content>
     <Content Include="cocoon.php" />
     <Content Include="groups\Groups.ts" />
+    <TypeScriptCompile Include="sprites\AtlasTest.ts" />
+    <Content Include="sprites\Atlas.js">
+      <DependentUpon>AtlasTest.ts</DependentUpon>
+    </Content>
     <Content Include="tilemaps\basics.js">
       <DependentUpon>basictiles.ts</DependentUpon>
     </Content>

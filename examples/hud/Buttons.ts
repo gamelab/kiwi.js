@@ -28,7 +28,7 @@ export class Buttons extends Kiwi.State {
 
         this.button.input.inputOnRelease.add(this.change, this);
 
-        this.chest = new Kiwi.GameObjects.Sprite(this.buttonState, this.cache, 100, 100);
+        this.chest = new Kiwi.GameObjects.Sprite(this.textures[this.buttonState],  100, 100);
         this.addChild(this.chest);
     }
 
@@ -41,7 +41,7 @@ export class Buttons extends Kiwi.State {
             this.button.text('Open');
         }
 
-        this.chest.texture.changeTexture(this.buttonState, this.cache);
+        //this.chest.texture.changeTexture(this.buttonState, this.cache);
     }
 
 }

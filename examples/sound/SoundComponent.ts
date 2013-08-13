@@ -1,5 +1,5 @@
 /// <reference path="../../src/Kiwi.ts" />
-
+/*
 class SoundComponent extends Kiwi.State {
 
     constructor() {
@@ -46,3 +46,4 @@ class SoundSprite extends Kiwi.GameObjects.Sprite {
     public sound: Kiwi.Components.Sound;
 
 }
+*/

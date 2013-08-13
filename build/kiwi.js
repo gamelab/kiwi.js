@@ -3829,6 +3829,7 @@ var Kiwi;
 (function (Kiwi) {
     var Atlas = (function () {
         function Atlas(name, cells, image, sequences) {
+            this.cellIndex = 0;
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
@@ -3839,7 +3840,7 @@ var Kiwi;
             this.name = obj.name;
             this.cells = obj.cells;
             if (obj.sequences) {
-                this.sequences = obj.sequence;
+                this.sequences = obj.sequences;
             }
         };
         return Atlas;
@@ -3911,6 +3912,9 @@ var Kiwi;
     var SingleImage = (function (_super) {
         __extends(SingleImage, _super);
         function SingleImage(name, image, width, height, offsetX, offsetY) {
+            console.log("creating single image " + name);
+            console.log(image);
+
             this.width = width || image.width;
             this.height = height || image.height;
             this.offsetX = offsetX || 0;
@@ -6051,12 +6055,12 @@ var Kiwi;
             }
         };
 
-        State.prototype.addTextureAtlas = function (cacheID, url, frameWidth, frameHeight, globalCache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+        State.prototype.addTextureAtlas = function (imageID, imageURL, jsonID, jsonURL, globalCache) {
             if (typeof globalCache === "undefined") { globalCache = true; }
             if (globalCache === true) {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+                this.game.loader.addTextureAtlas(this.game.cache, imageID, imageURL, jsonID, jsonURL);
             } else {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+                this.game.loader.addTextureAtlas(this.cache, imageID, imageURL, jsonID, jsonURL);
             }
         };
 
@@ -6827,20 +6831,20 @@ var Kiwi;
             this._fileList.push(file);
         };
 
-        Loader.prototype.addTextureAtlas = function (cacheID, url, frameWidth, frameHeight, cache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-            if (typeof cache === "undefined") { cache = null; }
+        Loader.prototype.addTextureAtlas = function (cache, imageID, imageURL, jsonID, jsonURL) {
+            console.log(imageID, imageURL, jsonID, jsonURL);
+
             if (cache === null) {
-                cache = this._game.cache.images;
+                cache = this._game.cache;
             }
 
-            var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
+            var imageFile = new Kiwi.File(this._game, Kiwi.File.TEXTURE_ATLAS, imageURL, imageID, true, cache.images);
+            var jsonFile = new Kiwi.File(this._game, Kiwi.File.JSON, jsonURL, jsonID, true, cache.data);
 
-            file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
+            imageFile.metadata = { jsonCache: cache.data, jsonID: jsonID };
+            jsonFile.metadata = { imageCache: cache.images, imageID: imageID };
 
-            file.frameWidth = frameWidth;
-            file.frameHeight = frameHeight;
-
-            this._fileList.push(file);
+            this._fileList.push(imageFile, jsonFile);
         };
 
         Loader.prototype.addAudio = function (cacheID, url, cache) {
@@ -8230,8 +8234,8 @@ var Kiwi;
 (function (Kiwi) {
     var TextureCache = (function () {
         function TextureCache(game) {
-            this.textures = {};
             this._game = game;
+            this.textures = {};
         }
         TextureCache.prototype.clear = function () {
         };
@@ -8254,7 +8258,15 @@ var Kiwi;
         };
 
         TextureCache.prototype._buildTextureAtlas = function (imageFile) {
-            return null;
+            var atlas = new Kiwi.Atlas(imageFile.cacheID, null, imageFile.data);
+            var m = imageFile.metadata;
+            var json = m.jsonCache.getFile(m.jsonID).data;
+            json.trim();
+            console.log(json);
+
+            atlas.readJSON(json);
+
+            return atlas;
         };
 
         TextureCache.prototype._buildSpriteSheet = function (imageFile) {
@@ -8864,41 +8876,21 @@ var Kiwi;
     (function (GameObjects) {
         var Sprite = (function (_super) {
             __extends(Sprite, _super);
-            function Sprite(cacheID, cache, x, y) {
+            function Sprite(atlas, x, y) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 _super.call(this);
 
-                if (cache.checkImageCacheID(cacheID, cache) == false) {
-                    console.log('Missing texture', cacheID);
-                    return;
-                }
+                console.log(atlas);
 
-                this.name = cacheID;
+                this.name = atlas.name;
+                this.atlas = atlas;
 
-                this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-
-                this.width = this.texture.file.data.width;
-                this.height = this.texture.file.data.height;
-
-                this.animation = this.components.add(new Kiwi.Components.Animation(this));
+                this.width = atlas.cells[0].w;
+                this.height = atlas.cells[0].h;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
-
-                if (this.texture.file !== null) {
-                    if (this.texture.file.dataType === Kiwi.File.IMAGE) {
-                        this._isAnimated = false;
-                    } else if (this.texture.file.dataType === Kiwi.File.SPRITE_SHEET || this.texture.file.dataType === Kiwi.File.TEXTURE_ATLAS) {
-                        this._isAnimated = true;
-                        this.width = this.texture.file.frameWidth;
-                        this.height = this.texture.file.frameHeight;
-                    }
-                } else {
-                    this._isAnimated = false;
-                }
-
-                this.texture.updated.add(this._updateTexture, this);
 
                 this.onAddedToState.add(this._onAddedToState, this);
 
@@ -8921,11 +8913,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-            Sprite.prototype._updateTexture = function (value) {
-                this.width = this.texture.image.width;
-                this.height = this.texture.image.height;
-            };
 
             Sprite.prototype._onAddedToState = function (state) {
                 klog.info('Sprite added to State');
@@ -8970,7 +8957,8 @@ var Kiwi;
                     if (this._isAnimated === true) {
                         this.animation.currentAnimation.renderToCanvas(ctx, 0, 0);
                     } else {
-                        ctx.drawImage(this.texture.image, 0, 0, this.width, this.height);
+                        var cell = this.atlas.cells[this.atlas.cellIndex];
+                        ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
                     }
 
                     ctx.restore();

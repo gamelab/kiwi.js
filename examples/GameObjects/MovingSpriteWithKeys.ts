@@ -29,7 +29,7 @@ class MovingSpriteWithKeys extends Kiwi.State {
     create() {
         ///////////////////////////////////////
         //Creating Sprite
-        this.mySprite = new Kiwi.GameObjects.Sprite('mySprite', this.game.cache, 50, 50);
+        this.mySprite = new Kiwi.GameObjects.Sprite(this.textures.mySprite, 50, 50);
 
         ///////////////////////////////////////
         //Creating keys

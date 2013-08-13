@@ -21,7 +21,7 @@ export class IconCounter extends Kiwi.State {
     create() {
 
 
-        this.spartan = new Kiwi.GameObjects.Sprite('spartan', this.cache, 100, 100);
+        this.spartan = new Kiwi.GameObjects.Sprite(this.textures.spartan, 100, 100);
         this.addChild(this.spartan);
         
         this.spartan.input.inputOnRelease.add(this.increase, this);

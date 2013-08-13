@@ -1,7 +1,7 @@
 { 
 	"name":"atlasName",
 	"cells": [
-		//enemy 0
+	
 		{
 			"x":4,
 			"y":4,
@@ -59,7 +59,7 @@
 			
 		},
 
-		//enemy1 - big plane
+	
 		{
 			"x":301,
 			"y":4,

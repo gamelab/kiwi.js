@@ -22,7 +22,7 @@ class movement extends Kiwi.State {
         this.textfield.textAlign = 'center';
         this.addChild(this.textfield);
 
-        this.ufo = new Kiwi.GameObjects.Sprite('ufo', this.cache, 400, 300);
+        this.ufo = new Kiwi.GameObjects.Sprite(this.textures.ufo, 400, 300);
         this.addChild(this.ufo);
 
         this.game.input.mouse.mouseUp.add(this.check, this);

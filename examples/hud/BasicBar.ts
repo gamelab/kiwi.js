@@ -39,7 +39,7 @@ class BasicBar extends Kiwi.State {
     }
     
     create() {
-        this.tree = new Kiwi.GameObjects.Sprite('tree', this.cache, 200, 100);
+        this.tree = new Kiwi.GameObjects.Sprite(this.textures.tree, 200, 100);
 
         this.addChild(this.tree);
     }

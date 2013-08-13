@@ -28,11 +28,11 @@ class RemovingWidgets extends Kiwi.State {
     }
 
     preload() {
-        this.addImage('cat-girl', 'assets/sprites/planetcute/Character Cat Girl.png', false);
+        this.addImage('ca-girl', 'assets/sprites/planetcute/Character Cat Girl.png', false);
     }
 
     create() {
-        this.catGirl = new Kiwi.GameObjects.Sprite('cat-girl', this.cache, 200, 200);
+        this.catGirl = new Kiwi.GameObjects.Sprite(this.textures.catgirl, 200, 200);
         this.addChild(this.catGirl);
         this.catGirl.input.inputOnRelease.add(this.change, this);
     }

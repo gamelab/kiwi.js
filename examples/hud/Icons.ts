@@ -28,7 +28,7 @@ export class Icons extends Kiwi.State {
         
         this.game.huds.defaultHUD().addWidget(this.icon);
 
-        this.boy = new Kiwi.GameObjects.Sprite('boy', this.cache, 100, 100);
+        this.boy = new Kiwi.GameObjects.Sprite(this.textures.boy, 100, 100);
         this.addChild(this.boy);
 
         this.boy.input.inputOnRelease.add(this.changeIcon, this);

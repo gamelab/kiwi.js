@@ -20,7 +20,7 @@ class looping extends Kiwi.State {
 
         this.game.input.mouse.mouseUp.add(this.meowing, this);
 
-        this.cat = new Kiwi.GameObjects.Sprite('baddie', this.cache, 200, 200);
+        this.cat = new Kiwi.GameObjects.Sprite(this.textures.baddie, 200, 200);
         this.cat.animation.add('right', 0.2, [2, 3]);
         this.cat.animation.add('left', 0.2, [0, 1]); 
         this.addChild(this.cat);
