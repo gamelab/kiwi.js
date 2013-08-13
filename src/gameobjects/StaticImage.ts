@@ -40,20 +40,20 @@ module Kiwi.GameObjects {
                 return;
             }
 
-            //  Properties
+            this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
 
             this.transform.x = x;
             this.transform.y = y;
-            this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-            this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
-            this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
+            this.width = this.texture.file.data.width;
+            this.height = this.texture.file.data.height;
+            
+            this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
             //  Signals
 
             this.onAddedToLayer.add(this._onAddedToLayer, this);
 
             this.texture.updated.add(this._updateTexture, this);
-            this.size.updated.add(this._updateSize, this);
 
             klog.info('Created StaticImage Game Object');
 
@@ -77,33 +77,15 @@ module Kiwi.GameObjects {
 	     **/
         public texture: Kiwi.Components.Texture;
 
-        /** 
-	     * 
-	     * @property size
-	     * @type Kiwi.Componenets.Size
-	     **/
-        public size: Kiwi.Components.Size;
-
-        /** 
-	     * 
-	     * @method _updateSize
-         * @param {Number} width
-         * @param {Number} height
-	     **/
-        private _updateSize(width: number, height: number) {
-
-            this.bounds.setTo(this.transform.x, this.transform.y, width, height);
-
-        }
-
         /**
         *
         * @method _updateTexture
         * @param {String} value
         **/
         private _updateTexture(value: string) {
-           
-            this.size.setTo(this.texture.image.width, this.texture.image.height);
+            
+            this.width = this.texture.image.width;
+            this.height = this.texture.image.height;
         }
 
 	    /**
@@ -138,7 +120,7 @@ module Kiwi.GameObjects {
                 var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
                 ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
-                ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                ctx.drawImage(this.texture.image, 0, 0, this.width, this.height);
                 ctx.restore();
             }
         }

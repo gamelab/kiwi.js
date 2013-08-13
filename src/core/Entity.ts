@@ -117,6 +117,10 @@ module Kiwi {
             return this._visible;
         }
 
+        public width: number = 0;   //if bounds are implemented then getters and setters here would be nice.
+
+        public height: number = 0;  
+
         /**
         * The Component Manager
         * @property components

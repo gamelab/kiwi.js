@@ -49,12 +49,13 @@ module Kiwi.GameObjects {
             this.name = cacheID;
 
             this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-           
-            this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
+            
+            this.width = this.texture.file.data.width;
+            this.height = this.texture.file.data.height;
 
             this.animation = this.components.add(new Kiwi.Components.Animation(this));
             
-            this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
+            this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
             //FIX/////////////
             //this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
@@ -71,20 +72,18 @@ module Kiwi.GameObjects {
                 else if (this.texture.file.dataType === Kiwi.File.SPRITE_SHEET || this.texture.file.dataType === Kiwi.File.TEXTURE_ATLAS)
                 {
                     this._isAnimated = true;
-                    this.size.setTo(this.texture.file.frameWidth, this.texture.file.frameHeight);
+                    this.width = this.texture.file.frameWidth;
+                    this.height = this.texture.file.frameHeight;
                 }
-            }
-            else
-            {
+            } else {
                 this._isAnimated = false;
             }
 
             //  Signals
 
+            this.texture.updated.add(this._updateTexture, this);
             //this.texture.updatedRepeat.add(this._updateRepeat, this);
-            //this.texture.updated.add(this._updateTexture, this);
             //this.texture.position.updated.add(this._updateTexturePosition, this);
-            //this.size.updated.add(this._updateSize, this);
             //this.input.inputDragStarted.add(this._dragStarted, this);
 
             //this.onAddedToLayer.add(this._onAddedToLayer, this);
@@ -93,11 +92,7 @@ module Kiwi.GameObjects {
             this.transform.x = x;
             this.transform.y = y;
 
-            this._center = new Kiwi.Geom.Point(x + this.size.width() / 2, y + this.size.height() / 2);
-
-            if (this._isAnimated) {
-                this.animation.onUpdate.add(this._updateAnimationTexturePosition, this);
-            }
+            this._center = new Kiwi.Geom.Point(x + this.width / 2, y + this.height / 2);
 
             klog.info('Created Sprite Game Object');
 
@@ -107,14 +102,12 @@ module Kiwi.GameObjects {
             return "Sprite";
         }
 
-      
-
         private _center: Kiwi.Geom.Point;
 
-        public center(): Kiwi.Geom.Point {
+        public get center(): Kiwi.Geom.Point {
+            this._center.setTo(this.transform.x + this.width / 2, this.transform.y + this.height / 2);
             return this._center;
         }
-
 
         private _isAnimated: bool;
 
@@ -165,77 +158,22 @@ module Kiwi.GameObjects {
         public texture: Kiwi.Components.Texture;
 
         /** 
-	     * 
-	     * @property size
-	     * @type Kiwi.Componenets.Size
-	     **/
-        public size: Kiwi.Components.Size;
-
-        /** 
-	     * 
-	     * @property motion
-	     * @type Kiwi.Componenets.Motion
-	     **/
-        //public motion: Kiwi.Components.Motion;
-
-        /** 
-	     * 
-	     * @method _updateSize
-         * @param {Number} width
-         * @param {Number} height
-	     **/
-        private _updateSize(width: number, height: number) {
-
-            //this.bounds.setTo(this.position.x(), this.position.y(), width, height);
-
-        }
-
-        /** 
-	     * 
-	     * @method _updateTexturePosition
-         * @param {Number} x
-         * @param {Number} y
-	     **/
-        private _updateTexturePosition(x: number, y: number) {
-
-           
-
-        }
-
-        /**
-         *
-         * @method _updateAnimationPosition 
-         * @param {Number} x
-         * @param {Number} y
+         * 
+         * @property motion
+         * @type Kiwi.Componenets.Motion
          **/
-        private _updateAnimationTexturePosition(x: number, y: number) {
-           
-        }
-
-        /** 
-	     * 
-	     * @method _updateRepeat
-         * @param {String} value
-	     **/
-        private _updateRepeat(value:string) {
-
-          
-
-        }
-
+        //public motion: Kiwi.Components.Motion;
+        
         /**
         *
         * @method _updateTexture
         * @param {String} value
-        * @param {Number} width
-        * @param {Number} height
         **/
-        private _updateTexture(value: string, width:number, height:number) {
-            
-            this.size.setTo(width, height);
-        }
+        private _updateTexture(value: string) {
 
-	  
+            this.width = this.texture.image.width;
+            this.height = this.texture.image.height;
+        }
 
         private _onAddedToState(state: Kiwi.State): bool {
             
@@ -243,8 +181,7 @@ module Kiwi.GameObjects {
 
            // this.motion.setClock(this.clock());
 
-            if (this._isAnimated)
-            {
+            if (this._isAnimated) {
                 this.animation.clock(this.clock);
             }
 
@@ -262,6 +199,8 @@ module Kiwi.GameObjects {
             
             this.input.update();
 
+            //update the center?
+
             if (this.input.isDragging === true)
             {
                 /////////FIX////////////
@@ -274,7 +213,8 @@ module Kiwi.GameObjects {
             {
                 this.animation.update();
                 this.bounds.setSize(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
-                this.size.setTo(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);
+                this.width = this.animation.currentAnimation.currentFrame.width;
+                this.height = this.animation.currentAnimation.currentFrame.height;
             }
 
         }
@@ -302,7 +242,7 @@ module Kiwi.GameObjects {
                 if (this._isAnimated === true) {
                     this.animation.currentAnimation.renderToCanvas(ctx, 0, 0);
                 } else {
-                    ctx.drawImage(this.texture.image, 0, 0, this.size.width(), this.size.height());
+                    ctx.drawImage(this.texture.image, 0, 0, this.width, this.height);
                 }    
 
                 ctx.restore();

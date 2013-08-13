@@ -19,8 +19,7 @@ module Kiwi.GameObjects {
 
             this.transform.x = x;
             this.transform.y = y;
-            this.size = this.components.add(new Kiwi.Components.Size(width, height));
-            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.transform, this.size));
+            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this)); //i think this is no longer needed....
             this.tileUpdate(tileType);
         }
 
@@ -50,11 +49,6 @@ module Kiwi.GameObjects {
         * Reference to the type of tile that this tile is.
         */
         public tileType: Kiwi.GameObjects.TileType;
-
-        /*
-        * The size of this tile. This is only ever used as a reference and won't actually update the size of the tile when rendered.
-        */
-        public size: Kiwi.Components.Size;
 
         /*
         * The physics component used for arcade physics

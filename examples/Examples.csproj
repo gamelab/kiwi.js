@@ -21,6 +21,14 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="arcadephysics\overlaps.ts" />
+    <TypeScriptCompile Include="arcadephysics\group.ts" />
+    <Content Include="arcadephysics\group.js">
+      <DependentUpon>group.ts</DependentUpon>
+    </Content>
+    <Content Include="arcadephysics\overlaps.js">
+      <DependentUpon>overlaps.ts</DependentUpon>
+    </Content>
     <Content Include="cocoon.php" />
     <Content Include="groups\Groups.ts" />
     <Content Include="tilemaps\basics.js">
