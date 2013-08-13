@@ -133,7 +133,7 @@ module Kiwi {
         
             for (var i = 0; i < this.members.length; i++)
             {
-                if (this.members[i].active() === true)
+                if (this.members[i].active === true)
                 {
                     this.members[i].update();
                 }
@@ -167,7 +167,7 @@ module Kiwi {
         
             for (var i = 0; i < this.members.length; i++)
             {
-                if (this.members[i].active() === true)
+                if (this.members[i].active === true)
                 {
                     this.members[i].update();
                 }

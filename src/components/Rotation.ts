@@ -65,11 +65,11 @@ module Kiwi.Components {
                 //entity.addStyleUpdate('-moz-transform', this.cssRotate3d);
                 //entity.addStyleUpdate('-webkit-transform', this.cssRotate3d);
                 
-                entity.addStyleTransformUpdate("rotate", this.cssRotate3d);
+                //entity.addStyleTransformUpdate("rotate", this.cssRotate3d);
             }
             else {
                 //  Otherwise a normal style update is fine :)
-                entity.addStyleUpdate('less-super', this.cssRotate3d);
+                //entity.addStyleUpdate('less-super', this.cssRotate3d);
             }
 
         }
@@ -80,15 +80,15 @@ module Kiwi.Components {
         * @param {Kiwi.Entity} entity
         */
         public addStyleImmediately(entity: Kiwi.Entity) {
-            
+            /*
             if (entity.domElement === null || entity.domElement.element === null) {
                 return;
             }
-
+        */
             if (Kiwi.DEVICE.css3D) {
                 
-                this.entity.addStyleTransformUpdate("rotate", this.cssRotate3d);
-                this.entity.applyTransformStyle();
+                //this.entity.addStyleTransformUpdate("rotate", this.cssRotate3d);
+                //this.entity.applyTransformStyle();
 
             }
             else {

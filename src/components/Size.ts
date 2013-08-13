@@ -195,10 +195,10 @@ module Kiwi.Components {
         */
         public addStyleImmediately(entity: Kiwi.Entity) {
 
-            if (entity.domElement === null || entity.domElement.element === null)
-            {
-                return;
-            }
+            //if (entity.domElement === null || entity.domElement.element === null)
+            //{
+            //    return;
+            //}
 
         
 

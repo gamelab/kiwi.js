@@ -61,19 +61,19 @@ module Kiwi.Components {
             if (Kiwi.DEVICE.css3D)
             {
                 //  Apply the advanced CSS here, if any
-                entity.addStyleUpdate('-webkit-super-thingy', this.cssExampleProperty);
+                //entity.addStyleUpdate('-webkit-super-thingy', this.cssExampleProperty);
             }
             else
             {
                 //  Otherwise a normal style update is fine :)
-                entity.addStyleUpdate('less-super', this.cssExampleProperty);
+                //entity.addStyleUpdate('less-super', this.cssExampleProperty);
             }
 
         }
 
         //  Sometimes you need to set the style immediately rather than defering it to the next update loop, if so use this method
         public addStyleImmediately(entity: Kiwi.Entity) {
-
+            /*
             if (entity.domElement === null || entity.domElement.element === null)
             {
                 return;
@@ -90,7 +90,7 @@ module Kiwi.Components {
                 //  Otherwise a normal style update is fine :)
                 entity.domElement.element.style.left = this.cssExampleProperty;
             }
-
+        */
         }
 
         //  You should bundle property updates together into a single private method and call it from the getters

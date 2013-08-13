@@ -26,7 +26,7 @@ module Kiwi.Renderers {
 
             //console.log(child.childType());
 
-            if (!child.willRender()) return;
+            if (!child.willRender) return;
 
             if (child.childType() === Kiwi.GROUP) {
                 for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {

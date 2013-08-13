@@ -125,9 +125,6 @@ module Kiwi {
     	*/
         public id: string;
 
-       
-
-       
 
         /**
         * The collection of children belonging to this group
@@ -148,14 +145,14 @@ module Kiwi {
         * @property domElement
         * @type Kiwi.DOM.Element
         **/
-        public domElement: Kiwi.DOM.Element = null;
+        //public domElement: Kiwi.DOM.Element = null;
 
         /**
         * Where all the pending css style updates are stored
         * @property _cssStack
         * @type Array
     	*/
-        private _cssStack = [];
+        //private _cssStack = [];
 
         /** 
         * Returns the total number of children in this Group. Doesn't distinguish between alive and dead children.
@@ -170,23 +167,26 @@ module Kiwi {
 
 
         private _dirty: bool = true;
+
         /**
         * Sets all children of the Group to be dirty.
         * @method dirty
         * @param {Boolean} The value to be set on all children
 		*/
-        public dirty(value?: bool):bool {
+        public set dirty(value: bool) {
 
             if (value !== undefined) {
                 this._dirty = value;
                 for (var i = 0; i < this.members.length; i++)
                 {
-                    this.members[i].dirty(value);
+                    this.members[i].dirty = value;
                 }
             }
-            return this._dirty;
         }
 
+        public get dirty():bool {
+            return this._dirty;
+        }
 
         /**
         * Checks if the given entity is in this group
@@ -602,7 +602,7 @@ module Kiwi {
             if (this.members.length > 0) {
                 
                 this.members.forEach((child) => {
-                    if (child.exists()) callback.apply(context, [child].concat(params));
+                    if (child.exists) callback.apply(context, [child].concat(params));
                 });
                 
             }
@@ -691,7 +691,7 @@ module Kiwi {
         */
         public processUpdate(child: Kiwi.IChild) {
 
-            if (child.active() === true)
+            if (child.active === true)
             {
                 child.update();
             }
@@ -710,15 +710,12 @@ module Kiwi {
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
         **/
         //********TODO  - set children - as below
-        public exists(value?: bool): bool {
+        public set exists(value: bool) {
+            this._exists = value;
+        }
 
-            if (value !== undefined)
-            {
-                this._exists = value;
-            }
-
+        public get exists():bool {
             return this._exists;
-
         }
 
         /**
@@ -732,15 +729,12 @@ module Kiwi {
         * Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
         **/
-        public active(value?: bool): bool {
+        public set active(value: bool) {
+            this._active = value;
+        }
 
-            if (value !== undefined)
-            {
-                this._active = value;
-            }
-
+        public get active():bool {
             return this._active;
-
         }
 
         /**
@@ -770,7 +764,7 @@ module Kiwi {
         */
         public processRender(child: Kiwi.IChild,camera:Kiwi.Camera) {
 
-            if (child.active() === true)
+            if (child.active === true)
             {
                 child.render(camera);
             }
@@ -796,7 +790,7 @@ module Kiwi {
         
             for (var i = 0; i < this.members.length; i++)
             {
-                if (this.members[i].exists() === true)
+                if (this.members[i].exists === true)
                 {
                     return this.members[i];
                     break;
@@ -815,7 +809,7 @@ module Kiwi {
         
             for (var i = 0; i < this.members.length; i++)
             {
-                if (this.members[i].exists() === false)
+                if (this.members[i].exists === false)
                 {
                     return this.members[i];
                     break;
@@ -837,7 +831,7 @@ module Kiwi {
 
             for (var i = 0; i < this.members.length; i++)
             {
-                if (this.members[i].exists() === true)
+                if (this.members[i].exists === true)
                 {
                     total++;
                 }
@@ -858,7 +852,7 @@ module Kiwi {
 
             for (var i = 0; i < this.members.length; i++)
             {
-                if (this.members[i].exists() === false)
+                if (this.members[i].exists === false)
                 {
                     total++;
                 }
@@ -932,21 +926,18 @@ module Kiwi {
 		private _willRender: bool;
 
         /**
-		* Toggles the visible state of this Entity. visible(false) are stopped from rendering.
+        * Toggles the visible state of this Entity. visible(false) are stopped from rendering.
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
         * @method visible
         * @param {Boolean} value
         * @return {Boolean}
-		**/
-        public willRender(value?: bool): bool {
+        **/
+        public set willRender(value: bool) {
+            this._willRender = value;
+        }
 
-            if (value)
-            {
-                this._willRender = value;
-            }
-
+        public get willRender():bool {
             return this._willRender;
-
         }
 
         /*
@@ -985,7 +976,7 @@ module Kiwi {
                     if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false)
                     {
                         //  It cannot be rendered on this layer, so let's deactive it
-                        this.members[i].exists(false);
+                        this.members[i].exists = false;
                     }
                 }
 
@@ -1003,14 +994,6 @@ module Kiwi {
         private _removedFromLayer(layer: Kiwi.Layer) {
 
             this.layer = null;
-
-            if (this.domElement)
-            {
-                this.domElement.unlink();
-                this.domElement = null;
-            }
-
-            
 
             this.onRemovedFromLayer.dispatch(this, layer);
 

@@ -34,7 +34,6 @@ module Kiwi.GameObjects {
 
             this.transform.x = x;
             this.transform.y = y;
-            this.alpha = this.components.add(new Kiwi.Components.Alpha(1));
 
             this._text = text;
             this._fontWeight = weight;
@@ -59,13 +58,6 @@ module Kiwi.GameObjects {
         public objType() {
             return "Textfield";
         }
-
-        /** 
-         * The Alpha component that controls the opacity of this Game Object
-         * @property alpha
-         * @type Kiwi.Components.Alpha
-         **/
-        public alpha: Kiwi.Components.Alpha;
 
         /**
          * The text that is to be rendered.
@@ -249,7 +241,7 @@ module Kiwi.GameObjects {
         public render(camera:Kiwi.Camera) {
             
 
-            if (this.willRender() === true && this.alpha.alpha() > 0)
+            if (this.alpha > 0 && this.visiblity)
             {
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
@@ -257,8 +249,8 @@ module Kiwi.GameObjects {
                 var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
                 ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
-                if (this.alpha.alpha() > 0 && this.alpha.alpha() <= 1) {
-                    ctx.globalAlpha = this.alpha.alpha();
+                if (this.alpha > 0 && this.alpha <= 1) {
+                    ctx.globalAlpha = this.alpha;
                 }
 
                 ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;

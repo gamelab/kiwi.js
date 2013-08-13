@@ -108,7 +108,7 @@ module Kiwi.Components {
 
         public update() {
 
-            if (!this._entity.game || this._entity.active() === false || this._entity.willRender() === false)
+            if (!this._entity.game || this._entity.active === false || this._entity.willRender === false)
             {
                 return;
             }

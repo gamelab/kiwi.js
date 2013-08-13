@@ -160,7 +160,7 @@ module Kiwi.Components {
         * @param {Kiwi.Entity} entity
         */
         public addStyleUpdates(entity: Kiwi.Entity) {
-            
+            /*
             if (entity === null)
             {
                 return;
@@ -168,21 +168,23 @@ module Kiwi.Components {
 
             if (Kiwi.DEVICE.css3D)
             {
-                this.entity.addStyleUpdate("-webkit-transform-origin", this._transformPoint.x + "px " + this._transformPoint.y + "px");
-               /* entity.addStyleUpdate('transform', this.cssTranslate3d);
+                 this.entity.addStyleUpdate("-webkit-transform-origin", this._transformPoint.x + "px " + this._transformPoint.y + "px");
+               entity.addStyleUpdate('transform', this.cssTranslate3d);
                 entity.addStyleUpdate('-o-transform', this.cssTranslate3d);
                 entity.addStyleUpdate('-ms-transform', this.cssTranslate3d);
                 entity.addStyleUpdate('-moz-transform', this.cssTranslate3d);
                 entity.addStyleUpdate('-webkit-transform', this.cssTranslate3d);
-                */
+                
                 entity.addStyleTransformUpdate("translate", this.cssTranslate3d);
             }
             else
             {
+               
                 entity.addStyleUpdate('left', this.cssLeft);
                 entity.addStyleUpdate('top', this.cssTop);
+            
             }
-
+*/
         }
 
         /*
@@ -191,7 +193,7 @@ module Kiwi.Components {
         * @param {Kiwi.Entity} entity
         */
         public addStyleImmediately(entity: Kiwi.Entity) {
-            
+           /* 
             if (entity.domElement === null || entity.domElement.element === null)
             {
                 return;
@@ -202,19 +204,19 @@ module Kiwi.Components {
                 this.entity.addStyleTransformUpdate("translate", this.cssTranslate3d);
                 this.entity.addStyleUpdate("-webkit-transform-origin", this._transformPoint.x + "px " + this._transformPoint.y + "px");
                 this.entity.applyTransformStyle();
-                /*entity.domElement.element.style.transform = this.cssTranslate3d;
+                entity.domElement.element.style.transform = this.cssTranslate3d;
                 entity.domElement.element.style['-o-transform'] = this.cssTranslate3d;
                 entity.domElement.element.style['-ms-transform'] = this.cssTranslate3d;
                 entity.domElement.element.style['-moz-transform'] = this.cssTranslate3d;
                 entity.domElement.element.style['-webkit-transform'] = this.cssTranslate3d;
-                */
+                
             }
             else
             {
                 entity.domElement.element.style.left = this.cssLeft;
                 entity.domElement.element.style.top = this.cssTop;
             }
-
+*/
         }
 
         /*

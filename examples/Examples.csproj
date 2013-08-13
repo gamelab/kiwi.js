@@ -29,6 +29,10 @@
     <Content Include="tilemaps\getTile.js">
       <DependentUpon>getTile.ts</DependentUpon>
     </Content>
+    <Content Include="tilemaps\movement.js">
+      <DependentUpon>movement.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="tilemaps\movement.ts" />
     <TypeScriptCompile Include="tilemaps\getTile.ts" />
     <TypeScriptCompile Include="tilemaps\basictiles.ts" />
     <TypeScriptCompile Include="sound\loading_playing.ts" />
