@@ -6,17 +6,15 @@ module Kiwi {
     
     export class Atlas {
 
-        constructor(name?: string, cells?: Array, texture?, sequences?: Array) {//swap cells to after texture?
-
+        constructor(name?: string, cells?: Array, image?:HTMLImageElement, sequences?:Array) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
-            this.texture = texture;
-        
+            this.image = image;
         }
 
         public name: string;
-        public texture;
+        public image:HTMLImageElement;
         public cells: Array;
         public sequences: Array;
 
@@ -26,7 +24,7 @@ module Kiwi {
             this.name = obj.name;
             this.cells = obj.cells;
             if (obj.sequences) { // leave as empty array if no animations
-                this.sequences = obj.sequence; //creation of sequences go here...
+                this.sequences = obj.sequence;
             } 
 
         }

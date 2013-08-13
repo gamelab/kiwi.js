@@ -28,8 +28,16 @@
     <TypeScriptCompile Include="anims\Manager.ts" />
     <TypeScriptCompile Include="anims\Frame.ts" />
     <TypeScriptCompile Include="anims\Animation.ts" />
+    <TypeScriptCompile Include="animation\Animation.ts" />
+    <Content Include="animation\Animation.js">
+      <DependentUpon>Animation.ts</DependentUpon>
+    </Content>
     <Content Include="animation\Atlas.ts" />
     <Content Include="animation\Sequence.ts" />
+    <TypeScriptCompile Include="animation\SingleImage.ts" />
+    <Content Include="animation\SingleImage.js">
+      <DependentUpon>SingleImage.ts</DependentUpon>
+    </Content>
     <Content Include="animation\SpriteSheet.ts" />
     <Content Include="anims\Animation.js">
       <DependentUpon>Animation.ts</DependentUpon>
@@ -54,6 +62,10 @@
     <Content Include="components\ArcadePhysics.ts" />
     <Content Include="components\Sound.js">
       <DependentUpon>Sound.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="core\TextureCache.ts" />
+    <Content Include="core\TextureCache.js">
+      <DependentUpon>TextureCache.ts</DependentUpon>
     </Content>
     <Content Include="sound\Audio.js">
       <DependentUpon>Audio.ts</DependentUpon>
@@ -523,14 +535,14 @@
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsFC49.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs630B.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsFC49.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs630B.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

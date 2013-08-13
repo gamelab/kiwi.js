@@ -15,7 +15,7 @@ class Sprite1 extends Kiwi.State {
     preload() {
 
         this.addImage('character', 'assets/sprites/planetcute/Character Horn Girl.png', false);
-        this.addSpriteSheet('cat', 'assets/sprites/baddie_cat_1.png', 16, 16, false);
+        this.addSpriteSheet('cat', 'assets/sprites/baddie_cat_1.png', 16, 16, false,4,4,1,0,0,0,0);
 
     }
 

@@ -19,9 +19,11 @@
 /// <reference path="components/particles/ParticleSystemShapes.ts" />
 /// <reference path="components/particles/ParticleSpriteSheet.ts" />
 
+/// <reference path="animation/Animation.ts" />
 /// <reference path="animation/Atlas.ts" />
 /// <reference path="animation/Sequence.ts" />
 /// <reference path="animation/SpriteSheet.ts" />
+/// <reference path="animation/SingleImage.ts" />
 
 /// <reference path="anims/formats/SpriteSheet.ts" />
 /// <reference path="anims/Animation.ts" />
@@ -48,6 +50,7 @@
 /// <reference path="core/Signal.ts" />
 /// <reference path="core/SignalBinding.ts" />
 /// <reference path="core/Stage.ts" />
+/// <reference path="core/TextureCache.ts" />
 
 /// <reference path="core/StateConfig.ts" />
 /// <reference path="core/StateManager.ts" />

@@ -193,15 +193,7 @@ module Kiwi.Components {
 
         }
 
-        /*
-        *
-        * @method setCSS
-        * @param {HTMLElement} element
-        */
-        public setCSS(element: HTMLElement) {
-            element.style.backgroundImage = 'url("' + this.getURL() + '")';
-            element.style.backgroundRepeat = this._repeat;
-        }
+     
 
         /*
         * 
