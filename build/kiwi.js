@@ -1,5 +1,4976 @@
 ﻿var Kiwi;
 (function (Kiwi) {
+    (function (DOM) {
+        var Bootstrap = (function () {
+            function Bootstrap() {
+                this.isReady = false;
+                this.container = null;
+                this.canvasLayers = null;
+                this.input = null;
+            }
+            Bootstrap.prototype.objType = function () {
+                return "Bootstrap";
+            };
+
+            Bootstrap.prototype.boot = function (domParent, callback, createContainer) {
+                if (typeof callback === "undefined") { callback = null; }
+                if (typeof createContainer === "undefined") { createContainer = true; }
+                var _this = this;
+                klog.info('DOM Boot: ' + document.readyState);
+
+                this._callback = callback;
+                this._domParent = domParent;
+
+                this._createContainer = createContainer;
+
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                    this.ready();
+                } else {
+                    document.addEventListener('DOMContentLoaded', function () {
+                        return _this.ready();
+                    }, false);
+                    window.addEventListener('load', function () {
+                        return _this.ready();
+                    }, false);
+                }
+            };
+
+            Bootstrap.prototype.ready = function () {
+                var _this = this;
+                klog.info('DOM Ready Check');
+
+                if (this.isReady === true) {
+                    return;
+                }
+
+                if (!document.body) {
+                    window.setTimeout(function () {
+                        return _this.ready();
+                    }, 13);
+                } else {
+                    this.isReady = true;
+
+                    if (this._createContainer === true) {
+                        if (this._domParent === '') {
+                            this.container = document.createElement('div');
+                            this._setupContainer('KiwiGame' + Date.now().toString());
+                            document.body.appendChild(this.container);
+                        } else {
+                            if (document.getElementById(this._domParent)) {
+                                this.container = document.getElementById(this._domParent);
+                                this._setupContainer();
+                            } else {
+                                this.container = document.createElement('div');
+                                this._setupContainer(this._domParent);
+                                document.body.appendChild(this.container);
+                            }
+
+                            klog.info('DOM Alive');
+                        }
+                    }
+
+                    if (this._callback !== null) {
+                        this._callback();
+                    }
+                }
+            };
+
+            Bootstrap.prototype._setupContainer = function (id) {
+                if (typeof id === "undefined") { id = ''; }
+                if (id) {
+                    this.container.id = id;
+                }
+
+                this.container.style.width = '800px';
+                this.container.style.height = '600px';
+                this.container.style.position = 'relative';
+                this.container.style.overflow = 'hidden';
+            };
+            return Bootstrap;
+        })();
+        DOM.Bootstrap = Bootstrap;
+    })(Kiwi.DOM || (Kiwi.DOM = {}));
+    var DOM = Kiwi.DOM;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Point = (function () {
+            function Point(x, y) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                this.setTo(x, y);
+            }
+            Point.prototype.objType = function () {
+                return "Point";
+            };
+
+            Point.prototype.polar = function (distance, angle) {
+                this.x = distance * Math.cos(angle * Math.PI / 180);
+                this.y = distance * Math.sin(angle * Math.PI / 180);
+                return this;
+            };
+
+            Point.prototype.add = function (toAdd, output) {
+                if (typeof output === "undefined") { output = new Point(); }
+                return output.setTo(this.x + toAdd.x, this.y + toAdd.y);
+            };
+
+            Point.prototype.addTo = function (x, y) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                return this.setTo(this.x + x, this.y + y);
+            };
+
+            Point.prototype.subtractFrom = function (x, y) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                return this.setTo(this.x - x, this.y - y);
+            };
+
+            Point.prototype.invert = function () {
+                return this.setTo(this.y, this.x);
+            };
+
+            Point.prototype.clamp = function (min, max) {
+                this.clampX(min, max);
+                this.clampY(min, max);
+                return this;
+            };
+
+            Point.prototype.clampX = function (min, max) {
+                this.x = Math.max(Math.min(this.x, max), min);
+
+                return this;
+            };
+
+            Point.prototype.clampY = function (min, max) {
+                this.x = Math.max(Math.min(this.x, max), min);
+                this.y = Math.max(Math.min(this.y, max), min);
+
+                return this;
+            };
+
+            Point.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Point(); }
+                return output.setTo(this.x, this.y);
+            };
+
+            Point.prototype.copyFrom = function (source) {
+                return this.setTo(source.x, source.y);
+            };
+
+            Point.prototype.copyTo = function (target) {
+                return target.setTo(this.x, this.y);
+            };
+
+            Point.prototype.distanceTo = function (target, round) {
+                if (typeof round === "undefined") { round = false; }
+                var dx = this.x - target.x;
+                var dy = this.y - target.y;
+
+                if (round === true) {
+                    return Math.round(Math.sqrt(dx * dx + dy * dy));
+                } else {
+                    return Math.sqrt(dx * dx + dy * dy);
+                }
+            };
+
+            Point.prototype.distanceToXY = function (x, y, round) {
+                if (typeof round === "undefined") { round = false; }
+                var dx = this.x - x;
+                var dy = this.y - y;
+
+                if (round === true) {
+                    return Math.round(Math.sqrt(dx * dx + dy * dy));
+                } else {
+                    return Math.sqrt(dx * dx + dy * dy);
+                }
+            };
+
+            Point.distanceBetween = function (pointA, pointB, round) {
+                if (typeof round === "undefined") { round = false; }
+                var dx = pointA.x - pointB.x;
+                var dy = pointA.y - pointB.y;
+
+                if (round === true) {
+                    return Math.round(Math.sqrt(dx * dx + dy * dy));
+                } else {
+                    return Math.sqrt(dx * dx + dy * dy);
+                }
+            };
+
+            Point.polar = function (length, angle) {
+                return new Point(length * Math.cos(angle * Math.PI / 180), length * Math.sin(angle * Math.PI / 180));
+            };
+
+            Point.prototype.distanceCompare = function (target, distance) {
+                if (this.distanceTo(target) >= distance) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Point.prototype.equals = function (toCompare) {
+                if (this.x === toCompare.x && this.y === toCompare.y) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Point.interpolate = function (pointA, pointB, f) {
+                var xDiff = pointB.x - pointA.x;
+                var yDiff = pointB.y - pointA.y;
+                return new Point(pointB.x - xDiff * f, pointB.y - yDiff * f);
+            };
+
+            Point.prototype.offset = function (dx, dy) {
+                this.x += dx;
+                this.y += dy;
+
+                return this;
+            };
+
+            Point.prototype.setTo = function (x, y) {
+                this.x = x;
+                this.y = y;
+
+                return this;
+            };
+
+            Point.prototype.subtract = function (point, output) {
+                if (typeof output === "undefined") { output = new Point(); }
+                return output.setTo(this.x - point.x, this.y - point.y);
+            };
+
+            Point.prototype.getCSS = function () {
+                return this.x + 'px ' + this.y + 'px';
+            };
+
+            Point.prototype.toString = function () {
+                return '[{Point (x=' + this.x + ' y=' + this.y + ')}]';
+            };
+            return Point;
+        })();
+        Geom.Point = Point;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (DOM) {
+        var Browser = (function () {
+            function Browser(game) {
+                this._game = game;
+            }
+            Browser.prototype.objType = function () {
+                return "Browser";
+            };
+
+            Browser.prototype.boot = function () {
+                klog.info('DOM.Browser booting');
+            };
+
+            Browser.prototype.getOffsetPoint = function (element, output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                var box = element.getBoundingClientRect();
+
+                var clientTop = element.clientTop || document.body.clientTop || 0;
+                var clientLeft = element.clientLeft || document.body.clientLeft || 0;
+                var scrollTop = window.pageYOffset || element.scrollTop || document.body.scrollTop;
+                var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
+
+                return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
+            };
+            return Browser;
+        })();
+        DOM.Browser = Browser;
+    })(Kiwi.DOM || (Kiwi.DOM = {}));
+    var DOM = Kiwi.DOM;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Device = (function () {
+        function Device() {
+            this.iOS = false;
+            this.android = false;
+            this.chromeOS = false;
+            this.linux = false;
+            this.macOS = false;
+            this.windows = false;
+            this.canvas = false;
+            this.file = false;
+            this.fileSystem = false;
+            this.localStorage = false;
+            this.webGL = false;
+            this.worker = false;
+            this.blob = false;
+            this.touch = false;
+            this.css3D = false;
+            this.arora = false;
+            this.chrome = false;
+            this.epiphany = false;
+            this.firefox = false;
+            this.ie = false;
+            this.ieVersion = 0;
+            this.mobileSafari = false;
+            this.midori = false;
+            this.opera = false;
+            this.safari = false;
+            this.webApp = false;
+            this.audioData = false;
+            this.webaudio = false;
+            this.ogg = false;
+            this.mp3 = false;
+            this.wav = false;
+            this.m4a = false;
+            this.iPhone = false;
+            this.iPhone4 = false;
+            this.iPad = false;
+            this.pixelRatio = 0;
+            klog.info('Device DOM boot');
+
+            this._checkAudio();
+            this._checkBrowser();
+            this._checkCSS3D();
+            this._checkDevice();
+            this._checkFeatures();
+            this._checkOS();
+        }
+        Device.prototype.objType = function () {
+            return "Device";
+        };
+
+        Device.prototype._checkOS = function () {
+            var ua = navigator.userAgent;
+
+            if (/Android/.test(ua)) {
+                this.android = true;
+            } else if (/CrOS/.test(ua)) {
+                this.chromeOS = true;
+            } else if (/iP[ao]d|iPhone/i.test(ua)) {
+                this.iOS = true;
+            } else if (/Linux/.test(ua)) {
+                this.linux = true;
+            } else if (/Mac OS/.test(ua)) {
+                this.macOS = true;
+            } else if (/Windows/.test(ua)) {
+                this.windows = true;
+            }
+        };
+
+        Device.prototype._checkFeatures = function () {
+            if (typeof window['Blob'] !== 'undefined')
+                this.blob = true;
+
+            this.canvas = !!window['CanvasRenderingContext2D'];
+
+            try  {
+                this.localStorage = !!localStorage.getItem;
+            } catch (error) {
+                this.localStorage = false;
+            }
+
+            this.file = !!window['File'] && !!window['FileReader'] && !!window['FileList'] && !!window['Blob'];
+            this.fileSystem = !!window['requestFileSystem'];
+            this.webGL = !!window['WebGLRenderingContext'];
+            this.worker = !!window['Worker'];
+
+            if ('ontouchstart' in document.documentElement || window.navigator.msPointerEnabled) {
+                this.touch = true;
+            }
+        };
+
+        Device.prototype._checkBrowser = function () {
+            var ua = navigator.userAgent;
+
+            if (/Arora/.test(ua)) {
+                this.arora = true;
+            } else if (/Chrome/.test(ua)) {
+                this.chrome = true;
+            } else if (/Epiphany/.test(ua)) {
+                this.epiphany = true;
+            } else if (/Firefox/.test(ua)) {
+                this.firefox = true;
+            } else if (/Mobile Safari/.test(ua)) {
+                this.mobileSafari = true;
+            } else if (/MSIE (\d+\.\d+);/.test(ua)) {
+                this.ie = true;
+                this.ieVersion = parseInt(RegExp.$1);
+            } else if (/Midori/.test(ua)) {
+                this.midori = true;
+            } else if (/Opera/.test(ua)) {
+                this.opera = true;
+            } else if (/Safari/.test(ua)) {
+                this.safari = true;
+            }
+
+            if (navigator['standalone']) {
+                this.webApp = true;
+            }
+        };
+
+        Device.prototype._checkAudio = function () {
+            this.audioData = !!(window['Audio']);
+            this.webaudio = !!(window['webkitAudioContext'] || window['AudioContext']);
+
+            var audioElement = document.createElement('audio');
+            var result = false;
+
+            try  {
+                if (result = !!audioElement.canPlayType) {
+                    if (audioElement.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '')) {
+                        this.ogg = true;
+                    }
+
+                    if (audioElement.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
+                        this.mp3 = true;
+                    }
+
+                    if (audioElement.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
+                        this.wav = true;
+                    }
+
+                    if (audioElement.canPlayType('audio/x-m4a;') || audioElement.canPlayType('audio/aac;').replace(/^no$/, '')) {
+                        this.m4a = true;
+                    }
+                }
+            } catch (e) {
+            }
+        };
+
+        Device.prototype._checkDevice = function () {
+            this.pixelRatio = window['devicePixelRatio'] || 1;
+            this.iPhone = navigator.userAgent.toLowerCase().indexOf('iphone') != -1;
+            this.iPhone4 = (this.pixelRatio == 2 && this.iPhone);
+            this.iPad = navigator.userAgent.toLowerCase().indexOf('ipad') != -1;
+        };
+
+        Device.prototype._checkCSS3D = function () {
+            var el = document.createElement('p');
+            var has3d;
+            var transforms = {
+                'webkitTransform': '-webkit-transform',
+                'OTransform': '-o-transform',
+                'msTransform': '-ms-transform',
+                'MozTransform': '-moz-transform',
+                'transform': 'transform'
+            };
+
+            document.body.insertBefore(el, null);
+
+            for (var t in transforms) {
+                if (el.style[t] !== undefined) {
+                    el.style[t] = "translate3d(1px,1px,1px)";
+                    has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+                }
+            }
+
+            document.body.removeChild(el);
+
+            this.css3D = (has3d !== undefined && has3d.length > 0 && has3d !== "none");
+        };
+
+        Device.prototype.getAll = function () {
+            var output = '';
+
+            output = output.concat('Device\n');
+            output = output.concat('iPhone : ' + this.iPhone + '\n');
+            output = output.concat('iPhone4 : ' + this.iPhone4 + '\n');
+            output = output.concat('iPad : ' + this.iPad + '\n');
+
+            output = output.concat('\n');
+            output = output.concat('Operating System\n');
+            output = output.concat('iOS: ' + this.iOS + '\n');
+            output = output.concat('Android: ' + this.android + '\n');
+            output = output.concat('ChromeOS: ' + this.chromeOS + '\n');
+            output = output.concat('Linux: ' + this.linux + '\n');
+            output = output.concat('MacOS: ' + this.macOS + '\n');
+            output = output.concat('Windows: ' + this.windows + '\n');
+
+            output = output.concat('\n');
+            output = output.concat('Browser\n');
+            output = output.concat('Arora: ' + this.arora + '\n');
+            output = output.concat('Chrome: ' + this.chrome + '\n');
+            output = output.concat('Epiphany: ' + this.epiphany + '\n');
+            output = output.concat('Firefox: ' + this.firefox + '\n');
+            output = output.concat('Internet Explorer: ' + this.ie + ' (' + this.ieVersion + ')\n');
+            output = output.concat('Mobile Safari: ' + this.mobileSafari + '\n');
+            output = output.concat('Midori: ' + this.midori + '\n');
+            output = output.concat('Opera: ' + this.opera + '\n');
+            output = output.concat('Safari: ' + this.safari + '\n');
+
+            output = output.concat('\n');
+            output = output.concat('Features\n');
+            output = output.concat('Blob: ' + this.blob + '\n');
+            output = output.concat('Canvas: ' + this.canvas + '\n');
+            output = output.concat('File: ' + this.file + '\n');
+            output = output.concat('FileSystem: ' + this.fileSystem + '\n');
+            output = output.concat('LocalStorage: ' + this.localStorage + '\n');
+            output = output.concat('WebGL: ' + this.webGL + '\n');
+            output = output.concat('Worker: ' + this.worker + '\n');
+            output = output.concat('Touch: ' + this.touch + '\n');
+            output = output.concat('CSS 3D: ' + this.css3D + '\n');
+
+            output = output.concat('\n');
+            output = output.concat('Audio\n');
+            output = output.concat('Audio Data: ' + this.canvas + '\n');
+            output = output.concat('Web Audio: ' + this.canvas + '\n');
+            output = output.concat('Can play OGG: ' + this.canvas + '\n');
+            output = output.concat('Can play MP3: ' + this.canvas + '\n');
+            output = output.concat('Can play M4A: ' + this.canvas + '\n');
+            output = output.concat('Can play WAV: ' + this.canvas + '\n');
+
+            return output;
+        };
+        return Device;
+    })();
+    Kiwi.Device = Device;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var File = (function () {
+        function File(game, dataType, path, cacheID, saveToCache, cache) {
+            if (typeof cacheID === "undefined") { cacheID = ''; }
+            if (typeof saveToCache === "undefined") { saveToCache = false; }
+            if (typeof cache === "undefined") { cache = null; }
+            this._saveToCache = true;
+            this._useTagLoader = true;
+            this.fileSize = 0;
+            this.status = 0;
+            this.statusText = '';
+            this.ETag = '';
+            this.lastModified = '';
+            this.totalSize = 0;
+            this.bytesLoaded = 0;
+            this.bytesTotal = 0;
+            this.readyState = 0;
+            this.timeOutDelay = 2000;
+            this.hasTimedOut = false;
+            this.timedOut = 0;
+            this.timeStarted = 0;
+            this.timeFinished = 0;
+            this.duration = 0;
+            this.hasError = false;
+            this.success = false;
+            this.attemptCounter = 0;
+            this.maxLoadAttempts = 2;
+            this.onCompleteCallback = null;
+            this.onProgressCallback = null;
+            this.lastProgress = 0;
+            this.percentLoaded = 0;
+            this._game = game;
+
+            this.dataType = dataType;
+
+            this.fileURL = path;
+
+            if (path.lastIndexOf('/') > -1) {
+                this.fileName = path.substr(path.lastIndexOf('/') + 1);
+                this.filePath = path.substr(0, path.lastIndexOf('/') + 1);
+            } else {
+                this.filePath = '';
+                this.fileName = path;
+            }
+
+            this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
+
+            if (Kiwi.DEVICE.blob) {
+                klog.info('blob support found - using blob loader');
+                this._useTagLoader = false;
+            } else {
+                klog.info('blob support NOT found - using tag loader');
+                this._useTagLoader = true;
+            }
+
+            if (this.dataType === Kiwi.File.AUDIO && this._game.audio.usingAudioTag === true) {
+                this._useTagLoader = true;
+            }
+
+            this._saveToCache = saveToCache;
+            this._cache = cache;
+
+            if (this.cacheID === '') {
+                this.cacheID = this.fileName;
+            } else {
+                this.cacheID = cacheID;
+            }
+
+            klog.info('New Kiwi.File: ' + this.toString());
+        }
+        File.prototype.objType = function () {
+            return "File";
+        };
+
+        File.prototype.load = function (onCompleteCallback, onProgressCallback, customCache, maxLoadAttempts, timeout) {
+            if (typeof onCompleteCallback === "undefined") { onCompleteCallback = null; }
+            if (typeof onProgressCallback === "undefined") { onProgressCallback = null; }
+            if (typeof customCache === "undefined") { customCache = null; }
+            if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
+            if (typeof timeout === "undefined") { timeout = 2000; }
+            this.onCompleteCallback = onCompleteCallback;
+            this.onProgressCallback = onProgressCallback;
+            this.maxLoadAttempts = maxLoadAttempts;
+            this.timeOutDelay = timeout;
+
+            if (customCache !== null) {
+                this._cache = customCache;
+                this._saveToCache = true;
+            }
+
+            this.start();
+
+            if (this._useTagLoader === true) {
+                this.tagLoader();
+            } else {
+                this.xhrLoader();
+            }
+        };
+
+        File.prototype.start = function () {
+            this.timeStarted = Date.now();
+            this.lastProgress = Date.now();
+            this.percentLoaded = 0;
+        };
+
+        File.prototype.stop = function () {
+            this.percentLoaded = 100;
+            this.timeFinished = Date.now();
+            this.duration = this.timeFinished - this.timeStarted;
+        };
+
+        File.prototype.tagLoader = function () {
+            var _this = this;
+            if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS) {
+                this.data = new Image();
+                this.data.src = this.fileURL;
+                this.data.onload = function (event) {
+                    return _this.tagLoaderOnLoad(event);
+                };
+                this.data.onerror = function (event) {
+                    return _this.tagLoaderOnError(event);
+                };
+                this.data.onreadystatechange = function (event) {
+                    return _this.tagLoaderOnReadyStateChange(event);
+                };
+            } else if (this.dataType === Kiwi.File.AUDIO) {
+                console.log('Ewww...disgusting...your loading by the audio tags....');
+
+                this.data = new Audio();
+                this.data.src = this.fileURL;
+                this.data.preload = 'auto';
+                this.data.onerror = function (event) {
+                    return _this.tagLoaderOnError(event);
+                };
+
+                this.tagLoaderOnLoad(null);
+            }
+        };
+
+        File.prototype.tagLoaderOnReadyStateChange = function (event) {
+            klog.info('rs: ' + this.data.readyState);
+            klog.info('tagLoader onReadyStateChange', event);
+        };
+
+        File.prototype.tagLoaderOnError = function (event) {
+            klog.info('tagLoader onError', event);
+
+            this.hasError = true;
+            this.error = event;
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.tagLoaderProgressThrough = function (event) {
+            console.log('progress');
+            this.stop();
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.tagLoaderOnLoad = function (event) {
+            console.log('loaded');
+            this.stop();
+
+            if (this._saveToCache === true) {
+                this._cache.addFile(this.cacheID, this);
+            }
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.xhrLoader = function () {
+            var _this = this;
+            this._xhr = new XMLHttpRequest();
+            this._xhr.open('GET', this.fileURL, true);
+            this._xhr.timeout = this.timeOutDelay;
+            this._xhr.responseType = 'arraybuffer';
+
+            this._xhr.onloadstart = function (event) {
+                return _this.xhrOnLoadStart(event);
+            };
+            this._xhr.onload = function (event) {
+                return _this.xhrOnLoad(event);
+            };
+            this._xhr.onprogress = function (event) {
+                return _this.xhrOnProgress(event);
+            };
+            this._xhr.ontimeout = function (event) {
+                return _this.xhrOnTimeout(event);
+            };
+            this._xhr.onabort = function (event) {
+                return _this.xhrOnAbort(event);
+            };
+            this._xhr.onreadystatechange = function (event) {
+                return _this.xhrOnReadyStateChange(event);
+            };
+
+            this._xhr.send();
+        };
+
+        File.prototype.xhrOnReadyStateChange = function (event) {
+            this.readyState = event.target.readyState;
+
+            if (this.readyState === 4) {
+                this.xhrOnLoad(event);
+            }
+        };
+
+        File.prototype.xhrOnLoadStart = function (event) {
+            this.timeStarted = event.timeStamp;
+            this.lastProgress = event.timeStamp;
+        };
+
+        File.prototype.xhrOnAbort = function (event) {
+            klog.info('xhrOnAbort', event);
+        };
+
+        File.prototype.xhrOnError = function (event) {
+            klog.info('xhrOnError', event);
+        };
+
+        File.prototype.xhrOnTimeout = function (event) {
+            klog.info('xhrOnTimeout', event);
+        };
+
+        File.prototype.xhrOnProgress = function (event) {
+            klog.info('xhrOnProgress', event);
+
+            this.bytesLoaded = parseInt(event.loaded);
+            this.bytesTotal = parseInt(event.totalSize);
+            this.percentLoaded = Math.round((this.bytesLoaded / this.bytesTotal) * 100);
+
+            klog.info(this.fileName + ' = ' + this.bytesLoaded + ' / ' + this.bytesTotal);
+
+            if (this.onProgressCallback) {
+                this.onProgressCallback(this);
+            }
+        };
+
+        File.prototype.xhrOnLoad = function (event) {
+            if (this.timeFinished > 0) {
+                return;
+            }
+
+            this.stop();
+
+            this.status = this._xhr.status;
+            this.statusText = this._xhr.statusText;
+
+            if (this._xhr.status === 200) {
+                console.log("XHR SUCCESS");
+                this.success = true;
+                this.hasError = false;
+                this.fileType = this._xhr.getResponseHeader('Content-Type');
+                this.bytesTotal = parseInt(this._xhr.getResponseHeader('Content-Length'));
+                this.lastModified = this._xhr.getResponseHeader('Last-Modified');
+                this.ETag = this._xhr.getResponseHeader('ETag');
+                this.buffer = this._xhr.response;
+
+                if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS) {
+                    this.createBlob();
+                } else {
+                    if (this.dataType === Kiwi.File.JSON) {
+                        this.data = String.fromCharCode.apply(null, new Uint8Array(this._xhr.response));
+                        this.parseComplete();
+                    }
+
+                    if (this.dataType === Kiwi.File.AUDIO) {
+                        this.data = {
+                            raw: this._xhr.response,
+                            decoded: false,
+                            buffer: null
+                        };
+
+                        if (this._game.audio.predecode == true) {
+                            console.log('Audio is Decoding');
+
+                            var that = this;
+                            this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+                                if (buffer) {
+                                    that.data.buffer = buffer;
+                                    that.data.decoded = true;
+                                    that.parseComplete();
+                                    console.log('Audio Decoded');
+                                }
+                            });
+                        } else {
+                            this.parseComplete();
+                        }
+                    }
+                }
+            } else {
+                this.success = false;
+                this.hasError = true;
+                this.parseComplete();
+            }
+        };
+
+        File.prototype.createBlob = function () {
+            var _this = this;
+            klog.info('creating blob');
+
+            this.data = document.createElement('img');
+            this.data.onload = function () {
+                return _this.revoke();
+            };
+
+            var imageType = '';
+
+            if (this.fileExtension === 'jpg' || this.fileExtension === 'jpeg') {
+                imageType = 'image/jpeg';
+            } else if (this.fileExtension === 'png') {
+                imageType = 'image/png';
+            } else if (this.fileExtension === 'gif') {
+                imageType = 'image/gif';
+            }
+
+            var blob = new window['Blob']([this.buffer], { type: imageType });
+
+            if (window['URL']) {
+                this.data.src = window['URL'].createObjectURL(blob);
+            } else if (window['webkitURL']) {
+                this.data.src = window['webkitURL'].createObjectURL(blob);
+            }
+        };
+
+        File.prototype.revoke = function () {
+            klog.info('revoking');
+
+            if (window['URL']) {
+                window['URL'].revokeObjectURL(this.data.src);
+            } else if (window['webkitURL']) {
+                window['webkitURL'].revokeObjectURL(this.data.src);
+            }
+
+            this.parseComplete();
+        };
+
+        File.prototype.parseComplete = function () {
+            klog.info('parse complete');
+
+            if (this._saveToCache === true) {
+                klog.info('saving to cache', this._cache, this.cacheID);
+                this._cache.addFile(this.cacheID, this);
+            }
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.getFileDetails = function (callback, maxLoadAttempts, timeout) {
+            if (typeof callback === "undefined") { callback = null; }
+            if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
+            if (typeof timeout === "undefined") { timeout = 2000; }
+            klog.info('Getting File Details of ' + this.fileURL);
+
+            this.onCompleteCallback = callback;
+            this.maxLoadAttempts = maxLoadAttempts;
+            this.timeOutDelay = timeout;
+
+            this.sendXHRHeadRequest();
+        };
+
+        File.prototype.sendXHRHeadRequest = function () {
+            var _this = this;
+            klog.info('xhr send');
+
+            this.attemptCounter++;
+
+            this._xhr = new XMLHttpRequest();
+            this._xhr.open('HEAD', this.fileURL, false);
+            this._xhr.onload = function (event) {
+                return _this.getXHRResponseHeaders(event);
+            };
+            this._xhr.ontimeout = function (event) {
+                return _this.xhrHeadOnTimeout(event);
+            };
+            this._xhr.onerror = function (event) {
+                return _this.xhrHeadOnError(event);
+            };
+            this._xhr.timeout = this.timeOutDelay;
+            this._xhr.send();
+        };
+
+        File.prototype.xhrHeadOnTimeout = function (event) {
+            klog.info('on XHR timeout', event);
+
+            this.hasTimedOut = true;
+            this.timedOut = Date.now();
+
+            if (this.attemptCounter >= this.maxLoadAttempts) {
+                this.hasError = true;
+                this.error = event;
+
+                if (this.onCompleteCallback) {
+                    this.onCompleteCallback.call(this);
+                }
+            } else {
+                this.sendXHRHeadRequest();
+            }
+        };
+
+        File.prototype.xhrHeadOnError = function (event) {
+            klog.info('on XHR error', event);
+
+            this.hasError = true;
+            this.error = event;
+            this.status = this._xhr.status;
+            this.statusText = this._xhr.statusText;
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.getXHRResponseHeaders = function (event) {
+            this.status = this._xhr.status;
+            this.statusText = this._xhr.statusText;
+
+            klog.info('xhr response ' + this.status, this.statusText);
+
+            if (this._xhr.status === 200) {
+                this.fileType = this._xhr.getResponseHeader('Content-Type');
+                this.fileSize = parseInt(this._xhr.getResponseHeader('Content-Length'));
+                this.lastModified = this._xhr.getResponseHeader('Last-Modified');
+                this.ETag = this._xhr.getResponseHeader('ETag');
+            }
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.saveToCache = function (value) {
+            if (value) {
+                this._saveToCache = value;
+            }
+
+            return this._saveToCache;
+        };
+
+        File.prototype.cache = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            if (value !== null) {
+                this._cache = value;
+            }
+
+            return this._cache;
+        };
+
+        File.prototype.toString = function () {
+            return "[{File (fileURL=" + this.fileURL + " fileName=" + this.fileName + " dataType=" + this.dataType + " fileSize=" + this.fileSize + " success=" + this.success + " status=" + this.status + ")}]";
+        };
+        File.IMAGE = 0;
+
+        File.SPRITE_SHEET = 1;
+
+        File.TEXTURE_ATLAS = 2;
+
+        File.AUDIO = 3;
+
+        File.JSON = 4;
+
+        File.XML = 5;
+
+        File.BINARY_DATA = 6;
+
+        File.TEXT_DATA = 7;
+        return File;
+    })();
+    Kiwi.File = File;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var FileCache = (function () {
+        function FileCache() {
+            this._cacheSize = 0;
+            this._files = {};
+        }
+        FileCache.prototype.objType = function () {
+            return "FileCache";
+        };
+
+        FileCache.prototype.getFile = function (key) {
+            return this._files[key];
+        };
+
+        Object.defineProperty(FileCache.prototype, "keys", {
+            get: function () {
+                var keys = new Array();
+                for (var key in this._files) {
+                    keys.push(key);
+                }
+
+                return keys;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        FileCache.prototype.size = function () {
+            return this._cacheSize;
+        };
+
+        FileCache.prototype.addFile = function (key, value) {
+            if (!this._files[key]) {
+                this._files[key] = value;
+                this._cacheSize++;
+                return true;
+            }
+
+            return false;
+        };
+
+        FileCache.prototype.exists = function (key) {
+            if (this._files[key]) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        FileCache.prototype.removeFile = function (key) {
+            if (this._files[key]) {
+                this._files[key] = null;
+                delete this._files[key];
+                return true;
+            }
+
+            return false;
+        };
+        return FileCache;
+    })();
+    Kiwi.FileCache = FileCache;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Cache = (function () {
+        function Cache(game) {
+            this.images = null;
+            this.audio = null;
+            this.data = null;
+            this._game = game;
+        }
+        Cache.prototype.objType = function () {
+            return "Cache";
+        };
+
+        Cache.prototype.boot = function () {
+            this._caches = [];
+
+            this._caches.push(new Kiwi.FileCache());
+            this._caches.push(new Kiwi.FileCache());
+            this._caches.push(new Kiwi.FileCache());
+
+            this.images = this._caches[0];
+            this.audio = this._caches[1];
+            this.data = this._caches[2];
+        };
+
+        Cache.prototype.checkImageCacheID = function (cacheID, cache) {
+            if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
+                klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                return false;
+            }
+
+            return true;
+        };
+
+        Cache.prototype.checkDataCacheID = function (cacheID, cache) {
+            if (cacheID == '' || cache === null || cache.images === null || cache.data.exists(cacheID) === false) {
+                klog.warn('Data cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                return false;
+            }
+
+            return true;
+        };
+        return Cache;
+    })();
+    Kiwi.Cache = Cache;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var StateConfig = (function () {
+        function StateConfig(parent, name) {
+            this.name = '';
+            this.isPersistent = false;
+            this.isCreated = false;
+            this.isInitialised = false;
+            this.isReady = false;
+            this.hasInit = false;
+            this.hasPreloader = false;
+            this.hasLoadProgress = false;
+            this.hasLoadComplete = false;
+            this.hasLoadUpdate = false;
+            this.hasCreate = false;
+            this.hasOnEnter = false;
+            this.hasUpdate = false;
+            this.hasRender = false;
+            this.hasOnExit = false;
+            this.hasShutDown = false;
+            this.hasDestroy = false;
+            this.runCount = 0;
+            this.type = 0;
+            klog.info('StateConfig created', name);
+
+            this._state = parent;
+            this.name = name;
+
+            this.populate();
+        }
+        StateConfig.prototype.objType = function () {
+            return "StateConfig";
+        };
+
+        StateConfig.prototype.populate = function () {
+            klog.info('populate StateConfig');
+
+            if (typeof this._state['init'] === 'function') {
+                this.hasInit = true;
+            }
+
+            if (typeof this._state['preload'] === 'function') {
+                this.hasPreloader = true;
+            }
+
+            if (typeof this._state['loadProgress'] === 'function') {
+                this.hasLoadProgress = true;
+            }
+
+            if (typeof this._state['loadComplete'] === 'function') {
+                this.hasLoadComplete = true;
+            }
+
+            if (typeof this._state['loadUpdate'] === 'function') {
+                this.hasLoadUpdate = true;
+            }
+
+            if (typeof this._state['create'] === 'function') {
+                this.hasCreate = true;
+            }
+
+            if (typeof this._state['onEnter'] === 'function') {
+                this.hasOnEnter = true;
+            }
+
+            if (typeof this._state['update'] === 'function') {
+                this.hasUpdate = true;
+            }
+
+            if (typeof this._state['render'] === 'function') {
+                this.hasRender = true;
+            }
+
+            if (typeof this._state['onExit'] === 'function') {
+                this.hasOnExit = true;
+            }
+
+            if (typeof this._state['shutdown'] === 'function') {
+                this.hasShutDown = true;
+            }
+
+            if (typeof this._state['destroy'] === 'function') {
+                this.hasDestroy = true;
+            }
+
+            if (this.hasInit === false && this.hasCreate === false) {
+                klog.info('If there are no init or create functions, then we consider the state already initialised');
+                this.isInitialised = true;
+                this.isCreated = true;
+                this.isReady = true;
+            }
+        };
+        return StateConfig;
+    })();
+    Kiwi.StateConfig = StateConfig;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Group = (function () {
+        function Group(name) {
+            if (typeof name === "undefined") { name = ''; }
+            this.parent = null;
+            this.name = '';
+            this.game = null;
+            this.state = null;
+            this.layer = null;
+            this._dirty = true;
+            this.name = name;
+            this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
+
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+
+            this.transform = new Kiwi.Geom.Transform();
+
+            this.members = [];
+
+            this.onAddedToLayer = new Kiwi.Signal();
+            this.onAddedToState = new Kiwi.Signal();
+            this.onRemovedFromLayer = new Kiwi.Signal();
+            this.onRemovedFromState = new Kiwi.Signal();
+            this._willRender = true;
+            klog.info('Created Group ' + this.name);
+        }
+        Group.prototype.childType = function () {
+            return Kiwi.GROUP;
+        };
+
+        Group.prototype.modify = function (type, parent) {
+            if (type === Kiwi.ADDED_TO_LAYER) {
+                return this._addedToLayer(parent);
+            } else if (type === Kiwi.ADDED_TO_STATE) {
+                return this._addedToState(parent);
+            } else if (type === Kiwi.REMOVED_FROM_LAYER) {
+                return this._removedFromLayer(parent);
+            } else if (type === Kiwi.REMOVED_FROM_STATE) {
+                return this._removedFromState(parent);
+            }
+        };
+
+        Group.prototype.numChildren = function () {
+            return this.members.length;
+        };
+
+
+        Object.defineProperty(Group.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
+                if (value !== undefined) {
+                    this._dirty = value;
+                    for (var i = 0; i < this.members.length; i++) {
+                        this.members[i].dirty = value;
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.contains = function (child) {
+            return (this.members.indexOf(child) === -1) ? false : true;
+        };
+
+        Group.prototype.addChild = function (child) {
+            klog.info('Group.addChild ' + this.members.length);
+
+            if (child.transform.parent !== this.transform) {
+                this.members.push(child);
+                child.transform.parent = this.transform;
+
+                child.modify(Kiwi.ADDED_TO_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.addChildAt = function (child, index) {
+            klog.info('Group.addChildAt ' + child.id);
+
+            if (child.transform.parent !== this.transform) {
+                this.members.splice(index, 0, child);
+
+                child.modify(Kiwi.ADDED_TO_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.addChildBefore = function (child, beforeChild) {
+            klog.info('Group.addChildBefore ' + child.id);
+
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
+                var index = this.getChildIndex(beforeChild);
+
+                this.members.splice(index, 0, child);
+
+                child.modify(Kiwi.ADDED_TO_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.addChildAfter = function (child, beforeChild) {
+            klog.info('Group.addChildAfter ' + child.id);
+
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
+                var index = this.getChildIndex(beforeChild) + 1;
+
+                this.members.splice(index, 0, child);
+
+                child.modify(Kiwi.ADDED_TO_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.getChildAt = function (index) {
+            if (this.members[index]) {
+                return this.members[index];
+            } else {
+                return null;
+            }
+        };
+
+        Group.prototype.getChildByName = function (name) {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].name === name) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.getChildByID = function (id) {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === id) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.getChildIndex = function (child) {
+            return this.members.indexOf(child);
+        };
+
+        Group.prototype.removeChild = function (child) {
+            if (child && child.transform.parent === this.transform) {
+                var index = this.getChildIndex(child);
+
+                if (index > -1) {
+                    this.members.splice(index, 1);
+                }
+
+                child.modify(Kiwi.REMOVED_FROM_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.removeChildAt = function (index) {
+            if (this.members[index]) {
+                var child = this.members[index];
+
+                if (child) {
+                    this.members.splice(index, 1);
+
+                    child.modify(Kiwi.REMOVED_FROM_GROUP, this);
+                }
+
+                return child;
+            } else {
+                return null;
+            }
+        };
+
+        Group.prototype.removeChildren = function (begin, end) {
+            if (typeof begin === "undefined") { begin = 0; }
+            if (typeof end === "undefined") { end = 0x7fffffff; }
+            end -= begin;
+
+            var removed = this.members.splice(begin, end);
+
+            for (var i = 0; i < removed.length; i++) {
+                removed[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
+            }
+
+            return removed.length;
+        };
+
+        Group.prototype.setChildIndex = function (child, index) {
+            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index) {
+                return false;
+            }
+
+            this.removeChild(child);
+            this.addChildAt(child, index);
+
+            return true;
+        };
+
+        Group.prototype.swapChildren = function (child1, child2) {
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
+                return false;
+            }
+
+            var index1 = this.getChildIndex(child1);
+            var index2 = this.getChildIndex(child2);
+
+            if (index1 !== -1 && index2 !== -1 && index1 !== index2) {
+                this.members[index1] = child2;
+                this.members[index2] = child1;
+
+                child1._changedPosition(this, index2);
+                child2._changedPosition(this, index1);
+
+                return true;
+            }
+
+            return false;
+        };
+
+        Group.prototype._changedPosition = function (group, index) {
+            klog.info('Group changed position within the group');
+        };
+
+        Group.prototype.swapChildrenAt = function (index1, index2) {
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
+                return false;
+            }
+
+            var child1 = this.getChildAt(index1);
+            var child2 = this.getChildAt(index2);
+
+            if (child1 !== null && child2 !== null) {
+                this.members[index1] = child2;
+                this.members[index2] = child1;
+
+                child1._changedPosition(this, index2);
+                child2._changedPosition(this, index1);
+
+                return true;
+            }
+
+            return false;
+        };
+
+        Group.prototype.replaceChild = function (oldChild, newChild) {
+            if (oldChild === newChild)
+                return;
+
+            if (this.getChildIndex(newChild)) {
+                this.removeChild(newChild);
+            }
+
+            var index = this.getChildIndex(oldChild);
+
+            if (index > -1) {
+                this.removeChildAt(index);
+
+                this.addChildAt(newChild, index);
+
+                oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
+                newChild.transform.parent = null;
+                newChild.modify(Kiwi.ADDED_TO_GROUP, this);
+                console.log(this.members[0]);
+                return true;
+            }
+
+            return false;
+        };
+
+        Group.prototype.forEach = function (context, callback) {
+            var params = [];
+            for (var _i = 0; _i < (arguments.length - 2); _i++) {
+                params[_i] = arguments[_i + 2];
+            }
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    return callback.apply(context, [child].concat(params));
+                });
+            }
+        };
+
+        Group.prototype.forEachAlive = function (context, callback) {
+            var params = [];
+            for (var _i = 0; _i < (arguments.length - 2); _i++) {
+                params[_i] = arguments[_i + 2];
+            }
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    if (child.exists)
+                        callback.apply(context, [child].concat(params));
+                });
+            }
+        };
+
+        Group.prototype.setAll = function (componentName, property, value) {
+            if (componentName === null) {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][property] = value;
+                }
+            } else {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][componentName][property] = value;
+                }
+            }
+        };
+
+        Group.prototype.callAll = function (componentName, functionName, args) {
+            if (componentName === null) {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][functionName].apply(this.members[i], args);
+                }
+            } else {
+                for (var i = 0; i < this.members.length; i++) {
+                    console.log('callAll', this.members[i]);
+                    this.members[i][componentName][functionName].apply(this.members[i][componentName], args);
+                }
+            }
+        };
+
+        Group.prototype.update = function () {
+            var _this = this;
+            this.components.update();
+
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    return _this.processUpdate(child);
+                });
+            }
+
+            this.components.postUpdate();
+        };
+
+        Group.prototype.processUpdate = function (child) {
+            if (child.active === true) {
+                child.update();
+            }
+        };
+
+
+        Object.defineProperty(Group.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
+                this._exists = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Group.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
+                this._active = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.render = function (camera) {
+            var _this = this;
+            this.components.preRender();
+
+            this.components.render();
+
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    return _this.processRender(child, camera);
+                });
+            }
+
+            this.components.postRender();
+        };
+
+        Group.prototype.processRender = function (child, camera) {
+            if (child.active === true) {
+                child.render(camera);
+            }
+        };
+
+        Group.prototype.removeFirstAlive = function () {
+            return this.removeChild(this.getFirstAlive());
+        };
+
+        Group.prototype.getFirstAlive = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
+                    return this.members[i];
+                    break;
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.getFirstDead = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
+                    return this.members[i];
+                    break;
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.countLiving = function () {
+            var total = 0;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
+                    total++;
+                }
+            }
+
+            return total;
+        };
+
+        Group.prototype.countDead = function () {
+            var total = 0;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
+                    total++;
+                }
+            }
+
+            return total;
+        };
+
+        Group.prototype.getRandom = function (start, length) {
+            if (typeof start === "undefined") { start = 0; }
+            if (typeof length === "undefined") { length = 0; }
+            if (this.members.length === 0) {
+                return null;
+            }
+
+            if (length === 0) {
+                length = this.members.length;
+            }
+
+            if (start < 0 || start > length) {
+                start = 0;
+            }
+
+            var rnd = start + (Math.random() * (start + length));
+
+            if (rnd > this.members.length) {
+                return this.members[this.members.length - 1];
+            } else {
+                return this.members[rnd];
+            }
+        };
+
+        Group.prototype.clear = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                this.members[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
+            }
+
+            this.members.length = 0;
+        };
+
+
+        Object.defineProperty(Group.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
+                this._willRender = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.isGroup = function () {
+            return true;
+        };
+
+        Group.prototype._addedToLayer = function (layer) {
+            if (this.layer !== null) {
+                klog.warn('Group already exists on Layer ' + this.layer.id);
+
+                return false;
+            } else {
+                klog.info('Group added to Layer. Checking children: ' + this.members.length);
+
+                this.layer = layer;
+
+                for (var i = 0; i < this.members.length; i++) {
+                    if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
+                        this.members[i].exists = false;
+                    }
+                }
+
+                this.onAddedToLayer.dispatch(this, layer);
+                return true;
+            }
+        };
+
+        Group.prototype._removedFromLayer = function (layer) {
+            this.layer = null;
+
+            this.onRemovedFromLayer.dispatch(this, layer);
+        };
+
+        Group.prototype._addedToState = function (state) {
+            klog.info('Group added to State');
+
+            this.state = state;
+
+            this.game = this.state.game;
+
+            this.id = this.game.rnd.uuid();
+
+            this.onAddedToState.dispatch(this, state);
+        };
+
+        Group.prototype._removedFromState = function (state) {
+            klog.info('Group removed from State');
+
+            this.onRemovedFromState.dispatch(this, state);
+
+            this.state = null;
+
+            this.game = null;
+        };
+
+        Group.prototype.destroy = function () {
+            this.removeChildren();
+
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+
+            this.members.length = 0;
+        };
+        return Group;
+    })();
+    Kiwi.Group = Group;
+})(Kiwi || (Kiwi = {}));
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var Kiwi;
+(function (Kiwi) {
+    var State = (function (_super) {
+        __extends(State, _super);
+        function State(name) {
+            _super.call(this, name);
+            this.game = null;
+
+            klog.debug('----------- State created: ' + name + ' -----------');
+
+            this.config = new Kiwi.StateConfig(this, name);
+            this.cache = new Kiwi.Cache(this.game);
+            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
+            this.transform.parent = null;
+        }
+        State.prototype.objType = function () {
+            return "State";
+        };
+
+        State.prototype.boot = function () {
+            klog.info('State booted: ', this.config.name);
+            this.textureCache = new Kiwi.TextureCache(this.game);
+            this.textures = this.textureCache.textures;
+            this.cache.boot();
+        };
+
+        State.prototype.init = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preload = function () {
+        };
+
+        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
+        };
+
+        State.prototype.loadComplete = function () {
+        };
+
+        State.prototype.loadUpdate = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.create = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preUpdate = function () {
+            this.components.preUpdate();
+        };
+
+        State.prototype.update = function () {
+            this.components.update();
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.postUpdate = function () {
+            this.components.postUpdate();
+        };
+
+        State.prototype.postRender = function () {
+        };
+
+        State.prototype.setType = function (value) {
+            if (this.config.isInitialised === false) {
+                this.config.type = value;
+            } else {
+                klog.warn('State default type can only be changed in init()');
+            }
+        };
+
+        State.prototype.swapLayer = function (layer) {
+            this.currentLayer = layer;
+        };
+
+        State.prototype.addImage = function (cacheID, url, globalCache, width, height, offsetX, offsetY) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addImage(cacheID, url, this.game.cache.images, width, height, offsetX, offsetY);
+            } else {
+                this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
+            }
+        };
+
+        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            } else {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            }
+        };
+
+        State.prototype.addTextureAtlas = function (imageID, imageURL, jsonID, jsonURL, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addTextureAtlas(this.game.cache, imageID, imageURL, jsonID, jsonURL);
+            } else {
+                this.game.loader.addTextureAtlas(this.cache, imageID, imageURL, jsonID, jsonURL);
+            }
+        };
+
+        State.prototype.addJSON = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
+            } else {
+                this.game.loader.addJSON(cacheID, url, this.cache.data);
+            }
+        };
+
+        State.prototype.addAudio = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
+            } else {
+                this.game.loader.addAudio(cacheID, url, this.cache.audio);
+            }
+        };
+
+        State.prototype.addChild = function (child) {
+            child.modify(Kiwi.ADDED_TO_STATE, this);
+            _super.prototype.removeChild.call(this, child);
+
+            _super.prototype.addChild.call(this, child);
+
+            return child;
+        };
+
+        State.prototype.removeChild = function (child) {
+            child.modify(Kiwi.REMOVED_FROM_STATE, this);
+            var layer = null;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === child.id) {
+                    this.members.slice(i, 1);
+
+                    if (layer !== null) {
+                        layer.remove(child);
+                    } else {
+                        this.currentLayer.remove(child);
+                    }
+                }
+            }
+            return child;
+        };
+
+        State.prototype.destroy = function () {
+            for (var i = 0; i < this.members.length; i++) {
+            }
+        };
+        return State;
+    })(Kiwi.Group);
+    Kiwi.State = State;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Entity = (function () {
+        function Entity() {
+            this._alpha = 1;
+            this._visible = true;
+            this.width = 0;
+            this.height = 0;
+            this.game = null;
+            this.state = null;
+            this.name = '';
+            this.layer = null;
+            this._clock = null;
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+            this.transform = new Kiwi.Geom.Transform();
+
+            this.onAddedToGroup = new Kiwi.Signal();
+            this.onAddedToLayer = new Kiwi.Signal();
+            this.onAddedToState = new Kiwi.Signal();
+            this.onRemovedFromGroup = new Kiwi.Signal();
+            this.onRemovedFromLayer = new Kiwi.Signal();
+            this.onRemovedFromState = new Kiwi.Signal();
+        }
+        Entity.prototype.childType = function () {
+            return Kiwi.ENTITY;
+        };
+
+        Entity.prototype.modify = function (action, parent) {
+            if (action === Kiwi.ADDED_TO_GROUP) {
+                return this._addedToGroup(parent);
+            } else if (action === Kiwi.ADDED_TO_LAYER) {
+                return this._addedToLayer(parent);
+            } else if (action === Kiwi.ADDED_TO_STATE) {
+                return this._addedToState(parent);
+            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
+                return this._removedFromGroup(parent);
+            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
+                return this._removedFromLayer(parent);
+            } else if (action === Kiwi.REMOVED_FROM_STATE) {
+                return this._removedFromState(parent);
+            }
+        };
+
+
+        Object.defineProperty(Entity.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                if (value <= 0)
+                    value = 0;
+                if (value > 1)
+                    value = 1;
+                this._alpha = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "visiblity", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
+                this._exists = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
+                this._active = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
+                this._willRender = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "inputEnabled", {
+            get: function () {
+                return this._inputEnabled;
+            },
+            set: function (value) {
+                this._inputEnabled = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "clock", {
+            get: function () {
+                return this._clock;
+            },
+            set: function (value) {
+                this._clock = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
+                this._dirty = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Entity.prototype.isGroup = function () {
+            return false;
+        };
+
+        Entity.prototype._addedToLayer = function (layer) {
+            if (this.layer !== null) {
+                klog.warn('Entity already exists on Layer ' + this.layer.id);
+
+                return false;
+            } else {
+                if (layer.game !== null) {
+                    this.game = layer.game;
+
+                    if (this._clock === null) {
+                        this._clock = this.game.time.clock;
+                    }
+                }
+
+                this.onAddedToLayer.dispatch(this, this.layer);
+
+                return true;
+            }
+        };
+
+        Entity.prototype._removedFromLayer = function (layer) {
+            this.layer = null;
+
+            this.onRemovedFromLayer.dispatch(this, layer);
+        };
+
+        Entity.prototype._addedToState = function (state) {
+            klog.info('Entity added to State');
+
+            this.state = state;
+
+            this.game = this.state.game;
+
+            if (this._clock === null) {
+                this._clock = this.game.time.clock;
+            }
+
+            this.id = this.game.rnd.uuid();
+
+            this.onAddedToState.dispatch(this, this.state);
+
+            return true;
+        };
+
+        Entity.prototype._removedFromState = function (state) {
+            klog.info('Entity removed from State');
+
+            this.state = null;
+
+            this.game = null;
+
+            this.onAddedToState.dispatch(this, state);
+        };
+
+        Entity.prototype._addedToGroup = function (group) {
+            if (group.game !== null) {
+                this.game = group.game;
+
+                if (this._clock === null) {
+                    this._clock = this.game.time.clock;
+                }
+            }
+        };
+
+        Entity.prototype._removedFromGroup = function (group) {
+            klog.info('Entity removed from Group');
+
+            this.onRemovedFromGroup.dispatch(this, group);
+        };
+
+        Entity.prototype._changedPosition = function (group, index) {
+            klog.info('Entity changed position within the group');
+        };
+
+        Entity.prototype.update = function () {
+        };
+
+        Entity.prototype.render = function (camera) {
+        };
+
+        Entity.prototype.destroy = function () {
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+        };
+        return Entity;
+    })();
+    Kiwi.Entity = Entity;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (DOM) {
+        var Cache = (function () {
+            function Cache(parent, game, size) {
+                this._parent = parent;
+                this._game = game;
+                this.domContainer = this._parent.domContainer;
+
+                this._cache = [];
+
+                this._swapperA = document.createElement('div');
+                this._swapperA.id = 'KiwiDOMSwapperA';
+
+                this._swapperB = document.createElement('div');
+                this._swapperB.id = 'KiwiDOMSwapperB';
+
+                this._parent.domContainer.appendChild(this._swapperA);
+                this._parent.domContainer.appendChild(this._swapperB);
+
+                for (var i = 0; i < size; i++) {
+                    this._cache.push(new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + i, this));
+                }
+            }
+            Cache.prototype.objType = function () {
+                return "Cache";
+            };
+
+            Cache.prototype.increaseCacheSize = function (value) {
+                for (var i = this._cache.length; i < this._cache.length + value; i++) {
+                    this._cache.push(new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + i, this));
+                }
+
+                return this._cache.length;
+            };
+
+            Cache.prototype.assignElement = function (parent) {
+                for (var i = 0; i < this._cache.length; i++) {
+                    if (this._cache[i].available === true && this._cache[i].type === parent.domElementType) {
+                        return this._cache[i].link(parent);
+                    }
+                }
+
+                klog.info("If we got this far then all of the current elements are in use or of the wrong type, so let's expand the cache size by 1");
+
+                var index = this._cache.length;
+                var newElement = new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + index, this, parent.domElementType);
+
+                this._cache.push(newElement);
+
+                return newElement.link(parent);
+            };
+
+            Cache.prototype.swapElements = function (first, second) {
+                klog.info('DOM Swapping Test 8');
+
+                first.element = first.element.parentElement['replaceChild'](this._swapperA, first.element);
+                second.element = second.element.parentElement['replaceChild'](this._swapperB, second.element);
+
+                this._swapperA = this._swapperA.parentElement['replaceChild'](second.element, this._swapperA);
+                this._swapperB = this._swapperB.parentElement['replaceChild'](first.element, this._swapperB);
+
+                return true;
+            };
+            return Cache;
+        })();
+        DOM.Cache = Cache;
+    })(Kiwi.DOM || (Kiwi.DOM = {}));
+    var DOM = Kiwi.DOM;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Utils) {
+        var Canvas = (function () {
+            function Canvas(layer, width, height, visible, offScreen) {
+                if (typeof visible === "undefined") { visible = true; }
+                if (typeof offScreen === "undefined") { offScreen = false; }
+                this.domElement = null;
+                this.context = null;
+                this._visible = true;
+                this._offScreen = false;
+                this._clearMode = 1;
+                this.bgColor = 'rgb(0, 0, 0)';
+                if (layer === null && offScreen === false) {
+                    klog.warn('Cannot create a canvas on a null layer');
+                    return;
+                }
+
+                this._layer = layer;
+
+                this.domElement = document.createElement('canvas');
+                this.domElement.width = width;
+                this.domElement.height = height;
+
+                this.size = new Kiwi.Components.Size(width, height);
+                this.size.updated.add(this._updatedSize, this);
+
+                this.context = this.domElement.getContext('2d');
+
+                this._offScreen = offScreen;
+                this._visible = visible;
+
+                if (visible === false) {
+                    this.domElement.style.display = 'none';
+                }
+            }
+            Canvas.prototype.objType = function () {
+                return "Canvas";
+            };
+
+            Canvas.prototype._updatedSize = function (width, height) {
+                this.domElement.width = width;
+                this.domElement.height = height;
+                this.size.dirty = false;
+            };
+
+            Canvas.prototype.destroy = function () {
+                if (this._offScreen === false) {
+                    this.domElement.style.display = 'none';
+                    this._layer.domContainer.removeChild(this.domElement);
+                }
+            };
+
+
+            Object.defineProperty(Canvas.prototype, "visible", {
+                get: function () {
+                    return this._visible;
+                },
+                set: function (value) {
+                    if (value !== null && value !== this._visible) {
+                        this._visible = value;
+
+                        if (value === true) {
+                            this.domElement.style.display = 'block';
+                        } else {
+                            this.domElement.style.display = 'none';
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Canvas.prototype, "clearMode", {
+                get: function () {
+                    return this._clearMode;
+                },
+                set: function (value) {
+                    if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA) {
+                        this._clearMode = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Canvas.prototype.clear = function () {
+                if (this._clearMode === Canvas.CLEARMODE_NONE) {
+                } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
+                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
+                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT) {
+                    this.context.fillStyle = this.bgColor;
+                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
+                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA) {
+                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
+                    this.context.fillStyle = this.bgColor;
+                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
+                }
+            };
+
+            Canvas.prototype.saveAsPNG = function () {
+                return this.domElement.toDataURL();
+            };
+
+            Canvas.prototype.toString = function () {
+                return '[{Canvas (width=' + this.size.width() + ' height=' + this.size.height() + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
+            };
+            Canvas.CLEARMODE_NONE = 0;
+
+            Canvas.CLEARMODE_CLEARRECT = 1;
+
+            Canvas.CLEARMODE_FILLRECT = 2;
+
+            Canvas.CLEARMODE_FILLRECT_ALPHA = 3;
+            return Canvas;
+        })();
+        Utils.Canvas = Canvas;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Layer = (function () {
+        function Layer(game, id, name, size) {
+            this._renderList = [];
+            console.log("create layer");
+
+            this.game = game;
+            this.id = id;
+
+            this.name = name;
+            this.components = new Kiwi.ComponentManager(Kiwi.LAYER, this);
+
+            this.domContainer = document.createElement('div');
+
+            this.domContainer.style.position = 'absolute';
+            this.domContainer.style.overflow = 'hidden';
+            this.domContainer.style.left = '0px';
+            this.domContainer.style.top = '0px';
+            this.domContainer.style.width = '100%';
+            this.domContainer.style.height = '100%';
+
+            this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.size.width(), this.game.stage.size.height(), true, true);
+
+            this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
+            this.canvas.domElement.style.position = 'absolute';
+
+            this.canvas.domElement.style.left = '0px';
+            this.canvas.domElement.style.top = '0px';
+            this.canvas.domElement.style.width = '100%';
+            this.canvas.domElement.style.height = '100%';
+
+            this.game.stage.size.updated.add(this._updatedStageSize, this);
+
+            klog.info('Created Layer ' + this.id);
+        }
+        Layer.prototype.objType = function () {
+            return "Layer";
+        };
+
+        Layer.prototype._updatedStageSize = function (width, height) {
+            this.canvas.size.setTo(width, height);
+        };
+
+        Layer.prototype.numChildren = function () {
+            return this._renderList.length;
+        };
+
+        Layer.prototype.visible = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            if (value !== null && value !== this._visible) {
+                this._visible = value;
+
+                this.canvas.visible = this._visible;
+            }
+
+            return this._visible;
+        };
+
+        Layer.prototype.dirty = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            if (value !== null) {
+                this._dirty = value;
+            }
+
+            return this._dirty;
+        };
+
+        Layer.prototype.add = function (child) {
+            child.layer = this;
+
+            if (child instanceof Kiwi.Entity) {
+            } else {
+                klog.info('Group added to Layer renderList');
+            }
+
+            this._renderList.push(child);
+
+            child.modify(Kiwi.ADDED_TO_LAYER, this);
+
+            return true;
+        };
+
+        Layer.prototype.remove = function (child) {
+            for (var i = 0; i < this._renderList.length; i++) {
+                if (this._renderList[i].id === child.id) {
+                    this._renderList.slice(i, 1);
+
+                    child.modify(Kiwi.REMOVED_FROM_LAYER, this);
+
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        Layer.prototype.update = function () {
+            this.components.update();
+        };
+
+        Layer.prototype.render = function (camera) {
+            this.canvas.clear();
+
+            this.components.preRender();
+
+            this.components.render();
+
+            for (var i = 0; i < this._renderList.length; i++) {
+                if (this._renderList[i].willRender() === true) {
+                    this._renderList[i].render(camera);
+                }
+            }
+
+            this.components.postRender();
+        };
+        return Layer;
+    })();
+    Kiwi.Layer = Layer;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var LayerManager = (function () {
+        function LayerManager(game) {
+            klog.info('Layer Manager created');
+
+            this._game = game;
+
+            this.layers = [];
+
+            this._nextLayerID = 0;
+        }
+        LayerManager.prototype.objType = function () {
+            return "LayerManager";
+        };
+
+        LayerManager.prototype.boot = function () {
+            this.createCanvasLayer(null, 'default');
+
+            this.defaultLayer = this.layers[0];
+        };
+
+        LayerManager.prototype.createCanvasLayer = function (state, name, size) {
+            if (typeof state === "undefined") { state = null; }
+            if (typeof name === "undefined") { name = ''; }
+            if (typeof size === "undefined") { size = 100; }
+            klog.info('Creating Canvas Layer');
+
+            return this.create(state, name);
+        };
+
+        LayerManager.prototype.create = function (state, name, size) {
+            if (typeof state === "undefined") { state = null; }
+            if (typeof name === "undefined") { name = ''; }
+            if (typeof size === "undefined") { size = 100; }
+            var newLayer = new Kiwi.Layer(this._game, this._nextLayerID, name, size);
+
+            newLayer.parent = state;
+
+            this.layers.push(newLayer);
+
+            this._nextLayerID++;
+
+            this.currentLayer = newLayer;
+
+            return newLayer;
+        };
+
+        LayerManager.prototype.remove = function (layer) {
+            klog.info('Remove layer');
+
+            var i = this.layers.indexOf(layer);
+
+            if (i !== -1) {
+                this.layers.splice(i, 1);
+            }
+        };
+
+        LayerManager.prototype.update = function () {
+            if (this.layers.length === 0) {
+                return false;
+            }
+
+            for (var i = 0; i < this.layers.length; i++) {
+                this.layers[i].update();
+            }
+        };
+
+        LayerManager.prototype.render = function (camera) {
+            if (this.layers.length === 0) {
+                return false;
+            }
+
+            for (var i = 0; i < this.layers.length; i++) {
+                this.layers[i].render(camera);
+            }
+        };
+
+        LayerManager.prototype.removeStateLayers = function () {
+            klog.info('TODO removeStateLayers');
+        };
+
+        LayerManager.prototype.removeAll = function () {
+            this.layers.length = 0;
+            klog.info('TODO removeAll');
+        };
+        return LayerManager;
+    })();
+    Kiwi.LayerManager = LayerManager;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Matrix = (function () {
+            function Matrix(a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                this.a = 1;
+                this.b = 0;
+                this.c = 0;
+                this.d = 1;
+                this.tx = 0;
+                this.ty = 0;
+                this.setTo(a, b, c, d, tx, ty);
+            }
+            Matrix.prototype.objType = function () {
+                return "Matrix";
+            };
+
+            Matrix.prototype.setTo = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                this.a = a;
+                this.b = b;
+                this.c = c;
+                this.d = d;
+                this.tx = tx;
+                this.ty = ty;
+
+                return this;
+            };
+
+            Matrix.prototype.setFromTransform = function (tx, ty, scaleX, scaleY, rotation) {
+                this.identity();
+                var cos = Math.cos(rotation);
+                var sin = Math.sin(rotation);
+
+                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty);
+
+                return this;
+            };
+
+            Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                var tx1 = this.tx;
+                var a1 = this.a;
+                var c1 = this.c;
+
+                this.a = a1 * a + this.b * c;
+                this.b = a1 * b + this.b * d;
+                this.c = c1 * a + this.d * c;
+                this.d = c1 * b + this.d * d;
+
+                this.tx = tx1 * a + this.ty * c + tx;
+                this.ty = tx1 * b + this.ty * d + ty;
+                return this;
+            };
+
+            Matrix.prototype.prependMatrix = function (m) {
+                var tx1 = this.tx;
+                var a1 = this.a;
+                var c1 = this.c;
+
+                this.a = a1 * m.a + this.b * m.c;
+                this.b = a1 * m.b + this.b * m.d;
+                this.c = c1 * m.a + this.d * m.c;
+                this.d = c1 * m.b + this.d * m.d;
+
+                this.tx = tx1 * m.a + this.ty * m.c + m.tx;
+                this.ty = tx1 * m.b + this.ty * m.d + m.ty;
+                return this;
+            };
+
+            Matrix.prototype.append = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+
+                this.a = a * a1 + b * c1;
+                this.b = a * b1 + b * d1;
+                this.c = c * a1 + d * c1;
+                this.d = c * b1 + d * d1;
+                this.tx = tx * a1 + ty * c1 + this.tx;
+                this.ty = tx * b1 + ty * d1 + this.ty;
+                return this;
+            };
+
+            Matrix.prototype.appendMatrix = function (m) {
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+
+                this.a = m.a * a1 + m.b * c1;
+                this.b = m.a * b1 + m.b * d1;
+                this.c = m.c * a1 + m.d * c1;
+                this.d = m.c * b1 + m.d * d1;
+                this.tx = m.tx * a1 + m.ty * c1 + this.tx;
+                this.ty = m.tx * b1 + m.ty * d1 + this.ty;
+                return this;
+            };
+
+            Matrix.prototype.setPosition = function (x, y) {
+                this.tx = x;
+                this.ty = y;
+                return this;
+            };
+
+            Matrix.prototype.setPositionPoint = function (p) {
+                this.tx = p.x;
+                this.ty = p.y;
+                return this;
+            };
+
+            Matrix.prototype.getPosition = function (output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                return output.setTo(this.tx, this.ty);
+            };
+
+            Matrix.prototype.identity = function () {
+                this.a = 1;
+                this.b = 0;
+                this.c = 0;
+                this.d = 1;
+                this.tx = 0;
+                this.ty = 0;
+                return this;
+            };
+
+            Matrix.prototype.rotate = function (radians) {
+                var cos = Math.cos(radians);
+                var sin = Math.sin(radians);
+
+                var a1 = this.a;
+                var c1 = this.c;
+                var tx1 = this.tx;
+
+                this.a = a1 * cos - this.b * sin;
+                this.b = a1 * sin + this.b * cos;
+                this.c = c1 * cos - this.d * sin;
+                this.d = c1 * sin + this.d * cos;
+                this.tx = tx1 * cos - this.ty * sin;
+                this.ty = tx1 * sin + this.ty * cos;
+                return this;
+            };
+
+            Matrix.prototype.translate = function (tx, ty) {
+                this.tx += tx;
+                this.ty += ty;
+                return this;
+            };
+
+            Matrix.prototype.scale = function (scaleX, scaleY) {
+                this.a *= scaleX;
+                this.d *= scaleY;
+                return this;
+            };
+
+            Matrix.prototype.transformPoint = function (pt) {
+                var x = pt.x;
+                var y = pt.y;
+                pt.x = this.a * x + this.c * y + this.tx;
+                pt.y = this.b * x + this.d * y + this.ty;
+                return pt;
+            };
+
+            Matrix.prototype.invert = function () {
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+                var tx1 = this.tx;
+                var n = a1 * d1 - b1 * c1;
+
+                this.a = d1 / n;
+                this.b = -b1 / n;
+                this.c = -c1 / n;
+                this.d = a1 / n;
+                this.tx = (c1 * this.ty - d1 * tx1) / n;
+                this.ty = -(a1 * this.ty - b1 * tx1) / n;
+                return this;
+            };
+
+            Matrix.prototype.copyFrom = function (m) {
+                this.a = m.a;
+                this.b = m.b;
+                this.c = m.c;
+                this.d = m.d;
+                this.tx = m.tx;
+                this.ty = m.ty;
+
+                return this;
+            };
+
+            Matrix.prototype.copyTo = function (m) {
+                m.a = this.a;
+                m.b = this.b;
+                m.c = this.c;
+                m.d = this.d;
+                m.tx = this.tx;
+                m.ty = this.ty;
+                return this;
+            };
+
+            Matrix.prototype.clone = function () {
+                return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
+            };
+
+            Object.defineProperty(Matrix.prototype, "toString", {
+                get: function () {
+                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Matrix;
+        })();
+        Geom.Matrix = Matrix;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Transform = (function () {
+            function Transform(x, y, scaleX, scaleY, rotation, regX, regY) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof scaleX === "undefined") { scaleX = 1; }
+                if (typeof scaleY === "undefined") { scaleY = 1; }
+                if (typeof rotation === "undefined") { rotation = 0; }
+                if (typeof regX === "undefined") { regX = 0; }
+                if (typeof regY === "undefined") { regY = 0; }
+                this._x = 0;
+                this._y = 0;
+                this._scaleX = 1;
+                this._scaleY = 1;
+                this._rotation = 0;
+                this._regX = 0;
+                this._regY = 0;
+                this.setTransform(x, y, scaleX, scaleY, rotation, regX, regY);
+
+                this._matrix = new Geom.Matrix();
+
+                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+
+                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
+            }
+            Transform.prototype.objType = function () {
+                return "Transform";
+            };
+
+
+            Object.defineProperty(Transform.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                set: function (value) {
+                    this._x = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                set: function (value) {
+                    this._y = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "scaleX", {
+                get: function () {
+                    return this._scaleX;
+                },
+                set: function (value) {
+                    this._scaleX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "scaleY", {
+                get: function () {
+                    return this._scaleY;
+                },
+                set: function (value) {
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "rotation", {
+                get: function () {
+                    return this._rotation;
+                },
+                set: function (value) {
+                    this._rotation = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "regX", {
+                get: function () {
+                    return this._regX;
+                },
+                set: function (value) {
+                    this._regX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "regY", {
+                get: function () {
+                    return this._regY;
+                },
+                set: function (value) {
+                    this._regY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "matrix", {
+                get: function () {
+                    return this._matrix;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "worldX", {
+                get: function () {
+                    return this.getConcatenatedMatrix().tx;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "worldY", {
+                get: function () {
+                    return this.getConcatenatedMatrix().ty;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "parent", {
+                get: function () {
+                    return this._parent;
+                },
+                set: function (value) {
+                    if (!this.checkAncestor(value)) {
+                        this._parent = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Transform.prototype.setPosition = function (x, y) {
+                this._x = x;
+                this._y = y;
+
+                return this;
+            };
+
+            Transform.prototype.setPositionFromPoint = function (point) {
+                this._x = point.x;
+                this._y = point.y;
+
+                return this;
+            };
+
+            Transform.prototype.translatePositionFromPoint = function (point) {
+                this._x += point.x;
+                this._y += point.y;
+
+                return this;
+            };
+
+            Transform.prototype.getPositionPoint = function (output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                return output.setTo(this._x, this._y);
+            };
+
+            Object.defineProperty(Transform.prototype, "scale", {
+                set: function (value) {
+                    this._scaleX = value;
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, regX, regY) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof scaleX === "undefined") { scaleX = 1; }
+                if (typeof scaleY === "undefined") { scaleY = 1; }
+                if (typeof rotation === "undefined") { rotation = 0; }
+                if (typeof regX === "undefined") { regX = 0; }
+                if (typeof regY === "undefined") { regY = 0; }
+                this._x = x;
+                this._y = y;
+                this._scaleX = scaleX;
+                this._scaleY = scaleY;
+                this._rotation = rotation;
+                this._regX = regX;
+                this._regY = regY;
+
+                return this;
+            };
+
+            Transform.prototype.getParentMatrix = function () {
+                if (this._parent) {
+                    return this._parent.getConcatenatedMatrix();
+                }
+
+                return null;
+            };
+
+            Transform.prototype.getConcatenatedMatrix = function () {
+                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+
+                var parentMatrix = this.getParentMatrix();
+
+                if (parentMatrix) {
+                    var matrix = this._matrix.clone();
+                    matrix.prependMatrix(parentMatrix);
+                    this._cachedConcatenatedMatrix.copyFrom(matrix);
+                    return matrix;
+                }
+
+                return this._matrix;
+            };
+
+            Transform.prototype.transformPoint = function (point) {
+                var mat = this.getConcatenatedMatrix();
+
+                return mat.transformPoint(point);
+            };
+
+            Transform.prototype.copyFrom = function (source) {
+                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
+
+                this.parent = source.parent;
+
+                this._matrix = source.matrix.clone();
+
+                return this;
+            };
+
+            Transform.prototype.copyTo = function (destination) {
+                destination.copyFrom(this);
+
+                return this;
+            };
+
+            Transform.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Transform(); }
+                output.copyFrom(this);
+
+                return output;
+            };
+
+            Transform.prototype.checkAncestor = function (transform) {
+                return false;
+            };
+
+            Object.defineProperty(Transform.prototype, "toString", {
+                get: function () {
+                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Transform;
+        })();
+        Geom.Transform = Transform;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Rectangle = (function () {
+            function Rectangle(x, y, width, height) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof width === "undefined") { width = 0; }
+                if (typeof height === "undefined") { height = 0; }
+                this.x = 0;
+                this.y = 0;
+                this.width = 0;
+                this.height = 0;
+                this.setTo(x, y, width, height);
+            }
+            Rectangle.prototype.objType = function () {
+                return "Rectangle";
+            };
+
+
+            Object.defineProperty(Rectangle.prototype, "bottom", {
+                get: function () {
+                    return this.y + this.height;
+                },
+                set: function (value) {
+                    if (value) {
+                        if (value < this.y) {
+                            this.height = 0;
+                        } else {
+                            this.height = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "center", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "bottomRight", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.right, this.bottom);
+                },
+                set: function (value) {
+                    if (value) {
+                        this.right = value.x;
+                        this.bottom = value.y;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "left", {
+                get: function () {
+                    return this.x;
+                },
+                set: function (value) {
+                    if (value) {
+                        var diff = this.x - value;
+
+                        if (this.width + diff < 0) {
+                            this.width = 0;
+
+                            this.x = value;
+                        } else {
+                            this.width += diff;
+
+                            this.x = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "right", {
+                get: function () {
+                    return this.x + this.width;
+                },
+                set: function (value) {
+                    if (value) {
+                        if (value < this.x) {
+                            this.width = 0;
+                        } else {
+                            this.width = value - this.x;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "size", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.width, this.height);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "volume", {
+                get: function () {
+                    return this.width * this.height;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "perimeter", {
+                get: function () {
+                    return (this.width * 2) + (this.height * 2);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "top", {
+                get: function () {
+                    return this.y;
+                },
+                set: function (value) {
+                    if (value) {
+                        var diff = this.y - value;
+
+                        if (this.height + diff < 0) {
+                            this.height = 0;
+
+                            this.y = value;
+                        } else {
+                            this.height += diff;
+
+                            this.y = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "topLeft", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.x, this.y);
+                },
+                set: function (value) {
+                    if (value) {
+                        this.x = value.x;
+                        this.y = value.y;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Rectangle.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Rectangle(); }
+                return output.setTo(this.x, this.y, this.width, this.height);
+            };
+
+            Rectangle.prototype.contains = function (x, y) {
+                if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.containsPoint = function (point) {
+                return this.contains(point.x, point.y);
+            };
+
+            Rectangle.prototype.containsRect = function (rect) {
+                if (rect.volume > this.volume) {
+                    return false;
+                }
+
+                if (rect.x >= this.x && rect.y >= this.y && rect.right <= this.right && rect.bottom <= this.bottom) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.copyFrom = function (source) {
+                return this.setTo(source.x, source.y, source.width, source.height);
+            };
+
+            Rectangle.prototype.copyTo = function (target) {
+                return target.copyFrom(this);
+            };
+
+            Rectangle.prototype.equals = function (toCompare) {
+                if (this.x === toCompare.x && this.y === toCompare.y && this.width === toCompare.width && this.height === toCompare.height) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.inflate = function (dx, dy) {
+                if (!isNaN(dx) && !isNaN(dy)) {
+                    this.x -= dx;
+                    this.width += 2 * dx;
+
+                    this.y -= dy;
+                    this.height += 2 * dy;
+                }
+
+                return this;
+            };
+
+            Rectangle.prototype.inflatePoint = function (point) {
+                return this.inflate(point.x, point.y);
+            };
+
+            Rectangle.prototype.intersection = function (toIntersect, output) {
+                if (typeof output === "undefined") { output = new Rectangle(); }
+                if (this.intersects(toIntersect) === true) {
+                    output.x = Math.max(toIntersect.x, this.x);
+                    output.y = Math.max(toIntersect.y, this.y);
+                    output.width = Math.min(toIntersect.right, this.right) - output.x;
+                    output.height = Math.min(toIntersect.bottom, this.bottom) - output.y;
+                }
+
+                return output;
+            };
+
+            Rectangle.prototype.intersects = function (toIntersect) {
+                if (toIntersect.x > this.right - 1) {
+                    return false;
+                }
+
+                if (toIntersect.right - 1 < this.x) {
+                    return false;
+                }
+
+                if (toIntersect.bottom - 1 < this.y) {
+                    return false;
+                }
+
+                if (toIntersect.y > this.bottom - 1) {
+                    return false;
+                }
+
+                return true;
+            };
+
+            Rectangle.prototype.overlap = function (rect) {
+                var result = { top: false, bottom: false, left: false, right: false, contains: false, contained: false };
+                var interRect = this.intersection(rect);
+
+                if (interRect.isEmpty)
+                    return result;
+                if (this.containsRect(rect))
+                    result.contains = true;
+                if (rect.containsRect(this))
+                    result.contained = true;
+                if (this.top < rect.top)
+                    result.top = true;
+                if (this.bottom > rect.bottom)
+                    result.bottom = true;
+                if (this.left < rect.left)
+                    result.left = true;
+                if (this.right > rect.right)
+                    result.right = true;
+
+                return result;
+            };
+
+            Rectangle.prototype.isEmpty = function () {
+                if (this.width < 1 || this.height < 1) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.offset = function (dx, dy) {
+                if (!isNaN(dx) && !isNaN(dy)) {
+                    this.x += dx;
+                    this.y += dy;
+                }
+
+                return this;
+            };
+
+            Rectangle.prototype.offsetPoint = function (point) {
+                return this.offset(point.x, point.y);
+            };
+
+            Rectangle.prototype.setEmpty = function () {
+                return this.setTo(0, 0, 0, 0);
+            };
+
+            Rectangle.prototype.setTo = function (x, y, width, height) {
+                if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
+                    this.x = x;
+                    this.y = y;
+
+                    if (width >= 0) {
+                        this.width = width;
+                    }
+
+                    if (height >= 0) {
+                        this.height = height;
+                    }
+                }
+
+                return this;
+            };
+
+            Rectangle.prototype.union = function (toUnion, output) {
+                if (typeof output === "undefined") { output = new Rectangle(); }
+                return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right, this.right), Math.max(toUnion.bottom, this.bottom));
+            };
+
+            Rectangle.prototype.scale = function (x, y, translation) {
+                var trans = new Kiwi.Geom.Transform();
+                trans.scaleX = x;
+                trans.scaleY = y;
+                trans.x = translation.x;
+                trans.y = translation.y;
+
+                var tl = this.topLeft;
+                trans.transformPoint(tl);
+                this.topLeft = tl;
+
+                this.width *= x;
+                this.height *= y;
+
+                return this;
+            };
+
+            Rectangle.prototype.toString = function () {
+                return "[{Rectangle (x=" + this.x + " y=" + this.y + " width=" + this.width + " height=" + this.height + " isEmpty=" + this.isEmpty() + ")}]";
+            };
+            return Rectangle;
+        })();
+        Geom.Rectangle = Rectangle;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Stage = (function () {
+        function Stage(game, name) {
+            this.offset = new Kiwi.Geom.Point();
+            this.container = null;
+            this._framerate = 3;
+            this._game = game;
+
+            this.name = name;
+
+            this.domReady = false;
+
+            this.alpha = new Kiwi.Components.Alpha();
+            this.color = new Kiwi.Components.Color();
+            this.position = new Kiwi.Components.Position();
+            this.size = new Kiwi.Components.Size();
+        }
+        Stage.prototype.objType = function () {
+            return "Stage";
+        };
+
+        Stage.prototype.boot = function (dom) {
+            klog.info('Stage DOM boot');
+
+            this.domReady = true;
+
+            this.container = dom.container;
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.offset = this._game.browser.getOffsetPoint(this.container);
+                this.position.setTo(this.offset.x, this.offset.y);
+                this.size.setTo(parseInt(this.container.style.width), parseInt(this.container.style.height));
+            }
+
+            this.alpha.updated.add(this._updatedAlpha, this);
+            this.color.updated.add(this._updatedColor, this);
+            this.position.updated.add(this._updatedPosition, this);
+            this.size.updated.add(this._updatedSize, this);
+            this._createCompositeCanvas();
+        };
+
+        Stage.prototype._createCompositeCanvas = function () {
+            this.canvas = document.createElement("canvas");
+            this.ctx = this.canvas.getContext("2d");
+            this.ctx.fillStyle = this.color.cssColorHex;
+
+            this.canvas.id = this._game.id + "compositeCanvas";
+            this.canvas.style.position = "absolute";
+
+            this.canvas.width = 800;
+            this.canvas.height = 600;
+
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.container.appendChild(this.canvas);
+            } else {
+                document.body.appendChild(this.canvas);
+            }
+        };
+
+        Stage.prototype._updatedPosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
+            this.container.style.left = cssLeft;
+            this.container.style.top = cssTop;
+        };
+
+        Stage.prototype._updatedColor = function (red, green, blue, alpha, cssColorHex, cssColorRGB, cssColorRGBA) {
+            if (Kiwi.DEVICE.ieVersion < 10) {
+                this.container.style.backgroundColor = cssColorHex;
+            } else {
+                this.container.style.backgroundColor = cssColorRGBA;
+            }
+        };
+
+        Stage.prototype._updatedAlpha = function () {
+            this.alpha.setCSS(this.container);
+        };
+
+        Stage.prototype._updatedSize = function () {
+        };
+
+        Stage.prototype.frameRate = function (value) {
+            if (value) {
+                this._framerate = value;
+            }
+
+            return this._framerate;
+        };
+        return Stage;
+    })();
+    Kiwi.Stage = Stage;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Anims) {
+        var Frame = (function () {
+            function Frame(x, y, width, height, position) {
+                this.rotated = false;
+                this.rotationDirection = 'cw';
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.position = position;
+
+                this.rotated = false;
+                this.trimmed = false;
+            }
+            Frame.prototype.objType = function () {
+                return "Frame";
+            };
+
+            Frame.prototype.setRotation = function (rotated, rotationDirection) {
+            };
+
+            Frame.prototype.setTrim = function (trimmed, actualWidth, actualHeight, destX, destY, destWidth, destHeight) {
+            };
+
+            Frame.prototype.update = function () {
+            };
+            return Frame;
+        })();
+        Anims.Frame = Frame;
+    })(Kiwi.Anims || (Kiwi.Anims = {}));
+    var Anims = Kiwi.Anims;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Time) {
+        var TimerEvent = (function () {
+            function TimerEvent(type, callback, context) {
+                this._callback = null;
+                this.type = 0;
+                this.type = type;
+                this._callback = callback;
+                this._callbackContext = context;
+            }
+            TimerEvent.prototype.objType = function () {
+                return "TimerEvent";
+            };
+
+            TimerEvent.prototype.run = function () {
+                if (this._callback) {
+                    this._callback.apply(this._callbackContext);
+                }
+            };
+            TimerEvent.TIMER_START = 1;
+
+            TimerEvent.TIMER_COUNT = 2;
+
+            TimerEvent.TIMER_STOP = 3;
+            return TimerEvent;
+        })();
+        Time.TimerEvent = TimerEvent;
+    })(Kiwi.Time || (Kiwi.Time = {}));
+    var Time = Kiwi.Time;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Time) {
+        var Timer = (function () {
+            function Timer(name, clock, delay, repeatCount) {
+                if (typeof repeatCount === "undefined") { repeatCount = 0; }
+                this._currentCount = 0;
+                this._startEvents = null;
+                this._countEvents = null;
+                this._stopEvents = null;
+                this._clock = null;
+                this._timeLastCount = null;
+                this._isRunning = false;
+                this._isStopped = true;
+                this._isPaused = false;
+                this.name = null;
+                this.delay = 0;
+                this.repeatCount = 0;
+                this._clock = clock;
+
+                this._startEvents = [];
+                this._countEvents = [];
+                this._stopEvents = [];
+
+                this.name = name;
+                this.delay = delay;
+                this.repeatCount = repeatCount;
+            }
+            Timer.prototype.objType = function () {
+                return "Timer";
+            };
+
+            Timer.prototype.currentCount = function () {
+                return this._currentCount;
+            };
+
+            Timer.prototype.isRunning = function () {
+                return this._isRunning;
+            };
+
+            Timer.prototype.isStopped = function () {
+                return this._isStopped;
+            };
+
+            Timer.prototype.isPaused = function () {
+                return this._isPaused;
+            };
+
+            Timer.prototype.processEvents = function (type) {
+                if (type === Time.TimerEvent.TIMER_START) {
+                    for (var i = 0; i < this._startEvents.length; i++) {
+                        this._startEvents[i].run();
+                    }
+                } else if (type === Time.TimerEvent.TIMER_COUNT) {
+                    for (var i = 0; i < this._countEvents.length; i++) {
+                        this._countEvents[i].run();
+                    }
+                } else if (type === Time.TimerEvent.TIMER_STOP) {
+                    for (var i = 0; i < this._stopEvents.length; i++) {
+                        this._stopEvents[i].run();
+                    }
+                }
+            };
+
+            Timer.prototype.update = function () {
+                if (this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false) {
+                    this._currentCount++;
+
+                    this.processEvents(Time.TimerEvent.TIMER_COUNT);
+
+                    this._timeLastCount = this._clock.elapsed() || 0;
+
+                    if (this._currentCount >= this.repeatCount) {
+                        this.stop();
+                    }
+                }
+            };
+
+            Timer.prototype.start = function () {
+                if (this._isStopped === true) {
+                    this._isRunning = true;
+                    this._isPaused = false;
+                    this._isStopped = false;
+
+                    this._currentCount = 0;
+                    this._timeLastCount = this._clock.elapsed() || 0;
+
+                    this.processEvents(Time.TimerEvent.TIMER_START);
+                }
+
+                return this;
+            };
+
+            Timer.prototype.stop = function () {
+                if (this._isRunning === true || this._isPaused === true) {
+                    this._isRunning = false;
+                    this._isPaused = false;
+                    this._isStopped = true;
+
+                    this.processEvents(Time.TimerEvent.TIMER_STOP);
+                }
+
+                return this;
+            };
+
+            Timer.prototype.pause = function () {
+                if (this._isRunning === true) {
+                    this._isRunning = false;
+                    this._isPaused = true;
+                }
+
+                return this;
+            };
+
+            Timer.prototype.resume = function () {
+                if (this._isPaused === true) {
+                    this._isRunning = true;
+                    this._isPaused = false;
+                }
+
+                return this;
+            };
+
+            Timer.prototype.addTimerEvent = function (event) {
+                if (event.type === Time.TimerEvent.TIMER_START) {
+                    this._startEvents.push(event);
+                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
+                    this._countEvents.push(event);
+                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
+                    this._stopEvents.push(event);
+                }
+
+                return event;
+            };
+
+            Timer.prototype.createTimerEvent = function (type, callback, context) {
+                if (type === Time.TimerEvent.TIMER_START) {
+                    this._startEvents.push(new Time.TimerEvent(type, callback, context));
+                    return this._startEvents[this._startEvents.length - 1];
+                } else if (type === Time.TimerEvent.TIMER_COUNT) {
+                    this._countEvents.push(new Time.TimerEvent(type, callback, context));
+                    return this._countEvents[this._countEvents.length - 1];
+                } else if (type === Time.TimerEvent.TIMER_STOP) {
+                    this._stopEvents.push(new Time.TimerEvent(type, callback, context));
+                    return this._stopEvents[this._stopEvents.length - 1];
+                }
+
+                return null;
+            };
+
+            Timer.prototype.removeTimerEvent = function (event) {
+                var removed = [];
+
+                if (event.type === Time.TimerEvent.TIMER_START) {
+                    removed = this._startEvents.splice(this._startEvents.indexOf(event), 1);
+                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
+                    removed = this._countEvents.splice(this._countEvents.indexOf(event), 1);
+                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
+                    removed = this._stopEvents.splice(this._stopEvents.indexOf(event), 1);
+                }
+
+                if (removed.length === 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Timer.prototype.clear = function (type) {
+                if (typeof type === "undefined") { type = 0; }
+                if (type === 0) {
+                    this._startEvents.length = 0;
+                    this._countEvents.length = 0;
+                    this._stopEvents.length = 0;
+                } else if (type === Time.TimerEvent.TIMER_START) {
+                    this._startEvents.length = 0;
+                } else if (type === Time.TimerEvent.TIMER_COUNT) {
+                    this._countEvents.length = 0;
+                } else if (type === Time.TimerEvent.TIMER_STOP) {
+                    this._stopEvents.length = 0;
+                }
+            };
+
+            Timer.prototype.toString = function () {
+                return "[{Timer (name=" + this.name + " delay=" + this.delay + " repeatCount=" + this.repeatCount + " running=" + this._isRunning + ")}]";
+            };
+            return Timer;
+        })();
+        Time.Timer = Timer;
+    })(Kiwi.Time || (Kiwi.Time = {}));
+    var Time = Kiwi.Time;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Time) {
+        var MasterClock = (function () {
+            function MasterClock() {
+                this.time = 0;
+                this.now = 0;
+                this.delta = 0;
+                this._started = Date.now();
+                this.time = this._started;
+            }
+            MasterClock.prototype.objType = function () {
+                return "MasterClock";
+            };
+
+            MasterClock.prototype.elapsed = function () {
+                return this.now - this._started;
+            };
+
+            MasterClock.prototype.totalElapsedSeconds = function () {
+                return (this.now - this._started) * 0.001;
+            };
+
+            MasterClock.prototype.update = function () {
+                this.now = Date.now();
+
+                this.delta = this.now - this.time;
+
+                this.time = this.now;
+
+                if (this.delta > 0.1) {
+                    this.delta = 0.1;
+                }
+            };
+
+            MasterClock.prototype.elapsedSince = function (since) {
+                return this.now - since;
+            };
+
+            MasterClock.prototype.elapsedSecondsSince = function (since) {
+                return (this.now - since) * 0.001;
+            };
+
+            MasterClock.prototype.reset = function () {
+                this._started = this.now;
+            };
+            return MasterClock;
+        })();
+        Time.MasterClock = MasterClock;
+    })(Kiwi.Time || (Kiwi.Time = {}));
+    var Time = Kiwi.Time;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Time) {
+        var Clock = (function () {
+            function Clock(manager, master, name, units) {
+                if (typeof units === "undefined") { units = 1000; }
+                this._timeFirstStarted = null;
+                this._timeLastStarted = null;
+                this._timeLastStopped = null;
+                this._timeLastPaused = null;
+                this._timeLastUnpaused = null;
+                this._totalPaused = 0;
+                this._isRunning = false;
+                this._isStopped = true;
+                this._isPaused = false;
+                this._elapsedState = 0;
+                this.manager = null;
+                this.master = null;
+                this.name = null;
+                this.units = 0;
+                this.manager = manager;
+                this.master = master;
+                this.name = name;
+                this.units = units;
+                this.timers = [];
+
+                if (this.units < 1) {
+                    this.units = 1;
+                }
+            }
+            Clock.prototype.objType = function () {
+                return "Clock";
+            };
+
+            Clock.prototype.elapsedSinceFirstStarted = function () {
+                return (this._timeLastStarted) ? (this.master.elapsed() - this._timeFirstStarted) / this.units : null;
+            };
+
+            Clock.prototype.started = function () {
+                return this._timeLastStarted;
+            };
+
+            Clock.prototype.elapsed = function () {
+                if (this._elapsedState === 0) {
+                    return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
+                } else if (this._elapsedState === 1) {
+                    return (this._timeLastPaused - this._timeLastStarted - this._totalPaused) / this.units;
+                } else if (this._elapsedState === 2) {
+                    return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
+                } else if (this._elapsedState === 3) {
+                    return (this._timeLastStopped - this._timeLastStarted - this._totalPaused) / this.units;
+                }
+            };
+
+            Clock.prototype.elapsedSinceLastStopped = function () {
+                return (this._timeLastStarted) ? (this.master.elapsed() - this._timeLastStopped) / this.units : null;
+            };
+
+            Clock.prototype.elapsedSinceLastPaused = function () {
+                return (this._timeLastStarted) ? (this.master.elapsed() - this._timeLastPaused) / this.units : null;
+            };
+
+            Clock.prototype.elapsedSinceLastUnpaused = function () {
+                return (this._timeLastStarted) ? (this.master.elapsed() - this._timeLastUnpaused) / this.units : null;
+            };
+
+            Clock.prototype.isRunning = function () {
+                return this._isRunning;
+            };
+
+            Clock.prototype.isStopped = function () {
+                return this._isStopped;
+            };
+
+            Clock.prototype.isPaused = function () {
+                return this._isPaused;
+            };
+
+            Clock.prototype.addTimer = function (timer) {
+                this.timers.push(timer);
+
+                return this;
+            };
+
+            Clock.prototype.createTimer = function (name, delay, repeatCount) {
+                if (typeof delay === "undefined") { delay = 1; }
+                if (typeof repeatCount === "undefined") { repeatCount = 0; }
+                this.timers.push(new Time.Timer(name, this, delay, repeatCount));
+
+                return this.timers[this.timers.length - 1];
+            };
+
+            Clock.prototype.removeTimer = function (timer, timerName) {
+                if (typeof timer === "undefined") { timer = null; }
+                if (typeof timerName === "undefined") { timerName = ''; }
+                if (timer !== null) {
+                    if (this.timers[timer.name]) {
+                        delete this.timers[timer.name];
+
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                if (timerName !== '') {
+                    if (this.timers[timerName]) {
+                        delete this.timers[timerName];
+
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                return false;
+            };
+
+            Clock.prototype.checkExists = function (name) {
+                if (this.timers[name]) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Clock.prototype.stopAllTimers = function () {
+                for (var i = 0; i < this.timers.length; i++) {
+                    this.timers[i].stop();
+                }
+
+                return this;
+            };
+
+            Clock.prototype.convertToMilliseconds = function (time) {
+                return time * this.units;
+            };
+
+            Clock.prototype.update = function () {
+                for (var i = 0; i < this.timers.length; i++) {
+                    this.timers[i].update();
+                }
+            };
+
+            Clock.prototype.start = function () {
+                this._timeLastStarted = this.master.elapsed();
+                this._totalPaused = 0;
+
+                if (!this._timeFirstStarted) {
+                    this._timeFirstStarted = this._timeLastStarted;
+                }
+
+                this._isRunning = true;
+                this._isPaused = false;
+                this._isStopped = false;
+
+                this._elapsedState = 0;
+
+                return this;
+            };
+
+            Clock.prototype.pause = function () {
+                if (this._isRunning === true) {
+                    this._timeLastPaused = this.master.elapsed();
+                    this._isRunning = false;
+                    this._isPaused = true;
+                    this._isStopped = false;
+
+                    this._elapsedState = 1;
+                }
+
+                return this;
+            };
+
+            Clock.prototype.resume = function () {
+                if (this._isPaused === true) {
+                    this._timeLastUnpaused = this.master.elapsed();
+                    this._totalPaused += this._timeLastUnpaused - this._timeLastPaused;
+                    this._isRunning = true;
+                    this._isPaused = false;
+                    this._isStopped = false;
+
+                    this._elapsedState = 2;
+                }
+
+                return this;
+            };
+
+            Clock.prototype.stop = function () {
+                if (this._isStopped === false) {
+                    this._timeLastStopped = this.master.elapsed();
+
+                    if (this._isPaused === true) {
+                        this._totalPaused += this._timeLastStopped - this._timeLastPaused;
+                    }
+
+                    this._isRunning = false;
+                    this._isPaused = false;
+                    this._isStopped = true;
+
+                    this._elapsedState = 3;
+                }
+
+                return this;
+            };
+
+            Clock.prototype.toString = function () {
+                return "[{Clock (name=" + this.name + " units=" + this.units + " running=" + this._isRunning + ")}]";
+            };
+            return Clock;
+        })();
+        Time.Clock = Clock;
+    })(Kiwi.Time || (Kiwi.Time = {}));
+    var Time = Kiwi.Time;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Anims) {
+        var Animation = (function () {
+            function Animation(name, file, frames, playSpeed, repeat) {
+                this._clock = null;
+                this._startTime = null;
+                this._playPendingState = false;
+                this._uniqueFrameIndex = null;
+                this.name = name;
+                this.file = file;
+
+                this._frames = frames;
+                this._frameIndex = 0;
+                this._speed = playSpeed;
+                this._length = frames.length;
+                this._repeat = repeat;
+                this._isPlaying = true;
+
+                this.currentFrame = this.getFrame(this._frameIndex);
+
+                this.onUpdate = new Kiwi.Signal();
+                this.onPlay = new Kiwi.Signal();
+                this.onStop = new Kiwi.Signal();
+                this.onComplete = new Kiwi.Signal();
+            }
+            Animation.prototype.objType = function () {
+                return "Animation";
+            };
+
+            Animation.prototype._start = function (index) {
+                if (typeof index === "undefined") { index = 0; }
+                this._startTime = this._clock.elapsed();
+                this._tick = this._startTime + this._speed;
+                this._frameIndex = index;
+                this.currentFrame = this.getFrame(this._frameIndex);
+                this.onUpdate.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
+                this.onPlay.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
+            };
+
+            Animation.prototype.clock = function (value) {
+                if (typeof value === "undefined") { value = null; }
+                if (value !== null) {
+                    this._clock = value;
+
+                    if (this._playPendingState === true) {
+                        this._playPendingState = false;
+
+                        if (this._uniqueFrameIndex !== null) {
+                            this._start(this._uniqueFrameIndex);
+                            this._uniqueFrameIndex = null;
+                        } else {
+                            this._start();
+                        }
+                    }
+                }
+
+                return this._clock;
+            };
+
+            Animation.prototype.play = function () {
+                this._isPlaying = true;
+
+                if (this._clock === null) {
+                    this._playPendingState = true;
+                } else {
+                    this._start();
+                }
+            };
+
+            Animation.prototype.playAt = function (index) {
+                this._isPlaying = true;
+
+                if (this._clock === null) {
+                    this._playPendingState = true;
+                    this._uniqueFrameIndex = index;
+                } else {
+                    this._start(index);
+                }
+            };
+
+            Animation.prototype.pause = function () {
+                this.stop();
+            };
+
+            Animation.prototype.resume = function () {
+                if (this._startTime === null) {
+                    klog.warn('Animation\'s can only resume if they have been played before!');
+                } else {
+                    this._isPlaying = true;
+                }
+            };
+
+            Animation.prototype.stop = function () {
+                this._isPlaying = false;
+                this.onStop.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
+            };
+
+            Animation.prototype.update = function () {
+                if (this._isPlaying) {
+                    if (this._playPendingState === false && this._clock.elapsed() >= this._tick) {
+                        this._tick = this._clock.elapsed() + this._speed;
+                        this._frameIndex++;
+
+                        if (this._frameIndex === this._length && this._repeat != Kiwi.Anims.PLAY_ONCE) {
+                            this._frameIndex = 0;
+                            this.onComplete.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
+                        } else if (this._frameIndex === this._length && this._repeat == Kiwi.Anims.PLAY_ONCE) {
+                            this._frameIndex = this._length - 1;
+                            this.onComplete.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
+                            this.stop();
+                        }
+
+                        this.currentFrame = this.getFrame(this._frameIndex);
+                        this.onUpdate.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
+                    }
+                }
+            };
+
+            Animation.prototype.renderToCanvas = function (ctx, x, y) {
+                ctx.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
+            };
+
+            Animation.prototype.drawFrameToCanvasLayer = function (layer, frameNumber, x, y) {
+                var frame = this.getFrame(frameNumber);
+
+                if (frame !== null) {
+                    layer.canvas.context.drawImage(this.file.data, frame.x, frame.y, frame.width, frame.height, x, y, frame.width, frame.height);
+                }
+            };
+
+            Animation.prototype.frameExists = function (frameIndex) {
+                if (frameIndex <= this._length) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Animation.prototype.getFrame = function (index) {
+                if (typeof index === "undefined") { index = null; }
+                if (index === null) {
+                    return this._frames[this._frameIndex];
+                } else if (this.frameExists(index)) {
+                    return this._frames[index];
+                }
+
+                return;
+            };
+
+            Animation.prototype.setFrame = function (value) {
+                this._frameIndex = value;
+                this.currentFrame = this.getFrame(this._frameIndex);
+                this.onUpdate.dispatch(-this.currentFrame.x, -this.currentFrame.y);
+            };
+
+            Animation.prototype.isPlaying = function () {
+                return this._isPlaying;
+            };
+
+            Animation.prototype.speed = function (value) {
+                if (typeof value === "undefined") { value = null; }
+                if (value !== null) {
+                    this._speed = value;
+                }
+
+                return this._speed;
+            };
+
+            Animation.prototype.frameIndex = function () {
+                return this._frameIndex;
+            };
+
+            Animation.prototype.length = function () {
+                return this._length;
+            };
+            return Animation;
+        })();
+        Anims.Animation = Animation;
+    })(Kiwi.Anims || (Kiwi.Anims = {}));
+    var Anims = Kiwi.Anims;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Anims) {
+        (function (Formats) {
+            var SpriteSheet = (function () {
+                function SpriteSheet() {
+                }
+                SpriteSheet.prototype.objType = function () {
+                    return "SpriteSheet";
+                };
+
+                SpriteSheet.prototype.getFrameData = function (cacheID, cache, frameWidth, frameHeight) {
+                    var width = cache.getFile(cacheID).data.width;
+                    var height = cache.getFile(cacheID).data.height;
+
+                    var row = Math.round(width / frameWidth);
+                    var column = Math.round(height / frameHeight);
+                    var total = row * column;
+
+                    if (width == 0 || height == 0 || width < frameWidth || height < frameHeight || total === 0) {
+                        return null;
+                    }
+
+                    var data = new Kiwi.Anims.FrameData(cacheID, cache);
+
+                    var x = 0;
+                    var y = 0;
+
+                    for (var i = 0; i < total; i++) {
+                        data.addFrame(new Anims.Frame(x, y, frameWidth, frameHeight, i));
+
+                        x += frameWidth;
+
+                        if (x === width) {
+                            x = 0;
+                            y += frameHeight;
+                        }
+                    }
+
+                    return data;
+                };
+                return SpriteSheet;
+            })();
+            Formats.SpriteSheet = SpriteSheet;
+        })(Anims.Formats || (Anims.Formats = {}));
+        var Formats = Anims.Formats;
+    })(Kiwi.Anims || (Kiwi.Anims = {}));
+    var Anims = Kiwi.Anims;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Anims) {
+        var FrameData = (function () {
+            function FrameData(cacheID, cache) {
+                this.cacheID = cacheID;
+                this.cache = cache;
+                this._frames = [];
+            }
+            FrameData.prototype.objType = function () {
+                return "FrameData";
+            };
+
+            FrameData.prototype.addFrame = function (frame) {
+                this._frames.push(frame);
+            };
+
+            FrameData.prototype.getFrame = function (frame) {
+                return this._frames[frame];
+            };
+
+            FrameData.prototype.getFrameRange = function (start, end) {
+                var output = [];
+
+                for (var i = start; i <= end; i++) {
+                    output.push(this._frames[i]);
+                }
+
+                return output;
+            };
+
+            FrameData.prototype.getAllFrames = function () {
+                return this._frames;
+            };
+
+            FrameData.prototype.getFrames = function (range) {
+                var output = [];
+
+                for (var i = 0; i < range.length; i++) {
+                    var f = range[i];
+                    output.push(this._frames[f]);
+                }
+
+                return output;
+            };
+            return FrameData;
+        })();
+        Anims.FrameData = FrameData;
+    })(Kiwi.Anims || (Kiwi.Anims = {}));
+    var Anims = Kiwi.Anims;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Anims) {
+        Anims.PLAY_ONCE = 0;
+        Anims.PLAY_LOOP = 1;
+        Anims.PLAY_BOUNCE = 2;
+
+        var Manager = (function () {
+            function Manager(game) {
+                this._game = game;
+            }
+            Manager.prototype.objType = function () {
+                return "Manager";
+            };
+
+            Manager.prototype.boot = function () {
+                klog.info('Animations booted');
+
+                this._data = {};
+
+                this._spriteSheet = new Kiwi.Anims.Formats.SpriteSheet();
+            };
+
+            Manager.prototype.getSpriteSheetFrames = function (cacheID, cache, frameWidth, frameHeight) {
+                return this._spriteSheet.getFrameData(cacheID, cache, frameWidth, frameHeight);
+            };
+
+            Manager.prototype.removeSpriteSheet = function (name) {
+                if (this._data[name]) {
+                    delete this._data[name];
+                    return true;
+                }
+
+                return false;
+            };
+
+            Manager.prototype.prepareTextureAtlas = function () {
+            };
+
+            Manager.prototype.prepareBoneData = function () {
+            };
+            return Manager;
+        })();
+        Anims.Manager = Manager;
+    })(Kiwi.Anims || (Kiwi.Anims = {}));
+    var Anims = Kiwi.Anims;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Tweens) {
+        var Manager = (function () {
+            function Manager(game) {
+                klog.info('Tween Manager created');
+                this._game = game;
+                this._tweens = [];
+            }
+            Manager.prototype.objType = function () {
+                return "Manager";
+            };
+
+            Manager.prototype.getAll = function () {
+                return this._tweens;
+            };
+
+            Manager.prototype.removeAll = function () {
+                this._tweens.length = 0;
+            };
+
+            Manager.prototype.create = function (object) {
+                return new Kiwi.Tween(object, this._game);
+            };
+
+            Manager.prototype.add = function (tween) {
+                tween.setParent(this._game);
+
+                this._tweens.push(tween);
+
+                return tween;
+            };
+
+            Manager.prototype.remove = function (tween) {
+                var i = this._tweens.indexOf(tween);
+
+                if (i !== -1) {
+                    this._tweens.splice(i, 1);
+                }
+            };
+
+            Manager.prototype.update = function () {
+                if (this._tweens.length === 0) {
+                    return false;
+                }
+
+                var i = 0;
+                var numTweens = this._tweens.length;
+
+                while (i < numTweens) {
+                    if (this._tweens[i].update(this._game.time.now())) {
+                        i++;
+                    } else {
+                        this._tweens.splice(i, 1);
+                        numTweens--;
+                    }
+                }
+
+                return true;
+            };
+            return Manager;
+        })();
+        Tweens.Manager = Manager;
+    })(Kiwi.Tweens || (Kiwi.Tweens = {}));
+    var Tweens = Kiwi.Tweens;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Utils) {
+        var RandomDataGenerator = (function () {
+            function RandomDataGenerator(seeds) {
+                if (typeof seeds === "undefined") { seeds = []; }
+                this.c = 1;
+                this._data = {
+                    lipsum: [
+                        "lorem",
+                        "ipsum",
+                        "dolor",
+                        "sit",
+                        "amet",
+                        "consectetur",
+                        "adipiscing",
+                        "elit",
+                        "nunc",
+                        "sagittis",
+                        "tortor",
+                        "ac",
+                        "mi",
+                        "pretium",
+                        "sed",
+                        "convallis",
+                        "massa",
+                        "pulvinar",
+                        "curabitur",
+                        "non",
+                        "turpis",
+                        "velit",
+                        "vitae",
+                        "rutrum",
+                        "odio",
+                        "aliquam",
+                        "sapien",
+                        "orci",
+                        "tempor",
+                        "sed",
+                        "elementum",
+                        "sit",
+                        "amet",
+                        "tincidunt",
+                        "sed",
+                        "risus",
+                        "etiam",
+                        "nec",
+                        "lacus",
+                        "id",
+                        "ante",
+                        "hendrerit",
+                        "malesuada",
+                        "donec",
+                        "porttitor",
+                        "magna",
+                        "eget",
+                        "libero",
+                        "pharetra",
+                        "sollicitudin",
+                        "aliquam",
+                        "mattis",
+                        "mattis",
+                        "massa",
+                        "et",
+                        "porta",
+                        "morbi",
+                        "vitae",
+                        "magna",
+                        "augue",
+                        "vestibulum",
+                        "at",
+                        "lectus",
+                        "sed",
+                        "tellus",
+                        "facilisis",
+                        "tincidunt",
+                        "suspendisse",
+                        "eros",
+                        "magna",
+                        "consequat",
+                        "at",
+                        "sollicitudin",
+                        "ac",
+                        "vestibulum",
+                        "vel",
+                        "dolor",
+                        "in",
+                        "egestas",
+                        "lacus",
+                        "quis",
+                        "lacus",
+                        "placerat",
+                        "et",
+                        "molestie",
+                        "ipsum",
+                        "scelerisque",
+                        "nullam",
+                        "sit",
+                        "amet",
+                        "tortor",
+                        "dui",
+                        "aenean",
+                        "pulvinar",
+                        "odio",
+                        "nec",
+                        "placerat",
+                        "fringilla",
+                        "neque",
+                        "dolor"
+                    ]
+                };
+                klog.info('Random Data Generator created');
+
+                this.sow(seeds);
+            }
+            RandomDataGenerator.prototype.objType = function () {
+                return "RandomDataGenerator";
+            };
+
+            RandomDataGenerator.prototype.uint32 = function () {
+                return this.rnd.apply(this) * 0x100000000;
+            };
+
+            RandomDataGenerator.prototype.fract32 = function () {
+                return this.rnd.apply(this) + (this.rnd.apply(this) * 0x200000 | 0) * 1.1102230246251565e-16;
+            };
+
+            RandomDataGenerator.prototype.rnd = function () {
+                var t = 2091639 * this.s0 + this.c * 2.3283064365386963e-10;
+
+                this.c = t | 0;
+                this.s0 = this.s1;
+                this.s1 = this.s2;
+                this.s2 = t - this.c;
+
+                return this.s2;
+            };
+
+            RandomDataGenerator.prototype.hash = function (data) {
+                var h, i, n;
+
+                n = 0xefc8249d;
+
+                data = data.toString();
+
+                for (i = 0; i < data.length; i++) {
+                    n += data.charCodeAt(i);
+                    h = 0.02519603282416938 * n;
+                    n = h >>> 0;
+                    h -= n;
+                    h *= n;
+                    n = h >>> 0;
+                    h -= n;
+                    n += h * 0x100000000;
+                }
+
+                return (n >>> 0) * 2.3283064365386963e-10;
+            };
+
+            RandomDataGenerator.prototype.sow = function (seeds) {
+                if (typeof seeds === "undefined") { seeds = []; }
+                this.s0 = this.hash(' ');
+                this.s1 = this.hash(this.s0);
+                this.s2 = this.hash(this.s1);
+
+                var seed;
+
+                for (var i = 0; seed = seeds[i++]; ) {
+                    this.s0 -= this.hash(seed);
+                    this.s0 += ~~(this.s0 < 0);
+
+                    this.s1 -= this.hash(seed);
+                    this.s1 += ~~(this.s1 < 0);
+
+                    this.s2 -= this.hash(seed);
+                    this.s2 += ~~(this.s2 < 0);
+                }
+            };
+
+            RandomDataGenerator.prototype.integer = function () {
+                return this.uint32();
+            };
+
+            RandomDataGenerator.prototype.frac = function () {
+                return this.fract32();
+            };
+
+            RandomDataGenerator.prototype.real = function () {
+                return this.uint32() + this.fract32();
+            };
+
+            RandomDataGenerator.prototype.integerInRange = function (min, max) {
+                return Math.floor(this.realInRange(min, max));
+            };
+
+            RandomDataGenerator.prototype.realInRange = function (min, max) {
+                min = min || 0;
+                max = max || 0;
+
+                return this.frac() * (max - min) + min;
+            };
+
+            RandomDataGenerator.prototype.normal = function () {
+                return 1 - 2 * this.frac();
+            };
+
+            RandomDataGenerator.prototype.uuid = function () {
+                var a, b;
+
+                for (b = a = ''; a++ < 36; b += ~a % 5 | a * 3 & 4 ? (a ^ 15 ? 8 ^ this.frac() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-')
+                    ;
+
+                return b;
+            };
+
+            RandomDataGenerator.prototype.pick = function (array) {
+                return array[this.integerInRange(0, array.length)];
+            };
+
+            RandomDataGenerator.prototype.weightedPick = function (array) {
+                return array[~~(Math.pow(this.frac(), 2) * array.length)];
+            };
+
+            RandomDataGenerator.prototype.word = function () {
+                return this.pick(this._data.lipsum);
+            };
+
+            RandomDataGenerator.prototype.words = function (quantity) {
+                if (typeof quantity === "undefined") { quantity = 3; }
+                var ret = [];
+
+                for (var i = 0; i < quantity; i++) {
+                    ret.push(this.pick(this._data.lipsum));
+                }
+
+                return ret.join(' ');
+            };
+
+            RandomDataGenerator.prototype.sentence = function () {
+                var ret;
+
+                ret = this.words(this.integerInRange(2, 16)).replace(/[a-z]/, function (m) {
+                    return m.toUpperCase();
+                });
+
+                return ret + '.';
+            };
+
+            RandomDataGenerator.prototype.sentences = function (quantity) {
+                if (typeof quantity === "undefined") { quantity = 3; }
+                var ret = [];
+
+                for (var i = 0; i < quantity; i++) {
+                    ret.push(this.sentence());
+                }
+
+                return ret.join(' ');
+            };
+
+            RandomDataGenerator.prototype.timestamp = function (min, max) {
+                if (typeof min === "undefined") { min = 946684800000; }
+                if (typeof max === "undefined") { max = 1577862000000; }
+                return this.realInRange(min, max);
+            };
+
+            RandomDataGenerator.prototype.angle = function () {
+                return this.integerInRange(-180, 180);
+            };
+            return RandomDataGenerator;
+        })();
+        Utils.RandomDataGenerator = RandomDataGenerator;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Utils) {
+        var RequestAnimationFrame = (function () {
+            function RequestAnimationFrame(callback) {
+                this._isSetTimeOut = false;
+                this.lastTime = 0;
+                this.currentTime = 0;
+                this.isRunning = false;
+                this._callback = callback;
+
+                var vendors = ['ms', 'moz', 'webkit', 'o'];
+
+                for (var x = 0; x < vendors.length && !window.requestAnimationFrame; x++) {
+                    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+                    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'];
+                }
+            }
+            RequestAnimationFrame.prototype.objType = function () {
+                return "RequestAnimationFrame";
+            };
+
+            RequestAnimationFrame.prototype.setCallback = function (callback) {
+                this._callback = callback;
+            };
+
+            RequestAnimationFrame.prototype.isUsingSetTimeOut = function () {
+                return this._isSetTimeOut;
+            };
+
+            RequestAnimationFrame.prototype.isUsingRAF = function () {
+                if (this._isSetTimeOut === true) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            RequestAnimationFrame.prototype.start = function (callback) {
+                if (typeof callback === "undefined") { callback = null; }
+                var _this = this;
+                if (callback) {
+                    this._callback = callback;
+                }
+
+                if (!window.requestAnimationFrame) {
+                    klog.info('Kiwi.Utils.RequestAnimationFrame: false');
+                    this._isSetTimeOut = true;
+                    this._timeOutID = window.setTimeout(function () {
+                        return _this.SetTimeoutUpdate();
+                    }, 0);
+                } else {
+                    klog.info('Kiwi.Utils.RequestAnimationFrame: true');
+                    this._isSetTimeOut = false;
+                    window.requestAnimationFrame(function () {
+                        return _this.RAFUpdate();
+                    });
+                }
+
+                this.isRunning = true;
+            };
+
+            RequestAnimationFrame.prototype.stop = function () {
+                if (this._isSetTimeOut) {
+                    clearTimeout(this._timeOutID);
+                } else {
+                    window.cancelAnimationFrame;
+                }
+
+                this.isRunning = false;
+            };
+
+            RequestAnimationFrame.prototype.RAFUpdate = function () {
+                var _this = this;
+                this.currentTime = Date.now();
+
+                if (this._callback) {
+                    this._callback();
+                }
+
+                var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
+
+                window.requestAnimationFrame(function () {
+                    return _this.RAFUpdate();
+                });
+
+                this.lastTime = this.currentTime + timeToCall;
+            };
+
+            RequestAnimationFrame.prototype.SetTimeoutUpdate = function () {
+                var _this = this;
+                this.currentTime = Date.now();
+
+                if (this._callback) {
+                    this._callback();
+                }
+
+                var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
+
+                this._timeOutID = window.setTimeout(function () {
+                    return _this.SetTimeoutUpdate();
+                }, timeToCall);
+
+                this.lastTime = this.currentTime + timeToCall;
+            };
+            return RequestAnimationFrame;
+        })();
+        Utils.RequestAnimationFrame = RequestAnimationFrame;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Game = (function () {
+        function Game(domParent, name, state) {
+            if (typeof domParent === "undefined") { domParent = ''; }
+            if (typeof name === "undefined") { name = 'KiwiGame'; }
+            if (typeof state === "undefined") { state = null; }
+            var _this = this;
+            this._dom = null;
+            this.anims = null;
+            this.audio = null;
+            this.browser = null;
+            this.cache = null;
+            this.input = null;
+            this.cameras = null;
+            this.loader = null;
+            this.raf = null;
+            this.stage = null;
+            this.states = null;
+            this.time = null;
+            this.tweens = null;
+            this.rnd = null;
+            this.id = Kiwi.GameManager.register(this);
+
+            this._dom = new Kiwi.DOM.Bootstrap();
+
+            this.anims = new Kiwi.Anims.Manager(this);
+            this.audio = new Kiwi.Sound.AudioManager(this);
+            this.browser = new Kiwi.DOM.Browser(this);
+            this.cache = new Kiwi.Cache(this);
+            this.input = new Kiwi.Input.Manager(this);
+
+            this.stage = new Kiwi.Stage(this, name);
+            this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
+
+            this.cameras = new Kiwi.CameraManager(this);
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds = new Kiwi.HUD.HUDManager(this);
+            }
+            this.loader = new Kiwi.Loader(this);
+
+            this.states = new Kiwi.StateManager(this);
+            this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
+            this.time = new Kiwi.Time.Manager(this);
+            this.tweens = new Kiwi.Tweens.Manager(this);
+
+            if (state !== null) {
+                if (this.states.addState(state, true) === false) {
+                    throw Error("Invalid State passed to Kiwi.Game");
+                }
+            }
+
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this._dom.boot(domParent, function () {
+                    return _this.start();
+                });
+            } else {
+                this.start();
+            }
+        }
+        Game.prototype.objType = function () {
+            return "Game";
+        };
+
+        Game.prototype.start = function () {
+            var _this = this;
+            if (Kiwi.DEVICE === null) {
+                Kiwi.DEVICE = new Kiwi.Device();
+            }
+
+            this.browser.boot();
+            this.stage.boot(this._dom);
+
+            this.cameras.boot();
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds.boot();
+            }
+            this.time.boot();
+            this.anims.boot();
+            this.audio.boot();
+            this.input.boot();
+            this.cache.boot();
+            this.loader.boot();
+            this.states.boot();
+
+            klog.info('Game Started. DOM Available. Valid State Given');
+            klog.info('Game Time: ' + this.time.now());
+
+            this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
+                return _this.loop();
+            });
+            this.raf.start();
+        };
+
+        Game.prototype.loop = function () {
+            this.time.update();
+            this.audio.update();
+            this.input.update();
+            this.tweens.update();
+            this.cameras.update();
+
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds.update();
+            }
+            this.states.update();
+
+            this.cameras.render();
+            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                this.huds.render();
+            }
+            this.states.postRender();
+        };
+        return Game;
+    })();
+    Kiwi.Game = Game;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var Component = (function () {
         function Component(name) {
             this.layer = null;
@@ -163,12 +5134,6 @@
     })();
     Kiwi.Component = Component;
 })(Kiwi || (Kiwi = {}));
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var Kiwi;
 (function (Kiwi) {
     (function (Components) {
@@ -1072,327 +6037,6 @@ var Kiwi;
         Components.Input = Input;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        (function (Motions) {
-            var LinearMotion = (function () {
-                function LinearMotion(sx, sy, ex, ey, duration, delay, ease) {
-                    this.mx = 0;
-                    this.my = 0;
-                    this.sx = sx;
-                    this.sy = sy;
-
-                    this.ex = ex;
-                    this.ey = ey;
-                    this.duration = duration;
-                    this.delay = delay;
-                    this.ease = ease;
-                    this.running = false;
-
-                    this.onStarted = new Kiwi.Signal();
-                    this.onCompleted = new Kiwi.Signal();
-                }
-                LinearMotion.prototype.objType = function () {
-                    return "LinerMotion";
-                };
-
-                LinearMotion.prototype.refreshXY = function (x, y) {
-                    this.sx = x;
-                    this.sy = y;
-                };
-
-                LinearMotion.prototype.start = function (time, units) {
-                    this.startTime = time + (this.delay / units);
-                    this.duration = this.duration / units;
-
-                    klog.info('motion will start at ' + this.startTime + ' current: ' + time + ' units: ' + units);
-                };
-
-                LinearMotion.prototype.update = function (time) {
-                    if (time < this.startTime) {
-                        return false;
-                    } else {
-                        if (this.running === false) {
-                            this.running = true;
-                            this.onStarted.dispatch(this);
-                            this.ex = this.ex - this.sx;
-                            this.ey = this.ey - this.sy;
-                        }
-                    }
-
-                    this.elapsed = (time - this.startTime) / this.duration;
-
-                    if (this.elapsed >= 1) {
-                        this.elapsed = 1;
-                        this.mx = this.ex;
-                        this.my = this.ey;
-                        this.onCompleted.dispatch(this);
-                        return false;
-                    } else {
-                        this.value = this.ease(this.elapsed);
-                        this.mx = this.sx + (this.ex * this.value);
-                        this.my = this.sy + (this.ey * this.value);
-                        return true;
-                    }
-                };
-                return LinearMotion;
-            })();
-            Motions.LinearMotion = LinearMotion;
-        })(Components.Motions || (Components.Motions = {}));
-        var Motions = Components.Motions;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Motion = (function (_super) {
-            __extends(Motion, _super);
-            function Motion(position) {
-                _super.call(this, 'Motion');
-                this._motions = [];
-
-                this._clock = null;
-                this._position = position;
-                this._motions = [];
-            }
-            Motion.prototype.objType = function () {
-                return "Motion";
-            };
-
-            Motion.prototype.setClock = function (clock) {
-                this._clock = clock;
-
-                for (var i = 0; i < this._motions.length; i++) {
-                    if (this._motions[i].delay > 0) {
-                        this._motions[i].onStarted.add(this._motionStarted, this);
-                    }
-
-                    this._motions[i].onCompleted.add(this._motionCompleted, this);
-                    this._motions[i].start(this._clock.elapsed(), this._clock.units);
-                    klog.info('motion started from setClock');
-                }
-            };
-
-            Motion.prototype._motionCompleted = function (motionObject) {
-                var i = this._motions.indexOf(motionObject);
-
-                if (i !== -1) {
-                    this._motions.splice(i, 1);
-                }
-            };
-
-            Motion.prototype._motionStarted = function (motionObject) {
-                motionObject.refreshXY(this._position.x(), this._position.y());
-            };
-
-            Motion.prototype.move = function (x, y, duration, delay, ease) {
-                if (typeof duration === "undefined") { duration = 1000; }
-                if (typeof delay === "undefined") { delay = 0; }
-                if (typeof ease === "undefined") { ease = Kiwi.Tweens.Easing.Linear.None; }
-                klog.info('motion move');
-
-                var temp = new Kiwi.Components.Motions.LinearMotion(this._position.x(), this._position.y(), x, y, duration, delay, ease);
-
-                this._motions.push(temp);
-
-                if (this._clock) {
-                    if (delay > 0) {
-                        temp.onStarted.add(this._motionStarted, this);
-                    }
-
-                    temp.onCompleted.add(this._motionCompleted, this);
-                    temp.start(this._clock.elapsed(), this._clock.units);
-                    klog.info('motion started from move');
-                }
-            };
-
-            Motion.prototype.update = function () {
-                if (this._clock) {
-                    for (var i = 0; i < this._motions.length; i++) {
-                        if (this._motions[i].update(this._clock.elapsed()) === true) {
-                            this._position.setTo(this._motions[i].mx, this._motions[i].my);
-                        }
-                    }
-                }
-            };
-
-            Motion.prototype.toString = function () {
-                return '[{Motion (x=' + ')}]';
-            };
-            return Motion;
-        })(Kiwi.Component);
-        Components.Motion = Motion;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Point = (function () {
-            function Point(x, y) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                this.setTo(x, y);
-            }
-            Point.prototype.objType = function () {
-                return "Point";
-            };
-
-            Point.prototype.polar = function (distance, angle) {
-                this.x = distance * Math.cos(angle * Math.PI / 180);
-                this.y = distance * Math.sin(angle * Math.PI / 180);
-                return this;
-            };
-
-            Point.prototype.add = function (toAdd, output) {
-                if (typeof output === "undefined") { output = new Point(); }
-                return output.setTo(this.x + toAdd.x, this.y + toAdd.y);
-            };
-
-            Point.prototype.addTo = function (x, y) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                return this.setTo(this.x + x, this.y + y);
-            };
-
-            Point.prototype.subtractFrom = function (x, y) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                return this.setTo(this.x - x, this.y - y);
-            };
-
-            Point.prototype.invert = function () {
-                return this.setTo(this.y, this.x);
-            };
-
-            Point.prototype.clamp = function (min, max) {
-                this.clampX(min, max);
-                this.clampY(min, max);
-                return this;
-            };
-
-            Point.prototype.clampX = function (min, max) {
-                this.x = Math.max(Math.min(this.x, max), min);
-
-                return this;
-            };
-
-            Point.prototype.clampY = function (min, max) {
-                this.x = Math.max(Math.min(this.x, max), min);
-                this.y = Math.max(Math.min(this.y, max), min);
-
-                return this;
-            };
-
-            Point.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Point(); }
-                return output.setTo(this.x, this.y);
-            };
-
-            Point.prototype.copyFrom = function (source) {
-                return this.setTo(source.x, source.y);
-            };
-
-            Point.prototype.copyTo = function (target) {
-                return target.setTo(this.x, this.y);
-            };
-
-            Point.prototype.distanceTo = function (target, round) {
-                if (typeof round === "undefined") { round = false; }
-                var dx = this.x - target.x;
-                var dy = this.y - target.y;
-
-                if (round === true) {
-                    return Math.round(Math.sqrt(dx * dx + dy * dy));
-                } else {
-                    return Math.sqrt(dx * dx + dy * dy);
-                }
-            };
-
-            Point.prototype.distanceToXY = function (x, y, round) {
-                if (typeof round === "undefined") { round = false; }
-                var dx = this.x - x;
-                var dy = this.y - y;
-
-                if (round === true) {
-                    return Math.round(Math.sqrt(dx * dx + dy * dy));
-                } else {
-                    return Math.sqrt(dx * dx + dy * dy);
-                }
-            };
-
-            Point.distanceBetween = function (pointA, pointB, round) {
-                if (typeof round === "undefined") { round = false; }
-                var dx = pointA.x - pointB.x;
-                var dy = pointA.y - pointB.y;
-
-                if (round === true) {
-                    return Math.round(Math.sqrt(dx * dx + dy * dy));
-                } else {
-                    return Math.sqrt(dx * dx + dy * dy);
-                }
-            };
-
-            Point.polar = function (length, angle) {
-                return new Point(length * Math.cos(angle * Math.PI / 180), length * Math.sin(angle * Math.PI / 180));
-            };
-
-            Point.prototype.distanceCompare = function (target, distance) {
-                if (this.distanceTo(target) >= distance) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Point.prototype.equals = function (toCompare) {
-                if (this.x === toCompare.x && this.y === toCompare.y) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Point.interpolate = function (pointA, pointB, f) {
-                var xDiff = pointB.x - pointA.x;
-                var yDiff = pointB.y - pointA.y;
-                return new Point(pointB.x - xDiff * f, pointB.y - yDiff * f);
-            };
-
-            Point.prototype.offset = function (dx, dy) {
-                this.x += dx;
-                this.y += dy;
-
-                return this;
-            };
-
-            Point.prototype.setTo = function (x, y) {
-                this.x = x;
-                this.y = y;
-
-                return this;
-            };
-
-            Point.prototype.subtract = function (point, output) {
-                if (typeof output === "undefined") { output = new Point(); }
-                return output.setTo(this.x - point.x, this.y - point.y);
-            };
-
-            Point.prototype.getCSS = function () {
-                return this.x + 'px ' + this.y + 'px';
-            };
-
-            Point.prototype.toString = function () {
-                return '[{Point (x=' + this.x + ' y=' + this.y + ')}]';
-            };
-            return Point;
-        })();
-        Geom.Point = Point;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -2513,595 +7157,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var File = (function () {
-        function File(game, dataType, path, cacheID, saveToCache, cache) {
-            if (typeof cacheID === "undefined") { cacheID = ''; }
-            if (typeof saveToCache === "undefined") { saveToCache = false; }
-            if (typeof cache === "undefined") { cache = null; }
-            this._saveToCache = true;
-            this._useTagLoader = true;
-            this.fileSize = 0;
-            this.status = 0;
-            this.statusText = '';
-            this.ETag = '';
-            this.lastModified = '';
-            this.totalSize = 0;
-            this.bytesLoaded = 0;
-            this.bytesTotal = 0;
-            this.readyState = 0;
-            this.timeOutDelay = 2000;
-            this.hasTimedOut = false;
-            this.timedOut = 0;
-            this.timeStarted = 0;
-            this.timeFinished = 0;
-            this.duration = 0;
-            this.hasError = false;
-            this.success = false;
-            this.attemptCounter = 0;
-            this.maxLoadAttempts = 2;
-            this.onCompleteCallback = null;
-            this.onProgressCallback = null;
-            this.lastProgress = 0;
-            this.percentLoaded = 0;
-            this._game = game;
-
-            this.dataType = dataType;
-
-            this.fileURL = path;
-
-            if (path.lastIndexOf('/') > -1) {
-                this.fileName = path.substr(path.lastIndexOf('/') + 1);
-                this.filePath = path.substr(0, path.lastIndexOf('/') + 1);
-            } else {
-                this.filePath = '';
-                this.fileName = path;
-            }
-
-            this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
-
-            if (Kiwi.DEVICE.blob) {
-                klog.info('blob support found - using blob loader');
-                this._useTagLoader = false;
-            } else {
-                klog.info('blob support NOT found - using tag loader');
-                this._useTagLoader = true;
-            }
-
-            if (this.dataType === Kiwi.File.AUDIO && this._game.audio.usingAudioTag === true) {
-                this._useTagLoader = true;
-            }
-
-            this._saveToCache = saveToCache;
-            this._cache = cache;
-
-            if (this.cacheID === '') {
-                this.cacheID = this.fileName;
-            } else {
-                this.cacheID = cacheID;
-            }
-
-            klog.info('New Kiwi.File: ' + this.toString());
-        }
-        File.prototype.objType = function () {
-            return "File";
-        };
-
-        File.prototype.load = function (onCompleteCallback, onProgressCallback, customCache, maxLoadAttempts, timeout) {
-            if (typeof onCompleteCallback === "undefined") { onCompleteCallback = null; }
-            if (typeof onProgressCallback === "undefined") { onProgressCallback = null; }
-            if (typeof customCache === "undefined") { customCache = null; }
-            if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
-            if (typeof timeout === "undefined") { timeout = 2000; }
-            this.onCompleteCallback = onCompleteCallback;
-            this.onProgressCallback = onProgressCallback;
-            this.maxLoadAttempts = maxLoadAttempts;
-            this.timeOutDelay = timeout;
-
-            if (customCache !== null) {
-                this._cache = customCache;
-                this._saveToCache = true;
-            }
-
-            this.start();
-
-            if (this._useTagLoader === true) {
-                this.tagLoader();
-            } else {
-                this.xhrLoader();
-            }
-        };
-
-        File.prototype.start = function () {
-            this.timeStarted = Date.now();
-            this.lastProgress = Date.now();
-            this.percentLoaded = 0;
-        };
-
-        File.prototype.stop = function () {
-            this.percentLoaded = 100;
-            this.timeFinished = Date.now();
-            this.duration = this.timeFinished - this.timeStarted;
-        };
-
-        File.prototype.tagLoader = function () {
-            var _this = this;
-            if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS) {
-                this.data = new Image();
-                this.data.src = this.fileURL;
-                this.data.onload = function (event) {
-                    return _this.tagLoaderOnLoad(event);
-                };
-                this.data.onerror = function (event) {
-                    return _this.tagLoaderOnError(event);
-                };
-                this.data.onreadystatechange = function (event) {
-                    return _this.tagLoaderOnReadyStateChange(event);
-                };
-            } else if (this.dataType === Kiwi.File.AUDIO) {
-                console.log('Ewww...disgusting...your loading by the audio tags....');
-
-                this.data = new Audio();
-                this.data.src = this.fileURL;
-                this.data.preload = 'auto';
-                this.data.onerror = function (event) {
-                    return _this.tagLoaderOnError(event);
-                };
-
-                this.tagLoaderOnLoad(null);
-            }
-        };
-
-        File.prototype.tagLoaderOnReadyStateChange = function (event) {
-            klog.info('rs: ' + this.data.readyState);
-            klog.info('tagLoader onReadyStateChange', event);
-        };
-
-        File.prototype.tagLoaderOnError = function (event) {
-            klog.info('tagLoader onError', event);
-
-            this.hasError = true;
-            this.error = event;
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.tagLoaderProgressThrough = function (event) {
-            console.log('progress');
-            this.stop();
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.tagLoaderOnLoad = function (event) {
-            console.log('loaded');
-            this.stop();
-
-            if (this._saveToCache === true) {
-                this._cache.addFile(this.cacheID, this);
-            }
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.xhrLoader = function () {
-            var _this = this;
-            this._xhr = new XMLHttpRequest();
-            this._xhr.open('GET', this.fileURL, true);
-            this._xhr.timeout = this.timeOutDelay;
-            this._xhr.responseType = 'arraybuffer';
-
-            this._xhr.onloadstart = function (event) {
-                return _this.xhrOnLoadStart(event);
-            };
-            this._xhr.onload = function (event) {
-                return _this.xhrOnLoad(event);
-            };
-            this._xhr.onprogress = function (event) {
-                return _this.xhrOnProgress(event);
-            };
-            this._xhr.ontimeout = function (event) {
-                return _this.xhrOnTimeout(event);
-            };
-            this._xhr.onabort = function (event) {
-                return _this.xhrOnAbort(event);
-            };
-            this._xhr.onreadystatechange = function (event) {
-                return _this.xhrOnReadyStateChange(event);
-            };
-
-            this._xhr.send();
-        };
-
-        File.prototype.xhrOnReadyStateChange = function (event) {
-            this.readyState = event.target.readyState;
-
-            if (this.readyState === 4) {
-                this.xhrOnLoad(event);
-            }
-        };
-
-        File.prototype.xhrOnLoadStart = function (event) {
-            this.timeStarted = event.timeStamp;
-            this.lastProgress = event.timeStamp;
-        };
-
-        File.prototype.xhrOnAbort = function (event) {
-            klog.info('xhrOnAbort', event);
-        };
-
-        File.prototype.xhrOnError = function (event) {
-            klog.info('xhrOnError', event);
-        };
-
-        File.prototype.xhrOnTimeout = function (event) {
-            klog.info('xhrOnTimeout', event);
-        };
-
-        File.prototype.xhrOnProgress = function (event) {
-            klog.info('xhrOnProgress', event);
-
-            this.bytesLoaded = parseInt(event.loaded);
-            this.bytesTotal = parseInt(event.totalSize);
-            this.percentLoaded = Math.round((this.bytesLoaded / this.bytesTotal) * 100);
-
-            klog.info(this.fileName + ' = ' + this.bytesLoaded + ' / ' + this.bytesTotal);
-
-            if (this.onProgressCallback) {
-                this.onProgressCallback(this);
-            }
-        };
-
-        File.prototype.xhrOnLoad = function (event) {
-            if (this.timeFinished > 0) {
-                return;
-            }
-
-            this.stop();
-
-            this.status = this._xhr.status;
-            this.statusText = this._xhr.statusText;
-
-            if (this._xhr.status === 200) {
-                console.log("XHR SUCCESS");
-                this.success = true;
-                this.hasError = false;
-                this.fileType = this._xhr.getResponseHeader('Content-Type');
-                this.bytesTotal = parseInt(this._xhr.getResponseHeader('Content-Length'));
-                this.lastModified = this._xhr.getResponseHeader('Last-Modified');
-                this.ETag = this._xhr.getResponseHeader('ETag');
-                this.buffer = this._xhr.response;
-
-                if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS) {
-                    this.createBlob();
-                } else {
-                    if (this.dataType === Kiwi.File.JSON) {
-                        this.data = String.fromCharCode.apply(null, new Uint8Array(this._xhr.response));
-                        this.parseComplete();
-                    }
-
-                    if (this.dataType === Kiwi.File.AUDIO) {
-                        this.data = {
-                            raw: this._xhr.response,
-                            decoded: false,
-                            buffer: null
-                        };
-
-                        if (this._game.audio.predecode == true) {
-                            console.log('Audio is Decoding');
-
-                            var that = this;
-                            this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
-                                if (buffer) {
-                                    that.data.buffer = buffer;
-                                    that.data.decoded = true;
-                                    that.parseComplete();
-                                    console.log('Audio Decoded');
-                                }
-                            });
-                        } else {
-                            this.parseComplete();
-                        }
-                    }
-                }
-            } else {
-                this.success = false;
-                this.hasError = true;
-                this.parseComplete();
-            }
-        };
-
-        File.prototype.createBlob = function () {
-            var _this = this;
-            klog.info('creating blob');
-
-            this.data = document.createElement('img');
-            this.data.onload = function () {
-                return _this.revoke();
-            };
-
-            var imageType = '';
-
-            if (this.fileExtension === 'jpg' || this.fileExtension === 'jpeg') {
-                imageType = 'image/jpeg';
-            } else if (this.fileExtension === 'png') {
-                imageType = 'image/png';
-            } else if (this.fileExtension === 'gif') {
-                imageType = 'image/gif';
-            }
-
-            var blob = new window['Blob']([this.buffer], { type: imageType });
-
-            if (window['URL']) {
-                this.data.src = window['URL'].createObjectURL(blob);
-            } else if (window['webkitURL']) {
-                this.data.src = window['webkitURL'].createObjectURL(blob);
-            }
-        };
-
-        File.prototype.revoke = function () {
-            klog.info('revoking');
-
-            if (window['URL']) {
-                window['URL'].revokeObjectURL(this.data.src);
-            } else if (window['webkitURL']) {
-                window['webkitURL'].revokeObjectURL(this.data.src);
-            }
-
-            this.parseComplete();
-        };
-
-        File.prototype.parseComplete = function () {
-            klog.info('parse complete');
-
-            if (this._saveToCache === true) {
-                klog.info('saving to cache', this._cache, this.cacheID);
-                this._cache.addFile(this.cacheID, this);
-            }
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.getFileDetails = function (callback, maxLoadAttempts, timeout) {
-            if (typeof callback === "undefined") { callback = null; }
-            if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
-            if (typeof timeout === "undefined") { timeout = 2000; }
-            klog.info('Getting File Details of ' + this.fileURL);
-
-            this.onCompleteCallback = callback;
-            this.maxLoadAttempts = maxLoadAttempts;
-            this.timeOutDelay = timeout;
-
-            this.sendXHRHeadRequest();
-        };
-
-        File.prototype.sendXHRHeadRequest = function () {
-            var _this = this;
-            klog.info('xhr send');
-
-            this.attemptCounter++;
-
-            this._xhr = new XMLHttpRequest();
-            this._xhr.open('HEAD', this.fileURL, false);
-            this._xhr.onload = function (event) {
-                return _this.getXHRResponseHeaders(event);
-            };
-            this._xhr.ontimeout = function (event) {
-                return _this.xhrHeadOnTimeout(event);
-            };
-            this._xhr.onerror = function (event) {
-                return _this.xhrHeadOnError(event);
-            };
-            this._xhr.timeout = this.timeOutDelay;
-            this._xhr.send();
-        };
-
-        File.prototype.xhrHeadOnTimeout = function (event) {
-            klog.info('on XHR timeout', event);
-
-            this.hasTimedOut = true;
-            this.timedOut = Date.now();
-
-            if (this.attemptCounter >= this.maxLoadAttempts) {
-                this.hasError = true;
-                this.error = event;
-
-                if (this.onCompleteCallback) {
-                    this.onCompleteCallback.call(this);
-                }
-            } else {
-                this.sendXHRHeadRequest();
-            }
-        };
-
-        File.prototype.xhrHeadOnError = function (event) {
-            klog.info('on XHR error', event);
-
-            this.hasError = true;
-            this.error = event;
-            this.status = this._xhr.status;
-            this.statusText = this._xhr.statusText;
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.getXHRResponseHeaders = function (event) {
-            this.status = this._xhr.status;
-            this.statusText = this._xhr.statusText;
-
-            klog.info('xhr response ' + this.status, this.statusText);
-
-            if (this._xhr.status === 200) {
-                this.fileType = this._xhr.getResponseHeader('Content-Type');
-                this.fileSize = parseInt(this._xhr.getResponseHeader('Content-Length'));
-                this.lastModified = this._xhr.getResponseHeader('Last-Modified');
-                this.ETag = this._xhr.getResponseHeader('ETag');
-            }
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.saveToCache = function (value) {
-            if (value) {
-                this._saveToCache = value;
-            }
-
-            return this._saveToCache;
-        };
-
-        File.prototype.cache = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._cache = value;
-            }
-
-            return this._cache;
-        };
-
-        File.prototype.toString = function () {
-            return "[{File (fileURL=" + this.fileURL + " fileName=" + this.fileName + " dataType=" + this.dataType + " fileSize=" + this.fileSize + " success=" + this.success + " status=" + this.status + ")}]";
-        };
-        File.IMAGE = 0;
-
-        File.SPRITE_SHEET = 1;
-
-        File.TEXTURE_ATLAS = 2;
-
-        File.AUDIO = 3;
-
-        File.JSON = 4;
-
-        File.XML = 5;
-
-        File.BINARY_DATA = 6;
-
-        File.TEXT_DATA = 7;
-        return File;
-    })();
-    Kiwi.File = File;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var FileCache = (function () {
-        function FileCache() {
-            this._cacheSize = 0;
-            this._files = {};
-        }
-        FileCache.prototype.objType = function () {
-            return "FileCache";
-        };
-
-        FileCache.prototype.getFile = function (key) {
-            return this._files[key];
-        };
-
-        Object.defineProperty(FileCache.prototype, "keys", {
-            get: function () {
-                var keys = new Array();
-                for (var key in this._files) {
-                    keys.push(key);
-                }
-
-                return keys;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        FileCache.prototype.size = function () {
-            return this._cacheSize;
-        };
-
-        FileCache.prototype.addFile = function (key, value) {
-            if (!this._files[key]) {
-                this._files[key] = value;
-                this._cacheSize++;
-                return true;
-            }
-
-            return false;
-        };
-
-        FileCache.prototype.exists = function (key) {
-            if (this._files[key]) {
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        FileCache.prototype.removeFile = function (key) {
-            if (this._files[key]) {
-                this._files[key] = null;
-                delete this._files[key];
-                return true;
-            }
-
-            return false;
-        };
-        return FileCache;
-    })();
-    Kiwi.FileCache = FileCache;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Cache = (function () {
-        function Cache(game) {
-            this.images = null;
-            this.audio = null;
-            this.data = null;
-            this._game = game;
-        }
-        Cache.prototype.objType = function () {
-            return "Cache";
-        };
-
-        Cache.prototype.boot = function () {
-            this._caches = [];
-
-            this._caches.push(new Kiwi.FileCache());
-            this._caches.push(new Kiwi.FileCache());
-            this._caches.push(new Kiwi.FileCache());
-
-            this.images = this._caches[0];
-            this.audio = this._caches[1];
-            this.data = this._caches[2];
-        };
-
-        Cache.prototype.checkImageCacheID = function (cacheID, cache) {
-            if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
-                klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                return false;
-            }
-
-            return true;
-        };
-
-        Cache.prototype.checkDataCacheID = function (cacheID, cache) {
-            if (cacheID == '' || cache === null || cache.images === null || cache.data.exists(cacheID) === false) {
-                klog.warn('Data cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                return false;
-            }
-
-            return true;
-        };
-        return Cache;
-    })();
-    Kiwi.Cache = Cache;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (Components) {
         var Texture = (function (_super) {
             __extends(Texture, _super);
@@ -3238,526 +7293,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Geom) {
-        var Vector2 = (function () {
-            function Vector2(x, y) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                this.setTo(x, y);
-            }
-            Vector2.prototype.objType = function () {
-                return "Vector2";
-            };
-
-            Vector2.fromAngle = function (angle) {
-                return new Vector2(Math.cos(angle), Math.sin(angle));
-            };
-
-            Vector2.randomRadius = function (radius) {
-                return new Vector2(Math.random() * 2 - 1, Math.random() * 2 - 1).multiplyScalar(radius);
-            };
-
-            Vector2.fromPoint = function (point) {
-                return new Vector2(point.x, point.y);
-            };
-
-            Vector2.prototype.add = function (vector2) {
-                return new Vector2(this.x + vector2.x, this.y + vector2.y);
-            };
-
-            Vector2.prototype.addX = function (vector2) {
-                return new Vector2(this.x + vector2.x, this.y);
-            };
-
-            Vector2.prototype.addY = function (vector2) {
-                return new Vector2(this.x, this.y + vector2.y);
-            };
-
-            Vector2.prototype.subtract = function (vector2) {
-                return new Kiwi.Geom.Vector2(this.x - vector2.x, this.y - vector2.y);
-            };
-
-            Vector2.prototype.multiply = function (vector2) {
-                return new Kiwi.Geom.Vector2(this.x * vector2.x, this.y * vector2.y);
-            };
-
-            Vector2.prototype.multiplyScalar = function (scalar) {
-                return new Kiwi.Geom.Vector2(this.x * scalar, this.y * scalar);
-            };
-
-            Vector2.prototype.dot = function (vector2) {
-                return this.x * vector2.x + this.y * vector2.y;
-            };
-
-            Vector2.prototype.lenSqr = function () {
-                return this.x * this.x + this.y * this.y;
-            };
-
-            Vector2.prototype.len = function () {
-                return Math.sqrt(this.x * this.x + this.y * this.y);
-            };
-
-            Vector2.prototype.unit = function () {
-                var invLen = 1.0 / this.len();
-                return this.multiplyScalar(invLen);
-            };
-
-            Vector2.prototype.floor = function () {
-                return new Vector2(Math.floor(this.x), Math.floor(this.y));
-            };
-
-            Vector2.prototype.ceil = function () {
-                return new Vector2(Math.ceil(this.x), Math.ceil(this.y));
-            };
-
-            Vector2.prototype.round = function () {
-                return new Vector2(Math.round(this.x), Math.round(this.y));
-            };
-
-            Vector2.prototype.clamp = function (min, max) {
-                return new Vector2(Math.max(Math.min(this.x, max.x), min.x), Math.max(Math.min(this.y, max.y), min.y));
-            };
-
-            Vector2.prototype.perp = function () {
-                return new Vector2(-this.y, this.x);
-            };
-
-            Vector2.prototype.neg = function () {
-                return new Vector2(-this.x, -this.y);
-            };
-
-            Vector2.prototype.equal = function (vector2) {
-                return this.x === vector2.x && this.y === vector2.y;
-            };
-
-            Vector2.prototype.point = function () {
-                return new Geom.Point(this.x, this.y);
-            };
-
-            Vector2.prototype.clear = function () {
-                this.x = 0;
-                this.y = 0;
-                return this;
-            };
-
-            Vector2.prototype.clone = function (output) {
-                if (output) {
-                    return output.setTo(this.x, this.y);
-                } else {
-                    return new Vector2(this.x, this.y);
-                }
-            };
-
-            Vector2.prototype.copyFrom = function (source) {
-                this.x = source.x;
-                this.y = source.y;
-                return this;
-            };
-
-            Vector2.prototype.copyTo = function (target) {
-                target.x = this.x;
-                target.y = this.y;
-                return target;
-            };
-
-            Vector2.prototype.setTo = function (x, y) {
-                this.x = x;
-                this.y = y;
-                return this;
-            };
-
-            Vector2.prototype.toString = function () {
-                return '[{Vector2 (x=' + this.x + ' y=' + this.y + ')}]';
-            };
-            return Vector2;
-        })();
-        Geom.Vector2 = Vector2;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Particles) {
-        var Particle = (function () {
-            function Particle(position, velocity, lifespan) {
-                this._position = position;
-                this._velocity = velocity;
-                this.lifespan = lifespan;
-                this.age = Date.now();
-                this._dampen = Particle.DEFAULT_DAMPEN;
-                this.birthTime = Date.now();
-            }
-            Particle.prototype.objType = function () {
-                return "Particle";
-            };
-
-            Particle.prototype.position = function () {
-                return this._position;
-            };
-
-            Particle.prototype.normalAge = function () {
-                return this._normalAge;
-            };
-
-            Particle.generate = function (position, velocity, lifespan) {
-                var p = new Particle(position, velocity, lifespan);
-
-                return p;
-            };
-
-            Particle.prototype.update = function (time, force) {
-                this.age = time - this.birthTime;
-                if (this.age > this.lifespan)
-                    return false;
-                this._normalAge = 1 / this.lifespan * this.age;
-
-                if (force)
-                    this._velocity = this._velocity.add(force);
-
-                this._velocity = this._velocity.multiplyScalar(this._dampen);
-
-                this._position.x += this._velocity.x;
-                this._position.y += this._velocity.y;
-                return true;
-            };
-            Particle.DEFAULT_DAMPEN = 1;
-            return Particle;
-        })();
-        Particles.Particle = Particle;
-    })(Kiwi.Particles || (Kiwi.Particles = {}));
-    var Particles = Kiwi.Particles;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Particles) {
-        var ParticleSpriteSheet = (function () {
-            function ParticleSpriteSheet(image, frames, rows, cols, frameWidth, frameHeight) {
-                this.image = image;
-                this.frames = frames;
-                this.rows = rows;
-                this.cols = cols;
-                this.frameWidth = frameWidth;
-                this.frameHeight = frameHeight;
-                this._currentFrameIndex = -1;
-            }
-            ParticleSpriteSheet.prototype.objType = function () {
-                return "ParticleSpriteSheet";
-            };
-
-            ParticleSpriteSheet.prototype.currentFrameIndex = function (value) {
-                if (value !== undefined) {
-                    this._currentFrameIndex = value;
-                    if (this._currentFrameIndex >= this.frames)
-                        this._currentFrameIndex = 0;
-                }
-
-                return this._currentFrameIndex;
-            };
-
-            ParticleSpriteSheet.prototype.getFramePos = function (frameNumber) {
-                var col = frameNumber % this.cols;
-                var row = Math.floor(frameNumber / this.cols);
-
-                return new Kiwi.Geom.Vector2(col * this.frameWidth, row * this.frameHeight);
-            };
-            return ParticleSpriteSheet;
-        })();
-        Particles.ParticleSpriteSheet = ParticleSpriteSheet;
-    })(Kiwi.Particles || (Kiwi.Particles = {}));
-    var Particles = Kiwi.Particles;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Particles) {
-        var Circle = (function () {
-            function Circle(radius) {
-                console.log("ParticleShape => Circle:construct");
-
-                this.radius = radius;
-            }
-            Circle.prototype.objType = function () {
-                return "ParticleSystemShapes";
-            };
-
-            Circle.prototype.getPositionArea = function (offset) {
-                var off = offset || new Kiwi.Geom.Vector2();
-                var ang = Math.random() * Math.PI * 2;
-                var x = Math.random() * this.radius * Math.cos(ang);
-                var y = Math.random() * this.radius * Math.sin(ang);
-
-                var pos = new Kiwi.Geom.Vector2(x, y);
-                pos = pos.add(off);
-                return pos;
-            };
-
-            Circle.prototype.getPositionEdge = function (offset) {
-                var off = offset || new Kiwi.Geom.Vector2();
-                var ang = Math.random() * Math.PI * 2;
-                var x = this.radius * Math.cos(ang);
-                var y = this.radius * Math.sin(ang);
-
-                var pos = new Kiwi.Geom.Vector2(x, y);
-                pos = pos.add(off);
-                return pos;
-            };
-            return Circle;
-        })();
-        Particles.Circle = Circle;
-
-        var Rect = (function () {
-            function Rect(width, height) {
-                this.width = width;
-                this.height = height;
-            }
-            Rect.prototype.getPositionArea = function (offset) {
-                var pos = offset || new Kiwi.Geom.Vector2();
-                pos.x += Math.random() * this.width - this.width / 2;
-                pos.y += Math.random() * this.height - this.height / 2;
-
-                return pos;
-            };
-
-            Rect.prototype.getPositionEdge = function (offset) {
-                var pos = offset || new Kiwi.Geom.Vector2();
-                var perim = this.height * 2 + this.width * 2;
-                var rand = Math.random() * perim;
-
-                if (rand > 0 && rand < this.width) {
-                    pos.y -= this.height / 2;
-                    pos.x += rand - this.width / 2;
-                    return pos;
-                } else if (rand >= this.width && rand < this.width + this.height) {
-                    pos.x += this.width / 2;
-                    pos.y += rand - this.width - this.height / 2;
-                    return pos;
-                } else if (rand >= (this.width + this.height) && rand < (this.width * 2 + this.height)) {
-                    pos.y += this.height / 2;
-                    pos.x += rand - this.width - this.height - this.width / 2;
-                    return pos;
-                } else {
-                    pos.x -= this.width / 2;
-                    pos.y += rand - this.width - this.width - this.height - this.height / 2;
-                    return pos;
-                }
-            };
-            return Rect;
-        })();
-        Particles.Rect = Rect;
-    })(Kiwi.Particles || (Kiwi.Particles = {}));
-    var Particles = Kiwi.Particles;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Particles) {
-        var ParticleRenderer = (function () {
-            function ParticleRenderer(particleSystem) {
-            }
-            ParticleRenderer.prototype.objType = function () {
-                return "ParticleRenderer";
-            };
-
-            ParticleRenderer.prototype.particleSystem = function (value) {
-                if (value !== undefined) {
-                    this._particleSystem = value;
-                    this.particles = this._particleSystem.particles();
-                }
-                return this._particleSystem;
-            };
-
-            ParticleRenderer.prototype.render = function (contextInfo) {
-            };
-            return ParticleRenderer;
-        })();
-        Particles.ParticleRenderer = ParticleRenderer;
-    })(Kiwi.Particles || (Kiwi.Particles = {}));
-    var Particles = Kiwi.Particles;
-})(Kiwi || (Kiwi = {}));
-var Geom = Kiwi.Geom;
-var Kiwi;
-(function (Kiwi) {
-    (function (Particles) {
-        var ParticleSystem = (function () {
-            function ParticleSystem(numParticles, systemType, mode) {
-                this._systemType = systemType;
-                this.position = new Kiwi.Geom.Vector2();
-                if (mode !== undefined) {
-                    this.mode = mode;
-                } else {
-                    mode = ParticleSystem.DEFAULT_MODE;
-                }
-
-                this._numParticles = numParticles;
-                this._particlesEmmitted = 0;
-                this._particlesExhausted = 0;
-                this._particles = new Array();
-                this.particleGenerator = Kiwi.Particles.Particle;
-
-                this.shape = new Particles.Rect(100, 0);
-                this.constrainToEdge(true);
-                this._spawnFunction = this.shape.getPositionArea;
-
-                this.velocityShape = new Particles.Circle(2);
-                this.velocityBase = ParticleSystem.DEFAULT_PARTICLE_VELOCITY;
-                this.velocityFromPosMultiplier = 1;
-                this.gravity = 0;
-                this.wind = new Kiwi.Geom.Vector2();
-
-                this.particleLifespan = ParticleSystem.DEFAULT_PARTICLE_LIFESPAN;
-                this.spawnRate = ParticleSystem.DEFAULT_SPAWN_RATE;
-                this.completedEmitting = false;
-                this.exhausted = false;
-                this._lastSpawnTime = Date.now();
-                this.pause = true;
-
-                console.log("mode is " + this.mode);
-            }
-            ParticleSystem.prototype.objType = function () {
-                return "ParticleSystem";
-            };
-
-            ParticleSystem.prototype.systemType = function () {
-                return this._systemType;
-            };
-
-            ParticleSystem.prototype.particles = function () {
-                return this._particles;
-            };
-
-            ParticleSystem.prototype.numParticles = function (value) {
-                if (value !== undefined) {
-                    this._numParticles = value;
-                }
-
-                return this._numParticles;
-            };
-
-            ParticleSystem.prototype.constrainToEdge = function (value) {
-                if (value !== undefined) {
-                    this._constrainToEdge = value;
-                }
-                return this._constrainToEdge;
-            };
-
-            ParticleSystem.prototype.reset = function (start) {
-                if (typeof start === "undefined") { start = true; }
-                this._particlesEmmitted = 0;
-                this._particlesExhausted = 0;
-
-                this.completedEmitting = false;
-                this.exhausted = false;
-                this._lastSpawnTime = Date.now();
-                this.pause = true;
-                if (start)
-                    this.start();
-            };
-
-            ParticleSystem.prototype.start = function (precook) {
-                this.pause = false;
-                if (precook) {
-                    for (var i = 0; i < this._numParticles; i++) {
-                        var particle = this.spawn();
-                        var reverseTime = Math.random() * this.particleLifespan;
-                        particle.birthTime -= reverseTime;
-                    }
-                }
-                return this;
-            };
-
-            ParticleSystem.prototype.spawn = function () {
-                if (!(this.mode == ParticleSystem.CONTINUOUS) && this._particlesEmmitted >= this._numParticles) {
-                    this.completedEmitting = true;
-                }
-
-                if (this._particles.length < this._numParticles && !this.completedEmitting) {
-                    var pos = this._spawnFunction.call(this.shape);
-
-                    var vel;
-                    if (this.calcVelocityFromPos) {
-                        if (this.velocityFromPosVector) {
-                            vel = new Kiwi.Geom.Vector2(pos.x, pos.y);
-                            vel = vel.unit();
-                        } else {
-                            vel = new Kiwi.Geom.Vector2(pos.x * this.velocityFromPosMultiplier, pos.y * this.velocityFromPosMultiplier);
-                        }
-                    } else {
-                        vel = this.velocityShape.getPositionArea();
-                    }
-                    vel.x += this.velocityBase.x;
-                    vel.y += this.velocityBase.y;
-
-                    pos.x += this.position.x;
-                    pos.y += this.position.y;
-
-                    var particle = this.particleGenerator.generate(pos, vel, this.particleLifespan);
-
-                    this._particles.push(particle);
-
-                    this._particlesEmmitted += 1;
-
-                    return particle;
-                } else {
-                    return null;
-                }
-            };
-
-            ParticleSystem.prototype.update = function (time, force) {
-                force = force || new Kiwi.Geom.Vector2();
-                force.x += this.wind.x;
-                force.y += this.wind.y + this.gravity;
-                if (!this.pause) {
-                    if (time - this._lastSpawnTime > this.spawnRate) {
-                        this._lastSpawnTime = Date.now();
-                        this.spawn();
-                    }
-                    for (var i = this._particles.length - 1; i >= 0; i--) {
-                        if (!this._particles[i].update(time, force)) {
-                            this._particles.splice(i, 1);
-                            this._particlesExhausted++;
-                        }
-                    }
-                }
-
-                if (!(this.mode == ParticleSystem.CONTINUOUS) && this._particlesExhausted >= this._numParticles) {
-                    this.exhausted = true;
-
-                    if (this.onExhausted)
-                        this.onExhausted();
-                }
-
-                if (this.exhausted && this.mode == ParticleSystem.PULSE)
-                    this.reset(true);
-            };
-
-            ParticleSystem.prototype.render = function (contextInfo) {
-                this.particleRenderer.render(contextInfo);
-            };
-            ParticleSystem.CANVAS_GEOM_SYSTEM = "CANVAS_GEOM_SYSTEM";
-
-            ParticleSystem.CANVAS_BITMAP_SYSTEM = "CANVAS_BITMAP_SYSTEM";
-
-            ParticleSystem.UNDEFINED_SYSTEM = "UNDEFINED_SYSTEM";
-
-            ParticleSystem.ONCE = 0;
-
-            ParticleSystem.PULSE = 1;
-
-            ParticleSystem.CONTINUOUS = 2;
-
-            ParticleSystem.DEFAULT_MODE = 2;
-
-            ParticleSystem.DEFAULT_SPAWN_RATE = 300;
-
-            ParticleSystem.DEFAULT_PARTICLE_LIFESPAN = 1500;
-
-            ParticleSystem.DEFAULT_PARTICLE_VELOCITY = new Kiwi.Geom.Vector2(0, 0);
-            return ParticleSystem;
-        })();
-        Particles.ParticleSystem = ParticleSystem;
-    })(Kiwi.Particles || (Kiwi.Particles = {}));
-    var Particles = Kiwi.Particles;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var Animation = (function () {
         function Animation(name, atlas, sequence, speed, loop, clock) {
             this._uniqueFrameIndex = null;
@@ -3835,859 +7370,6 @@ var Kiwi;
         return Sequence;
     })();
     Kiwi.Sequence = Sequence;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Anims) {
-        var Frame = (function () {
-            function Frame(x, y, width, height, position) {
-                this.rotated = false;
-                this.rotationDirection = 'cw';
-                this.x = x;
-                this.y = y;
-                this.width = width;
-                this.height = height;
-                this.position = position;
-
-                this.rotated = false;
-                this.trimmed = false;
-            }
-            Frame.prototype.objType = function () {
-                return "Frame";
-            };
-
-            Frame.prototype.setRotation = function (rotated, rotationDirection) {
-            };
-
-            Frame.prototype.setTrim = function (trimmed, actualWidth, actualHeight, destX, destY, destWidth, destHeight) {
-            };
-
-            Frame.prototype.update = function () {
-            };
-            return Frame;
-        })();
-        Anims.Frame = Frame;
-    })(Kiwi.Anims || (Kiwi.Anims = {}));
-    var Anims = Kiwi.Anims;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Time) {
-        var TimerEvent = (function () {
-            function TimerEvent(type, callback, context) {
-                this._callback = null;
-                this.type = 0;
-                this.type = type;
-                this._callback = callback;
-                this._callbackContext = context;
-            }
-            TimerEvent.prototype.objType = function () {
-                return "TimerEvent";
-            };
-
-            TimerEvent.prototype.run = function () {
-                if (this._callback) {
-                    this._callback.apply(this._callbackContext);
-                }
-            };
-            TimerEvent.TIMER_START = 1;
-
-            TimerEvent.TIMER_COUNT = 2;
-
-            TimerEvent.TIMER_STOP = 3;
-            return TimerEvent;
-        })();
-        Time.TimerEvent = TimerEvent;
-    })(Kiwi.Time || (Kiwi.Time = {}));
-    var Time = Kiwi.Time;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Time) {
-        var Timer = (function () {
-            function Timer(name, clock, delay, repeatCount) {
-                if (typeof repeatCount === "undefined") { repeatCount = 0; }
-                this._currentCount = 0;
-                this._startEvents = null;
-                this._countEvents = null;
-                this._stopEvents = null;
-                this._clock = null;
-                this._timeLastCount = null;
-                this._isRunning = false;
-                this._isStopped = true;
-                this._isPaused = false;
-                this.name = null;
-                this.delay = 0;
-                this.repeatCount = 0;
-                this._clock = clock;
-
-                this._startEvents = [];
-                this._countEvents = [];
-                this._stopEvents = [];
-
-                this.name = name;
-                this.delay = delay;
-                this.repeatCount = repeatCount;
-            }
-            Timer.prototype.objType = function () {
-                return "Timer";
-            };
-
-            Timer.prototype.currentCount = function () {
-                return this._currentCount;
-            };
-
-            Timer.prototype.isRunning = function () {
-                return this._isRunning;
-            };
-
-            Timer.prototype.isStopped = function () {
-                return this._isStopped;
-            };
-
-            Timer.prototype.isPaused = function () {
-                return this._isPaused;
-            };
-
-            Timer.prototype.processEvents = function (type) {
-                if (type === Time.TimerEvent.TIMER_START) {
-                    for (var i = 0; i < this._startEvents.length; i++) {
-                        this._startEvents[i].run();
-                    }
-                } else if (type === Time.TimerEvent.TIMER_COUNT) {
-                    for (var i = 0; i < this._countEvents.length; i++) {
-                        this._countEvents[i].run();
-                    }
-                } else if (type === Time.TimerEvent.TIMER_STOP) {
-                    for (var i = 0; i < this._stopEvents.length; i++) {
-                        this._stopEvents[i].run();
-                    }
-                }
-            };
-
-            Timer.prototype.update = function () {
-                if (this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false) {
-                    this._currentCount++;
-
-                    this.processEvents(Time.TimerEvent.TIMER_COUNT);
-
-                    this._timeLastCount = this._clock.elapsed() || 0;
-
-                    if (this._currentCount >= this.repeatCount) {
-                        this.stop();
-                    }
-                }
-            };
-
-            Timer.prototype.start = function () {
-                if (this._isStopped === true) {
-                    this._isRunning = true;
-                    this._isPaused = false;
-                    this._isStopped = false;
-
-                    this._currentCount = 0;
-                    this._timeLastCount = this._clock.elapsed() || 0;
-
-                    this.processEvents(Time.TimerEvent.TIMER_START);
-                }
-
-                return this;
-            };
-
-            Timer.prototype.stop = function () {
-                if (this._isRunning === true || this._isPaused === true) {
-                    this._isRunning = false;
-                    this._isPaused = false;
-                    this._isStopped = true;
-
-                    this.processEvents(Time.TimerEvent.TIMER_STOP);
-                }
-
-                return this;
-            };
-
-            Timer.prototype.pause = function () {
-                if (this._isRunning === true) {
-                    this._isRunning = false;
-                    this._isPaused = true;
-                }
-
-                return this;
-            };
-
-            Timer.prototype.resume = function () {
-                if (this._isPaused === true) {
-                    this._isRunning = true;
-                    this._isPaused = false;
-                }
-
-                return this;
-            };
-
-            Timer.prototype.addTimerEvent = function (event) {
-                if (event.type === Time.TimerEvent.TIMER_START) {
-                    this._startEvents.push(event);
-                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
-                    this._countEvents.push(event);
-                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
-                    this._stopEvents.push(event);
-                }
-
-                return event;
-            };
-
-            Timer.prototype.createTimerEvent = function (type, callback, context) {
-                if (type === Time.TimerEvent.TIMER_START) {
-                    this._startEvents.push(new Time.TimerEvent(type, callback, context));
-                    return this._startEvents[this._startEvents.length - 1];
-                } else if (type === Time.TimerEvent.TIMER_COUNT) {
-                    this._countEvents.push(new Time.TimerEvent(type, callback, context));
-                    return this._countEvents[this._countEvents.length - 1];
-                } else if (type === Time.TimerEvent.TIMER_STOP) {
-                    this._stopEvents.push(new Time.TimerEvent(type, callback, context));
-                    return this._stopEvents[this._stopEvents.length - 1];
-                }
-
-                return null;
-            };
-
-            Timer.prototype.removeTimerEvent = function (event) {
-                var removed = [];
-
-                if (event.type === Time.TimerEvent.TIMER_START) {
-                    removed = this._startEvents.splice(this._startEvents.indexOf(event), 1);
-                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
-                    removed = this._countEvents.splice(this._countEvents.indexOf(event), 1);
-                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
-                    removed = this._stopEvents.splice(this._stopEvents.indexOf(event), 1);
-                }
-
-                if (removed.length === 1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Timer.prototype.clear = function (type) {
-                if (typeof type === "undefined") { type = 0; }
-                if (type === 0) {
-                    this._startEvents.length = 0;
-                    this._countEvents.length = 0;
-                    this._stopEvents.length = 0;
-                } else if (type === Time.TimerEvent.TIMER_START) {
-                    this._startEvents.length = 0;
-                } else if (type === Time.TimerEvent.TIMER_COUNT) {
-                    this._countEvents.length = 0;
-                } else if (type === Time.TimerEvent.TIMER_STOP) {
-                    this._stopEvents.length = 0;
-                }
-            };
-
-            Timer.prototype.toString = function () {
-                return "[{Timer (name=" + this.name + " delay=" + this.delay + " repeatCount=" + this.repeatCount + " running=" + this._isRunning + ")}]";
-            };
-            return Timer;
-        })();
-        Time.Timer = Timer;
-    })(Kiwi.Time || (Kiwi.Time = {}));
-    var Time = Kiwi.Time;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Time) {
-        var MasterClock = (function () {
-            function MasterClock() {
-                this.time = 0;
-                this.now = 0;
-                this.delta = 0;
-                this._started = Date.now();
-                this.time = this._started;
-            }
-            MasterClock.prototype.objType = function () {
-                return "MasterClock";
-            };
-
-            MasterClock.prototype.elapsed = function () {
-                return this.now - this._started;
-            };
-
-            MasterClock.prototype.totalElapsedSeconds = function () {
-                return (this.now - this._started) * 0.001;
-            };
-
-            MasterClock.prototype.update = function () {
-                this.now = Date.now();
-
-                this.delta = this.now - this.time;
-
-                this.time = this.now;
-
-                if (this.delta > 0.1) {
-                    this.delta = 0.1;
-                }
-            };
-
-            MasterClock.prototype.elapsedSince = function (since) {
-                return this.now - since;
-            };
-
-            MasterClock.prototype.elapsedSecondsSince = function (since) {
-                return (this.now - since) * 0.001;
-            };
-
-            MasterClock.prototype.reset = function () {
-                this._started = this.now;
-            };
-            return MasterClock;
-        })();
-        Time.MasterClock = MasterClock;
-    })(Kiwi.Time || (Kiwi.Time = {}));
-    var Time = Kiwi.Time;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Time) {
-        var Clock = (function () {
-            function Clock(manager, master, name, units) {
-                if (typeof units === "undefined") { units = 1000; }
-                this._timeFirstStarted = null;
-                this._timeLastStarted = null;
-                this._timeLastStopped = null;
-                this._timeLastPaused = null;
-                this._timeLastUnpaused = null;
-                this._totalPaused = 0;
-                this._isRunning = false;
-                this._isStopped = true;
-                this._isPaused = false;
-                this._elapsedState = 0;
-                this.manager = null;
-                this.master = null;
-                this.name = null;
-                this.units = 0;
-                this.manager = manager;
-                this.master = master;
-                this.name = name;
-                this.units = units;
-                this.timers = [];
-
-                if (this.units < 1) {
-                    this.units = 1;
-                }
-            }
-            Clock.prototype.objType = function () {
-                return "Clock";
-            };
-
-            Clock.prototype.elapsedSinceFirstStarted = function () {
-                return (this._timeLastStarted) ? (this.master.elapsed() - this._timeFirstStarted) / this.units : null;
-            };
-
-            Clock.prototype.started = function () {
-                return this._timeLastStarted;
-            };
-
-            Clock.prototype.elapsed = function () {
-                if (this._elapsedState === 0) {
-                    return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-                } else if (this._elapsedState === 1) {
-                    return (this._timeLastPaused - this._timeLastStarted - this._totalPaused) / this.units;
-                } else if (this._elapsedState === 2) {
-                    return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
-                } else if (this._elapsedState === 3) {
-                    return (this._timeLastStopped - this._timeLastStarted - this._totalPaused) / this.units;
-                }
-            };
-
-            Clock.prototype.elapsedSinceLastStopped = function () {
-                return (this._timeLastStarted) ? (this.master.elapsed() - this._timeLastStopped) / this.units : null;
-            };
-
-            Clock.prototype.elapsedSinceLastPaused = function () {
-                return (this._timeLastStarted) ? (this.master.elapsed() - this._timeLastPaused) / this.units : null;
-            };
-
-            Clock.prototype.elapsedSinceLastUnpaused = function () {
-                return (this._timeLastStarted) ? (this.master.elapsed() - this._timeLastUnpaused) / this.units : null;
-            };
-
-            Clock.prototype.isRunning = function () {
-                return this._isRunning;
-            };
-
-            Clock.prototype.isStopped = function () {
-                return this._isStopped;
-            };
-
-            Clock.prototype.isPaused = function () {
-                return this._isPaused;
-            };
-
-            Clock.prototype.addTimer = function (timer) {
-                this.timers.push(timer);
-
-                return this;
-            };
-
-            Clock.prototype.createTimer = function (name, delay, repeatCount) {
-                if (typeof delay === "undefined") { delay = 1; }
-                if (typeof repeatCount === "undefined") { repeatCount = 0; }
-                this.timers.push(new Time.Timer(name, this, delay, repeatCount));
-
-                return this.timers[this.timers.length - 1];
-            };
-
-            Clock.prototype.removeTimer = function (timer, timerName) {
-                if (typeof timer === "undefined") { timer = null; }
-                if (typeof timerName === "undefined") { timerName = ''; }
-                if (timer !== null) {
-                    if (this.timers[timer.name]) {
-                        delete this.timers[timer.name];
-
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-
-                if (timerName !== '') {
-                    if (this.timers[timerName]) {
-                        delete this.timers[timerName];
-
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-
-                return false;
-            };
-
-            Clock.prototype.checkExists = function (name) {
-                if (this.timers[name]) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Clock.prototype.stopAllTimers = function () {
-                for (var i = 0; i < this.timers.length; i++) {
-                    this.timers[i].stop();
-                }
-
-                return this;
-            };
-
-            Clock.prototype.convertToMilliseconds = function (time) {
-                return time * this.units;
-            };
-
-            Clock.prototype.update = function () {
-                for (var i = 0; i < this.timers.length; i++) {
-                    this.timers[i].update();
-                }
-            };
-
-            Clock.prototype.start = function () {
-                this._timeLastStarted = this.master.elapsed();
-                this._totalPaused = 0;
-
-                if (!this._timeFirstStarted) {
-                    this._timeFirstStarted = this._timeLastStarted;
-                }
-
-                this._isRunning = true;
-                this._isPaused = false;
-                this._isStopped = false;
-
-                this._elapsedState = 0;
-
-                return this;
-            };
-
-            Clock.prototype.pause = function () {
-                if (this._isRunning === true) {
-                    this._timeLastPaused = this.master.elapsed();
-                    this._isRunning = false;
-                    this._isPaused = true;
-                    this._isStopped = false;
-
-                    this._elapsedState = 1;
-                }
-
-                return this;
-            };
-
-            Clock.prototype.resume = function () {
-                if (this._isPaused === true) {
-                    this._timeLastUnpaused = this.master.elapsed();
-                    this._totalPaused += this._timeLastUnpaused - this._timeLastPaused;
-                    this._isRunning = true;
-                    this._isPaused = false;
-                    this._isStopped = false;
-
-                    this._elapsedState = 2;
-                }
-
-                return this;
-            };
-
-            Clock.prototype.stop = function () {
-                if (this._isStopped === false) {
-                    this._timeLastStopped = this.master.elapsed();
-
-                    if (this._isPaused === true) {
-                        this._totalPaused += this._timeLastStopped - this._timeLastPaused;
-                    }
-
-                    this._isRunning = false;
-                    this._isPaused = false;
-                    this._isStopped = true;
-
-                    this._elapsedState = 3;
-                }
-
-                return this;
-            };
-
-            Clock.prototype.toString = function () {
-                return "[{Clock (name=" + this.name + " units=" + this.units + " running=" + this._isRunning + ")}]";
-            };
-            return Clock;
-        })();
-        Time.Clock = Clock;
-    })(Kiwi.Time || (Kiwi.Time = {}));
-    var Time = Kiwi.Time;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Anims) {
-        var Animation = (function () {
-            function Animation(name, file, frames, playSpeed, repeat) {
-                this._clock = null;
-                this._startTime = null;
-                this._playPendingState = false;
-                this._uniqueFrameIndex = null;
-                this.name = name;
-                this.file = file;
-
-                this._frames = frames;
-                this._frameIndex = 0;
-                this._speed = playSpeed;
-                this._length = frames.length;
-                this._repeat = repeat;
-                this._isPlaying = true;
-
-                this.currentFrame = this.getFrame(this._frameIndex);
-
-                this.onUpdate = new Kiwi.Signal();
-                this.onPlay = new Kiwi.Signal();
-                this.onStop = new Kiwi.Signal();
-                this.onComplete = new Kiwi.Signal();
-            }
-            Animation.prototype.objType = function () {
-                return "Animation";
-            };
-
-            Animation.prototype._start = function (index) {
-                if (typeof index === "undefined") { index = 0; }
-                this._startTime = this._clock.elapsed();
-                this._tick = this._startTime + this._speed;
-                this._frameIndex = index;
-                this.currentFrame = this.getFrame(this._frameIndex);
-                this.onUpdate.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
-                this.onPlay.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
-            };
-
-            Animation.prototype.clock = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null) {
-                    this._clock = value;
-
-                    if (this._playPendingState === true) {
-                        this._playPendingState = false;
-
-                        if (this._uniqueFrameIndex !== null) {
-                            this._start(this._uniqueFrameIndex);
-                            this._uniqueFrameIndex = null;
-                        } else {
-                            this._start();
-                        }
-                    }
-                }
-
-                return this._clock;
-            };
-
-            Animation.prototype.play = function () {
-                this._isPlaying = true;
-
-                if (this._clock === null) {
-                    this._playPendingState = true;
-                } else {
-                    this._start();
-                }
-            };
-
-            Animation.prototype.playAt = function (index) {
-                this._isPlaying = true;
-
-                if (this._clock === null) {
-                    this._playPendingState = true;
-                    this._uniqueFrameIndex = index;
-                } else {
-                    this._start(index);
-                }
-            };
-
-            Animation.prototype.pause = function () {
-                this.stop();
-            };
-
-            Animation.prototype.resume = function () {
-                if (this._startTime === null) {
-                    klog.warn('Animation\'s can only resume if they have been played before!');
-                } else {
-                    this._isPlaying = true;
-                }
-            };
-
-            Animation.prototype.stop = function () {
-                this._isPlaying = false;
-                this.onStop.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
-            };
-
-            Animation.prototype.update = function () {
-                if (this._isPlaying) {
-                    if (this._playPendingState === false && this._clock.elapsed() >= this._tick) {
-                        this._tick = this._clock.elapsed() + this._speed;
-                        this._frameIndex++;
-
-                        if (this._frameIndex === this._length && this._repeat != Kiwi.Anims.PLAY_ONCE) {
-                            this._frameIndex = 0;
-                            this.onComplete.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
-                        } else if (this._frameIndex === this._length && this._repeat == Kiwi.Anims.PLAY_ONCE) {
-                            this._frameIndex = this._length - 1;
-                            this.onComplete.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
-                            this.stop();
-                        }
-
-                        this.currentFrame = this.getFrame(this._frameIndex);
-                        this.onUpdate.dispatch(this._frameIndex, -this.currentFrame.x, -this.currentFrame.y);
-                    }
-                }
-            };
-
-            Animation.prototype.renderToCanvas = function (ctx, x, y) {
-                ctx.drawImage(this.file.data, this.currentFrame.x, this.currentFrame.y, this.currentFrame.width, this.currentFrame.height, x, y, this.currentFrame.width, this.currentFrame.height);
-            };
-
-            Animation.prototype.drawFrameToCanvasLayer = function (layer, frameNumber, x, y) {
-                var frame = this.getFrame(frameNumber);
-
-                if (frame !== null) {
-                    layer.canvas.context.drawImage(this.file.data, frame.x, frame.y, frame.width, frame.height, x, y, frame.width, frame.height);
-                }
-            };
-
-            Animation.prototype.frameExists = function (frameIndex) {
-                if (frameIndex <= this._length) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Animation.prototype.getFrame = function (index) {
-                if (typeof index === "undefined") { index = null; }
-                if (index === null) {
-                    return this._frames[this._frameIndex];
-                } else if (this.frameExists(index)) {
-                    return this._frames[index];
-                }
-
-                return;
-            };
-
-            Animation.prototype.setFrame = function (value) {
-                this._frameIndex = value;
-                this.currentFrame = this.getFrame(this._frameIndex);
-                this.onUpdate.dispatch(-this.currentFrame.x, -this.currentFrame.y);
-            };
-
-            Animation.prototype.isPlaying = function () {
-                return this._isPlaying;
-            };
-
-            Animation.prototype.speed = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null) {
-                    this._speed = value;
-                }
-
-                return this._speed;
-            };
-
-            Animation.prototype.frameIndex = function () {
-                return this._frameIndex;
-            };
-
-            Animation.prototype.length = function () {
-                return this._length;
-            };
-            return Animation;
-        })();
-        Anims.Animation = Animation;
-    })(Kiwi.Anims || (Kiwi.Anims = {}));
-    var Anims = Kiwi.Anims;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Anims) {
-        (function (Formats) {
-            var SpriteSheet = (function () {
-                function SpriteSheet() {
-                }
-                SpriteSheet.prototype.objType = function () {
-                    return "SpriteSheet";
-                };
-
-                SpriteSheet.prototype.getFrameData = function (cacheID, cache, frameWidth, frameHeight) {
-                    var width = cache.getFile(cacheID).data.width;
-                    var height = cache.getFile(cacheID).data.height;
-
-                    var row = Math.round(width / frameWidth);
-                    var column = Math.round(height / frameHeight);
-                    var total = row * column;
-
-                    if (width == 0 || height == 0 || width < frameWidth || height < frameHeight || total === 0) {
-                        return null;
-                    }
-
-                    var data = new Kiwi.Anims.FrameData(cacheID, cache);
-
-                    var x = 0;
-                    var y = 0;
-
-                    for (var i = 0; i < total; i++) {
-                        data.addFrame(new Anims.Frame(x, y, frameWidth, frameHeight, i));
-
-                        x += frameWidth;
-
-                        if (x === width) {
-                            x = 0;
-                            y += frameHeight;
-                        }
-                    }
-
-                    return data;
-                };
-                return SpriteSheet;
-            })();
-            Formats.SpriteSheet = SpriteSheet;
-        })(Anims.Formats || (Anims.Formats = {}));
-        var Formats = Anims.Formats;
-    })(Kiwi.Anims || (Kiwi.Anims = {}));
-    var Anims = Kiwi.Anims;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Anims) {
-        var FrameData = (function () {
-            function FrameData(cacheID, cache) {
-                this.cacheID = cacheID;
-                this.cache = cache;
-                this._frames = [];
-            }
-            FrameData.prototype.objType = function () {
-                return "FrameData";
-            };
-
-            FrameData.prototype.addFrame = function (frame) {
-                this._frames.push(frame);
-            };
-
-            FrameData.prototype.getFrame = function (frame) {
-                return this._frames[frame];
-            };
-
-            FrameData.prototype.getFrameRange = function (start, end) {
-                var output = [];
-
-                for (var i = start; i <= end; i++) {
-                    output.push(this._frames[i]);
-                }
-
-                return output;
-            };
-
-            FrameData.prototype.getAllFrames = function () {
-                return this._frames;
-            };
-
-            FrameData.prototype.getFrames = function (range) {
-                var output = [];
-
-                for (var i = 0; i < range.length; i++) {
-                    var f = range[i];
-                    output.push(this._frames[f]);
-                }
-
-                return output;
-            };
-            return FrameData;
-        })();
-        Anims.FrameData = FrameData;
-    })(Kiwi.Anims || (Kiwi.Anims = {}));
-    var Anims = Kiwi.Anims;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Anims) {
-        Anims.PLAY_ONCE = 0;
-        Anims.PLAY_LOOP = 1;
-        Anims.PLAY_BOUNCE = 2;
-
-        var Manager = (function () {
-            function Manager(game) {
-                this._game = game;
-            }
-            Manager.prototype.objType = function () {
-                return "Manager";
-            };
-
-            Manager.prototype.boot = function () {
-                klog.info('Animations booted');
-
-                this._data = {};
-
-                this._spriteSheet = new Kiwi.Anims.Formats.SpriteSheet();
-            };
-
-            Manager.prototype.getSpriteSheetFrames = function (cacheID, cache, frameWidth, frameHeight) {
-                return this._spriteSheet.getFrameData(cacheID, cache, frameWidth, frameHeight);
-            };
-
-            Manager.prototype.removeSpriteSheet = function (name) {
-                if (this._data[name]) {
-                    delete this._data[name];
-                    return true;
-                }
-
-                return false;
-            };
-
-            Manager.prototype.prepareTextureAtlas = function () {
-            };
-
-            Manager.prototype.prepareBoneData = function () {
-            };
-            return Manager;
-        })();
-        Anims.Manager = Manager;
-    })(Kiwi.Anims || (Kiwi.Anims = {}));
-    var Anims = Kiwi.Anims;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -4963,1706 +7645,6 @@ var Kiwi;
         return ComponentManager;
     })();
     Kiwi.ComponentManager = ComponentManager;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Device = (function () {
-        function Device() {
-            this.iOS = false;
-            this.android = false;
-            this.chromeOS = false;
-            this.linux = false;
-            this.macOS = false;
-            this.windows = false;
-            this.canvas = false;
-            this.file = false;
-            this.fileSystem = false;
-            this.localStorage = false;
-            this.webGL = false;
-            this.worker = false;
-            this.blob = false;
-            this.touch = false;
-            this.css3D = false;
-            this.arora = false;
-            this.chrome = false;
-            this.epiphany = false;
-            this.firefox = false;
-            this.ie = false;
-            this.ieVersion = 0;
-            this.mobileSafari = false;
-            this.midori = false;
-            this.opera = false;
-            this.safari = false;
-            this.webApp = false;
-            this.audioData = false;
-            this.webaudio = false;
-            this.ogg = false;
-            this.mp3 = false;
-            this.wav = false;
-            this.m4a = false;
-            this.iPhone = false;
-            this.iPhone4 = false;
-            this.iPad = false;
-            this.pixelRatio = 0;
-            klog.info('Device DOM boot');
-
-            this._checkAudio();
-            this._checkBrowser();
-            this._checkCSS3D();
-            this._checkDevice();
-            this._checkFeatures();
-            this._checkOS();
-        }
-        Device.prototype.objType = function () {
-            return "Device";
-        };
-
-        Device.prototype._checkOS = function () {
-            var ua = navigator.userAgent;
-
-            if (/Android/.test(ua)) {
-                this.android = true;
-            } else if (/CrOS/.test(ua)) {
-                this.chromeOS = true;
-            } else if (/iP[ao]d|iPhone/i.test(ua)) {
-                this.iOS = true;
-            } else if (/Linux/.test(ua)) {
-                this.linux = true;
-            } else if (/Mac OS/.test(ua)) {
-                this.macOS = true;
-            } else if (/Windows/.test(ua)) {
-                this.windows = true;
-            }
-        };
-
-        Device.prototype._checkFeatures = function () {
-            if (typeof window['Blob'] !== 'undefined')
-                this.blob = true;
-
-            this.canvas = !!window['CanvasRenderingContext2D'];
-
-            try  {
-                this.localStorage = !!localStorage.getItem;
-            } catch (error) {
-                this.localStorage = false;
-            }
-
-            this.file = !!window['File'] && !!window['FileReader'] && !!window['FileList'] && !!window['Blob'];
-            this.fileSystem = !!window['requestFileSystem'];
-            this.webGL = !!window['WebGLRenderingContext'];
-            this.worker = !!window['Worker'];
-
-            if ('ontouchstart' in document.documentElement || window.navigator.msPointerEnabled) {
-                this.touch = true;
-            }
-        };
-
-        Device.prototype._checkBrowser = function () {
-            var ua = navigator.userAgent;
-
-            if (/Arora/.test(ua)) {
-                this.arora = true;
-            } else if (/Chrome/.test(ua)) {
-                this.chrome = true;
-            } else if (/Epiphany/.test(ua)) {
-                this.epiphany = true;
-            } else if (/Firefox/.test(ua)) {
-                this.firefox = true;
-            } else if (/Mobile Safari/.test(ua)) {
-                this.mobileSafari = true;
-            } else if (/MSIE (\d+\.\d+);/.test(ua)) {
-                this.ie = true;
-                this.ieVersion = parseInt(RegExp.$1);
-            } else if (/Midori/.test(ua)) {
-                this.midori = true;
-            } else if (/Opera/.test(ua)) {
-                this.opera = true;
-            } else if (/Safari/.test(ua)) {
-                this.safari = true;
-            }
-
-            if (navigator['standalone']) {
-                this.webApp = true;
-            }
-        };
-
-        Device.prototype._checkAudio = function () {
-            this.audioData = !!(window['Audio']);
-            this.webaudio = !!(window['webkitAudioContext'] || window['AudioContext']);
-
-            var audioElement = document.createElement('audio');
-            var result = false;
-
-            try  {
-                if (result = !!audioElement.canPlayType) {
-                    if (audioElement.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '')) {
-                        this.ogg = true;
-                    }
-
-                    if (audioElement.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
-                        this.mp3 = true;
-                    }
-
-                    if (audioElement.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
-                        this.wav = true;
-                    }
-
-                    if (audioElement.canPlayType('audio/x-m4a;') || audioElement.canPlayType('audio/aac;').replace(/^no$/, '')) {
-                        this.m4a = true;
-                    }
-                }
-            } catch (e) {
-            }
-        };
-
-        Device.prototype._checkDevice = function () {
-            this.pixelRatio = window['devicePixelRatio'] || 1;
-            this.iPhone = navigator.userAgent.toLowerCase().indexOf('iphone') != -1;
-            this.iPhone4 = (this.pixelRatio == 2 && this.iPhone);
-            this.iPad = navigator.userAgent.toLowerCase().indexOf('ipad') != -1;
-        };
-
-        Device.prototype._checkCSS3D = function () {
-            var el = document.createElement('p');
-            var has3d;
-            var transforms = {
-                'webkitTransform': '-webkit-transform',
-                'OTransform': '-o-transform',
-                'msTransform': '-ms-transform',
-                'MozTransform': '-moz-transform',
-                'transform': 'transform'
-            };
-
-            document.body.insertBefore(el, null);
-
-            for (var t in transforms) {
-                if (el.style[t] !== undefined) {
-                    el.style[t] = "translate3d(1px,1px,1px)";
-                    has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
-                }
-            }
-
-            document.body.removeChild(el);
-
-            this.css3D = (has3d !== undefined && has3d.length > 0 && has3d !== "none");
-        };
-
-        Device.prototype.getAll = function () {
-            var output = '';
-
-            output = output.concat('Device\n');
-            output = output.concat('iPhone : ' + this.iPhone + '\n');
-            output = output.concat('iPhone4 : ' + this.iPhone4 + '\n');
-            output = output.concat('iPad : ' + this.iPad + '\n');
-
-            output = output.concat('\n');
-            output = output.concat('Operating System\n');
-            output = output.concat('iOS: ' + this.iOS + '\n');
-            output = output.concat('Android: ' + this.android + '\n');
-            output = output.concat('ChromeOS: ' + this.chromeOS + '\n');
-            output = output.concat('Linux: ' + this.linux + '\n');
-            output = output.concat('MacOS: ' + this.macOS + '\n');
-            output = output.concat('Windows: ' + this.windows + '\n');
-
-            output = output.concat('\n');
-            output = output.concat('Browser\n');
-            output = output.concat('Arora: ' + this.arora + '\n');
-            output = output.concat('Chrome: ' + this.chrome + '\n');
-            output = output.concat('Epiphany: ' + this.epiphany + '\n');
-            output = output.concat('Firefox: ' + this.firefox + '\n');
-            output = output.concat('Internet Explorer: ' + this.ie + ' (' + this.ieVersion + ')\n');
-            output = output.concat('Mobile Safari: ' + this.mobileSafari + '\n');
-            output = output.concat('Midori: ' + this.midori + '\n');
-            output = output.concat('Opera: ' + this.opera + '\n');
-            output = output.concat('Safari: ' + this.safari + '\n');
-
-            output = output.concat('\n');
-            output = output.concat('Features\n');
-            output = output.concat('Blob: ' + this.blob + '\n');
-            output = output.concat('Canvas: ' + this.canvas + '\n');
-            output = output.concat('File: ' + this.file + '\n');
-            output = output.concat('FileSystem: ' + this.fileSystem + '\n');
-            output = output.concat('LocalStorage: ' + this.localStorage + '\n');
-            output = output.concat('WebGL: ' + this.webGL + '\n');
-            output = output.concat('Worker: ' + this.worker + '\n');
-            output = output.concat('Touch: ' + this.touch + '\n');
-            output = output.concat('CSS 3D: ' + this.css3D + '\n');
-
-            output = output.concat('\n');
-            output = output.concat('Audio\n');
-            output = output.concat('Audio Data: ' + this.canvas + '\n');
-            output = output.concat('Web Audio: ' + this.canvas + '\n');
-            output = output.concat('Can play OGG: ' + this.canvas + '\n');
-            output = output.concat('Can play MP3: ' + this.canvas + '\n');
-            output = output.concat('Can play M4A: ' + this.canvas + '\n');
-            output = output.concat('Can play WAV: ' + this.canvas + '\n');
-
-            return output;
-        };
-        return Device;
-    })();
-    Kiwi.Device = Device;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var StateConfig = (function () {
-        function StateConfig(parent, name) {
-            this.name = '';
-            this.isPersistent = false;
-            this.isCreated = false;
-            this.isInitialised = false;
-            this.isReady = false;
-            this.hasInit = false;
-            this.hasPreloader = false;
-            this.hasLoadProgress = false;
-            this.hasLoadComplete = false;
-            this.hasLoadUpdate = false;
-            this.hasCreate = false;
-            this.hasOnEnter = false;
-            this.hasUpdate = false;
-            this.hasRender = false;
-            this.hasOnExit = false;
-            this.hasShutDown = false;
-            this.hasDestroy = false;
-            this.runCount = 0;
-            this.type = 0;
-            klog.info('StateConfig created', name);
-
-            this._state = parent;
-            this.name = name;
-
-            this.populate();
-        }
-        StateConfig.prototype.objType = function () {
-            return "StateConfig";
-        };
-
-        StateConfig.prototype.populate = function () {
-            klog.info('populate StateConfig');
-
-            if (typeof this._state['init'] === 'function') {
-                this.hasInit = true;
-            }
-
-            if (typeof this._state['preload'] === 'function') {
-                this.hasPreloader = true;
-            }
-
-            if (typeof this._state['loadProgress'] === 'function') {
-                this.hasLoadProgress = true;
-            }
-
-            if (typeof this._state['loadComplete'] === 'function') {
-                this.hasLoadComplete = true;
-            }
-
-            if (typeof this._state['loadUpdate'] === 'function') {
-                this.hasLoadUpdate = true;
-            }
-
-            if (typeof this._state['create'] === 'function') {
-                this.hasCreate = true;
-            }
-
-            if (typeof this._state['onEnter'] === 'function') {
-                this.hasOnEnter = true;
-            }
-
-            if (typeof this._state['update'] === 'function') {
-                this.hasUpdate = true;
-            }
-
-            if (typeof this._state['render'] === 'function') {
-                this.hasRender = true;
-            }
-
-            if (typeof this._state['onExit'] === 'function') {
-                this.hasOnExit = true;
-            }
-
-            if (typeof this._state['shutdown'] === 'function') {
-                this.hasShutDown = true;
-            }
-
-            if (typeof this._state['destroy'] === 'function') {
-                this.hasDestroy = true;
-            }
-
-            if (this.hasInit === false && this.hasCreate === false) {
-                klog.info('If there are no init or create functions, then we consider the state already initialised');
-                this.isInitialised = true;
-                this.isCreated = true;
-                this.isReady = true;
-            }
-        };
-        return StateConfig;
-    })();
-    Kiwi.StateConfig = StateConfig;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Group = (function () {
-        function Group(name) {
-            if (typeof name === "undefined") { name = ''; }
-            this.parent = null;
-            this.name = '';
-            this.game = null;
-            this.state = null;
-            this.layer = null;
-            this._dirty = true;
-            this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
-
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-
-            this.transform = new Kiwi.Geom.Transform();
-
-            this.members = [];
-
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-            this._willRender = true;
-            klog.info('Created Group ' + this.name);
-        }
-        Group.prototype.childType = function () {
-            return Kiwi.GROUP;
-        };
-
-        Group.prototype.modify = function (type, parent) {
-            if (type === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (type === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (type === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
-            } else if (type === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            }
-        };
-
-        Group.prototype.numChildren = function () {
-            return this.members.length;
-        };
-
-
-        Object.defineProperty(Group.prototype, "dirty", {
-            get: function () {
-                return this._dirty;
-            },
-            set: function (value) {
-                if (value !== undefined) {
-                    this._dirty = value;
-                    for (var i = 0; i < this.members.length; i++) {
-                        this.members[i].dirty = value;
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.contains = function (child) {
-            return (this.members.indexOf(child) === -1) ? false : true;
-        };
-
-        Group.prototype.addChild = function (child) {
-            klog.info('Group.addChild ' + this.members.length);
-
-            if (child.transform.parent !== this.transform) {
-                this.members.push(child);
-                child.transform.parent = this.transform;
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.addChildAt = function (child, index) {
-            klog.info('Group.addChildAt ' + child.id);
-
-            if (child.transform.parent !== this.transform) {
-                this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.addChildBefore = function (child, beforeChild) {
-            klog.info('Group.addChildBefore ' + child.id);
-
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
-                var index = this.getChildIndex(beforeChild);
-
-                this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.addChildAfter = function (child, beforeChild) {
-            klog.info('Group.addChildAfter ' + child.id);
-
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
-                var index = this.getChildIndex(beforeChild) + 1;
-
-                this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.getChildAt = function (index) {
-            if (this.members[index]) {
-                return this.members[index];
-            } else {
-                return null;
-            }
-        };
-
-        Group.prototype.getChildByName = function (name) {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].name === name) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.getChildByID = function (id) {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === id) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.getChildIndex = function (child) {
-            return this.members.indexOf(child);
-        };
-
-        Group.prototype.removeChild = function (child) {
-            if (child && child.transform.parent === this.transform) {
-                var index = this.getChildIndex(child);
-
-                if (index > -1) {
-                    this.members.splice(index, 1);
-                }
-
-                child.modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.removeChildAt = function (index) {
-            if (this.members[index]) {
-                var child = this.members[index];
-
-                if (child) {
-                    this.members.splice(index, 1);
-
-                    child.modify(Kiwi.REMOVED_FROM_GROUP, this);
-                }
-
-                return child;
-            } else {
-                return null;
-            }
-        };
-
-        Group.prototype.removeChildren = function (begin, end) {
-            if (typeof begin === "undefined") { begin = 0; }
-            if (typeof end === "undefined") { end = 0x7fffffff; }
-            end -= begin;
-
-            var removed = this.members.splice(begin, end);
-
-            for (var i = 0; i < removed.length; i++) {
-                removed[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
-
-            return removed.length;
-        };
-
-        Group.prototype.setChildIndex = function (child, index) {
-            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index) {
-                return false;
-            }
-
-            this.removeChild(child);
-            this.addChildAt(child, index);
-
-            return true;
-        };
-
-        Group.prototype.swapChildren = function (child1, child2) {
-            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
-                return false;
-            }
-
-            var index1 = this.getChildIndex(child1);
-            var index2 = this.getChildIndex(child2);
-
-            if (index1 !== -1 && index2 !== -1 && index1 !== index2) {
-                this.members[index1] = child2;
-                this.members[index2] = child1;
-
-                child1._changedPosition(this, index2);
-                child2._changedPosition(this, index1);
-
-                return true;
-            }
-
-            return false;
-        };
-
-        Group.prototype._changedPosition = function (group, index) {
-            klog.info('Group changed position within the group');
-        };
-
-        Group.prototype.swapChildrenAt = function (index1, index2) {
-            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
-                return false;
-            }
-
-            var child1 = this.getChildAt(index1);
-            var child2 = this.getChildAt(index2);
-
-            if (child1 !== null && child2 !== null) {
-                this.members[index1] = child2;
-                this.members[index2] = child1;
-
-                child1._changedPosition(this, index2);
-                child2._changedPosition(this, index1);
-
-                return true;
-            }
-
-            return false;
-        };
-
-        Group.prototype.replaceChild = function (oldChild, newChild) {
-            if (oldChild === newChild)
-                return;
-
-            if (this.getChildIndex(newChild)) {
-                this.removeChild(newChild);
-            }
-
-            var index = this.getChildIndex(oldChild);
-
-            if (index > -1) {
-                this.removeChildAt(index);
-
-                this.addChildAt(newChild, index);
-
-                oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
-                newChild.transform.parent = null;
-                newChild.modify(Kiwi.ADDED_TO_GROUP, this);
-                console.log(this.members[0]);
-                return true;
-            }
-
-            return false;
-        };
-
-        Group.prototype.forEach = function (context, callback) {
-            var params = [];
-            for (var _i = 0; _i < (arguments.length - 2); _i++) {
-                params[_i] = arguments[_i + 2];
-            }
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return callback.apply(context, [child].concat(params));
-                });
-            }
-        };
-
-        Group.prototype.forEachAlive = function (context, callback) {
-            var params = [];
-            for (var _i = 0; _i < (arguments.length - 2); _i++) {
-                params[_i] = arguments[_i + 2];
-            }
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    if (child.exists)
-                        callback.apply(context, [child].concat(params));
-                });
-            }
-        };
-
-        Group.prototype.setAll = function (componentName, property, value) {
-            if (componentName === null) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][property] = value;
-                }
-            } else {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][componentName][property] = value;
-                }
-            }
-        };
-
-        Group.prototype.callAll = function (componentName, functionName, args) {
-            if (componentName === null) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][functionName].apply(this.members[i], args);
-                }
-            } else {
-                for (var i = 0; i < this.members.length; i++) {
-                    console.log('callAll', this.members[i]);
-                    this.members[i][componentName][functionName].apply(this.members[i][componentName], args);
-                }
-            }
-        };
-
-        Group.prototype.update = function () {
-            var _this = this;
-            this.components.update();
-
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return _this.processUpdate(child);
-                });
-            }
-
-            this.components.postUpdate();
-        };
-
-        Group.prototype.processUpdate = function (child) {
-            if (child.active === true) {
-                child.update();
-            }
-        };
-
-
-        Object.defineProperty(Group.prototype, "exists", {
-            get: function () {
-                return this._exists;
-            },
-            set: function (value) {
-                this._exists = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Group.prototype, "active", {
-            get: function () {
-                return this._active;
-            },
-            set: function (value) {
-                this._active = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.render = function (camera) {
-            var _this = this;
-            this.components.preRender();
-
-            this.components.render();
-
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return _this.processRender(child, camera);
-                });
-            }
-
-            this.components.postRender();
-        };
-
-        Group.prototype.processRender = function (child, camera) {
-            if (child.active === true) {
-                child.render(camera);
-            }
-        };
-
-        Group.prototype.removeFirstAlive = function () {
-            return this.removeChild(this.getFirstAlive());
-        };
-
-        Group.prototype.getFirstAlive = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === true) {
-                    return this.members[i];
-                    break;
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.getFirstDead = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === false) {
-                    return this.members[i];
-                    break;
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.countLiving = function () {
-            var total = 0;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === true) {
-                    total++;
-                }
-            }
-
-            return total;
-        };
-
-        Group.prototype.countDead = function () {
-            var total = 0;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === false) {
-                    total++;
-                }
-            }
-
-            return total;
-        };
-
-        Group.prototype.getRandom = function (start, length) {
-            if (typeof start === "undefined") { start = 0; }
-            if (typeof length === "undefined") { length = 0; }
-            if (this.members.length === 0) {
-                return null;
-            }
-
-            if (length === 0) {
-                length = this.members.length;
-            }
-
-            if (start < 0 || start > length) {
-                start = 0;
-            }
-
-            var rnd = start + (Math.random() * (start + length));
-
-            if (rnd > this.members.length) {
-                return this.members[this.members.length - 1];
-            } else {
-                return this.members[rnd];
-            }
-        };
-
-        Group.prototype.clear = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                this.members[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
-
-            this.members.length = 0;
-        };
-
-
-        Object.defineProperty(Group.prototype, "willRender", {
-            get: function () {
-                return this._willRender;
-            },
-            set: function (value) {
-                this._willRender = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.isGroup = function () {
-            return true;
-        };
-
-        Group.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Group already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                klog.info('Group added to Layer. Checking children: ' + this.members.length);
-
-                this.layer = layer;
-
-                for (var i = 0; i < this.members.length; i++) {
-                    if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
-                        this.members[i].exists = false;
-                    }
-                }
-
-                this.onAddedToLayer.dispatch(this, layer);
-                return true;
-            }
-        };
-
-        Group.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
-
-        Group.prototype._addedToState = function (state) {
-            klog.info('Group added to State');
-
-            this.state = state;
-
-            this.game = this.state.game;
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Group.prototype._removedFromState = function (state) {
-            klog.info('Group removed from State');
-
-            this.onRemovedFromState.dispatch(this, state);
-
-            this.state = null;
-
-            this.game = null;
-        };
-
-        Group.prototype.destroy = function () {
-            this.removeChildren();
-
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-
-            this.members.length = 0;
-        };
-        return Group;
-    })();
-    Kiwi.Group = Group;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var State = (function (_super) {
-        __extends(State, _super);
-        function State(name) {
-            _super.call(this, name);
-            this.game = null;
-
-            klog.debug('----------- State created: ' + name + ' -----------');
-
-            this.config = new Kiwi.StateConfig(this, name);
-            this.cache = new Kiwi.Cache(this.game);
-            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
-            this.transform.parent = null;
-        }
-        State.prototype.objType = function () {
-            return "State";
-        };
-
-        State.prototype.boot = function () {
-            klog.info('State booted: ', this.config.name);
-            this.textureCache = new Kiwi.TextureCache(this.game);
-            this.textures = this.textureCache.textures;
-            this.cache.boot();
-        };
-
-        State.prototype.init = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preload = function () {
-        };
-
-        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
-        };
-
-        State.prototype.loadComplete = function () {
-        };
-
-        State.prototype.loadUpdate = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.create = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preUpdate = function () {
-            this.components.preUpdate();
-        };
-
-        State.prototype.update = function () {
-            this.components.update();
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.postUpdate = function () {
-            this.components.postUpdate();
-        };
-
-        State.prototype.postRender = function () {
-        };
-
-        State.prototype.setType = function (value) {
-            if (this.config.isInitialised === false) {
-                this.config.type = value;
-            } else {
-                klog.warn('State default type can only be changed in init()');
-            }
-        };
-
-        State.prototype.swapLayer = function (layer) {
-            this.currentLayer = layer;
-        };
-
-        State.prototype.addImage = function (cacheID, url, globalCache, width, height, offsetX, offsetY) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addImage(cacheID, url, this.game.cache.images, width, height, offsetX, offsetY);
-            } else {
-                this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
-            }
-        };
-
-        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
-            } else {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
-            }
-        };
-
-        State.prototype.addTextureAtlas = function (imageID, imageURL, jsonID, jsonURL, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addTextureAtlas(this.game.cache, imageID, imageURL, jsonID, jsonURL);
-            } else {
-                this.game.loader.addTextureAtlas(this.cache, imageID, imageURL, jsonID, jsonURL);
-            }
-        };
-
-        State.prototype.addJSON = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
-            } else {
-                this.game.loader.addJSON(cacheID, url, this.cache.data);
-            }
-        };
-
-        State.prototype.addAudio = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
-            } else {
-                this.game.loader.addAudio(cacheID, url, this.cache.audio);
-            }
-        };
-
-        State.prototype.addChild = function (child) {
-            child.modify(Kiwi.ADDED_TO_STATE, this);
-            _super.prototype.removeChild.call(this, child);
-
-            _super.prototype.addChild.call(this, child);
-
-            return child;
-        };
-
-        State.prototype.removeChild = function (child) {
-            child.modify(Kiwi.REMOVED_FROM_STATE, this);
-            var layer = null;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === child.id) {
-                    this.members.slice(i, 1);
-
-                    if (layer !== null) {
-                        layer.remove(child);
-                    } else {
-                        this.currentLayer.remove(child);
-                    }
-                }
-            }
-            return child;
-        };
-
-        State.prototype.destroy = function () {
-            for (var i = 0; i < this.members.length; i++) {
-            }
-        };
-        return State;
-    })(Kiwi.Group);
-    Kiwi.State = State;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Entity = (function () {
-        function Entity() {
-            this._alpha = 1;
-            this._visible = true;
-            this.width = 0;
-            this.height = 0;
-            this.game = null;
-            this.state = null;
-            this.name = '';
-            this.layer = null;
-            this._clock = null;
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
-            this.transform = new Kiwi.Geom.Transform();
-
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-        }
-        Entity.prototype.childType = function () {
-            return Kiwi.ENTITY;
-        };
-
-        Entity.prototype.modify = function (action, parent) {
-            if (action === Kiwi.ADDED_TO_GROUP) {
-                return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (action === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
-                return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
-            } else if (action === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            }
-        };
-
-
-        Object.defineProperty(Entity.prototype, "alpha", {
-            get: function () {
-                return this._alpha;
-            },
-            set: function (value) {
-                if (value <= 0)
-                    value = 0;
-                if (value > 1)
-                    value = 1;
-                this._alpha = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "visiblity", {
-            get: function () {
-                return this._visible;
-            },
-            set: function (value) {
-                this._visible = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "exists", {
-            get: function () {
-                return this._exists;
-            },
-            set: function (value) {
-                this._exists = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "active", {
-            get: function () {
-                return this._active;
-            },
-            set: function (value) {
-                this._active = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "willRender", {
-            get: function () {
-                return this._willRender;
-            },
-            set: function (value) {
-                this._willRender = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "inputEnabled", {
-            get: function () {
-                return this._inputEnabled;
-            },
-            set: function (value) {
-                this._inputEnabled = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "clock", {
-            get: function () {
-                return this._clock;
-            },
-            set: function (value) {
-                this._clock = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "dirty", {
-            get: function () {
-                return this._dirty;
-            },
-            set: function (value) {
-                this._dirty = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Entity.prototype.isGroup = function () {
-            return false;
-        };
-
-        Entity.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Entity already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                if (layer.game !== null) {
-                    this.game = layer.game;
-
-                    if (this._clock === null) {
-                        this._clock = this.game.time.clock;
-                    }
-                }
-
-                this.onAddedToLayer.dispatch(this, this.layer);
-
-                return true;
-            }
-        };
-
-        Entity.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
-
-        Entity.prototype._addedToState = function (state) {
-            klog.info('Entity added to State');
-
-            this.state = state;
-
-            this.game = this.state.game;
-
-            if (this._clock === null) {
-                this._clock = this.game.time.clock;
-            }
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-        };
-
-        Entity.prototype._removedFromState = function (state) {
-            klog.info('Entity removed from State');
-
-            this.state = null;
-
-            this.game = null;
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Entity.prototype._addedToGroup = function (group) {
-            if (group.game !== null) {
-                this.game = group.game;
-
-                if (this._clock === null) {
-                    this._clock = this.game.time.clock;
-                }
-            }
-        };
-
-        Entity.prototype._removedFromGroup = function (group) {
-            klog.info('Entity removed from Group');
-
-            this.onRemovedFromGroup.dispatch(this, group);
-        };
-
-        Entity.prototype._changedPosition = function (group, index) {
-            klog.info('Entity changed position within the group');
-        };
-
-        Entity.prototype.update = function () {
-        };
-
-        Entity.prototype.render = function (camera) {
-        };
-
-        Entity.prototype.destroy = function () {
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-        };
-        return Entity;
-    })();
-    Kiwi.Entity = Entity;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (DOM) {
-        var Cache = (function () {
-            function Cache(parent, game, size) {
-                this._parent = parent;
-                this._game = game;
-                this.domContainer = this._parent.domContainer;
-
-                this._cache = [];
-
-                this._swapperA = document.createElement('div');
-                this._swapperA.id = 'KiwiDOMSwapperA';
-
-                this._swapperB = document.createElement('div');
-                this._swapperB.id = 'KiwiDOMSwapperB';
-
-                this._parent.domContainer.appendChild(this._swapperA);
-                this._parent.domContainer.appendChild(this._swapperB);
-
-                for (var i = 0; i < size; i++) {
-                    this._cache.push(new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + i, this));
-                }
-            }
-            Cache.prototype.objType = function () {
-                return "Cache";
-            };
-
-            Cache.prototype.increaseCacheSize = function (value) {
-                for (var i = this._cache.length; i < this._cache.length + value; i++) {
-                    this._cache.push(new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + i, this));
-                }
-
-                return this._cache.length;
-            };
-
-            Cache.prototype.assignElement = function (parent) {
-                for (var i = 0; i < this._cache.length; i++) {
-                    if (this._cache[i].available === true && this._cache[i].type === parent.domElementType) {
-                        return this._cache[i].link(parent);
-                    }
-                }
-
-                klog.info("If we got this far then all of the current elements are in use or of the wrong type, so let's expand the cache size by 1");
-
-                var index = this._cache.length;
-                var newElement = new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + index, this, parent.domElementType);
-
-                this._cache.push(newElement);
-
-                return newElement.link(parent);
-            };
-
-            Cache.prototype.swapElements = function (first, second) {
-                klog.info('DOM Swapping Test 8');
-
-                first.element = first.element.parentElement['replaceChild'](this._swapperA, first.element);
-                second.element = second.element.parentElement['replaceChild'](this._swapperB, second.element);
-
-                this._swapperA = this._swapperA.parentElement['replaceChild'](second.element, this._swapperA);
-                this._swapperB = this._swapperB.parentElement['replaceChild'](first.element, this._swapperB);
-
-                return true;
-            };
-            return Cache;
-        })();
-        DOM.Cache = Cache;
-    })(Kiwi.DOM || (Kiwi.DOM = {}));
-    var DOM = Kiwi.DOM;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Utils) {
-        var Canvas = (function () {
-            function Canvas(layer, width, height, visible, offScreen) {
-                if (typeof visible === "undefined") { visible = true; }
-                if (typeof offScreen === "undefined") { offScreen = false; }
-                this.domElement = null;
-                this.context = null;
-                this._visible = true;
-                this._offScreen = false;
-                this._clearMode = 1;
-                this.bgColor = 'rgb(0, 0, 0)';
-                if (layer === null && offScreen === false) {
-                    klog.warn('Cannot create a canvas on a null layer');
-                    return;
-                }
-
-                this._layer = layer;
-
-                this.domElement = document.createElement('canvas');
-                this.domElement.width = width;
-                this.domElement.height = height;
-
-                this.size = new Kiwi.Components.Size(width, height);
-                this.size.updated.add(this._updatedSize, this);
-
-                this.context = this.domElement.getContext('2d');
-
-                this._offScreen = offScreen;
-                this._visible = visible;
-
-                if (visible === false) {
-                    this.domElement.style.display = 'none';
-                }
-            }
-            Canvas.prototype.objType = function () {
-                return "Canvas";
-            };
-
-            Canvas.prototype._updatedSize = function (width, height) {
-                this.domElement.width = width;
-                this.domElement.height = height;
-                this.size.dirty = false;
-            };
-
-            Canvas.prototype.destroy = function () {
-                if (this._offScreen === false) {
-                    this.domElement.style.display = 'none';
-                    this._layer.domContainer.removeChild(this.domElement);
-                }
-            };
-
-
-            Object.defineProperty(Canvas.prototype, "visible", {
-                get: function () {
-                    return this._visible;
-                },
-                set: function (value) {
-                    if (value !== null && value !== this._visible) {
-                        this._visible = value;
-
-                        if (value === true) {
-                            this.domElement.style.display = 'block';
-                        } else {
-                            this.domElement.style.display = 'none';
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Canvas.prototype, "clearMode", {
-                get: function () {
-                    return this._clearMode;
-                },
-                set: function (value) {
-                    if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA) {
-                        this._clearMode = value;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Canvas.prototype.clear = function () {
-                if (this._clearMode === Canvas.CLEARMODE_NONE) {
-                } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
-                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
-                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT) {
-                    this.context.fillStyle = this.bgColor;
-                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
-                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA) {
-                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
-                    this.context.fillStyle = this.bgColor;
-                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
-                }
-            };
-
-            Canvas.prototype.saveAsPNG = function () {
-                return this.domElement.toDataURL();
-            };
-
-            Canvas.prototype.toString = function () {
-                return '[{Canvas (width=' + this.size.width() + ' height=' + this.size.height() + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
-            };
-            Canvas.CLEARMODE_NONE = 0;
-
-            Canvas.CLEARMODE_CLEARRECT = 1;
-
-            Canvas.CLEARMODE_FILLRECT = 2;
-
-            Canvas.CLEARMODE_FILLRECT_ALPHA = 3;
-            return Canvas;
-        })();
-        Utils.Canvas = Canvas;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Layer = (function () {
-        function Layer(game, id, name, size) {
-            this._renderList = [];
-            console.log("create layer");
-
-            this.game = game;
-            this.id = id;
-
-            this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.LAYER, this);
-
-            this.domContainer = document.createElement('div');
-
-            this.domContainer.style.position = 'absolute';
-            this.domContainer.style.overflow = 'hidden';
-            this.domContainer.style.left = '0px';
-            this.domContainer.style.top = '0px';
-            this.domContainer.style.width = '100%';
-            this.domContainer.style.height = '100%';
-
-            this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.size.width(), this.game.stage.size.height(), true, true);
-
-            this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
-            this.canvas.domElement.style.position = 'absolute';
-
-            this.canvas.domElement.style.left = '0px';
-            this.canvas.domElement.style.top = '0px';
-            this.canvas.domElement.style.width = '100%';
-            this.canvas.domElement.style.height = '100%';
-
-            this.game.stage.size.updated.add(this._updatedStageSize, this);
-
-            klog.info('Created Layer ' + this.id);
-        }
-        Layer.prototype.objType = function () {
-            return "Layer";
-        };
-
-        Layer.prototype._updatedStageSize = function (width, height) {
-            this.canvas.size.setTo(width, height);
-        };
-
-        Layer.prototype.numChildren = function () {
-            return this._renderList.length;
-        };
-
-        Layer.prototype.visible = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null && value !== this._visible) {
-                this._visible = value;
-
-                this.canvas.visible = this._visible;
-            }
-
-            return this._visible;
-        };
-
-        Layer.prototype.dirty = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._dirty = value;
-            }
-
-            return this._dirty;
-        };
-
-        Layer.prototype.add = function (child) {
-            child.layer = this;
-
-            if (child instanceof Kiwi.Entity) {
-            } else {
-                klog.info('Group added to Layer renderList');
-            }
-
-            this._renderList.push(child);
-
-            child.modify(Kiwi.ADDED_TO_LAYER, this);
-
-            return true;
-        };
-
-        Layer.prototype.remove = function (child) {
-            for (var i = 0; i < this._renderList.length; i++) {
-                if (this._renderList[i].id === child.id) {
-                    this._renderList.slice(i, 1);
-
-                    child.modify(Kiwi.REMOVED_FROM_LAYER, this);
-
-                    return true;
-                }
-            }
-
-            return false;
-        };
-
-        Layer.prototype.update = function () {
-            this.components.update();
-        };
-
-        Layer.prototype.render = function (camera) {
-            this.canvas.clear();
-
-            this.components.preRender();
-
-            this.components.render();
-
-            for (var i = 0; i < this._renderList.length; i++) {
-                if (this._renderList[i].willRender() === true) {
-                    this._renderList[i].render(camera);
-                }
-            }
-
-            this.components.postRender();
-        };
-        return Layer;
-    })();
-    Kiwi.Layer = Layer;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var LayerManager = (function () {
-        function LayerManager(game) {
-            klog.info('Layer Manager created');
-
-            this._game = game;
-
-            this.layers = [];
-
-            this._nextLayerID = 0;
-        }
-        LayerManager.prototype.objType = function () {
-            return "LayerManager";
-        };
-
-        LayerManager.prototype.boot = function () {
-            this.createCanvasLayer(null, 'default');
-
-            this.defaultLayer = this.layers[0];
-        };
-
-        LayerManager.prototype.createCanvasLayer = function (state, name, size) {
-            if (typeof state === "undefined") { state = null; }
-            if (typeof name === "undefined") { name = ''; }
-            if (typeof size === "undefined") { size = 100; }
-            klog.info('Creating Canvas Layer');
-
-            return this.create(state, name);
-        };
-
-        LayerManager.prototype.create = function (state, name, size) {
-            if (typeof state === "undefined") { state = null; }
-            if (typeof name === "undefined") { name = ''; }
-            if (typeof size === "undefined") { size = 100; }
-            var newLayer = new Kiwi.Layer(this._game, this._nextLayerID, name, size);
-
-            newLayer.parent = state;
-
-            this.layers.push(newLayer);
-
-            this._nextLayerID++;
-
-            this.currentLayer = newLayer;
-
-            return newLayer;
-        };
-
-        LayerManager.prototype.remove = function (layer) {
-            klog.info('Remove layer');
-
-            var i = this.layers.indexOf(layer);
-
-            if (i !== -1) {
-                this.layers.splice(i, 1);
-            }
-        };
-
-        LayerManager.prototype.update = function () {
-            if (this.layers.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this.layers.length; i++) {
-                this.layers[i].update();
-            }
-        };
-
-        LayerManager.prototype.render = function (camera) {
-            if (this.layers.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this.layers.length; i++) {
-                this.layers[i].render(camera);
-            }
-        };
-
-        LayerManager.prototype.removeStateLayers = function () {
-            klog.info('TODO removeStateLayers');
-        };
-
-        LayerManager.prototype.removeAll = function () {
-            this.layers.length = 0;
-            klog.info('TODO removeAll');
-        };
-        return LayerManager;
-    })();
-    Kiwi.LayerManager = LayerManager;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -7175,970 +8157,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Geom) {
-        var Matrix = (function () {
-            function Matrix(a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                this.a = 1;
-                this.b = 0;
-                this.c = 0;
-                this.d = 1;
-                this.tx = 0;
-                this.ty = 0;
-                this.setTo(a, b, c, d, tx, ty);
-            }
-            Matrix.prototype.objType = function () {
-                return "Matrix";
-            };
-
-            Matrix.prototype.setTo = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                this.a = a;
-                this.b = b;
-                this.c = c;
-                this.d = d;
-                this.tx = tx;
-                this.ty = ty;
-
-                return this;
-            };
-
-            Matrix.prototype.setFromTransform = function (tx, ty, scaleX, scaleY, rotation) {
-                this.identity();
-                var cos = Math.cos(rotation);
-                var sin = Math.sin(rotation);
-
-                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty);
-
-                return this;
-            };
-
-            Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                var tx1 = this.tx;
-                var a1 = this.a;
-                var c1 = this.c;
-
-                this.a = a1 * a + this.b * c;
-                this.b = a1 * b + this.b * d;
-                this.c = c1 * a + this.d * c;
-                this.d = c1 * b + this.d * d;
-
-                this.tx = tx1 * a + this.ty * c + tx;
-                this.ty = tx1 * b + this.ty * d + ty;
-                return this;
-            };
-
-            Matrix.prototype.prependMatrix = function (m) {
-                var tx1 = this.tx;
-                var a1 = this.a;
-                var c1 = this.c;
-
-                this.a = a1 * m.a + this.b * m.c;
-                this.b = a1 * m.b + this.b * m.d;
-                this.c = c1 * m.a + this.d * m.c;
-                this.d = c1 * m.b + this.d * m.d;
-
-                this.tx = tx1 * m.a + this.ty * m.c + m.tx;
-                this.ty = tx1 * m.b + this.ty * m.d + m.ty;
-                return this;
-            };
-
-            Matrix.prototype.append = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-
-                this.a = a * a1 + b * c1;
-                this.b = a * b1 + b * d1;
-                this.c = c * a1 + d * c1;
-                this.d = c * b1 + d * d1;
-                this.tx = tx * a1 + ty * c1 + this.tx;
-                this.ty = tx * b1 + ty * d1 + this.ty;
-                return this;
-            };
-
-            Matrix.prototype.appendMatrix = function (m) {
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-
-                this.a = m.a * a1 + m.b * c1;
-                this.b = m.a * b1 + m.b * d1;
-                this.c = m.c * a1 + m.d * c1;
-                this.d = m.c * b1 + m.d * d1;
-                this.tx = m.tx * a1 + m.ty * c1 + this.tx;
-                this.ty = m.tx * b1 + m.ty * d1 + this.ty;
-                return this;
-            };
-
-            Matrix.prototype.setPosition = function (x, y) {
-                this.tx = x;
-                this.ty = y;
-                return this;
-            };
-
-            Matrix.prototype.setPositionPoint = function (p) {
-                this.tx = p.x;
-                this.ty = p.y;
-                return this;
-            };
-
-            Matrix.prototype.getPosition = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.setTo(this.tx, this.ty);
-            };
-
-            Matrix.prototype.identity = function () {
-                this.a = 1;
-                this.b = 0;
-                this.c = 0;
-                this.d = 1;
-                this.tx = 0;
-                this.ty = 0;
-                return this;
-            };
-
-            Matrix.prototype.rotate = function (radians) {
-                var cos = Math.cos(radians);
-                var sin = Math.sin(radians);
-
-                var a1 = this.a;
-                var c1 = this.c;
-                var tx1 = this.tx;
-
-                this.a = a1 * cos - this.b * sin;
-                this.b = a1 * sin + this.b * cos;
-                this.c = c1 * cos - this.d * sin;
-                this.d = c1 * sin + this.d * cos;
-                this.tx = tx1 * cos - this.ty * sin;
-                this.ty = tx1 * sin + this.ty * cos;
-                return this;
-            };
-
-            Matrix.prototype.translate = function (tx, ty) {
-                this.tx += tx;
-                this.ty += ty;
-                return this;
-            };
-
-            Matrix.prototype.scale = function (scaleX, scaleY) {
-                this.a *= scaleX;
-                this.d *= scaleY;
-                return this;
-            };
-
-            Matrix.prototype.transformPoint = function (pt) {
-                var x = pt.x;
-                var y = pt.y;
-                pt.x = this.a * x + this.c * y + this.tx;
-                pt.y = this.b * x + this.d * y + this.ty;
-                return pt;
-            };
-
-            Matrix.prototype.invert = function () {
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-                var tx1 = this.tx;
-                var n = a1 * d1 - b1 * c1;
-
-                this.a = d1 / n;
-                this.b = -b1 / n;
-                this.c = -c1 / n;
-                this.d = a1 / n;
-                this.tx = (c1 * this.ty - d1 * tx1) / n;
-                this.ty = -(a1 * this.ty - b1 * tx1) / n;
-                return this;
-            };
-
-            Matrix.prototype.copyFrom = function (m) {
-                this.a = m.a;
-                this.b = m.b;
-                this.c = m.c;
-                this.d = m.d;
-                this.tx = m.tx;
-                this.ty = m.ty;
-
-                return this;
-            };
-
-            Matrix.prototype.copyTo = function (m) {
-                m.a = this.a;
-                m.b = this.b;
-                m.c = this.c;
-                m.d = this.d;
-                m.tx = this.tx;
-                m.ty = this.ty;
-                return this;
-            };
-
-            Matrix.prototype.clone = function () {
-                return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
-            };
-
-            Object.defineProperty(Matrix.prototype, "toString", {
-                get: function () {
-                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Matrix;
-        })();
-        Geom.Matrix = Matrix;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Transform = (function () {
-            function Transform(x, y, scaleX, scaleY, rotation, regX, regY) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof scaleX === "undefined") { scaleX = 1; }
-                if (typeof scaleY === "undefined") { scaleY = 1; }
-                if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof regX === "undefined") { regX = 0; }
-                if (typeof regY === "undefined") { regY = 0; }
-                this._x = 0;
-                this._y = 0;
-                this._scaleX = 1;
-                this._scaleY = 1;
-                this._rotation = 0;
-                this._regX = 0;
-                this._regY = 0;
-                this.setTransform(x, y, scaleX, scaleY, rotation, regX, regY);
-
-                this._matrix = new Geom.Matrix();
-
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
-
-                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
-            }
-            Transform.prototype.objType = function () {
-                return "Transform";
-            };
-
-
-            Object.defineProperty(Transform.prototype, "x", {
-                get: function () {
-                    return this._x;
-                },
-                set: function (value) {
-                    this._x = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "y", {
-                get: function () {
-                    return this._y;
-                },
-                set: function (value) {
-                    this._y = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "scaleX", {
-                get: function () {
-                    return this._scaleX;
-                },
-                set: function (value) {
-                    this._scaleX = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "scaleY", {
-                get: function () {
-                    return this._scaleY;
-                },
-                set: function (value) {
-                    this._scaleY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "rotation", {
-                get: function () {
-                    return this._rotation;
-                },
-                set: function (value) {
-                    this._rotation = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "regX", {
-                get: function () {
-                    return this._regX;
-                },
-                set: function (value) {
-                    this._regX = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "regY", {
-                get: function () {
-                    return this._regY;
-                },
-                set: function (value) {
-                    this._regY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "matrix", {
-                get: function () {
-                    return this._matrix;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "worldX", {
-                get: function () {
-                    return this.getConcatenatedMatrix().tx;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "worldY", {
-                get: function () {
-                    return this.getConcatenatedMatrix().ty;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "parent", {
-                get: function () {
-                    return this._parent;
-                },
-                set: function (value) {
-                    if (!this.checkAncestor(value)) {
-                        this._parent = value;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Transform.prototype.setPosition = function (x, y) {
-                this._x = x;
-                this._y = y;
-
-                return this;
-            };
-
-            Transform.prototype.setPositionFromPoint = function (point) {
-                this._x = point.x;
-                this._y = point.y;
-
-                return this;
-            };
-
-            Transform.prototype.translatePositionFromPoint = function (point) {
-                this._x += point.x;
-                this._y += point.y;
-
-                return this;
-            };
-
-            Transform.prototype.getPositionPoint = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.setTo(this._x, this._y);
-            };
-
-            Object.defineProperty(Transform.prototype, "scale", {
-                set: function (value) {
-                    this._scaleX = value;
-                    this._scaleY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, regX, regY) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof scaleX === "undefined") { scaleX = 1; }
-                if (typeof scaleY === "undefined") { scaleY = 1; }
-                if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof regX === "undefined") { regX = 0; }
-                if (typeof regY === "undefined") { regY = 0; }
-                this._x = x;
-                this._y = y;
-                this._scaleX = scaleX;
-                this._scaleY = scaleY;
-                this._rotation = rotation;
-                this._regX = regX;
-                this._regY = regY;
-
-                return this;
-            };
-
-            Transform.prototype.getParentMatrix = function () {
-                if (this._parent) {
-                    return this._parent.getConcatenatedMatrix();
-                }
-
-                return null;
-            };
-
-            Transform.prototype.getConcatenatedMatrix = function () {
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
-
-                var parentMatrix = this.getParentMatrix();
-
-                if (parentMatrix) {
-                    var matrix = this._matrix.clone();
-                    matrix.prependMatrix(parentMatrix);
-                    this._cachedConcatenatedMatrix.copyFrom(matrix);
-                    return matrix;
-                }
-
-                return this._matrix;
-            };
-
-            Transform.prototype.transformPoint = function (point) {
-                var mat = this.getConcatenatedMatrix();
-
-                return mat.transformPoint(point);
-            };
-
-            Transform.prototype.copyFrom = function (source) {
-                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
-
-                this.parent = source.parent;
-
-                this._matrix = source.matrix.clone();
-
-                return this;
-            };
-
-            Transform.prototype.copyTo = function (destination) {
-                destination.copyFrom(this);
-
-                return this;
-            };
-
-            Transform.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Transform(); }
-                output.copyFrom(this);
-
-                return output;
-            };
-
-            Transform.prototype.checkAncestor = function (transform) {
-                return false;
-            };
-
-            Object.defineProperty(Transform.prototype, "toString", {
-                get: function () {
-                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Transform;
-        })();
-        Geom.Transform = Transform;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Rectangle = (function () {
-            function Rectangle(x, y, width, height) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof width === "undefined") { width = 0; }
-                if (typeof height === "undefined") { height = 0; }
-                this.x = 0;
-                this.y = 0;
-                this.width = 0;
-                this.height = 0;
-                this.setTo(x, y, width, height);
-            }
-            Rectangle.prototype.objType = function () {
-                return "Rectangle";
-            };
-
-
-            Object.defineProperty(Rectangle.prototype, "bottom", {
-                get: function () {
-                    return this.y + this.height;
-                },
-                set: function (value) {
-                    if (value) {
-                        if (value < this.y) {
-                            this.height = 0;
-                        } else {
-                            this.height = value;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "center", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "bottomRight", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(this.right, this.bottom);
-                },
-                set: function (value) {
-                    if (value) {
-                        this.right = value.x;
-                        this.bottom = value.y;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "left", {
-                get: function () {
-                    return this.x;
-                },
-                set: function (value) {
-                    if (value) {
-                        var diff = this.x - value;
-
-                        if (this.width + diff < 0) {
-                            this.width = 0;
-
-                            this.x = value;
-                        } else {
-                            this.width += diff;
-
-                            this.x = value;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "right", {
-                get: function () {
-                    return this.x + this.width;
-                },
-                set: function (value) {
-                    if (value) {
-                        if (value < this.x) {
-                            this.width = 0;
-                        } else {
-                            this.width = value - this.x;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "size", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(this.width, this.height);
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "volume", {
-                get: function () {
-                    return this.width * this.height;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "perimeter", {
-                get: function () {
-                    return (this.width * 2) + (this.height * 2);
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "top", {
-                get: function () {
-                    return this.y;
-                },
-                set: function (value) {
-                    if (value) {
-                        var diff = this.y - value;
-
-                        if (this.height + diff < 0) {
-                            this.height = 0;
-
-                            this.y = value;
-                        } else {
-                            this.height += diff;
-
-                            this.y = value;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "topLeft", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(this.x, this.y);
-                },
-                set: function (value) {
-                    if (value) {
-                        this.x = value.x;
-                        this.y = value.y;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Rectangle.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
-                return output.setTo(this.x, this.y, this.width, this.height);
-            };
-
-            Rectangle.prototype.contains = function (x, y) {
-                if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.containsPoint = function (point) {
-                return this.contains(point.x, point.y);
-            };
-
-            Rectangle.prototype.containsRect = function (rect) {
-                if (rect.volume > this.volume) {
-                    return false;
-                }
-
-                if (rect.x >= this.x && rect.y >= this.y && rect.right <= this.right && rect.bottom <= this.bottom) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.copyFrom = function (source) {
-                return this.setTo(source.x, source.y, source.width, source.height);
-            };
-
-            Rectangle.prototype.copyTo = function (target) {
-                return target.copyFrom(this);
-            };
-
-            Rectangle.prototype.equals = function (toCompare) {
-                if (this.x === toCompare.x && this.y === toCompare.y && this.width === toCompare.width && this.height === toCompare.height) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.inflate = function (dx, dy) {
-                if (!isNaN(dx) && !isNaN(dy)) {
-                    this.x -= dx;
-                    this.width += 2 * dx;
-
-                    this.y -= dy;
-                    this.height += 2 * dy;
-                }
-
-                return this;
-            };
-
-            Rectangle.prototype.inflatePoint = function (point) {
-                return this.inflate(point.x, point.y);
-            };
-
-            Rectangle.prototype.intersection = function (toIntersect, output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
-                if (this.intersects(toIntersect) === true) {
-                    output.x = Math.max(toIntersect.x, this.x);
-                    output.y = Math.max(toIntersect.y, this.y);
-                    output.width = Math.min(toIntersect.right, this.right) - output.x;
-                    output.height = Math.min(toIntersect.bottom, this.bottom) - output.y;
-                }
-
-                return output;
-            };
-
-            Rectangle.prototype.intersects = function (toIntersect) {
-                if (toIntersect.x > this.right - 1) {
-                    return false;
-                }
-
-                if (toIntersect.right - 1 < this.x) {
-                    return false;
-                }
-
-                if (toIntersect.bottom - 1 < this.y) {
-                    return false;
-                }
-
-                if (toIntersect.y > this.bottom - 1) {
-                    return false;
-                }
-
-                return true;
-            };
-
-            Rectangle.prototype.overlap = function (rect) {
-                var result = { top: false, bottom: false, left: false, right: false, contains: false, contained: false };
-                var interRect = this.intersection(rect);
-
-                if (interRect.isEmpty)
-                    return result;
-                if (this.containsRect(rect))
-                    result.contains = true;
-                if (rect.containsRect(this))
-                    result.contained = true;
-                if (this.top < rect.top)
-                    result.top = true;
-                if (this.bottom > rect.bottom)
-                    result.bottom = true;
-                if (this.left < rect.left)
-                    result.left = true;
-                if (this.right > rect.right)
-                    result.right = true;
-
-                return result;
-            };
-
-            Rectangle.prototype.isEmpty = function () {
-                if (this.width < 1 || this.height < 1) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.offset = function (dx, dy) {
-                if (!isNaN(dx) && !isNaN(dy)) {
-                    this.x += dx;
-                    this.y += dy;
-                }
-
-                return this;
-            };
-
-            Rectangle.prototype.offsetPoint = function (point) {
-                return this.offset(point.x, point.y);
-            };
-
-            Rectangle.prototype.setEmpty = function () {
-                return this.setTo(0, 0, 0, 0);
-            };
-
-            Rectangle.prototype.setTo = function (x, y, width, height) {
-                if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
-                    this.x = x;
-                    this.y = y;
-
-                    if (width >= 0) {
-                        this.width = width;
-                    }
-
-                    if (height >= 0) {
-                        this.height = height;
-                    }
-                }
-
-                return this;
-            };
-
-            Rectangle.prototype.union = function (toUnion, output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
-                return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right, this.right), Math.max(toUnion.bottom, this.bottom));
-            };
-
-            Rectangle.prototype.scale = function (x, y, translation) {
-                var trans = new Kiwi.Geom.Transform();
-                trans.scaleX = x;
-                trans.scaleY = y;
-                trans.x = translation.x;
-                trans.y = translation.y;
-
-                var tl = this.topLeft;
-                trans.transformPoint(tl);
-                this.topLeft = tl;
-
-                this.width *= x;
-                this.height *= y;
-
-                return this;
-            };
-
-            Rectangle.prototype.toString = function () {
-                return "[{Rectangle (x=" + this.x + " y=" + this.y + " width=" + this.width + " height=" + this.height + " isEmpty=" + this.isEmpty() + ")}]";
-            };
-            return Rectangle;
-        })();
-        Geom.Rectangle = Rectangle;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Stage = (function () {
-        function Stage(game, name) {
-            this.offset = new Kiwi.Geom.Point();
-            this.container = null;
-            this._framerate = 3;
-            this._game = game;
-
-            this.name = name;
-
-            this.domReady = false;
-
-            this.alpha = new Kiwi.Components.Alpha();
-            this.color = new Kiwi.Components.Color();
-            this.position = new Kiwi.Components.Position();
-            this.size = new Kiwi.Components.Size();
-        }
-        Stage.prototype.objType = function () {
-            return "Stage";
-        };
-
-        Stage.prototype.boot = function (dom) {
-            klog.info('Stage DOM boot');
-
-            this.domReady = true;
-
-            this.container = dom.container;
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.offset = this._game.browser.getOffsetPoint(this.container);
-                this.position.setTo(this.offset.x, this.offset.y);
-                this.size.setTo(parseInt(this.container.style.width), parseInt(this.container.style.height));
-            }
-
-            this.alpha.updated.add(this._updatedAlpha, this);
-            this.color.updated.add(this._updatedColor, this);
-            this.position.updated.add(this._updatedPosition, this);
-            this.size.updated.add(this._updatedSize, this);
-            this._createCompositeCanvas();
-        };
-
-        Stage.prototype._createCompositeCanvas = function () {
-            this.canvas = document.createElement("canvas");
-            this.ctx = this.canvas.getContext("2d");
-            this.ctx.fillStyle = this.color.cssColorHex;
-
-            this.canvas.id = this._game.id + "compositeCanvas";
-            this.canvas.style.position = "absolute";
-
-            this.canvas.width = 800;
-            this.canvas.height = 600;
-
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.container.appendChild(this.canvas);
-            } else {
-                document.body.appendChild(this.canvas);
-            }
-        };
-
-        Stage.prototype._updatedPosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
-            this.container.style.left = cssLeft;
-            this.container.style.top = cssTop;
-        };
-
-        Stage.prototype._updatedColor = function (red, green, blue, alpha, cssColorHex, cssColorRGB, cssColorRGBA) {
-            if (Kiwi.DEVICE.ieVersion < 10) {
-                this.container.style.backgroundColor = cssColorHex;
-            } else {
-                this.container.style.backgroundColor = cssColorRGBA;
-            }
-        };
-
-        Stage.prototype._updatedAlpha = function () {
-            this.alpha.setCSS(this.container);
-        };
-
-        Stage.prototype._updatedSize = function () {
-        };
-
-        Stage.prototype.frameRate = function (value) {
-            if (value) {
-                this._framerate = value;
-            }
-
-            return this._framerate;
-        };
-        return Stage;
-    })();
-    Kiwi.Stage = Stage;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var StateManager = (function () {
         function StateManager(game) {
             this.current = null;
@@ -8403,132 +8421,6 @@ var Kiwi;
         return StateManager;
     })();
     Kiwi.StateManager = StateManager;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (DOM) {
-        var Bootstrap = (function () {
-            function Bootstrap() {
-                this.isReady = false;
-                this.container = null;
-                this.canvasLayers = null;
-                this.input = null;
-            }
-            Bootstrap.prototype.objType = function () {
-                return "Bootstrap";
-            };
-
-            Bootstrap.prototype.boot = function (domParent, callback, createContainer) {
-                if (typeof callback === "undefined") { callback = null; }
-                if (typeof createContainer === "undefined") { createContainer = true; }
-                var _this = this;
-                klog.info('DOM Boot: ' + document.readyState);
-
-                this._callback = callback;
-                this._domParent = domParent;
-
-                this._createContainer = createContainer;
-
-                if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                    this.ready();
-                } else {
-                    document.addEventListener('DOMContentLoaded', function () {
-                        return _this.ready();
-                    }, false);
-                    window.addEventListener('load', function () {
-                        return _this.ready();
-                    }, false);
-                }
-            };
-
-            Bootstrap.prototype.ready = function () {
-                var _this = this;
-                klog.info('DOM Ready Check');
-
-                if (this.isReady === true) {
-                    return;
-                }
-
-                if (!document.body) {
-                    window.setTimeout(function () {
-                        return _this.ready();
-                    }, 13);
-                } else {
-                    this.isReady = true;
-
-                    if (this._createContainer === true) {
-                        if (this._domParent === '') {
-                            this.container = document.createElement('div');
-                            this._setupContainer('KiwiGame' + Date.now().toString());
-                            document.body.appendChild(this.container);
-                        } else {
-                            if (document.getElementById(this._domParent)) {
-                                this.container = document.getElementById(this._domParent);
-                                this._setupContainer();
-                            } else {
-                                this.container = document.createElement('div');
-                                this._setupContainer(this._domParent);
-                                document.body.appendChild(this.container);
-                            }
-
-                            klog.info('DOM Alive');
-                        }
-                    }
-
-                    if (this._callback !== null) {
-                        this._callback();
-                    }
-                }
-            };
-
-            Bootstrap.prototype._setupContainer = function (id) {
-                if (typeof id === "undefined") { id = ''; }
-                if (id) {
-                    this.container.id = id;
-                }
-
-                this.container.style.width = '800px';
-                this.container.style.height = '600px';
-                this.container.style.position = 'relative';
-                this.container.style.overflow = 'hidden';
-            };
-            return Bootstrap;
-        })();
-        DOM.Bootstrap = Bootstrap;
-    })(Kiwi.DOM || (Kiwi.DOM = {}));
-    var DOM = Kiwi.DOM;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (DOM) {
-        var Browser = (function () {
-            function Browser(game) {
-                this._game = game;
-            }
-            Browser.prototype.objType = function () {
-                return "Browser";
-            };
-
-            Browser.prototype.boot = function () {
-                klog.info('DOM.Browser booting');
-            };
-
-            Browser.prototype.getOffsetPoint = function (element, output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                var box = element.getBoundingClientRect();
-
-                var clientTop = element.clientTop || document.body.clientTop || 0;
-                var clientLeft = element.clientLeft || document.body.clientLeft || 0;
-                var scrollTop = window.pageYOffset || element.scrollTop || document.body.scrollTop;
-                var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
-
-                return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
-            };
-            return Browser;
-        })();
-        DOM.Browser = Browser;
-    })(Kiwi.DOM || (Kiwi.DOM = {}));
-    var DOM = Kiwi.DOM;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -8883,51 +8775,6 @@ var Kiwi;
             return StaticImage;
         })(Kiwi.Entity);
         GameObjects.StaticImage = StaticImage;
-    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-    var GameObjects = Kiwi.GameObjects;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (GameObjects) {
-        var StaticObject = (function (_super) {
-            __extends(StaticObject, _super);
-            function StaticObject(x, y, width, height) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof width === "undefined") { width = 1; }
-                if (typeof height === "undefined") { height = 1; }
-                _super.call(this);
-
-                this.position = this.components.add(new Kiwi.Components.Position(x, y));
-                this.size = this.components.add(new Kiwi.Components.Size(width, height));
-                this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, width, height));
-
-                this.onAddedToLayer.add(this._onAddedToLayer, this);
-
-                this.position.updated.add(this._updatePosition, this);
-                this.size.updated.add(this._updateSize, this);
-
-                klog.info('Created StaticObject Game Object');
-            }
-            StaticObject.prototype._updatePosition = function (x, y, z) {
-                this.bounds.setTo(x, y, this.size.width(), this.size.height());
-            };
-
-            StaticObject.prototype._updateSize = function (width, height) {
-                this.bounds.setTo(this.position.x(), this.position.y(), width, height);
-            };
-
-            StaticObject.prototype._updateRepeat = function (value) {
-            };
-
-            StaticObject.prototype._onAddedToLayer = function (layer) {
-                klog.info('StaticObject added to Layer: ' + layer.name);
-
-                return true;
-            };
-            return StaticObject;
-        })(Kiwi.Entity);
-        GameObjects.StaticObject = StaticObject;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
@@ -10589,6 +10436,145 @@ var Kiwi;
             return Ray;
         })();
         Geom.Ray = Ray;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Vector2 = (function () {
+            function Vector2(x, y) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                this.setTo(x, y);
+            }
+            Vector2.prototype.objType = function () {
+                return "Vector2";
+            };
+
+            Vector2.fromAngle = function (angle) {
+                return new Vector2(Math.cos(angle), Math.sin(angle));
+            };
+
+            Vector2.randomRadius = function (radius) {
+                return new Vector2(Math.random() * 2 - 1, Math.random() * 2 - 1).multiplyScalar(radius);
+            };
+
+            Vector2.fromPoint = function (point) {
+                return new Vector2(point.x, point.y);
+            };
+
+            Vector2.prototype.add = function (vector2) {
+                return new Vector2(this.x + vector2.x, this.y + vector2.y);
+            };
+
+            Vector2.prototype.addX = function (vector2) {
+                return new Vector2(this.x + vector2.x, this.y);
+            };
+
+            Vector2.prototype.addY = function (vector2) {
+                return new Vector2(this.x, this.y + vector2.y);
+            };
+
+            Vector2.prototype.subtract = function (vector2) {
+                return new Kiwi.Geom.Vector2(this.x - vector2.x, this.y - vector2.y);
+            };
+
+            Vector2.prototype.multiply = function (vector2) {
+                return new Kiwi.Geom.Vector2(this.x * vector2.x, this.y * vector2.y);
+            };
+
+            Vector2.prototype.multiplyScalar = function (scalar) {
+                return new Kiwi.Geom.Vector2(this.x * scalar, this.y * scalar);
+            };
+
+            Vector2.prototype.dot = function (vector2) {
+                return this.x * vector2.x + this.y * vector2.y;
+            };
+
+            Vector2.prototype.lenSqr = function () {
+                return this.x * this.x + this.y * this.y;
+            };
+
+            Vector2.prototype.len = function () {
+                return Math.sqrt(this.x * this.x + this.y * this.y);
+            };
+
+            Vector2.prototype.unit = function () {
+                var invLen = 1.0 / this.len();
+                return this.multiplyScalar(invLen);
+            };
+
+            Vector2.prototype.floor = function () {
+                return new Vector2(Math.floor(this.x), Math.floor(this.y));
+            };
+
+            Vector2.prototype.ceil = function () {
+                return new Vector2(Math.ceil(this.x), Math.ceil(this.y));
+            };
+
+            Vector2.prototype.round = function () {
+                return new Vector2(Math.round(this.x), Math.round(this.y));
+            };
+
+            Vector2.prototype.clamp = function (min, max) {
+                return new Vector2(Math.max(Math.min(this.x, max.x), min.x), Math.max(Math.min(this.y, max.y), min.y));
+            };
+
+            Vector2.prototype.perp = function () {
+                return new Vector2(-this.y, this.x);
+            };
+
+            Vector2.prototype.neg = function () {
+                return new Vector2(-this.x, -this.y);
+            };
+
+            Vector2.prototype.equal = function (vector2) {
+                return this.x === vector2.x && this.y === vector2.y;
+            };
+
+            Vector2.prototype.point = function () {
+                return new Geom.Point(this.x, this.y);
+            };
+
+            Vector2.prototype.clear = function () {
+                this.x = 0;
+                this.y = 0;
+                return this;
+            };
+
+            Vector2.prototype.clone = function (output) {
+                if (output) {
+                    return output.setTo(this.x, this.y);
+                } else {
+                    return new Vector2(this.x, this.y);
+                }
+            };
+
+            Vector2.prototype.copyFrom = function (source) {
+                this.x = source.x;
+                this.y = source.y;
+                return this;
+            };
+
+            Vector2.prototype.copyTo = function (target) {
+                target.x = this.x;
+                target.y = this.y;
+                return target;
+            };
+
+            Vector2.prototype.setTo = function (x, y) {
+                this.x = x;
+                this.y = y;
+                return this;
+            };
+
+            Vector2.prototype.toString = function () {
+                return '[{Vector2 (x=' + this.x + ' y=' + this.y + ')}]';
+            };
+            return Vector2;
+        })();
+        Geom.Vector2 = Vector2;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
@@ -13784,6 +13770,31 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Textures) {
+        var TextureAtlas = (function () {
+            function TextureAtlas(name, cells, image, sequences) {
+                this.cellIndex = 0;
+                this.name = name;
+                this.cells = cells || new Array();
+                this.sequences = sequences || new Array();
+                this.image = image;
+            }
+            TextureAtlas.prototype.readJSON = function (atlasJSON) {
+                var obj = JSON.parse(atlasJSON);
+                this.name = obj.name;
+                this.cells = obj.cells;
+                if (obj.sequences) {
+                    this.sequences = obj.sequences;
+                }
+            };
+            return TextureAtlas;
+        })();
+        Textures.TextureAtlas = TextureAtlas;
+    })(Kiwi.Textures || (Kiwi.Textures = {}));
+    var Textures = Kiwi.Textures;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var TextureCache = (function () {
         function TextureCache(game) {
             this._game = game;
@@ -13919,31 +13930,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Textures) {
-        var TextureAtlas = (function () {
-            function TextureAtlas(name, cells, image, sequences) {
-                this.cellIndex = 0;
-                this.name = name;
-                this.cells = cells || new Array();
-                this.sequences = sequences || new Array();
-                this.image = image;
-            }
-            TextureAtlas.prototype.readJSON = function (atlasJSON) {
-                var obj = JSON.parse(atlasJSON);
-                this.name = obj.name;
-                this.cells = obj.cells;
-                if (obj.sequences) {
-                    this.sequences = obj.sequences;
-                }
-            };
-            return TextureAtlas;
-        })();
-        Textures.TextureAtlas = TextureAtlas;
-    })(Kiwi.Textures || (Kiwi.Textures = {}));
-    var Textures = Kiwi.Textures;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (Time) {
         var Manager = (function () {
             function Manager(game) {
@@ -14001,72 +13987,6 @@ var Kiwi;
         Time.Manager = Manager;
     })(Kiwi.Time || (Kiwi.Time = {}));
     var Time = Kiwi.Time;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Tweens) {
-        var Manager = (function () {
-            function Manager(game) {
-                klog.info('Tween Manager created');
-                this._game = game;
-                this._tweens = [];
-            }
-            Manager.prototype.objType = function () {
-                return "Manager";
-            };
-
-            Manager.prototype.getAll = function () {
-                return this._tweens;
-            };
-
-            Manager.prototype.removeAll = function () {
-                this._tweens.length = 0;
-            };
-
-            Manager.prototype.create = function (object) {
-                return new Kiwi.Tween(object, this._game);
-            };
-
-            Manager.prototype.add = function (tween) {
-                tween.setParent(this._game);
-
-                this._tweens.push(tween);
-
-                return tween;
-            };
-
-            Manager.prototype.remove = function (tween) {
-                var i = this._tweens.indexOf(tween);
-
-                if (i !== -1) {
-                    this._tweens.splice(i, 1);
-                }
-            };
-
-            Manager.prototype.update = function () {
-                if (this._tweens.length === 0) {
-                    return false;
-                }
-
-                var i = 0;
-                var numTweens = this._tweens.length;
-
-                while (i < numTweens) {
-                    if (this._tweens[i].update(this._game.time.now())) {
-                        i++;
-                    } else {
-                        this._tweens.splice(i, 1);
-                        numTweens--;
-                    }
-                }
-
-                return true;
-            };
-            return Manager;
-        })();
-        Tweens.Manager = Manager;
-    })(Kiwi.Tweens || (Kiwi.Tweens = {}));
-    var Tweens = Kiwi.Tweens;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -14656,391 +14576,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Utils) {
-        var RandomDataGenerator = (function () {
-            function RandomDataGenerator(seeds) {
-                if (typeof seeds === "undefined") { seeds = []; }
-                this.c = 1;
-                this._data = {
-                    lipsum: [
-                        "lorem",
-                        "ipsum",
-                        "dolor",
-                        "sit",
-                        "amet",
-                        "consectetur",
-                        "adipiscing",
-                        "elit",
-                        "nunc",
-                        "sagittis",
-                        "tortor",
-                        "ac",
-                        "mi",
-                        "pretium",
-                        "sed",
-                        "convallis",
-                        "massa",
-                        "pulvinar",
-                        "curabitur",
-                        "non",
-                        "turpis",
-                        "velit",
-                        "vitae",
-                        "rutrum",
-                        "odio",
-                        "aliquam",
-                        "sapien",
-                        "orci",
-                        "tempor",
-                        "sed",
-                        "elementum",
-                        "sit",
-                        "amet",
-                        "tincidunt",
-                        "sed",
-                        "risus",
-                        "etiam",
-                        "nec",
-                        "lacus",
-                        "id",
-                        "ante",
-                        "hendrerit",
-                        "malesuada",
-                        "donec",
-                        "porttitor",
-                        "magna",
-                        "eget",
-                        "libero",
-                        "pharetra",
-                        "sollicitudin",
-                        "aliquam",
-                        "mattis",
-                        "mattis",
-                        "massa",
-                        "et",
-                        "porta",
-                        "morbi",
-                        "vitae",
-                        "magna",
-                        "augue",
-                        "vestibulum",
-                        "at",
-                        "lectus",
-                        "sed",
-                        "tellus",
-                        "facilisis",
-                        "tincidunt",
-                        "suspendisse",
-                        "eros",
-                        "magna",
-                        "consequat",
-                        "at",
-                        "sollicitudin",
-                        "ac",
-                        "vestibulum",
-                        "vel",
-                        "dolor",
-                        "in",
-                        "egestas",
-                        "lacus",
-                        "quis",
-                        "lacus",
-                        "placerat",
-                        "et",
-                        "molestie",
-                        "ipsum",
-                        "scelerisque",
-                        "nullam",
-                        "sit",
-                        "amet",
-                        "tortor",
-                        "dui",
-                        "aenean",
-                        "pulvinar",
-                        "odio",
-                        "nec",
-                        "placerat",
-                        "fringilla",
-                        "neque",
-                        "dolor"
-                    ]
-                };
-                klog.info('Random Data Generator created');
-
-                this.sow(seeds);
-            }
-            RandomDataGenerator.prototype.objType = function () {
-                return "RandomDataGenerator";
-            };
-
-            RandomDataGenerator.prototype.uint32 = function () {
-                return this.rnd.apply(this) * 0x100000000;
-            };
-
-            RandomDataGenerator.prototype.fract32 = function () {
-                return this.rnd.apply(this) + (this.rnd.apply(this) * 0x200000 | 0) * 1.1102230246251565e-16;
-            };
-
-            RandomDataGenerator.prototype.rnd = function () {
-                var t = 2091639 * this.s0 + this.c * 2.3283064365386963e-10;
-
-                this.c = t | 0;
-                this.s0 = this.s1;
-                this.s1 = this.s2;
-                this.s2 = t - this.c;
-
-                return this.s2;
-            };
-
-            RandomDataGenerator.prototype.hash = function (data) {
-                var h, i, n;
-
-                n = 0xefc8249d;
-
-                data = data.toString();
-
-                for (i = 0; i < data.length; i++) {
-                    n += data.charCodeAt(i);
-                    h = 0.02519603282416938 * n;
-                    n = h >>> 0;
-                    h -= n;
-                    h *= n;
-                    n = h >>> 0;
-                    h -= n;
-                    n += h * 0x100000000;
-                }
-
-                return (n >>> 0) * 2.3283064365386963e-10;
-            };
-
-            RandomDataGenerator.prototype.sow = function (seeds) {
-                if (typeof seeds === "undefined") { seeds = []; }
-                this.s0 = this.hash(' ');
-                this.s1 = this.hash(this.s0);
-                this.s2 = this.hash(this.s1);
-
-                var seed;
-
-                for (var i = 0; seed = seeds[i++]; ) {
-                    this.s0 -= this.hash(seed);
-                    this.s0 += ~~(this.s0 < 0);
-
-                    this.s1 -= this.hash(seed);
-                    this.s1 += ~~(this.s1 < 0);
-
-                    this.s2 -= this.hash(seed);
-                    this.s2 += ~~(this.s2 < 0);
-                }
-            };
-
-            RandomDataGenerator.prototype.integer = function () {
-                return this.uint32();
-            };
-
-            RandomDataGenerator.prototype.frac = function () {
-                return this.fract32();
-            };
-
-            RandomDataGenerator.prototype.real = function () {
-                return this.uint32() + this.fract32();
-            };
-
-            RandomDataGenerator.prototype.integerInRange = function (min, max) {
-                return Math.floor(this.realInRange(min, max));
-            };
-
-            RandomDataGenerator.prototype.realInRange = function (min, max) {
-                min = min || 0;
-                max = max || 0;
-
-                return this.frac() * (max - min) + min;
-            };
-
-            RandomDataGenerator.prototype.normal = function () {
-                return 1 - 2 * this.frac();
-            };
-
-            RandomDataGenerator.prototype.uuid = function () {
-                var a, b;
-
-                for (b = a = ''; a++ < 36; b += ~a % 5 | a * 3 & 4 ? (a ^ 15 ? 8 ^ this.frac() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-')
-                    ;
-
-                return b;
-            };
-
-            RandomDataGenerator.prototype.pick = function (array) {
-                return array[this.integerInRange(0, array.length)];
-            };
-
-            RandomDataGenerator.prototype.weightedPick = function (array) {
-                return array[~~(Math.pow(this.frac(), 2) * array.length)];
-            };
-
-            RandomDataGenerator.prototype.word = function () {
-                return this.pick(this._data.lipsum);
-            };
-
-            RandomDataGenerator.prototype.words = function (quantity) {
-                if (typeof quantity === "undefined") { quantity = 3; }
-                var ret = [];
-
-                for (var i = 0; i < quantity; i++) {
-                    ret.push(this.pick(this._data.lipsum));
-                }
-
-                return ret.join(' ');
-            };
-
-            RandomDataGenerator.prototype.sentence = function () {
-                var ret;
-
-                ret = this.words(this.integerInRange(2, 16)).replace(/[a-z]/, function (m) {
-                    return m.toUpperCase();
-                });
-
-                return ret + '.';
-            };
-
-            RandomDataGenerator.prototype.sentences = function (quantity) {
-                if (typeof quantity === "undefined") { quantity = 3; }
-                var ret = [];
-
-                for (var i = 0; i < quantity; i++) {
-                    ret.push(this.sentence());
-                }
-
-                return ret.join(' ');
-            };
-
-            RandomDataGenerator.prototype.timestamp = function (min, max) {
-                if (typeof min === "undefined") { min = 946684800000; }
-                if (typeof max === "undefined") { max = 1577862000000; }
-                return this.realInRange(min, max);
-            };
-
-            RandomDataGenerator.prototype.angle = function () {
-                return this.integerInRange(-180, 180);
-            };
-            return RandomDataGenerator;
-        })();
-        Utils.RandomDataGenerator = RandomDataGenerator;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Utils) {
-        var RequestAnimationFrame = (function () {
-            function RequestAnimationFrame(callback) {
-                this._isSetTimeOut = false;
-                this.lastTime = 0;
-                this.currentTime = 0;
-                this.isRunning = false;
-                this._callback = callback;
-
-                var vendors = ['ms', 'moz', 'webkit', 'o'];
-
-                for (var x = 0; x < vendors.length && !window.requestAnimationFrame; x++) {
-                    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-                    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'];
-                }
-            }
-            RequestAnimationFrame.prototype.objType = function () {
-                return "RequestAnimationFrame";
-            };
-
-            RequestAnimationFrame.prototype.setCallback = function (callback) {
-                this._callback = callback;
-            };
-
-            RequestAnimationFrame.prototype.isUsingSetTimeOut = function () {
-                return this._isSetTimeOut;
-            };
-
-            RequestAnimationFrame.prototype.isUsingRAF = function () {
-                if (this._isSetTimeOut === true) {
-                    return false;
-                } else {
-                    return true;
-                }
-            };
-
-            RequestAnimationFrame.prototype.start = function (callback) {
-                if (typeof callback === "undefined") { callback = null; }
-                var _this = this;
-                if (callback) {
-                    this._callback = callback;
-                }
-
-                if (!window.requestAnimationFrame) {
-                    klog.info('Kiwi.Utils.RequestAnimationFrame: false');
-                    this._isSetTimeOut = true;
-                    this._timeOutID = window.setTimeout(function () {
-                        return _this.SetTimeoutUpdate();
-                    }, 0);
-                } else {
-                    klog.info('Kiwi.Utils.RequestAnimationFrame: true');
-                    this._isSetTimeOut = false;
-                    window.requestAnimationFrame(function () {
-                        return _this.RAFUpdate();
-                    });
-                }
-
-                this.isRunning = true;
-            };
-
-            RequestAnimationFrame.prototype.stop = function () {
-                if (this._isSetTimeOut) {
-                    clearTimeout(this._timeOutID);
-                } else {
-                    window.cancelAnimationFrame;
-                }
-
-                this.isRunning = false;
-            };
-
-            RequestAnimationFrame.prototype.RAFUpdate = function () {
-                var _this = this;
-                this.currentTime = Date.now();
-
-                if (this._callback) {
-                    this._callback();
-                }
-
-                var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
-
-                window.requestAnimationFrame(function () {
-                    return _this.RAFUpdate();
-                });
-
-                this.lastTime = this.currentTime + timeToCall;
-            };
-
-            RequestAnimationFrame.prototype.SetTimeoutUpdate = function () {
-                var _this = this;
-                this.currentTime = Date.now();
-
-                if (this._callback) {
-                    this._callback();
-                }
-
-                var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
-
-                this._timeOutID = window.setTimeout(function () {
-                    return _this.SetTimeoutUpdate();
-                }, timeToCall);
-
-                this.lastTime = this.currentTime + timeToCall;
-            };
-            return RequestAnimationFrame;
-        })();
-        Utils.RequestAnimationFrame = RequestAnimationFrame;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     Kiwi.VERSION = "1.0";
 
     Kiwi.TARGET_BROWSER = 0;
@@ -15089,373 +14624,3 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 
 var klog;
-var Kiwi;
-(function (Kiwi) {
-    var Game = (function () {
-        function Game(domParent, name, state) {
-            if (typeof domParent === "undefined") { domParent = ''; }
-            if (typeof name === "undefined") { name = 'KiwiGame'; }
-            if (typeof state === "undefined") { state = null; }
-            var _this = this;
-            this._dom = null;
-            this.anims = null;
-            this.audio = null;
-            this.browser = null;
-            this.cache = null;
-            this.input = null;
-            this.cameras = null;
-            this.loader = null;
-            this.raf = null;
-            this.stage = null;
-            this.states = null;
-            this.time = null;
-            this.tweens = null;
-            this.rnd = null;
-            this.id = Kiwi.GameManager.register(this);
-
-            this._dom = new Kiwi.DOM.Bootstrap();
-
-            this.anims = new Kiwi.Anims.Manager(this);
-            this.audio = new Kiwi.Sound.AudioManager(this);
-            this.browser = new Kiwi.DOM.Browser(this);
-            this.cache = new Kiwi.Cache(this);
-            this.input = new Kiwi.Input.Manager(this);
-
-            this.stage = new Kiwi.Stage(this, name);
-            this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
-
-            this.cameras = new Kiwi.CameraManager(this);
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.huds = new Kiwi.HUD.HUDManager(this);
-            }
-            this.loader = new Kiwi.Loader(this);
-
-            this.states = new Kiwi.StateManager(this);
-            this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
-            this.time = new Kiwi.Time.Manager(this);
-            this.tweens = new Kiwi.Tweens.Manager(this);
-
-            if (state !== null) {
-                if (this.states.addState(state, true) === false) {
-                    throw Error("Invalid State passed to Kiwi.Game");
-                }
-            }
-
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this._dom.boot(domParent, function () {
-                    return _this.start();
-                });
-            } else {
-                this.start();
-            }
-        }
-        Game.prototype.objType = function () {
-            return "Game";
-        };
-
-        Game.prototype.start = function () {
-            var _this = this;
-            if (Kiwi.DEVICE === null) {
-                Kiwi.DEVICE = new Kiwi.Device();
-            }
-
-            this.browser.boot();
-            this.stage.boot(this._dom);
-
-            this.cameras.boot();
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.huds.boot();
-            }
-            this.time.boot();
-            this.anims.boot();
-            this.audio.boot();
-            this.input.boot();
-            this.cache.boot();
-            this.loader.boot();
-            this.states.boot();
-
-            klog.info('Game Started. DOM Available. Valid State Given');
-            klog.info('Game Time: ' + this.time.now());
-
-            this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
-                return _this.loop();
-            });
-            this.raf.start();
-        };
-
-        Game.prototype.loop = function () {
-            this.time.update();
-            this.audio.update();
-            this.input.update();
-            this.tweens.update();
-            this.cameras.update();
-
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.huds.update();
-            }
-            this.states.update();
-
-            this.cameras.render();
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.huds.render();
-            }
-            this.states.postRender();
-        };
-        return Game;
-    })();
-    Kiwi.Game = Game;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        (function (GameMath) {
-            var SinewaveGenerator = (function (_super) {
-                __extends(SinewaveGenerator, _super);
-                function SinewaveGenerator(length, sinAmplitude, cosAmplitude, frequency) {
-                    if (typeof length === "undefined") { length = 100; }
-                    if (typeof sinAmplitude === "undefined") { sinAmplitude = 1.0; }
-                    if (typeof cosAmplitude === "undefined") { cosAmplitude = 1.0; }
-                    if (typeof frequency === "undefined") { frequency = 1.0; }
-                    _super.call(this, 'SinewaveGenerator');
-
-                    this.cosTable = [];
-                    this.sinTable = [];
-
-                    this.create(length, sinAmplitude, cosAmplitude, frequency);
-                }
-                SinewaveGenerator.prototype.objType = function () {
-                    return "SinewaveGenerator";
-                };
-
-                SinewaveGenerator.prototype.create = function (length, sinAmplitude, cosAmplitude, frequency) {
-                    if (typeof sinAmplitude === "undefined") { sinAmplitude = 1.0; }
-                    if (typeof cosAmplitude === "undefined") { cosAmplitude = 1.0; }
-                    if (typeof frequency === "undefined") { frequency = 1.0; }
-                    var sin = sinAmplitude;
-                    var cos = cosAmplitude;
-                    var frq = frequency * Math.PI / length;
-
-                    this.cosTable.length = 0;
-                    this.sinTable.length = 0;
-
-                    for (var c = 0; c < length; c++) {
-                        cos -= sin * frq;
-                        sin += cos * frq;
-
-                        this.cosTable[c] = cos;
-                        this.sinTable[c] = sin;
-                    }
-
-                    return this.sinTable;
-                };
-                return SinewaveGenerator;
-            })(Kiwi.Component);
-            GameMath.SinewaveGenerator = SinewaveGenerator;
-        })(Components.GameMath || (Components.GameMath = {}));
-        var GameMath = Components.GameMath;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Template = (function (_super) {
-            __extends(Template, _super);
-            function Template(x) {
-                if (typeof x === "undefined") { x = 0; }
-                _super.call(this, 'Template');
-
-                this.updated = new Kiwi.Signal();
-
-                x = Math.round(x);
-
-                this._processUpdate();
-            }
-            Template.prototype.objType = function () {
-                return "Template";
-            };
-
-            Template.prototype.addStyleUpdates = function (entity) {
-                if (entity === null) {
-                    return;
-                }
-
-                if (Kiwi.DEVICE.css3D) {
-                } else {
-                }
-            };
-
-            Template.prototype.addStyleImmediately = function (entity) {
-            };
-
-            Template.prototype._processUpdate = function () {
-                this.cssExampleProperty = 'translate3d(' + this._x + 'px)';
-
-                this.dirty = true;
-
-                this.updated.dispatch(this._x, this.cssExampleProperty);
-            };
-
-            Template.prototype.x = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._x) {
-                    this._x = value;
-
-                    this._processUpdate();
-                }
-
-                return this._x;
-            };
-
-            Template.prototype.setTo = function (x, y, z) {
-                if (typeof z === "undefined") { z = 0; }
-            };
-
-            Template.prototype.toString = function () {
-                return '[{Template (x=' + this._x + ')}]';
-            };
-            return Template;
-        })(Kiwi.Component);
-        Components.Template = Template;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Plugins) {
-        (function (Gamefroot) {
-            var TileMapConverter_old = (function () {
-                function TileMapConverter_old(jsonData, imageData) {
-                    this._gf = JSON.parse(jsonData);
-                    this._gfImg = imageData;
-                }
-                TileMapConverter_old.prototype.convert = function () {
-                    console.log(this._gf);
-                    console.log(this._gfImg);
-
-                    if (!this._gfTerrain) {
-                        console.log("no terrain found in gf object");
-                    }
-                    this._gfTerrain = this._gf.map.terrain;
-
-                    this._initTileMap();
-
-                    this._kiwiTileset = this._createTileSet();
-
-                    this._analyseGFImage();
-
-                    this._kiwiTileMap.tilesets.push(this._kiwiTileset);
-
-                    this._analyseGFData();
-
-                    for (var i = 0; i < this._totalLayers; i++) {
-                        var layer = this._createLayer();
-                        layer.name = "Layer" + (i);
-                        this._fillBlanks(layer.data);
-                        this._translateTiles(layer.data, this._layerInfo["layer" + i]);
-                        this._kiwiTileMap.layers.push(layer);
-                    }
-
-                    console.log(this._kiwiTileMap);
-                    return this._kiwiTileMap;
-                };
-
-                TileMapConverter_old.prototype._translateTiles = function (layerData, layerInfo) {
-                };
-
-                TileMapConverter_old.prototype._fillBlanks = function (arr) {
-                    var length = (this._maxX + 1) * (this._maxY + 1);
-                    for (var i = 0; i < length; i++) {
-                        arr.push(-1);
-                    }
-                };
-
-                TileMapConverter_old.prototype._initTileMap = function () {
-                    this._kiwiTileMap = {
-                        "height": 40,
-                        "layers": [],
-                        "orientation": "orthogonal",
-                        "properties": {},
-                        "tileheight": 48,
-                        "tilesets": [],
-                        "tilewidth": 48,
-                        "version": 1,
-                        "width": 40
-                    };
-                };
-
-                TileMapConverter_old.prototype._createTileSet = function () {
-                    return {
-                        "firstgid": 1,
-                        "image": "",
-                        "imageheight": 0,
-                        "imagewidth": 0,
-                        "margin": 0,
-                        "name": "",
-                        "properties": {},
-                        "spacing": 0,
-                        "tileheight": 48,
-                        "tilewidth": 48
-                    };
-                };
-
-                TileMapConverter_old.prototype._createLayer = function () {
-                    return {
-                        "data": [],
-                        "height": 40,
-                        "name": "",
-                        "opacity": 1,
-                        "type": "tilelayer",
-                        "visible": true,
-                        "width": 40,
-                        "x": 0,
-                        "y": 0
-                    };
-                };
-
-                TileMapConverter_old.prototype._analyseGFImage = function () {
-                    console.log("Analysing GF Image Data");
-                    console.log(this._gfImg.width, this._gfImg.height);
-                    this._kiwiTileset.imagewidth = this._gfImg.width;
-                    this._kiwiTileset.imageheight = this._gfImg.height;
-                };
-
-                TileMapConverter_old.prototype._analyseGFData = function () {
-                    console.log("Analysing GF Tilemap Data");
-
-                    this._totalTiles = this._gfTerrain.length;
-                    console.log("Total tiles : " + this._totalTiles);
-
-                    this._totalLayers = 0;
-                    this._maxX = 0;
-                    this._maxY = 0;
-
-                    this._layerInfo = {};
-                    for (var i = 0; i < this._totalTiles; i++) {
-                        var layerName = "layer" + this._gfTerrain[i].zpos;
-                        if (parseInt(this._gfTerrain[i].xpos) > this._maxX)
-                            this._maxX = parseInt(this._gfTerrain[i].xpos);
-                        if (parseInt(this._gfTerrain[i].ypos) > this._maxY)
-                            this._maxY = parseInt(this._gfTerrain[i].ypos);
-
-                        if (!this._layerInfo.hasOwnProperty(layerName)) {
-                            this._layerInfo[layerName] = [i];
-                            this._totalLayers++;
-                        } else {
-                            this._layerInfo[layerName].push(i);
-                        }
-                    }
-
-                    console.log(this._layerInfo);
-                    console.log("Total layers : " + this._totalLayers);
-                    console.log("MaxX : " + this._maxX);
-                    console.log("MaxY : " + this._maxY);
-                };
-                return TileMapConverter_old;
-            })();
-            Gamefroot.TileMapConverter_old = TileMapConverter_old;
-        })(Plugins.Gamefroot || (Plugins.Gamefroot = {}));
-        var Gamefroot = Plugins.Gamefroot;
-    })(Kiwi.Plugins || (Kiwi.Plugins = {}));
-    var Plugins = Kiwi.Plugins;
-})(Kiwi || (Kiwi = {}));

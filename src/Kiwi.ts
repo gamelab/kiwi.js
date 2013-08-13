@@ -3,7 +3,7 @@
 /// <reference path="components/Bounds.ts" />
 /// <reference path="components/Color.ts" />
 /// <reference path="components/Input.ts" />
-/// <reference path="components/Motion.ts" />
+
 /// <reference path="components/Position.ts" />
 /// <reference path="components/Rotation.ts" />
 /// <reference path="components/Scale.ts" />
@@ -13,11 +13,6 @@
 /// <reference path="components/Visible.ts" />
 /// <reference path="components/Sound.ts" />
 
-/// <reference path="components/particles/Particle.ts" />
-/// <reference path="components/particles/ParticleSystem.ts" />
-/// <reference path="components/particles/ParticleRenderer.ts" />
-/// <reference path="components/particles/ParticleSystemShapes.ts" />
-/// <reference path="components/particles/ParticleSpriteSheet.ts" />
 
 /// <reference path="animation/Animation.ts" />
 
@@ -62,7 +57,7 @@
 
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
-/// <reference path="gameobjects/StaticObject.ts" />
+
 /// <reference path="gameobjects/Textfield.ts" />
 /// <reference path="gameobjects/tilemap/Tile.ts" />
 /// <reference path="gameobjects/tilemap/TileType.ts" />
@@ -117,10 +112,11 @@
 /// <reference path="structs/Dictionary.ts" />
 /// <reference path="structs/LinkedList.ts" />
 
+/// <reference path="textures/TextureAtlas.ts" />
 /// <reference path="textures/TextureCache.ts" />
 /// <reference path="textures/SpriteSheet.ts" />
 /// <reference path="textures/SingleImage.ts" />
-/// <reference path="textures/TextureAtlas.ts" />
+
 
 /// <reference path="time/Clock.ts" />
 /// <reference path="time/Manager.ts" />
