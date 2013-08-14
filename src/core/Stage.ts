@@ -105,6 +105,7 @@ module Kiwi {
     	*/
         public domReady: bool;
 
+        public gl: WebGLRenderingContext;
         public ctx: CanvasRenderingContext2D;
         public canvas: HTMLCanvasElement;
 
@@ -148,14 +149,28 @@ module Kiwi {
 
         private _createCompositeCanvas() {
             this.canvas = <HTMLCanvasElement>document.createElement("canvas");
-            this.ctx = this.canvas.getContext("2d");
-            this.ctx.fillStyle = this.color.cssColorHex;
-
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
-
             this.canvas.width = 800;
             this.canvas.height = 600;
+            
+
+            //get 2d or gl context - should add in error checking here
+
+            if (this._game.renderMode === Kiwi.RENDERER_CANVAS) {
+                this.ctx = this.canvas.getContext("2d");
+                this.ctx.fillStyle = this.color.cssColorHex;
+                this.gl = null;
+            } else if (this._game.renderMode === Kiwi.RENDERER_WEBGL) {
+                this.gl = this.canvas.getContext("webgl");
+                this.gl.clearColor(1, 0, 0, 1);
+                this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+            } else {
+                klog.error("Unrecognised render mode");
+            }
+            
+            
             
             if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
                 this.container.appendChild(this.canvas);

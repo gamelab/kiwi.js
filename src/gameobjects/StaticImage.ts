@@ -34,6 +34,7 @@ module Kiwi.GameObjects {
             super();
             
             this.atlas = atlas;
+            this.cellIndex = this.atlas.cellIndex;
             this.transform.x = x;
             this.transform.y = y;
             this.width = atlas.cells[0].w;
@@ -97,7 +98,8 @@ module Kiwi.GameObjects {
 
                 var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
                 ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                var cell = this.atlas.cells[this.atlas.cellIndex];
+
+                var cell = this.atlas.cells[this.cellIndex];
                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
               
                 ctx.restore();

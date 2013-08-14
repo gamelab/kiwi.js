@@ -374,10 +374,7 @@ module Kiwi {
     	*/
         public metadata: any;
 
-        //TO GO
-        public frames: Kiwi.Anims.FrameData;
-        public frameWidth: number;
-        public frameHeight: number;
+       
 
         /**
         * @method load

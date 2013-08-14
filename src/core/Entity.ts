@@ -124,6 +124,8 @@ module Kiwi {
 
         public atlas: Kiwi.Textures.TextureAtlas;
 
+        public cellIndex: number = 0;
+
         /**
         * The Component Manager
         * @property components
@@ -480,41 +482,6 @@ module Kiwi {
             klog.info('Entity changed position within the group');
 
         }
-
-        /**
-        * If this is a DOM based Entity then you can modify CSS styles with this method. Has no effect on canvas based entities.
-        * New styles will be applied the next time the Entity.update is called and the queue will be cleared.
-        * @method addStyleUpdate
-        * @param {String} key - The CSS style to add. If the style key already exists in the update queue it will be overwriten.
-        * @param {String} value - The CSS value to be applied to the style.
-        
-        public addStyleUpdate(key: string, value: string) {
-
-            //  Allows for over-write, so only one style update of the same key will exist
-            this._cssStack[key] = value;
-
-        }
-
-        public addStyleTransformUpdate(key: string, value: string) {
-            this._cssTransformStack[key] = value;
-        }
-
-        public applyTransformStyle() {
-            var cssValue: string = "";
-            for (var key in this._cssTransformStack) {
-                cssValue += this._cssTransformStack[key] + " ";
-                //delete this._cssTransformStack[key];
-            }
-            
-            
-            this.domElement.element.style.transform = cssValue;
-            this.domElement.element.style['-o-transform'] = cssValue;
-            this.domElement.element.style['-ms-transform'] = cssValue;
-            this.domElement.element.style['-moz-transform'] = cssValue;
-            this.domElement.element.style['-webkit-transform'] = cssValue;
-         
-            
-        }*/ //--TO REMOVE
 
         //  Both of these methods can and often should be over-ridden by classes extending Entity to handle specific implementations
 

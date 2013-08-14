@@ -4,7 +4,7 @@
 /// <reference path="Device.ts" />
 /// <reference path="LayerManager.ts" />
 /// <reference path="Stage.ts" />
-/// <reference path="../anims/Manager.ts" />
+
 /// <reference path="../tweens/Manager.ts" />
 /// <reference path="../utils/RandomDataGenerator.ts" />
 /// <reference path="../utils/RequestAnimationFrame.ts" />
@@ -42,14 +42,22 @@ module Kiwi {
 
             this._dom = new Kiwi.DOM.Bootstrap();
 
-            this.anims = new Kiwi.Anims.Manager(this);
             this.audio = new Kiwi.Sound.AudioManager(this);
             this.browser = new Kiwi.DOM.Browser(this);
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
             this.stage = new Kiwi.Stage(this, name);
-            this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
+
+            //this needs to be passed in instead of hard coded
+            this._renderMode = Kiwi.RENDERER_CANVAS;
+            //this._renderMode = Kiwi.RENDERER_WEBGL;
+
+            if (this._renderMode === Kiwi.RENDERER_CANVAS) {
+                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
+            } else {
+                this.renderer = new Kiwi.Renderers.GLRenderer(this);
+            }
 
             //this.layers = new Kiwi.LayerManager(this);
             this.cameras = new Kiwi.CameraManager(this);
@@ -82,6 +90,12 @@ module Kiwi {
 
         }
 
+        private _renderMode: number;
+
+        public get renderMode(): number {
+            return this._renderMode;
+        }
+
         public renderer: IRenderer;
 
         public huds: Kiwi.HUD.HUDManager;
@@ -105,7 +119,7 @@ module Kiwi {
         */
         public id: number;
 
-        public anims: Kiwi.Anims.Manager = null;
+      
         
         /*
         *
@@ -217,7 +231,6 @@ module Kiwi {
                 this.huds.boot();
             }
             this.time.boot();
-            this.anims.boot();
             this.audio.boot();
             this.input.boot();
             this.cache.boot();
