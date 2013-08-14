@@ -1,23 +1,4 @@
-﻿var Shapes;
-(function (Shapes) {
-    var Point = (function () {
-        function Point(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-        Point.prototype.getDist = function () {
-            return Math.sqrt(this.x * this.x + this.y * this.y);
-        };
-
-        Point.origin = new Point(0, 0);
-        return Point;
-    })();
-    Shapes.Point = Point;
-})(Shapes || (Shapes = {}));
-
-var p = new Shapes.Point(3, 4);
-var dist = p.getDist();
-var Kiwi;
+﻿var Kiwi;
 (function (Kiwi) {
     (function (DOM) {
         var Bootstrap = (function () {
@@ -598,7 +579,7 @@ var Kiwi;
 
             if (Kiwi.DEVICE.blob) {
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = false;
+                this._useTagLoader = true;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
@@ -3520,6 +3501,7 @@ var Kiwi;
         };
 
         Stage.prototype._createCompositeCanvas = function () {
+            console.log("created canvas");
             this.canvas = document.createElement("canvas");
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
@@ -3534,6 +3516,7 @@ var Kiwi;
                 this.gl = this.canvas.getContext("webgl");
                 this.gl.clearColor(1, 0, 0, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+                this.ctx = null;
             } else {
                 klog.error("Unrecognised render mode");
             }
@@ -4057,9 +4040,8 @@ var Kiwi;
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
+            this._renderMode = Kiwi.RENDERER_WEBGL;
             this.stage = new Kiwi.Stage(this, name);
-
-            this._renderMode = Kiwi.RENDERER_CANVAS;
 
             if (this._renderMode === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
@@ -4112,6 +4094,7 @@ var Kiwi;
 
             this.browser.boot();
             this.stage.boot(this._dom);
+            this.renderer.boot();
 
             this.cameras.boot();
             if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
@@ -12395,29 +12378,335 @@ var Kiwi;
     (function (Renderers) {
         var GLRenderer = (function () {
             function GLRenderer(game) {
+                this.once = false;
                 this._game = game;
             }
             GLRenderer.prototype.boot = function () {
+                this._stageResolution = new Float32Array([this._game.stage.size.width(), this._game.stage.size.height()]);
+                this._shaders = new Renderers.GLShaders(this._game.stage.gl);
+                var gl = this._game.stage.gl;
+
+                this.mvMatrix = mat4.create();
+                mat4.identity(this.mvMatrix);
+
+                this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
+                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1);
+                this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
+                this._colorBuffer = new Renderers.GLArrayBuffer(gl, 1, Renderers.GLArrayBuffer.squareCols);
+
+                this._shaders.use(gl, this._shaders.shaderProgram);
             };
 
-            GLRenderer.prototype._recurse = function (child) {
+            GLRenderer.prototype.mvPush = function () {
+                var copy = mat4.create();
+                mat4.set(this.mvMatrix, copy);
+                this.mvMatrixStack.push(copy);
+            };
+
+            GLRenderer.prototype.mvPop = function () {
+                if (this.mvMatrixStack.length == 0) {
+                    throw "Invalid popMatrix!";
+                }
+                this.mvMatrix = this.mvMatrixStack.pop();
+            };
+
+            GLRenderer.prototype.render = function (camera) {
+                this._currentCamera = camera;
+                var root = this._game.states.current.members;
+                var gl = this._game.stage.gl;
+
+                gl.clearColor(1, 0, 0, 1);
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                for (var i = 0; i < root.length; i++) {
+                    this._recurse(gl, root[i]);
+                }
+            };
+
+            GLRenderer.prototype._recurse = function (gl, child) {
                 if (!child.willRender)
                     return;
 
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < (child).members.length; i++) {
-                        this._recurse((child).members[i]);
+                        this._recurse(gl, (child).members[i]);
                     }
                 } else {
-                    child.render(this._currentCamera);
+                    this._draw(gl, child);
                 }
             };
 
-            GLRenderer.prototype.render = function (camera) {
+            GLRenderer.prototype._draw = function (gl, entity) {
+                var t = entity.transform;
+                this._vertBuffer.refresh(gl, [
+                    t.x,
+                    t.y,
+                    t.x + entity.width,
+                    t.y,
+                    t.x + entity.width,
+                    t.y + entity.height,
+                    t.x,
+                    t.y + entity.height
+                ]);
+
+                var c = entity.atlas.cells[0];
+                this._uvBuffer.refresh(gl, [
+                    c.x,
+                    c.y,
+                    c.x + c.w,
+                    c.y,
+                    c.x + c.w,
+                    c.y + c.h,
+                    c.x,
+                    c.y + c.h
+                ]);
+
+                if (!this.once) {
+                    this._texture = new Renderers.GLTexture(gl, entity.atlas.image);
+
+                    this.once = true;
+                }
+
+                var prog = this._shaders.texture2DProg;
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
+
+                console.log("eee");
+
+                gl.uniform1i(prog.samplerUniform, 0);
+
+                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+
+                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+
+                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
+
+                gl.drawElements(gl.TRIANGLES, this._indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
             };
             return GLRenderer;
         })();
         Renderers.GLRenderer = GLRenderer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var GLShaders = (function () {
+            function GLShaders(gl) {
+                this.ready = false;
+                this.texture2DProg = { vertexPositionAttribute: null, vertexTexCoordAttribute: null, vertexColorAttribute: null, mvMatrixUniform: null, samplerUniform: null, resolutionUniform: null, textureSizeUniform: null };
+                this.texture2DFrag = [
+                    "precision mediump float;",
+                    "varying vec2 vTextureCoord;",
+                    "varying float vColor;",
+                    "uniform sampler2D uSampler;",
+                    "void main(void) {",
+                    "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
+                    "gl_FragColor = gl_FragColor * vColor;",
+                    "}"
+                ];
+                this.texture2DVert = [
+                    "attribute vec2 aVertexPosition;",
+                    "attribute vec2 aTextureCoord;",
+                    "attribute float aColor;",
+                    "uniform mat4 uMVMatrix;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec2 uTextureSize;",
+                    "varying vec2 vTextureCoord;",
+                    "varying float vColor;",
+                    "void main(void) {",
+                    "vec2 zeroToOne = aVertexPosition / uResolution;",
+                    "vec2 zeroToTwo = zeroToOne * 2.0;",
+                    "vec2 clipSpace = zeroToTwo - 1.0;",
+                    "gl_Position = uMVMatrix * vec4(clipSpace * vec2(1, -1), 0, 1);",
+                    "vTextureCoord = aTextureCoord / uTextureSize;",
+                    "vColor = aColor;",
+                    "}"
+                ];
+                this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.texture2DFrag.join("\n"), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                this.use(gl, this.shaderProgram);
+                this.ready = true;
+            }
+            GLShaders.prototype.attach = function (gl, vertShader, fragShader) {
+                var shaderProgram = gl.createProgram();
+                gl.attachShader(shaderProgram, fragShader);
+                gl.attachShader(shaderProgram, vertShader);
+                gl.linkProgram(shaderProgram);
+                return shaderProgram;
+            };
+
+            GLShaders.prototype.compile = function (gl, src, shaderType) {
+                var shader = gl.createShader(shaderType);
+                gl.shaderSource(shader, src);
+                gl.compileShader(shader);
+
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.log(gl.getShaderInfoLog(shader));
+                    return null;
+                }
+                return shader;
+            };
+
+            GLShaders.prototype.use = function (gl, shaderProgram) {
+                gl.useProgram(this.shaderProgram);
+
+                console.log(shaderProgram);
+                this.texture2DProg.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+                gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
+                this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+                gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
+                this.texture2DProg.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aColor");
+                gl.enableVertexAttribArray(this.texture2DProg.vertexColorAttribute);
+
+                this.texture2DProg.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+                this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
+                this.texture2DProg.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+                this.texture2DProg.textureSizeUniform = gl.getUniformLocation(shaderProgram, "uTextureSize");
+            };
+            return GLShaders;
+        })();
+        Renderers.GLShaders = GLShaders;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var GLTexture = (function () {
+            function GLTexture(gl, _image) {
+                this.texture = gl.createTexture();
+
+                this.image = _image;
+                gl.bindTexture(gl.TEXTURE_2D, this.texture);
+                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.bindTexture(gl.TEXTURE_2D, null);
+            }
+            GLTexture.prototype.refresh = function (gl, _image) {
+                this.image = _image;
+                gl.bindTexture(gl.TEXTURE_2D, this.texture);
+                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.bindTexture(gl.TEXTURE_2D, null);
+            };
+            return GLTexture;
+        })();
+        Renderers.GLTexture = GLTexture;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var GLArrayBuffer = (function () {
+            function GLArrayBuffer(gl, _itemSize, items, init) {
+                if (typeof init === "undefined") { init = true; }
+                this._items = items || GLArrayBuffer.squareVertices;
+                this.itemSize = _itemSize || 2;
+                this.numItems = this._items.length / this.itemSize;
+                if (init) {
+                    this.buffer = this.init(gl);
+                }
+            }
+            GLArrayBuffer.prototype.init = function (gl) {
+                var buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this._items), gl.DYNAMIC_DRAW);
+
+                return buffer;
+            };
+
+            GLArrayBuffer.prototype.refresh = function (gl, items) {
+                this._items = items;
+                this.numItems = this._items.length / this.itemSize;
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this._items), gl.DYNAMIC_DRAW);
+                return this.buffer;
+            };
+
+            GLArrayBuffer.squareVertices = [
+                0,
+                0,
+                100,
+                0,
+                100,
+                100,
+                0,
+                100
+            ];
+
+            GLArrayBuffer.squareUVs = [
+                0,
+                0,
+                .1,
+                0,
+                .1,
+                .1,
+                0,
+                .1
+            ];
+
+            GLArrayBuffer.squareCols = [
+                1,
+                1,
+                1,
+                1
+            ];
+            return GLArrayBuffer;
+        })();
+        Renderers.GLArrayBuffer = GLArrayBuffer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var GLElementArrayBuffer = (function () {
+            function GLElementArrayBuffer(gl, _itemSize, _indices, init) {
+                if (typeof init === "undefined") { init = true; }
+                this.indices = _indices || GLElementArrayBuffer.square;
+                this.itemSize = _itemSize || 1;
+                this.numItems = this.indices.length / this.itemSize;
+                if (init) {
+                    this.buffer = this.init(gl);
+                }
+            }
+            GLElementArrayBuffer.prototype.init = function (gl) {
+                var buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
+
+                return buffer;
+            };
+
+            GLElementArrayBuffer.square = [
+                0,
+                1,
+                2,
+                0,
+                2,
+                3
+            ];
+            return GLElementArrayBuffer;
+        })();
+        Renderers.GLElementArrayBuffer = GLElementArrayBuffer;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));

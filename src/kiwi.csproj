@@ -30,11 +30,11 @@
     <Content Include="components\Visible.ts" />
     <Content Include="core\Game.ts" />
     <Content Include="animation\Animation.ts" />
+    <Content Include="renderers\GLArrayBuffer.ts" />
+    <Content Include="renderers\GLElementArrayBuffer.ts" />
     <Content Include="renderers\GLRenderer.ts" />
-    <TypeScriptCompile Include="renderers\GLShaders.ts" />
-    <Content Include="renderers\GLShaders.js">
-      <DependentUpon>GLShaders.ts</DependentUpon>
-    </Content>
+    <Content Include="renderers\GLShaders.ts" />
+    <Content Include="renderers\GLTexture.ts" />
     <Content Include="renderers\WebGL.d.ts" />
     <Content Include="textures\TextureAtlas.ts" />
     <Content Include="animation\Sequence.ts" />

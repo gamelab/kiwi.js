@@ -148,6 +148,7 @@ module Kiwi {
 
 
         private _createCompositeCanvas() {
+            console.log("created canvas");
             this.canvas = <HTMLCanvasElement>document.createElement("canvas");
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
@@ -165,7 +166,7 @@ module Kiwi {
                 this.gl = this.canvas.getContext("webgl");
                 this.gl.clearColor(1, 0, 0, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-
+                this.ctx = null;
             } else {
                 klog.error("Unrecognised render mode");
             }

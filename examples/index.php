@@ -51,6 +51,7 @@ if (isset($_GET['f']))
     <link rel="stylesheet" href="examples.css" type="text/css" />
     <script type="text/javascript" src="log4javascript.js"></script>
 	<script type="text/javascript" src="jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
     <script type="text/javascript">
         var klog = log4javascript.getDefaultLogger();
     </script>

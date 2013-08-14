@@ -26,6 +26,7 @@ Thumbs.db
 !log4javascript.js
 !ECMA262-5.js
 !jquery-1.9.1.js
+!glMatrix-0.9.5.min.js
 *.map
 *.config
 [Bb]in

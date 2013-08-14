@@ -102,10 +102,16 @@
 /// <reference path="input/Mouse.ts" />
 /// <reference path="input/Touch.ts" />
 
+
+
 /// <reference path="plugins/gamefroot/TileMapConverter.ts" />
 
 /// <reference path="renderers/CanvasRenderer.ts" />
 /// <reference path="renderers/GLRenderer.ts" />
+/// <reference path="renderers/GLShaders.ts" />
+/// <reference path="renderers/GLTexture.ts" />
+/// <reference path="renderers/GLArrayBuffer.ts" />
+/// <reference path="renderers/GLElementArrayBuffer.ts" />
 
 /// <reference path="structs/Dictionary.ts" />
 /// <reference path="structs/LinkedList.ts" />
