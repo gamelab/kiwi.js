@@ -1,7 +1,7 @@
 /// <reference path="../../src/Kiwi.ts" />
 
 class looping extends Kiwi.State {
-
+    /*
     constructor() {
         super('looping');
     }
@@ -38,5 +38,5 @@ class looping extends Kiwi.State {
         }
 
     }
-
+    */
 }

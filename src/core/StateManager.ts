@@ -428,9 +428,6 @@ module Kiwi {
             var gameCacheKeys: Array = this._game.cache.images.keys;
             var stateCacheKeys: Array = this.current.cache.images.keys;
 
-       
-
-
             //iterate through global cache
             
             for (var i = 0; i < gameCacheKeys.length; i++) {
