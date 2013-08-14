@@ -1,3 +1,5 @@
+///<reference path="renderers/WebGL.d.ts"/>
+
 /// <reference path="components/Alpha.ts" />
 /// <reference path="components/ArcadePhysics.ts" />
 /// <reference path="components/Bounds.ts" />
@@ -19,11 +21,6 @@
 /// <reference path="animation/Sequence.ts" />
 
 
-/// <reference path="anims/formats/SpriteSheet.ts" />
-/// <reference path="anims/Animation.ts" />
-/// <reference path="anims/Frame.ts" />
-/// <reference path="anims/FrameData.ts" />
-/// <reference path="anims/Manager.ts" />
 
 /// <reference path="core/Cache.ts" />
 /// <reference path="core/Camera.ts" />
@@ -108,6 +105,7 @@
 /// <reference path="plugins/gamefroot/TileMapConverter.ts" />
 
 /// <reference path="renderers/CanvasRenderer.ts" />
+/// <reference path="renderers/GLRenderer.ts" />
 
 /// <reference path="structs/Dictionary.ts" />
 /// <reference path="structs/LinkedList.ts" />
@@ -148,11 +146,9 @@ module Kiwi {
 
     export var VERSION: string = "1.0";
     
-    //export var TYPE_UNASSIGNED:number = 0;
-    //export var TYPE_CANVAS:number = 1;
-    //export var TYPE_DOM:number = 2;
-    //export var TYPE_WEBGL:number = 3;
-    //export var TYPE_AUTODETECT:number = 4;
+    export var RENDERER_CANVAS: number = 0;
+    export var RENDERER_WEBGL: number = 1;
+    
 
     export var TARGET_BROWSER: number = 0;
     export var TARGET_COCOON: number = 1;

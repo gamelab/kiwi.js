@@ -230,10 +230,7 @@ module Kiwi {
             var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
           
             file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
-           
-            file.frameWidth = frameWidth;   
-            file.frameHeight = frameHeight;
-
+         
             this._fileList.push(file);
 
         }
@@ -511,15 +508,7 @@ module Kiwi {
 
             }
 
-            //  Sprite sheet?
-            //if (file.dataType === Kiwi.File.SPRITE_SHEET)
-           // {
-            //    file.frames = this._game.anims.getSpriteSheetFrames(file.cacheID, file.cache(), file.frameWidth, file.frameHeight);
-            //}
-            //else
-            //{
-            //    file.frames = this._game.anims.getSpriteSheetFrames(file.cacheID, file.cache(), file.data.width, file.data.height);
-            //}
+        
 
             if (this._loadList.length === 0)
             {
