@@ -38,16 +38,15 @@ module Kiwi.GameObjects {
 
             super();
 
-            console.log(atlas);
-           
 
             //  Properties
 
             this.name = atlas.name;
             this.atlas = atlas;
+            this.cellIndex = this.atlas.cellIndex;
 
             //this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-            
+
             //may need to add an optional other cell frame index here
             this.width = atlas.cells[0].w;
             this.height = atlas.cells[0].h;
@@ -234,7 +233,7 @@ module Kiwi.GameObjects {
                     ctx.globalAlpha = this.alpha;
                 }
 
-                    var cell = this.atlas.cells[this.atlas.cellIndex];
+                    var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image,cell.x, cell.y, cell.w, cell.h,0,0,cell.w,cell.h);
                 
 

@@ -126,6 +126,7 @@ module Kiwi.Components {
                     this.outsideBounds = false;
                     this._justEntered = true;
                     this.inputEntered.dispatch(this._entity, this.distance.x, this.distance.y);
+                    
                 }
             }
             else

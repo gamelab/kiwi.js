@@ -1,7 +1,7 @@
 /// <reference path="../../src/Kiwi.ts" />
 
 export class Icons extends Kiwi.State {
-
+    /*
     constructor() {
         super('icons');
     }
@@ -42,5 +42,5 @@ export class Icons extends Kiwi.State {
         this.icon.texture.changeTexture( this.icons[this.currentIcon], this.cache );
 
     }
-
+*/
 }
