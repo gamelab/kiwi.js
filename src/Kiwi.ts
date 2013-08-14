@@ -9,7 +9,7 @@
 /// <reference path="components/Scale.ts" />
 /// <reference path="components/Size.ts" />
 /// <reference path="components/Sound.ts" />
-/// <reference path="components/Texture.ts" />
+
 /// <reference path="components/Visible.ts" />
 /// <reference path="components/Sound.ts" />
 

@@ -34,9 +34,9 @@ module Kiwi.HUD {
                 return;
             }
 
-            this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-            this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
-            this.texture.updated.add(this._changeTexture, this);
+            //this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
+            //this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
+            //this.texture.updated.add(this._changeTexture, this);
             //this.size.updated.add(this._applyCSS, this);
 
             this.icon = this.container;
@@ -47,7 +47,7 @@ module Kiwi.HUD {
         * Holds the texture component
         * @public
         **/
-        public texture: Kiwi.Components.Texture;
+        //public texture: Kiwi.Components.Texture;
 
         /**
         * Holds the size component
@@ -65,9 +65,9 @@ module Kiwi.HUD {
         * Callback for when the texture changes
         * @private
         **/
-        private _changeTexture(value:string, width:number, height:number) {    
-            this.size.setTo(width, height);
-        }
+        //private _changeTexture(value:string, width:number, height:number) {    
+        //    this.size.setTo(width, height);
+        //}
 
         /**
         * Removes the CSS from the Icon. 

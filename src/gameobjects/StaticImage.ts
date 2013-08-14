@@ -2,7 +2,6 @@
 /// <reference path="../core/Entity.ts" />
 /// <reference path="../core/State.ts" />
 /// <reference path="../components/Position.ts" />
-/// <reference path="../components/Texture.ts" />
 
 /*
  *	Kiwi - GameObjects - StaticImage

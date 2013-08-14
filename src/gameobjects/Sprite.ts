@@ -5,7 +5,7 @@
 
 /// <reference path="../components/Input.ts" />
 /// <reference path="../components/Position.ts" />
-/// <reference path="../components/Texture.ts" />
+
 /// <reference path="../components/Visible.ts" />
 
 /*

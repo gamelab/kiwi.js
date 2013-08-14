@@ -7158,83 +7158,6 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Components) {
-        var Texture = (function (_super) {
-            __extends(Texture, _super);
-            function Texture(cacheID, cache) {
-                _super.call(this, 'Texture');
-                this.file = null;
-
-                if (!this._setTexture(cacheID, cache))
-                    return;
-
-                this.position = new Kiwi.Components.Position();
-                this.size = new Kiwi.Components.Size(this.file.data.width, this.file.data.height);
-                this._repeat = Kiwi.Components.Texture.REPEAT_NONE;
-                this.ready = true;
-
-                this.updatedRepeat = new Kiwi.Signal();
-                this.updated = new Kiwi.Signal();
-            }
-            Texture.prototype.changeTexture = function (cacheID, cache) {
-                if (!this._setTexture(cacheID, cache))
-                    return;
-
-                this.size.setTo(this.file.data.width, this.file.data.height);
-                this.ready = true;
-
-                this.updated.dispatch(this.getURL(), this.file.data.width, this.file.data.height);
-            };
-
-            Texture.prototype._setTexture = function (cacheID, cache) {
-                if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
-                    klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                    this.ready = false;
-                    return;
-                }
-                this.cacheID = cacheID;
-                this.file = cache.images.getFile(cacheID);
-                this.image = this.file.data;
-
-                return true;
-            };
-
-            Texture.prototype.objType = function () {
-                return "Texture";
-            };
-
-            Texture.prototype.repeat = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && this._repeat !== value) {
-                    this._repeat = value;
-                    this.updatedRepeat.dispatch(value);
-                }
-
-                return this._repeat;
-            };
-
-            Texture.prototype.getURL = function () {
-                return this.file.fileURL;
-            };
-
-            Texture.prototype.toString = function () {
-                return '[{Texture (cacheID=' + this.cacheID + ' url=' + this.getURL() + ' repeat=' + this._repeat + ')}]';
-            };
-            Texture.REPEAT_NONE = 'no-repeat';
-
-            Texture.REPEAT_X = 'repeat-x';
-
-            Texture.REPEAT_Y = 'repeat-y';
-
-            Texture.REPEAT_BOTH = 'repeat';
-            return Texture;
-        })(Kiwi.Component);
-        Components.Texture = Texture;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
         var Visible = (function (_super) {
             __extends(Visible, _super);
             function Visible(value) {
@@ -10968,16 +10891,8 @@ var Kiwi;
                     return;
                 }
 
-                this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-                this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
-                this.texture.updated.add(this._changeTexture, this);
-
                 this.icon = this.container;
             }
-            Icon.prototype._changeTexture = function (value, width, height) {
-                this.size.setTo(width, height);
-            };
-
             Icon.prototype._removeCSS = function () {
                 this.icon.style.width = '';
                 this.icon.style.height = '';
@@ -11051,11 +10966,7 @@ var Kiwi;
             }
             IconCounter.prototype._changeSize = function () {
                 if (this._horizontal) {
-                    this.texture.repeat('repeat-x');
-                    this.size.setTo(this.texture.file.data.width * this.range.current, this.texture.file.data.height);
                 } else {
-                    this.texture.repeat('repeat-y');
-                    this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current);
                 }
             };
 
