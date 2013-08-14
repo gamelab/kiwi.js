@@ -23,6 +23,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="arcadephysics\overlaps.ts" />
     <TypeScriptCompile Include="arcadephysics\group.ts" />
+    <TypeScriptCompile Include="Animations\Creating.ts" />
+    <Content Include="Animations\Creating.js">
+      <DependentUpon>Creating.ts</DependentUpon>
+    </Content>
     <Content Include="arcadephysics\group.js">
       <DependentUpon>group.ts</DependentUpon>
     </Content>
