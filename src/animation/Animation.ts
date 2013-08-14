@@ -108,15 +108,11 @@ module Kiwi {
                     this._tick = this.clock.elapsed() + this._speed;
 
                     this._frameIndex++;
-                    console.log('Started');
                     if (!this._validateFrame(this._frameIndex)) {
                         //check to see if it is at the end
-                        console.log('Not Valid');
                         if (this._loop) {
-                            console.log('Looping');
                             this._frameIndex = 0;
                         } else {
-                            console.log('Stopped');
                             this._frameIndex--;
                             this.stop();
                         }
@@ -124,7 +120,6 @@ module Kiwi {
 
                     this.currentFrame = this._frameIndex;
 
-                    console.log('Updated', this._frameIndex, this.currentFrame);
                     return true;
                 }
             }
@@ -132,7 +127,6 @@ module Kiwi {
         }
 
         private _validateFrame(frame: number) {
-            console.log(frame, this._sequence.cells.length);
             return (frame < this._sequence.cells.length && frame >= 0);
 
         }
