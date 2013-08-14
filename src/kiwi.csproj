@@ -21,20 +21,25 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="core\Game.ts" />
-    <Content Include="components\Position.ts" />
-    <Content Include="components\Color.ts" />
     <Content Include="components\Alpha.ts" />
-    <Content Include="anims\Manager.ts" />
-    <Content Include="anims\Frame.ts" />
-    <Content Include="anims\Animation.ts" />
+    <Content Include="components\Color.ts" />
+    <Content Include="components\Position.ts" />
+    <Content Include="components\Rotation.ts" />
+    <Content Include="components\Scale.ts" />
+    <Content Include="components\Size.ts" />
+    <Content Include="components\Visible.ts" />
+    <Content Include="core\Game.ts" />
     <Content Include="animation\Animation.ts" />
+    <Content Include="renderers\GLRenderer.ts" />
+    <TypeScriptCompile Include="renderers\GLShaders.ts" />
+    <Content Include="renderers\GLShaders.js">
+      <DependentUpon>GLShaders.ts</DependentUpon>
+    </Content>
+    <Content Include="renderers\WebGL.d.ts" />
     <Content Include="textures\TextureAtlas.ts" />
     <Content Include="animation\Sequence.ts" />
     <Content Include="textures\SingleImage.ts" />
     <Content Include="textures\SpriteSheet.ts" />
-    <Content Include="anims\formats\SpriteSheet.ts" />
-    <Content Include="anims\FrameData.ts" />
     <Content Include="sound\AudioManager.ts" />
     <Content Include="sound\Audio.ts" />
     <Content Include="components\Sound.ts" />
@@ -44,12 +49,8 @@
     <Content Include="components\Animation.ts" />
     <Content Include="components\Input.ts" />
     <Content Include="core\Component.ts" />
-    <Content Include="components\Scale.ts" />
-    <Content Include="components\Rotation.ts" />
     <Content Include="core\Cache.ts" />
-    <Content Include="components\Size.ts" />
     <Content Include="components\Template.ts" />
-    <Content Include="components\Visible.ts" />
     <Content Include="core\CameraManager.ts" />
     <Content Include="core\Camera.ts" />
     <Content Include="core\Entity.ts" />

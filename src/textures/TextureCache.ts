@@ -53,11 +53,7 @@ module Kiwi {
         }
 
         private _buildSpriteSheet(imageFile:File): Kiwi.Textures.SpriteSheet {
-            // temp for old spritesheets
-            imageFile.frameWidth = imageFile.metadata.frameWidth;
-            imageFile.frameHeight = imageFile.metadata.frameHeight;
-            imageFile.frames = this._game.anims.getSpriteSheetFrames(imageFile.cacheID, imageFile.cache(), imageFile.frameWidth, imageFile.frameHeight);
-            
+           
             var m = imageFile.metadata;
             
             //BEWARE THE SWITCH TO CELLWIDTH AND FRAMEWIDTH
