@@ -12526,7 +12526,7 @@ var Kiwi;
                     t.y + entity.height
                 ]);
 
-                var c = entity.atlas.cells[0];
+                var c = entity.atlas.cells[entity.cellIndex];
                 this._uvBuffer.refresh(gl, [
                     c.x,
                     c.y,
@@ -12542,6 +12542,8 @@ var Kiwi;
                     this._texture = new Renderers.GLTexture(gl, entity.atlas.image);
 
                     this.once = true;
+                } else {
+                    this._texture.refresh(gl, entity.atlas.image);
                 }
 
                 var prog = this._shaders.texture2DProg;
@@ -12557,8 +12559,6 @@ var Kiwi;
 
                 gl.activeTexture(gl.TEXTURE0);
                 gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-
-                console.log("eee");
 
                 gl.uniform1i(prog.samplerUniform, 0);
 
@@ -13434,9 +13434,6 @@ var Kiwi;
         var SingleImage = (function (_super) {
             __extends(SingleImage, _super);
             function SingleImage(name, image, width, height, offsetX, offsetY) {
-                console.log("creating single image " + name);
-                console.log(image);
-
                 this.width = width || image.width;
                 this.height = height || image.height;
                 this.offsetX = offsetX || 0;

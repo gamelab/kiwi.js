@@ -111,7 +111,7 @@ module Kiwi.Renderers {
                                         t.x, t.y + entity.height
                                     ]);
             
-            var c = entity.atlas.cells[0];
+            var c = entity.atlas.cells[entity.cellIndex];
             this._uvBuffer.refresh(gl, [c.x, c.y,
                                         c.x + c.w, c.y,
                                         c.x + c.w, c.y + c.h,
@@ -121,9 +121,14 @@ module Kiwi.Renderers {
             //texture
 
             if (!this.once) {
+                
                 this._texture = new GLTexture(gl, entity.atlas.image);
-                //this._texture.refresh(gl, entity.atlas.image);
+             
+
+                
                 this.once = true;
+            } else {
+                this._texture.refresh(gl, entity.atlas.image);
             }
      
 
