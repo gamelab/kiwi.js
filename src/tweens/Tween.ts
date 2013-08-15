@@ -139,6 +139,8 @@ module Kiwi {
         * @private
         **/
 	    private _onStartCallback = null;
+        private _onStartContext = null;
+
 
         /** 
         * 
@@ -155,6 +157,8 @@ module Kiwi {
         * @private
         **/
 	    private _onUpdateCallback = null;
+
+        private _onUpdateContext = null;
 
         /** 
         * 
@@ -350,10 +354,11 @@ module Kiwi {
         * @method onStart
         * @param {Any} callback
         **/
-	    public onStart(callback) {
+	    public onStart(callback, context) {
 
 	        this._onStartCallback = callback;
-	        return this;
+            this._onStartContext = context;
+            return this;
 
 	    }
 
@@ -362,9 +367,10 @@ module Kiwi {
         * @method onUpdate
         * @param {Any} callback
         **/
-	    public onUpdate(callback) {
+	    public onUpdate(callback, context) {
 
-	        this._onUpdateCallback = callback;
+            this._onUpdateCallback = callback;
+            this._onUpdateContext = context;
 	        return this;
 
 	    }
@@ -406,7 +412,7 @@ module Kiwi {
 	        {
 	            if (this._onStartCallback !== null)
 	            {
-	                this._onStartCallback.call(this._object);
+	                this._onStartCallback.call(this._onStartContext, this._object);
 	            }
 
 	            this._onStartCallbackFired = true;
@@ -443,7 +449,7 @@ module Kiwi {
 
 	        if (this._onUpdateCallback !== null)
 	        {
-	            this._onUpdateCallback.call(this._object, value);
+	            this._onUpdateCallback.call(this._onUpdateContext, this._object, value);
 	        }
 
 	        if (elapsed == 1)

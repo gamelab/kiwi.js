@@ -23,19 +23,21 @@ module Kiwi.Components {
         * @param {Kiwi.Entity} entity
         */
         constructor(entity: Kiwi.Entity) {
-
             super('Animation');
 
-            this._entity = entity;
+            this.entity = entity;
+            this._atlas = this.entity.atlas;
             this._animations = {};
 
-            this._atlas = this._entity.atlas;
+            //create all of the default animations.
+            for (var i = 0; i < this._atlas.sequences.length; i++) {
+                this.createFromSequence(this._atlas.sequences[i], false);
+            }
 
             //create animation
-            this.add('default', [this._atlas.cellIndex], 0, false, true); 
+            this.currentAnimation = this.add('default', [this._atlas.cellIndex], 0, false, false); 
+            
         }
-
-        private _entity: Kiwi.Entity;
 
         private _atlas: Kiwi.Textures.TextureAtlas;
         
@@ -44,10 +46,11 @@ module Kiwi.Components {
         public currentAnimation: Kiwi.Animation = null;
 
         public isPlaying: bool = false;
-
+        
         private _clock: Kiwi.Time.Clock = null;
 
         public set clock(clock: Kiwi.Time.Clock) {
+
             if(this.clock == null) this.currentAnimation.clock = clock;
             
             this._clock = clock;
@@ -62,23 +65,25 @@ module Kiwi.Components {
         }
 
         /*
-        * Adds a new animation.
+        * Adds a new animation and creates a sequence.
         */
-        public add(name: string, cells: number[], speed: number, loop: boolean=false, play:boolean=false) {
-            var newSequence = new Kiwi.Sequence(name, cells);
+        public add(name: string, cells: number[], speed: number, loop: boolean= false, play: boolean= false): Kiwi.Animation {
+            var newSequence = new Kiwi.Sequence(name, cells, speed, loop);
             this._atlas.sequences.push(newSequence);
-            this.createFromSequence(newSequence, speed, loop, play);
-
+            
+            return this.createFromSequence(newSequence, play);
         }
 
         /*
         * Creates a new animation from a sequence. This is the method
         */
-        public createFromSequence(sequence: Sequence, speed: number, loop: boolean, play: boolean= false) {
+        public createFromSequence(sequence: Kiwi.Sequence, play: boolean= false):Kiwi.Animation {
             
-            this._animations[sequence.name] = new Kiwi.Animation(sequence.name, this._atlas, sequence, speed, loop, this.clock);
-            
+            this._animations[sequence.name] = new Kiwi.Animation(sequence.name, this._atlas, sequence, this.clock);
+
             if (play) this.play(sequence.name);
+            
+            return this._animations[sequence.name];
         }
 
         public play(name: string = this.currentAnimation.name) {
@@ -98,6 +103,7 @@ module Kiwi.Components {
             
             this.currentAnimation.playAt(index);
             this._setCellIndex();
+
         }
 
         /*
@@ -110,6 +116,16 @@ module Kiwi.Components {
                 this.currentAnimation.stop();
             }
             this.isPlaying = false;
+        }
+
+        public pause() {
+            this.currentAnimation.pause();
+            this.isPlaying = false;
+        }
+
+        public resume() {
+            this.currentAnimation.resume();
+            this.isPlaying = true;
         }
 
         /*
@@ -156,9 +172,20 @@ module Kiwi.Components {
 
         }
 
+        public get currentCell():number {
+            return this.currentAnimation.currentCell;
+        }
+
+        public get frameIndex():number {
+            return this.currentAnimation.frameIndex;
+        }
+
+        public getAnimation(name: string):Kiwi.Animation {
+            return this._animations[name];
+        }
+
         private _setCellIndex() {
-            //this._entity.cellAtlas = this.currentAnimation.currentFrame;
-            this._atlas.cellIndex = this.currentAnimation.currentFrame;
+            this.entity.cellIndex = this.currentCell;
         }
 
 	    /**

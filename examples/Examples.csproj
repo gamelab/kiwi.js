@@ -21,11 +21,38 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Tweens\EasingMethods.js">
+      <DependentUpon>EasingMethods.ts</DependentUpon>
+    </Content>
+    <Content Include="Tweens\SpeedAnimation.js">
+      <DependentUpon>SpeedAnimation.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Tweens\SpeedAnimation.ts" />
+    <TypeScriptCompile Include="Tweens\EasingMethods.ts" />
+    <TypeScriptCompile Include="Tweens\Chaining.ts" />
+    <Content Include="Tweens\Chaining.js">
+      <DependentUpon>Chaining.ts</DependentUpon>
+    </Content>
+    <Content Include="Tweens\Creating.js">
+      <DependentUpon>CreatingATween.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Tweens\CreatingATween.ts" />
     <TypeScriptCompile Include="arcadephysics\overlaps.ts" />
     <TypeScriptCompile Include="arcadephysics\group.ts" />
     <TypeScriptCompile Include="Animations\Creating.ts" />
+    <TypeScriptCompile Include="Animations\Callbacks.ts" />
+    <Content Include="Animations\Callbacks.js">
+      <DependentUpon>Callbacks.ts</DependentUpon>
+    </Content>
     <Content Include="Animations\Creating.js">
       <DependentUpon>Creating.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Animations\MultipleSprites.ts" />
+    <TypeScriptCompile Include="Animations\StartingAndStopping.ts" />
+    <TypeScriptCompile Include="Animations\SwitchingAnimations.ts" />
+    <TypeScriptCompile Include="Animations\PausingAndResuming.ts" />
+    <Content Include="Animations\PausingAndResuming.js">
+      <DependentUpon>PausingAndResuming.ts</DependentUpon>
     </Content>
     <Content Include="arcadephysics\group.js">
       <DependentUpon>group.ts</DependentUpon>
