@@ -12492,6 +12492,11 @@ var Kiwi;
                 var root = this._game.states.current.members;
                 var gl = this._game.stage.gl;
 
+                this._vertBuffer.flush();
+                this._uvBuffer.flush();
+                this._colorBuffer.flush();
+                this._indexBuffer.flush();
+
                 gl.clearColor(0, 0, 0.95, 0);
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -12509,41 +12514,41 @@ var Kiwi;
                         this._recurse(gl, (child).members[i]);
                     }
                 } else {
-                    this._draw(gl, child);
+                    this._compileAttributes(gl, child);
                 }
+
+                if (!this.once)
+                    this._texture = new Renderers.GLTexture(gl, (child).atlas.image);
+                this._draw(gl);
             };
 
-            GLRenderer.prototype._draw = function (gl, entity) {
+            GLRenderer.prototype._compileAttributes = function (gl, entity) {
                 var t = entity.transform;
                 var c = entity.atlas.cells[entity.cellIndex];
 
-                this._vertBuffer.refresh(gl, [
-                    t.x,
-                    t.y,
-                    t.x + c.w,
-                    t.y,
-                    t.x + c.w,
-                    t.y + c.h,
-                    t.x,
-                    t.y + c.h
-                ]);
+                this._vertBuffer.items.push(t.x, t.y, t.x + c.w, t.y, t.x + c.w, t.y + c.h, t.x, t.y + c.h);
 
-                this._uvBuffer.refresh(gl, [
-                    c.x,
-                    c.y,
-                    c.x + c.w,
-                    c.y,
-                    c.x + c.w,
-                    c.y + c.h,
-                    c.x,
-                    c.y + c.h
-                ]);
+                this._vertBuffer.refresh(gl, this._vertBuffer.items);
 
-                if (!this.once) {
-                    this._texture = new Renderers.GLTexture(gl, entity.atlas.image);
-                } else {
+                this._uvBuffer.items.push(c.x, c.y, c.x + c.w, c.y, c.x + c.w, c.y + c.h, c.x, c.y + c.h);
+
+                this._uvBuffer.refresh(gl, this._uvBuffer.items);
+
+                if (!GLRenderer.one) {
+                    for (var i = 0; i < this._vertBuffer.numItems / 4; i++) {
+                        this._indexBuffer.indices.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
+                    }
+
+                    for (var i = 0; i < this._vertBuffer.numItems; i++) {
+                        this._colorBuffer.items.push(1);
+                    }
+                    this._indexBuffer.refresh(gl, this._indexBuffer.indices);
+                    this._colorBuffer.refresh(gl, this._colorBuffer.items);
+                    GLRenderer.one = true;
                 }
+            };
 
+            GLRenderer.prototype._draw = function (gl) {
                 var prog = this._shaders.texture2DProg;
 
                 if (!this.once)
@@ -12581,6 +12586,7 @@ var Kiwi;
                 gl.drawElements(gl.TRIANGLES, this._indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
                 this.once = true;
             };
+            GLRenderer.one = false;
             return GLRenderer;
         })();
         Renderers.GLRenderer = GLRenderer;
@@ -12706,26 +12712,30 @@ var Kiwi;
         var GLArrayBuffer = (function () {
             function GLArrayBuffer(gl, _itemSize, items, init) {
                 if (typeof init === "undefined") { init = true; }
-                this._items = items || GLArrayBuffer.squareVertices;
+                this.items = items || GLArrayBuffer.squareVertices;
                 this.itemSize = _itemSize || 2;
-                this.numItems = this._items.length / this.itemSize;
+                this.numItems = this.items.length / this.itemSize;
                 if (init) {
                     this.buffer = this.init(gl);
                 }
             }
+            GLArrayBuffer.prototype.flush = function () {
+                this.items = new Array();
+            };
+
             GLArrayBuffer.prototype.init = function (gl) {
                 var buffer = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this._items), gl.DYNAMIC_DRAW);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.items), gl.DYNAMIC_DRAW);
 
                 return buffer;
             };
 
             GLArrayBuffer.prototype.refresh = function (gl, items) {
-                this._items = items;
-                this.numItems = this._items.length / this.itemSize;
+                this.items = items;
+                this.numItems = this.items.length / this.itemSize;
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this._items), gl.DYNAMIC_DRAW);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.items), gl.DYNAMIC_DRAW);
                 return this.buffer;
             };
 
@@ -12776,12 +12786,24 @@ var Kiwi;
                     this.buffer = this.init(gl);
                 }
             }
+            GLElementArrayBuffer.prototype.flush = function () {
+                this.indices = new Array();
+            };
+
             GLElementArrayBuffer.prototype.init = function (gl) {
                 var buffer = gl.createBuffer();
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.DYNAMIC_DRAW);
 
                 return buffer;
+            };
+
+            GLElementArrayBuffer.prototype.refresh = function (gl, indices) {
+                this.numItems = this.indices.length / this.itemSize;
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.DYNAMIC_DRAW);
+
+                return this.buffer;
             };
 
             GLElementArrayBuffer.square = [

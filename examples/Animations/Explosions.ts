@@ -24,7 +24,7 @@ class Explosions extends Kiwi.State {
     public velsX: number[];
     public velsY: number[];
 
-    public numExplosions: number = 10;
+    public numExplosions: number = 100;
 
     
     create() {

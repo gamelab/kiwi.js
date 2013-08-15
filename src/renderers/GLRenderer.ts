@@ -68,6 +68,11 @@ module Kiwi.Renderers {
             var root: IChild[] = this._game.states.current.members;
             var gl: WebGLRenderingContext = this._game.stage.gl;
 
+            this._vertBuffer.flush();
+            this._uvBuffer.flush();
+            this._colorBuffer.flush();
+            this._indexBuffer.flush();
+
             //clear 
             gl.clearColor(0, 0, 0.95, 0);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -79,6 +84,8 @@ module Kiwi.Renderers {
 
         }
 
+        public static one: bool = false;
+
         private _recurse(gl:WebGLRenderingContext, child: IChild) {
 
             if (!child.willRender) return;
@@ -88,11 +95,13 @@ module Kiwi.Renderers {
                     this._recurse(gl,(<Kiwi.Group>child).members[i]);
                 }
             } else {
-
-              
-               this._draw(gl, <Entity>child);
+                this._compileAttributes(gl, <Entity>child);
+           
             }
 
+
+            if(!this.once) this._texture = new GLTexture(gl, (<Entity>child).atlas.image);
+            this._draw(gl);
 
         }
 
@@ -101,34 +110,56 @@ module Kiwi.Renderers {
 
         private once: boolean = false;
 
-        private _draw(gl:WebGLRenderingContext, entity: Entity) {
-            
-            
+        private _compileAttributes(gl: WebGLRenderingContext, entity: Entity) {
             var t: Kiwi.Geom.Transform = entity.transform;
             var c = entity.atlas.cells[entity.cellIndex];
+            
+           
+            this._vertBuffer.items.push(t.x, t.y,
+                t.x + c.w, t.y,
+                t.x + c.w, t.y + c.h,
+                t.x, t.y + c.h);
 
-            this._vertBuffer.refresh(gl, [t.x, t.y,
-                                        t.x + c.w, t.y,
-                                        t.x + c.w, t.y + c.h,
-                                        t.x, t.y + c.h
-                                    ]);
-            
-            
-            this._uvBuffer.refresh(gl, [c.x, c.y,
-                                        c.x + c.w, c.y,
-                                        c.x + c.w, c.y + c.h,
-                                        c.x, c.y+c.h
-                                    ]);
+
+            this._vertBuffer.refresh(gl, this._vertBuffer.items);
+
+           
+            this._uvBuffer.items.push(c.x, c.y,
+                c.x + c.w, c.y,
+                c.x + c.w, c.y + c.h,
+                c.x, c.y + c.h);
+
+            this._uvBuffer.refresh(gl, this._uvBuffer.items);
+
+            if (!GLRenderer.one) {
+                for (var i = 0; i < this._vertBuffer.numItems / 4; i++) {
+                    this._indexBuffer.indices.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
+                }
+
+                for (var i = 0; i < this._vertBuffer.numItems; i++) {
+                    
+                    this._colorBuffer.items.push(1);
+                }
+                this._indexBuffer.refresh(gl, this._indexBuffer.indices);
+                this._colorBuffer.refresh(gl, this._colorBuffer.items);
+                GLRenderer.one = true;
+            }
+        }
+
+
+
+        private _draw(gl: WebGLRenderingContext) {
+  
 
             //texture
-
+            /*
             if (!this.once) {
-                this._texture = new GLTexture(gl, entity.atlas.image);
+                this._texture = new GLTexture(gl);
                
             } else {
                // this._texture.refresh(gl, entity.atlas.image);
             }
-     
+     */
             //Attributes
             var prog = this._shaders.texture2DProg;
 

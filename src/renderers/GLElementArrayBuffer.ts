@@ -21,12 +21,24 @@ module Kiwi.Renderers {
         public itemSize: number;
         public numItems: number;
 
+        public flush() {
+            this.indices = new Array();
+        }
+
         public init(gl: WebGLRenderingContext): WebGLBuffer {
             var buffer: WebGLBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.DYNAMIC_DRAW);
 
             return buffer;
+        }
+
+        public refresh(gl: WebGLRenderingContext,indices:number[]): WebGLBuffer {
+            this.numItems = this.indices.length / this.itemSize;
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffer);
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.DYNAMIC_DRAW);
+
+            return this.buffer;
         }
         
         public static square: number[] = [
