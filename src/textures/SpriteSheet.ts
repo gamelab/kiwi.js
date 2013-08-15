@@ -23,7 +23,7 @@ module Kiwi.Textures  {
             this.cellOffsetX = cellOffsetX || 0;
             this.cellOffsetY = cellOffsetY || 0;
           
-            super(name, this.generateAtlasCells(), texture);
+            super(name, this.generateAtlasCells(), texture, this.sequences);
         }
 
         public name: string;
@@ -41,10 +41,12 @@ module Kiwi.Textures  {
             // cell generation goes here
             
             var cells = new Array();
+            var cellNumeric: number[] = new Array();
 
             var dx = this.sheetOffsetX;
             var dy = this.sheetOffsetY;
-
+            var i = 0;
+            
             for (var y = 0; y < this.rows; y++) {
                 for (var x = 0; x < this.cols; x++) {
 
@@ -52,8 +54,18 @@ module Kiwi.Textures  {
                         x: dx,
                         y: dy,
                         w: this.cellWidth,
-                        h: this.cellHeight
+                        h: this.cellHeight,
+                        hitboxes: [
+                            {
+                                x: 0,
+                                y: 0,
+                                w: this.cellWidth,
+                                h: this.cellHeight
+                            }
+                        ]
                     });
+
+                    cellNumeric.push(i++);
 
                     dx += this.cellOffsetX + this.cellWidth;
                 }
@@ -61,7 +73,10 @@ module Kiwi.Textures  {
                 dy += this.cellOffsetY + this.cellHeight;
             }
 
-          
+            //generate default sequence
+            this.sequences = new Array();
+            this.sequences.push(new Kiwi.Sequence('default', cellNumeric)); 
+
             return cells;
         }
 

@@ -43,9 +43,7 @@ module Kiwi {
             var m = imageFile.metadata;
             var json = m.jsonCache.getFile(m.jsonID).data;
             json.trim();
-            console.log(json);
-           
-
+            
             atlas.readJSON(json);
 
             return atlas;

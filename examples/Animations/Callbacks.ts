@@ -19,8 +19,8 @@ class Callbacks extends Kiwi.State {
         var ex = this.zombie.animation.add('explode', [1, 11, 12, 13, 14, 15], 0.1, false);
         var re = this.zombie.animation.add('rebuild', [15, 14, 13, 12, 11, 1], 0.1, false);
 
-        ex.onLoop.add(this.switchAnim, this);
-        re.onLoop.add(this.switchAnim, this);
+        ex.onComplete.add(this.switchAnim, this);
+        re.onComplete.add(this.switchAnim, this);
         
         this.addChild(this.zombie);
         

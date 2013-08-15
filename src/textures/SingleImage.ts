@@ -27,7 +27,7 @@ module Kiwi.Textures  {
             // cell generation goes here
 
 
-            return [{ x: this.offsetX, y:this.offsetY, w:this.width,h:this.height }];
+            return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height, hitboxes: [{ x: 0, y: 0, w: this.width, h: this.height }] }];
         }
 
     }

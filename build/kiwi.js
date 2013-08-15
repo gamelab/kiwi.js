@@ -6405,7 +6405,7 @@ var Kiwi;
             this.onUpdate = new Kiwi.Signal();
             this.onPlay = new Kiwi.Signal();
             this.onStop = new Kiwi.Signal();
-            this.onLoop = new Kiwi.Signal();
+            this.onComplete = new Kiwi.Signal();
         }
         Object.defineProperty(Animation.prototype, "loop", {
             get: function () {
@@ -6522,7 +6522,7 @@ var Kiwi;
                             this._frameIndex--;
                             this.stop();
                         }
-                        this.onLoop.dispatch();
+                        this.onComplete.dispatch();
                     }
 
                     this.currentCell = this._frameIndex;
@@ -6545,7 +6545,7 @@ var Kiwi;
     var Sequence = (function () {
         function Sequence(name, cells, speed, loop) {
             if (typeof speed === "undefined") { speed = 0.1; }
-            if (typeof loop === "undefined") { loop = false; }
+            if (typeof loop === "undefined") { loop = true; }
             this.name = name;
             this.cells = cells;
             this.speed = speed;
@@ -7884,10 +7884,9 @@ var Kiwi;
 
                 this.animation.update();
 
-                if (this._isAnimated) {
-                    this.width = this.atlas.cells[this.atlas.cellIndex].w;
-                    this.height = this.atlas.cells[this.atlas.cellIndex].h;
-                }
+                this.width = this.atlas.cells[this.atlas.cellIndex].w;
+                this.height = this.atlas.cells[this.atlas.cellIndex].h;
+                this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
             };
 
             Sprite.prototype.render = function (camera) {
@@ -12437,7 +12436,7 @@ var Kiwi;
                 this._currentCamera = camera;
                 var root = this._game.states.current.members;
 
-                this._game.stage.ctx.fillStyle = "blue";
+                this._game.stage.ctx.fillStyle = "white";
                 this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
                 for (var i = 0; i < root.length; i++) {
@@ -13307,9 +13306,9 @@ var Kiwi;
                     for (var i = 0; i < obj.sequences.length; i++) {
                         var seq = new Kiwi.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
 
-                        if (obj.sequences[i].speed)
+                        if (obj.sequences[i].speed !== undefined)
                             seq.speed = obj.sequences[i].speed;
-                        if (obj.sequences[i].loop)
+                        if (obj.sequences[i].loop !== undefined)
                             seq.loop = obj.sequences[i].loop;
 
                         this.sequences.push(seq);
@@ -13354,7 +13353,6 @@ var Kiwi;
             var m = imageFile.metadata;
             var json = m.jsonCache.getFile(m.jsonID).data;
             json.trim();
-            console.log(json);
 
             atlas.readJSON(json);
 

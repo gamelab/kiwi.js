@@ -35,7 +35,7 @@ module Kiwi.Components {
             }
 
             //create animation
-            this.currentAnimation = this.add('default', [this._atlas.cellIndex], 0, false, false); 
+            this.currentAnimation = this.add('first', [this._atlas.cellIndex], 0, false, false); 
             
         }
 

@@ -18,7 +18,7 @@ module Kiwi {
             this.onUpdate = new Kiwi.Signal;
             this.onPlay = new Kiwi.Signal;
             this.onStop = new Kiwi.Signal;
-            this.onLoop = new Kiwi.Signal;
+            this.onComplete = new Kiwi.Signal;
         }
 
         public name: string;
@@ -89,7 +89,7 @@ module Kiwi {
         public onStop: Kiwi.Signal;
         public onPlay: Kiwi.Signal;
         public onUpdate: Kiwi.Signal;
-        public onLoop: Kiwi.Signal;
+        public onComplete: Kiwi.Signal;
 
         public set clock(clock: Kiwi.Time.Clock) {
 
@@ -159,7 +159,7 @@ module Kiwi {
                             this._frameIndex--;
                             this.stop();
                         }
-                        this.onLoop.dispatch();
+                        this.onComplete.dispatch();
                     }
 
                     this.currentCell = this._frameIndex;

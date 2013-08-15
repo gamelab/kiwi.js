@@ -21,6 +21,10 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Animations\TextureAtlas.ts" />
+    <Content Include="Animations\TextureAtlas.js">
+      <DependentUpon>TextureAtlas.ts</DependentUpon>
+    </Content>
     <Content Include="Tweens\EasingMethods.js">
       <DependentUpon>EasingMethods.ts</DependentUpon>
     </Content>
