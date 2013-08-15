@@ -2,11 +2,7 @@
 /// <reference path="../core/Entity.ts" />
 /// <reference path="../core/State.ts" />
 /// <reference path="../components/Animation.ts" />
-
 /// <reference path="../components/Input.ts" />
-/// <reference path="../components/Position.ts" />
-
-/// <reference path="../components/Visible.ts" />
 
 /*
  *	Kiwi - GameObjects - Sprite

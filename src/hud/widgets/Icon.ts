@@ -53,7 +53,7 @@ module Kiwi.HUD {
         * Holds the size component
         * @public
         **/
-        public size: Kiwi.Components.Size;
+        //public size: Kiwi.Components.Size;
 
         /**
         * Is a reference to the element that the icon CSS is being applyed to.

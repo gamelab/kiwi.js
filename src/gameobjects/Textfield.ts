@@ -1,4 +1,3 @@
-/// <reference path="../components/Position.ts" />
 
 /**
  *	Kiwi - GameObjects - Textfield

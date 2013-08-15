@@ -1,27 +1,5 @@
 ///<reference path="renderers/WebGL.d.ts"/>
 
-/// <reference path="components/Alpha.ts" />
-/// <reference path="components/ArcadePhysics.ts" />
-/// <reference path="components/Bounds.ts" />
-/// <reference path="components/Color.ts" />
-/// <reference path="components/Input.ts" />
-
-/// <reference path="components/Position.ts" />
-/// <reference path="components/Rotation.ts" />
-/// <reference path="components/Scale.ts" />
-/// <reference path="components/Size.ts" />
-/// <reference path="components/Sound.ts" />
-
-/// <reference path="components/Visible.ts" />
-/// <reference path="components/Sound.ts" />
-
-
-/// <reference path="animation/Animation.ts" />
-
-/// <reference path="animation/Sequence.ts" />
-
-
-
 /// <reference path="core/Cache.ts" />
 /// <reference path="core/Camera.ts" />
 /// <reference path="core/CameraManager.ts" />
@@ -42,6 +20,13 @@
 /// <reference path="core/SignalBinding.ts" />
 /// <reference path="core/Stage.ts" />
 
+/// <reference path="components/Bounds.ts" />
+/// <reference path="components/Input.ts" />
+/// <reference path="components/Sound.ts" />
+/// <reference path="components/ArcadePhysics.ts" />
+
+/// <reference path="animation/Animation.ts" />
+/// <reference path="animation/Sequence.ts" />
 
 /// <reference path="core/StateConfig.ts" />
 /// <reference path="core/StateManager.ts" />
@@ -50,7 +35,6 @@
 /// <reference path="dom/Browser.ts" />
 /// <reference path="dom/Cache.ts" />
 /// <reference path="dom/Element.ts" />
-
 
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />

@@ -7,12 +7,12 @@ module Kiwi.HUD {
         constructor(name:string, width:number, height:number, x: number, y: number) {
 
             super(name, x, y);
-
+            /*
             this.size = this.components.add(new Kiwi.Components.Size(width, height));
             this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height())); 
-
+            
             this.size.updated.add(this._applyCSS);
-
+*/
             this.container.innerText = name;
             this._applyCSS();
         }
@@ -21,7 +21,7 @@ module Kiwi.HUD {
         public game: Kiwi.Game;
 
         //the size
-        public size: Kiwi.Components.Size;
+        //public size: Kiwi.Components.Size;
 
         //the input
         public input: Kiwi.Components.WidgetInput;
@@ -45,10 +45,10 @@ module Kiwi.HUD {
             var addX = 0;
             var addY = 0;
             if (this.menu !== undefined) {
-                addX += this.menu.position.x();
-                addY += this.menu.position.y(); 
+                //addX += this.menu.position.x();
+                //addY += this.menu.position.y(); 
             }
-            this.bounds.setTo(this.position.x() + addX, this.position.y() + addY, this.size.width(), this.size.height());
+            //this.bounds.setTo(this.position.x() + addX, this.position.y() + addY, this.size.width(), this.size.height());
         }
 
     }
