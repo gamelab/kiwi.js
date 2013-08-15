@@ -172,8 +172,8 @@ module Kiwi.Components {
 
         }
 
-        public get currentFrame():number {
-            return this.currentAnimation.currentFrame;
+        public get currentCell():number {
+            return this.currentAnimation.currentCell;
         }
 
         public get frameIndex():number {
@@ -185,7 +185,7 @@ module Kiwi.Components {
         }
 
         private _setCellIndex() {
-            this.entity.cellIndex = this.currentFrame;
+            this.entity.cellIndex = this.currentCell;
         }
 
 	    /**

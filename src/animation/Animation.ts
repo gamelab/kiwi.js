@@ -13,7 +13,7 @@ module Kiwi {
             this._loop = sequence.loop;
             this._clock = clock;
 
-            this._currentFrame = this._sequence.cells[0];
+            this._currentCell = this._sequence.cells[0];
 
             this.onUpdate = new Kiwi.Signal;
             this.onPlay = new Kiwi.Signal;
@@ -25,7 +25,19 @@ module Kiwi {
 
         private _atlas: Kiwi.Textures.TextureAtlas;
         private _sequence: Sequence;
+
+        /*
+        * If the animation should loop or not.
+        */
         private _loop: boolean;
+
+        public get loop(): bool {
+            return this._loop;
+        }
+
+        public set loop(value: bool) {
+            this._loop = value;
+        }
 
         private _uniqueFrameIndex: number = 0;
 
@@ -35,21 +47,37 @@ module Kiwi {
             return this._frameIndex;
         }
 
-        private _currentFrame: number;
+        /*
+        * The current cell
+        *
+        */
+        private _currentCell: number;
 
-        public get currentFrame(): number {
-            return this._currentFrame;
+        public get currentCell(): number {
+            return this._currentCell;
         }
 
-        public set currentFrame(frameIndex: number) {
+        public set currentCell(frameIndex: number) {
             //check that is is valid.
             if (this._sequence.cells[frameIndex])
-                this._currentFrame = this._sequence.cells[frameIndex];
+                this._currentCell = this._sequence.cells[frameIndex];
+        }
+           
+        /*
+        * How fast the transition is between cells.
+        */
+        private _speed: number;
+        
+        public get speed(): number {
+            return this._speed;
+        }
+
+        public set speed(value: number) {
+            this._speed = value;
         }
 
         //time
         private _clock: Kiwi.Time.Clock = null;
-        private _speed: number;
         private _startTime: number = null;
         private _tick: number;
 
@@ -80,7 +108,7 @@ module Kiwi {
             this._startTime = this._clock.elapsed();
             this._tick = this._startTime + this._speed;
             this._frameIndex = index;
-            this.currentFrame = this._frameIndex;
+            this.currentCell = this._frameIndex;
             this.onPlay.dispatch();
         }
 
@@ -134,7 +162,7 @@ module Kiwi {
                         this.onLoop.dispatch();
                     }
 
-                    this.currentFrame = this._frameIndex;
+                    this.currentCell = this._frameIndex;
 
                     return true;
                 }

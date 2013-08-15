@@ -24,6 +24,10 @@
     <Content Include="Tweens\EasingMethods.js">
       <DependentUpon>EasingMethods.ts</DependentUpon>
     </Content>
+    <Content Include="Tweens\SpeedAnimation.js">
+      <DependentUpon>SpeedAnimation.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Tweens\SpeedAnimation.ts" />
     <TypeScriptCompile Include="Tweens\EasingMethods.ts" />
     <TypeScriptCompile Include="Tweens\Chaining.ts" />
     <Content Include="Tweens\Chaining.js">

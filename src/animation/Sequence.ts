@@ -4,11 +4,11 @@ module Kiwi {
 
     export class Sequence {
 
-        constructor(name:string,cells:number[],speed:number,loop:boolean) {
+        constructor(name:string,cells:number[],speed:number=0.1,loop:boolean=false) {
             this.name = name;
             this.cells = cells;
-            this.speed = speed || 0.1;
-            this.loop = loop || false;
+            this.speed = speed;
+            this.loop = loop;
         }
 
         public name: string;

@@ -6417,13 +6417,25 @@ var Kiwi;
             this._loop = sequence.loop;
             this._clock = clock;
 
-            this._currentFrame = this._sequence.cells[0];
+            this._currentCell = this._sequence.cells[0];
 
             this.onUpdate = new Kiwi.Signal();
             this.onPlay = new Kiwi.Signal();
             this.onStop = new Kiwi.Signal();
             this.onLoop = new Kiwi.Signal();
         }
+        Object.defineProperty(Animation.prototype, "loop", {
+            get: function () {
+                return this._loop;
+            },
+            set: function (value) {
+                this._loop = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
         Object.defineProperty(Animation.prototype, "frameIndex", {
             get: function () {
                 return this._frameIndex;
@@ -6432,13 +6444,25 @@ var Kiwi;
             configurable: true
         });
 
-        Object.defineProperty(Animation.prototype, "currentFrame", {
+        Object.defineProperty(Animation.prototype, "currentCell", {
             get: function () {
-                return this._currentFrame;
+                return this._currentCell;
             },
             set: function (frameIndex) {
                 if (this._sequence.cells[frameIndex])
-                    this._currentFrame = this._sequence.cells[frameIndex];
+                    this._currentCell = this._sequence.cells[frameIndex];
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Animation.prototype, "speed", {
+            get: function () {
+                return this._speed;
+            },
+            set: function (value) {
+                this._speed = value;
             },
             enumerable: true,
             configurable: true
@@ -6467,7 +6491,7 @@ var Kiwi;
             this._startTime = this._clock.elapsed();
             this._tick = this._startTime + this._speed;
             this._frameIndex = index;
-            this.currentFrame = this._frameIndex;
+            this.currentCell = this._frameIndex;
             this.onPlay.dispatch();
         };
 
@@ -6518,7 +6542,7 @@ var Kiwi;
                         this.onLoop.dispatch();
                     }
 
-                    this.currentFrame = this._frameIndex;
+                    this.currentCell = this._frameIndex;
 
                     return true;
                 }
@@ -6537,10 +6561,12 @@ var Kiwi;
 (function (Kiwi) {
     var Sequence = (function () {
         function Sequence(name, cells, speed, loop) {
+            if (typeof speed === "undefined") { speed = 0.1; }
+            if (typeof loop === "undefined") { loop = false; }
             this.name = name;
             this.cells = cells;
-            this.speed = speed || 0.1;
-            this.loop = loop || false;
+            this.speed = speed;
+            this.loop = loop;
         }
         return Sequence;
     })();
@@ -7776,9 +7802,9 @@ var Kiwi;
                 }
             };
 
-            Object.defineProperty(Animation.prototype, "currentFrame", {
+            Object.defineProperty(Animation.prototype, "currentCell", {
                 get: function () {
-                    return this.currentAnimation.currentFrame;
+                    return this.currentAnimation.currentCell;
                 },
                 enumerable: true,
                 configurable: true
@@ -7797,7 +7823,7 @@ var Kiwi;
             };
 
             Animation.prototype._setCellIndex = function () {
-                this.entity.cellIndex = this.currentFrame;
+                this.entity.cellIndex = this.currentCell;
             };
 
             Object.defineProperty(Animation.prototype, "toString", {
@@ -12989,7 +13015,16 @@ var Kiwi;
                 this.name = obj.name;
                 this.cells = obj.cells;
                 if (obj.sequences) {
-                    this.sequences = obj.sequences;
+                    for (var i = 0; i < obj.sequences.length; i++) {
+                        var seq = new Kiwi.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
+
+                        if (obj.sequences[i].speed)
+                            seq.speed = obj.sequences[i].speed;
+                        if (obj.sequences[i].loop)
+                            seq.loop = obj.sequences[i].loop;
+
+                        this.sequences.push(seq);
+                    }
                 }
             };
             return TextureAtlas;
@@ -14081,8 +14116,10 @@ var Kiwi;
             this._interpolationFunction = Kiwi.Utils.GameMath.linearInterpolation;
             this._chainedTweens = [];
             this._onStartCallback = null;
+            this._onStartContext = null;
             this._onStartCallbackFired = false;
             this._onUpdateCallback = null;
+            this._onUpdateContext = null;
             this._onCompleteCallback = null;
             this._onCompleteCalled = false;
             this.isRunning = false;
@@ -14190,13 +14227,15 @@ var Kiwi;
             return this;
         };
 
-        Tween.prototype.onStart = function (callback) {
+        Tween.prototype.onStart = function (callback, context) {
             this._onStartCallback = callback;
+            this._onStartContext = context;
             return this;
         };
 
-        Tween.prototype.onUpdate = function (callback) {
+        Tween.prototype.onUpdate = function (callback, context) {
             this._onUpdateCallback = callback;
+            this._onUpdateContext = context;
             return this;
         };
 
@@ -14214,7 +14253,7 @@ var Kiwi;
 
             if (this._onStartCallbackFired === false) {
                 if (this._onStartCallback !== null) {
-                    this._onStartCallback.call(this._object);
+                    this._onStartCallback.call(this._onStartContext, this._object);
                 }
 
                 this._onStartCallbackFired = true;
@@ -14241,7 +14280,7 @@ var Kiwi;
             }
 
             if (this._onUpdateCallback !== null) {
-                this._onUpdateCallback.call(this._object, value);
+                this._onUpdateCallback.call(this._onUpdateContext, this._object, value);
             }
 
             if (elapsed == 1) {
