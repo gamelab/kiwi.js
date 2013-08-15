@@ -7681,7 +7681,7 @@ var Kiwi;
                     this.createFromSequence(this._atlas.sequences[i], false);
                 }
 
-                this.currentAnimation = this.add('default', [this._atlas.cellIndex], 0, false, false);
+                this.currentAnimation = this.add('first', [this._atlas.cellIndex], 0, false, false);
             }
 
             Object.defineProperty(Animation.prototype, "clock", {
@@ -13301,7 +13301,16 @@ var Kiwi;
             TextureAtlas.prototype.readJSON = function (atlasJSON) {
                 var obj = JSON.parse(atlasJSON);
                 this.name = obj.name;
-                this.cells = obj.cells;
+
+                for (var i = 0; i < obj.cells.length; i++) {
+                    this.cells.push(obj.cells[i]);
+
+                    if (obj.cells[i].hitboxes === undefined) {
+                        this.cells[i].hitboxes = new Array();
+                        this.cells[i].hitboxes.push({ x: 0, y: 0, w: this.cells[i].w, h: this.cells[i].h });
+                    }
+                }
+
                 if (obj.sequences) {
                     for (var i = 0; i < obj.sequences.length; i++) {
                         var seq = new Kiwi.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
@@ -13395,13 +13404,15 @@ var Kiwi;
                 this.cellOffsetX = cellOffsetX || 0;
                 this.cellOffsetY = cellOffsetY || 0;
 
-                _super.call(this, name, this.generateAtlasCells(), texture);
+                _super.call(this, name, this.generateAtlasCells(), texture, this.sequences);
             }
             SpriteSheet.prototype.generateAtlasCells = function () {
                 var cells = new Array();
+                var cellNumeric = new Array();
 
                 var dx = this.sheetOffsetX;
                 var dy = this.sheetOffsetY;
+                var i = 0;
 
                 for (var y = 0; y < this.rows; y++) {
                     for (var x = 0; x < this.cols; x++) {
@@ -13409,14 +13420,27 @@ var Kiwi;
                             x: dx,
                             y: dy,
                             w: this.cellWidth,
-                            h: this.cellHeight
+                            h: this.cellHeight,
+                            hitboxes: [
+                                {
+                                    x: 0,
+                                    y: 0,
+                                    w: this.cellWidth,
+                                    h: this.cellHeight
+                                }
+                            ]
                         });
+
+                        cellNumeric.push(i++);
 
                         dx += this.cellOffsetX + this.cellWidth;
                     }
                     dx = this.sheetOffsetX;
                     dy += this.cellOffsetY + this.cellHeight;
                 }
+
+                this.sequences = new Array();
+                this.sequences.push(new Kiwi.Sequence('default', cellNumeric));
 
                 return cells;
             };
@@ -13440,7 +13464,7 @@ var Kiwi;
                 _super.call(this, name, this.generateAtlasCells(), image);
             }
             SingleImage.prototype.generateAtlasCells = function () {
-                return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height }];
+                return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height, hitboxes: [{ x: 0, y: 0, w: this.width, h: this.height }] }];
             };
             return SingleImage;
         })(Textures.TextureAtlas);
