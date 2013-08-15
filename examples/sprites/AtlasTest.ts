@@ -8,8 +8,6 @@ class AtlasTest extends Kiwi.State {
 
     init() {
 
-        this.game.stage.size.setTo(800, 600);
-
     }
 
     public testAtlas: Kiwi.GameObjects.Sprite;

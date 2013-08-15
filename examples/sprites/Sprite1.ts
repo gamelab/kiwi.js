@@ -8,8 +8,6 @@ class Sprite1 extends Kiwi.State {
 
     init() {
 
-        this.game.stage.size.setTo(800, 600);
-
     }
 
     preload() {

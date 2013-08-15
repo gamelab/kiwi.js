@@ -22,8 +22,8 @@ module Kiwi.Textures  {
 
             this.cellOffsetX = cellOffsetX || 0;
             this.cellOffsetY = cellOffsetY || 0;
-          
-            super(name, this.generateAtlasCells(), texture, this.sequences);
+            
+            super(name, Kiwi.Textures.TextureAtlas.SPRITE_SHEET, this.generateAtlasCells(), texture, this.sequences);
         }
 
         public name: string;

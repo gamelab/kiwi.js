@@ -134,7 +134,7 @@ module Kiwi.Components {
         * @method switchTo
         * @param {string} name
         */
-        public switchTo(name: string, play:bool=false) { 
+        public switchTo(name: string, play:bool=true) { 
             if (this.currentAnimation.name !== name) {
                 this._setCurrentAnimation(name);
             }

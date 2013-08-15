@@ -62,6 +62,7 @@ module Kiwi.Sound {
             this.onResume = new Kiwi.Signal();
             this.onLoop = new Kiwi.Signal();
             this.onMute = new Kiwi.Signal();
+
         }
 
         /*
@@ -472,7 +473,7 @@ module Kiwi.Sound {
                     this._sound.pause();
                     this._sound.currentTime = 0;
                 }
-                 
+                
                 if(this.paused == false) this.onStop.dispatch();
             }
 

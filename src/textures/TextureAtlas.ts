@@ -6,19 +6,30 @@ module Kiwi.Textures {
     
     export class TextureAtlas {
 
-        constructor(name: string, cells, image?: HTMLImageElement, sequences?: Sequence[]) {
+        constructor(name: string, type:number, cells, image?: HTMLImageElement, sequences?: Sequence[]) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
             this.image = image;
+            this._type = type;
         }
 
         public name: string;
         public image:HTMLImageElement;
         public cells: Array;
         public sequences: Sequence[];
-
         public cellIndex: number = 0;
+        private _type: number;
+        
+        public static SINGLE_IMAGE: number = 0;
+
+        public static SPRITE_SHEET: number = 1;
+
+        public static TEXTURE_ATLAS: number = 2;
+
+        public get type(): number {
+            return this._type;
+        }
 
         public readJSON(atlasJSON) {
             //populate from json

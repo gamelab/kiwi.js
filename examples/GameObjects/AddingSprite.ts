@@ -14,8 +14,6 @@ class addingSprite extends Kiwi.State {
     public mySprite: Kiwi.GameObjects.Sprite;
 
     init() {
-        this.game.stage.size.setTo(800, 600);
-    
     }
 
     preload() {

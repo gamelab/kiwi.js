@@ -90,7 +90,7 @@ module Kiwi {
     	*/
         public boot() {
 
-            this.create("defaultCamera", 0, 0, this._game.stage.size.width(), this._game.stage.size.height());
+            this.create("defaultCamera", 0, 0, this._game.stage.width, this._game.stage.height);
 
             this.defaultCamera = this._cameras[0];
         

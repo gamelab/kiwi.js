@@ -50,13 +50,17 @@ module Kiwi.GameObjects {
             this.width = atlas.cells[0].w;
             this.height = atlas.cells[0].h;
             
-
-            //this.animation = this.components.add(new Kiwi.Components.Animation(this));
-            
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
             
             this.animation = this.components.add(new Kiwi.Components.Animation(this));
+            
+            if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
+                this._isAnimated = false;
+            } else {
+                this._isAnimated = true;
+            }
+
             //FIX/////////////
             //this.motion = this.components.add(new Kiwi.Components.Motion(this.position));
             
@@ -124,13 +128,6 @@ module Kiwi.GameObjects {
 
         //}
 
-        /**
-         * The Physics component that used for basic collision detection with other entities.
-         * @property physics
-         * @type Kiwi.Components.ArcadePhysics
-         **/
-        public physics: Kiwi.Components.ArcadePhysics;
-
         /** 
 	     * 
 	     * @property animation
@@ -154,19 +151,11 @@ module Kiwi.GameObjects {
         public input: Kiwi.Components.Input;
 
         /** 
-	     * 
-	     * @property texture
-	     * @type Kiwi.Components.Texture
-	     **/
-        //public texture: Kiwi.Components.Texture;
-
-        /** 
          * 
          * @property motion
          * @type Kiwi.Componenets.Motion
          **/
         //public motion: Kiwi.Components.Motion;
-        
         
         private _onAddedToState(state: Kiwi.State): bool {
             
@@ -174,6 +163,7 @@ module Kiwi.GameObjects {
 
            // this.motion.setClock(this.clock());
 
+            if(this._isAnimated) 
             this.animation.clock = this.clock;
 
             return true;
@@ -200,11 +190,13 @@ module Kiwi.GameObjects {
 
             //this.motion.update();
 
-            this.animation.update();
-            
-            this.width = this.atlas.cells[this.atlas.cellIndex].w;
-            this.height = this.atlas.cells[this.atlas.cellIndex].h;
-            this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
+            if (this._isAnimated) {
+                this.animation.update();
+                
+                this.width = this.atlas.cells[this.atlas.cellIndex].w;
+                this.height = this.atlas.cells[this.atlas.cellIndex].h;
+                this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
+            }    
         }
 
         /**
@@ -227,13 +219,11 @@ module Kiwi.GameObjects {
                     ctx.globalAlpha = this.alpha;
                 }
 
-                    var cell = this.atlas.cells[this.cellIndex];
-                    ctx.drawImage(this.atlas.image,cell.x, cell.y, cell.w, cell.h,0,0,cell.w,cell.h);
+                var cell = this.atlas.cells[this.cellIndex];
+                ctx.drawImage(this.atlas.image,cell.x, cell.y, cell.w, cell.h,0,0,cell.w,cell.h);
                 
 
                 ctx.restore();
-
-            
 
             }
 

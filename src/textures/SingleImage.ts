@@ -12,7 +12,7 @@ module Kiwi.Textures  {
             this.offsetX = offsetX || 0;
             this.offsetY = offsetY || 0;
 
-            super(name, this.generateAtlasCells(), image);
+            super(name, Kiwi.Textures.TextureAtlas.SINGLE_IMAGE, this.generateAtlasCells(), image);
         }
 
         private width: number;

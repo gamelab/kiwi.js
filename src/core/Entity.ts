@@ -51,7 +51,52 @@ module Kiwi {
         }
 
         public transform: Kiwi.Geom.Transform;
+
+        //Transform aliases.
+        public get x(): number {
+            return this.transform.x;
+        }
+
+        public set x(value: number) {
+            this.transform.x = value;
+        }
+
+        public get y(): number {
+            return this.transform.y;
+        }
+
+        public set y(value: number) {
+            this.transform.y = value;
+        }
+
+        //scale X
+        public get scaleX():number {
+            return this.transform.scaleX;
+        }
+
+        public set scaleX(value:number) {
+            this.transform.scaleX = value;
+        }
+
+        //scale Y
+        public get scaleY(): number {
+            return this.transform.scaleY;
+        }
+
+        public set scaleY(value: number) {
+            this.transform.scaleY = value;
+        }
         
+        //rotation
+        public get rotation(): number {
+            return this.transform.rotation;
+        }
+
+        public set rotation(value: number) {
+            this.transform.rotation = value;
+        }
+
+
         public childType():number {
             return Kiwi.ENTITY;
         }

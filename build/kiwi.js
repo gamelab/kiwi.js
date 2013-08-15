@@ -1991,6 +1991,66 @@ var Kiwi;
             this.onRemovedFromLayer = new Kiwi.Signal();
             this.onRemovedFromState = new Kiwi.Signal();
         }
+        Object.defineProperty(Entity.prototype, "x", {
+            get: function () {
+                return this.transform.x;
+            },
+            set: function (value) {
+                this.transform.x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "y", {
+            get: function () {
+                return this.transform.y;
+            },
+            set: function (value) {
+                this.transform.y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "scaleX", {
+            get: function () {
+                return this.transform.scaleX;
+            },
+            set: function (value) {
+                this.transform.scaleX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "scaleY", {
+            get: function () {
+                return this.transform.scaleY;
+            },
+            set: function (value) {
+                this.transform.scaleY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "rotation", {
+            get: function () {
+                return this.transform.rotation;
+            },
+            set: function (value) {
+                this.transform.rotation = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
         Entity.prototype.childType = function () {
             return Kiwi.ENTITY;
         };
@@ -2417,7 +2477,7 @@ var Kiwi;
             this.domContainer.style.width = '100%';
             this.domContainer.style.height = '100%';
 
-            this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.size.width(), this.game.stage.size.height(), true, true);
+            this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.width, this.game.stage.height, true, true);
 
             this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
             this.canvas.domElement.style.position = 'absolute';
@@ -2426,8 +2486,6 @@ var Kiwi;
             this.canvas.domElement.style.top = '0px';
             this.canvas.domElement.style.width = '100%';
             this.canvas.domElement.style.height = '100%';
-
-            this.game.stage.size.updated.add(this._updatedStageSize, this);
 
             klog.info('Created Layer ' + this.id);
         }
@@ -3492,14 +3550,91 @@ var Kiwi;
 
             this.domReady = false;
 
-            this.alpha = new Kiwi.Components.Alpha();
-            this.color = new Kiwi.Components.Color();
-            this.position = new Kiwi.Components.Position();
-            this.size = new Kiwi.Components.Size();
+            this._alpha = 1;
+
+            this._x = 0;
+            this._y = 0;
+
+            this._width = 800;
+            this._height = 600;
+
+            this.onResize = new Kiwi.Signal();
         }
         Stage.prototype.objType = function () {
             return "Stage";
         };
+
+        Object.defineProperty(Stage.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
+
+                this._alpha = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "x", {
+            get: function () {
+                return this._x;
+            },
+            set: function (value) {
+                this.container.style.left = String(value + 'px');
+                this._x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "y", {
+            get: function () {
+                return this._y;
+            },
+            set: function (value) {
+                this.container.style.top = String(value + 'px');
+                this._y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "width", {
+            get: function () {
+                return this._width;
+            },
+            set: function (value) {
+                this.container.style.width = String(value + 'px');
+                this.canvas.width = value;
+
+                this._width = value;
+                this.onResize.dispatch(this._width, this._height);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "height", {
+            get: function () {
+                return this._height;
+            },
+            set: function (value) {
+                this.container.style.height = String(value + 'px');
+                this.canvas.height = value;
+
+                this._height = value;
+                this.onResize.dispatch(this._width, this._height);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
 
         Stage.prototype.boot = function (dom) {
             klog.info('Stage DOM boot');
@@ -3509,14 +3644,12 @@ var Kiwi;
             this.container = dom.container;
             if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
-                this.position.setTo(this.offset.x, this.offset.y);
-                this.size.setTo(parseInt(this.container.style.width), parseInt(this.container.style.height));
+                this._x = this.offset.x;
+                this._y = this.offset.y;
+                this._width = parseInt(this.container.style.width);
+                this._height = parseInt(this.container.style.height);
             }
 
-            this.alpha.updated.add(this._updatedAlpha, this);
-            this.color.updated.add(this._updatedColor, this);
-            this.position.updated.add(this._updatedPosition, this);
-            this.size.updated.add(this._updatedSize, this);
             this._createCompositeCanvas();
         };
 
@@ -3524,12 +3657,12 @@ var Kiwi;
             this.canvas = document.createElement("canvas");
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
-            this.canvas.width = 800;
-            this.canvas.height = 600;
+            this.canvas.width = this.width;
+            this.canvas.height = this.height;
 
             if (this._game.renderMode === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
-                this.ctx.fillStyle = this.color.cssColorHex;
+                this.ctx.fillStyle = '#fff';
                 this.gl = null;
             } else if (this._game.renderMode === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
@@ -3544,26 +3677,6 @@ var Kiwi;
             } else {
                 document.body.appendChild(this.canvas);
             }
-        };
-
-        Stage.prototype._updatedPosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
-            this.container.style.left = cssLeft;
-            this.container.style.top = cssTop;
-        };
-
-        Stage.prototype._updatedColor = function (red, green, blue, alpha, cssColorHex, cssColorRGB, cssColorRGBA) {
-            if (Kiwi.DEVICE.ieVersion < 10) {
-                this.container.style.backgroundColor = cssColorHex;
-            } else {
-                this.container.style.backgroundColor = cssColorRGBA;
-            }
-        };
-
-        Stage.prototype._updatedAlpha = function () {
-            this.alpha.setCSS(this.container);
-        };
-
-        Stage.prototype._updatedSize = function () {
         };
 
         Stage.prototype.frameRate = function (value) {
@@ -6580,17 +6693,13 @@ var Kiwi;
             this._game = game;
             this.id = id;
             this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.CAMERA, this);
 
-            this.size = new Kiwi.Components.Size(width, height);
-            this.position = new Kiwi.Components.Position(x, y);
+            this.width = width;
+            this.height = height;
+            this.transform = new Kiwi.Geom.Transform(x, y);
 
-            this.components.add(this.size);
-            this.components.add(this.position);
-
-            this._game.stage.size.updated.add(this._updatedStageSize, this);
-
-            this.size.updated.add(this._updatedSize, this);
+            this._game.stage.onResize.add(this._updatedStageSize, this);
+            this._game.stage.onResize.add(this._updatedSize, this);
 
             klog.info('Created Camera ' + this.id);
         }
@@ -6599,7 +6708,8 @@ var Kiwi;
         };
 
         Camera.prototype._updatedStageSize = function (width, height) {
-            this.size.setTo(width, height);
+            this.width = width;
+            this.height = height;
         };
 
         Camera.prototype._updatedSize = function (width, height) {
@@ -6620,7 +6730,6 @@ var Kiwi;
         };
 
         Camera.prototype.update = function () {
-            this.components.update();
         };
 
         Camera.prototype.render = function () {
@@ -6647,7 +6756,7 @@ var Kiwi;
         };
 
         CameraManager.prototype.boot = function () {
-            this.create("defaultCamera", 0, 0, this._game.stage.size.width(), this._game.stage.size.height());
+            this.create("defaultCamera", 0, 0, this._game.stage.width, this._game.stage.height);
 
             this.defaultCamera = this._cameras[0];
         };
@@ -7698,7 +7807,7 @@ var Kiwi;
                     this.createFromSequence(this._atlas.sequences[i], false);
                 }
 
-                this.currentAnimation = this.add('default', [this._atlas.cellIndex], 0, false, false);
+                this.currentAnimation = this.add('first', [this._atlas.cellIndex], 0, false, false);
             }
 
             Object.defineProperty(Animation.prototype, "clock", {
@@ -7776,7 +7885,7 @@ var Kiwi;
             };
 
             Animation.prototype.switchTo = function (name, play) {
-                if (typeof play === "undefined") { play = false; }
+                if (typeof play === "undefined") { play = true; }
                 if (this.currentAnimation.name !== name) {
                     this._setCurrentAnimation(name);
                 }
@@ -7861,6 +7970,12 @@ var Kiwi;
 
                 this.animation = this.components.add(new Kiwi.Components.Animation(this));
 
+                if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
+                    this._isAnimated = false;
+                } else {
+                    this._isAnimated = true;
+                }
+
                 this.onAddedToState.add(this._onAddedToState, this);
 
                 this.transform.x = x;
@@ -7886,7 +8001,8 @@ var Kiwi;
             Sprite.prototype._onAddedToState = function (state) {
                 klog.info('Sprite added to State');
 
-                this.animation.clock = this.clock;
+                if (this._isAnimated)
+                    this.animation.clock = this.clock;
 
                 return true;
             };
@@ -7899,11 +8015,13 @@ var Kiwi;
                 if (this.input.isDragging === true) {
                 }
 
-                this.animation.update();
+                if (this._isAnimated) {
+                    this.animation.update();
 
-                this.width = this.atlas.cells[this.atlas.cellIndex].w;
-                this.height = this.atlas.cells[this.atlas.cellIndex].h;
-                this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
+                    this.width = this.atlas.cells[this.atlas.cellIndex].w;
+                    this.height = this.atlas.cells[this.atlas.cellIndex].h;
+                    this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
+                }
             };
 
             Sprite.prototype.render = function (camera) {
@@ -8714,11 +8832,11 @@ var Kiwi;
                     ctx.globalAlpha = this.alpha;
                 }
 
-                this._maxX = Math.min(Math.ceil(camera.size.width() / this.tileWidth) + 1, this.widthInTiles);
-                this._maxY = Math.min(Math.ceil(camera.size.height() / this.tileHeight) + 1, this.heightInTiles);
+                this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.widthInTiles);
+                this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.heightInTiles);
 
-                this._startX = Math.floor((camera.position.x() - this.transform.x) / this.tileWidth);
-                this._startY = Math.floor((camera.position.y() - this.transform.y) / this.tileHeight);
+                this._startX = Math.floor((camera.transform.x - this.transform.x) / this.tileWidth);
+                this._startY = Math.floor((camera.transform.y - this.transform.y) / this.tileHeight);
 
                 if (this._startX < 0) {
                     this._maxX = this._maxX + this._startX;
@@ -8744,8 +8862,8 @@ var Kiwi;
                 this._dx = 0;
                 this._dy = 0;
 
-                this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.transform.x;
-                this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.transform.y;
+                this._dx += -(camera.transform.x - (this._startX * this.tileWidth)) + this.transform.x;
+                this._dy += -(camera.transform.y - (this._startY * this.tileHeight)) + this.transform.y;
 
                 this._tx = this._dx;
                 this._ty = this._dy;
@@ -13002,17 +13120,35 @@ var Kiwi;
 (function (Kiwi) {
     (function (Textures) {
         var TextureAtlas = (function () {
-            function TextureAtlas(name, cells, image, sequences) {
+            function TextureAtlas(name, type, cells, image, sequences) {
                 this.cellIndex = 0;
                 this.name = name;
                 this.cells = cells || new Array();
                 this.sequences = sequences || new Array();
                 this.image = image;
+                this._type = type;
             }
+            Object.defineProperty(TextureAtlas.prototype, "type", {
+                get: function () {
+                    return this._type;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             TextureAtlas.prototype.readJSON = function (atlasJSON) {
                 var obj = JSON.parse(atlasJSON);
                 this.name = obj.name;
-                this.cells = obj.cells;
+
+                for (var i = 0; i < obj.cells.length; i++) {
+                    this.cells.push(obj.cells[i]);
+
+                    if (obj.cells[i].hitboxes === undefined) {
+                        this.cells[i].hitboxes = new Array();
+                        this.cells[i].hitboxes.push({ x: 0, y: 0, w: this.cells[i].w, h: this.cells[i].h });
+                    }
+                }
+
                 if (obj.sequences) {
                     for (var i = 0; i < obj.sequences.length; i++) {
                         var seq = new Kiwi.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
@@ -13026,6 +13162,11 @@ var Kiwi;
                     }
                 }
             };
+            TextureAtlas.SINGLE_IMAGE = 0;
+
+            TextureAtlas.SPRITE_SHEET = 1;
+
+            TextureAtlas.TEXTURE_ATLAS = 2;
             return TextureAtlas;
         })();
         Textures.TextureAtlas = TextureAtlas;
@@ -13060,7 +13201,7 @@ var Kiwi;
         };
 
         TextureCache.prototype._buildTextureAtlas = function (imageFile) {
-            var atlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, null, imageFile.data);
+            var atlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
             var m = imageFile.metadata;
             var json = m.jsonCache.getFile(m.jsonID).data;
             json.trim();
@@ -13106,13 +13247,15 @@ var Kiwi;
                 this.cellOffsetX = cellOffsetX || 0;
                 this.cellOffsetY = cellOffsetY || 0;
 
-                _super.call(this, name, this.generateAtlasCells(), texture);
+                _super.call(this, name, Kiwi.Textures.TextureAtlas.SPRITE_SHEET, this.generateAtlasCells(), texture, this.sequences);
             }
             SpriteSheet.prototype.generateAtlasCells = function () {
                 var cells = new Array();
+                var cellNumeric = new Array();
 
                 var dx = this.sheetOffsetX;
                 var dy = this.sheetOffsetY;
+                var i = 0;
 
                 for (var y = 0; y < this.rows; y++) {
                     for (var x = 0; x < this.cols; x++) {
@@ -13120,14 +13263,27 @@ var Kiwi;
                             x: dx,
                             y: dy,
                             w: this.cellWidth,
-                            h: this.cellHeight
+                            h: this.cellHeight,
+                            hitboxes: [
+                                {
+                                    x: 0,
+                                    y: 0,
+                                    w: this.cellWidth,
+                                    h: this.cellHeight
+                                }
+                            ]
                         });
+
+                        cellNumeric.push(i++);
 
                         dx += this.cellOffsetX + this.cellWidth;
                     }
                     dx = this.sheetOffsetX;
                     dy += this.cellOffsetY + this.cellHeight;
                 }
+
+                this.sequences = new Array();
+                this.sequences.push(new Kiwi.Sequence('default', cellNumeric));
 
                 return cells;
             };
@@ -13143,18 +13299,15 @@ var Kiwi;
         var SingleImage = (function (_super) {
             __extends(SingleImage, _super);
             function SingleImage(name, image, width, height, offsetX, offsetY) {
-                console.log("creating single image " + name);
-                console.log(image);
-
                 this.width = width || image.width;
                 this.height = height || image.height;
                 this.offsetX = offsetX || 0;
                 this.offsetY = offsetY || 0;
 
-                _super.call(this, name, this.generateAtlasCells(), image);
+                _super.call(this, name, Kiwi.Textures.TextureAtlas.SINGLE_IMAGE, this.generateAtlasCells(), image);
             }
             SingleImage.prototype.generateAtlasCells = function () {
-                return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height }];
+                return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height, hitboxes: [{ x: 0, y: 0, w: this.width, h: this.height }] }];
             };
             return SingleImage;
         })(Textures.TextureAtlas);

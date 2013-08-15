@@ -17,7 +17,7 @@ module Kiwi {
         public textures;
 
         public clear() {
-
+            //this.textures = {}; //commented out as it breaks/removes all the textures somehow?
         }
 
         public add(imageFile:File) {
@@ -39,7 +39,7 @@ module Kiwi {
         }
 
         private _buildTextureAtlas(imageFile: File): Kiwi.Textures.TextureAtlas {
-            var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, null, imageFile.data);
+            var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
             var m = imageFile.metadata;
             var json = m.jsonCache.getFile(m.jsonID).data;
             json.trim();
