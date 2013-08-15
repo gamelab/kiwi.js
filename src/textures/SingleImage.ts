@@ -7,9 +7,6 @@ module Kiwi.Textures  {
     export class SingleImage extends TextureAtlas {
 
         constructor(name: string, image: HTMLImageElement, width?: number, height?: number, offsetX?: number, offsetY?: number) {
-            console.log("creating single image " + name);
-            console.log(image);
-
             this.width = width || image.width;
             this.height = height || image.height;
             this.offsetX = offsetX || 0;

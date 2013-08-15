@@ -38,7 +38,6 @@ module Kiwi.GameObjects {
 
             super();
 
-
             //  Properties
 
             this.name = atlas.name;
