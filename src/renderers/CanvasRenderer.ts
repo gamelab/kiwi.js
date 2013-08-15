@@ -62,7 +62,7 @@ module Kiwi.Renderers {
             var root: IChild[] = this._game.states.current.members;
             
             //clear 
-            this._game.stage.ctx.fillStyle = "blue";
+            this._game.stage.ctx.fillStyle = "white";
             this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
             for (var i = 0; i < root.length; i++) {

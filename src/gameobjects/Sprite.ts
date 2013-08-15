@@ -203,14 +203,9 @@ module Kiwi.GameObjects {
 
             this.animation.update();
             
-            if (this._isAnimated)
-            {
-                /*this.bounds.setSize(this.animation.currentAnimation.currentFrame.width, this.animation.currentAnimation.currentFrame.height);*/
-                this.width = this.atlas.cells[this.atlas.cellIndex].w;
-                this.height = this.atlas.cells[this.atlas.cellIndex].h;
-            
-            }
-
+            this.width = this.atlas.cells[this.atlas.cellIndex].w;
+            this.height = this.atlas.cells[this.atlas.cellIndex].h;
+            this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
         }
 
         /**

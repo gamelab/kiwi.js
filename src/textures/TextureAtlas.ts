@@ -6,7 +6,7 @@ module Kiwi.Textures {
     
     export class TextureAtlas {
 
-        constructor(name:string,cells,image?:HTMLImageElement,sequences?) {
+        constructor(name:string,cells,image?:HTMLImageElement,sequences?:Sequence[]) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
@@ -31,9 +31,9 @@ module Kiwi.Textures {
                     
                     var seq = new Kiwi.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
                     
-                    if (obj.sequences[i].speed) seq.speed = obj.sequences[i].speed;
-                    if (obj.sequences[i].loop) seq.loop = obj.sequences[i].loop;
-
+                    if (obj.sequences[i].speed !== undefined) seq.speed = obj.sequences[i].speed;
+                    if (obj.sequences[i].loop !== undefined)  seq.loop = obj.sequences[i].loop;
+                    
                     this.sequences.push(seq);
                 }
             
