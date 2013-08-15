@@ -26,8 +26,10 @@ module Kiwi.Renderers {
 
         public init(gl: WebGLRenderingContext): WebGLBuffer {
             var buffer: WebGLBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.items), gl.DYNAMIC_DRAW);
+            var f32: Float32Array = new Float32Array(this.items);
+            console.log(f32.length, f32.BYTES_PER_ELEMENT);
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
 
             return buffer;
         }
@@ -36,8 +38,10 @@ module Kiwi.Renderers {
 
             this.items = items;
             this.numItems = this.items.length / this.itemSize;
+            var f32: Float32Array = new Float32Array(this.items);
+            
             gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.items), gl.DYNAMIC_DRAW);
+            gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
             return this.buffer;
         }
 

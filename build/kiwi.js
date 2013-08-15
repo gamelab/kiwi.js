@@ -1911,7 +1911,6 @@ var Kiwi;
         };
 
         State.prototype.addChild = function (child) {
-            console.log("state - addChild");
             child.modify(Kiwi.ADDED_TO_STATE, this);
             _super.prototype.removeChild.call(this, child);
 
@@ -12455,23 +12454,14 @@ var Kiwi;
     (function (Renderers) {
         var GLRenderer = (function () {
             function GLRenderer(game) {
-                this.once = false;
+                this._entityCount = 0;
+                this._maxItems = 1000;
+                this._texApplied = false;
+                this._firstPass = true;
                 this._game = game;
             }
             GLRenderer.prototype.boot = function () {
-                this._stageResolution = new Float32Array([this._game.stage.size.width(), this._game.stage.size.height()]);
-                this._shaders = new Renderers.GLShaders(this._game.stage.gl);
-                var gl = this._game.stage.gl;
-
-                this.mvMatrix = mat4.create();
-                mat4.identity(this.mvMatrix);
-
-                this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
-                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1);
-                this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
-                this._colorBuffer = new Renderers.GLArrayBuffer(gl, 1, Renderers.GLArrayBuffer.squareCols);
-
-                this._shaders.use(gl, this._shaders.shaderProgram);
+                this._initState();
             };
 
             GLRenderer.prototype.mvPush = function () {
@@ -12487,22 +12477,66 @@ var Kiwi;
                 this.mvMatrix = this.mvMatrixStack.pop();
             };
 
+            GLRenderer.prototype._initState = function () {
+                var gl = this._game.stage.gl;
+                this._stageResolution = new Float32Array([this._game.stage.size.width(), this._game.stage.size.height()]);
+
+                this._shaders = new Renderers.GLShaders(gl);
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+                this.mvMatrix = mat4.create();
+                mat4.identity(this.mvMatrix);
+
+                this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
+                this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
+
+                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems));
+                this._colorBuffer = new Renderers.GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
+
+                this._shaders.use(gl, this._shaders.shaderProgram);
+
+                var prog = this._shaders.texture2DProg;
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.uniform1i(prog.samplerUniform, 0);
+
+                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+
+                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
+            };
+
             GLRenderer.prototype.render = function (camera) {
                 this._currentCamera = camera;
                 var root = this._game.states.current.members;
                 var gl = this._game.stage.gl;
 
+                this._entityCount = 0;
                 this._vertBuffer.flush();
                 this._uvBuffer.flush();
-                this._colorBuffer.flush();
-                this._indexBuffer.flush();
 
-                gl.clearColor(0, 0, 0.95, 0);
-                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                gl.clearColor(0, 0, 0, 0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i]);
                 }
+
+                this._vertBuffer.refresh(gl, this._vertBuffer.items);
+
+                this._uvBuffer.refresh(gl, this._uvBuffer.items);
+
+                this._draw(gl);
+
+                this._firstPass = false;
             };
 
             GLRenderer.prototype._recurse = function (gl, child) {
@@ -12514,79 +12548,58 @@ var Kiwi;
                         this._recurse(gl, (child).members[i]);
                     }
                 } else {
-                    this._compileAttributes(gl, child);
+                    this._compileVertices(gl, child);
+                    this._compileUVs(gl, child);
+                    this._entityCount++;
                 }
-
-                if (!this.once)
-                    this._texture = new Renderers.GLTexture(gl, (child).atlas.image);
-                this._draw(gl);
+                if (!this._texApplied) {
+                    console.log("applying texture");
+                    this._applyTexture(gl, (child).atlas.image);
+                    this._texApplied = true;
+                }
             };
 
-            GLRenderer.prototype._compileAttributes = function (gl, entity) {
+            GLRenderer.prototype._compileVertices = function (gl, entity) {
                 var t = entity.transform;
                 var c = entity.atlas.cells[entity.cellIndex];
 
                 this._vertBuffer.items.push(t.x, t.y, t.x + c.w, t.y, t.x + c.w, t.y + c.h, t.x, t.y + c.h);
+            };
 
-                this._vertBuffer.refresh(gl, this._vertBuffer.items);
+            GLRenderer.prototype._compileUVs = function (gl, entity) {
+                var t = entity.transform;
+                var c = entity.atlas.cells[entity.cellIndex];
 
                 this._uvBuffer.items.push(c.x, c.y, c.x + c.w, c.y, c.x + c.w, c.y + c.h, c.x, c.y + c.h);
+            };
 
-                this._uvBuffer.refresh(gl, this._uvBuffer.items);
-
-                if (!GLRenderer.one) {
-                    for (var i = 0; i < this._vertBuffer.numItems / 4; i++) {
-                        this._indexBuffer.indices.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
-                    }
-
-                    for (var i = 0; i < this._vertBuffer.numItems; i++) {
-                        this._colorBuffer.items.push(1);
-                    }
-                    this._indexBuffer.refresh(gl, this._indexBuffer.indices);
-                    this._colorBuffer.refresh(gl, this._colorBuffer.items);
-                    GLRenderer.one = true;
-                }
+            GLRenderer.prototype._applyTexture = function (gl, image) {
+                this._texture = new Renderers.GLTexture(gl, image);
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
+                var prog = this._shaders.texture2DProg;
+                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
             };
 
             GLRenderer.prototype._draw = function (gl) {
-                var prog = this._shaders.texture2DProg;
-
-                if (!this.once)
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
-                if (!this.once)
-                    gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                if (!this.once)
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
-                if (!this.once)
-                    gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                if (!this.once)
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
-                if (!this.once)
-                    gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                if (!this.once)
-                    gl.activeTexture(gl.TEXTURE0);
-                if (!this.once)
-                    gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-
-                if (!this.once)
-                    gl.uniform1i(prog.samplerUniform, 0);
-
-                if (!this.once)
-                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-
-                if (!this.once)
-                    gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
-
-                if (!this.once)
-                    gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
-
-                gl.drawElements(gl.TRIANGLES, this._indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-                this.once = true;
+                gl.drawElements(gl.TRIANGLES, this._entityCount * 6, gl.UNSIGNED_SHORT, 0);
             };
-            GLRenderer.one = false;
+
+            GLRenderer.prototype._generateIndices = function (numQuads) {
+                var quads = new Array();
+                for (var i = 0; i < numQuads; i++) {
+                    quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
+                }
+                return quads;
+            };
+
+            GLRenderer.prototype._generateColors = function (numVerts) {
+                var cols = new Array();
+                for (var i = 0; i < numVerts; i++) {
+                    cols.push(1);
+                }
+                return cols;
+            };
             return GLRenderer;
         })();
         Renderers.GLRenderer = GLRenderer;
@@ -12725,8 +12738,10 @@ var Kiwi;
 
             GLArrayBuffer.prototype.init = function (gl) {
                 var buffer = gl.createBuffer();
+                var f32 = new Float32Array(this.items);
+                console.log(f32.length, f32.BYTES_PER_ELEMENT);
                 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.items), gl.DYNAMIC_DRAW);
+                gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
 
                 return buffer;
             };
@@ -12734,8 +12749,10 @@ var Kiwi;
             GLArrayBuffer.prototype.refresh = function (gl, items) {
                 this.items = items;
                 this.numItems = this.items.length / this.itemSize;
+                var f32 = new Float32Array(this.items);
+
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.items), gl.DYNAMIC_DRAW);
+                gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
                 return this.buffer;
             };
 
@@ -12793,7 +12810,7 @@ var Kiwi;
             GLElementArrayBuffer.prototype.init = function (gl) {
                 var buffer = gl.createBuffer();
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.DYNAMIC_DRAW);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
 
                 return buffer;
             };
@@ -12801,7 +12818,7 @@ var Kiwi;
             GLElementArrayBuffer.prototype.refresh = function (gl, indices) {
                 this.numItems = this.indices.length / this.itemSize;
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffer);
-                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.DYNAMIC_DRAW);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
 
                 return this.buffer;
             };
