@@ -22,6 +22,10 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Animations\TextureAtlas.ts" />
+    <TypeScriptCompile Include="Animations\Explosions.ts" />
+    <Content Include="Animations\Explosions.js">
+      <DependentUpon>Explosions.ts</DependentUpon>
+    </Content>
     <Content Include="Animations\TextureAtlas.js">
       <DependentUpon>TextureAtlas.ts</DependentUpon>
     </Content>

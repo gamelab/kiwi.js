@@ -69,7 +69,7 @@ module Kiwi.Renderers {
             var gl: WebGLRenderingContext = this._game.stage.gl;
 
             //clear 
-            gl.clearColor(1, 0, 0, 1);
+            gl.clearColor(0, 0, 0.95, 0);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
             //iterate
@@ -103,15 +103,17 @@ module Kiwi.Renderers {
 
         private _draw(gl:WebGLRenderingContext, entity: Entity) {
             
-          
+            
             var t: Kiwi.Geom.Transform = entity.transform;
+            var c = entity.atlas.cells[entity.cellIndex];
+
             this._vertBuffer.refresh(gl, [t.x, t.y,
-                                        t.x + entity.width, t.y,
-                                        t.x + entity.width, t.y + entity.height,
-                                        t.x, t.y + entity.height
+                                        t.x + c.w, t.y,
+                                        t.x + c.w, t.y + c.h,
+                                        t.x, t.y + c.h
                                     ]);
             
-            var c = entity.atlas.cells[entity.cellIndex];
+            
             this._uvBuffer.refresh(gl, [c.x, c.y,
                                         c.x + c.w, c.y,
                                         c.x + c.w, c.y + c.h,
@@ -121,48 +123,41 @@ module Kiwi.Renderers {
             //texture
 
             if (!this.once) {
-                
                 this._texture = new GLTexture(gl, entity.atlas.image);
-             
-
-                
-                this.once = true;
+               
             } else {
-                this._texture.refresh(gl, entity.atlas.image);
+               // this._texture.refresh(gl, entity.atlas.image);
             }
      
-
-           
-
             //Attributes
             var prog = this._shaders.texture2DProg;
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
-            gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            if (!this.once)gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
+            if (!this.once)gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
-            gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            if (!this.once)gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
+            if (!this.once)gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
-            gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            if (!this.once)gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
+            if (!this.once) gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
             
-            gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
+            if (!this.once) gl.activeTexture(gl.TEXTURE0);
+            if (!this.once) gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
             
             //Uniforms
 
-            gl.uniform1i(prog.samplerUniform, 0);
+            if (!this.once) gl.uniform1i(prog.samplerUniform, 0);
             
-            gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+            if (!this.once) gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
 
-            gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+            if (!this.once) gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
 
-            gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
+            if (!this.once) gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
 
             //Draw
 
             gl.drawElements(gl.TRIANGLES, this._indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-            
+            this.once = true;
         }
     
 

@@ -579,7 +579,7 @@ var Kiwi;
 
             if (Kiwi.DEVICE.blob) {
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = true;
+                this._useTagLoader = false;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
@@ -1911,6 +1911,7 @@ var Kiwi;
         };
 
         State.prototype.addChild = function (child) {
+            console.log("state - addChild");
             child.modify(Kiwi.ADDED_TO_STATE, this);
             _super.prototype.removeChild.call(this, child);
 
@@ -3515,7 +3516,7 @@ var Kiwi;
                 this.gl = null;
             } else if (this._game.renderMode === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
-                this.gl.clearColor(1, 0, 0, 1);
+                this.gl.clearColor(1, 1, .95, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
             } else {
@@ -12491,7 +12492,7 @@ var Kiwi;
                 var root = this._game.states.current.members;
                 var gl = this._game.stage.gl;
 
-                gl.clearColor(1, 0, 0, 1);
+                gl.clearColor(0, 0, 0.95, 0);
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
                 for (var i = 0; i < root.length; i++) {
@@ -12514,18 +12515,19 @@ var Kiwi;
 
             GLRenderer.prototype._draw = function (gl, entity) {
                 var t = entity.transform;
+                var c = entity.atlas.cells[entity.cellIndex];
+
                 this._vertBuffer.refresh(gl, [
                     t.x,
                     t.y,
-                    t.x + entity.width,
+                    t.x + c.w,
                     t.y,
-                    t.x + entity.width,
-                    t.y + entity.height,
+                    t.x + c.w,
+                    t.y + c.h,
                     t.x,
-                    t.y + entity.height
+                    t.y + c.h
                 ]);
 
-                var c = entity.atlas.cells[entity.cellIndex];
                 this._uvBuffer.refresh(gl, [
                     c.x,
                     c.y,
@@ -12539,35 +12541,45 @@ var Kiwi;
 
                 if (!this.once) {
                     this._texture = new Renderers.GLTexture(gl, entity.atlas.image);
-
-                    this.once = true;
                 } else {
-                    this._texture.refresh(gl, entity.atlas.image);
                 }
 
                 var prog = this._shaders.texture2DProg;
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                if (!this.once)
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
+                if (!this.once)
+                    gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                if (!this.once)
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
+                if (!this.once)
+                    gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                if (!this.once)
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
+                if (!this.once)
+                    gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
+                if (!this.once)
+                    gl.activeTexture(gl.TEXTURE0);
+                if (!this.once)
+                    gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
 
-                gl.uniform1i(prog.samplerUniform, 0);
+                if (!this.once)
+                    gl.uniform1i(prog.samplerUniform, 0);
 
-                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                if (!this.once)
+                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
 
-                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+                if (!this.once)
+                    gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
 
-                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
+                if (!this.once)
+                    gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
 
                 gl.drawElements(gl.TRIANGLES, this._indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+                this.once = true;
             };
             return GLRenderer;
         })();
