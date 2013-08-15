@@ -6,7 +6,7 @@ module Kiwi.Textures {
     
     export class TextureAtlas {
 
-        constructor(name:string,cells,image?:HTMLImageElement,sequences?:Sequence[]) {
+        constructor(name: string, cells, image?: HTMLImageElement, sequences?: Sequence[]) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
@@ -24,7 +24,17 @@ module Kiwi.Textures {
             //populate from json
             var obj = JSON.parse(atlasJSON);
             this.name = obj.name;
-            this.cells = obj.cells;
+            
+            for (var i = 0; i < obj.cells.length; i++) {
+                this.cells.push(obj.cells[i]);
+
+                if (obj.cells[i].hitboxes === undefined) {
+                    this.cells[i].hitboxes = new Array();
+                    this.cells[i].hitboxes.push({ x: 0, y: 0, w: this.cells[i].w, h: this.cells[i].h });
+                }
+
+            }
+
             if (obj.sequences) { // leave as empty array if no animations
 
                 for(var i = 0; i < obj.sequences.length; i++) {
