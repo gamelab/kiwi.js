@@ -19,12 +19,13 @@ module Kiwi.GameObjects {
         /**
          * 
          * @constructor
+         * @param {String} text
          * @param {Number} x - The new x coordinate from the Position component
          * @param {Number} y - The new y coordinate from the Position component
-         * @param {Number} width - The width of the text area
-         * @param {Number} height - The height of the text area
-         * @param {Number} color - The color of the pixel in 0xAARRGGBB format. Default is 0xFF000000 (black).
+         * @param {String} color - The color of the pixel in 0xAARRGGBB format. Default is 0xFF000000 (black).
          * @param {Number} size - Yes we know pixels don't really have a size, but on large monitors you need to pump them up a bit!
+         * @param {String} weight 
+         * @param {String} fontFamily
          * @return {Kiwi.GameObjects.Textfield} This Game Object.
          **/
         constructor(text: string, x: number = 0, y: number = 0, color: string = '#ffffff', size: number = 32, weight: string = 'normal', fontFamily: string = 'cursive') {
@@ -60,55 +61,73 @@ module Kiwi.GameObjects {
 
         /**
          * The text that is to be rendered.
+         * @property _text
+         * @type string
          **/
         private _text: string;
         
         /**
          * The weight of the font.
+         * @property _fontWeight
+         * @type string
          **/
         private _fontWeight: string;
 
         /**
          * The size of the font.
+         * @property _fontSize
+         * @type number
          **/
         private _fontSize: number;
 
         /**
          * The color of the text.
+         * @property _fontColor
+         * @type string
          **/
         private _fontColor: string;
 
         /**
          * The font family that is to be rendered.
+         * @property _fontFamily
+         * @type string
          **/
         private _fontFamily: string;
 
         /**
          * The line height. This is a relational measurement.
+         * @property _lineHeight
+         * @type number
          **/
         private _lineHeight: number;
 
         /**
          * The alignment of the font
+         * @property _textAlign
+         * @type string
          **/
         private _textAlign: string;
 
         /**
          * The baseline of the text to be rendered.
+         * @property _baseline
+         * @type string
          **/
         private _baseline: string; 
 
         /**
          * Sets the text that is to appear.
-         * 
          * @method setText
          * @param {string} value
          **/
         public set text(value: string) {
             this._text = value;
-        
         }
 
+        /*
+        * Get the text that is to appear.
+        * @return {string}
+        */
         public get text(): string {
             return this._text;
         }

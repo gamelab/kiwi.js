@@ -6,9 +6,23 @@ module Kiwi.Textures  {
 
     export class SpriteSheet extends TextureAtlas{
 
+        /*
+        *
+        * @constructor
+        * @param {string} name
+        * @param {HTMLImageElement} texture
+        * @param {number} cellWidth
+        * @param {number} cellHeight
+        * @param {number} numCells
+        * @param {number} rows
+        * @param {number} cols
+        * @param {number} sheetOffsetX
+        * @param {number} sheetOffsetY
+        * @param {number} cellOffsetX
+        * @param {number} cellOffsetY
+        * @return {Kiwi.Textures.SpriteSheet}
+        */
         constructor(name: string, texture:HTMLImageElement, cellWidth: number, cellHeight: number, numCells?:number,rows?:number,cols?:number,sheetOffsetX?: number, sheetOffsetY?:number,cellOffsetX?:number,cellOffsetY?:number) {
-            
-            console.log("CH" + cellHeight);            
             
             this.cellWidth = cellWidth;
             this.cellHeight = cellHeight;
@@ -25,21 +39,78 @@ module Kiwi.Textures  {
             
             super(name, Kiwi.Textures.TextureAtlas.SPRITE_SHEET, this.generateAtlasCells(), texture, this.sequences);
         }
-
-        public name: string;
+        
+        /*
+        * The width of a single cell.
+        * @property cellWidth
+        * @type number
+        */
         private cellWidth: number;
+        
+        /*
+        * The height of a single cell.
+        * @property cellHeight
+        * @type number
+        */
         private cellHeight: number;
+        
+        /*
+        * The number of cells that are on this spritesheet
+        * @property numCells
+        * @type number
+        */
         private numCells: number;
+        
+        /*
+        * The number of rows for the spritesheet
+        * @property rows
+        * @type number
+        */
         private rows: number;
+        
+        /*
+        * The number of columns that are on this spritesheet
+        * @property cols
+        * @type number
+        */
         private cols: number;
+        
+        /*
+        * How much the whole spritesheet should be offset by on the X axis.
+        * @property sheetOffsetX
+        * @type number
+        */
         private sheetOffsetX: number;
+        
+        /*
+        * How much the whole spritesheet should be offset by on the Y axis.
+        * @property sheetOffsetY
+        * @type number
+        */
         private sheetOffsetY: number;
+        
+        /*
+        * How much each cell should be offset by on the X axis.
+        * @property cellOffsetX
+        * @type number
+        */
         private cellOffsetX: number;
+        
+        /*
+        * How much each cell should be offset by on the Y axis.
+        * @property cellOffsetY
+        * @type number
+        */
         private cellOffsetY: number;
         
+        /*
+        * Generates the atlas cells based on the information that was provided. 
+        * 
+        * @method generateAtlasCells
+        * @return {Array}s
+        */
         public generateAtlasCells(): Array {
-            // cell generation goes here
-            
+
             var cells = new Array();
             var cellNumeric: number[] = new Array();
 
