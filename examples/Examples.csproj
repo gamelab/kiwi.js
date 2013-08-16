@@ -26,6 +26,10 @@
     <Content Include="Animations\Explosions.js">
       <DependentUpon>Explosions.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Animations\MultiAtlas.ts" />
+    <Content Include="Animations\MultiAtlas.js">
+      <DependentUpon>MultiAtlas.ts</DependentUpon>
+    </Content>
     <Content Include="Animations\TextureAtlas.js">
       <DependentUpon>TextureAtlas.ts</DependentUpon>
     </Content>

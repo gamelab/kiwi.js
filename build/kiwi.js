@@ -12458,6 +12458,7 @@ var Kiwi;
                 this._maxItems = 1000;
                 this._texApplied = false;
                 this._firstPass = true;
+                this._currentTextureAtlas = null;
                 this._game = game;
             }
             GLRenderer.prototype.boot = function () {
@@ -12520,8 +12521,8 @@ var Kiwi;
                 var gl = this._game.stage.gl;
 
                 this._entityCount = 0;
-                this._vertBuffer.flush();
-                this._uvBuffer.flush();
+                this._vertBuffer.clear();
+                this._uvBuffer.clear();
 
                 gl.clearColor(0, 0, 0, 0);
                 gl.clear(gl.COLOR_BUFFER_BIT);
@@ -12530,11 +12531,7 @@ var Kiwi;
                     this._recurse(gl, root[i]);
                 }
 
-                this._vertBuffer.refresh(gl, this._vertBuffer.items);
-
-                this._uvBuffer.refresh(gl, this._uvBuffer.items);
-
-                this._draw(gl);
+                this._flush(gl);
 
                 this._firstPass = false;
             };
@@ -12548,15 +12545,32 @@ var Kiwi;
                         this._recurse(gl, (child).members[i]);
                     }
                 } else {
+                    if (!this._texApplied) {
+                        console.log("applying texture");
+                        this._applyTexture(gl, (child).atlas.image);
+                        this._texApplied = true;
+                        this._currentTextureAtlas = (child).atlas;
+                    }
+
+                    if ((child).atlas !== this._currentTextureAtlas) {
+                        console.log("changing texture");
+                        this._flush(gl);
+                        this._entityCount = 0;
+                        this._vertBuffer.clear();
+                        this._uvBuffer.clear();
+                        this._changeTexture(gl, (child).atlas.image);
+                        this._currentTextureAtlas = (child).atlas;
+                    }
                     this._compileVertices(gl, child);
                     this._compileUVs(gl, child);
                     this._entityCount++;
                 }
-                if (!this._texApplied) {
-                    console.log("applying texture");
-                    this._applyTexture(gl, (child).atlas.image);
-                    this._texApplied = true;
-                }
+            };
+
+            GLRenderer.prototype._flush = function (gl) {
+                this._vertBuffer.refresh(gl, this._vertBuffer.items);
+                this._uvBuffer.refresh(gl, this._uvBuffer.items);
+                this._draw(gl);
             };
 
             GLRenderer.prototype._compileVertices = function (gl, entity) {
@@ -12581,7 +12595,17 @@ var Kiwi;
                 gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
             };
 
+            GLRenderer.prototype._changeTexture = function (gl, image) {
+                this._texture.refresh(gl, image);
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
+                var prog = this._shaders.texture2DProg;
+                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+            };
+
             GLRenderer.prototype._draw = function (gl) {
+                if (this._currentTextureAtlas) {
+                }
                 gl.drawElements(gl.TRIANGLES, this._entityCount * 6, gl.UNSIGNED_SHORT, 0);
             };
 
@@ -12732,7 +12756,7 @@ var Kiwi;
                     this.buffer = this.init(gl);
                 }
             }
-            GLArrayBuffer.prototype.flush = function () {
+            GLArrayBuffer.prototype.clear = function () {
                 this.items = new Array();
             };
 
@@ -12803,7 +12827,7 @@ var Kiwi;
                     this.buffer = this.init(gl);
                 }
             }
-            GLElementArrayBuffer.prototype.flush = function () {
+            GLElementArrayBuffer.prototype.clear = function () {
                 this.indices = new Array();
             };
 

@@ -21,7 +21,7 @@ module Kiwi.Renderers {
         public itemSize: number;
         public numItems: number;
 
-        public flush() {
+        public clear() {
             this.indices = new Array();
         }
 

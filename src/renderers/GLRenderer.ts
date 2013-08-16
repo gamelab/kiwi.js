@@ -38,6 +38,8 @@ module Kiwi.Renderers {
 
         public mvMatrix;
         public mvMatrixStack: Array;
+        
+        private _currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
 
         public mvPush() {
             var copy = mat4.create();
@@ -98,6 +100,8 @@ module Kiwi.Renderers {
 
         }
 
+
+
         public render(camera: Kiwi.Camera) {
 
             this._currentCamera = camera;
@@ -105,8 +109,8 @@ module Kiwi.Renderers {
             var gl: WebGLRenderingContext = this._game.stage.gl;
 
             this._entityCount = 0;
-            this._vertBuffer.flush();
-            this._uvBuffer.flush();
+            this._vertBuffer.clear();
+            this._uvBuffer.clear();
                      
             //clear 
             gl.clearColor(0, 0, 0, 0);
@@ -118,17 +122,10 @@ module Kiwi.Renderers {
             for (var i = 0; i < root.length; i++) {
                 this._recurse(gl, root[i]);
             }
-           
-
-            this._vertBuffer.refresh(gl, this._vertBuffer.items);
             
 
-            this._uvBuffer.refresh(gl, this._uvBuffer.items);
-
-
-            //if (this._firstPass) {
-                this._draw(gl);
-            //}
+            this._flush(gl);
+           
             this._firstPass = false;
         }
 
@@ -143,19 +140,38 @@ module Kiwi.Renderers {
                     this._recurse(gl,(<Kiwi.Group>child).members[i]);
                 }
             } else {
+                if (!this._texApplied) {
+                    console.log("applying texture");
+                    this._applyTexture(gl, (<Entity>child).atlas.image);
+                    this._texApplied = true;
+                    this._currentTextureAtlas = (<Entity>child).atlas;
+                }
+
+                if ((<Entity>child).atlas !== this._currentTextureAtlas) {
+                    console.log("changing texture");
+                    this._flush(gl);
+                    this._entityCount = 0;
+                    this._vertBuffer.clear();
+                    this._uvBuffer.clear();
+                    this._changeTexture(gl, (<Entity>child).atlas.image);
+                    this._currentTextureAtlas = (<Entity>child).atlas;
+                } 
                 this._compileVertices(gl, <Entity>child);
                 this._compileUVs(gl, <Entity>child);
                 this._entityCount++;
+                
             }
-            if (!this._texApplied) {
-                console.log("applying texture");
-                this._applyTexture(gl, (<Entity>child).atlas.image);
-                this._texApplied = true;
-            }
+           
           
 
         }
-     
+        
+
+        private _flush(gl: WebGLRenderingContext) {
+            this._vertBuffer.refresh(gl, this._vertBuffer.items);
+            this._uvBuffer.refresh(gl, this._uvBuffer.items);
+            this._draw(gl);
+        }
 
         private _compileVertices(gl: WebGLRenderingContext, entity: Entity) {
            // console.log("_compverts" + this._vertBuffer.items.length);
@@ -194,9 +210,20 @@ module Kiwi.Renderers {
             gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
         }
 
+        private _changeTexture(gl: WebGLRenderingContext, image: HTMLImageElement) {
+          
+            this._texture.refresh(gl, image);
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
+            var prog = this._shaders.texture2DProg;
+            gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+        }
+
 
         private _draw(gl: WebGLRenderingContext) {
-          
+            if (this._currentTextureAtlas) {
+              //  console.log(this._currentTextureAtlas.name);
+            }
             gl.drawElements(gl.TRIANGLES, this._entityCount*6, gl.UNSIGNED_SHORT, 0);
             
         }
