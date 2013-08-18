@@ -5956,25 +5956,22 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Animation = (function () {
-        function Animation(name, atlas, sequence, clock) {
+        function Animation(name, sequence, clock) {
             this._uniqueFrameIndex = 0;
             this._frameIndex = 0;
             this._clock = null;
             this._startTime = null;
             this._playPending = false;
             this.name = name;
-            this._atlas = atlas;
             this._sequence = sequence;
             this._speed = sequence.speed;
             this._loop = sequence.loop;
             this._clock = clock;
 
-            this._currentCell = this._sequence.cells[0];
-
             this.onUpdate = new Kiwi.Signal();
             this.onPlay = new Kiwi.Signal();
             this.onStop = new Kiwi.Signal();
-            this.onComplete = new Kiwi.Signal();
+            this.onLoop = new Kiwi.Signal();
         }
         Object.defineProperty(Animation.prototype, "loop", {
             get: function () {
@@ -5998,16 +5995,11 @@ var Kiwi;
 
         Object.defineProperty(Animation.prototype, "currentCell", {
             get: function () {
-                return this._currentCell;
-            },
-            set: function (frameIndex) {
-                if (this._sequence.cells[frameIndex])
-                    this._currentCell = this._sequence.cells[frameIndex];
+                return this._sequence.cells[this.frameIndex];
             },
             enumerable: true,
             configurable: true
         });
-
 
         Object.defineProperty(Animation.prototype, "speed", {
             get: function () {
@@ -6043,7 +6035,6 @@ var Kiwi;
             this._startTime = this._clock.elapsed();
             this._tick = this._startTime + this._speed;
             this._frameIndex = index;
-            this.currentCell = this._frameIndex;
             this.onPlay.dispatch();
         };
 
@@ -6073,8 +6064,11 @@ var Kiwi;
         };
 
         Animation.prototype.stop = function () {
-            this._isPlaying = false;
-            this.onStop.dispatch();
+            if (this._isPlaying) {
+                this._isPlaying = false;
+                this._playPending = false;
+                this.onStop.dispatch();
+            }
         };
 
         Animation.prototype.update = function () {
@@ -6083,18 +6077,17 @@ var Kiwi;
                     this._tick = this.clock.elapsed() + this._speed;
                     this._frameIndex++;
                     this.onUpdate.dispatch();
-
+                    console.log('Updated');
                     if (!this._validateFrame(this._frameIndex)) {
                         if (this._loop) {
                             this._frameIndex = 0;
+                            this.onLoop.dispatch();
                         } else {
+                            console.log('STOP!');
                             this._frameIndex--;
                             this.stop();
                         }
-                        this.onComplete.dispatch();
                     }
-
-                    this.currentCell = this._frameIndex;
 
                     return true;
                 }
@@ -6458,7 +6451,7 @@ var Kiwi;
             function Animation(entity) {
                 _super.call(this, 'Animation');
                 this.currentAnimation = null;
-                this.isPlaying = false;
+                this._isPlaying = false;
                 this._clock = null;
 
                 this.entity = entity;
@@ -6471,6 +6464,14 @@ var Kiwi;
 
                 this.currentAnimation = this.add('first', [this._atlas.cellIndex], 0, false, false);
             }
+            Object.defineProperty(Animation.prototype, "isPlaying", {
+                get: function () {
+                    return this._isPlaying;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
 
             Object.defineProperty(Animation.prototype, "clock", {
                 get: function () {
@@ -6501,7 +6502,7 @@ var Kiwi;
 
             Animation.prototype.createFromSequence = function (sequence, play) {
                 if (typeof play === "undefined") { play = false; }
-                this._animations[sequence.name] = new Kiwi.Animation(sequence.name, this._atlas, sequence, this.clock);
+                this._animations[sequence.name] = new Kiwi.Animation(sequence.name, sequence, this.clock);
 
                 if (play)
                     this.play(sequence.name);
@@ -6520,7 +6521,7 @@ var Kiwi;
             };
 
             Animation.prototype._play = function (index, name) {
-                this.isPlaying = true;
+                this._isPlaying = true;
                 this._setCurrentAnimation(name);
                 if (this._clock !== null)
                     this.currentAnimation.clock = this._clock;
@@ -6533,28 +6534,27 @@ var Kiwi;
                 if (this.isPlaying === true) {
                     this.currentAnimation.stop();
                 }
-                this.isPlaying = false;
+                this._isPlaying = false;
             };
 
             Animation.prototype.pause = function () {
                 this.currentAnimation.pause();
-                this.isPlaying = false;
+                this._isPlaying = false;
             };
 
             Animation.prototype.resume = function () {
                 this.currentAnimation.resume();
-                this.isPlaying = true;
+                this._isPlaying = true;
             };
 
             Animation.prototype.switchTo = function (name, play) {
-                if (typeof play === "undefined") { play = true; }
+                if (typeof play === "undefined") { play = null; }
                 if (this.currentAnimation.name !== name) {
                     this._setCurrentAnimation(name);
                 }
 
-                if (play)
+                if (play || play === null && this.isPlaying)
                     this.play();
-
                 if (play == false && this.isPlaying)
                     this.isPlaying = false;
             };
@@ -6622,7 +6622,6 @@ var Kiwi;
 
                 this.transform.x = x;
                 this.transform.y = y;
-                this._center = new Kiwi.Geom.Point(x + this.width / 2, y + this.height / 2);
 
                 this.name = atlas.name;
                 this.atlas = atlas;
@@ -6650,21 +6649,6 @@ var Kiwi;
                 return "Sprite";
             };
 
-            Object.defineProperty(Sprite.prototype, "center", {
-                get: function () {
-                    this._center.setTo(this.transform.x + this.width / 2, this.transform.y + this.height / 2);
-                    return this._center;
-                },
-                set: function (point) {
-                    this._center = point;
-                    this.transform.x = this._center.x - this.width / 2;
-                    this.transform.y = this._center.y - this.height / 2;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
             Sprite.prototype._onAddedToState = function (state) {
                 klog.info('Sprite added to State');
 
@@ -6676,16 +6660,14 @@ var Kiwi;
 
             Sprite.prototype.update = function () {
                 _super.prototype.update.call(this);
-
                 this.input.update();
 
                 if (this.input.isDragging === true) {
-                    this.transform.setPosition(this.game.input.x - this.input.pointDown.x, this.game.input.y - this.input.pointDown.y);
+                    this.transform.setPosition(this.game.input.x() - this.input.pointDown.x, this.game.input.y() - this.input.pointDown.y);
                 }
 
                 if (this._isAnimated) {
                     this.animation.update();
-
                     this.width = this.atlas.cells[this.atlas.cellIndex].w;
                     this.height = this.atlas.cells[this.atlas.cellIndex].h;
                     this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
@@ -6742,7 +6724,7 @@ var Kiwi;
                 klog.info('Created StaticImage Game Object');
             }
             StaticImage.prototype.objType = function () {
-                return "StaticImage";
+                return "Sprite";
             };
 
             StaticImage.prototype._onAddedToLayer = function (layer) {
@@ -12391,8 +12373,6 @@ var Kiwi;
         var SpriteSheet = (function (_super) {
             __extends(SpriteSheet, _super);
             function SpriteSheet(name, texture, cellWidth, cellHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-                console.log("CH" + cellHeight);
-
                 this.cellWidth = cellWidth;
                 this.cellHeight = cellHeight;
 

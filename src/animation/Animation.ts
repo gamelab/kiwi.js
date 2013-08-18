@@ -260,9 +260,11 @@ module Kiwi {
         * @method stop
         */
         public stop() {
-            this._isPlaying = false;
-            this._playPending = false;
-            this.onStop.dispatch();
+            if (this._isPlaying) {
+                this._isPlaying = false;
+                this._playPending = false;
+                this.onStop.dispatch();
+            }
         }
 
         /*
@@ -272,19 +274,20 @@ module Kiwi {
         */
         public update(): bool {
             if (this._isPlaying) {
-
+                
                 if (this.clock.elapsed() >= this._tick) {
 
                     this._tick = this.clock.elapsed() + this._speed;
                     this._frameIndex++;
                     this.onUpdate.dispatch();
-
+                    console.log('Updated');
                     if (!this._validateFrame(this._frameIndex)) {
 
                         if (this._loop) {
                             this._frameIndex = 0;
                             this.onLoop.dispatch();
                         } else {
+                            console.log('STOP!');
                             this._frameIndex--;
                             this.stop();
                         }

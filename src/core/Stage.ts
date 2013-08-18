@@ -52,20 +52,35 @@ module Kiwi {
             return "Stage";
         }
 
-        //Alpha
+        /*
+        * The alpha of the stage.
+        * @property _alpha
+        * @type number
+        */
         private _alpha: number;
 
+        /*
+        * Get the current alpha of the stage. 0 = invisible, 1 = fully visible.
+        * @type number
+        */
         public get alpha():number {
             return this._alpha;
         }
 
+        /*
+        * Set the alpha of the stage. A number between 0 (invisible) and 1 (fully visible).
+        * @type number
+        */
         public set alpha(value: number) {
             this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
 
             this._alpha = value;
         }
 
-        //X
+        /*
+        * The X coordinate of the stage.
+        * 
+        */
         private _x: number;
 
         public get x(): number {

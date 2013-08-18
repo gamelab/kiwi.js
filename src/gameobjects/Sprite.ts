@@ -77,16 +77,6 @@ module Kiwi.GameObjects {
         }
         
         /*
-        * Set the center location of this entity based of a point.
-        * @type 
-        */
-        public set center(point: Kiwi.Geom.Point) {
-            this._center = point;
-            this.transform.x = this._center.x - this.width / 2;
-            this.transform.y = this._center.y - this.height / 2;
-        }
-
-        /*
         * Indicates weither or not this sprite is animated or not. 
         * @property _isAnimated
         * @type bool
