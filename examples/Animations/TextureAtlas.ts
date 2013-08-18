@@ -69,33 +69,33 @@ class TextureAtlas extends Kiwi.State {
 
     spinB() {
         this.blueEnemyA.animation.play('enemyBlueSpin');
-        this.blueEnemyA.animation.getAnimation('enemyBlueSpin').onComplete.add(function () {
-            this.blueEnemyA.animation.play('enemyBlueIdle');
-        }, this);
+       // this.blueEnemyA.animation.getAnimation('enemyBlueSpin').onComplete.add(function () {
+       //     this.blueEnemyA.animation.play('enemyBlueIdle');
+       // }, this);
     }
     flipB() {
         this.blueEnemyB.animation.play('enemyBlueFlip');
-        this.blueEnemyB.animation.getAnimation('enemyBlueFlip').onComplete.add(function () {
-            this.blueEnemyB.animation.play('enemyBlueUpsidedown');
-        }, this);
+      //  this.blueEnemyB.animation.getAnimation('enemyBlueFlip').onComplete.add(function () {
+      //      this.blueEnemyB.animation.play('enemyBlueUpsidedown');
+      //  }, this);
     }
     spinO() {
         this.orangeEnemy.animation.play('enemyOrangeSpin');
-        this.orangeEnemy.animation.getAnimation('enemyOrangeSpin').onComplete.add(function () {
-            this.orangeEnemy.animation.play('enemyOrangeIdle');
-        }, this);
+     //   this.orangeEnemy.animation.getAnimation('enemyOrangeSpin').onComplete.add(function () {
+      //      this.orangeEnemy.animation.play('enemyOrangeIdle');
+     //   }, this);
     }
     flipG() {
         this.greenEnemyA.animation.play('enemyGreenFlip');
-        this.greenEnemyA.animation.getAnimation('enemyGreenFlip').onComplete.add(function () {
-            this.greenEnemyA.animation.play('enemyGreenUpsidedown');
-        }, this);
+     //   this.greenEnemyA.animation.getAnimation('enemyGreenFlip').onComplete.add(function () {
+     //       this.greenEnemyA.animation.play('enemyGreenUpsidedown');
+     //   }, this);
     }
     spinG() {
         this.greenEnemyB.animation.play('enemyGreenSpin');
-        this.greenEnemyB.animation.getAnimation('enemyGreenSpin').onComplete.add(function () {
-            this.greenEnemyB.animation.play('enemyGreenIdle');
-        }, this);
+     //   this.greenEnemyB.animation.getAnimation('enemyGreenSpin').onComplete.add(function () {
+      //      this.greenEnemyB.animation.play('enemyGreenIdle');
+      //  }, this);
     }
 
 

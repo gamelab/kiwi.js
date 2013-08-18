@@ -33,6 +33,10 @@
     <Content Include="Animations\TextureAtlas.js">
       <DependentUpon>TextureAtlas.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="camera\test1.ts" />
+    <Content Include="camera\test1.js">
+      <DependentUpon>test1.ts</DependentUpon>
+    </Content>
     <Content Include="Tweens\EasingMethods.js">
       <DependentUpon>EasingMethods.ts</DependentUpon>
     </Content>

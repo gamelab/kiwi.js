@@ -57,7 +57,7 @@ module Kiwi.Renderers {
         private _initState() {
 
             var gl: WebGLRenderingContext = this._game.stage.gl;
-            this._stageResolution = new Float32Array([this._game.stage.size.width(), this._game.stage.size.height()]);
+            this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
 
             this._shaders = new GLShaders(gl);
             gl.enable(gl.BLEND);

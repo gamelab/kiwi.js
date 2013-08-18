@@ -4,18 +4,7 @@
 /// <reference path="../components/Animation.ts" />
 /// <reference path="../components/Input.ts" />
 
-/*
- *	Kiwi - GameObjects - Sprite
- *				
- *	@desc		A Sprite is fully interactive and either static or animated.
- *
- *	@version	1.0 - 15th March 2013
- *
- *	@author 	Richard Davey
- *
- *	@url		http://www.kiwijs.org
- *
-*/
+
 
 module Kiwi.GameObjects {
 
@@ -76,15 +65,7 @@ module Kiwi.GameObjects {
             return "Sprite";
         }
         
-        /*
-        * Set the center location of this entity based of a point.
-        * @type 
-        */
-        public set center(point: Kiwi.Geom.Point) {
-            this._center = point;
-            this.transform.x = this._center.x - this.width / 2;
-            this.transform.y = this._center.y - this.height / 2;
-        }
+      
 
         /*
         * Indicates weither or not this sprite is animated or not. 
