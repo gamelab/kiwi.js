@@ -3307,7 +3307,8 @@ var Kiwi;
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this._renderMode = Kiwi.RENDERER_WEBGL;
+            this._renderMode = Kiwi.RENDERER_CANVAS;
+
             this.stage = new Kiwi.Stage(this, name);
 
             if (this._renderMode === Kiwi.RENDERER_CANVAS) {
@@ -3463,6 +3464,8 @@ var Kiwi;
             this.width = width;
             this.height = height;
             this.transform = new Kiwi.Geom.Transform(x, y);
+            this.transform.regX = x + width / 2;
+            this.transform.regY = y + height / 2;
 
             this._game.stage.onResize.add(this._updatedStageSize, this);
             this._game.stage.onResize.add(this._updatedSize, this);
@@ -6609,6 +6612,8 @@ var Kiwi;
 
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
+                this.transform.regX = this.width / 2;
+                this.transform.regY = this.height / 2;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
@@ -6696,6 +6701,8 @@ var Kiwi;
                 this.transform.y = y;
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
+                this.transform.regX = this.width / 2;
+                this.transform.regY = this.height / 2;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
@@ -6725,8 +6732,10 @@ var Kiwi;
                     var m = this.transform.getConcatenatedMatrix();
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + this.transform.regX, m.ty + this.transform.regY);
+
                     var cell = this.atlas.cells[this.cellIndex];
-                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
+                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -this.transform.regX, -this.transform.regY, cell.w, cell.h);
 
                     ctx.restore();
                 }

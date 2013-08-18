@@ -57,7 +57,7 @@ if (isset($_GET['f']))
     </script>
     <script src="ECMA262-5.js"></script>
     <script src="kiwi.js"></script>
-	<script src="lib/SceneGraphViewer.js"></script>
+
 <?php
     if ($state)
     {

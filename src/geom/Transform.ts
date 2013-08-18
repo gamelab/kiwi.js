@@ -3,8 +3,8 @@
 /**
  *	Kiwi - Geom - Transform
  *
- *	@desc 		Represents position, scale, rotation and registration of an Entity.
- *				- A transform is a component and implements all properties and methods required by components.
+ *	@desc 		Represents position, scale, rotation and rotationPoint of an Entity.
+ *			
  *				- Values can be transformed with a 3x3 affine transformation matrix, which each transform is assigned.
  *				- A tranform can be assigned a parent, which may in turn have it's own parent, thereby creating a tranform inheritence heirarchy
  *				- A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
@@ -12,7 +12,7 @@
  *	@version 	0.2 - 18th October 2012
  *
  *	@author 	Ross Kettle
- *	@author 	Richard Davey
+ *
  *
  *	@url 		http://www.kiwijs.org
  *
@@ -30,13 +30,13 @@ module Kiwi.Geom {
         * @param {Number} scaleX. X scaling of the transform.
         * @param {Number} scaleY. Y scaling of the transform.
         * @param {Number} rotation. Rotation of the transform in radians.
-        * @param {Number} regX. Registration offset on X axis.
-        * @param {Number} regY. Registration offset on Y axis.
+        * @param {Number} rotX. rotationPoint offset on X axis.
+        * @param {Number} rotY. rotationPoint offset on Y axis.
         * @return {Kiwi.Geom.Transform} This object.
         */
-        constructor(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, regX: number = 0, regY: number = 0) {
+        constructor(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0) {
 
-            this.setTransform(x, y, scaleX, scaleY, rotation, regX, regY);
+            this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
 
             this._matrix = new Matrix();
 
@@ -160,45 +160,45 @@ module Kiwi.Geom {
         }
 
         /** 
-        * Registration offset on X axis.
-        * @property _regX
+        * Rotation offset on X axis.
+        * @property _rotPointX
         * @type Number
         * @private
         **/
-        private _regX: number = 0;
+        private _rotPointX: number = 0;
 
         /** 
-        * Return the registration value from the x axis.
-        * @method regX
+        * Return the Rotation value from the x axis.
+        * @method rotPointX
         * @return {Number} The registration value from the x axis.
         */
-        public set regX(value: number) {
-            this._regX = value;
+        public set rotPointX(value: number) {
+            this._rotPointX = value;
         }
 
-        public get regX(): number {
-            return this._regX;
+        public get rotPointX(): number {
+            return this._rotPointX;
         }
 
         /** 
-        * Registration offset on Y axis.
-        * @property _regY
+        * Rotation offset on Y axis.
+        * @property _rotY
         * @type Number
         * @private
         **/
-        private _regY: number = 0;
+        private _rotPointY: number = 0;
 
         /** 
-        * Return the registration value from the y axis.
-        * @method regY
-        * @return {Number} The registration value from the y axis.
+        * Return the rotation value from the y axis.
+        * @method rotY
+        * @return {Number} The rotation value from the y axis.
         */
-        public set regY(value: number) {
-            this._regY = value;
+        public set rotPointY(value: number) {
+            this._rotPointY = value;
         }
 
-        public get regY(): number {
-            return this._regY;
+        public get rotPointY(): number {
+            return this._rotPointY;
         }
 
         /** 
@@ -357,19 +357,19 @@ module Kiwi.Geom {
         * @param {Number} scaleX. X scaling of the transform.
         * @param {Number} scaleY. Y scaling of the transform.
         * @param {Number} rotation. Rotation of the transform in radians.
-        * @param {Number} regX. Registration offset on X axis.
-        * @param {Number} regY. Registration offset on Y axis.
+        * @param {Number} rotX. Rotation offset on X axis.
+        * @param {Number} rotY. Rotation offset on Y axis.
         * @return {Kiwi.Geom.Transform} This object.
         */
-        public setTransform(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, regX: number = 0, regY: number = 0): Transform {
+        public setTransform(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0): Transform {
 
             this._x = x;
             this._y = y;
             this._scaleX = scaleX;
             this._scaleY = scaleY;
             this._rotation = rotation;
-            this._regX = regX;
-            this._regY = regY;
+            this._rotPointX = rotPointX;
+            this._rotPointY = rotPointY;
 
             //if (this.owner)
             //{
@@ -468,7 +468,7 @@ module Kiwi.Geom {
         */
         public copyFrom(source: Transform): Transform {
 
-            this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
+            this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.rotPointX, source.rotPointY);
 
             this.parent = source.parent;
 
@@ -538,7 +538,7 @@ module Kiwi.Geom {
         */
         public get toString(): string {
 
-            return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
+            return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._rotPointX + " regY=" + this.rotPointY + " matrix=" + this._matrix + ")}]";
 
         }
 

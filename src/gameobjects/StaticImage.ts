@@ -38,6 +38,9 @@ module Kiwi.GameObjects {
             this.transform.y = y;
             this.width = atlas.cells[0].w;
             this.height = atlas.cells[0].h;
+            this.transform.rotPointX = this.width / 2;
+            this.transform.rotPointY = this.height / 2;
+            
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
@@ -92,12 +95,25 @@ module Kiwi.GameObjects {
                 if (this.alpha > 0 && this.alpha <= 1) {
                     ctx.globalAlpha = this.alpha;
                 }
+                
+              
 
                 var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
                 ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
+                
+                
+                //m.invert();
+                //m.appendMatrix(this.transform.getConcatenatedMatrix());
+                //m.prependMatrix(camMatrix);
+
+
+                //m.prependMatrix(camMatrix);
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + this.transform.rotPointX, m.ty + this.transform.rotPointY);
+              
+
                 var cell = this.atlas.cells[this.cellIndex];
-                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
+                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -this.transform.rotPointX, -this.transform.rotPointY, cell.w, cell.h);
               
                 ctx.restore();
             }
