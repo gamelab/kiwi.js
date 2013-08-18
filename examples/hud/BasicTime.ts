@@ -14,8 +14,9 @@ export class BasicTime extends Kiwi.State {
         this.time = new Kiwi.HUD.Time('hh:mm:ss', 10, 10);
         this.time.setTime(1000, 2, 34);
         this.time.time.countingDown = true;
+        this.time.container.style.color = '#000';
 
-        this.game.huds.defaultHUD().addWidget(this.time);
+        this.game.huds.defaultHUD.addWidget(this.time);
 
     }
 

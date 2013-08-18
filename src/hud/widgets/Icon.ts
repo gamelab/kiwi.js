@@ -24,50 +24,69 @@ module Kiwi.HUD {
         * @param {number y
         * @return {Kiwi.HUD.Icon}
         **/
-        constructor(cacheID:string, cache:Kiwi.Cache, x:number, y:number) {
+        constructor(atlas: Kiwi.Textures.TextureAtlas, x:number, y:number) {
 
             super('Icon', x, y);
 
-            if (cache.checkImageCacheID(cacheID, cache) == false)
-            {
-                console.log('Missing texture', cacheID);
-                return;
-            }
-
-            //this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-            //this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
-            //this.texture.updated.add(this._changeTexture, this);
-            //this.size.updated.add(this._applyCSS, this);
+            this.atlas = atlas;
 
             this.icon = this.container;
-            //this._applyCSS();
+            this._applyCSS();
         }
 
         /**
-        * Holds the texture component
+        * Holds the texture atlas that is being used
         * @public
         **/
-        //public texture: Kiwi.Components.Texture;
+        public atlas: Kiwi.Textures.TextureAtlas;
+        
+        /*
+        * The cell inside the texture atlas that this icon is using
+        * @property _cellIndex
+        * @type number
+        */
+        private _cellIndex: number = 0;
+        
+        /*
+        * Gets the cell index that is being used.
+        * @type number
+        */
+        public get cellIndex(): number {
+            return this._cellIndex;
+        }
+        
+        /*
+        * Sets the cell index that is to be used.
+        * @type number
+        */
+        public set cellIndex(value: number) {
+            this._cellIndex = value;
+            this.width = this.atlas.cells[this.cellIndex].w;
+            this.height = this.atlas.cells[this.cellIndex].h;
+            this._applyCSS();
+        }
 
-        /**
-        * Holds the size component
-        * @public
-        **/
-        //public size: Kiwi.Components.Size;
+        /*
+        * Returns the width of the cell that is being used.
+        * @type number
+        */
+        public get width(): number {
+            return this.atlas.cells[this.cellIndex].w;
+        }
+        
+        /*
+        * Returns the height of the cell that is being used.
+        * @type number
+        */
+        public get height(): number {
+            return this.atlas.cells[this.cellIndex].h;
+        }
 
         /**
         * Is a reference to the element that the icon CSS is being applyed to.
         * @public
         **/
         public icon: HTMLElement;
-
-        /**
-        * Callback for when the texture changes
-        * @private
-        **/
-        //private _changeTexture(value:string, width:number, height:number) {    
-        //    this.size.setTo(width, height);
-        //}
 
         /**
         * Removes the CSS from the Icon. 
@@ -82,7 +101,18 @@ module Kiwi.HUD {
             this.icon.style.backgroundSize = '';
         }
 
-     
+        /*
+        * Updates/Applys the css that is to be applyed.
+        *
+        */
+        public _applyCSS() {
+            this.icon.style.width = this.width + "px";
+            this.icon.style.height = this.height + "px";
+            this.icon.style.backgroundSize = "100%";
+            this.icon.style.backgroundPositionX = -this.atlas.cells[this.cellIndex].x + "px";
+            this.icon.style.backgroundPositionY = -this.atlas.cells[this.cellIndex].y + "px";
+            this.icon.style.backgroundImage = this.atlas.image.src;
+        }
 
         /**
         * This method is used to remove existing DOM elements and place them inside a HUDWidget's container element.
@@ -102,7 +132,7 @@ module Kiwi.HUD {
                 this.icon = this.tempElement;
             }
 
-            //this._applyCSS();
+            this._applyCSS();
 
         }
 
@@ -117,7 +147,7 @@ module Kiwi.HUD {
 
             this._removeCSS();
             this.icon = this.container;
-            //this._applyCSS();
+            this._applyCSS();
         }
 
     }

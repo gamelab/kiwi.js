@@ -80,6 +80,9 @@ module Kiwi {
 
         }
 
+        /**
+        * Returns the type of this object
+        */
         public objType() {
             return "File";
         }
@@ -455,7 +458,7 @@ module Kiwi {
                 this.data.onerror = (event) => this.tagLoaderOnError(event);
                 //this.data.addEventListener('canplaythrough', (event) => this.tagLoaderOnLoad(event), false); //never firing.?.?.?
                 //this.data.onload = (event) => this.tagLoaderOnLoad(event);
-                //this.data.load();
+                this.data.load();
                 
 
                 this.tagLoaderOnLoad(null);     //need to fix....for some reason the audio does not want to load...

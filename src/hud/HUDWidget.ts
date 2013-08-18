@@ -31,18 +31,67 @@ module Kiwi.HUD {
             this.container = <HTMLDivElement>document.createElement("div");
             this.container.style.position = "absolute";
             this.components = new Kiwi.ComponentManager(Kiwi.HUD_WIDGET, this);
-            /*
-            this.position = this.components.add(new Kiwi.Components.Position(x, y));
-            this.position.updated.add(this._updatePosition, this);
-            *///needs updating
-            this._updateCSS();
+            this.onCoordsUpdate = new Kiwi.Signal();
+            this.x = x;
+            this.y = y;
         }
         
-        /**
-        * The position component maintains knowledge about the widgets coordinates.
-        * @public
-        **/
-        //public position: Kiwi.Components.Position;
+        /*
+        * Called when the cooridnates of the HUD Widget updates.
+        * @property onCoordsUpdate
+        * @type Kiwi.Signal
+        */
+        public onCoordsUpdate: Kiwi.Signal;
+
+        /*
+        * The x coordinate of the widget
+        * @property _x
+        * @type number
+        */
+        private _x: number;
+        
+        /*
+        * Get the x coordinate of the widget
+        * @type number
+        */
+        public get x():number {
+            return this._x;
+        }
+        
+        /*
+        * Set the x coordinate of the widget
+        * @type number
+        */
+        public set x(value: number) {
+            this._x = value;
+            this.container.style.left = this.x + "px";
+            this.onCoordsUpdate.dispatch(this.x, this.y);
+        }
+        
+        /*
+        * The y coordinate of the widget
+        * @property _y
+        * @type number
+        */
+        private _y: number;
+        
+        /*
+        * Get the y coordinate of the widget
+        * @type number
+        */
+        public get y(): number {
+            return this._y;
+        }
+        
+        /*
+        * Set the y coordinate of the widget
+        * @type number
+        */
+        public set y(value: number) {
+            this._y = value;
+            this.container.style.top = this.y + "px";
+            this.onCoordsUpdate.dispatch(this.x, this.y);
+        }
         
         /**
         * The list of components that the HUDWidget use's.
@@ -90,7 +139,7 @@ module Kiwi.HUD {
         * @param {string} main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
         * @param {string} element - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
         **/
-        public setTemplate(main: string, element?: string) {
+        public setTemplate(main: string, element?: string, ...paramsArr: any[]) {
 
             var containerElement: HTMLElement = document.getElementById(main);
             if (containerElement === undefined) {
@@ -103,7 +152,7 @@ module Kiwi.HUD {
             } else {
                 var fieldElement: HTMLElement = document.getElementById(element);
                 if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
-                    console.log('Field element not found inside container')
+                    console.log('Field element not found inside container');
                     return;
                 }
             }
@@ -141,38 +190,12 @@ module Kiwi.HUD {
         }
 
         /**
-        * 
-        * @method _updatePosition
-        **/
-        private _updatePosition() {
-            this._updateCSS();
-        }
-
-        /**
-        * 
-        * @method _updateCSS
-        **/
-        private _updateCSS() {
-            //this.container.style.left = this.position.x() + "px";
-            //this.container.style.top = this.position.y() + "px";
-        }
-
-        /**
         *
         * @method update
         **/
         public update() {
             this.components.update();
         }
-
-        /**
-        * 
-        * @method render
-        **/
-        public render() {
-
-        }
-
 
     }
 }

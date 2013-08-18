@@ -982,6 +982,8 @@ var Kiwi;
                     return _this.tagLoaderOnError(event);
                 };
 
+                this.data.load();
+
                 this.tagLoaderOnLoad(null);
             }
         };
@@ -6077,13 +6079,11 @@ var Kiwi;
                     this._tick = this.clock.elapsed() + this._speed;
                     this._frameIndex++;
                     this.onUpdate.dispatch();
-                    console.log('Updated');
                     if (!this._validateFrame(this._frameIndex)) {
                         if (this._loop) {
                             this._frameIndex = 0;
                             this.onLoop.dispatch();
                         } else {
-                            console.log('STOP!');
                             this._frameIndex--;
                             this.stop();
                         }
@@ -6562,7 +6562,12 @@ var Kiwi;
             Animation.prototype._setCurrentAnimation = function (name) {
                 if (this.currentAnimation !== null)
                     this.currentAnimation.stop();
-                this.currentAnimation = this._animations[name];
+
+                if (this._animations[name]) {
+                    this.currentAnimation = this._animations[name];
+                } else {
+                    klog.error(name, 'animation does not exist!');
+                }
             };
 
             Animation.prototype.update = function () {
@@ -9159,17 +9164,21 @@ var Kiwi;
                 return "HUDManager";
             };
 
-            HUDManager.prototype.defaultHUD = function (val) {
-                if (val) {
+
+            Object.defineProperty(HUDManager.prototype, "defaultHUD", {
+                get: function () {
+                    return this._defaultHUD;
+                },
+                set: function (value) {
                     if (this._currentHUD === this._defaultHUD) {
-                        this._currentHUD = val;
+                        this._currentHUD = value;
                         this.setHUD(this._currentHUD);
                     }
-                    this._defaultHUD = val;
-                }
-
-                return this._defaultHUD;
-            };
+                    this._defaultHUD = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             HUDManager.prototype.setHUD = function (hud) {
                 this.hideHUD();
@@ -9246,10 +9255,43 @@ var Kiwi;
                 this.container = document.createElement("div");
                 this.container.style.position = "absolute";
                 this.components = new Kiwi.ComponentManager(Kiwi.HUD_WIDGET, this);
-
-                this._updateCSS();
+                this.onCoordsUpdate = new Kiwi.Signal();
+                this.x = x;
+                this.y = y;
             }
+            Object.defineProperty(HUDWidget.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                set: function (value) {
+                    this._x = value;
+                    this.container.style.left = this.x + "px";
+                    this.onCoordsUpdate.dispatch(this.x, this.y);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(HUDWidget.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                set: function (value) {
+                    this._y = value;
+                    this.container.style.top = this.y + "px";
+                    this.onCoordsUpdate.dispatch(this.x, this.y);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
             HUDWidget.prototype.setTemplate = function (main, element) {
+                var paramsArr = [];
+                for (var _i = 0; _i < (arguments.length - 2); _i++) {
+                    paramsArr[_i] = arguments[_i + 2];
+                }
                 var containerElement = document.getElementById(main);
                 if (containerElement === undefined) {
                     console.log('Container element not found');
@@ -9287,18 +9329,8 @@ var Kiwi;
                 this.container.className = cssClass;
             };
 
-            HUDWidget.prototype._updatePosition = function () {
-                this._updateCSS();
-            };
-
-            HUDWidget.prototype._updateCSS = function () {
-            };
-
             HUDWidget.prototype.update = function () {
                 this.components.update();
-            };
-
-            HUDWidget.prototype.render = function () {
             };
             return HUDWidget;
         })();
@@ -9354,7 +9386,9 @@ var Kiwi;
     (function (HUD) {
         var Bar = (function (_super) {
             __extends(Bar, _super);
-            function Bar(current, max, x, y) {
+            function Bar(current, max, x, y, width, height) {
+                if (typeof width === "undefined") { width = 120; }
+                if (typeof height === "undefined") { height = 20; }
                 _super.call(this, "bar", x, y);
 
                 this._horizontal = true;
@@ -9367,26 +9401,65 @@ var Kiwi;
                 this.bar = this._bar;
                 this.container.appendChild(this.bar);
 
+                this.width = width;
+                this.height = height;
+
                 this._bar.style.height = '100%';
                 this._bar.style.width = '100%';
 
                 this.updateCSS();
             }
-            Bar.prototype.horizontal = function (val) {
-                if (val !== undefined) {
+            Object.defineProperty(Bar.prototype, "width", {
+                get: function () {
+                    return this._width;
+                },
+                set: function (value) {
+                    this.container.style.width = value + "px";
+                    this._width = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Bar.prototype, "height", {
+                get: function () {
+                    return this._height;
+                },
+                set: function (value) {
+                    this.container.style.height = value + "px";
+                    this._height = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Bar.prototype, "horizontal", {
+                get: function () {
+                    return this._horizontal;
+                },
+                set: function (val) {
                     this._horizontal = val;
                     this.updateCSS();
-                }
-                return this._horizontal;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Bar.prototype.vertical = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(Bar.prototype, "vertical", {
+                get: function () {
+                    return !this._horizontal;
+                },
+                set: function (val) {
                     this._horizontal = !val;
                     this.updateCSS();
-                }
-                return !this._horizontal;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
+
 
             Bar.prototype.setTemplate = function (main, innerbar) {
                 _super.prototype.setTemplate.call(this, main, innerbar);
@@ -9405,6 +9478,13 @@ var Kiwi;
             };
 
             Bar.prototype.updateCSS = function () {
+                if (this.horizontal === true) {
+                    this.bar.style.width = String(this.range.currentPercent()) + '%';
+                    this.bar.style.height = '100%';
+                } else {
+                    this.bar.style.height = String(this.range.currentPercent()) + '%';
+                    this.bar.style.width = '100%';
+                }
             };
             return Bar;
         })(Kiwi.HUD.HUDWidget);
@@ -9417,22 +9497,61 @@ var Kiwi;
     (function (HUD) {
         var Icon = (function (_super) {
             __extends(Icon, _super);
-            function Icon(cacheID, cache, x, y) {
+            function Icon(atlas, x, y) {
                 _super.call(this, 'Icon', x, y);
+                this._cellIndex = 0;
 
-                if (cache.checkImageCacheID(cacheID, cache) == false) {
-                    console.log('Missing texture', cacheID);
-                    return;
-                }
+                this.atlas = atlas;
 
                 this.icon = this.container;
+                this._applyCSS();
             }
+            Object.defineProperty(Icon.prototype, "cellIndex", {
+                get: function () {
+                    return this._cellIndex;
+                },
+                set: function (value) {
+                    this._cellIndex = value;
+                    this.width = this.atlas.cells[this.cellIndex].w;
+                    this.height = this.atlas.cells[this.cellIndex].h;
+                    this._applyCSS();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Icon.prototype, "width", {
+                get: function () {
+                    return this.atlas.cells[this.cellIndex].w;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Icon.prototype, "height", {
+                get: function () {
+                    return this.atlas.cells[this.cellIndex].h;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Icon.prototype._removeCSS = function () {
                 this.icon.style.width = '';
                 this.icon.style.height = '';
                 this.icon.style.backgroundImage = '';
                 this.icon.style.backgroundRepeat = '';
                 this.icon.style.backgroundSize = '';
+            };
+
+            Icon.prototype._applyCSS = function () {
+                this.icon.style.width = this.width + "px";
+                this.icon.style.height = this.height + "px";
+                this.icon.style.backgroundSize = "100%";
+                this.icon.style.backgroundPositionX = -this.atlas.cells[this.cellIndex].x + "px";
+                this.icon.style.backgroundPositionY = -this.atlas.cells[this.cellIndex].y + "px";
+                this.icon.style.backgroundImage = this.atlas.image.src;
             };
 
             Icon.prototype.setTemplate = function (main, icon) {
@@ -9443,6 +9562,8 @@ var Kiwi;
                 if (this.tempElement !== undefined) {
                     this.icon = this.tempElement;
                 }
+
+                this._applyCSS();
             };
 
             Icon.prototype.removeTemplate = function () {
@@ -9450,6 +9571,7 @@ var Kiwi;
 
                 this._removeCSS();
                 this.icon = this.container;
+                this._applyCSS();
             };
             return Icon;
         })(Kiwi.HUD.HUDWidget);
@@ -9460,36 +9582,10 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        var BasicBar = (function (_super) {
-            __extends(BasicBar, _super);
-            function BasicBar(current, max, x, y) {
-                _super.call(this, current, max, x, y);
-
-                this.container.style.width = '100px';
-                this.container.style.height = '20px';
-            }
-            BasicBar.prototype.updateCSS = function () {
-                if (this.horizontal() === true) {
-                    this.bar.style.width = String(this.range.currentPercent()) + '%';
-                    this.bar.style.height = '100%';
-                } else {
-                    this.bar.style.height = String(this.range.currentPercent()) + '%';
-                    this.bar.style.width = '100%';
-                }
-            };
-            return BasicBar;
-        })(Kiwi.HUD.Bar);
-        HUD.BasicBar = BasicBar;
-    })(Kiwi.HUD || (Kiwi.HUD = {}));
-    var HUD = Kiwi.HUD;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (HUD) {
         var IconCounter = (function (_super) {
             __extends(IconCounter, _super);
-            function IconCounter(cacheID, cache, current, max, x, y) {
-                _super.call(this, cacheID, cache, x, y);
+            function IconCounter(atlas, current, max, x, y) {
+                _super.call(this, atlas, x, y);
 
                 this._horizontal = true;
 
@@ -9497,28 +9593,58 @@ var Kiwi;
                 this.range.updated.add(this._changeSize, this);
 
                 this._changeSize();
+                this._applyCSS();
             }
+            Object.defineProperty(IconCounter.prototype, "repeat", {
+                get: function () {
+                    return this._repeat;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             IconCounter.prototype._changeSize = function () {
                 if (this._horizontal) {
+                    this._repeat = 'repeat-x';
+                    this.width = this.atlas.cells[this.cellIndex].w * this.range.current;
+                    this.height = this.atlas.cells[this.cellIndex].h;
                 } else {
+                    this._repeat = 'repeat-y';
+                    this.width = this.atlas.cells[this.cellIndex].w;
+                    this.height = this.atlas.cells[this.cellIndex].h * this.range.current;
                 }
             };
 
-            IconCounter.prototype.horizontal = function (val) {
-                if (val !== undefined) {
+            IconCounter.prototype._applyCSS = function () {
+                _super.prototype._applyCSS.call(this);
+                this.icon.style.backgroundRepeat = this.repeat;
+            };
+
+            Object.defineProperty(IconCounter.prototype, "horizontal", {
+                get: function () {
+                    return this._horizontal;
+                },
+                set: function (val) {
                     this._horizontal = val;
                     this._changeSize();
-                }
-                return this._horizontal;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            IconCounter.prototype.vertical = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(IconCounter.prototype, "vertical", {
+                get: function () {
+                    return !this._horizontal;
+                },
+                set: function (val) {
                     this._horizontal = !val;
                     this._changeSize();
-                }
-                return !this._horizontal;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             return IconCounter;
         })(Kiwi.HUD.Icon);
         HUD.IconCounter = IconCounter;
@@ -9553,7 +9679,43 @@ var Kiwi;
                 _super.call(this, 'button', x, y);
 
                 this.game = game;
+
+                this.width = width;
+                this.height = height;
+
+                this.bounds = this.components.add(new Kiwi.Components.Bounds(this.x, this.y, this.width, this.height));
+
+                this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
+                this.onCoordsUpdate.add(this._changed, this);
             }
+            Object.defineProperty(Button.prototype, "width", {
+                get: function () {
+                    return this._width;
+                },
+                set: function (value) {
+                    this.container.style.width = value + "px";
+                    this._width = value;
+                    this._changed();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Button.prototype, "height", {
+                get: function () {
+                    return this._height;
+                },
+                set: function (value) {
+                    this.container.style.height = value + "px";
+                    this._height = value;
+                    this._changed();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
             Button.prototype._changed = function () {
             };
             return Button;

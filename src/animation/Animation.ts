@@ -280,14 +280,12 @@ module Kiwi {
                     this._tick = this.clock.elapsed() + this._speed;
                     this._frameIndex++;
                     this.onUpdate.dispatch();
-                    console.log('Updated');
                     if (!this._validateFrame(this._frameIndex)) {
 
                         if (this._loop) {
                             this._frameIndex = 0;
                             this.onLoop.dispatch();
                         } else {
-                            console.log('STOP!');
                             this._frameIndex--;
                             this.stop();
                         }

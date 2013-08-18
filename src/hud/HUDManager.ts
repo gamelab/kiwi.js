@@ -92,17 +92,15 @@ module Kiwi.HUD {
         * @param {Kiwi.HUD.HUDDisplay} val - The new defaultHUD.
         * @return {Kiwi.HUD.HUDDisplay}
         **/
-        public defaultHUD(val?: Kiwi.HUD.HUDDisplay): Kiwi.HUD.HUDDisplay {
-            if (val) {
-
-                if (this._currentHUD === this._defaultHUD) {
-                    this._currentHUD = val;
-                    this.setHUD(this._currentHUD);
-                }
-                this._defaultHUD = val;
-                
+        public set defaultHUD(value: Kiwi.HUD.HUDDisplay) {
+            if (this._currentHUD === this._defaultHUD) {
+                this._currentHUD = value;
+                this.setHUD(this._currentHUD);
             }
+            this._defaultHUD = value;
+        }
 
+        public get defaultHUD(): Kiwi.HUD.HUDDisplay {
             return this._defaultHUD;
         }
 

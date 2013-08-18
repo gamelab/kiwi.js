@@ -18,7 +18,7 @@ class ShowAndHide extends Kiwi.State {
         
         this.score.counter.increment(200);
 
-        this.game.huds.defaultHUD().addWidget(this.score);
+        this.game.huds.defaultHUD.addWidget(this.score);
         this.game.huds.hideHUD();
     }
 

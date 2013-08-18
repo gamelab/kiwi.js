@@ -242,9 +242,14 @@ module Kiwi.Components {
         */
         private _setCurrentAnimation(name: string) {
 
-            if(this.currentAnimation !== null) this.currentAnimation.stop();
-            this.currentAnimation = this._animations[name];
-    
+            if (this.currentAnimation !== null) this.currentAnimation.stop();
+            
+            if (this._animations[name]) {
+                this.currentAnimation = this._animations[name];
+            } else {
+                //the animation does not exist.
+                klog.error(name, 'animation does not exist!');
+            }
         }
 
         /*

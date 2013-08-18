@@ -94,7 +94,6 @@
     <Content Include="hud\HUDManager.ts" />
     <Content Include="hud\HUDWidget.ts" />
     <Content Include="hud\widgets\Bar.ts" />
-    <Content Include="hud\widgets\BasicBar.ts" />
     <Content Include="hud\widgets\BasicScore.ts" />
     <Content Include="hud\widgets\Icon.ts" />
     <Content Include="hud\widgets\Button.ts" />

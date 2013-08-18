@@ -63,7 +63,6 @@
 /// <reference path="hud/widgets/TextField.ts" />
 /// <reference path="hud/widgets/Bar.ts" />
 /// <reference path="hud/widgets/Icon.ts" />
-/// <reference path="hud/widgets/BasicBar.ts" />
 /// <reference path="hud/widgets/IconCounter.ts" />
 /// <reference path="hud/widgets/BasicScore.ts" />
 /// <reference path="hud/widgets/Button.ts" />

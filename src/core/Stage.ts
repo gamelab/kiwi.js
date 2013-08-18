@@ -79,38 +79,71 @@ module Kiwi {
 
         /*
         * The X coordinate of the stage.
-        * 
+        * @property _x
+        * @type number
         */
         private _x: number;
 
+        /*
+        * Get the X coordinate of the stage. This number should be the same as the stages left property.
+        * @type number
+        */
         public get x(): number {
             return this._x;
         }
 
+        /*
+        * Set the X coordinate of the stage. When setting the X coordinate it modifies the left style on the stage.
+        * @type number
+        */
         public set x(value: number) {
             this.container.style.left = String(value + 'px');
             this._x = value;
         }
 
-        //Y
+        /*
+        * The Y coordinate of the stage.
+        * @property _y
+        * @type number
+        */
         private _y: number;
 
+        /*
+        * Get the Y coordinate of the stage. This number should be the same as the stages top property.
+        * @type number
+        */
         public get y(): number {
             return this._y;
         }
 
+        /*
+        * Set the Y coordinate of the stage. When setting the X coordinate it modifies the top style on the stage.
+        * @type number
+        */
         public set y(value: number) {
             this.container.style.top = String(value + 'px');
             this._y = value;
         }
 
-        //Width
+        /*
+        * The width of the stage.
+        * @property _width
+        * @type number
+        */
         private _width: number;
-
+        
+        /*
+        * The width of the stage.
+        * @type number
+        */
         public get width(): number {
             return this._width;
         }
-
+        
+        /*
+        * Set the width og the stage.
+        * @type number
+        */
         public set width(value: number) {
             this.container.style.width = String(value + 'px');
             this.canvas.width = value;
@@ -119,13 +152,25 @@ module Kiwi {
             this.onResize.dispatch(this._width, this._height);
         }
 
-        //Height
+        /*
+        * The height of the stage
+        * @property _height
+        * @type number
+        */
         private _height: number;
         
+        /*
+        * Returns the height of the stage
+        * @type number
+        */
         public get height(): number {
             return this._height;
         }
-
+        
+        /*
+        * Sets the height of the stage .
+        * @type number
+        */
         public set height(value: number) {
             this.container.style.height = String(value + 'px');
             this.canvas.height = value;
@@ -134,7 +179,11 @@ module Kiwi {
             this.onResize.dispatch(this._width, this._height);
         }
 
-        //signals
+        /*
+        * A kiwi signal that dispatches an event when the stage gets resized.
+        * @property onResize
+        * @type Kiwi.Signal
+        */
         public onResize: Kiwi.Signal;
 
         /**

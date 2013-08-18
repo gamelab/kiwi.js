@@ -6,15 +6,15 @@ class BasicBar extends Kiwi.State {
         super('Bar');
     }
 
-    public health: Kiwi.HUD.BasicBar;
-    public second: Kiwi.HUD.BasicBar;
+    public health: Kiwi.HUD.Bar;
+    public second: Kiwi.HUD.Bar;
 
     public tree: Kiwi.GameObjects.Sprite;
 
     init() {
 
-        this.health = new Kiwi.HUD.BasicBar(100,100,10,10);
-        this.second = new Kiwi.HUD.BasicBar(0, 200, 10, 50);
+        this.health = new Kiwi.HUD.Bar(100,100,10,10);
+        this.second = new Kiwi.HUD.Bar(0, 200, 10, 50, 20, 120);
 
         this.health.range.min = 10;
 
@@ -25,12 +25,10 @@ class BasicBar extends Kiwi.State {
         this.second.bar.style.backgroundColor = '#fff';
         this.second.bar.style.borderBottom = '1px solid black';
 
-        this.second.vertical(true);
-        this.second.container.style.height = '100px';
-        this.second.container.style.width = '20px';
+        this.second.vertical = true;
 
-        this.game.huds.defaultHUD().addWidget(this.health);
-        this.game.huds.defaultHUD().addWidget(this.second);
+        this.game.huds.defaultHUD.addWidget(this.health);
+        this.game.huds.defaultHUD.addWidget(this.second);
 
     }
 
