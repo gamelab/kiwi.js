@@ -44,13 +44,13 @@ class TextureAtlas extends Kiwi.State {
         this.playerPlane = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 365, 300);
         this.playerPlane.animation.play('Player');
 
-        this.blueEnemyA.input.inputOnRelease.add(this.spinB, this);
-        this.blueEnemyB.input.inputOnRelease.addOnce(this.flipB, this);
-        this.orangeEnemy.input.inputOnRelease.add(this.spinO, this);
-        this.greenEnemyA.input.inputOnRelease.addOnce(this.flipG, this);
-        this.greenEnemyB.input.inputOnRelease.add(this.spinG, this);
+        this.blueEnemyA.input.onRelease.add(this.spinB, this);
+        this.blueEnemyB.input.onRelease.addOnce(this.flipB, this);
+        this.orangeEnemy.input.onRelease.add(this.spinO, this);
+        this.greenEnemyA.input.onRelease.addOnce(this.flipG, this);
+        this.greenEnemyB.input.onRelease.add(this.spinG, this);
 
-        this.playerPlane.input.inputOnRelease.addOnce(this.submarinesAreGo, this);
+        this.playerPlane.input.onRelease.addOnce(this.submarinesAreGo, this);
 
         this.addChild(this.blueEnemyA);
         this.addChild(this.blueEnemyB);

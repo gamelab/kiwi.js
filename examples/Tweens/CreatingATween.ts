@@ -24,7 +24,7 @@ class CreatingATween extends Kiwi.State {
         this.addChild(this.cat);
         this.cat.animation.play('leftstop');
         
-        this.cat.input.inputOnRelease.add(this.tweenIt, this);
+        this.cat.input.onRelease.add(this.tweenIt, this);
 
         this.tween = this.game.tweens.create(this.cat.transform);//eventually will be just this.cat when x/y are atlased to it...
         this.tween.to({ x: 400 }, 1000, Kiwi.Tweens.Easing.Linear.None, false);

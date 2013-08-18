@@ -25,6 +25,10 @@
     <Content Include="Animations\TextureAtlas.js">
       <DependentUpon>TextureAtlas.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="sprites\Dragging.ts" />
+    <Content Include="sprites\Dragging.js">
+      <DependentUpon>Dragging.ts</DependentUpon>
+    </Content>
     <Content Include="Tweens\EasingMethods.js">
       <DependentUpon>EasingMethods.ts</DependentUpon>
     </Content>

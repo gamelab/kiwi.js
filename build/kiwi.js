@@ -5378,20 +5378,22 @@ var Kiwi;
                 this._dragEnabled = false;
                 this._dragSnapToCenter = false;
 
-                this.inputEntered = new Kiwi.Signal();
-                this.inputLeft = new Kiwi.Signal();
-                this.inputOnDown = new Kiwi.Signal();
-                this.inputOnRelease = new Kiwi.Signal();
-                this.inputDragStarted = new Kiwi.Signal();
-                this.inputDragStopped = new Kiwi.Signal();
+                this.onEntered = new Kiwi.Signal();
+                this.onLeft = new Kiwi.Signal();
+                this.onDown = new Kiwi.Signal();
+                this.onRelease = new Kiwi.Signal();
+                this.onDragStarted = new Kiwi.Signal();
+                this.onDragStopped = new Kiwi.Signal();
 
                 this._entity = entity;
                 this._bounds = bounds;
-                this.pointDown = new Kiwi.Geom.Point();
 
+                this.pointDown = new Kiwi.Geom.Point();
                 this.distance = new Kiwi.Geom.Point();
+
                 this.withinBounds = false;
                 this.outsideBounds = true;
+
                 this.isUp = true;
                 this.isDown = false;
                 this.isDragging = false;
@@ -5429,13 +5431,13 @@ var Kiwi;
                         this.withinBounds = true;
                         this.outsideBounds = false;
                         this._justEntered = true;
-                        this.inputEntered.dispatch(this._entity, this.distance.x, this.distance.y);
+                        this.onEntered.dispatch(this._entity, this.distance.x, this.distance.y);
                     }
                 } else {
                     if (this.withinBounds === true && this.isDragging === false) {
                         this.withinBounds = false;
                         this.outsideBounds = true;
-                        this.inputLeft.dispatch(this._entity);
+                        this.onLeft.dispatch(this._entity);
                     }
                 }
 
@@ -5450,7 +5452,7 @@ var Kiwi;
                         this.isDown = true;
                         this.isUp = false;
                         this.pointDown.copyFrom(this.distance);
-                        this.inputOnDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
+                        this.onDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
                     }
 
                     if (this._dragEnabled === true && this.isDragging === false && this._tempDragDisabled === false) {
@@ -5461,13 +5463,13 @@ var Kiwi;
                                 this.pointDown = this._bounds.getRect().center;
                             }
 
-                            this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
+                            this.onDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
                         }
                     }
                 } else {
                     if (this.isDragging === true) {
                         this.isDragging = false;
-                        this.inputDragStopped.dispatch(this._entity);
+                        this.onDragStopped.dispatch(this._entity);
                     }
 
                     if (this._tempDragDisabled === true)
@@ -5476,7 +5478,7 @@ var Kiwi;
                     if (this.isDown === true) {
                         this.isDown = false;
                         this.isUp = true;
-                        this.inputOnRelease.dispatch(this._entity);
+                        this.onRelease.dispatch(this._entity);
                     }
                 }
 
@@ -6646,12 +6648,19 @@ var Kiwi;
                     this._isAnimated = true;
                 }
 
+                this.input.onDragStarted.add(this._dragStarted, this);
                 this.onAddedToState.add(this._onAddedToState, this);
 
                 klog.info('Created Sprite Game Object');
             }
             Sprite.prototype.objType = function () {
                 return "Sprite";
+            };
+
+            Sprite.prototype._dragStarted = function (entity, x, y, snapToCenter) {
+                if (snapToCenter === true) {
+                    this.transform.setPosition(this.game.input.position.x - this.width / 2, this.game.input.position.y - this.height / 2);
+                }
             };
 
             Sprite.prototype._onAddedToState = function (state) {
@@ -6668,7 +6677,7 @@ var Kiwi;
                 this.input.update();
 
                 if (this.input.isDragging === true) {
-                    this.transform.setPosition(this.game.input.x() - this.input.pointDown.x, this.game.input.y() - this.input.pointDown.y);
+                    this.transform.setPosition(this.game.input.x - this.input.pointDown.x, this.game.input.y - this.input.pointDown.y);
                 }
 
                 if (this._isAnimated) {
@@ -11515,13 +11524,21 @@ var Kiwi;
                 }
             };
 
-            Manager.prototype.x = function () {
-                return this.position.x;
-            };
+            Object.defineProperty(Manager.prototype, "x", {
+                get: function () {
+                    return this.position.x;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Manager.prototype.y = function () {
-                return this.position.y;
-            };
+            Object.defineProperty(Manager.prototype, "y", {
+                get: function () {
+                    return this.position.y;
+                },
+                enumerable: true,
+                configurable: true
+            });
             return Manager;
         })();
         Input.Manager = Manager;

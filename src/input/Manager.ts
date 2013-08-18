@@ -167,7 +167,7 @@ module Kiwi.Input {
         * @property x
         * @type Number
         */
-        public x(): number {
+        public get x(): number {
 
             return this.position.x;
 
@@ -178,7 +178,7 @@ module Kiwi.Input {
         * @property y
         * @type Number
         */
-        public y(): number {
+        public get y(): number {
 
             return this.position.y;
 

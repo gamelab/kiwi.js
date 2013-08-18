@@ -48,8 +48,8 @@ class Switching extends Kiwi.State {
 
         this.openedChest.visiblity = false;
 
-        this.openedChest.input.inputEntered.add(this.entered, this);
-        this.closedChest.input.inputLeft.add(this.left, this);
+        this.openedChest.input.onEntered.add(this.entered, this);
+        this.closedChest.input.onLeft.add(this.left, this);
     }
 
     entered() {

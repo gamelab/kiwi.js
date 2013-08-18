@@ -60,8 +60,8 @@ module Kiwi.GameObjects {
             }
 
             //  Signals
-            //this.input.inputDragStarted.add(this._dragStarted, this);
             //this.onAddedToLayer.add(this._onAddedToLayer, this);
+            this.input.onDragStarted.add(this._dragStarted, this);
             this.onAddedToState.add(this._onAddedToState, this);
 
             klog.info('Created Sprite Game Object');
@@ -83,15 +83,22 @@ module Kiwi.GameObjects {
         */
         private _isAnimated: bool;
 
-        /* To be updated.
-        private _dragStarted(entity, x, y, snapToCenter) {
+        /*
+        * Gets executed when someone starts to drag this sprite. Used to when snapping the sprite to center.
+        * @method _dragStarted
+        * @param {Kiwi.GameObjects.Entity} entity
+        * @param {number} x
+        * @param {number} y
+        * @param {boolean} snapToCenter
+        */
+        private _dragStarted(entity:Kiwi.Entity, x:number, y:number, snapToCenter:boolean) {
             //  Should snap from the offset point, but for now will use the sprite size
             if (snapToCenter === true)
             {
-                this.position.setTo(this.game.input.position.x - this.size.halfWidth, this.game.input.position.y - this.size.halfHeight);
+                this.transform.setPosition(this.game.input.position.x - this.width / 2, this.game.input.position.y - this.height / 2);
             }
         }
-        */
+        
 
         /** 
 	     * The animation component that allows you to create a animation with spritesheets/texture atlas's. 
@@ -143,7 +150,7 @@ module Kiwi.GameObjects {
             this.input.update();
 
             if (this.input.isDragging === true) {
-                this.transform.setPosition(this.game.input.x() - this.input.pointDown.x, this.game.input.y() - this.input.pointDown.y);
+                this.transform.setPosition(this.game.input.x - this.input.pointDown.x, this.game.input.y - this.input.pointDown.y);
             }
 
             if (this._isAnimated) {
