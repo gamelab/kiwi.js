@@ -21,13 +21,6 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="components\Alpha.ts" />
-    <Content Include="components\Color.ts" />
-    <Content Include="components\Position.ts" />
-    <Content Include="components\Rotation.ts" />
-    <Content Include="components\Scale.ts" />
-    <Content Include="components\Size.ts" />
-    <Content Include="components\Visible.ts" />
     <Content Include="core\Game.ts" />
     <Content Include="animation\Animation.ts" />
     <Content Include="renderers\GLArrayBuffer.ts" />

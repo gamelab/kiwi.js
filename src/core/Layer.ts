@@ -51,7 +51,7 @@ module Kiwi {
     
 
            
-                this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.size.width(), this.game.stage.size.height(), true,true);
+                this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.width, this.game.stage.height, true,true);
              //   this.domContainer.className = 'KiwiCanvasWrapper';
                 this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
                 this.canvas.domElement.style.position = 'absolute';
@@ -61,12 +61,11 @@ module Kiwi {
                 this.canvas.domElement.style.width = '100%';
                 this.canvas.domElement.style.height = '100%';
 
-               // this.domContainer.appendChild(this.canvas.domElement);
-                //this.game.stage.canvasLayers.appendChild(this.canvas.domElement);
+            // this.domContainer.appendChild(this.canvas.domElement);
+            //this.game.stage.canvasLayers.appendChild(this.canvas.domElement);
 
-           
-
-            this.game.stage.size.updated.add(this._updatedStageSize, this);
+            
+            this.game.stage.onResize.add(this._updatedStageSize, this);
 
             klog.info('Created Layer ' + this.id );
 
@@ -88,10 +87,9 @@ module Kiwi {
 		**/
         private _updatedStageSize(width: number, height: number) {
 
+            this.canvas.width = width;
+            this.canvas.height = height;
            
-                this.canvas.size.setTo(width, height);
-           
-
         }
 
         /**

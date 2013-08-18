@@ -31,25 +31,22 @@ module Kiwi {
             this._game = game;
             this.id = id;
             this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.CAMERA, this);
             
             //size could autoresize to fit stage
-            this.size = new Kiwi.Components.Size(width, height);
-            this.position = new Kiwi.Components.Position(x, y);
-
-            this.components.add(this.size);
-            this.components.add(this.position);
-
-           
-
+            this.width = width;
+            this.height = height;
+            this.transform = new Kiwi.Geom.Transform(x, y);
             
-            this._game.stage.size.updated.add(this._updatedStageSize, this);
-
-            this.size.updated.add(this._updatedSize,this);
+            
+            this._game.stage.onResize.add(this._updatedStageSize, this);
+            this._game.stage.onResize.add(this._updatedSize, this);
 
             klog.info('Created Camera ' + this.id);
-            
+        
         }
+
+        public width: number;
+        public height: number;
 
         public objType() {
             return "Camera";
@@ -64,9 +61,7 @@ module Kiwi {
 	     * @property position
 	     * @type Kiwi.Components.Position
 	     **/
-        public position: Kiwi.Components.Position;
-
-        public size: Kiwi.Components.Size;
+        public transform: Kiwi.Geom.Transform;
 
         /**
 		* 
@@ -76,8 +71,9 @@ module Kiwi {
 		**/
         private _updatedStageSize(width: number, height: number) {
 
-           
-            this.size.setTo(width, height);
+            
+            this.width = width;
+            this.height = height;
           
 
         }
@@ -103,12 +99,6 @@ module Kiwi {
         }
 
 
-        /**
-        * The Component Manager
-        * @property components
-        * @type Kiwi.ComponentManager
-	    */
-        public components: Kiwi.ComponentManager;
 
         /**
         * The game this Group belongs to
@@ -180,7 +170,7 @@ module Kiwi {
 
         public update() {
             
-            this.components.update();
+            //this.components.update();
             
         }
 

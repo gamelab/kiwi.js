@@ -1,7 +1,6 @@
 /// <reference path="../core/Game.ts" />
 /// <reference path="../core/Entity.ts" />
 /// <reference path="../core/State.ts" />
-/// <reference path="../components/Position.ts" />
 
 /*
  *	Kiwi - GameObjects - StaticImage
@@ -23,8 +22,7 @@ module Kiwi.GameObjects {
         /**
         * 
         * @constructor
-        * @param {String} cacheID
-        * @param {Kiwi.Cache} cache
+        * @param {Kiwi.Textures.TextureAtlas} atlas
         * @param {Number} x
         * @param {Number} y
         * @return {StaticImage}
@@ -33,6 +31,7 @@ module Kiwi.GameObjects {
 
             super();
             
+            //Set coordinates and texture
             this.atlas = atlas;
             this.cellIndex = this.atlas.cellIndex;
             this.transform.x = x;
@@ -43,29 +42,27 @@ module Kiwi.GameObjects {
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
             //  Signals
-
             this.onAddedToLayer.add(this._onAddedToLayer, this);
-
-            
 
             klog.info('Created StaticImage Game Object');
 
         }
 
-        public objType() {
-            return "StaticImage";
+        /*
+        * Returns the type of object that this is.
+        * @method objType
+        * @return {string}
+        */
+        public objType(): string {
+            return "Sprite";
         }
 
         /** 
-	     * The Boounds component that controls the bounding box around this Game Object
+	     * The Bounds component that controls the bounding box around this Game Object
 	     * @property bounds
 	     * @type Kiwi.Components.Bounds
 	     **/
         public bounds: Kiwi.Components.Bounds;
-
-        
-
-       
 
 	    /**
 	     * Called when this Game Object is added to a Layer, usually as a result of an addChild() call or being in a Group that was added.

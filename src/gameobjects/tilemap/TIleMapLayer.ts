@@ -474,12 +474,12 @@ module Kiwi.GameObjects {
             }
 
             //  Work out how many tiles we can fit into our camera and round it up for the edges
-            this._maxX = Math.min(Math.ceil(camera.size.width() / this.tileWidth) + 1,this.widthInTiles);
-            this._maxY = Math.min(Math.ceil(camera.size.height() / this.tileHeight) + 1,this.heightInTiles);
+            this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1,this.widthInTiles);
+            this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1,this.heightInTiles);
             
             //  And now work out where in the tilemap the camera actually is
-            this._startX = Math.floor((camera.position.x() - this.transform.x) / this.tileWidth);
-            this._startY = Math.floor((camera.position.y() - this.transform.y) / this.tileHeight);
+            this._startX = Math.floor((camera.transform.x - this.transform.x) / this.tileWidth);
+            this._startY = Math.floor((camera.transform.y - this.transform.y) / this.tileHeight);
             
             //boundaries check 
             if (this._startX < 0) {
@@ -504,8 +504,8 @@ module Kiwi.GameObjects {
             this._dx = 0;
             this._dy = 0;
 
-            this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.transform.x;
-            this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.transform.y;
+            this._dx += -(camera.transform.x - (this._startX * this.tileWidth)) + this.transform.x;
+            this._dy += -(camera.transform.y - (this._startY * this.tileHeight)) + this.transform.y;
 
             this._tx = this._dx;
             this._ty = this._dy;

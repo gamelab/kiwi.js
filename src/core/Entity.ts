@@ -1,6 +1,3 @@
-/// <reference path="Game.ts" />
-/// <reference path="State.ts" />
-
 
 /*
  *	Kiwi - Core - Entity
@@ -8,7 +5,7 @@
  *	@desc		Serves as a container for components and core framework properties.
  *				Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
  *
- *	@version	1.1 - 1st March 2013
+ *	@version	1.1 - 1st March 2013 / Version way higher since then.
  *
  *	@author 	Richard Davey
  *	@author		Ross Kettle
@@ -24,9 +21,6 @@ module Kiwi {
         /**
         * 
         * @constructor
-        * @param {Boolean} supportsCanvas
-        * @param {Boolean} supportsDOM
-        * @param {Boolean} supportsWebGL
         * @return {Kiwi.Entity}
         */
         constructor() {
@@ -50,21 +44,150 @@ module Kiwi {
 
         }
 
+        /*
+        * Represents the position, scale, rotation and registration of this Entity.
+        * @property transform
+        * @type Kiwi.Geom.Transform
+        */
         public transform: Kiwi.Geom.Transform;
+
+        /*
+        * Get the X coordinate of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get x(): number {
+            return this.transform.x;
+        }
         
+        /*
+        * Set the X coordinate of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set x(value: number) {
+            this.transform.x = value;
+        }
+        
+        /*
+        * Get the Y coordinate of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get y(): number {
+            return this.transform.y;
+        }
+        
+        /*
+        * Set the Y coordinate of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set y(value: number) {
+            this.transform.y = value;
+        }
+        
+        /*
+        * Get the Scale X of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get scaleX():number {
+            return this.transform.scaleX;
+        }
+        
+        /*
+        * Set the Scale X coordinate of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set scaleX(value:number) {
+            this.transform.scaleX = value;
+        }
+
+        /*
+        * Get the Scale Y coordinate of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get scaleY(): number {
+            return this.transform.scaleY;
+        }
+        
+        /*
+        * Set the Scale Y coordinate of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set scaleY(value: number) {
+            this.transform.scaleY = value;
+        }
+        
+        /*
+        * Get the rotation of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get rotation(): number {
+            return this.transform.rotation;
+        }
+        
+        /*
+        * Get the rotation of this Entity. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set rotation(value: number) {
+            this.transform.rotation = value;
+        }
+        
+        /*
+        * Returns the type of child that this is. 
+        * @type Number
+        */
         public childType():number {
             return Kiwi.ENTITY;
         }
 
-        //  Subscribe to these signals for update information
+        /*
+        * A signal that will dispatch an event when this entity has been added to a group.
+        * @property onAddedToGroup
+        * @type Kiwi.Signal
+        */
         public onAddedToGroup: Kiwi.Signal;
+        
+        /*
+        * A signal that will dispatch an event when this entity has been added to a layer.
+        * @property onAddedToLayer
+        * @type Kiwi.Signal
+        */
         public onAddedToLayer: Kiwi.Signal;
+        
+        /*
+        * A signal that will dispatch an event when this entity has been added to a state.
+        * @property onAddedToState
+        * @type Kiwi.Signal
+        */
         public onAddedToState: Kiwi.Signal;
+
+        /*
+        * A signal that will dispatch an event when this entity has been removed from a group.
+        * @property onRemovedFromGroup
+        * @type Kiwi.Signal
+        */
         public onRemovedFromGroup: Kiwi.Signal;
+        
+        /*
+        * A signal that will dispatch an event when this entity has been removed from a layer.
+        * @property onRemovedFromLayer
+        * @type Kiwi.Signal
+        */
         public onRemovedFromLayer: Kiwi.Signal;
+        
+        /*
+        * A signal that will dispatch an event when this entity has been removed from a state.
+        * @property onRemovedFromState
+        * @type Kiwi.Signal
+        */
         public onRemovedFromState: Kiwi.Signal;
 
-        //  Modify the state of this Entity, such as adding to a Group, removing from a Layer, etc. Should be used by the internal Kiwi methods only.
+        /*
+        * Modify the state of this Entity, such as adding to a Group, removing from a Layer, etc. Should be used by the internal Kiwi methods only.
+        *
+        * @method modify
+        * @param {Number} action
+        * @param {Any} parent
+        */
         public modify(action:number, parent) {
 
             if (action === Kiwi.ADDED_TO_GROUP)
@@ -94,37 +217,82 @@ module Kiwi {
 
         }
 
+        /*
+        * The actual alpha of this entity.
+        * @property _alpha
+        * @type Number
+        */
         private _alpha: number = 1;
 
+        /*
+        * Set the alpha of this entity. A number between 0 (invisible) and 1 (completely visible).
+        * @type Number
+        */
         public set alpha(value: number) {
             if (value <= 0) value = 0;
             if (value > 1) value = 1;
             this._alpha = value;
         }
-
+        
+        /*
+        * Get the alpha of this entity. A number between 0 (invisible) and 1 (completely visible).
+        * @type Number
+        */
         public get alpha(): number {
             return this._alpha;
         }
 
-
+        /*
+        * A boolean that indicates weither or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
+        * @property _visible
+        * @type bool
+        */
         private _visible: bool = true;
-
+        
+        /*
+        * Set the visiblity of this entity. True or False.
+        * @type bool
+        */
         public set visiblity(value: bool) {
             this._visible = value;
         }
-
+        
+        /*
+        * Get the visiblity of this entity. Note that is does not get set to false if the alpha is 0.
+        * @type bool
+        */
         public get visiblity(): bool {
             return this._visible;
         }
-
+        
+        /*
+        * The width of the entity in pixels.
+        * @property width
+        * @type number
+        */
         public width: number = 0;   //if bounds are implemented then getters and setters here would be nice.
-
+        
+        /*
+        * The height of the entity in pixels.
+        * @property height
+        * @type number
+        */
         public height: number = 0;  
-
-
+        
+        /*
+        * The texture atlas that is to be used on this entity.
+        * @property atlas
+        * @type Kiwi.Textures.TextureAtlas
+        */
         public atlas: Kiwi.Textures.TextureAtlas;
-
-        public cellIndex: number = 0;
+        
+        /*
+        * Used as a reference to a single Cell in the atlas that is to be rendered. 
+        * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
+        * @property
+        * @type
+        */
+        public cellIndex: number = 0; //perhaps check to see that the cell index exists before allowing it to be set
 
         /**
         * The Component Manager
@@ -162,18 +330,11 @@ module Kiwi {
         public name: string = '';
 
         /**
-        * The Layer this Entity has been added to.
+        * The Layer this Entity has been added to. Not implimented
         * @property layer
         * @type Kiwi.Layer
         **/
         public layer: Kiwi.Layer = null;
-
-        /**
-        * The parent Group that this Entity belongs to, if any.
-        * @property parent
-        * @type Kiwi.Group
-        **/
-        //public parent: Kiwi.Group = null;
 
         /**
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
@@ -183,13 +344,17 @@ module Kiwi {
         private _exists: bool;
 
         /**
-		* Toggles the exitence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
+		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
 		**/
         public set exists(value: bool) {
             this._exists = value;
         }
-
+        
+        /**
+		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
+        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+		**/
         public get exists():bool {
             return this._exists;
         }
@@ -209,6 +374,11 @@ module Kiwi {
             this._active = value;
         }
 
+        /**
+		* An active Entity is one that has its update method called by its parent.
+        * @property _active
+        * @type Boolean
+		**/
         public get active():bool {
             return this._active;
         }
@@ -230,6 +400,11 @@ module Kiwi {
             this._willRender = value;
         }
 
+        /**
+		* Controls whether render is automatically called by the parent. 
+        * @property _willRender
+        * @type Boolean
+		*/
         public get willRender():bool {
             return this._willRender;
         }
@@ -248,7 +423,11 @@ module Kiwi {
         public set inputEnabled(value: bool) {
             this._inputEnabled = value;
         }
-
+        
+        /**
+		* Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
+        * This method should be over-ridden to handle specific game object implementations.
+		**/
         public get inputEnabled():bool {
             return this._inputEnabled;
         }
@@ -266,7 +445,12 @@ module Kiwi {
         public set clock(value: Kiwi.Time.Clock) {
             this._clock = value;
         }
-
+    
+        /**
+		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
+        * @property exists 
+        * @type Boolean
+		**/
         public get clock(): Kiwi.Time.Clock {
             return this._clock;
         }
@@ -277,42 +461,27 @@ module Kiwi {
         * @type Boolean
     	*/
         private _dirty: bool;
-
+        
+        /**
+		* A value used by components to control if the Entity needs re-rendering
+        * @property dirty
+        * @type Boolean
+    	*/
         public set dirty(value: bool) {
             this._dirty = value;
         }
-
+    
+        /**
+		* A value used by components to control if the Entity needs re-rendering
+        * @property dirty
+        * @type Boolean
+    	*/
         public get dirty():bool {
             return this._dirty;
         }
 
         /**
-        * 
-        * @property _supportsCanvas
-        * @type Boolean
-        * @private
-        */
-        private _supportsCanvas: bool;
-
-        /**
-        * 
-        * @property _supportsWebGL
-        * @type Boolean
-        * @private
-        */
-        private _supportsWebGL: bool;
-
-        /**
-        * 
-        * @method isGroup
-        * @return {Boolean}
-        */
-        public isGroup(): bool {
-            return false;
-        }
-
-        /**
-        * 
+        * Executed when this entity gets added to a layer. Current layers are not impliemented.
         * @method _addedToLayer
         * @param {Kiwi.Layer} layer
         * @return {Boolean}
@@ -349,7 +518,7 @@ module Kiwi {
         }
 
         /**
-        * 
+        * Executed when the entity gets removed from a layer. Currently layers are not implimented.
         * @method _removedFromLayer
         * @param {Kiwi.Layer} layer
         */
@@ -362,7 +531,7 @@ module Kiwi {
         }
 
         /**
-        * 
+        * Executes when the entity gets added to a state. 
         * @method _addedToState
         * @param {Kiwi.State} state
         * @return {Boolean}
@@ -389,7 +558,7 @@ module Kiwi {
         }
 
         /**
-        * 
+        * Is executed when the entity gets removed from a state.
         * @method _removedFromState
         * @param {Kiwi.State} state
         */
@@ -411,9 +580,9 @@ module Kiwi {
 	    * @param {Kiwi.Group} group. The Group this Entity is being added to.
 		**/
         private _addedToGroup(group: Kiwi.Group) {
-            /*
+            
             klog.info('Entity added to Group');
-
+            /*
             if (this.transform.parent(group.transform) )
             {
                 klog.warn('Entity.addedToGroup() called but parent already set d');
@@ -439,7 +608,7 @@ module Kiwi {
             }
             /*
             this.onAddedToGroup.dispatch(this, group);
-
+            
             //  If the parent group has already been added to a layer then call addedToLayer on the Entity now,
             //  otherwise it happens when the Group is added to a layer
             if (this.parent.layer !== null)

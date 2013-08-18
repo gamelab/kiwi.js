@@ -88,33 +88,31 @@ module Kiwi.Components {
 
         }
 
-        public calculateBounds(transform: Kiwi.Geom.Transform, position:Kiwi.Components.Position,size:Kiwi.Components.Size) {
+        //needs updating.
+        public calculateBounds(transform: Kiwi.Geom.Transform, width:number, height:number) {
             
-            var centerPoint: Kiwi.Geom.Point = new Kiwi.Geom.Point(size.width() / 2, size.height() / 2);
+            var centerPoint: Kiwi.Geom.Point = new Kiwi.Geom.Point(width / 2, height / 2);
             var topLeftPoint: Kiwi.Geom.Point = new Kiwi.Geom.Point(0, 0);
-            var bottomLeftPoint: Kiwi.Geom.Point = new Kiwi.Geom.Point(0, size.height());
-            var topRightPoint: Kiwi.Geom.Point = new Kiwi.Geom.Point(size.width(), 0);
-            var bottomRightPoint: Kiwi.Geom.Point = new Kiwi.Geom.Point(size.width(), size.height());
+            var bottomLeftPoint: Kiwi.Geom.Point = new Kiwi.Geom.Point(0, height);
+            var topRightPoint: Kiwi.Geom.Point = new Kiwi.Geom.Point(width, 0);
+            var bottomRightPoint: Kiwi.Geom.Point = new Kiwi.Geom.Point(width, height);
             
-            var posx = position.x();
-            var posy = position.y();
-            var ox = position.transformPoint().x;
-            var oy = position.transformPoint().y;
+            var posx = transform.x;
+            var posy = transform.y;
+            var ox = transform.transformPoint(transform.getPositionPoint()).x;
+            var oy = transform.transformPoint(transform.getPositionPoint()).y;
             
             this._transformPoint(centerPoint, transform, posx, posy, ox, oy);
             this._transformPoint(topLeftPoint, transform, posx, posy, ox, oy);
             this._transformPoint(bottomLeftPoint, transform, posx, posy, ox, oy);
             this._transformPoint(topRightPoint, transform, posx, posy, ox, oy);
             this._transformPoint(bottomRightPoint, transform, posx, posy, ox, oy);
-            
-                        
+                     
             var left:number = Math.min(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
             var right:number = Math.max(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
             var top:number = Math.min(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
             var bottom:number = Math.max(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
-            
-            
-                
+               
             this._AABB = new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
 
             var sx: number = Math.abs(transform.scaleX);
@@ -122,8 +120,8 @@ module Kiwi.Components {
 
             
 
-            var ubW = (size.width() - this.offsetWidth) * sx;
-            var ubH = (size.height() - this.offsetHeight) * sy;
+            var ubW = (width - this.offsetWidth) * sx;
+            var ubH = (height - this.offsetHeight) * sy;
             var ubX = (centerPoint.x - this.offsetX * sx) - ubW / 2;
             var ubY = (centerPoint.y - this.offsetY * sy) - ubH / 2;
 

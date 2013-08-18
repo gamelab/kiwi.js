@@ -31,8 +31,10 @@ module Kiwi.HUD {
             this.container = <HTMLDivElement>document.createElement("div");
             this.container.style.position = "absolute";
             this.components = new Kiwi.ComponentManager(Kiwi.HUD_WIDGET, this);
+            /*
             this.position = this.components.add(new Kiwi.Components.Position(x, y));
             this.position.updated.add(this._updatePosition, this);
+            *///needs updating
             this._updateCSS();
         }
         
@@ -40,7 +42,7 @@ module Kiwi.HUD {
         * The position component maintains knowledge about the widgets coordinates.
         * @public
         **/
-        public position: Kiwi.Components.Position;
+        //public position: Kiwi.Components.Position;
         
         /**
         * The list of components that the HUDWidget use's.
@@ -151,8 +153,8 @@ module Kiwi.HUD {
         * @method _updateCSS
         **/
         private _updateCSS() {
-            this.container.style.left = this.position.x() + "px";
-            this.container.style.top = this.position.y() + "px";
+            //this.container.style.left = this.position.x() + "px";
+            //this.container.style.top = this.position.y() + "px";
         }
 
         /**

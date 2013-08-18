@@ -1,6 +1,4 @@
 
-/// <reference path="../Kiwi.ts" />
-
 /*
  *	Kiwi - Components - ArcadePhysics
  *				

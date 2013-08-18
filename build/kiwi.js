@@ -531,6 +531,304 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    var Entity = (function () {
+        function Entity() {
+            this._alpha = 1;
+            this._visible = true;
+            this.width = 0;
+            this.height = 0;
+            this.cellIndex = 0;
+            this.game = null;
+            this.state = null;
+            this.name = '';
+            this.layer = null;
+            this._clock = null;
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+            this.transform = new Kiwi.Geom.Transform();
+
+            this.onAddedToGroup = new Kiwi.Signal();
+            this.onAddedToLayer = new Kiwi.Signal();
+            this.onAddedToState = new Kiwi.Signal();
+            this.onRemovedFromGroup = new Kiwi.Signal();
+            this.onRemovedFromLayer = new Kiwi.Signal();
+            this.onRemovedFromState = new Kiwi.Signal();
+        }
+        Object.defineProperty(Entity.prototype, "x", {
+            get: function () {
+                return this.transform.x;
+            },
+            set: function (value) {
+                this.transform.x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "y", {
+            get: function () {
+                return this.transform.y;
+            },
+            set: function (value) {
+                this.transform.y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "scaleX", {
+            get: function () {
+                return this.transform.scaleX;
+            },
+            set: function (value) {
+                this.transform.scaleX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "scaleY", {
+            get: function () {
+                return this.transform.scaleY;
+            },
+            set: function (value) {
+                this.transform.scaleY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "rotation", {
+            get: function () {
+                return this.transform.rotation;
+            },
+            set: function (value) {
+                this.transform.rotation = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Entity.prototype.childType = function () {
+            return Kiwi.ENTITY;
+        };
+
+        Entity.prototype.modify = function (action, parent) {
+            if (action === Kiwi.ADDED_TO_GROUP) {
+                return this._addedToGroup(parent);
+            } else if (action === Kiwi.ADDED_TO_LAYER) {
+                return this._addedToLayer(parent);
+            } else if (action === Kiwi.ADDED_TO_STATE) {
+                return this._addedToState(parent);
+            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
+                return this._removedFromGroup(parent);
+            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
+                return this._removedFromLayer(parent);
+            } else if (action === Kiwi.REMOVED_FROM_STATE) {
+                return this._removedFromState(parent);
+            }
+        };
+
+
+        Object.defineProperty(Entity.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                if (value <= 0)
+                    value = 0;
+                if (value > 1)
+                    value = 1;
+                this._alpha = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "visiblity", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
+                this._exists = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
+                this._active = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
+                this._willRender = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "inputEnabled", {
+            get: function () {
+                return this._inputEnabled;
+            },
+            set: function (value) {
+                this._inputEnabled = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "clock", {
+            get: function () {
+                return this._clock;
+            },
+            set: function (value) {
+                this._clock = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
+                this._dirty = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Entity.prototype._addedToLayer = function (layer) {
+            if (this.layer !== null) {
+                klog.warn('Entity already exists on Layer ' + this.layer.id);
+
+                return false;
+            } else {
+                if (layer.game !== null) {
+                    this.game = layer.game;
+
+                    if (this._clock === null) {
+                        this._clock = this.game.time.clock;
+                    }
+                }
+
+                this.onAddedToLayer.dispatch(this, this.layer);
+
+                return true;
+            }
+        };
+
+        Entity.prototype._removedFromLayer = function (layer) {
+            this.layer = null;
+
+            this.onRemovedFromLayer.dispatch(this, layer);
+        };
+
+        Entity.prototype._addedToState = function (state) {
+            klog.info('Entity added to State');
+
+            this.state = state;
+
+            this.game = this.state.game;
+
+            if (this._clock === null) {
+                this._clock = this.game.time.clock;
+            }
+
+            this.id = this.game.rnd.uuid();
+
+            this.onAddedToState.dispatch(this, this.state);
+
+            return true;
+        };
+
+        Entity.prototype._removedFromState = function (state) {
+            klog.info('Entity removed from State');
+
+            this.state = null;
+
+            this.game = null;
+
+            this.onAddedToState.dispatch(this, state);
+        };
+
+        Entity.prototype._addedToGroup = function (group) {
+            klog.info('Entity added to Group');
+
+            if (group.game !== null) {
+                this.game = group.game;
+
+                if (this._clock === null) {
+                    this._clock = this.game.time.clock;
+                }
+            }
+        };
+
+        Entity.prototype._removedFromGroup = function (group) {
+            klog.info('Entity removed from Group');
+
+            this.onRemovedFromGroup.dispatch(this, group);
+        };
+
+        Entity.prototype._changedPosition = function (group, index) {
+            klog.info('Entity changed position within the group');
+        };
+
+        Entity.prototype.update = function () {
+        };
+
+        Entity.prototype.render = function (camera) {
+        };
+
+        Entity.prototype.destroy = function () {
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+        };
+        return Entity;
+    })();
+    Kiwi.Entity = Entity;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var File = (function () {
         function File(game, dataType, path, cacheID, saveToCache, cache) {
             if (typeof cacheID === "undefined") { cacheID = ''; }
@@ -1074,1119 +1372,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var Cache = (function () {
-        function Cache(game) {
-            this.images = null;
-            this.audio = null;
-            this.data = null;
-            this._game = game;
-        }
-        Cache.prototype.objType = function () {
-            return "Cache";
-        };
-
-        Cache.prototype.boot = function () {
-            this._caches = [];
-
-            this._caches.push(new Kiwi.FileCache());
-            this._caches.push(new Kiwi.FileCache());
-            this._caches.push(new Kiwi.FileCache());
-
-            this.images = this._caches[0];
-            this.audio = this._caches[1];
-            this.data = this._caches[2];
-        };
-
-        Cache.prototype.checkImageCacheID = function (cacheID, cache) {
-            if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
-                klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                return false;
-            }
-
-            return true;
-        };
-
-        Cache.prototype.checkDataCacheID = function (cacheID, cache) {
-            if (cacheID == '' || cache === null || cache.images === null || cache.data.exists(cacheID) === false) {
-                klog.warn('Data cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                return false;
-            }
-
-            return true;
-        };
-        return Cache;
-    })();
-    Kiwi.Cache = Cache;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var StateConfig = (function () {
-        function StateConfig(parent, name) {
-            this.name = '';
-            this.isPersistent = false;
-            this.isCreated = false;
-            this.isInitialised = false;
-            this.isReady = false;
-            this.hasInit = false;
-            this.hasPreloader = false;
-            this.hasLoadProgress = false;
-            this.hasLoadComplete = false;
-            this.hasLoadUpdate = false;
-            this.hasCreate = false;
-            this.hasOnEnter = false;
-            this.hasUpdate = false;
-            this.hasRender = false;
-            this.hasOnExit = false;
-            this.hasShutDown = false;
-            this.hasDestroy = false;
-            this.runCount = 0;
-            this.type = 0;
-            klog.info('StateConfig created', name);
-
-            this._state = parent;
-            this.name = name;
-
-            this.populate();
-        }
-        StateConfig.prototype.objType = function () {
-            return "StateConfig";
-        };
-
-        StateConfig.prototype.populate = function () {
-            klog.info('populate StateConfig');
-
-            if (typeof this._state['init'] === 'function') {
-                this.hasInit = true;
-            }
-
-            if (typeof this._state['preload'] === 'function') {
-                this.hasPreloader = true;
-            }
-
-            if (typeof this._state['loadProgress'] === 'function') {
-                this.hasLoadProgress = true;
-            }
-
-            if (typeof this._state['loadComplete'] === 'function') {
-                this.hasLoadComplete = true;
-            }
-
-            if (typeof this._state['loadUpdate'] === 'function') {
-                this.hasLoadUpdate = true;
-            }
-
-            if (typeof this._state['create'] === 'function') {
-                this.hasCreate = true;
-            }
-
-            if (typeof this._state['onEnter'] === 'function') {
-                this.hasOnEnter = true;
-            }
-
-            if (typeof this._state['update'] === 'function') {
-                this.hasUpdate = true;
-            }
-
-            if (typeof this._state['render'] === 'function') {
-                this.hasRender = true;
-            }
-
-            if (typeof this._state['onExit'] === 'function') {
-                this.hasOnExit = true;
-            }
-
-            if (typeof this._state['shutdown'] === 'function') {
-                this.hasShutDown = true;
-            }
-
-            if (typeof this._state['destroy'] === 'function') {
-                this.hasDestroy = true;
-            }
-
-            if (this.hasInit === false && this.hasCreate === false) {
-                klog.info('If there are no init or create functions, then we consider the state already initialised');
-                this.isInitialised = true;
-                this.isCreated = true;
-                this.isReady = true;
-            }
-        };
-        return StateConfig;
-    })();
-    Kiwi.StateConfig = StateConfig;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Group = (function () {
-        function Group(name) {
-            if (typeof name === "undefined") { name = ''; }
-            this.parent = null;
-            this.name = '';
-            this.game = null;
-            this.state = null;
-            this.layer = null;
-            this._dirty = true;
-            this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
-
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-
-            this.transform = new Kiwi.Geom.Transform();
-
-            this.members = [];
-
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-            this._willRender = true;
-            klog.info('Created Group ' + this.name);
-        }
-        Group.prototype.childType = function () {
-            return Kiwi.GROUP;
-        };
-
-        Group.prototype.modify = function (type, parent) {
-            if (type === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (type === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (type === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
-            } else if (type === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            }
-        };
-
-        Group.prototype.numChildren = function () {
-            return this.members.length;
-        };
-
-
-        Object.defineProperty(Group.prototype, "dirty", {
-            get: function () {
-                return this._dirty;
-            },
-            set: function (value) {
-                if (value !== undefined) {
-                    this._dirty = value;
-                    for (var i = 0; i < this.members.length; i++) {
-                        this.members[i].dirty = value;
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.contains = function (child) {
-            return (this.members.indexOf(child) === -1) ? false : true;
-        };
-
-        Group.prototype.addChild = function (child) {
-            klog.info('Group.addChild ' + this.members.length);
-
-            if (child.transform.parent !== this.transform) {
-                this.members.push(child);
-                child.transform.parent = this.transform;
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.addChildAt = function (child, index) {
-            klog.info('Group.addChildAt ' + child.id);
-
-            if (child.transform.parent !== this.transform) {
-                this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.addChildBefore = function (child, beforeChild) {
-            klog.info('Group.addChildBefore ' + child.id);
-
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
-                var index = this.getChildIndex(beforeChild);
-
-                this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.addChildAfter = function (child, beforeChild) {
-            klog.info('Group.addChildAfter ' + child.id);
-
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
-                var index = this.getChildIndex(beforeChild) + 1;
-
-                this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.getChildAt = function (index) {
-            if (this.members[index]) {
-                return this.members[index];
-            } else {
-                return null;
-            }
-        };
-
-        Group.prototype.getChildByName = function (name) {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].name === name) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.getChildByID = function (id) {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === id) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.getChildIndex = function (child) {
-            return this.members.indexOf(child);
-        };
-
-        Group.prototype.removeChild = function (child) {
-            if (child && child.transform.parent === this.transform) {
-                var index = this.getChildIndex(child);
-
-                if (index > -1) {
-                    this.members.splice(index, 1);
-                }
-
-                child.modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
-
-            return child;
-        };
-
-        Group.prototype.removeChildAt = function (index) {
-            if (this.members[index]) {
-                var child = this.members[index];
-
-                if (child) {
-                    this.members.splice(index, 1);
-
-                    child.modify(Kiwi.REMOVED_FROM_GROUP, this);
-                }
-
-                return child;
-            } else {
-                return null;
-            }
-        };
-
-        Group.prototype.removeChildren = function (begin, end) {
-            if (typeof begin === "undefined") { begin = 0; }
-            if (typeof end === "undefined") { end = 0x7fffffff; }
-            end -= begin;
-
-            var removed = this.members.splice(begin, end);
-
-            for (var i = 0; i < removed.length; i++) {
-                removed[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
-
-            return removed.length;
-        };
-
-        Group.prototype.setChildIndex = function (child, index) {
-            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index) {
-                return false;
-            }
-
-            this.removeChild(child);
-            this.addChildAt(child, index);
-
-            return true;
-        };
-
-        Group.prototype.swapChildren = function (child1, child2) {
-            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
-                return false;
-            }
-
-            var index1 = this.getChildIndex(child1);
-            var index2 = this.getChildIndex(child2);
-
-            if (index1 !== -1 && index2 !== -1 && index1 !== index2) {
-                this.members[index1] = child2;
-                this.members[index2] = child1;
-
-                child1._changedPosition(this, index2);
-                child2._changedPosition(this, index1);
-
-                return true;
-            }
-
-            return false;
-        };
-
-        Group.prototype._changedPosition = function (group, index) {
-            klog.info('Group changed position within the group');
-        };
-
-        Group.prototype.swapChildrenAt = function (index1, index2) {
-            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
-                return false;
-            }
-
-            var child1 = this.getChildAt(index1);
-            var child2 = this.getChildAt(index2);
-
-            if (child1 !== null && child2 !== null) {
-                this.members[index1] = child2;
-                this.members[index2] = child1;
-
-                child1._changedPosition(this, index2);
-                child2._changedPosition(this, index1);
-
-                return true;
-            }
-
-            return false;
-        };
-
-        Group.prototype.replaceChild = function (oldChild, newChild) {
-            if (oldChild === newChild)
-                return;
-
-            if (this.getChildIndex(newChild)) {
-                this.removeChild(newChild);
-            }
-
-            var index = this.getChildIndex(oldChild);
-
-            if (index > -1) {
-                this.removeChildAt(index);
-
-                this.addChildAt(newChild, index);
-
-                oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
-                newChild.transform.parent = null;
-                newChild.modify(Kiwi.ADDED_TO_GROUP, this);
-                console.log(this.members[0]);
-                return true;
-            }
-
-            return false;
-        };
-
-        Group.prototype.forEach = function (context, callback) {
-            var params = [];
-            for (var _i = 0; _i < (arguments.length - 2); _i++) {
-                params[_i] = arguments[_i + 2];
-            }
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return callback.apply(context, [child].concat(params));
-                });
-            }
-        };
-
-        Group.prototype.forEachAlive = function (context, callback) {
-            var params = [];
-            for (var _i = 0; _i < (arguments.length - 2); _i++) {
-                params[_i] = arguments[_i + 2];
-            }
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    if (child.exists)
-                        callback.apply(context, [child].concat(params));
-                });
-            }
-        };
-
-        Group.prototype.setAll = function (componentName, property, value) {
-            if (componentName === null) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][property] = value;
-                }
-            } else {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][componentName][property] = value;
-                }
-            }
-        };
-
-        Group.prototype.callAll = function (componentName, functionName, args) {
-            if (componentName === null) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][functionName].apply(this.members[i], args);
-                }
-            } else {
-                for (var i = 0; i < this.members.length; i++) {
-                    console.log('callAll', this.members[i]);
-                    this.members[i][componentName][functionName].apply(this.members[i][componentName], args);
-                }
-            }
-        };
-
-        Group.prototype.update = function () {
-            var _this = this;
-            this.components.update();
-
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return _this.processUpdate(child);
-                });
-            }
-
-            this.components.postUpdate();
-        };
-
-        Group.prototype.processUpdate = function (child) {
-            if (child.active === true) {
-                child.update();
-            }
-        };
-
-
-        Object.defineProperty(Group.prototype, "exists", {
-            get: function () {
-                return this._exists;
-            },
-            set: function (value) {
-                this._exists = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Group.prototype, "active", {
-            get: function () {
-                return this._active;
-            },
-            set: function (value) {
-                this._active = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.render = function (camera) {
-            var _this = this;
-            this.components.preRender();
-
-            this.components.render();
-
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return _this.processRender(child, camera);
-                });
-            }
-
-            this.components.postRender();
-        };
-
-        Group.prototype.processRender = function (child, camera) {
-            if (child.active === true) {
-                child.render(camera);
-            }
-        };
-
-        Group.prototype.removeFirstAlive = function () {
-            return this.removeChild(this.getFirstAlive());
-        };
-
-        Group.prototype.getFirstAlive = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === true) {
-                    return this.members[i];
-                    break;
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.getFirstDead = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === false) {
-                    return this.members[i];
-                    break;
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.countLiving = function () {
-            var total = 0;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === true) {
-                    total++;
-                }
-            }
-
-            return total;
-        };
-
-        Group.prototype.countDead = function () {
-            var total = 0;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === false) {
-                    total++;
-                }
-            }
-
-            return total;
-        };
-
-        Group.prototype.getRandom = function (start, length) {
-            if (typeof start === "undefined") { start = 0; }
-            if (typeof length === "undefined") { length = 0; }
-            if (this.members.length === 0) {
-                return null;
-            }
-
-            if (length === 0) {
-                length = this.members.length;
-            }
-
-            if (start < 0 || start > length) {
-                start = 0;
-            }
-
-            var rnd = start + (Math.random() * (start + length));
-
-            if (rnd > this.members.length) {
-                return this.members[this.members.length - 1];
-            } else {
-                return this.members[rnd];
-            }
-        };
-
-        Group.prototype.clear = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                this.members[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
-
-            this.members.length = 0;
-        };
-
-
-        Object.defineProperty(Group.prototype, "willRender", {
-            get: function () {
-                return this._willRender;
-            },
-            set: function (value) {
-                this._willRender = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.isGroup = function () {
-            return true;
-        };
-
-        Group.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Group already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                klog.info('Group added to Layer. Checking children: ' + this.members.length);
-
-                this.layer = layer;
-
-                for (var i = 0; i < this.members.length; i++) {
-                    if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
-                        this.members[i].exists = false;
-                    }
-                }
-
-                this.onAddedToLayer.dispatch(this, layer);
-                return true;
-            }
-        };
-
-        Group.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
-
-        Group.prototype._addedToState = function (state) {
-            klog.info('Group added to State');
-
-            this.state = state;
-
-            this.game = this.state.game;
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Group.prototype._removedFromState = function (state) {
-            klog.info('Group removed from State');
-
-            this.onRemovedFromState.dispatch(this, state);
-
-            this.state = null;
-
-            this.game = null;
-        };
-
-        Group.prototype.destroy = function () {
-            this.removeChildren();
-
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-
-            this.members.length = 0;
-        };
-        return Group;
-    })();
-    Kiwi.Group = Group;
-})(Kiwi || (Kiwi = {}));
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var Kiwi;
-(function (Kiwi) {
-    var State = (function (_super) {
-        __extends(State, _super);
-        function State(name) {
-            _super.call(this, name);
-            this.game = null;
-
-            klog.debug('----------- State created: ' + name + ' -----------');
-
-            this.config = new Kiwi.StateConfig(this, name);
-            this.cache = new Kiwi.Cache(this.game);
-            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
-            this.transform.parent = null;
-        }
-        State.prototype.objType = function () {
-            return "State";
-        };
-
-        State.prototype.boot = function () {
-            klog.info('State booted: ', this.config.name);
-            this.textureCache = new Kiwi.TextureCache(this.game);
-            this.textures = this.textureCache.textures;
-            this.cache.boot();
-        };
-
-        State.prototype.init = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preload = function () {
-        };
-
-        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
-        };
-
-        State.prototype.loadComplete = function () {
-        };
-
-        State.prototype.loadUpdate = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.create = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preUpdate = function () {
-            this.components.preUpdate();
-        };
-
-        State.prototype.update = function () {
-            this.components.update();
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.postUpdate = function () {
-            this.components.postUpdate();
-        };
-
-        State.prototype.postRender = function () {
-        };
-
-        State.prototype.setType = function (value) {
-            if (this.config.isInitialised === false) {
-                this.config.type = value;
-            } else {
-                klog.warn('State default type can only be changed in init()');
-            }
-        };
-
-        State.prototype.swapLayer = function (layer) {
-            this.currentLayer = layer;
-        };
-
-        State.prototype.addImage = function (cacheID, url, globalCache, width, height, offsetX, offsetY) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addImage(cacheID, url, this.game.cache.images, width, height, offsetX, offsetY);
-            } else {
-                this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
-            }
-        };
-
-        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
-            } else {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
-            }
-        };
-
-        State.prototype.addTextureAtlas = function (imageID, imageURL, jsonID, jsonURL, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addTextureAtlas(this.game.cache, imageID, imageURL, jsonID, jsonURL);
-            } else {
-                this.game.loader.addTextureAtlas(this.cache, imageID, imageURL, jsonID, jsonURL);
-            }
-        };
-
-        State.prototype.addJSON = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
-            } else {
-                this.game.loader.addJSON(cacheID, url, this.cache.data);
-            }
-        };
-
-        State.prototype.addAudio = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
-            } else {
-                this.game.loader.addAudio(cacheID, url, this.cache.audio);
-            }
-        };
-
-        State.prototype.addChild = function (child) {
-            child.modify(Kiwi.ADDED_TO_STATE, this);
-            _super.prototype.removeChild.call(this, child);
-
-            _super.prototype.addChild.call(this, child);
-
-            return child;
-        };
-
-        State.prototype.removeChild = function (child) {
-            child.modify(Kiwi.REMOVED_FROM_STATE, this);
-            var layer = null;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === child.id) {
-                    this.members.slice(i, 1);
-
-                    if (layer !== null) {
-                        layer.remove(child);
-                    } else {
-                        this.currentLayer.remove(child);
-                    }
-                }
-            }
-            return child;
-        };
-
-        State.prototype.destroy = function () {
-            for (var i = 0; i < this.members.length; i++) {
-            }
-        };
-        return State;
-    })(Kiwi.Group);
-    Kiwi.State = State;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Entity = (function () {
-        function Entity() {
-            this._alpha = 1;
-            this._visible = true;
-            this.width = 0;
-            this.height = 0;
-            this.cellIndex = 0;
-            this.game = null;
-            this.state = null;
-            this.name = '';
-            this.layer = null;
-            this._clock = null;
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
-            this.transform = new Kiwi.Geom.Transform();
-
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-        }
-        Entity.prototype.childType = function () {
-            return Kiwi.ENTITY;
-        };
-
-        Entity.prototype.modify = function (action, parent) {
-            if (action === Kiwi.ADDED_TO_GROUP) {
-                return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (action === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
-                return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
-            } else if (action === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            }
-        };
-
-
-        Object.defineProperty(Entity.prototype, "alpha", {
-            get: function () {
-                return this._alpha;
-            },
-            set: function (value) {
-                if (value <= 0)
-                    value = 0;
-                if (value > 1)
-                    value = 1;
-                this._alpha = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "visiblity", {
-            get: function () {
-                return this._visible;
-            },
-            set: function (value) {
-                this._visible = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "exists", {
-            get: function () {
-                return this._exists;
-            },
-            set: function (value) {
-                this._exists = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "active", {
-            get: function () {
-                return this._active;
-            },
-            set: function (value) {
-                this._active = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "willRender", {
-            get: function () {
-                return this._willRender;
-            },
-            set: function (value) {
-                this._willRender = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "inputEnabled", {
-            get: function () {
-                return this._inputEnabled;
-            },
-            set: function (value) {
-                this._inputEnabled = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "clock", {
-            get: function () {
-                return this._clock;
-            },
-            set: function (value) {
-                this._clock = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "dirty", {
-            get: function () {
-                return this._dirty;
-            },
-            set: function (value) {
-                this._dirty = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Entity.prototype.isGroup = function () {
-            return false;
-        };
-
-        Entity.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Entity already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                if (layer.game !== null) {
-                    this.game = layer.game;
-
-                    if (this._clock === null) {
-                        this._clock = this.game.time.clock;
-                    }
-                }
-
-                this.onAddedToLayer.dispatch(this, this.layer);
-
-                return true;
-            }
-        };
-
-        Entity.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
-
-        Entity.prototype._addedToState = function (state) {
-            klog.info('Entity added to State');
-
-            this.state = state;
-
-            this.game = this.state.game;
-
-            if (this._clock === null) {
-                this._clock = this.game.time.clock;
-            }
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-        };
-
-        Entity.prototype._removedFromState = function (state) {
-            klog.info('Entity removed from State');
-
-            this.state = null;
-
-            this.game = null;
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Entity.prototype._addedToGroup = function (group) {
-            if (group.game !== null) {
-                this.game = group.game;
-
-                if (this._clock === null) {
-                    this._clock = this.game.time.clock;
-                }
-            }
-        };
-
-        Entity.prototype._removedFromGroup = function (group) {
-            klog.info('Entity removed from Group');
-
-            this.onRemovedFromGroup.dispatch(this, group);
-        };
-
-        Entity.prototype._changedPosition = function (group, index) {
-            klog.info('Entity changed position within the group');
-        };
-
-        Entity.prototype.update = function () {
-        };
-
-        Entity.prototype.render = function (camera) {
-        };
-
-        Entity.prototype.destroy = function () {
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-        };
-        return Entity;
-    })();
-    Kiwi.Entity = Entity;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (DOM) {
         var Cache = (function () {
             function Cache(parent, game, size) {
@@ -2279,8 +1464,8 @@ var Kiwi;
                 this.domElement.width = width;
                 this.domElement.height = height;
 
-                this.size = new Kiwi.Components.Size(width, height);
-                this.size.updated.add(this._updatedSize, this);
+                this._width = width;
+                this._height = height;
 
                 this.context = this.domElement.getContext('2d');
 
@@ -2291,14 +1476,39 @@ var Kiwi;
                     this.domElement.style.display = 'none';
                 }
             }
+
+            Object.defineProperty(Canvas.prototype, "width", {
+                get: function () {
+                    return this._width;
+                },
+                set: function (value) {
+                    this._width = value;
+                    this._updatedSize();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Canvas.prototype, "height", {
+                get: function () {
+                    return this._height;
+                },
+                set: function (value) {
+                    this._height = value;
+                    this._updatedSize();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Canvas.prototype.objType = function () {
                 return "Canvas";
             };
 
-            Canvas.prototype._updatedSize = function (width, height) {
-                this.domElement.width = width;
-                this.domElement.height = height;
-                this.size.dirty = false;
+            Canvas.prototype._updatedSize = function () {
+                this.domElement.width = this._width;
+                this.domElement.height = this._height;
             };
 
             Canvas.prototype.destroy = function () {
@@ -2361,7 +1571,7 @@ var Kiwi;
             };
 
             Canvas.prototype.toString = function () {
-                return '[{Canvas (width=' + this.size.width() + ' height=' + this.size.height() + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
+                return '[{Canvas (width=' + this.width + ' height=' + this.height + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
             };
             Canvas.CLEARMODE_NONE = 0;
 
@@ -2398,7 +1608,7 @@ var Kiwi;
             this.domContainer.style.width = '100%';
             this.domContainer.style.height = '100%';
 
-            this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.size.width(), this.game.stage.size.height(), true, true);
+            this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.width, this.game.stage.height, true, true);
 
             this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
             this.canvas.domElement.style.position = 'absolute';
@@ -2408,7 +1618,7 @@ var Kiwi;
             this.canvas.domElement.style.width = '100%';
             this.canvas.domElement.style.height = '100%';
 
-            this.game.stage.size.updated.add(this._updatedStageSize, this);
+            this.game.stage.onResize.add(this._updatedStageSize, this);
 
             klog.info('Created Layer ' + this.id);
         }
@@ -2417,7 +1627,8 @@ var Kiwi;
         };
 
         Layer.prototype._updatedStageSize = function (width, height) {
-            this.canvas.size.setTo(width, height);
+            this.canvas.width = width;
+            this.canvas.height = height;
         };
 
         Layer.prototype.numChildren = function () {
@@ -3473,14 +2684,91 @@ var Kiwi;
 
             this.domReady = false;
 
-            this.alpha = new Kiwi.Components.Alpha();
-            this.color = new Kiwi.Components.Color();
-            this.position = new Kiwi.Components.Position();
-            this.size = new Kiwi.Components.Size();
+            this._alpha = 1;
+
+            this._x = 0;
+            this._y = 0;
+
+            this._width = 800;
+            this._height = 600;
+
+            this.onResize = new Kiwi.Signal();
         }
         Stage.prototype.objType = function () {
             return "Stage";
         };
+
+        Object.defineProperty(Stage.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
+
+                this._alpha = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "x", {
+            get: function () {
+                return this._x;
+            },
+            set: function (value) {
+                this.container.style.left = String(value + 'px');
+                this._x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "y", {
+            get: function () {
+                return this._y;
+            },
+            set: function (value) {
+                this.container.style.top = String(value + 'px');
+                this._y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "width", {
+            get: function () {
+                return this._width;
+            },
+            set: function (value) {
+                this.container.style.width = String(value + 'px');
+                this.canvas.width = value;
+
+                this._width = value;
+                this.onResize.dispatch(this._width, this._height);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "height", {
+            get: function () {
+                return this._height;
+            },
+            set: function (value) {
+                this.container.style.height = String(value + 'px');
+                this.canvas.height = value;
+
+                this._height = value;
+                this.onResize.dispatch(this._width, this._height);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
 
         Stage.prototype.boot = function (dom) {
             klog.info('Stage DOM boot');
@@ -3490,14 +2778,12 @@ var Kiwi;
             this.container = dom.container;
             if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
-                this.position.setTo(this.offset.x, this.offset.y);
-                this.size.setTo(parseInt(this.container.style.width), parseInt(this.container.style.height));
+                this._x = this.offset.x;
+                this._y = this.offset.y;
+                this._width = parseInt(this.container.style.width);
+                this._height = parseInt(this.container.style.height);
             }
 
-            this.alpha.updated.add(this._updatedAlpha, this);
-            this.color.updated.add(this._updatedColor, this);
-            this.position.updated.add(this._updatedPosition, this);
-            this.size.updated.add(this._updatedSize, this);
             this._createCompositeCanvas();
         };
 
@@ -3506,12 +2792,12 @@ var Kiwi;
             this.canvas = document.createElement("canvas");
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
-            this.canvas.width = 800;
-            this.canvas.height = 600;
+            this.canvas.width = this.width;
+            this.canvas.height = this.height;
 
             if (this._game.renderMode === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
-                this.ctx.fillStyle = this.color.cssColorHex;
+                this.ctx.fillStyle = '#fff';
                 this.gl = null;
             } else if (this._game.renderMode === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
@@ -3527,26 +2813,6 @@ var Kiwi;
             } else {
                 document.body.appendChild(this.canvas);
             }
-        };
-
-        Stage.prototype._updatedPosition = function (x, y, z, cssTranslate3d, cssLeft, cssTop) {
-            this.container.style.left = cssLeft;
-            this.container.style.top = cssTop;
-        };
-
-        Stage.prototype._updatedColor = function (red, green, blue, alpha, cssColorHex, cssColorRGB, cssColorRGBA) {
-            if (Kiwi.DEVICE.ieVersion < 10) {
-                this.container.style.backgroundColor = cssColorHex;
-            } else {
-                this.container.style.backgroundColor = cssColorRGBA;
-            }
-        };
-
-        Stage.prototype._updatedAlpha = function () {
-            this.alpha.setCSS(this.container);
-        };
-
-        Stage.prototype._updatedSize = function () {
         };
 
         Stage.prototype.frameRate = function (value) {
@@ -4141,6 +3407,177 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    var Cache = (function () {
+        function Cache(game) {
+            this.images = null;
+            this.audio = null;
+            this.data = null;
+            this._game = game;
+        }
+        Cache.prototype.objType = function () {
+            return "Cache";
+        };
+
+        Cache.prototype.boot = function () {
+            this._caches = [];
+
+            this._caches.push(new Kiwi.FileCache());
+            this._caches.push(new Kiwi.FileCache());
+            this._caches.push(new Kiwi.FileCache());
+
+            this.images = this._caches[0];
+            this.audio = this._caches[1];
+            this.data = this._caches[2];
+        };
+
+        Cache.prototype.checkImageCacheID = function (cacheID, cache) {
+            if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
+                klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                return false;
+            }
+
+            return true;
+        };
+
+        Cache.prototype.checkDataCacheID = function (cacheID, cache) {
+            if (cacheID == '' || cache === null || cache.images === null || cache.data.exists(cacheID) === false) {
+                klog.warn('Data cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                return false;
+            }
+
+            return true;
+        };
+        return Cache;
+    })();
+    Kiwi.Cache = Cache;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Camera = (function () {
+        function Camera(game, id, name, x, y, width, height) {
+            this.fitToStage = true;
+            this._game = game;
+            this.id = id;
+            this.name = name;
+
+            this.width = width;
+            this.height = height;
+            this.transform = new Kiwi.Geom.Transform(x, y);
+
+            this._game.stage.onResize.add(this._updatedStageSize, this);
+            this._game.stage.onResize.add(this._updatedSize, this);
+
+            klog.info('Created Camera ' + this.id);
+        }
+        Camera.prototype.objType = function () {
+            return "Camera";
+        };
+
+        Camera.prototype._updatedStageSize = function (width, height) {
+            this.width = width;
+            this.height = height;
+        };
+
+        Camera.prototype._updatedSize = function (width, height) {
+        };
+
+        Camera.prototype.visible = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            return this._visible;
+        };
+
+        Camera.prototype.dirty = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            if (value !== null) {
+                this._dirty = value;
+            }
+
+            return this._dirty;
+        };
+
+        Camera.prototype.update = function () {
+        };
+
+        Camera.prototype.render = function () {
+            this._game.renderer.render(this);
+        };
+        return Camera;
+    })();
+    Kiwi.Camera = Camera;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var CameraManager = (function () {
+        function CameraManager(game) {
+            klog.info('Layer Manager created');
+
+            this._game = game;
+
+            this._cameras = [];
+
+            this._nextCameraID = 0;
+        }
+        CameraManager.prototype.objType = function () {
+            return "CameraManager";
+        };
+
+        CameraManager.prototype.boot = function () {
+            this.create("defaultCamera", 0, 0, this._game.stage.width, this._game.stage.height);
+
+            this.defaultCamera = this._cameras[0];
+        };
+
+        CameraManager.prototype.create = function (name, x, y, width, height) {
+            var newCamera = new Kiwi.Camera(this._game, this._nextCameraID++, name, x, y, width, height);
+
+            this._cameras.push(newCamera);
+
+            return newCamera;
+        };
+
+        CameraManager.prototype.remove = function (camera) {
+            klog.info('Remove camera');
+
+            var i = this._cameras.indexOf(camera);
+
+            if (i !== -1) {
+                this._cameras.splice(i, 1);
+                return true;
+            }
+
+            return false;
+        };
+
+        CameraManager.prototype.update = function () {
+            if (this._cameras.length === 0) {
+                return false;
+            }
+
+            for (var i = 0; i < this._cameras.length; i++) {
+                this._cameras[i].update();
+            }
+        };
+
+        CameraManager.prototype.render = function () {
+            if (this._cameras.length === 0) {
+                return false;
+            }
+
+            for (var i = 0; i < this._cameras.length; i++) {
+                this._cameras[i].render();
+            }
+        };
+
+        CameraManager.prototype.removeAll = function () {
+            this._cameras.length = 0;
+            klog.info('TODO removeAll');
+        };
+        return CameraManager;
+    })();
+    Kiwi.CameraManager = CameraManager;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var Component = (function () {
         function Component(name) {
             this.layer = null;
@@ -4306,2386 +3743,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Components) {
-        var Alpha = (function (_super) {
-            __extends(Alpha, _super);
-            function Alpha(value) {
-                if (typeof value === "undefined") { value = 0; }
-                _super.call(this, 'Alpha');
-                this._alpha0 = 0;
-
-                this.updated = new Kiwi.Signal();
-
-                this.alpha(value);
-            }
-            Alpha.prototype.objType = function () {
-                return "Alpha";
-            };
-
-            Alpha.prototype.alpha = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._alpha0) {
-                    if (value > 1)
-                        value = 1; else if (value < 0)
-                        value = 0;
-                    this._alpha0 = value;
-                    this.cssOpactiy = value.toString();
-                    this.dirty = true;
-                    this.updated.dispatch(this._alpha0, this.cssOpactiy);
-                }
-
-                return this._alpha0;
-            };
-
-            Alpha.prototype.addAlpha = function (value) {
-                if (value !== null && value > 0) {
-                    if (value + this._alpha0 > 1) {
-                        return this.alpha(1);
-                    } else {
-                        return this.alpha(value + this._alpha0);
-                    }
-                }
-
-                return this._alpha0;
-            };
-
-            Alpha.prototype.subAlpha = function (value) {
-                if (value !== null && value > 0) {
-                    if (this._alpha0 - value < 0) {
-                        return this.alpha(0);
-                    } else {
-                        return this.alpha(this._alpha0 - value);
-                    }
-                }
-
-                return this._alpha0;
-            };
-
-            Alpha.prototype.addStyleUpdates = function (entity) {
-                if (entity === null) {
-                    return;
-                }
-            };
-
-            Alpha.prototype.addStyleImmediately = function (entity) {
-            };
-
-            Alpha.prototype.setContext = function (canvas) {
-                if (this._alpha0 >= 0 && this._alpha0 < 1) {
-                    canvas.context.globalAlpha = this._alpha0;
-                }
-            };
-
-            Alpha.prototype.setCSS = function (element) {
-                element.style.opacity = this.cssOpactiy;
-
-                return element;
-            };
-
-            Alpha.prototype.toString = function () {
-                return '[{Alpha (opacity=' + this._alpha0 + ')}]';
-            };
-            return Alpha;
-        })(Kiwi.Component);
-        Components.Alpha = Alpha;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var ArcadePhysics = (function (_super) {
-            __extends(ArcadePhysics, _super);
-            function ArcadePhysics(entity) {
-                _super.call(this, 'ArcadePhysics');
-                this._callbackFunction = null;
-                this._callbackContext = null;
-
-                this._parent = entity;
-                this.transform = this._parent.transform;
-                this.width = this._parent.width;
-                this.height = this._parent.height;
-
-                this.last = new Kiwi.Geom.Point(this.transform.x, this.transform.y);
-                this.mass = 1.0;
-                this.elasticity = 0.0;
-
-                this.immovable = false;
-                this.moves = true;
-
-                this.touching = ArcadePhysics.NONE;
-                this.wasTouching = ArcadePhysics.NONE;
-                this.allowCollisions = ArcadePhysics.ANY;
-
-                this.velocity = new Kiwi.Geom.Point();
-                this.acceleration = new Kiwi.Geom.Point();
-                this.drag = new Kiwi.Geom.Point();
-                this.maxVelocity = new Kiwi.Geom.Point(10000, 10000);
-
-                this.angle = 0;
-                this.angularVelocity = 0;
-                this.angularAcceleration = 0;
-                this.angularDrag = 0;
-                this.maxAngular = 10000;
-            }
-            ArcadePhysics.prototype.objType = function () {
-                return "ArcadePhysics";
-            };
-
-            ArcadePhysics.prototype.solid = function (value) {
-                if (value !== undefined) {
-                    if (value)
-                        this.allowCollisions = ArcadePhysics.ANY; else
-                        this.allowCollisions = ArcadePhysics.NONE;
-                }
-
-                return (this.allowCollisions & ArcadePhysics.ANY) > ArcadePhysics.NONE;
-            };
-
-            ArcadePhysics.collide = function (gameObject1, gameObject2, seperate) {
-                if (typeof seperate === "undefined") { seperate = true; }
-                return ArcadePhysics.overlaps(gameObject1, gameObject2, seperate);
-            };
-
-            ArcadePhysics.collideGroup = function (gameObject, group, seperate) {
-                if (typeof seperate === "undefined") { seperate = true; }
-                return ArcadePhysics.overlapsObjectGroup(gameObject, group, seperate);
-            };
-
-            ArcadePhysics.collideGroupGroup = function (group1, group2, seperate) {
-                if (typeof seperate === "undefined") { seperate = true; }
-                return ArcadePhysics.overlapsGroupGroup(group1, group2, seperate);
-            };
-
-            ArcadePhysics.overlaps = function (gameObject1, gameObject2, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = true; }
-                var obj1Physics = gameObject1.components.getComponent("ArcadePhysics");
-
-                return obj1Physics.overlaps(gameObject2, separateObjects);
-            };
-
-            ArcadePhysics.overlapsObjectGroup = function (gameObject, group, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = true; }
-                var objPhysics = gameObject.components.getComponent("ArcadePhysics");
-                return objPhysics.overlapsGroup(group, separateObjects);
-            };
-
-            ArcadePhysics.overlapsGroupGroup = function (group1, group2, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = true; }
-                var result = false;
-                var members = group1.members;
-                var i = 0;
-
-                while (i < group1.members.length) {
-                    if (members[i].childType() == Kiwi.GROUP) {
-                        console.log('Branch');
-                        if (ArcadePhysics.overlapsGroupGroup(members[i++], group2, separateObjects))
-                            result = true;
-                    } else {
-                        console.log('Leaf');
-                        if (ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects))
-                            result = true;
-                    }
-                }
-
-                return result;
-            };
-
-            ArcadePhysics.separate = function (object1, object2) {
-                var separatedX = this.separateX(object1, object2);
-                var separatedY = this.separateY(object1, object2);
-                return separatedX || separatedY;
-            };
-
-            ArcadePhysics.separateX = function (object1, object2) {
-                var phys1 = object1.components._components["ArcadePhysics"];
-                var phys2 = object2.components._components["ArcadePhysics"];
-
-                var obj1immovable = phys1.immovable;
-                var obj2immovable = phys2.immovable;
-                if (obj1immovable && obj2immovable)
-                    return false;
-
-                var overlap = 0;
-                var obj1delta = phys1.transform.x - phys1.last.x;
-                var obj2delta = phys2.transform.x - phys2.last.x;
-
-                if (obj1delta != obj2delta) {
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.height);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.height);
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                        if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.x + phys1.width - phys2.transform.x;
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.RIGHT;
-                                phys2.touching |= ArcadePhysics.LEFT;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.x - phys2.width - phys2.transform.x;
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.LEFT;
-                                phys2.touching |= ArcadePhysics.RIGHT;
-                            }
-                        }
-                    }
-                }
-
-                if (overlap != 0) {
-                    var obj1v = phys1.velocity.x;
-                    var obj2v = phys2.velocity.x;
-
-                    if (!obj1immovable && !obj2immovable) {
-                        overlap *= 0.5;
-                        phys1.transform.x = phys1.transform.x - overlap;
-                        phys2.transform.x = phys2.transform.x + overlap;
-
-                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
-                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
-                        var average = (obj1velocity + obj2velocity) * 0.5;
-                        obj1velocity -= average;
-                        obj2velocity -= average;
-                        phys1.velocity.x = average + obj1velocity * phys1.elasticity;
-                        phys2.velocity.x = average + obj2velocity * phys2.elasticity;
-                    } else if (!obj1immovable) {
-                        phys1.transform.x = phys1.transform.x - overlap;
-                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
-                    } else if (!obj2immovable) {
-                        phys2.transform.x = phys2.transform.x + overlap;
-                        phys2.velocity.x = obj1v - obj2v * phys2.elasticity;
-                    }
-                    return true;
-                } else
-                    return false;
-            };
-
-            ArcadePhysics.separateY = function (object1, object2) {
-                var phys1 = object1.components._components["ArcadePhysics"];
-                var phys2 = object2.components._components["ArcadePhysics"];
-
-                var obj1immovable = phys1.immovable;
-                var obj2immovable = phys2.immovable;
-                if (obj1immovable && obj2immovable)
-                    return false;
-
-                var overlap = 0;
-
-                var obj1delta = phys1.transform.y - phys1.last.y;
-
-                var obj2delta = phys2.transform.y - phys2.last.y;
-                if (obj1delta != obj2delta) {
-                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
-                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x, phys1.transform.y - ((obj1delta > 0) ? obj1delta : 0), phys1.width, phys1.height + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x, phys2.transform.y - ((obj2delta > 0) ? obj2delta : 0), phys2.width, phys2.height + obj2deltaAbs);
-                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
-                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
-
-                        if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.y + phys1.height - phys2.transform.y;
-                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.DOWN;
-                                phys2.touching |= ArcadePhysics.UP;
-                            }
-                        } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.y - phys2.height - phys2.transform.y;
-                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
-                                overlap = 0;
-                            } else {
-                                phys1.touching |= ArcadePhysics.UP;
-                                phys2.touching |= ArcadePhysics.DOWN;
-                            }
-                        }
-                    }
-                }
-
-                if (overlap != 0) {
-                    var obj1v = phys1.velocity.y;
-                    var obj2v = phys2.velocity.y;
-
-                    if (!obj1immovable && !obj2immovable) {
-                        overlap *= 0.5;
-                        phys1.transform.y = phys1.transform.y - overlap;
-                        phys2.transform.y = phys2.transform.y + overlap;
-
-                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
-                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
-                        var average = (obj1velocity + obj2velocity) * 0.5;
-                        obj1velocity -= average;
-                        obj2velocity -= average;
-                        phys1.velocity.y = average + obj1velocity * phys1.elasticity;
-                        phys2.velocity.y = average + obj2velocity * phys2.elasticity;
-                    } else if (!obj1immovable) {
-                        phys1.transform.y = phys1.transform.y - overlap;
-                        phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
-
-                        if (object2.active && phys2.moves && (obj1delta > obj2delta))
-                            phys1.transform.x = phys1.transform.x + object2.transform.x - phys2.last.x;
-                    } else if (!obj2immovable) {
-                        phys2.transform.y = phys2.transform.y + overlap;
-                        phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
-
-                        if (object1.active && phys1.moves && (obj1delta < obj2delta))
-                            phys2.transform.x = phys2.transform.x + object1.transform.x - phys1.last.x;
-                    }
-                    return true;
-                } else
-                    return false;
-            };
-
-            ArcadePhysics.computeVelocity = function (velocity, acceleration, drag, max) {
-                if (typeof acceleration === "undefined") { acceleration = 0; }
-                if (typeof drag === "undefined") { drag = 0; }
-                if (typeof max === "undefined") { max = 10000; }
-                if (acceleration != 0)
-                    velocity += acceleration * ArcadePhysics.updateInterval; else if (drag != 0) {
-                    drag = drag * ArcadePhysics.updateInterval;
-                    if (velocity - drag > 0)
-                        velocity = velocity - drag; else if (velocity + drag < 0)
-                        velocity += drag; else
-                        velocity = 0;
-                }
-                if ((velocity != 0) && (max != 10000)) {
-                    if (velocity > max)
-                        velocity = max; else if (velocity < -max)
-                        velocity = -max;
-                }
-                return velocity;
-            };
-
-            ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                var objTransform = gameObject.transform;
-
-                var result = (objTransform.x + gameObject.width > this.transform.x) && (objTransform.x < this.transform.x + this.width) && (objTransform.y + gameObject.height > this.transform.y) && (objTransform.y < this.transform.y + this.height);
-
-                if (result && separateObjects) {
-                    ArcadePhysics.separate(this._parent, gameObject);
-                }
-
-                if (result && this._callbackFunction !== null && this._callbackContext !== null) {
-                    this._callbackFunction.call(this._callbackContext, this._parent, gameObject);
-                }
-
-                return result;
-            };
-
-            ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
-                if (typeof separateObjects === "undefined") { separateObjects = false; }
-                var results = false;
-                var childPhysics;
-
-                for (var i = 0; i < group.members.length; i++) {
-                    if (group.members[i].childType() === Kiwi.GROUP) {
-                        console.log('Group');
-
-                        this.overlapsGroup(group.members[i], separateObjects);
-                    } else {
-                        console.log('Entity');
-
-                        if (this.overlaps(group.members[i], separateObjects)) {
-                            if (this._callbackContext !== null && this._callbackFunction !== null)
-                                this._callbackFunction.call(this._callbackContext, this._parent, childPhysics.parent());
-                            results = true;
-                        }
-                    }
-                }
-
-                return results;
-            };
-
-            ArcadePhysics.prototype.updateMotion = function () {
-                var delta;
-                var velocityDelta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
-                this.angularVelocity += velocityDelta;
-                this.angle += this.angularVelocity * ArcadePhysics.updateInterval;
-                this.angularVelocity += velocityDelta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
-                this.velocity.x += velocityDelta;
-                delta = this.velocity.x * ArcadePhysics.updateInterval;
-                this.velocity.x += velocityDelta;
-                this.transform.x = this.transform.x + delta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
-                this.velocity.y += velocityDelta;
-                delta = this.velocity.y * ArcadePhysics.updateInterval;
-                this.velocity.y += velocityDelta;
-                this.transform.y = this.transform.y + delta;
-            };
-
-            ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
-                this._callbackFunction = callbackFunction;
-                this._callbackContext = callbackContext;
-            };
-
-            ArcadePhysics.prototype.parent = function () {
-                return this._parent;
-            };
-
-            ArcadePhysics.prototype.update = function () {
-                this.last.x = this.transform.x;
-                this.last.y = this.transform.y;
-
-                this.width = this._parent.width;
-                this.height = this._parent.height;
-
-                if (this.moves)
-                    this.updateMotion();
-
-                this.wasTouching = this.touching;
-                this.touching = ArcadePhysics.NONE;
-            };
-            ArcadePhysics.updateInterval = 1 / 10;
-
-            ArcadePhysics.LEFT = 0x0001;
-
-            ArcadePhysics.RIGHT = 0x0010;
-
-            ArcadePhysics.UP = 0x0100;
-
-            ArcadePhysics.DOWN = 0x1000;
-
-            ArcadePhysics.NONE = 0;
-
-            ArcadePhysics.CEILING = ArcadePhysics.UP;
-
-            ArcadePhysics.FLOOR = ArcadePhysics.DOWN;
-
-            ArcadePhysics.WALL = ArcadePhysics.LEFT | ArcadePhysics.RIGHT;
-
-            ArcadePhysics.ANY = ArcadePhysics.LEFT | ArcadePhysics.RIGHT | ArcadePhysics.UP | ArcadePhysics.DOWN;
-
-            ArcadePhysics.OVERLAP_BIAS = 4;
-            return ArcadePhysics;
-        })(Kiwi.Component);
-        Components.ArcadePhysics = ArcadePhysics;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Bounds = (function (_super) {
-            __extends(Bounds, _super);
-            function Bounds(x, y, width, height) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof width === "undefined") { width = 0; }
-                if (typeof height === "undefined") { height = 0; }
-                _super.call(this, 'Bounds');
-                this.showDebug = false;
-                this.debugLineColor = 0xffff0000;
-
-                this._rect = new Kiwi.Geom.Rectangle(x, y, width, height);
-                this._AABB = new Kiwi.Geom.Rectangle(x, y, width, height);
-
-                this.offsetX = 0;
-                this.offsetY = 0;
-                this.offsetWidth = 0;
-                this.offsetHeight = 0;
-            }
-            Bounds.prototype.objType = function () {
-                return "Bounds";
-            };
-
-            Bounds.prototype.pointWithin = function (point) {
-                return this._rect.containsPoint(point);
-            };
-
-            Bounds.prototype.calculateBounds = function (transform, position, size) {
-                var centerPoint = new Kiwi.Geom.Point(size.width() / 2, size.height() / 2);
-                var topLeftPoint = new Kiwi.Geom.Point(0, 0);
-                var bottomLeftPoint = new Kiwi.Geom.Point(0, size.height());
-                var topRightPoint = new Kiwi.Geom.Point(size.width(), 0);
-                var bottomRightPoint = new Kiwi.Geom.Point(size.width(), size.height());
-
-                var posx = position.x();
-                var posy = position.y();
-                var ox = position.transformPoint().x;
-                var oy = position.transformPoint().y;
-
-                this._transformPoint(centerPoint, transform, posx, posy, ox, oy);
-                this._transformPoint(topLeftPoint, transform, posx, posy, ox, oy);
-                this._transformPoint(bottomLeftPoint, transform, posx, posy, ox, oy);
-                this._transformPoint(topRightPoint, transform, posx, posy, ox, oy);
-                this._transformPoint(bottomRightPoint, transform, posx, posy, ox, oy);
-
-                var left = Math.min(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
-                var right = Math.max(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
-                var top = Math.min(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
-                var bottom = Math.max(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
-
-                this._AABB = new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
-
-                var sx = Math.abs(transform.scaleX);
-                var sy = Math.abs(transform.scaleY);
-
-                var ubW = (size.width() - this.offsetWidth) * sx;
-                var ubH = (size.height() - this.offsetHeight) * sy;
-                var ubX = (centerPoint.x - this.offsetX * sx) - ubW / 2;
-                var ubY = (centerPoint.y - this.offsetY * sy) - ubH / 2;
-
-                this._rect = new Kiwi.Geom.Rectangle(ubX, ubY, ubW, ubH);
-            };
-
-            Bounds.prototype._transformPoint = function (point, trans, x, y, ox, oy) {
-                point.x -= ox;
-                point.y -= oy;
-
-                point = trans.transformPoint(point);
-
-                point.x += ox + x;
-                point.y += oy + y;
-            };
-
-            Bounds.prototype.getRect = function () {
-                var rect = this._rect.clone();
-                return rect;
-            };
-
-            Bounds.prototype.getOffsetRect = function () {
-                var rect = this._rect.clone();
-                rect.x += this.offsetX;
-                rect.y += this.offsetY;
-                rect.width += this.offsetWidth;
-                rect.height += this.offsetHeight;
-
-                return rect;
-            };
-
-            Bounds.prototype.getAABB = function () {
-                var rect = this._AABB.clone();
-
-                return rect;
-            };
-
-            Bounds.prototype.setTo = function (x, y, width, height) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof width === "undefined") { width = 0; }
-                if (typeof height === "undefined") { height = 0; }
-                this._rect.setTo(x, y, width, height);
-            };
-
-            Bounds.prototype.setSize = function (width, height) {
-                this._rect.setTo(this._rect.x, this._rect.y, width, height);
-            };
-            Bounds.prototype.setPosition = function (x, y) {
-                this._rect.setTo(x, y, this._rect.width, this._rect.height);
-            };
-
-            Bounds.prototype.drawCanvasDebugOutline = function (layer) {
-                layer.canvas.context.strokeStyle = 'rgba(0, 255, 0, 0.8)';
-                layer.canvas.context.beginPath();
-                layer.canvas.context.rect(this._rect.x, this._rect.y, this._rect.width, this._rect.height);
-                layer.canvas.context.stroke();
-                layer.canvas.context.closePath();
-            };
-
-            Bounds.prototype.toString = function () {
-                return '[{Bounds (x=' + this._rect.x + ')}]';
-            };
-            return Bounds;
-        })(Kiwi.Component);
-        Components.Bounds = Bounds;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Color = (function (_super) {
-            __extends(Color, _super);
-            function Color(red, green, blue, alpha) {
-                if (typeof red === "undefined") { red = 0; }
-                if (typeof green === "undefined") { green = 0; }
-                if (typeof blue === "undefined") { blue = 0; }
-                if (typeof alpha === "undefined") { alpha = 1; }
-                _super.call(this, 'Color');
-                this._skipUpdate = false;
-
-                this.updated = new Kiwi.Signal();
-
-                this._skipUpdate = true;
-
-                this.red(red);
-                this.green(green);
-                this.blue(blue);
-                this.alpha(alpha);
-                this._skipUpdate = false;
-
-                this._processUpdate();
-            }
-            Color.prototype.objType = function () {
-                return "Color";
-            };
-
-            Color.prototype.addStyleUpdates = function (entity) {
-                if (entity === null) {
-                    return;
-                }
-            };
-
-            Color.prototype.addStyleImmediately = function (entity) {
-            };
-
-            Color.prototype._processUpdate = function () {
-                this.cssColorHex = '#' + this._colorToHexstring(this._red) + this._colorToHexstring(this._green) + this._colorToHexstring(this._blue);
-                this.cssColorRGB = 'rgb(' + this._red + ',' + this._green + ',' + this._blue + ')';
-                this.cssColorRGBA = 'rgba(' + this._red + ',' + this._green + ',' + this._blue + ',' + this._alpha + ')';
-                this.dirty = true;
-
-                this.updated.dispatch(this._red, this._green, this._blue, this._alpha, this.cssColorHex, this.cssColorRGB, this.cssColorRGBA);
-            };
-
-            Color.prototype.setRGBA = function (red, green, blue, alpha) {
-                if (typeof red === "undefined") { red = 0; }
-                if (typeof green === "undefined") { green = 0; }
-                if (typeof blue === "undefined") { blue = 0; }
-                if (typeof alpha === "undefined") { alpha = 1; }
-                this._skipUpdate = true;
-
-                this.red(red);
-                this.green(green);
-                this.blue(blue);
-                this.alpha(alpha);
-
-                this._skipUpdate = false;
-
-                this._processUpdate();
-            };
-
-            Color.prototype.setColor = function (value) {
-                this._skipUpdate = true;
-
-                this._color = value;
-                this.alpha((value >>> 24) / 255);
-                this.red(value >> 16 & 0xFF);
-                this.green(value >> 8 & 0xFF);
-                this.blue(value & 0xFF);
-
-                this._skipUpdate = false;
-
-                this._processUpdate();
-            };
-
-            Color.prototype.getColor = function () {
-                return this._color;
-            };
-
-            Color.prototype.red = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._red) {
-                    if (value >= 0 && value <= 255) {
-                        this._red = value;
-
-                        if (this._skipUpdate === false) {
-                            this._processUpdate();
-                        }
-                    }
-                }
-
-                return this._red;
-            };
-
-            Color.prototype.green = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._green) {
-                    if (value >= 0 && value <= 255) {
-                        this._green = value;
-
-                        if (this._skipUpdate === false) {
-                            this._processUpdate();
-                        }
-                    }
-                }
-
-                return this._green;
-            };
-
-            Color.prototype.blue = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._blue) {
-                    if (value >= 0 && value <= 255) {
-                        this._blue = value;
-
-                        if (this._skipUpdate === false) {
-                            this._processUpdate();
-                        }
-                    }
-                }
-
-                return this._blue;
-            };
-
-            Color.prototype.alpha = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._alpha) {
-                    if (value >= 0 && value <= 1) {
-                        this._alpha = value;
-
-                        if (this._skipUpdate === false) {
-                            this._processUpdate();
-                        }
-                    }
-                }
-
-                return this._alpha;
-            };
-
-            Color.prototype.setRandomColor = function (min, max, alpha) {
-                if (typeof min === "undefined") { min = 0; }
-                if (typeof max === "undefined") { max = 255; }
-                if (typeof alpha === "undefined") { alpha = 1; }
-                if (max > 255) {
-                    klog.info("Color Warning: getRandomColor - max value too high");
-                    this.setRGBA(255, 255, 255);
-                }
-
-                if (min > max) {
-                    klog.info("Color Warning: getRandomColor - min value higher than max");
-                    this.setRGBA(255, 255, 255);
-                }
-
-                var red = min + Math.round(Math.random() * (max - min));
-                var green = min + Math.round(Math.random() * (max - min));
-                var blue = min + Math.round(Math.random() * (max - min));
-
-                this.setRGBA(red, green, blue, alpha);
-            };
-
-            Color.prototype._colorToHexstring = function (color) {
-                var digits = "0123456789ABCDEF";
-
-                var lsd = color % 16;
-                var msd = (color - lsd) / 16;
-
-                var hexified = digits.charAt(msd) + digits.charAt(lsd);
-
-                return hexified;
-            };
-            return Color;
-        })(Kiwi.Component);
-        Components.Color = Color;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Input = (function (_super) {
-            __extends(Input, _super);
-            function Input(entity, bounds) {
-                _super.call(this, 'Input');
-                this._dragEnabled = false;
-                this._dragSnapToCenter = false;
-
-                this.inputEntered = new Kiwi.Signal();
-                this.inputLeft = new Kiwi.Signal();
-                this.inputOnDown = new Kiwi.Signal();
-                this.inputOnRelease = new Kiwi.Signal();
-                this.inputDragStarted = new Kiwi.Signal();
-                this.inputDragStopped = new Kiwi.Signal();
-
-                this._entity = entity;
-                this._bounds = bounds;
-                this.pointDown = new Kiwi.Geom.Point();
-
-                this.distance = new Kiwi.Geom.Point();
-                this.withinBounds = false;
-                this.outsideBounds = true;
-                this.isUp = true;
-                this.isDown = false;
-                this.isDragging = false;
-                this._justEntered = false;
-                this._tempDragDisabled = false;
-            }
-            Input.prototype.objType = function () {
-                return "Input";
-            };
-
-            Input.prototype.enableDrag = function (snapToCenter, distance) {
-                if (typeof snapToCenter === "undefined") { snapToCenter = false; }
-                if (typeof distance === "undefined") { distance = 1; }
-                this._dragEnabled = true;
-                this._dragSnapToCenter = snapToCenter;
-                this._dragDistance = distance;
-                this.isDragging = false;
-            };
-
-            Input.prototype.disableDrag = function () {
-                this._dragEnabled = false;
-                this.isDragging = false;
-            };
-
-            Input.prototype.update = function () {
-                if (!this._entity.game || this._entity.active === false || this._entity.willRender === false) {
-                    return;
-                }
-
-                if (this._bounds.pointWithin(this._entity.game.input.position)) {
-                    this.distance.x = this._entity.game.input.position.x - this._bounds.getRect().left;
-                    this.distance.y = this._entity.game.input.position.y - this._bounds.getRect().top;
-
-                    if (this.withinBounds === false) {
-                        this.withinBounds = true;
-                        this.outsideBounds = false;
-                        this._justEntered = true;
-                        this.inputEntered.dispatch(this._entity, this.distance.x, this.distance.y);
-                    }
-                } else {
-                    if (this.withinBounds === true && this.isDragging === false) {
-                        this.withinBounds = false;
-                        this.outsideBounds = true;
-                        this.inputLeft.dispatch(this._entity);
-                    }
-                }
-
-                if (this._entity.game.input.isDown === true) {
-                    if (this._justEntered) {
-                        this.isDown = true;
-                        this.isUp = false;
-                        this._tempDragDisabled = true;
-                    }
-
-                    if (this.withinBounds === true && this.isDown === false) {
-                        this.isDown = true;
-                        this.isUp = false;
-                        this.pointDown.copyFrom(this.distance);
-                        this.inputOnDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
-                    }
-
-                    if (this._dragEnabled === true && this.isDragging === false && this._tempDragDisabled === false) {
-                        if (this.isDown === true && this.pointDown.distanceTo(this.distance) >= this._dragDistance) {
-                            this.isDragging = true;
-
-                            if (this._dragSnapToCenter === true) {
-                                this.pointDown = this._bounds.getRect().center;
-                            }
-
-                            this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
-                        }
-                    }
-                } else {
-                    if (this.isDragging === true) {
-                        this.isDragging = false;
-                        this.inputDragStopped.dispatch(this._entity);
-                    }
-
-                    if (this._tempDragDisabled === true)
-                        this._tempDragDisabled = false;
-
-                    if (this.isDown === true) {
-                        this.isDown = false;
-                        this.isUp = true;
-                        this.inputOnRelease.dispatch(this._entity);
-                    }
-                }
-
-                if (this._justEntered)
-                    this._justEntered = false;
-            };
-
-            Input.prototype.toString = function () {
-                return '[{Input (x=' + this.withinBounds + ')}]';
-            };
-            return Input;
-        })(Kiwi.Component);
-        Components.Input = Input;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Position = (function (_super) {
-            __extends(Position, _super);
-            function Position(x, y, z) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof z === "undefined") { z = 0; }
-                _super.call(this, 'Position');
-                this._oldX = 0;
-                this._oldY = 0;
-                this._oldZ = 0;
-                this.differenceX = 0;
-                this.differenceY = 0;
-                this.differenceZ = 0;
-                this.autoRound = true;
-                this._wrap = null;
-
-                this.updated = new Kiwi.Signal();
-
-                x = Math.round(x);
-                y = Math.round(y);
-                z = Math.round(z);
-
-                this._point = new Kiwi.Geom.Point(x, y);
-                this._offset = new Kiwi.Geom.Point();
-                this._transformPoint = new Kiwi.Geom.Point();
-                this._z = z;
-
-                this._processUpdate();
-            }
-            Position.prototype.objType = function () {
-                return "Position";
-            };
-
-            Position.prototype.enableWrap = function (x, y, width, height) {
-                if (this._wrap === null) {
-                    this._wrap = new Kiwi.Geom.Rectangle();
-                }
-
-                this._wrap.setTo(x, y, width, height);
-            };
-
-            Position.prototype.disableWrap = function () {
-                this._wrap = null;
-            };
-
-            Position.prototype.addStyleUpdates = function (entity) {
-            };
-
-            Position.prototype.addStyleImmediately = function (entity) {
-            };
-
-            Position.prototype._processUpdate = function () {
-                this._point = this._point.addTo(this._offset.x, this._offset.y);
-
-                if (this._wrap !== null && this._wrap.containsPoint(this._point) === false) {
-                    this._point.x = Kiwi.Utils.GameMath.wrap(this._point.x, this._wrap.right, this._wrap.x);
-                    this._point.y = Kiwi.Utils.GameMath.wrap(this._point.y, this._wrap.bottom, this._wrap.y);
-                }
-
-                this.differenceX = Kiwi.Utils.GameMath.difference(this._oldX, this._point.x);
-                this.differenceY = Kiwi.Utils.GameMath.difference(this._oldY, this._point.y);
-                this.differenceZ = Kiwi.Utils.GameMath.difference(this._oldZ, this._z);
-
-                if (!this.autoRound) {
-                    if (this._oldX > this._point.x)
-                        this.differenceX = -this.differenceX;
-                    if (this._oldY > this._point.y)
-                        this.differenceY = -this.differenceY;
-                    if (this._oldZ > this._z)
-                        this.differenceZ = -this.differenceZ;
-                }
-
-                this.cssTranslate3d = 'translate3d(' + this._point.x + 'px, ' + this._point.y + 'px, ' + this._z + 'px)';
-                this.cssLeft = this._point.x + 'px';
-                this.cssTop = this._point.y + 'px';
-
-                this.dirty = true;
-
-                this.updated.dispatch(this._point.x, this._point.y, this._z, this.cssTranslate3d, this.cssLeft, this.cssTop);
-            };
-
-            Position.prototype.x = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._point.x) {
-                    if (this.autoRound) {
-                        value = Math.round(value);
-                    }
-
-                    this._storeOldPosition();
-                    this._point.x = value;
-                    this._processUpdate();
-                }
-
-                return this._point.x;
-            };
-
-            Position.prototype.y = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._point.y) {
-                    if (this.autoRound) {
-                        value = Math.round(value);
-                    }
-
-                    this._storeOldPosition();
-                    this._point.y = value;
-                    this._processUpdate();
-                }
-
-                return this._point.y;
-            };
-
-            Position.prototype.z = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._z) {
-                    if (this.autoRound) {
-                        value = Math.round(value);
-                    }
-
-                    this._storeOldPosition();
-                    this._z = value;
-                    this._processUpdate();
-                }
-
-                return this._z;
-            };
-
-            Position.prototype.addTo = function (x, y, z) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof z === "undefined") { z = 0; }
-                this._storeOldPosition();
-                this._point.addTo(x, y);
-                this._z += z;
-                this._processUpdate();
-            };
-
-            Position.prototype._storeOldPosition = function () {
-                this._oldX = this._point.x;
-                this._oldY = this._point.y;
-                this._oldZ = this._z;
-            };
-
-            Position.prototype.subtractFrom = function (x, y, z) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof z === "undefined") { z = 0; }
-                this._storeOldPosition();
-                this._point.subtractFrom(x, y);
-                this._z -= z;
-                this._processUpdate();
-            };
-
-            Position.prototype.equals = function (x, y) {
-                if (this._point.x === x && this._point.y === y) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Position.prototype.setTo = function (x, y, z) {
-                if (typeof z === "undefined") { z = 0; }
-                if (this._point.x !== x || this._point.y !== y || this._z !== z) {
-                    if (this.autoRound) {
-                        x = Math.round(x);
-                        y = Math.round(y);
-                        z = Math.round(z);
-                    }
-
-                    this._storeOldPosition();
-                    this._point.setTo(x, y);
-                    this._z = z;
-                    this._processUpdate();
-                }
-            };
-
-            Position.prototype.setOffset = function (x, y) {
-                if (this._offset.x !== x || this._offset.y !== y) {
-                    if (this.autoRound) {
-                        x = Math.round(x);
-                        y = Math.round(y);
-                    }
-
-                    this._offset.setTo(x, y);
-                    this._processUpdate();
-                }
-            };
-
-            Position.prototype.setPositionFromPoint = function (point) {
-                if (this._point.x !== point.x || this._point.y !== point.y) {
-                    this._storeOldPosition();
-                    this._point.copyFrom(point);
-                    this._processUpdate();
-                }
-            };
-
-            Position.prototype.transformPoint = function (point) {
-                if (point) {
-                    this._transformPoint.copyFrom(point);
-                    this._processUpdate();
-                }
-
-                return this._transformPoint;
-            };
-
-            Position.prototype.getPositionAsPoint = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.copyFrom(this._point);
-            };
-
-            Position.prototype.toString = function () {
-                return '[{Position (x=' + this._point.x + ' y=' + this._point.y + ' z=' + this._z + ')}]';
-            };
-            return Position;
-        })(Kiwi.Component);
-        Components.Position = Position;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Utils) {
-        var GameMath = (function () {
-            function GameMath() {
-            }
-            GameMath.prototype.objType = function () {
-                return "GameMath";
-            };
-
-            GameMath.computeMachineEpsilon = function () {
-                var fourThirds = 4.0 / 3.0;
-                var third = fourThirds - 1.0;
-                var one = third + third + third;
-                return Math.abs(1.0 - one);
-            };
-
-            GameMath.fuzzyEqual = function (a, b, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return Math.abs(a - b) < epsilon;
-            };
-
-            GameMath.fuzzyLessThan = function (a, b, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return a < b + epsilon;
-            };
-
-            GameMath.fuzzyGreaterThan = function (a, b, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return a > b - epsilon;
-            };
-
-            GameMath.fuzzyCeil = function (val, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return Math.ceil(val - epsilon);
-            };
-
-            GameMath.fuzzyFloor = function (val, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return Math.floor(val + epsilon);
-            };
-
-            GameMath.average = function () {
-                var args = [];
-                for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                    args[_i] = arguments[_i + 0];
-                }
-                var avg = 0;
-
-                for (var i = 0; i < args.length; i++) {
-                    avg += args[i];
-                }
-
-                return avg / args.length;
-            };
-
-            GameMath.slam = function (value, target, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return (Math.abs(value - target) < epsilon) ? target : value;
-            };
-
-            GameMath.percentageMinMax = function (val, max, min) {
-                if (typeof min === "undefined") { min = 0; }
-                val -= min;
-                max -= min;
-
-                if (!max)
-                    return 0; else
-                    return val / max;
-            };
-
-            GameMath.sign = function (n) {
-                if (n)
-                    return n / Math.abs(n); else
-                    return 0;
-            };
-
-            GameMath.truncate = function (n) {
-                return (n > 0) ? Math.floor(n) : Math.ceil(n);
-            };
-
-            GameMath.shear = function (n) {
-                return n % 1;
-            };
-
-            GameMath.wrap = function (val, max, min) {
-                if (typeof min === "undefined") { min = 0; }
-                val -= min;
-                max -= min;
-                if (max == 0)
-                    return min;
-                val %= max;
-                val += min;
-                while (val < min)
-                    val += max;
-
-                return val;
-            };
-
-            GameMath.arithWrap = function (value, max, min) {
-                if (typeof min === "undefined") { min = 0; }
-                max -= min;
-                if (max == 0)
-                    return min;
-                return value - max * Math.floor((value - min) / max);
-            };
-
-            GameMath.clamp = function (input, max, min) {
-                if (typeof min === "undefined") { min = 0; }
-                return Math.max(min, Math.min(max, input));
-            };
-
-            GameMath.snapTo = function (input, gap, start) {
-                if (typeof start === "undefined") { start = 0; }
-                if (gap == 0)
-                    return input;
-
-                input -= start;
-                input = gap * Math.round(input / gap);
-                return start + input;
-            };
-
-            GameMath.snapToFloor = function (input, gap, start) {
-                if (typeof start === "undefined") { start = 0; }
-                if (gap == 0)
-                    return input;
-
-                input -= start;
-                input = gap * Math.floor(input / gap);
-                return start + input;
-            };
-
-            GameMath.snapToCeil = function (input, gap, start) {
-                if (typeof start === "undefined") { start = 0; }
-                if (gap == 0)
-                    return input;
-
-                input -= start;
-                input = gap * Math.ceil(input / gap);
-                return start + input;
-            };
-
-            GameMath.snapToInArray = function (input, arr, sort) {
-                if (typeof sort === "undefined") { sort = true; }
-                if (sort)
-                    arr.sort();
-                if (input < arr[0])
-                    return arr[0];
-
-                var i = 1;
-
-                while (arr[i] < input)
-                    i++;
-
-                var low = arr[i - 1];
-                var high = (i < arr.length) ? arr[i] : Number.POSITIVE_INFINITY;
-
-                return ((high - input) <= (input - low)) ? high : low;
-            };
-
-            GameMath.roundTo = function (value, place, base) {
-                if (typeof place === "undefined") { place = 0; }
-                if (typeof base === "undefined") { base = 10; }
-                var p = Math.pow(base, -place);
-                return Math.round(value * p) / p;
-            };
-
-            GameMath.floorTo = function (value, place, base) {
-                if (typeof place === "undefined") { place = 0; }
-                if (typeof base === "undefined") { base = 10; }
-                var p = Math.pow(base, -place);
-                return Math.floor(value * p) / p;
-            };
-
-            GameMath.ceilTo = function (value, place, base) {
-                if (typeof place === "undefined") { place = 0; }
-                if (typeof base === "undefined") { base = 10; }
-                var p = Math.pow(base, -place);
-                return Math.ceil(value * p) / p;
-            };
-
-            GameMath.interpolateFloat = function (a, b, weight) {
-                return (b - a) * weight + a;
-            };
-
-            GameMath.radiansToDegrees = function (angle) {
-                return angle * GameMath.RAD_TO_DEG;
-            };
-
-            GameMath.degreesToRadians = function (angle) {
-                return angle * GameMath.DEG_TO_RAD;
-            };
-
-            GameMath.angleBetween = function (x1, y1, x2, y2) {
-                return Math.atan2(y2 - y1, x2 - x1);
-            };
-
-            GameMath.normalizeAngle = function (angle, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                var rd = (radians) ? GameMath.PI : 180;
-                return GameMath.wrap(angle, rd, -rd);
-            };
-
-            GameMath.nearestAngleBetween = function (a1, a2, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                var rd = (radians) ? GameMath.PI : 180;
-
-                a1 = GameMath.normalizeAngle(a1, radians);
-                a2 = GameMath.normalizeAngle(a2, radians);
-
-                if (a1 < -rd / 2 && a2 > rd / 2)
-                    a1 += rd * 2;
-                if (a2 < -rd / 2 && a1 > rd / 2)
-                    a2 += rd * 2;
-
-                return a2 - a1;
-            };
-
-            GameMath.normalizeAngleToAnother = function (dep, ind, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                return ind + Kiwi.Utils.GameMath.nearestAngleBetween(ind, dep, radians);
-            };
-
-            GameMath.normalizeAngleAfterAnother = function (dep, ind, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                dep = Kiwi.Utils.GameMath.normalizeAngle(dep - ind, radians);
-                return ind + dep;
-            };
-
-            GameMath.normalizeAngleBeforeAnother = function (dep, ind, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                dep = Kiwi.Utils.GameMath.normalizeAngle(ind - dep, radians);
-                return ind - dep;
-            };
-
-            GameMath.interpolateAngles = function (a1, a2, weight, radians, ease) {
-                if (typeof radians === "undefined") { radians = true; }
-                if (typeof ease === "undefined") { ease = null; }
-                a1 = Kiwi.Utils.GameMath.normalizeAngle(a1, radians);
-                a2 = Kiwi.Utils.GameMath.normalizeAngleToAnother(a2, a1, radians);
-
-                return (typeof ease === 'function') ? ease(weight, a1, a2 - a1, 1) : Kiwi.Utils.GameMath.interpolateFloat(a1, a2, weight);
-            };
-
-            GameMath.logBaseOf = function (value, base) {
-                return Math.log(value) / Math.log(base);
-            };
-
-            GameMath.GCD = function (m, n) {
-                var r;
-
-                m = Math.abs(m);
-                n = Math.abs(n);
-
-                if (m < n) {
-                    r = m;
-                    m = n;
-                    n = r;
-                }
-
-                while (true) {
-                    r = m % n;
-                    if (!r)
-                        return n;
-                    m = n;
-                    n = r;
-                }
-
-                return 1;
-            };
-
-            GameMath.LCM = function (m, n) {
-                return (m * n) / Kiwi.Utils.GameMath.GCD(m, n);
-            };
-
-            GameMath.factorial = function (value) {
-                if (value == 0)
-                    return 1;
-
-                var res = value;
-
-                while (--value) {
-                    res *= value;
-                }
-
-                return res;
-            };
-
-            GameMath.gammaFunction = function (value) {
-                return Kiwi.Utils.GameMath.factorial(value - 1);
-            };
-
-            GameMath.fallingFactorial = function (base, exp) {
-                return Kiwi.Utils.GameMath.factorial(base) / Kiwi.Utils.GameMath.factorial(base - exp);
-            };
-
-            GameMath.risingFactorial = function (base, exp) {
-                return Kiwi.Utils.GameMath.factorial(base + exp - 1) / Kiwi.Utils.GameMath.factorial(base - 1);
-            };
-
-            GameMath.binCoef = function (n, k) {
-                return Kiwi.Utils.GameMath.fallingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
-            };
-
-            GameMath.risingBinCoef = function (n, k) {
-                return Kiwi.Utils.GameMath.risingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
-            };
-
-            GameMath.chanceRoll = function (chance) {
-                if (typeof chance === "undefined") { chance = 50; }
-                if (chance <= 0) {
-                    return false;
-                } else if (chance >= 100) {
-                    return true;
-                } else {
-                    if (Math.random() * 100 >= chance) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
-            };
-
-            GameMath.maxAdd = function (value, amount, max) {
-                value += amount;
-
-                if (value > max) {
-                    value = max;
-                }
-
-                return value;
-            };
-
-            GameMath.minSub = function (value, amount, min) {
-                value -= amount;
-
-                if (value < min) {
-                    value = min;
-                }
-
-                return value;
-            };
-
-            GameMath.wrapValue = function (value, amount, max) {
-                var diff;
-
-                value = Math.abs(value);
-                amount = Math.abs(amount);
-                max = Math.abs(max);
-
-                diff = (value + amount) % max;
-
-                return diff;
-            };
-
-            GameMath.randomSign = function () {
-                return (Math.random() > 0.5) ? 1 : -1;
-            };
-
-            GameMath.isOdd = function (n) {
-                if (n & 1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            GameMath.isEven = function (n) {
-                if (n & 1) {
-                    return false;
-                } else {
-                    return true;
-                }
-            };
-
-            GameMath.wrapAngle = function (angle) {
-                var result = angle;
-
-                if (angle >= -180 && angle <= 180) {
-                    return angle;
-                }
-
-                result = (angle + 180) % 360;
-
-                if (result < 0) {
-                    result += 360;
-                }
-
-                return result - 180;
-            };
-
-            GameMath.angleLimit = function (angle, min, max) {
-                var result = angle;
-
-                if (angle > max) {
-                    result = max;
-                } else if (angle < min) {
-                    result = min;
-                }
-
-                return result;
-            };
-
-            GameMath.linearInterpolation = function (v, k) {
-                var m = v.length - 1;
-                var f = m * k;
-                var i = Math.floor(f);
-
-                if (k < 0)
-                    return Kiwi.Utils.GameMath.linear(v[0], v[1], f);
-                if (k > 1)
-                    return Kiwi.Utils.GameMath.linear(v[m], v[m - 1], m - f);
-
-                return Kiwi.Utils.GameMath.linear(v[i], v[i + 1 > m ? m : i + 1], f - i);
-            };
-
-            GameMath.bezierInterpolation = function (v, k) {
-                var b = 0;
-                var n = v.length - 1;
-
-                for (var i = 0; i <= n; i++) {
-                    b += Math.pow(1 - k, n - i) * Math.pow(k, i) * v[i] * Kiwi.Utils.GameMath.bernstein(n, i);
-                }
-
-                return b;
-            };
-
-            GameMath.catmullRomInterpolation = function (v, k) {
-                var m = v.length - 1;
-                var f = m * k;
-                var i = Math.floor(f);
-
-                if (v[0] === v[m]) {
-                    if (k < 0)
-                        i = Math.floor(f = m * (1 + k));
-
-                    return Kiwi.Utils.GameMath.catmullRom(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
-                } else {
-                    if (k < 0)
-                        return v[0] - (Kiwi.Utils.GameMath.catmullRom(v[0], v[0], v[1], v[1], -f) - v[0]);
-
-                    if (k > 1)
-                        return v[m] - (Kiwi.Utils.GameMath.catmullRom(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
-
-                    return Kiwi.Utils.GameMath.catmullRom(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
-                }
-            };
-
-            GameMath.linear = function (p0, p1, t) {
-                return (p1 - p0) * t + p0;
-            };
-
-            GameMath.bernstein = function (n, i) {
-                return Kiwi.Utils.GameMath.factorial(n) / Kiwi.Utils.GameMath.factorial(i) / Kiwi.Utils.GameMath.factorial(n - i);
-            };
-
-            GameMath.catmullRom = function (p0, p1, p2, p3, t) {
-                var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t, t3 = t * t2;
-                return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
-            };
-
-            GameMath.difference = function (a, b) {
-                return Math.abs(a - b);
-            };
-            GameMath.PI = 3.141592653589793;
-            GameMath.PI_2 = 1.5707963267948965;
-            GameMath.PI_4 = 0.7853981633974483;
-            GameMath.PI_8 = 0.39269908169872413;
-            GameMath.PI_16 = 0.19634954084936206;
-            GameMath.TWO_PI = 6.283185307179586;
-            GameMath.THREE_PI_2 = 4.7123889803846895;
-            GameMath.E = 2.71828182845905;
-            GameMath.LN10 = 2.302585092994046;
-            GameMath.LN2 = 0.6931471805599453;
-            GameMath.LOG10E = 0.4342944819032518;
-            GameMath.LOG2E = 1.442695040888963387;
-            GameMath.SQRT1_2 = 0.7071067811865476;
-            GameMath.SQRT2 = 1.4142135623730951;
-            GameMath.DEG_TO_RAD = 0.017453292519943294444444444444444;
-            GameMath.RAD_TO_DEG = 57.295779513082325225835265587527;
-
-            GameMath.B_16 = 65536;
-            GameMath.B_31 = 2147483648;
-            GameMath.B_32 = 4294967296;
-            GameMath.B_48 = 281474976710656;
-            GameMath.B_53 = 9007199254740992;
-            GameMath.B_64 = 18446744073709551616;
-
-            GameMath.ONE_THIRD = 0.333333333333333333333333333333333;
-            GameMath.TWO_THIRDS = 0.666666666666666666666666666666666;
-            GameMath.ONE_SIXTH = 0.166666666666666666666666666666666;
-
-            GameMath.COS_PI_3 = 0.86602540378443864676372317075294;
-            GameMath.SIN_2PI_3 = 0.03654595;
-
-            GameMath.CIRCLE_ALPHA = 0.5522847498307933984022516322796;
-
-            GameMath.ON = true;
-            GameMath.OFF = false;
-
-            GameMath.SHORT_EPSILON = 0.1;
-            GameMath.PERC_EPSILON = 0.001;
-            GameMath.EPSILON = 0.0001;
-            GameMath.LONG_EPSILON = 0.00000001;
-            return GameMath;
-        })();
-        Utils.GameMath = GameMath;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Rotation = (function (_super) {
-            __extends(Rotation, _super);
-            function Rotation(angle) {
-                if (typeof angle === "undefined") { angle = 0; }
-                _super.call(this, 'Rotation');
-
-                this.updated = new Kiwi.Signal();
-
-                this._angleDegrees = Kiwi.Utils.GameMath.wrapAngle(angle);
-                this._angleRadians = Kiwi.Utils.GameMath.degreesToRadians(this._angleDegrees);
-
-                this._processUpdate();
-            }
-            Rotation.prototype.objType = function () {
-                return "Rotation";
-            };
-
-            Rotation.prototype.addStyleUpdates = function (entity) {
-                if (entity === null) {
-                    return;
-                }
-
-                if (Kiwi.DEVICE.css3D) {
-                } else {
-                }
-            };
-
-            Rotation.prototype.addStyleImmediately = function (entity) {
-                if (Kiwi.DEVICE.css3D) {
-                } else {
-                }
-            };
-
-            Rotation.prototype._processUpdate = function () {
-                this.cssRotate3d = 'rotate(' + this._angleDegrees + 'deg)';
-
-                this.dirty = true;
-
-                this.updated.dispatch(this._angleDegrees, this.cssRotate3d);
-            };
-
-            Rotation.prototype.angle = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null) {
-                    this._angleDegrees = Kiwi.Utils.GameMath.wrapAngle(value);
-                    this._angleRadians = Kiwi.Utils.GameMath.degreesToRadians(this._angleDegrees);
-                }
-                this._processUpdate();
-                return this._angleDegrees;
-            };
-
-            Rotation.prototype.radians = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null) {
-                    this._angleDegrees = Kiwi.Utils.GameMath.wrapAngle(Kiwi.Utils.GameMath.radiansToDegrees(value));
-                    this._angleRadians = Kiwi.Utils.GameMath.degreesToRadians(this._angleDegrees);
-                }
-                this._processUpdate();
-                return this._angleRadians;
-            };
-
-            Rotation.prototype.rotateClockwise = function (value) {
-                this.angle(this._angleDegrees + value);
-                this._processUpdate();
-            };
-
-            Rotation.prototype.rotateCounterClockwise = function (value) {
-                this.angle(this._angleDegrees - value);
-                this._processUpdate();
-            };
-
-            Rotation.prototype.pointUp = function () {
-                this.angle(-90);
-                this._processUpdate();
-            };
-
-            Rotation.prototype.pointDown = function () {
-                this.angle(90);
-                this._processUpdate();
-            };
-
-            Rotation.prototype.pointLeft = function () {
-                this.angle(180);
-                this._processUpdate();
-            };
-
-            Rotation.prototype.pointRight = function () {
-                this.angle(0);
-                this._processUpdate();
-            };
-
-            Rotation.prototype.toString = function () {
-                return "[{Rotation (angle=" + this._angleDegrees + " radians=" + this._angleRadians + ")}]";
-            };
-            return Rotation;
-        })(Kiwi.Component);
-        Components.Rotation = Rotation;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Scale = (function (_super) {
-            __extends(Scale, _super);
-            function Scale(x, y, z) {
-                if (typeof x === "undefined") { x = 1; }
-                if (typeof y === "undefined") { y = 1; }
-                if (typeof z === "undefined") { z = 1; }
-                _super.call(this, 'Scale');
-
-                this.updated = new Kiwi.Signal();
-
-                this.setXYZ(x, y, z);
-
-                this._processUpdate();
-            }
-            Scale.prototype.objType = function () {
-                return "Scale";
-            };
-
-            Scale.prototype.x = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null) {
-                    this._x = value;
-                }
-
-                this._processUpdate();
-                return this._x;
-            };
-
-            Scale.prototype.y = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null) {
-                    this._y = value;
-                }
-                this._processUpdate();
-                return this._y;
-            };
-
-            Scale.prototype.setXY = function (x, y) {
-                if (typeof x === "undefined") { x = 1; }
-                if (typeof y === "undefined") { y = 1; }
-                this._x = x;
-                this._y = y;
-                this._processUpdate();
-            };
-
-            Scale.prototype.setXYZ = function (x, y, z) {
-                if (typeof x === "undefined") { x = 1; }
-                if (typeof y === "undefined") { y = 1; }
-                if (typeof z === "undefined") { z = 1; }
-                this._x = x;
-                this._y = y;
-                this._z = z;
-                this._processUpdate();
-            };
-
-            Scale.prototype.addStyleUpdates = function (entity) {
-                if (entity === null) {
-                    return;
-                }
-
-                if (Kiwi.DEVICE.css3D) {
-                } else {
-                }
-            };
-
-            Scale.prototype.addStyleImmediately = function (entity) {
-                if (Kiwi.DEVICE.css3D) {
-                } else {
-                }
-            };
-
-            Scale.prototype._processUpdate = function () {
-                this.dirty = true;
-
-                this.cssScale3d = 'scale(' + this._x + ',' + this._y + ')';
-
-                this.updated.dispatch(this._x, this._y);
-            };
-
-            Scale.prototype.setCSS = function (element) {
-                return element;
-            };
-
-            Scale.prototype.invert = function () {
-                if (this._x === this._y) {
-                    return;
-                } else {
-                    this.setXY(this._y, this._x);
-                }
-            };
-
-            Scale.prototype.setScaleFromPoint = function (point) {
-                this.setXY(point.x, point.y);
-            };
-
-            Scale.prototype.getScaleAsPoint = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.setTo(this._x, this._y);
-            };
-
-            Scale.prototype.toString = function () {
-                return '[{Scale (x=' + this._x + ' y=' + this._y + ')}]';
-            };
-            return Scale;
-        })(Kiwi.Component);
-        Components.Scale = Scale;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Size = (function (_super) {
-            __extends(Size, _super);
-            function Size(width, height) {
-                if (typeof width === "undefined") { width = 0; }
-                if (typeof height === "undefined") { height = 0; }
-                _super.call(this, 'Size');
-                this._width = 0;
-                this._height = 0;
-                this.halfWidth = 0;
-                this.halfHeight = 0;
-
-                this.updated = new Kiwi.Signal();
-
-                this.setTo(width, height);
-            }
-            Size.prototype.objType = function () {
-                return "Size";
-            };
-
-            Size.prototype.width = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value > 0) {
-                    this._width = value;
-                    this._processUpdate();
-                }
-
-                return this._width;
-            };
-
-            Size.prototype.height = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value > 0) {
-                    this._height = value;
-                    this._processUpdate();
-                }
-
-                return this._height;
-            };
-
-            Size.prototype.inflate = function (value) {
-                if (value !== null && value > 0) {
-                    this._width += value;
-                    this._height += value;
-                    this._processUpdate();
-                }
-            };
-
-            Size.prototype.deflate = function (value) {
-                if (value !== null && value > 0) {
-                    this._width -= value;
-                    this._height -= value;
-                    this._processUpdate();
-                }
-            };
-
-            Size.prototype._processUpdate = function () {
-                this.aspectRatio = this._width / this._height;
-                this.dirty = true;
-
-                this.halfWidth = Math.round(this._width / 2);
-                this.halfHeight = Math.round(this._height / 2);
-                this.updated.dispatch(this._width, this._height);
-            };
-
-            Size.prototype.setTo = function (width, height) {
-                if (width > 0 && height > 0) {
-                    this.width(width);
-                    this.height(height);
-                }
-            };
-
-            Size.prototype.addStyleUpdates = function (entity) {
-                if (entity === null) {
-                    return;
-                }
-            };
-
-            Size.prototype.addStyleImmediately = function (entity) {
-            };
-
-            Size.prototype.toString = function () {
-                return '[{Size (width=' + this._width + ' height=' + this._height + ')}]';
-            };
-            return Size;
-        })(Kiwi.Component);
-        Components.Size = Size;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Sound = (function (_super) {
-            __extends(Sound, _super);
-            function Sound(game) {
-                _super.call(this, 'Sound');
-
-                this._game = game;
-                this._audio = [];
-            }
-            Sound.prototype.addSound = function (name, cacheID, cache, volume, loop) {
-                if (this._validate(name) == true)
-                    return;
-
-                var audio = this._game.audio.add(cacheID, cache, volume, loop);
-                this._audio[name] = audio;
-
-                return audio;
-            };
-
-            Sound.prototype.removeSound = function (name) {
-                if (this._validate(name) == false)
-                    return;
-
-                this._audio[name].stop();
-                this._audio[name].destroy();
-                delete this._audio[name];
-            };
-
-            Sound.prototype.getSound = function (name) {
-                if (this._validate(name) == false)
-                    return;
-
-                return this._audio[name];
-            };
-
-            Sound.prototype._validate = function (name) {
-                if (this._audio[name] === undefined) {
-                    return false;
-                } else {
-                    return true;
-                }
-            };
-
-            Sound.prototype.play = function (name) {
-                if (this._validate(name) == false)
-                    return;
-
-                this._audio[name].play();
-            };
-
-            Sound.prototype.stop = function (name) {
-                if (this._validate(name) == false)
-                    return;
-
-                this._audio[name].stop();
-            };
-
-            Sound.prototype.pause = function (name) {
-                if (this._validate(name) == false)
-                    return;
-
-                this._audio[name].pause();
-            };
-
-            Sound.prototype.resume = function (name) {
-                if (this._validate(name) == false)
-                    return;
-
-                this._audio[name].resume();
-            };
-            return Sound;
-        })(Kiwi.Component);
-        Components.Sound = Sound;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Visible = (function (_super) {
-            __extends(Visible, _super);
-            function Visible(value) {
-                if (typeof value === "undefined") { value = true; }
-                _super.call(this, 'Visible');
-
-                this.updated = new Kiwi.Signal();
-
-                this.visible(value);
-            }
-            Visible.prototype.objType = function () {
-                return "Visible";
-            };
-
-            Visible.prototype.visible = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null && value !== this._visible) {
-                    this._visible = value;
-
-                    if (value === true) {
-                        this.cssVisibility = 'visible';
-                    } else {
-                        this.cssVisibility = 'hidden';
-                    }
-
-                    this.dirty = true;
-                    this.updated.dispatch(this._visible, this.cssVisibility);
-                }
-
-                return this._visible;
-            };
-
-            Visible.prototype.addStyleUpdates = function (entity) {
-                if (entity === null) {
-                    return;
-                }
-            };
-
-            Visible.prototype.addStyleImmediately = function (entity) {
-            };
-
-            Visible.prototype.setCSS = function (element) {
-                element.style.visibility = this.cssVisibility;
-
-                return element;
-            };
-
-            Visible.prototype.toString = function () {
-                return '[{Visibility (value=' + this.cssVisibility + ')}]';
-            };
-            return Visible;
-        })(Kiwi.Component);
-        Components.Visible = Visible;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Animation = (function () {
-        function Animation(name, atlas, sequence, clock) {
-            this._uniqueFrameIndex = 0;
-            this._frameIndex = 0;
-            this._clock = null;
-            this._startTime = null;
-            this._playPending = false;
-            this.name = name;
-            this._atlas = atlas;
-            this._sequence = sequence;
-            this._speed = sequence.speed;
-            this._loop = sequence.loop;
-            this._clock = clock;
-
-            this._currentCell = this._sequence.cells[0];
-
-            this.onUpdate = new Kiwi.Signal();
-            this.onPlay = new Kiwi.Signal();
-            this.onStop = new Kiwi.Signal();
-            this.onComplete = new Kiwi.Signal();
-        }
-        Object.defineProperty(Animation.prototype, "loop", {
-            get: function () {
-                return this._loop;
-            },
-            set: function (value) {
-                this._loop = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Animation.prototype, "frameIndex", {
-            get: function () {
-                return this._frameIndex;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Animation.prototype, "currentCell", {
-            get: function () {
-                return this._currentCell;
-            },
-            set: function (frameIndex) {
-                if (this._sequence.cells[frameIndex])
-                    this._currentCell = this._sequence.cells[frameIndex];
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Animation.prototype, "speed", {
-            get: function () {
-                return this._speed;
-            },
-            set: function (value) {
-                this._speed = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-
-        Object.defineProperty(Animation.prototype, "clock", {
-            get: function () {
-                return this._clock;
-            },
-            set: function (clock) {
-                this._clock = clock;
-
-                if (this._playPending)
-                    this._start(this._uniqueFrameIndex);
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Animation.prototype._start = function (index) {
-            if (typeof index === "undefined") { index = 0; }
-            this._playPending = false;
-            this._isPlaying = true;
-            this._startTime = this._clock.elapsed();
-            this._tick = this._startTime + this._speed;
-            this._frameIndex = index;
-            this.currentCell = this._frameIndex;
-            this.onPlay.dispatch();
-        };
-
-        Animation.prototype.play = function () {
-            this.playAt(0);
-        };
-
-        Animation.prototype.playAt = function (index) {
-            this._uniqueFrameIndex = index;
-            if (this.clock === null) {
-                this._playPending = true;
-            } else {
-                this._start(index);
-            }
-        };
-
-        Animation.prototype.pause = function () {
-            this.stop();
-        };
-
-        Animation.prototype.resume = function () {
-            if (this._startTime === null) {
-                klog.warn('Animation\'s can only resume if they have been played before!');
-            } else {
-                this._isPlaying = true;
-            }
-        };
-
-        Animation.prototype.stop = function () {
-            this._isPlaying = false;
-            this.onStop.dispatch();
-        };
-
-        Animation.prototype.update = function () {
-            if (this._isPlaying) {
-                if (this.clock.elapsed() >= this._tick) {
-                    this._tick = this.clock.elapsed() + this._speed;
-                    this._frameIndex++;
-                    this.onUpdate.dispatch();
-
-                    if (!this._validateFrame(this._frameIndex)) {
-                        if (this._loop) {
-                            this._frameIndex = 0;
-                        } else {
-                            this._frameIndex--;
-                            this.stop();
-                        }
-                        this.onComplete.dispatch();
-                    }
-
-                    this.currentCell = this._frameIndex;
-
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        Animation.prototype._validateFrame = function (frame) {
-            return (frame < this._sequence.cells.length && frame >= 0);
-        };
-        return Animation;
-    })();
-    Kiwi.Animation = Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Sequence = (function () {
-        function Sequence(name, cells, speed, loop) {
-            if (typeof speed === "undefined") { speed = 0.1; }
-            if (typeof loop === "undefined") { loop = true; }
-            this.name = name;
-            this.cells = cells;
-            this.speed = speed;
-            this.loop = loop;
-        }
-        return Sequence;
-    })();
-    Kiwi.Sequence = Sequence;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Camera = (function () {
-        function Camera(game, id, name, x, y, width, height) {
-            this.fitToStage = true;
-            this._game = game;
-            this.id = id;
-            this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.CAMERA, this);
-
-            this.size = new Kiwi.Components.Size(width, height);
-            this.position = new Kiwi.Components.Position(x, y);
-
-            this.components.add(this.size);
-            this.components.add(this.position);
-
-            this._game.stage.size.updated.add(this._updatedStageSize, this);
-
-            this.size.updated.add(this._updatedSize, this);
-
-            klog.info('Created Camera ' + this.id);
-        }
-        Camera.prototype.objType = function () {
-            return "Camera";
-        };
-
-        Camera.prototype._updatedStageSize = function (width, height) {
-            this.size.setTo(width, height);
-        };
-
-        Camera.prototype._updatedSize = function (width, height) {
-        };
-
-        Camera.prototype.visible = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            return this._visible;
-        };
-
-        Camera.prototype.dirty = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._dirty = value;
-            }
-
-            return this._dirty;
-        };
-
-        Camera.prototype.update = function () {
-            this.components.update();
-        };
-
-        Camera.prototype.render = function () {
-            this._game.renderer.render(this);
-        };
-        return Camera;
-    })();
-    Kiwi.Camera = Camera;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var CameraManager = (function () {
-        function CameraManager(game) {
-            klog.info('Layer Manager created');
-
-            this._game = game;
-
-            this._cameras = [];
-
-            this._nextCameraID = 0;
-        }
-        CameraManager.prototype.objType = function () {
-            return "CameraManager";
-        };
-
-        CameraManager.prototype.boot = function () {
-            this.create("defaultCamera", 0, 0, this._game.stage.size.width(), this._game.stage.size.height());
-
-            this.defaultCamera = this._cameras[0];
-        };
-
-        CameraManager.prototype.create = function (name, x, y, width, height) {
-            var newCamera = new Kiwi.Camera(this._game, this._nextCameraID++, name, x, y, width, height);
-
-            this._cameras.push(newCamera);
-
-            return newCamera;
-        };
-
-        CameraManager.prototype.remove = function (camera) {
-            klog.info('Remove camera');
-
-            var i = this._cameras.indexOf(camera);
-
-            if (i !== -1) {
-                this._cameras.splice(i, 1);
-                return true;
-            }
-
-            return false;
-        };
-
-        CameraManager.prototype.update = function () {
-            if (this._cameras.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this._cameras.length; i++) {
-                this._cameras[i].update();
-            }
-        };
-
-        CameraManager.prototype.render = function () {
-            if (this._cameras.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this._cameras.length; i++) {
-                this._cameras[i].render();
-            }
-        };
-
-        CameraManager.prototype.removeAll = function () {
-            this._cameras.length = 0;
-            klog.info('TODO removeAll');
-        };
-        return CameraManager;
-    })();
-    Kiwi.CameraManager = CameraManager;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var ComponentManager = (function () {
         function ComponentManager(type, owner) {
             this._components = {};
@@ -6829,6 +3886,833 @@ var Kiwi;
         return ComponentManager;
     })();
     Kiwi.ComponentManager = ComponentManager;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var StateConfig = (function () {
+        function StateConfig(parent, name) {
+            this.name = '';
+            this.isPersistent = false;
+            this.isCreated = false;
+            this.isInitialised = false;
+            this.isReady = false;
+            this.hasInit = false;
+            this.hasPreloader = false;
+            this.hasLoadProgress = false;
+            this.hasLoadComplete = false;
+            this.hasLoadUpdate = false;
+            this.hasCreate = false;
+            this.hasOnEnter = false;
+            this.hasUpdate = false;
+            this.hasRender = false;
+            this.hasOnExit = false;
+            this.hasShutDown = false;
+            this.hasDestroy = false;
+            this.runCount = 0;
+            this.type = 0;
+            klog.info('StateConfig created', name);
+
+            this._state = parent;
+            this.name = name;
+
+            this.populate();
+        }
+        StateConfig.prototype.objType = function () {
+            return "StateConfig";
+        };
+
+        StateConfig.prototype.populate = function () {
+            klog.info('populate StateConfig');
+
+            if (typeof this._state['init'] === 'function') {
+                this.hasInit = true;
+            }
+
+            if (typeof this._state['preload'] === 'function') {
+                this.hasPreloader = true;
+            }
+
+            if (typeof this._state['loadProgress'] === 'function') {
+                this.hasLoadProgress = true;
+            }
+
+            if (typeof this._state['loadComplete'] === 'function') {
+                this.hasLoadComplete = true;
+            }
+
+            if (typeof this._state['loadUpdate'] === 'function') {
+                this.hasLoadUpdate = true;
+            }
+
+            if (typeof this._state['create'] === 'function') {
+                this.hasCreate = true;
+            }
+
+            if (typeof this._state['onEnter'] === 'function') {
+                this.hasOnEnter = true;
+            }
+
+            if (typeof this._state['update'] === 'function') {
+                this.hasUpdate = true;
+            }
+
+            if (typeof this._state['render'] === 'function') {
+                this.hasRender = true;
+            }
+
+            if (typeof this._state['onExit'] === 'function') {
+                this.hasOnExit = true;
+            }
+
+            if (typeof this._state['shutdown'] === 'function') {
+                this.hasShutDown = true;
+            }
+
+            if (typeof this._state['destroy'] === 'function') {
+                this.hasDestroy = true;
+            }
+
+            if (this.hasInit === false && this.hasCreate === false) {
+                klog.info('If there are no init or create functions, then we consider the state already initialised');
+                this.isInitialised = true;
+                this.isCreated = true;
+                this.isReady = true;
+            }
+        };
+        return StateConfig;
+    })();
+    Kiwi.StateConfig = StateConfig;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Group = (function () {
+        function Group(name) {
+            if (typeof name === "undefined") { name = ''; }
+            this.parent = null;
+            this.name = '';
+            this.game = null;
+            this.state = null;
+            this.layer = null;
+            this._dirty = true;
+            this.name = name;
+            this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
+
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+
+            this.transform = new Kiwi.Geom.Transform();
+
+            this.members = [];
+
+            this.onAddedToLayer = new Kiwi.Signal();
+            this.onAddedToState = new Kiwi.Signal();
+            this.onRemovedFromLayer = new Kiwi.Signal();
+            this.onRemovedFromState = new Kiwi.Signal();
+            this._willRender = true;
+            klog.info('Created Group ' + this.name);
+        }
+        Group.prototype.childType = function () {
+            return Kiwi.GROUP;
+        };
+
+        Group.prototype.modify = function (type, parent) {
+            if (type === Kiwi.ADDED_TO_LAYER) {
+                return this._addedToLayer(parent);
+            } else if (type === Kiwi.ADDED_TO_STATE) {
+                return this._addedToState(parent);
+            } else if (type === Kiwi.REMOVED_FROM_LAYER) {
+                return this._removedFromLayer(parent);
+            } else if (type === Kiwi.REMOVED_FROM_STATE) {
+                return this._removedFromState(parent);
+            }
+        };
+
+        Group.prototype.numChildren = function () {
+            return this.members.length;
+        };
+
+
+        Object.defineProperty(Group.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
+                if (value !== undefined) {
+                    this._dirty = value;
+                    for (var i = 0; i < this.members.length; i++) {
+                        this.members[i].dirty = value;
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.contains = function (child) {
+            return (this.members.indexOf(child) === -1) ? false : true;
+        };
+
+        Group.prototype.addChild = function (child) {
+            klog.info('Group.addChild ' + this.members.length);
+
+            if (child.transform.parent !== this.transform) {
+                this.members.push(child);
+                child.transform.parent = this.transform;
+
+                child.modify(Kiwi.ADDED_TO_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.addChildAt = function (child, index) {
+            klog.info('Group.addChildAt ' + child.id);
+
+            if (child.transform.parent !== this.transform) {
+                this.members.splice(index, 0, child);
+
+                child.modify(Kiwi.ADDED_TO_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.addChildBefore = function (child, beforeChild) {
+            klog.info('Group.addChildBefore ' + child.id);
+
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
+                var index = this.getChildIndex(beforeChild);
+
+                this.members.splice(index, 0, child);
+
+                child.modify(Kiwi.ADDED_TO_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.addChildAfter = function (child, beforeChild) {
+            klog.info('Group.addChildAfter ' + child.id);
+
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
+                var index = this.getChildIndex(beforeChild) + 1;
+
+                this.members.splice(index, 0, child);
+
+                child.modify(Kiwi.ADDED_TO_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.getChildAt = function (index) {
+            if (this.members[index]) {
+                return this.members[index];
+            } else {
+                return null;
+            }
+        };
+
+        Group.prototype.getChildByName = function (name) {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].name === name) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.getChildByID = function (id) {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === id) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.getChildIndex = function (child) {
+            return this.members.indexOf(child);
+        };
+
+        Group.prototype.removeChild = function (child) {
+            if (child && child.transform.parent === this.transform) {
+                var index = this.getChildIndex(child);
+
+                if (index > -1) {
+                    this.members.splice(index, 1);
+                }
+
+                child.modify(Kiwi.REMOVED_FROM_GROUP, this);
+            }
+
+            return child;
+        };
+
+        Group.prototype.removeChildAt = function (index) {
+            if (this.members[index]) {
+                var child = this.members[index];
+
+                if (child) {
+                    this.members.splice(index, 1);
+
+                    child.modify(Kiwi.REMOVED_FROM_GROUP, this);
+                }
+
+                return child;
+            } else {
+                return null;
+            }
+        };
+
+        Group.prototype.removeChildren = function (begin, end) {
+            if (typeof begin === "undefined") { begin = 0; }
+            if (typeof end === "undefined") { end = 0x7fffffff; }
+            end -= begin;
+
+            var removed = this.members.splice(begin, end);
+
+            for (var i = 0; i < removed.length; i++) {
+                removed[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
+            }
+
+            return removed.length;
+        };
+
+        Group.prototype.setChildIndex = function (child, index) {
+            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index) {
+                return false;
+            }
+
+            this.removeChild(child);
+            this.addChildAt(child, index);
+
+            return true;
+        };
+
+        Group.prototype.swapChildren = function (child1, child2) {
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
+                return false;
+            }
+
+            var index1 = this.getChildIndex(child1);
+            var index2 = this.getChildIndex(child2);
+
+            if (index1 !== -1 && index2 !== -1 && index1 !== index2) {
+                this.members[index1] = child2;
+                this.members[index2] = child1;
+
+                child1._changedPosition(this, index2);
+                child2._changedPosition(this, index1);
+
+                return true;
+            }
+
+            return false;
+        };
+
+        Group.prototype._changedPosition = function (group, index) {
+            klog.info('Group changed position within the group');
+        };
+
+        Group.prototype.swapChildrenAt = function (index1, index2) {
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
+                return false;
+            }
+
+            var child1 = this.getChildAt(index1);
+            var child2 = this.getChildAt(index2);
+
+            if (child1 !== null && child2 !== null) {
+                this.members[index1] = child2;
+                this.members[index2] = child1;
+
+                child1._changedPosition(this, index2);
+                child2._changedPosition(this, index1);
+
+                return true;
+            }
+
+            return false;
+        };
+
+        Group.prototype.replaceChild = function (oldChild, newChild) {
+            if (oldChild === newChild)
+                return;
+
+            if (this.getChildIndex(newChild)) {
+                this.removeChild(newChild);
+            }
+
+            var index = this.getChildIndex(oldChild);
+
+            if (index > -1) {
+                this.removeChildAt(index);
+
+                this.addChildAt(newChild, index);
+
+                oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
+                newChild.transform.parent = null;
+                newChild.modify(Kiwi.ADDED_TO_GROUP, this);
+                console.log(this.members[0]);
+                return true;
+            }
+
+            return false;
+        };
+
+        Group.prototype.forEach = function (context, callback) {
+            var params = [];
+            for (var _i = 0; _i < (arguments.length - 2); _i++) {
+                params[_i] = arguments[_i + 2];
+            }
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    return callback.apply(context, [child].concat(params));
+                });
+            }
+        };
+
+        Group.prototype.forEachAlive = function (context, callback) {
+            var params = [];
+            for (var _i = 0; _i < (arguments.length - 2); _i++) {
+                params[_i] = arguments[_i + 2];
+            }
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    if (child.exists)
+                        callback.apply(context, [child].concat(params));
+                });
+            }
+        };
+
+        Group.prototype.setAll = function (componentName, property, value) {
+            if (componentName === null) {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][property] = value;
+                }
+            } else {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][componentName][property] = value;
+                }
+            }
+        };
+
+        Group.prototype.callAll = function (componentName, functionName, args) {
+            if (componentName === null) {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][functionName].apply(this.members[i], args);
+                }
+            } else {
+                for (var i = 0; i < this.members.length; i++) {
+                    console.log('callAll', this.members[i]);
+                    this.members[i][componentName][functionName].apply(this.members[i][componentName], args);
+                }
+            }
+        };
+
+        Group.prototype.update = function () {
+            var _this = this;
+            this.components.update();
+
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    return _this.processUpdate(child);
+                });
+            }
+
+            this.components.postUpdate();
+        };
+
+        Group.prototype.processUpdate = function (child) {
+            if (child.active === true) {
+                child.update();
+            }
+        };
+
+
+        Object.defineProperty(Group.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
+                this._exists = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Group.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
+                this._active = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.render = function (camera) {
+            var _this = this;
+            this.components.preRender();
+
+            this.components.render();
+
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    return _this.processRender(child, camera);
+                });
+            }
+
+            this.components.postRender();
+        };
+
+        Group.prototype.processRender = function (child, camera) {
+            if (child.active === true) {
+                child.render(camera);
+            }
+        };
+
+        Group.prototype.removeFirstAlive = function () {
+            return this.removeChild(this.getFirstAlive());
+        };
+
+        Group.prototype.getFirstAlive = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
+                    return this.members[i];
+                    break;
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.getFirstDead = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
+                    return this.members[i];
+                    break;
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.countLiving = function () {
+            var total = 0;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
+                    total++;
+                }
+            }
+
+            return total;
+        };
+
+        Group.prototype.countDead = function () {
+            var total = 0;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
+                    total++;
+                }
+            }
+
+            return total;
+        };
+
+        Group.prototype.getRandom = function (start, length) {
+            if (typeof start === "undefined") { start = 0; }
+            if (typeof length === "undefined") { length = 0; }
+            if (this.members.length === 0) {
+                return null;
+            }
+
+            if (length === 0) {
+                length = this.members.length;
+            }
+
+            if (start < 0 || start > length) {
+                start = 0;
+            }
+
+            var rnd = start + (Math.random() * (start + length));
+
+            if (rnd > this.members.length) {
+                return this.members[this.members.length - 1];
+            } else {
+                return this.members[rnd];
+            }
+        };
+
+        Group.prototype.clear = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                this.members[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
+            }
+
+            this.members.length = 0;
+        };
+
+
+        Object.defineProperty(Group.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
+                this._willRender = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.isGroup = function () {
+            return true;
+        };
+
+        Group.prototype._addedToLayer = function (layer) {
+            if (this.layer !== null) {
+                klog.warn('Group already exists on Layer ' + this.layer.id);
+
+                return false;
+            } else {
+                klog.info('Group added to Layer. Checking children: ' + this.members.length);
+
+                this.layer = layer;
+
+                for (var i = 0; i < this.members.length; i++) {
+                    if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
+                        this.members[i].exists = false;
+                    }
+                }
+
+                this.onAddedToLayer.dispatch(this, layer);
+                return true;
+            }
+        };
+
+        Group.prototype._removedFromLayer = function (layer) {
+            this.layer = null;
+
+            this.onRemovedFromLayer.dispatch(this, layer);
+        };
+
+        Group.prototype._addedToState = function (state) {
+            klog.info('Group added to State');
+
+            this.state = state;
+
+            this.game = this.state.game;
+
+            this.id = this.game.rnd.uuid();
+
+            this.onAddedToState.dispatch(this, state);
+        };
+
+        Group.prototype._removedFromState = function (state) {
+            klog.info('Group removed from State');
+
+            this.onRemovedFromState.dispatch(this, state);
+
+            this.state = null;
+
+            this.game = null;
+        };
+
+        Group.prototype.destroy = function () {
+            this.removeChildren();
+
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+
+            this.members.length = 0;
+        };
+        return Group;
+    })();
+    Kiwi.Group = Group;
+})(Kiwi || (Kiwi = {}));
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var Kiwi;
+(function (Kiwi) {
+    var State = (function (_super) {
+        __extends(State, _super);
+        function State(name) {
+            _super.call(this, name);
+            this.game = null;
+
+            klog.debug('----------- State created: ' + name + ' -----------');
+
+            this.config = new Kiwi.StateConfig(this, name);
+            this.cache = new Kiwi.Cache(this.game);
+            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
+            this.transform.parent = null;
+        }
+        State.prototype.objType = function () {
+            return "State";
+        };
+
+        State.prototype.boot = function () {
+            klog.info('State booted: ', this.config.name);
+            this.textureCache = new Kiwi.TextureCache(this.game);
+            this.textures = this.textureCache.textures;
+            this.cache.boot();
+        };
+
+        State.prototype.init = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preload = function () {
+        };
+
+        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
+        };
+
+        State.prototype.loadComplete = function () {
+        };
+
+        State.prototype.loadUpdate = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.create = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preUpdate = function () {
+            this.components.preUpdate();
+        };
+
+        State.prototype.update = function () {
+            this.components.update();
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.postUpdate = function () {
+            this.components.postUpdate();
+        };
+
+        State.prototype.postRender = function () {
+        };
+
+        State.prototype.setType = function (value) {
+            if (this.config.isInitialised === false) {
+                this.config.type = value;
+            } else {
+                klog.warn('State default type can only be changed in init()');
+            }
+        };
+
+        State.prototype.swapLayer = function (layer) {
+            this.currentLayer = layer;
+        };
+
+        State.prototype.addImage = function (cacheID, url, globalCache, width, height, offsetX, offsetY) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addImage(cacheID, url, this.game.cache.images, width, height, offsetX, offsetY);
+            } else {
+                this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
+            }
+        };
+
+        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            } else {
+                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            }
+        };
+
+        State.prototype.addTextureAtlas = function (imageID, imageURL, jsonID, jsonURL, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addTextureAtlas(this.game.cache, imageID, imageURL, jsonID, jsonURL);
+            } else {
+                this.game.loader.addTextureAtlas(this.cache, imageID, imageURL, jsonID, jsonURL);
+            }
+        };
+
+        State.prototype.addJSON = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
+            } else {
+                this.game.loader.addJSON(cacheID, url, this.cache.data);
+            }
+        };
+
+        State.prototype.addAudio = function (cacheID, url, globalCache) {
+            if (typeof globalCache === "undefined") { globalCache = true; }
+            if (globalCache === true) {
+                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
+            } else {
+                this.game.loader.addAudio(cacheID, url, this.cache.audio);
+            }
+        };
+
+        State.prototype.addChild = function (child) {
+            child.modify(Kiwi.ADDED_TO_STATE, this);
+            _super.prototype.removeChild.call(this, child);
+
+            _super.prototype.addChild.call(this, child);
+
+            return child;
+        };
+
+        State.prototype.removeChild = function (child) {
+            child.modify(Kiwi.REMOVED_FROM_STATE, this);
+            var layer = null;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === child.id) {
+                    this.members.slice(i, 1);
+
+                    if (layer !== null) {
+                        layer.remove(child);
+                    } else {
+                        this.currentLayer.remove(child);
+                    }
+                }
+            }
+            return child;
+        };
+
+        State.prototype.destroy = function () {
+            for (var i = 0; i < this.members.length; i++) {
+            }
+        };
+        return State;
+    })(Kiwi.Group);
+    Kiwi.State = State;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -7338,6 +5222,893 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Components) {
+        var Bounds = (function (_super) {
+            __extends(Bounds, _super);
+            function Bounds(x, y, width, height) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof width === "undefined") { width = 0; }
+                if (typeof height === "undefined") { height = 0; }
+                _super.call(this, 'Bounds');
+                this.showDebug = false;
+                this.debugLineColor = 0xffff0000;
+
+                this._rect = new Kiwi.Geom.Rectangle(x, y, width, height);
+                this._AABB = new Kiwi.Geom.Rectangle(x, y, width, height);
+
+                this.offsetX = 0;
+                this.offsetY = 0;
+                this.offsetWidth = 0;
+                this.offsetHeight = 0;
+            }
+            Bounds.prototype.objType = function () {
+                return "Bounds";
+            };
+
+            Bounds.prototype.pointWithin = function (point) {
+                return this._rect.containsPoint(point);
+            };
+
+            Bounds.prototype.calculateBounds = function (transform, width, height) {
+                var centerPoint = new Kiwi.Geom.Point(width / 2, height / 2);
+                var topLeftPoint = new Kiwi.Geom.Point(0, 0);
+                var bottomLeftPoint = new Kiwi.Geom.Point(0, height);
+                var topRightPoint = new Kiwi.Geom.Point(width, 0);
+                var bottomRightPoint = new Kiwi.Geom.Point(width, height);
+
+                var posx = transform.x;
+                var posy = transform.y;
+                var ox = transform.transformPoint(transform.getPositionPoint()).x;
+                var oy = transform.transformPoint(transform.getPositionPoint()).y;
+
+                this._transformPoint(centerPoint, transform, posx, posy, ox, oy);
+                this._transformPoint(topLeftPoint, transform, posx, posy, ox, oy);
+                this._transformPoint(bottomLeftPoint, transform, posx, posy, ox, oy);
+                this._transformPoint(topRightPoint, transform, posx, posy, ox, oy);
+                this._transformPoint(bottomRightPoint, transform, posx, posy, ox, oy);
+
+                var left = Math.min(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
+                var right = Math.max(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
+                var top = Math.min(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
+                var bottom = Math.max(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
+
+                this._AABB = new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
+
+                var sx = Math.abs(transform.scaleX);
+                var sy = Math.abs(transform.scaleY);
+
+                var ubW = (width - this.offsetWidth) * sx;
+                var ubH = (height - this.offsetHeight) * sy;
+                var ubX = (centerPoint.x - this.offsetX * sx) - ubW / 2;
+                var ubY = (centerPoint.y - this.offsetY * sy) - ubH / 2;
+
+                this._rect = new Kiwi.Geom.Rectangle(ubX, ubY, ubW, ubH);
+            };
+
+            Bounds.prototype._transformPoint = function (point, trans, x, y, ox, oy) {
+                point.x -= ox;
+                point.y -= oy;
+
+                point = trans.transformPoint(point);
+
+                point.x += ox + x;
+                point.y += oy + y;
+            };
+
+            Bounds.prototype.getRect = function () {
+                var rect = this._rect.clone();
+                return rect;
+            };
+
+            Bounds.prototype.getOffsetRect = function () {
+                var rect = this._rect.clone();
+                rect.x += this.offsetX;
+                rect.y += this.offsetY;
+                rect.width += this.offsetWidth;
+                rect.height += this.offsetHeight;
+
+                return rect;
+            };
+
+            Bounds.prototype.getAABB = function () {
+                var rect = this._AABB.clone();
+
+                return rect;
+            };
+
+            Bounds.prototype.setTo = function (x, y, width, height) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof width === "undefined") { width = 0; }
+                if (typeof height === "undefined") { height = 0; }
+                this._rect.setTo(x, y, width, height);
+            };
+
+            Bounds.prototype.setSize = function (width, height) {
+                this._rect.setTo(this._rect.x, this._rect.y, width, height);
+            };
+            Bounds.prototype.setPosition = function (x, y) {
+                this._rect.setTo(x, y, this._rect.width, this._rect.height);
+            };
+
+            Bounds.prototype.drawCanvasDebugOutline = function (layer) {
+                layer.canvas.context.strokeStyle = 'rgba(0, 255, 0, 0.8)';
+                layer.canvas.context.beginPath();
+                layer.canvas.context.rect(this._rect.x, this._rect.y, this._rect.width, this._rect.height);
+                layer.canvas.context.stroke();
+                layer.canvas.context.closePath();
+            };
+
+            Bounds.prototype.toString = function () {
+                return '[{Bounds (x=' + this._rect.x + ')}]';
+            };
+            return Bounds;
+        })(Kiwi.Component);
+        Components.Bounds = Bounds;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Components) {
+        var Input = (function (_super) {
+            __extends(Input, _super);
+            function Input(entity, bounds) {
+                _super.call(this, 'Input');
+                this._dragEnabled = false;
+                this._dragSnapToCenter = false;
+
+                this.inputEntered = new Kiwi.Signal();
+                this.inputLeft = new Kiwi.Signal();
+                this.inputOnDown = new Kiwi.Signal();
+                this.inputOnRelease = new Kiwi.Signal();
+                this.inputDragStarted = new Kiwi.Signal();
+                this.inputDragStopped = new Kiwi.Signal();
+
+                this._entity = entity;
+                this._bounds = bounds;
+                this.pointDown = new Kiwi.Geom.Point();
+
+                this.distance = new Kiwi.Geom.Point();
+                this.withinBounds = false;
+                this.outsideBounds = true;
+                this.isUp = true;
+                this.isDown = false;
+                this.isDragging = false;
+                this._justEntered = false;
+                this._tempDragDisabled = false;
+            }
+            Input.prototype.objType = function () {
+                return "Input";
+            };
+
+            Input.prototype.enableDrag = function (snapToCenter, distance) {
+                if (typeof snapToCenter === "undefined") { snapToCenter = false; }
+                if (typeof distance === "undefined") { distance = 1; }
+                this._dragEnabled = true;
+                this._dragSnapToCenter = snapToCenter;
+                this._dragDistance = distance;
+                this.isDragging = false;
+            };
+
+            Input.prototype.disableDrag = function () {
+                this._dragEnabled = false;
+                this.isDragging = false;
+            };
+
+            Input.prototype.update = function () {
+                if (!this._entity.game || this._entity.active === false || this._entity.willRender === false) {
+                    return;
+                }
+
+                if (this._bounds.pointWithin(this._entity.game.input.position)) {
+                    this.distance.x = this._entity.game.input.position.x - this._bounds.getRect().left;
+                    this.distance.y = this._entity.game.input.position.y - this._bounds.getRect().top;
+
+                    if (this.withinBounds === false) {
+                        this.withinBounds = true;
+                        this.outsideBounds = false;
+                        this._justEntered = true;
+                        this.inputEntered.dispatch(this._entity, this.distance.x, this.distance.y);
+                    }
+                } else {
+                    if (this.withinBounds === true && this.isDragging === false) {
+                        this.withinBounds = false;
+                        this.outsideBounds = true;
+                        this.inputLeft.dispatch(this._entity);
+                    }
+                }
+
+                if (this._entity.game.input.isDown === true) {
+                    if (this._justEntered) {
+                        this.isDown = true;
+                        this.isUp = false;
+                        this._tempDragDisabled = true;
+                    }
+
+                    if (this.withinBounds === true && this.isDown === false) {
+                        this.isDown = true;
+                        this.isUp = false;
+                        this.pointDown.copyFrom(this.distance);
+                        this.inputOnDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
+                    }
+
+                    if (this._dragEnabled === true && this.isDragging === false && this._tempDragDisabled === false) {
+                        if (this.isDown === true && this.pointDown.distanceTo(this.distance) >= this._dragDistance) {
+                            this.isDragging = true;
+
+                            if (this._dragSnapToCenter === true) {
+                                this.pointDown = this._bounds.getRect().center;
+                            }
+
+                            this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
+                        }
+                    }
+                } else {
+                    if (this.isDragging === true) {
+                        this.isDragging = false;
+                        this.inputDragStopped.dispatch(this._entity);
+                    }
+
+                    if (this._tempDragDisabled === true)
+                        this._tempDragDisabled = false;
+
+                    if (this.isDown === true) {
+                        this.isDown = false;
+                        this.isUp = true;
+                        this.inputOnRelease.dispatch(this._entity);
+                    }
+                }
+
+                if (this._justEntered)
+                    this._justEntered = false;
+            };
+
+            Input.prototype.toString = function () {
+                return '[{Input (x=' + this.withinBounds + ')}]';
+            };
+            return Input;
+        })(Kiwi.Component);
+        Components.Input = Input;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Components) {
+        var Sound = (function (_super) {
+            __extends(Sound, _super);
+            function Sound(game) {
+                _super.call(this, 'Sound');
+
+                this._game = game;
+                this._audio = [];
+            }
+            Sound.prototype.addSound = function (name, cacheID, cache, volume, loop) {
+                if (this._validate(name) == true)
+                    return;
+
+                var audio = this._game.audio.add(cacheID, cache, volume, loop);
+                this._audio[name] = audio;
+
+                return audio;
+            };
+
+            Sound.prototype.removeSound = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].stop();
+                this._audio[name].destroy();
+                delete this._audio[name];
+            };
+
+            Sound.prototype.getSound = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                return this._audio[name];
+            };
+
+            Sound.prototype._validate = function (name) {
+                if (this._audio[name] === undefined) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            Sound.prototype.play = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].play();
+            };
+
+            Sound.prototype.stop = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].stop();
+            };
+
+            Sound.prototype.pause = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].pause();
+            };
+
+            Sound.prototype.resume = function (name) {
+                if (this._validate(name) == false)
+                    return;
+
+                this._audio[name].resume();
+            };
+            return Sound;
+        })(Kiwi.Component);
+        Components.Sound = Sound;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Components) {
+        var ArcadePhysics = (function (_super) {
+            __extends(ArcadePhysics, _super);
+            function ArcadePhysics(entity) {
+                _super.call(this, 'ArcadePhysics');
+                this._callbackFunction = null;
+                this._callbackContext = null;
+
+                this._parent = entity;
+                this.transform = this._parent.transform;
+                this.width = this._parent.width;
+                this.height = this._parent.height;
+
+                this.last = new Kiwi.Geom.Point(this.transform.x, this.transform.y);
+                this.mass = 1.0;
+                this.elasticity = 0.0;
+
+                this.immovable = false;
+                this.moves = true;
+
+                this.touching = ArcadePhysics.NONE;
+                this.wasTouching = ArcadePhysics.NONE;
+                this.allowCollisions = ArcadePhysics.ANY;
+
+                this.velocity = new Kiwi.Geom.Point();
+                this.acceleration = new Kiwi.Geom.Point();
+                this.drag = new Kiwi.Geom.Point();
+                this.maxVelocity = new Kiwi.Geom.Point(10000, 10000);
+
+                this.angle = 0;
+                this.angularVelocity = 0;
+                this.angularAcceleration = 0;
+                this.angularDrag = 0;
+                this.maxAngular = 10000;
+            }
+            ArcadePhysics.prototype.objType = function () {
+                return "ArcadePhysics";
+            };
+
+            ArcadePhysics.prototype.solid = function (value) {
+                if (value !== undefined) {
+                    if (value)
+                        this.allowCollisions = ArcadePhysics.ANY; else
+                        this.allowCollisions = ArcadePhysics.NONE;
+                }
+
+                return (this.allowCollisions & ArcadePhysics.ANY) > ArcadePhysics.NONE;
+            };
+
+            ArcadePhysics.collide = function (gameObject1, gameObject2, seperate) {
+                if (typeof seperate === "undefined") { seperate = true; }
+                return ArcadePhysics.overlaps(gameObject1, gameObject2, seperate);
+            };
+
+            ArcadePhysics.collideGroup = function (gameObject, group, seperate) {
+                if (typeof seperate === "undefined") { seperate = true; }
+                return ArcadePhysics.overlapsObjectGroup(gameObject, group, seperate);
+            };
+
+            ArcadePhysics.collideGroupGroup = function (group1, group2, seperate) {
+                if (typeof seperate === "undefined") { seperate = true; }
+                return ArcadePhysics.overlapsGroupGroup(group1, group2, seperate);
+            };
+
+            ArcadePhysics.overlaps = function (gameObject1, gameObject2, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = true; }
+                var obj1Physics = gameObject1.components.getComponent("ArcadePhysics");
+
+                return obj1Physics.overlaps(gameObject2, separateObjects);
+            };
+
+            ArcadePhysics.overlapsObjectGroup = function (gameObject, group, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = true; }
+                var objPhysics = gameObject.components.getComponent("ArcadePhysics");
+                return objPhysics.overlapsGroup(group, separateObjects);
+            };
+
+            ArcadePhysics.overlapsGroupGroup = function (group1, group2, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = true; }
+                var result = false;
+                var members = group1.members;
+                var i = 0;
+
+                while (i < group1.members.length) {
+                    if (members[i].childType() == Kiwi.GROUP) {
+                        console.log('Branch');
+                        if (ArcadePhysics.overlapsGroupGroup(members[i++], group2, separateObjects))
+                            result = true;
+                    } else {
+                        console.log('Leaf');
+                        if (ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects))
+                            result = true;
+                    }
+                }
+
+                return result;
+            };
+
+            ArcadePhysics.separate = function (object1, object2) {
+                var separatedX = this.separateX(object1, object2);
+                var separatedY = this.separateY(object1, object2);
+                return separatedX || separatedY;
+            };
+
+            ArcadePhysics.separateX = function (object1, object2) {
+                var phys1 = object1.components._components["ArcadePhysics"];
+                var phys2 = object2.components._components["ArcadePhysics"];
+
+                var obj1immovable = phys1.immovable;
+                var obj2immovable = phys2.immovable;
+                if (obj1immovable && obj2immovable)
+                    return false;
+
+                var overlap = 0;
+                var obj1delta = phys1.transform.x - phys1.last.x;
+                var obj2delta = phys2.transform.x - phys2.last.x;
+
+                if (obj1delta != obj2delta) {
+                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
+                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
+
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.height);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.height);
+                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
+
+                        if (obj1delta > obj2delta) {
+                            overlap = phys1.transform.x + phys1.width - phys2.transform.x;
+                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.RIGHT;
+                                phys2.touching |= ArcadePhysics.LEFT;
+                            }
+                        } else if (obj1delta < obj2delta) {
+                            overlap = phys1.transform.x - phys2.width - phys2.transform.x;
+                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.LEFT;
+                                phys2.touching |= ArcadePhysics.RIGHT;
+                            }
+                        }
+                    }
+                }
+
+                if (overlap != 0) {
+                    var obj1v = phys1.velocity.x;
+                    var obj2v = phys2.velocity.x;
+
+                    if (!obj1immovable && !obj2immovable) {
+                        overlap *= 0.5;
+                        phys1.transform.x = phys1.transform.x - overlap;
+                        phys2.transform.x = phys2.transform.x + overlap;
+
+                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
+                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
+                        var average = (obj1velocity + obj2velocity) * 0.5;
+                        obj1velocity -= average;
+                        obj2velocity -= average;
+                        phys1.velocity.x = average + obj1velocity * phys1.elasticity;
+                        phys2.velocity.x = average + obj2velocity * phys2.elasticity;
+                    } else if (!obj1immovable) {
+                        phys1.transform.x = phys1.transform.x - overlap;
+                        phys1.velocity.x = obj2v - obj1v * phys1.elasticity;
+                    } else if (!obj2immovable) {
+                        phys2.transform.x = phys2.transform.x + overlap;
+                        phys2.velocity.x = obj1v - obj2v * phys2.elasticity;
+                    }
+                    return true;
+                } else
+                    return false;
+            };
+
+            ArcadePhysics.separateY = function (object1, object2) {
+                var phys1 = object1.components._components["ArcadePhysics"];
+                var phys2 = object2.components._components["ArcadePhysics"];
+
+                var obj1immovable = phys1.immovable;
+                var obj2immovable = phys2.immovable;
+                if (obj1immovable && obj2immovable)
+                    return false;
+
+                var overlap = 0;
+
+                var obj1delta = phys1.transform.y - phys1.last.y;
+
+                var obj2delta = phys2.transform.y - phys2.last.y;
+                if (obj1delta != obj2delta) {
+                    var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
+                    var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x, phys1.transform.y - ((obj1delta > 0) ? obj1delta : 0), phys1.width, phys1.height + obj1deltaAbs);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x, phys2.transform.y - ((obj2delta > 0) ? obj2delta : 0), phys2.width, phys2.height + obj2deltaAbs);
+                    if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                        var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
+
+                        if (obj1delta > obj2delta) {
+                            overlap = phys1.transform.y + phys1.height - phys2.transform.y;
+                            if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.DOWN;
+                                phys2.touching |= ArcadePhysics.UP;
+                            }
+                        } else if (obj1delta < obj2delta) {
+                            overlap = phys1.transform.y - phys2.height - phys2.transform.y;
+                            if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
+                                overlap = 0;
+                            } else {
+                                phys1.touching |= ArcadePhysics.UP;
+                                phys2.touching |= ArcadePhysics.DOWN;
+                            }
+                        }
+                    }
+                }
+
+                if (overlap != 0) {
+                    var obj1v = phys1.velocity.y;
+                    var obj2v = phys2.velocity.y;
+
+                    if (!obj1immovable && !obj2immovable) {
+                        overlap *= 0.5;
+                        phys1.transform.y = phys1.transform.y - overlap;
+                        phys2.transform.y = phys2.transform.y + overlap;
+
+                        var obj1velocity = Math.sqrt((obj2v * obj2v * phys2.mass) / phys1.mass) * ((obj2v > 0) ? 1 : -1);
+                        var obj2velocity = Math.sqrt((obj1v * obj1v * phys1.mass) / phys2.mass) * ((obj1v > 0) ? 1 : -1);
+                        var average = (obj1velocity + obj2velocity) * 0.5;
+                        obj1velocity -= average;
+                        obj2velocity -= average;
+                        phys1.velocity.y = average + obj1velocity * phys1.elasticity;
+                        phys2.velocity.y = average + obj2velocity * phys2.elasticity;
+                    } else if (!obj1immovable) {
+                        phys1.transform.y = phys1.transform.y - overlap;
+                        phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
+
+                        if (object2.active && phys2.moves && (obj1delta > obj2delta))
+                            phys1.transform.x = phys1.transform.x + object2.transform.x - phys2.last.x;
+                    } else if (!obj2immovable) {
+                        phys2.transform.y = phys2.transform.y + overlap;
+                        phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
+
+                        if (object1.active && phys1.moves && (obj1delta < obj2delta))
+                            phys2.transform.x = phys2.transform.x + object1.transform.x - phys1.last.x;
+                    }
+                    return true;
+                } else
+                    return false;
+            };
+
+            ArcadePhysics.computeVelocity = function (velocity, acceleration, drag, max) {
+                if (typeof acceleration === "undefined") { acceleration = 0; }
+                if (typeof drag === "undefined") { drag = 0; }
+                if (typeof max === "undefined") { max = 10000; }
+                if (acceleration != 0)
+                    velocity += acceleration * ArcadePhysics.updateInterval; else if (drag != 0) {
+                    drag = drag * ArcadePhysics.updateInterval;
+                    if (velocity - drag > 0)
+                        velocity = velocity - drag; else if (velocity + drag < 0)
+                        velocity += drag; else
+                        velocity = 0;
+                }
+                if ((velocity != 0) && (max != 10000)) {
+                    if (velocity > max)
+                        velocity = max; else if (velocity < -max)
+                        velocity = -max;
+                }
+                return velocity;
+            };
+
+            ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = false; }
+                var objTransform = gameObject.transform;
+
+                var result = (objTransform.x + gameObject.width > this.transform.x) && (objTransform.x < this.transform.x + this.width) && (objTransform.y + gameObject.height > this.transform.y) && (objTransform.y < this.transform.y + this.height);
+
+                if (result && separateObjects) {
+                    ArcadePhysics.separate(this._parent, gameObject);
+                }
+
+                if (result && this._callbackFunction !== null && this._callbackContext !== null) {
+                    this._callbackFunction.call(this._callbackContext, this._parent, gameObject);
+                }
+
+                return result;
+            };
+
+            ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = false; }
+                var results = false;
+                var childPhysics;
+
+                for (var i = 0; i < group.members.length; i++) {
+                    if (group.members[i].childType() === Kiwi.GROUP) {
+                        console.log('Group');
+
+                        this.overlapsGroup(group.members[i], separateObjects);
+                    } else {
+                        console.log('Entity');
+
+                        if (this.overlaps(group.members[i], separateObjects)) {
+                            if (this._callbackContext !== null && this._callbackFunction !== null)
+                                this._callbackFunction.call(this._callbackContext, this._parent, childPhysics.parent());
+                            results = true;
+                        }
+                    }
+                }
+
+                return results;
+            };
+
+            ArcadePhysics.prototype.updateMotion = function () {
+                var delta;
+                var velocityDelta;
+
+                velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
+                this.angularVelocity += velocityDelta;
+                this.angle += this.angularVelocity * ArcadePhysics.updateInterval;
+                this.angularVelocity += velocityDelta;
+
+                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
+                this.velocity.x += velocityDelta;
+                delta = this.velocity.x * ArcadePhysics.updateInterval;
+                this.velocity.x += velocityDelta;
+                this.transform.x = this.transform.x + delta;
+
+                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
+                this.velocity.y += velocityDelta;
+                delta = this.velocity.y * ArcadePhysics.updateInterval;
+                this.velocity.y += velocityDelta;
+                this.transform.y = this.transform.y + delta;
+            };
+
+            ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
+                this._callbackFunction = callbackFunction;
+                this._callbackContext = callbackContext;
+            };
+
+            ArcadePhysics.prototype.parent = function () {
+                return this._parent;
+            };
+
+            ArcadePhysics.prototype.update = function () {
+                this.last.x = this.transform.x;
+                this.last.y = this.transform.y;
+
+                this.width = this._parent.width;
+                this.height = this._parent.height;
+
+                if (this.moves)
+                    this.updateMotion();
+
+                this.wasTouching = this.touching;
+                this.touching = ArcadePhysics.NONE;
+            };
+            ArcadePhysics.updateInterval = 1 / 10;
+
+            ArcadePhysics.LEFT = 0x0001;
+
+            ArcadePhysics.RIGHT = 0x0010;
+
+            ArcadePhysics.UP = 0x0100;
+
+            ArcadePhysics.DOWN = 0x1000;
+
+            ArcadePhysics.NONE = 0;
+
+            ArcadePhysics.CEILING = ArcadePhysics.UP;
+
+            ArcadePhysics.FLOOR = ArcadePhysics.DOWN;
+
+            ArcadePhysics.WALL = ArcadePhysics.LEFT | ArcadePhysics.RIGHT;
+
+            ArcadePhysics.ANY = ArcadePhysics.LEFT | ArcadePhysics.RIGHT | ArcadePhysics.UP | ArcadePhysics.DOWN;
+
+            ArcadePhysics.OVERLAP_BIAS = 4;
+            return ArcadePhysics;
+        })(Kiwi.Component);
+        Components.ArcadePhysics = ArcadePhysics;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Animation = (function () {
+        function Animation(name, atlas, sequence, clock) {
+            this._uniqueFrameIndex = 0;
+            this._frameIndex = 0;
+            this._clock = null;
+            this._startTime = null;
+            this._playPending = false;
+            this.name = name;
+            this._atlas = atlas;
+            this._sequence = sequence;
+            this._speed = sequence.speed;
+            this._loop = sequence.loop;
+            this._clock = clock;
+
+            this._currentCell = this._sequence.cells[0];
+
+            this.onUpdate = new Kiwi.Signal();
+            this.onPlay = new Kiwi.Signal();
+            this.onStop = new Kiwi.Signal();
+            this.onComplete = new Kiwi.Signal();
+        }
+        Object.defineProperty(Animation.prototype, "loop", {
+            get: function () {
+                return this._loop;
+            },
+            set: function (value) {
+                this._loop = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Animation.prototype, "frameIndex", {
+            get: function () {
+                return this._frameIndex;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Animation.prototype, "currentCell", {
+            get: function () {
+                return this._currentCell;
+            },
+            set: function (frameIndex) {
+                if (this._sequence.cells[frameIndex])
+                    this._currentCell = this._sequence.cells[frameIndex];
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Animation.prototype, "speed", {
+            get: function () {
+                return this._speed;
+            },
+            set: function (value) {
+                this._speed = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+
+        Object.defineProperty(Animation.prototype, "clock", {
+            get: function () {
+                return this._clock;
+            },
+            set: function (clock) {
+                this._clock = clock;
+
+                if (this._playPending)
+                    this._start(this._uniqueFrameIndex);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Animation.prototype._start = function (index) {
+            if (typeof index === "undefined") { index = 0; }
+            this._playPending = false;
+            this._isPlaying = true;
+            this._startTime = this._clock.elapsed();
+            this._tick = this._startTime + this._speed;
+            this._frameIndex = index;
+            this.currentCell = this._frameIndex;
+            this.onPlay.dispatch();
+        };
+
+        Animation.prototype.play = function () {
+            this.playAt(0);
+        };
+
+        Animation.prototype.playAt = function (index) {
+            this._uniqueFrameIndex = index;
+            if (this.clock === null) {
+                this._playPending = true;
+            } else {
+                this._start(index);
+            }
+        };
+
+        Animation.prototype.pause = function () {
+            this.stop();
+        };
+
+        Animation.prototype.resume = function () {
+            if (this._startTime === null) {
+                klog.warn('Animation\'s can only resume if they have been played before!');
+            } else {
+                this._isPlaying = true;
+            }
+        };
+
+        Animation.prototype.stop = function () {
+            this._isPlaying = false;
+            this.onStop.dispatch();
+        };
+
+        Animation.prototype.update = function () {
+            if (this._isPlaying) {
+                if (this.clock.elapsed() >= this._tick) {
+                    this._tick = this.clock.elapsed() + this._speed;
+                    this._frameIndex++;
+                    this.onUpdate.dispatch();
+
+                    if (!this._validateFrame(this._frameIndex)) {
+                        if (this._loop) {
+                            this._frameIndex = 0;
+                        } else {
+                            this._frameIndex--;
+                            this.stop();
+                        }
+                        this.onComplete.dispatch();
+                    }
+
+                    this.currentCell = this._frameIndex;
+
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        Animation.prototype._validateFrame = function (frame) {
+            return (frame < this._sequence.cells.length && frame >= 0);
+        };
+        return Animation;
+    })();
+    Kiwi.Animation = Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Sequence = (function () {
+        function Sequence(name, cells, speed, loop) {
+            if (typeof speed === "undefined") { speed = 0.1; }
+            if (typeof loop === "undefined") { loop = true; }
+            this.name = name;
+            this.cells = cells;
+            this.speed = speed;
+            this.loop = loop;
+        }
+        return Sequence;
+    })();
+    Kiwi.Sequence = Sequence;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var StateManager = (function () {
         function StateManager(game) {
             this.current = null;
@@ -7759,7 +6530,7 @@ var Kiwi;
             };
 
             Animation.prototype.switchTo = function (name, play) {
-                if (typeof play === "undefined") { play = false; }
+                if (typeof play === "undefined") { play = true; }
                 if (this.currentAnimation.name !== name) {
                     this._setCurrentAnimation(name);
                 }
@@ -7832,6 +6603,10 @@ var Kiwi;
                 if (typeof y === "undefined") { y = 0; }
                 _super.call(this);
 
+                this.transform.x = x;
+                this.transform.y = y;
+                this._center = new Kiwi.Geom.Point(x + this.width / 2, y + this.height / 2);
+
                 this.name = atlas.name;
                 this.atlas = atlas;
                 this.cellIndex = this.atlas.cellIndex;
@@ -7842,14 +6617,15 @@ var Kiwi;
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
 
-                this.animation = this.components.add(new Kiwi.Components.Animation(this));
+                if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
+                    this.animation = null;
+                    this._isAnimated = false;
+                } else {
+                    this.animation = this.components.add(new Kiwi.Components.Animation(this));
+                    this._isAnimated = true;
+                }
 
                 this.onAddedToState.add(this._onAddedToState, this);
-
-                this.transform.x = x;
-                this.transform.y = y;
-
-                this._center = new Kiwi.Geom.Point(x + this.width / 2, y + this.height / 2);
 
                 klog.info('Created Sprite Game Object');
             }
@@ -7862,14 +6638,21 @@ var Kiwi;
                     this._center.setTo(this.transform.x + this.width / 2, this.transform.y + this.height / 2);
                     return this._center;
                 },
+                set: function (point) {
+                    this._center = point;
+                    this.transform.x = this._center.x - this.width / 2;
+                    this.transform.y = this._center.y - this.height / 2;
+                },
                 enumerable: true,
                 configurable: true
             });
 
+
             Sprite.prototype._onAddedToState = function (state) {
                 klog.info('Sprite added to State');
 
-                this.animation.clock = this.clock;
+                if (this._isAnimated)
+                    this.animation.clock = this.clock;
 
                 return true;
             };
@@ -7880,13 +6663,16 @@ var Kiwi;
                 this.input.update();
 
                 if (this.input.isDragging === true) {
+                    this.transform.setPosition(this.game.input.x - this.input.pointDown.x, this.game.input.y - this.input.pointDown.y);
                 }
 
-                this.animation.update();
+                if (this._isAnimated) {
+                    this.animation.update();
 
-                this.width = this.atlas.cells[this.atlas.cellIndex].w;
-                this.height = this.atlas.cells[this.atlas.cellIndex].h;
-                this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
+                    this.width = this.atlas.cells[this.atlas.cellIndex].w;
+                    this.height = this.atlas.cells[this.atlas.cellIndex].h;
+                    this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
+                }
             };
 
             Sprite.prototype.render = function (camera) {
@@ -8697,11 +7483,11 @@ var Kiwi;
                     ctx.globalAlpha = this.alpha;
                 }
 
-                this._maxX = Math.min(Math.ceil(camera.size.width() / this.tileWidth) + 1, this.widthInTiles);
-                this._maxY = Math.min(Math.ceil(camera.size.height() / this.tileHeight) + 1, this.heightInTiles);
+                this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.widthInTiles);
+                this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.heightInTiles);
 
-                this._startX = Math.floor((camera.position.x() - this.transform.x) / this.tileWidth);
-                this._startY = Math.floor((camera.position.y() - this.transform.y) / this.tileHeight);
+                this._startX = Math.floor((camera.transform.x - this.transform.x) / this.tileWidth);
+                this._startY = Math.floor((camera.transform.y - this.transform.y) / this.tileHeight);
 
                 if (this._startX < 0) {
                     this._maxX = this._maxX + this._startX;
@@ -8727,8 +7513,8 @@ var Kiwi;
                 this._dx = 0;
                 this._dy = 0;
 
-                this._dx += -(camera.position.x() - (this._startX * this.tileWidth)) + this.transform.x;
-                this._dy += -(camera.position.y() - (this._startY * this.tileHeight)) + this.transform.y;
+                this._dx += -(camera.transform.x - (this._startX * this.tileWidth)) + this.transform.x;
+                this._dy += -(camera.transform.y - (this._startY * this.tileHeight)) + this.transform.y;
 
                 this._tx = this._dx;
                 this._ty = this._dy;
@@ -9474,6 +8260,516 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Utils) {
+        var GameMath = (function () {
+            function GameMath() {
+            }
+            GameMath.prototype.objType = function () {
+                return "GameMath";
+            };
+
+            GameMath.computeMachineEpsilon = function () {
+                var fourThirds = 4.0 / 3.0;
+                var third = fourThirds - 1.0;
+                var one = third + third + third;
+                return Math.abs(1.0 - one);
+            };
+
+            GameMath.fuzzyEqual = function (a, b, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return Math.abs(a - b) < epsilon;
+            };
+
+            GameMath.fuzzyLessThan = function (a, b, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return a < b + epsilon;
+            };
+
+            GameMath.fuzzyGreaterThan = function (a, b, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return a > b - epsilon;
+            };
+
+            GameMath.fuzzyCeil = function (val, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return Math.ceil(val - epsilon);
+            };
+
+            GameMath.fuzzyFloor = function (val, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return Math.floor(val + epsilon);
+            };
+
+            GameMath.average = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                var avg = 0;
+
+                for (var i = 0; i < args.length; i++) {
+                    avg += args[i];
+                }
+
+                return avg / args.length;
+            };
+
+            GameMath.slam = function (value, target, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return (Math.abs(value - target) < epsilon) ? target : value;
+            };
+
+            GameMath.percentageMinMax = function (val, max, min) {
+                if (typeof min === "undefined") { min = 0; }
+                val -= min;
+                max -= min;
+
+                if (!max)
+                    return 0; else
+                    return val / max;
+            };
+
+            GameMath.sign = function (n) {
+                if (n)
+                    return n / Math.abs(n); else
+                    return 0;
+            };
+
+            GameMath.truncate = function (n) {
+                return (n > 0) ? Math.floor(n) : Math.ceil(n);
+            };
+
+            GameMath.shear = function (n) {
+                return n % 1;
+            };
+
+            GameMath.wrap = function (val, max, min) {
+                if (typeof min === "undefined") { min = 0; }
+                val -= min;
+                max -= min;
+                if (max == 0)
+                    return min;
+                val %= max;
+                val += min;
+                while (val < min)
+                    val += max;
+
+                return val;
+            };
+
+            GameMath.arithWrap = function (value, max, min) {
+                if (typeof min === "undefined") { min = 0; }
+                max -= min;
+                if (max == 0)
+                    return min;
+                return value - max * Math.floor((value - min) / max);
+            };
+
+            GameMath.clamp = function (input, max, min) {
+                if (typeof min === "undefined") { min = 0; }
+                return Math.max(min, Math.min(max, input));
+            };
+
+            GameMath.snapTo = function (input, gap, start) {
+                if (typeof start === "undefined") { start = 0; }
+                if (gap == 0)
+                    return input;
+
+                input -= start;
+                input = gap * Math.round(input / gap);
+                return start + input;
+            };
+
+            GameMath.snapToFloor = function (input, gap, start) {
+                if (typeof start === "undefined") { start = 0; }
+                if (gap == 0)
+                    return input;
+
+                input -= start;
+                input = gap * Math.floor(input / gap);
+                return start + input;
+            };
+
+            GameMath.snapToCeil = function (input, gap, start) {
+                if (typeof start === "undefined") { start = 0; }
+                if (gap == 0)
+                    return input;
+
+                input -= start;
+                input = gap * Math.ceil(input / gap);
+                return start + input;
+            };
+
+            GameMath.snapToInArray = function (input, arr, sort) {
+                if (typeof sort === "undefined") { sort = true; }
+                if (sort)
+                    arr.sort();
+                if (input < arr[0])
+                    return arr[0];
+
+                var i = 1;
+
+                while (arr[i] < input)
+                    i++;
+
+                var low = arr[i - 1];
+                var high = (i < arr.length) ? arr[i] : Number.POSITIVE_INFINITY;
+
+                return ((high - input) <= (input - low)) ? high : low;
+            };
+
+            GameMath.roundTo = function (value, place, base) {
+                if (typeof place === "undefined") { place = 0; }
+                if (typeof base === "undefined") { base = 10; }
+                var p = Math.pow(base, -place);
+                return Math.round(value * p) / p;
+            };
+
+            GameMath.floorTo = function (value, place, base) {
+                if (typeof place === "undefined") { place = 0; }
+                if (typeof base === "undefined") { base = 10; }
+                var p = Math.pow(base, -place);
+                return Math.floor(value * p) / p;
+            };
+
+            GameMath.ceilTo = function (value, place, base) {
+                if (typeof place === "undefined") { place = 0; }
+                if (typeof base === "undefined") { base = 10; }
+                var p = Math.pow(base, -place);
+                return Math.ceil(value * p) / p;
+            };
+
+            GameMath.interpolateFloat = function (a, b, weight) {
+                return (b - a) * weight + a;
+            };
+
+            GameMath.radiansToDegrees = function (angle) {
+                return angle * GameMath.RAD_TO_DEG;
+            };
+
+            GameMath.degreesToRadians = function (angle) {
+                return angle * GameMath.DEG_TO_RAD;
+            };
+
+            GameMath.angleBetween = function (x1, y1, x2, y2) {
+                return Math.atan2(y2 - y1, x2 - x1);
+            };
+
+            GameMath.normalizeAngle = function (angle, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                var rd = (radians) ? GameMath.PI : 180;
+                return GameMath.wrap(angle, rd, -rd);
+            };
+
+            GameMath.nearestAngleBetween = function (a1, a2, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                var rd = (radians) ? GameMath.PI : 180;
+
+                a1 = GameMath.normalizeAngle(a1, radians);
+                a2 = GameMath.normalizeAngle(a2, radians);
+
+                if (a1 < -rd / 2 && a2 > rd / 2)
+                    a1 += rd * 2;
+                if (a2 < -rd / 2 && a1 > rd / 2)
+                    a2 += rd * 2;
+
+                return a2 - a1;
+            };
+
+            GameMath.normalizeAngleToAnother = function (dep, ind, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                return ind + Kiwi.Utils.GameMath.nearestAngleBetween(ind, dep, radians);
+            };
+
+            GameMath.normalizeAngleAfterAnother = function (dep, ind, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                dep = Kiwi.Utils.GameMath.normalizeAngle(dep - ind, radians);
+                return ind + dep;
+            };
+
+            GameMath.normalizeAngleBeforeAnother = function (dep, ind, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                dep = Kiwi.Utils.GameMath.normalizeAngle(ind - dep, radians);
+                return ind - dep;
+            };
+
+            GameMath.interpolateAngles = function (a1, a2, weight, radians, ease) {
+                if (typeof radians === "undefined") { radians = true; }
+                if (typeof ease === "undefined") { ease = null; }
+                a1 = Kiwi.Utils.GameMath.normalizeAngle(a1, radians);
+                a2 = Kiwi.Utils.GameMath.normalizeAngleToAnother(a2, a1, radians);
+
+                return (typeof ease === 'function') ? ease(weight, a1, a2 - a1, 1) : Kiwi.Utils.GameMath.interpolateFloat(a1, a2, weight);
+            };
+
+            GameMath.logBaseOf = function (value, base) {
+                return Math.log(value) / Math.log(base);
+            };
+
+            GameMath.GCD = function (m, n) {
+                var r;
+
+                m = Math.abs(m);
+                n = Math.abs(n);
+
+                if (m < n) {
+                    r = m;
+                    m = n;
+                    n = r;
+                }
+
+                while (true) {
+                    r = m % n;
+                    if (!r)
+                        return n;
+                    m = n;
+                    n = r;
+                }
+
+                return 1;
+            };
+
+            GameMath.LCM = function (m, n) {
+                return (m * n) / Kiwi.Utils.GameMath.GCD(m, n);
+            };
+
+            GameMath.factorial = function (value) {
+                if (value == 0)
+                    return 1;
+
+                var res = value;
+
+                while (--value) {
+                    res *= value;
+                }
+
+                return res;
+            };
+
+            GameMath.gammaFunction = function (value) {
+                return Kiwi.Utils.GameMath.factorial(value - 1);
+            };
+
+            GameMath.fallingFactorial = function (base, exp) {
+                return Kiwi.Utils.GameMath.factorial(base) / Kiwi.Utils.GameMath.factorial(base - exp);
+            };
+
+            GameMath.risingFactorial = function (base, exp) {
+                return Kiwi.Utils.GameMath.factorial(base + exp - 1) / Kiwi.Utils.GameMath.factorial(base - 1);
+            };
+
+            GameMath.binCoef = function (n, k) {
+                return Kiwi.Utils.GameMath.fallingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
+            };
+
+            GameMath.risingBinCoef = function (n, k) {
+                return Kiwi.Utils.GameMath.risingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
+            };
+
+            GameMath.chanceRoll = function (chance) {
+                if (typeof chance === "undefined") { chance = 50; }
+                if (chance <= 0) {
+                    return false;
+                } else if (chance >= 100) {
+                    return true;
+                } else {
+                    if (Math.random() * 100 >= chance) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            };
+
+            GameMath.maxAdd = function (value, amount, max) {
+                value += amount;
+
+                if (value > max) {
+                    value = max;
+                }
+
+                return value;
+            };
+
+            GameMath.minSub = function (value, amount, min) {
+                value -= amount;
+
+                if (value < min) {
+                    value = min;
+                }
+
+                return value;
+            };
+
+            GameMath.wrapValue = function (value, amount, max) {
+                var diff;
+
+                value = Math.abs(value);
+                amount = Math.abs(amount);
+                max = Math.abs(max);
+
+                diff = (value + amount) % max;
+
+                return diff;
+            };
+
+            GameMath.randomSign = function () {
+                return (Math.random() > 0.5) ? 1 : -1;
+            };
+
+            GameMath.isOdd = function (n) {
+                if (n & 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            GameMath.isEven = function (n) {
+                if (n & 1) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            GameMath.wrapAngle = function (angle) {
+                var result = angle;
+
+                if (angle >= -180 && angle <= 180) {
+                    return angle;
+                }
+
+                result = (angle + 180) % 360;
+
+                if (result < 0) {
+                    result += 360;
+                }
+
+                return result - 180;
+            };
+
+            GameMath.angleLimit = function (angle, min, max) {
+                var result = angle;
+
+                if (angle > max) {
+                    result = max;
+                } else if (angle < min) {
+                    result = min;
+                }
+
+                return result;
+            };
+
+            GameMath.linearInterpolation = function (v, k) {
+                var m = v.length - 1;
+                var f = m * k;
+                var i = Math.floor(f);
+
+                if (k < 0)
+                    return Kiwi.Utils.GameMath.linear(v[0], v[1], f);
+                if (k > 1)
+                    return Kiwi.Utils.GameMath.linear(v[m], v[m - 1], m - f);
+
+                return Kiwi.Utils.GameMath.linear(v[i], v[i + 1 > m ? m : i + 1], f - i);
+            };
+
+            GameMath.bezierInterpolation = function (v, k) {
+                var b = 0;
+                var n = v.length - 1;
+
+                for (var i = 0; i <= n; i++) {
+                    b += Math.pow(1 - k, n - i) * Math.pow(k, i) * v[i] * Kiwi.Utils.GameMath.bernstein(n, i);
+                }
+
+                return b;
+            };
+
+            GameMath.catmullRomInterpolation = function (v, k) {
+                var m = v.length - 1;
+                var f = m * k;
+                var i = Math.floor(f);
+
+                if (v[0] === v[m]) {
+                    if (k < 0)
+                        i = Math.floor(f = m * (1 + k));
+
+                    return Kiwi.Utils.GameMath.catmullRom(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
+                } else {
+                    if (k < 0)
+                        return v[0] - (Kiwi.Utils.GameMath.catmullRom(v[0], v[0], v[1], v[1], -f) - v[0]);
+
+                    if (k > 1)
+                        return v[m] - (Kiwi.Utils.GameMath.catmullRom(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
+
+                    return Kiwi.Utils.GameMath.catmullRom(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
+                }
+            };
+
+            GameMath.linear = function (p0, p1, t) {
+                return (p1 - p0) * t + p0;
+            };
+
+            GameMath.bernstein = function (n, i) {
+                return Kiwi.Utils.GameMath.factorial(n) / Kiwi.Utils.GameMath.factorial(i) / Kiwi.Utils.GameMath.factorial(n - i);
+            };
+
+            GameMath.catmullRom = function (p0, p1, p2, p3, t) {
+                var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t, t3 = t * t2;
+                return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
+            };
+
+            GameMath.difference = function (a, b) {
+                return Math.abs(a - b);
+            };
+            GameMath.PI = 3.141592653589793;
+            GameMath.PI_2 = 1.5707963267948965;
+            GameMath.PI_4 = 0.7853981633974483;
+            GameMath.PI_8 = 0.39269908169872413;
+            GameMath.PI_16 = 0.19634954084936206;
+            GameMath.TWO_PI = 6.283185307179586;
+            GameMath.THREE_PI_2 = 4.7123889803846895;
+            GameMath.E = 2.71828182845905;
+            GameMath.LN10 = 2.302585092994046;
+            GameMath.LN2 = 0.6931471805599453;
+            GameMath.LOG10E = 0.4342944819032518;
+            GameMath.LOG2E = 1.442695040888963387;
+            GameMath.SQRT1_2 = 0.7071067811865476;
+            GameMath.SQRT2 = 1.4142135623730951;
+            GameMath.DEG_TO_RAD = 0.017453292519943294444444444444444;
+            GameMath.RAD_TO_DEG = 57.295779513082325225835265587527;
+
+            GameMath.B_16 = 65536;
+            GameMath.B_31 = 2147483648;
+            GameMath.B_32 = 4294967296;
+            GameMath.B_48 = 281474976710656;
+            GameMath.B_53 = 9007199254740992;
+            GameMath.B_64 = 18446744073709551616;
+
+            GameMath.ONE_THIRD = 0.333333333333333333333333333333333;
+            GameMath.TWO_THIRDS = 0.666666666666666666666666666666666;
+            GameMath.ONE_SIXTH = 0.166666666666666666666666666666666;
+
+            GameMath.COS_PI_3 = 0.86602540378443864676372317075294;
+            GameMath.SIN_2PI_3 = 0.03654595;
+
+            GameMath.CIRCLE_ALPHA = 0.5522847498307933984022516322796;
+
+            GameMath.ON = true;
+            GameMath.OFF = false;
+
+            GameMath.SHORT_EPSILON = 0.1;
+            GameMath.PERC_EPSILON = 0.001;
+            GameMath.EPSILON = 0.0001;
+            GameMath.LONG_EPSILON = 0.00000001;
+            return GameMath;
+        })();
+        Utils.GameMath = GameMath;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     (function (Geom) {
         var AABB = (function () {
             function AABB(cx, cy, width, height) {
@@ -9951,8 +9247,7 @@ var Kiwi;
                 this.container = document.createElement("div");
                 this.container.style.position = "absolute";
                 this.components = new Kiwi.ComponentManager(Kiwi.HUD_WIDGET, this);
-                this.position = this.components.add(new Kiwi.Components.Position(x, y));
-                this.position.updated.add(this._updatePosition, this);
+
                 this._updateCSS();
             }
             HUDWidget.prototype.setTemplate = function (main, element) {
@@ -9998,8 +9293,6 @@ var Kiwi;
             };
 
             HUDWidget.prototype._updateCSS = function () {
-                this.container.style.left = this.position.x() + "px";
-                this.container.style.top = this.position.y() + "px";
             };
 
             HUDWidget.prototype.update = function () {
@@ -10261,16 +9554,8 @@ var Kiwi;
                 _super.call(this, 'button', x, y);
 
                 this.game = game;
-
-                this.size = this.components.add(new Kiwi.Components.Size(width, height));
-                this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height()));
-                this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
-
-                this.position.updated.add(this._changed, this);
-                this.size.updated.add(this._changed, this);
             }
             Button.prototype._changed = function () {
-                this.bounds.setTo(this.position.x(), this.position.y(), this.size.width(), this.size.height());
             };
             return Button;
         })(Kiwi.HUD.TextField);
@@ -10419,11 +9704,6 @@ var Kiwi;
             function MenuItem(name, width, height, x, y) {
                 _super.call(this, name, x, y);
 
-                this.size = this.components.add(new Kiwi.Components.Size(width, height));
-                this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height()));
-
-                this.size.updated.add(this._applyCSS);
-
                 this.container.innerText = name;
                 this._applyCSS();
             }
@@ -10438,10 +9718,7 @@ var Kiwi;
                 var addX = 0;
                 var addY = 0;
                 if (this.menu !== undefined) {
-                    addX += this.menu.position.x();
-                    addY += this.menu.position.y();
                 }
-                this.bounds.setTo(this.position.x() + addX, this.position.y() + addY, this.size.width(), this.size.height());
             };
             return MenuItem;
         })(Kiwi.HUD.HUDWidget);
@@ -13366,13 +12643,22 @@ var Kiwi;
 (function (Kiwi) {
     (function (Textures) {
         var TextureAtlas = (function () {
-            function TextureAtlas(name, cells, image, sequences) {
+            function TextureAtlas(name, type, cells, image, sequences) {
                 this.cellIndex = 0;
                 this.name = name;
                 this.cells = cells || new Array();
                 this.sequences = sequences || new Array();
                 this.image = image;
+                this._type = type;
             }
+            Object.defineProperty(TextureAtlas.prototype, "type", {
+                get: function () {
+                    return this._type;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             TextureAtlas.prototype.readJSON = function (atlasJSON) {
                 var obj = JSON.parse(atlasJSON);
                 this.name = obj.name;
@@ -13399,6 +12685,11 @@ var Kiwi;
                     }
                 }
             };
+            TextureAtlas.SINGLE_IMAGE = 0;
+
+            TextureAtlas.SPRITE_SHEET = 1;
+
+            TextureAtlas.TEXTURE_ATLAS = 2;
             return TextureAtlas;
         })();
         Textures.TextureAtlas = TextureAtlas;
@@ -13433,7 +12724,7 @@ var Kiwi;
         };
 
         TextureCache.prototype._buildTextureAtlas = function (imageFile) {
-            var atlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, null, imageFile.data);
+            var atlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
             var m = imageFile.metadata;
             var json = m.jsonCache.getFile(m.jsonID).data;
             json.trim();
@@ -13479,7 +12770,7 @@ var Kiwi;
                 this.cellOffsetX = cellOffsetX || 0;
                 this.cellOffsetY = cellOffsetY || 0;
 
-                _super.call(this, name, this.generateAtlasCells(), texture, this.sequences);
+                _super.call(this, name, Kiwi.Textures.TextureAtlas.SPRITE_SHEET, this.generateAtlasCells(), texture, this.sequences);
             }
             SpriteSheet.prototype.generateAtlasCells = function () {
                 var cells = new Array();
@@ -13536,7 +12827,7 @@ var Kiwi;
                 this.offsetX = offsetX || 0;
                 this.offsetY = offsetY || 0;
 
-                _super.call(this, name, this.generateAtlasCells(), image);
+                _super.call(this, name, Kiwi.Textures.TextureAtlas.SINGLE_IMAGE, this.generateAtlasCells(), image);
             }
             SingleImage.prototype.generateAtlasCells = function () {
                 return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height, hitboxes: [{ x: 0, y: 0, w: this.width, h: this.height }] }];
