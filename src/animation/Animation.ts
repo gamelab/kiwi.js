@@ -132,6 +132,29 @@ module Kiwi {
         private _startTime: number = null;
         
         /*
+        * Indicates weither the animation is playing in reverse or not.
+        * @property _reverse
+        * @type boolean
+        */
+        private _reverse: boolean = false;
+
+        /*
+        * Set's weither or not the animation is playing in reverse or not.
+        * @type boolean
+        */
+        public set reverse(value: boolean) {
+            this._reverse = value;
+        }
+        
+        /*
+        * Returns a boolean indicating if the animation is playing in reverse or not 
+        * @type boolean
+        */
+        public get reverse(): boolean {
+            return this._reverse;
+        }
+
+        /*
         * The time at which the animation should change to the next cell 
         * @property _tick
         * @type number
@@ -260,9 +283,11 @@ module Kiwi {
         * @method stop
         */
         public stop() {
-            this._isPlaying = false;
-            this._playPending = false;
-            this.onStop.dispatch();
+            if (this._isPlaying) {
+                this._isPlaying = false;
+                this._playPending = false;
+                this.onStop.dispatch();
+            }
         }
 
         /*
@@ -272,18 +297,25 @@ module Kiwi {
         */
         public update(): bool {
             if (this._isPlaying) {
-
+                
                 if (this.clock.elapsed() >= this._tick) {
 
                     this._tick = this.clock.elapsed() + this._speed;
-                    this._frameIndex++;
-                    this.onUpdate.dispatch();
+                    
+                    if (this._reverse) this._frameIndex--   ;
+                    else this._frameIndex++;
 
+                    this.onUpdate.dispatch();
                     if (!this._validateFrame(this._frameIndex)) {
 
                         if (this._loop) {
-                            this._frameIndex = 0;
-                            this.onLoop.dispatch();
+                            if (this._reverse) {
+                                this._frameIndex = this._sequence.cells.length - 1;
+                                this.onLoop.dispatch();
+                            } else {
+                                this._frameIndex = 0;
+                                this.onLoop.dispatch();
+                            }
                         } else {
                             this._frameIndex--;
                             this.stop();

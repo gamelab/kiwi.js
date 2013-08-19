@@ -1,5 +1,5 @@
 /// <reference path="../../src/Kiwi.ts" />
-/*
+
 class overlaps extends Kiwi.State {
 
     constructor() {
@@ -16,8 +16,8 @@ class overlaps extends Kiwi.State {
 
     create() {
         
-        this.zombie = new custom('zombie', this.cache, 100, 100);
-        this.spartan = new custom('spartan', this.cache, 400, 100);
+        this.zombie = new custom(this.textures.zombie, 100, 100);
+        this.spartan = new custom(this.textures.spartan, 400, 100);
 
         this.addChild(this.zombie);
         this.addChild(this.spartan);
@@ -41,8 +41,8 @@ class overlaps extends Kiwi.State {
 
 class custom extends Kiwi.GameObjects.Sprite {
 
-    constructor(cacheID, cache, x, y) {
-        super(cacheID, cache, x, y);
+    constructor(atlas, x, y) {
+        super(atlas, x, y);
         
         this.phy = this.components.add(new Kiwi.Components.ArcadePhysics(this));
     }
@@ -55,4 +55,3 @@ class custom extends Kiwi.GameObjects.Sprite {
     }
 
 }
-*/

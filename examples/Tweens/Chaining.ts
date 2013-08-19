@@ -20,7 +20,7 @@ class Chaining extends Kiwi.State {
         this.addChild(this.ufo);
 
         //only apply the callback once.
-        this.ufo.input.inputOnRelease.addOnce(this.tweenIt, this);
+        this.ufo.input.onRelease.addOnce(this.tweenIt, this);
 
         //Creation Method A
         this.tweenA = this.game.tweens.create(this.ufo.transform); //eventually will be just this.cat when x/y are atlased to it...

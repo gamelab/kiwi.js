@@ -39,9 +39,9 @@ class Marker_Playing extends Kiwi.State {
         this.addChild(this.horn);
         this.addChild(this.prin); 
 
-        this.boy.input.inputOnRelease.add(this.playBoy, this);
-        this.horn.input.inputOnRelease.add(this.playHorn, this);
-        this.prin.input.inputOnRelease.add(this.playPrin, this);
+        this.boy.input.onRelease.add(this.playBoy, this);
+        this.horn.input.onRelease.add(this.playHorn, this);
+        this.prin.input.onRelease.add(this.playPrin, this);
     }
 
     playBoy() { this.random.stop(); this.random.play('boy'); }

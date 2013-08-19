@@ -1,5 +1,5 @@
 /// <reference path="../../src/Kiwi.ts" />
-/*
+
 class group extends Kiwi.State {
 
     constructor() {
@@ -12,19 +12,44 @@ class group extends Kiwi.State {
     }
 
     balls: Kiwi.Group;
-    spartan: custom;
+    spartan: customB;
+    numBalls: number = 3;
 
     create() {
 
         this.balls = new Kiwi.Group();
-        this.spartan = new custom('spartan', this.cache, 400, 100);
+        this.addChild(this.balls);
+
+        this.spartan = new customB(this.textures.spartan, 400, 100);
+        this.spartan.phy.immovable = true;
+
+        for (var i = 0; i < this.numBalls; i++) {
+            var ball = new customB(this.textures.shiny, Math.random() * this.game.stage.width , this.game.stage.height * Math.random());
+            
+            this.balls.addChild(ball);
+        }
 
         this.addChild(this.spartan);
-
+        
     }
 
     update() {
         super.update();
+        
+        for (var i = 0; i < this.balls.members.length; i++) {
+
+            
+            if (this.balls.members[i].childType() == Kiwi.ENTITY) {
+                
+                var b = <Kiwi.Entity> this.balls.members[i];
+                b.x-= 5;
+
+                if (b.x + b.width < 0) {
+                    b.x = this.game.stage.width;
+                    b.y = this.game.stage.height * Math.random();
+                }
+            }
+        }
 
         if (this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.LEFT)) {
             this.spartan.transform.x -= 5;
@@ -32,15 +57,15 @@ class group extends Kiwi.State {
             this.spartan.transform.x += 5;
         }
 
-        //this.spartan.phy.overlaps(this.zombie, true);
+        this.spartan.phy.overlapsGroup(this.balls, true);
     }
 
 }
 
-class custom extends Kiwi.GameObjects.Sprite {
+class customB extends Kiwi.GameObjects.Sprite {
 
-    constructor(cacheID, cache, x, y) {
-        super(cacheID, cache, x, y);
+    constructor(atlas, x, y) {
+        super(atlas, x, y);
 
         this.phy = this.components.add(new Kiwi.Components.ArcadePhysics(this));
     }
@@ -52,4 +77,4 @@ class custom extends Kiwi.GameObjects.Sprite {
         this.phy.update();
     }
 
-}*/
+}

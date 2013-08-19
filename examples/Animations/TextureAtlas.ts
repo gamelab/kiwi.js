@@ -44,13 +44,13 @@ class TextureAtlas extends Kiwi.State {
         this.playerPlane = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 365, 300);
         this.playerPlane.animation.play('Player');
 
-        this.blueEnemyA.input.inputOnRelease.add(this.spinB, this);
-        this.blueEnemyB.input.inputOnRelease.addOnce(this.flipB, this);
-        this.orangeEnemy.input.inputOnRelease.add(this.spinO, this);
-        this.greenEnemyA.input.inputOnRelease.addOnce(this.flipG, this);
-        this.greenEnemyB.input.inputOnRelease.add(this.spinG, this);
+        this.blueEnemyA.input.onRelease.add(this.spinB, this);
+        this.blueEnemyB.input.onRelease.addOnce(this.flipB, this);
+        this.orangeEnemy.input.onRelease.add(this.spinO, this);
+        this.greenEnemyA.input.onRelease.addOnce(this.flipG, this);
+        this.greenEnemyB.input.onRelease.add(this.spinG, this);
 
-        this.playerPlane.input.inputOnRelease.addOnce(this.submarinesAreGo, this);
+        this.playerPlane.input.onRelease.addOnce(this.submarinesAreGo, this);
 
         this.addChild(this.blueEnemyA);
         this.addChild(this.blueEnemyB);
@@ -69,33 +69,33 @@ class TextureAtlas extends Kiwi.State {
 
     spinB() {
         this.blueEnemyA.animation.play('enemyBlueSpin');
-       // this.blueEnemyA.animation.getAnimation('enemyBlueSpin').onComplete.add(function () {
-       //     this.blueEnemyA.animation.play('enemyBlueIdle');
-       // }, this);
+        this.blueEnemyA.animation.getAnimation('enemyBlueSpin').onStop.add(function () {
+            this.blueEnemyA.animation.play('enemyBlueIdle');
+        }, this);
     }
     flipB() {
         this.blueEnemyB.animation.play('enemyBlueFlip');
-      //  this.blueEnemyB.animation.getAnimation('enemyBlueFlip').onComplete.add(function () {
-      //      this.blueEnemyB.animation.play('enemyBlueUpsidedown');
-      //  }, this);
+        this.blueEnemyB.animation.getAnimation('enemyBlueFlip').onStop.add(function () {
+            this.blueEnemyB.animation.play('enemyBlueUpsidedown');
+        }, this);
     }
     spinO() {
         this.orangeEnemy.animation.play('enemyOrangeSpin');
-     //   this.orangeEnemy.animation.getAnimation('enemyOrangeSpin').onComplete.add(function () {
-      //      this.orangeEnemy.animation.play('enemyOrangeIdle');
-     //   }, this);
+        this.orangeEnemy.animation.getAnimation('enemyOrangeSpin').onStop.add(function () {
+            this.orangeEnemy.animation.play('enemyOrangeIdle');
+        }, this);
     }
     flipG() {
         this.greenEnemyA.animation.play('enemyGreenFlip');
-     //   this.greenEnemyA.animation.getAnimation('enemyGreenFlip').onComplete.add(function () {
-     //       this.greenEnemyA.animation.play('enemyGreenUpsidedown');
-     //   }, this);
+        this.greenEnemyA.animation.getAnimation('enemyGreenFlip').onStop.add(function () {
+            this.greenEnemyA.animation.play('enemyGreenUpsidedown');
+        }, this);
     }
     spinG() {
         this.greenEnemyB.animation.play('enemyGreenSpin');
-     //   this.greenEnemyB.animation.getAnimation('enemyGreenSpin').onComplete.add(function () {
-      //      this.greenEnemyB.animation.play('enemyGreenIdle');
-      //  }, this);
+        this.greenEnemyB.animation.getAnimation('enemyGreenSpin').onStop.add(function () {
+            this.greenEnemyB.animation.play('enemyGreenIdle');
+        }, this);
     }
 
 

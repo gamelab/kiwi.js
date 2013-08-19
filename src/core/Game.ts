@@ -90,14 +90,33 @@ module Kiwi {
 
         }
 
+        /*
+        * The render mode of the game. This will be either set to CANVAS or WEBGL.
+        * @property _renderMode
+        * @type number
+        */
         private _renderMode: number;
 
+        /*
+        * Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.
+        * @type number
+        */
         public get renderMode(): number {
             return this._renderMode;
         }
 
+        /*
+        * Holds the renderer that is being used. This is detiremended based of the _renderMode
+        * @property renderer
+        * @type IRenderer
+        */
         public renderer: IRenderer;
 
+        /*
+        * Holds the hud manager.
+        * @property huds
+        * @type Kiwi.HUD.HUDManager
+        */
         public huds: Kiwi.HUD.HUDManager;
 
         public objType() {

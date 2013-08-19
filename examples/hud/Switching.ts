@@ -29,18 +29,18 @@ class Switching extends Kiwi.State {
         this.scoreDefault.container.style.height = '40px';
         this.scoreDefault.container.style.color = 'red';
 
-        this.game.huds.defaultHUD().addWidget(this.scoreDefault);
+        this.game.huds.defaultHUD.addWidget(this.scoreDefault);
         this.hud.addWidget(this.scoreHud);
 
     }
 
     preload() {
-        this.addImage('closed', 'assets/sprites/planetcute/Chest Closed.png', false);
-        this.addImage('opened', 'assets/sprites/planetcute/Chest Open.png', false);
+        this.addImage('closed', 'assets/sprites/planetcute/Chest Closed.png');
+        this.addImage('opened', 'assets/sprites/planetcute/Chest Open.png');
     }
 
     create() {
-        this.openedChest = new Kiwi.GameObjects.Sprite(this.textures.open, 300, 200);
+        this.openedChest = new Kiwi.GameObjects.Sprite(this.textures.opened, 300, 200);
         this.closedChest = new Kiwi.GameObjects.Sprite(this.textures.closed, 300, 200);
 
         this.addChild(this.openedChest);
@@ -48,8 +48,8 @@ class Switching extends Kiwi.State {
 
         this.openedChest.visiblity = false;
 
-        this.openedChest.input.inputEntered.add(this.entered, this);
-        this.closedChest.input.inputLeft.add(this.left, this);
+        this.openedChest.input.onEntered.add(this.entered, this);
+        this.closedChest.input.onLeft.add(this.left, this);
     }
 
     entered() {
@@ -59,7 +59,7 @@ class Switching extends Kiwi.State {
     }
 
     left() {
-        this.game.huds.setHUD(this.game.huds.defaultHUD());
+        this.game.huds.setHUD(this.game.huds.defaultHUD);
         this.closedChest.visiblity = true;
         this.openedChest.visiblity = false;
     }

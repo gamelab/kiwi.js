@@ -70,14 +70,11 @@ module Kiwi {
         **/
         public textureCache: Kiwi.TextureCache;
 
+        /*
+        * Holds all of the textures that are avaiable to be accessed once this state has been loaded.
+        * @property textures
+        */
         public textures;
-
-        /**
-        * 
-        * @property members
-        * @type Array
-        **/
-        //public members = [];
 
         /**
         * The Component Manager

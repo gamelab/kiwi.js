@@ -28,17 +28,17 @@ module Kiwi.HUD {
         * @param {number} x
         * @param {number} y
         **/
-        constructor(cacheID: string, cache: Kiwi.Cache, current: number, max: number, x: number, y: number) {
+        constructor(atlas: Kiwi.Textures.TextureAtlas, current: number, max: number, x: number, y: number) {
             
-            super(cacheID, cache, x, y);
+            super(atlas, x, y);
 
             this._horizontal = true;
-
+           
             this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));
             this.range.updated.add(this._changeSize, this);
 
             this._changeSize();
-           // this._applyCSS();
+            this._applyCSS();
         }
 
         /**
@@ -53,6 +53,12 @@ module Kiwi.HUD {
         **/
         public range: Kiwi.Components.Range;
 
+        public _repeat: string;
+
+        public get repeat():string {
+            return this._repeat;
+        }
+
         /**
         * Gets called when the range has updated and then it updates the size of the bar.
         * @private
@@ -60,11 +66,13 @@ module Kiwi.HUD {
         private _changeSize() {
             
             if (this._horizontal) {
-       //         this.texture.repeat('repeat-x');
-       //         this.size.setTo(this.texture.file.data.width * this.range.current, this.texture.file.data.height);
+                this._repeat = 'repeat-x';
+                this.width = this.atlas.cells[this.cellIndex].w * this.range.current;
+                this.height = this.atlas.cells[this.cellIndex].h;
             } else {
-       //         this.texture.repeat('repeat-y');
-       //         this.size.setTo(this.texture.file.data.width, this.texture.file.data.height * this.range.current);
+                this._repeat = 'repeat-y';
+                this.width = this.atlas.cells[this.cellIndex].w;
+                this.height = this.atlas.cells[this.cellIndex].h * this.range.current;
             }
         
         }
@@ -73,39 +81,37 @@ module Kiwi.HUD {
         * Applys the background image CSS.
         * @public
         **/
-        /*
         public _applyCSS() {
             super._applyCSS();
-            this.icon.style.backgroundRepeat = this.texture.repeat();
-            this.icon.style.backgroundSize = this.texture.file.data.width + 'px ' + this.texture.file.data.height + 'px';
+            this.icon.style.backgroundRepeat = this.repeat;
         }
-        */
-
-
+        
         /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @param {boolean} val
-        * @return {boolean} 
+        * @public
         **/
-        public horizontal(val?: boolean): boolean {
-            if (val !== undefined) {
-                this._horizontal = val;
-                this._changeSize();
-            }
+        public get horizontal(): boolean {
             return this._horizontal;
         }
 
+        public set horizontal(val: boolean) {
+            this._horizontal = val;
+            this._changeSize();
+        }
+
         /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @param {boolean} val
-        * @return {boolean} 
+        * @public
         **/
-        public vertical(val?: boolean): boolean {
-            if (val !== undefined) {
-                this._horizontal = !val;
-                this._changeSize();
-            }
+        public get vertical(): boolean {
             return !this._horizontal;
+        }
+
+        public set vertical(val: boolean) {
+            this._horizontal = !val;
+            this._changeSize();
         }
 
     }

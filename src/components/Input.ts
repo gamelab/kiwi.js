@@ -17,26 +17,35 @@ module Kiwi.Components {
 
     export class Input extends Component {
 
+        /*
+        *
+        * @constructor
+        * @param {Kiwi.Entity} entity
+        * @param {Kiwi.Components.Bounds} bounds
+        * @return {Kiwi.Components.Input}
+        */
         constructor(entity: Kiwi.Entity, bounds:Kiwi.Components.Bounds) {
 
             super('Input');
 
             //  Signals
-            this.inputEntered = new Kiwi.Signal();
-            this.inputLeft = new Kiwi.Signal();
-            this.inputOnDown = new Kiwi.Signal();
-            this.inputOnRelease = new Kiwi.Signal();
-            this.inputDragStarted = new Kiwi.Signal();
-            this.inputDragStopped = new Kiwi.Signal();
+            this.onEntered = new Kiwi.Signal();
+            this.onLeft = new Kiwi.Signal();
+            this.onDown = new Kiwi.Signal();
+            this.onRelease = new Kiwi.Signal();
+            this.onDragStarted = new Kiwi.Signal();
+            this.onDragStopped = new Kiwi.Signal();
 
             //  Properties
             this._entity = entity;
             this._bounds = bounds;
-            this.pointDown = new Kiwi.Geom.Point();
 
+            this.pointDown = new Kiwi.Geom.Point();
             this.distance = new Kiwi.Geom.Point();
+
             this.withinBounds = false;
             this.outsideBounds = true;
+
             this.isUp = true;
             this.isDown = false;
             this.isDragging = false;
@@ -48,31 +57,67 @@ module Kiwi.Components {
             return "Input";
         }
 
+        /*
+        * The entity that this input belongs to.
+        * @property _entity
+        * @type Kiwi.Entity
+        */
         private _entity: Kiwi.Entity;
 
         //  Subscribe to these Signals to receive updates
 
-        //  When the input enters the bounds of this entity
-        public inputEntered: Kiwi.Signal;
+        /*
+        * When the input enters the bounds of this entity
+        * @property onEntered
+        * @type Kiwi.Signal
+        */
+        public onEntered: Kiwi.Signal;
 
-        //  When the input leaves the bounds of this entity
-        public inputLeft: Kiwi.Signal;
+        /*
+        * When the input leaves the bounds of this entity
+        * @property onLeft
+        * @type Kiwi.Signal
+        */
+        public onLeft: Kiwi.Signal;
 
-        //  When the input is within the bounds of this entity AND pressed down
-        public inputOnDown: Kiwi.Signal;
+        /* 
+        * When the input is within the bounds of this entity AND pressed down
+        * @property onDown
+        * @type Kiwi.Signal
+        */
+        public onDown: Kiwi.Signal;
 
-        //  When the input is within the bounds of this entity AND is released, having previously been pressed down on this entity
-        public inputOnRelease: Kiwi.Signal;
+        /*
+        * When the input is within the bounds of this entity AND is released, having previously been pressed down on this entity
+        * @property onReleased
+        * @type Kiwi.Signal
+        */
+        public onRelease: Kiwi.Signal;
 
-        //  Fired once when the drag first starts (if enabled)
-        public inputDragStarted: Kiwi.Signal;
+        /*
+        * Fired once when the drag first starts (if enabled)
+        * @property onDragStarted
+        * @type Kiwi.Signal
+        */
+        public onDragStarted: Kiwi.Signal;
 
-        //  Fired once when the drag stops (if enabled)
-        public inputDragStopped: Kiwi.Signal;
+        /*
+        * Fired once when the drag stops (if enabled)
+        * @property onDragStopped
+        * @type Kiwi.Signal
+        */
+        public onDragStopped: Kiwi.Signal;
 
-        //  Distance from the top left corner of the entity bounds to the current input position
+        /*
+        * Distance from the top left corner of the entity bounds to the current input position
+        * @property distance
+        * @type Kiwi.Geom.Point
+        */
         public distance: Kiwi.Geom.Point;
 
+        /*
+        * Tonnes of booleans
+        */
         public isDown: bool;
         public isUp: bool;
         public isDragging: bool;
@@ -104,8 +149,6 @@ module Kiwi.Components {
             this.isDragging = false;
         }
         
-        //  Need to add a click timer?
-
         public update() {
 
             if (!this._entity.game || this._entity.active === false || this._entity.willRender === false)
@@ -125,7 +168,7 @@ module Kiwi.Components {
                     this.withinBounds = true;
                     this.outsideBounds = false;
                     this._justEntered = true;
-                    this.inputEntered.dispatch(this._entity, this.distance.x, this.distance.y);
+                    this.onEntered.dispatch(this._entity, this.distance.x, this.distance.y);
                     
                 }
             }
@@ -136,7 +179,7 @@ module Kiwi.Components {
                 {
                     this.withinBounds = false;
                     this.outsideBounds = true;
-                    this.inputLeft.dispatch(this._entity);
+                    this.onLeft.dispatch(this._entity);
                 }
             }
 
@@ -155,7 +198,7 @@ module Kiwi.Components {
                     this.isDown = true;
                     this.isUp = false;
                     this.pointDown.copyFrom(this.distance);
-                    this.inputOnDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
+                    this.onDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
                 }
 
                 //  Start Drag check
@@ -172,7 +215,7 @@ module Kiwi.Components {
                             this.pointDown = this._bounds.getRect().center;
                         }
 
-                        this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
+                        this.onDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
                     }
                 }
             }
@@ -182,7 +225,7 @@ module Kiwi.Components {
                 if (this.isDragging === true)
                 {
                     this.isDragging = false;
-                    this.inputDragStopped.dispatch(this._entity);
+                    this.onDragStopped.dispatch(this._entity);
                 }
                 
                 if (this._tempDragDisabled === true) this._tempDragDisabled = false;
@@ -191,7 +234,7 @@ module Kiwi.Components {
                 {
                     this.isDown = false;
                     this.isUp = true;
-                    this.inputOnRelease.dispatch(this._entity);
+                    this.onRelease.dispatch(this._entity);
                 }
             }
 

@@ -28,9 +28,9 @@ class MultipleSprites extends Kiwi.State {
         this.addChild(this.zombieB);
         this.addChild(this.zombieC);
         
-        this.zombieA.input.inputOnRelease.add(this.walk, this);
-        this.zombieB.input.inputOnRelease.add(this.liedown, this);
-        this.zombieC.input.inputOnRelease.add(this.explode, this);
+        this.zombieA.input.onRelease.add(this.walk, this);
+        this.zombieB.input.onRelease.add(this.liedown, this);
+        this.zombieC.input.onRelease.add(this.explode, this);
     }
 
     walk() {

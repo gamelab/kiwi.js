@@ -25,7 +25,7 @@ module Kiwi.HUD {
         * @param {number} x 
         * @param {number} y
         **/
-        constructor(current: number, max:number, x:number,y:number) {
+        constructor(current: number, max:number, x:number,y:number, width:number=120, height:number=20) {
             super("bar", x, y);
 
             this._horizontal = true;
@@ -37,11 +37,62 @@ module Kiwi.HUD {
 
             this.bar = this._bar;
             this.container.appendChild(this.bar);
+            
+            this.width = width;
+            this.height = height;
 
             this._bar.style.height = '100%';
             this._bar.style.width = '100%';
             
             this.updateCSS();
+        }
+
+        /*
+        * The width of the container
+        * @property _width
+        * @type number
+        */
+        private _width: number;
+        
+        /*
+        * The width of the container
+        * @type number
+        */
+        public get width(): number {
+            return this._width;
+        }
+        
+        /*
+        * Set the width of the container
+        * @type number
+        */
+        public set width(value: number) {
+            this.container.style.width = value + "px";
+            this._width = value;
+        }
+        
+        /*
+        * The height of the container
+        * @property _height
+        * @type number
+        */
+        private _height: number;
+        
+        /*
+        * The height of the container
+        * @type number
+        */
+        public get height(): number {
+            return this._height;
+        }
+        
+        /*
+        * Set the height of the container
+        * @type number
+        */
+        public set height(value: number) {
+            this.container.style.height = value + "px";
+            this._height = value;
         }
         
         /**
@@ -73,12 +124,13 @@ module Kiwi.HUD {
         * @param {boolean} val
         * @public
         **/
-        public horizontal(val?: boolean):boolean {
-            if (val !== undefined) {
-                this._horizontal = val;
-                this.updateCSS();
-            }
+        public get horizontal(): boolean {
             return this._horizontal;
+        }
+        
+        public set horizontal(val: boolean) {
+            this._horizontal = val;
+            this.updateCSS();
         }
 
         /**
@@ -86,12 +138,13 @@ module Kiwi.HUD {
         * @param {boolean} val
         * @public
         **/
-        public vertical(val?: boolean):boolean {
-            if (val !== undefined) {
-                this._horizontal = !val;
-                this.updateCSS();
-            }
+        public get vertical(): boolean {
             return !this._horizontal;
+        }
+        
+        public set vertical(val: boolean) {
+            this._horizontal = !val;
+            this.updateCSS();
         }
 
 
@@ -132,7 +185,14 @@ module Kiwi.HUD {
         * @public
         **/
         public updateCSS() {
-            //update the CSS
+            
+            if (this.horizontal === true) {
+                this.bar.style.width = String(this.range.currentPercent()) + '%';
+                this.bar.style.height = '100%';
+            } else {
+                this.bar.style.height = String(this.range.currentPercent()) + '%';
+                this.bar.style.width = '100%';
+            }
         }
 
     }

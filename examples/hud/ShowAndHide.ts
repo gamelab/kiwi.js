@@ -18,7 +18,7 @@ class ShowAndHide extends Kiwi.State {
         
         this.score.counter.increment(200);
 
-        this.game.huds.defaultHUD().addWidget(this.score);
+        this.game.huds.defaultHUD.addWidget(this.score);
         this.game.huds.hideHUD();
     }
 
@@ -30,8 +30,8 @@ class ShowAndHide extends Kiwi.State {
         this.girl = new Kiwi.GameObjects.Sprite(this.textures.catgirl, 200, 200);
         this.addChild(this.girl);
 
-        this.girl.input.inputEntered.add(this.show, this);
-        this.girl.input.inputLeft.add(this.hide, this);
+        this.girl.input.onEntered.add(this.show, this);
+        this.girl.input.onLeft.add(this.hide, this);
     }
 
     show() {

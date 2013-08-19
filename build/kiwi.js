@@ -1,4 +1,23 @@
-﻿var Kiwi;
+﻿var Shapes;
+(function (Shapes) {
+    var Point = (function () {
+        function Point(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+        Point.prototype.getDist = function () {
+            return Math.sqrt(this.x * this.x + this.y * this.y);
+        };
+
+        Point.origin = new Point(0, 0);
+        return Point;
+    })();
+    Shapes.Point = Point;
+})(Shapes || (Shapes = {}));
+
+var p = new Shapes.Point(3, 4);
+var dist = p.getDist();
+var Kiwi;
 (function (Kiwi) {
     (function (DOM) {
         var Bootstrap = (function () {
@@ -962,6 +981,8 @@ var Kiwi;
                 this.data.onerror = function (event) {
                     return _this.tagLoaderOnError(event);
                 };
+
+                this.data.load();
 
                 this.tagLoaderOnLoad(null);
             }
@@ -2042,22 +2063,22 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         var Transform = (function () {
-            function Transform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
+            function Transform(x, y, scaleX, scaleY, rotation, regX, regY) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof scaleX === "undefined") { scaleX = 1; }
                 if (typeof scaleY === "undefined") { scaleY = 1; }
                 if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof rotPointX === "undefined") { rotPointX = 0; }
-                if (typeof rotPointY === "undefined") { rotPointY = 0; }
+                if (typeof regX === "undefined") { regX = 0; }
+                if (typeof regY === "undefined") { regY = 0; }
                 this._x = 0;
                 this._y = 0;
                 this._scaleX = 1;
                 this._scaleY = 1;
                 this._rotation = 0;
-                this._rotPointX = 0;
-                this._rotPointY = 0;
-                this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
+                this._regX = 0;
+                this._regY = 0;
+                this.setTransform(x, y, scaleX, scaleY, rotation, regX, regY);
 
                 this._matrix = new Geom.Matrix();
 
@@ -2130,24 +2151,24 @@ var Kiwi;
             });
 
 
-            Object.defineProperty(Transform.prototype, "rotPointX", {
+            Object.defineProperty(Transform.prototype, "regX", {
                 get: function () {
-                    return this._rotPointX;
+                    return this._regX;
                 },
                 set: function (value) {
-                    this._rotPointX = value;
+                    this._regX = value;
                 },
                 enumerable: true,
                 configurable: true
             });
 
 
-            Object.defineProperty(Transform.prototype, "rotPointY", {
+            Object.defineProperty(Transform.prototype, "regY", {
                 get: function () {
-                    return this._rotPointY;
+                    return this._regY;
                 },
                 set: function (value) {
-                    this._rotPointY = value;
+                    this._regY = value;
                 },
                 enumerable: true,
                 configurable: true
@@ -2226,21 +2247,21 @@ var Kiwi;
                 configurable: true
             });
 
-            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
+            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, regX, regY) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof scaleX === "undefined") { scaleX = 1; }
                 if (typeof scaleY === "undefined") { scaleY = 1; }
                 if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof rotPointX === "undefined") { rotPointX = 0; }
-                if (typeof rotPointY === "undefined") { rotPointY = 0; }
+                if (typeof regX === "undefined") { regX = 0; }
+                if (typeof regY === "undefined") { regY = 0; }
                 this._x = x;
                 this._y = y;
                 this._scaleX = scaleX;
                 this._scaleY = scaleY;
                 this._rotation = rotation;
-                this._rotPointX = rotPointX;
-                this._rotPointY = rotPointY;
+                this._regX = regX;
+                this._regY = regY;
 
                 return this;
             };
@@ -2275,7 +2296,7 @@ var Kiwi;
             };
 
             Transform.prototype.copyFrom = function (source) {
-                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.rotPointX, source.rotPointY);
+                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
 
                 this.parent = source.parent;
 
@@ -2303,7 +2324,7 @@ var Kiwi;
 
             Object.defineProperty(Transform.prototype, "toString", {
                 get: function () {
-                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._rotPointX + " regY=" + this.rotPointY + " matrix=" + this._matrix + ")}]";
+                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
                 },
                 enumerable: true,
                 configurable: true
@@ -2788,7 +2809,6 @@ var Kiwi;
         };
 
         Stage.prototype._createCompositeCanvas = function () {
-            console.log("created canvas");
             this.canvas = document.createElement("canvas");
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
@@ -2801,9 +2821,8 @@ var Kiwi;
                 this.gl = null;
             } else if (this._game.renderMode === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
-                this.gl.clearColor(1, 1, .95, 1);
+                this.gl.clearColor(1, 0, 0, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-                this.ctx = null;
             } else {
                 klog.error("Unrecognised render mode");
             }
@@ -3307,8 +3326,9 @@ var Kiwi;
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this._renderMode = Kiwi.RENDERER_WEBGL;
             this.stage = new Kiwi.Stage(this, name);
+
+            this._renderMode = Kiwi.RENDERER_CANVAS;
 
             if (this._renderMode === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
@@ -3361,7 +3381,6 @@ var Kiwi;
 
             this.browser.boot();
             this.stage.boot(this._dom);
-            this.renderer.boot();
 
             this.cameras.boot();
             if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
@@ -3463,8 +3482,6 @@ var Kiwi;
             this.width = width;
             this.height = height;
             this.transform = new Kiwi.Geom.Transform(x, y);
-            this.transform.rotPointX = x + width / 2;
-            this.transform.rotPointY = y + height / 2;
 
             this._game.stage.onResize.add(this._updatedStageSize, this);
             this._game.stage.onResize.add(this._updatedSize, this);
@@ -5361,20 +5378,22 @@ var Kiwi;
                 this._dragEnabled = false;
                 this._dragSnapToCenter = false;
 
-                this.inputEntered = new Kiwi.Signal();
-                this.inputLeft = new Kiwi.Signal();
-                this.inputOnDown = new Kiwi.Signal();
-                this.inputOnRelease = new Kiwi.Signal();
-                this.inputDragStarted = new Kiwi.Signal();
-                this.inputDragStopped = new Kiwi.Signal();
+                this.onEntered = new Kiwi.Signal();
+                this.onLeft = new Kiwi.Signal();
+                this.onDown = new Kiwi.Signal();
+                this.onRelease = new Kiwi.Signal();
+                this.onDragStarted = new Kiwi.Signal();
+                this.onDragStopped = new Kiwi.Signal();
 
                 this._entity = entity;
                 this._bounds = bounds;
-                this.pointDown = new Kiwi.Geom.Point();
 
+                this.pointDown = new Kiwi.Geom.Point();
                 this.distance = new Kiwi.Geom.Point();
+
                 this.withinBounds = false;
                 this.outsideBounds = true;
+
                 this.isUp = true;
                 this.isDown = false;
                 this.isDragging = false;
@@ -5412,13 +5431,13 @@ var Kiwi;
                         this.withinBounds = true;
                         this.outsideBounds = false;
                         this._justEntered = true;
-                        this.inputEntered.dispatch(this._entity, this.distance.x, this.distance.y);
+                        this.onEntered.dispatch(this._entity, this.distance.x, this.distance.y);
                     }
                 } else {
                     if (this.withinBounds === true && this.isDragging === false) {
                         this.withinBounds = false;
                         this.outsideBounds = true;
-                        this.inputLeft.dispatch(this._entity);
+                        this.onLeft.dispatch(this._entity);
                     }
                 }
 
@@ -5433,7 +5452,7 @@ var Kiwi;
                         this.isDown = true;
                         this.isUp = false;
                         this.pointDown.copyFrom(this.distance);
-                        this.inputOnDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
+                        this.onDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
                     }
 
                     if (this._dragEnabled === true && this.isDragging === false && this._tempDragDisabled === false) {
@@ -5444,13 +5463,13 @@ var Kiwi;
                                 this.pointDown = this._bounds.getRect().center;
                             }
 
-                            this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
+                            this.onDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
                         }
                     }
                 } else {
                     if (this.isDragging === true) {
                         this.isDragging = false;
-                        this.inputDragStopped.dispatch(this._entity);
+                        this.onDragStopped.dispatch(this._entity);
                     }
 
                     if (this._tempDragDisabled === true)
@@ -5459,7 +5478,7 @@ var Kiwi;
                     if (this.isDown === true) {
                         this.isDown = false;
                         this.isUp = true;
-                        this.inputOnRelease.dispatch(this._entity);
+                        this.onRelease.dispatch(this._entity);
                     }
                 }
 
@@ -5946,6 +5965,7 @@ var Kiwi;
             this._frameIndex = 0;
             this._clock = null;
             this._startTime = null;
+            this._reverse = false;
             this._playPending = false;
             this.name = name;
             this._sequence = sequence;
@@ -5999,6 +6019,18 @@ var Kiwi;
 
 
 
+        Object.defineProperty(Animation.prototype, "reverse", {
+            get: function () {
+                return this._reverse;
+            },
+            set: function (value) {
+                this._reverse = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
         Object.defineProperty(Animation.prototype, "clock", {
             get: function () {
                 return this._clock;
@@ -6049,22 +6081,32 @@ var Kiwi;
         };
 
         Animation.prototype.stop = function () {
-            this._isPlaying = false;
-            this._playPending = false;
-            this.onStop.dispatch();
+            if (this._isPlaying) {
+                this._isPlaying = false;
+                this._playPending = false;
+                this.onStop.dispatch();
+            }
         };
 
         Animation.prototype.update = function () {
             if (this._isPlaying) {
                 if (this.clock.elapsed() >= this._tick) {
                     this._tick = this.clock.elapsed() + this._speed;
-                    this._frameIndex++;
-                    this.onUpdate.dispatch();
 
+                    if (this._reverse)
+                        this._frameIndex--; else
+                        this._frameIndex++;
+
+                    this.onUpdate.dispatch();
                     if (!this._validateFrame(this._frameIndex)) {
                         if (this._loop) {
-                            this._frameIndex = 0;
-                            this.onLoop.dispatch();
+                            if (this._reverse) {
+                                this._frameIndex = this._sequence.cells.length - 1;
+                                this.onLoop.dispatch();
+                            } else {
+                                this._frameIndex = 0;
+                                this.onLoop.dispatch();
+                            }
                         } else {
                             this._frameIndex--;
                             this.stop();
@@ -6502,6 +6544,11 @@ var Kiwi;
                 this._play(index, name);
             };
 
+            Animation.prototype.playInReverse = function (name) {
+                if (typeof name === "undefined") { name = this.currentAnimation.name; }
+                this._play(0, name);
+            };
+
             Animation.prototype._play = function (index, name) {
                 this._isPlaying = true;
                 this._setCurrentAnimation(name);
@@ -6544,7 +6591,12 @@ var Kiwi;
             Animation.prototype._setCurrentAnimation = function (name) {
                 if (this.currentAnimation !== null)
                     this.currentAnimation.stop();
-                this.currentAnimation = this._animations[name];
+
+                if (this._animations[name]) {
+                    this.currentAnimation = this._animations[name];
+                } else {
+                    klog.error(name, 'animation does not exist!');
+                }
             };
 
             Animation.prototype.update = function () {
@@ -6611,8 +6663,6 @@ var Kiwi;
 
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
-                this.transform.rotPointX = this.width / 2;
-                this.transform.rotPointY = this.height / 2;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
@@ -6625,12 +6675,19 @@ var Kiwi;
                     this._isAnimated = true;
                 }
 
+                this.input.onDragStarted.add(this._dragStarted, this);
                 this.onAddedToState.add(this._onAddedToState, this);
 
                 klog.info('Created Sprite Game Object');
             }
             Sprite.prototype.objType = function () {
                 return "Sprite";
+            };
+
+            Sprite.prototype._dragStarted = function (entity, x, y, snapToCenter) {
+                if (snapToCenter === true) {
+                    this.transform.setPosition(this.game.input.position.x - this.width / 2, this.game.input.position.y - this.height / 2);
+                }
             };
 
             Sprite.prototype._onAddedToState = function (state) {
@@ -6647,7 +6704,7 @@ var Kiwi;
                 this.input.update();
 
                 if (this.input.isDragging === true) {
-                    this.transform.setPosition(this.game.input.x() - this.input.pointDown.x, this.game.input.y() - this.input.pointDown.y);
+                    this.transform.setPosition(this.game.input.x - this.input.pointDown.x, this.game.input.y - this.input.pointDown.y);
                 }
 
                 if (this._isAnimated) {
@@ -6700,8 +6757,6 @@ var Kiwi;
                 this.transform.y = y;
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
-                this.transform.rotPointX = this.width / 2;
-                this.transform.rotPointY = this.height / 2;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
@@ -6729,17 +6784,10 @@ var Kiwi;
                     }
 
                     var m = this.transform.getConcatenatedMatrix();
-
-                    m.translate(this.transform.rotPointX - camera.transform.rotPointX, this.transform.rotPointX - camera.transform.rotPointY);
-
-                    m.prependMatrix(camera.transform.getConcatenatedMatrix().invert());
-
-                    m.translate(camera.transform.rotPointX, camera.transform.rotPointY);
-
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
                     var cell = this.atlas.cells[this.cellIndex];
-                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -this.transform.rotPointX, -this.transform.rotPointX, cell.w, cell.h);
+                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
 
                     ctx.restore();
                 }
@@ -9152,17 +9200,21 @@ var Kiwi;
                 return "HUDManager";
             };
 
-            HUDManager.prototype.defaultHUD = function (val) {
-                if (val) {
+
+            Object.defineProperty(HUDManager.prototype, "defaultHUD", {
+                get: function () {
+                    return this._defaultHUD;
+                },
+                set: function (value) {
                     if (this._currentHUD === this._defaultHUD) {
-                        this._currentHUD = val;
+                        this._currentHUD = value;
                         this.setHUD(this._currentHUD);
                     }
-                    this._defaultHUD = val;
-                }
-
-                return this._defaultHUD;
-            };
+                    this._defaultHUD = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             HUDManager.prototype.setHUD = function (hud) {
                 this.hideHUD();
@@ -9239,10 +9291,43 @@ var Kiwi;
                 this.container = document.createElement("div");
                 this.container.style.position = "absolute";
                 this.components = new Kiwi.ComponentManager(Kiwi.HUD_WIDGET, this);
-
-                this._updateCSS();
+                this.onCoordsUpdate = new Kiwi.Signal();
+                this.x = x;
+                this.y = y;
             }
+            Object.defineProperty(HUDWidget.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                set: function (value) {
+                    this._x = value;
+                    this.container.style.left = this.x + "px";
+                    this.onCoordsUpdate.dispatch(this.x, this.y);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(HUDWidget.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                set: function (value) {
+                    this._y = value;
+                    this.container.style.top = this.y + "px";
+                    this.onCoordsUpdate.dispatch(this.x, this.y);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
             HUDWidget.prototype.setTemplate = function (main, element) {
+                var paramsArr = [];
+                for (var _i = 0; _i < (arguments.length - 2); _i++) {
+                    paramsArr[_i] = arguments[_i + 2];
+                }
                 var containerElement = document.getElementById(main);
                 if (containerElement === undefined) {
                     console.log('Container element not found');
@@ -9280,18 +9365,8 @@ var Kiwi;
                 this.container.className = cssClass;
             };
 
-            HUDWidget.prototype._updatePosition = function () {
-                this._updateCSS();
-            };
-
-            HUDWidget.prototype._updateCSS = function () {
-            };
-
             HUDWidget.prototype.update = function () {
                 this.components.update();
-            };
-
-            HUDWidget.prototype.render = function () {
             };
             return HUDWidget;
         })();
@@ -9347,7 +9422,9 @@ var Kiwi;
     (function (HUD) {
         var Bar = (function (_super) {
             __extends(Bar, _super);
-            function Bar(current, max, x, y) {
+            function Bar(current, max, x, y, width, height) {
+                if (typeof width === "undefined") { width = 120; }
+                if (typeof height === "undefined") { height = 20; }
                 _super.call(this, "bar", x, y);
 
                 this._horizontal = true;
@@ -9360,26 +9437,65 @@ var Kiwi;
                 this.bar = this._bar;
                 this.container.appendChild(this.bar);
 
+                this.width = width;
+                this.height = height;
+
                 this._bar.style.height = '100%';
                 this._bar.style.width = '100%';
 
                 this.updateCSS();
             }
-            Bar.prototype.horizontal = function (val) {
-                if (val !== undefined) {
+            Object.defineProperty(Bar.prototype, "width", {
+                get: function () {
+                    return this._width;
+                },
+                set: function (value) {
+                    this.container.style.width = value + "px";
+                    this._width = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Bar.prototype, "height", {
+                get: function () {
+                    return this._height;
+                },
+                set: function (value) {
+                    this.container.style.height = value + "px";
+                    this._height = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Bar.prototype, "horizontal", {
+                get: function () {
+                    return this._horizontal;
+                },
+                set: function (val) {
                     this._horizontal = val;
                     this.updateCSS();
-                }
-                return this._horizontal;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Bar.prototype.vertical = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(Bar.prototype, "vertical", {
+                get: function () {
+                    return !this._horizontal;
+                },
+                set: function (val) {
                     this._horizontal = !val;
                     this.updateCSS();
-                }
-                return !this._horizontal;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
+
 
             Bar.prototype.setTemplate = function (main, innerbar) {
                 _super.prototype.setTemplate.call(this, main, innerbar);
@@ -9398,6 +9514,13 @@ var Kiwi;
             };
 
             Bar.prototype.updateCSS = function () {
+                if (this.horizontal === true) {
+                    this.bar.style.width = String(this.range.currentPercent()) + '%';
+                    this.bar.style.height = '100%';
+                } else {
+                    this.bar.style.height = String(this.range.currentPercent()) + '%';
+                    this.bar.style.width = '100%';
+                }
             };
             return Bar;
         })(Kiwi.HUD.HUDWidget);
@@ -9410,22 +9533,61 @@ var Kiwi;
     (function (HUD) {
         var Icon = (function (_super) {
             __extends(Icon, _super);
-            function Icon(cacheID, cache, x, y) {
+            function Icon(atlas, x, y) {
                 _super.call(this, 'Icon', x, y);
+                this._cellIndex = 0;
 
-                if (cache.checkImageCacheID(cacheID, cache) == false) {
-                    console.log('Missing texture', cacheID);
-                    return;
-                }
+                this.atlas = atlas;
 
                 this.icon = this.container;
+                this._applyCSS();
             }
+            Object.defineProperty(Icon.prototype, "cellIndex", {
+                get: function () {
+                    return this._cellIndex;
+                },
+                set: function (value) {
+                    this._cellIndex = value;
+                    this.width = this.atlas.cells[this.cellIndex].w;
+                    this.height = this.atlas.cells[this.cellIndex].h;
+                    this._applyCSS();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Icon.prototype, "width", {
+                get: function () {
+                    return this.atlas.cells[this.cellIndex].w;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Icon.prototype, "height", {
+                get: function () {
+                    return this.atlas.cells[this.cellIndex].h;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Icon.prototype._removeCSS = function () {
                 this.icon.style.width = '';
                 this.icon.style.height = '';
                 this.icon.style.backgroundImage = '';
                 this.icon.style.backgroundRepeat = '';
                 this.icon.style.backgroundSize = '';
+            };
+
+            Icon.prototype._applyCSS = function () {
+                this.icon.style.width = this.width + "px";
+                this.icon.style.height = this.height + "px";
+                this.icon.style.backgroundSize = "100%";
+                this.icon.style.backgroundPositionX = -this.atlas.cells[this.cellIndex].x + "px";
+                this.icon.style.backgroundPositionY = -this.atlas.cells[this.cellIndex].y + "px";
+                this.icon.style.backgroundImage = this.atlas.image.src;
             };
 
             Icon.prototype.setTemplate = function (main, icon) {
@@ -9436,6 +9598,8 @@ var Kiwi;
                 if (this.tempElement !== undefined) {
                     this.icon = this.tempElement;
                 }
+
+                this._applyCSS();
             };
 
             Icon.prototype.removeTemplate = function () {
@@ -9443,6 +9607,7 @@ var Kiwi;
 
                 this._removeCSS();
                 this.icon = this.container;
+                this._applyCSS();
             };
             return Icon;
         })(Kiwi.HUD.HUDWidget);
@@ -9453,36 +9618,10 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
-        var BasicBar = (function (_super) {
-            __extends(BasicBar, _super);
-            function BasicBar(current, max, x, y) {
-                _super.call(this, current, max, x, y);
-
-                this.container.style.width = '100px';
-                this.container.style.height = '20px';
-            }
-            BasicBar.prototype.updateCSS = function () {
-                if (this.horizontal() === true) {
-                    this.bar.style.width = String(this.range.currentPercent()) + '%';
-                    this.bar.style.height = '100%';
-                } else {
-                    this.bar.style.height = String(this.range.currentPercent()) + '%';
-                    this.bar.style.width = '100%';
-                }
-            };
-            return BasicBar;
-        })(Kiwi.HUD.Bar);
-        HUD.BasicBar = BasicBar;
-    })(Kiwi.HUD || (Kiwi.HUD = {}));
-    var HUD = Kiwi.HUD;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (HUD) {
         var IconCounter = (function (_super) {
             __extends(IconCounter, _super);
-            function IconCounter(cacheID, cache, current, max, x, y) {
-                _super.call(this, cacheID, cache, x, y);
+            function IconCounter(atlas, current, max, x, y) {
+                _super.call(this, atlas, x, y);
 
                 this._horizontal = true;
 
@@ -9490,28 +9629,58 @@ var Kiwi;
                 this.range.updated.add(this._changeSize, this);
 
                 this._changeSize();
+                this._applyCSS();
             }
+            Object.defineProperty(IconCounter.prototype, "repeat", {
+                get: function () {
+                    return this._repeat;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             IconCounter.prototype._changeSize = function () {
                 if (this._horizontal) {
+                    this._repeat = 'repeat-x';
+                    this.width = this.atlas.cells[this.cellIndex].w * this.range.current;
+                    this.height = this.atlas.cells[this.cellIndex].h;
                 } else {
+                    this._repeat = 'repeat-y';
+                    this.width = this.atlas.cells[this.cellIndex].w;
+                    this.height = this.atlas.cells[this.cellIndex].h * this.range.current;
                 }
             };
 
-            IconCounter.prototype.horizontal = function (val) {
-                if (val !== undefined) {
+            IconCounter.prototype._applyCSS = function () {
+                _super.prototype._applyCSS.call(this);
+                this.icon.style.backgroundRepeat = this.repeat;
+            };
+
+            Object.defineProperty(IconCounter.prototype, "horizontal", {
+                get: function () {
+                    return this._horizontal;
+                },
+                set: function (val) {
                     this._horizontal = val;
                     this._changeSize();
-                }
-                return this._horizontal;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            IconCounter.prototype.vertical = function (val) {
-                if (val !== undefined) {
+
+            Object.defineProperty(IconCounter.prototype, "vertical", {
+                get: function () {
+                    return !this._horizontal;
+                },
+                set: function (val) {
                     this._horizontal = !val;
                     this._changeSize();
-                }
-                return !this._horizontal;
-            };
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             return IconCounter;
         })(Kiwi.HUD.Icon);
         HUD.IconCounter = IconCounter;
@@ -9546,7 +9715,43 @@ var Kiwi;
                 _super.call(this, 'button', x, y);
 
                 this.game = game;
+
+                this.width = width;
+                this.height = height;
+
+                this.bounds = this.components.add(new Kiwi.Components.Bounds(this.x, this.y, this.width, this.height));
+
+                this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
+                this.onCoordsUpdate.add(this._changed, this);
             }
+            Object.defineProperty(Button.prototype, "width", {
+                get: function () {
+                    return this._width;
+                },
+                set: function (value) {
+                    this.container.style.width = value + "px";
+                    this._width = value;
+                    this._changed();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Button.prototype, "height", {
+                get: function () {
+                    return this._height;
+                },
+                set: function (value) {
+                    this.container.style.height = value + "px";
+                    this._height = value;
+                    this._changed();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
             Button.prototype._changed = function () {
             };
             return Button;
@@ -11346,13 +11551,21 @@ var Kiwi;
                 }
             };
 
-            Manager.prototype.x = function () {
-                return this.position.x;
-            };
+            Object.defineProperty(Manager.prototype, "x", {
+                get: function () {
+                    return this.position.x;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Manager.prototype.y = function () {
-                return this.position.y;
-            };
+            Object.defineProperty(Manager.prototype, "y", {
+                get: function () {
+                    return this.position.y;
+                },
+                enumerable: true,
+                configurable: true
+            });
             return Manager;
         })();
         Input.Manager = Manager;
@@ -11723,410 +11936,29 @@ var Kiwi;
     (function (Renderers) {
         var GLRenderer = (function () {
             function GLRenderer(game) {
-                this._entityCount = 0;
-                this._maxItems = 1000;
-                this._texApplied = false;
-                this._firstPass = true;
-                this._currentTextureAtlas = null;
                 this._game = game;
             }
             GLRenderer.prototype.boot = function () {
-                this._initState();
             };
 
-            GLRenderer.prototype.mvPush = function () {
-                var copy = mat4.create();
-                mat4.set(this.mvMatrix, copy);
-                this.mvMatrixStack.push(copy);
-            };
-
-            GLRenderer.prototype.mvPop = function () {
-                if (this.mvMatrixStack.length == 0) {
-                    throw "Invalid popMatrix!";
-                }
-                this.mvMatrix = this.mvMatrixStack.pop();
-            };
-
-            GLRenderer.prototype._initState = function () {
-                var gl = this._game.stage.gl;
-                this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-
-                this._shaders = new Renderers.GLShaders(gl);
-                gl.enable(gl.BLEND);
-                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-                this.mvMatrix = mat4.create();
-                mat4.identity(this.mvMatrix);
-
-                this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
-                this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
-
-                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems));
-                this._colorBuffer = new Renderers.GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
-
-                this._shaders.use(gl, this._shaders.shaderProgram);
-
-                var prog = this._shaders.texture2DProg;
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.uniform1i(prog.samplerUniform, 0);
-
-                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-
-                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
-            };
-
-            GLRenderer.prototype.render = function (camera) {
-                this._currentCamera = camera;
-                var root = this._game.states.current.members;
-                var gl = this._game.stage.gl;
-
-                this._entityCount = 0;
-                this._vertBuffer.clear();
-                this._uvBuffer.clear();
-
-                gl.clearColor(0, 0, 0, 0);
-                gl.clear(gl.COLOR_BUFFER_BIT);
-
-                for (var i = 0; i < root.length; i++) {
-                    this._recurse(gl, root[i]);
-                }
-
-                this._flush(gl);
-
-                this._firstPass = false;
-            };
-
-            GLRenderer.prototype._recurse = function (gl, child) {
+            GLRenderer.prototype._recurse = function (child) {
                 if (!child.willRender)
                     return;
 
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < (child).members.length; i++) {
-                        this._recurse(gl, (child).members[i]);
+                        this._recurse((child).members[i]);
                     }
                 } else {
-                    if (!this._texApplied) {
-                        console.log("applying texture");
-                        this._applyTexture(gl, (child).atlas.image);
-                        this._texApplied = true;
-                        this._currentTextureAtlas = (child).atlas;
-                    }
-
-                    if ((child).atlas !== this._currentTextureAtlas) {
-                        console.log("changing texture");
-                        this._flush(gl);
-                        this._entityCount = 0;
-                        this._vertBuffer.clear();
-                        this._uvBuffer.clear();
-                        this._changeTexture(gl, (child).atlas.image);
-                        this._currentTextureAtlas = (child).atlas;
-                    }
-                    this._compileVertices(gl, child);
-                    this._compileUVs(gl, child);
-                    this._entityCount++;
+                    child.render(this._currentCamera);
                 }
             };
 
-            GLRenderer.prototype._flush = function (gl) {
-                this._vertBuffer.refresh(gl, this._vertBuffer.items);
-                this._uvBuffer.refresh(gl, this._uvBuffer.items);
-                this._draw(gl);
-            };
-
-            GLRenderer.prototype._compileVertices = function (gl, entity) {
-                var t = entity.transform;
-                var c = entity.atlas.cells[entity.cellIndex];
-
-                this._vertBuffer.items.push(t.x, t.y, t.x + c.w, t.y, t.x + c.w, t.y + c.h, t.x, t.y + c.h);
-            };
-
-            GLRenderer.prototype._compileUVs = function (gl, entity) {
-                var t = entity.transform;
-                var c = entity.atlas.cells[entity.cellIndex];
-
-                this._uvBuffer.items.push(c.x, c.y, c.x + c.w, c.y, c.x + c.w, c.y + c.h, c.x, c.y + c.h);
-            };
-
-            GLRenderer.prototype._applyTexture = function (gl, image) {
-                this._texture = new Renderers.GLTexture(gl, image);
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-                var prog = this._shaders.texture2DProg;
-                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
-            };
-
-            GLRenderer.prototype._changeTexture = function (gl, image) {
-                this._texture.refresh(gl, image);
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-                var prog = this._shaders.texture2DProg;
-                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
-            };
-
-            GLRenderer.prototype._draw = function (gl) {
-                if (this._currentTextureAtlas) {
-                }
-                gl.drawElements(gl.TRIANGLES, this._entityCount * 6, gl.UNSIGNED_SHORT, 0);
-            };
-
-            GLRenderer.prototype._generateIndices = function (numQuads) {
-                var quads = new Array();
-                for (var i = 0; i < numQuads; i++) {
-                    quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
-                }
-                return quads;
-            };
-
-            GLRenderer.prototype._generateColors = function (numVerts) {
-                var cols = new Array();
-                for (var i = 0; i < numVerts; i++) {
-                    cols.push(1);
-                }
-                return cols;
+            GLRenderer.prototype.render = function (camera) {
             };
             return GLRenderer;
         })();
         Renderers.GLRenderer = GLRenderer;
-    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
-    var Renderers = Kiwi.Renderers;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Renderers) {
-        var GLShaders = (function () {
-            function GLShaders(gl) {
-                this.ready = false;
-                this.texture2DProg = { vertexPositionAttribute: null, vertexTexCoordAttribute: null, vertexColorAttribute: null, mvMatrixUniform: null, samplerUniform: null, resolutionUniform: null, textureSizeUniform: null };
-                this.texture2DFrag = [
-                    "precision mediump float;",
-                    "varying vec2 vTextureCoord;",
-                    "varying float vColor;",
-                    "uniform sampler2D uSampler;",
-                    "void main(void) {",
-                    "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-                    "gl_FragColor = gl_FragColor * vColor;",
-                    "}"
-                ];
-                this.texture2DVert = [
-                    "attribute vec2 aVertexPosition;",
-                    "attribute vec2 aTextureCoord;",
-                    "attribute float aColor;",
-                    "uniform mat4 uMVMatrix;",
-                    "uniform vec2 uResolution;",
-                    "uniform vec2 uTextureSize;",
-                    "varying vec2 vTextureCoord;",
-                    "varying float vColor;",
-                    "void main(void) {",
-                    "vec2 zeroToOne = aVertexPosition / uResolution;",
-                    "vec2 zeroToTwo = zeroToOne * 2.0;",
-                    "vec2 clipSpace = zeroToTwo - 1.0;",
-                    "gl_Position = uMVMatrix * vec4(clipSpace * vec2(1, -1), 0, 1);",
-                    "vTextureCoord = aTextureCoord / uTextureSize;",
-                    "vColor = aColor;",
-                    "}"
-                ];
-                this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);
-                this.fragShader = this.compile(gl, this.texture2DFrag.join("\n"), gl.FRAGMENT_SHADER);
-                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-                this.use(gl, this.shaderProgram);
-                this.ready = true;
-            }
-            GLShaders.prototype.attach = function (gl, vertShader, fragShader) {
-                var shaderProgram = gl.createProgram();
-                gl.attachShader(shaderProgram, fragShader);
-                gl.attachShader(shaderProgram, vertShader);
-                gl.linkProgram(shaderProgram);
-                return shaderProgram;
-            };
-
-            GLShaders.prototype.compile = function (gl, src, shaderType) {
-                var shader = gl.createShader(shaderType);
-                gl.shaderSource(shader, src);
-                gl.compileShader(shader);
-
-                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                    console.log(gl.getShaderInfoLog(shader));
-                    return null;
-                }
-                return shader;
-            };
-
-            GLShaders.prototype.use = function (gl, shaderProgram) {
-                gl.useProgram(this.shaderProgram);
-
-                console.log(shaderProgram);
-                this.texture2DProg.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
-                this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
-                this.texture2DProg.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aColor");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexColorAttribute);
-
-                this.texture2DProg.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-                this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
-                this.texture2DProg.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-                this.texture2DProg.textureSizeUniform = gl.getUniformLocation(shaderProgram, "uTextureSize");
-            };
-            return GLShaders;
-        })();
-        Renderers.GLShaders = GLShaders;
-    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
-    var Renderers = Kiwi.Renderers;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Renderers) {
-        var GLTexture = (function () {
-            function GLTexture(gl, _image) {
-                this.texture = gl.createTexture();
-
-                this.image = _image;
-                gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                gl.bindTexture(gl.TEXTURE_2D, null);
-            }
-            GLTexture.prototype.refresh = function (gl, _image) {
-                this.image = _image;
-                gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                gl.bindTexture(gl.TEXTURE_2D, null);
-            };
-            return GLTexture;
-        })();
-        Renderers.GLTexture = GLTexture;
-    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
-    var Renderers = Kiwi.Renderers;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Renderers) {
-        var GLArrayBuffer = (function () {
-            function GLArrayBuffer(gl, _itemSize, items, init) {
-                if (typeof init === "undefined") { init = true; }
-                this.items = items || GLArrayBuffer.squareVertices;
-                this.itemSize = _itemSize || 2;
-                this.numItems = this.items.length / this.itemSize;
-                if (init) {
-                    this.buffer = this.init(gl);
-                }
-            }
-            GLArrayBuffer.prototype.clear = function () {
-                this.items = new Array();
-            };
-
-            GLArrayBuffer.prototype.init = function (gl) {
-                var buffer = gl.createBuffer();
-                var f32 = new Float32Array(this.items);
-                console.log(f32.length, f32.BYTES_PER_ELEMENT);
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
-
-                return buffer;
-            };
-
-            GLArrayBuffer.prototype.refresh = function (gl, items) {
-                this.items = items;
-                this.numItems = this.items.length / this.itemSize;
-                var f32 = new Float32Array(this.items);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
-                return this.buffer;
-            };
-
-            GLArrayBuffer.squareVertices = [
-                0,
-                0,
-                100,
-                0,
-                100,
-                100,
-                0,
-                100
-            ];
-
-            GLArrayBuffer.squareUVs = [
-                0,
-                0,
-                .1,
-                0,
-                .1,
-                .1,
-                0,
-                .1
-            ];
-
-            GLArrayBuffer.squareCols = [
-                1,
-                1,
-                1,
-                1
-            ];
-            return GLArrayBuffer;
-        })();
-        Renderers.GLArrayBuffer = GLArrayBuffer;
-    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
-    var Renderers = Kiwi.Renderers;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Renderers) {
-        var GLElementArrayBuffer = (function () {
-            function GLElementArrayBuffer(gl, _itemSize, _indices, init) {
-                if (typeof init === "undefined") { init = true; }
-                this.indices = _indices || GLElementArrayBuffer.square;
-                this.itemSize = _itemSize || 1;
-                this.numItems = this.indices.length / this.itemSize;
-                if (init) {
-                    this.buffer = this.init(gl);
-                }
-            }
-            GLElementArrayBuffer.prototype.clear = function () {
-                this.indices = new Array();
-            };
-
-            GLElementArrayBuffer.prototype.init = function (gl) {
-                var buffer = gl.createBuffer();
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
-
-                return buffer;
-            };
-
-            GLElementArrayBuffer.prototype.refresh = function (gl, indices) {
-                this.numItems = this.indices.length / this.itemSize;
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffer);
-                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
-
-                return this.buffer;
-            };
-
-            GLElementArrayBuffer.square = [
-                0,
-                1,
-                2,
-                0,
-                2,
-                3
-            ];
-            return GLElementArrayBuffer;
-        })();
-        Renderers.GLElementArrayBuffer = GLElementArrayBuffer;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -12699,6 +12531,8 @@ var Kiwi;
         };
 
         TextureCache.prototype.add = function (imageFile) {
+            imageFile = this._rebuildImage(imageFile);
+
             switch (imageFile.dataType) {
                 case Kiwi.File.SPRITE_SHEET:
                     this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
@@ -12713,6 +12547,50 @@ var Kiwi;
                     klog.error("Image file is of unknown type and was not added to texture cache");
                     break;
             }
+        };
+
+        TextureCache.prototype._rebuildImage = function (imageFile) {
+            var width = imageFile.data.width;
+            var height = imageFile.data.height;
+
+            if (Kiwi.TextureCache.VALID_SIZES.indexOf(width) == -1) {
+                var i = 0;
+                while (width > Kiwi.TextureCache.VALID_SIZES[i])
+                    i++;
+                width = Kiwi.TextureCache.VALID_SIZES[i];
+            }
+
+            if (Kiwi.TextureCache.VALID_SIZES.indexOf(height) == -1) {
+                var i = 0;
+                while (height > Kiwi.TextureCache.VALID_SIZES[i])
+                    i++;
+                height = Kiwi.TextureCache.VALID_SIZES[i];
+            }
+
+            if (imageFile.data.width !== width || imageFile.data.height !== height) {
+                var canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
+
+                var image = new Image(width, height);
+                image.src = canvas.toDataURL("image/png");
+
+                if (imageFile.dataType === Kiwi.File.SPRITE_SHEET) {
+                    if (!imageFile.metadata.rows)
+                        imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight;
+
+                    if (!imageFile.metadata.cols)
+                        imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
+                }
+
+                imageFile.data = image;
+                canvas = null;
+                width = null;
+                height = null;
+            }
+
+            return imageFile;
         };
 
         TextureCache.prototype._buildTextureAtlas = function (imageFile) {
@@ -12737,6 +12615,7 @@ var Kiwi;
             var m = imageFile.metadata;
             return new Kiwi.Textures.SingleImage(imageFile.cacheID, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
         };
+        TextureCache.VALID_SIZES = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
         return TextureCache;
     })();
     Kiwi.TextureCache = TextureCache;

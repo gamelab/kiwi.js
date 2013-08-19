@@ -24,28 +24,28 @@ class RemovingWidgets extends Kiwi.State {
 
         this.showingScore = false;
 
-        this.game.huds.defaultHUD().addWidget(this.score1);
+        this.game.huds.defaultHUD.addWidget(this.score1);
     }
 
     preload() {
-        this.addImage('ca-girl', 'assets/sprites/planetcute/Character Cat Girl.png', false);
+        this.addImage('catgirl', 'assets/sprites/planetcute/Character Cat Girl.png', false);
     }
 
     create() {
         this.catGirl = new Kiwi.GameObjects.Sprite(this.textures.catgirl, 200, 200);
         this.addChild(this.catGirl);
-        this.catGirl.input.inputOnRelease.add(this.change, this);
+        this.catGirl.input.onRelease.add(this.change, this);
     }
 
     change() {
 
         if (this.showingScore === false) {
-            this.game.huds.defaultHUD().removeWidget(this.score1);
-            this.game.huds.defaultHUD().addWidget(this.score2);
+            this.game.huds.defaultHUD.removeWidget(this.score1);
+            this.game.huds.defaultHUD.addWidget(this.score2);
             this.showingScore = true;
         } else {
-            this.game.huds.defaultHUD().removeWidget(this.score2);
-            this.game.huds.defaultHUD().addWidget(this.score1);
+            this.game.huds.defaultHUD.removeWidget(this.score2);
+            this.game.huds.defaultHUD.addWidget(this.score1);
             this.showingScore = false;
         }
         

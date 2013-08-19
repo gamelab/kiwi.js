@@ -8,15 +8,9 @@ export class Buttons extends Kiwi.State {
     
     public button: Kiwi.HUD.Button;
     public buttonState: string;
-    public chest: Kiwi.GameObjects.Sprite;
 
     init() {
         this.buttonState = 'chestclosed';
-    }
-
-    preload() {
-        this.addImage('chestclosed', 'assets/sprites/planetcute/Chest Closed.png', false);
-        this.addImage('chestopen', 'assets/sprites/planetcute/Chest Open.png', false);
     }
 
     create() {
@@ -24,12 +18,10 @@ export class Buttons extends Kiwi.State {
         this.button.container.style.backgroundColor = 'red';
         this.button.text('Open');
 
-        this.game.huds.defaultHUD().addWidget(this.button);
+        this.game.huds.defaultHUD.addWidget(this.button);
 
         this.button.input.inputOnRelease.add(this.change, this);
 
-        this.chest = new Kiwi.GameObjects.Sprite(this.textures[this.buttonState],  100, 100);
-        this.addChild(this.chest);
     }
 
     change() {
@@ -41,7 +33,6 @@ export class Buttons extends Kiwi.State {
             this.button.text('Open');
         }
 
-        //this.chest.texture.changeTexture(this.buttonState, this.cache);
     }
 
 }

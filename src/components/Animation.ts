@@ -170,6 +170,16 @@ module Kiwi.Components {
         } 
 
         /*
+        * Plays an animation in reverse.
+        * 
+        * @method playInReverse
+        * @param {string} name
+        */
+        public playInReverse(name: string = this.currentAnimation.name) {
+            this._play(0, name);
+        }
+
+        /*
         *  An internal method used to actually play the animation.
         * 
         * @method _play
@@ -242,9 +252,14 @@ module Kiwi.Components {
         */
         private _setCurrentAnimation(name: string) {
 
-            if(this.currentAnimation !== null) this.currentAnimation.stop();
-            this.currentAnimation = this._animations[name];
-    
+            if (this.currentAnimation !== null) this.currentAnimation.stop();
+            
+            if (this._animations[name]) {
+                this.currentAnimation = this._animations[name];
+            } else {
+                //the animation does not exist.
+                klog.error(name, 'animation does not exist!');
+            }
         }
 
         /*
