@@ -49,8 +49,8 @@ module Kiwi {
 
 
             //this needs to be passed in instead of hard coded
-            this._renderMode = Kiwi.RENDERER_CANVAS;
-            //this._renderMode = Kiwi.RENDERER_WEBGL;
+            //this._renderMode = Kiwi.RENDERER_CANVAS;
+            this._renderMode = Kiwi.RENDERER_WEBGL;
             this.stage = new Kiwi.Stage(this, name);
             
             if (this._renderMode === Kiwi.RENDERER_CANVAS) {

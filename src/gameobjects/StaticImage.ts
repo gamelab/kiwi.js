@@ -96,16 +96,19 @@ module Kiwi.GameObjects {
                     ctx.globalAlpha = this.alpha;
                 }
                 
-                var m: Kiwi.Geom.Matrix = new Kiwi.Geom.Matrix();
+                //NOTE: counter-intuitively matrix operations are performed in reverse order
 
-                
-                // var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
+                //get entity/view matrix
+                var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
 
-                m.rotate(this.transform.rotation);
-                m.translate(this.transform.x + this.transform.rotPointX - camera.transform.rotPointX, this.transform.y + this.transform.rotPointX - camera.transform.rotPointY );
+                //move it to the rotation point of entity offset by camera rotation point
+                m.translate(this.transform.rotPointX - camera.transform.rotPointX,this.transform.rotPointX - camera.transform.rotPointY);
                 
-                m.rotate(camera.transform.rotation);
-                m.translate(camera.transform.rotPointX + camera.transform.x, camera.transform.rotPointY + camera.transform.y);
+                //prepend the inverted camera matrix (camera 'looks' inwards, so is inverted)
+                m.prependMatrix(camera.transform.getConcatenatedMatrix().invert());
+                
+                //move to the camera rotation point
+                m.translate(camera.transform.rotPointX, camera.transform.rotPointY);
                 
                 ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
                 

@@ -3307,8 +3307,7 @@ var Kiwi;
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this._renderMode = Kiwi.RENDERER_CANVAS;
-
+            this._renderMode = Kiwi.RENDERER_WEBGL;
             this.stage = new Kiwi.Stage(this, name);
 
             if (this._renderMode === Kiwi.RENDERER_CANVAS) {
@@ -6729,13 +6728,13 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    var m = new Kiwi.Geom.Matrix();
+                    var m = this.transform.getConcatenatedMatrix();
 
-                    m.rotate(this.transform.rotation);
-                    m.translate(this.transform.x - camera.transform.rotPointX + this.transform.rotPointX, this.transform.y - camera.transform.rotPointY + this.transform.rotPointX);
+                    m.translate(this.transform.rotPointX - camera.transform.rotPointX, this.transform.rotPointX - camera.transform.rotPointY);
 
-                    m.rotate(camera.transform.rotation);
-                    m.translate(camera.transform.rotPointX + camera.transform.x, camera.transform.rotPointY + camera.transform.y);
+                    m.prependMatrix(camera.transform.getConcatenatedMatrix().invert());
+
+                    m.translate(camera.transform.rotPointX, camera.transform.rotPointY);
 
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
