@@ -96,28 +96,19 @@ module Kiwi.GameObjects {
                     ctx.globalAlpha = this.alpha;
                 }
                 
+                var m: Kiwi.Geom.Matrix = new Kiwi.Geom.Matrix();
 
-                var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
                 
-                
-                ctx.translate(camera.transform.rotPointX, camera.transform.rotPointY);
-                ctx.rotate(camera.transform.rotation);
+                // var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
 
-                //ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx + camera.transform.rotPointX, cm.ty + camera.transform.rotPointY );
-
-                ctx.translate(this.transform.x - camera.transform.rotPointX + this.transform.rotPointX, this.transform.y - camera.transform.rotPointY + this.transform.rotPointX);
-                ctx.rotate(this.transform.rotation);
-
-                var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
+                m.rotate(this.transform.rotation);
+                m.translate(this.transform.x + this.transform.rotPointX - camera.transform.rotPointX, this.transform.y + this.transform.rotPointX - camera.transform.rotPointY );
                 
-                //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                //ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                m.rotate(camera.transform.rotation);
+                m.translate(camera.transform.rotPointX + camera.transform.x, camera.transform.rotPointY + camera.transform.y);
                 
-                //m.prependMatrix(cm);
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
                 
-                //ctx.translate(-camera.transform.rotPointX, -camera.transform.rotPointY);
-                //ctx.translate(-this.transform.rotPointX, -this.transform.rotPointY);
-
                 var cell = this.atlas.cells[this.cellIndex];
                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h,- this.transform.rotPointX,- this.transform.rotPointX, cell.w, cell.h);
               

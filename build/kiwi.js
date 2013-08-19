@@ -6729,15 +6729,15 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    var cm = camera.transform.getConcatenatedMatrix();
+                    var m = new Kiwi.Geom.Matrix();
 
-                    ctx.translate(camera.transform.rotPointX, camera.transform.rotPointY);
-                    ctx.rotate(camera.transform.rotation);
+                    m.rotate(this.transform.rotation);
+                    m.translate(this.transform.x - camera.transform.rotPointX + this.transform.rotPointX, this.transform.y - camera.transform.rotPointY + this.transform.rotPointX);
 
-                    ctx.translate(this.transform.x - camera.transform.rotPointX + this.transform.rotPointX, this.transform.y - camera.transform.rotPointY + this.transform.rotPointX);
-                    ctx.rotate(this.transform.rotation);
+                    m.rotate(camera.transform.rotation);
+                    m.translate(camera.transform.rotPointX + camera.transform.x, camera.transform.rotPointY + camera.transform.y);
 
-                    var m = this.transform.getConcatenatedMatrix();
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
                     var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -this.transform.rotPointX, -this.transform.rotPointX, cell.w, cell.h);
