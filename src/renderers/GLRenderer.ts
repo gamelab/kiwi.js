@@ -65,6 +65,8 @@ module Kiwi.Renderers {
 
             this.mvMatrix = mat4.create();
             mat4.identity(this.mvMatrix);
+            
+            
 
             //create buffers
             //dynamic
@@ -120,7 +122,7 @@ module Kiwi.Renderers {
            
               
             for (var i = 0; i < root.length; i++) {
-                this._recurse(gl, root[i]);
+                this._recurse(gl, root[i],camera);
             }
             
 
@@ -129,26 +131,26 @@ module Kiwi.Renderers {
             this._firstPass = false;
         }
 
-       
+        
 
-        private _recurse(gl:WebGLRenderingContext, child: IChild) {
+        private _recurse(gl: WebGLRenderingContext, child: IChild, camera: Kiwi.Camera) {
            // console.log("_recurse" + this._entityCount);
             if (!child.willRender) return;
 
             if (child.childType() === Kiwi.GROUP) {
                 for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
-                    this._recurse(gl,(<Kiwi.Group>child).members[i]);
+                    this._recurse(gl,(<Kiwi.Group>child).members[i],camera);
                 }
             } else {
                 if (!this._texApplied) {
-                    console.log("applying texture");
+                    //console.log("applying texture");
                     this._applyTexture(gl, (<Entity>child).atlas.image);
                     this._texApplied = true;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 }
 
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
-                    console.log("changing texture");
+                    //console.log("changing texture");
                     this._flush(gl);
                     this._entityCount = 0;
                     this._vertBuffer.clear();
@@ -156,7 +158,7 @@ module Kiwi.Renderers {
                     this._changeTexture(gl, (<Entity>child).atlas.image);
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
-                this._compileVertices(gl, <Entity>child);
+                this._compileVertices(gl, <Entity>child,camera);
                 this._compileUVs(gl, <Entity>child);
                 this._entityCount++;
                 
@@ -173,16 +175,38 @@ module Kiwi.Renderers {
             this._draw(gl);
         }
 
-        private _compileVertices(gl: WebGLRenderingContext, entity: Entity) {
-           // console.log("_compverts" + this._vertBuffer.items.length);
+        private _compileVertices(gl: WebGLRenderingContext, entity: Entity,camera:Kiwi.Camera) {
+            // console.log("_compverts" + this._vertBuffer.items.length);
             var t: Kiwi.Geom.Transform = entity.transform;
-            var c = entity.atlas.cells[entity.cellIndex];
-          
+            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+            var ct: Kiwi.Geom.Transform = camera.transform;
+            var cm: Kiwi.Geom.Matrix = ct.getConcatenatedMatrix();
+
+            var cell = entity.atlas.cells[entity.cellIndex];
             
-            this._vertBuffer.items.push(t.x, t.y,
-                t.x + c.w, t.y,
-                t.x + c.w, t.y + c.h,
-                t.x, t.y + c.h);
+            var pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
+            var pt2: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
+            var pt3: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
+            var pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
+
+            
+
+            pt1 = m.transformPoint(pt1);
+            pt2 = m.transformPoint(pt2);
+            pt3 = m.transformPoint(pt3);
+            pt4 = m.transformPoint(pt4);
+
+            /*this._vertBuffer.items.push(t.x, t.y,
+                t.x + cell.w, t.y,
+                t.x + cell.w, t.y + cell.h,
+                t.x, t.y + cell.h);
+            */
+            this._vertBuffer.items.push(
+                pt1.x + t.rotPointX, pt1.y + t.rotPointY,
+                pt2.x + t.rotPointX, pt2.y + t.rotPointY,
+                pt3.x + t.rotPointX, pt3.y + t.rotPointY,
+                pt4.x + t.rotPointX, pt4.y + t.rotPointY
+                );
 
 
             
@@ -221,9 +245,7 @@ module Kiwi.Renderers {
 
 
         private _draw(gl: WebGLRenderingContext) {
-            if (this._currentTextureAtlas) {
-              //  console.log(this._currentTextureAtlas.name);
-            }
+           
             gl.drawElements(gl.TRIANGLES, this._entityCount*6, gl.UNSIGNED_SHORT, 0);
             
         }

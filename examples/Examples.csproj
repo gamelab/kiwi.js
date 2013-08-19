@@ -37,6 +37,7 @@
     <Content Include="camera\test1.js">
       <DependentUpon>test1.ts</DependentUpon>
     </Content>
+    <Content Include="gl-matrix-min.js" />
     <Content Include="Tweens\EasingMethods.js">
       <DependentUpon>EasingMethods.ts</DependentUpon>
     </Content>
@@ -180,14 +181,6 @@
     <TypeScriptCompile Include="hud\RemovingWidgets.ts" />
     <Content Include="hud\Hud4.js">
       <DependentUpon>RemovingWidgets.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="hud\Icons.ts" />
-    <TypeScriptCompile Include="hud\IconCounter.ts" />
-    <Content Include="hud\IconCounter.js">
-      <DependentUpon>IconCounter.ts</DependentUpon>
-    </Content>
-    <Content Include="hud\Icons.js">
-      <DependentUpon>Icons.ts</DependentUpon>
     </Content>
     <Content Include="jquery-1.9.1.d.ts" />
     <Content Include="jquery-1.9.1.js" />

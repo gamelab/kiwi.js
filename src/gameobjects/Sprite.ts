@@ -68,7 +68,7 @@ module Kiwi.GameObjects {
             return "Sprite";
         }
         
-      
+        /*
         * Indicates weither or not this sprite is animated or not. 
         * @property _isAnimated
         * @type bool

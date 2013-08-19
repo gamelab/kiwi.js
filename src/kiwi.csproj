@@ -23,6 +23,7 @@
   <ItemGroup>
     <Content Include="core\Game.ts" />
     <Content Include="animation\Animation.ts" />
+    <Content Include="gl-matrix-min.js" />
     <Content Include="renderers\GLArrayBuffer.ts" />
     <Content Include="renderers\GLElementArrayBuffer.ts" />
     <Content Include="renderers\GLRenderer.ts" />
