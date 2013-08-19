@@ -49,8 +49,10 @@ class test1 extends Kiwi.State {
     update() {
         super.update();
         //this.game.cameras.defaultCamera.transform.x++;
-        //this.game.cameras.defaultCamera.transform.rotation +=.005;
+        this.game.cameras.defaultCamera.transform.rotation +=.005;
         this.spartan.transform.rotation += 0.1;
+        //this.spartan.transform.scaleX += 0.1;
+        //this.spartan.transform.scaleY += 0.1;
         //this.game.cameras.defaultCamera.transform.scaleX -= 0.01;
         //this.game.cameras.defaultCamera.transform.scaleY -= 0.01;
         //this.spartan.transform.rotPointX = 25;

@@ -1,3 +1,4 @@
+
 module Kiwi.Renderers {
 
     export class GLShaders {
@@ -37,7 +38,16 @@ module Kiwi.Renderers {
             return shader;
         }
 
-        public texture2DProg = { vertexPositionAttribute: null, vertexTexCoordAttribute: null, vertexColorAttribute: null, mvMatrixUniform: null, samplerUniform: null, resolutionUniform: null, textureSizeUniform: null };
+        public texture2DProg = {
+            vertexPositionAttribute: null,
+            vertexTexCoordAttribute: null,
+            vertexColorAttribute: null,
+            mvMatrixUniform: null,
+            samplerUniform: null,
+            resolutionUniform: null,
+            textureSizeUniform: null,
+            cameraOffsetUniform: null
+        };
 
         public use(gl: WebGLRenderingContext, shaderProgram: WebGLProgram) {
             gl.useProgram(this.shaderProgram);
@@ -57,6 +67,7 @@ module Kiwi.Renderers {
             this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
             this.texture2DProg.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
             this.texture2DProg.textureSizeUniform = gl.getUniformLocation(shaderProgram, "uTextureSize");
+            this.texture2DProg.cameraOffsetUniform = gl.getUniformLocation(shaderProgram, "uCameraOffset");
 
         }
 
@@ -78,15 +89,20 @@ module Kiwi.Renderers {
             "uniform mat4 uMVMatrix;",
             "uniform vec2 uResolution;",
             "uniform vec2 uTextureSize;",
+            "uniform vec2 uCameraOffset;",
             "varying vec2 vTextureCoord;",
             "varying float vColor;",
             "void main(void) {",
-            "vec2 zeroToOne = aVertexPosition / uResolution;",
-            "vec2 zeroToTwo = zeroToOne * 2.0;",
-            "vec2 clipSpace = zeroToTwo - 1.0;",
-            "gl_Position = uMVMatrix * vec4(clipSpace * vec2(1, -1), 0, 1);",
-            "vTextureCoord = aTextureCoord / uTextureSize;",
-            "vColor = aColor;",
+                "vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
+                "transpos =  uMVMatrix * transpos;",
+                
+                "vec2 zeroToOne = transpos.xy / uResolution;",
+                "vec2 zeroToTwo = zeroToOne * 2.0;",
+                "vec2 clipSpace = zeroToTwo - 1.0;",
+                "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
+                //"gl_Position = vec4(uMVMatrix * vec3(clipSpace * vec2(1, -1), 0), 1);",
+                "vTextureCoord = aTextureCoord / uTextureSize;",
+                "vColor = aColor;",
             "}"
         ];
 

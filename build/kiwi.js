@@ -3309,8 +3309,7 @@ var Kiwi;
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this._renderMode = Kiwi.RENDERER_CANVAS;
-
+            this._renderMode = Kiwi.RENDERER_WEBGL;
             this.stage = new Kiwi.Stage(this, name);
 
             if (this._renderMode === Kiwi.RENDERER_CANVAS) {
@@ -11944,19 +11943,6 @@ var Kiwi;
                 this._initState();
             };
 
-            GLRenderer.prototype.mvPush = function () {
-                var copy = mat4.create();
-                mat4.set(this.mvMatrix, copy);
-                this.mvMatrixStack.push(copy);
-            };
-
-            GLRenderer.prototype.mvPop = function () {
-                if (this.mvMatrixStack.length == 0) {
-                    throw "Invalid popMatrix!";
-                }
-                this.mvMatrix = this.mvMatrixStack.pop();
-            };
-
             GLRenderer.prototype._initState = function () {
                 var gl = this._game.stage.gl;
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -11966,7 +11952,9 @@ var Kiwi;
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
                 this.mvMatrix = mat4.create();
-                mat4.identity(this.mvMatrix);
+                mat2d.identity(this.mvMatrix);
+
+                console.log(this.mvMatrix);
 
                 this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
                 this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
@@ -11990,8 +11978,6 @@ var Kiwi;
                 gl.uniform1i(prog.samplerUniform, 0);
 
                 gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-
-                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
             };
 
             GLRenderer.prototype.render = function (camera) {
@@ -12005,6 +11991,32 @@ var Kiwi;
 
                 gl.clearColor(0, 0, 0, 0);
                 gl.clear(gl.COLOR_BUFFER_BIT);
+
+                var prog = this._shaders.texture2DProg;
+
+                var cm = camera.transform.getConcatenatedMatrix();
+                var ct = camera.transform;
+                this.mvMatrix = new Float32Array([
+                    cm.a,
+                    cm.b,
+                    0,
+                    0,
+                    cm.c,
+                    cm.d,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    cm.tx + ct.rotPointX,
+                    cm.ty + ct.rotPointY,
+                    0,
+                    1
+                ]);
+
+                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
+                gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i], camera);
@@ -12125,7 +12137,16 @@ var Kiwi;
         var GLShaders = (function () {
             function GLShaders(gl) {
                 this.ready = false;
-                this.texture2DProg = { vertexPositionAttribute: null, vertexTexCoordAttribute: null, vertexColorAttribute: null, mvMatrixUniform: null, samplerUniform: null, resolutionUniform: null, textureSizeUniform: null };
+                this.texture2DProg = {
+                    vertexPositionAttribute: null,
+                    vertexTexCoordAttribute: null,
+                    vertexColorAttribute: null,
+                    mvMatrixUniform: null,
+                    samplerUniform: null,
+                    resolutionUniform: null,
+                    textureSizeUniform: null,
+                    cameraOffsetUniform: null
+                };
                 this.texture2DFrag = [
                     "precision mediump float;",
                     "varying vec2 vTextureCoord;",
@@ -12143,13 +12164,16 @@ var Kiwi;
                     "uniform mat4 uMVMatrix;",
                     "uniform vec2 uResolution;",
                     "uniform vec2 uTextureSize;",
+                    "uniform vec2 uCameraOffset;",
                     "varying vec2 vTextureCoord;",
                     "varying float vColor;",
                     "void main(void) {",
-                    "vec2 zeroToOne = aVertexPosition / uResolution;",
+                    "vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
+                    "transpos =  uMVMatrix * transpos;",
+                    "vec2 zeroToOne = transpos.xy / uResolution;",
                     "vec2 zeroToTwo = zeroToOne * 2.0;",
                     "vec2 clipSpace = zeroToTwo - 1.0;",
-                    "gl_Position = uMVMatrix * vec4(clipSpace * vec2(1, -1), 0, 1);",
+                    "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
                     "vTextureCoord = aTextureCoord / uTextureSize;",
                     "vColor = aColor;",
                     "}"
@@ -12195,6 +12219,7 @@ var Kiwi;
                 this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
                 this.texture2DProg.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
                 this.texture2DProg.textureSizeUniform = gl.getUniformLocation(shaderProgram, "uTextureSize");
+                this.texture2DProg.cameraOffsetUniform = gl.getUniformLocation(shaderProgram, "uCameraOffset");
             };
             return GLShaders;
         })();

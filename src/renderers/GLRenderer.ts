@@ -1,5 +1,5 @@
+declare var mat2d, mat3,vec2,vec3,mat4;
 
-declare var mat4;
 
 module Kiwi.Renderers {
 
@@ -36,11 +36,11 @@ module Kiwi.Renderers {
         private _texApplied: bool = false;
         private _firstPass: boolean = true;
 
-        public mvMatrix;
+        public mvMatrix:Float32Array;
         public mvMatrixStack: Array;
         
         private _currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
-
+        /*
         public mvPush() {
             var copy = mat4.create();
             mat4.set(this.mvMatrix, copy);
@@ -52,7 +52,7 @@ module Kiwi.Renderers {
                 throw "Invalid popMatrix!";
             }
             this.mvMatrix = this.mvMatrixStack.pop();
-        }    
+        } */   
 
         private _initState() {
 
@@ -64,7 +64,11 @@ module Kiwi.Renderers {
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
             this.mvMatrix = mat4.create();
-            mat4.identity(this.mvMatrix);
+            mat2d.identity(this.mvMatrix);
+            
+            
+            console.log(this.mvMatrix);
+
             
             
 
@@ -79,7 +83,7 @@ module Kiwi.Renderers {
 
             //use shaders
             this._shaders.use(gl, this._shaders.shaderProgram);
-
+          
             var prog = this._shaders.texture2DProg;
 
             gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
@@ -91,13 +95,17 @@ module Kiwi.Renderers {
             gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
             gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            //Uniforms
+            //Static Uniforms
 
             gl.uniform1i(prog.samplerUniform, 0);
 
             gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+            
+           
+            
+          
 
-            gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
+        
 
 
         }
@@ -118,8 +126,22 @@ module Kiwi.Renderers {
             gl.clearColor(0, 0, 0, 0);
             gl.clear(gl.COLOR_BUFFER_BIT);
 
+            //set cam matrix uniform
+            var prog = this._shaders.texture2DProg;
+
+            var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
+            var ct: Kiwi.Geom.Transform = camera.transform;
+            this.mvMatrix = new Float32Array([
+                cm.a, cm.b, 0, 0,
+                cm.c, cm.d, 0, 0,
+                0, 0, 1, 0,
+                cm.tx + ct.rotPointX, cm.ty + ct.rotPointY, 0, 1
+            ]);
+
+            gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
+            gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
+            
             //iterate
-           
               
             for (var i = 0; i < root.length; i++) {
                 this._recurse(gl, root[i],camera);
@@ -187,7 +209,7 @@ module Kiwi.Renderers {
             var pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
             var pt2: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
             var pt3: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
-            var pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
+            var pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY) ;
 
             
 
