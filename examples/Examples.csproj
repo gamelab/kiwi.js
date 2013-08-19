@@ -22,6 +22,10 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Animations\TextureAtlas.ts" />
+    <TypeScriptCompile Include="Animations\PlayingInReverse.ts" />
+    <Content Include="Animations\PlayingInReverse.js">
+      <DependentUpon>PlayingInReverse.ts</DependentUpon>
+    </Content>
     <Content Include="Animations\TextureAtlas.js">
       <DependentUpon>TextureAtlas.ts</DependentUpon>
     </Content>

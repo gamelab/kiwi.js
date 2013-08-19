@@ -170,6 +170,16 @@ module Kiwi.Components {
         } 
 
         /*
+        * Plays an animation in reverse.
+        * 
+        * @method playInReverse
+        * @param {string} name
+        */
+        public playInReverse(name: string = this.currentAnimation.name) {
+            this._play(0, name);
+        }
+
+        /*
         *  An internal method used to actually play the animation.
         * 
         * @method _play

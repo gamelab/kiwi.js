@@ -5965,6 +5965,7 @@ var Kiwi;
             this._frameIndex = 0;
             this._clock = null;
             this._startTime = null;
+            this._reverse = false;
             this._playPending = false;
             this.name = name;
             this._sequence = sequence;
@@ -6016,6 +6017,18 @@ var Kiwi;
             configurable: true
         });
 
+
+
+        Object.defineProperty(Animation.prototype, "reverse", {
+            get: function () {
+                return this._reverse;
+            },
+            set: function (value) {
+                this._reverse = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
 
 
         Object.defineProperty(Animation.prototype, "clock", {
@@ -6079,12 +6092,21 @@ var Kiwi;
             if (this._isPlaying) {
                 if (this.clock.elapsed() >= this._tick) {
                     this._tick = this.clock.elapsed() + this._speed;
-                    this._frameIndex++;
+
+                    if (this._reverse)
+                        this._frameIndex--; else
+                        this._frameIndex++;
+
                     this.onUpdate.dispatch();
                     if (!this._validateFrame(this._frameIndex)) {
                         if (this._loop) {
-                            this._frameIndex = 0;
-                            this.onLoop.dispatch();
+                            if (this._reverse) {
+                                this._frameIndex = this._sequence.cells.length - 1;
+                                this.onLoop.dispatch();
+                            } else {
+                                this._frameIndex = 0;
+                                this.onLoop.dispatch();
+                            }
                         } else {
                             this._frameIndex--;
                             this.stop();
@@ -6520,6 +6542,11 @@ var Kiwi;
             Animation.prototype.playAt = function (index, name) {
                 if (typeof name === "undefined") { name = this.currentAnimation.name; }
                 this._play(index, name);
+            };
+
+            Animation.prototype.playInReverse = function (name) {
+                if (typeof name === "undefined") { name = this.currentAnimation.name; }
+                this._play(0, name);
             };
 
             Animation.prototype._play = function (index, name) {
