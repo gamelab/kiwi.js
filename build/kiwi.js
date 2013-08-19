@@ -2042,22 +2042,22 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         var Transform = (function () {
-            function Transform(x, y, scaleX, scaleY, rotation, regX, regY) {
+            function Transform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof scaleX === "undefined") { scaleX = 1; }
                 if (typeof scaleY === "undefined") { scaleY = 1; }
                 if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof regX === "undefined") { regX = 0; }
-                if (typeof regY === "undefined") { regY = 0; }
+                if (typeof rotPointX === "undefined") { rotPointX = 0; }
+                if (typeof rotPointY === "undefined") { rotPointY = 0; }
                 this._x = 0;
                 this._y = 0;
                 this._scaleX = 1;
                 this._scaleY = 1;
                 this._rotation = 0;
-                this._regX = 0;
-                this._regY = 0;
-                this.setTransform(x, y, scaleX, scaleY, rotation, regX, regY);
+                this._rotPointX = 0;
+                this._rotPointY = 0;
+                this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
 
                 this._matrix = new Geom.Matrix();
 
@@ -2130,24 +2130,24 @@ var Kiwi;
             });
 
 
-            Object.defineProperty(Transform.prototype, "regX", {
+            Object.defineProperty(Transform.prototype, "rotPointX", {
                 get: function () {
-                    return this._regX;
+                    return this._rotPointX;
                 },
                 set: function (value) {
-                    this._regX = value;
+                    this._rotPointX = value;
                 },
                 enumerable: true,
                 configurable: true
             });
 
 
-            Object.defineProperty(Transform.prototype, "regY", {
+            Object.defineProperty(Transform.prototype, "rotPointY", {
                 get: function () {
-                    return this._regY;
+                    return this._rotPointY;
                 },
                 set: function (value) {
-                    this._regY = value;
+                    this._rotPointY = value;
                 },
                 enumerable: true,
                 configurable: true
@@ -2226,21 +2226,21 @@ var Kiwi;
                 configurable: true
             });
 
-            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, regX, regY) {
+            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof scaleX === "undefined") { scaleX = 1; }
                 if (typeof scaleY === "undefined") { scaleY = 1; }
                 if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof regX === "undefined") { regX = 0; }
-                if (typeof regY === "undefined") { regY = 0; }
+                if (typeof rotPointX === "undefined") { rotPointX = 0; }
+                if (typeof rotPointY === "undefined") { rotPointY = 0; }
                 this._x = x;
                 this._y = y;
                 this._scaleX = scaleX;
                 this._scaleY = scaleY;
                 this._rotation = rotation;
-                this._regX = regX;
-                this._regY = regY;
+                this._rotPointX = rotPointX;
+                this._rotPointY = rotPointY;
 
                 return this;
             };
@@ -2275,7 +2275,7 @@ var Kiwi;
             };
 
             Transform.prototype.copyFrom = function (source) {
-                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
+                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.rotPointX, source.rotPointY);
 
                 this.parent = source.parent;
 
@@ -2303,7 +2303,7 @@ var Kiwi;
 
             Object.defineProperty(Transform.prototype, "toString", {
                 get: function () {
-                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
+                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._rotPointX + " regY=" + this.rotPointY + " matrix=" + this._matrix + ")}]";
                 },
                 enumerable: true,
                 configurable: true
@@ -3464,8 +3464,8 @@ var Kiwi;
             this.width = width;
             this.height = height;
             this.transform = new Kiwi.Geom.Transform(x, y);
-            this.transform.regX = x + width / 2;
-            this.transform.regY = y + height / 2;
+            this.transform.rotPointX = x + width / 2;
+            this.transform.rotPointY = y + height / 2;
 
             this._game.stage.onResize.add(this._updatedStageSize, this);
             this._game.stage.onResize.add(this._updatedSize, this);
@@ -6612,8 +6612,8 @@ var Kiwi;
 
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
-                this.transform.regX = this.width / 2;
-                this.transform.regY = this.height / 2;
+                this.transform.rotPointX = this.width / 2;
+                this.transform.rotPointY = this.height / 2;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
@@ -6701,8 +6701,8 @@ var Kiwi;
                 this.transform.y = y;
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
-                this.transform.regX = this.width / 2;
-                this.transform.regY = this.height / 2;
+                this.transform.rotPointX = this.width / 2;
+                this.transform.rotPointY = this.height / 2;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
@@ -6729,13 +6729,18 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    var m = this.transform.getConcatenatedMatrix();
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                    var cm = camera.transform.getConcatenatedMatrix();
 
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + this.transform.regX, m.ty + this.transform.regY);
+                    ctx.translate(camera.transform.rotPointX, camera.transform.rotPointY);
+                    ctx.rotate(camera.transform.rotation);
+
+                    ctx.translate(this.transform.x - camera.transform.rotPointX + this.transform.rotPointX, this.transform.y - camera.transform.rotPointY + this.transform.rotPointX);
+                    ctx.rotate(this.transform.rotation);
+
+                    var m = this.transform.getConcatenatedMatrix();
 
                     var cell = this.atlas.cells[this.cellIndex];
-                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -this.transform.regX, -this.transform.regY, cell.w, cell.h);
+                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -this.transform.rotPointX, -this.transform.rotPointX, cell.w, cell.h);
 
                     ctx.restore();
                 }

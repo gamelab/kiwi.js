@@ -96,24 +96,30 @@ module Kiwi.GameObjects {
                     ctx.globalAlpha = this.alpha;
                 }
                 
-              
+
+                var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
+                
+                
+                ctx.translate(camera.transform.rotPointX, camera.transform.rotPointY);
+                ctx.rotate(camera.transform.rotation);
+
+                //ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx + camera.transform.rotPointX, cm.ty + camera.transform.rotPointY );
+
+                ctx.translate(this.transform.x - camera.transform.rotPointX + this.transform.rotPointX, this.transform.y - camera.transform.rotPointY + this.transform.rotPointX);
+                ctx.rotate(this.transform.rotation);
 
                 var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-
                 
+                //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                //ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
                 
-                //m.invert();
-                //m.appendMatrix(this.transform.getConcatenatedMatrix());
-                //m.prependMatrix(camMatrix);
-
-
-                //m.prependMatrix(camMatrix);
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + this.transform.rotPointX, m.ty + this.transform.rotPointY);
-              
+                //m.prependMatrix(cm);
+                
+                //ctx.translate(-camera.transform.rotPointX, -camera.transform.rotPointY);
+                //ctx.translate(-this.transform.rotPointX, -this.transform.rotPointY);
 
                 var cell = this.atlas.cells[this.cellIndex];
-                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -this.transform.rotPointX, -this.transform.rotPointY, cell.w, cell.h);
+                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h,- this.transform.rotPointX,- this.transform.rotPointX, cell.w, cell.h);
               
                 ctx.restore();
             }
