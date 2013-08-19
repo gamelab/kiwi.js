@@ -12504,6 +12504,8 @@ var Kiwi;
         };
 
         TextureCache.prototype.add = function (imageFile) {
+            imageFile = this._rebuildImage(imageFile);
+
             switch (imageFile.dataType) {
                 case Kiwi.File.SPRITE_SHEET:
                     this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
@@ -12518,6 +12520,50 @@ var Kiwi;
                     klog.error("Image file is of unknown type and was not added to texture cache");
                     break;
             }
+        };
+
+        TextureCache.prototype._rebuildImage = function (imageFile) {
+            var width = imageFile.data.width;
+            var height = imageFile.data.height;
+
+            if (Kiwi.TextureCache.VALID_SIZES.indexOf(width) == -1) {
+                var i = 0;
+                while (width > Kiwi.TextureCache.VALID_SIZES[i])
+                    i++;
+                width = Kiwi.TextureCache.VALID_SIZES[i];
+            }
+
+            if (Kiwi.TextureCache.VALID_SIZES.indexOf(height) == -1) {
+                var i = 0;
+                while (height > Kiwi.TextureCache.VALID_SIZES[i])
+                    i++;
+                height = Kiwi.TextureCache.VALID_SIZES[i];
+            }
+
+            if (imageFile.data.width !== width || imageFile.data.height !== height) {
+                var canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
+
+                var image = new Image(width, height);
+                image.src = canvas.toDataURL("image/png");
+
+                if (imageFile.dataType === Kiwi.File.SPRITE_SHEET) {
+                    if (!imageFile.metadata.rows)
+                        imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight;
+
+                    if (!imageFile.metadata.cols)
+                        imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
+                }
+
+                imageFile.data = image;
+                canvas = null;
+                width = null;
+                height = null;
+            }
+
+            return imageFile;
         };
 
         TextureCache.prototype._buildTextureAtlas = function (imageFile) {
@@ -12542,6 +12588,7 @@ var Kiwi;
             var m = imageFile.metadata;
             return new Kiwi.Textures.SingleImage(imageFile.cacheID, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
         };
+        TextureCache.VALID_SIZES = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
         return TextureCache;
     })();
     Kiwi.TextureCache = TextureCache;
