@@ -36,7 +36,9 @@ module Kiwi {
             this.width = width;
             this.height = height;
             this.transform = new Kiwi.Geom.Transform(x, y);
-            
+            this.transform.rotPointX = x + width / 2;
+            this.transform.rotPointY = y + height / 2;
+
             
             this._game.stage.onResize.add(this._updatedStageSize, this);
             this._game.stage.onResize.add(this._updatedSize, this);

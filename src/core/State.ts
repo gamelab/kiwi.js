@@ -309,7 +309,7 @@ module Kiwi {
         * @param {Kiwi.Layer} layer
         **/
         public addChild(child: Kiwi.IChild): Kiwi.IChild {
-
+          
             child.modify(Kiwi.ADDED_TO_STATE, this);
             super.removeChild(child);
             //this.members.push(child);

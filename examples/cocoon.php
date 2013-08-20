@@ -65,7 +65,7 @@ if (isset($_GET['f']))
     </script>
     
 	<script src="ECMA262-5.js"></script>
-    
+    <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
 	<script src="kiwi.js"></script>
 	
 <?php

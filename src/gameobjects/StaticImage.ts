@@ -38,6 +38,9 @@ module Kiwi.GameObjects {
             this.transform.y = y;
             this.width = atlas.cells[0].w;
             this.height = atlas.cells[0].h;
+            this.transform.rotPointX = this.width / 2;
+            this.transform.rotPointY = this.height / 2;
+            
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
@@ -92,12 +95,25 @@ module Kiwi.GameObjects {
                 if (this.alpha > 0 && this.alpha <= 1) {
                     ctx.globalAlpha = this.alpha;
                 }
+                
+                //NOTE: counter-intuitively matrix operations are performed in reverse order
 
+                //get entity/view matrix
                 var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
+                //move it to the rotation point of entity offset by camera rotation point
+                m.translate(this.transform.rotPointX - camera.transform.rotPointX,this.transform.rotPointX - camera.transform.rotPointY);
+                
+                //prepend the inverted camera matrix (camera 'looks' inwards, so is inverted)
+                m.prependMatrix(camera.transform.getConcatenatedMatrix().invert());
+                
+                //move to the camera rotation point
+                m.translate(camera.transform.rotPointX, camera.transform.rotPointY);
+                
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                
                 var cell = this.atlas.cells[this.cellIndex];
-                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
+                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h,- this.transform.rotPointX,- this.transform.rotPointX, cell.w, cell.h);
               
                 ctx.restore();
             }

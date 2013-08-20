@@ -22,17 +22,22 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Animations\TextureAtlas.ts" />
-    <TypeScriptCompile Include="Animations\PlayingInReverse.ts" />
-    <Content Include="Animations\PlayingInReverse.js">
-      <DependentUpon>PlayingInReverse.ts</DependentUpon>
+    <TypeScriptCompile Include="Animations\Explosions.ts" />
+    <Content Include="Animations\Explosions.js">
+      <DependentUpon>Explosions.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Animations\MultiAtlas.ts" />
+    <Content Include="Animations\MultiAtlas.js">
+      <DependentUpon>MultiAtlas.ts</DependentUpon>
     </Content>
     <Content Include="Animations\TextureAtlas.js">
       <DependentUpon>TextureAtlas.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="sprites\Dragging.ts" />
-    <Content Include="sprites\Dragging.js">
-      <DependentUpon>Dragging.ts</DependentUpon>
+    <TypeScriptCompile Include="camera\test1.ts" />
+    <Content Include="camera\test1.js">
+      <DependentUpon>test1.ts</DependentUpon>
     </Content>
+    <Content Include="gl-matrix-min.js" />
     <Content Include="Tweens\EasingMethods.js">
       <DependentUpon>EasingMethods.ts</DependentUpon>
     </Content>
@@ -73,6 +78,10 @@
       <DependentUpon>overlaps.ts</DependentUpon>
     </Content>
     <Content Include="cocoon.php" />
+    <TypeScriptCompile Include="GL\GLTest1.ts" />
+    <Content Include="GL\GLTest1.js">
+      <DependentUpon>GLTest1.ts</DependentUpon>
+    </Content>
     <Content Include="groups\Groups.ts" />
     <TypeScriptCompile Include="sprites\AtlasTest.ts" />
     <Content Include="sprites\Atlas.js">
@@ -139,63 +148,6 @@
     <Content Include="groups\GroupGraph.js">
       <DependentUpon>GroupGraph.ts</DependentUpon>
     </Content>
-    <Content Include="assets\sprites\planetcute\Brown Block.png" />
-    <Content Include="assets\sprites\planetcute\Character Boy.png" />
-    <Content Include="assets\sprites\planetcute\Character Cat Girl.png" />
-    <Content Include="assets\sprites\planetcute\Character Horn Girl.png" />
-    <Content Include="assets\sprites\planetcute\Character Pink Girl.png" />
-    <Content Include="assets\sprites\planetcute\Character Princess Girl.png" />
-    <Content Include="assets\sprites\planetcute\Chest Closed.png" />
-    <Content Include="assets\sprites\planetcute\Chest Lid.png" />
-    <Content Include="assets\sprites\planetcute\Chest Open.png" />
-    <Content Include="assets\sprites\planetcute\Dirt Block.png" />
-    <Content Include="assets\sprites\planetcute\Door Tall Closed.png" />
-    <Content Include="assets\sprites\planetcute\Door Tall Open.png" />
-    <Content Include="assets\sprites\planetcute\Enemy Bug.png" />
-    <Content Include="assets\sprites\planetcute\Gem Blue.png" />
-    <Content Include="assets\sprites\planetcute\Gem Green.png" />
-    <Content Include="assets\sprites\planetcute\Gem Orange.png" />
-    <Content Include="assets\sprites\planetcute\Grass Block.png" />
-    <Content Include="assets\sprites\planetcute\Heart.png" />
-    <Content Include="assets\sprites\planetcute\Key.png" />
-    <Content Include="assets\sprites\planetcute\Plain Block.png" />
-    <Content Include="assets\sprites\planetcute\PlanetCuteShadowMockup.jpg" />
-    <Content Include="assets\sprites\planetcute\PlanetCuteShadowTest.png" />
-    <Content Include="assets\sprites\planetcute\Ramp East.png" />
-    <Content Include="assets\sprites\planetcute\Ramp North.png" />
-    <Content Include="assets\sprites\planetcute\Ramp South.png" />
-    <Content Include="assets\sprites\planetcute\Ramp West.png" />
-    <Content Include="assets\sprites\planetcute\Rock.png" />
-    <Content Include="assets\sprites\planetcute\Roof East.png" />
-    <Content Include="assets\sprites\planetcute\Roof North East.png" />
-    <Content Include="assets\sprites\planetcute\Roof North West.png" />
-    <Content Include="assets\sprites\planetcute\Roof North.png" />
-    <Content Include="assets\sprites\planetcute\Roof South East.png" />
-    <Content Include="assets\sprites\planetcute\Roof South West.png" />
-    <Content Include="assets\sprites\planetcute\Roof South.png" />
-    <Content Include="assets\sprites\planetcute\Roof West.png" />
-    <Content Include="assets\sprites\planetcute\Selector.png" />
-    <Content Include="assets\sprites\planetcute\Shadow East.png" />
-    <Content Include="assets\sprites\planetcute\Shadow North East.png" />
-    <Content Include="assets\sprites\planetcute\Shadow North West.png" />
-    <Content Include="assets\sprites\planetcute\Shadow North.png" />
-    <Content Include="assets\sprites\planetcute\Shadow Side West.png" />
-    <Content Include="assets\sprites\planetcute\Shadow South East.png" />
-    <Content Include="assets\sprites\planetcute\Shadow South West.png" />
-    <Content Include="assets\sprites\planetcute\Shadow South.png" />
-    <Content Include="assets\sprites\planetcute\Shadow West.png" />
-    <Content Include="assets\sprites\planetcute\SpeechBubble.png" />
-    <Content Include="assets\sprites\planetcute\Star.png" />
-    <Content Include="assets\sprites\planetcute\Stone Block Tall.png" />
-    <Content Include="assets\sprites\planetcute\Stone Block.png" />
-    <Content Include="assets\sprites\planetcute\Tree Short.png" />
-    <Content Include="assets\sprites\planetcute\Tree Tall.png" />
-    <Content Include="assets\sprites\planetcute\Tree Ugly.png" />
-    <Content Include="assets\sprites\planetcute\Wall Block Tall.png" />
-    <Content Include="assets\sprites\planetcute\Wall Block.png" />
-    <Content Include="assets\sprites\planetcute\Water Block.png" />
-    <Content Include="assets\sprites\planetcute\Window Tall.png" />
-    <Content Include="assets\sprites\planetcute\Wood Block.png" />
     <Content Include="assets\zombie.png" />
     <Content Include="assets\zombieSprite.png" />
     <Content Include="examples.css" />

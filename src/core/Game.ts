@@ -47,12 +47,12 @@ module Kiwi {
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this.stage = new Kiwi.Stage(this, name);
 
             //this needs to be passed in instead of hard coded
-            this._renderMode = Kiwi.RENDERER_CANVAS;
-            //this._renderMode = Kiwi.RENDERER_WEBGL;
-
+            //this._renderMode = Kiwi.RENDERER_CANVAS;
+            this._renderMode = Kiwi.RENDERER_WEBGL;
+            this.stage = new Kiwi.Stage(this, name);
+            
             if (this._renderMode === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
             } else {
@@ -244,6 +244,7 @@ module Kiwi {
 
             this.browser.boot();
             this.stage.boot(this._dom);
+            this.renderer.boot();
             //this.layers.boot();
             this.cameras.boot();
             if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
