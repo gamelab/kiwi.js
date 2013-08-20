@@ -23,11 +23,12 @@
   <ItemGroup>
     <Content Include="core\Game.ts" />
     <Content Include="animation\Animation.ts" />
+    <Content Include="gl-matrix-min.js" />
+    <Content Include="renderers\GLArrayBuffer.ts" />
+    <Content Include="renderers\GLElementArrayBuffer.ts" />
     <Content Include="renderers\GLRenderer.ts" />
-    <TypeScriptCompile Include="renderers\GLShaders.ts" />
-    <Content Include="renderers\GLShaders.js">
-      <DependentUpon>GLShaders.ts</DependentUpon>
-    </Content>
+    <Content Include="renderers\GLShaders.ts" />
+    <Content Include="renderers\GLTexture.ts" />
     <Content Include="renderers\WebGL.d.ts" />
     <Content Include="textures\TextureAtlas.ts" />
     <Content Include="animation\Sequence.ts" />
@@ -55,16 +56,12 @@
     <Content Include="core\State.ts" />
     <Content Include="core\Group.ts" />
     <Content Include="core\Loader.ts" />
-    <Content Include="core\Layer.ts" />
     <Content Include="core\IChild.ts" />
-    <Content Include="core\LayerManager.ts" />
     <Content Include="core\Stage.ts" />
     <Content Include="core\Signal.ts" />
     <Content Include="core\SignalBinding.ts" />
     <Content Include="core\StateConfig.ts" />
     <Content Include="geom\Circle.ts" />
-    <Content Include="dom\Element.ts" />
-    <Content Include="dom\Cache.ts" />
     <Content Include="dom\Bootstrap.ts" />
     <Content Include="dom\Browser.ts" />
     <Content Include="ECMA262-5.js" />
@@ -177,14 +174,14 @@
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vs16B6.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs519A.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vs16B6.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs519A.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

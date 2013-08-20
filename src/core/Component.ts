@@ -33,11 +33,9 @@ module Kiwi {
             //  Signals
 
             this.onAddedToState = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
             this.onAddedToGroup = new Kiwi.Signal();
             this.onAddedToEntity = new Kiwi.Signal();
             this.onRemovedFromState = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
             this.onRemovedFromGroup = new Kiwi.Signal();
             this.onRemovedFromEntity = new Kiwi.Signal();
            
@@ -53,12 +51,12 @@ module Kiwi {
 
         //  Subscribe to these signals for update information
         public onAddedToState: Kiwi.Signal;
-        public onAddedToLayer: Kiwi.Signal;
+       
         public onAddedToGroup: Kiwi.Signal;
         public onAddedToEntity: Kiwi.Signal;
 
         public onRemovedFromState: Kiwi.Signal;
-        public onRemovedFromLayer: Kiwi.Signal;
+      
         public onRemovedFromGroup: Kiwi.Signal;
         public onRemovedFromEntity: Kiwi.Signal;
 
@@ -69,10 +67,7 @@ module Kiwi {
             {
                 return this._addedToGroup(parent);
             }
-            else if (action === Kiwi.ADDED_TO_LAYER)
-            {
-                return this._addedToLayer(parent);
-            }
+           
             else if (action === Kiwi.ADDED_TO_STATE)
             {
                 return this._addedToState(parent);
@@ -85,10 +80,7 @@ module Kiwi {
             {
                 return this._removedFromGroup(parent);
             }
-            else if (action === Kiwi.REMOVED_FROM_LAYER)
-            {
-                return this._removedFromLayer(parent);
-            }
+           
             else if (action === Kiwi.REMOVED_FROM_STATE)
             {
                 return this._removedFromState(parent);
@@ -100,12 +92,7 @@ module Kiwi {
 
         }
 
-        /**
-        * The Layer this Component has been added to, if any.
-        * @property layer
-        * @type Kiwi.Layer
-        **/
-        public layer: Kiwi.Layer = null;
+       
 
         /**
         * The state this Component has been added to, if any.
@@ -128,50 +115,7 @@ module Kiwi {
     	*/
         public entity: Kiwi.Entity = null;
 
-        /**
-        * Called when this Component is added to a Layer
-        * @method _addedToLayer
-        * @param {Kiwi.Layer} layer
-        * @return {Boolean}
-        */
-        private _addedToLayer(layer: Kiwi.Layer): bool {
-
-            if (this.layer !== null)
-            {
-                klog.warn('Component already exists on Layer ' + this.layer.id);
-
-                return false;
-            }
-            else
-            {
-               
-                    this.layer = layer;
-
-                    if (layer.game !== null)
-                    {
-                        this.game = layer.game;
-                    }
-
-                    this.onAddedToLayer.dispatch(this, this.layer);
-
-                    return true;
-               
-            }
-
-        }
-
-        /**
-        * Called when this Component is removed from a Layer
-        * @method _removedFromLayer
-        * @param {Kiwi.Layer} layer
-        */
-        private _removedFromLayer(layer: Kiwi.Layer) {
-
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-
-        }
+       
 
         /**
         * Called when this Component is added to a State
@@ -384,7 +328,7 @@ module Kiwi {
             this.entity = null;
             this.game = null;
             this.group = null;
-            this.layer = null;
+          
 
             this.name = '';
 

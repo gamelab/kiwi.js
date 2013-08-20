@@ -1,23 +1,4 @@
-﻿var Shapes;
-(function (Shapes) {
-    var Point = (function () {
-        function Point(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-        Point.prototype.getDist = function () {
-            return Math.sqrt(this.x * this.x + this.y * this.y);
-        };
-
-        Point.origin = new Point(0, 0);
-        return Point;
-    })();
-    Shapes.Point = Point;
-})(Shapes || (Shapes = {}));
-
-var p = new Shapes.Point(3, 4);
-var dist = p.getDist();
-var Kiwi;
+﻿var Kiwi;
 (function (Kiwi) {
     (function (DOM) {
         var Bootstrap = (function () {
@@ -550,121 +531,912 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var Entity = (function () {
-        function Entity() {
-            this._alpha = 1;
-            this._visible = true;
-            this.width = 0;
-            this.height = 0;
-            this.cellIndex = 0;
-            this.game = null;
-            this.state = null;
-            this.name = '';
-            this.layer = null;
-            this._clock = null;
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
-            this.transform = new Kiwi.Geom.Transform();
-
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-        }
-        Object.defineProperty(Entity.prototype, "x", {
-            get: function () {
-                return this.transform.x;
-            },
-            set: function (value) {
-                this.transform.x = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "y", {
-            get: function () {
-                return this.transform.y;
-            },
-            set: function (value) {
-                this.transform.y = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "scaleX", {
-            get: function () {
-                return this.transform.scaleX;
-            },
-            set: function (value) {
-                this.transform.scaleX = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "scaleY", {
-            get: function () {
-                return this.transform.scaleY;
-            },
-            set: function (value) {
-                this.transform.scaleY = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "rotation", {
-            get: function () {
-                return this.transform.rotation;
-            },
-            set: function (value) {
-                this.transform.rotation = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Entity.prototype.childType = function () {
-            return Kiwi.ENTITY;
-        };
-
-        Entity.prototype.modify = function (action, parent) {
-            if (action === Kiwi.ADDED_TO_GROUP) {
-                return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (action === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
-                return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
-            } else if (action === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
+    (function (Geom) {
+        var Matrix = (function () {
+            function Matrix(a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                this.a = 1;
+                this.b = 0;
+                this.c = 0;
+                this.d = 1;
+                this.tx = 0;
+                this.ty = 0;
+                this.setTo(a, b, c, d, tx, ty);
             }
+            Matrix.prototype.objType = function () {
+                return "Matrix";
+            };
+
+            Matrix.prototype.setTo = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                this.a = a;
+                this.b = b;
+                this.c = c;
+                this.d = d;
+                this.tx = tx;
+                this.ty = ty;
+
+                return this;
+            };
+
+            Matrix.prototype.setFromTransform = function (tx, ty, scaleX, scaleY, rotation) {
+                this.identity();
+                var cos = Math.cos(rotation);
+                var sin = Math.sin(rotation);
+
+                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty);
+
+                return this;
+            };
+
+            Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                var tx1 = this.tx;
+                var a1 = this.a;
+                var c1 = this.c;
+
+                this.a = a1 * a + this.b * c;
+                this.b = a1 * b + this.b * d;
+                this.c = c1 * a + this.d * c;
+                this.d = c1 * b + this.d * d;
+
+                this.tx = tx1 * a + this.ty * c + tx;
+                this.ty = tx1 * b + this.ty * d + ty;
+                return this;
+            };
+
+            Matrix.prototype.prependMatrix = function (m) {
+                var tx1 = this.tx;
+                var a1 = this.a;
+                var c1 = this.c;
+
+                this.a = a1 * m.a + this.b * m.c;
+                this.b = a1 * m.b + this.b * m.d;
+                this.c = c1 * m.a + this.d * m.c;
+                this.d = c1 * m.b + this.d * m.d;
+
+                this.tx = tx1 * m.a + this.ty * m.c + m.tx;
+                this.ty = tx1 * m.b + this.ty * m.d + m.ty;
+                return this;
+            };
+
+            Matrix.prototype.append = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+
+                this.a = a * a1 + b * c1;
+                this.b = a * b1 + b * d1;
+                this.c = c * a1 + d * c1;
+                this.d = c * b1 + d * d1;
+                this.tx = tx * a1 + ty * c1 + this.tx;
+                this.ty = tx * b1 + ty * d1 + this.ty;
+                return this;
+            };
+
+            Matrix.prototype.appendMatrix = function (m) {
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+
+                this.a = m.a * a1 + m.b * c1;
+                this.b = m.a * b1 + m.b * d1;
+                this.c = m.c * a1 + m.d * c1;
+                this.d = m.c * b1 + m.d * d1;
+                this.tx = m.tx * a1 + m.ty * c1 + this.tx;
+                this.ty = m.tx * b1 + m.ty * d1 + this.ty;
+                return this;
+            };
+
+            Matrix.prototype.setPosition = function (x, y) {
+                this.tx = x;
+                this.ty = y;
+                return this;
+            };
+
+            Matrix.prototype.setPositionPoint = function (p) {
+                this.tx = p.x;
+                this.ty = p.y;
+                return this;
+            };
+
+            Matrix.prototype.getPosition = function (output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                return output.setTo(this.tx, this.ty);
+            };
+
+            Matrix.prototype.identity = function () {
+                this.a = 1;
+                this.b = 0;
+                this.c = 0;
+                this.d = 1;
+                this.tx = 0;
+                this.ty = 0;
+                return this;
+            };
+
+            Matrix.prototype.rotate = function (radians) {
+                var cos = Math.cos(radians);
+                var sin = Math.sin(radians);
+
+                var a1 = this.a;
+                var c1 = this.c;
+                var tx1 = this.tx;
+
+                this.a = a1 * cos - this.b * sin;
+                this.b = a1 * sin + this.b * cos;
+                this.c = c1 * cos - this.d * sin;
+                this.d = c1 * sin + this.d * cos;
+                this.tx = tx1 * cos - this.ty * sin;
+                this.ty = tx1 * sin + this.ty * cos;
+                return this;
+            };
+
+            Matrix.prototype.translate = function (tx, ty) {
+                this.tx += tx;
+                this.ty += ty;
+                return this;
+            };
+
+            Matrix.prototype.scale = function (scaleX, scaleY) {
+                this.a *= scaleX;
+                this.d *= scaleY;
+                return this;
+            };
+
+            Matrix.prototype.transformPoint = function (pt) {
+                var x = pt.x;
+                var y = pt.y;
+                pt.x = this.a * x + this.c * y + this.tx;
+                pt.y = this.b * x + this.d * y + this.ty;
+                return pt;
+            };
+
+            Matrix.prototype.invert = function () {
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+                var tx1 = this.tx;
+                var n = a1 * d1 - b1 * c1;
+
+                this.a = d1 / n;
+                this.b = -b1 / n;
+                this.c = -c1 / n;
+                this.d = a1 / n;
+                this.tx = (c1 * this.ty - d1 * tx1) / n;
+                this.ty = -(a1 * this.ty - b1 * tx1) / n;
+                return this;
+            };
+
+            Matrix.prototype.copyFrom = function (m) {
+                this.a = m.a;
+                this.b = m.b;
+                this.c = m.c;
+                this.d = m.d;
+                this.tx = m.tx;
+                this.ty = m.ty;
+
+                return this;
+            };
+
+            Matrix.prototype.copyTo = function (m) {
+                m.a = this.a;
+                m.b = this.b;
+                m.c = this.c;
+                m.d = this.d;
+                m.tx = this.tx;
+                m.ty = this.ty;
+                return this;
+            };
+
+            Matrix.prototype.clone = function () {
+                return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
+            };
+
+            Object.defineProperty(Matrix.prototype, "toString", {
+                get: function () {
+                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Matrix;
+        })();
+        Geom.Matrix = Matrix;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Transform = (function () {
+            function Transform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof scaleX === "undefined") { scaleX = 1; }
+                if (typeof scaleY === "undefined") { scaleY = 1; }
+                if (typeof rotation === "undefined") { rotation = 0; }
+                if (typeof rotPointX === "undefined") { rotPointX = 0; }
+                if (typeof rotPointY === "undefined") { rotPointY = 0; }
+                this._x = 0;
+                this._y = 0;
+                this._scaleX = 1;
+                this._scaleY = 1;
+                this._rotation = 0;
+                this._rotPointX = 0;
+                this._rotPointY = 0;
+                this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
+
+                this._matrix = new Geom.Matrix();
+
+                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+
+                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
+            }
+            Transform.prototype.objType = function () {
+                return "Transform";
+            };
+
+
+            Object.defineProperty(Transform.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                set: function (value) {
+                    this._x = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                set: function (value) {
+                    this._y = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "scaleX", {
+                get: function () {
+                    return this._scaleX;
+                },
+                set: function (value) {
+                    this._scaleX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "scaleY", {
+                get: function () {
+                    return this._scaleY;
+                },
+                set: function (value) {
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "rotation", {
+                get: function () {
+                    return this._rotation;
+                },
+                set: function (value) {
+                    this._rotation = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "rotPointX", {
+                get: function () {
+                    return this._rotPointX;
+                },
+                set: function (value) {
+                    this._rotPointX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "rotPointY", {
+                get: function () {
+                    return this._rotPointY;
+                },
+                set: function (value) {
+                    this._rotPointY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "matrix", {
+                get: function () {
+                    return this._matrix;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "worldX", {
+                get: function () {
+                    return this.getConcatenatedMatrix().tx;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "worldY", {
+                get: function () {
+                    return this.getConcatenatedMatrix().ty;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "parent", {
+                get: function () {
+                    return this._parent;
+                },
+                set: function (value) {
+                    if (!this.checkAncestor(value)) {
+                        this._parent = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Transform.prototype.setPosition = function (x, y) {
+                this._x = x;
+                this._y = y;
+
+                return this;
+            };
+
+            Transform.prototype.setPositionFromPoint = function (point) {
+                this._x = point.x;
+                this._y = point.y;
+
+                return this;
+            };
+
+            Transform.prototype.translatePositionFromPoint = function (point) {
+                this._x += point.x;
+                this._y += point.y;
+
+                return this;
+            };
+
+            Transform.prototype.getPositionPoint = function (output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                return output.setTo(this._x, this._y);
+            };
+
+            Object.defineProperty(Transform.prototype, "scale", {
+                set: function (value) {
+                    this._scaleX = value;
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof scaleX === "undefined") { scaleX = 1; }
+                if (typeof scaleY === "undefined") { scaleY = 1; }
+                if (typeof rotation === "undefined") { rotation = 0; }
+                if (typeof rotPointX === "undefined") { rotPointX = 0; }
+                if (typeof rotPointY === "undefined") { rotPointY = 0; }
+                this._x = x;
+                this._y = y;
+                this._scaleX = scaleX;
+                this._scaleY = scaleY;
+                this._rotation = rotation;
+                this._rotPointX = rotPointX;
+                this._rotPointY = rotPointY;
+
+                return this;
+            };
+
+            Transform.prototype.getParentMatrix = function () {
+                if (this._parent) {
+                    return this._parent.getConcatenatedMatrix();
+                }
+
+                return null;
+            };
+
+            Transform.prototype.getConcatenatedMatrix = function () {
+                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+
+                var parentMatrix = this.getParentMatrix();
+
+                if (parentMatrix) {
+                    var matrix = this._matrix.clone();
+                    matrix.prependMatrix(parentMatrix);
+                    this._cachedConcatenatedMatrix.copyFrom(matrix);
+                    return matrix;
+                }
+
+                return this._matrix;
+            };
+
+            Transform.prototype.transformPoint = function (point) {
+                var mat = this.getConcatenatedMatrix();
+
+                return mat.transformPoint(point);
+            };
+
+            Transform.prototype.copyFrom = function (source) {
+                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.rotPointX, source.rotPointY);
+
+                this.parent = source.parent;
+
+                this._matrix = source.matrix.clone();
+
+                return this;
+            };
+
+            Transform.prototype.copyTo = function (destination) {
+                destination.copyFrom(this);
+
+                return this;
+            };
+
+            Transform.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Transform(); }
+                output.copyFrom(this);
+
+                return output;
+            };
+
+            Transform.prototype.checkAncestor = function (transform) {
+                return false;
+            };
+
+            Object.defineProperty(Transform.prototype, "toString", {
+                get: function () {
+                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._rotPointX + " regY=" + this.rotPointY + " matrix=" + this._matrix + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Transform;
+        })();
+        Geom.Transform = Transform;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Rectangle = (function () {
+            function Rectangle(x, y, width, height) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof width === "undefined") { width = 0; }
+                if (typeof height === "undefined") { height = 0; }
+                this.x = 0;
+                this.y = 0;
+                this.width = 0;
+                this.height = 0;
+                this.setTo(x, y, width, height);
+            }
+            Rectangle.prototype.objType = function () {
+                return "Rectangle";
+            };
+
+
+            Object.defineProperty(Rectangle.prototype, "bottom", {
+                get: function () {
+                    return this.y + this.height;
+                },
+                set: function (value) {
+                    if (value) {
+                        if (value < this.y) {
+                            this.height = 0;
+                        } else {
+                            this.height = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "center", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "bottomRight", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.right, this.bottom);
+                },
+                set: function (value) {
+                    if (value) {
+                        this.right = value.x;
+                        this.bottom = value.y;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "left", {
+                get: function () {
+                    return this.x;
+                },
+                set: function (value) {
+                    if (value) {
+                        var diff = this.x - value;
+
+                        if (this.width + diff < 0) {
+                            this.width = 0;
+
+                            this.x = value;
+                        } else {
+                            this.width += diff;
+
+                            this.x = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "right", {
+                get: function () {
+                    return this.x + this.width;
+                },
+                set: function (value) {
+                    if (value) {
+                        if (value < this.x) {
+                            this.width = 0;
+                        } else {
+                            this.width = value - this.x;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "size", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.width, this.height);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "volume", {
+                get: function () {
+                    return this.width * this.height;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "perimeter", {
+                get: function () {
+                    return (this.width * 2) + (this.height * 2);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "top", {
+                get: function () {
+                    return this.y;
+                },
+                set: function (value) {
+                    if (value) {
+                        var diff = this.y - value;
+
+                        if (this.height + diff < 0) {
+                            this.height = 0;
+
+                            this.y = value;
+                        } else {
+                            this.height += diff;
+
+                            this.y = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "topLeft", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.x, this.y);
+                },
+                set: function (value) {
+                    if (value) {
+                        this.x = value.x;
+                        this.y = value.y;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Rectangle.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Rectangle(); }
+                return output.setTo(this.x, this.y, this.width, this.height);
+            };
+
+            Rectangle.prototype.contains = function (x, y) {
+                if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.containsPoint = function (point) {
+                return this.contains(point.x, point.y);
+            };
+
+            Rectangle.prototype.containsRect = function (rect) {
+                if (rect.volume > this.volume) {
+                    return false;
+                }
+
+                if (rect.x >= this.x && rect.y >= this.y && rect.right <= this.right && rect.bottom <= this.bottom) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.copyFrom = function (source) {
+                return this.setTo(source.x, source.y, source.width, source.height);
+            };
+
+            Rectangle.prototype.copyTo = function (target) {
+                return target.copyFrom(this);
+            };
+
+            Rectangle.prototype.equals = function (toCompare) {
+                if (this.x === toCompare.x && this.y === toCompare.y && this.width === toCompare.width && this.height === toCompare.height) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.inflate = function (dx, dy) {
+                if (!isNaN(dx) && !isNaN(dy)) {
+                    this.x -= dx;
+                    this.width += 2 * dx;
+
+                    this.y -= dy;
+                    this.height += 2 * dy;
+                }
+
+                return this;
+            };
+
+            Rectangle.prototype.inflatePoint = function (point) {
+                return this.inflate(point.x, point.y);
+            };
+
+            Rectangle.prototype.intersection = function (toIntersect, output) {
+                if (typeof output === "undefined") { output = new Rectangle(); }
+                if (this.intersects(toIntersect) === true) {
+                    output.x = Math.max(toIntersect.x, this.x);
+                    output.y = Math.max(toIntersect.y, this.y);
+                    output.width = Math.min(toIntersect.right, this.right) - output.x;
+                    output.height = Math.min(toIntersect.bottom, this.bottom) - output.y;
+                }
+
+                return output;
+            };
+
+            Rectangle.prototype.intersects = function (toIntersect) {
+                if (toIntersect.x > this.right - 1) {
+                    return false;
+                }
+
+                if (toIntersect.right - 1 < this.x) {
+                    return false;
+                }
+
+                if (toIntersect.bottom - 1 < this.y) {
+                    return false;
+                }
+
+                if (toIntersect.y > this.bottom - 1) {
+                    return false;
+                }
+
+                return true;
+            };
+
+            Rectangle.prototype.overlap = function (rect) {
+                var result = { top: false, bottom: false, left: false, right: false, contains: false, contained: false };
+                var interRect = this.intersection(rect);
+
+                if (interRect.isEmpty)
+                    return result;
+                if (this.containsRect(rect))
+                    result.contains = true;
+                if (rect.containsRect(this))
+                    result.contained = true;
+                if (this.top < rect.top)
+                    result.top = true;
+                if (this.bottom > rect.bottom)
+                    result.bottom = true;
+                if (this.left < rect.left)
+                    result.left = true;
+                if (this.right > rect.right)
+                    result.right = true;
+
+                return result;
+            };
+
+            Rectangle.prototype.isEmpty = function () {
+                if (this.width < 1 || this.height < 1) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.offset = function (dx, dy) {
+                if (!isNaN(dx) && !isNaN(dy)) {
+                    this.x += dx;
+                    this.y += dy;
+                }
+
+                return this;
+            };
+
+            Rectangle.prototype.offsetPoint = function (point) {
+                return this.offset(point.x, point.y);
+            };
+
+            Rectangle.prototype.setEmpty = function () {
+                return this.setTo(0, 0, 0, 0);
+            };
+
+            Rectangle.prototype.setTo = function (x, y, width, height) {
+                if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
+                    this.x = x;
+                    this.y = y;
+
+                    if (width >= 0) {
+                        this.width = width;
+                    }
+
+                    if (height >= 0) {
+                        this.height = height;
+                    }
+                }
+
+                return this;
+            };
+
+            Rectangle.prototype.union = function (toUnion, output) {
+                if (typeof output === "undefined") { output = new Rectangle(); }
+                return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right, this.right), Math.max(toUnion.bottom, this.bottom));
+            };
+
+            Rectangle.prototype.scale = function (x, y, translation) {
+                var trans = new Kiwi.Geom.Transform();
+                trans.scaleX = x;
+                trans.scaleY = y;
+                trans.x = translation.x;
+                trans.y = translation.y;
+
+                var tl = this.topLeft;
+                trans.transformPoint(tl);
+                this.topLeft = tl;
+
+                this.width *= x;
+                this.height *= y;
+
+                return this;
+            };
+
+            Rectangle.prototype.toString = function () {
+                return "[{Rectangle (x=" + this.x + " y=" + this.y + " width=" + this.width + " height=" + this.height + " isEmpty=" + this.isEmpty() + ")}]";
+            };
+            return Rectangle;
+        })();
+        Geom.Rectangle = Rectangle;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Stage = (function () {
+        function Stage(game, name) {
+            this.offset = new Kiwi.Geom.Point();
+            this.container = null;
+            this._framerate = 3;
+            this._game = game;
+
+            this.name = name;
+
+            this.domReady = false;
+
+            this._alpha = 1;
+
+            this._x = 0;
+            this._y = 0;
+
+            this._width = 800;
+            this._height = 600;
+
+            this.onResize = new Kiwi.Signal();
+        }
+        Stage.prototype.objType = function () {
+            return "Stage";
         };
 
-
-        Object.defineProperty(Entity.prototype, "alpha", {
+        Object.defineProperty(Stage.prototype, "alpha", {
             get: function () {
                 return this._alpha;
             },
             set: function (value) {
-                if (value <= 0)
-                    value = 0;
-                if (value > 1)
-                    value = 1;
+                this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
+
                 this._alpha = value;
             },
             enumerable: true,
@@ -672,179 +1444,716 @@ var Kiwi;
         });
 
 
-        Object.defineProperty(Entity.prototype, "visiblity", {
+        Object.defineProperty(Stage.prototype, "x", {
             get: function () {
-                return this._visible;
+                return this._x;
             },
             set: function (value) {
-                this._visible = value;
+                this.container.style.left = String(value + 'px');
+                this._x = value;
             },
             enumerable: true,
             configurable: true
         });
 
 
-        Object.defineProperty(Entity.prototype, "exists", {
+        Object.defineProperty(Stage.prototype, "y", {
             get: function () {
-                return this._exists;
+                return this._y;
             },
             set: function (value) {
-                this._exists = value;
+                this.container.style.top = String(value + 'px');
+                this._y = value;
             },
             enumerable: true,
             configurable: true
         });
 
 
-        Object.defineProperty(Entity.prototype, "active", {
+        Object.defineProperty(Stage.prototype, "width", {
             get: function () {
-                return this._active;
+                return this._width;
             },
             set: function (value) {
-                this._active = value;
+                this.container.style.width = String(value + 'px');
+                this.canvas.width = value;
+
+                this._width = value;
+                this.onResize.dispatch(this._width, this._height);
             },
             enumerable: true,
             configurable: true
         });
 
 
-        Object.defineProperty(Entity.prototype, "willRender", {
+        Object.defineProperty(Stage.prototype, "height", {
             get: function () {
-                return this._willRender;
+                return this._height;
             },
             set: function (value) {
-                this._willRender = value;
+                this.container.style.height = String(value + 'px');
+                this.canvas.height = value;
+
+                this._height = value;
+                this.onResize.dispatch(this._width, this._height);
             },
             enumerable: true,
             configurable: true
         });
 
 
-        Object.defineProperty(Entity.prototype, "inputEnabled", {
-            get: function () {
-                return this._inputEnabled;
-            },
-            set: function (value) {
-                this._inputEnabled = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        Stage.prototype.boot = function (dom) {
+            klog.info('Stage DOM boot');
 
+            this.domReady = true;
 
-        Object.defineProperty(Entity.prototype, "clock", {
-            get: function () {
-                return this._clock;
-            },
-            set: function (value) {
-                this._clock = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
+            this.container = dom.container;
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.offset = this._game.browser.getOffsetPoint(this.container);
+                this._x = this.offset.x;
+                this._y = this.offset.y;
+                this._width = parseInt(this.container.style.width);
+                this._height = parseInt(this.container.style.height);
+            }
 
+            this._createCompositeCanvas();
+        };
 
-        Object.defineProperty(Entity.prototype, "dirty", {
-            get: function () {
-                return this._dirty;
-            },
-            set: function (value) {
-                this._dirty = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        Stage.prototype._createCompositeCanvas = function () {
+            console.log("created canvas");
+            this.canvas = document.createElement("canvas");
+            this.canvas.id = this._game.id + "compositeCanvas";
+            this.canvas.style.position = "absolute";
+            this.canvas.width = this.width;
+            this.canvas.height = this.height;
 
-        Entity.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Entity already exists on Layer ' + this.layer.id);
-
-                return false;
+            if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
+                this.ctx = this.canvas.getContext("2d");
+                this.ctx.fillStyle = '#fff';
+                this.gl = null;
+            } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                this.gl = this.canvas.getContext("webgl");
+                this.gl.clearColor(1, 1, .95, 1);
+                this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+                this.ctx = null;
             } else {
-                if (layer.game !== null) {
-                    this.game = layer.game;
+                klog.error("Unrecognised render mode");
+            }
 
-                    if (this._clock === null) {
-                        this._clock = this.game.time.clock;
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.appendChild(this.canvas);
+            } else {
+                document.body.appendChild(this.canvas);
+            }
+        };
+
+        Stage.prototype.frameRate = function (value) {
+            if (value) {
+                this._framerate = value;
+            }
+
+            return this._framerate;
+        };
+        return Stage;
+    })();
+    Kiwi.Stage = Stage;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Tweens) {
+        var Manager = (function () {
+            function Manager(game) {
+                klog.info('Tween Manager created');
+                this._game = game;
+                this._tweens = [];
+            }
+            Manager.prototype.objType = function () {
+                return "Manager";
+            };
+
+            Manager.prototype.getAll = function () {
+                return this._tweens;
+            };
+
+            Manager.prototype.removeAll = function () {
+                this._tweens.length = 0;
+            };
+
+            Manager.prototype.create = function (object) {
+                return new Kiwi.Tween(object, this._game);
+            };
+
+            Manager.prototype.add = function (tween) {
+                tween.setParent(this._game);
+
+                this._tweens.push(tween);
+
+                return tween;
+            };
+
+            Manager.prototype.remove = function (tween) {
+                var i = this._tweens.indexOf(tween);
+
+                if (i !== -1) {
+                    this._tweens.splice(i, 1);
+                }
+            };
+
+            Manager.prototype.update = function () {
+                if (this._tweens.length === 0) {
+                    return false;
+                }
+
+                var i = 0;
+                var numTweens = this._tweens.length;
+
+                while (i < numTweens) {
+                    if (this._tweens[i].update(this._game.time.now())) {
+                        i++;
+                    } else {
+                        this._tweens.splice(i, 1);
+                        numTweens--;
                     }
                 }
 
-                this.onAddedToLayer.dispatch(this, this.layer);
-
                 return true;
+            };
+            return Manager;
+        })();
+        Tweens.Manager = Manager;
+    })(Kiwi.Tweens || (Kiwi.Tweens = {}));
+    var Tweens = Kiwi.Tweens;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Utils) {
+        var RandomDataGenerator = (function () {
+            function RandomDataGenerator(seeds) {
+                if (typeof seeds === "undefined") { seeds = []; }
+                this.c = 1;
+                this._data = {
+                    lipsum: [
+                        "lorem",
+                        "ipsum",
+                        "dolor",
+                        "sit",
+                        "amet",
+                        "consectetur",
+                        "adipiscing",
+                        "elit",
+                        "nunc",
+                        "sagittis",
+                        "tortor",
+                        "ac",
+                        "mi",
+                        "pretium",
+                        "sed",
+                        "convallis",
+                        "massa",
+                        "pulvinar",
+                        "curabitur",
+                        "non",
+                        "turpis",
+                        "velit",
+                        "vitae",
+                        "rutrum",
+                        "odio",
+                        "aliquam",
+                        "sapien",
+                        "orci",
+                        "tempor",
+                        "sed",
+                        "elementum",
+                        "sit",
+                        "amet",
+                        "tincidunt",
+                        "sed",
+                        "risus",
+                        "etiam",
+                        "nec",
+                        "lacus",
+                        "id",
+                        "ante",
+                        "hendrerit",
+                        "malesuada",
+                        "donec",
+                        "porttitor",
+                        "magna",
+                        "eget",
+                        "libero",
+                        "pharetra",
+                        "sollicitudin",
+                        "aliquam",
+                        "mattis",
+                        "mattis",
+                        "massa",
+                        "et",
+                        "porta",
+                        "morbi",
+                        "vitae",
+                        "magna",
+                        "augue",
+                        "vestibulum",
+                        "at",
+                        "lectus",
+                        "sed",
+                        "tellus",
+                        "facilisis",
+                        "tincidunt",
+                        "suspendisse",
+                        "eros",
+                        "magna",
+                        "consequat",
+                        "at",
+                        "sollicitudin",
+                        "ac",
+                        "vestibulum",
+                        "vel",
+                        "dolor",
+                        "in",
+                        "egestas",
+                        "lacus",
+                        "quis",
+                        "lacus",
+                        "placerat",
+                        "et",
+                        "molestie",
+                        "ipsum",
+                        "scelerisque",
+                        "nullam",
+                        "sit",
+                        "amet",
+                        "tortor",
+                        "dui",
+                        "aenean",
+                        "pulvinar",
+                        "odio",
+                        "nec",
+                        "placerat",
+                        "fringilla",
+                        "neque",
+                        "dolor"
+                    ]
+                };
+                klog.info('Random Data Generator created');
+
+                this.sow(seeds);
             }
-        };
+            RandomDataGenerator.prototype.objType = function () {
+                return "RandomDataGenerator";
+            };
 
-        Entity.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
+            RandomDataGenerator.prototype.uint32 = function () {
+                return this.rnd.apply(this) * 0x100000000;
+            };
 
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
+            RandomDataGenerator.prototype.fract32 = function () {
+                return this.rnd.apply(this) + (this.rnd.apply(this) * 0x200000 | 0) * 1.1102230246251565e-16;
+            };
 
-        Entity.prototype._addedToState = function (state) {
-            klog.info('Entity added to State');
+            RandomDataGenerator.prototype.rnd = function () {
+                var t = 2091639 * this.s0 + this.c * 2.3283064365386963e-10;
 
-            this.state = state;
+                this.c = t | 0;
+                this.s0 = this.s1;
+                this.s1 = this.s2;
+                this.s2 = t - this.c;
 
-            this.game = this.state.game;
+                return this.s2;
+            };
 
-            if (this._clock === null) {
-                this._clock = this.game.time.clock;
-            }
+            RandomDataGenerator.prototype.hash = function (data) {
+                var h, i, n;
 
-            this.id = this.game.rnd.uuid();
+                n = 0xefc8249d;
 
-            this.onAddedToState.dispatch(this, this.state);
+                data = data.toString();
 
-            return true;
-        };
+                for (i = 0; i < data.length; i++) {
+                    n += data.charCodeAt(i);
+                    h = 0.02519603282416938 * n;
+                    n = h >>> 0;
+                    h -= n;
+                    h *= n;
+                    n = h >>> 0;
+                    h -= n;
+                    n += h * 0x100000000;
+                }
 
-        Entity.prototype._removedFromState = function (state) {
-            klog.info('Entity removed from State');
+                return (n >>> 0) * 2.3283064365386963e-10;
+            };
 
-            this.state = null;
+            RandomDataGenerator.prototype.sow = function (seeds) {
+                if (typeof seeds === "undefined") { seeds = []; }
+                this.s0 = this.hash(' ');
+                this.s1 = this.hash(this.s0);
+                this.s2 = this.hash(this.s1);
 
-            this.game = null;
+                var seed;
 
-            this.onAddedToState.dispatch(this, state);
-        };
+                for (var i = 0; seed = seeds[i++]; ) {
+                    this.s0 -= this.hash(seed);
+                    this.s0 += ~~(this.s0 < 0);
 
-        Entity.prototype._addedToGroup = function (group) {
-            klog.info('Entity added to Group');
+                    this.s1 -= this.hash(seed);
+                    this.s1 += ~~(this.s1 < 0);
 
-            if (group.game !== null) {
-                this.game = group.game;
+                    this.s2 -= this.hash(seed);
+                    this.s2 += ~~(this.s2 < 0);
+                }
+            };
 
-                if (this._clock === null) {
-                    this._clock = this.game.time.clock;
+            RandomDataGenerator.prototype.integer = function () {
+                return this.uint32();
+            };
+
+            RandomDataGenerator.prototype.frac = function () {
+                return this.fract32();
+            };
+
+            RandomDataGenerator.prototype.real = function () {
+                return this.uint32() + this.fract32();
+            };
+
+            RandomDataGenerator.prototype.integerInRange = function (min, max) {
+                return Math.floor(this.realInRange(min, max));
+            };
+
+            RandomDataGenerator.prototype.realInRange = function (min, max) {
+                min = min || 0;
+                max = max || 0;
+
+                return this.frac() * (max - min) + min;
+            };
+
+            RandomDataGenerator.prototype.normal = function () {
+                return 1 - 2 * this.frac();
+            };
+
+            RandomDataGenerator.prototype.uuid = function () {
+                var a, b;
+
+                for (b = a = ''; a++ < 36; b += ~a % 5 | a * 3 & 4 ? (a ^ 15 ? 8 ^ this.frac() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-')
+                    ;
+
+                return b;
+            };
+
+            RandomDataGenerator.prototype.pick = function (array) {
+                return array[this.integerInRange(0, array.length)];
+            };
+
+            RandomDataGenerator.prototype.weightedPick = function (array) {
+                return array[~~(Math.pow(this.frac(), 2) * array.length)];
+            };
+
+            RandomDataGenerator.prototype.word = function () {
+                return this.pick(this._data.lipsum);
+            };
+
+            RandomDataGenerator.prototype.words = function (quantity) {
+                if (typeof quantity === "undefined") { quantity = 3; }
+                var ret = [];
+
+                for (var i = 0; i < quantity; i++) {
+                    ret.push(this.pick(this._data.lipsum));
+                }
+
+                return ret.join(' ');
+            };
+
+            RandomDataGenerator.prototype.sentence = function () {
+                var ret;
+
+                ret = this.words(this.integerInRange(2, 16)).replace(/[a-z]/, function (m) {
+                    return m.toUpperCase();
+                });
+
+                return ret + '.';
+            };
+
+            RandomDataGenerator.prototype.sentences = function (quantity) {
+                if (typeof quantity === "undefined") { quantity = 3; }
+                var ret = [];
+
+                for (var i = 0; i < quantity; i++) {
+                    ret.push(this.sentence());
+                }
+
+                return ret.join(' ');
+            };
+
+            RandomDataGenerator.prototype.timestamp = function (min, max) {
+                if (typeof min === "undefined") { min = 946684800000; }
+                if (typeof max === "undefined") { max = 1577862000000; }
+                return this.realInRange(min, max);
+            };
+
+            RandomDataGenerator.prototype.angle = function () {
+                return this.integerInRange(-180, 180);
+            };
+            return RandomDataGenerator;
+        })();
+        Utils.RandomDataGenerator = RandomDataGenerator;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Utils) {
+        var RequestAnimationFrame = (function () {
+            function RequestAnimationFrame(callback) {
+                this._isSetTimeOut = false;
+                this.lastTime = 0;
+                this.currentTime = 0;
+                this.isRunning = false;
+                this._callback = callback;
+
+                var vendors = ['ms', 'moz', 'webkit', 'o'];
+
+                for (var x = 0; x < vendors.length && !window.requestAnimationFrame; x++) {
+                    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+                    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'];
                 }
             }
+            RequestAnimationFrame.prototype.objType = function () {
+                return "RequestAnimationFrame";
+            };
+
+            RequestAnimationFrame.prototype.setCallback = function (callback) {
+                this._callback = callback;
+            };
+
+            RequestAnimationFrame.prototype.isUsingSetTimeOut = function () {
+                return this._isSetTimeOut;
+            };
+
+            RequestAnimationFrame.prototype.isUsingRAF = function () {
+                if (this._isSetTimeOut === true) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            RequestAnimationFrame.prototype.start = function (callback) {
+                if (typeof callback === "undefined") { callback = null; }
+                var _this = this;
+                if (callback) {
+                    this._callback = callback;
+                }
+
+                if (!window.requestAnimationFrame) {
+                    klog.info('Kiwi.Utils.RequestAnimationFrame: false');
+                    this._isSetTimeOut = true;
+                    this._timeOutID = window.setTimeout(function () {
+                        return _this.SetTimeoutUpdate();
+                    }, 0);
+                } else {
+                    klog.info('Kiwi.Utils.RequestAnimationFrame: true');
+                    this._isSetTimeOut = false;
+                    window.requestAnimationFrame(function () {
+                        return _this.RAFUpdate();
+                    });
+                }
+
+                this.isRunning = true;
+            };
+
+            RequestAnimationFrame.prototype.stop = function () {
+                if (this._isSetTimeOut) {
+                    clearTimeout(this._timeOutID);
+                } else {
+                    window.cancelAnimationFrame;
+                }
+
+                this.isRunning = false;
+            };
+
+            RequestAnimationFrame.prototype.RAFUpdate = function () {
+                var _this = this;
+                this.currentTime = Date.now();
+
+                if (this._callback) {
+                    this._callback();
+                }
+
+                var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
+
+                window.requestAnimationFrame(function () {
+                    return _this.RAFUpdate();
+                });
+
+                this.lastTime = this.currentTime + timeToCall;
+            };
+
+            RequestAnimationFrame.prototype.SetTimeoutUpdate = function () {
+                var _this = this;
+                this.currentTime = Date.now();
+
+                if (this._callback) {
+                    this._callback();
+                }
+
+                var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
+
+                this._timeOutID = window.setTimeout(function () {
+                    return _this.SetTimeoutUpdate();
+                }, timeToCall);
+
+                this.lastTime = this.currentTime + timeToCall;
+            };
+            return RequestAnimationFrame;
+        })();
+        Utils.RequestAnimationFrame = RequestAnimationFrame;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Game = (function () {
+        function Game(domParent, name, state, options) {
+            if (typeof domParent === "undefined") { domParent = ''; }
+            if (typeof name === "undefined") { name = 'KiwiGame'; }
+            if (typeof state === "undefined") { state = null; }
+            var _this = this;
+            this._dom = null;
+            this.audio = null;
+            this.browser = null;
+            this.cache = null;
+            this.input = null;
+            this.cameras = null;
+            this.loader = null;
+            this.raf = null;
+            this.stage = null;
+            this.states = null;
+            this.time = null;
+            this.tweens = null;
+            this.rnd = null;
+            options = options || {};
+            this._debugOption = options.debug || Kiwi.DEBUG_ON;
+            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
+            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
+
+            this.id = Kiwi.GameManager.register(this);
+
+            this._dom = new Kiwi.DOM.Bootstrap();
+
+            this.audio = new Kiwi.Sound.AudioManager(this);
+            this.browser = new Kiwi.DOM.Browser(this);
+            this.cache = new Kiwi.Cache(this);
+            this.input = new Kiwi.Input.Manager(this);
+
+            this.stage = new Kiwi.Stage(this, name);
+
+            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
+                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
+            } else {
+                this.renderer = new Kiwi.Renderers.GLRenderer(this);
+            }
+
+            this.cameras = new Kiwi.CameraManager(this);
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds = new Kiwi.HUD.HUDManager(this);
+            }
+            this.loader = new Kiwi.Loader(this);
+
+            this.states = new Kiwi.StateManager(this);
+            this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
+            this.time = new Kiwi.Time.Manager(this);
+            this.tweens = new Kiwi.Tweens.Manager(this);
+
+            if (state !== null) {
+                if (this.states.addState(state, true) === false) {
+                    throw Error("Invalid State passed to Kiwi.Game");
+                }
+            }
+
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this._dom.boot(domParent, function () {
+                    return _this.start();
+                });
+            } else {
+                this.start();
+            }
+        }
+        Object.defineProperty(Game.prototype, "renderOption", {
+            get: function () {
+                return this._renderOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "deviceTargetOption", {
+            get: function () {
+                return this._deviceTargetOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "debugOption", {
+            get: function () {
+                return this._debugOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Game.prototype.objType = function () {
+            return "Game";
         };
 
-        Entity.prototype._removedFromGroup = function (group) {
-            klog.info('Entity removed from Group');
+        Game.prototype.start = function () {
+            var _this = this;
+            if (Kiwi.DEVICE === null) {
+                Kiwi.DEVICE = new Kiwi.Device();
+            }
 
-            this.onRemovedFromGroup.dispatch(this, group);
+            this.browser.boot();
+            this.stage.boot(this._dom);
+            this.renderer.boot();
+            this.cameras.boot();
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds.boot();
+            }
+            this.time.boot();
+            this.audio.boot();
+            this.input.boot();
+            this.cache.boot();
+            this.loader.boot();
+            this.states.boot();
+
+            klog.info('Game Started. DOM Available. Valid State Given');
+            klog.info('Game Time: ' + this.time.now());
+
+            this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
+                return _this.loop();
+            });
+            this.raf.start();
         };
 
-        Entity.prototype._changedPosition = function (group, index) {
-            klog.info('Entity changed position within the group');
-        };
+        Game.prototype.loop = function () {
+            this.time.update();
+            this.audio.update();
+            this.input.update();
+            this.tweens.update();
+            this.cameras.update();
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds.update();
+            }
+            this.states.update();
 
-        Entity.prototype.update = function () {
+            this.cameras.render();
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds.render();
+            }
+            this.states.postRender();
         };
-
-        Entity.prototype.render = function (camera) {
-        };
-
-        Entity.prototype.destroy = function () {
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-        };
-        return Entity;
+        return Game;
     })();
-    Kiwi.Entity = Entity;
+    Kiwi.Game = Game;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -1393,2039 +2702,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (DOM) {
-        var Cache = (function () {
-            function Cache(parent, game, size) {
-                this._parent = parent;
-                this._game = game;
-                this.domContainer = this._parent.domContainer;
-
-                this._cache = [];
-
-                this._swapperA = document.createElement('div');
-                this._swapperA.id = 'KiwiDOMSwapperA';
-
-                this._swapperB = document.createElement('div');
-                this._swapperB.id = 'KiwiDOMSwapperB';
-
-                this._parent.domContainer.appendChild(this._swapperA);
-                this._parent.domContainer.appendChild(this._swapperB);
-
-                for (var i = 0; i < size; i++) {
-                    this._cache.push(new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + i, this));
-                }
-            }
-            Cache.prototype.objType = function () {
-                return "Cache";
-            };
-
-            Cache.prototype.increaseCacheSize = function (value) {
-                for (var i = this._cache.length; i < this._cache.length + value; i++) {
-                    this._cache.push(new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + i, this));
-                }
-
-                return this._cache.length;
-            };
-
-            Cache.prototype.assignElement = function (parent) {
-                for (var i = 0; i < this._cache.length; i++) {
-                    if (this._cache[i].available === true && this._cache[i].type === parent.domElementType) {
-                        return this._cache[i].link(parent);
-                    }
-                }
-
-                klog.info("If we got this far then all of the current elements are in use or of the wrong type, so let's expand the cache size by 1");
-
-                var index = this._cache.length;
-                var newElement = new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + index, this, parent.domElementType);
-
-                this._cache.push(newElement);
-
-                return newElement.link(parent);
-            };
-
-            Cache.prototype.swapElements = function (first, second) {
-                klog.info('DOM Swapping Test 8');
-
-                first.element = first.element.parentElement['replaceChild'](this._swapperA, first.element);
-                second.element = second.element.parentElement['replaceChild'](this._swapperB, second.element);
-
-                this._swapperA = this._swapperA.parentElement['replaceChild'](second.element, this._swapperA);
-                this._swapperB = this._swapperB.parentElement['replaceChild'](first.element, this._swapperB);
-
-                return true;
-            };
-            return Cache;
-        })();
-        DOM.Cache = Cache;
-    })(Kiwi.DOM || (Kiwi.DOM = {}));
-    var DOM = Kiwi.DOM;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Utils) {
-        var Canvas = (function () {
-            function Canvas(layer, width, height, visible, offScreen) {
-                if (typeof visible === "undefined") { visible = true; }
-                if (typeof offScreen === "undefined") { offScreen = false; }
-                this.domElement = null;
-                this.context = null;
-                this._visible = true;
-                this._offScreen = false;
-                this._clearMode = 1;
-                this.bgColor = 'rgb(0, 0, 0)';
-                if (layer === null && offScreen === false) {
-                    klog.warn('Cannot create a canvas on a null layer');
-                    return;
-                }
-
-                this._layer = layer;
-
-                this.domElement = document.createElement('canvas');
-                this.domElement.width = width;
-                this.domElement.height = height;
-
-                this._width = width;
-                this._height = height;
-
-                this.context = this.domElement.getContext('2d');
-
-                this._offScreen = offScreen;
-                this._visible = visible;
-
-                if (visible === false) {
-                    this.domElement.style.display = 'none';
-                }
-            }
-
-            Object.defineProperty(Canvas.prototype, "width", {
-                get: function () {
-                    return this._width;
-                },
-                set: function (value) {
-                    this._width = value;
-                    this._updatedSize();
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Canvas.prototype, "height", {
-                get: function () {
-                    return this._height;
-                },
-                set: function (value) {
-                    this._height = value;
-                    this._updatedSize();
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Canvas.prototype.objType = function () {
-                return "Canvas";
-            };
-
-            Canvas.prototype._updatedSize = function () {
-                this.domElement.width = this._width;
-                this.domElement.height = this._height;
-            };
-
-            Canvas.prototype.destroy = function () {
-                if (this._offScreen === false) {
-                    this.domElement.style.display = 'none';
-                    this._layer.domContainer.removeChild(this.domElement);
-                }
-            };
-
-
-            Object.defineProperty(Canvas.prototype, "visible", {
-                get: function () {
-                    return this._visible;
-                },
-                set: function (value) {
-                    if (value !== null && value !== this._visible) {
-                        this._visible = value;
-
-                        if (value === true) {
-                            this.domElement.style.display = 'block';
-                        } else {
-                            this.domElement.style.display = 'none';
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Canvas.prototype, "clearMode", {
-                get: function () {
-                    return this._clearMode;
-                },
-                set: function (value) {
-                    if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA) {
-                        this._clearMode = value;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Canvas.prototype.clear = function () {
-                if (this._clearMode === Canvas.CLEARMODE_NONE) {
-                } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
-                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
-                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT) {
-                    this.context.fillStyle = this.bgColor;
-                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
-                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA) {
-                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
-                    this.context.fillStyle = this.bgColor;
-                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
-                }
-            };
-
-            Canvas.prototype.saveAsPNG = function () {
-                return this.domElement.toDataURL();
-            };
-
-            Canvas.prototype.toString = function () {
-                return '[{Canvas (width=' + this.width + ' height=' + this.height + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
-            };
-            Canvas.CLEARMODE_NONE = 0;
-
-            Canvas.CLEARMODE_CLEARRECT = 1;
-
-            Canvas.CLEARMODE_FILLRECT = 2;
-
-            Canvas.CLEARMODE_FILLRECT_ALPHA = 3;
-            return Canvas;
-        })();
-        Utils.Canvas = Canvas;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Layer = (function () {
-        function Layer(game, id, name, size) {
-            this._renderList = [];
-            console.log("create layer");
-
-            this.game = game;
-            this.id = id;
-
-            this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.LAYER, this);
-
-            this.domContainer = document.createElement('div');
-
-            this.domContainer.style.position = 'absolute';
-            this.domContainer.style.overflow = 'hidden';
-            this.domContainer.style.left = '0px';
-            this.domContainer.style.top = '0px';
-            this.domContainer.style.width = '100%';
-            this.domContainer.style.height = '100%';
-
-            this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.width, this.game.stage.height, true, true);
-
-            this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
-            this.canvas.domElement.style.position = 'absolute';
-
-            this.canvas.domElement.style.left = '0px';
-            this.canvas.domElement.style.top = '0px';
-            this.canvas.domElement.style.width = '100%';
-            this.canvas.domElement.style.height = '100%';
-
-            this.game.stage.onResize.add(this._updatedStageSize, this);
-
-            klog.info('Created Layer ' + this.id);
-        }
-        Layer.prototype.objType = function () {
-            return "Layer";
-        };
-
-        Layer.prototype._updatedStageSize = function (width, height) {
-            this.canvas.width = width;
-            this.canvas.height = height;
-        };
-
-        Layer.prototype.numChildren = function () {
-            return this._renderList.length;
-        };
-
-        Layer.prototype.visible = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null && value !== this._visible) {
-                this._visible = value;
-
-                this.canvas.visible = this._visible;
-            }
-
-            return this._visible;
-        };
-
-        Layer.prototype.dirty = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._dirty = value;
-            }
-
-            return this._dirty;
-        };
-
-        Layer.prototype.add = function (child) {
-            child.layer = this;
-
-            if (child instanceof Kiwi.Entity) {
-            } else {
-                klog.info('Group added to Layer renderList');
-            }
-
-            this._renderList.push(child);
-
-            child.modify(Kiwi.ADDED_TO_LAYER, this);
-
-            return true;
-        };
-
-        Layer.prototype.remove = function (child) {
-            for (var i = 0; i < this._renderList.length; i++) {
-                if (this._renderList[i].id === child.id) {
-                    this._renderList.slice(i, 1);
-
-                    child.modify(Kiwi.REMOVED_FROM_LAYER, this);
-
-                    return true;
-                }
-            }
-
-            return false;
-        };
-
-        Layer.prototype.update = function () {
-            this.components.update();
-        };
-
-        Layer.prototype.render = function (camera) {
-            this.canvas.clear();
-
-            this.components.preRender();
-
-            this.components.render();
-
-            for (var i = 0; i < this._renderList.length; i++) {
-                if (this._renderList[i].willRender() === true) {
-                    this._renderList[i].render(camera);
-                }
-            }
-
-            this.components.postRender();
-        };
-        return Layer;
-    })();
-    Kiwi.Layer = Layer;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var LayerManager = (function () {
-        function LayerManager(game) {
-            klog.info('Layer Manager created');
-
-            this._game = game;
-
-            this.layers = [];
-
-            this._nextLayerID = 0;
-        }
-        LayerManager.prototype.objType = function () {
-            return "LayerManager";
-        };
-
-        LayerManager.prototype.boot = function () {
-            this.createCanvasLayer(null, 'default');
-
-            this.defaultLayer = this.layers[0];
-        };
-
-        LayerManager.prototype.createCanvasLayer = function (state, name, size) {
-            if (typeof state === "undefined") { state = null; }
-            if (typeof name === "undefined") { name = ''; }
-            if (typeof size === "undefined") { size = 100; }
-            klog.info('Creating Canvas Layer');
-
-            return this.create(state, name);
-        };
-
-        LayerManager.prototype.create = function (state, name, size) {
-            if (typeof state === "undefined") { state = null; }
-            if (typeof name === "undefined") { name = ''; }
-            if (typeof size === "undefined") { size = 100; }
-            var newLayer = new Kiwi.Layer(this._game, this._nextLayerID, name, size);
-
-            newLayer.parent = state;
-
-            this.layers.push(newLayer);
-
-            this._nextLayerID++;
-
-            this.currentLayer = newLayer;
-
-            return newLayer;
-        };
-
-        LayerManager.prototype.remove = function (layer) {
-            klog.info('Remove layer');
-
-            var i = this.layers.indexOf(layer);
-
-            if (i !== -1) {
-                this.layers.splice(i, 1);
-            }
-        };
-
-        LayerManager.prototype.update = function () {
-            if (this.layers.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this.layers.length; i++) {
-                this.layers[i].update();
-            }
-        };
-
-        LayerManager.prototype.render = function (camera) {
-            if (this.layers.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this.layers.length; i++) {
-                this.layers[i].render(camera);
-            }
-        };
-
-        LayerManager.prototype.removeStateLayers = function () {
-            klog.info('TODO removeStateLayers');
-        };
-
-        LayerManager.prototype.removeAll = function () {
-            this.layers.length = 0;
-            klog.info('TODO removeAll');
-        };
-        return LayerManager;
-    })();
-    Kiwi.LayerManager = LayerManager;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Matrix = (function () {
-            function Matrix(a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                this.a = 1;
-                this.b = 0;
-                this.c = 0;
-                this.d = 1;
-                this.tx = 0;
-                this.ty = 0;
-                this.setTo(a, b, c, d, tx, ty);
-            }
-            Matrix.prototype.objType = function () {
-                return "Matrix";
-            };
-
-            Matrix.prototype.setTo = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                this.a = a;
-                this.b = b;
-                this.c = c;
-                this.d = d;
-                this.tx = tx;
-                this.ty = ty;
-
-                return this;
-            };
-
-            Matrix.prototype.setFromTransform = function (tx, ty, scaleX, scaleY, rotation) {
-                this.identity();
-                var cos = Math.cos(rotation);
-                var sin = Math.sin(rotation);
-
-                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty);
-
-                return this;
-            };
-
-            Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                var tx1 = this.tx;
-                var a1 = this.a;
-                var c1 = this.c;
-
-                this.a = a1 * a + this.b * c;
-                this.b = a1 * b + this.b * d;
-                this.c = c1 * a + this.d * c;
-                this.d = c1 * b + this.d * d;
-
-                this.tx = tx1 * a + this.ty * c + tx;
-                this.ty = tx1 * b + this.ty * d + ty;
-                return this;
-            };
-
-            Matrix.prototype.prependMatrix = function (m) {
-                var tx1 = this.tx;
-                var a1 = this.a;
-                var c1 = this.c;
-
-                this.a = a1 * m.a + this.b * m.c;
-                this.b = a1 * m.b + this.b * m.d;
-                this.c = c1 * m.a + this.d * m.c;
-                this.d = c1 * m.b + this.d * m.d;
-
-                this.tx = tx1 * m.a + this.ty * m.c + m.tx;
-                this.ty = tx1 * m.b + this.ty * m.d + m.ty;
-                return this;
-            };
-
-            Matrix.prototype.append = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-
-                this.a = a * a1 + b * c1;
-                this.b = a * b1 + b * d1;
-                this.c = c * a1 + d * c1;
-                this.d = c * b1 + d * d1;
-                this.tx = tx * a1 + ty * c1 + this.tx;
-                this.ty = tx * b1 + ty * d1 + this.ty;
-                return this;
-            };
-
-            Matrix.prototype.appendMatrix = function (m) {
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-
-                this.a = m.a * a1 + m.b * c1;
-                this.b = m.a * b1 + m.b * d1;
-                this.c = m.c * a1 + m.d * c1;
-                this.d = m.c * b1 + m.d * d1;
-                this.tx = m.tx * a1 + m.ty * c1 + this.tx;
-                this.ty = m.tx * b1 + m.ty * d1 + this.ty;
-                return this;
-            };
-
-            Matrix.prototype.setPosition = function (x, y) {
-                this.tx = x;
-                this.ty = y;
-                return this;
-            };
-
-            Matrix.prototype.setPositionPoint = function (p) {
-                this.tx = p.x;
-                this.ty = p.y;
-                return this;
-            };
-
-            Matrix.prototype.getPosition = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.setTo(this.tx, this.ty);
-            };
-
-            Matrix.prototype.identity = function () {
-                this.a = 1;
-                this.b = 0;
-                this.c = 0;
-                this.d = 1;
-                this.tx = 0;
-                this.ty = 0;
-                return this;
-            };
-
-            Matrix.prototype.rotate = function (radians) {
-                var cos = Math.cos(radians);
-                var sin = Math.sin(radians);
-
-                var a1 = this.a;
-                var c1 = this.c;
-                var tx1 = this.tx;
-
-                this.a = a1 * cos - this.b * sin;
-                this.b = a1 * sin + this.b * cos;
-                this.c = c1 * cos - this.d * sin;
-                this.d = c1 * sin + this.d * cos;
-                this.tx = tx1 * cos - this.ty * sin;
-                this.ty = tx1 * sin + this.ty * cos;
-                return this;
-            };
-
-            Matrix.prototype.translate = function (tx, ty) {
-                this.tx += tx;
-                this.ty += ty;
-                return this;
-            };
-
-            Matrix.prototype.scale = function (scaleX, scaleY) {
-                this.a *= scaleX;
-                this.d *= scaleY;
-                return this;
-            };
-
-            Matrix.prototype.transformPoint = function (pt) {
-                var x = pt.x;
-                var y = pt.y;
-                pt.x = this.a * x + this.c * y + this.tx;
-                pt.y = this.b * x + this.d * y + this.ty;
-                return pt;
-            };
-
-            Matrix.prototype.invert = function () {
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-                var tx1 = this.tx;
-                var n = a1 * d1 - b1 * c1;
-
-                this.a = d1 / n;
-                this.b = -b1 / n;
-                this.c = -c1 / n;
-                this.d = a1 / n;
-                this.tx = (c1 * this.ty - d1 * tx1) / n;
-                this.ty = -(a1 * this.ty - b1 * tx1) / n;
-                return this;
-            };
-
-            Matrix.prototype.copyFrom = function (m) {
-                this.a = m.a;
-                this.b = m.b;
-                this.c = m.c;
-                this.d = m.d;
-                this.tx = m.tx;
-                this.ty = m.ty;
-
-                return this;
-            };
-
-            Matrix.prototype.copyTo = function (m) {
-                m.a = this.a;
-                m.b = this.b;
-                m.c = this.c;
-                m.d = this.d;
-                m.tx = this.tx;
-                m.ty = this.ty;
-                return this;
-            };
-
-            Matrix.prototype.clone = function () {
-                return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
-            };
-
-            Object.defineProperty(Matrix.prototype, "toString", {
-                get: function () {
-                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Matrix;
-        })();
-        Geom.Matrix = Matrix;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Transform = (function () {
-            function Transform(x, y, scaleX, scaleY, rotation, regX, regY) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof scaleX === "undefined") { scaleX = 1; }
-                if (typeof scaleY === "undefined") { scaleY = 1; }
-                if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof regX === "undefined") { regX = 0; }
-                if (typeof regY === "undefined") { regY = 0; }
-                this._x = 0;
-                this._y = 0;
-                this._scaleX = 1;
-                this._scaleY = 1;
-                this._rotation = 0;
-                this._regX = 0;
-                this._regY = 0;
-                this.setTransform(x, y, scaleX, scaleY, rotation, regX, regY);
-
-                this._matrix = new Geom.Matrix();
-
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
-
-                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
-            }
-            Transform.prototype.objType = function () {
-                return "Transform";
-            };
-
-
-            Object.defineProperty(Transform.prototype, "x", {
-                get: function () {
-                    return this._x;
-                },
-                set: function (value) {
-                    this._x = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "y", {
-                get: function () {
-                    return this._y;
-                },
-                set: function (value) {
-                    this._y = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "scaleX", {
-                get: function () {
-                    return this._scaleX;
-                },
-                set: function (value) {
-                    this._scaleX = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "scaleY", {
-                get: function () {
-                    return this._scaleY;
-                },
-                set: function (value) {
-                    this._scaleY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "rotation", {
-                get: function () {
-                    return this._rotation;
-                },
-                set: function (value) {
-                    this._rotation = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "regX", {
-                get: function () {
-                    return this._regX;
-                },
-                set: function (value) {
-                    this._regX = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "regY", {
-                get: function () {
-                    return this._regY;
-                },
-                set: function (value) {
-                    this._regY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "matrix", {
-                get: function () {
-                    return this._matrix;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "worldX", {
-                get: function () {
-                    return this.getConcatenatedMatrix().tx;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "worldY", {
-                get: function () {
-                    return this.getConcatenatedMatrix().ty;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "parent", {
-                get: function () {
-                    return this._parent;
-                },
-                set: function (value) {
-                    if (!this.checkAncestor(value)) {
-                        this._parent = value;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Transform.prototype.setPosition = function (x, y) {
-                this._x = x;
-                this._y = y;
-
-                return this;
-            };
-
-            Transform.prototype.setPositionFromPoint = function (point) {
-                this._x = point.x;
-                this._y = point.y;
-
-                return this;
-            };
-
-            Transform.prototype.translatePositionFromPoint = function (point) {
-                this._x += point.x;
-                this._y += point.y;
-
-                return this;
-            };
-
-            Transform.prototype.getPositionPoint = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.setTo(this._x, this._y);
-            };
-
-            Object.defineProperty(Transform.prototype, "scale", {
-                set: function (value) {
-                    this._scaleX = value;
-                    this._scaleY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, regX, regY) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof scaleX === "undefined") { scaleX = 1; }
-                if (typeof scaleY === "undefined") { scaleY = 1; }
-                if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof regX === "undefined") { regX = 0; }
-                if (typeof regY === "undefined") { regY = 0; }
-                this._x = x;
-                this._y = y;
-                this._scaleX = scaleX;
-                this._scaleY = scaleY;
-                this._rotation = rotation;
-                this._regX = regX;
-                this._regY = regY;
-
-                return this;
-            };
-
-            Transform.prototype.getParentMatrix = function () {
-                if (this._parent) {
-                    return this._parent.getConcatenatedMatrix();
-                }
-
-                return null;
-            };
-
-            Transform.prototype.getConcatenatedMatrix = function () {
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
-
-                var parentMatrix = this.getParentMatrix();
-
-                if (parentMatrix) {
-                    var matrix = this._matrix.clone();
-                    matrix.prependMatrix(parentMatrix);
-                    this._cachedConcatenatedMatrix.copyFrom(matrix);
-                    return matrix;
-                }
-
-                return this._matrix;
-            };
-
-            Transform.prototype.transformPoint = function (point) {
-                var mat = this.getConcatenatedMatrix();
-
-                return mat.transformPoint(point);
-            };
-
-            Transform.prototype.copyFrom = function (source) {
-                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.regX, source.regY);
-
-                this.parent = source.parent;
-
-                this._matrix = source.matrix.clone();
-
-                return this;
-            };
-
-            Transform.prototype.copyTo = function (destination) {
-                destination.copyFrom(this);
-
-                return this;
-            };
-
-            Transform.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Transform(); }
-                output.copyFrom(this);
-
-                return output;
-            };
-
-            Transform.prototype.checkAncestor = function (transform) {
-                return false;
-            };
-
-            Object.defineProperty(Transform.prototype, "toString", {
-                get: function () {
-                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Transform;
-        })();
-        Geom.Transform = Transform;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Rectangle = (function () {
-            function Rectangle(x, y, width, height) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof width === "undefined") { width = 0; }
-                if (typeof height === "undefined") { height = 0; }
-                this.x = 0;
-                this.y = 0;
-                this.width = 0;
-                this.height = 0;
-                this.setTo(x, y, width, height);
-            }
-            Rectangle.prototype.objType = function () {
-                return "Rectangle";
-            };
-
-
-            Object.defineProperty(Rectangle.prototype, "bottom", {
-                get: function () {
-                    return this.y + this.height;
-                },
-                set: function (value) {
-                    if (value) {
-                        if (value < this.y) {
-                            this.height = 0;
-                        } else {
-                            this.height = value;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "center", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "bottomRight", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(this.right, this.bottom);
-                },
-                set: function (value) {
-                    if (value) {
-                        this.right = value.x;
-                        this.bottom = value.y;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "left", {
-                get: function () {
-                    return this.x;
-                },
-                set: function (value) {
-                    if (value) {
-                        var diff = this.x - value;
-
-                        if (this.width + diff < 0) {
-                            this.width = 0;
-
-                            this.x = value;
-                        } else {
-                            this.width += diff;
-
-                            this.x = value;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "right", {
-                get: function () {
-                    return this.x + this.width;
-                },
-                set: function (value) {
-                    if (value) {
-                        if (value < this.x) {
-                            this.width = 0;
-                        } else {
-                            this.width = value - this.x;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "size", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(this.width, this.height);
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "volume", {
-                get: function () {
-                    return this.width * this.height;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "perimeter", {
-                get: function () {
-                    return (this.width * 2) + (this.height * 2);
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "top", {
-                get: function () {
-                    return this.y;
-                },
-                set: function (value) {
-                    if (value) {
-                        var diff = this.y - value;
-
-                        if (this.height + diff < 0) {
-                            this.height = 0;
-
-                            this.y = value;
-                        } else {
-                            this.height += diff;
-
-                            this.y = value;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "topLeft", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(this.x, this.y);
-                },
-                set: function (value) {
-                    if (value) {
-                        this.x = value.x;
-                        this.y = value.y;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Rectangle.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
-                return output.setTo(this.x, this.y, this.width, this.height);
-            };
-
-            Rectangle.prototype.contains = function (x, y) {
-                if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.containsPoint = function (point) {
-                return this.contains(point.x, point.y);
-            };
-
-            Rectangle.prototype.containsRect = function (rect) {
-                if (rect.volume > this.volume) {
-                    return false;
-                }
-
-                if (rect.x >= this.x && rect.y >= this.y && rect.right <= this.right && rect.bottom <= this.bottom) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.copyFrom = function (source) {
-                return this.setTo(source.x, source.y, source.width, source.height);
-            };
-
-            Rectangle.prototype.copyTo = function (target) {
-                return target.copyFrom(this);
-            };
-
-            Rectangle.prototype.equals = function (toCompare) {
-                if (this.x === toCompare.x && this.y === toCompare.y && this.width === toCompare.width && this.height === toCompare.height) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.inflate = function (dx, dy) {
-                if (!isNaN(dx) && !isNaN(dy)) {
-                    this.x -= dx;
-                    this.width += 2 * dx;
-
-                    this.y -= dy;
-                    this.height += 2 * dy;
-                }
-
-                return this;
-            };
-
-            Rectangle.prototype.inflatePoint = function (point) {
-                return this.inflate(point.x, point.y);
-            };
-
-            Rectangle.prototype.intersection = function (toIntersect, output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
-                if (this.intersects(toIntersect) === true) {
-                    output.x = Math.max(toIntersect.x, this.x);
-                    output.y = Math.max(toIntersect.y, this.y);
-                    output.width = Math.min(toIntersect.right, this.right) - output.x;
-                    output.height = Math.min(toIntersect.bottom, this.bottom) - output.y;
-                }
-
-                return output;
-            };
-
-            Rectangle.prototype.intersects = function (toIntersect) {
-                if (toIntersect.x > this.right - 1) {
-                    return false;
-                }
-
-                if (toIntersect.right - 1 < this.x) {
-                    return false;
-                }
-
-                if (toIntersect.bottom - 1 < this.y) {
-                    return false;
-                }
-
-                if (toIntersect.y > this.bottom - 1) {
-                    return false;
-                }
-
-                return true;
-            };
-
-            Rectangle.prototype.overlap = function (rect) {
-                var result = { top: false, bottom: false, left: false, right: false, contains: false, contained: false };
-                var interRect = this.intersection(rect);
-
-                if (interRect.isEmpty)
-                    return result;
-                if (this.containsRect(rect))
-                    result.contains = true;
-                if (rect.containsRect(this))
-                    result.contained = true;
-                if (this.top < rect.top)
-                    result.top = true;
-                if (this.bottom > rect.bottom)
-                    result.bottom = true;
-                if (this.left < rect.left)
-                    result.left = true;
-                if (this.right > rect.right)
-                    result.right = true;
-
-                return result;
-            };
-
-            Rectangle.prototype.isEmpty = function () {
-                if (this.width < 1 || this.height < 1) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.offset = function (dx, dy) {
-                if (!isNaN(dx) && !isNaN(dy)) {
-                    this.x += dx;
-                    this.y += dy;
-                }
-
-                return this;
-            };
-
-            Rectangle.prototype.offsetPoint = function (point) {
-                return this.offset(point.x, point.y);
-            };
-
-            Rectangle.prototype.setEmpty = function () {
-                return this.setTo(0, 0, 0, 0);
-            };
-
-            Rectangle.prototype.setTo = function (x, y, width, height) {
-                if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
-                    this.x = x;
-                    this.y = y;
-
-                    if (width >= 0) {
-                        this.width = width;
-                    }
-
-                    if (height >= 0) {
-                        this.height = height;
-                    }
-                }
-
-                return this;
-            };
-
-            Rectangle.prototype.union = function (toUnion, output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
-                return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right, this.right), Math.max(toUnion.bottom, this.bottom));
-            };
-
-            Rectangle.prototype.scale = function (x, y, translation) {
-                var trans = new Kiwi.Geom.Transform();
-                trans.scaleX = x;
-                trans.scaleY = y;
-                trans.x = translation.x;
-                trans.y = translation.y;
-
-                var tl = this.topLeft;
-                trans.transformPoint(tl);
-                this.topLeft = tl;
-
-                this.width *= x;
-                this.height *= y;
-
-                return this;
-            };
-
-            Rectangle.prototype.toString = function () {
-                return "[{Rectangle (x=" + this.x + " y=" + this.y + " width=" + this.width + " height=" + this.height + " isEmpty=" + this.isEmpty() + ")}]";
-            };
-            return Rectangle;
-        })();
-        Geom.Rectangle = Rectangle;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Stage = (function () {
-        function Stage(game, name) {
-            this.offset = new Kiwi.Geom.Point();
-            this.container = null;
-            this._framerate = 3;
-            this._game = game;
-
-            this.name = name;
-
-            this.domReady = false;
-
-            this._alpha = 1;
-
-            this._x = 0;
-            this._y = 0;
-
-            this._width = 800;
-            this._height = 600;
-
-            this.onResize = new Kiwi.Signal();
-        }
-        Stage.prototype.objType = function () {
-            return "Stage";
-        };
-
-        Object.defineProperty(Stage.prototype, "alpha", {
-            get: function () {
-                return this._alpha;
-            },
-            set: function (value) {
-                this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
-
-                this._alpha = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Stage.prototype, "x", {
-            get: function () {
-                return this._x;
-            },
-            set: function (value) {
-                this.container.style.left = String(value + 'px');
-                this._x = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Stage.prototype, "y", {
-            get: function () {
-                return this._y;
-            },
-            set: function (value) {
-                this.container.style.top = String(value + 'px');
-                this._y = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Stage.prototype, "width", {
-            get: function () {
-                return this._width;
-            },
-            set: function (value) {
-                this.container.style.width = String(value + 'px');
-                this.canvas.width = value;
-
-                this._width = value;
-                this.onResize.dispatch(this._width, this._height);
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Stage.prototype, "height", {
-            get: function () {
-                return this._height;
-            },
-            set: function (value) {
-                this.container.style.height = String(value + 'px');
-                this.canvas.height = value;
-
-                this._height = value;
-                this.onResize.dispatch(this._width, this._height);
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Stage.prototype.boot = function (dom) {
-            klog.info('Stage DOM boot');
-
-            this.domReady = true;
-
-            this.container = dom.container;
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.offset = this._game.browser.getOffsetPoint(this.container);
-                this._x = this.offset.x;
-                this._y = this.offset.y;
-                this._width = parseInt(this.container.style.width);
-                this._height = parseInt(this.container.style.height);
-            }
-
-            this._createCompositeCanvas();
-        };
-
-        Stage.prototype._createCompositeCanvas = function () {
-            this.canvas = document.createElement("canvas");
-            this.canvas.id = this._game.id + "compositeCanvas";
-            this.canvas.style.position = "absolute";
-            this.canvas.width = this.width;
-            this.canvas.height = this.height;
-
-            if (this._game.renderMode === Kiwi.RENDERER_CANVAS) {
-                this.ctx = this.canvas.getContext("2d");
-                this.ctx.fillStyle = '#fff';
-                this.gl = null;
-            } else if (this._game.renderMode === Kiwi.RENDERER_WEBGL) {
-                this.gl = this.canvas.getContext("webgl");
-                this.gl.clearColor(1, 0, 0, 1);
-                this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-            } else {
-                klog.error("Unrecognised render mode");
-            }
-
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.container.appendChild(this.canvas);
-            } else {
-                document.body.appendChild(this.canvas);
-            }
-        };
-
-        Stage.prototype.frameRate = function (value) {
-            if (value) {
-                this._framerate = value;
-            }
-
-            return this._framerate;
-        };
-        return Stage;
-    })();
-    Kiwi.Stage = Stage;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Tweens) {
-        var Manager = (function () {
-            function Manager(game) {
-                klog.info('Tween Manager created');
-                this._game = game;
-                this._tweens = [];
-            }
-            Manager.prototype.objType = function () {
-                return "Manager";
-            };
-
-            Manager.prototype.getAll = function () {
-                return this._tweens;
-            };
-
-            Manager.prototype.removeAll = function () {
-                this._tweens.length = 0;
-            };
-
-            Manager.prototype.create = function (object) {
-                return new Kiwi.Tween(object, this._game);
-            };
-
-            Manager.prototype.add = function (tween) {
-                tween.setParent(this._game);
-
-                this._tweens.push(tween);
-
-                return tween;
-            };
-
-            Manager.prototype.remove = function (tween) {
-                var i = this._tweens.indexOf(tween);
-
-                if (i !== -1) {
-                    this._tweens.splice(i, 1);
-                }
-            };
-
-            Manager.prototype.update = function () {
-                if (this._tweens.length === 0) {
-                    return false;
-                }
-
-                var i = 0;
-                var numTweens = this._tweens.length;
-
-                while (i < numTweens) {
-                    if (this._tweens[i].update(this._game.time.now())) {
-                        i++;
-                    } else {
-                        this._tweens.splice(i, 1);
-                        numTweens--;
-                    }
-                }
-
-                return true;
-            };
-            return Manager;
-        })();
-        Tweens.Manager = Manager;
-    })(Kiwi.Tweens || (Kiwi.Tweens = {}));
-    var Tweens = Kiwi.Tweens;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Utils) {
-        var RandomDataGenerator = (function () {
-            function RandomDataGenerator(seeds) {
-                if (typeof seeds === "undefined") { seeds = []; }
-                this.c = 1;
-                this._data = {
-                    lipsum: [
-                        "lorem",
-                        "ipsum",
-                        "dolor",
-                        "sit",
-                        "amet",
-                        "consectetur",
-                        "adipiscing",
-                        "elit",
-                        "nunc",
-                        "sagittis",
-                        "tortor",
-                        "ac",
-                        "mi",
-                        "pretium",
-                        "sed",
-                        "convallis",
-                        "massa",
-                        "pulvinar",
-                        "curabitur",
-                        "non",
-                        "turpis",
-                        "velit",
-                        "vitae",
-                        "rutrum",
-                        "odio",
-                        "aliquam",
-                        "sapien",
-                        "orci",
-                        "tempor",
-                        "sed",
-                        "elementum",
-                        "sit",
-                        "amet",
-                        "tincidunt",
-                        "sed",
-                        "risus",
-                        "etiam",
-                        "nec",
-                        "lacus",
-                        "id",
-                        "ante",
-                        "hendrerit",
-                        "malesuada",
-                        "donec",
-                        "porttitor",
-                        "magna",
-                        "eget",
-                        "libero",
-                        "pharetra",
-                        "sollicitudin",
-                        "aliquam",
-                        "mattis",
-                        "mattis",
-                        "massa",
-                        "et",
-                        "porta",
-                        "morbi",
-                        "vitae",
-                        "magna",
-                        "augue",
-                        "vestibulum",
-                        "at",
-                        "lectus",
-                        "sed",
-                        "tellus",
-                        "facilisis",
-                        "tincidunt",
-                        "suspendisse",
-                        "eros",
-                        "magna",
-                        "consequat",
-                        "at",
-                        "sollicitudin",
-                        "ac",
-                        "vestibulum",
-                        "vel",
-                        "dolor",
-                        "in",
-                        "egestas",
-                        "lacus",
-                        "quis",
-                        "lacus",
-                        "placerat",
-                        "et",
-                        "molestie",
-                        "ipsum",
-                        "scelerisque",
-                        "nullam",
-                        "sit",
-                        "amet",
-                        "tortor",
-                        "dui",
-                        "aenean",
-                        "pulvinar",
-                        "odio",
-                        "nec",
-                        "placerat",
-                        "fringilla",
-                        "neque",
-                        "dolor"
-                    ]
-                };
-                klog.info('Random Data Generator created');
-
-                this.sow(seeds);
-            }
-            RandomDataGenerator.prototype.objType = function () {
-                return "RandomDataGenerator";
-            };
-
-            RandomDataGenerator.prototype.uint32 = function () {
-                return this.rnd.apply(this) * 0x100000000;
-            };
-
-            RandomDataGenerator.prototype.fract32 = function () {
-                return this.rnd.apply(this) + (this.rnd.apply(this) * 0x200000 | 0) * 1.1102230246251565e-16;
-            };
-
-            RandomDataGenerator.prototype.rnd = function () {
-                var t = 2091639 * this.s0 + this.c * 2.3283064365386963e-10;
-
-                this.c = t | 0;
-                this.s0 = this.s1;
-                this.s1 = this.s2;
-                this.s2 = t - this.c;
-
-                return this.s2;
-            };
-
-            RandomDataGenerator.prototype.hash = function (data) {
-                var h, i, n;
-
-                n = 0xefc8249d;
-
-                data = data.toString();
-
-                for (i = 0; i < data.length; i++) {
-                    n += data.charCodeAt(i);
-                    h = 0.02519603282416938 * n;
-                    n = h >>> 0;
-                    h -= n;
-                    h *= n;
-                    n = h >>> 0;
-                    h -= n;
-                    n += h * 0x100000000;
-                }
-
-                return (n >>> 0) * 2.3283064365386963e-10;
-            };
-
-            RandomDataGenerator.prototype.sow = function (seeds) {
-                if (typeof seeds === "undefined") { seeds = []; }
-                this.s0 = this.hash(' ');
-                this.s1 = this.hash(this.s0);
-                this.s2 = this.hash(this.s1);
-
-                var seed;
-
-                for (var i = 0; seed = seeds[i++]; ) {
-                    this.s0 -= this.hash(seed);
-                    this.s0 += ~~(this.s0 < 0);
-
-                    this.s1 -= this.hash(seed);
-                    this.s1 += ~~(this.s1 < 0);
-
-                    this.s2 -= this.hash(seed);
-                    this.s2 += ~~(this.s2 < 0);
-                }
-            };
-
-            RandomDataGenerator.prototype.integer = function () {
-                return this.uint32();
-            };
-
-            RandomDataGenerator.prototype.frac = function () {
-                return this.fract32();
-            };
-
-            RandomDataGenerator.prototype.real = function () {
-                return this.uint32() + this.fract32();
-            };
-
-            RandomDataGenerator.prototype.integerInRange = function (min, max) {
-                return Math.floor(this.realInRange(min, max));
-            };
-
-            RandomDataGenerator.prototype.realInRange = function (min, max) {
-                min = min || 0;
-                max = max || 0;
-
-                return this.frac() * (max - min) + min;
-            };
-
-            RandomDataGenerator.prototype.normal = function () {
-                return 1 - 2 * this.frac();
-            };
-
-            RandomDataGenerator.prototype.uuid = function () {
-                var a, b;
-
-                for (b = a = ''; a++ < 36; b += ~a % 5 | a * 3 & 4 ? (a ^ 15 ? 8 ^ this.frac() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-')
-                    ;
-
-                return b;
-            };
-
-            RandomDataGenerator.prototype.pick = function (array) {
-                return array[this.integerInRange(0, array.length)];
-            };
-
-            RandomDataGenerator.prototype.weightedPick = function (array) {
-                return array[~~(Math.pow(this.frac(), 2) * array.length)];
-            };
-
-            RandomDataGenerator.prototype.word = function () {
-                return this.pick(this._data.lipsum);
-            };
-
-            RandomDataGenerator.prototype.words = function (quantity) {
-                if (typeof quantity === "undefined") { quantity = 3; }
-                var ret = [];
-
-                for (var i = 0; i < quantity; i++) {
-                    ret.push(this.pick(this._data.lipsum));
-                }
-
-                return ret.join(' ');
-            };
-
-            RandomDataGenerator.prototype.sentence = function () {
-                var ret;
-
-                ret = this.words(this.integerInRange(2, 16)).replace(/[a-z]/, function (m) {
-                    return m.toUpperCase();
-                });
-
-                return ret + '.';
-            };
-
-            RandomDataGenerator.prototype.sentences = function (quantity) {
-                if (typeof quantity === "undefined") { quantity = 3; }
-                var ret = [];
-
-                for (var i = 0; i < quantity; i++) {
-                    ret.push(this.sentence());
-                }
-
-                return ret.join(' ');
-            };
-
-            RandomDataGenerator.prototype.timestamp = function (min, max) {
-                if (typeof min === "undefined") { min = 946684800000; }
-                if (typeof max === "undefined") { max = 1577862000000; }
-                return this.realInRange(min, max);
-            };
-
-            RandomDataGenerator.prototype.angle = function () {
-                return this.integerInRange(-180, 180);
-            };
-            return RandomDataGenerator;
-        })();
-        Utils.RandomDataGenerator = RandomDataGenerator;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Utils) {
-        var RequestAnimationFrame = (function () {
-            function RequestAnimationFrame(callback) {
-                this._isSetTimeOut = false;
-                this.lastTime = 0;
-                this.currentTime = 0;
-                this.isRunning = false;
-                this._callback = callback;
-
-                var vendors = ['ms', 'moz', 'webkit', 'o'];
-
-                for (var x = 0; x < vendors.length && !window.requestAnimationFrame; x++) {
-                    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-                    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'];
-                }
-            }
-            RequestAnimationFrame.prototype.objType = function () {
-                return "RequestAnimationFrame";
-            };
-
-            RequestAnimationFrame.prototype.setCallback = function (callback) {
-                this._callback = callback;
-            };
-
-            RequestAnimationFrame.prototype.isUsingSetTimeOut = function () {
-                return this._isSetTimeOut;
-            };
-
-            RequestAnimationFrame.prototype.isUsingRAF = function () {
-                if (this._isSetTimeOut === true) {
-                    return false;
-                } else {
-                    return true;
-                }
-            };
-
-            RequestAnimationFrame.prototype.start = function (callback) {
-                if (typeof callback === "undefined") { callback = null; }
-                var _this = this;
-                if (callback) {
-                    this._callback = callback;
-                }
-
-                if (!window.requestAnimationFrame) {
-                    klog.info('Kiwi.Utils.RequestAnimationFrame: false');
-                    this._isSetTimeOut = true;
-                    this._timeOutID = window.setTimeout(function () {
-                        return _this.SetTimeoutUpdate();
-                    }, 0);
-                } else {
-                    klog.info('Kiwi.Utils.RequestAnimationFrame: true');
-                    this._isSetTimeOut = false;
-                    window.requestAnimationFrame(function () {
-                        return _this.RAFUpdate();
-                    });
-                }
-
-                this.isRunning = true;
-            };
-
-            RequestAnimationFrame.prototype.stop = function () {
-                if (this._isSetTimeOut) {
-                    clearTimeout(this._timeOutID);
-                } else {
-                    window.cancelAnimationFrame;
-                }
-
-                this.isRunning = false;
-            };
-
-            RequestAnimationFrame.prototype.RAFUpdate = function () {
-                var _this = this;
-                this.currentTime = Date.now();
-
-                if (this._callback) {
-                    this._callback();
-                }
-
-                var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
-
-                window.requestAnimationFrame(function () {
-                    return _this.RAFUpdate();
-                });
-
-                this.lastTime = this.currentTime + timeToCall;
-            };
-
-            RequestAnimationFrame.prototype.SetTimeoutUpdate = function () {
-                var _this = this;
-                this.currentTime = Date.now();
-
-                if (this._callback) {
-                    this._callback();
-                }
-
-                var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
-
-                this._timeOutID = window.setTimeout(function () {
-                    return _this.SetTimeoutUpdate();
-                }, timeToCall);
-
-                this.lastTime = this.currentTime + timeToCall;
-            };
-            return RequestAnimationFrame;
-        })();
-        Utils.RequestAnimationFrame = RequestAnimationFrame;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Game = (function () {
-        function Game(domParent, name, state) {
-            if (typeof domParent === "undefined") { domParent = ''; }
-            if (typeof name === "undefined") { name = 'KiwiGame'; }
-            if (typeof state === "undefined") { state = null; }
-            var _this = this;
-            this._dom = null;
-            this.audio = null;
-            this.browser = null;
-            this.cache = null;
-            this.input = null;
-            this.cameras = null;
-            this.loader = null;
-            this.raf = null;
-            this.stage = null;
-            this.states = null;
-            this.time = null;
-            this.tweens = null;
-            this.rnd = null;
-            this.id = Kiwi.GameManager.register(this);
-
-            this._dom = new Kiwi.DOM.Bootstrap();
-
-            this.audio = new Kiwi.Sound.AudioManager(this);
-            this.browser = new Kiwi.DOM.Browser(this);
-            this.cache = new Kiwi.Cache(this);
-            this.input = new Kiwi.Input.Manager(this);
-
-            this.stage = new Kiwi.Stage(this, name);
-
-            this._renderMode = Kiwi.RENDERER_CANVAS;
-
-            if (this._renderMode === Kiwi.RENDERER_CANVAS) {
-                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
-            } else {
-                this.renderer = new Kiwi.Renderers.GLRenderer(this);
-            }
-
-            this.cameras = new Kiwi.CameraManager(this);
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.huds = new Kiwi.HUD.HUDManager(this);
-            }
-            this.loader = new Kiwi.Loader(this);
-
-            this.states = new Kiwi.StateManager(this);
-            this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
-            this.time = new Kiwi.Time.Manager(this);
-            this.tweens = new Kiwi.Tweens.Manager(this);
-
-            if (state !== null) {
-                if (this.states.addState(state, true) === false) {
-                    throw Error("Invalid State passed to Kiwi.Game");
-                }
-            }
-
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this._dom.boot(domParent, function () {
-                    return _this.start();
-                });
-            } else {
-                this.start();
-            }
-        }
-        Object.defineProperty(Game.prototype, "renderMode", {
-            get: function () {
-                return this._renderMode;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Game.prototype.objType = function () {
-            return "Game";
-        };
-
-        Game.prototype.start = function () {
-            var _this = this;
-            if (Kiwi.DEVICE === null) {
-                Kiwi.DEVICE = new Kiwi.Device();
-            }
-
-            this.browser.boot();
-            this.stage.boot(this._dom);
-
-            this.cameras.boot();
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.huds.boot();
-            }
-            this.time.boot();
-            this.audio.boot();
-            this.input.boot();
-            this.cache.boot();
-            this.loader.boot();
-            this.states.boot();
-
-            klog.info('Game Started. DOM Available. Valid State Given');
-            klog.info('Game Time: ' + this.time.now());
-
-            this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
-                return _this.loop();
-            });
-            this.raf.start();
-        };
-
-        Game.prototype.loop = function () {
-            this.time.update();
-            this.audio.update();
-            this.input.update();
-            this.tweens.update();
-            this.cameras.update();
-
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.huds.update();
-            }
-            this.states.update();
-
-            this.cameras.render();
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
-                this.huds.render();
-            }
-            this.states.postRender();
-        };
-        return Game;
-    })();
-    Kiwi.Game = Game;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var Cache = (function () {
         function Cache(game) {
             this.images = null;
@@ -3482,6 +2758,8 @@ var Kiwi;
             this.width = width;
             this.height = height;
             this.transform = new Kiwi.Geom.Transform(x, y);
+            this.transform.rotPointX = x + width / 2;
+            this.transform.rotPointY = y + height / 2;
 
             this._game.stage.onResize.add(this._updatedStageSize, this);
             this._game.stage.onResize.add(this._updatedSize, this);
@@ -3599,7 +2877,6 @@ var Kiwi;
 (function (Kiwi) {
     var Component = (function () {
         function Component(name) {
-            this.layer = null;
             this.state = null;
             this.group = null;
             this.entity = null;
@@ -3610,11 +2887,9 @@ var Kiwi;
             this.active = true;
 
             this.onAddedToState = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
             this.onAddedToGroup = new Kiwi.Signal();
             this.onAddedToEntity = new Kiwi.Signal();
             this.onRemovedFromState = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
             this.onRemovedFromGroup = new Kiwi.Signal();
             this.onRemovedFromEntity = new Kiwi.Signal();
         }
@@ -3625,45 +2900,17 @@ var Kiwi;
         Component.prototype.modify = function (action, parent) {
             if (action === Kiwi.ADDED_TO_GROUP) {
                 return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
             } else if (action === Kiwi.ADDED_TO_STATE) {
                 return this._addedToState(parent);
             } else if (action === Kiwi.ADDED_TO_ENTITY) {
                 return this._addedToEntity(parent);
             } else if (action === Kiwi.REMOVED_FROM_GROUP) {
                 return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
             } else if (action === Kiwi.REMOVED_FROM_STATE) {
                 return this._removedFromState(parent);
             } else if (action === Kiwi.REMOVED_FROM_ENTITY) {
                 return this._removedFromEntity(parent);
             }
-        };
-
-        Component.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Component already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                this.layer = layer;
-
-                if (layer.game !== null) {
-                    this.game = layer.game;
-                }
-
-                this.onAddedToLayer.dispatch(this, this.layer);
-
-                return true;
-            }
-        };
-
-        Component.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
         };
 
         Component.prototype._addedToState = function (state) {
@@ -3752,7 +2999,6 @@ var Kiwi;
             this.entity = null;
             this.game = null;
             this.group = null;
-            this.layer = null;
 
             this.name = '';
         };
@@ -3908,6 +3154,273 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    var Entity = (function () {
+        function Entity() {
+            this._alpha = 1;
+            this._visible = true;
+            this.width = 0;
+            this.height = 0;
+            this.cellIndex = 0;
+            this.game = null;
+            this.state = null;
+            this.name = '';
+            this._clock = null;
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+            this.transform = new Kiwi.Geom.Transform();
+
+            this.onAddedToGroup = new Kiwi.Signal();
+            this.onAddedToLayer = new Kiwi.Signal();
+            this.onAddedToState = new Kiwi.Signal();
+            this.onRemovedFromGroup = new Kiwi.Signal();
+            this.onRemovedFromLayer = new Kiwi.Signal();
+            this.onRemovedFromState = new Kiwi.Signal();
+        }
+        Object.defineProperty(Entity.prototype, "x", {
+            get: function () {
+                return this.transform.x;
+            },
+            set: function (value) {
+                this.transform.x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "y", {
+            get: function () {
+                return this.transform.y;
+            },
+            set: function (value) {
+                this.transform.y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "scaleX", {
+            get: function () {
+                return this.transform.scaleX;
+            },
+            set: function (value) {
+                this.transform.scaleX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "scaleY", {
+            get: function () {
+                return this.transform.scaleY;
+            },
+            set: function (value) {
+                this.transform.scaleY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "rotation", {
+            get: function () {
+                return this.transform.rotation;
+            },
+            set: function (value) {
+                this.transform.rotation = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Entity.prototype.childType = function () {
+            return Kiwi.ENTITY;
+        };
+
+        Entity.prototype.modify = function (action, parent) {
+            if (action === Kiwi.ADDED_TO_GROUP) {
+                return this._addedToGroup(parent);
+            } else if (action === Kiwi.ADDED_TO_STATE) {
+                return this._addedToState(parent);
+            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
+                return this._removedFromGroup(parent);
+            } else if (action === Kiwi.REMOVED_FROM_STATE) {
+                return this._removedFromState(parent);
+            }
+        };
+
+
+        Object.defineProperty(Entity.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                if (value <= 0)
+                    value = 0;
+                if (value > 1)
+                    value = 1;
+                this._alpha = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "visiblity", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
+                this._exists = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
+                this._active = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
+                this._willRender = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "inputEnabled", {
+            get: function () {
+                return this._inputEnabled;
+            },
+            set: function (value) {
+                this._inputEnabled = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "clock", {
+            get: function () {
+                return this._clock;
+            },
+            set: function (value) {
+                this._clock = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
+                this._dirty = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Entity.prototype._addedToState = function (state) {
+            klog.info('Entity added to State');
+
+            this.state = state;
+
+            this.game = this.state.game;
+
+            if (this._clock === null) {
+                this._clock = this.game.time.clock;
+            }
+
+            this.id = this.game.rnd.uuid();
+
+            this.onAddedToState.dispatch(this, this.state);
+
+            return true;
+        };
+
+        Entity.prototype._removedFromState = function (state) {
+            klog.info('Entity removed from State');
+
+            this.state = null;
+
+            this.game = null;
+
+            this.onAddedToState.dispatch(this, state);
+        };
+
+        Entity.prototype._addedToGroup = function (group) {
+            klog.info('Entity added to Group');
+
+            if (group.game !== null) {
+                this.game = group.game;
+
+                if (this._clock === null) {
+                    this._clock = this.game.time.clock;
+                }
+            }
+        };
+
+        Entity.prototype._removedFromGroup = function (group) {
+            klog.info('Entity removed from Group');
+
+            this.onRemovedFromGroup.dispatch(this, group);
+        };
+
+        Entity.prototype._changedPosition = function (group, index) {
+            klog.info('Entity changed position within the group');
+        };
+
+        Entity.prototype.update = function () {
+        };
+
+        Entity.prototype.render = function (camera) {
+        };
+
+        Entity.prototype.destroy = function () {
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+        };
+        return Entity;
+    })();
+    Kiwi.Entity = Entity;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var StateConfig = (function () {
         function StateConfig(parent, name) {
             this.name = '';
@@ -4011,7 +3524,6 @@ var Kiwi;
             this.name = '';
             this.game = null;
             this.state = null;
-            this.layer = null;
             this._dirty = true;
             this.name = name;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
@@ -4036,12 +3548,8 @@ var Kiwi;
         };
 
         Group.prototype.modify = function (type, parent) {
-            if (type === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (type === Kiwi.ADDED_TO_STATE) {
+            if (type === Kiwi.ADDED_TO_STATE) {
                 return this._addedToState(parent);
-            } else if (type === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
             } else if (type === Kiwi.REMOVED_FROM_STATE) {
                 return this._removedFromState(parent);
             }
@@ -4495,33 +4003,6 @@ var Kiwi;
             return true;
         };
 
-        Group.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Group already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                klog.info('Group added to Layer. Checking children: ' + this.members.length);
-
-                this.layer = layer;
-
-                for (var i = 0; i < this.members.length; i++) {
-                    if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
-                        this.members[i].exists = false;
-                    }
-                }
-
-                this.onAddedToLayer.dispatch(this, layer);
-                return true;
-            }
-        };
-
-        Group.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
-
         Group.prototype._addedToState = function (state) {
             klog.info('Group added to State');
 
@@ -4649,10 +4130,6 @@ var Kiwi;
             }
         };
 
-        State.prototype.swapLayer = function (layer) {
-            this.currentLayer = layer;
-        };
-
         State.prototype.addImage = function (cacheID, url, globalCache, width, height, offsetX, offsetY) {
             if (typeof globalCache === "undefined") { globalCache = true; }
             if (globalCache === true) {
@@ -4714,12 +4191,6 @@ var Kiwi;
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === child.id) {
                     this.members.slice(i, 1);
-
-                    if (layer !== null) {
-                        layer.remove(child);
-                    } else {
-                        this.currentLayer.remove(child);
-                    }
                 }
             }
             return child;
@@ -5349,14 +4820,6 @@ var Kiwi;
             };
             Bounds.prototype.setPosition = function (x, y) {
                 this._rect.setTo(x, y, this._rect.width, this._rect.height);
-            };
-
-            Bounds.prototype.drawCanvasDebugOutline = function (layer) {
-                layer.canvas.context.strokeStyle = 'rgba(0, 255, 0, 0.8)';
-                layer.canvas.context.beginPath();
-                layer.canvas.context.rect(this._rect.x, this._rect.y, this._rect.width, this._rect.height);
-                layer.canvas.context.stroke();
-                layer.canvas.context.closePath();
             };
 
             Bounds.prototype.toString = function () {
@@ -6410,65 +5873,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (DOM) {
-        var Element = (function () {
-            function Element(id, cache, type) {
-                if (typeof type === "undefined") { type = 'div'; }
-                this._cache = cache;
-
-                this.id = id;
-                this.entity = null;
-                this.type = type;
-                this.available = true;
-
-                this.element = document.createElement(this.type);
-                this.element.id = this.id;
-                this.element.style.display = 'block';
-                this.element.style.position = 'absolute';
-            }
-            Element.prototype.objType = function () {
-                return "Element";
-            };
-
-            Element.prototype.link = function (entity) {
-                this.entity = entity;
-                this.entity.domElement = this;
-                this.available = false;
-
-                if (this.entity.isGroup() === true) {
-                    klog.info('DOM.Element ' + this.id + ' linking with Group');
-                    this._cache.domContainer.appendChild(this.element);
-                } else {
-                    if (this.entity.parent !== null) {
-                        klog.info('DOM.Element ' + this.id + ' linking with Group Member');
-                        this.entity.parent.domElement.element.appendChild(this.element);
-                    } else {
-                        klog.info('DOM.Element ' + this.id + ' linking with Entity');
-                        this._cache.domContainer.appendChild(this.element);
-                    }
-                }
-
-                return this;
-            };
-
-            Element.prototype.unlink = function () {
-                this.available = true;
-
-                this.element.parentNode.removeChild(this.element);
-
-                this.element = document.createElement(this.type);
-                this.element.id = this.id;
-                this.element.style.display = 'block';
-                this.element.style.position = 'absolute';
-            };
-            return Element;
-        })();
-        DOM.Element = Element;
-    })(Kiwi.DOM || (Kiwi.DOM = {}));
-    var DOM = Kiwi.DOM;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (Components) {
         var Animation = (function (_super) {
             __extends(Animation, _super);
@@ -6663,6 +6067,8 @@ var Kiwi;
 
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
+                this.transform.rotPointX = this.width / 2;
+                this.transform.rotPointY = this.height / 2;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
@@ -6757,21 +6163,15 @@ var Kiwi;
                 this.transform.y = y;
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
+                this.transform.rotPointX = this.width / 2;
+                this.transform.rotPointY = this.height / 2;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
-
-                this.onAddedToLayer.add(this._onAddedToLayer, this);
 
                 klog.info('Created StaticImage Game Object');
             }
             StaticImage.prototype.objType = function () {
                 return "Sprite";
-            };
-
-            StaticImage.prototype._onAddedToLayer = function (layer) {
-                klog.info('StaticImage added to Layer: ' + layer.name);
-
-                return true;
             };
 
             StaticImage.prototype.render = function (camera) {
@@ -6784,10 +6184,17 @@ var Kiwi;
                     }
 
                     var m = this.transform.getConcatenatedMatrix();
+
+                    m.translate(this.transform.rotPointX - camera.transform.rotPointX, this.transform.rotPointX - camera.transform.rotPointY);
+
+                    m.prependMatrix(camera.transform.getConcatenatedMatrix().invert());
+
+                    m.translate(camera.transform.rotPointX, camera.transform.rotPointY);
+
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
 
                     var cell = this.atlas.cells[this.cellIndex];
-                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
+                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -this.transform.rotPointX, -this.transform.rotPointX, cell.w, cell.h);
 
                     ctx.restore();
                 }
@@ -6823,8 +6230,6 @@ var Kiwi;
                 this._lineHeight = 1;
                 this._textAlign = 'left';
                 this._baseline = 'top';
-
-                this.onAddedToLayer.add(this._onAddedToLayer, this);
 
                 klog.info('Created Textfield Game Object');
             }
@@ -6927,12 +6332,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-            Textfield.prototype._onAddedToLayer = function (layer) {
-                klog.info('Textfield added to Layer ' + layer.name);
-
-                return true;
-            };
 
             Textfield.prototype.render = function (camera) {
                 if (this.alpha > 0 && this.visiblity) {
@@ -11084,7 +10483,7 @@ var Kiwi;
 
             Keyboard.prototype.start = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this.game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     document.body.addEventListener('keydown', function (event) {
                         return _this.onKeyDown(event);
                     }, false);
@@ -11096,7 +10495,7 @@ var Kiwi;
 
             Keyboard.prototype.stop = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this.game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     this._domElement.removeEventListener('keydown', function (event) {
                         return _this.onKeyDown(event);
                     }, false);
@@ -11316,7 +10715,7 @@ var Kiwi;
 
             Mouse.prototype.start = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     if (Kiwi.DEVICE.ie && Kiwi.DEVICE.ieVersion < 9) {
                         this._domElement.attachEvent('onmousedown', function (event) {
                             return _this.onMouseDown(event);
@@ -11352,7 +10751,7 @@ var Kiwi;
 
             Mouse.prototype.stop = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     this._domElement.removeEventListener('mousedown', function (event) {
                         return _this.onMouseDown(event);
                     }, false);
@@ -11612,7 +11011,7 @@ var Kiwi;
 
             Touch.prototype.start = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     this._domElement.addEventListener('touchstart', function (event) {
                         return _this.onTouchStart(event);
                     }, false);
@@ -11936,29 +11335,442 @@ var Kiwi;
     (function (Renderers) {
         var GLRenderer = (function () {
             function GLRenderer(game) {
+                this._entityCount = 0;
+                this._maxItems = 1000;
+                this._texApplied = false;
+                this._firstPass = true;
+                this._currentTextureAtlas = null;
                 this._game = game;
             }
             GLRenderer.prototype.boot = function () {
+                this._initState();
             };
 
-            GLRenderer.prototype._recurse = function (child) {
+            GLRenderer.prototype._initState = function () {
+                var gl = this._game.stage.gl;
+                this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+
+                this._shaders = new Renderers.GLShaders(gl);
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+                this.mvMatrix = mat4.create();
+                mat2d.identity(this.mvMatrix);
+
+                this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
+                this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
+
+                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems));
+                this._colorBuffer = new Renderers.GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
+
+                this._shaders.use(gl, this._shaders.shaderProgram);
+
+                var prog = this._shaders.texture2DProg;
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.uniform1i(prog.samplerUniform, 0);
+
+                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+            };
+
+            GLRenderer.prototype.render = function (camera) {
+                this._currentCamera = camera;
+                var root = this._game.states.current.members;
+                var gl = this._game.stage.gl;
+
+                this._entityCount = 0;
+                this._vertBuffer.clear();
+                this._uvBuffer.clear();
+
+                gl.clearColor(0, 0, 0, 0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                var prog = this._shaders.texture2DProg;
+
+                var cm = camera.transform.getConcatenatedMatrix();
+                var ct = camera.transform;
+                this.mvMatrix = new Float32Array([
+                    cm.a,
+                    cm.b,
+                    0,
+                    0,
+                    cm.c,
+                    cm.d,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    cm.tx + ct.rotPointX,
+                    cm.ty + ct.rotPointY,
+                    0,
+                    1
+                ]);
+
+                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
+                gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
+
+                for (var i = 0; i < root.length; i++) {
+                    this._recurse(gl, root[i], camera);
+                }
+
+                this._flush(gl);
+
+                this._firstPass = false;
+            };
+
+            GLRenderer.prototype._recurse = function (gl, child, camera) {
                 if (!child.willRender)
                     return;
 
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < (child).members.length; i++) {
-                        this._recurse((child).members[i]);
+                        this._recurse(gl, (child).members[i], camera);
                     }
                 } else {
-                    child.render(this._currentCamera);
+                    if (!this._texApplied) {
+                        this._applyTexture(gl, (child).atlas.image);
+                        this._texApplied = true;
+                        this._currentTextureAtlas = (child).atlas;
+                    }
+
+                    if ((child).atlas !== this._currentTextureAtlas) {
+                        this._flush(gl);
+                        this._entityCount = 0;
+                        this._vertBuffer.clear();
+                        this._uvBuffer.clear();
+                        this._changeTexture(gl, (child).atlas.image);
+                        this._currentTextureAtlas = (child).atlas;
+                    }
+                    this._compileVertices(gl, child, camera);
+                    this._compileUVs(gl, child);
+                    this._entityCount++;
                 }
             };
 
-            GLRenderer.prototype.render = function (camera) {
+            GLRenderer.prototype._flush = function (gl) {
+                this._vertBuffer.refresh(gl, this._vertBuffer.items);
+                this._uvBuffer.refresh(gl, this._uvBuffer.items);
+                this._draw(gl);
+            };
+
+            GLRenderer.prototype._compileVertices = function (gl, entity, camera) {
+                var t = entity.transform;
+                var m = t.getConcatenatedMatrix();
+                var ct = camera.transform;
+                var cm = ct.getConcatenatedMatrix();
+
+                var cell = entity.atlas.cells[entity.cellIndex];
+
+                var pt1 = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
+                var pt2 = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
+                var pt3 = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
+                var pt4 = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
+
+                pt1 = m.transformPoint(pt1);
+                pt2 = m.transformPoint(pt2);
+                pt3 = m.transformPoint(pt3);
+                pt4 = m.transformPoint(pt4);
+
+                this._vertBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, pt2.x + t.rotPointX, pt2.y + t.rotPointY, pt3.x + t.rotPointX, pt3.y + t.rotPointY, pt4.x + t.rotPointX, pt4.y + t.rotPointY);
+            };
+
+            GLRenderer.prototype._compileUVs = function (gl, entity) {
+                var t = entity.transform;
+                var c = entity.atlas.cells[entity.cellIndex];
+
+                this._uvBuffer.items.push(c.x, c.y, c.x + c.w, c.y, c.x + c.w, c.y + c.h, c.x, c.y + c.h);
+            };
+
+            GLRenderer.prototype._applyTexture = function (gl, image) {
+                this._texture = new Renderers.GLTexture(gl, image);
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
+                var prog = this._shaders.texture2DProg;
+                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+            };
+
+            GLRenderer.prototype._changeTexture = function (gl, image) {
+                this._texture.refresh(gl, image);
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
+                var prog = this._shaders.texture2DProg;
+                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+            };
+
+            GLRenderer.prototype._draw = function (gl) {
+                gl.drawElements(gl.TRIANGLES, this._entityCount * 6, gl.UNSIGNED_SHORT, 0);
+            };
+
+            GLRenderer.prototype._generateIndices = function (numQuads) {
+                var quads = new Array();
+                for (var i = 0; i < numQuads; i++) {
+                    quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
+                }
+                return quads;
+            };
+
+            GLRenderer.prototype._generateColors = function (numVerts) {
+                var cols = new Array();
+                for (var i = 0; i < numVerts; i++) {
+                    cols.push(1);
+                }
+                return cols;
             };
             return GLRenderer;
         })();
         Renderers.GLRenderer = GLRenderer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var GLShaders = (function () {
+            function GLShaders(gl) {
+                this.ready = false;
+                this.texture2DProg = {
+                    vertexPositionAttribute: null,
+                    vertexTexCoordAttribute: null,
+                    vertexColorAttribute: null,
+                    mvMatrixUniform: null,
+                    samplerUniform: null,
+                    resolutionUniform: null,
+                    textureSizeUniform: null,
+                    cameraOffsetUniform: null
+                };
+                this.texture2DFrag = [
+                    "precision mediump float;",
+                    "varying vec2 vTextureCoord;",
+                    "varying float vColor;",
+                    "uniform sampler2D uSampler;",
+                    "void main(void) {",
+                    "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
+                    "gl_FragColor = gl_FragColor * vColor;",
+                    "}"
+                ];
+                this.texture2DVert = [
+                    "attribute vec2 aVertexPosition;",
+                    "attribute vec2 aTextureCoord;",
+                    "attribute float aColor;",
+                    "uniform mat4 uMVMatrix;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec2 uTextureSize;",
+                    "uniform vec2 uCameraOffset;",
+                    "varying vec2 vTextureCoord;",
+                    "varying float vColor;",
+                    "void main(void) {",
+                    "vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
+                    "transpos =  uMVMatrix * transpos;",
+                    "vec2 zeroToOne = transpos.xy / uResolution;",
+                    "vec2 zeroToTwo = zeroToOne * 2.0;",
+                    "vec2 clipSpace = zeroToTwo - 1.0;",
+                    "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
+                    "vTextureCoord = aTextureCoord / uTextureSize;",
+                    "vColor = aColor;",
+                    "}"
+                ];
+                this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.texture2DFrag.join("\n"), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                this.use(gl, this.shaderProgram);
+                this.ready = true;
+            }
+            GLShaders.prototype.attach = function (gl, vertShader, fragShader) {
+                var shaderProgram = gl.createProgram();
+                gl.attachShader(shaderProgram, fragShader);
+                gl.attachShader(shaderProgram, vertShader);
+                gl.linkProgram(shaderProgram);
+                return shaderProgram;
+            };
+
+            GLShaders.prototype.compile = function (gl, src, shaderType) {
+                var shader = gl.createShader(shaderType);
+                gl.shaderSource(shader, src);
+                gl.compileShader(shader);
+
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.log(gl.getShaderInfoLog(shader));
+                    return null;
+                }
+                return shader;
+            };
+
+            GLShaders.prototype.use = function (gl, shaderProgram) {
+                gl.useProgram(this.shaderProgram);
+
+                this.texture2DProg.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+                gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
+                this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+                gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
+                this.texture2DProg.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aColor");
+                gl.enableVertexAttribArray(this.texture2DProg.vertexColorAttribute);
+
+                this.texture2DProg.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+                this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
+                this.texture2DProg.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+                this.texture2DProg.textureSizeUniform = gl.getUniformLocation(shaderProgram, "uTextureSize");
+                this.texture2DProg.cameraOffsetUniform = gl.getUniformLocation(shaderProgram, "uCameraOffset");
+            };
+            return GLShaders;
+        })();
+        Renderers.GLShaders = GLShaders;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var GLTexture = (function () {
+            function GLTexture(gl, _image) {
+                this.texture = gl.createTexture();
+
+                this.image = _image;
+                gl.bindTexture(gl.TEXTURE_2D, this.texture);
+                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.bindTexture(gl.TEXTURE_2D, null);
+            }
+            GLTexture.prototype.refresh = function (gl, _image) {
+                this.image = _image;
+                gl.bindTexture(gl.TEXTURE_2D, this.texture);
+                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.bindTexture(gl.TEXTURE_2D, null);
+            };
+            return GLTexture;
+        })();
+        Renderers.GLTexture = GLTexture;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var GLArrayBuffer = (function () {
+            function GLArrayBuffer(gl, _itemSize, items, init) {
+                if (typeof init === "undefined") { init = true; }
+                this.items = items || GLArrayBuffer.squareVertices;
+                this.itemSize = _itemSize || 2;
+                this.numItems = this.items.length / this.itemSize;
+                if (init) {
+                    this.buffer = this.init(gl);
+                }
+            }
+            GLArrayBuffer.prototype.clear = function () {
+                this.items = new Array();
+            };
+
+            GLArrayBuffer.prototype.init = function (gl) {
+                var buffer = gl.createBuffer();
+                var f32 = new Float32Array(this.items);
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
+
+                return buffer;
+            };
+
+            GLArrayBuffer.prototype.refresh = function (gl, items) {
+                this.items = items;
+                this.numItems = this.items.length / this.itemSize;
+                var f32 = new Float32Array(this.items);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
+                return this.buffer;
+            };
+
+            GLArrayBuffer.squareVertices = [
+                0,
+                0,
+                100,
+                0,
+                100,
+                100,
+                0,
+                100
+            ];
+
+            GLArrayBuffer.squareUVs = [
+                0,
+                0,
+                .1,
+                0,
+                .1,
+                .1,
+                0,
+                .1
+            ];
+
+            GLArrayBuffer.squareCols = [
+                1,
+                1,
+                1,
+                1
+            ];
+            return GLArrayBuffer;
+        })();
+        Renderers.GLArrayBuffer = GLArrayBuffer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var GLElementArrayBuffer = (function () {
+            function GLElementArrayBuffer(gl, _itemSize, _indices, init) {
+                if (typeof init === "undefined") { init = true; }
+                this.indices = _indices || GLElementArrayBuffer.square;
+                this.itemSize = _itemSize || 1;
+                this.numItems = this.indices.length / this.itemSize;
+                if (init) {
+                    this.buffer = this.init(gl);
+                }
+            }
+            GLElementArrayBuffer.prototype.clear = function () {
+                this.indices = new Array();
+            };
+
+            GLElementArrayBuffer.prototype.init = function (gl) {
+                var buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
+
+                return buffer;
+            };
+
+            GLElementArrayBuffer.prototype.refresh = function (gl, indices) {
+                this.numItems = this.indices.length / this.itemSize;
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
+
+                return this.buffer;
+            };
+
+            GLElementArrayBuffer.square = [
+                0,
+                1,
+                2,
+                0,
+                2,
+                3
+            ];
+            return GLElementArrayBuffer;
+        })();
+        Renderers.GLElementArrayBuffer = GLElementArrayBuffer;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -13849,6 +13661,144 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Utils) {
+        var Canvas = (function () {
+            function Canvas(width, height, visible, offScreen) {
+                if (typeof visible === "undefined") { visible = true; }
+                if (typeof offScreen === "undefined") { offScreen = false; }
+                this.domElement = null;
+                this.context = null;
+                this._visible = true;
+                this._offScreen = false;
+                this._clearMode = 1;
+                this.bgColor = 'rgb(0, 0, 0)';
+                this.domElement = document.createElement('canvas');
+                this.domElement.width = width;
+                this.domElement.height = height;
+
+                this._width = width;
+                this._height = height;
+
+                this.context = this.domElement.getContext('2d');
+
+                this._offScreen = offScreen;
+                this._visible = visible;
+
+                if (visible === false) {
+                    this.domElement.style.display = 'none';
+                }
+            }
+
+            Object.defineProperty(Canvas.prototype, "width", {
+                get: function () {
+                    return this._width;
+                },
+                set: function (value) {
+                    this._width = value;
+                    this._updatedSize();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Canvas.prototype, "height", {
+                get: function () {
+                    return this._height;
+                },
+                set: function (value) {
+                    this._height = value;
+                    this._updatedSize();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Canvas.prototype.objType = function () {
+                return "Canvas";
+            };
+
+            Canvas.prototype._updatedSize = function () {
+                this.domElement.width = this._width;
+                this.domElement.height = this._height;
+            };
+
+            Canvas.prototype.destroy = function () {
+                if (this._offScreen === false) {
+                    this.domElement.style.display = 'none';
+                }
+            };
+
+
+            Object.defineProperty(Canvas.prototype, "visible", {
+                get: function () {
+                    return this._visible;
+                },
+                set: function (value) {
+                    if (value !== null && value !== this._visible) {
+                        this._visible = value;
+
+                        if (value === true) {
+                            this.domElement.style.display = 'block';
+                        } else {
+                            this.domElement.style.display = 'none';
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Canvas.prototype, "clearMode", {
+                get: function () {
+                    return this._clearMode;
+                },
+                set: function (value) {
+                    if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA) {
+                        this._clearMode = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Canvas.prototype.clear = function () {
+                if (this._clearMode === Canvas.CLEARMODE_NONE) {
+                } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
+                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
+                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT) {
+                    this.context.fillStyle = this.bgColor;
+                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
+                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA) {
+                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
+                    this.context.fillStyle = this.bgColor;
+                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
+                }
+            };
+
+            Canvas.prototype.saveAsPNG = function () {
+                return this.domElement.toDataURL();
+            };
+
+            Canvas.prototype.toString = function () {
+                return '[{Canvas (width=' + this.width + ' height=' + this.height + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
+            };
+            Canvas.CLEARMODE_NONE = 0;
+
+            Canvas.CLEARMODE_CLEARRECT = 1;
+
+            Canvas.CLEARMODE_FILLRECT = 2;
+
+            Canvas.CLEARMODE_FILLRECT_ALPHA = 3;
+            return Canvas;
+        })();
+        Utils.Canvas = Canvas;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     Kiwi.VERSION = "1.0";
 
     Kiwi.RENDERER_CANVAS = 0;
@@ -13856,7 +13806,9 @@ var Kiwi;
 
     Kiwi.TARGET_BROWSER = 0;
     Kiwi.TARGET_COCOON = 1;
-    Kiwi.TARGET = 0;
+
+    Kiwi.DEBUG_ON = 0;
+    Kiwi.DEBUG_OFF = 1;
 
     Kiwi.DEVICE = null;
 

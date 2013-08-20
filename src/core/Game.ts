@@ -2,7 +2,6 @@
 /// <reference path="../dom/Bootstrap.ts" />
 /// <reference path="../dom/Browser.ts" />
 /// <reference path="Device.ts" />
-/// <reference path="LayerManager.ts" />
 /// <reference path="Stage.ts" />
 
 /// <reference path="../tweens/Manager.ts" />
@@ -34,9 +33,14 @@ module Kiwi {
         * @param {Any} state
         * @return {Kiwi.Game}
         */
-        constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null) {
+        constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null,options?) {
 
-
+            //set options
+            options = options || {};          
+            this._debugOption = options.debug || Kiwi.DEBUG_ON;
+            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
+            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
+          
 
             this.id = Kiwi.GameManager.register(this);
 
@@ -47,21 +51,21 @@ module Kiwi {
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this.stage = new Kiwi.Stage(this, name);
 
             //this needs to be passed in instead of hard coded
-            this._renderMode = Kiwi.RENDERER_CANVAS;
-            //this._renderMode = Kiwi.RENDERER_WEBGL;
-
-            if (this._renderMode === Kiwi.RENDERER_CANVAS) {
+            //this._renderMode = Kiwi.RENDERER_CANVAS;
+            //this._renderOption = Kiwi.RENDERER_WEBGL;
+            this.stage = new Kiwi.Stage(this, name);
+            
+            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
             } else {
                 this.renderer = new Kiwi.Renderers.GLRenderer(this);
             }
 
-            //this.layers = new Kiwi.LayerManager(this);
+           
             this.cameras = new Kiwi.CameraManager(this);
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds = new Kiwi.HUD.HUDManager(this);
             }
             this.loader = new Kiwi.Loader(this);
@@ -81,7 +85,7 @@ module Kiwi {
                 }
             }
 
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 //  Wait for the DOM
                 this._dom.boot(domParent, () => this.start());
             } else {
@@ -92,18 +96,29 @@ module Kiwi {
 
         /*
         * The render mode of the game. This will be either set to CANVAS or WEBGL.
-        * @property _renderMode
+        * @property _renderOption
         * @type number
         */
-        private _renderMode: number;
+        private _renderOption: number;
 
         /*
         * Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.
         * @type number
         */
-        public get renderMode(): number {
-            return this._renderMode;
+        public get renderOption(): number {
+            return this._renderOption;
         }
+
+        private _deviceTargetOption: number;
+        public get deviceTargetOption(): number {
+            return this._deviceTargetOption;
+        }
+
+        private _debugOption: number;
+        public get debugOption(): number {
+            return this._debugOption;
+        }
+
 
         /*
         * Holds the renderer that is being used. This is detiremended based of the _renderMode
@@ -168,13 +183,7 @@ module Kiwi {
         */
         public input: Kiwi.Input.Manager = null;
 
-        /*
-        * 
-        * @property layers
-        * @type Kiwi.LayerManager
-        */
-        //public layers: Kiwi.LayerManager = null;
-
+       
         /*
         * 
         * @property layers
@@ -244,9 +253,9 @@ module Kiwi {
 
             this.browser.boot();
             this.stage.boot(this._dom);
-            //this.layers.boot();
+            this.renderer.boot();
             this.cameras.boot();
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds.boot();
             }
             this.time.boot();
@@ -275,8 +284,7 @@ module Kiwi {
             this.input.update();
             this.tweens.update();
             this.cameras.update();
-            //this.layers.update();
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds.update();
             }
             this.states.update();
@@ -284,7 +292,7 @@ module Kiwi {
 
             
             this.cameras.render();
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds.render();
             }
             this.states.postRender();

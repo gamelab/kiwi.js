@@ -1,5 +1,6 @@
 ///<reference path="renderers/WebGL.d.ts"/>
 
+
 /// <reference path="core/Cache.ts" />
 /// <reference path="core/Camera.ts" />
 /// <reference path="core/CameraManager.ts" />
@@ -13,8 +14,6 @@
 /// <reference path="core/State.ts" /> //must be initialised before group - typescript issue #599
 /// <reference path="core/Group.ts" />
 /// <reference path="core/IChild.ts" />
-/// <reference path="core/Layer.ts" />
-/// <reference path="core/LayerManager.ts" />
 /// <reference path="core/Loader.ts" />
 /// <reference path="core/Signal.ts" />
 /// <reference path="core/SignalBinding.ts" />
@@ -33,8 +32,7 @@
 
 /// <reference path="dom/Bootstrap.ts" />
 /// <reference path="dom/Browser.ts" />
-/// <reference path="dom/Cache.ts" />
-/// <reference path="dom/Element.ts" />
+
 
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
@@ -85,10 +83,16 @@
 /// <reference path="input/Mouse.ts" />
 /// <reference path="input/Touch.ts" />
 
+
+
 /// <reference path="plugins/gamefroot/TileMapConverter.ts" />
 
 /// <reference path="renderers/CanvasRenderer.ts" />
 /// <reference path="renderers/GLRenderer.ts" />
+/// <reference path="renderers/GLShaders.ts" />
+/// <reference path="renderers/GLTexture.ts" />
+/// <reference path="renderers/GLArrayBuffer.ts" />
+/// <reference path="renderers/GLElementArrayBuffer.ts" />
 
 /// <reference path="structs/Dictionary.ts" />
 /// <reference path="structs/LinkedList.ts" />
@@ -132,10 +136,12 @@ module Kiwi {
     export var RENDERER_CANVAS: number = 0;
     export var RENDERER_WEBGL: number = 1;
     
-
     export var TARGET_BROWSER: number = 0;
     export var TARGET_COCOON: number = 1;
-    export var TARGET: number = 0;
+  
+
+    export var DEBUG_ON: number = 0;
+    export var DEBUG_OFF: number = 1;
 
     export var DEVICE: Kiwi.Device = null;
 

@@ -51,12 +51,13 @@ if (isset($_GET['f']))
     <link rel="stylesheet" href="examples.css" type="text/css" />
     <script type="text/javascript" src="log4javascript.js"></script>
 	<script type="text/javascript" src="jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="gl-matrix-min.js"></script>
     <script type="text/javascript">
         var klog = log4javascript.getDefaultLogger();
     </script>
     <script src="ECMA262-5.js"></script>
     <script src="kiwi.js"></script>
-	<script src="lib/SceneGraphViewer.js"></script>
+
 <?php
     if ($state)
     {

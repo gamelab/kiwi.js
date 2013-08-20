@@ -44,8 +44,6 @@ module Kiwi.GameObjects {
             this._textAlign = 'left';
             this._baseline = 'top';
 
-            this.onAddedToLayer.add(this._onAddedToLayer, this);
-
             klog.info('Created Textfield Game Object');
 
         }
@@ -238,20 +236,7 @@ module Kiwi.GameObjects {
             return this._baseline;
         }
 
-        /**
-	     * Called when this Game Object is added to a Layer, usually as a result of an addChild() call or being in a Group that was added.
-	     * @method _onAddedToLayer
-	     * @param {Kiwi.Layer} layer - The Layer onto which this Game Object was added
-	     * @return {Boolean} true if the Game Object was successfully added, otherwise false
-	     * @private
-	     **/
-        private _onAddedToLayer(layer: Kiwi.Layer): bool {
-
-            klog.info('Textfield added to Layer ' + layer.name);
-
-            return true;
-        }
-
+       
         /**
 	     * Called by the Layer to which this Game Object is attached
 	     * @method render

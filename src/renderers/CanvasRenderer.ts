@@ -1,6 +1,6 @@
 interface IRenderer {
     render(camera: Kiwi.Camera);
-
+    boot();
 }
 
 module Kiwi.Renderers {

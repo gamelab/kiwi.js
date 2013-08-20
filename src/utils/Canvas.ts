@@ -1,5 +1,5 @@
 /// <reference path="../core/Game.ts" />
-/// <reference path="../core/Layer.ts" />
+
 
 /**
  *  Kiwi - Utils - Canvas
@@ -28,15 +28,9 @@ module Kiwi.Utils {
         * @param {Boolean} offScreen
         * @return {Kiwi.Utils.Canvas}
         **/
-        constructor (layer: Kiwi.Layer, width: number, height: number, visible: bool = true, offScreen: bool = false) {
+        constructor (width: number, height: number, visible: bool = true, offScreen: bool = false) {
 
-            if (layer === null && offScreen === false)
-            {
-                klog.warn('Cannot create a canvas on a null layer');
-                return;
-            }
-
-            this._layer = layer;
+          
 
             this.domElement = <HTMLCanvasElement> document.createElement('canvas');
             this.domElement.width = width;
@@ -83,13 +77,7 @@ module Kiwi.Utils {
             return "Canvas";
         }
 
-        /**
-        * @property _layer
-        * @type Kiwi.Layer
-        * @private
-    	*/
-        private _layer: Kiwi.Layer;
-
+       
         /**
         * @property domElement
         * @type HTMLCanvasElement
@@ -179,7 +167,7 @@ module Kiwi.Utils {
             if (this._offScreen === false)
             {
                 this.domElement.style.display = 'none';
-                this._layer.domContainer.removeChild(this.domElement);
+              
             }
 
         }

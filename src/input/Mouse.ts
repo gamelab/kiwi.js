@@ -253,7 +253,7 @@ module Kiwi.Input {
         * @method start 
         */
         public start() {
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (Kiwi.DEVICE.ie && Kiwi.DEVICE.ieVersion < 9)
                 {
                     this._domElement.attachEvent('onmousedown', (event: MouseEvent) => this.onMouseDown(event));
@@ -278,7 +278,7 @@ module Kiwi.Input {
         * @method stop 
         */
         public stop() {
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this._domElement.removeEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), false);
                 this._domElement.removeEventListener('mousedown', this.onMouseDown, false);
                 this._domElement.removeEventListener('mousemove', this.onMouseMove, false);
