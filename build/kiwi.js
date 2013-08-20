@@ -1517,6 +1517,9 @@ var Kiwi;
             }
 
             this._createCompositeCanvas();
+            if (this._game.debugOption === Kiwi.DEBUG_ON) {
+                this._createDebugCanvas();
+            }
         };
 
         Stage.prototype._createCompositeCanvas = function () {
@@ -1545,6 +1548,34 @@ var Kiwi;
             } else {
                 document.body.appendChild(this.canvas);
             }
+        };
+
+        Stage.prototype._createDebugCanvas = function () {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                klog.warn("debug canvas not supported in cocoon, creating canvas and context anyway.");
+            }
+            this.debugCanvas = document.createElement("canvas");
+            this.debugCanvas.id = this._game.id + "debugCanvas";
+            this.debugCanvas.style.position = "absolute";
+            this.debugCanvas.style.display = "none";
+            this.debugCanvas.width = this.width;
+            this.debugCanvas.height = this.height;
+            this.dctx = this.debugCanvas.getContext("2d");
+            this.clearDebugCanvas();
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.appendChild(this.debugCanvas);
+            }
+        };
+
+        Stage.prototype.clearDebugCanvas = function (color) {
+            this.dctx.fillStyle = color || "rgba(255,0,0,.2)";
+            this.dctx.clearRect(0, 0, this.width, this.height);
+            this.dctx.fillRect(0, 0, this.width, this.height);
+        };
+
+        Stage.prototype.toggleDebugCanvas = function () {
+            this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         };
 
         Stage.prototype.frameRate = function (value) {
