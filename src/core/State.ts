@@ -98,12 +98,7 @@ module Kiwi {
             
         }
 
-        /**
-        * 
-        * @property currentLayer
-        * @type Kiwi.Layer
-        **/
-        public currentLayer: Kiwi.Layer;
+        
 
         //  Default methods that should be over-ridden
 
@@ -218,16 +213,7 @@ module Kiwi {
 
         }
 
-        /**
-        * 
-        * @method swapLayer
-        * @param {Kiwi.Layer} layer
-        **/
-        public swapLayer(layer: Kiwi.Layer) {
-
-            this.currentLayer = layer;
-
-        }
+       
 
         /**
         *
@@ -337,12 +323,7 @@ module Kiwi {
 
                     this.members.slice(i, 1);
 
-                    if (layer !== null) {
-                        layer.remove(child);
-                    } else {
-                        this.currentLayer.remove(child);
-                    }
-                    //return true;
+                   
                 }  
                   
             }

@@ -2,7 +2,6 @@
 /// <reference path="../dom/Bootstrap.ts" />
 /// <reference path="../dom/Browser.ts" />
 /// <reference path="Device.ts" />
-/// <reference path="LayerManager.ts" />
 /// <reference path="Stage.ts" />
 
 /// <reference path="../tweens/Manager.ts" />
@@ -59,7 +58,7 @@ module Kiwi {
                 this.renderer = new Kiwi.Renderers.GLRenderer(this);
             }
 
-            //this.layers = new Kiwi.LayerManager(this);
+           
             this.cameras = new Kiwi.CameraManager(this);
             if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
                 this.huds = new Kiwi.HUD.HUDManager(this);
@@ -168,13 +167,7 @@ module Kiwi {
         */
         public input: Kiwi.Input.Manager = null;
 
-        /*
-        * 
-        * @property layers
-        * @type Kiwi.LayerManager
-        */
-        //public layers: Kiwi.LayerManager = null;
-
+       
         /*
         * 
         * @property layers
@@ -245,7 +238,6 @@ module Kiwi {
             this.browser.boot();
             this.stage.boot(this._dom);
             this.renderer.boot();
-            //this.layers.boot();
             this.cameras.boot();
             if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
                 this.huds.boot();
@@ -276,7 +268,6 @@ module Kiwi {
             this.input.update();
             this.tweens.update();
             this.cameras.update();
-            //this.layers.update();
             if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
                 this.huds.update();
             }

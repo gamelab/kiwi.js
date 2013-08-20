@@ -44,8 +44,7 @@ module Kiwi.GameObjects {
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
-            //  Signals
-            this.onAddedToLayer.add(this._onAddedToLayer, this);
+           
 
             klog.info('Created StaticImage Game Object');
 
@@ -67,20 +66,7 @@ module Kiwi.GameObjects {
 	     **/
         public bounds: Kiwi.Components.Bounds;
 
-	    /**
-	     * Called when this Game Object is added to a Layer, usually as a result of an addChild() call or being in a Group that was added.
-	     * @method _addedToLayer
-	     * @param {Kiwi.Layer} layer - The Layer onto which this Game Object was added
-	     * @return {Boolean} true if the Game Object was successfully added, otherwise false
-	     * @private
-	     **/
-        private _onAddedToLayer(layer: Kiwi.Layer): bool {
-
-            klog.info('StaticImage added to Layer: ' + layer.name);
-
-            return true;
-
-        }
+	  
 
         /**
 	     * Called by the Layer to which this Game Object is attached

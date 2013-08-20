@@ -193,24 +193,7 @@ module Kiwi.Components {
         }
 
 
-        /**
-        * 
-        * @method drawCanvasDebugOutline
-        * @param {Kiwi.Layer} layer
-        */
-        public drawCanvasDebugOutline(layer: Kiwi.Layer) {
-
-           
-                //layer.canvas.context.fillStyle = 'rgba(255, 0, 0, 0.5)';
-                layer.canvas.context.strokeStyle = 'rgba(0, 255, 0, 0.8)';
-                layer.canvas.context.beginPath();
-                layer.canvas.context.rect(this._rect.x, this._rect.y, this._rect.width, this._rect.height);
-                layer.canvas.context.stroke();
-                layer.canvas.context.closePath();
-                //layer.canvas.context.fillRect(this._rect.x, this._rect.y, this._rect.width, this._rect.height);
-            
-
-        }
+        
 
 	    /**
 	     * Returns a string representation of this object.

@@ -56,16 +56,12 @@
     <Content Include="core\State.ts" />
     <Content Include="core\Group.ts" />
     <Content Include="core\Loader.ts" />
-    <Content Include="core\Layer.ts" />
     <Content Include="core\IChild.ts" />
-    <Content Include="core\LayerManager.ts" />
     <Content Include="core\Stage.ts" />
     <Content Include="core\Signal.ts" />
     <Content Include="core\SignalBinding.ts" />
     <Content Include="core\StateConfig.ts" />
     <Content Include="geom\Circle.ts" />
-    <Content Include="dom\Element.ts" />
-    <Content Include="dom\Cache.ts" />
     <Content Include="dom\Bootstrap.ts" />
     <Content Include="dom\Browser.ts" />
     <Content Include="ECMA262-5.js" />

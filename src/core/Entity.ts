@@ -194,10 +194,6 @@ module Kiwi {
             {
                 return this._addedToGroup(parent);
             }
-            else if (action === Kiwi.ADDED_TO_LAYER)
-            {
-                return this._addedToLayer(parent);
-            }
             else if (action === Kiwi.ADDED_TO_STATE)
             {
                 return this._addedToState(parent);
@@ -205,10 +201,6 @@ module Kiwi {
             else if (action === Kiwi.REMOVED_FROM_GROUP)
             {
                 return this._removedFromGroup(parent);
-            }
-            else if (action === Kiwi.REMOVED_FROM_LAYER)
-            {
-                return this._removedFromLayer(parent);
             }
             else if (action === Kiwi.REMOVED_FROM_STATE)
             {
@@ -329,12 +321,7 @@ module Kiwi {
     	*/
         public name: string = '';
 
-        /**
-        * The Layer this Entity has been added to. Not implimented
-        * @property layer
-        * @type Kiwi.Layer
-        **/
-        public layer: Kiwi.Layer = null;
+      
 
         /**
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
@@ -480,55 +467,7 @@ module Kiwi {
             return this._dirty;
         }
 
-        /**
-        * Executed when this entity gets added to a layer. Current layers are not impliemented.
-        * @method _addedToLayer
-        * @param {Kiwi.Layer} layer
-        * @return {Boolean}
-        */
-        private _addedToLayer(layer: Kiwi.Layer): bool {
-
-            if (this.layer !== null)
-            {
-                klog.warn('Entity already exists on Layer ' + this.layer.id);
-
-                return false;
-            }
-            else
-            {
-               
-                    if (layer.game !== null)
-                    {
-                        this.game = layer.game;
-
-                        if (this._clock === null)
-                        {
-                            this._clock = this.game.time.clock;
-                        }
-                    }
-
-               
-                    this.onAddedToLayer.dispatch(this, this.layer);
-
-                    return true;
-              
-
-            }
-
-        }
-
-        /**
-        * Executed when the entity gets removed from a layer. Currently layers are not implimented.
-        * @method _removedFromLayer
-        * @param {Kiwi.Layer} layer
-        */
-        private _removedFromLayer(layer: Kiwi.Layer) {
-
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-
-        }
+      
 
         /**
         * Executes when the entity gets added to a state. 

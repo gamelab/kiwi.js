@@ -531,1276 +531,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var Entity = (function () {
-        function Entity() {
-            this._alpha = 1;
-            this._visible = true;
-            this.width = 0;
-            this.height = 0;
-            this.cellIndex = 0;
-            this.game = null;
-            this.state = null;
-            this.name = '';
-            this.layer = null;
-            this._clock = null;
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
-            this.transform = new Kiwi.Geom.Transform();
-
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-        }
-        Object.defineProperty(Entity.prototype, "x", {
-            get: function () {
-                return this.transform.x;
-            },
-            set: function (value) {
-                this.transform.x = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "y", {
-            get: function () {
-                return this.transform.y;
-            },
-            set: function (value) {
-                this.transform.y = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "scaleX", {
-            get: function () {
-                return this.transform.scaleX;
-            },
-            set: function (value) {
-                this.transform.scaleX = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "scaleY", {
-            get: function () {
-                return this.transform.scaleY;
-            },
-            set: function (value) {
-                this.transform.scaleY = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "rotation", {
-            get: function () {
-                return this.transform.rotation;
-            },
-            set: function (value) {
-                this.transform.rotation = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Entity.prototype.childType = function () {
-            return Kiwi.ENTITY;
-        };
-
-        Entity.prototype.modify = function (action, parent) {
-            if (action === Kiwi.ADDED_TO_GROUP) {
-                return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (action === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
-                return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
-            } else if (action === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            }
-        };
-
-
-        Object.defineProperty(Entity.prototype, "alpha", {
-            get: function () {
-                return this._alpha;
-            },
-            set: function (value) {
-                if (value <= 0)
-                    value = 0;
-                if (value > 1)
-                    value = 1;
-                this._alpha = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "visiblity", {
-            get: function () {
-                return this._visible;
-            },
-            set: function (value) {
-                this._visible = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "exists", {
-            get: function () {
-                return this._exists;
-            },
-            set: function (value) {
-                this._exists = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "active", {
-            get: function () {
-                return this._active;
-            },
-            set: function (value) {
-                this._active = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "willRender", {
-            get: function () {
-                return this._willRender;
-            },
-            set: function (value) {
-                this._willRender = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "inputEnabled", {
-            get: function () {
-                return this._inputEnabled;
-            },
-            set: function (value) {
-                this._inputEnabled = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "clock", {
-            get: function () {
-                return this._clock;
-            },
-            set: function (value) {
-                this._clock = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "dirty", {
-            get: function () {
-                return this._dirty;
-            },
-            set: function (value) {
-                this._dirty = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Entity.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Entity already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                if (layer.game !== null) {
-                    this.game = layer.game;
-
-                    if (this._clock === null) {
-                        this._clock = this.game.time.clock;
-                    }
-                }
-
-                this.onAddedToLayer.dispatch(this, this.layer);
-
-                return true;
-            }
-        };
-
-        Entity.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
-
-        Entity.prototype._addedToState = function (state) {
-            klog.info('Entity added to State');
-
-            this.state = state;
-
-            this.game = this.state.game;
-
-            if (this._clock === null) {
-                this._clock = this.game.time.clock;
-            }
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-        };
-
-        Entity.prototype._removedFromState = function (state) {
-            klog.info('Entity removed from State');
-
-            this.state = null;
-
-            this.game = null;
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Entity.prototype._addedToGroup = function (group) {
-            klog.info('Entity added to Group');
-
-            if (group.game !== null) {
-                this.game = group.game;
-
-                if (this._clock === null) {
-                    this._clock = this.game.time.clock;
-                }
-            }
-        };
-
-        Entity.prototype._removedFromGroup = function (group) {
-            klog.info('Entity removed from Group');
-
-            this.onRemovedFromGroup.dispatch(this, group);
-        };
-
-        Entity.prototype._changedPosition = function (group, index) {
-            klog.info('Entity changed position within the group');
-        };
-
-        Entity.prototype.update = function () {
-        };
-
-        Entity.prototype.render = function (camera) {
-        };
-
-        Entity.prototype.destroy = function () {
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-        };
-        return Entity;
-    })();
-    Kiwi.Entity = Entity;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var File = (function () {
-        function File(game, dataType, path, cacheID, saveToCache, cache) {
-            if (typeof cacheID === "undefined") { cacheID = ''; }
-            if (typeof saveToCache === "undefined") { saveToCache = false; }
-            if (typeof cache === "undefined") { cache = null; }
-            this._saveToCache = true;
-            this._useTagLoader = true;
-            this.fileSize = 0;
-            this.status = 0;
-            this.statusText = '';
-            this.ETag = '';
-            this.lastModified = '';
-            this.totalSize = 0;
-            this.bytesLoaded = 0;
-            this.bytesTotal = 0;
-            this.readyState = 0;
-            this.timeOutDelay = 2000;
-            this.hasTimedOut = false;
-            this.timedOut = 0;
-            this.timeStarted = 0;
-            this.timeFinished = 0;
-            this.duration = 0;
-            this.hasError = false;
-            this.success = false;
-            this.attemptCounter = 0;
-            this.maxLoadAttempts = 2;
-            this.onCompleteCallback = null;
-            this.onProgressCallback = null;
-            this.lastProgress = 0;
-            this.percentLoaded = 0;
-            this._game = game;
-
-            this.dataType = dataType;
-
-            this.fileURL = path;
-
-            if (path.lastIndexOf('/') > -1) {
-                this.fileName = path.substr(path.lastIndexOf('/') + 1);
-                this.filePath = path.substr(0, path.lastIndexOf('/') + 1);
-            } else {
-                this.filePath = '';
-                this.fileName = path;
-            }
-
-            this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
-
-            if (Kiwi.DEVICE.blob) {
-                klog.info('blob support found - using blob loader');
-                this._useTagLoader = false;
-            } else {
-                klog.info('blob support NOT found - using tag loader');
-                this._useTagLoader = true;
-            }
-
-            if (this.dataType === Kiwi.File.AUDIO && this._game.audio.usingAudioTag === true) {
-                this._useTagLoader = true;
-            }
-
-            this._saveToCache = saveToCache;
-            this._cache = cache;
-
-            if (this.cacheID === '') {
-                this.cacheID = this.fileName;
-            } else {
-                this.cacheID = cacheID;
-            }
-
-            klog.info('New Kiwi.File: ' + this.toString());
-        }
-        File.prototype.objType = function () {
-            return "File";
-        };
-
-        File.prototype.load = function (onCompleteCallback, onProgressCallback, customCache, maxLoadAttempts, timeout) {
-            if (typeof onCompleteCallback === "undefined") { onCompleteCallback = null; }
-            if (typeof onProgressCallback === "undefined") { onProgressCallback = null; }
-            if (typeof customCache === "undefined") { customCache = null; }
-            if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
-            if (typeof timeout === "undefined") { timeout = 2000; }
-            this.onCompleteCallback = onCompleteCallback;
-            this.onProgressCallback = onProgressCallback;
-            this.maxLoadAttempts = maxLoadAttempts;
-            this.timeOutDelay = timeout;
-
-            if (customCache !== null) {
-                this._cache = customCache;
-                this._saveToCache = true;
-            }
-
-            this.start();
-
-            if (this._useTagLoader === true) {
-                this.tagLoader();
-            } else {
-                this.xhrLoader();
-            }
-        };
-
-        File.prototype.start = function () {
-            this.timeStarted = Date.now();
-            this.lastProgress = Date.now();
-            this.percentLoaded = 0;
-        };
-
-        File.prototype.stop = function () {
-            this.percentLoaded = 100;
-            this.timeFinished = Date.now();
-            this.duration = this.timeFinished - this.timeStarted;
-        };
-
-        File.prototype.tagLoader = function () {
-            var _this = this;
-            if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS) {
-                this.data = new Image();
-                this.data.src = this.fileURL;
-                this.data.onload = function (event) {
-                    return _this.tagLoaderOnLoad(event);
-                };
-                this.data.onerror = function (event) {
-                    return _this.tagLoaderOnError(event);
-                };
-                this.data.onreadystatechange = function (event) {
-                    return _this.tagLoaderOnReadyStateChange(event);
-                };
-            } else if (this.dataType === Kiwi.File.AUDIO) {
-                console.log('Ewww...disgusting...your loading by the audio tags....');
-
-                this.data = new Audio();
-                this.data.src = this.fileURL;
-                this.data.preload = 'auto';
-                this.data.onerror = function (event) {
-                    return _this.tagLoaderOnError(event);
-                };
-
-                this.data.load();
-
-                this.tagLoaderOnLoad(null);
-            }
-        };
-
-        File.prototype.tagLoaderOnReadyStateChange = function (event) {
-            klog.info('rs: ' + this.data.readyState);
-            klog.info('tagLoader onReadyStateChange', event);
-        };
-
-        File.prototype.tagLoaderOnError = function (event) {
-            klog.info('tagLoader onError', event);
-
-            this.hasError = true;
-            this.error = event;
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.tagLoaderProgressThrough = function (event) {
-            console.log('progress');
-            this.stop();
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.tagLoaderOnLoad = function (event) {
-            console.log('loaded');
-            this.stop();
-
-            if (this._saveToCache === true) {
-                this._cache.addFile(this.cacheID, this);
-            }
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.xhrLoader = function () {
-            var _this = this;
-            this._xhr = new XMLHttpRequest();
-            this._xhr.open('GET', this.fileURL, true);
-            this._xhr.timeout = this.timeOutDelay;
-            this._xhr.responseType = 'arraybuffer';
-
-            this._xhr.onloadstart = function (event) {
-                return _this.xhrOnLoadStart(event);
-            };
-            this._xhr.onload = function (event) {
-                return _this.xhrOnLoad(event);
-            };
-            this._xhr.onprogress = function (event) {
-                return _this.xhrOnProgress(event);
-            };
-            this._xhr.ontimeout = function (event) {
-                return _this.xhrOnTimeout(event);
-            };
-            this._xhr.onabort = function (event) {
-                return _this.xhrOnAbort(event);
-            };
-            this._xhr.onreadystatechange = function (event) {
-                return _this.xhrOnReadyStateChange(event);
-            };
-
-            this._xhr.send();
-        };
-
-        File.prototype.xhrOnReadyStateChange = function (event) {
-            this.readyState = event.target.readyState;
-
-            if (this.readyState === 4) {
-                this.xhrOnLoad(event);
-            }
-        };
-
-        File.prototype.xhrOnLoadStart = function (event) {
-            this.timeStarted = event.timeStamp;
-            this.lastProgress = event.timeStamp;
-        };
-
-        File.prototype.xhrOnAbort = function (event) {
-            klog.info('xhrOnAbort', event);
-        };
-
-        File.prototype.xhrOnError = function (event) {
-            klog.info('xhrOnError', event);
-        };
-
-        File.prototype.xhrOnTimeout = function (event) {
-            klog.info('xhrOnTimeout', event);
-        };
-
-        File.prototype.xhrOnProgress = function (event) {
-            klog.info('xhrOnProgress', event);
-
-            this.bytesLoaded = parseInt(event.loaded);
-            this.bytesTotal = parseInt(event.totalSize);
-            this.percentLoaded = Math.round((this.bytesLoaded / this.bytesTotal) * 100);
-
-            klog.info(this.fileName + ' = ' + this.bytesLoaded + ' / ' + this.bytesTotal);
-
-            if (this.onProgressCallback) {
-                this.onProgressCallback(this);
-            }
-        };
-
-        File.prototype.xhrOnLoad = function (event) {
-            if (this.timeFinished > 0) {
-                return;
-            }
-
-            this.stop();
-
-            this.status = this._xhr.status;
-            this.statusText = this._xhr.statusText;
-
-            if (this._xhr.status === 200) {
-                console.log("XHR SUCCESS");
-                this.success = true;
-                this.hasError = false;
-                this.fileType = this._xhr.getResponseHeader('Content-Type');
-                this.bytesTotal = parseInt(this._xhr.getResponseHeader('Content-Length'));
-                this.lastModified = this._xhr.getResponseHeader('Last-Modified');
-                this.ETag = this._xhr.getResponseHeader('ETag');
-                this.buffer = this._xhr.response;
-
-                if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS) {
-                    this.createBlob();
-                } else {
-                    if (this.dataType === Kiwi.File.JSON) {
-                        this.data = String.fromCharCode.apply(null, new Uint8Array(this._xhr.response));
-                        this.parseComplete();
-                    }
-
-                    if (this.dataType === Kiwi.File.AUDIO) {
-                        this.data = {
-                            raw: this._xhr.response,
-                            decoded: false,
-                            buffer: null
-                        };
-
-                        if (this._game.audio.predecode == true) {
-                            console.log('Audio is Decoding');
-
-                            var that = this;
-                            this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
-                                if (buffer) {
-                                    that.data.buffer = buffer;
-                                    that.data.decoded = true;
-                                    that.parseComplete();
-                                    console.log('Audio Decoded');
-                                }
-                            });
-                        } else {
-                            this.parseComplete();
-                        }
-                    }
-                }
-            } else {
-                this.success = false;
-                this.hasError = true;
-                this.parseComplete();
-            }
-        };
-
-        File.prototype.createBlob = function () {
-            var _this = this;
-            klog.info('creating blob');
-
-            this.data = document.createElement('img');
-            this.data.onload = function () {
-                return _this.revoke();
-            };
-
-            var imageType = '';
-
-            if (this.fileExtension === 'jpg' || this.fileExtension === 'jpeg') {
-                imageType = 'image/jpeg';
-            } else if (this.fileExtension === 'png') {
-                imageType = 'image/png';
-            } else if (this.fileExtension === 'gif') {
-                imageType = 'image/gif';
-            }
-
-            var blob = new window['Blob']([this.buffer], { type: imageType });
-
-            if (window['URL']) {
-                this.data.src = window['URL'].createObjectURL(blob);
-            } else if (window['webkitURL']) {
-                this.data.src = window['webkitURL'].createObjectURL(blob);
-            }
-        };
-
-        File.prototype.revoke = function () {
-            klog.info('revoking');
-
-            if (window['URL']) {
-                window['URL'].revokeObjectURL(this.data.src);
-            } else if (window['webkitURL']) {
-                window['webkitURL'].revokeObjectURL(this.data.src);
-            }
-
-            this.parseComplete();
-        };
-
-        File.prototype.parseComplete = function () {
-            klog.info('parse complete');
-
-            if (this._saveToCache === true) {
-                klog.info('saving to cache', this._cache, this.cacheID);
-                this._cache.addFile(this.cacheID, this);
-            }
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.getFileDetails = function (callback, maxLoadAttempts, timeout) {
-            if (typeof callback === "undefined") { callback = null; }
-            if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
-            if (typeof timeout === "undefined") { timeout = 2000; }
-            klog.info('Getting File Details of ' + this.fileURL);
-
-            this.onCompleteCallback = callback;
-            this.maxLoadAttempts = maxLoadAttempts;
-            this.timeOutDelay = timeout;
-
-            this.sendXHRHeadRequest();
-        };
-
-        File.prototype.sendXHRHeadRequest = function () {
-            var _this = this;
-            klog.info('xhr send');
-
-            this.attemptCounter++;
-
-            this._xhr = new XMLHttpRequest();
-            this._xhr.open('HEAD', this.fileURL, false);
-            this._xhr.onload = function (event) {
-                return _this.getXHRResponseHeaders(event);
-            };
-            this._xhr.ontimeout = function (event) {
-                return _this.xhrHeadOnTimeout(event);
-            };
-            this._xhr.onerror = function (event) {
-                return _this.xhrHeadOnError(event);
-            };
-            this._xhr.timeout = this.timeOutDelay;
-            this._xhr.send();
-        };
-
-        File.prototype.xhrHeadOnTimeout = function (event) {
-            klog.info('on XHR timeout', event);
-
-            this.hasTimedOut = true;
-            this.timedOut = Date.now();
-
-            if (this.attemptCounter >= this.maxLoadAttempts) {
-                this.hasError = true;
-                this.error = event;
-
-                if (this.onCompleteCallback) {
-                    this.onCompleteCallback.call(this);
-                }
-            } else {
-                this.sendXHRHeadRequest();
-            }
-        };
-
-        File.prototype.xhrHeadOnError = function (event) {
-            klog.info('on XHR error', event);
-
-            this.hasError = true;
-            this.error = event;
-            this.status = this._xhr.status;
-            this.statusText = this._xhr.statusText;
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.getXHRResponseHeaders = function (event) {
-            this.status = this._xhr.status;
-            this.statusText = this._xhr.statusText;
-
-            klog.info('xhr response ' + this.status, this.statusText);
-
-            if (this._xhr.status === 200) {
-                this.fileType = this._xhr.getResponseHeader('Content-Type');
-                this.fileSize = parseInt(this._xhr.getResponseHeader('Content-Length'));
-                this.lastModified = this._xhr.getResponseHeader('Last-Modified');
-                this.ETag = this._xhr.getResponseHeader('ETag');
-            }
-
-            if (this.onCompleteCallback) {
-                this.onCompleteCallback(this);
-            }
-        };
-
-        File.prototype.saveToCache = function (value) {
-            if (value) {
-                this._saveToCache = value;
-            }
-
-            return this._saveToCache;
-        };
-
-        File.prototype.cache = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._cache = value;
-            }
-
-            return this._cache;
-        };
-
-        File.prototype.toString = function () {
-            return "[{File (fileURL=" + this.fileURL + " fileName=" + this.fileName + " dataType=" + this.dataType + " fileSize=" + this.fileSize + " success=" + this.success + " status=" + this.status + ")}]";
-        };
-        File.IMAGE = 0;
-
-        File.SPRITE_SHEET = 1;
-
-        File.TEXTURE_ATLAS = 2;
-
-        File.AUDIO = 3;
-
-        File.JSON = 4;
-
-        File.XML = 5;
-
-        File.BINARY_DATA = 6;
-
-        File.TEXT_DATA = 7;
-        return File;
-    })();
-    Kiwi.File = File;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var FileCache = (function () {
-        function FileCache() {
-            this._cacheSize = 0;
-            this._files = {};
-        }
-        FileCache.prototype.objType = function () {
-            return "FileCache";
-        };
-
-        FileCache.prototype.getFile = function (key) {
-            return this._files[key];
-        };
-
-        Object.defineProperty(FileCache.prototype, "keys", {
-            get: function () {
-                var keys = new Array();
-                for (var key in this._files) {
-                    keys.push(key);
-                }
-
-                return keys;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        FileCache.prototype.size = function () {
-            return this._cacheSize;
-        };
-
-        FileCache.prototype.addFile = function (key, value) {
-            if (!this._files[key]) {
-                this._files[key] = value;
-                this._cacheSize++;
-                return true;
-            }
-
-            return false;
-        };
-
-        FileCache.prototype.exists = function (key) {
-            if (this._files[key]) {
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        FileCache.prototype.removeFile = function (key) {
-            if (this._files[key]) {
-                this._files[key] = null;
-                delete this._files[key];
-                return true;
-            }
-
-            return false;
-        };
-        return FileCache;
-    })();
-    Kiwi.FileCache = FileCache;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (DOM) {
-        var Cache = (function () {
-            function Cache(parent, game, size) {
-                this._parent = parent;
-                this._game = game;
-                this.domContainer = this._parent.domContainer;
-
-                this._cache = [];
-
-                this._swapperA = document.createElement('div');
-                this._swapperA.id = 'KiwiDOMSwapperA';
-
-                this._swapperB = document.createElement('div');
-                this._swapperB.id = 'KiwiDOMSwapperB';
-
-                this._parent.domContainer.appendChild(this._swapperA);
-                this._parent.domContainer.appendChild(this._swapperB);
-
-                for (var i = 0; i < size; i++) {
-                    this._cache.push(new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + i, this));
-                }
-            }
-            Cache.prototype.objType = function () {
-                return "Cache";
-            };
-
-            Cache.prototype.increaseCacheSize = function (value) {
-                for (var i = this._cache.length; i < this._cache.length + value; i++) {
-                    this._cache.push(new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + i, this));
-                }
-
-                return this._cache.length;
-            };
-
-            Cache.prototype.assignElement = function (parent) {
-                for (var i = 0; i < this._cache.length; i++) {
-                    if (this._cache[i].available === true && this._cache[i].type === parent.domElementType) {
-                        return this._cache[i].link(parent);
-                    }
-                }
-
-                klog.info("If we got this far then all of the current elements are in use or of the wrong type, so let's expand the cache size by 1");
-
-                var index = this._cache.length;
-                var newElement = new Kiwi.DOM.Element('KiwiLayer_' + this._parent.id + 'Element_' + index, this, parent.domElementType);
-
-                this._cache.push(newElement);
-
-                return newElement.link(parent);
-            };
-
-            Cache.prototype.swapElements = function (first, second) {
-                klog.info('DOM Swapping Test 8');
-
-                first.element = first.element.parentElement['replaceChild'](this._swapperA, first.element);
-                second.element = second.element.parentElement['replaceChild'](this._swapperB, second.element);
-
-                this._swapperA = this._swapperA.parentElement['replaceChild'](second.element, this._swapperA);
-                this._swapperB = this._swapperB.parentElement['replaceChild'](first.element, this._swapperB);
-
-                return true;
-            };
-            return Cache;
-        })();
-        DOM.Cache = Cache;
-    })(Kiwi.DOM || (Kiwi.DOM = {}));
-    var DOM = Kiwi.DOM;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Utils) {
-        var Canvas = (function () {
-            function Canvas(layer, width, height, visible, offScreen) {
-                if (typeof visible === "undefined") { visible = true; }
-                if (typeof offScreen === "undefined") { offScreen = false; }
-                this.domElement = null;
-                this.context = null;
-                this._visible = true;
-                this._offScreen = false;
-                this._clearMode = 1;
-                this.bgColor = 'rgb(0, 0, 0)';
-                if (layer === null && offScreen === false) {
-                    klog.warn('Cannot create a canvas on a null layer');
-                    return;
-                }
-
-                this._layer = layer;
-
-                this.domElement = document.createElement('canvas');
-                this.domElement.width = width;
-                this.domElement.height = height;
-
-                this._width = width;
-                this._height = height;
-
-                this.context = this.domElement.getContext('2d');
-
-                this._offScreen = offScreen;
-                this._visible = visible;
-
-                if (visible === false) {
-                    this.domElement.style.display = 'none';
-                }
-            }
-
-            Object.defineProperty(Canvas.prototype, "width", {
-                get: function () {
-                    return this._width;
-                },
-                set: function (value) {
-                    this._width = value;
-                    this._updatedSize();
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Canvas.prototype, "height", {
-                get: function () {
-                    return this._height;
-                },
-                set: function (value) {
-                    this._height = value;
-                    this._updatedSize();
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Canvas.prototype.objType = function () {
-                return "Canvas";
-            };
-
-            Canvas.prototype._updatedSize = function () {
-                this.domElement.width = this._width;
-                this.domElement.height = this._height;
-            };
-
-            Canvas.prototype.destroy = function () {
-                if (this._offScreen === false) {
-                    this.domElement.style.display = 'none';
-                    this._layer.domContainer.removeChild(this.domElement);
-                }
-            };
-
-
-            Object.defineProperty(Canvas.prototype, "visible", {
-                get: function () {
-                    return this._visible;
-                },
-                set: function (value) {
-                    if (value !== null && value !== this._visible) {
-                        this._visible = value;
-
-                        if (value === true) {
-                            this.domElement.style.display = 'block';
-                        } else {
-                            this.domElement.style.display = 'none';
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Canvas.prototype, "clearMode", {
-                get: function () {
-                    return this._clearMode;
-                },
-                set: function (value) {
-                    if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA) {
-                        this._clearMode = value;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Canvas.prototype.clear = function () {
-                if (this._clearMode === Canvas.CLEARMODE_NONE) {
-                } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
-                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
-                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT) {
-                    this.context.fillStyle = this.bgColor;
-                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
-                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA) {
-                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
-                    this.context.fillStyle = this.bgColor;
-                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
-                }
-            };
-
-            Canvas.prototype.saveAsPNG = function () {
-                return this.domElement.toDataURL();
-            };
-
-            Canvas.prototype.toString = function () {
-                return '[{Canvas (width=' + this.width + ' height=' + this.height + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
-            };
-            Canvas.CLEARMODE_NONE = 0;
-
-            Canvas.CLEARMODE_CLEARRECT = 1;
-
-            Canvas.CLEARMODE_FILLRECT = 2;
-
-            Canvas.CLEARMODE_FILLRECT_ALPHA = 3;
-            return Canvas;
-        })();
-        Utils.Canvas = Canvas;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Layer = (function () {
-        function Layer(game, id, name, size) {
-            this._renderList = [];
-            console.log("create layer");
-
-            this.game = game;
-            this.id = id;
-
-            this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.LAYER, this);
-
-            this.domContainer = document.createElement('div');
-
-            this.domContainer.style.position = 'absolute';
-            this.domContainer.style.overflow = 'hidden';
-            this.domContainer.style.left = '0px';
-            this.domContainer.style.top = '0px';
-            this.domContainer.style.width = '100%';
-            this.domContainer.style.height = '100%';
-
-            this.canvas = new Kiwi.Utils.Canvas(this, this.game.stage.width, this.game.stage.height, true, true);
-
-            this.canvas.domElement.id = 'KiwiCanvasLayer' + this.id;
-            this.canvas.domElement.style.position = 'absolute';
-
-            this.canvas.domElement.style.left = '0px';
-            this.canvas.domElement.style.top = '0px';
-            this.canvas.domElement.style.width = '100%';
-            this.canvas.domElement.style.height = '100%';
-
-            this.game.stage.onResize.add(this._updatedStageSize, this);
-
-            klog.info('Created Layer ' + this.id);
-        }
-        Layer.prototype.objType = function () {
-            return "Layer";
-        };
-
-        Layer.prototype._updatedStageSize = function (width, height) {
-            this.canvas.width = width;
-            this.canvas.height = height;
-        };
-
-        Layer.prototype.numChildren = function () {
-            return this._renderList.length;
-        };
-
-        Layer.prototype.visible = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null && value !== this._visible) {
-                this._visible = value;
-
-                this.canvas.visible = this._visible;
-            }
-
-            return this._visible;
-        };
-
-        Layer.prototype.dirty = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._dirty = value;
-            }
-
-            return this._dirty;
-        };
-
-        Layer.prototype.add = function (child) {
-            child.layer = this;
-
-            if (child instanceof Kiwi.Entity) {
-            } else {
-                klog.info('Group added to Layer renderList');
-            }
-
-            this._renderList.push(child);
-
-            child.modify(Kiwi.ADDED_TO_LAYER, this);
-
-            return true;
-        };
-
-        Layer.prototype.remove = function (child) {
-            for (var i = 0; i < this._renderList.length; i++) {
-                if (this._renderList[i].id === child.id) {
-                    this._renderList.slice(i, 1);
-
-                    child.modify(Kiwi.REMOVED_FROM_LAYER, this);
-
-                    return true;
-                }
-            }
-
-            return false;
-        };
-
-        Layer.prototype.update = function () {
-            this.components.update();
-        };
-
-        Layer.prototype.render = function (camera) {
-            this.canvas.clear();
-
-            this.components.preRender();
-
-            this.components.render();
-
-            for (var i = 0; i < this._renderList.length; i++) {
-                if (this._renderList[i].willRender() === true) {
-                    this._renderList[i].render(camera);
-                }
-            }
-
-            this.components.postRender();
-        };
-        return Layer;
-    })();
-    Kiwi.Layer = Layer;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var LayerManager = (function () {
-        function LayerManager(game) {
-            klog.info('Layer Manager created');
-
-            this._game = game;
-
-            this.layers = [];
-
-            this._nextLayerID = 0;
-        }
-        LayerManager.prototype.objType = function () {
-            return "LayerManager";
-        };
-
-        LayerManager.prototype.boot = function () {
-            this.createCanvasLayer(null, 'default');
-
-            this.defaultLayer = this.layers[0];
-        };
-
-        LayerManager.prototype.createCanvasLayer = function (state, name, size) {
-            if (typeof state === "undefined") { state = null; }
-            if (typeof name === "undefined") { name = ''; }
-            if (typeof size === "undefined") { size = 100; }
-            klog.info('Creating Canvas Layer');
-
-            return this.create(state, name);
-        };
-
-        LayerManager.prototype.create = function (state, name, size) {
-            if (typeof state === "undefined") { state = null; }
-            if (typeof name === "undefined") { name = ''; }
-            if (typeof size === "undefined") { size = 100; }
-            var newLayer = new Kiwi.Layer(this._game, this._nextLayerID, name, size);
-
-            newLayer.parent = state;
-
-            this.layers.push(newLayer);
-
-            this._nextLayerID++;
-
-            this.currentLayer = newLayer;
-
-            return newLayer;
-        };
-
-        LayerManager.prototype.remove = function (layer) {
-            klog.info('Remove layer');
-
-            var i = this.layers.indexOf(layer);
-
-            if (i !== -1) {
-                this.layers.splice(i, 1);
-            }
-        };
-
-        LayerManager.prototype.update = function () {
-            if (this.layers.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this.layers.length; i++) {
-                this.layers[i].update();
-            }
-        };
-
-        LayerManager.prototype.render = function (camera) {
-            if (this.layers.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this.layers.length; i++) {
-                this.layers[i].render(camera);
-            }
-        };
-
-        LayerManager.prototype.removeStateLayers = function () {
-            klog.info('TODO removeStateLayers');
-        };
-
-        LayerManager.prototype.removeAll = function () {
-            this.layers.length = 0;
-            klog.info('TODO removeAll');
-        };
-        return LayerManager;
-    })();
-    Kiwi.LayerManager = LayerManager;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (Geom) {
         var Matrix = (function () {
             function Matrix(a, b, c, d, tx, ty) {
@@ -3409,6 +2139,551 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    var File = (function () {
+        function File(game, dataType, path, cacheID, saveToCache, cache) {
+            if (typeof cacheID === "undefined") { cacheID = ''; }
+            if (typeof saveToCache === "undefined") { saveToCache = false; }
+            if (typeof cache === "undefined") { cache = null; }
+            this._saveToCache = true;
+            this._useTagLoader = true;
+            this.fileSize = 0;
+            this.status = 0;
+            this.statusText = '';
+            this.ETag = '';
+            this.lastModified = '';
+            this.totalSize = 0;
+            this.bytesLoaded = 0;
+            this.bytesTotal = 0;
+            this.readyState = 0;
+            this.timeOutDelay = 2000;
+            this.hasTimedOut = false;
+            this.timedOut = 0;
+            this.timeStarted = 0;
+            this.timeFinished = 0;
+            this.duration = 0;
+            this.hasError = false;
+            this.success = false;
+            this.attemptCounter = 0;
+            this.maxLoadAttempts = 2;
+            this.onCompleteCallback = null;
+            this.onProgressCallback = null;
+            this.lastProgress = 0;
+            this.percentLoaded = 0;
+            this._game = game;
+
+            this.dataType = dataType;
+
+            this.fileURL = path;
+
+            if (path.lastIndexOf('/') > -1) {
+                this.fileName = path.substr(path.lastIndexOf('/') + 1);
+                this.filePath = path.substr(0, path.lastIndexOf('/') + 1);
+            } else {
+                this.filePath = '';
+                this.fileName = path;
+            }
+
+            this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
+
+            if (Kiwi.DEVICE.blob) {
+                klog.info('blob support found - using blob loader');
+                this._useTagLoader = false;
+            } else {
+                klog.info('blob support NOT found - using tag loader');
+                this._useTagLoader = true;
+            }
+
+            if (this.dataType === Kiwi.File.AUDIO && this._game.audio.usingAudioTag === true) {
+                this._useTagLoader = true;
+            }
+
+            this._saveToCache = saveToCache;
+            this._cache = cache;
+
+            if (this.cacheID === '') {
+                this.cacheID = this.fileName;
+            } else {
+                this.cacheID = cacheID;
+            }
+
+            klog.info('New Kiwi.File: ' + this.toString());
+        }
+        File.prototype.objType = function () {
+            return "File";
+        };
+
+        File.prototype.load = function (onCompleteCallback, onProgressCallback, customCache, maxLoadAttempts, timeout) {
+            if (typeof onCompleteCallback === "undefined") { onCompleteCallback = null; }
+            if (typeof onProgressCallback === "undefined") { onProgressCallback = null; }
+            if (typeof customCache === "undefined") { customCache = null; }
+            if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
+            if (typeof timeout === "undefined") { timeout = 2000; }
+            this.onCompleteCallback = onCompleteCallback;
+            this.onProgressCallback = onProgressCallback;
+            this.maxLoadAttempts = maxLoadAttempts;
+            this.timeOutDelay = timeout;
+
+            if (customCache !== null) {
+                this._cache = customCache;
+                this._saveToCache = true;
+            }
+
+            this.start();
+
+            if (this._useTagLoader === true) {
+                this.tagLoader();
+            } else {
+                this.xhrLoader();
+            }
+        };
+
+        File.prototype.start = function () {
+            this.timeStarted = Date.now();
+            this.lastProgress = Date.now();
+            this.percentLoaded = 0;
+        };
+
+        File.prototype.stop = function () {
+            this.percentLoaded = 100;
+            this.timeFinished = Date.now();
+            this.duration = this.timeFinished - this.timeStarted;
+        };
+
+        File.prototype.tagLoader = function () {
+            var _this = this;
+            if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS) {
+                this.data = new Image();
+                this.data.src = this.fileURL;
+                this.data.onload = function (event) {
+                    return _this.tagLoaderOnLoad(event);
+                };
+                this.data.onerror = function (event) {
+                    return _this.tagLoaderOnError(event);
+                };
+                this.data.onreadystatechange = function (event) {
+                    return _this.tagLoaderOnReadyStateChange(event);
+                };
+            } else if (this.dataType === Kiwi.File.AUDIO) {
+                console.log('Ewww...disgusting...your loading by the audio tags....');
+
+                this.data = new Audio();
+                this.data.src = this.fileURL;
+                this.data.preload = 'auto';
+                this.data.onerror = function (event) {
+                    return _this.tagLoaderOnError(event);
+                };
+
+                this.data.load();
+
+                this.tagLoaderOnLoad(null);
+            }
+        };
+
+        File.prototype.tagLoaderOnReadyStateChange = function (event) {
+            klog.info('rs: ' + this.data.readyState);
+            klog.info('tagLoader onReadyStateChange', event);
+        };
+
+        File.prototype.tagLoaderOnError = function (event) {
+            klog.info('tagLoader onError', event);
+
+            this.hasError = true;
+            this.error = event;
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.tagLoaderProgressThrough = function (event) {
+            console.log('progress');
+            this.stop();
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.tagLoaderOnLoad = function (event) {
+            console.log('loaded');
+            this.stop();
+
+            if (this._saveToCache === true) {
+                this._cache.addFile(this.cacheID, this);
+            }
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.xhrLoader = function () {
+            var _this = this;
+            this._xhr = new XMLHttpRequest();
+            this._xhr.open('GET', this.fileURL, true);
+            this._xhr.timeout = this.timeOutDelay;
+            this._xhr.responseType = 'arraybuffer';
+
+            this._xhr.onloadstart = function (event) {
+                return _this.xhrOnLoadStart(event);
+            };
+            this._xhr.onload = function (event) {
+                return _this.xhrOnLoad(event);
+            };
+            this._xhr.onprogress = function (event) {
+                return _this.xhrOnProgress(event);
+            };
+            this._xhr.ontimeout = function (event) {
+                return _this.xhrOnTimeout(event);
+            };
+            this._xhr.onabort = function (event) {
+                return _this.xhrOnAbort(event);
+            };
+            this._xhr.onreadystatechange = function (event) {
+                return _this.xhrOnReadyStateChange(event);
+            };
+
+            this._xhr.send();
+        };
+
+        File.prototype.xhrOnReadyStateChange = function (event) {
+            this.readyState = event.target.readyState;
+
+            if (this.readyState === 4) {
+                this.xhrOnLoad(event);
+            }
+        };
+
+        File.prototype.xhrOnLoadStart = function (event) {
+            this.timeStarted = event.timeStamp;
+            this.lastProgress = event.timeStamp;
+        };
+
+        File.prototype.xhrOnAbort = function (event) {
+            klog.info('xhrOnAbort', event);
+        };
+
+        File.prototype.xhrOnError = function (event) {
+            klog.info('xhrOnError', event);
+        };
+
+        File.prototype.xhrOnTimeout = function (event) {
+            klog.info('xhrOnTimeout', event);
+        };
+
+        File.prototype.xhrOnProgress = function (event) {
+            klog.info('xhrOnProgress', event);
+
+            this.bytesLoaded = parseInt(event.loaded);
+            this.bytesTotal = parseInt(event.totalSize);
+            this.percentLoaded = Math.round((this.bytesLoaded / this.bytesTotal) * 100);
+
+            klog.info(this.fileName + ' = ' + this.bytesLoaded + ' / ' + this.bytesTotal);
+
+            if (this.onProgressCallback) {
+                this.onProgressCallback(this);
+            }
+        };
+
+        File.prototype.xhrOnLoad = function (event) {
+            if (this.timeFinished > 0) {
+                return;
+            }
+
+            this.stop();
+
+            this.status = this._xhr.status;
+            this.statusText = this._xhr.statusText;
+
+            if (this._xhr.status === 200) {
+                console.log("XHR SUCCESS");
+                this.success = true;
+                this.hasError = false;
+                this.fileType = this._xhr.getResponseHeader('Content-Type');
+                this.bytesTotal = parseInt(this._xhr.getResponseHeader('Content-Length'));
+                this.lastModified = this._xhr.getResponseHeader('Last-Modified');
+                this.ETag = this._xhr.getResponseHeader('ETag');
+                this.buffer = this._xhr.response;
+
+                if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS) {
+                    this.createBlob();
+                } else {
+                    if (this.dataType === Kiwi.File.JSON) {
+                        this.data = String.fromCharCode.apply(null, new Uint8Array(this._xhr.response));
+                        this.parseComplete();
+                    }
+
+                    if (this.dataType === Kiwi.File.AUDIO) {
+                        this.data = {
+                            raw: this._xhr.response,
+                            decoded: false,
+                            buffer: null
+                        };
+
+                        if (this._game.audio.predecode == true) {
+                            console.log('Audio is Decoding');
+
+                            var that = this;
+                            this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+                                if (buffer) {
+                                    that.data.buffer = buffer;
+                                    that.data.decoded = true;
+                                    that.parseComplete();
+                                    console.log('Audio Decoded');
+                                }
+                            });
+                        } else {
+                            this.parseComplete();
+                        }
+                    }
+                }
+            } else {
+                this.success = false;
+                this.hasError = true;
+                this.parseComplete();
+            }
+        };
+
+        File.prototype.createBlob = function () {
+            var _this = this;
+            klog.info('creating blob');
+
+            this.data = document.createElement('img');
+            this.data.onload = function () {
+                return _this.revoke();
+            };
+
+            var imageType = '';
+
+            if (this.fileExtension === 'jpg' || this.fileExtension === 'jpeg') {
+                imageType = 'image/jpeg';
+            } else if (this.fileExtension === 'png') {
+                imageType = 'image/png';
+            } else if (this.fileExtension === 'gif') {
+                imageType = 'image/gif';
+            }
+
+            var blob = new window['Blob']([this.buffer], { type: imageType });
+
+            if (window['URL']) {
+                this.data.src = window['URL'].createObjectURL(blob);
+            } else if (window['webkitURL']) {
+                this.data.src = window['webkitURL'].createObjectURL(blob);
+            }
+        };
+
+        File.prototype.revoke = function () {
+            klog.info('revoking');
+
+            if (window['URL']) {
+                window['URL'].revokeObjectURL(this.data.src);
+            } else if (window['webkitURL']) {
+                window['webkitURL'].revokeObjectURL(this.data.src);
+            }
+
+            this.parseComplete();
+        };
+
+        File.prototype.parseComplete = function () {
+            klog.info('parse complete');
+
+            if (this._saveToCache === true) {
+                klog.info('saving to cache', this._cache, this.cacheID);
+                this._cache.addFile(this.cacheID, this);
+            }
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.getFileDetails = function (callback, maxLoadAttempts, timeout) {
+            if (typeof callback === "undefined") { callback = null; }
+            if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
+            if (typeof timeout === "undefined") { timeout = 2000; }
+            klog.info('Getting File Details of ' + this.fileURL);
+
+            this.onCompleteCallback = callback;
+            this.maxLoadAttempts = maxLoadAttempts;
+            this.timeOutDelay = timeout;
+
+            this.sendXHRHeadRequest();
+        };
+
+        File.prototype.sendXHRHeadRequest = function () {
+            var _this = this;
+            klog.info('xhr send');
+
+            this.attemptCounter++;
+
+            this._xhr = new XMLHttpRequest();
+            this._xhr.open('HEAD', this.fileURL, false);
+            this._xhr.onload = function (event) {
+                return _this.getXHRResponseHeaders(event);
+            };
+            this._xhr.ontimeout = function (event) {
+                return _this.xhrHeadOnTimeout(event);
+            };
+            this._xhr.onerror = function (event) {
+                return _this.xhrHeadOnError(event);
+            };
+            this._xhr.timeout = this.timeOutDelay;
+            this._xhr.send();
+        };
+
+        File.prototype.xhrHeadOnTimeout = function (event) {
+            klog.info('on XHR timeout', event);
+
+            this.hasTimedOut = true;
+            this.timedOut = Date.now();
+
+            if (this.attemptCounter >= this.maxLoadAttempts) {
+                this.hasError = true;
+                this.error = event;
+
+                if (this.onCompleteCallback) {
+                    this.onCompleteCallback.call(this);
+                }
+            } else {
+                this.sendXHRHeadRequest();
+            }
+        };
+
+        File.prototype.xhrHeadOnError = function (event) {
+            klog.info('on XHR error', event);
+
+            this.hasError = true;
+            this.error = event;
+            this.status = this._xhr.status;
+            this.statusText = this._xhr.statusText;
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.getXHRResponseHeaders = function (event) {
+            this.status = this._xhr.status;
+            this.statusText = this._xhr.statusText;
+
+            klog.info('xhr response ' + this.status, this.statusText);
+
+            if (this._xhr.status === 200) {
+                this.fileType = this._xhr.getResponseHeader('Content-Type');
+                this.fileSize = parseInt(this._xhr.getResponseHeader('Content-Length'));
+                this.lastModified = this._xhr.getResponseHeader('Last-Modified');
+                this.ETag = this._xhr.getResponseHeader('ETag');
+            }
+
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(this);
+            }
+        };
+
+        File.prototype.saveToCache = function (value) {
+            if (value) {
+                this._saveToCache = value;
+            }
+
+            return this._saveToCache;
+        };
+
+        File.prototype.cache = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            if (value !== null) {
+                this._cache = value;
+            }
+
+            return this._cache;
+        };
+
+        File.prototype.toString = function () {
+            return "[{File (fileURL=" + this.fileURL + " fileName=" + this.fileName + " dataType=" + this.dataType + " fileSize=" + this.fileSize + " success=" + this.success + " status=" + this.status + ")}]";
+        };
+        File.IMAGE = 0;
+
+        File.SPRITE_SHEET = 1;
+
+        File.TEXTURE_ATLAS = 2;
+
+        File.AUDIO = 3;
+
+        File.JSON = 4;
+
+        File.XML = 5;
+
+        File.BINARY_DATA = 6;
+
+        File.TEXT_DATA = 7;
+        return File;
+    })();
+    Kiwi.File = File;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var FileCache = (function () {
+        function FileCache() {
+            this._cacheSize = 0;
+            this._files = {};
+        }
+        FileCache.prototype.objType = function () {
+            return "FileCache";
+        };
+
+        FileCache.prototype.getFile = function (key) {
+            return this._files[key];
+        };
+
+        Object.defineProperty(FileCache.prototype, "keys", {
+            get: function () {
+                var keys = new Array();
+                for (var key in this._files) {
+                    keys.push(key);
+                }
+
+                return keys;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        FileCache.prototype.size = function () {
+            return this._cacheSize;
+        };
+
+        FileCache.prototype.addFile = function (key, value) {
+            if (!this._files[key]) {
+                this._files[key] = value;
+                this._cacheSize++;
+                return true;
+            }
+
+            return false;
+        };
+
+        FileCache.prototype.exists = function (key) {
+            if (this._files[key]) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        FileCache.prototype.removeFile = function (key) {
+            if (this._files[key]) {
+                this._files[key] = null;
+                delete this._files[key];
+                return true;
+            }
+
+            return false;
+        };
+        return FileCache;
+    })();
+    Kiwi.FileCache = FileCache;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var Cache = (function () {
         function Cache(game) {
             this.images = null;
@@ -3584,7 +2859,6 @@ var Kiwi;
 (function (Kiwi) {
     var Component = (function () {
         function Component(name) {
-            this.layer = null;
             this.state = null;
             this.group = null;
             this.entity = null;
@@ -3595,11 +2869,9 @@ var Kiwi;
             this.active = true;
 
             this.onAddedToState = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
             this.onAddedToGroup = new Kiwi.Signal();
             this.onAddedToEntity = new Kiwi.Signal();
             this.onRemovedFromState = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
             this.onRemovedFromGroup = new Kiwi.Signal();
             this.onRemovedFromEntity = new Kiwi.Signal();
         }
@@ -3610,45 +2882,17 @@ var Kiwi;
         Component.prototype.modify = function (action, parent) {
             if (action === Kiwi.ADDED_TO_GROUP) {
                 return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
             } else if (action === Kiwi.ADDED_TO_STATE) {
                 return this._addedToState(parent);
             } else if (action === Kiwi.ADDED_TO_ENTITY) {
                 return this._addedToEntity(parent);
             } else if (action === Kiwi.REMOVED_FROM_GROUP) {
                 return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
             } else if (action === Kiwi.REMOVED_FROM_STATE) {
                 return this._removedFromState(parent);
             } else if (action === Kiwi.REMOVED_FROM_ENTITY) {
                 return this._removedFromEntity(parent);
             }
-        };
-
-        Component.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Component already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                this.layer = layer;
-
-                if (layer.game !== null) {
-                    this.game = layer.game;
-                }
-
-                this.onAddedToLayer.dispatch(this, this.layer);
-
-                return true;
-            }
-        };
-
-        Component.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
         };
 
         Component.prototype._addedToState = function (state) {
@@ -3737,7 +2981,6 @@ var Kiwi;
             this.entity = null;
             this.game = null;
             this.group = null;
-            this.layer = null;
 
             this.name = '';
         };
@@ -3893,6 +3136,273 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    var Entity = (function () {
+        function Entity() {
+            this._alpha = 1;
+            this._visible = true;
+            this.width = 0;
+            this.height = 0;
+            this.cellIndex = 0;
+            this.game = null;
+            this.state = null;
+            this.name = '';
+            this._clock = null;
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+            this.transform = new Kiwi.Geom.Transform();
+
+            this.onAddedToGroup = new Kiwi.Signal();
+            this.onAddedToLayer = new Kiwi.Signal();
+            this.onAddedToState = new Kiwi.Signal();
+            this.onRemovedFromGroup = new Kiwi.Signal();
+            this.onRemovedFromLayer = new Kiwi.Signal();
+            this.onRemovedFromState = new Kiwi.Signal();
+        }
+        Object.defineProperty(Entity.prototype, "x", {
+            get: function () {
+                return this.transform.x;
+            },
+            set: function (value) {
+                this.transform.x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "y", {
+            get: function () {
+                return this.transform.y;
+            },
+            set: function (value) {
+                this.transform.y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "scaleX", {
+            get: function () {
+                return this.transform.scaleX;
+            },
+            set: function (value) {
+                this.transform.scaleX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "scaleY", {
+            get: function () {
+                return this.transform.scaleY;
+            },
+            set: function (value) {
+                this.transform.scaleY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "rotation", {
+            get: function () {
+                return this.transform.rotation;
+            },
+            set: function (value) {
+                this.transform.rotation = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Entity.prototype.childType = function () {
+            return Kiwi.ENTITY;
+        };
+
+        Entity.prototype.modify = function (action, parent) {
+            if (action === Kiwi.ADDED_TO_GROUP) {
+                return this._addedToGroup(parent);
+            } else if (action === Kiwi.ADDED_TO_STATE) {
+                return this._addedToState(parent);
+            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
+                return this._removedFromGroup(parent);
+            } else if (action === Kiwi.REMOVED_FROM_STATE) {
+                return this._removedFromState(parent);
+            }
+        };
+
+
+        Object.defineProperty(Entity.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                if (value <= 0)
+                    value = 0;
+                if (value > 1)
+                    value = 1;
+                this._alpha = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "visiblity", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
+                this._exists = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
+                this._active = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
+                this._willRender = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "inputEnabled", {
+            get: function () {
+                return this._inputEnabled;
+            },
+            set: function (value) {
+                this._inputEnabled = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "clock", {
+            get: function () {
+                return this._clock;
+            },
+            set: function (value) {
+                this._clock = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
+                this._dirty = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Entity.prototype._addedToState = function (state) {
+            klog.info('Entity added to State');
+
+            this.state = state;
+
+            this.game = this.state.game;
+
+            if (this._clock === null) {
+                this._clock = this.game.time.clock;
+            }
+
+            this.id = this.game.rnd.uuid();
+
+            this.onAddedToState.dispatch(this, this.state);
+
+            return true;
+        };
+
+        Entity.prototype._removedFromState = function (state) {
+            klog.info('Entity removed from State');
+
+            this.state = null;
+
+            this.game = null;
+
+            this.onAddedToState.dispatch(this, state);
+        };
+
+        Entity.prototype._addedToGroup = function (group) {
+            klog.info('Entity added to Group');
+
+            if (group.game !== null) {
+                this.game = group.game;
+
+                if (this._clock === null) {
+                    this._clock = this.game.time.clock;
+                }
+            }
+        };
+
+        Entity.prototype._removedFromGroup = function (group) {
+            klog.info('Entity removed from Group');
+
+            this.onRemovedFromGroup.dispatch(this, group);
+        };
+
+        Entity.prototype._changedPosition = function (group, index) {
+            klog.info('Entity changed position within the group');
+        };
+
+        Entity.prototype.update = function () {
+        };
+
+        Entity.prototype.render = function (camera) {
+        };
+
+        Entity.prototype.destroy = function () {
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+        };
+        return Entity;
+    })();
+    Kiwi.Entity = Entity;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var StateConfig = (function () {
         function StateConfig(parent, name) {
             this.name = '';
@@ -3996,7 +3506,6 @@ var Kiwi;
             this.name = '';
             this.game = null;
             this.state = null;
-            this.layer = null;
             this._dirty = true;
             this.name = name;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
@@ -4021,12 +3530,8 @@ var Kiwi;
         };
 
         Group.prototype.modify = function (type, parent) {
-            if (type === Kiwi.ADDED_TO_LAYER) {
-                return this._addedToLayer(parent);
-            } else if (type === Kiwi.ADDED_TO_STATE) {
+            if (type === Kiwi.ADDED_TO_STATE) {
                 return this._addedToState(parent);
-            } else if (type === Kiwi.REMOVED_FROM_LAYER) {
-                return this._removedFromLayer(parent);
             } else if (type === Kiwi.REMOVED_FROM_STATE) {
                 return this._removedFromState(parent);
             }
@@ -4480,33 +3985,6 @@ var Kiwi;
             return true;
         };
 
-        Group.prototype._addedToLayer = function (layer) {
-            if (this.layer !== null) {
-                klog.warn('Group already exists on Layer ' + this.layer.id);
-
-                return false;
-            } else {
-                klog.info('Group added to Layer. Checking children: ' + this.members.length);
-
-                this.layer = layer;
-
-                for (var i = 0; i < this.members.length; i++) {
-                    if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false) {
-                        this.members[i].exists = false;
-                    }
-                }
-
-                this.onAddedToLayer.dispatch(this, layer);
-                return true;
-            }
-        };
-
-        Group.prototype._removedFromLayer = function (layer) {
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-        };
-
         Group.prototype._addedToState = function (state) {
             klog.info('Group added to State');
 
@@ -4634,10 +4112,6 @@ var Kiwi;
             }
         };
 
-        State.prototype.swapLayer = function (layer) {
-            this.currentLayer = layer;
-        };
-
         State.prototype.addImage = function (cacheID, url, globalCache, width, height, offsetX, offsetY) {
             if (typeof globalCache === "undefined") { globalCache = true; }
             if (globalCache === true) {
@@ -4699,12 +4173,6 @@ var Kiwi;
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === child.id) {
                     this.members.slice(i, 1);
-
-                    if (layer !== null) {
-                        layer.remove(child);
-                    } else {
-                        this.currentLayer.remove(child);
-                    }
                 }
             }
             return child;
@@ -5334,14 +4802,6 @@ var Kiwi;
             };
             Bounds.prototype.setPosition = function (x, y) {
                 this._rect.setTo(x, y, this._rect.width, this._rect.height);
-            };
-
-            Bounds.prototype.drawCanvasDebugOutline = function (layer) {
-                layer.canvas.context.strokeStyle = 'rgba(0, 255, 0, 0.8)';
-                layer.canvas.context.beginPath();
-                layer.canvas.context.rect(this._rect.x, this._rect.y, this._rect.width, this._rect.height);
-                layer.canvas.context.stroke();
-                layer.canvas.context.closePath();
             };
 
             Bounds.prototype.toString = function () {
@@ -6395,65 +5855,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (DOM) {
-        var Element = (function () {
-            function Element(id, cache, type) {
-                if (typeof type === "undefined") { type = 'div'; }
-                this._cache = cache;
-
-                this.id = id;
-                this.entity = null;
-                this.type = type;
-                this.available = true;
-
-                this.element = document.createElement(this.type);
-                this.element.id = this.id;
-                this.element.style.display = 'block';
-                this.element.style.position = 'absolute';
-            }
-            Element.prototype.objType = function () {
-                return "Element";
-            };
-
-            Element.prototype.link = function (entity) {
-                this.entity = entity;
-                this.entity.domElement = this;
-                this.available = false;
-
-                if (this.entity.isGroup() === true) {
-                    klog.info('DOM.Element ' + this.id + ' linking with Group');
-                    this._cache.domContainer.appendChild(this.element);
-                } else {
-                    if (this.entity.parent !== null) {
-                        klog.info('DOM.Element ' + this.id + ' linking with Group Member');
-                        this.entity.parent.domElement.element.appendChild(this.element);
-                    } else {
-                        klog.info('DOM.Element ' + this.id + ' linking with Entity');
-                        this._cache.domContainer.appendChild(this.element);
-                    }
-                }
-
-                return this;
-            };
-
-            Element.prototype.unlink = function () {
-                this.available = true;
-
-                this.element.parentNode.removeChild(this.element);
-
-                this.element = document.createElement(this.type);
-                this.element.id = this.id;
-                this.element.style.display = 'block';
-                this.element.style.position = 'absolute';
-            };
-            return Element;
-        })();
-        DOM.Element = Element;
-    })(Kiwi.DOM || (Kiwi.DOM = {}));
-    var DOM = Kiwi.DOM;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (Components) {
         var Animation = (function (_super) {
             __extends(Animation, _super);
@@ -6749,18 +6150,10 @@ var Kiwi;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
 
-                this.onAddedToLayer.add(this._onAddedToLayer, this);
-
                 klog.info('Created StaticImage Game Object');
             }
             StaticImage.prototype.objType = function () {
                 return "Sprite";
-            };
-
-            StaticImage.prototype._onAddedToLayer = function (layer) {
-                klog.info('StaticImage added to Layer: ' + layer.name);
-
-                return true;
             };
 
             StaticImage.prototype.render = function (camera) {
@@ -6819,8 +6212,6 @@ var Kiwi;
                 this._lineHeight = 1;
                 this._textAlign = 'left';
                 this._baseline = 'top';
-
-                this.onAddedToLayer.add(this._onAddedToLayer, this);
 
                 klog.info('Created Textfield Game Object');
             }
@@ -6923,12 +6314,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-            Textfield.prototype._onAddedToLayer = function (layer) {
-                klog.info('Textfield added to Layer ' + layer.name);
-
-                return true;
-            };
 
             Textfield.prototype.render = function (camera) {
                 if (this.alpha > 0 && this.visiblity) {
@@ -12205,7 +11590,6 @@ var Kiwi;
             GLShaders.prototype.use = function (gl, shaderProgram) {
                 gl.useProgram(this.shaderProgram);
 
-                console.log(shaderProgram);
                 this.texture2DProg.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
                 gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
                 this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
@@ -14256,6 +13640,144 @@ var Kiwi;
         return Tween;
     })();
     Kiwi.Tween = Tween;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Utils) {
+        var Canvas = (function () {
+            function Canvas(width, height, visible, offScreen) {
+                if (typeof visible === "undefined") { visible = true; }
+                if (typeof offScreen === "undefined") { offScreen = false; }
+                this.domElement = null;
+                this.context = null;
+                this._visible = true;
+                this._offScreen = false;
+                this._clearMode = 1;
+                this.bgColor = 'rgb(0, 0, 0)';
+                this.domElement = document.createElement('canvas');
+                this.domElement.width = width;
+                this.domElement.height = height;
+
+                this._width = width;
+                this._height = height;
+
+                this.context = this.domElement.getContext('2d');
+
+                this._offScreen = offScreen;
+                this._visible = visible;
+
+                if (visible === false) {
+                    this.domElement.style.display = 'none';
+                }
+            }
+
+            Object.defineProperty(Canvas.prototype, "width", {
+                get: function () {
+                    return this._width;
+                },
+                set: function (value) {
+                    this._width = value;
+                    this._updatedSize();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Canvas.prototype, "height", {
+                get: function () {
+                    return this._height;
+                },
+                set: function (value) {
+                    this._height = value;
+                    this._updatedSize();
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Canvas.prototype.objType = function () {
+                return "Canvas";
+            };
+
+            Canvas.prototype._updatedSize = function () {
+                this.domElement.width = this._width;
+                this.domElement.height = this._height;
+            };
+
+            Canvas.prototype.destroy = function () {
+                if (this._offScreen === false) {
+                    this.domElement.style.display = 'none';
+                }
+            };
+
+
+            Object.defineProperty(Canvas.prototype, "visible", {
+                get: function () {
+                    return this._visible;
+                },
+                set: function (value) {
+                    if (value !== null && value !== this._visible) {
+                        this._visible = value;
+
+                        if (value === true) {
+                            this.domElement.style.display = 'block';
+                        } else {
+                            this.domElement.style.display = 'none';
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Canvas.prototype, "clearMode", {
+                get: function () {
+                    return this._clearMode;
+                },
+                set: function (value) {
+                    if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA) {
+                        this._clearMode = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Canvas.prototype.clear = function () {
+                if (this._clearMode === Canvas.CLEARMODE_NONE) {
+                } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
+                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
+                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT) {
+                    this.context.fillStyle = this.bgColor;
+                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
+                } else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA) {
+                    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
+                    this.context.fillStyle = this.bgColor;
+                    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
+                }
+            };
+
+            Canvas.prototype.saveAsPNG = function () {
+                return this.domElement.toDataURL();
+            };
+
+            Canvas.prototype.toString = function () {
+                return '[{Canvas (width=' + this.width + ' height=' + this.height + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
+            };
+            Canvas.CLEARMODE_NONE = 0;
+
+            Canvas.CLEARMODE_CLEARRECT = 1;
+
+            Canvas.CLEARMODE_FILLRECT = 2;
+
+            Canvas.CLEARMODE_FILLRECT_ALPHA = 3;
+            return Canvas;
+        })();
+        Utils.Canvas = Canvas;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {

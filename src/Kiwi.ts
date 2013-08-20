@@ -14,8 +14,6 @@
 /// <reference path="core/State.ts" /> //must be initialised before group - typescript issue #599
 /// <reference path="core/Group.ts" />
 /// <reference path="core/IChild.ts" />
-/// <reference path="core/Layer.ts" />
-/// <reference path="core/LayerManager.ts" />
 /// <reference path="core/Loader.ts" />
 /// <reference path="core/Signal.ts" />
 /// <reference path="core/SignalBinding.ts" />
@@ -34,8 +32,7 @@
 
 /// <reference path="dom/Bootstrap.ts" />
 /// <reference path="dom/Browser.ts" />
-/// <reference path="dom/Cache.ts" />
-/// <reference path="dom/Element.ts" />
+
 
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />

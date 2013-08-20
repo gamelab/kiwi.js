@@ -79,17 +79,9 @@ module Kiwi {
         //  Modify the state of this Group, such as adding to a Layer, removing from a State, etc. Should be used by the internal Kiwi methods only.
         public modify(type:number, parent) {
 
-            if (type === Kiwi.ADDED_TO_LAYER)
-            {
-                return this._addedToLayer(parent);
-            }
-            else if (type === Kiwi.ADDED_TO_STATE)
+            if (type === Kiwi.ADDED_TO_STATE)
             {
                 return this._addedToState(parent);
-            }
-            else if (type === Kiwi.REMOVED_FROM_LAYER)
-            {
-                return this._removedFromLayer(parent);
             }
             else if (type === Kiwi.REMOVED_FROM_STATE)
             {
@@ -133,13 +125,7 @@ module Kiwi {
         **/
         public members: Kiwi.IChild[];
 
-        /**
-        * The Layer this Group has been added to.
-        * @property layer
-        * @type Kiwi.Layer
-        **/
-        public layer: Kiwi.Layer = null;
-
+       
         /**
         * If this Group is a DOM type, then this contains a reference to the DOM Element it is bound to.
         * @property domElement
@@ -949,55 +935,7 @@ module Kiwi {
             return true;
         }
 
-        /**
-		* Called when this Group is added to a Layer, performs a type check against all children with it
-        * @method _addedToLayer
-        * @param {Kiwi.Layer} layer
-        * @return {Boolean}
-		**/
-        private _addedToLayer(layer: Kiwi.Layer): bool {
-
-            if (this.layer !== null)
-            {
-                klog.warn('Group already exists on Layer ' + this.layer.id);
-
-                return false;
-            }
-            else
-            {
-                klog.info('Group added to Layer. Checking children: ' + this.members.length);
-
-                this.layer = layer;
-                
-                
-                for (var i = 0; i < this.members.length; i++)
-                {
-                    //if (this.members[i]._addedToLayer(this.layer) === false)
-                    if (this.members[i].modify(Kiwi.ADDED_TO_LAYER, this.layer) === false)
-                    {
-                        //  It cannot be rendered on this layer, so let's deactive it
-                        this.members[i].exists = false;
-                    }
-                }
-
-                this.onAddedToLayer.dispatch(this, layer);
-                return true;
-            }
-
-        }
-
-        /**
-		* Called when this Group is removed from a Layer
-        * @method _removedFromLayer
-        * @param {Kiwi.Layer} layer
-		**/
-        private _removedFromLayer(layer: Kiwi.Layer) {
-
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-
-        }
+       
 
         /**
 		* Called when this Group is added to a State

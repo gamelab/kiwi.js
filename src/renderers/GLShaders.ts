@@ -53,7 +53,6 @@ module Kiwi.Renderers {
             gl.useProgram(this.shaderProgram);
           
             //attributes
-            console.log(shaderProgram);
             this.texture2DProg.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
             gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
             this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
