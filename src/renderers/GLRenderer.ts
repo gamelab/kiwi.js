@@ -12,7 +12,9 @@ module Kiwi.Renderers {
 
         }
 
-
+        public objType() {
+            return "GLRenderer";
+        }
 
         private _game: Kiwi.Game;
 

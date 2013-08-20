@@ -1,3 +1,4 @@
+/// <reference path="../Kiwi.ts" />
 
 /*
  *	Kiwi - Core - Entity

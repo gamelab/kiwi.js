@@ -14,6 +14,10 @@ module Kiwi.Sound {
 
         }
 
+        public objType() {
+            return "AudioManager";
+        }
+
         /*
         * The game that this manager belongs to.
         * @property _game

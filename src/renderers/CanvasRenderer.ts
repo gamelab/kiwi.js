@@ -16,7 +16,9 @@ module Kiwi.Renderers {
 
         }
 
-
+        public objType() {
+            return "CanvasRenderer";
+        }
 
         private _game: Kiwi.Game;
 

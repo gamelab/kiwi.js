@@ -65,6 +65,10 @@ module Kiwi.Sound {
 
         }
 
+        public objType() {
+            return "Audio";
+        }
+
         /*
         * The game that this sound belongs to.
         * @private
