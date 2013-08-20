@@ -1508,7 +1508,7 @@ var Kiwi;
             this.domReady = true;
 
             this.container = dom.container;
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
@@ -1527,11 +1527,11 @@ var Kiwi;
             this.canvas.width = this.width;
             this.canvas.height = this.height;
 
-            if (this._game.renderMode === Kiwi.RENDERER_CANVAS) {
+            if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = '#fff';
                 this.gl = null;
-            } else if (this._game.renderMode === Kiwi.RENDERER_WEBGL) {
+            } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
                 this.gl.clearColor(1, 1, .95, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -1540,7 +1540,7 @@ var Kiwi;
                 klog.error("Unrecognised render mode");
             }
 
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.container.appendChild(this.canvas);
             } else {
                 document.body.appendChild(this.canvas);
@@ -2012,7 +2012,7 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Game = (function () {
-        function Game(domParent, name, state) {
+        function Game(domParent, name, state, options) {
             if (typeof domParent === "undefined") { domParent = ''; }
             if (typeof name === "undefined") { name = 'KiwiGame'; }
             if (typeof state === "undefined") { state = null; }
@@ -2030,6 +2030,11 @@ var Kiwi;
             this.time = null;
             this.tweens = null;
             this.rnd = null;
+            options = options || {};
+            this._debugOption = options.debug || Kiwi.DEBUG_ON;
+            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
+            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
+
             this.id = Kiwi.GameManager.register(this);
 
             this._dom = new Kiwi.DOM.Bootstrap();
@@ -2039,17 +2044,16 @@ var Kiwi;
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
-            this._renderMode = Kiwi.RENDERER_WEBGL;
             this.stage = new Kiwi.Stage(this, name);
 
-            if (this._renderMode === Kiwi.RENDERER_CANVAS) {
+            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
                 this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
             } else {
                 this.renderer = new Kiwi.Renderers.GLRenderer(this);
             }
 
             this.cameras = new Kiwi.CameraManager(this);
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds = new Kiwi.HUD.HUDManager(this);
             }
             this.loader = new Kiwi.Loader(this);
@@ -2065,7 +2069,7 @@ var Kiwi;
                 }
             }
 
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this._dom.boot(domParent, function () {
                     return _this.start();
                 });
@@ -2073,9 +2077,25 @@ var Kiwi;
                 this.start();
             }
         }
-        Object.defineProperty(Game.prototype, "renderMode", {
+        Object.defineProperty(Game.prototype, "renderOption", {
             get: function () {
-                return this._renderMode;
+                return this._renderOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "deviceTargetOption", {
+            get: function () {
+                return this._deviceTargetOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "debugOption", {
+            get: function () {
+                return this._debugOption;
             },
             enumerable: true,
             configurable: true
@@ -2094,9 +2114,8 @@ var Kiwi;
             this.browser.boot();
             this.stage.boot(this._dom);
             this.renderer.boot();
-
             this.cameras.boot();
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds.boot();
             }
             this.time.boot();
@@ -2121,14 +2140,13 @@ var Kiwi;
             this.input.update();
             this.tweens.update();
             this.cameras.update();
-
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds.update();
             }
             this.states.update();
 
             this.cameras.render();
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds.render();
             }
             this.states.postRender();
@@ -10465,7 +10483,7 @@ var Kiwi;
 
             Keyboard.prototype.start = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this.game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     document.body.addEventListener('keydown', function (event) {
                         return _this.onKeyDown(event);
                     }, false);
@@ -10477,7 +10495,7 @@ var Kiwi;
 
             Keyboard.prototype.stop = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this.game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     this._domElement.removeEventListener('keydown', function (event) {
                         return _this.onKeyDown(event);
                     }, false);
@@ -10697,7 +10715,7 @@ var Kiwi;
 
             Mouse.prototype.start = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     if (Kiwi.DEVICE.ie && Kiwi.DEVICE.ieVersion < 9) {
                         this._domElement.attachEvent('onmousedown', function (event) {
                             return _this.onMouseDown(event);
@@ -10733,7 +10751,7 @@ var Kiwi;
 
             Mouse.prototype.stop = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     this._domElement.removeEventListener('mousedown', function (event) {
                         return _this.onMouseDown(event);
                     }, false);
@@ -10993,7 +11011,7 @@ var Kiwi;
 
             Touch.prototype.start = function () {
                 var _this = this;
-                if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     this._domElement.addEventListener('touchstart', function (event) {
                         return _this.onTouchStart(event);
                     }, false);
@@ -13788,7 +13806,9 @@ var Kiwi;
 
     Kiwi.TARGET_BROWSER = 0;
     Kiwi.TARGET_COCOON = 1;
-    Kiwi.TARGET = 0;
+
+    Kiwi.DEBUG_ON = 0;
+    Kiwi.DEBUG_OFF = 1;
 
     Kiwi.DEVICE = null;
 

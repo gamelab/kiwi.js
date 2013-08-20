@@ -241,7 +241,7 @@ module Kiwi {
             this.domReady = true;
 
             this.container = dom.container;
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
@@ -264,11 +264,11 @@ module Kiwi {
 
             //get 2d or gl context - should add in error checking here
 
-            if (this._game.renderMode === Kiwi.RENDERER_CANVAS) {
+            if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = '#fff';
                 this.gl = null;
-            } else if (this._game.renderMode === Kiwi.RENDERER_WEBGL) {
+            } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
                 this.gl.clearColor(1, 1, .95, 1);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -277,7 +277,7 @@ module Kiwi {
                 klog.error("Unrecognised render mode");
             }
             
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.container.appendChild(this.canvas);
             } else {
                 document.body.appendChild(this.canvas);

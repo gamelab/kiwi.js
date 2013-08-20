@@ -136,10 +136,12 @@ module Kiwi {
     export var RENDERER_CANVAS: number = 0;
     export var RENDERER_WEBGL: number = 1;
     
-
     export var TARGET_BROWSER: number = 0;
     export var TARGET_COCOON: number = 1;
-    export var TARGET: number = 0;
+  
+
+    export var DEBUG_ON: number = 0;
+    export var DEBUG_OFF: number = 1;
 
     export var DEVICE: Kiwi.Device = null;
 

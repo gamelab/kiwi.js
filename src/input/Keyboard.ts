@@ -95,7 +95,7 @@ module Kiwi.Input {
         * @method start
         */
         public start() {
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.game.deviceTargetOption=== Kiwi.TARGET_BROWSER) {
                 //this._domElement.addEventListener('keydown', (event:KeyboardEvent) => this.onKeyDown(event), false);
                 //this._domElement.addEventListener('keyup', (event:KeyboardEvent) => this.onKeyUp(event), false);
                 document.body.addEventListener('keydown', (event: KeyboardEvent) => this.onKeyDown(event), false);
@@ -108,7 +108,7 @@ module Kiwi.Input {
         * @method stop
         */
         public stop() {
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this.game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 //this._domElement.removeEventListener('keydown', (event:KeyboardEvent) => this.onKeyDown(event), false);
                 //this._domElement.removeEventListener('keyup', (event:KeyboardEvent) => this.onKeyUp(event), false);
                 this._domElement.removeEventListener('keydown', (event: KeyboardEvent) => this.onKeyDown(event), false);

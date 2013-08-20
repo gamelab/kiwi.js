@@ -207,7 +207,7 @@ module Kiwi.Input {
         * @method start 
         */
         public start() {
-            if (Kiwi.TARGET === Kiwi.TARGET_BROWSER) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
                 this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
                 this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);

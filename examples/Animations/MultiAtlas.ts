@@ -50,4 +50,3 @@ class MultiAtlas extends Kiwi.State {
 }
 
 
-Kiwi.TARGET = Kiwi.TARGET_COCOON;
