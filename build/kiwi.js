@@ -11954,8 +11954,6 @@ var Kiwi;
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
 
-                console.log(this.mvMatrix);
-
                 this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
                 this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
 
@@ -12277,7 +12275,6 @@ var Kiwi;
             GLArrayBuffer.prototype.init = function (gl) {
                 var buffer = gl.createBuffer();
                 var f32 = new Float32Array(this.items);
-                console.log(f32.length, f32.BYTES_PER_ELEMENT);
                 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
                 gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
 

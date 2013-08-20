@@ -67,7 +67,7 @@ module Kiwi.Renderers {
             mat2d.identity(this.mvMatrix);
             
             
-            console.log(this.mvMatrix);
+            
 
             
             

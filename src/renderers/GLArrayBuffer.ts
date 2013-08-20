@@ -27,7 +27,6 @@ module Kiwi.Renderers {
         public init(gl: WebGLRenderingContext): WebGLBuffer {
             var buffer: WebGLBuffer = gl.createBuffer();
             var f32: Float32Array = new Float32Array(this.items);
-            console.log(f32.length, f32.BYTES_PER_ELEMENT);
             gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
             gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
 
