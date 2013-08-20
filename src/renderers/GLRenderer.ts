@@ -16,9 +16,14 @@ module Kiwi.Renderers {
             this._initState();
             
         }
+        
+        public objType() {
+            return "GLRenderer";
+        }
 
 
         private _game: Kiwi.Game;
+
         private _currentCamera: Kiwi.Camera;
         private _stageResolution: Float32Array;
 

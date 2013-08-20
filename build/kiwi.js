@@ -9784,40 +9784,11 @@ var Kiwi;
                 this.predecode = true;
                 this._game = game;
             }
+            AudioManager.prototype.objType = function () {
+                return "AudioManager";
+            };
+
             AudioManager.prototype.boot = function () {
-                this._volume = 1;
-                this._muted = false;
-                this._sounds = [];
-
-                if (Kiwi.DEVICE.iOS && Kiwi.DEVICE.webaudio == false) {
-                    this.channels = 1;
-                }
-
-                this.usingWebAudio = true;
-                this.usingAudioTag = false;
-
-                if (!!window['AudioContext']) {
-                    this.context = new window['AudioContext']();
-                } else if (!!window['webkitAudioContext']) {
-                    this.context = new window['webkitAudioContext']();
-                } else if (!!window['Audio']) {
-                    this.usingWebAudio = false;
-                    this.usingAudioTag = true;
-                } else {
-                    this.usingWebAudio = false;
-                    this.noAudio = true;
-                }
-
-                if (this.context !== null) {
-                    if (this.context.createGain === undefined) {
-                        this.masterGain = this.context.createGainNode();
-                    } else {
-                        this.masterGain = this.context.createGain();
-                    }
-
-                    this.masterGain.gain.value = 1;
-                    this.masterGain.connect(this.context.destination);
-                }
             };
 
 
@@ -9826,32 +9797,6 @@ var Kiwi;
                     return this._muted;
                 },
                 set: function (value) {
-                    if (value === true) {
-                        if (this._muted)
-                            return;
-                        this._muted = true;
-
-                        if (this.usingWebAudio) {
-                            this._muteVolume = this.masterGain.gain.value;
-                            this.masterGain.gain.value = 0;
-                        } else if (this.usingAudioTag) {
-                            for (var i = 0; i < this._sounds.length; i++) {
-                                this._sounds[i].mute(true);
-                            }
-                        }
-                    } else {
-                        if (this._muted == false)
-                            return;
-                        this._muted = false;
-
-                        if (this.usingWebAudio) {
-                            this.masterGain.gain.value = this._muteVolume;
-                        } else if (this.usingAudioTag) {
-                            for (var i = 0; i < this._sounds.length; i++) {
-                                this._sounds[i].mute(false);
-                            }
-                        }
-                    }
                 },
                 enumerable: true,
                 configurable: true
@@ -9863,22 +9808,6 @@ var Kiwi;
                     return this._volume;
                 },
                 set: function (value) {
-                    if (value !== undefined) {
-                        value = Kiwi.Utils.GameMath.clamp(value, 1, 0);
-                        this._volume = value;
-
-                        if (this._muted) {
-                            this._muteVolume = this._volume;
-                        }
-
-                        if (this.usingWebAudio) {
-                            this.masterGain.gain.value = value;
-                        } else if (this.usingAudioTag) {
-                            for (var i = 0; i < this._sounds.length; i++) {
-                                this._sounds[i].volume(this._sounds[i].volume());
-                            }
-                        }
-                    }
                 },
                 enumerable: true,
                 configurable: true
@@ -9887,62 +9816,25 @@ var Kiwi;
             AudioManager.prototype.add = function (cacheID, cache, volume, loop) {
                 if (typeof volume === "undefined") { volume = 1; }
                 if (typeof loop === "undefined") { loop = false; }
-                if (this.noAudio)
-                    return;
-
-                var sound = new Kiwi.Sound.Audio(this._game, cacheID, cache, volume, loop);
-                this._sounds.push(sound);
-                return sound;
+                return null;
             };
 
             AudioManager.prototype.remove = function (sound) {
-                for (var i = 0; i < this._sounds.length; i++) {
-                    if (sound == this._sounds[i]) {
-                        this._sounds[i].gainNode.disconnect();
-                        this._sounds.splice(i, 1, 0);
-                        i--;
-                    }
-                }
             };
 
             AudioManager.prototype.playAll = function () {
-                for (var i = 0; i < this._sounds.length; i++) {
-                    if (this._sounds[i]) {
-                        this._sounds[i].play();
-                    }
-                }
             };
 
             AudioManager.prototype.stopAll = function () {
-                for (var i = 0; i < this._sounds.length; i++) {
-                    if (this._sounds[i]) {
-                        this._sounds[i].stop();
-                    }
-                }
             };
 
             AudioManager.prototype.pauseAll = function () {
-                for (var i = 0; i < this._sounds.length; i++) {
-                    if (this._sounds[i]) {
-                        this._sounds[i].pause();
-                    }
-                }
             };
 
             AudioManager.prototype.resumeAll = function () {
-                for (var i = 0; i < this._sounds.length; i++) {
-                    if (this._sounds[i]) {
-                        this._sounds[i].resume();
-                    }
-                }
             };
 
             AudioManager.prototype.update = function () {
-                if (!this.noAudio) {
-                    for (var i = 0; i < this._sounds.length; i++) {
-                        this._sounds[i].update();
-                    }
-                }
             };
             return AudioManager;
         })();
@@ -10008,6 +9900,10 @@ var Kiwi;
                 this.onLoop = new Kiwi.Signal();
                 this.onMute = new Kiwi.Signal();
             }
+            Audio.prototype.objType = function () {
+                return "Audio";
+            };
+
             Audio.prototype._setAudio = function (cacheID, cache) {
                 if (cacheID == '' || cache === null || cache.audio === null || cache.audio.exists(cacheID) === false) {
                     klog.warn('Audio cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
@@ -11331,6 +11227,10 @@ var Kiwi;
             CanvasRenderer.prototype.boot = function () {
             };
 
+            CanvasRenderer.prototype.objType = function () {
+                return "CanvasRenderer";
+            };
+
             CanvasRenderer.prototype._recurse = function (child) {
                 if (!child.willRender)
                     return;
@@ -11375,6 +11275,10 @@ var Kiwi;
             }
             GLRenderer.prototype.boot = function () {
                 this._initState();
+            };
+
+            GLRenderer.prototype.objType = function () {
+                return "GLRenderer";
             };
 
             GLRenderer.prototype._initState = function () {
