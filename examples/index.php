@@ -23,9 +23,7 @@ if(isset($_POST['t'])) {
 	}
 }
 
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />

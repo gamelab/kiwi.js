@@ -29,7 +29,7 @@ if(isset($_GET['f'])) {
         window.onload = start;
 
         function start() {
-            game = new Kiwi.Game('game', 'KiwiTests', <?php echo $state?>, {debug: <?php echo $debug ?>, deviceTarget: 'Kiwi.TARGET_COCOON', renderer: <?php echo $renderer ?> });
+            game = new Kiwi.Game('game', 'KiwiTests', <?php echo $state?>, {debug: <?php echo $debug ?>, deviceTarget: Kiwi.TARGET_COCOON, renderer: <?php echo $renderer ?> });
         }
     </script>
 

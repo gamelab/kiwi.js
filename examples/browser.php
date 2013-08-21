@@ -11,7 +11,7 @@ if(isset($_GET['f'])) {
 	$state = 'Does not exist.';
 }
 
-?>
+?><!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,10 +21,10 @@ if(isset($_GET['f'])) {
     <!-- All of the scripts -->
     <?php if(file_exists($filepath)) { ?>
     <script src="assets/js/log4javascript.js"></script>
-    <script src="assets/js/ECMA262-5.js"></script>
-    <script src="assets/js/gl-matrix-min.js"></script>
 	<script src="assets/js/jquery-1.9.1.js"></script>
+    <script src="assets/js/gl-matrix-min.js"></script>
     <script> var klog = log4javascript.getDefaultLogger(); </script>
+    <script src="assets/js/ECMA262-5.js"></script>
     <script src="Kiwi.js"></script>
     <script src="<?php echo $filepath?>"></script>
     <?php } ?>
@@ -62,7 +62,7 @@ if(isset($_GET['f'])) {
         window.onload = start;
 
         function start() {
-            game = new Kiwi.Game('game', 'KiwiTests', <?php echo $state?>, {debug: <?php echo $debug ?>, deviceTarget: 'Kiwi.TARGET_BROWSER', renderer: <?php echo $renderer ?> });
+            game = new Kiwi.Game('game', 'KiwiTests', <?php echo $state?>, {debug: <?php echo $debug ?>, deviceTarget: Kiwi.TARGET_BROWSER, renderer: <?php echo $renderer ?> });
         }
     </script>
 
