@@ -675,6 +675,9 @@ var Kiwi;
             this.time = null;
             this.tweens = null;
             this.rnd = null;
+            this._frameRate = 60;
+            this._interval = 1000 / 60;
+            this._delta = 0;
             options = options || {};
             this._debugOption = options.debug || Kiwi.DEBUG_ON;
             this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
@@ -750,6 +753,24 @@ var Kiwi;
             return "Game";
         };
 
+        Object.defineProperty(Game.prototype, "frameRate", {
+            get: function () {
+                return this._frameRate;
+            },
+            set: function (value) {
+                if (value > 60)
+                    value = 60;
+
+                if (value >= 0) {
+                    this._frameRate = value;
+                    this._interval = 1000 / this._frameRate;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
         Game.prototype.start = function () {
             var _this = this;
             if (Kiwi.DEVICE === null) {
@@ -773,6 +794,8 @@ var Kiwi;
             klog.info('Game Started. DOM Available. Valid State Given');
             klog.info('Game Time: ' + this.time.now());
 
+            this._lastTime = Date.now();
+
             this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
                 return _this.loop();
             });
@@ -780,21 +803,27 @@ var Kiwi;
         };
 
         Game.prototype.loop = function () {
-            this.time.update();
-            this.audio.update();
-            this.input.update();
-            this.tweens.update();
-            this.cameras.update();
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds.update();
-            }
-            this.states.update();
+            this._delta = this.raf.currentTime - this._lastTime;
 
-            this.cameras.render();
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds.render();
+            if (this._delta > this._interval) {
+                this.time.update();
+                this.audio.update();
+                this.input.update();
+                this.tweens.update();
+                this.cameras.update();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.update();
+                }
+                this.states.update();
+
+                this.cameras.render();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.render();
+                }
+                this.states.postRender();
+
+                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
             }
-            this.states.postRender();
         };
         return Game;
     })();
@@ -4401,7 +4430,6 @@ var Kiwi;
         function Stage(game, name) {
             this.offset = new Kiwi.Geom.Point();
             this.container = null;
-            this._frameRate = 3;
             this._game = game;
 
             this.name = name;
@@ -4569,19 +4597,6 @@ var Kiwi;
         Stage.prototype.toggleDebugCanvas = function () {
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         };
-
-        Object.defineProperty(Stage.prototype, "frameRate", {
-            get: function () {
-                return this._frameRate;
-            },
-            set: function (value) {
-                if (value >= 0)
-                    this._frameRate = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
         return Stage;
     })();
     Kiwi.Stage = Stage;
@@ -6414,16 +6429,10 @@ var Kiwi;
                 _super.call(this);
                 this._collisionCallback = null;
             }
-            TileMap.prototype.createFromData = function (tileMapData, tileMapImageKey, tileMapImageCache, game, format) {
+            TileMap.prototype.createFromData = function (tileMapData, atlas, game, format) {
                 var data;
 
-                if (tileMapImageCache.checkImageCacheID(tileMapImageKey, tileMapImageCache) == false) {
-                    console.log('Missing tilemap image data', tileMapImageKey);
-                    return;
-                }
-
-                this._tileMapImageKey = tileMapImageKey;
-                this._tileMapImageCache = tileMapImageCache;
+                this._atlas = atlas;
                 this.tiles = [];
                 this.layers = [];
 
@@ -6440,21 +6449,15 @@ var Kiwi;
                 }
             };
 
-            TileMap.prototype.createFromCache = function (tileMapDataKey, tileMapDataCache, tileMapImageKey, tileMapImageCache, game, format) {
+            TileMap.prototype.createFromCache = function (tileMapDataKey, tileMapDataCache, atlas, game, format) {
                 if (tileMapDataCache.checkDataCacheID(tileMapDataKey, tileMapDataCache) == false) {
                     console.log('Missing json data', tileMapDataKey);
                     return;
                 }
 
-                if (tileMapImageCache.checkImageCacheID(tileMapImageKey, tileMapImageCache) == false) {
-                    console.log('Missing tilemap image data', tileMapImageKey);
-                    return;
-                }
-
                 this._tileMapDataKey = tileMapDataKey;
                 this._tileMapDataCache = tileMapDataCache;
-                this._tileMapImageKey = tileMapImageKey;
-                this._tileMapImageCache = tileMapImageCache;
+                this._atlas = atlas;
 
                 this.tiles = [];
                 this.layers = [];
@@ -6485,7 +6488,7 @@ var Kiwi;
                 var mapObj = data;
 
                 for (var i = 0; i < mapObj.layers.length; i++) {
-                    var layer = new GameObjects.TileMapLayer(this._game, this, this._tileMapImageCache, this._tileMapImageKey, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
+                    var layer = new GameObjects.TileMapLayer(this._game, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
 
                     layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                     layer.alpha = parseInt(mapObj.layers[i].opacity);
@@ -6651,8 +6654,7 @@ var Kiwi;
                 this.layers = null;
                 this._tileMapDataKey = null;
                 this._tileMapDataCache = null;
-                this._tileMapImageCache = null;
-                this._tileMapImageKey = null;
+                this._atlas = null;
             };
             TileMap.FORMAT_CSV = 0;
             TileMap.FORMAT_TILED_JSON = 1;
@@ -6667,7 +6669,7 @@ var Kiwi;
     (function (GameObjects) {
         var TileMapLayer = (function (_super) {
             __extends(TileMapLayer, _super);
-            function TileMapLayer(game, parent, imageCache, imageKey, name, tileWidth, tileHeight) {
+            function TileMapLayer(game, parent, atlas, name, tileWidth, tileHeight) {
                 _super.call(this);
                 this._startX = 0;
                 this._startY = 0;
@@ -6693,7 +6695,7 @@ var Kiwi;
 
                 this.mapData = [];
                 this._tempTileBlock = [];
-                this._texture = imageCache.images.getFile(imageKey).data;
+                this._atlas = atlas;
 
                 this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
             }
@@ -6811,22 +6813,17 @@ var Kiwi;
             };
 
             TileMapLayer.prototype.getTileOverlaps = function (object) {
-                if (!object.components.hasComponent("Size")) {
-                    return;
-                }
-
                 var objPos = object.transform;
-                var objSize = object.components.getComponent('Size');
 
-                if (objPos.x > this.transform.x + this.widthInPixels || objPos.x + objSize.width() < this.transform.x || objPos.y > this.transform.y + this.heightInPixels || objPos.y + objSize.height() < this.transform.y) {
+                if (objPos.x > this.transform.x + this.widthInPixels || objPos.x + object.width < this.transform.x || objPos.y > this.transform.y + this.heightInPixels || objPos.y + object.height < this.transform.y) {
                     return;
                 }
 
                 this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x - this.transform.x, this.tileWidth) / this.tileWidth;
                 this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y - this.transform.y, this.tileHeight) / this.tileHeight;
 
-                this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(objSize.width(), this.tileWidth) / this.tileWidth;
-                this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(objSize.height(), this.tileHeight) / this.tileHeight;
+                this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(object.width, this.tileWidth) / this.tileWidth;
+                this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(object.height, this.tileHeight) / this.tileHeight;
 
                 this.getTempBlock(this._tempTileX, this._tempTileY, this._tempTileW + 1, this._tempTileH + 1, true);
 
@@ -6883,8 +6880,11 @@ var Kiwi;
                     i = 1;
                 }
 
-                for (var ty = this.tileMargin; ty < this._texture.height; ty += (this.tileHeight + this.tileSpacing)) {
-                    for (var tx = this.tileMargin; tx < this._texture.width; tx += (this.tileWidth + this.tileSpacing)) {
+                var height = this._atlas.rows * (this.tileHeight + this.tileSpacing) + this.tileMargin;
+                var width = this._atlas.cols * (this.tileWidth + this.tileSpacing) + this.tileMargin;
+
+                for (var ty = this.tileMargin; ty < height; ty += (this.tileHeight + this.tileSpacing)) {
+                    for (var tx = this.tileMargin; tx < width; tx += (this.tileWidth + this.tileSpacing)) {
                         this._tileOffsets[i] = { x: tx, y: ty };
                         i++;
                     }
@@ -6946,7 +6946,7 @@ var Kiwi;
 
                     for (var tile = this._startX; tile < this._startX + this._maxX; tile++) {
                         if (this._tileOffsets[this._columnData[tile].tileType.index]) {
-                            ctx.drawImage(this._texture, this._tileOffsets[this._columnData[tile].tileType.index].x, this._tileOffsets[this._columnData[tile].tileType.index].y, this.tileWidth, this.tileHeight, this._tx, this._ty, this.tileWidth, this.tileHeight);
+                            ctx.drawImage(this._atlas.image, this._tileOffsets[this._columnData[tile].tileType.index].x, this._tileOffsets[this._columnData[tile].tileType.index].y, this.tileWidth, this.tileHeight, this._tx, this._ty, this.tileWidth, this.tileHeight);
                         }
 
                         this._columnData[tile].physics.update();
@@ -12203,9 +12203,9 @@ var Kiwi;
                 this.cellWidth = cellWidth;
                 this.cellHeight = cellHeight;
 
-                this.cols = cols || texture.width / cellWidth;
-                this.rows = rows || texture.height / cellHeight;
-                this.numCells = numCells || cols * rows;
+                this._cols = cols || texture.width / cellWidth;
+                this._rows = rows || texture.height / cellHeight;
+                this.numCells = numCells || this.cols * this.rows;
 
                 this.sheetOffsetX = sheetOffsetX || 0;
                 this.sheetOffsetY = sheetOffsetY || 0;
@@ -12218,6 +12218,22 @@ var Kiwi;
             SpriteSheet.prototype.objType = function () {
                 return "SpriteSheet";
             };
+
+            Object.defineProperty(SpriteSheet.prototype, "rows", {
+                get: function () {
+                    return this._rows;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(SpriteSheet.prototype, "cols", {
+                get: function () {
+                    return this._cols;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             SpriteSheet.prototype.generateAtlasCells = function () {
                 var cells = new Array();

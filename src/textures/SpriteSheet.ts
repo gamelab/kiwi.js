@@ -27,9 +27,9 @@ module Kiwi.Textures  {
             this.cellWidth = cellWidth;
             this.cellHeight = cellHeight;
             
-            this.cols = cols || texture.width / cellWidth;
-            this.rows = rows || texture.height / cellHeight;
-            this.numCells = numCells || cols * rows;
+            this._cols = cols || texture.width / cellWidth;
+            this._rows = rows || texture.height / cellHeight;
+            this.numCells = numCells || this.cols * this.rows;
             
             this.sheetOffsetX = sheetOffsetX || 0;
             this.sheetOffsetY = sheetOffsetY || 0;
@@ -70,15 +70,31 @@ module Kiwi.Textures  {
         * @property rows
         * @type number
         */
-        private rows: number;
+        private _rows: number;
         
+        /*
+        * Get the number of rows.
+        * @type number
+        */
+        public get rows(): number {
+            return this._rows;
+        }
+
         /*
         * The number of columns that are on this spritesheet
         * @property cols
         * @type number
         */
-        private cols: number;
+        private _cols: number;
         
+        /*
+        * Get the number of columns.
+        * @type number
+        */
+        public get cols(): number {
+            return this._cols;
+        }
+
         /*
         * How much the whole spritesheet should be offset by on the X axis.
         * @property sheetOffsetX

@@ -13,21 +13,14 @@ module Kiwi.GameObjects {
         * 
         * @method createFromData
         * @param {any} tileMapData
-        * @param {string} tileMapImageKey
-        * @param {Kiwi.Cache} tileMapImageCache
+        * @param {Kiwi.Textures.TextureAtlas} 
         * @param {Kiwi.Game} game
         * @param {number} format
         */
-        public createFromData(tileMapData: any, tileMapImageKey: string, tileMapImageCache: Kiwi.Cache, game: Game, format: number) {
+        public createFromData(tileMapData: any, atlas: Kiwi.Textures.SpriteSheet, game: Game, format: number) {
             var data;
 
-            if (tileMapImageCache.checkImageCacheID(tileMapImageKey, tileMapImageCache) == false) {
-                console.log('Missing tilemap image data', tileMapImageKey);
-                return;
-            }
-
-            this._tileMapImageKey = tileMapImageKey;
-            this._tileMapImageCache = tileMapImageCache;
+            this._atlas = atlas;
             this.tiles = [];
             this.layers = [];
 
@@ -50,25 +43,20 @@ module Kiwi.GameObjects {
         * @method createFromCache
         * @param {string} tileMapDataKey - The key of the data file.
         * @param {Kiwi.Cache} tileMapDataCache - The cache that the data file is saved in.
-        * @param {string} tileMapImageKey - The key of the image file.
-        * @param {Kiwi.Cache} tileMapImageCache - 
+        * @param {Kiwi.Textures.TextureAtlas} atlas
         */
-        public createFromCache(tileMapDataKey: string, tileMapDataCache: Kiwi.Cache, tileMapImageKey: string, tileMapImageCache: Kiwi.Cache, game: Game, format: number) {
+        public createFromCache(tileMapDataKey: string, tileMapDataCache: Kiwi.Cache, atlas: Kiwi.Textures.SpriteSheet, game: Game, format: number) {
             //get the json
             if (tileMapDataCache.checkDataCacheID(tileMapDataKey, tileMapDataCache) == false) {
                 console.log('Missing json data', tileMapDataKey);
                 return;
             }
-            //get the sprite sheet
-            if (tileMapImageCache.checkImageCacheID(tileMapImageKey, tileMapImageCache) == false) {
-                console.log('Missing tilemap image data', tileMapImageKey);
-                return;
-            }
+            
+
             //save the data information
             this._tileMapDataKey = tileMapDataKey;
             this._tileMapDataCache = tileMapDataCache;
-            this._tileMapImageKey = tileMapImageKey;
-            this._tileMapImageCache = tileMapImageCache;
+            this._atlas = atlas;
 
             //create the tiles
             this.tiles = [];
@@ -107,8 +95,7 @@ module Kiwi.GameObjects {
         /*
         * The image information
         */
-        private _tileMapImageKey: string;
-        private _tileMapImageCache: Kiwi.Cache;
+        private _atlas: Kiwi.Textures.SpriteSheet;
 
         /*
         * The game
@@ -174,7 +161,7 @@ module Kiwi.GameObjects {
             var mapObj = data;
 
             for (var i = 0; i < mapObj.layers.length; i++) {
-                var layer: TileMapLayer = new TileMapLayer(this._game, this,this._tileMapImageCache,this._tileMapImageKey, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
+                var layer: TileMapLayer = new TileMapLayer(this._game, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
                 
                 layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                 layer.alpha = parseInt(mapObj.layers[i].opacity);
@@ -470,8 +457,7 @@ module Kiwi.GameObjects {
             this.layers = null;
             this._tileMapDataKey = null;
             this._tileMapDataCache = null;
-            this._tileMapImageCache = null;
-            this._tileMapImageKey = null;
+            this._atlas = null;
         }
 
     }
