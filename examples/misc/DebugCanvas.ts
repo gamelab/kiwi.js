@@ -17,8 +17,8 @@ class DebugCanvas extends Kiwi.State {
     preload() {
 
 
-        this.addSpriteSheet('n1945', 'assets/textureatlas/1945_sprites.png', 32, 32, false, 6, 1, 6, 5, 5, 1, 1);
-        this.addSpriteSheet('explosion', 'assets/explosion1024.png', 64, 64, false, 23, 5, 5, 0, 0);
+       
+        this.addImage('explosion', 'assets/indiana.png',true,124,170);
     }
 
 
@@ -28,29 +28,28 @@ class DebugCanvas extends Kiwi.State {
     
     create() {
 
-        this.at = new Kiwi.GameObjects.Sprite(this.textures.n1945, 100, 0);
-        this.at.animation.add("test", [0, 1, 2, 3, 4], .2, true);
-        this.at.animation.play("test");
+       
 
-        this.explosion = new Kiwi.GameObjects.Sprite(this.textures.explosion, 100, 100);
-        this.explosion.animation.add("test", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22], .02, true);
-        this.explosion.animation.play("test");
+        this.explosion = new Kiwi.GameObjects.Sprite(this.textures.explosion, 100, 120);
+      
 
         this.addChild(this.explosion);
-        this.addChild(this.at);
-    
-
+       
     }
 
 
 
     update() {
         super.update();
-        this.explosion.transform.x++;
+        //this.explosion.transform.rotPointX = 5;
+        //this.explosion.transform.rotPointY = 10;
+
+        this.explosion.transform.rotation +=0.01;
 
         this.game.stage.clearDebugCanvas();
-        this.ctx.strokeStyle = "green";
-        this.ctx.strokeRect(this.explosion.x, this.explosion.y, this.explosion.width, this.explosion.height);
+        this.explosion.box.draw(this.ctx);
+        //this.ctx.strokeStyle = "green";
+        //this.ctx.strokeRect(this.explosion.x, this.explosion.y, this.explosion.width, this.explosion.height);
     }
 }
 

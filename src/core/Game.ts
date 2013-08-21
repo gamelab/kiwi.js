@@ -1,24 +1,4 @@
-/// <reference path="../Kiwi.ts" />
-/// <reference path="../dom/Bootstrap.ts" />
-/// <reference path="../dom/Browser.ts" />
-/// <reference path="Device.ts" />
-/// <reference path="Stage.ts" />
 
-/// <reference path="../tweens/Manager.ts" />
-/// <reference path="../utils/RandomDataGenerator.ts" />
-/// <reference path="../utils/RequestAnimationFrame.ts" />
-
-/**
- *	Kiwi - Core - Game
- *
- *	@desc 		
- *	@version 	1.1 - 27th February 2013
- *
- *	@author 	Richard Davey
- *	@author 	Ross Kettle
- *
- *	@url 		http://www.kiwijs.org
-*/
 
 module Kiwi {
 
@@ -54,7 +34,7 @@ module Kiwi {
 
             //this needs to be passed in instead of hard coded
             //this._renderMode = Kiwi.RENDERER_CANVAS;
-            //this._renderOption = Kiwi.RENDERER_WEBGL;
+            this._renderOption = Kiwi.RENDERER_WEBGL;
             this.stage = new Kiwi.Stage(this, name);
             
             if (this._renderOption === Kiwi.RENDERER_CANVAS) {

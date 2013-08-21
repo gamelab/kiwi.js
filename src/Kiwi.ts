@@ -20,6 +20,7 @@
 /// <reference path="core/Stage.ts" />
 
 /// <reference path="components/Bounds.ts" />
+/// <reference path="components/Box.ts" />
 /// <reference path="components/Input.ts" />
 /// <reference path="components/Sound.ts" />
 /// <reference path="components/ArcadePhysics.ts" />
