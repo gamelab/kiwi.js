@@ -38,6 +38,10 @@
       <DependentUpon>test1.ts</DependentUpon>
     </Content>
     <Content Include="gl-matrix-min.js" />
+    <TypeScriptCompile Include="misc\DebugCanvas.ts" />
+    <Content Include="misc\DebugCanvas.js">
+      <DependentUpon>DebugCanvas.ts</DependentUpon>
+    </Content>
     <Content Include="Tweens\EasingMethods.js">
       <DependentUpon>EasingMethods.ts</DependentUpon>
     </Content>

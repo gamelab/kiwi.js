@@ -1,12 +1,26 @@
 ///<reference path="renderers/WebGL.d.ts"/>
 
+/// <reference path="animation/tweens/easing/Back.ts" />
+/// <reference path="animation/tweens/easing/Bounce.ts" />
+/// <reference path="animation/tweens/easing/Circular.ts" />
+/// <reference path="animation/tweens/easing/Cubic.ts" />
+/// <reference path="animation/tweens/easing/Elastic.ts" />
+/// <reference path="animation/tweens/easing/Exponential.ts" />
+/// <reference path="animation/tweens/easing/Linear.ts" />
+/// <reference path="animation/tweens/easing/Quadratic.ts" />
+/// <reference path="animation/tweens/easing/Quartic.ts" />
+/// <reference path="animation/tweens/easing/Quintic.ts" />
+/// <reference path="animation/tweens/easing/Sinusoidal.ts" />
+/// <reference path="animation/tweens/Manager.ts" />
+/// <reference path="animation/tweens/Tween.ts" />
+
 
 /// <reference path="core/Cache.ts" />
 /// <reference path="core/Camera.ts" />
 /// <reference path="core/CameraManager.ts" />
 /// <reference path="core/Component.ts" />
 /// <reference path="core/ComponentManager.ts" />
-/// <reference path="core/Device.ts" />
+
 /// <reference path="core/Entity.ts" />
 /// <reference path="core/File.ts" />
 /// <reference path="core/FileCache.ts" />
@@ -20,6 +34,7 @@
 /// <reference path="core/Stage.ts" />
 
 /// <reference path="components/Bounds.ts" />
+/// <reference path="components/Box.ts" />
 /// <reference path="components/Input.ts" />
 /// <reference path="components/Sound.ts" />
 /// <reference path="components/ArcadePhysics.ts" />
@@ -30,8 +45,7 @@
 /// <reference path="core/StateConfig.ts" />
 /// <reference path="core/StateManager.ts" />
 
-/// <reference path="dom/Bootstrap.ts" />
-/// <reference path="dom/Browser.ts" />
+
 
 
 /// <reference path="gameobjects/Sprite.ts" />
@@ -94,8 +108,11 @@
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />
 
-/// <reference path="structs/Dictionary.ts" />
-/// <reference path="structs/LinkedList.ts" />
+
+
+/// <reference path="system/Bootstrap.ts" />
+/// <reference path="system/Browser.ts" />
+/// <reference path="system/Device.ts" />
 
 /// <reference path="textures/TextureAtlas.ts" />
 /// <reference path="textures/TextureCache.ts" />
@@ -109,25 +126,14 @@
 /// <reference path="time/Timer.ts" />
 /// <reference path="time/TimerEvent.ts" />
 
-/// <reference path="tweens/easing/Back.ts" />
-/// <reference path="tweens/easing/Bounce.ts" />
-/// <reference path="tweens/easing/Circular.ts" />
-/// <reference path="tweens/easing/Cubic.ts" />
-/// <reference path="tweens/easing/Elastic.ts" />
-/// <reference path="tweens/easing/Exponential.ts" />
-/// <reference path="tweens/easing/Linear.ts" />
-/// <reference path="tweens/easing/Quadratic.ts" />
-/// <reference path="tweens/easing/Quartic.ts" />
-/// <reference path="tweens/easing/Quintic.ts" />
-/// <reference path="tweens/easing/Sinusoidal.ts" />
-/// <reference path="tweens/Manager.ts" />
-/// <reference path="tweens/Tween.ts" />
 
 /// <reference path="utils/Canvas.ts" />
 /// <reference path="utils/Common.ts" />
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
+/// <reference path="utils/Dictionary.ts" />
+/// <reference path="utils/LinkedList.ts" />
 
 module Kiwi {
 
@@ -143,7 +149,7 @@ module Kiwi {
     export var DEBUG_ON: number = 0;
     export var DEBUG_OFF: number = 1;
 
-    export var DEVICE: Kiwi.Device = null;
+    export var DEVICE: Kiwi.System.Device = null;
 
     export var ADDED_TO_STATE:number = 0;
     export var ADDED_TO_LAYER:number = 1;

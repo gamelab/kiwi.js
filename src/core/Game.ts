@@ -1,24 +1,4 @@
-/// <reference path="../Kiwi.ts" />
-/// <reference path="../dom/Bootstrap.ts" />
-/// <reference path="../dom/Browser.ts" />
-/// <reference path="Device.ts" />
-/// <reference path="Stage.ts" />
 
-/// <reference path="../tweens/Manager.ts" />
-/// <reference path="../utils/RandomDataGenerator.ts" />
-/// <reference path="../utils/RequestAnimationFrame.ts" />
-
-/**
- *	Kiwi - Core - Game
- *
- *	@desc 		
- *	@version 	1.1 - 27th February 2013
- *
- *	@author 	Richard Davey
- *	@author 	Ross Kettle
- *
- *	@url 		http://www.kiwijs.org
-*/
 
 module Kiwi {
 
@@ -44,10 +24,10 @@ module Kiwi {
 
             this.id = Kiwi.GameManager.register(this);
 
-            this._dom = new Kiwi.DOM.Bootstrap();
+            this._startup = new Kiwi.System.Bootstrap();
 
             this.audio = new Kiwi.Sound.AudioManager(this);
-            this.browser = new Kiwi.DOM.Browser(this);
+            this.browser = new Kiwi.System.Browser(this);
             this.cache = new Kiwi.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
@@ -87,7 +67,7 @@ module Kiwi {
 
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 //  Wait for the DOM
-                this._dom.boot(domParent, () => this.start());
+                this._startup.boot(domParent, () => this.start());
             } else {
                 this.start();
             }
@@ -144,7 +124,7 @@ module Kiwi {
         * @type Kiwi.DOM.Bootstrap
         * @private
         */
-        private _dom: Kiwi.DOM.Bootstrap = null;
+        private _startup: Kiwi.System.Bootstrap = null;
 
         /*
         * 
@@ -167,7 +147,7 @@ module Kiwi {
         * @property browser
         * @type Kiwi.Dom.Browser
         */
-        public browser: Kiwi.DOM.Browser = null;
+        public browser: Kiwi.System.Browser = null;
 
         /*
         * 
@@ -248,11 +228,11 @@ module Kiwi {
 
             if (Kiwi.DEVICE === null)
             {
-                Kiwi.DEVICE = new Kiwi.Device();
+                Kiwi.DEVICE = new Kiwi.System.Device();
             }
 
             this.browser.boot();
-            this.stage.boot(this._dom);
+            this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {

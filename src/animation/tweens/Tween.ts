@@ -1,4 +1,4 @@
-/// <reference path="../core/Game.ts" />
+
 
 /**
  *	Kiwi - Tween (note the global namespace for brevity during development)

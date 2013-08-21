@@ -11,7 +11,7 @@
  *  @url        http://www.kiwijs.org
  */
 
-module Kiwi.DOM {
+module Kiwi.System {
 
     export class Browser {
 

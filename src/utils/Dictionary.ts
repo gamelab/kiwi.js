@@ -18,7 +18,7 @@
  *	Some documentation is borrowed from the official Java API as it serves the same purpose.
  */
 
-module Kiwi.Structs {
+module Kiwi.Utils {
 
     export class Dictionary {
 

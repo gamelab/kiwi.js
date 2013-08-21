@@ -21,6 +21,7 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="components\Box.ts" />
     <Content Include="core\Game.ts" />
     <Content Include="animation\Animation.ts" />
     <Content Include="gl-matrix-min.js" />
@@ -48,7 +49,7 @@
     <Content Include="core\CameraManager.ts" />
     <Content Include="core\Camera.ts" />
     <Content Include="core\Entity.ts" />
-    <Content Include="core\Device.ts" />
+    <Content Include="system\Device.ts" />
     <Content Include="core\ComponentManager.ts" />
     <Content Include="core\FileCache.ts" />
     <Content Include="core\File.ts" />
@@ -62,8 +63,8 @@
     <Content Include="core\SignalBinding.ts" />
     <Content Include="core\StateConfig.ts" />
     <Content Include="geom\Circle.ts" />
-    <Content Include="dom\Bootstrap.ts" />
-    <Content Include="dom\Browser.ts" />
+    <Content Include="system\Bootstrap.ts" />
+    <Content Include="system\Browser.ts" />
     <Content Include="ECMA262-5.js" />
     <Content Include="gameobjects\StaticImage.ts" />
     <Content Include="gameobjects\Sprite.ts" />
@@ -114,27 +115,27 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="time\Clock.ts" />
-    <Content Include="structs\Dictionary.ts" />
+    <Content Include="utils\Dictionary.ts" />
     <Content Include="plugins\gamefroot\TileMapConverter.ts" />
     <Content Include="renderers\CanvasRenderer.ts" />
-    <Content Include="structs\LinkedList.ts" />
+    <Content Include="utils\LinkedList.ts" />
     <Content Include="time\Manager.ts" />
     <Content Include="time\MasterClock.ts" />
     <Content Include="time\Timer.ts" />
     <Content Include="time\TimerEvent.ts" />
-    <Content Include="tweens\easing\Back.ts" />
-    <Content Include="tweens\easing\Bounce.ts" />
-    <Content Include="tweens\easing\Circular.ts" />
-    <Content Include="tweens\easing\Cubic.ts" />
-    <Content Include="tweens\easing\Elastic.ts" />
-    <Content Include="tweens\easing\Exponential.ts" />
-    <Content Include="tweens\easing\Linear.ts" />
-    <Content Include="tweens\easing\Quadratic.ts" />
-    <Content Include="tweens\easing\Quartic.ts" />
-    <Content Include="tweens\easing\Quintic.ts" />
-    <Content Include="tweens\easing\Sinusoidal.ts" />
-    <Content Include="tweens\Manager.ts" />
-    <Content Include="tweens\Tween.ts" />
+    <Content Include="animation\tweens\easing\Back.ts" />
+    <Content Include="animation\tweens\easing\Bounce.ts" />
+    <Content Include="animation\tweens\easing\Circular.ts" />
+    <Content Include="animation\tweens\easing\Cubic.ts" />
+    <Content Include="animation\tweens\easing\Elastic.ts" />
+    <Content Include="animation\tweens\easing\Exponential.ts" />
+    <Content Include="animation\tweens\easing\Linear.ts" />
+    <Content Include="animation\tweens\easing\Quadratic.ts" />
+    <Content Include="animation\tweens\easing\Quartic.ts" />
+    <Content Include="animation\tweens\easing\Quintic.ts" />
+    <Content Include="animation\tweens\easing\Sinusoidal.ts" />
+    <Content Include="animation\tweens\Manager.ts" />
+    <Content Include="animation\tweens\Tween.ts" />
     <Content Include="utils\GameMath.ts" />
     <Content Include="utils\Canvas.ts" />
     <Content Include="utils\Common.ts" />
@@ -174,14 +175,14 @@
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsAA71.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs613F.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vsAA71.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vs613F.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

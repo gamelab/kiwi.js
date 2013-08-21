@@ -429,8 +429,8 @@ module Kiwi.Geom {
 
             if (asDegrees === true)
             {
-                //angle = angle * (Math.PI / 180); // Degrees to Radians
-                angle = angle * (180 / Math.PI); // Radians to Degrees
+                angle = angle * (Math.PI / 180); // Radians to Degrees
+                //angle = angle * (180 / Math.PI); // Degrees to Radians
             }
 
             output.x = this.x + this._radius * Math.cos(angle);

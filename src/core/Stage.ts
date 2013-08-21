@@ -218,6 +218,9 @@ module Kiwi {
         public gl: WebGLRenderingContext;
         public ctx: CanvasRenderingContext2D;
         public canvas: HTMLCanvasElement;
+        
+        public debugCanvas: HTMLCanvasElement;
+        public dctx: CanvasRenderingContext2D;
 
         /**
         * The parent div in which the layers and input live
@@ -232,7 +235,7 @@ module Kiwi {
         * @method boot
         * @param {HTMLElement} container
         */
-        public boot(dom: Kiwi.DOM.Bootstrap) {
+        public boot(dom: Kiwi.System.Bootstrap) {
 
             klog.info('Stage DOM boot');
 
@@ -248,8 +251,11 @@ module Kiwi {
                 this._width = parseInt(this.container.style.width);
                 this._height = parseInt(this.container.style.height);
             }
-           
+            
             this._createCompositeCanvas();
+            if (this._game.debugOption === DEBUG_ON) {
+                this._createDebugCanvas();
+            }
         }
 
 
@@ -282,8 +288,37 @@ module Kiwi {
             } else {
                 document.body.appendChild(this.canvas);
             }
-            
+        
+        }
 
+        private _createDebugCanvas() {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                klog.warn("debug canvas not supported in cocoon, creating canvas and context anyway.");
+            } 
+            this.debugCanvas = <HTMLCanvasElement>document.createElement("canvas");
+            this.debugCanvas.id = this._game.id + "debugCanvas";
+            this.debugCanvas.style.position = "absolute";
+            this.debugCanvas.style.display = "none";
+            this.debugCanvas.width = this.width;
+            this.debugCanvas.height = this.height;
+            this.dctx = this.debugCanvas.getContext("2d");
+            this.clearDebugCanvas();
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.appendChild(this.debugCanvas);
+            }
+          
+        }
+
+        public clearDebugCanvas(color?:string) {
+            this.dctx.fillStyle = color || "rgba(255,0,0,.2)";
+            this.dctx.clearRect(0, 0, this.width, this.height);
+            this.dctx.fillRect(0, 0, this.width, this.height);
+            
+        }
+
+        public toggleDebugCanvas() {
+            this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         }
 
         /**
