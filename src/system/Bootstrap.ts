@@ -10,7 +10,7 @@
  *  @update     Added readyState interactive check
  */
 
-module Kiwi.DOM {
+module Kiwi.System {
 
     export class Bootstrap {
 

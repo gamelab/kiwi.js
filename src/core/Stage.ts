@@ -235,7 +235,7 @@ module Kiwi {
         * @method boot
         * @param {HTMLElement} container
         */
-        public boot(dom: Kiwi.DOM.Bootstrap) {
+        public boot(dom: Kiwi.System.Bootstrap) {
 
             klog.info('Stage DOM boot');
 

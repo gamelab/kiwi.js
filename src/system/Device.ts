@@ -1,4 +1,3 @@
-/// <reference path="Game.ts" />
 
 /**
  *  Kiwi - Static  - Device
@@ -14,7 +13,7 @@
  */
 
 
-module Kiwi {
+module Kiwi.System {
 
     export class Device {
 

@@ -1,5 +1,4 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="../Kiwi.ts" />
+
 
 /**
  *	Kiwi - Tween - Manager
