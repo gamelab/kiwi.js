@@ -2835,7 +2835,7 @@ var Kiwi;
 
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === child.id) {
-                    this.members.slice(i, 1);
+                    this.members.splice(i, 1);
                 }
             }
             return child;
@@ -4401,7 +4401,7 @@ var Kiwi;
         function Stage(game, name) {
             this.offset = new Kiwi.Geom.Point();
             this.container = null;
-            this._framerate = 3;
+            this._frameRate = 3;
             this._game = game;
 
             this.name = name;
@@ -4570,13 +4570,18 @@ var Kiwi;
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         };
 
-        Stage.prototype.frameRate = function (value) {
-            if (value) {
-                this._framerate = value;
-            }
+        Object.defineProperty(Stage.prototype, "frameRate", {
+            get: function () {
+                return this._frameRate;
+            },
+            set: function (value) {
+                if (value >= 0)
+                    this._frameRate = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
 
-            return this._framerate;
-        };
         return Stage;
     })();
     Kiwi.Stage = Stage;
@@ -12036,6 +12041,10 @@ var Kiwi;
                 this.image = image;
                 this._type = type;
             }
+            TextureAtlas.prototype.objType = function () {
+                return "TextureAtlas";
+            };
+
             Object.defineProperty(TextureAtlas.prototype, "type", {
                 get: function () {
                     return this._type;
@@ -12088,6 +12097,10 @@ var Kiwi;
             this._game = game;
             this.textures = {};
         }
+        TextureCache.prototype.objType = function () {
+            return "TextureCache";
+        };
+
         TextureCache.prototype.clear = function () {
         };
 
@@ -12202,6 +12215,10 @@ var Kiwi;
 
                 _super.call(this, name, Kiwi.Textures.TextureAtlas.SPRITE_SHEET, this.generateAtlasCells(), texture, this.sequences);
             }
+            SpriteSheet.prototype.objType = function () {
+                return "SpriteSheet";
+            };
+
             SpriteSheet.prototype.generateAtlasCells = function () {
                 var cells = new Array();
                 var cellNumeric = new Array();
@@ -12259,6 +12276,10 @@ var Kiwi;
 
                 _super.call(this, name, Kiwi.Textures.TextureAtlas.SINGLE_IMAGE, this.generateAtlasCells(), image);
             }
+            SingleImage.prototype.objType = function () {
+                return "SingleImage";
+            };
+
             SingleImage.prototype.generateAtlasCells = function () {
                 return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height, hitboxes: [{ x: 0, y: 0, w: this.width, h: this.height }] }];
             };

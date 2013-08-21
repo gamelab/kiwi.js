@@ -3,10 +3,10 @@
 /**
 * Creating a sprite
 **/
-class addingSprite extends Kiwi.State {
+class AddingSprite extends Kiwi.State {
 
     constructor() {
-        super('addingSprite');
+        super('AddingSprite');
 
     }
 
@@ -40,8 +40,3 @@ class addingSprite extends Kiwi.State {
 
     }
 }
-
-var game = new Kiwi.Game();
-
-game.states.addState(addingSprite);
-game.states.switchState("addingSprite");
