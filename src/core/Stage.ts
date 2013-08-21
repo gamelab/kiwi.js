@@ -215,10 +215,16 @@ module Kiwi {
     	*/
         public domReady: bool;
 
+        /*
+        * The various renderering contexts.
+        */
         public gl: WebGLRenderingContext;
         public ctx: CanvasRenderingContext2D;
         public canvas: HTMLCanvasElement;
         
+        /*
+        * The debugging canvas and context if debugging is on.
+        */ 
         public debugCanvas: HTMLCanvasElement;
         public dctx: CanvasRenderingContext2D;
 
@@ -319,27 +325,6 @@ module Kiwi {
 
         public toggleDebugCanvas() {
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
-        }
-
-        /**
-        * The framerate at which the game will update at.
-        * @property _framerate
-        * @type Number
-        * @private
-        */
-        private _frameRate: number = 3;
-
-
-        public get frameRate(): number {
-
-            return this._frameRate;
-        }
-
-        public set frameRate(value: number) {
-
-            if(value>=0)
-                this._frameRate = value;
-
         }
 
     }

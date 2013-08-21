@@ -220,6 +220,54 @@ module Kiwi {
         */
         public rnd: Kiwi.Utils.RandomDataGenerator = null;
         
+        /**
+        * The framerate at which the game will update at.
+        * @property _framerate
+        * @type Number
+        */
+        private _frameRate: number = 60;
+
+        /*
+        * The interval between frames.
+        * @property _interval
+        * @type Number
+        * @private
+        */
+        private _interval: number = 1000 / 60;
+
+        /*
+        * The current interval between frames.
+        * @property _delta
+        * @type number
+        */
+        private _delta: number = 0;
+
+        /*
+        * The last time the game was updated
+        * @property _lastTime
+        * @type number
+        */
+        private _lastTime: number;
+
+        /*
+        * Getters and setters for the frame rate.
+        */
+        public get frameRate(): number {
+
+            return this._frameRate;
+        }
+
+        public set frameRate(value: number) {
+
+            //cannot exceed 60. The raf will stop this anyway.
+            if (value > 60) value = 60;
+
+            if (value >= 0) {
+                this._frameRate = value;
+                this._interval = 1000 / this._frameRate;
+            }
+        }
+
         /*
         * 
         * @method start
@@ -248,9 +296,11 @@ module Kiwi {
             klog.info('Game Started. DOM Available. Valid State Given');
             klog.info('Game Time: ' + this.time.now());
 
+            this._lastTime = Date.now();
+
             this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this.loop());
             this.raf.start();
-
+            
         }
         
         /*
@@ -259,24 +309,28 @@ module Kiwi {
         */
         private loop() {
 
-            this.time.update();
-            this.audio.update();
-            this.input.update();
-            this.tweens.update();
-            this.cameras.update();
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds.update();
-            }
-            this.states.update();
             
-
+            this._delta = this.raf.currentTime - this._lastTime;
             
-            this.cameras.render();
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds.render();
+            if (this._delta > this._interval) {
+                this.time.update();
+                this.audio.update();
+                this.input.update();
+                this.tweens.update();
+                this.cameras.update();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.update();
+                }
+                this.states.update();
+                
+                this.cameras.render();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.render();
+                }
+                this.states.postRender();
+                
+                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
             }
-            this.states.postRender();
-
         }
 
     }
