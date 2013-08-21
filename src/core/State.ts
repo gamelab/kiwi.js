@@ -321,7 +321,7 @@ module Kiwi {
 
                 if (this.members[i].id === child.id) {
 
-                    this.members.slice(i, 1);
+                    this.members.splice(i, 1);
 
                    
                 }  

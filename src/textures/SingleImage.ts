@@ -25,6 +25,10 @@ module Kiwi.Textures  {
             super(name, Kiwi.Textures.TextureAtlas.SINGLE_IMAGE, this.generateAtlasCells(), image);
         }
 
+        public objType(): string {
+            return "SingleImage";
+        }
+
         /*
         * The width of the image.
         * @property width

@@ -17,6 +17,10 @@ module Kiwi {
             this.textures = {};
         }
 
+        public objType(): string {
+            return "TextureCache";
+        }
+
         /*
         * The game that this cache belongs to.
         * @property _game

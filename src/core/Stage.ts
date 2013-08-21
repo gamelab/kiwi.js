@@ -292,22 +292,18 @@ module Kiwi {
         * @type Number
         * @private
         */
-        private _framerate: number = 3;
+        private _frameRate: number = 3;
 
-        /**
-		* Returns the frameRate of this Stage. If a value is given the framerate is set and then returned.
-        * @method frameRate
-        * @param {Number} value. If a value is present, the framerate is set to this.
-        * @return {Number} The current frameRate.
-    	*/
-        public frameRate(value?: number): number {
 
-            if (value)
-            {
-                this._framerate = value;
-            }
+        public get frameRate(): number {
 
-            return this._framerate;
+            return this._frameRate;
+        }
+
+        public set frameRate(value: number) {
+
+            if(value>=0)
+                this._frameRate = value;
 
         }
 

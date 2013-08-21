@@ -39,6 +39,10 @@ module Kiwi.Textures  {
             
             super(name, Kiwi.Textures.TextureAtlas.SPRITE_SHEET, this.generateAtlasCells(), texture, this.sequences);
         }
+
+        public objType(): string {
+            return "SpriteSheet";
+        }
         
         /*
         * The width of a single cell.

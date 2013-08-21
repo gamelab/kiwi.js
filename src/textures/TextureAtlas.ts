@@ -24,6 +24,10 @@ module Kiwi.Textures {
             this._type = type;
         }
 
+        public objType(): string {
+            return "TextureAtlas";
+        }
+
         /*
         * The name of this texture atlas
         * @property name
