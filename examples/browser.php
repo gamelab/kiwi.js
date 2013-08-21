@@ -3,7 +3,7 @@ include 'functions.php';
 
 if(isset($_GET['f'])) {
 	$filepath = $_GET['f'];
-	$renderer = (isset($_GET['r'])) ? $_GET['r'] : 'Kiwi.RENDERER_WEBGL';
+	$renderer = (isset($_GET['r'])) ? $_GET['r'] : 'Kiwi.RENDERER_CANVAS';
 	$debug = (isset($_GET['d'])) ? 'Kiwi.DEBUG_ON' : 'Kiwi.DEBUG_OFF';
 	$state = substr($filepath, strpos($filepath, '/') + 1, -3);
 } else {
@@ -42,9 +42,9 @@ if(isset($_GET['f'])) {
 			
 			//render
 			if($renderer == 'Kiwi.RENDERER_CANVAS' || $renderer == '0') {
-				echo '<a href="browser.php?f='.$filepath.$d.'" class="button">Use WebGL</a>';
+				echo '<a href="browser.php?f='.$filepath.$d.'&amp;r=1" class="button">Use WebGL</a>';
 			} else {
-				echo '<a href="browser.php?f='.$filepath.'&amp;r=0'.$d.'" class="button">Use Canvas</a>';
+				echo '<a href="browser.php?f='.$filepath.$d.'" class="button">Use Canvas</a>';
 			}
 
 			//Debugging
