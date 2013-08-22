@@ -34,7 +34,7 @@ class DebugCanvas extends Kiwi.State {
       
 
         this.addChild(this.explosion);
-       
+        this.explosion.box.hitbox = new Kiwi.Geom.Rectangle(20, 20, 40, 40);
     }
 
 

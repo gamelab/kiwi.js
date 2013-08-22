@@ -4721,23 +4721,73 @@ var Kiwi;
 
                 this.dirty = true;
 
-                this._bounds = new Kiwi.Geom.Rectangle(x, y, width, height);
-                this._rotatedBounds = new Kiwi.Geom.Rectangle();
-                this._center = new Kiwi.Geom.Point(x + width / 2, y + height / 2);
+                this._rawBounds = new Kiwi.Geom.Rectangle(x, y, width, height);
+                this._rawCenter = new Kiwi.Geom.Point(x + width / 2, y + height / 2);
+                this._rawHitbox = new Kiwi.Geom.Rectangle();
+
+                this._hitboxOffset = new Kiwi.Geom.Point();
+
+                this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height);
             }
             Box.prototype.objType = function () {
                 return "Box";
             };
 
-            Object.defineProperty(Box.prototype, "bounds", {
+            Object.defineProperty(Box.prototype, "rawHitbox", {
                 get: function () {
                     if (this.dirty) {
-                        this._bounds.x = this.entity.x;
-                        this._bounds.y = this.entity.y;
-                        this._bounds.width = this.entity.width;
-                        this._bounds.height = this.entity.height;
+                        this._rawHitbox.x = this._rawBounds.x + this._hitboxOffset.x;
+                        this._rawHitbox.y = this._rawBounds.y + this._hitboxOffset.y;
                     }
-                    return this._bounds;
+
+                    return this._rawHitbox;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Box.prototype, "hitbox", {
+                get: function () {
+                    if (this.dirty) {
+                        console.log(this.rawHitbox.x);
+                        this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
+                    }
+                    return this._transformedHitbox;
+                },
+                set: function (value) {
+                    this._hitboxOffset.x = value.x;
+                    this._hitboxOffset.y = value.y;
+
+                    this._rawHitbox = value;
+
+                    this._rawHitbox.x += this._rawBounds.x;
+                    this._rawHitbox.y += this._rawBounds.y;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Box.prototype, "rawBounds", {
+                get: function () {
+                    if (this.dirty) {
+                        this._rawBounds.x = this.entity.x;
+                        this._rawBounds.y = this.entity.y;
+                        this._rawBounds.width = this.entity.width;
+                        this._rawBounds.height = this.entity.height;
+                    }
+                    return this._rawBounds;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Box.prototype, "rawCenter", {
+                get: function () {
+                    if (this.dirty) {
+                        this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2, this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
+                    }
+                    return this._rawCenter;
                 },
                 enumerable: true,
                 configurable: true
@@ -4746,21 +4796,24 @@ var Kiwi;
             Object.defineProperty(Box.prototype, "center", {
                 get: function () {
                     if (this.dirty) {
-                        this._center.x = this.bounds.x + this.bounds.width / 2, this._center.y = this.bounds.y + this.bounds.height / 2;
+                        var t = this.entity.transform;
+                        var m = t.getConcatenatedMatrix();
+                        m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+                        this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
                     }
-                    return this._center;
+                    return this._transformedCenter;
                 },
                 enumerable: true,
                 configurable: true
             });
 
-            Object.defineProperty(Box.prototype, "rotatedBounds", {
+            Object.defineProperty(Box.prototype, "bounds", {
                 get: function () {
                     if (this.dirty) {
-                        this._rotatedBounds = this.bounds.clone();
-                        this._rotatedBounds = this._rotateRect(this.bounds.clone());
+                        this._transformedBounds = this.rawBounds.clone();
+                        this._transformedBounds = this._rotateRect(this.rawBounds.clone());
                     }
-                    return this._rotatedBounds;
+                    return this._transformedBounds;
                 },
                 enumerable: true,
                 configurable: true
@@ -4768,21 +4821,22 @@ var Kiwi;
 
             Box.prototype._rotateRect = function (rect) {
                 var out = new Kiwi.Geom.Rectangle();
-
                 var t = this.entity.transform;
                 var m = t.getConcatenatedMatrix();
-
                 m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
-                var rotatedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
-
-                var ctx = this.entity.game.stage.dctx;
-
-                ctx.fillStyle = "yellow";
-                ctx.fillRect(rotatedCenter.x - 3, rotatedCenter.y - 3, 5, 5);
-
-                ctx.restore();
 
                 out = this.extents(m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY + rect.height }), m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY + rect.height }));
+
+                return out;
+            };
+
+            Box.prototype._rotateHitbox = function (rect) {
+                var out = new Kiwi.Geom.Rectangle();
+                var t = this.entity.transform;
+                var m = t.getConcatenatedMatrix();
+                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+
+                out = this.extents(m.transformPoint({ x: -t.rotPointX + this._hitboxOffset.x, y: -t.rotPointY + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + rect.width + this._hitboxOffset.x, y: -t.rotPointY + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + rect.width + this._hitboxOffset.x, y: -t.rotPointY + rect.height + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + this._hitboxOffset.x, y: -t.rotPointY + rect.height + this._hitboxOffset.y }));
 
                 return out;
             };
@@ -4791,11 +4845,15 @@ var Kiwi;
                 var t = this.entity.transform;
                 ctx.strokeStyle = "red";
 
-                ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
-                ctx.fillRect(this.center.x - 1, this.center.y - 1, 3, 3);
+                ctx.strokeRect(this.rawBounds.x, this.rawBounds.y, this.rawBounds.width, this.rawBounds.height);
+                ctx.fillRect(this.rawCenter.x - 1, this.rawCenter.y - 1, 3, 3);
                 ctx.strokeRect(t.x + t.rotPointX - 3, t.y + t.rotPointY - 3, 7, 7);
                 ctx.strokeStyle = "blue";
-                ctx.strokeRect(this.rotatedBounds.x, this.rotatedBounds.y, this.rotatedBounds.width, this.rotatedBounds.height);
+                ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+                ctx.strokeStyle = "green";
+                ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+                ctx.strokeStyle = "white";
+                ctx.strokeRect(this.rawHitbox.x, this.rawHitbox.y, this.rawHitbox.width, this.rawHitbox.height);
             };
 
             Box.prototype.extents = function (topLeftPoint, topRightPoint, bottomRightPoint, bottomLeftPoint) {
@@ -4805,12 +4863,6 @@ var Kiwi;
                 var bottom = Math.max(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
 
                 return new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
-            };
-
-            Box.prototype.calculateBounds = function (transform, width, height) {
-            };
-
-            Box.prototype._transformPoint = function (point, trans, x, y, ox, oy) {
             };
             return Box;
         })(Kiwi.Component);

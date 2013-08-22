@@ -20,10 +20,16 @@ module Kiwi.Components {
 
             this.dirty = true;
 
-            this._bounds = new Kiwi.Geom.Rectangle(x,y,width,height);
-            this._rotatedBounds = new Kiwi.Geom.Rectangle();
-            this._center = new Kiwi.Geom.Point(x + width / 2, y + height / 2);
-            this._hitbox = this._bounds.clone();
+            this._rawBounds = new Kiwi.Geom.Rectangle(x,y,width,height);
+            this._rawCenter = new Kiwi.Geom.Point(x + width / 2, y + height / 2);
+            this._rawHitbox = new Kiwi.Geom.Rectangle();
+
+            this._hitboxOffset = new Kiwi.Geom.Point();
+
+            this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height); 
+            
+         
+              
             
             //  Signals
 
@@ -38,54 +44,98 @@ module Kiwi.Components {
 
         public dirty: boolean;
 
-        private _bounds: Kiwi.Geom.Rectangle;
-        private _hitbox: Kiwi.Geom.Rectangle;
+        //contains offset rect
+        private _hitboxOffset: Kiwi.Geom.Point;
+
+        private _rawHitbox: Kiwi.Geom.Rectangle;
         
 
-        public get bounds(): Kiwi.Geom.Rectangle {
+
+        public get rawHitbox(): Kiwi.Geom.Rectangle {
             if (this.dirty) {
-                this._bounds.x = this.entity.x;
-                this._bounds.y = this.entity.y;
-                this._bounds.width = this.entity.width;
-                this._bounds.height = this.entity.height;
+                this._rawHitbox.x = this._rawBounds.x + this._hitboxOffset.x;
+                this._rawHitbox.y = this._rawBounds.y + this._hitboxOffset.y;
+                
             }
-            return this._bounds;
+            
+            return this._rawHitbox;
         }
 
-        private _center: Kiwi.Geom.Point;
+        private _transformedHitbox: Kiwi.Geom.Rectangle;
+        
+        public get hitbox(): Kiwi.Geom.Rectangle {
+            if (this.dirty) {
+                console.log(this.rawHitbox.x);
+                this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
+            }
+            return this._transformedHitbox;
+
+        }
+
+        public set hitbox(value: Kiwi.Geom.Rectangle) {
+            
+            this._hitboxOffset.x = value.x;
+            this._hitboxOffset.y = value.y;
+
+            this._rawHitbox = value;
+            
+            this._rawHitbox.x += this._rawBounds.x;
+            this._rawHitbox.y += this._rawBounds.y;
+         
+        }
+
+        private _rawBounds: Kiwi.Geom.Rectangle;
+        public get rawBounds(): Kiwi.Geom.Rectangle {
+            if (this.dirty) {
+                this._rawBounds.x = this.entity.x;
+                this._rawBounds.y = this.entity.y;
+                this._rawBounds.width = this.entity.width;
+                this._rawBounds.height = this.entity.height;
+            }
+            return this._rawBounds;
+        }
+
+        private _rawCenter: Kiwi.Geom.Point;
+
+        public get rawCenter(): Kiwi.Geom.Point {
+            if (this.dirty) {
+                this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2,
+                this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
+            }
+            return this._rawCenter;
+        }
+
+        private _transformedCenter: Kiwi.Geom.Point;
 
         public get center(): Kiwi.Geom.Point {
             if (this.dirty) {
-                this._center.x = this.bounds.x + this.bounds.width / 2,
-                this._center.y = this.bounds.y + this.bounds.height / 2;
+                var t: Kiwi.Geom.Transform = this.entity.transform;
+                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
+                this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
+
             }
-            return this._center;
+            return this._transformedCenter;
         }
 
-        private _rotatedBounds: Kiwi.Geom.Rectangle;
 
-        public get rotatedBounds(): Kiwi.Geom.Rectangle {
+        private _transformedBounds: Kiwi.Geom.Rectangle;
+
+        public get bounds(): Kiwi.Geom.Rectangle {
             if (this.dirty) {
-                this._rotatedBounds = this.bounds.clone();
-                this._rotatedBounds = this._rotateRect(this.bounds.clone()); 
+                this._transformedBounds = this.rawBounds.clone();
+                this._transformedBounds = this._rotateRect(this.rawBounds.clone()); 
             }
-            return this._rotatedBounds;
+            return this._transformedBounds;
         }
-
-        
-        
-        
-
-       
+               
         private _rotateRect(rect: Kiwi.Geom.Rectangle): Kiwi.Geom.Rectangle {
             var out: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle();
             var t: Kiwi.Geom.Transform = this.entity.transform;
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+            m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
             
-            
-            m.setTo(m.a,m.b, m.c, m.d, t.x+t.rotPointX, t.y +t.rotPointY)
-            var rotatedCenter: Kiwi.Geom.Point = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
-
+           
             out = this.extents(
                 m.transformPoint({ x: - t.rotPointX, y: - t.rotPointY }),
                 m.transformPoint({ x: - t.rotPointX + rect.width, y: - t.rotPointY}),
@@ -98,19 +148,39 @@ module Kiwi.Components {
             return out;
         }
 
+        private _rotateHitbox(rect: Kiwi.Geom.Rectangle): Kiwi.Geom.Rectangle {
+            var out: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle();
+            var t: Kiwi.Geom.Transform = this.entity.transform;
+            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+            m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
+
+            out = this.extents(
+                m.transformPoint({ x: - t.rotPointX + this._hitboxOffset.x,              y: - t.rotPointY + this._hitboxOffset.y }),
+                m.transformPoint({ x: - t.rotPointX + rect.width + this._hitboxOffset.x, y: - t.rotPointY +  this._hitboxOffset.y }),
+                m.transformPoint({ x: - t.rotPointX + rect.width + this._hitboxOffset.x, y: - t.rotPointY + rect.height + this._hitboxOffset.y}),
+                m.transformPoint({ x: - t.rotPointX + this._hitboxOffset.x,              y: - t.rotPointY + rect.height + this._hitboxOffset.y })
+                );
+           
+
+            
+
+            return out;
+        }
+
 
         public draw(ctx: CanvasRenderingContext2D) {
             var t: Kiwi.Geom.Transform = this.entity.transform;
             ctx.strokeStyle = "red";
-           /
-            ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
-            ctx.fillRect(this.center.x - 1, this.center.y - 1, 3, 3);
+           
+            ctx.strokeRect(this.rawBounds.x, this.rawBounds.y, this.rawBounds.width, this.rawBounds.height);
+            ctx.fillRect(this.rawCenter.x - 1, this.rawCenter.y - 1, 3, 3);
             ctx.strokeRect(t.x + t.rotPointX - 3 , t.y + t.rotPointY - 3, 7, 7);
             ctx.strokeStyle = "blue";
-            ctx.strokeRect(this.rotatedBounds.x, this.rotatedBounds.y, this.rotatedBounds.width, this.rotatedBounds.height);
-           
-
-           
+            ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+            ctx.strokeStyle = "green";
+            ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+            ctx.strokeStyle = "white";
+            ctx.strokeRect(this.rawHitbox.x, this.rawHitbox.y, this.rawHitbox.width, this.rawHitbox.height);
 
         }
 
