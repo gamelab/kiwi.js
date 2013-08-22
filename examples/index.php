@@ -70,11 +70,11 @@ if(isset($_POST['t'])) {
 
 		<section>
 			<div>
-				<label for="on">Debug On</label>
+				<label for="on"><span class="mobile-off">Debug</span> On</label>
 				<input type="radio" name="d" id="on" value="1" checked />
 			</div>
 			<div>
-				<label for="off">Debug Off</label>
+				<label for="off"><span class="mobile-off">Debug</span> Off</label>
 				<input type="radio" name="d" id="off" value="0" />
 			</div>
 		</section>

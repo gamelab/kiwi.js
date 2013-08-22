@@ -880,6 +880,9 @@ var Kiwi;
 
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);
             }
+
+                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
+            }
         };
         return Game;
     })();
@@ -6590,10 +6593,10 @@ var Kiwi;
 
             TileMap.prototype.getTileFromInputXY = function (layer) {
                 if (layer === undefined) {
-                    return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x() - this.currentLayer.transform.x, this._game.input.mouse.y() - this.currentLayer.transform.y);
+                    return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x - this.currentLayer.transform.x, this._game.input.mouse.y - this.currentLayer.transform.y);
                     ;
                 } else {
-                    return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x() - this.layers[layer].transform.x, this._game.input.mouse.y() - this.layers[layer].transform.y);
+                    return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x - this.layers[layer].transform.x, this._game.input.mouse.y - this.layers[layer].transform.y);
                     ;
                 }
             };
@@ -10717,13 +10720,21 @@ var Kiwi;
                 this.mouseUp.dispatch(this._x, this._y, this.timeDown, this.timeUp, this.duration);
             };
 
-            Mouse.prototype.x = function () {
-                return this._x;
-            };
+            Object.defineProperty(Mouse.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Mouse.prototype.y = function () {
-                return this._y;
-            };
+            Object.defineProperty(Mouse.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Mouse.prototype.onMouseWheel = function (event) {
                 if (event['wheelDeltaX']) {
@@ -10826,12 +10837,12 @@ var Kiwi;
             Manager.prototype.update = function () {
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch.update();
-                    this.position.setTo(this.touch.x(), this.touch.y());
+                    this.position.setTo(this.touch.x, this.touch.y);
                     this.isDown = this.touch.isDown;
                 } else {
                     this.keyboard.update();
                     this.mouse.update();
-                    this.position.setTo(this.mouse.x(), this.mouse.y());
+                    this.position.setTo(this.mouse.x, this.mouse.y);
                     this.isDown = this.mouse.isDown;
                 }
             };
@@ -10901,6 +10912,9 @@ var Kiwi;
                 this.touchDown = new Kiwi.Signal();
                 this.touchUp = new Kiwi.Signal();
 
+                this.fingerDown = new Kiwi.Signal();
+                this.fingerUp = new Kiwi.Signal();
+
                 this.start();
             };
 
@@ -10936,18 +10950,28 @@ var Kiwi;
                 event.preventDefault();
             };
 
-            Touch.prototype.x = function () {
-                return this._x;
-            };
+            Object.defineProperty(Touch.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Touch.prototype.y = function () {
-                return this._y;
-            };
+            Object.defineProperty(Touch.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Touch.prototype.onTouchStart = function (event) {
                 klog.info('touch start');
 
                 event.preventDefault();
+
+                console.log(event);
 
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     for (var f = 0; f < this._fingers.length; f++) {
@@ -10957,6 +10981,7 @@ var Kiwi;
                             this._y = this._fingers[f].y;
                             klog.info('x: ' + this._x + ' y: ' + this._y);
                             this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
+                            this.fingerDown.dispatch(this._fingers[f]);
                             this.isDown = true;
                             this.isUp = false;
                             break;
@@ -11020,6 +11045,8 @@ var Kiwi;
                             this._x = this._fingers[f].x;
                             this._y = this._fingers[f].y;
                             this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
+                            this.fingerUp.dispatch(this._fingers[f]);
+
                             this.isDown = false;
                             this.isUp = true;
                             break;

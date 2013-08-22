@@ -385,7 +385,7 @@ module Kiwi.Input {
         * @method x
         * @return {Number}
         */
-        public x(): number {
+        public get x(): number {
             return this._x;
         }
 
@@ -394,7 +394,7 @@ module Kiwi.Input {
         * @method y
         * @return {Number}
         */
-        public y(): number {
+        public get y(): number {
             return this._y;
         }
 

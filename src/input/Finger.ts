@@ -27,6 +27,7 @@ module Kiwi.Input {
 
             this._game = game;
             this.active = false;
+            //generate an id
 
         }
 
