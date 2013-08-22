@@ -54,13 +54,7 @@ module Kiwi.System {
 
     
 
-        /**
-        * This div sits on-top of all layers and captures user input
-        * @property input
-        * @type HTMLDivElement
-        */
-
-        public canvasLayers: HTMLDivElement = null;
+       
 
         /**
         * This div sits on-top of all layers and captures user input
