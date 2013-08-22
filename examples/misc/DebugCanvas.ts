@@ -18,11 +18,11 @@ class DebugCanvas extends Kiwi.State {
 
 
        
-        this.addImage('explosion', 'assets/indiana.png',true,124,170);
+        this.addImage('explosion', 'assets/slide5.jpg',true,300,120);
     }
 
 
-    public at: Kiwi.GameObjects.Sprite;
+    
     public explosion: Kiwi.GameObjects.Sprite;
 
     
@@ -30,7 +30,7 @@ class DebugCanvas extends Kiwi.State {
 
        
 
-        this.explosion = new Kiwi.GameObjects.Sprite(this.textures.explosion, 100, 120);
+        this.explosion = new Kiwi.GameObjects.Sprite(this.textures.explosion, 120, 120);
       
 
         this.addChild(this.explosion);
@@ -41,10 +41,10 @@ class DebugCanvas extends Kiwi.State {
 
     update() {
         super.update();
-        //this.explosion.transform.rotPointX = 5;
-        //this.explosion.transform.rotPointY = 10;
+        this.explosion.transform.rotPointX = 50;
+        this.explosion.transform.rotPointY = 70;
 
-        this.explosion.transform.rotation +=0.01;
+        this.explosion.transform.rotation +=0.005;
 
         this.game.stage.clearDebugCanvas();
         this.explosion.box.draw(this.ctx);

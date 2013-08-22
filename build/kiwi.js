@@ -2835,7 +2835,7 @@ var Kiwi;
 
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === child.id) {
-                    this.members.slice(i, 1);
+                    this.members.splice(i, 1);
                 }
             }
             return child;
@@ -4401,7 +4401,7 @@ var Kiwi;
         function Stage(game, name) {
             this.offset = new Kiwi.Geom.Point();
             this.container = null;
-            this._framerate = 3;
+            this._frameRate = 3;
             this._game = game;
 
             this.name = name;
@@ -4570,13 +4570,18 @@ var Kiwi;
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         };
 
-        Stage.prototype.frameRate = function (value) {
-            if (value) {
-                this._framerate = value;
-            }
+        Object.defineProperty(Stage.prototype, "frameRate", {
+            get: function () {
+                return this._frameRate;
+            },
+            set: function (value) {
+                if (value >= 0)
+                    this._frameRate = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
 
-            return this._framerate;
-        };
         return Stage;
     })();
     Kiwi.Stage = Stage;
@@ -4765,14 +4770,19 @@ var Kiwi;
                 var out = new Kiwi.Geom.Rectangle();
 
                 var t = this.entity.transform;
+                var m = t.getConcatenatedMatrix();
 
-                var angle = t.rotation;
-                var rx = t.rotPointX;
-                var ry = t.rotPointY;
+                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+                var rotatedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - t.rotPointX, this.entity.height / 2 - t.rotPointY));
 
-                var m = this.entity.transform.matrix;
+                var ctx = this.entity.game.stage.dctx;
 
-                out = this.extents(m.transformPoint({ x: rect.x, y: rect.y }), m.transformPoint({ x: rect.x + rect.width, y: rect.y }), m.transformPoint({ x: rect.x + rect.width, y: rect.y + rect.height }), m.transformPoint({ x: rect.x, y: rect.y + rect.height }));
+                ctx.fillStyle = "yellow";
+                ctx.fillRect(rotatedCenter.x - 3, rotatedCenter.y - 3, 5, 5);
+
+                ctx.restore();
+
+                out = this.extents(m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY + rect.height }), m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY + rect.height }));
 
                 return out;
             };
@@ -6106,16 +6116,20 @@ var Kiwi;
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
-                    var m = this.transform.getConcatenatedMatrix();
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-
                     if (this.alpha > 0 && this.alpha <= 1) {
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    var cell = this.atlas.cells[this.cellIndex];
-                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, 0, 0, cell.w, cell.h);
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
 
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+
+                    ctx.fillStyle = "green";
+                    ctx.fillRect(-2, -2, 5, 5);
+
+                    var cell = this.atlas.cells[this.cellIndex];
+                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                     ctx.restore();
                 }
             };
@@ -6145,6 +6159,7 @@ var Kiwi;
                 this.transform.rotPointY = this.height / 2;
 
                 this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
+                this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
 
                 klog.info('Created StaticImage Game Object');
             }
@@ -12036,6 +12051,10 @@ var Kiwi;
                 this.image = image;
                 this._type = type;
             }
+            TextureAtlas.prototype.objType = function () {
+                return "TextureAtlas";
+            };
+
             Object.defineProperty(TextureAtlas.prototype, "type", {
                 get: function () {
                     return this._type;
@@ -12088,12 +12107,14 @@ var Kiwi;
             this._game = game;
             this.textures = {};
         }
+        TextureCache.prototype.objType = function () {
+            return "TextureCache";
+        };
+
         TextureCache.prototype.clear = function () {
         };
 
         TextureCache.prototype.add = function (imageFile) {
-            imageFile = this._rebuildImage(imageFile);
-
             switch (imageFile.dataType) {
                 case Kiwi.File.SPRITE_SHEET:
                     this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
@@ -12202,6 +12223,10 @@ var Kiwi;
 
                 _super.call(this, name, Kiwi.Textures.TextureAtlas.SPRITE_SHEET, this.generateAtlasCells(), texture, this.sequences);
             }
+            SpriteSheet.prototype.objType = function () {
+                return "SpriteSheet";
+            };
+
             SpriteSheet.prototype.generateAtlasCells = function () {
                 var cells = new Array();
                 var cellNumeric = new Array();
@@ -12259,6 +12284,10 @@ var Kiwi;
 
                 _super.call(this, name, Kiwi.Textures.TextureAtlas.SINGLE_IMAGE, this.generateAtlasCells(), image);
             }
+            SingleImage.prototype.objType = function () {
+                return "SingleImage";
+            };
+
             SingleImage.prototype.generateAtlasCells = function () {
                 return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height, hitboxes: [{ x: 0, y: 0, w: this.width, h: this.height }] }];
             };

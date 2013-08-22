@@ -43,7 +43,7 @@ module Kiwi.GameObjects {
             
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
-
+            this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
            
 
             klog.info('Created StaticImage Game Object');
@@ -60,11 +60,12 @@ module Kiwi.GameObjects {
         }
 
         /** 
-	     * The Bounds component that controls the bounding box around this Game Object
-	     * @property bounds
-	     * @type Kiwi.Components.Bounds
-	     **/
+         * The Bounds component that controls the bounding box around this Game Object
+         * @property bounds
+         * @type Kiwi.Components.Bounds
+         **/
         public bounds: Kiwi.Components.Bounds;
+        public box: Kiwi.Components.Box;
 
 	  
 

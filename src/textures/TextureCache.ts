@@ -49,7 +49,7 @@ module Kiwi {
         */
         public add(imageFile: File) {
 
-            imageFile = this._rebuildImage(imageFile);
+            //imageFile = this._rebuildImage(imageFile);
 
             switch (imageFile.dataType) {
                 case File.SPRITE_SHEET:
