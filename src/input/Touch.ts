@@ -170,8 +170,19 @@ module Kiwi.Input {
         **/
         public isUp: bool = true;
 
+        /*
+        * Event listeners that are for touch events in general
+        *
+        */
         public touchDown: Kiwi.Signal;
         public touchUp: Kiwi.Signal;
+
+        /*
+        * Event Listeners specfically for returning fingers
+        * 
+        */
+        public fingerDown: Kiwi.Signal;
+        public fingerUp: Kiwi.Signal;
         
         /** 
         * The DOM is ready, so we can start listening now
@@ -198,6 +209,10 @@ module Kiwi.Input {
             this.touchDown = new Kiwi.Signal();
             this.touchUp = new Kiwi.Signal();
 
+            this.fingerDown = new Kiwi.Signal();
+            this.fingerUp = new Kiwi.Signal();
+            
+
             this.start();
         }
 
@@ -207,7 +222,7 @@ module Kiwi.Input {
         * @method start 
         */
         public start() {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) { 
                 this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
                 this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
                 this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
@@ -217,6 +232,8 @@ module Kiwi.Input {
                 
                 document.addEventListener('touchmove', (event) => this.consumeTouchMove(event), false);
             }
+
+            //cocoon events need to be added here... These should hopefully just be through the window
         }
 
         /** 
@@ -235,7 +252,7 @@ module Kiwi.Input {
         * @method x
         * @return {Number}
         **/
-        public x(): number {
+        public get x(): number {
             return this._x;
         }
 
@@ -244,7 +261,7 @@ module Kiwi.Input {
         * @method y
         * @return {Number}
         **/
-        public y(): number {
+        public get y(): number {
             return this._y;
         }
 
@@ -265,9 +282,13 @@ module Kiwi.Input {
             //  event.targetTouches = list of all touches on the TARGET ELEMENT (i.e. game dom element)
             //  event.touches = list of all touches on the ENTIRE DOCUMENT, not just the target element
             //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
+
+            console.log(event);
+
             for (var i = 0; i < event.changedTouches.length; i++)
             {
-                for (var f = 0; f < this._fingers.length; f++)
+                //loop though the fingers to find the first one that is not active
+                for (var f = 0; f < this._fingers.length; f++) 
                 {
                     if (this._fingers[f].active === false)
                     {
@@ -276,9 +297,10 @@ module Kiwi.Input {
                         this._y = this._fingers[f].y;
                         klog.info('x: ' + this._x + ' y: ' + this._y);
                         this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
+                        this.fingerDown.dispatch(this._fingers[f]);
                         this.isDown = true;
                         this.isUp = false;
-                        break;
+                        break;  
                     }
                 }
             }
@@ -375,7 +397,7 @@ module Kiwi.Input {
         private onTouchMove(event) {
 
             //event.preventDefault();
-
+            
             //  event.targetTouches = list of all touches on the TARGET ELEMENT (i.e. game dom element)
             //  event.touches = list of all touches on the ENTIRE DOCUMENT, not just the target element
             //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
@@ -419,7 +441,9 @@ module Kiwi.Input {
                         this._x = this._fingers[f].x;
                         this._y = this._fingers[f].y;
                         this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
-                        this.isDown = false;
+                        this.fingerUp.dispatch(this._fingers[f]);
+
+                        this.isDown = false; 
                         this.isUp = true;
                         break;
                     }

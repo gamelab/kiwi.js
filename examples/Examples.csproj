@@ -37,11 +37,23 @@
     <Content Include="camera\test1.js">
       <DependentUpon>test1.ts</DependentUpon>
     </Content>
-    <Content Include="gl-matrix-min.js" />
     <TypeScriptCompile Include="misc\DebugCanvas.ts" />
     <Content Include="misc\DebugCanvas.js">
       <DependentUpon>DebugCanvas.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="TouchEvents\Touch.ts" />
+    <TypeScriptCompile Include="TouchEvents\Dragging.ts" />
+    <Content Include="TouchEvents\Dragging.js">
+      <DependentUpon>Dragging.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="TouchEvents\Finger.ts" />
+    <Content Include="TouchEvents\Finger.js">
+      <DependentUpon>Finger.ts</DependentUpon>
+    </Content>
+    <Content Include="TouchEvents\MultiTouch.js">
+      <DependentUpon>MultiTouch.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="TouchEvents\MultiTouch.ts" />
     <Content Include="Tweens\EasingMethods.js">
       <DependentUpon>EasingMethods.ts</DependentUpon>
     </Content>
@@ -154,7 +166,6 @@
     </Content>
     <Content Include="assets\zombie.png" />
     <Content Include="assets\zombieSprite.png" />
-    <Content Include="examples.css" />
     <TypeScriptCompile Include="GameObjects\AddingSprite.ts" />
     <TypeScriptCompile Include="GameObjects\MovingSpriteWithKeys.ts" />
     <TypeScriptCompile Include="groups\CreatingUsingGroups.ts" />
@@ -186,8 +197,6 @@
     <Content Include="hud\Hud4.js">
       <DependentUpon>RemovingWidgets.ts</DependentUpon>
     </Content>
-    <Content Include="jquery-1.9.1.d.ts" />
-    <Content Include="jquery-1.9.1.js" />
     <TypeScriptCompile Include="sprites\Sprite1.ts" />
     <Content Include="how to setup tests.txt" />
   </ItemGroup>

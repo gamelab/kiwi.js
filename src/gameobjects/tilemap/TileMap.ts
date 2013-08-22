@@ -312,9 +312,9 @@ module Kiwi.GameObjects {
         */
         public getTileFromInputXY(layer?: number): Tile {
             if (layer === undefined) {
-                return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x() - this.currentLayer.transform.x, this._game.input.mouse.y() - this.currentLayer.transform.y);;
+                return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x - this.currentLayer.transform.x, this._game.input.mouse.y - this.currentLayer.transform.y);;
             } else {
-                return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x() - this.layers[layer].transform.x, this._game.input.mouse.y() - this.layers[layer].transform.y);;
+                return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x - this.layers[layer].transform.x, this._game.input.mouse.y - this.layers[layer].transform.y);;
             }
 
         }

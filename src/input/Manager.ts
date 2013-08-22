@@ -29,6 +29,9 @@ module Kiwi.Input {
             return "Manager";
         }
 
+        /*
+        * Kiwi Signals for listening to certain events.
+        */
         public onDown: Kiwi.Signal;
         public onUp: Kiwi.Signal;
         public onPressed: Kiwi.Signal;
@@ -128,14 +131,14 @@ module Kiwi.Input {
             if (Kiwi.DEVICE.touch === true)
             {
                 this.touch.update();
-                this.position.setTo(this.touch.x(), this.touch.y());
+                this.position.setTo(this.touch.x, this.touch.y);
                 this.isDown = this.touch.isDown;
             }
             else
             {
                 this.keyboard.update();
                 this.mouse.update();
-                this.position.setTo(this.mouse.x(), this.mouse.y());
+                this.position.setTo(this.mouse.x, this.mouse.y);
                 this.isDown = this.mouse.isDown;
             }
 
