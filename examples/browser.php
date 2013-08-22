@@ -3,7 +3,7 @@ include 'functions.php';
 
 if(isset($_GET['f'])) {
 	$filepath = $_GET['f'];
-	$renderer = (isset($_GET['r'])) ? $_GET['r'] : 'Kiwi.RENDERER_WEBGL';
+	$renderer = (isset($_GET['r'])) ? $_GET['r'] : 'Kiwi.RENDERER_CANVAS';
 	$debug = (isset($_GET['d'])) ? 'Kiwi.DEBUG_ON' : 'Kiwi.DEBUG_OFF';
 	$state = substr($filepath, strpos($filepath, '/') + 1, -3);
 } else {
@@ -30,28 +30,30 @@ if(isset($_GET['f'])) {
     <?php } ?>
 </head>
 <body>
+<div class="container">
+	<section class="options">
 
 <?php  if(isset($_GET['f']) && file_exists($filepath)) { ?>
-
 		
 		<?php
 			echo '<a href="index.php" class="button">Home</a>';
-			//Debugging
-			if($debug == 'Kiwi.DEBUG_ON') {
-				echo '<a href="browser.php?f='.$filepath.'&amp;r='.$renderer.'" class="button">Debug Off</a>';
-			} else {
-				echo '<a href="browser.php?f='.$filepath.'&amp;r='.$renderer.'&amp;d=1" class="button">Debug On</a>';
-			}
-
 			//get the debug
 			$d = ($debug == 'Kiwi.DEBUG_OFF') ? '' : '&amp;d=1';
 			
 			//render
 			if($renderer == 'Kiwi.RENDERER_CANVAS' || $renderer == '0') {
-				echo '<a href="browser.php?f='.$filepath.$d.'" class="button">WebGL</a>';
+				echo '<a href="browser.php?f='.$filepath.$d.'&amp;r=1" class="button">Use WebGL</a>';
 			} else {
-				echo '<a href="browser.php?f='.$filepath.'&amp;r=0'.$d.'" class="button">Canvas</a>';
+				echo '<a href="browser.php?f='.$filepath.$d.'" class="button">Use Canvas</a>';
 			}
+
+			//Debugging
+			if($debug == 'Kiwi.DEBUG_ON') {
+				echo '<a href="browser.php?f='.$filepath.'&amp;r='.$renderer.'" class="button">Stop Debug</a>';
+			} else {
+				echo '<a href="browser.php?f='.$filepath.'&amp;r='.$renderer.'&amp;d=1" class="button">Start Debug</a>';
+			}
+
 		?>
 	</section>
 
@@ -68,11 +70,15 @@ if(isset($_GET['f'])) {
 
 <?php } else { ?>
     
-	<a href="index.php" class="button">Home</a>
+		<a href="index.php" class="button">Home</a>
+	</section>
 
-    <h1>Filepath <?php echo $filepath ?> does not exist.</h1>
+    <h1>Could not find <em><?php echo $filepath ?></em> :(</h1>
+
+    <p class="message">The example that you were trying to view could not be found and thus could not be loaded. Please check your filepath in the URL and that the JavaScript file that you linked in does exist. Thank you!</p>
 
 <?php } ?>
 
+</div>
 </body>
 </html>

@@ -3,7 +3,7 @@ include 'functions.php';
 
 if(isset($_GET['f'])) {
     $filepath = $_GET['f'];
-    $renderer = (isset($_GET['r'])) ? $_GET['r'] : 'Kiwi.RENDERER_WEBGL';
+    $renderer = (isset($_GET['r'])) ? $_GET['r'] : 'Kiwi.RENDERER_CANVAS';
     $debug = (isset($_GET['d'])) ? 'Kiwi.DEBUG_ON' : 'Kiwi.DEBUG_OFF';
 } else {
     $filepath = 'none';

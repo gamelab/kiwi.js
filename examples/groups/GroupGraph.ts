@@ -27,7 +27,7 @@ class GroupGraph extends Kiwi.State {
     public subGroup: Kiwi.Group;
 
     create() {
-        //this.game.stage.frameRate(5);
+        this.game.frameRate = 5;
         //Create the group
     /*    for (var i = 0; i < 3; i++) {
             this.addChild(new Kiwi.GameObjects.Sprite('bug' + i, this.game.cache, Math.random() * 100, Math.random()  * 100));

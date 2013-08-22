@@ -60,11 +60,11 @@ if(isset($_POST['t'])) {
 		<section>
 			<div>
 				<label for="webgl">WebGL</label>
-				<input type="radio" name="r" id="webgl" value="1" checked />
+				<input type="radio" name="r" id="webgl" value="1" />
 			</div>
 			<div>
 				<label for="canvas">Canvas</label>
-				<input type="radio" name="r" id="canvas" value="0" />
+				<input type="radio" name="r" id="canvas" value="0" checked />
 			</div>
 		</section>
 

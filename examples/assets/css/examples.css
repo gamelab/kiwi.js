@@ -34,6 +34,14 @@ a img {
 	border: none;
 }
 
+.message {
+	margin-top: 1em;
+	line-height: 1.6em;
+	font-size: 0.9em;
+	width: 600px;
+	margin: 0 auto;
+}
+
 /* Header */
 #header {
 	overflow: auto;
@@ -47,19 +55,29 @@ a img {
 }
 
 h1 {
-    margin-top: 1em;
+	margin-top: 1em;
+	margin-bottom: 0.25em;
     font-size: 2.5em;
+    text-align: center;
     color: rgb(210,237,248);
     text-shadow: 0px 4px 3px rgba(0,0,0,0.4), 0px 8px 13px rgba(0,0,0,0.1), 0px 18px 23px rgba(0,0,0,0.1);
 }
 
+#header > h1 {
+    text-align: left;
+	margin-bottom: 0em;
+}
+
+
 /* options */
 #header + .options {
 	margin-top: 0;
+	padding-top: 3px;
 }
 
 .options {
-	margin-top: 1em;
+	margin-top: 0.5em;
+	padding-top: 1px;
 	padding-right: 0;
 	color: rgba(50,50,50,0.9);
 	border-radius: 3px;
@@ -99,11 +117,11 @@ h1 {
 	display: inline-block;
 	margin-left: -2px;
 	border-left: 1px solid rgba(0,0,0,0.2);
+	border-right: 1px solid rgba(255,255,255,0.2);
 	overflow: auto;
 }
 
 .options section:first-child {
-	border-right: none;
 	padding-left: 2.5%;
 }
 
@@ -111,6 +129,20 @@ h1 {
 	width: 50%;
 	float: left;
 	position: relative;
+}
+
+.options .button {
+	background: none;
+	margin: 0;
+	padding: 0.5em 2.5%;
+	border-left: 1px solid rgba(0,0,0,0.2);
+	border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+/* game */
+#game {
+	margin-top: 0.5em;
+	border: 1px solid rgba(200,200,200,0.1);
 }
 
 /* button */

@@ -106,6 +106,7 @@ module Kiwi {
                     if (!imageFile.metadata.cols) 
                         imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth; 
                     
+
                 }
 
                 imageFile.data = image;

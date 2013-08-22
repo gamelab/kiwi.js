@@ -8,7 +8,7 @@ class movement extends Kiwi.State {
 
     preload() {
         this.addJSON('desert', 'assets/tilemaps/desert.json', false);
-        this.addSpriteSheet('tiles', 'assets/tiles/tmw_desert_spacing.png', 32, 32, false);
+        this.addSpriteSheet('tiles', 'assets/tiles/tmw_desert_spacing.png', 32, 32, false, 6 * 8, 6, 8, 1, 1, 1, 1);
         this.addImage('ufo', 'assets/sprites/ufo.png', false);
     }
 
@@ -16,7 +16,7 @@ class movement extends Kiwi.State {
 
         this.tileMap = new Kiwi.GameObjects.TileMap();
         this.addChild(this.tileMap); //has to be added to the stage first
-        this.tileMap.createFromCache('desert', this.cache, 'tiles', this.cache, this.game, Kiwi.GameObjects.TileMap.FORMAT_TILED_JSON);
+        this.tileMap.createFromCache('desert', this.cache, this.textures.tiles, this.game, Kiwi.GameObjects.TileMap.FORMAT_TILED_JSON);
 
         this.textfield = new Kiwi.GameObjects.Textfield('', 400, 10, '#000', 12);
         this.textfield.textAlign = 'center';

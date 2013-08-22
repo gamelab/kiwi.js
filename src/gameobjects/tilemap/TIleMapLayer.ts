@@ -7,14 +7,13 @@ module Kiwi.GameObjects {
         * @constructor
         * @param {Kiwi.Game} game
         * @param {Kiwi.GameObjects.TileMap} parent
-        * @param {Kiwi.Cache} imageCache
-        * @param {string} imageKey
+        * @param {Kiwi.Textures.TextureAtlas} atlas
         * @param {number} mapFormat
         * @param {string} name
         * @param {number} tileWidth
         * @param {number} tileHeight
         */
-        constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.TileMap, imageCache: Kiwi.Cache, imageKey: string, name: string, tileWidth: number, tileHeight: number) {
+        constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
             
             super();
 
@@ -27,7 +26,7 @@ module Kiwi.GameObjects {
 
             this.mapData = [];
             this._tempTileBlock = [];
-            this._texture = imageCache.images.getFile(imageKey).data;
+            this._atlas = atlas;
            
             this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
             
@@ -49,9 +48,9 @@ module Kiwi.GameObjects {
         public components: Kiwi.ComponentManager;
 
         /*
-        * The texture/image daat for this tileLayer
+        * The texture/image data for this tileLayer
         */
-        private _texture;
+        private _atlas: Kiwi.Textures.SpriteSheet;
 
         /*
         * Holds the coordinates for each tile on the sprite sheet.
@@ -336,22 +335,18 @@ module Kiwi.GameObjects {
         public getTileOverlaps(object: Kiwi.Entity) {
             
             //if the object is within the bounds at all.?
-            if (!object.components.hasComponent("Size")) {
-                return;
-            }
-
+            
             var objPos = object.transform;
-            var objSize = object.components.getComponent('Size');
 
-            if (objPos.x > this.transform.x + this.widthInPixels || objPos.x + objSize.width() < this.transform.x || objPos.y > this.transform.y + this.heightInPixels || objPos.y + objSize.height() < this.transform.y) {
+            if (objPos.x > this.transform.x + this.widthInPixels || objPos.x + object.width < this.transform.x || objPos.y > this.transform.y + this.heightInPixels || objPos.y + object.height < this.transform.y) {
                 return;
             }
 
             this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x - this.transform.x, this.tileWidth) / this.tileWidth;
             this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y - this.transform.y, this.tileHeight) / this.tileHeight;
             
-            this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(objSize.width(), this.tileWidth) / this.tileWidth;
-            this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(objSize.height(), this.tileHeight) / this.tileHeight;
+            this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(object.width, this.tileWidth) / this.tileWidth;
+            this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(object.height, this.tileHeight) / this.tileHeight;
 
             this.getTempBlock(this._tempTileX, this._tempTileY, this._tempTileW + 1, this._tempTileH + 1, true);
             
@@ -442,8 +437,12 @@ module Kiwi.GameObjects {
                 i = 1;
             }
 
-            for (var ty = this.tileMargin; ty < this._texture.height; ty += (this.tileHeight + this.tileSpacing)) {
-                for (var tx = this.tileMargin; tx < this._texture.width; tx += (this.tileWidth + this.tileSpacing)) {
+            var height = this._atlas.rows * (this.tileHeight + this.tileSpacing) + this.tileMargin;
+            var width = this._atlas.cols * (this.tileWidth + this.tileSpacing) + this.tileMargin;
+
+            for (var ty = this.tileMargin; ty < height; ty += (this.tileHeight + this.tileSpacing)) {
+
+                for (var tx = this.tileMargin; tx < width; tx += (this.tileWidth + this.tileSpacing)) {
                     this._tileOffsets[i] = { x: tx, y: ty };
                     i++;
                 }
@@ -517,7 +516,7 @@ module Kiwi.GameObjects {
                     
                     if (this._tileOffsets[this._columnData[tile].tileType.index]) {        //if the tile exists
                         ctx.drawImage(
-                            this._texture,	                                               //  Source Image
+                            this._atlas.image,	                                           //  Source Image
                             this._tileOffsets[this._columnData[tile].tileType.index].x,    //  Source X (location within the source image)
                             this._tileOffsets[this._columnData[tile].tileType.index].y,    //  Source Y
                             this.tileWidth, 	                                           //	Source Width
