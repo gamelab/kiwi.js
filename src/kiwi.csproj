@@ -23,7 +23,7 @@
   <ItemGroup>
     <Content Include="components\Box.ts" />
     <Content Include="core\Game.ts" />
-    <Content Include="animation\Animation.ts" />
+    <Content Include="animation\Anim.ts" />
     <Content Include="file\Cache.ts" />
     <Content Include="file\File.ts" />
     <Content Include="file\FileCache.ts" />
@@ -57,7 +57,6 @@
     <Content Include="core\StateManager.ts" />
     <Content Include="core\State.ts" />
     <Content Include="core\Group.ts" />
-    <Content Include="core\Loader.ts" />
     <Content Include="core\IChild.ts" />
     <Content Include="core\Stage.ts" />
     <Content Include="core\Signal.ts" />

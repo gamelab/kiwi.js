@@ -29,7 +29,7 @@ module Kiwi {
             klog.debug('----------- State created: ' + name + ' -----------');
             
             this.config = new Kiwi.StateConfig(this, name);
-            this.cache = new Kiwi.Cache(this.game);
+            this.cache = new Kiwi.Files.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
            
@@ -60,14 +60,14 @@ module Kiwi {
         * @type Kiwi.Cache
         **/
         //RENAME TO FILECACHE
-        public cache: Kiwi.Cache;
+        public cache: Kiwi.Files.Cache;
 
         /**
         * 
         * @property cache
         * @type Kiwi.Cache
         **/
-        public textureCache: Kiwi.TextureCache;
+        public textureCache: Kiwi.Textures.TextureCache;
 
         /*
         * Holds all of the textures that are avaiable to be accessed once this state has been loaded.
@@ -89,7 +89,7 @@ module Kiwi {
         public boot() {
 
             klog.info('State booted: ', this.config.name);
-            this.textureCache = new Kiwi.TextureCache(this.game);
+            this.textureCache = new Kiwi.Textures.TextureCache(this.game);
             this.textures = this.textureCache.textures;
             this.cache.boot();
             //this.cache = this.game.cache;
@@ -118,9 +118,9 @@ module Kiwi {
         * @method loadProgress
         * @param {Number} percent
         * @param {Number} bytesLoaded
-        * @param {Kiwi.File} file
+        * @param {Kiwi.Files} file
         **/
-        public loadProgress(percent: number, bytesLoaded: number, file: Kiwi.File) { }
+        public loadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File) { }
 
         /**
         * 

@@ -14,9 +14,9 @@
  *  @todo       Replace with the time / clock manager
 */
 
-module Kiwi.HUD {
+module Kiwi.HUD.Widget {
 
-    export class Time extends Kiwi.HUD.TextField {
+    export class Time extends Kiwi.HUD.Widget.TextField {
 
         /**
         *
@@ -28,7 +28,7 @@ module Kiwi.HUD {
         constructor(format:string,x:number,y:number) {
             super('time', x, y);
 
-            this.time = this.components.add(new Kiwi.Components.Time(0));
+            this.time = this.components.add(new Kiwi.HUD.Components.Time(0));
             this.time.updated.add(this.updateTime, this);
 
             this.format(format);
@@ -45,7 +45,7 @@ module Kiwi.HUD {
         * Holds the time component.
         * @public
         **/
-        public time: Kiwi.Components.Time;
+        public time: Kiwi.HUD.Components.Time;
 
         /**
         * Allows you to set the time based on the parameter's passed.

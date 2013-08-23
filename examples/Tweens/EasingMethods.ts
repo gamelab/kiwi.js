@@ -13,12 +13,12 @@ class EasingMethods extends Kiwi.State {
     create() {
 
         var easing = new Array();
-        easing.push(Kiwi.Tweens.Easing.Linear.None);
-        easing.push(Kiwi.Tweens.Easing.Bounce.In);
-        easing.push(Kiwi.Tweens.Easing.Elastic.In);
-        easing.push(Kiwi.Tweens.Easing.Sinusoidal.In);
-        easing.push(Kiwi.Tweens.Easing.Circular.In);
-        easing.push(Kiwi.Tweens.Easing.Quartic.In);
+        easing.push(Kiwi.Animation.Tweens.Easing.Linear.None);
+        easing.push(Kiwi.Animation.Tweens.Easing.Bounce.In);
+        easing.push(Kiwi.Animation.Tweens.Easing.Elastic.In);
+        easing.push(Kiwi.Animation.Tweens.Easing.Sinusoidal.In);
+        easing.push(Kiwi.Animation.Tweens.Easing.Circular.In);
+        easing.push(Kiwi.Animation.Tweens.Easing.Quartic.In);
 
         for (var i = 0; i < easing.length; i++) {
             var ufo = new Kiwi.GameObjects.Sprite(this.textures.ufo, 50, 40 * i + 25);

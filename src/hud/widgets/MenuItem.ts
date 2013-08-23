@@ -1,6 +1,6 @@
 /// <reference path="../../Kiwi.ts" />
 
-module Kiwi.HUD {
+module Kiwi.HUD.Widget {
 
     export class MenuItem extends Kiwi.HUD.HUDWidget {
 
@@ -24,19 +24,19 @@ module Kiwi.HUD {
         //public size: Kiwi.Components.Size;
 
         //the input
-        public input: Kiwi.Components.WidgetInput;
+        public input: Kiwi.HUD.Components.WidgetInput;
 
         //the bounds
         public bounds: Kiwi.Components.Bounds;
 
-        private menu: Kiwi.HUD.Menu;
+        private menu: Kiwi.HUD.Widget.Menu;
 
         //when the menu item is added to the stag
-        public addedToStage(game:Kiwi.Game, menu:Kiwi.HUD.Menu) {
+        public addedToStage(game:Kiwi.Game, menu:Kiwi.HUD.Widget.Menu) {
             this.game = game;
             this.menu = menu;
             this._applyCSS();
-            this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
+            this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
         }
 
         //apply the css

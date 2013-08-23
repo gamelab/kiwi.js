@@ -11,8 +11,8 @@ class Chaining extends Kiwi.State {
     }
 
     public ufo: Kiwi.GameObjects.Sprite;
-    public tweenA: Kiwi.Tween;
-    public tweenB: Kiwi.Tween;
+    public tweenA: Kiwi.Animation.Tween;
+    public tweenB: Kiwi.Animation.Tween;
 
     create() {
 
@@ -26,11 +26,11 @@ class Chaining extends Kiwi.State {
         this.tweenA = this.game.tweens.create(this.ufo.transform); //eventually will be just this.cat when x/y are atlased to it...
 
         //Creation Method B
-        this.tweenB = new Kiwi.Tween(this.ufo.transform, this.game);
+        this.tweenB = new Kiwi.Animation.Tween(this.ufo.transform, this.game);
         this.game.tweens.add(this.tweenB);                  //alternatively you can combine the two lines into one
 
-        this.tweenA.to({ x: 400 }, 1000, Kiwi.Tweens.Easing.Linear.None, false);
-        this.tweenB.to({ y: 400 }, 1000, Kiwi.Tweens.Easing.Linear.None, false);
+        this.tweenA.to({ x: 400 }, 1000, Kiwi.Animation.Tweens.Easing.Linear.None, false);
+        this.tweenB.to({ y: 400 }, 1000, Kiwi.Animation.Tweens.Easing.Linear.None, false);
 
         this.tweenA.chain(this.tweenB);
 

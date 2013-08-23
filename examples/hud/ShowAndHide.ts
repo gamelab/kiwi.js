@@ -6,11 +6,11 @@ class ShowAndHide extends Kiwi.State {
         super('ShowAndHide');        
     }
     
-    public score: Kiwi.HUD.BasicScore;
+    public score: Kiwi.HUD.Widget.BasicScore;
     public girl: Kiwi.GameObjects.Sprite;
 
     init() {
-        this.score = new Kiwi.HUD.BasicScore(20, 20);
+        this.score = new Kiwi.HUD.Widget.BasicScore(20, 20);
 
         this.score.container.style.color = 'pink';
         this.score.container.style.width = '400px';

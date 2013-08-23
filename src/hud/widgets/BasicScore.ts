@@ -14,10 +14,10 @@
  *
 */
 
-module Kiwi.HUD {
+module Kiwi.HUD.Widget {
 
-   
-    export class BasicScore extends Kiwi.HUD.TextField {
+    
+    export class BasicScore extends Kiwi.HUD.Widget.TextField {
        
         /**
         *
@@ -27,7 +27,7 @@ module Kiwi.HUD {
         **/
         constructor(x: number, y: number) {
             super("basicScore", x, y);
-            this.counter = this.components.add(new Kiwi.Components.Counter(0, 1));
+            this.counter = this.components.add(new Kiwi.HUD.Components.Counter(0, 1));
             this.counter.updated.add(this._updateText, this);
         }
 
@@ -35,7 +35,7 @@ module Kiwi.HUD {
         * Holds the reference to the counter component.
         * @public
         **/
-        public counter: Kiwi.Components.Counter;
+        public counter: Kiwi.HUD.Components.Counter;
         
         /**
         * Updates the text when someone modifies the counter.

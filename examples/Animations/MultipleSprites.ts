@@ -16,9 +16,9 @@ class MultipleSprites extends Kiwi.State {
     
     create() {
 
-        this.textures.zombie.sequences.push(new Kiwi.Sequence('walkright', [1, 2, 3, 4, 5, 6], 0.1, true));
-        this.textures.zombie.sequences.push(new Kiwi.Sequence('liedown', [0, 7, 8], 0.15, false));
-        this.textures.zombie.sequences.push(new Kiwi.Sequence('explode', [11, 12, 13, 14, 15], 0.05, false));
+        this.textures.zombie.sequences.push(new Kiwi.Animation.Sequence('walkright', [1, 2, 3, 4, 5, 6], 0.1, true));
+        this.textures.zombie.sequences.push(new Kiwi.Animation.Sequence('liedown', [0, 7, 8], 0.15, false));
+        this.textures.zombie.sequences.push(new Kiwi.Animation.Sequence('explode', [11, 12, 13, 14, 15], 0.05, false));
 
         this.zombieA = new Kiwi.GameObjects.Sprite(this.textures.zombie, 100, 10);
         this.zombieB = new Kiwi.GameObjects.Sprite(this.textures.zombie, 300, 10);

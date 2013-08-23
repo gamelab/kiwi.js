@@ -12,7 +12,7 @@
  *
 */
 
-module Kiwi.HUD {
+module Kiwi.HUD.Widget {
 
     // Class
     export class TextField extends Kiwi.HUD.HUDWidget {

@@ -15,7 +15,7 @@
  *
  */
 
-module Kiwi {
+module Kiwi.Files {
 
     export class Cache {
 
@@ -47,25 +47,25 @@ module Kiwi {
         * @type Kiwi.FileCache[]
         * @private
         **/
-        private _caches: Kiwi.FileCache[];
+        private _caches: Kiwi.Files.FileCache[];
 
         /**
         * @property images
         * @type Kiwi.FileCache
         */
-        public images:Kiwi.FileCache = null;
+        public images: Kiwi.Files.FileCache = null;
 
         /**
         * @property audio
         * @type Kiwi.FileCache
         */
-        public audio:Kiwi.FileCache = null;
+        public audio: Kiwi.Files.FileCache = null;
 
         /**
         * @property data
         * @type Kiwi.FileCache
         */
-        public data:Kiwi.FileCache = null;
+        public data: Kiwi.Files.FileCache = null;
 
 
         /**
@@ -76,9 +76,9 @@ module Kiwi {
 
             this._caches = [];
 
-            this._caches.push(new Kiwi.FileCache());
-            this._caches.push(new Kiwi.FileCache());
-            this._caches.push(new Kiwi.FileCache());
+            this._caches.push(new Kiwi.Files.FileCache());
+            this._caches.push(new Kiwi.Files.FileCache());
+            this._caches.push(new Kiwi.Files.FileCache());
 
             this.images = this._caches[0];
             this.audio = this._caches[1];
@@ -86,7 +86,7 @@ module Kiwi {
 
         }
 
-        public checkImageCacheID(cacheID: string, cache: Kiwi.Cache): bool {
+        public checkImageCacheID(cacheID: string, cache: Kiwi.Files.Cache): bool {
 
             if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false)
             {
@@ -98,7 +98,7 @@ module Kiwi {
 
         }
 
-        public checkDataCacheID(cacheID: string, cache: Kiwi.Cache): bool {
+        public checkDataCacheID(cacheID: string, cache: Kiwi.Files.Cache): bool {
 
             if (cacheID == '' || cache === null || cache.images === null || cache.data.exists(cacheID) === false) {
                 klog.warn('Data cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);

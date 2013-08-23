@@ -12,7 +12,7 @@ module Kiwi.Sound {
         * @param {number} volume - A number between 0 (silence) and 1 (loud).
         * @param {bool} loop 
         */
-        constructor(game: Kiwi.Game, cacheID:string, cache: Kiwi.Cache, volume:number, loop:bool) {
+        constructor(game: Kiwi.Game, cacheID: string, cache: Kiwi.Files.Cache, volume:number, loop:bool) {
             
             this._game = game;
 
@@ -133,7 +133,7 @@ module Kiwi.Sound {
         * The property containing the file information about the audio.
         * @private
         */
-        private _file: Kiwi.File;
+        private _file: Kiwi.Files.File;
         private _sound: any;
 
         /*
@@ -240,7 +240,7 @@ module Kiwi.Sound {
         * @param {Kiwi.Cache} cache
         * @return {boolean}
         */
-        private _setAudio(cacheID: string, cache: Kiwi.Cache): boolean {
+        private _setAudio(cacheID: string, cache: Kiwi.Files.Cache): boolean {
             if (cacheID == '' || cache === null || cache.audio === null || cache.audio.exists(cacheID) === false)
             {
                 klog.warn('Audio cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);

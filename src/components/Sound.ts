@@ -40,7 +40,7 @@ module Kiwi.Components {
         * @param {bool} loop
         * @return {Kiwi.Sound.Audio} 
         */
-        public addSound(name: string, cacheID: string, cache: Kiwi.Cache, volume: number, loop: bool): Kiwi.Sound.Audio {
+        public addSound(name: string, cacheID: string, cache: Kiwi.Files.Cache, volume: number, loop: bool): Kiwi.Sound.Audio {
 
             if (this._validate(name) == true) return;
 

@@ -13,7 +13,7 @@
  *
 */
 
-module Kiwi.Components {
+module Kiwi.HUD.Components {
 
     export class Counter extends Kiwi.Component {
         

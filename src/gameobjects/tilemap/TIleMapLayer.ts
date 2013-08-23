@@ -1,4 +1,4 @@
-module Kiwi.GameObjects {
+module Kiwi.GameObjects.Tilemap {
 
     export class TileMapLayer extends Kiwi.Entity {
 
@@ -13,7 +13,7 @@ module Kiwi.GameObjects {
         * @param {number} tileWidth
         * @param {number} tileHeight
         */
-        constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
+        constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.Tilemap.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
             
             super();
 
@@ -40,7 +40,7 @@ module Kiwi.GameObjects {
         /*
         * The parent tileMap of this layer.
         */
-        private _parent: Kiwi.GameObjects.TileMap;
+        private _parent: Kiwi.GameObjects.Tilemap.TileMap;
         
         /*
         * Holds all of the components for the layer
@@ -145,7 +145,7 @@ module Kiwi.GameObjects {
         * @param {number} y
         * @param {number} tileType
         */
-        public putTile(x: number, y: number, tileType: Kiwi.GameObjects.TileType) {
+        public putTile(x: number, y: number, tileType: Kiwi.GameObjects.Tilemap.TileType) {
 
             x = Kiwi.Utils.GameMath.snapToFloor(x, this.tileWidth) / this.tileWidth;
             y = Kiwi.Utils.GameMath.snapToFloor(y, this.tileHeight) / this.tileHeight;
@@ -256,7 +256,7 @@ module Kiwi.GameObjects {
         * @param {number} y
         * @return {number}
         */
-        public getTileFromWorldXY(x: number, y: number): Kiwi.GameObjects.Tile {
+        public getTileFromWorldXY(x: number, y: number): Kiwi.GameObjects.Tilemap.Tile {
 
             x = Kiwi.Utils.GameMath.snapToFloor(x, this.tileWidth) / this.tileWidth;
             y = Kiwi.Utils.GameMath.snapToFloor(y, this.tileHeight) / this.tileHeight;
@@ -382,7 +382,7 @@ module Kiwi.GameObjects {
         * @param {number} y
         * @return {number}
         */
-        public getTile(x: number, y: number): Kiwi.GameObjects.Tile {
+        public getTile(x: number, y: number): Kiwi.GameObjects.Tilemap.Tile {
             if (y >= 0 && y < this.mapData.length) {        //if it is with the bounds
                 if (x >= 0 && x < this.mapData[y].length) {
                     return this.mapData[y][x];              //return
@@ -403,7 +403,7 @@ module Kiwi.GameObjects {
             var data = [];
             
             for (var c = 0; c < row.length; c++) {
-                data[c] = new Kiwi.GameObjects.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
+                data[c] = new Kiwi.GameObjects.Tilemap.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
                 data[c].ty = this.heightInTiles;
                 data[c].tx = c;
             }

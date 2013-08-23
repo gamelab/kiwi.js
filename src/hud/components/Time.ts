@@ -16,7 +16,7 @@
  * 
 */
 
-module Kiwi.Components {
+module Kiwi.HUD.Components {
 
     export class Time extends Kiwi.Component {
 

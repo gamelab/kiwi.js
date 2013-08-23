@@ -26,7 +26,7 @@
  *              4) Delta time support
  */
 
-module Kiwi.Tweens {
+module Kiwi.Animation.Tweens {
 
     export class Manager {
 
@@ -62,7 +62,7 @@ module Kiwi.Tweens {
         * @type Array
         * @private
         **/
-        private _tweens: Kiwi.Tween[];
+        private _tweens: Kiwi.Animation.Tween[];
 
         /** 
         * 
@@ -90,9 +90,9 @@ module Kiwi.Tweens {
         * @param {Any} object
         * @return {Kiwi.Tween}
         **/
-        public create(object): Kiwi.Tween {
+        public create(object): Kiwi.Animation.Tween {
 
-            return new Kiwi.Tween(object, this._game);
+            return new Kiwi.Animation.Tween(object, this._game);
 
         }
 
@@ -101,7 +101,7 @@ module Kiwi.Tweens {
         * @method add
         * @param {Kiwi.Tween} tween
         **/
-        public add(tween: Kiwi.Tween) {
+        public add(tween: Kiwi.Animation.Tween) {
 
             tween.setParent(this._game);
 
@@ -116,7 +116,7 @@ module Kiwi.Tweens {
         * @method remove
         * @param {Kiwi.Tween} tween
         **/
-        public remove(tween: Kiwi.Tween) {
+        public remove(tween: Kiwi.Animation.Tween) {
 
             var i = this._tweens.indexOf(tween);
 

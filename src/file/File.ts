@@ -10,7 +10,7 @@
  *
  */
 
-module Kiwi {
+module Kiwi.Files {
      
     export class File {
 
@@ -22,9 +22,9 @@ module Kiwi {
         * @param {String} cacheID
         * @param {Boolean} saveToCache
         * @param {Kiwi.FileCache} cache
-        * @return {Kiwi.File}
+        * @return {Kiwi.Files}
         */
-        constructor(game: Kiwi.Game, dataType: number, path: string, cacheID: string = '', saveToCache: bool = false, cache: Kiwi.FileCache = null) {
+        constructor(game: Kiwi.Game, dataType: number, path: string, cacheID: string = '', saveToCache: bool = false, cache: Kiwi.Files.FileCache = null) {
 
             this._game = game;
 
@@ -60,7 +60,7 @@ module Kiwi {
             //this._useTagLoader = true;
             //}
 
-            if (this.dataType === Kiwi.File.AUDIO && this._game.audio.usingAudioTag === true) {
+            if (this.dataType === Kiwi.Files.File.AUDIO && this._game.audio.usingAudioTag === true) {
                 this._useTagLoader = true;
             }
 
@@ -153,8 +153,8 @@ module Kiwi {
         * @property _cache
         * @type FileCache
         * @private
-	    */
-        private _cache: Kiwi.FileCache;
+        */
+        private _cache: Kiwi.Files.FileCache;
 
         /**
         * @property _saveToCache
@@ -377,7 +377,7 @@ module Kiwi {
     	*/
         public metadata: any;
 
-       
+        
 
         /**
         * @method load
@@ -386,8 +386,8 @@ module Kiwi {
         * @param {FileCache} [customCache]
         * @param {Number} maxLoadAttempts
         * @param {Number} timeout
-		*/
-        load(onCompleteCallback: any = null, onProgressCallback: any = null, customCache: Kiwi.FileCache = null, maxLoadAttempts: number = 1, timeout: number = 2000) {
+        */
+        load(onCompleteCallback: any = null, onProgressCallback: any = null, customCache: Kiwi.Files.FileCache = null, maxLoadAttempts: number = 1, timeout: number = 2000) {
 
             this.onCompleteCallback = onCompleteCallback;
             this.onProgressCallback = onProgressCallback;
@@ -440,16 +440,16 @@ module Kiwi {
 		*/
         private tagLoader() {
 
-            if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS)
+            if (this.dataType === Kiwi.Files.File.IMAGE || this.dataType === Kiwi.Files.File.SPRITE_SHEET || this.dataType === Kiwi.Files.File.TEXTURE_ATLAS)
             {
                 this.data = new Image();
                 this.data.src = this.fileURL;
                 this.data.onload = (event) => this.tagLoaderOnLoad(event);
                 this.data.onerror = (event) => this.tagLoaderOnError(event);        //To be remade
                 this.data.onreadystatechange = (event) => this.tagLoaderOnReadyStateChange(event);
-               
+            
 
-            } else if (this.dataType === Kiwi.File.AUDIO) {
+            } else if (this.dataType === Kiwi.Files.File.AUDIO) {
                 console.log('Ewww...disgusting...your loading by the audio tags....');
 
                 this.data = new Audio();
@@ -651,18 +651,18 @@ module Kiwi {
                 this.ETag = this._xhr.getResponseHeader('ETag');
                 this.buffer = this._xhr.response;
 
-                if (this.dataType === Kiwi.File.IMAGE || this.dataType === Kiwi.File.SPRITE_SHEET || this.dataType === Kiwi.File.TEXTURE_ATLAS)
+                if (this.dataType === Kiwi.Files.File.IMAGE || this.dataType === Kiwi.Files.File.SPRITE_SHEET || this.dataType === Kiwi.Files.File.TEXTURE_ATLAS)
                 {
                     this.createBlob();
                 }
                 else
                 {
-                    if (this.dataType === Kiwi.File.JSON) {
+                    if (this.dataType === Kiwi.Files.File.JSON) {
                         this.data = String.fromCharCode.apply(null, new Uint8Array(this._xhr.response));
                         this.parseComplete();
                     }
                     
-                    if (this.dataType === Kiwi.File.AUDIO) {
+                    if (this.dataType === Kiwi.Files.File.AUDIO) {
                         this.data = {
                             raw: this._xhr.response,
                             decoded: false,
@@ -937,10 +937,10 @@ module Kiwi {
         /**
         * 
         * @method cache
-        * @param {Kiwi.FileCache} value
+        * @param {Kiwi.FilesCache} value
         * @return {Kiwi.FileCache}
         */
-        public cache(value: Kiwi.FileCache = null): Kiwi.FileCache {
+        public cache(value: Kiwi.Files.FileCache = null): Kiwi.Files.FileCache {
 
             if (value !== null)
             {

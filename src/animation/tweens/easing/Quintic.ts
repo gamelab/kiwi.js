@@ -14,7 +14,7 @@
  *	@todo       
  */
 
-module Kiwi.Tweens.Easing {
+module Kiwi.Animation.Tweens.Easing {
 
     export class Quintic {
 

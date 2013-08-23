@@ -38,7 +38,7 @@
 /// <reference path="components/Sound.ts" />
 /// <reference path="components/ArcadePhysics.ts" />
 
-/// <reference path="animation/Animation.ts" />
+/// <reference path="animation/Anim.ts" />
 /// <reference path="animation/Sequence.ts" />
 
 /// <reference path="core/StateConfig.ts" />

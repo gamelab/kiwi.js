@@ -11,7 +11,7 @@ class CreatingATween extends Kiwi.State {
     }
 
     public cat: Kiwi.GameObjects.Sprite;
-    public tween: Kiwi.Tween;
+    public tween: Kiwi.Animation.Tween;
 
     create() {
 
@@ -27,7 +27,7 @@ class CreatingATween extends Kiwi.State {
         this.cat.input.onRelease.add(this.tweenIt, this);
 
         this.tween = this.game.tweens.create(this.cat.transform);//eventually will be just this.cat when x/y are atlased to it...
-        this.tween.to({ x: 400 }, 1000, Kiwi.Tweens.Easing.Linear.None, false);
+        this.tween.to({ x: 400 }, 1000, Kiwi.Animation.Tweens.Easing.Linear.None, false);
         this.tween.onComplete(this.stop, this);
 
     }

@@ -376,10 +376,10 @@ module Kiwi {
         * @method onLoadProgress
         * @param {Number} percent
         * @param {Number} bytesLoaded
-        * @param {Kiwi.File} file
+        * @param {Kiwi.Filess} file
         * @private
         */
-        private onLoadProgress(percent: number, bytesLoaded: number, file: Kiwi.File) {
+        private onLoadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File) {
 
             if (this.current.config.hasLoadProgress === true)
             {

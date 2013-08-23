@@ -16,7 +16,7 @@
  *
  */
 
-module Kiwi {
+module Kiwi.Files {
 
     export class Loader {
 
@@ -50,7 +50,7 @@ module Kiwi {
         * @type Kiwi.Structs.Queue
         * @private
         */
-        private _fileList: Kiwi.File [];
+        private _fileList: Kiwi.Files.File [];
 
         /**
         * 
@@ -58,7 +58,7 @@ module Kiwi {
         * @type Kiwi.Structs.Queue
         * @private
         */
-        private _loadList: Kiwi.File [];
+        private _loadList: Kiwi.Files.File [];
 
         /**
         * 
@@ -197,13 +197,13 @@ module Kiwi {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addImage(cacheID: string, url: string, cache: Kiwi.FileCache = null, width?: number, height?: number, offsetX?: number, offsetY?: number) {
+        public addImage(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null, width?: number, height?: number, offsetX?: number, offsetY?: number) {
 
             if (cache === null)
             {
                 cache = this._game.cache.images;
             }
-            var file: Kiwi.File = new Kiwi.File(this._game, Kiwi.File.IMAGE, url, cacheID, true, cache);
+            var file: Kiwi.Files.File = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, cacheID, true, cache);
             file.metadata = { width: width, height: height ,offsetX:offsetX,offsetY:offsetY};
 
             this._fileList.push(file);
@@ -219,14 +219,14 @@ module Kiwi {
         * @param {number} frameHeight
         * @param {Kiwi.FileCache} [cache]
         */
-        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, cache: Kiwi.FileCache = null, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, cache: Kiwi.Files.FileCache = null, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
             if (cache === null)
             {
                 cache = this._game.cache.images;
             }
-                        
-            var file = new Kiwi.File(this._game, Kiwi.File.SPRITE_SHEET, url, cacheID, true, cache);
+            
+            var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, cacheID, true, cache);
           
             file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
          
@@ -234,7 +234,7 @@ module Kiwi {
 
         }
         /// ***
-        public addTextureAtlas(cache:Kiwi.Cache,imageID: string, imageURL: string, jsonID?: string, jsonURL?: string) {
+        public addTextureAtlas(cache: Kiwi.Files.Cache,imageID: string, imageURL: string, jsonID?: string, jsonURL?: string) {
 
             console.log(imageID, imageURL, jsonID, jsonURL);
 
@@ -243,8 +243,8 @@ module Kiwi {
                 cache = this._game.cache;
             }
             
-            var imageFile = new Kiwi.File(this._game, Kiwi.File.TEXTURE_ATLAS, imageURL, imageID, true, cache.images);
-            var jsonFile = new Kiwi.File(this._game, Kiwi.File.JSON, jsonURL, jsonID, true, cache.data);
+            var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, imageID, true, cache.images);
+            var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID, true, cache.data);
             
             
             imageFile.metadata = { jsonCache: cache.data, jsonID: jsonID };
@@ -262,14 +262,14 @@ module Kiwi {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addAudio(cacheID: string, url: string, cache: Kiwi.FileCache = null) {
+        public addAudio(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
 
             if (cache === null)
             {
                 cache = this._game.cache.audio;
             }
 
-            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.AUDIO, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, cacheID, true, cache));
            
         }
 
@@ -280,14 +280,14 @@ module Kiwi {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addJSON(cacheID: string, url: string, cache: Kiwi.FileCache = null) {
+        public addJSON(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
 
             if (cache === null)
             {
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.JSON, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, cacheID, true, cache));
 
         }
 
@@ -298,14 +298,14 @@ module Kiwi {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addXML(cacheID: string, url: string, cache: Kiwi.FileCache = null) {
+        public addXML(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
 
             if (cache === null)
             {
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.XML, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, cacheID, true, cache));
 
         }
 
@@ -316,14 +316,14 @@ module Kiwi {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addBinaryFile(cacheID: string, url: string, cache: Kiwi.FileCache = null) {
+        public addBinaryFile(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
 
             if (cache === null)
             {
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.BINARY_DATA, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, cacheID, true, cache));
 
         }
 
@@ -334,24 +334,24 @@ module Kiwi {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addTextFile(cacheID: string, url: string, cache: Kiwi.FileCache = null) {
+        public addTextFile(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
 
             if (cache === null)
             {
                 cache = this._game.cache.data;
             }
 
-            this._fileList.push(new Kiwi.File(this._game, Kiwi.File.TEXT_DATA, url, cacheID, true, cache));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, cacheID, true, cache));
 
         }
 
         /**
         * 
         * @method addCustomFile
-        * @param {Kiwi.File} file
+        * @param {Kiwi.Files} file
         * @param {Kiwi.FileCache} [cache]
         */
-        public addCustomFile(file: Kiwi.File, cache: Kiwi.FileCache = null) {
+        public addCustomFile(file: Kiwi.Files.File, cache: Kiwi.Files.FileCache = null) {
 
             if (cache !== null)
             {
@@ -413,7 +413,7 @@ module Kiwi {
 
             if (this._fileList.length === 0)
             {
-                var tempFile: Kiwi.File = this._fileList.shift();
+                var tempFile: Kiwi.Files.File = this._fileList.shift();
 
                 tempFile.getFileDetails((file) => this.addToBytesTotal(file));
             }
@@ -427,9 +427,9 @@ module Kiwi {
         /**
         * 
         * @method addToBytesTotal
-        * @param {Kiwi.File} file
+        * @param {Kiwi.Files} file
         */
-        private addToBytesTotal(file: Kiwi.File) {
+        private addToBytesTotal(file: Kiwi.Files.File) {
 
             klog.info('Loader - addToBytesTotal - ' + file.fileName + ' = ' + file.fileSize);
 
@@ -449,7 +449,7 @@ module Kiwi {
 
             this._currentFile++;
 
-            var tempFile: Kiwi.File = this._loadList.shift();
+            var tempFile: Kiwi.Files.File = this._loadList.shift();
 
             tempFile.load((f) => this.fileLoadComplete(f), (f) => this.fileLoadProgress(f));
 
@@ -458,9 +458,9 @@ module Kiwi {
         /**
         * 
         * @method fileLoadProgress
-        * @param {Kiwi.File} file
+        * @param {Kiwi.Files} file
         */
-        private fileLoadProgress(file: Kiwi.File) {
+        private fileLoadProgress(file: Kiwi.Files.File) {
 
             if (this._calculateBytes === true)
             {
@@ -480,9 +480,9 @@ module Kiwi {
         /**
         * 
         * @method fileLoadComplete
-        * @param {Kiwi.File} file
+        * @param {Kiwi.Files} file
         */
-        private fileLoadComplete(file: Kiwi.File) {
+        private fileLoadComplete(file: Kiwi.Files.File) {
 
             if (this._calculateBytes === true)
             {

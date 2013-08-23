@@ -1,6 +1,6 @@
 
 
-module Kiwi.GameObjects {
+module Kiwi.GameObjects.Tilemap {
 
     export class TileType {
 
@@ -13,7 +13,7 @@ module Kiwi.GameObjects {
         * @param {number} width
         * @param {number} height
         */
-        constructor(game: Game, tilemap: Kiwi.GameObjects.TileMap, index: number, width: number, height: number) {
+        constructor(game: Game, tilemap: Kiwi.GameObjects.Tilemap.TileMap, index: number, width: number, height: number) {
 
             this._game = game;
             this.tilemap = tilemap;
@@ -67,7 +67,7 @@ module Kiwi.GameObjects {
         /**
          * A reference to the tilemap this tile object belongs to.
          */
-        public tilemap: TileMap;
+        public tilemap: Kiwi.GameObjects.Tilemap.TileMap;
 
         /**
          * The index of this tile type in the core map data.

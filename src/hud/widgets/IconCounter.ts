@@ -14,9 +14,9 @@
  *
 */
 
-module Kiwi.HUD {
+module Kiwi.HUD.Widget {
 
-    export class IconCounter extends Kiwi.HUD.Icon {
+    export class IconCounter extends Kiwi.HUD.Widget.Icon {
 
         /**
         * 
@@ -34,7 +34,7 @@ module Kiwi.HUD {
 
             this._horizontal = true;
            
-            this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));
+            this.range = this.components.add(new Kiwi.HUD.Components.Range(current, max, 0));
             this.range.updated.add(this._changeSize, this);
 
             this._changeSize();
@@ -51,7 +51,7 @@ module Kiwi.HUD {
         * Holds the range component.
         * @public
         **/
-        public range: Kiwi.Components.Range;
+        public range: Kiwi.HUD.Components.Range;
 
         public _repeat: string;
 

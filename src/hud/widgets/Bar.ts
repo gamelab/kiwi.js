@@ -13,7 +13,7 @@
  *
 */
 
-module Kiwi.HUD {
+module Kiwi.HUD.Widget {
 
     export class Bar extends Kiwi.HUD.HUDWidget {
         
@@ -32,7 +32,7 @@ module Kiwi.HUD {
             this._bar = document.createElement('div');
             this._bar.className = 'innerBar';
 
-            this.range = this.components.add(new Kiwi.Components.Range(current, max, 0));//add updated component to range
+            this.range = this.components.add(new Kiwi.HUD.Components.Range(current, max, 0));//add updated component to range
             this.range.updated.add(this.updateCSS, this);
 
             this.bar = this._bar;
@@ -117,7 +117,7 @@ module Kiwi.HUD {
         * The range component.
         * @public
         **/
-        public range: Kiwi.Components.Range;
+        public range: Kiwi.HUD.Components.Range;
         
         /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
