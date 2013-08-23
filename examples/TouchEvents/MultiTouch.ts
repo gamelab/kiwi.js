@@ -28,27 +28,23 @@ class MultiTouch extends Kiwi.State {
     }
 
     up(finger) {
-        console.log('Released');
-
         for (var i = 0; i < this.fingers.length; i++) {
             if (this.fingers[i].identifier == finger.identifier) {
                 this.removeChild(this.explosions[i]);
                 this.explosions.splice(i, 1);
                 this.fingers.splice(i, 1);
-                break;
+                i--;
             }
         }
     }
 
     down(finger) {
         
-        console.log('Pressed');
         this.fingers.push(finger);
         var explosion = new Kiwi.GameObjects.Sprite(this.textures.explosion, finger.x, finger.y);
         this.addChild(explosion);
         this.explosions.push(explosion);
         explosion.animation.play('default');
-
 
     }
 
@@ -57,9 +53,10 @@ class MultiTouch extends Kiwi.State {
 
         for (var i = 0; i < this.fingers.length; i++) {
 
-            this.explosions[i].x = this.fingers[i].x;
-            this.explosions[i].y = this.fingers[i].y;
-
+            if (this.fingers[i].active) {
+                this.explosions[i].x = this.fingers[i].x;
+                this.explosions[i].y = this.fingers[i].y;
+            }
         }
 
     }

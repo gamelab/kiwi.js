@@ -73,9 +73,8 @@ if(isset($_GET['f'])) {
 		<a href="index.php" class="button">Home</a>
 	</section>
 
-    <h1>Could not find <em><?php echo $filepath ?></em> :(</h1>
-
-    <p class="message">The example that you were trying to view could not be found and thus could not be loaded. Please check your filepath in the URL and that the JavaScript file that you linked in does exist. Thank you!</p>
+    <h1 class="message">Could not locate :(</h1>
+    <p class="message">The example <strong><em>(<?php echo $filepath ?>)</em></strong> that you were trying to view could not be found and thus could not be loaded. Please check your filepath in the URL and that the JavaScript file that you linked in does exist. Thank you!</p>
 
 <?php } ?>
 

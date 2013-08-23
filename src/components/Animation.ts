@@ -138,7 +138,6 @@ module Kiwi.Components {
         * @return {Kiwi.Animation}
         */
         public createFromSequence(sequence: Kiwi.Sequence, play: boolean= false):Kiwi.Animation {
-            
             this._animations[sequence.name] = new Kiwi.Animation(sequence.name, sequence, this.clock);
 
             if (play) this.play(sequence.name);
@@ -170,16 +169,6 @@ module Kiwi.Components {
         } 
 
         /*
-        * Plays an animation in reverse.
-        * 
-        * @method playInReverse
-        * @param {string} name
-        */
-        public playInReverse(name: string = this.currentAnimation.name) {
-            this._play(0, name);
-        }
-
-        /*
         *  An internal method used to actually play the animation.
         * 
         * @method _play
@@ -191,7 +180,6 @@ module Kiwi.Components {
             this._isPlaying = true;
             this._setCurrentAnimation(name);
             if (this._clock !== null) this.currentAnimation.clock = this._clock; 
-            
             this.currentAnimation.playAt(index);
             this._setCellIndex();
 
@@ -253,7 +241,6 @@ module Kiwi.Components {
         private _setCurrentAnimation(name: string) {
 
             if (this.currentAnimation !== null) this.currentAnimation.stop();
-            
             if (this._animations[name]) {
                 this.currentAnimation = this._animations[name];
             } else {
@@ -266,8 +253,7 @@ module Kiwi.Components {
         * The update loop, it only updates the currentAnimation and only if it is playing.
         * @method update 
         */
-        public update() {
-
+        public update() { 
             if (this.currentAnimation && this.isPlaying) {
                 if (this.currentAnimation.update()) {
                     this._setCellIndex();

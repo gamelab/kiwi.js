@@ -1,4 +1,3 @@
-/// <reference path="Cache.ts" />
 /// <reference path="Entity.ts" />
 /// <reference path="StateConfig.ts" />
 /// <reference path="Group.ts" />

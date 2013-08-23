@@ -28,8 +28,7 @@ class Finger extends Kiwi.State {
     }
 
     pressed(finger) {
-        if (this.finger == null) {
-            console.log('Pressed');
+        if (this.finger == null) { 
             this.finger = finger;
             this.bunny.alpha = 1;
             this.bunny.x = finger.x;
@@ -38,21 +37,12 @@ class Finger extends Kiwi.State {
     }
 
     released(finger) {
-        if (this.finger.identifier == finger.identifier) {
-            console.log('Released');
+        if (this.finger.identifier == finger.identifier) { 
             this.bunny.alpha = 0;
             this.finger = null;
         }
     }
-
-    moved(finger) {
-        if (this.finger !== null && this.finger.identifier == finger.identifier) {
-            console.log('Moved');
-            this.bunny.x = finger.x;
-            this.bunny.y = finger.y;
-        }
-    }
-
+     
     update() {
         super.update();
 

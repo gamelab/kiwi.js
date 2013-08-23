@@ -3,7 +3,7 @@
 class Touch extends Kiwi.State {
 
     constructor() {
-        super('MultiTouch');
+        super('Touch');
     }
 
     preload() {

@@ -52,6 +52,8 @@ module Kiwi.GameObjects {
                 this._isAnimated = true;
             }
 
+
+
             //  Signals
             //this.onAddedToLayer.add(this._onAddedToLayer, this);
             this.input.onDragStarted.add(this._dragStarted, this);

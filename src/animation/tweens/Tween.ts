@@ -234,8 +234,7 @@ module Kiwi {
 	        {
 	            // This prevents the interpolation of null values or of non-existing properties
 	            if (this._object[property] === null || !(property in this._object))
-	            {
-        	        //console.log('tween interpolation of null value of non-existing property');
+	            { 
 	                continue;
 	            }
 
@@ -246,8 +245,7 @@ module Kiwi {
 	                {
 	                    continue;
 	                }
-
-        	        //console.log('tween array given as property value');
+                     
 
 	                // create a local copy of the Array with the start value at the front
 	                this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property]);
@@ -255,13 +253,11 @@ module Kiwi {
 
                 //  Check if property is a function
 	            if (typeof this._object[property] === 'function')
-	            {
-                    //console.log('tween property function', this._object[property]());
+	            { 
 	                this._valuesStart[property] = this._object[property]();
 	            }
 	            else
-	            {
-                    //console.log('tween property var');
+	            { 
 	                this._valuesStart[property] = this._object[property];
 	            }
 
@@ -437,8 +433,7 @@ module Kiwi {
 	            {
 	                if (typeof this._object[property] === 'function')
 	                {
-    	                this._object[property](start + (end - start) * value);
-	                    //console.log('tween update', value, elapsed);
+    	                this._object[property](start + (end - start) * value); 
 	                }
 	                else
 	                {
@@ -459,7 +454,7 @@ module Kiwi {
 	            if (this._onCompleteCallback !== null && this._onCompleteCalled == false)
 	            {
 	                this._onCompleteCalled = true;
-	                this._onCompleteCallback.apply(this._onCompleteContext, this._object);
+	                this._onCompleteCallback.call(this._onCompleteContext, this._object);
 	            }
 
 	            for (var i = 0; i < this._chainedTweens.length; i++)

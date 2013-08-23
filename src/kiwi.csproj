@@ -24,6 +24,10 @@
     <Content Include="components\Box.ts" />
     <Content Include="core\Game.ts" />
     <Content Include="animation\Animation.ts" />
+    <Content Include="file\Cache.ts" />
+    <Content Include="file\File.ts" />
+    <Content Include="file\FileCache.ts" />
+    <Content Include="file\Loader.ts" />
     <Content Include="gl-matrix-min.js" />
     <Content Include="renderers\GLArrayBuffer.ts" />
     <Content Include="renderers\GLElementArrayBuffer.ts" />
@@ -44,15 +48,12 @@
     <Content Include="components\Animation.ts" />
     <Content Include="components\Input.ts" />
     <Content Include="core\Component.ts" />
-    <Content Include="core\Cache.ts" />
     <Content Include="components\Template.ts" />
     <Content Include="core\CameraManager.ts" />
     <Content Include="core\Camera.ts" />
     <Content Include="core\Entity.ts" />
     <Content Include="system\Device.ts" />
     <Content Include="core\ComponentManager.ts" />
-    <Content Include="core\FileCache.ts" />
-    <Content Include="core\File.ts" />
     <Content Include="core\StateManager.ts" />
     <Content Include="core\State.ts" />
     <Content Include="core\Group.ts" />

@@ -638,7 +638,7 @@ var Kiwi;
 
                 if (this._onCompleteCallback !== null && this._onCompleteCalled == false) {
                     this._onCompleteCalled = true;
-                    this._onCompleteCallback.apply(this._onCompleteContext, this._object);
+                    this._onCompleteCallback.call(this._onCompleteContext, this._object);
                 }
 
                 for (var i = 0; i < this._chainedTweens.length; i++) {
@@ -877,9 +877,6 @@ var Kiwi;
                     this.huds.render();
                 }
                 this.states.postRender();
-
-                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
-            }
 
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);
             }
@@ -4319,11 +4316,9 @@ var Kiwi;
 
                 while (i < group1.members.length) {
                     if (members[i].childType() == Kiwi.GROUP) {
-                        console.log('Branch');
                         if (ArcadePhysics.overlapsGroupGroup(members[i++], group2, separateObjects))
                             result = true;
                     } else {
-                        console.log('Leaf');
                         if (ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects))
                             result = true;
                     }
@@ -4528,12 +4523,8 @@ var Kiwi;
 
                 for (var i = 0; i < group.members.length; i++) {
                     if (group.members[i].childType() === Kiwi.GROUP) {
-                        console.log('Group');
-
                         this.overlapsGroup(group.members[i], separateObjects);
                     } else {
-                        console.log('Entity');
-
                         if (this.overlaps(group.members[i], separateObjects)) {
                             if (this._callbackContext !== null && this._callbackFunction !== null)
                                 this._callbackFunction.call(this._callbackContext, this._parent, childPhysics.parent());
@@ -5069,69 +5060,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var FileCache = (function () {
-        function FileCache() {
-            this._cacheSize = 0;
-            this._files = {};
-        }
-        FileCache.prototype.objType = function () {
-            return "FileCache";
-        };
-
-        FileCache.prototype.getFile = function (key) {
-            return this._files[key];
-        };
-
-        Object.defineProperty(FileCache.prototype, "keys", {
-            get: function () {
-                var keys = new Array();
-                for (var key in this._files) {
-                    keys.push(key);
-                }
-
-                return keys;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        FileCache.prototype.size = function () {
-            return this._cacheSize;
-        };
-
-        FileCache.prototype.addFile = function (key, value) {
-            if (!this._files[key]) {
-                this._files[key] = value;
-                this._cacheSize++;
-                return true;
-            }
-
-            return false;
-        };
-
-        FileCache.prototype.exists = function (key) {
-            if (this._files[key]) {
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        FileCache.prototype.removeFile = function (key) {
-            if (this._files[key]) {
-                this._files[key] = null;
-                delete this._files[key];
-                return true;
-            }
-
-            return false;
-        };
-        return FileCache;
-    })();
-    Kiwi.FileCache = FileCache;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var File = (function () {
         function File(game, dataType, path, cacheID, saveToCache, cache) {
             if (typeof cacheID === "undefined") { cacheID = ''; }
@@ -5180,7 +5108,7 @@ var Kiwi;
 
             if (Kiwi.DEVICE.blob) {
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = false;
+                this._useTagLoader = true;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
@@ -5614,6 +5542,115 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    var FileCache = (function () {
+        function FileCache() {
+            this._cacheSize = 0;
+            this._files = {};
+        }
+        FileCache.prototype.objType = function () {
+            return "FileCache";
+        };
+
+        FileCache.prototype.getFile = function (key) {
+            return this._files[key];
+        };
+
+        Object.defineProperty(FileCache.prototype, "keys", {
+            get: function () {
+                var keys = new Array();
+                for (var key in this._files) {
+                    keys.push(key);
+                }
+
+                return keys;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        FileCache.prototype.size = function () {
+            return this._cacheSize;
+        };
+
+        FileCache.prototype.addFile = function (key, value) {
+            if (!this._files[key]) {
+                this._files[key] = value;
+                this._cacheSize++;
+                return true;
+            }
+
+            return false;
+        };
+
+        FileCache.prototype.exists = function (key) {
+            if (this._files[key]) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        FileCache.prototype.removeFile = function (key) {
+            if (this._files[key]) {
+                this._files[key] = null;
+                delete this._files[key];
+                return true;
+            }
+
+            return false;
+        };
+        return FileCache;
+    })();
+    Kiwi.FileCache = FileCache;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Cache = (function () {
+        function Cache(game) {
+            this.images = null;
+            this.audio = null;
+            this.data = null;
+            this._game = game;
+        }
+        Cache.prototype.objType = function () {
+            return "Cache";
+        };
+
+        Cache.prototype.boot = function () {
+            this._caches = [];
+
+            this._caches.push(new Kiwi.FileCache());
+            this._caches.push(new Kiwi.FileCache());
+            this._caches.push(new Kiwi.FileCache());
+
+            this.images = this._caches[0];
+            this.audio = this._caches[1];
+            this.data = this._caches[2];
+        };
+
+        Cache.prototype.checkImageCacheID = function (cacheID, cache) {
+            if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
+                klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                return false;
+            }
+
+            return true;
+        };
+
+        Cache.prototype.checkDataCacheID = function (cacheID, cache) {
+            if (cacheID == '' || cache === null || cache.images === null || cache.data.exists(cacheID) === false) {
+                klog.warn('Data cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                return false;
+            }
+
+            return true;
+        };
+        return Cache;
+    })();
+    Kiwi.Cache = Cache;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var Loader = (function () {
         function Loader(game) {
             this._calculateBytes = true;
@@ -5959,17 +5996,11 @@ var Kiwi;
                 this._play(index, name);
             };
 
-            Animation.prototype.playInReverse = function (name) {
-                if (typeof name === "undefined") { name = this.currentAnimation.name; }
-                this._play(0, name);
-            };
-
             Animation.prototype._play = function (index, name) {
                 this._isPlaying = true;
                 this._setCurrentAnimation(name);
                 if (this._clock !== null)
                     this.currentAnimation.clock = this._clock;
-
                 this.currentAnimation.playAt(index);
                 this._setCellIndex();
             };
@@ -6006,7 +6037,6 @@ var Kiwi;
             Animation.prototype._setCurrentAnimation = function (name) {
                 if (this.currentAnimation !== null)
                     this.currentAnimation.stop();
-
                 if (this._animations[name]) {
                     this.currentAnimation = this._animations[name];
                 } else {
@@ -10816,8 +10846,6 @@ var Kiwi;
 
                 this.onDown = new Kiwi.Signal();
                 this.onUp = new Kiwi.Signal();
-                this.onPressed = new Kiwi.Signal();
-                this.onReleased = new Kiwi.Signal();
             };
 
             Manager.prototype._onDownEvent = function (x, y, timeDown, timeUp, duration) {
@@ -10828,11 +10856,21 @@ var Kiwi;
                 this.onUp.dispatch(x, y, timeDown, timeUp, duration);
             };
 
-            Manager.prototype._onPressedEvent = function () {
-            };
+            Object.defineProperty(Manager.prototype, "onPressed", {
+                get: function () {
+                    return this.onDown;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-            Manager.prototype._onReleasedEvent = function () {
-            };
+            Object.defineProperty(Manager.prototype, "onReleased", {
+                get: function () {
+                    return this.onUp;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Manager.prototype.update = function () {
                 if (Kiwi.DEVICE.touch === true) {
@@ -10971,8 +11009,6 @@ var Kiwi;
 
                 event.preventDefault();
 
-                console.log(event);
-
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     for (var f = 0; f < this._fingers.length; f++) {
                         if (this._fingers[f].active === false) {
@@ -11046,11 +11082,17 @@ var Kiwi;
                             this._y = this._fingers[f].y;
                             this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
                             this.fingerUp.dispatch(this._fingers[f]);
-
                             this.isDown = false;
                             this.isUp = true;
                             break;
                         }
+                    }
+                }
+
+                for (var i = 0; i < this._fingers.length; i++) {
+                    if (this._fingers[i].active) {
+                        this.isDown = true;
+                        this.isUp = false;
                     }
                 }
             };

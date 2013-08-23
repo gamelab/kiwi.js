@@ -297,7 +297,6 @@ module Kiwi {
         */
         public update(): bool {
             if (this._isPlaying) {
-                
                 if (this.clock.elapsed() >= this._tick) {
 
                     this._tick = this.clock.elapsed() + this._speed;

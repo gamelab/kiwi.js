@@ -34,8 +34,6 @@ module Kiwi.Input {
         */
         public onDown: Kiwi.Signal;
         public onUp: Kiwi.Signal;
-        public onPressed: Kiwi.Signal;
-        public onReleased: Kiwi.Signal;
 
         /** 
         * 
@@ -95,8 +93,6 @@ module Kiwi.Input {
 
             this.onDown = new Kiwi.Signal();
             this.onUp = new Kiwi.Signal();
-            this.onPressed = new Kiwi.Signal();
-            this.onReleased = new Kiwi.Signal();
 
         }
 
@@ -114,12 +110,15 @@ module Kiwi.Input {
 
         }
 
-        private _onPressedEvent() {
-
+        /*
+        * Signals for pressed and released events.
+        */
+        public get onPressed(): Kiwi.Signal {
+            return this.onDown;
         }
 
-        private _onReleasedEvent() {
-
+        public get onReleased(): Kiwi.Signal {
+            return this.onUp;
         }
 
         /** 

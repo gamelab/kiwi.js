@@ -33,16 +33,27 @@
     <Content Include="Animations\TextureAtlas.js">
       <DependentUpon>TextureAtlas.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="camera\test1.ts" />
-    <Content Include="camera\test1.js">
+    <TypeScriptCompile Include="Camera\test1.ts" />
+    <Content Include="Camera\test1.js">
       <DependentUpon>test1.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="misc\DebugCanvas.ts" />
-    <Content Include="misc\DebugCanvas.js">
+    <TypeScriptCompile Include="Misc\DebugCanvas.ts" />
+    <Content Include="Misc\DebugCanvas.js">
       <DependentUpon>DebugCanvas.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="sprites\AtlasTest.ts" />
+    <TypeScriptCompile Include="sprites\MultiSprite.ts" />
+    <TypeScriptCompile Include="sprites\Sprite1.ts" />
     <TypeScriptCompile Include="TouchEvents\Touch.ts" />
     <TypeScriptCompile Include="TouchEvents\Dragging.ts" />
+    <Content Include="sprites\Atlas.js">
+      <DependentUpon>AtlasTest.ts</DependentUpon>
+    </Content>
+    <Content Include="sprites\AtlasTest.js" />
+    <Content Include="sprites\Dragging.js" />
+    <Content Include="sprites\Dragging.ts" />
+    <Content Include="sprites\MultiSprite.js" />
+    <Content Include="sprites\Sprite1.js" />
     <Content Include="TouchEvents\Dragging.js">
       <DependentUpon>Dragging.ts</DependentUpon>
     </Content>
@@ -54,6 +65,10 @@
       <DependentUpon>MultiTouch.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="TouchEvents\MultiTouch.ts" />
+    <TypeScriptCompile Include="TouchEvents\Slingshot.ts" />
+    <Content Include="TouchEvents\Slingshot.js">
+      <DependentUpon>Slingshot.ts</DependentUpon>
+    </Content>
     <Content Include="Tweens\EasingMethods.js">
       <DependentUpon>EasingMethods.ts</DependentUpon>
     </Content>
@@ -70,8 +85,8 @@
       <DependentUpon>CreatingATween.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Tweens\CreatingATween.ts" />
-    <TypeScriptCompile Include="arcadephysics\overlaps.ts" />
-    <TypeScriptCompile Include="arcadephysics\group.ts" />
+    <TypeScriptCompile Include="ArcadePhysics\overlaps.ts" />
+    <TypeScriptCompile Include="ArcadePhysics\group.ts" />
     <TypeScriptCompile Include="Animations\Creating.ts" />
     <TypeScriptCompile Include="Animations\Callbacks.ts" />
     <Content Include="Animations\Callbacks.js">
@@ -87,10 +102,10 @@
     <Content Include="Animations\PausingAndResuming.js">
       <DependentUpon>PausingAndResuming.ts</DependentUpon>
     </Content>
-    <Content Include="arcadephysics\group.js">
+    <Content Include="ArcadePhysics\group.js">
       <DependentUpon>group.ts</DependentUpon>
     </Content>
-    <Content Include="arcadephysics\overlaps.js">
+    <Content Include="ArcadePhysics\overlaps.js">
       <DependentUpon>overlaps.ts</DependentUpon>
     </Content>
     <Content Include="cocoon.php" />
@@ -98,11 +113,7 @@
     <Content Include="GL\GLTest1.js">
       <DependentUpon>GLTest1.ts</DependentUpon>
     </Content>
-    <Content Include="groups\Groups.ts" />
-    <TypeScriptCompile Include="sprites\AtlasTest.ts" />
-    <Content Include="sprites\Atlas.js">
-      <DependentUpon>AtlasTest.ts</DependentUpon>
-    </Content>
+    <Content Include="Groups\Groups.ts" />
     <Content Include="tilemaps\basics.js">
       <DependentUpon>basictiles.ts</DependentUpon>
     </Content>
@@ -115,35 +126,34 @@
     <TypeScriptCompile Include="tilemaps\movement.ts" />
     <TypeScriptCompile Include="tilemaps\getTile.ts" />
     <TypeScriptCompile Include="tilemaps\basictiles.ts" />
-    <TypeScriptCompile Include="sound\loading_playing.ts" />
+    <TypeScriptCompile Include="Sound\loading_playing.ts" />
     <TypeScriptCompile Include="GameObjects\StaticImages.ts" />
     <Content Include="GameObjects\StaticImages.js">
       <DependentUpon>StaticImages.ts</DependentUpon>
     </Content>
-    <Content Include="sound\basics.js">
+    <Content Include="Sound\basics.js">
       <DependentUpon>loading_playing.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="sound\looping.ts" />
-    <Content Include="sound\looping.js">
+    <TypeScriptCompile Include="Sound\looping.ts" />
+    <Content Include="Sound\looping.js">
       <DependentUpon>looping.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="sound\pausing_resuming.ts" />
-    <TypeScriptCompile Include="sound\muting.ts" />
-    <TypeScriptCompile Include="sound\Marker_Playing.ts" />
-    <Content Include="sound\markers.js">
+    <TypeScriptCompile Include="Sound\pausing_resuming.ts" />
+    <TypeScriptCompile Include="Sound\muting.ts" />
+    <TypeScriptCompile Include="Sound\Marker_Playing.ts" />
+    <Content Include="Sound\markers.js">
       <DependentUpon>Marker_Playing.ts</DependentUpon>
     </Content>
-    <Content Include="sound\muting.js">
+    <Content Include="Sound\muting.js">
       <DependentUpon>muting.ts</DependentUpon>
     </Content>
-    <Content Include="sound\pausing_resuming.js">
+    <Content Include="Sound\pausing_resuming.js">
       <DependentUpon>pausing_resuming.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="sound\SoundComponent.ts" />
-    <Content Include="sound\SoundComponent.js">
+    <TypeScriptCompile Include="Sound\SoundComponent.ts" />
+    <Content Include="Sound\SoundComponent.js">
       <DependentUpon>SoundComponent.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="sprites\MultiSprite.ts" />
     <Content Include="assets\bunny.png" />
     <Content Include="assets\coin.png" />
     <Content Include="assets\explosion.png" />
@@ -156,48 +166,47 @@
     <Content Include="assets\shinyball.png" />
     <Content Include="assets\spartan.png" />
     <Content Include="assets\sprite.png" />
-    <TypeScriptCompile Include="devices\DeviceInfo.ts" />
-    <Content Include="devices\DeviceInfo.js">
+    <TypeScriptCompile Include="Devices\DeviceInfo.ts" />
+    <Content Include="Devices\DeviceInfo.js">
       <DependentUpon>DeviceInfo.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="groups\GroupGraph.ts" />
-    <Content Include="groups\GroupGraph.js">
+    <TypeScriptCompile Include="Groups\GroupGraph.ts" />
+    <Content Include="Groups\GroupGraph.js">
       <DependentUpon>GroupGraph.ts</DependentUpon>
     </Content>
     <Content Include="assets\zombie.png" />
     <Content Include="assets\zombieSprite.png" />
     <TypeScriptCompile Include="GameObjects\AddingSprite.ts" />
     <TypeScriptCompile Include="GameObjects\MovingSpriteWithKeys.ts" />
-    <TypeScriptCompile Include="groups\CreatingUsingGroups.ts" />
-    <TypeScriptCompile Include="hud\Basics.ts" />
-    <TypeScriptCompile Include="hud\BasicBar.ts" />
-    <Content Include="hud\Bar.js">
+    <TypeScriptCompile Include="Groups\CreatingUsingGroups.ts" />
+    <TypeScriptCompile Include="Hud\Basics.ts" />
+    <TypeScriptCompile Include="Hud\BasicBar.ts" />
+    <Content Include="Hud\Bar.js">
       <DependentUpon>BasicBar.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="hud\Buttons.ts" />
-    <TypeScriptCompile Include="hud\BasicTime.ts" />
-    <Content Include="hud\BasicTime.js">
+    <TypeScriptCompile Include="Hud\Buttons.ts" />
+    <TypeScriptCompile Include="Hud\BasicTime.ts" />
+    <Content Include="Hud\BasicTime.js">
       <DependentUpon>BasicTime.ts</DependentUpon>
     </Content>
-    <Content Include="hud\Buttons.js">
+    <Content Include="Hud\Buttons.js">
       <DependentUpon>Buttons.ts</DependentUpon>
     </Content>
-    <Content Include="hud\hud1.js">
+    <Content Include="Hud\hud1.js">
       <DependentUpon>Basics.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="hud\Switching.ts" />
-    <Content Include="hud\Hud2.js">
+    <TypeScriptCompile Include="Hud\Switching.ts" />
+    <Content Include="Hud\Hud2.js">
       <DependentUpon>Switching.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="hud\ShowAndHide.ts" />
-    <Content Include="hud\Hud3.js">
+    <TypeScriptCompile Include="Hud\ShowAndHide.ts" />
+    <Content Include="Hud\Hud3.js">
       <DependentUpon>ShowAndHide.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="hud\RemovingWidgets.ts" />
-    <Content Include="hud\Hud4.js">
+    <TypeScriptCompile Include="Hud\RemovingWidgets.ts" />
+    <Content Include="Hud\Hud4.js">
       <DependentUpon>RemovingWidgets.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="sprites\Sprite1.ts" />
     <Content Include="how to setup tests.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -364,11 +364,9 @@ module Kiwi.Components {
             var i: number = 0;
             
             while (i < group1.members.length) {
-                if (members[i].childType() == Kiwi.GROUP) {
-                    console.log('Branch');
+                if (members[i].childType() == Kiwi.GROUP) { 
                     if (ArcadePhysics.overlapsGroupGroup(<Kiwi.Group>members[i++], group2, separateObjects)) result = true;
-                } else {
-                    console.log('Leaf');
+                } else { 
                     if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>members[i++], group2, separateObjects)) result = true;
                 }    
             }
@@ -648,13 +646,11 @@ module Kiwi.Components {
 
             for (var i = 0; i < group.members.length; i++) {
 
-                if (group.members[i].childType() === Kiwi.GROUP) {
-                    console.log('Group');
+                if (group.members[i].childType() === Kiwi.GROUP) { 
                     //recursively check overlap
                     this.overlapsGroup(<Kiwi.Group>group.members[i], separateObjects);
                     
-                } else {
-                    console.log('Entity');
+                } else { 
                     //otherwise its an entity
 
                     if (this.overlaps(<Kiwi.Entity>group.members[i], separateObjects)) {

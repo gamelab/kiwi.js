@@ -157,14 +157,14 @@ module Kiwi.Input {
         public latestFinger: Kiwi.Input.Finger;
 
         /** 
-        * 
+        * If any finger is down.
         * @property isDown
         * @type Boolean
         **/
         public isDown: bool = false;
 
         /** 
-        * 
+        * If all the fingers are up.
         * @property isUp
         * @type Boolean
         **/
@@ -212,7 +212,7 @@ module Kiwi.Input {
             this.fingerDown = new Kiwi.Signal();
             this.fingerUp = new Kiwi.Signal();
             
-
+            //shoot the event listeners.
             this.start();
         }
 
@@ -282,8 +282,6 @@ module Kiwi.Input {
             //  event.targetTouches = list of all touches on the TARGET ELEMENT (i.e. game dom element)
             //  event.touches = list of all touches on the ENTIRE DOCUMENT, not just the target element
             //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
-
-            console.log(event);
 
             for (var i = 0; i < event.changedTouches.length; i++)
             {
@@ -442,11 +440,18 @@ module Kiwi.Input {
                         this._y = this._fingers[f].y;
                         this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
                         this.fingerUp.dispatch(this._fingers[f]);
-
-                        this.isDown = false; 
+                        this.isDown = false;
                         this.isUp = true;
                         break;
                     }
+                }
+            }
+            
+            //are any fingers still down? Perhaps not needed as some of hte 
+            for (var i = 0; i < this._fingers.length; i++) {
+                if (this._fingers[i].active) {
+                    this.isDown = true;
+                    this.isUp = false;
                 }
             }
 
@@ -474,10 +479,10 @@ module Kiwi.Input {
         * 
         * @method checkOverlap
         * @param {Kiwi.Input.Finger} finger1
-        * @param {Kiwi.Input.Finger} finger2
+        * @param {Kiwi.Input.Finger} finger2 -
         **/
-        public checkOverlap(finger1: Kiwi.Input.Finger, finger2: Kiwi.Input.Finger) {
-        }
+        public checkOverlap(finger1: Kiwi.Input.Finger, finger2: Kiwi.Input.Finger) { //WHAT THE? I DIDNT KNOW FINGERS COULD OVERLAP!
+        } 
 
         /** 
         * 
