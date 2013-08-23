@@ -61,6 +61,10 @@
     <Content Include="TouchEvents\Finger.js">
       <DependentUpon>Finger.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="TouchEvents\MultiSlingshots.ts" />
+    <Content Include="TouchEvents\MultiSlingshots.js">
+      <DependentUpon>MultiSlingshots.ts</DependentUpon>
+    </Content>
     <Content Include="TouchEvents\MultiTouch.js">
       <DependentUpon>MultiTouch.ts</DependentUpon>
     </Content>

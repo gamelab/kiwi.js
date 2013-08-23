@@ -34,7 +34,7 @@ class Slingshot extends Kiwi.State {
             //generate a x/y
             var x = Math.random() * this.game.stage.width;
             var y = Math.random() * this.game.stage.height;
-            
+
             //add the shiny and its ghost
             this.shiny = new Kiwi.GameObjects.Sprite(this.textures.shiny, x, y);
             this.shinyGhost = new Kiwi.GameObjects.Sprite(this.textures.shiny, x, y);
@@ -57,38 +57,36 @@ class Slingshot extends Kiwi.State {
             this.game.input.touch.fingerUp.add(this.released, this);
         }
     }
-    
+
     update() {
         super.update();
 
-        if (Kiwi.DEVICE.touch) {
-            if (this.onBall) {
-                
-                this.nx = (this.finger.x - this.shinyGhost.x);
-                this.ny = (this.finger.y - this.shinyGhost.y);
+        if (this.onBall) {
 
-                var h = Math.sqrt(Math.abs(Math.pow(this.nx, 2) + Math.pow(this.ny, 2)));  
+            this.nx = (this.finger.x - this.shinyGhost.x);
+            this.ny = (this.finger.y - this.shinyGhost.y);
 
-                if (h < this.maxDistance) {
-                    var x = this.finger.x;
-                    var y = this.finger.y;
-                } else {
-                    var ang = Math.atan2(this.ny, this.nx);
-                    var h = this.maxDistance;
+            var h = Math.sqrt(Math.abs(Math.pow(this.nx, 2) + Math.pow(this.ny, 2)));
 
-                    var x = this.shinyGhost.x + (Math.cos(ang) * h);
-                    var y = this.shinyGhost.y + (Math.sin(ang) * h);
+            if (h < this.maxDistance) {
+                var x = this.finger.x;
+                var y = this.finger.y;
+            } else {
+                var ang = Math.atan2(this.ny, this.nx);
+                var h = this.maxDistance;
 
-                }
+                var x = this.shinyGhost.x + (Math.cos(ang) * h);
+                var y = this.shinyGhost.y + (Math.sin(ang) * h);
 
-                this.shiny.x = x;
-                this.shiny.y = y;
-                
-                if ((this.shiny.x + 20) < 0) this.shiny.x = 0;
-                if (this.shiny.x > 800) this.shiny.x = 800;
-                if (this.shiny.y + 20 < 0) this.shiny.y = 0;
-                if (this.shiny.y > 600) this.shiny.y = 600;
             }
+
+            this.shiny.x = x;
+            this.shiny.y = y;
+
+            if ((this.shiny.x + 20) < 0) this.shiny.x = 0;
+            if (this.shiny.x > 800) this.shiny.x = 800;
+            if (this.shiny.y + 20 < 0) this.shiny.y = 0;
+            if (this.shiny.y > 600) this.shiny.y = 600;
         }
 
         if (this.moving) {
@@ -97,8 +95,8 @@ class Slingshot extends Kiwi.State {
                 this.doneMoving();
             }
 
-            this.shiny.x -= (this.nx * ((this.iterationCount - this.iteration ) / this.iterationCount)) / (this.iterationCount / 2);
-            this.shiny.y -= (this.ny * ((this.iterationCount - this.iteration ) / this.iterationCount)) / (this.iterationCount / 2);
+            this.shiny.x -= (this.nx * ((this.iterationCount - this.iteration) / this.iterationCount)) / (this.iterationCount / 2);
+            this.shiny.y -= (this.ny * ((this.iterationCount - this.iteration) / this.iterationCount)) / (this.iterationCount / 2);
 
             if ((this.shiny.x + 20) < 0) {
                 this.shiny.x = 795;
@@ -115,7 +113,7 @@ class Slingshot extends Kiwi.State {
             this.iteration++;
         }
     }
-   
+    
     /*
     * When someone presses their finger down. 
     */
@@ -156,7 +154,6 @@ class Slingshot extends Kiwi.State {
         this.explosion.alpha = 1;
         this.explosion.x = this.shiny.x - this.explosion.width / 3;
         this.explosion.y = this.shiny.y - this.explosion.height / 3;
-        this.explosion.active = true;
         this.explosion.animation.play('default');
     }
 
