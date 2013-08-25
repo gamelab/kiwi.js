@@ -88,26 +88,17 @@ module Kiwi.Input {
 
             this.isDown = false;
             this.position = new Kiwi.Geom.Point();
-
-            //  Global / generic signals to listen to
-
+             
             this.onDown = new Kiwi.Signal();
             this.onUp = new Kiwi.Signal();
-
         }
 
-        private _onDownEvent(x, y, timeDown, timeUp, duration) {
-
-            //klog.info('onDownEvent', x, y);
-            this.onDown.dispatch(x, y, timeDown, timeUp, duration);
-
+        private _onDownEvent(x, y, timeDown, timeUp, duration, pointer) {
+            this.onDown.dispatch(x, y, timeDown, timeUp, duration, pointer);
         }
 
-        private _onUpEvent(x, y, timeDown, timeUp, duration) {
-
-            //klog.info('onUpEvent', x, y);
-            this.onUp.dispatch(x, y, timeDown, timeUp, duration);
-
+        private _onUpEvent(x, y, timeDown, timeUp, duration, pointer) {
+            this.onUp.dispatch(x, y, timeDown, timeUp, duration, pointer);
         }
 
         /*

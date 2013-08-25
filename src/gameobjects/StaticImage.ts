@@ -41,8 +41,6 @@ module Kiwi.GameObjects {
             this.transform.rotPointX = this.width / 2;
             this.transform.rotPointY = this.height / 2;
             
-            
-            this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
             this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
            
 
@@ -64,7 +62,6 @@ module Kiwi.GameObjects {
          * @property bounds
          * @type Kiwi.Components.Bounds
          **/
-        public bounds: Kiwi.Components.Bounds;
         public box: Kiwi.Components.Box;
 
 	  
