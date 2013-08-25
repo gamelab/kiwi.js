@@ -23,14 +23,14 @@ class DebugCanvas extends Kiwi.State {
 
 
     
-    public explosion: Kiwi.GameObjects.Sprite;
+    public explosion: Kiwi.GameObjects.StaticImage;
 
     
     create() {
 
-       
+        
 
-        this.explosion = new Kiwi.GameObjects.Sprite(this.textures.explosion, 120, 120);
+        this.explosion = new Kiwi.GameObjects.StaticImage(this.textures.explosion, 120, 120);
       
 
         this.addChild(this.explosion);

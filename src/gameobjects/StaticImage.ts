@@ -75,34 +75,31 @@ module Kiwi.GameObjects {
 	     **/
         public render(camera: Kiwi.Camera) {
             
-            if (this.visiblity && this.alpha > 0) {
+            super.render(camera);
+
+            //if it is would even be visible.
+            if (this.alpha > 0 && this.visiblity) {
+
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
 
                 if (this.alpha > 0 && this.alpha <= 1) {
                     ctx.globalAlpha = this.alpha;
                 }
-                
-                //NOTE: counter-intuitively matrix operations are performed in reverse order
 
                 //get entity/view matrix
-                var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
+                var t: Kiwi.Geom.Transform = this.transform;
+                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+                
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
-                //move it to the rotation point of entity offset by camera rotation point
-                m.translate(this.transform.rotPointX - camera.transform.rotPointX,this.transform.rotPointX - camera.transform.rotPointY);
-                
-                //prepend the inverted camera matrix (camera 'looks' inwards, so is inverted)
-                m.prependMatrix(camera.transform.getConcatenatedMatrix().invert());
-                
-                //move to the camera rotation point
-                m.translate(camera.transform.rotPointX, camera.transform.rotPointY);
-                
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                
+                //ctx.fillStyle = "green";
+                //ctx.fillRect(-2, -2, 5, 5);
+
                 var cell = this.atlas.cells[this.cellIndex];
-                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h,- this.transform.rotPointX,- this.transform.rotPointX, cell.w, cell.h);
-              
+                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                 ctx.restore();
+            
             }
         }
 

@@ -6179,9 +6179,6 @@ var Kiwi;
 
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
-                    ctx.fillStyle = "green";
-                    ctx.fillRect(-2, -2, 5, 5);
-
                     var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                     ctx.restore();
@@ -6222,7 +6219,9 @@ var Kiwi;
             };
 
             StaticImage.prototype.render = function (camera) {
-                if (this.visiblity && this.alpha > 0) {
+                _super.prototype.render.call(this, camera);
+
+                if (this.alpha > 0 && this.visiblity) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
@@ -6230,19 +6229,13 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    var m = this.transform.getConcatenatedMatrix();
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
 
-                    m.translate(this.transform.rotPointX - camera.transform.rotPointX, this.transform.rotPointX - camera.transform.rotPointY);
-
-                    m.prependMatrix(camera.transform.getConcatenatedMatrix().invert());
-
-                    m.translate(camera.transform.rotPointX, camera.transform.rotPointY);
-
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
                     var cell = this.atlas.cells[this.cellIndex];
-                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -this.transform.rotPointX, -this.transform.rotPointX, cell.w, cell.h);
-
+                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                     ctx.restore();
                 }
             };
@@ -12189,6 +12182,10 @@ var Kiwi;
         };
 
         TextureCache.prototype.add = function (imageFile) {
+            if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                imageFile = this._rebuildImage(imageFile);
+            }
+
             switch (imageFile.dataType) {
                 case Kiwi.File.SPRITE_SHEET:
                     this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);

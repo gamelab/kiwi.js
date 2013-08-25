@@ -49,7 +49,9 @@ module Kiwi {
         */
         public add(imageFile: File) {
 
-            //imageFile = this._rebuildImage(imageFile);
+            if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                imageFile = this._rebuildImage(imageFile);
+            }
 
             switch (imageFile.dataType) {
                 case File.SPRITE_SHEET:
