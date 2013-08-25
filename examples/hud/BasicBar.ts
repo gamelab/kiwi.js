@@ -6,15 +6,15 @@ class BasicBar extends Kiwi.State {
         super('Bar');
     }
 
-    public health: Kiwi.HUD.Bar;
-    public second: Kiwi.HUD.Bar;
+    public health: Kiwi.HUD.Widget.Bar;
+    public second: Kiwi.HUD.Widget.Bar;
 
     public tree: Kiwi.GameObjects.Sprite;
 
     init() {
 
-        this.health = new Kiwi.HUD.Bar(100,100,10,10);
-        this.second = new Kiwi.HUD.Bar(0, 200, 10, 50, 20, 120);
+        this.health = new Kiwi.HUD.Widget.Bar(100,100,10,10);
+        this.second = new Kiwi.HUD.Widget.Bar(0, 200, 10, 50, 20, 120);
 
         this.health.range.min = 10;
 

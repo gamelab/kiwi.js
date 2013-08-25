@@ -1,9 +1,9 @@
 /// <reference path="TextField.ts" />
 /// <reference path="../../core/game.ts" />
 
-module Kiwi.HUD {
+module Kiwi.HUD.Widget {
 
-    export class Button extends Kiwi.HUD.TextField {
+    export class Button extends Kiwi.HUD.Widget.TextField {
 
         constructor(game: Kiwi.Game, width: number, height: number, x: number, y: number) {
 
@@ -16,10 +16,10 @@ module Kiwi.HUD {
             
             this.bounds = this.components.add(new Kiwi.Components.Bounds(this.x, this.y, this.width, this.height)); //create custom bounds for HUD
             
-            this.input = this.components.add(new Kiwi.Components.WidgetInput(this.game, this.bounds));
+            this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
             this.onCoordsUpdate.add(this._changed, this);
         }
-
+        
         
         /*
         * The width of the container
@@ -73,7 +73,7 @@ module Kiwi.HUD {
 
         public game: Kiwi.Game;
         
-        public input: Kiwi.Components.WidgetInput;
+        public input: Kiwi.HUD.Components.WidgetInput;
 
         public bounds: Kiwi.Components.Bounds;
 

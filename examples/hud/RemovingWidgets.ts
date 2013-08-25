@@ -6,15 +6,15 @@ class RemovingWidgets extends Kiwi.State {
         super('RemovingWidgets');
     }
 
-    private score1: Kiwi.HUD.BasicScore;
-    private score2: Kiwi.HUD.BasicScore;
+    private score1: Kiwi.HUD.Widget.BasicScore;
+    private score2: Kiwi.HUD.Widget.BasicScore;
 
     private showingScore: Boolean;
     private catGirl: Kiwi.GameObjects.Sprite;
 
     init() {
-        this.score1 = new Kiwi.HUD.BasicScore(10, 10);
-        this.score2 = new Kiwi.HUD.BasicScore(10, 300);
+        this.score1 = new Kiwi.HUD.Widget.BasicScore(10, 10);
+        this.score2 = new Kiwi.HUD.Widget.BasicScore(10, 300);
 
         this.score1.counter.increment(20);
         this.score2.counter.increment(999);

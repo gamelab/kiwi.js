@@ -6,12 +6,12 @@ export class BasicTime extends Kiwi.State {
         super('basictime');
     }
 
-    public time: Kiwi.HUD.Time;
+    public time: Kiwi.HUD.Widget.Time;
     public key: Kiwi.GameObjects.Sprite;
 
     init() {
 
-        this.time = new Kiwi.HUD.Time('hh:mm:ss', 10, 10);
+        this.time = new Kiwi.HUD.Widget.Time('hh:mm:ss', 10, 10);
         this.time.setTime(1000, 2, 34);
         this.time.time.countingDown = true;
         this.time.container.style.color = '#000';

@@ -6,12 +6,12 @@ class Basics extends Kiwi.State {
         super('Basics');
     }
 
-    public score: Kiwi.HUD.BasicScore;
+    public score: Kiwi.HUD.Widget.BasicScore;
     public player: Kiwi.GameObjects.Sprite;
 
     init() {
         
-        this.score = new Kiwi.HUD.BasicScore(10, 10);
+        this.score = new Kiwi.HUD.Widget.BasicScore(10, 10);
         this.game.huds.defaultHUD.addWidget(this.score);
 
         this.score.container.style.width = '100px';

@@ -1,5 +1,5 @@
 
-module Kiwi.Components {
+module Kiwi.HUD.Components {
 
     export class WidgetInput extends Component {
 

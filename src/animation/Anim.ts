@@ -1,8 +1,9 @@
+/// <reference path="../core/game.ts" />
 
-module Kiwi {
+module Kiwi.Animation {
 
 
-    export class Animation {
+    export class Anim {
 
         /*
         *
@@ -12,7 +13,7 @@ module Kiwi {
         * @param {Sequences} sequences
         * @param {Kiwi.Time.Clock} clock
         */
-        constructor(name: string, sequence: Sequence, clock: Kiwi.Time.Clock) {
+        constructor(name: string, sequence: Kiwi.Animation.Sequence, clock: Kiwi.Time.Clock) {
             
             this.name = name;
             this._sequence = sequence;
@@ -39,7 +40,7 @@ module Kiwi {
         * @property _sequence
         * @type Kiwi.Sequence
         */
-        private _sequence: Sequence;
+        private _sequence: Kiwi.Animation.Sequence;
 
         /*
         * If this animation should loop or not.

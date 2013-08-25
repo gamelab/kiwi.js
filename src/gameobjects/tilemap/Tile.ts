@@ -1,4 +1,4 @@
-module Kiwi.GameObjects {
+module Kiwi.GameObjects.Tilemap {
 
     export class Tile extends Kiwi.Entity {
 
@@ -12,7 +12,7 @@ module Kiwi.GameObjects {
         * @param {number} x
         * @param {number} y
         */
-        constructor(tileLayer: Kiwi.GameObjects.TileMapLayer, tileType: Kiwi.GameObjects.TileType, width: number, height: number, x: number, y: number) {
+        constructor(tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer, tileType: Kiwi.GameObjects.Tilemap.TileType, width: number, height: number, x: number, y: number) {
             super();
 
             this.tileLayer = tileLayer;
@@ -33,7 +33,7 @@ module Kiwi.GameObjects {
         * @method tileUpdate
         * @param {Kiwi.GameObjects.TileType} tileType
         */
-        public tileUpdate(tileType: Kiwi.GameObjects.TileType) {
+        public tileUpdate(tileType: Kiwi.GameObjects.Tilemap.TileType) {
             this.tileType = tileType;
             this.physics.mass = this.tileType.mass;
             this.physics.allowCollisions = this.tileType.allowCollisions;
@@ -43,12 +43,12 @@ module Kiwi.GameObjects {
         /*
         * What tile map layer it is currently on.
         */
-        public tileLayer: Kiwi.GameObjects.TileMapLayer;
+        public tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer;
 
         /*
         * Reference to the type of tile that this tile is.
         */
-        public tileType: Kiwi.GameObjects.TileType;
+        public tileType: Kiwi.GameObjects.Tilemap.TileType;
 
         /*
         * The physics component used for arcade physics

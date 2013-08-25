@@ -28,7 +28,7 @@ module Kiwi {
 
             this.audio = new Kiwi.Sound.AudioManager(this);
             this.browser = new Kiwi.System.Browser(this);
-            this.cache = new Kiwi.Cache(this);
+            this.cache = new Kiwi.Files.Cache(this);
             this.input = new Kiwi.Input.Manager(this);
 
 
@@ -48,12 +48,12 @@ module Kiwi {
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds = new Kiwi.HUD.HUDManager(this);
             }
-            this.loader = new Kiwi.Loader(this);
+            this.loader = new Kiwi.Files.Loader(this);
             
             this.states = new Kiwi.StateManager(this);
             this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
             this.time = new Kiwi.Time.Manager(this);
-            this.tweens = new Kiwi.Tweens.Manager(this);
+            this.tweens = new Kiwi.Animation.Tweens.Manager(this);
             
 
             //  If we have a state then pass it to the StateManager
@@ -154,7 +154,7 @@ module Kiwi {
         * @property cache
         * @type Kiwi.Cache
         */
-        public cache: Kiwi.Cache = null;
+        public cache: Kiwi.Files.Cache = null;
 
         /*
         * 
@@ -176,7 +176,7 @@ module Kiwi {
         * @property loader
         * @type Kiwi.Loader
         */
-        public loader: Kiwi.Loader = null;
+        public loader: Kiwi.Files.Loader = null;
 
         /*
         * 
@@ -211,7 +211,7 @@ module Kiwi {
         * @property tweens
         * @type Kiwi.Tweens.Manager
         */
-        public tweens: Kiwi.Tweens.Manager = null;
+        public tweens: Kiwi.Animation.Tweens.Manager = null;
 
         /*
         * 

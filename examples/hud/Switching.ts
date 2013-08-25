@@ -6,8 +6,8 @@ class Switching extends Kiwi.State {
         super('Switching');
     }
 
-    public scoreDefault: Kiwi.HUD.BasicScore;
-    public scoreHud: Kiwi.HUD.BasicScore;
+    public scoreDefault: Kiwi.HUD.Widget.BasicScore;
+    public scoreHud: Kiwi.HUD.Widget.BasicScore;
     
     public hud: Kiwi.HUD.HUDDisplay;
 
@@ -18,8 +18,8 @@ class Switching extends Kiwi.State {
 
         this.hud = this.game.huds.createHUD('secondHUD');
 
-        this.scoreHud = new Kiwi.HUD.BasicScore(80, 20);
-        this.scoreDefault = new Kiwi.HUD.BasicScore(20, 20);
+        this.scoreHud = new Kiwi.HUD.Widget.BasicScore(80, 20);
+        this.scoreDefault = new Kiwi.HUD.Widget.BasicScore(20, 20);
 
         this.scoreHud.container.style.width = '200px';
         this.scoreHud.container.style.height = '40px';

@@ -7,7 +7,7 @@ class TextureAtlas extends Kiwi.State {
     }
 
     preload() {
-        this.addTextureAtlas('atlasImage', 'assets/textureatlas/1945_sprites.png', 'atlasJson', 'assets/textureatlas/atlas.min.json');
+        this.addTextureAtlas('atlasImage', 'assets/textureatlas/1945_sprites.png', 'atlasJson', 'assets/textureatlas/atlas.min.json'); 
     }
 
     public orangeEnemy: Kiwi.GameObjects.Sprite;
@@ -58,7 +58,7 @@ class TextureAtlas extends Kiwi.State {
         this.addChild(this.greenEnemyA);
         this.addChild(this.greenEnemyB);
 
-        this.addChild(this.playerPlane); 
+        this.addChild(this.playerPlane);  
 
     }
 

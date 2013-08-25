@@ -14,7 +14,7 @@
  *	@todo       
  */
 
-module Kiwi.Tweens.Easing {
+module Kiwi.Animation.Tweens.Easing {
 
     export class Bounce {
 
@@ -30,7 +30,7 @@ module Kiwi.Tweens.Easing {
         **/
         public static In(k) {
 
-            return 1 - Kiwi.Tweens.Easing.Bounce.Out(1 - k);
+            return 1 - Kiwi.Animation.Tweens.Easing.Bounce.Out(1 - k);
 
         }
 
@@ -69,8 +69,8 @@ module Kiwi.Tweens.Easing {
         **/
         public static InOut(k) {
 
-            if (k < 0.5) return Kiwi.Tweens.Easing.Bounce.In(k * 2) * 0.5;
-            return Kiwi.Tweens.Easing.Bounce.Out(k * 2 - 1) * 0.5 + 0.5;
+            if (k < 0.5) return Kiwi.Animation.Tweens.Easing.Bounce.In(k * 2) * 0.5;
+            return Kiwi.Animation.Tweens.Easing.Bounce.Out(k * 2 - 1) * 0.5 + 0.5;
 
         }
 

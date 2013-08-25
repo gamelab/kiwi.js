@@ -12,7 +12,7 @@
  *
 */
 
-module Kiwi.Components {
+module Kiwi.HUD.Components {
 
     export class Range extends Kiwi.Component {
 

@@ -15,7 +15,7 @@
  */
 
 //  Note the core namespace
-module Kiwi {
+module Kiwi.Animation {
 
     export class Tween {
 
@@ -58,7 +58,7 @@ module Kiwi {
         * @type Kiwi.Tweens.Manager
         * @private
         **/
-        private _manager: Kiwi.Tweens.Manager = null;
+        private _manager: Kiwi.Animation.Tweens.Manager = null;
 
         /** 
         * 
@@ -114,7 +114,7 @@ module Kiwi {
         * @type Kiwi.Tweens.Easing.Linear.None
         * @private
         **/
-	    private _easingFunction = Kiwi.Tweens.Easing.Linear.None;
+        private _easingFunction = Kiwi.Animation.Tweens.Easing.Linear.None;
 
         /** 
         * 
@@ -338,7 +338,7 @@ module Kiwi {
         * @method chain
         * @param {Kiwi.Tween} tween
         **/
-	    public chain(tween:Kiwi.Tween) {
+	    public chain(tween:Kiwi.Animation.Tween) {
 
 	        this._chainedTweens.push(tween);
 	        return this;

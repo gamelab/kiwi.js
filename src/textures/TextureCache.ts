@@ -1,6 +1,7 @@
 
 
-module Kiwi {
+module Kiwi.Textures {
+    
 
     // Class
     export class TextureCache {
@@ -47,20 +48,20 @@ module Kiwi {
         * @method add
         * @param {Kiwi.File} imageFile
         */
-        public add(imageFile: File) {
+        public add(imageFile: Kiwi.Files.File) {
 
             if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 imageFile = this._rebuildImage(imageFile);
             }
 
             switch (imageFile.dataType) {
-                case File.SPRITE_SHEET:
+                case Kiwi.Files.File.SPRITE_SHEET:
                     this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
                     break;
-                case File.IMAGE:
+                case Kiwi.Files.File.IMAGE:
                     this.textures[imageFile.cacheID] = this._buildImage(imageFile);
                     break;
-                case File.TEXTURE_ATLAS:
+                case Kiwi.Files.File.TEXTURE_ATLAS:
                     this.textures[imageFile.cacheID] = this._buildTextureAtlas(imageFile);
                     break;
                 default:
@@ -69,24 +70,24 @@ module Kiwi {
             }
 
         }
+        
+        private _base2Sizes: number[] = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
 
-        private static VALID_SIZES: number[] = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
-
-        private _rebuildImage(imageFile:Kiwi.File):Kiwi.File {
+        private _rebuildImage(imageFile:Kiwi.Files.File):Kiwi.Files.File {
             
             var width = imageFile.data.width;
             var height = imageFile.data.height
 
-            if (Kiwi.TextureCache.VALID_SIZES.indexOf(width) == -1) {
+            if (this._base2Sizes.indexOf(width) == -1) {
                 var i = 0;
-                while (width > Kiwi.TextureCache.VALID_SIZES[i]) i++;
-                width = Kiwi.TextureCache.VALID_SIZES[i];
+                while (width > this._base2Sizes[i]) i++;
+                width = this._base2Sizes[i];
             }
 
-            if (Kiwi.TextureCache.VALID_SIZES.indexOf(height) == -1) {
+            if (this._base2Sizes.indexOf(height) == -1) {
                 var i = 0;
-                while (height > Kiwi.TextureCache.VALID_SIZES[i]) i++;
-                height = Kiwi.TextureCache.VALID_SIZES[i];
+                while (height > this._base2Sizes[i]) i++;
+                height = this._base2Sizes[i];
             }
 
             if (imageFile.data.width !== width || imageFile.data.height !== height) {
@@ -99,7 +100,7 @@ module Kiwi {
                 var image = new Image(width, height);
                 image.src = canvas.toDataURL("image/png");
 
-                if (imageFile.dataType === File.SPRITE_SHEET) {
+                if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
                     //if no rows were passed then calculate them now.
                     if (!imageFile.metadata.rows) 
                         imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight; 
@@ -125,14 +126,14 @@ module Kiwi {
         * @method _buildTextureAtlas
         * @param {Kiwi.File} imageFile
         */
-        private _buildTextureAtlas(imageFile: File): Kiwi.Textures.TextureAtlas {
+        private _buildTextureAtlas(imageFile: Kiwi.Files.File): Kiwi.Textures.TextureAtlas {
             var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
             var m = imageFile.metadata;
             var json = m.jsonCache.getFile(m.jsonID).data;
             json.trim();
             
             atlas.readJSON(json);
-
+            
             return atlas;
             
         }
@@ -142,7 +143,7 @@ module Kiwi {
         * @method _buildSpriteSheet
         * @param {Kiwi.File} imageFile
         */
-        private _buildSpriteSheet(imageFile:File): Kiwi.Textures.SpriteSheet {
+        private _buildSpriteSheet(imageFile:Kiwi.Files.File): Kiwi.Textures.SpriteSheet {
            
             var m = imageFile.metadata;
             
@@ -156,7 +157,7 @@ module Kiwi {
         * @method _buildImage
         * @param {Kiwi.File} imageFile
         */
-        private _buildImage(imageFile: File): Kiwi.Textures.SingleImage {
+        private _buildImage(imageFile: Kiwi.Files.File): Kiwi.Textures.SingleImage {
             var m = imageFile.metadata;
             return new Kiwi.Textures.SingleImage(imageFile.cacheID,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
         }

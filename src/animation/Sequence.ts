@@ -1,5 +1,5 @@
 
-module Kiwi {
+module Kiwi.Animation {
 
 
     export class Sequence {

@@ -6,7 +6,7 @@ export class Buttons extends Kiwi.State {
         super('Buttons');
     }
     
-    public button: Kiwi.HUD.Button;
+    public button: Kiwi.HUD.Widget.Button;
     public buttonState: string;
 
     init() {
@@ -14,7 +14,7 @@ export class Buttons extends Kiwi.State {
     }
 
     create() {
-        this.button = new Kiwi.HUD.Button(this.game, 100,100, 10, 10);
+        this.button = new Kiwi.HUD.Widget.Button(this.game, 100,100, 10, 10);
         this.button.container.style.backgroundColor = 'red';
         this.button.text('Open');
 

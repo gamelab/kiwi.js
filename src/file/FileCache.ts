@@ -3,7 +3,7 @@
 /**
  *  Kiwi - Core - FileCache
  *
- *  @desc       A cache used for storage of externally loaded resources held in Kiwi.File objects
+ *  @desc       A cache used for storage of externally loaded resources held in Kiwi.Files objects
  *
  *	@version 	1.0 - 4th March 2013
  *
@@ -13,14 +13,14 @@
  *
  */
 
-module Kiwi {
+module Kiwi.Files {
 
     export class FileCache {
 
         /**
         * 
         * @constructor
-        * @return {Kiwi.FileCache}
+        * @return {Kiwi.FilesCache}
         */
         constructor () {
 
@@ -51,9 +51,9 @@ module Kiwi {
         * 
         * @method getFile
         * @param {Sting} key
-        * @return {Kiwi.File} 
+        * @return {Kiwi.Files} 
         */
-        public getFile(key: string): Kiwi.File {
+        public getFile(key: string): Kiwi.Files.File {
 
             return this._files[key];
 
@@ -86,7 +86,7 @@ module Kiwi {
         * @param {String} key
         * @param {File} value
 		*/
-        public addFile(key: string, value: Kiwi.File):bool {
+        public addFile(key: string, value: Kiwi.Files.File):bool {
 
             if (!this._files[key])
             {

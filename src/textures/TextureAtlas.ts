@@ -16,7 +16,7 @@ module Kiwi.Textures {
         * @param {Sequence[]} sequences
         * @return {Kiwi.Textures.TextureAtlas}
         */
-        constructor(name: string, type:number, cells, image?: HTMLImageElement, sequences?: Kiwi.Sequence[]) {
+        constructor(name: string, type:number, cells, image?: HTMLImageElement, sequences?: Kiwi.Animation.Sequence[]) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
@@ -54,7 +54,7 @@ module Kiwi.Textures {
         * @property sequences
         * @type Kiwi.Sequence
         */
-        public sequences: Kiwi.Sequence[];
+        public sequences: Kiwi.Animation.Sequence[];
         
         /*
         * The cell that is to be render at the start.
@@ -112,7 +112,7 @@ module Kiwi.Textures {
 
                 for(var i = 0; i < obj.sequences.length; i++) {
                     
-                    var seq = new Kiwi.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
+                    var seq = new Kiwi.Animation.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
                     
                     if (obj.sequences[i].speed !== undefined) seq.speed = obj.sequences[i].speed;
                     if (obj.sequences[i].loop !== undefined)  seq.loop = obj.sequences[i].loop;

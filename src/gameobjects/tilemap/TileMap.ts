@@ -1,6 +1,6 @@
 
 
-module Kiwi.GameObjects {
+module Kiwi.GameObjects.Tilemap {
 
     export class TileMap extends Kiwi.Entity {
 
@@ -45,7 +45,7 @@ module Kiwi.GameObjects {
         * @param {Kiwi.Cache} tileMapDataCache - The cache that the data file is saved in.
         * @param {Kiwi.Textures.TextureAtlas} atlas
         */
-        public createFromCache(tileMapDataKey: string, tileMapDataCache: Kiwi.Cache, atlas: Kiwi.Textures.SpriteSheet, game: Game, format: number) {
+        public createFromCache(tileMapDataKey: string, tileMapDataCache: Kiwi.Files.Cache, atlas: Kiwi.Textures.SpriteSheet, game: Game, format: number) {
             //get the json
             if (tileMapDataCache.checkDataCacheID(tileMapDataKey, tileMapDataCache) == false) {
                 console.log('Missing json data', tileMapDataKey);
@@ -90,7 +90,7 @@ module Kiwi.GameObjects {
         * The data information
         */
         private _tileMapDataKey: string;
-        private _tileMapDataCache: Kiwi.Cache;
+        private _tileMapDataCache: Kiwi.Files.Cache;
 
         /*
         * The image information
@@ -111,17 +111,17 @@ module Kiwi.GameObjects {
         /*
         * Contains an array of all of the tile types.
         */
-        public tiles: TileType[];
+        public tiles: Kiwi.GameObjects.Tilemap.TileType[];
         
         /*
         * An array holding all of the tile map layers.
         */
-        public layers: TileMapLayer[];
+        public layers: Kiwi.GameObjects.Tilemap.TileMapLayer[];
 
         /*
         * A reference to the currentLayer
         */
-        public currentLayer: TileMapLayer;
+        public currentLayer: Kiwi.GameObjects.Tilemap.TileMapLayer;
 
         /*
         * The format that the tilemap was loaded with.
@@ -205,7 +205,7 @@ module Kiwi.GameObjects {
         * @method generateTiles
         * @param {number} qty - number of tiles
         */
-        private generateTiles(layer: Kiwi.GameObjects.TileMapLayer, qty: number) {
+        private generateTiles(layer: Kiwi.GameObjects.Tilemap.TileMapLayer, qty: number) {
             for (var i = 0; i < qty; i++) {
                 this.tiles.push(new TileType(this._game, this, i, layer.tileWidth, layer.tileHeight));
             }
@@ -312,9 +312,9 @@ module Kiwi.GameObjects {
         */
         public getTileFromInputXY(layer?: number): Tile {
             if (layer === undefined) {
-                return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x - this.currentLayer.transform.x, this._game.input.mouse.y - this.currentLayer.transform.y);;
+                return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x - this.currentLayer.x, this._game.input.mouse.y - this.currentLayer.y);
             } else {
-                return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x - this.layers[layer].transform.x, this._game.input.mouse.y - this.layers[layer].transform.y);;
+                return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x - this.layers[layer].x, this._game.input.mouse.y - this.layers[layer].transform.y);
             }
 
         }

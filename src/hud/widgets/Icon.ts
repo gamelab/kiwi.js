@@ -11,7 +11,7 @@
  *
 */
 
-module Kiwi.HUD {
+module Kiwi.HUD.Widget {
 
     export class Icon extends Kiwi.HUD.HUDWidget {
 

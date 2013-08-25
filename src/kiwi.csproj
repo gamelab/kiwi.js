@@ -23,7 +23,7 @@
   <ItemGroup>
     <Content Include="components\Box.ts" />
     <Content Include="core\Game.ts" />
-    <Content Include="animation\Animation.ts" />
+    <Content Include="animation\Anim.ts" />
     <Content Include="file\Cache.ts" />
     <Content Include="file\File.ts" />
     <Content Include="file\FileCache.ts" />

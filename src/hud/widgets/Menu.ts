@@ -1,6 +1,6 @@
 /// <reference path="../../Kiwi.ts" />
 
-module Kiwi.HUD {
+module Kiwi.HUD.Widget {
 
     export class Menu extends Kiwi.HUD.HUDWidget {
 
@@ -15,25 +15,25 @@ module Kiwi.HUD {
 
         public game: Kiwi.Game;
 
-        private _menuItems: Kiwi.HUD.MenuItem[];
+        private _menuItems: Kiwi.HUD.Widget.MenuItem[];
 
-        public addMenuItem(item: Kiwi.HUD.MenuItem):Kiwi.HUD.MenuItem {
+        public addMenuItem(item: Kiwi.HUD.Widget.MenuItem): Kiwi.HUD.Widget.MenuItem {
             this._menuItems.push(item);
-            this.container.appendChild(item.container);
+            //this.container.appendChild(item.container);
             item.addedToStage(this.game, this);
 
             return item;
         }
 
         //add multiple menu items
-        public addMenuItems(items: Kiwi.HUD.MenuItem[]) {
+        public addMenuItems(items: Kiwi.HUD.Widget.MenuItem[]) {
             for (var i = 0; i < items.length; i++) {
                 this.addMenuItem(items[i]);
             }
         }
 
         //get a menu item - need to test
-        public getMenuItem(val: any): Kiwi.HUD.MenuItem {
+        public getMenuItem(val: any): Kiwi.HUD.Widget.MenuItem {
             if (typeof val === 'string') {
                 var menuItem;
                 for (var i = 0; i < this._menuItems.length; i++) {

@@ -59,7 +59,7 @@ module Kiwi.Components {
         * @property _currentAnimation
         * @type Kiwi.Animation
         */
-        public currentAnimation: Kiwi.Animation = null;
+        public currentAnimation: Kiwi.Animation.Anim = null;
 
         /*
         * Indicates weither or not this animation is currently playing or not.
@@ -122,8 +122,8 @@ module Kiwi.Components {
         * @param {boolean} play - If once created the animation should play right away.
         * @return {Kiwi.Animation }
         */
-        public add(name: string, cells: number[], speed: number, loop: boolean= false, play: boolean= false): Kiwi.Animation {
-            var newSequence = new Kiwi.Sequence(name, cells, speed, loop);
+        public add(name: string, cells: number[], speed: number, loop: boolean= false, play: boolean= false): Kiwi.Animation.Anim {
+            var newSequence = new Kiwi.Animation.Sequence(name, cells, speed, loop);
             this._atlas.sequences.push(newSequence);
             
             return this.createFromSequence(newSequence, play);
@@ -137,8 +137,8 @@ module Kiwi.Components {
         * @param {boolean} play - If the animation should play once it has been created
         * @return {Kiwi.Animation}
         */
-        public createFromSequence(sequence: Kiwi.Sequence, play: boolean= false):Kiwi.Animation {
-            this._animations[sequence.name] = new Kiwi.Animation(sequence.name, sequence, this.clock);
+        public createFromSequence(sequence: Kiwi.Animation.Sequence, play: boolean= false): Kiwi.Animation.Anim {
+            this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.clock);
 
             if (play) this.play(sequence.name);
             
@@ -284,7 +284,7 @@ module Kiwi.Components {
         * @param {string} name
         * @return {Kiwi.Animation} 
         */
-        public getAnimation(name: string):Kiwi.Animation {
+        public getAnimation(name: string): Kiwi.Animation.Anim {
             return this._animations[name];
         }
         
