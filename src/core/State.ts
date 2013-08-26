@@ -29,7 +29,6 @@ module Kiwi {
             klog.debug('----------- State created: ' + name + ' -----------');
             
             this.config = new Kiwi.StateConfig(this, name);
-            //this.cache = new Kiwi.Files.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
            
@@ -54,26 +53,20 @@ module Kiwi {
         **/
         public game: Kiwi.Game = null;
 
-        /**
-        * 
-        * @property cache
-        * @type Kiwi.Cache
-        **/
-        //RENAME TO FILECACHE
-        //public cache: Kiwi.Files.Cache;
+      
 
-        /**
-        * 
-        * @property cache
-        * @type Kiwi.Cache
-        **/
-        public textureCache: Kiwi.Textures.TextureCache;
+     
+        public textureLibrary: Kiwi.Textures.TextureLibrary;
+        public audioLibrary: Kiwi.Sound.AudioLibrary;
+        public dataLibrary: Kiwi.Files.DataLibrary;
 
         /*
         * Holds all of the textures that are avaiable to be accessed once this state has been loaded.
         * @property textures
         */
         public textures;
+        public audio;
+        public data;
 
         /**
         * The Component Manager
@@ -89,12 +82,13 @@ module Kiwi {
         public boot() {
 
             klog.info('State booted: ', this.config.name);
-            this.textureCache = new Kiwi.Textures.TextureCache(this.game);
-            this.textures = this.textureCache.textures;
-            //this.cache.boot();
-            //this.cache = this.game.cache;
-
-            
+            this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
+            this.textures = this.textureLibrary.textures;
+            this.audioLibrary = new Kiwi.Sound.AudioLibrary(this.game);
+            this.audio = this.audioLibrary.audio;
+            this.dataLibrary = new Kiwi.Files.DataLibrary(this.game);
+            this.data = this.dataLibrary.data;
+                
         }
 
         
@@ -217,44 +211,43 @@ module Kiwi {
         /**
         *
         * @method addImage
-        * @param {String} cacheID
+        * @param {String} key
         * @param {String} url
-        * @param {Boolean} globalCache - use the global game cache instead of the local one (which is destroyed when the state ends)
-        * @param {Kiwi.FileCache} [cache]
+        * @param {Boolean} storeAsGlobal 
         */
-        public addImage(cacheID: string, url: string, globalCache: bool = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
-            this.game.loader.addImage(cacheID, url,width,height,offsetX,offsetY);
+        public addImage(key: string, url: string, storeAsGlobal: bool = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
+            this.game.loader.addImage(key, url,width,height,offsetX,offsetY);
             
 
         }
 
-        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, globalCache: bool = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+        public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal: bool = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
-            this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, numCells,rows,cols,sheetOffsetX, sheetOffsetY,cellOffsetX,cellOffsetY);
+            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells,rows,cols,sheetOffsetX, sheetOffsetY,cellOffsetX,cellOffsetY);
             
 
         }
         ///****
-        public addTextureAtlas(imageID: string, imageURL: string, jsonID?:string,jsonURL?:string, globalCache: bool = true) {
+        public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal: bool = true) {
 
            
-           this.game.loader.addTextureAtlas(imageID,imageURL,jsonID,jsonURL);
+           this.game.loader.addTextureAtlas(key,imageURL,jsonID,jsonURL);
            
         }
 
-        public addJSON(cacheID: string, url: string, globalCache: bool = true) {
+        public addJSON(key: string, url: string, storeAsGlobal: bool = true) {
 
           
-                this.game.loader.addJSON(cacheID, url);
+                this.game.loader.addJSON(key, url);
           
         }
 
         
 
-        public addAudio(cacheID: string, url: string, globalCache: bool = true) {
+        public addAudio(key: string, url: string, storeAsGlobal: bool = true) {
 
           
-                this.game.loader.addAudio(cacheID, url);
+                this.game.loader.addAudio(key, url);
           
         }
 

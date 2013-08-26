@@ -44,10 +44,12 @@
 /// <reference path="core/StateConfig.ts" />
 /// <reference path="core/StateManager.ts" />
 
-/// <reference path="file/Cache.ts" />
+
 /// <reference path="file/Loader.ts" />
+/// <reference path="file/DataLibrary.ts" />
 /// <reference path="file/File.ts" />
 /// <reference path="file/FileStore.ts" />
+
 
 
 /// <reference path="gameobjects/Sprite.ts" />
@@ -90,6 +92,7 @@
 
 /// <reference path="sound/AudioManager.ts" />
 /// <reference path="sound/Audio.ts" />
+/// <reference path="sound/AudioLibrary.ts" />
 
 /// <reference path="input/Finger.ts" />
 /// <reference path="input/Key.ts" />
@@ -117,7 +120,7 @@
 /// <reference path="system/Device.ts" />
 
 /// <reference path="textures/TextureAtlas.ts" />
-/// <reference path="textures/TextureCache.ts" />
+/// <reference path="textures/TextureLibrary.ts" />
 /// <reference path="textures/SpriteSheet.ts" />
 /// <reference path="textures/SingleImage.ts" />
 

@@ -36,7 +36,7 @@ module Kiwi.Animation {
         public name: string;
         
         /*
-        * The sequence on the texture cache that this animation is based off.
+        * The sequence on the texture atlas that this animation is based off.
         * @property _sequence
         * @type Kiwi.Sequence
         */

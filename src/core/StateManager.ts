@@ -211,6 +211,7 @@ module Kiwi {
                 this.current.destroy();
             }
 
+
             //  Assume by this point that the current state has been destroyed (in reality we'll move this part to a callback probably)
 
             if (this.checkKeyExists(key) === true)
@@ -244,7 +245,7 @@ module Kiwi {
                     this.checkPreload();
 
                 }
-
+             
                 return true;
 
             }
@@ -309,7 +310,7 @@ module Kiwi {
                 }
 
             }
-
+            
             return this.setCurrentState(key);
 
         }
@@ -400,8 +401,8 @@ module Kiwi {
                 this.current.loadComplete();
             }
 
-            
-            this.rebuildTextureCache()
+           
+            this.rebuildLibraries();
             
             this.current.config.isReady = true;
 
@@ -421,20 +422,26 @@ module Kiwi {
 
         }
 
-        public rebuildTextureCache() {
-          
-            this.current.textureCache.clear();
+        public rebuildLibraries() {
+            
+            this.current.textureLibrary.clear();
+            this.current.audioLibrary.clear();
+            this.current.dataLibrary.clear();
+         
 
             var fileStoreKeys: Array = this._game.fileStore.keys;
             
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isTexture) {
-                    this.current.textureCache.add(file);
+                    this.current.textureLibrary.add(file);
+                } else if (file.isAudio) {
+                    this.current.audioLibrary.add(file);
+                } else if (file.isData) {
+                    this.current.dataLibrary.add(file);
                 }
-                
             }            
-
+          
             
         }
 

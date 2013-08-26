@@ -18,8 +18,8 @@ module Kiwi.HUD.Widget {
         /**
         * 
         * @constructor
-        * @param {string} cacheID
-        * @param {Kiwi.Cache} cache
+    
+    
         * @param {number} x
         * @param {number y
         * @return {Kiwi.HUD.Icon}

@@ -38,13 +38,13 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /*
-        * Creates the tilemap from the cache.
+        * Creates the tilemap from the file store.
         * 
-        * @method createFromCache
+        * @method createFromFileStore
         * @param {string} tileMapDataKey - The key of the data file.
         * @param {Kiwi.Textures.TextureAtlas} atlas
         */
-        public createFromCache(tileMapDataKey: string, atlas: Kiwi.Textures.SpriteSheet, game: Game, format: number) {
+        public createFromFileStore(tileMapDataKey: string, atlas: Kiwi.Textures.SpriteSheet, game: Game, format: number) {
             //get the json
             if (this._game.fileStore.exists(tileMapDataKey) == false) {
                 console.log('Missing json data', tileMapDataKey);

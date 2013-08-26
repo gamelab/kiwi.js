@@ -24,7 +24,7 @@
     <Content Include="components\Box.ts" />
     <Content Include="core\Game.ts" />
     <Content Include="animation\Anim.ts" />
-    <Content Include="file\Cache.ts" />
+    <Content Include="file\DataLibrary.ts" />
     <Content Include="file\File.ts" />
     <Content Include="file\FileStore.ts" />
     <Content Include="file\Loader.ts" />
@@ -35,6 +35,7 @@
     <Content Include="renderers\GLShaders.ts" />
     <Content Include="renderers\GLTexture.ts" />
     <Content Include="renderers\WebGL.d.ts" />
+    <Content Include="sound\AudioLibrary.ts" />
     <Content Include="textures\TextureAtlas.ts" />
     <Content Include="animation\Sequence.ts" />
     <Content Include="textures\SingleImage.ts" />
@@ -43,7 +44,7 @@
     <Content Include="sound\Audio.ts" />
     <Content Include="components\Sound.ts" />
     <Content Include="components\ArcadePhysics.ts" />
-    <Content Include="textures\TextureCache.ts" />
+    <Content Include="textures\TextureLibrary.ts" />
     <Content Include="components\Bounds.ts" />
     <Content Include="components\Animation.ts" />
     <Content Include="components\Input.ts" />

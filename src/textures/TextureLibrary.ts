@@ -4,26 +4,26 @@ module Kiwi.Textures {
     
 
     // Class
-    export class TextureCache {
+    export class TextureLibrary {
 
         /*
         * 
         * @constructor
         * @param {Kiwi.Game} game
-        * @return {Kiwi.TextureCache}
+        * @return {Kiwi.Textures.TextureLibrary}
         */
         constructor(game: Kiwi.Game) {
             
             this._game = game;
-            this.textures = {};
+            this.textures = new Object();
         }
 
         public objType(): string {
-            return "TextureCache";
+            return "TextureLibrary";
         }
 
         /*
-        * The game that this cache belongs to.
+        * 
         * @property _game
         * @type Kiwi.Game
         */
@@ -36,15 +36,17 @@ module Kiwi.Textures {
         public textures;
 
         /*
-        * Resets the texture cache. This method doesn't actually remove them from the cache.
+        * Resets the texture library
         * @method clear
         */
         public clear() {
-            //this.textures = {}; //commented out as it breaks/removes all the textures somehow?
+            for (var prop in this.textures) {
+                delete this.textures[prop];
+            }
         }
 
         /*
-        * Adds a new image file to the texture cache.
+        * Adds a new image file to the texture library.
         * @method add
         * @param {Kiwi.File} imageFile
         */
@@ -56,16 +58,16 @@ module Kiwi.Textures {
 
             switch (imageFile.dataType) {
                 case Kiwi.Files.File.SPRITE_SHEET:
-                    this.textures[imageFile.name] = this._buildSpriteSheet(imageFile);
+                    this.textures[imageFile.key] = this._buildSpriteSheet(imageFile);
                     break;
                 case Kiwi.Files.File.IMAGE:
-                    this.textures[imageFile.name] = this._buildImage(imageFile);
+                    this.textures[imageFile.key] = this._buildImage(imageFile);
                     break;
                 case Kiwi.Files.File.TEXTURE_ATLAS:
-                    this.textures[imageFile.name] = this._buildTextureAtlas(imageFile);
+                    this.textures[imageFile.key] = this._buildTextureAtlas(imageFile);
                     break;
                 default:
-                    klog.error("Image file is of unknown type and was not added to texture cache");
+                    klog.error("Image file is of unknown type and was not added to texture library");
                     break;
             }
 
@@ -127,7 +129,7 @@ module Kiwi.Textures {
         * @param {Kiwi.File} imageFile
         */
         private _buildTextureAtlas(imageFile: Kiwi.Files.File): Kiwi.Textures.TextureAtlas {
-            var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.name, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
+            var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.key, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
             var m = imageFile.metadata;
             
             var json = this._game.fileStore.getFile(m.jsonID).data;
@@ -149,7 +151,7 @@ module Kiwi.Textures {
             var m = imageFile.metadata;
             
             //BEWARE THE SWITCH TO CELLWIDTH AND FRAMEWIDTH
-            var spriteSheet: Kiwi.Textures.SpriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.name,imageFile.data,m.frameWidth,m.frameHeight,m.numCells,m.rows,m.cols,m.sheetOffsetX,m.sheetOffsetY,m.cellOffsetX,m.cellOffsetY);
+            var spriteSheet: Kiwi.Textures.SpriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.key,imageFile.data,m.frameWidth,m.frameHeight,m.numCells,m.rows,m.cols,m.sheetOffsetX,m.sheetOffsetY,m.cellOffsetX,m.cellOffsetY);
             return spriteSheet;
         }
     
@@ -160,7 +162,7 @@ module Kiwi.Textures {
         */
         private _buildImage(imageFile: Kiwi.Files.File): Kiwi.Textures.SingleImage {
             var m = imageFile.metadata;
-            return new Kiwi.Textures.SingleImage(imageFile.name,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
+            return new Kiwi.Textures.SingleImage(imageFile.key,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
         }
     }
 

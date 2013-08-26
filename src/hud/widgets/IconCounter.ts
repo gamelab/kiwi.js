@@ -21,8 +21,8 @@ module Kiwi.HUD.Widget {
         /**
         * 
         * @constructor
-        * @param {string} cacheID
-        * @param {Kiwi.Cache} cache
+        * @param {string} key
+    
         * @param {number} current
         * @param {number} max
         * @param {number} x

@@ -34,8 +34,7 @@ module Kiwi.Components {
         *
         * @method addSound
         * @param {string} name
-        * @param {string} cacheID
-        * @param {Kiwi.Cache} cache
+        * @param {string} key
         * @param {number} volume
         * @param {bool} loop
         * @return {Kiwi.Sound.Audio} 

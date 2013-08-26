@@ -760,7 +760,6 @@ var Kiwi;
             this._startup = null;
             this.audio = null;
             this.browser = null;
-            this.cache = null;
             this.fileStore = null;
             this.input = null;
             this.cameras = null;
@@ -785,7 +784,7 @@ var Kiwi;
 
             this.audio = new Kiwi.Sound.AudioManager(this);
             this.browser = new Kiwi.System.Browser(this);
-            this.cache = new Kiwi.Files.Cache(this);
+
             this.fileStore = new Kiwi.Files.FileStore(this);
             this.input = new Kiwi.Input.Manager(this);
 
@@ -884,7 +883,7 @@ var Kiwi;
             this.time.boot();
             this.audio.boot();
             this.input.boot();
-            this.cache.boot();
+
             this.fileStore.boot();
             this.loader.boot();
             this.states.boot();
@@ -2180,7 +2179,6 @@ var Kiwi;
             klog.debug('----------- State created: ' + name + ' -----------');
 
             this.config = new Kiwi.StateConfig(this, name);
-
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
         }
@@ -2190,8 +2188,12 @@ var Kiwi;
 
         State.prototype.boot = function () {
             klog.info('State booted: ', this.config.name);
-            this.textureCache = new Kiwi.Textures.TextureCache(this.game);
-            this.textures = this.textureCache.textures;
+            this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
+            this.textures = this.textureLibrary.textures;
+            this.audioLibrary = new Kiwi.Sound.AudioLibrary(this.game);
+            this.audio = this.audioLibrary.audio;
+            this.dataLibrary = new Kiwi.Files.DataLibrary(this.game);
+            this.data = this.dataLibrary.data;
         };
 
         State.prototype.init = function () {
@@ -2254,29 +2256,29 @@ var Kiwi;
             }
         };
 
-        State.prototype.addImage = function (cacheID, url, globalCache, width, height, offsetX, offsetY) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            this.game.loader.addImage(cacheID, url, width, height, offsetX, offsetY);
+        State.prototype.addImage = function (key, url, storeAsGlobal, width, height, offsetX, offsetY) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addImage(key, url, width, height, offsetX, offsetY);
         };
 
-        State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+        State.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, storeAsGlobal, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
         };
 
-        State.prototype.addTextureAtlas = function (imageID, imageURL, jsonID, jsonURL, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            this.game.loader.addTextureAtlas(imageID, imageURL, jsonID, jsonURL);
+        State.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL);
         };
 
-        State.prototype.addJSON = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            this.game.loader.addJSON(cacheID, url);
+        State.prototype.addJSON = function (key, url, storeAsGlobal) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addJSON(key, url);
         };
 
-        State.prototype.addAudio = function (cacheID, url, globalCache) {
-            if (typeof globalCache === "undefined") { globalCache = true; }
-            this.game.loader.addAudio(cacheID, url);
+        State.prototype.addAudio = function (key, url, storeAsGlobal) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addAudio(key, url);
         };
 
         State.prototype.addChild = function (child) {
@@ -5032,7 +5034,7 @@ var Kiwi;
                 this.current.loadComplete();
             }
 
-            this.rebuildTextureCache();
+            this.rebuildLibraries();
 
             this.current.config.isReady = true;
 
@@ -5047,15 +5049,21 @@ var Kiwi;
             }
         };
 
-        StateManager.prototype.rebuildTextureCache = function () {
-            this.current.textureCache.clear();
+        StateManager.prototype.rebuildLibraries = function () {
+            this.current.textureLibrary.clear();
+            this.current.audioLibrary.clear();
+            this.current.dataLibrary.clear();
 
-            var gameCacheKeys = this._game.fileStore.keys;
+            var fileStoreKeys = this._game.fileStore.keys;
 
-            for (var i = 0; i < gameCacheKeys.length; i++) {
-                var file = this._game.fileStore.getFile(gameCacheKeys[i]);
+            for (var i = 0; i < fileStoreKeys.length; i++) {
+                var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isTexture) {
-                    this.current.textureCache.add(file);
+                    this.current.textureLibrary.add(file);
+                } else if (file.isAudio) {
+                    this.current.audioLibrary.add(file);
+                } else if (file.isData) {
+                    this.current.dataLibrary.add(file);
                 }
             }
         };
@@ -5086,41 +5094,261 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Files) {
-        var Cache = (function () {
-            function Cache(game) {
-                this.images = null;
-                this.audio = null;
-                this.data = null;
+        var Loader = (function () {
+            function Loader(game) {
+                this._calculateBytes = true;
+                this._fileTotal = 0;
+                this._currentFile = 0;
+                this._bytesTotal = 0;
+                this._bytesLoaded = 0;
+                this._bytesCurrent = 0;
+                this._fileChunk = 0;
+                this._percentLoaded = 0;
+                this._complete = false;
                 this._game = game;
             }
-            Cache.prototype.objType = function () {
-                return "Cache";
+            Loader.prototype.objType = function () {
+                return "Loader";
             };
 
-            Cache.prototype.boot = function () {
-                this._caches = [];
+            Loader.prototype.boot = function () {
+                klog.info('Loader Boot');
+
+                this._fileList = [];
+                this._loadList = [];
             };
 
-            Cache.prototype.checkImageCacheID = function (cacheID, cache) {
-                if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
-                    klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                    return false;
+            Loader.prototype.init = function (progress, complete, calculateBytes) {
+                if (typeof progress === "undefined") { progress = null; }
+                if (typeof complete === "undefined") { complete = null; }
+                if (typeof calculateBytes === "undefined") { calculateBytes = false; }
+                klog.info('Loader init - calculate bytes: ' + calculateBytes);
+
+                this._fileList.length = 0;
+                this._loadList.length = 0;
+
+                this._calculateBytes = calculateBytes;
+                this._complete = false;
+
+                if (progress !== null) {
+                    this._onProgressCallback = progress;
                 }
 
-                return true;
+                if (complete !== null) {
+                    this._onCompleteCallback = complete;
+                }
             };
 
-            Cache.prototype.checkDataCacheID = function (cacheID, cache) {
-                if (cacheID == '' || cache === null || cache.images === null || cache.data.exists(cacheID) === false) {
-                    klog.warn('Data cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                    return false;
+            Loader.prototype.addImage = function (key, url, width, height, offsetX, offsetY) {
+                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, key);
+                file.metadata = { width: width, height: height, offsetX: offsetX, offsetY: offsetY };
+
+                this._fileList.push(file);
+            };
+
+            Loader.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, key);
+
+                file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
+
+                this._fileList.push(file);
+            };
+
+            Loader.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL) {
+                var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, key);
+                var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID);
+
+                imageFile.metadata = { jsonID: jsonID };
+                jsonFile.metadata = { imageID: key };
+
+                this._fileList.push(imageFile, jsonFile);
+            };
+
+            Loader.prototype.addAudio = function (key, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key));
+            };
+
+            Loader.prototype.addJSON = function (key, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, key));
+            };
+
+            Loader.prototype.addXML = function (key, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, key));
+            };
+
+            Loader.prototype.addBinaryFile = function (key, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, key));
+            };
+
+            Loader.prototype.addTextFile = function (key, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, key));
+            };
+
+            Loader.prototype.startLoad = function () {
+                klog.info('Loader startLoad');
+
+                if (this._fileList.length === 0) {
+                    this._onCompleteCallback();
+                } else {
+                    this._onProgressCallback(0, 0, null);
+
+                    this._fileTotal = this._fileList.length;
+                    this._bytesLoaded = 0;
+                    this._bytesTotal = 0;
+                    this._bytesCurrent = 0;
+                    this._currentFile = 0;
+                    this._fileChunk = 0;
+                    this._percentLoaded = 0;
+
+                    if (this._calculateBytes === true) {
+                        klog.info('Loader - startLoad - getting total file sizes');
+                        this.getNextFileSize();
+                    } else {
+                        klog.info('Loader - startLoad - skipping xhr file size check');
+                        this._fileChunk = Math.floor(100 / this._fileTotal);
+                        this._loadList = this._fileList;
+
+                        this.nextFile();
+                    }
+                }
+            };
+
+            Loader.prototype.getNextFileSize = function () {
+                var _this = this;
+                if (this._fileList.length === 0) {
+                    var tempFile = this._fileList.shift();
+
+                    tempFile.getFileDetails(function (file) {
+                        return _this.addToBytesTotal(file);
+                    });
+                } else {
+                    this.nextFile();
+                }
+            };
+
+            Loader.prototype.addToBytesTotal = function (file) {
+                klog.info('Loader - addToBytesTotal - ' + file.fileName + ' = ' + file.fileSize);
+
+                this._bytesTotal += file.fileSize;
+
+                this._loadList.push(file);
+
+                this.getNextFileSize();
+            };
+
+            Loader.prototype.nextFile = function () {
+                var _this = this;
+                this._currentFile++;
+
+                var tempFile = this._loadList.shift();
+
+                tempFile.load(function (f) {
+                    return _this.fileLoadComplete(f);
+                }, function (f) {
+                    return _this.fileLoadProgress(f);
+                });
+            };
+
+            Loader.prototype.fileLoadProgress = function (file) {
+                if (this._calculateBytes === true) {
+                    this._bytesCurrent = file.bytesLoaded;
+
+                    if (this._onProgressCallback) {
+                        this._onProgressCallback(this.getPercentLoaded(), this.getBytesLoaded(), file);
+                    }
+                }
+            };
+
+            Loader.prototype.fileLoadComplete = function (file) {
+                if (this._calculateBytes === true) {
+                    this._bytesLoaded += file.bytesTotal;
+                    this._bytesCurrent = 0;
+
+                    if (this._onProgressCallback) {
+                        this._onProgressCallback(this.getPercentLoaded(), this._bytesLoaded, file);
+                    }
+                } else {
+                    if (this._onProgressCallback) {
+                        this._onProgressCallback(this.getPercentLoaded(), 0, file);
+                    }
                 }
 
-                return true;
+                if (this._loadList.length === 0) {
+                    this._complete = true;
+
+                    if (this._onCompleteCallback) {
+                        klog.info('onCompleteCallback');
+                        this._onCompleteCallback();
+                    }
+                } else {
+                    this.nextFile();
+                }
             };
-            return Cache;
+
+            Loader.prototype.getBytesLoaded = function () {
+                return this._bytesLoaded + this._bytesCurrent;
+            };
+
+            Loader.prototype.getPercentLoaded = function () {
+                if (this._calculateBytes === true) {
+                    return Math.round((this.getBytesLoaded() / this._bytesTotal) * 100);
+                } else {
+                    return Math.round((this._currentFile / this._fileTotal) * 100);
+                }
+            };
+
+            Loader.prototype.calculateBytes = function (value) {
+                if (value) {
+                    this._calculateBytes = value;
+                }
+
+                return this._calculateBytes;
+            };
+
+            Loader.prototype.complete = function () {
+                return this._complete;
+            };
+            return Loader;
         })();
-        Files.Cache = Cache;
+        Files.Loader = Loader;
+    })(Kiwi.Files || (Kiwi.Files = {}));
+    var Files = Kiwi.Files;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Files) {
+        var DataLibrary = (function () {
+            function DataLibrary(game) {
+                this._game = game;
+                this.data = {};
+            }
+            DataLibrary.prototype.objType = function () {
+                return "DataLibrary";
+            };
+
+            DataLibrary.prototype.clear = function () {
+                for (var prop in this.data) {
+                    delete this.data[prop];
+                }
+            };
+
+            DataLibrary.prototype.add = function (dataFile) {
+                switch (dataFile.dataType) {
+                    case Kiwi.Files.File.JSON:
+                    case Kiwi.Files.File.XML:
+                    case Kiwi.Files.File.BINARY_DATA:
+                    case Kiwi.Files.File.TEXT_DATA:
+                        this.data[dataFile.key] = dataFile;
+                        break;
+
+                    default:
+                        klog.error("Image file is of unknown type and was not added to data library");
+                        break;
+                }
+            };
+            return DataLibrary;
+        })();
+        Files.DataLibrary = DataLibrary;
     })(Kiwi.Files || (Kiwi.Files = {}));
     var Files = Kiwi.Files;
 })(Kiwi || (Kiwi = {}));
@@ -5187,10 +5415,10 @@ var Kiwi;
                 this._saveToFileStore = saveToFileStore;
                 this._fileStore = this._game.fileStore;
 
-                if (this.name === '') {
-                    this.name = this.fileName;
+                if (this.key === '') {
+                    this.key = this.fileName;
                 } else {
-                    this.name = name;
+                    this.key = name;
                 }
 
                 klog.info('New Kiwi.File: ' + this.toString());
@@ -5329,7 +5557,7 @@ var Kiwi;
                 this.stop();
 
                 if (this._saveToFileStore === true) {
-                    this._fileStore.addFile(this.name, this);
+                    this._fileStore.addFile(this.key, this);
                 }
 
                 if (this.onCompleteCallback) {
@@ -5508,8 +5736,8 @@ var Kiwi;
                 klog.info('parse complete');
 
                 if (this._saveToFileStore === true) {
-                    klog.info('saving to cache', this._fileStore, this.name);
-                    this._fileStore.addFile(this.name, this);
+                    klog.info('saving to file store', this._fileStore, this.key);
+                    this._fileStore.addFile(this.key, this);
                 }
 
                 if (this.onCompleteCallback) {
@@ -5600,23 +5828,6 @@ var Kiwi;
                 }
             };
 
-            File.prototype.saveToCache = function (value) {
-                if (value) {
-                    this._saveToFileStore = value;
-                }
-
-                return this._saveToFileStore;
-            };
-
-            File.prototype.cache = function (value) {
-                if (typeof value === "undefined") { value = null; }
-                if (value !== null) {
-                    this._fileStore = value;
-                }
-
-                return this._fileStore;
-            };
-
             File.prototype.toString = function () {
                 return "[{File (fileURL=" + this.fileURL + " fileName=" + this.fileName + " dataType=" + this.dataType + " fileSize=" + this.fileSize + " success=" + this.success + " status=" + this.status + ")}]";
             };
@@ -5638,239 +5849,6 @@ var Kiwi;
             return File;
         })();
         Files.File = File;
-    })(Kiwi.Files || (Kiwi.Files = {}));
-    var Files = Kiwi.Files;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Files) {
-        var Loader = (function () {
-            function Loader(game) {
-                this._calculateBytes = true;
-                this._fileTotal = 0;
-                this._currentFile = 0;
-                this._bytesTotal = 0;
-                this._bytesLoaded = 0;
-                this._bytesCurrent = 0;
-                this._fileChunk = 0;
-                this._percentLoaded = 0;
-                this._complete = false;
-                this._game = game;
-            }
-            Loader.prototype.objType = function () {
-                return "Loader";
-            };
-
-            Loader.prototype.boot = function () {
-                klog.info('Loader Boot');
-
-                this._fileList = [];
-                this._loadList = [];
-            };
-
-            Loader.prototype.init = function (progress, complete, calculateBytes) {
-                if (typeof progress === "undefined") { progress = null; }
-                if (typeof complete === "undefined") { complete = null; }
-                if (typeof calculateBytes === "undefined") { calculateBytes = false; }
-                klog.info('Loader init - calculate bytes: ' + calculateBytes);
-
-                this._fileList.length = 0;
-                this._loadList.length = 0;
-
-                this._calculateBytes = calculateBytes;
-                this._complete = false;
-
-                if (progress !== null) {
-                    this._onProgressCallback = progress;
-                }
-
-                if (complete !== null) {
-                    this._onCompleteCallback = complete;
-                }
-            };
-
-            Loader.prototype.addImage = function (cacheID, url, width, height, offsetX, offsetY) {
-                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, cacheID);
-                file.metadata = { width: width, height: height, offsetX: offsetX, offsetY: offsetY };
-
-                this._fileList.push(file);
-            };
-
-            Loader.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, cacheID);
-
-                file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
-
-                this._fileList.push(file);
-            };
-
-            Loader.prototype.addTextureAtlas = function (imageID, imageURL, jsonID, jsonURL) {
-                var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, imageID);
-                var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID);
-
-                imageFile.metadata = { jsonID: jsonID };
-                jsonFile.metadata = { imageID: imageID };
-
-                this._fileList.push(imageFile, jsonFile);
-            };
-
-            Loader.prototype.addAudio = function (cacheID, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, cacheID));
-            };
-
-            Loader.prototype.addJSON = function (cacheID, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, cacheID));
-            };
-
-            Loader.prototype.addXML = function (cacheID, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, cacheID));
-            };
-
-            Loader.prototype.addBinaryFile = function (cacheID, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, cacheID));
-            };
-
-            Loader.prototype.addTextFile = function (cacheID, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, cacheID));
-            };
-
-            Loader.prototype.addCustomFile = function (file, cache) {
-                if (typeof cache === "undefined") { cache = null; }
-                if (cache !== null) {
-                    file.saveToCache(true);
-                    file.cache(cache);
-                }
-
-                this._fileList.push(file);
-            };
-
-            Loader.prototype.startLoad = function () {
-                klog.info('Loader startLoad');
-
-                if (this._fileList.length === 0) {
-                    this._onCompleteCallback();
-                } else {
-                    this._onProgressCallback(0, 0, null);
-
-                    this._fileTotal = this._fileList.length;
-                    this._bytesLoaded = 0;
-                    this._bytesTotal = 0;
-                    this._bytesCurrent = 0;
-                    this._currentFile = 0;
-                    this._fileChunk = 0;
-                    this._percentLoaded = 0;
-
-                    if (this._calculateBytes === true) {
-                        klog.info('Loader - startLoad - getting total file sizes');
-                        this.getNextFileSize();
-                    } else {
-                        klog.info('Loader - startLoad - skipping xhr file size check');
-                        this._fileChunk = Math.floor(100 / this._fileTotal);
-                        this._loadList = this._fileList;
-
-                        this.nextFile();
-                    }
-                }
-            };
-
-            Loader.prototype.getNextFileSize = function () {
-                var _this = this;
-                if (this._fileList.length === 0) {
-                    var tempFile = this._fileList.shift();
-
-                    tempFile.getFileDetails(function (file) {
-                        return _this.addToBytesTotal(file);
-                    });
-                } else {
-                    this.nextFile();
-                }
-            };
-
-            Loader.prototype.addToBytesTotal = function (file) {
-                klog.info('Loader - addToBytesTotal - ' + file.fileName + ' = ' + file.fileSize);
-
-                this._bytesTotal += file.fileSize;
-
-                this._loadList.push(file);
-
-                this.getNextFileSize();
-            };
-
-            Loader.prototype.nextFile = function () {
-                var _this = this;
-                this._currentFile++;
-
-                var tempFile = this._loadList.shift();
-
-                tempFile.load(function (f) {
-                    return _this.fileLoadComplete(f);
-                }, function (f) {
-                    return _this.fileLoadProgress(f);
-                });
-            };
-
-            Loader.prototype.fileLoadProgress = function (file) {
-                if (this._calculateBytes === true) {
-                    this._bytesCurrent = file.bytesLoaded;
-
-                    if (this._onProgressCallback) {
-                        this._onProgressCallback(this.getPercentLoaded(), this.getBytesLoaded(), file);
-                    }
-                }
-            };
-
-            Loader.prototype.fileLoadComplete = function (file) {
-                if (this._calculateBytes === true) {
-                    this._bytesLoaded += file.bytesTotal;
-                    this._bytesCurrent = 0;
-
-                    if (this._onProgressCallback) {
-                        this._onProgressCallback(this.getPercentLoaded(), this._bytesLoaded, file);
-                    }
-                } else {
-                    if (this._onProgressCallback) {
-                        this._onProgressCallback(this.getPercentLoaded(), 0, file);
-                    }
-                }
-
-                if (this._loadList.length === 0) {
-                    this._complete = true;
-
-                    if (this._onCompleteCallback) {
-                        klog.info('onCompleteCallback');
-                        this._onCompleteCallback();
-                    }
-                } else {
-                    this.nextFile();
-                }
-            };
-
-            Loader.prototype.getBytesLoaded = function () {
-                return this._bytesLoaded + this._bytesCurrent;
-            };
-
-            Loader.prototype.getPercentLoaded = function () {
-                if (this._calculateBytes === true) {
-                    return Math.round((this.getBytesLoaded() / this._bytesTotal) * 100);
-                } else {
-                    return Math.round((this._currentFile / this._fileTotal) * 100);
-                }
-            };
-
-            Loader.prototype.calculateBytes = function (value) {
-                if (value) {
-                    this._calculateBytes = value;
-                }
-
-                return this._calculateBytes;
-            };
-
-            Loader.prototype.complete = function () {
-                return this._complete;
-            };
-            return Loader;
-        })();
-        Files.Loader = Loader;
     })(Kiwi.Files || (Kiwi.Files = {}));
     var Files = Kiwi.Files;
 })(Kiwi || (Kiwi = {}));
@@ -6523,7 +6501,7 @@ var Kiwi;
                     }
                 };
 
-                TileMap.prototype.createFromCache = function (tileMapDataKey, atlas, game, format) {
+                TileMap.prototype.createFromFileStore = function (tileMapDataKey, atlas, game, format) {
                     if (this._game.fileStore.exists(tileMapDataKey) == false) {
                         console.log('Missing json data', tileMapDataKey);
                         return;
@@ -9973,7 +9951,7 @@ var Kiwi;
 
             Audio.prototype._setAudio = function (key) {
                 if (key == '' || this._game.fileStore.exists(key) === false) {
-                    klog.warn('Audio cannot be extracted from the cache. Invalid cacheID or cache given.', key);
+                    klog.warn('Audio cannot be extracted from the file store. Invalid key given.', key);
                     this.ready = false;
                     return;
                 }
@@ -10267,6 +10245,41 @@ var Kiwi;
             return Audio;
         })();
         Sound.Audio = Audio;
+    })(Kiwi.Sound || (Kiwi.Sound = {}));
+    var Sound = Kiwi.Sound;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Sound) {
+        var AudioLibrary = (function () {
+            function AudioLibrary(game) {
+                this._game = game;
+                this.audio = {};
+            }
+            AudioLibrary.prototype.objType = function () {
+                return "AudioLibrary";
+            };
+
+            AudioLibrary.prototype.clear = function () {
+                for (var prop in this.audio) {
+                    delete this.audio[prop];
+                }
+            };
+
+            AudioLibrary.prototype.add = function (audioFile) {
+                switch (audioFile.dataType) {
+                    case Kiwi.Files.File.AUDIO:
+                        this.audio[audioFile.key] = audioFile;
+                        break;
+
+                    default:
+                        klog.error("Audio file is of unknown type and was not added to audio library");
+                        break;
+                }
+            };
+            return AudioLibrary;
+        })();
+        Sound.AudioLibrary = AudioLibrary;
     })(Kiwi.Sound || (Kiwi.Sound = {}));
     var Sound = Kiwi.Sound;
 })(Kiwi || (Kiwi = {}));
@@ -12243,41 +12256,44 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Textures) {
-        var TextureCache = (function () {
-            function TextureCache(game) {
+        var TextureLibrary = (function () {
+            function TextureLibrary(game) {
                 this._base2Sizes = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
                 this._game = game;
-                this.textures = {};
+                this.textures = new Object();
             }
-            TextureCache.prototype.objType = function () {
-                return "TextureCache";
+            TextureLibrary.prototype.objType = function () {
+                return "TextureLibrary";
             };
 
-            TextureCache.prototype.clear = function () {
+            TextureLibrary.prototype.clear = function () {
+                for (var prop in this.textures) {
+                    delete this.textures[prop];
+                }
             };
 
-            TextureCache.prototype.add = function (imageFile) {
+            TextureLibrary.prototype.add = function (imageFile) {
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                     imageFile = this._rebuildImage(imageFile);
                 }
 
                 switch (imageFile.dataType) {
                     case Kiwi.Files.File.SPRITE_SHEET:
-                        this.textures[imageFile.name] = this._buildSpriteSheet(imageFile);
+                        this.textures[imageFile.key] = this._buildSpriteSheet(imageFile);
                         break;
                     case Kiwi.Files.File.IMAGE:
-                        this.textures[imageFile.name] = this._buildImage(imageFile);
+                        this.textures[imageFile.key] = this._buildImage(imageFile);
                         break;
                     case Kiwi.Files.File.TEXTURE_ATLAS:
-                        this.textures[imageFile.name] = this._buildTextureAtlas(imageFile);
+                        this.textures[imageFile.key] = this._buildTextureAtlas(imageFile);
                         break;
                     default:
-                        klog.error("Image file is of unknown type and was not added to texture cache");
+                        klog.error("Image file is of unknown type and was not added to texture library");
                         break;
                 }
             };
 
-            TextureCache.prototype._rebuildImage = function (imageFile) {
+            TextureLibrary.prototype._rebuildImage = function (imageFile) {
                 var width = imageFile.data.width;
                 var height = imageFile.data.height;
 
@@ -12321,8 +12337,8 @@ var Kiwi;
                 return imageFile;
             };
 
-            TextureCache.prototype._buildTextureAtlas = function (imageFile) {
-                var atlas = new Kiwi.Textures.TextureAtlas(imageFile.name, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
+            TextureLibrary.prototype._buildTextureAtlas = function (imageFile) {
+                var atlas = new Kiwi.Textures.TextureAtlas(imageFile.key, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
                 var m = imageFile.metadata;
 
                 var json = this._game.fileStore.getFile(m.jsonID).data;
@@ -12333,20 +12349,20 @@ var Kiwi;
                 return atlas;
             };
 
-            TextureCache.prototype._buildSpriteSheet = function (imageFile) {
+            TextureLibrary.prototype._buildSpriteSheet = function (imageFile) {
                 var m = imageFile.metadata;
 
-                var spriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.name, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
+                var spriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.key, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
                 return spriteSheet;
             };
 
-            TextureCache.prototype._buildImage = function (imageFile) {
+            TextureLibrary.prototype._buildImage = function (imageFile) {
                 var m = imageFile.metadata;
-                return new Kiwi.Textures.SingleImage(imageFile.name, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
+                return new Kiwi.Textures.SingleImage(imageFile.key, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
             };
-            return TextureCache;
+            return TextureLibrary;
         })();
-        Textures.TextureCache = TextureCache;
+        Textures.TextureLibrary = TextureLibrary;
     })(Kiwi.Textures || (Kiwi.Textures = {}));
     var Textures = Kiwi.Textures;
 })(Kiwi || (Kiwi = {}));

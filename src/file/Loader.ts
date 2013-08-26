@@ -1,20 +1,4 @@
-/// <reference path="File.ts" />
 
-
-/**
- *  Kiwi - Core - Loader
- *
- *  @desc       Creates a batch file loader and puts them all into the local game caches
- *
- *	@version 	1.0 - 4th March 2013
- *
- *	@author 	Richard Davey
- *
- *  @url        http://www.kiwijs.org
- *
- *  @todo       Test mixed case (xhr loaded data + tag loaded images)
- *
- */
 
 module Kiwi.Files {
 
@@ -193,13 +177,12 @@ module Kiwi.Files {
         /**
         * 
         * @method addImage
-        * @param {String} cacheID
+        * @param {String} key
         * @param {String} url
-        * @param {Kiwi.FileCache} [cache]
         */
-        public addImage(cacheID: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number) {
+        public addImage(key: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number) {
 
-            var file: Kiwi.Files.File = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, cacheID);
+            var file: Kiwi.Files.File = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, key);
             file.metadata = { width: width, height: height ,offsetX:offsetX,offsetY:offsetY};
 
             this._fileList.push(file);
@@ -209,16 +192,16 @@ module Kiwi.Files {
         /**
         * 
         * @method addSpriteSheet
-        * @param {String} cacheID
+        * @param {String} key
         * @param {String} url
         * @param {number} frameWidth
         * @param {number} frameHeight
-        * @param {Kiwi.FileCache} [cache]
+        
         */
-        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+        public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
             
-            var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, cacheID);
+            var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, key);
           
             file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
          
@@ -226,14 +209,14 @@ module Kiwi.Files {
 
         }
         /// ***
-        public addTextureAtlas(imageID: string, imageURL: string, jsonID?: string, jsonURL?: string) {
+        public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string) {
           
-            var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, imageID);
+            var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, key);
             var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID);
             
             
             imageFile.metadata = { jsonID: jsonID };
-            jsonFile.metadata = { imageID:imageID };
+            jsonFile.metadata = { imageID:key };
             
 
             this._fileList.push(imageFile,jsonFile);
@@ -243,85 +226,66 @@ module Kiwi.Files {
         /**
         * 
         * @method addAudio
-        * @param {String} cacheID
+        * @param {String} key
         * @param {String} url
-        * @param {Kiwi.FileCache} [cache]
+  
         */
-        public addAudio(cacheID: string, url: string) {
+        public addAudio(key: string, url: string) {
 
-            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, cacheID));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key));
            
         }
 
         /**
         * 
         * @method addJSON
-        * @param {String} cacheID
+        * @param {String} key
         * @param {String} url
-        * @param {Kiwi.FileCache} [cache]
+   
         */
-        public addJSON(cacheID: string, url: string) {
+        public addJSON(key: string, url: string) {
 
-            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, cacheID));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, key));
 
         }
 
         /**
         * 
         * @method addXML
-        * @param {String} cacheID
+        * @param {String} key
         * @param {String} url
-        * @param {Kiwi.FileCache} [cache]
         */
-        public addXML(cacheID: string, url: string) {
+        public addXML(key: string, url: string) {
 
-            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, cacheID));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, key));
 
         }
 
         /**
         * 
         * @method addBinaryFile
-        * @param {String} cacheID
+        * @param {String} key
         * @param {String} url
-        * @param {Kiwi.FileCache} [cache]
         */
-        public addBinaryFile(cacheID: string, url: string) {
+        public addBinaryFile(key: string, url: string) {
 
-           this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, cacheID));
+           this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, key));
 
         }
 
         /**
         * 
         * @method addTextFile
-        * @param {String} cacheID
+        * @param {String} key
         * @param {String} url
-        * @param {Kiwi.FileCache} [cache]
         */
-        public addTextFile(cacheID: string, url: string) {
+        public addTextFile(key: string, url: string) {
 
-           this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, cacheID));
+           this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, key));
 
         }
 
-        /**
-        * 
-        * @method addCustomFile
-        * @param {Kiwi.Files} file
-        * @param {Kiwi.FileCache} [cache]
-        */
-        public addCustomFile(file: Kiwi.Files.File, cache: Kiwi.Files.FileStore = null) {
-
-            if (cache !== null)
-            {
-                file.saveToCache(true);
-                file.cache(cache);
-            }
-
-            this._fileList.push(file);
-
-        }
+       
 
         /**
         * 

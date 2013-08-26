@@ -7,7 +7,7 @@ module Kiwi.Sound {
         *
         * @constructor
         * @param {Kiwi.Game}
-        * @param {string} cacheID
+        * @param {string} key
         * @param {number} volume - A number between 0 (silence) and 1 (loud).
         * @param {bool} loop 
         */
@@ -123,7 +123,7 @@ module Kiwi.Sound {
         private _loop: bool;
 
         /*
-        * The cacheID that was used to get th  audio i formation.
+        * The key that was used to get th  audio i formation.
         * @public
         */
         public key: string;
@@ -137,7 +137,7 @@ module Kiwi.Sound {
 
         /*
         * A boolean that controls/knows if the audio is ready to be played or not.
-        * This is just an indicator of if the file has been retrieved successfully from the cache or not.
+        * This is just an indicator of if the file has been retrieved successfully from the file store or not.
         * @public
         */
         public ready: bool;
@@ -232,17 +232,16 @@ module Kiwi.Sound {
         public onMute: Kiwi.Signal;
 
         /*
-        * Retrieves the audio data from the cache.
+        * Retrieves the audio data from the file store.
         * 
         * @method _setAudio
-        * @param {string} cacheID
-        * @param {Kiwi.Cache} cache
+        * @param {string} key
         * @return {boolean}
         */
         private _setAudio(key: string): boolean {
             if (key == '' || this._game.fileStore.exists(key) === false)
             {
-                klog.warn('Audio cannot be extracted from the cache. Invalid cacheID or cache given.', key);
+                klog.warn('Audio cannot be extracted from the file store. Invalid key given.', key);
                 this.ready = false;
                 return;
             }

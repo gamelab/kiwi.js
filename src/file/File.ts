@@ -4,7 +4,7 @@
 /**
  *  Kiwi - Core - File
  *
- *  @desc       This class handles the loading of external data files via a tag loader or xhr + arraybuffer, and optionally saves to the game cache
+ *  @desc       This class handles the loading of external data files via a tag loader or xhr + arraybuffer, and optionally saves to the file store
  *
 
  *
@@ -19,9 +19,7 @@ module Kiwi.Files {
         * @constructor
         * @param {String} dataType
         * @param {String} path
-        * @param {String} cacheID
-        * @param {Boolean} saveToCache
-        * @param {Kiwi.FileCache} cache
+        * @param {Boolean} saveToFileStore
         * @return {Kiwi.Files}
         */
         constructor(game: Kiwi.Game, dataType: number, path: string, name: string = '', saveToFileStore: bool = true) {
@@ -67,13 +65,13 @@ module Kiwi.Files {
             this._saveToFileStore = saveToFileStore;
             this._fileStore = this._game.fileStore;
 
-            if (this.name === '')
+            if (this.key === '')
             {
-                this.name = this.fileName;
+                this.key = this.fileName;
             }
             else
             {
-                this.name = name;
+                this.key = name;
             }
 
             klog.info('New Kiwi.File: ' + this.toString());
@@ -150,14 +148,14 @@ module Kiwi.Files {
         private _xhr: XMLHttpRequest;
 
         /**
-        * @property _cache
-        * @type FileCache
+        * @property _fileStore
+        * @type FileStore
         * @private
         */
         private _fileStore: Kiwi.Files.FileStore;
 
         /**
-        * @property _saveToCache
+        * @property _saveToFileStore
         * @type Boolean
         * @private
 	    */
@@ -177,10 +175,10 @@ module Kiwi.Files {
         public dataType: number;
 
         /**
-        * @property cacheID
+        * @property key
         * @type String
     	*/
-        public name: string;
+        public key: string;
 
         /**
         * @property fileName
@@ -402,7 +400,6 @@ module Kiwi.Files {
         * @method load
         * @param {Any} [onCompleteCallback]
         * @param {Any} [onProgressCallback]
-        * @param {FileCache} [customCache]
         * @param {Number} maxLoadAttempts
         * @param {Number} timeout
         */
@@ -533,7 +530,7 @@ module Kiwi.Files {
 
             if (this._saveToFileStore === true)
             {
-                this._fileStore.addFile(this.name, this);
+                this._fileStore.addFile(this.key, this);
             }
             
             if (this.onCompleteCallback)
@@ -810,8 +807,8 @@ module Kiwi.Files {
 
             if (this._saveToFileStore === true)
             {
-                klog.info('saving to cache', this._fileStore, this.name);
-                this._fileStore.addFile(this.name, this);
+                klog.info('saving to file store', this._fileStore, this.key);
+                this._fileStore.addFile(this.key, this);
             }
 
             if (this.onCompleteCallback)
@@ -936,40 +933,9 @@ module Kiwi.Files {
 
         }
 
-        /**
-        * 
-        * @method saveToCache
-        * @param {Boolean} value
-        * @return {Boolean}
-        */
-        public saveToCache(value?: bool): bool {
+      
 
-            if (value)
-            {
-                this._saveToFileStore = value;
-            }
-
-            return this._saveToFileStore;
-
-        }
-
-        /**
-        * 
-        * @method cache
-        * @param {Kiwi.FilesCache} value
-        * @return {Kiwi.FileCache}
-        */
-        public cache(value: Kiwi.Files.FileStore = null): Kiwi.Files.FileStore {
-
-            if (value !== null)
-            {
-                this._fileStore = value;
-            }
-
-            return this._fileStore;
-
-        }
-
+      
 	    /**
 	     * Returns a string representation of this object.
 	     * @method toString

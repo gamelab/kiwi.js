@@ -15,7 +15,7 @@ class basictiles extends Kiwi.State {
 
         this.tileMap = new Kiwi.GameObjects.Tilemap.TileMap();
         this.addChild(this.tileMap); //has to be added to the stage first
-        this.tileMap.createFromCache('desert',this.textures.tiles, this.game, Kiwi.GameObjects.Tilemap.TileMap.FORMAT_TILED_JSON);
+        this.tileMap.createFromFileStore('desert',this.textures.tiles, this.game, Kiwi.GameObjects.Tilemap.TileMap.FORMAT_TILED_JSON);
 
     }
 

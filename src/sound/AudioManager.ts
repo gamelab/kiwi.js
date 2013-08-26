@@ -228,8 +228,7 @@ module Kiwi.Sound {
         * Used to create a new sound on the audio manager. Returns the newly created sound.
         * 
         * @method add
-        * @param {string} cacheID
-        * @param {Kiwi.Cache} cache
+        * @param {string} key
         * @param {number} volume
         * @param {bool} loop
         * @return {Kiwi.Sound.Audio}
