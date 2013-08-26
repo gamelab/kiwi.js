@@ -180,9 +180,9 @@ module Kiwi.Files {
         * @param {String} key
         * @param {String} url
         */
-        public addImage(key: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number) {
+        public addImage(key: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number, storeAsGlobal: boolean = true) {
 
-            var file: Kiwi.Files.File = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, key);
+            var file: Kiwi.Files.File = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, key, true, storeAsGlobal);
             file.metadata = { width: width, height: height ,offsetX:offsetX,offsetY:offsetY};
 
             this._fileList.push(file);
@@ -198,10 +198,10 @@ module Kiwi.Files {
         * @param {number} frameHeight
         
         */
-        public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+        public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number, storeAsGlobal:boolean = true) {
 
             
-            var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, key);
+            var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, key,true,storeAsGlobal);
           
             file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
          
@@ -209,10 +209,10 @@ module Kiwi.Files {
 
         }
         /// ***
-        public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string) {
-          
-            var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, key);
-            var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID);
+        public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal: boolean = true) {
+            
+            var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, key, true, storeAsGlobal);
+            var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID, true, storeAsGlobal);
             
             
             imageFile.metadata = { jsonID: jsonID };
@@ -230,9 +230,9 @@ module Kiwi.Files {
         * @param {String} url
   
         */
-        public addAudio(key: string, url: string) {
+        public addAudio(key: string, url: string, storeAsGlobal: boolean = true) {
 
-            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal));
            
         }
 
@@ -243,9 +243,9 @@ module Kiwi.Files {
         * @param {String} url
    
         */
-        public addJSON(key: string, url: string) {
+        public addJSON(key: string, url: string, storeAsGlobal: boolean = true) {
 
-            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, key));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, key, true, storeAsGlobal));
 
         }
 
@@ -255,9 +255,9 @@ module Kiwi.Files {
         * @param {String} key
         * @param {String} url
         */
-        public addXML(key: string, url: string) {
+        public addXML(key: string, url: string, storeAsGlobal: boolean = true) {
 
-            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, key));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, key, true, storeAsGlobal));
 
         }
 
@@ -267,9 +267,9 @@ module Kiwi.Files {
         * @param {String} key
         * @param {String} url
         */
-        public addBinaryFile(key: string, url: string) {
+        public addBinaryFile(key: string, url: string, storeAsGlobal: boolean = true) {
 
-           this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, key));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, key, true, storeAsGlobal));
 
         }
 
@@ -279,9 +279,9 @@ module Kiwi.Files {
         * @param {String} key
         * @param {String} url
         */
-        public addTextFile(key: string, url: string) {
+        public addTextFile(key: string, url: string, storeAsGlobal: boolean = true) {
 
-           this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, key));
+            this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, key, true, storeAsGlobal));
 
         }
 

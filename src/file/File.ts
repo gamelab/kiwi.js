@@ -22,7 +22,7 @@ module Kiwi.Files {
         * @param {Boolean} saveToFileStore
         * @return {Kiwi.Files}
         */
-        constructor(game: Kiwi.Game, dataType: number, path: string, name: string = '', saveToFileStore: bool = true) {
+        constructor(game: Kiwi.Game, dataType: number, path: string, name: string = '', saveToFileStore: boolean = true, storeAsGlobal:boolean = true) {
 
             this._game = game;
 
@@ -65,6 +65,13 @@ module Kiwi.Files {
             this._saveToFileStore = saveToFileStore;
             this._fileStore = this._game.fileStore;
 
+            // null state owner indicates global storage
+            if (this._game.states.current && !storeAsGlobal) {
+                this.ownerState = this._game.states.current;
+            } else {
+                this.ownerState = null;
+            }
+
             if (this.key === '')
             {
                 this.key = this.fileName;
@@ -84,6 +91,12 @@ module Kiwi.Files {
         public objType() {
             return "File";
         }
+
+
+        // the state that added the entity - or null if it was added as global
+        public ownerState: Kiwi.State;
+
+        public tags: string[];
 
         /**
         * @property IMAGE

@@ -2258,27 +2258,27 @@ var Kiwi;
 
         State.prototype.addImage = function (key, url, storeAsGlobal, width, height, offsetX, offsetY) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addImage(key, url, width, height, offsetX, offsetY);
+            this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
         };
 
         State.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, storeAsGlobal, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
         };
 
         State.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL);
+            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
         };
 
         State.prototype.addJSON = function (key, url, storeAsGlobal) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addJSON(key, url);
+            this.game.loader.addJSON(key, url, storeAsGlobal);
         };
 
         State.prototype.addAudio = function (key, url, storeAsGlobal) {
             if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addAudio(key, url);
+            this.game.loader.addAudio(key, url, storeAsGlobal);
         };
 
         State.prototype.addChild = function (child) {
@@ -5139,24 +5139,27 @@ var Kiwi;
                 }
             };
 
-            Loader.prototype.addImage = function (key, url, width, height, offsetX, offsetY) {
-                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, key);
+            Loader.prototype.addImage = function (key, url, width, height, offsetX, offsetY, storeAsGlobal) {
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, key, true, storeAsGlobal);
                 file.metadata = { width: width, height: height, offsetX: offsetX, offsetY: offsetY };
 
                 this._fileList.push(file);
             };
 
-            Loader.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, key);
+            Loader.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal) {
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, key, true, storeAsGlobal);
 
                 file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
 
                 this._fileList.push(file);
             };
 
-            Loader.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL) {
-                var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, key);
-                var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID);
+            Loader.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, key, true, storeAsGlobal);
+                var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID, true, storeAsGlobal);
 
                 imageFile.metadata = { jsonID: jsonID };
                 jsonFile.metadata = { imageID: key };
@@ -5164,24 +5167,29 @@ var Kiwi;
                 this._fileList.push(imageFile, jsonFile);
             };
 
-            Loader.prototype.addAudio = function (key, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key));
+            Loader.prototype.addAudio = function (key, url, storeAsGlobal) {
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, key, true, storeAsGlobal));
             };
 
-            Loader.prototype.addJSON = function (key, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, key));
+            Loader.prototype.addJSON = function (key, url, storeAsGlobal) {
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, key, true, storeAsGlobal));
             };
 
-            Loader.prototype.addXML = function (key, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, key));
+            Loader.prototype.addXML = function (key, url, storeAsGlobal) {
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, key, true, storeAsGlobal));
             };
 
-            Loader.prototype.addBinaryFile = function (key, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, key));
+            Loader.prototype.addBinaryFile = function (key, url, storeAsGlobal) {
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, key, true, storeAsGlobal));
             };
 
-            Loader.prototype.addTextFile = function (key, url) {
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, key));
+            Loader.prototype.addTextFile = function (key, url, storeAsGlobal) {
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, key, true, storeAsGlobal));
             };
 
             Loader.prototype.startLoad = function () {
@@ -5356,9 +5364,10 @@ var Kiwi;
 (function (Kiwi) {
     (function (Files) {
         var File = (function () {
-            function File(game, dataType, path, name, saveToFileStore) {
+            function File(game, dataType, path, name, saveToFileStore, storeAsGlobal) {
                 if (typeof name === "undefined") { name = ''; }
                 if (typeof saveToFileStore === "undefined") { saveToFileStore = true; }
+                if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
                 this._saveToFileStore = true;
                 this._useTagLoader = true;
                 this.fileSize = 0;
@@ -5414,6 +5423,12 @@ var Kiwi;
 
                 this._saveToFileStore = saveToFileStore;
                 this._fileStore = this._game.fileStore;
+
+                if (this._game.states.current && !storeAsGlobal) {
+                    this.ownerState = this._game.states.current;
+                } else {
+                    this.ownerState = null;
+                }
 
                 if (this.key === '') {
                     this.key = this.fileName;

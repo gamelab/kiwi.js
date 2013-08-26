@@ -38,6 +38,10 @@
       <DependentUpon>test1.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Misc\DebugCanvas.ts" />
+    <TypeScriptCompile Include="FileStorage\storage1.ts" />
+    <Content Include="FileStorage\storage1.js">
+      <DependentUpon>storage1.ts</DependentUpon>
+    </Content>
     <Content Include="Misc\DebugCanvas.js">
       <DependentUpon>DebugCanvas.ts</DependentUpon>
     </Content>

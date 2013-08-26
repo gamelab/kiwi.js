@@ -216,29 +216,29 @@ module Kiwi {
         * @param {Boolean} storeAsGlobal 
         */
         public addImage(key: string, url: string, storeAsGlobal: bool = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
-            this.game.loader.addImage(key, url,width,height,offsetX,offsetY);
+            this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
             
 
         }
 
         public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal: bool = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
-            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells,rows,cols,sheetOffsetX, sheetOffsetY,cellOffsetX,cellOffsetY);
+            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
             
 
         }
         ///****
         public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal: bool = true) {
 
-           
-           this.game.loader.addTextureAtlas(key,imageURL,jsonID,jsonURL);
+            
+            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
            
         }
 
         public addJSON(key: string, url: string, storeAsGlobal: bool = true) {
 
-          
-                this.game.loader.addJSON(key, url);
+            
+            this.game.loader.addJSON(key, url, storeAsGlobal);
           
         }
 
@@ -246,8 +246,8 @@ module Kiwi {
 
         public addAudio(key: string, url: string, storeAsGlobal: bool = true) {
 
-          
-                this.game.loader.addAudio(key, url);
+            
+            this.game.loader.addAudio(key, url, storeAsGlobal);
           
         }
 
