@@ -761,6 +761,7 @@ var Kiwi;
             this.audio = null;
             this.browser = null;
             this.cache = null;
+            this.fileStore = null;
             this.input = null;
             this.cameras = null;
             this.loader = null;
@@ -785,6 +786,7 @@ var Kiwi;
             this.audio = new Kiwi.Sound.AudioManager(this);
             this.browser = new Kiwi.System.Browser(this);
             this.cache = new Kiwi.Files.Cache(this);
+            this.fileStore = new Kiwi.Files.FileStore(this);
             this.input = new Kiwi.Input.Manager(this);
 
             this.stage = new Kiwi.Stage(this, name);
@@ -883,6 +885,7 @@ var Kiwi;
             this.audio.boot();
             this.input.boot();
             this.cache.boot();
+            this.fileStore.boot();
             this.loader.boot();
             this.states.boot();
 
@@ -2253,42 +2256,27 @@ var Kiwi;
 
         State.prototype.addImage = function (cacheID, url, globalCache, width, height, offsetX, offsetY) {
             if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addImage(cacheID, url, this.game.cache.images, width, height, offsetX, offsetY);
-            } else {
-            }
+            this.game.loader.addImage(cacheID, url, width, height, offsetX, offsetY);
         };
 
         State.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, globalCache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
             if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
-            } else {
-            }
+            this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
         };
 
         State.prototype.addTextureAtlas = function (imageID, imageURL, jsonID, jsonURL, globalCache) {
             if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addTextureAtlas(this.game.cache, imageID, imageURL, jsonID, jsonURL);
-            } else {
-            }
+            this.game.loader.addTextureAtlas(imageID, imageURL, jsonID, jsonURL);
         };
 
         State.prototype.addJSON = function (cacheID, url, globalCache) {
             if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
-            } else {
-            }
+            this.game.loader.addJSON(cacheID, url);
         };
 
         State.prototype.addAudio = function (cacheID, url, globalCache) {
             if (typeof globalCache === "undefined") { globalCache = true; }
-            if (globalCache === true) {
-                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
-            } else {
-            }
+            this.game.loader.addAudio(cacheID, url);
         };
 
         State.prototype.addChild = function (child) {
@@ -4195,11 +4183,11 @@ var Kiwi;
                 this._game = game;
                 this._audio = [];
             }
-            Sound.prototype.addSound = function (name, cacheID, cache, volume, loop) {
+            Sound.prototype.addSound = function (name, key, volume, loop) {
                 if (this._validate(name) == true)
                     return;
 
-                var audio = this._game.audio.add(cacheID, cache, volume, loop);
+                var audio = this._game.audio.add(key, volume, loop);
                 this._audio[name] = audio;
 
                 return audio;
@@ -5062,10 +5050,13 @@ var Kiwi;
         StateManager.prototype.rebuildTextureCache = function () {
             this.current.textureCache.clear();
 
-            var gameCacheKeys = this._game.cache.images.keys;
+            var gameCacheKeys = this._game.fileStore.keys;
 
             for (var i = 0; i < gameCacheKeys.length; i++) {
-                this.current.textureCache.add(this._game.cache.images.getFile(gameCacheKeys[i]));
+                var file = this._game.fileStore.getFile(gameCacheKeys[i]);
+                if (file.isTexture) {
+                    this.current.textureCache.add(file);
+                }
             }
         };
 
@@ -5108,14 +5099,6 @@ var Kiwi;
 
             Cache.prototype.boot = function () {
                 this._caches = [];
-
-                this._caches.push(new Kiwi.Files.FileStore());
-                this._caches.push(new Kiwi.Files.FileStore());
-                this._caches.push(new Kiwi.Files.FileStore());
-
-                this.images = this._caches[0];
-                this.audio = this._caches[1];
-                this.data = this._caches[2];
             };
 
             Cache.prototype.checkImageCacheID = function (cacheID, cache) {
@@ -5145,10 +5128,9 @@ var Kiwi;
 (function (Kiwi) {
     (function (Files) {
         var File = (function () {
-            function File(game, dataType, path, uniqueName, saveToFileStore, FileStore) {
-                if (typeof uniqueName === "undefined") { uniqueName = ''; }
-                if (typeof saveToFileStore === "undefined") { saveToFileStore = false; }
-                if (typeof FileStore === "undefined") { FileStore = null; }
+            function File(game, dataType, path, name, saveToFileStore) {
+                if (typeof name === "undefined") { name = ''; }
+                if (typeof saveToFileStore === "undefined") { saveToFileStore = true; }
                 this._saveToFileStore = true;
                 this._useTagLoader = true;
                 this.fileSize = 0;
@@ -5203,12 +5185,12 @@ var Kiwi;
                 }
 
                 this._saveToFileStore = saveToFileStore;
-                this._fileStore = FileStore;
+                this._fileStore = this._game.fileStore;
 
-                if (this.uniqueName === '') {
-                    this.uniqueName = this.fileName;
+                if (this.name === '') {
+                    this.name = this.fileName;
                 } else {
-                    this.uniqueName = uniqueName;
+                    this.name = name;
                 }
 
                 klog.info('New Kiwi.File: ' + this.toString());
@@ -5216,6 +5198,39 @@ var Kiwi;
             File.prototype.objType = function () {
                 return "File";
             };
+
+            Object.defineProperty(File.prototype, "isTexture", {
+                get: function () {
+                    if (this.dataType === File.IMAGE || this.dataType === File.SPRITE_SHEET || this.dataType === File.TEXTURE_ATLAS) {
+                        return true;
+                    }
+                    return false;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(File.prototype, "isAudio", {
+                get: function () {
+                    if (this.dataType === File.AUDIO) {
+                        return true;
+                    }
+                    return false;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(File.prototype, "isData", {
+                get: function () {
+                    if (this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA) {
+                        return true;
+                    }
+                    return false;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             File.prototype.load = function (onCompleteCallback, onProgressCallback, customFileStore, maxLoadAttempts, timeout) {
                 if (typeof onCompleteCallback === "undefined") { onCompleteCallback = null; }
@@ -5314,7 +5329,7 @@ var Kiwi;
                 this.stop();
 
                 if (this._saveToFileStore === true) {
-                    this._fileStore.addFile(this.uniqueName, this);
+                    this._fileStore.addFile(this.name, this);
                 }
 
                 if (this.onCompleteCallback) {
@@ -5493,8 +5508,8 @@ var Kiwi;
                 klog.info('parse complete');
 
                 if (this._saveToFileStore === true) {
-                    klog.info('saving to cache', this._fileStore, this.uniqueName);
-                    this._fileStore.addFile(this.uniqueName, this);
+                    klog.info('saving to cache', this._fileStore, this.name);
+                    this._fileStore.addFile(this.name, this);
                 }
 
                 if (this.onCompleteCallback) {
@@ -5674,89 +5689,49 @@ var Kiwi;
                 }
             };
 
-            Loader.prototype.addImage = function (cacheID, url, cache, width, height, offsetX, offsetY) {
-                if (typeof cache === "undefined") { cache = null; }
-                if (cache === null) {
-                    cache = this._game.cache.images;
-                }
-                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, cacheID, true, cache);
+            Loader.prototype.addImage = function (cacheID, url, width, height, offsetX, offsetY) {
+                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.IMAGE, url, cacheID);
                 file.metadata = { width: width, height: height, offsetX: offsetX, offsetY: offsetY };
 
                 this._fileList.push(file);
             };
 
-            Loader.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, cache, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-                if (typeof cache === "undefined") { cache = null; }
-                if (cache === null) {
-                    cache = this._game.cache.images;
-                }
-
-                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, cacheID, true, cache);
+            Loader.prototype.addSpriteSheet = function (cacheID, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+                var file = new Kiwi.Files.File(this._game, Kiwi.Files.File.SPRITE_SHEET, url, cacheID);
 
                 file.metadata = { frameWidth: frameWidth, frameHeight: frameHeight, numCells: numCells, rows: rows, cols: cols, sheetOffsetX: sheetOffsetX, sheetOffsetY: sheetOffsetY, cellOffsetX: cellOffsetX, cellOffsetY: cellOffsetY };
 
                 this._fileList.push(file);
             };
 
-            Loader.prototype.addTextureAtlas = function (cache, imageID, imageURL, jsonID, jsonURL) {
-                console.log(imageID, imageURL, jsonID, jsonURL);
+            Loader.prototype.addTextureAtlas = function (imageID, imageURL, jsonID, jsonURL) {
+                var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, imageID);
+                var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID);
 
-                if (cache === null) {
-                    cache = this._game.cache;
-                }
-
-                var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, imageID, true, cache.images);
-                var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID, true, cache.data);
-
-                imageFile.metadata = { jsonCache: cache.data, jsonID: jsonID };
-                jsonFile.metadata = { imageCache: cache.images, imageID: imageID };
+                imageFile.metadata = { jsonID: jsonID };
+                jsonFile.metadata = { imageID: imageID };
 
                 this._fileList.push(imageFile, jsonFile);
             };
 
-            Loader.prototype.addAudio = function (cacheID, url, cache) {
-                if (typeof cache === "undefined") { cache = null; }
-                if (cache === null) {
-                    cache = this._game.cache.audio;
-                }
-
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, cacheID, true, cache));
+            Loader.prototype.addAudio = function (cacheID, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.AUDIO, url, cacheID));
             };
 
-            Loader.prototype.addJSON = function (cacheID, url, cache) {
-                if (typeof cache === "undefined") { cache = null; }
-                if (cache === null) {
-                    cache = this._game.cache.data;
-                }
-
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, cacheID, true, cache));
+            Loader.prototype.addJSON = function (cacheID, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, url, cacheID));
             };
 
-            Loader.prototype.addXML = function (cacheID, url, cache) {
-                if (typeof cache === "undefined") { cache = null; }
-                if (cache === null) {
-                    cache = this._game.cache.data;
-                }
-
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, cacheID, true, cache));
+            Loader.prototype.addXML = function (cacheID, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.XML, url, cacheID));
             };
 
-            Loader.prototype.addBinaryFile = function (cacheID, url, cache) {
-                if (typeof cache === "undefined") { cache = null; }
-                if (cache === null) {
-                    cache = this._game.cache.data;
-                }
-
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, cacheID, true, cache));
+            Loader.prototype.addBinaryFile = function (cacheID, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.BINARY_DATA, url, cacheID));
             };
 
-            Loader.prototype.addTextFile = function (cacheID, url, cache) {
-                if (typeof cache === "undefined") { cache = null; }
-                if (cache === null) {
-                    cache = this._game.cache.data;
-                }
-
-                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, cacheID, true, cache));
+            Loader.prototype.addTextFile = function (cacheID, url) {
+                this._fileList.push(new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXT_DATA, url, cacheID));
             };
 
             Loader.prototype.addCustomFile = function (file, cache) {
@@ -5903,12 +5878,16 @@ var Kiwi;
 (function (Kiwi) {
     (function (Files) {
         var FileStore = (function () {
-            function FileStore() {
+            function FileStore(game) {
                 this._size = 0;
+                this._game = game;
                 this._files = {};
             }
             FileStore.prototype.objType = function () {
                 return "FileStore";
+            };
+
+            FileStore.prototype.boot = function () {
             };
 
             FileStore.prototype.getFile = function (key) {
@@ -6544,14 +6523,13 @@ var Kiwi;
                     }
                 };
 
-                TileMap.prototype.createFromCache = function (tileMapDataKey, tileMapDataCache, atlas, game, format) {
-                    if (tileMapDataCache.checkDataCacheID(tileMapDataKey, tileMapDataCache) == false) {
+                TileMap.prototype.createFromCache = function (tileMapDataKey, atlas, game, format) {
+                    if (this._game.fileStore.exists(tileMapDataKey) == false) {
                         console.log('Missing json data', tileMapDataKey);
                         return;
                     }
 
                     this._tileMapDataKey = tileMapDataKey;
-                    this._tileMapDataCache = tileMapDataCache;
                     this._atlas = atlas;
 
                     this.tiles = [];
@@ -6563,7 +6541,7 @@ var Kiwi;
 
                     switch (format) {
                         case TileMap.FORMAT_TILED_JSON:
-                            var obj = JSON.parse(tileMapDataCache.data.getFile(tileMapDataKey).data);
+                            var obj = JSON.parse(this._game.fileStore.getFile(tileMapDataKey).data);
                             this.parseTiledJSON(obj);
                             break;
                     }
@@ -6746,7 +6724,7 @@ var Kiwi;
                     }
                     this.layers = null;
                     this._tileMapDataKey = null;
-                    this._tileMapDataCache = null;
+
                     this._atlas = null;
                 };
                 TileMap.FORMAT_CSV = 0;
@@ -9902,7 +9880,7 @@ var Kiwi;
                 configurable: true
             });
 
-            AudioManager.prototype.add = function (cacheID, cache, volume, loop) {
+            AudioManager.prototype.add = function (key, volume, loop) {
                 if (typeof volume === "undefined") { volume = 1; }
                 if (typeof loop === "undefined") { loop = false; }
                 return null;
@@ -9935,7 +9913,7 @@ var Kiwi;
 (function (Kiwi) {
     (function (Sound) {
         var Audio = (function () {
-            function Audio(game, cacheID, cache, volume, loop) {
+            function Audio(game, key, volume, loop) {
                 this._muted = false;
                 this.totalDuration = 0;
                 this._buffer = null;
@@ -9950,7 +9928,7 @@ var Kiwi;
                 if (this._game.audio.noAudio)
                     return;
 
-                if (!this._setAudio(cacheID, cache))
+                if (!this._setAudio(key))
                     return;
 
                 if (this._usingWebAudio) {
@@ -9993,15 +9971,15 @@ var Kiwi;
                 return "Audio";
             };
 
-            Audio.prototype._setAudio = function (cacheID, cache) {
-                if (cacheID == '' || cache === null || cache.audio === null || cache.audio.exists(cacheID) === false) {
-                    klog.warn('Audio cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+            Audio.prototype._setAudio = function (key) {
+                if (key == '' || this._game.fileStore.exists(key) === false) {
+                    klog.warn('Audio cannot be extracted from the cache. Invalid cacheID or cache given.', key);
                     this.ready = false;
                     return;
                 }
 
-                this.cacheID = cacheID;
-                this._file = cache.audio.getFile(cacheID);
+                this.key = key;
+                this._file = this._game.fileStore.getFile(key);
                 this._sound = this._file.data;
                 this.ready = true;
 
@@ -12285,13 +12263,13 @@ var Kiwi;
 
                 switch (imageFile.dataType) {
                     case Kiwi.Files.File.SPRITE_SHEET:
-                        this.textures[imageFile.uniqueName] = this._buildSpriteSheet(imageFile);
+                        this.textures[imageFile.name] = this._buildSpriteSheet(imageFile);
                         break;
                     case Kiwi.Files.File.IMAGE:
-                        this.textures[imageFile.uniqueName] = this._buildImage(imageFile);
+                        this.textures[imageFile.name] = this._buildImage(imageFile);
                         break;
                     case Kiwi.Files.File.TEXTURE_ATLAS:
-                        this.textures[imageFile.uniqueName] = this._buildTextureAtlas(imageFile);
+                        this.textures[imageFile.name] = this._buildTextureAtlas(imageFile);
                         break;
                     default:
                         klog.error("Image file is of unknown type and was not added to texture cache");
@@ -12344,9 +12322,10 @@ var Kiwi;
             };
 
             TextureCache.prototype._buildTextureAtlas = function (imageFile) {
-                var atlas = new Kiwi.Textures.TextureAtlas(imageFile.uniqueName, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
+                var atlas = new Kiwi.Textures.TextureAtlas(imageFile.name, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
                 var m = imageFile.metadata;
-                var json = m.jsonCache.getFile(m.jsonID).data;
+
+                var json = this._game.fileStore.getFile(m.jsonID).data;
                 json.trim();
 
                 atlas.readJSON(json);
@@ -12357,13 +12336,13 @@ var Kiwi;
             TextureCache.prototype._buildSpriteSheet = function (imageFile) {
                 var m = imageFile.metadata;
 
-                var spriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.uniqueName, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
+                var spriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.name, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
                 return spriteSheet;
             };
 
             TextureCache.prototype._buildImage = function (imageFile) {
                 var m = imageFile.metadata;
-                return new Kiwi.Textures.SingleImage(imageFile.uniqueName, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
+                return new Kiwi.Textures.SingleImage(imageFile.name, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
             };
             return TextureCache;
         })();

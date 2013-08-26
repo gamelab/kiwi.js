@@ -25,7 +25,7 @@ class loading_playing extends Kiwi.State {
 
         this.button.input.onRelease.add(this.play, this);
 
-        this.sound = this.game.audio.add( 'boden', this.game.cache);
+        this.sound = this.game.audio.add( 'boden');
     }
 
     play() {

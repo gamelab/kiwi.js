@@ -56,13 +56,13 @@ module Kiwi.Textures {
 
             switch (imageFile.dataType) {
                 case Kiwi.Files.File.SPRITE_SHEET:
-                    this.textures[imageFile.uniqueName] = this._buildSpriteSheet(imageFile);
+                    this.textures[imageFile.name] = this._buildSpriteSheet(imageFile);
                     break;
                 case Kiwi.Files.File.IMAGE:
-                    this.textures[imageFile.uniqueName] = this._buildImage(imageFile);
+                    this.textures[imageFile.name] = this._buildImage(imageFile);
                     break;
                 case Kiwi.Files.File.TEXTURE_ATLAS:
-                    this.textures[imageFile.uniqueName] = this._buildTextureAtlas(imageFile);
+                    this.textures[imageFile.name] = this._buildTextureAtlas(imageFile);
                     break;
                 default:
                     klog.error("Image file is of unknown type and was not added to texture cache");
@@ -127,9 +127,10 @@ module Kiwi.Textures {
         * @param {Kiwi.File} imageFile
         */
         private _buildTextureAtlas(imageFile: Kiwi.Files.File): Kiwi.Textures.TextureAtlas {
-            var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.uniqueName, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
+            var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.name, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
             var m = imageFile.metadata;
-            var json = m.jsonCache.getFile(m.jsonID).data;
+            
+            var json = this._game.fileStore.getFile(m.jsonID).data;
             json.trim();
             
             atlas.readJSON(json);
@@ -148,7 +149,7 @@ module Kiwi.Textures {
             var m = imageFile.metadata;
             
             //BEWARE THE SWITCH TO CELLWIDTH AND FRAMEWIDTH
-            var spriteSheet: Kiwi.Textures.SpriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.uniqueName,imageFile.data,m.frameWidth,m.frameHeight,m.numCells,m.rows,m.cols,m.sheetOffsetX,m.sheetOffsetY,m.cellOffsetX,m.cellOffsetY);
+            var spriteSheet: Kiwi.Textures.SpriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.name,imageFile.data,m.frameWidth,m.frameHeight,m.numCells,m.rows,m.cols,m.sheetOffsetX,m.sheetOffsetY,m.cellOffsetX,m.cellOffsetY);
             return spriteSheet;
         }
     
@@ -159,7 +160,7 @@ module Kiwi.Textures {
         */
         private _buildImage(imageFile: Kiwi.Files.File): Kiwi.Textures.SingleImage {
             var m = imageFile.metadata;
-            return new Kiwi.Textures.SingleImage(imageFile.uniqueName,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
+            return new Kiwi.Textures.SingleImage(imageFile.name,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
         }
     }
 

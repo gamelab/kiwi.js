@@ -29,6 +29,7 @@ module Kiwi {
             this.audio = new Kiwi.Sound.AudioManager(this);
             this.browser = new Kiwi.System.Browser(this);
             this.cache = new Kiwi.Files.Cache(this);
+            this.fileStore = new Kiwi.Files.FileStore(this);
             this.input = new Kiwi.Input.Manager(this);
 
 
@@ -155,6 +156,7 @@ module Kiwi {
         * @type Kiwi.Cache
         */
         public cache: Kiwi.Files.Cache = null;
+        public fileStore: Kiwi.Files.FileStore = null;
 
         /*
         * 
@@ -290,6 +292,7 @@ module Kiwi {
             this.audio.boot();
             this.input.boot();
             this.cache.boot();
+            this.fileStore.boot();
             this.loader.boot();
             this.states.boot();
 

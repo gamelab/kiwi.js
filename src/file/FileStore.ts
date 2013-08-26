@@ -8,8 +8,8 @@ module Kiwi.Files {
         * @constructor
         * @return {Kiwi.FilesStore}
         */
-        constructor () {
-
+        constructor(game: Kiwi.Game) {
+            this._game = game;
             this._files = {};
 
         }
@@ -17,6 +17,8 @@ module Kiwi.Files {
         public objType() {
             return "FileStore";
         }
+
+        private _game: Kiwi.Game;
 
         /**
         * 
@@ -32,6 +34,10 @@ module Kiwi.Files {
         * @private
         */
         private _size:number = 0;
+
+        public boot() {
+            
+        }
 
         /** 
         * 

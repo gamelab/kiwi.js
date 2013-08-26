@@ -42,12 +42,11 @@ module Kiwi.GameObjects.Tilemap {
         * 
         * @method createFromCache
         * @param {string} tileMapDataKey - The key of the data file.
-        * @param {Kiwi.Cache} tileMapDataCache - The cache that the data file is saved in.
         * @param {Kiwi.Textures.TextureAtlas} atlas
         */
-        public createFromCache(tileMapDataKey: string, tileMapDataCache: Kiwi.Files.Cache, atlas: Kiwi.Textures.SpriteSheet, game: Game, format: number) {
+        public createFromCache(tileMapDataKey: string, atlas: Kiwi.Textures.SpriteSheet, game: Game, format: number) {
             //get the json
-            if (tileMapDataCache.checkDataCacheID(tileMapDataKey, tileMapDataCache) == false) {
+            if (this._game.fileStore.exists(tileMapDataKey) == false) {
                 console.log('Missing json data', tileMapDataKey);
                 return;
             }
@@ -55,7 +54,6 @@ module Kiwi.GameObjects.Tilemap {
 
             //save the data information
             this._tileMapDataKey = tileMapDataKey;
-            this._tileMapDataCache = tileMapDataCache;
             this._atlas = atlas;
 
             //create the tiles
@@ -72,7 +70,7 @@ module Kiwi.GameObjects.Tilemap {
                 
                 //load the json map
                 case TileMap.FORMAT_TILED_JSON:
-                    var obj = JSON.parse(tileMapDataCache.data.getFile(tileMapDataKey).data);
+                    var obj = JSON.parse(this._game.fileStore.getFile(tileMapDataKey).data);
                     this.parseTiledJSON(obj);
                     break;
             }
@@ -90,7 +88,7 @@ module Kiwi.GameObjects.Tilemap {
         * The data information
         */
         private _tileMapDataKey: string;
-        private _tileMapDataCache: Kiwi.Files.Cache;
+    
 
         /*
         * The image information
@@ -456,7 +454,7 @@ module Kiwi.GameObjects.Tilemap {
             }
             this.layers = null;
             this._tileMapDataKey = null;
-            this._tileMapDataCache = null;
+       
             this._atlas = null;
         }
 

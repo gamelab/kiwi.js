@@ -76,13 +76,13 @@ module Kiwi.Files {
 
             this._caches = [];
 
-            this._caches.push(new Kiwi.Files.FileStore());
-            this._caches.push(new Kiwi.Files.FileStore());
-            this._caches.push(new Kiwi.Files.FileStore());
+           // this._caches.push(new Kiwi.Files.FileStore());
+           // this._caches.push(new Kiwi.Files.FileStore());
+           // this._caches.push(new Kiwi.Files.FileStore());
 
-            this.images = this._caches[0];
-            this.audio = this._caches[1];
-            this.data = this._caches[2];
+           // this.images = this._caches[0];
+           // this.audio = this._caches[1];
+           // this.data = this._caches[2];
 
         }
 

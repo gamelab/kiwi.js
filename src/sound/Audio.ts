@@ -8,11 +8,10 @@ module Kiwi.Sound {
         * @constructor
         * @param {Kiwi.Game}
         * @param {string} cacheID
-        * @param {Kiwi.Cache} cache
         * @param {number} volume - A number between 0 (silence) and 1 (loud).
         * @param {bool} loop 
         */
-        constructor(game: Kiwi.Game, cacheID: string, cache: Kiwi.Files.Cache, volume:number, loop:bool) {
+        constructor(game: Kiwi.Game, key: string, volume:number, loop:bool) {
             
             this._game = game;
 
@@ -21,7 +20,7 @@ module Kiwi.Sound {
 
             if (this._game.audio.noAudio) return;
 
-            if (!this._setAudio(cacheID, cache)) return;
+            if (!this._setAudio(key)) return;
 
             if (this._usingWebAudio) {
                 this.context = this._game.audio.context;
@@ -127,7 +126,7 @@ module Kiwi.Sound {
         * The cacheID that was used to get th  audio i formation.
         * @public
         */
-        public cacheID: string;
+        public key: string;
         
         /*
         * The property containing the file information about the audio.
@@ -240,16 +239,16 @@ module Kiwi.Sound {
         * @param {Kiwi.Cache} cache
         * @return {boolean}
         */
-        private _setAudio(cacheID: string, cache: Kiwi.Files.Cache): boolean {
-            if (cacheID == '' || cache === null || cache.audio === null || cache.audio.exists(cacheID) === false)
+        private _setAudio(key: string): boolean {
+            if (key == '' || this._game.fileStore.exists(key) === false)
             {
-                klog.warn('Audio cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                klog.warn('Audio cannot be extracted from the cache. Invalid cacheID or cache given.', key);
                 this.ready = false;
                 return;
             }
 
-            this.cacheID = cacheID;
-            this._file = cache.audio.getFile(cacheID);
+            this.key = key;
+            this._file = this._game.fileStore.getFile(key);
             this._sound = this._file.data;
             this.ready = true;
 

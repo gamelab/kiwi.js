@@ -425,12 +425,13 @@ module Kiwi {
           
             this.current.textureCache.clear();
 
-            var gameCacheKeys: Array = this._game.cache.images.keys;
+            var fileStoreKeys: Array = this._game.fileStore.keys;
             
-            //iterate through global cache
-            
-            for (var i = 0; i < gameCacheKeys.length; i++) {
-                this.current.textureCache.add(this._game.cache.images.getFile(gameCacheKeys[i]));
+            for (var i = 0; i < fileStoreKeys.length; i++) {
+                var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
+                if (file.isTexture) {
+                    this.current.textureCache.add(file);
+                }
                 
             }            
 

@@ -234,7 +234,7 @@ module Kiwi.Sound {
         * @param {bool} loop
         * @return {Kiwi.Sound.Audio}
         */
-        public add(cacheID: string, cache: Kiwi.Files.Cache, volume: number = 1, loop: bool = false): Kiwi.Sound.Audio {
+        public add(key: string, volume: number = 1, loop: bool = false): Kiwi.Sound.Audio {
             /*
             if (this.noAudio) return;
 

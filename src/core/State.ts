@@ -223,68 +223,39 @@ module Kiwi {
         * @param {Kiwi.FileCache} [cache]
         */
         public addImage(cacheID: string, url: string, globalCache: bool = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
+            this.game.loader.addImage(cacheID, url,width,height,offsetX,offsetY);
             
-            if (globalCache === true)
-            {
-                this.game.loader.addImage(cacheID, url, this.game.cache.images,width,height,offsetX,offsetY);
-            }
-            else
-            {
-            //    this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
-            }
 
         }
 
         public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, globalCache: bool = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
-            if (globalCache === true)
-            {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells,rows,cols,sheetOffsetX, sheetOffsetY,cellOffsetX,cellOffsetY);
-            }
-            else
-            {
-              //  this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
-            }
+            this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, numCells,rows,cols,sheetOffsetX, sheetOffsetY,cellOffsetX,cellOffsetY);
+            
 
         }
         ///****
         public addTextureAtlas(imageID: string, imageURL: string, jsonID?:string,jsonURL?:string, globalCache: bool = true) {
 
-            if (globalCache === true)
-            {
-                this.game.loader.addTextureAtlas(this.game.cache,imageID,imageURL,jsonID,jsonURL);
-            }
-            else
-            {
-                //this.game.loader.addTextureAtlas(this.cache, imageID,imageURL, jsonID, jsonURL);
-            }
-
+           
+           this.game.loader.addTextureAtlas(imageID,imageURL,jsonID,jsonURL);
+           
         }
 
         public addJSON(cacheID: string, url: string, globalCache: bool = true) {
 
-            if (globalCache === true) {
-                this.game.loader.addJSON(cacheID, url, this.game.cache.data);
-            }
-            else {
-                //this.game.loader.addJSON(cacheID, url, this.cache.data);
-            }
-
+          
+                this.game.loader.addJSON(cacheID, url);
+          
         }
 
         
 
         public addAudio(cacheID: string, url: string, globalCache: bool = true) {
 
-            if (globalCache === true)
-            {
-                this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
-            }
-            else
-            {
-                //this.game.loader.addAudio(cacheID, url, this.cache.audio);
-            }
-
+          
+                this.game.loader.addAudio(cacheID, url);
+          
         }
 
         /**

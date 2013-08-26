@@ -24,7 +24,7 @@ module Kiwi.Files {
         * @param {Kiwi.FileCache} cache
         * @return {Kiwi.Files}
         */
-        constructor(game: Kiwi.Game, dataType: number, path: string, uniqueName: string = '', saveToFileStore: bool = false, FileStore: Kiwi.Files.FileStore = null) {
+        constructor(game: Kiwi.Game, dataType: number, path: string, name: string = '', saveToFileStore: bool = true) {
 
             this._game = game;
 
@@ -65,15 +65,15 @@ module Kiwi.Files {
             }
 
             this._saveToFileStore = saveToFileStore;
-            this._fileStore = FileStore;
+            this._fileStore = this._game.fileStore;
 
-            if (this.uniqueName === '')
+            if (this.name === '')
             {
-                this.uniqueName = this.fileName;
+                this.name = this.fileName;
             }
             else
             {
-                this.uniqueName = uniqueName;
+                this.name = name;
             }
 
             klog.info('New Kiwi.File: ' + this.toString());
@@ -180,7 +180,7 @@ module Kiwi.Files {
         * @property cacheID
         * @type String
     	*/
-        public uniqueName: string;
+        public name: string;
 
         /**
         * @property fileName
@@ -377,7 +377,26 @@ module Kiwi.Files {
     	*/
         public metadata: any;
 
+        public get isTexture(): boolean {
+            if (this.dataType === File.IMAGE || this.dataType === File.SPRITE_SHEET || this.dataType === File.TEXTURE_ATLAS) {
+                return true;
+            }
+            return false;
+        }
         
+        public get isAudio(): boolean {
+            if (this.dataType === File.AUDIO) {
+                return true;
+            }
+            return false;
+        }
+
+        public get isData(): boolean {
+            if (this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA) {
+                return true;
+            }
+            return false;
+        }
 
         /**
         * @method load
@@ -514,7 +533,7 @@ module Kiwi.Files {
 
             if (this._saveToFileStore === true)
             {
-                this._fileStore.addFile(this.uniqueName, this);
+                this._fileStore.addFile(this.name, this);
             }
             
             if (this.onCompleteCallback)
@@ -791,8 +810,8 @@ module Kiwi.Files {
 
             if (this._saveToFileStore === true)
             {
-                klog.info('saving to cache', this._fileStore, this.uniqueName);
-                this._fileStore.addFile(this.uniqueName, this);
+                klog.info('saving to cache', this._fileStore, this.name);
+                this._fileStore.addFile(this.name, this);
             }
 
             if (this.onCompleteCallback)
