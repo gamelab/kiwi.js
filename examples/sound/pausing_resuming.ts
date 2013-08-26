@@ -13,7 +13,7 @@ class pausing_resuming extends Kiwi.State {
     public sound: Kiwi.Sound.Audio;
 
     create() {
-        this.sound = this.game.audio.add('boden', this.cache, 1, true);
+        this.sound = this.game.audio.add('boden', this.game.cache, 1, true);
         this.game.input.mouse.mouseUp.add(this.play, this);
         this.sound.play();
     }

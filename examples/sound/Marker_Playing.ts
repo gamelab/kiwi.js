@@ -23,7 +23,7 @@ class Marker_Playing extends Kiwi.State {
 
     create() {
 
-        this.random = this.game.audio.add('random', this.cache, 1, true);
+        this.random = this.game.audio.add('random', this.game.cache, 1, true);
 
         this.random.addMarker('boy', 0, 28, true);
         this.random.addMarker('horn', 63, 80, true);

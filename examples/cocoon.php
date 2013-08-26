@@ -17,7 +17,7 @@ if(isset($_GET['f'])) {
     <script>var klog = {info:function(){},debug:function(){},warn:function(){}};</script>
     <script src="assets/js/ECMA262-5.js"></script>
     <script src="assets/js/gl-matrix-min.js"></script>
-    <script src="Kiwi.js"></script>
+    <script src="kiwi.js"></script>
     <script src="<?php echo $filepath?>"></script>
 
     <div id="game"></div>

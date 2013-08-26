@@ -2177,7 +2177,7 @@ var Kiwi;
             klog.debug('----------- State created: ' + name + ' -----------');
 
             this.config = new Kiwi.StateConfig(this, name);
-            this.cache = new Kiwi.Files.Cache(this.game);
+
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
         }
@@ -2189,7 +2189,6 @@ var Kiwi;
             klog.info('State booted: ', this.config.name);
             this.textureCache = new Kiwi.Textures.TextureCache(this.game);
             this.textures = this.textureCache.textures;
-            this.cache.boot();
         };
 
         State.prototype.init = function () {
@@ -2257,7 +2256,6 @@ var Kiwi;
             if (globalCache === true) {
                 this.game.loader.addImage(cacheID, url, this.game.cache.images, width, height, offsetX, offsetY);
             } else {
-                this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
             }
         };
 
@@ -2266,7 +2264,6 @@ var Kiwi;
             if (globalCache === true) {
                 this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.game.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
             } else {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
             }
         };
 
@@ -2275,7 +2272,6 @@ var Kiwi;
             if (globalCache === true) {
                 this.game.loader.addTextureAtlas(this.game.cache, imageID, imageURL, jsonID, jsonURL);
             } else {
-                this.game.loader.addTextureAtlas(this.cache, imageID, imageURL, jsonID, jsonURL);
             }
         };
 
@@ -2284,7 +2280,6 @@ var Kiwi;
             if (globalCache === true) {
                 this.game.loader.addJSON(cacheID, url, this.game.cache.data);
             } else {
-                this.game.loader.addJSON(cacheID, url, this.cache.data);
             }
         };
 
@@ -2293,7 +2288,6 @@ var Kiwi;
             if (globalCache === true) {
                 this.game.loader.addAudio(cacheID, url, this.game.cache.audio);
             } else {
-                this.game.loader.addAudio(cacheID, url, this.cache.audio);
             }
         };
 
@@ -3734,7 +3728,7 @@ var Kiwi;
                 this.gl = null;
             } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
                 this.gl = this.canvas.getContext("webgl");
-                this.gl.clearColor(1, 1, .95, 1);
+                this.gl.clearColor(1, 1, .95, .7);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
             } else {
@@ -5069,14 +5063,9 @@ var Kiwi;
             this.current.textureCache.clear();
 
             var gameCacheKeys = this._game.cache.images.keys;
-            var stateCacheKeys = this.current.cache.images.keys;
 
             for (var i = 0; i < gameCacheKeys.length; i++) {
                 this.current.textureCache.add(this._game.cache.images.getFile(gameCacheKeys[i]));
-            }
-
-            for (var i = 0; i < stateCacheKeys.length; i++) {
-                this.current.textureCache.add(this.current.cache.images.getFile(stateCacheKeys[i]));
             }
         };
 
@@ -12290,9 +12279,9 @@ var Kiwi;
             };
 
             TextureCache.prototype.add = function (imageFile) {
-            if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
-                imageFile = this._rebuildImage(imageFile);
-            }
+                if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                    imageFile = this._rebuildImage(imageFile);
+                }
 
                 switch (imageFile.dataType) {
                     case Kiwi.Files.File.SPRITE_SHEET:

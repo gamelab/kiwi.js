@@ -27,7 +27,7 @@ class muting extends Kiwi.State {
         this.addChild(this.tomato);
         this.addChild(this.pepper);
 
-        this.tommy = this.game.audio.add('tommy', this.cache, 1, true);
+        this.tommy = this.game.audio.add('tommy', this.game.cache, 1, true);
         this.tommy.play();
     }
 

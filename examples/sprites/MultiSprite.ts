@@ -12,7 +12,7 @@ class MultiSprite extends Kiwi.State {
 
     preload() {
 
-        this.addImage('character', 'assets/sprites/planetcute/Heart.png', false);
+        this.addImage('character', 'assets/sprites/planetcute/Heart.png', true);
         
 
     }

@@ -29,7 +29,7 @@ module Kiwi {
             klog.debug('----------- State created: ' + name + ' -----------');
             
             this.config = new Kiwi.StateConfig(this, name);
-            this.cache = new Kiwi.Files.Cache(this.game);
+            //this.cache = new Kiwi.Files.Cache(this.game);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
            
@@ -60,7 +60,7 @@ module Kiwi {
         * @type Kiwi.Cache
         **/
         //RENAME TO FILECACHE
-        public cache: Kiwi.Files.Cache;
+        //public cache: Kiwi.Files.Cache;
 
         /**
         * 
@@ -91,7 +91,7 @@ module Kiwi {
             klog.info('State booted: ', this.config.name);
             this.textureCache = new Kiwi.Textures.TextureCache(this.game);
             this.textures = this.textureCache.textures;
-            this.cache.boot();
+            //this.cache.boot();
             //this.cache = this.game.cache;
 
             
@@ -230,7 +230,7 @@ module Kiwi {
             }
             else
             {
-                this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
+            //    this.game.loader.addImage(cacheID, url, this.cache.images, width, height, offsetX, offsetY);
             }
 
         }
@@ -243,7 +243,7 @@ module Kiwi {
             }
             else
             {
-                this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
+              //  this.game.loader.addSpriteSheet(cacheID, url, frameWidth, frameHeight, this.cache.images, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY);
             }
 
         }
@@ -256,7 +256,7 @@ module Kiwi {
             }
             else
             {
-                this.game.loader.addTextureAtlas(this.cache, imageID,imageURL, jsonID, jsonURL);
+                //this.game.loader.addTextureAtlas(this.cache, imageID,imageURL, jsonID, jsonURL);
             }
 
         }
@@ -267,7 +267,7 @@ module Kiwi {
                 this.game.loader.addJSON(cacheID, url, this.game.cache.data);
             }
             else {
-                this.game.loader.addJSON(cacheID, url, this.cache.data);
+                //this.game.loader.addJSON(cacheID, url, this.cache.data);
             }
 
         }
@@ -282,7 +282,7 @@ module Kiwi {
             }
             else
             {
-                this.game.loader.addAudio(cacheID, url, this.cache.audio);
+                //this.game.loader.addAudio(cacheID, url, this.cache.audio);
             }
 
         }
