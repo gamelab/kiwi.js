@@ -14,17 +14,14 @@ class MultiTouch extends Kiwi.State {
     explosions: Kiwi.GameObjects.Sprite[];
 
     create() {
-         
+        
+        if (Kiwi.DEVICE.touch) {
             this.fingers = [];
             this.explosions = [];
 
             this.game.input.onUp.add(this.up, this);
             this.game.input.onDown.add(this.down, this);
-        
-        if (Kiwi.DEVICE.touch) {
-            this.game.input.touch.touchCancel.add(this.up);
         }
-            
     }
 
     up(x, y, timeDown, timeUp, duration, finger) {
