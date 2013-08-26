@@ -26,7 +26,7 @@
     <Content Include="animation\Anim.ts" />
     <Content Include="file\Cache.ts" />
     <Content Include="file\File.ts" />
-    <Content Include="file\FileCache.ts" />
+    <Content Include="file\FileStore.ts" />
     <Content Include="file\Loader.ts" />
     <Content Include="gl-matrix-min.js" />
     <Content Include="renderers\GLArrayBuffer.ts" />

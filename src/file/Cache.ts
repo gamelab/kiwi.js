@@ -1,4 +1,4 @@
-/// <reference path="FileCache.ts" />
+
 
 /**
  *  Kiwi - Core - Cache
@@ -47,25 +47,25 @@ module Kiwi.Files {
         * @type Kiwi.FileCache[]
         * @private
         **/
-        private _caches: Kiwi.Files.FileCache[];
+        private _caches: Kiwi.Files.FileStore[];
 
         /**
         * @property images
         * @type Kiwi.FileCache
         */
-        public images: Kiwi.Files.FileCache = null;
+        public images: Kiwi.Files.FileStore = null;
 
         /**
         * @property audio
         * @type Kiwi.FileCache
         */
-        public audio: Kiwi.Files.FileCache = null;
+        public audio: Kiwi.Files.FileStore = null;
 
         /**
         * @property data
         * @type Kiwi.FileCache
         */
-        public data: Kiwi.Files.FileCache = null;
+        public data: Kiwi.Files.FileStore = null;
 
 
         /**
@@ -76,9 +76,9 @@ module Kiwi.Files {
 
             this._caches = [];
 
-            this._caches.push(new Kiwi.Files.FileCache());
-            this._caches.push(new Kiwi.Files.FileCache());
-            this._caches.push(new Kiwi.Files.FileCache());
+            this._caches.push(new Kiwi.Files.FileStore());
+            this._caches.push(new Kiwi.Files.FileStore());
+            this._caches.push(new Kiwi.Files.FileStore());
 
             this.images = this._caches[0];
             this.audio = this._caches[1];

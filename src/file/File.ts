@@ -1,5 +1,5 @@
-/// <reference path="FileCache.ts" />
-/// <reference path="../Kiwi.ts" />
+
+
 
 /**
  *  Kiwi - Core - File
@@ -24,7 +24,7 @@ module Kiwi.Files {
         * @param {Kiwi.FileCache} cache
         * @return {Kiwi.Files}
         */
-        constructor(game: Kiwi.Game, dataType: number, path: string, cacheID: string = '', saveToCache: bool = false, cache: Kiwi.Files.FileCache = null) {
+        constructor(game: Kiwi.Game, dataType: number, path: string, uniqueName: string = '', saveToFileStore: bool = false, FileStore: Kiwi.Files.FileStore = null) {
 
             this._game = game;
 
@@ -64,16 +64,16 @@ module Kiwi.Files {
                 this._useTagLoader = true;
             }
 
-            this._saveToCache = saveToCache;
-            this._cache = cache;
+            this._saveToFileStore = saveToFileStore;
+            this._fileStore = FileStore;
 
-            if (this.cacheID === '')
+            if (this.uniqueName === '')
             {
-                this.cacheID = this.fileName;
+                this.uniqueName = this.fileName;
             }
             else
             {
-                this.cacheID = cacheID;
+                this.uniqueName = uniqueName;
             }
 
             klog.info('New Kiwi.File: ' + this.toString());
@@ -154,14 +154,14 @@ module Kiwi.Files {
         * @type FileCache
         * @private
         */
-        private _cache: Kiwi.Files.FileCache;
+        private _fileStore: Kiwi.Files.FileStore;
 
         /**
         * @property _saveToCache
         * @type Boolean
         * @private
 	    */
-        private _saveToCache: bool = true;
+        private _saveToFileStore: bool = true;
 
         /**
         * @property _useTagLoader
@@ -180,7 +180,7 @@ module Kiwi.Files {
         * @property cacheID
         * @type String
     	*/
-        public cacheID: string;
+        public uniqueName: string;
 
         /**
         * @property fileName
@@ -387,17 +387,17 @@ module Kiwi.Files {
         * @param {Number} maxLoadAttempts
         * @param {Number} timeout
         */
-        load(onCompleteCallback: any = null, onProgressCallback: any = null, customCache: Kiwi.Files.FileCache = null, maxLoadAttempts: number = 1, timeout: number = 2000) {
+        load(onCompleteCallback: any = null, onProgressCallback: any = null, customFileStore: Kiwi.Files.FileStore = null, maxLoadAttempts: number = 1, timeout: number = 2000) {
 
             this.onCompleteCallback = onCompleteCallback;
             this.onProgressCallback = onProgressCallback;
             this.maxLoadAttempts = maxLoadAttempts;
             this.timeOutDelay = timeout;
 
-            if (customCache !== null)
+            if (customFileStore !== null)
             {
-                this._cache = customCache;
-                this._saveToCache = true;
+                this._fileStore = customFileStore;
+                this._saveToFileStore = true;
             }
 
             this.start();
@@ -512,9 +512,9 @@ module Kiwi.Files {
             console.log('loaded');
             this.stop(); 
 
-            if (this._saveToCache === true)
+            if (this._saveToFileStore === true)
             {
-                this._cache.addFile(this.cacheID, this);
+                this._fileStore.addFile(this.uniqueName, this);
             }
             
             if (this.onCompleteCallback)
@@ -789,10 +789,10 @@ module Kiwi.Files {
 
             klog.info('parse complete');
 
-            if (this._saveToCache === true)
+            if (this._saveToFileStore === true)
             {
-                klog.info('saving to cache', this._cache, this.cacheID);
-                this._cache.addFile(this.cacheID, this);
+                klog.info('saving to cache', this._fileStore, this.uniqueName);
+                this._fileStore.addFile(this.uniqueName, this);
             }
 
             if (this.onCompleteCallback)
@@ -927,10 +927,10 @@ module Kiwi.Files {
 
             if (value)
             {
-                this._saveToCache = value;
+                this._saveToFileStore = value;
             }
 
-            return this._saveToCache;
+            return this._saveToFileStore;
 
         }
 
@@ -940,14 +940,14 @@ module Kiwi.Files {
         * @param {Kiwi.FilesCache} value
         * @return {Kiwi.FileCache}
         */
-        public cache(value: Kiwi.Files.FileCache = null): Kiwi.Files.FileCache {
+        public cache(value: Kiwi.Files.FileStore = null): Kiwi.Files.FileStore {
 
             if (value !== null)
             {
-                this._cache = value;
+                this._fileStore = value;
             }
 
-            return this._cache;
+            return this._fileStore;
 
         }
 

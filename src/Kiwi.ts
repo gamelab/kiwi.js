@@ -47,7 +47,7 @@
 /// <reference path="file/Cache.ts" />
 /// <reference path="file/Loader.ts" />
 /// <reference path="file/File.ts" />
-/// <reference path="file/FileCache.ts" />
+/// <reference path="file/FileStore.ts" />
 
 
 /// <reference path="gameobjects/Sprite.ts" />

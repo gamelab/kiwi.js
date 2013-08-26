@@ -1,5 +1,5 @@
 /// <reference path="File.ts" />
-/// <reference path="FileCache.ts" />
+
 
 /**
  *  Kiwi - Core - Loader
@@ -197,7 +197,7 @@ module Kiwi.Files {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addImage(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null, width?: number, height?: number, offsetX?: number, offsetY?: number) {
+        public addImage(cacheID: string, url: string, cache: Kiwi.Files.FileStore = null, width?: number, height?: number, offsetX?: number, offsetY?: number) {
 
             if (cache === null)
             {
@@ -219,7 +219,7 @@ module Kiwi.Files {
         * @param {number} frameHeight
         * @param {Kiwi.FileCache} [cache]
         */
-        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, cache: Kiwi.Files.FileCache = null, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+        public addSpriteSheet(cacheID: string, url: string, frameWidth: number, frameHeight: number, cache: Kiwi.Files.FileStore = null, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
             if (cache === null)
             {
@@ -262,7 +262,7 @@ module Kiwi.Files {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addAudio(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
+        public addAudio(cacheID: string, url: string, cache: Kiwi.Files.FileStore = null) {
 
             if (cache === null)
             {
@@ -280,7 +280,7 @@ module Kiwi.Files {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addJSON(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
+        public addJSON(cacheID: string, url: string, cache: Kiwi.Files.FileStore = null) {
 
             if (cache === null)
             {
@@ -298,7 +298,7 @@ module Kiwi.Files {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addXML(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
+        public addXML(cacheID: string, url: string, cache: Kiwi.Files.FileStore = null) {
 
             if (cache === null)
             {
@@ -316,7 +316,7 @@ module Kiwi.Files {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addBinaryFile(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
+        public addBinaryFile(cacheID: string, url: string, cache: Kiwi.Files.FileStore = null) {
 
             if (cache === null)
             {
@@ -334,7 +334,7 @@ module Kiwi.Files {
         * @param {String} url
         * @param {Kiwi.FileCache} [cache]
         */
-        public addTextFile(cacheID: string, url: string, cache: Kiwi.Files.FileCache = null) {
+        public addTextFile(cacheID: string, url: string, cache: Kiwi.Files.FileStore = null) {
 
             if (cache === null)
             {
@@ -351,7 +351,7 @@ module Kiwi.Files {
         * @param {Kiwi.Files} file
         * @param {Kiwi.FileCache} [cache]
         */
-        public addCustomFile(file: Kiwi.Files.File, cache: Kiwi.Files.FileCache = null) {
+        public addCustomFile(file: Kiwi.Files.File, cache: Kiwi.Files.FileStore = null) {
 
             if (cache !== null)
             {

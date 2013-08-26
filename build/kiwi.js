@@ -5095,12 +5095,61 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Files) {
+        var Cache = (function () {
+            function Cache(game) {
+                this.images = null;
+                this.audio = null;
+                this.data = null;
+                this._game = game;
+            }
+            Cache.prototype.objType = function () {
+                return "Cache";
+            };
+
+            Cache.prototype.boot = function () {
+                this._caches = [];
+
+                this._caches.push(new Kiwi.Files.FileStore());
+                this._caches.push(new Kiwi.Files.FileStore());
+                this._caches.push(new Kiwi.Files.FileStore());
+
+                this.images = this._caches[0];
+                this.audio = this._caches[1];
+                this.data = this._caches[2];
+            };
+
+            Cache.prototype.checkImageCacheID = function (cacheID, cache) {
+                if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
+                    klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                    return false;
+                }
+
+                return true;
+            };
+
+            Cache.prototype.checkDataCacheID = function (cacheID, cache) {
+                if (cacheID == '' || cache === null || cache.images === null || cache.data.exists(cacheID) === false) {
+                    klog.warn('Data cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
+                    return false;
+                }
+
+                return true;
+            };
+            return Cache;
+        })();
+        Files.Cache = Cache;
+    })(Kiwi.Files || (Kiwi.Files = {}));
+    var Files = Kiwi.Files;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Files) {
         var File = (function () {
-            function File(game, dataType, path, cacheID, saveToCache, cache) {
-                if (typeof cacheID === "undefined") { cacheID = ''; }
-                if (typeof saveToCache === "undefined") { saveToCache = false; }
-                if (typeof cache === "undefined") { cache = null; }
-                this._saveToCache = true;
+            function File(game, dataType, path, uniqueName, saveToFileStore, FileStore) {
+                if (typeof uniqueName === "undefined") { uniqueName = ''; }
+                if (typeof saveToFileStore === "undefined") { saveToFileStore = false; }
+                if (typeof FileStore === "undefined") { FileStore = null; }
+                this._saveToFileStore = true;
                 this._useTagLoader = true;
                 this.fileSize = 0;
                 this.status = 0;
@@ -5153,13 +5202,13 @@ var Kiwi;
                     this._useTagLoader = true;
                 }
 
-                this._saveToCache = saveToCache;
-                this._cache = cache;
+                this._saveToFileStore = saveToFileStore;
+                this._fileStore = FileStore;
 
-                if (this.cacheID === '') {
-                    this.cacheID = this.fileName;
+                if (this.uniqueName === '') {
+                    this.uniqueName = this.fileName;
                 } else {
-                    this.cacheID = cacheID;
+                    this.uniqueName = uniqueName;
                 }
 
                 klog.info('New Kiwi.File: ' + this.toString());
@@ -5168,10 +5217,10 @@ var Kiwi;
                 return "File";
             };
 
-            File.prototype.load = function (onCompleteCallback, onProgressCallback, customCache, maxLoadAttempts, timeout) {
+            File.prototype.load = function (onCompleteCallback, onProgressCallback, customFileStore, maxLoadAttempts, timeout) {
                 if (typeof onCompleteCallback === "undefined") { onCompleteCallback = null; }
                 if (typeof onProgressCallback === "undefined") { onProgressCallback = null; }
-                if (typeof customCache === "undefined") { customCache = null; }
+                if (typeof customFileStore === "undefined") { customFileStore = null; }
                 if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
                 if (typeof timeout === "undefined") { timeout = 2000; }
                 this.onCompleteCallback = onCompleteCallback;
@@ -5179,9 +5228,9 @@ var Kiwi;
                 this.maxLoadAttempts = maxLoadAttempts;
                 this.timeOutDelay = timeout;
 
-                if (customCache !== null) {
-                    this._cache = customCache;
-                    this._saveToCache = true;
+                if (customFileStore !== null) {
+                    this._fileStore = customFileStore;
+                    this._saveToFileStore = true;
                 }
 
                 this.start();
@@ -5264,8 +5313,8 @@ var Kiwi;
                 console.log('loaded');
                 this.stop();
 
-                if (this._saveToCache === true) {
-                    this._cache.addFile(this.cacheID, this);
+                if (this._saveToFileStore === true) {
+                    this._fileStore.addFile(this.uniqueName, this);
                 }
 
                 if (this.onCompleteCallback) {
@@ -5443,9 +5492,9 @@ var Kiwi;
             File.prototype.parseComplete = function () {
                 klog.info('parse complete');
 
-                if (this._saveToCache === true) {
-                    klog.info('saving to cache', this._cache, this.cacheID);
-                    this._cache.addFile(this.cacheID, this);
+                if (this._saveToFileStore === true) {
+                    klog.info('saving to cache', this._fileStore, this.uniqueName);
+                    this._fileStore.addFile(this.uniqueName, this);
                 }
 
                 if (this.onCompleteCallback) {
@@ -5538,19 +5587,19 @@ var Kiwi;
 
             File.prototype.saveToCache = function (value) {
                 if (value) {
-                    this._saveToCache = value;
+                    this._saveToFileStore = value;
                 }
 
-                return this._saveToCache;
+                return this._saveToFileStore;
             };
 
             File.prototype.cache = function (value) {
                 if (typeof value === "undefined") { value = null; }
                 if (value !== null) {
-                    this._cache = value;
+                    this._fileStore = value;
                 }
 
-                return this._cache;
+                return this._fileStore;
             };
 
             File.prototype.toString = function () {
@@ -5574,121 +5623,6 @@ var Kiwi;
             return File;
         })();
         Files.File = File;
-    })(Kiwi.Files || (Kiwi.Files = {}));
-    var Files = Kiwi.Files;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Files) {
-        var FileCache = (function () {
-            function FileCache() {
-                this._cacheSize = 0;
-                this._files = {};
-            }
-            FileCache.prototype.objType = function () {
-                return "FileCache";
-            };
-
-            FileCache.prototype.getFile = function (key) {
-                return this._files[key];
-            };
-
-            Object.defineProperty(FileCache.prototype, "keys", {
-                get: function () {
-                    var keys = new Array();
-                    for (var key in this._files) {
-                        keys.push(key);
-                    }
-
-                    return keys;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            FileCache.prototype.size = function () {
-                return this._cacheSize;
-            };
-
-            FileCache.prototype.addFile = function (key, value) {
-                if (!this._files[key]) {
-                    this._files[key] = value;
-                    this._cacheSize++;
-                    return true;
-                }
-
-                return false;
-            };
-
-            FileCache.prototype.exists = function (key) {
-                if (this._files[key]) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            FileCache.prototype.removeFile = function (key) {
-                if (this._files[key]) {
-                    this._files[key] = null;
-                    delete this._files[key];
-                    return true;
-                }
-
-                return false;
-            };
-            return FileCache;
-        })();
-        Files.FileCache = FileCache;
-    })(Kiwi.Files || (Kiwi.Files = {}));
-    var Files = Kiwi.Files;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Files) {
-        var Cache = (function () {
-            function Cache(game) {
-                this.images = null;
-                this.audio = null;
-                this.data = null;
-                this._game = game;
-            }
-            Cache.prototype.objType = function () {
-                return "Cache";
-            };
-
-            Cache.prototype.boot = function () {
-                this._caches = [];
-
-                this._caches.push(new Kiwi.Files.FileCache());
-                this._caches.push(new Kiwi.Files.FileCache());
-                this._caches.push(new Kiwi.Files.FileCache());
-
-                this.images = this._caches[0];
-                this.audio = this._caches[1];
-                this.data = this._caches[2];
-            };
-
-            Cache.prototype.checkImageCacheID = function (cacheID, cache) {
-                if (cacheID == '' || cache === null || cache.images === null || cache.images.exists(cacheID) === false) {
-                    klog.warn('Texture cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                    return false;
-                }
-
-                return true;
-            };
-
-            Cache.prototype.checkDataCacheID = function (cacheID, cache) {
-                if (cacheID == '' || cache === null || cache.images === null || cache.data.exists(cacheID) === false) {
-                    klog.warn('Data cannot be extracted from the cache. Invalid cacheID or cache given.', cacheID);
-                    return false;
-                }
-
-                return true;
-            };
-            return Cache;
-        })();
-        Files.Cache = Cache;
     })(Kiwi.Files || (Kiwi.Files = {}));
     var Files = Kiwi.Files;
 })(Kiwi || (Kiwi = {}));
@@ -5962,6 +5896,72 @@ var Kiwi;
             return Loader;
         })();
         Files.Loader = Loader;
+    })(Kiwi.Files || (Kiwi.Files = {}));
+    var Files = Kiwi.Files;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Files) {
+        var FileStore = (function () {
+            function FileStore() {
+                this._size = 0;
+                this._files = {};
+            }
+            FileStore.prototype.objType = function () {
+                return "FileStore";
+            };
+
+            FileStore.prototype.getFile = function (key) {
+                return this._files[key];
+            };
+
+            Object.defineProperty(FileStore.prototype, "keys", {
+                get: function () {
+                    var keys = new Array();
+                    for (var key in this._files) {
+                        keys.push(key);
+                    }
+
+                    return keys;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            FileStore.prototype.size = function () {
+                return this._size;
+            };
+
+            FileStore.prototype.addFile = function (key, value) {
+                if (!this._files[key]) {
+                    this._files[key] = value;
+                    this._size++;
+                    return true;
+                }
+
+                return false;
+            };
+
+            FileStore.prototype.exists = function (key) {
+                if (this._files[key]) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            FileStore.prototype.removeFile = function (key) {
+                if (this._files[key]) {
+                    this._files[key] = null;
+                    delete this._files[key];
+                    return true;
+                }
+
+                return false;
+            };
+            return FileStore;
+        })();
+        Files.FileStore = FileStore;
     })(Kiwi.Files || (Kiwi.Files = {}));
     var Files = Kiwi.Files;
 })(Kiwi || (Kiwi = {}));
@@ -12285,13 +12285,13 @@ var Kiwi;
 
                 switch (imageFile.dataType) {
                     case Kiwi.Files.File.SPRITE_SHEET:
-                        this.textures[imageFile.cacheID] = this._buildSpriteSheet(imageFile);
+                        this.textures[imageFile.uniqueName] = this._buildSpriteSheet(imageFile);
                         break;
                     case Kiwi.Files.File.IMAGE:
-                        this.textures[imageFile.cacheID] = this._buildImage(imageFile);
+                        this.textures[imageFile.uniqueName] = this._buildImage(imageFile);
                         break;
                     case Kiwi.Files.File.TEXTURE_ATLAS:
-                        this.textures[imageFile.cacheID] = this._buildTextureAtlas(imageFile);
+                        this.textures[imageFile.uniqueName] = this._buildTextureAtlas(imageFile);
                         break;
                     default:
                         klog.error("Image file is of unknown type and was not added to texture cache");
@@ -12344,7 +12344,7 @@ var Kiwi;
             };
 
             TextureCache.prototype._buildTextureAtlas = function (imageFile) {
-                var atlas = new Kiwi.Textures.TextureAtlas(imageFile.cacheID, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
+                var atlas = new Kiwi.Textures.TextureAtlas(imageFile.uniqueName, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
                 var m = imageFile.metadata;
                 var json = m.jsonCache.getFile(m.jsonID).data;
                 json.trim();
@@ -12357,13 +12357,13 @@ var Kiwi;
             TextureCache.prototype._buildSpriteSheet = function (imageFile) {
                 var m = imageFile.metadata;
 
-                var spriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.cacheID, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
+                var spriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.uniqueName, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
                 return spriteSheet;
             };
 
             TextureCache.prototype._buildImage = function (imageFile) {
                 var m = imageFile.metadata;
-                return new Kiwi.Textures.SingleImage(imageFile.cacheID, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
+                return new Kiwi.Textures.SingleImage(imageFile.uniqueName, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
             };
             return TextureCache;
         })();

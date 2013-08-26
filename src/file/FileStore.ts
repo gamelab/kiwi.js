@@ -1,26 +1,12 @@
-/// <reference path="File.ts" />
-
-/**
- *  Kiwi - Core - FileCache
- *
- *  @desc       A cache used for storage of externally loaded resources held in Kiwi.Files objects
- *
- *	@version 	1.0 - 4th March 2013
- *
- *	@author 	Richard Davey
- *
- *  @url        http://www.kiwijs.org
- *
- */
 
 module Kiwi.Files {
 
-    export class FileCache {
+    export class FileStore {
 
         /**
         * 
         * @constructor
-        * @return {Kiwi.FilesCache}
+        * @return {Kiwi.FilesStore}
         */
         constructor () {
 
@@ -29,7 +15,7 @@ module Kiwi.Files {
         }
 
         public objType() {
-            return "FileCache";
+            return "FileStore";
         }
 
         /**
@@ -41,11 +27,11 @@ module Kiwi.Files {
 
         /**
         * 
-        * @property _cacheSize
+        * @property _size
         * @type Number
         * @private
         */
-        private _cacheSize:number = 0;
+        private _size:number = 0;
 
         /** 
         * 
@@ -75,7 +61,7 @@ module Kiwi.Files {
         */
         public size(): number {
 
-            return this._cacheSize;
+            return this._size;
 
         }
 
@@ -91,7 +77,7 @@ module Kiwi.Files {
             if (!this._files[key])
             {
                 this._files[key] = value;
-                this._cacheSize++;
+                this._size++;
                 return true;
             }
 
