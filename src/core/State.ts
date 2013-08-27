@@ -303,6 +303,8 @@ module Kiwi {
             for (var i = 0; i < this.members.length; i++)
             {
                 //this.members[i].destroy();
+
+                //need to remove files here too
             }
         
         }

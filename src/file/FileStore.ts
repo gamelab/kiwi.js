@@ -51,6 +51,28 @@ module Kiwi.Files {
 
         }
 
+        public getFilesByTag(tag: string): Object {
+
+            var obj = {};
+            for (var file in this._files) {
+                if (this._files[file].hasTag(tag)) {
+                    obj[file] = this._files[file];
+                }
+            }
+            return obj;
+        }
+
+        public removeFilesByTag(tag: string) {
+
+            var obj = {};
+            for (var file in this._files) {
+                if (this._files[file].hasTag(tag)) {
+                    this.removeFile(file);
+                }
+            }
+            return obj;
+        }
+
         public get keys(): string[]{
             var keys: string[] = new Array();
             for (var key in this._files) {
@@ -109,11 +131,19 @@ module Kiwi.Files {
 
         }
 
+        public removeStateFiles(state: Kiwi.State) {
+            for (var file in this._files) {
+                if (this._files[file].ownerState === state) {
+                    this.removeFile(file);
+                }
+            }
+        }
+
         /**
         * @method remove
         * @param {String} key
 		*/
-        public removeFile(key: string): bool {
+        public removeFile(key: string): boolean {
 
             if (this._files[key])
             {
@@ -125,6 +155,8 @@ module Kiwi.Files {
             return false;
 
         }
+
+
 
     }
 

@@ -96,7 +96,28 @@ module Kiwi.Files {
         // the state that added the entity - or null if it was added as global
         public ownerState: Kiwi.State;
 
-        public tags: string[];
+        private _tags: string[];
+
+        public addTag(tag: string) {
+            if (this._tags.indexOf(tag) == -1) {
+                this._tags.push(tag);
+            }
+        }
+
+        public removeTag(tag: string) {
+            var index: number = this._tags.indexOf(tag);
+            if (index != -1) {
+                this._tags.splice(index, 1);
+            }
+        }
+
+        public hasTag(tag: string) {
+            if (this._tags.indexOf(tag) == -1) {
+                return false;
+            }
+            return true;
+
+        }
 
         /**
         * @property IMAGE
