@@ -5411,7 +5411,7 @@ var Kiwi;
 
                 if (Kiwi.DEVICE.blob) {
                     klog.info('blob support found - using blob loader');
-                    this._useTagLoader = false;
+                    this._useTagLoader = true;
                 } else {
                     klog.info('blob support NOT found - using tag loader');
                     this._useTagLoader = true;
@@ -10301,116 +10301,6 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Input) {
-        var Finger = (function () {
-            function Finger(game) {
-                this.point = null;
-                this.circle = null;
-                this.withinGame = false;
-                this.clientX = -1;
-                this.clientY = -1;
-                this.pageX = -1;
-                this.pageY = -1;
-                this.screenX = -1;
-                this.screenY = -1;
-                this.x = -1;
-                this.y = -1;
-                this.isDown = false;
-                this.isUp = false;
-                this.timeDown = 0;
-                this.duration = 0;
-                this.timeUp = 0;
-                this.justPressedRate = 200;
-                this.justReleasedRate = 200;
-                this._game = game;
-                this.active = false;
-            }
-            Finger.prototype.objType = function () {
-                return "Finger";
-            };
-
-            Finger.prototype.start = function (event) {
-                this.identifier = event.identifier;
-                this.target = event.target;
-
-                if (this.point === null) {
-                    this.point = new Kiwi.Geom.Point();
-                }
-
-                if (this.circle === null) {
-                    this.circle = new Kiwi.Geom.Circle(0, 0, 44);
-                }
-
-                this.move(event);
-
-                this.active = true;
-                this.withinGame = true;
-                this.isDown = true;
-                this.isUp = false;
-                this.timeDown = this._game.time.now();
-            };
-
-            Finger.prototype.move = function (event) {
-                this.clientX = event.clientX;
-                this.clientY = event.clientY;
-                this.pageX = event.pageX;
-                this.pageY = event.pageY;
-                this.screenX = event.screenX;
-                this.screenY = event.screenY;
-
-                this.x = this.pageX - this._game.stage.offset.x;
-                this.y = this.pageY - this._game.stage.offset.y;
-
-                this.point.setTo(this.x, this.y);
-                this.circle.setTo(this.x, this.y, 44);
-
-                this.duration = this._game.time.now() - this.timeDown;
-            };
-
-            Finger.prototype.leave = function (event) {
-                this.withinGame = false;
-                this.move(event);
-            };
-
-            Finger.prototype.stop = function (event) {
-                this.active = false;
-                this.withinGame = false;
-
-                this.isDown = false;
-                this.isUp = true;
-                this.timeUp = this._game.time.now();
-                this.duration = this.timeUp - this.timeDown;
-            };
-
-            Finger.prototype.justPressed = function (duration) {
-                if (typeof duration === "undefined") { duration = this.justPressedRate; }
-                if (this.isDown === true && (this.timeDown + duration) > this._game.time.now()) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Finger.prototype.justReleased = function (duration) {
-                if (typeof duration === "undefined") { duration = this.justReleasedRate; }
-                if (this.isUp === true && (this.timeUp + duration) > this._game.time.now()) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Finger.prototype.toString = function () {
-                return "[{Finger (identifer=" + this.identifier + " active=" + this.active + " duration=" + this.duration + " withinGame=" + this.withinGame + " x=" + this.x + " y=" + this.y + " clientX=" + this.clientX + " clientY=" + this.clientY + " screenX=" + this.screenX + " screenY=" + this.screenY + " pageX=" + this.pageX + " pageY=" + this.pageY + ")}]";
-            };
-            return Finger;
-        })();
-        Input.Finger = Finger;
-    })(Kiwi.Input || (Kiwi.Input = {}));
-    var Input = Kiwi.Input;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Input) {
         var Key = (function () {
             function Key(manager, keycode, event) {
                 this.isDown = false;
@@ -10699,17 +10589,161 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Input) {
+        var Pointer = (function () {
+            function Pointer(game) {
+                this.x = -1;
+                this.y = -1;
+                this.clientX = -1;
+                this.clientY = -1;
+                this.pageX = -1;
+                this.pageY = -1;
+                this.screenX = -1;
+                this.screenY = -1;
+                this.isDown = false;
+                this.isUp = true;
+                this.withinGame = false;
+                this.active = false;
+                this.timeDown = 0;
+                this.timeUp = 0;
+                this.duration = 0;
+                this.justPressedRate = 200;
+                this.justReleasedRate = 200;
+                this._game = game;
+                this.point = new Kiwi.Geom.Point();
+                this.circle = new Kiwi.Geom.Circle(0, 0, 1);
+            }
+            Object.defineProperty(Pointer.prototype, "game", {
+                get: function () {
+                    return this._game;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Pointer.prototype.start = function (event) {
+                this.move(event);
+
+                this.active = true;
+                this.withinGame = true;
+                this.isDown = true;
+                this.isUp = false;
+                this.timeDown = this.game.time.now();
+            };
+
+            Pointer.prototype.stop = function (event) {
+                this.active = false;
+                this.withinGame = false;
+
+                this.isDown = false;
+                this.isUp = true;
+
+                this.timeUp = this.game.time.now();
+                this.duration = this.timeUp - this.timeDown;
+            };
+
+            Pointer.prototype.move = function (event) {
+                this.clientX = event.clientX;
+                this.clientY = event.clientY;
+
+                this.pageX = event.pageX;
+                this.pageY = event.pageY;
+
+                this.screenX = event.screenX;
+                this.screenY = event.screenY;
+
+                this.x = this.pageX - this.game.stage.offset.x;
+                this.y = this.pageY - this.game.stage.offset.y;
+
+                this.point.setTo(this.x, this.y);
+                this.circle.x = this.x;
+                this.circle.y = this.y;
+
+                this.duration = this.game.time.now() - this.timeDown;
+            };
+
+            Pointer.prototype.justPressed = function (duration) {
+                if (typeof duration === "undefined") { duration = this.justPressedRate; }
+                if (this.isDown === true && (this.timeDown + duration) > this._game.time.now()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Pointer.prototype.justReleased = function (duration) {
+                if (typeof duration === "undefined") { duration = this.justReleasedRate; }
+                if (this.isUp === true && (this.timeUp + duration) > this._game.time.now()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Pointer.prototype.reset = function () {
+                this.isDown = false;
+                this.isUp = false;
+                this.timeDown = 0;
+                this.timeUp = 0;
+            };
+
+            Pointer.prototype.update = function () {
+                if (this.isDown === true) {
+                    this.duration = this._game.time.now() - this.timeDown;
+                }
+            };
+            return Pointer;
+        })();
+        Input.Pointer = Pointer;
+    })(Kiwi.Input || (Kiwi.Input = {}));
+    var Input = Kiwi.Input;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Input) {
+        var MouseCursor = (function (_super) {
+            __extends(MouseCursor, _super);
+            function MouseCursor() {
+                _super.apply(this, arguments);
+            }
+            MouseCursor.prototype.start = function (event) {
+                this.ctrlKey = event.ctrlKey;
+                this.shiftKey = event.shiftKey;
+                this.altKey = event.altKey;
+                this.button - event.button;
+
+                _super.prototype.start.call(this, event);
+            };
+
+            MouseCursor.prototype.stop = function (event) {
+                this.move(event);
+                _super.prototype.stop.call(this, event);
+            };
+
+            MouseCursor.prototype.wheel = function (event) {
+                if (event['wheelDeltaX']) {
+                    this.wheelDeltaX = event['wheelDeltaX'];
+                } else {
+                    this.wheelDeltaX = event.deltaX;
+                }
+
+                if (event['wheelDeltaY']) {
+                    this.wheelDeltaY = event['wheelDeltaY'];
+                } else {
+                    this.wheelDeltaY = event.deltaY;
+                }
+            };
+            return MouseCursor;
+        })(Input.Pointer);
+        Input.MouseCursor = MouseCursor;
+    })(Kiwi.Input || (Kiwi.Input = {}));
+    var Input = Kiwi.Input;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Input) {
         var Mouse = (function () {
             function Mouse(game) {
                 this._domElement = null;
-                this.point = null;
-                this.justPressedRate = 200;
-                this.justReleasedRate = 200;
-                this.isDown = false;
-                this.isUp = true;
-                this.timeDown = 0;
-                this.duration = 0;
-                this.timeUp = 0;
                 this._game = game;
             }
             Mouse.prototype.objType = function () {
@@ -10721,18 +10755,103 @@ var Kiwi;
 
                 this._domElement = this._game.stage.container;
 
-                this.point = new Kiwi.Geom.Point();
-
+                this.cursor = new Kiwi.Input.MouseCursor(this._game);
                 this.mouseDown = new Kiwi.Signal();
                 this.mouseUp = new Kiwi.Signal();
 
                 this.start();
             };
 
+            Object.defineProperty(Mouse.prototype, "isDown", {
+                get: function () {
+                    return this.cursor.isDown;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "isUp", {
+                get: function () {
+                    return this.cursor.isUp;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "duration", {
+                get: function () {
+                    return this.cursor.duration;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "x", {
+                get: function () {
+                    return this.cursor.x;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "y", {
+                get: function () {
+                    return this.cursor.y;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "wheelDeltaX", {
+                get: function () {
+                    return this.cursor.wheelDeltaX;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "wheelDeltaY", {
+                get: function () {
+                    return this.cursor.wheelDeltaY;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "ctrlKey", {
+                get: function () {
+                    return this.cursor.ctrlKey;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "shiftKey", {
+                get: function () {
+                    return this.cursor.shiftKey;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "altKey", {
+                get: function () {
+                    return this.cursor.altKey;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Mouse.prototype, "button", {
+                get: function () {
+                    return this.cursor.button;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Mouse.prototype.update = function () {
-                if (this.isDown === true) {
-                    this.duration = this._game.time.now() - this.timeDown;
-                }
+                this.cursor.update();
             };
 
             Mouse.prototype.start = function () {
@@ -10786,117 +10905,35 @@ var Kiwi;
             };
 
             Mouse.prototype.onMouseDown = function (event) {
-                this.screenX = event.screenX;
-                this.screenY = event.screenY;
-                this.clientX = event.clientX;
-                this.clientY = event.clientY;
-                this.ctrlKey = event.ctrlKey;
-                this.shiftKey = event.shiftKey;
-                this.altKey = event.altKey;
-                this.button - event.button;
-
-                this._x = this.clientX - this._game.stage.offset.x;
-                this._y = this.clientY - this._game.stage.offset.y;
-
-                this.point.setTo(this._x, this._y);
-
-                this.isDown = true;
-                this.isUp = false;
-                this.timeDown = event.timeStamp;
-
-                this.mouseDown.dispatch(this._x, this._y, this.timeDown, this.timeUp, this.duration);
+                this.cursor.start(event);
+                this.mouseDown.dispatch(this.cursor.x, this.cursor.y, this.cursor.timeDown, this.cursor.timeUp, this.duration, this.cursor);
             };
 
             Mouse.prototype.onMouseMove = function (event) {
-                this.screenX = event.screenX;
-                this.screenY = event.screenY;
-                this.clientX = event.clientX;
-                this.clientY = event.clientY;
-                this.ctrlKey = event.ctrlKey;
-                this.shiftKey = event.shiftKey;
-                this.altKey = event.altKey;
-                this.button - event.button;
-
-                this._x = this.clientX - this._game.stage.offset.x;
-                this._y = this.clientY - this._game.stage.offset.y;
-
-                this.point.setTo(this._x, this._y);
+                this.cursor.move(event);
             };
 
             Mouse.prototype.onMouseUp = function (event) {
-                this.screenX = event.screenX;
-                this.screenY = event.screenY;
-                this.clientX = event.clientX;
-                this.clientY = event.clientY;
-                this.ctrlKey = event.ctrlKey;
-                this.shiftKey = event.shiftKey;
-                this.altKey = event.altKey;
-                this.button - event.button;
-
-                this.isDown = false;
-                this.isUp = true;
-                this.timeUp = event.timeStamp;
-                this.duration = this.timeUp - this.timeDown;
-
-                this._x = this.clientX - this._game.stage.offset.x;
-                this._y = this.clientY - this._game.stage.offset.y;
-
-                this.mouseUp.dispatch(this._x, this._y, this.timeDown, this.timeUp, this.duration);
+                this.cursor.stop(event);
+                this.mouseUp.dispatch(this.cursor.x, this.cursor.y, this.cursor.timeDown, this.cursor.timeUp, this.duration, this.cursor);
             };
 
-            Object.defineProperty(Mouse.prototype, "x", {
-                get: function () {
-                    return this._x;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Mouse.prototype, "y", {
-                get: function () {
-                    return this._y;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
             Mouse.prototype.onMouseWheel = function (event) {
-                if (event['wheelDeltaX']) {
-                    this.wheelDeltaX = event['wheelDeltaX'];
-                } else {
-                    this.wheelDeltaX = event.deltaX;
-                }
-
-                if (event['wheelDeltaY']) {
-                    this.wheelDeltaY = event['wheelDeltaY'];
-                } else {
-                    this.wheelDeltaY = event.deltaY;
-                }
+                this.cursor.wheel(event);
             };
 
             Mouse.prototype.justPressed = function (duration) {
-                if (typeof duration === "undefined") { duration = this.justPressedRate; }
-                if (this.isDown === true && (this.timeDown + duration) > this._game.time.now()) {
-                    return true;
-                } else {
-                    return false;
-                }
+                if (typeof duration === "undefined") { duration = this.cursor.justPressedRate; }
+                return this.cursor.justPressed(duration);
             };
 
             Mouse.prototype.justReleased = function (duration) {
-                if (typeof duration === "undefined") { duration = this.justReleasedRate; }
-                if (this.isUp === true && (this.timeUp + duration) > this._game.time.now()) {
-                    return true;
-                } else {
-                    return false;
-                }
+                if (typeof duration === "undefined") { duration = this.cursor.justReleasedRate; }
+                return this.cursor.justReleased(duration);
             };
 
             Mouse.prototype.reset = function () {
-                this.timeUp = 0;
-                this.timeDown = 0;
-                this.isDown = false;
-                this.isUp = false;
+                this.cursor.reset();
             };
             Mouse.LEFT_BUTTON = 0;
 
@@ -10942,12 +10979,12 @@ var Kiwi;
                 this.onUp = new Kiwi.Signal();
             };
 
-            Manager.prototype._onDownEvent = function (x, y, timeDown, timeUp, duration) {
-                this.onDown.dispatch(x, y, timeDown, timeUp, duration);
+            Manager.prototype._onDownEvent = function (x, y, timeDown, timeUp, duration, pointer) {
+                this.onDown.dispatch(x, y, timeDown, timeUp, duration, pointer);
             };
 
-            Manager.prototype._onUpEvent = function (x, y, timeDown, timeUp, duration) {
-                this.onUp.dispatch(x, y, timeDown, timeUp, duration);
+            Manager.prototype._onUpEvent = function (x, y, timeDown, timeUp, duration, pointer) {
+                this.onUp.dispatch(x, y, timeDown, timeUp, duration, pointer);
             };
 
             Object.defineProperty(Manager.prototype, "onPressed", {
@@ -11012,6 +11049,30 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Input) {
+        var Finger = (function (_super) {
+            __extends(Finger, _super);
+            function Finger(game) {
+                _super.call(this, game);
+                this.circle.diameter = 44;
+            }
+            Finger.prototype.start = function (event) {
+                this.id = event.identifier;
+                _super.prototype.start.call(this, event);
+            };
+
+            Finger.prototype.leave = function (event) {
+                this.withinGame = false;
+                this.move(event);
+            };
+            return Finger;
+        })(Input.Pointer);
+        Input.Finger = Finger;
+    })(Kiwi.Input || (Kiwi.Input = {}));
+    var Input = Kiwi.Input;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Input) {
         var Touch = (function () {
             function Touch(game) {
                 this._domElement = null;
@@ -11019,10 +11080,6 @@ var Kiwi;
                 this.isUp = true;
                 this._game = game;
             }
-            Touch.prototype.objType = function () {
-                return "Touch";
-            };
-
             Touch.prototype.boot = function () {
                 klog.info('Touch Handler booted');
 
@@ -11040,12 +11097,11 @@ var Kiwi;
                 this.finger10 = new Kiwi.Input.Finger(this._game);
 
                 this._fingers = [this.finger1, this.finger2, this.finger3, this.finger4, this.finger5, this.finger6, this.finger7, this.finger8, this.finger9, this.finger10];
+                this.latestFinger = this.finger1;
 
                 this.touchDown = new Kiwi.Signal();
                 this.touchUp = new Kiwi.Signal();
-
-                this.fingerDown = new Kiwi.Signal();
-                this.fingerUp = new Kiwi.Signal();
+                this.touchCancel = new Kiwi.Signal();
 
                 this.start();
             };
@@ -11084,7 +11140,7 @@ var Kiwi;
 
             Object.defineProperty(Touch.prototype, "x", {
                 get: function () {
-                    return this._x;
+                    return this.latestFinger.x;
                 },
                 enumerable: true,
                 configurable: true
@@ -11092,7 +11148,7 @@ var Kiwi;
 
             Object.defineProperty(Touch.prototype, "y", {
                 get: function () {
-                    return this._y;
+                    return this.latestFinger.y;
                 },
                 enumerable: true,
                 configurable: true
@@ -11107,11 +11163,10 @@ var Kiwi;
                     for (var f = 0; f < this._fingers.length; f++) {
                         if (this._fingers[f].active === false) {
                             this._fingers[f].start(event.changedTouches[i]);
-                            this._x = this._fingers[f].x;
-                            this._y = this._fingers[f].y;
-                            klog.info('x: ' + this._x + ' y: ' + this._y);
-                            this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
-                            this.fingerDown.dispatch(this._fingers[f]);
+                            this.latestFinger = this._fingers[f];
+
+                            this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
+
                             this.isDown = true;
                             this.isUp = false;
                             break;
@@ -11123,8 +11178,9 @@ var Kiwi;
             Touch.prototype.onTouchCancel = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     for (var f = 0; f < this._fingers.length; f++) {
-                        if (this._fingers[f].identifier === event.changedTouches[i].identifier) {
+                        if (this._fingers[f].id === event.changedTouches[i].identifier) {
                             this._fingers[f].stop(event.changedTouches[i]);
+                            this.touchCancel.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
                             break;
                         }
                     }
@@ -11145,7 +11201,7 @@ var Kiwi;
             Touch.prototype.onTouchLeave = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     for (var f = 0; f < this._fingers.length; f++) {
-                        if (this._fingers[f].identifier === event.changedTouches[i].identifier) {
+                        if (this._fingers[f].id === event.changedTouches[i].identifier) {
                             this._fingers[f].leave(event.changedTouches[i]);
                             break;
                         }
@@ -11156,11 +11212,9 @@ var Kiwi;
             Touch.prototype.onTouchMove = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     for (var f = 0; f < this._fingers.length; f++) {
-                        if (this._fingers[f].identifier === event.changedTouches[i].identifier) {
+                        if (this._fingers[f].id === event.changedTouches[i].identifier) {
                             this._fingers[f].move(event.changedTouches[i]);
-                            this._x = this._fingers[f].x;
-                            this._y = this._fingers[f].y;
-
+                            this.latestFinger = this._fingers[f];
                             break;
                         }
                     }
@@ -11170,12 +11224,12 @@ var Kiwi;
             Touch.prototype.onTouchEnd = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     for (var f = 0; f < this._fingers.length; f++) {
-                        if (this._fingers[f].identifier === event.changedTouches[i].identifier) {
+                        if (this._fingers[f].id === event.changedTouches[i].identifier) {
                             this._fingers[f].stop(event.changedTouches[i]);
-                            this._x = this._fingers[f].x;
-                            this._y = this._fingers[f].y;
-                            this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
-                            this.fingerUp.dispatch(this._fingers[f]);
+                            this.latestFinger = this._fingers[f];
+
+                            this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
+
                             this.isDown = false;
                             this.isUp = true;
                             break;
@@ -11191,22 +11245,42 @@ var Kiwi;
                 }
             };
 
-            Touch.prototype.calculateDistance = function (finger1, finger2) {
-            };
-
-            Touch.prototype.calculateAngle = function (finger1, finger2) {
-            };
-
-            Touch.prototype.checkOverlap = function (finger1, finger2) {
-            };
-
             Touch.prototype.update = function () {
+                if (this.isDown) {
+                    for (var i = 0; i < this._fingers.length; i++) {
+                        if (this._fingers[i].active) {
+                            this._fingers[i].update();
+                        }
+                    }
+                }
             };
 
             Touch.prototype.stop = function () {
+                var _this = this;
+                this._domElement.removeEventListener('touchstart', function (event) {
+                    return _this.onTouchStart(event);
+                }, false);
+                this._domElement.removeEventListener('touchmove', function (event) {
+                    return _this.onTouchMove(event);
+                }, false);
+                this._domElement.removeEventListener('touchend', function (event) {
+                    return _this.onTouchEnd(event);
+                }, false);
+                this._domElement.removeEventListener('touchenter', function (event) {
+                    return _this.onTouchEnter(event);
+                }, false);
+                this._domElement.removeEventListener('touchleave', function (event) {
+                    return _this.onTouchLeave(event);
+                }, false);
+                this._domElement.removeEventListener('touchcancel', function (event) {
+                    return _this.onTouchCancel(event);
+                }, false);
             };
 
             Touch.prototype.reset = function () {
+                for (var i = 0; i < this._fingers.length; i++) {
+                    this._fingers[i].reset();
+                }
             };
             return Touch;
         })();

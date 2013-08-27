@@ -13,33 +13,35 @@ class MultiSlingshots extends Kiwi.State {
 
     public shinys: shiny[];
 
-    create() {
+    create() { 
+
+        this.shinys = [];
+
+        for (var i = 0; i < 5; i++) {
+            //generate a x/y
+            var x = Math.random() * this.game.stage.width;
+            var y = Math.random() * this.game.stage.height;
+
+            //add the shiny and its ghost
+            var shinyObject = new shiny(this.textures.shiny, x, y);
+            //add the shinys.
+            this.shinys.push(shinyObject);
+            this.addChild(shinyObject);
+        }
+
+        //touch events 
+        this.game.input.onDown.add(this.pressedFinger, this);
+        this.game.input.onUp.add(this.released, this);
+        
         if (Kiwi.DEVICE.touch) {
-            
-            this.shinys = [];
-
-            for (var i = 0; i < 5; i++) {
-                //generate a x/y
-                var x = Math.random() * this.game.stage.width;
-                var y = Math.random() * this.game.stage.height;
-
-                //add the shiny and its ghost
-                var shinyObject = new shiny(this.textures.shiny, x, y);
-                //add the shinys.
-                this.shinys.push(shinyObject);
-                this.addChild(shinyObject);
-            }
-
-            //touch events 
-            this.game.input.touch.fingerDown.add(this.pressedFinger, this);
-            this.game.input.touch.fingerUp.add(this.released, this);
+            this.game.input.touch.touchCancel.add(this.released, this);
         }
     }
 
     /*
     * When someone presses their finger down. 
     */
-    pressedFinger(finger) { 
+    pressedFinger(x, y, timeDown, timeUp, duration, finger) { 
         for (var i = 0; i < 5; i++) {
             if (this.shinys[i].fingerOverlap(finger)) {
                 break;
@@ -51,7 +53,7 @@ class MultiSlingshots extends Kiwi.State {
     /*
     * When someone releases the finger
     */
-    released(finger) {
+    released(x, y, timeDown, timeUp, duration, finger) {
         
         for (var i = 0; i < 5; i++) {
             this.shinys[i].release(finger);
@@ -103,7 +105,7 @@ class shiny extends Kiwi.GameObjects.Sprite {
 
     public release(finger): bool {
 
-        if (this.onBall && this.fingerOne.identifier == finger.identifier) {
+        if (this.onBall && this.fingerOne.id == finger.id ) {
             this.onBall = false;
             
             this.nx = (this.x - this.b4x) * 3;

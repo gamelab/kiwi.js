@@ -224,31 +224,7 @@ module Kiwi {
             this.onRemovedFromEntity.dispatch(this, entity);
 
         }
-
-        /*
-        * Whether this component supports Canvas entities
-        * @property _supportsCanvas
-        * @type Boolean
-        * @private
-        */
-        private _supportsCanvas: bool;
-
-        /*
-        * Whether this component supports DOM entities
-        * @property _supportsDOM
-        * @type Boolean
-        * @private
-        */
-        private _supportsDOM: bool;
-
-        /*
-        * Whether this component supports WebGL entities
-        * @property _supportsWebGL
-        * @type Boolean
-        * @private
-        */
-        private _supportsWebGL: bool;
-
+         
         /**
         * The game this Component belongs to
         * @property game
@@ -262,11 +238,7 @@ module Kiwi {
         * @type string
         **/
         public name: string;
-
-       
-
-      
-
+         
         /**
 		* An active Component is one that has its update method called by its parent.
         * @property active

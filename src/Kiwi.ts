@@ -13,9 +13,7 @@
 /// <reference path="animation/tweens/easing/Sinusoidal.ts" />
 /// <reference path="animation/tweens/Manager.ts" />
 /// <reference path="animation/tweens/Tween.ts" />
-
-
-
+ 
 /// <reference path="core/Camera.ts" />
 /// <reference path="core/CameraManager.ts" />
 /// <reference path="core/Component.ts" />
@@ -50,8 +48,7 @@
 /// <reference path="file/File.ts" />
 /// <reference path="file/FileStore.ts" />
 
-
-
+ 
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
 
@@ -94,13 +91,15 @@
 /// <reference path="sound/Audio.ts" />
 /// <reference path="sound/AudioLibrary.ts" />
 
-/// <reference path="input/Finger.ts" />
 /// <reference path="input/Key.ts" />
 /// <reference path="input/Keyboard.ts" />
 /// <reference path="input/Keycodes.ts" />
 /// <reference path="input/Manager.ts" />
 /// <reference path="input/Mouse.ts" />
 /// <reference path="input/Touch.ts" />
+/// <reference path="input/Pointer.ts" />
+/// <reference path="input/MouseCursor.ts" />
+/// <reference path="input/Finger.ts" />
 
 
 

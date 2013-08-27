@@ -29,7 +29,6 @@ class Slingshot extends Kiwi.State {
     public maxDistance: number = 150;
 
     create() {
-        if (Kiwi.DEVICE.touch) {
 
             //generate a x/y
             var x = Math.random() * this.game.stage.width;
@@ -53,9 +52,9 @@ class Slingshot extends Kiwi.State {
 
 
             //touch events 
-            this.game.input.touch.fingerDown.add(this.pressedFinger, this);
-            this.game.input.touch.fingerUp.add(this.released, this);
-        }
+            this.game.input.onDown.add(this.pressedFinger, this);
+            this.game.input.onUp.add(this.released, this);
+        
     }
 
     update() {
@@ -117,7 +116,7 @@ class Slingshot extends Kiwi.State {
     /*
     * When someone presses their finger down. 
     */
-    pressedFinger(finger) {
+    pressedFinger(x,y,timeDown,timeUp, duration, finger) {
 
         if (this.moving == false && finger.x > this.shiny.x && this.shiny.x + this.shiny.width > finger.x && finger.y > this.shiny.y && this.shiny.y + this.shiny.height > finger.y) {
             this.onBall = true;
@@ -132,8 +131,8 @@ class Slingshot extends Kiwi.State {
     /*
     * When someone releases the finger
     */
-    released(finger) {
-        if (this.onBall && this.finger.identifier == finger.identifier) {
+    released(x,y,tiemDown,timeUp,duration,finger) {
+        if (this.onBall && this.finger.id  == finger.id ) {
             this.shinyGhost.alpha = 0;
             this.onBall = false;
 

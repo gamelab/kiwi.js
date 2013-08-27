@@ -14,20 +14,17 @@ class Finger extends Kiwi.State {
     bunny: Kiwi.GameObjects.Sprite;
 
     create() {
+         
+        this.bunny = new Kiwi.GameObjects.Sprite(this.textures.bunny, 0, 0);
+        this.addChild(this.bunny);
+        this.bunny.alpha = 0;
 
-        if (Kiwi.DEVICE.touch) {
-            this.bunny = new Kiwi.GameObjects.Sprite(this.textures.bunny, 0, 0);
-            this.addChild(this.bunny);
-            this.bunny.alpha = 0;
-
-            this.game.input.touch.fingerDown.add(this.pressed, this);
-            this.game.input.touch.fingerUp.add(this.released, this);
+        this.game.input.onDown.add(this.pressed, this);
+        this.game.input.onUp.add(this.released, this);
         
-        }
-
     }
 
-    pressed(finger) {
+    pressed(x, y, timeDown, timeUp, duration, finger) {
         if (this.finger == null) { 
             this.finger = finger;
             this.bunny.alpha = 1;
@@ -36,8 +33,8 @@ class Finger extends Kiwi.State {
         }
     }
 
-    released(finger) {
-        if (this.finger.identifier == finger.identifier) { 
+    released(x, y, timeDown, timeUp, duration, finger) {
+        if (this.finger.id  == finger.id) { 
             this.bunny.alpha = 0;
             this.finger = null;
         }

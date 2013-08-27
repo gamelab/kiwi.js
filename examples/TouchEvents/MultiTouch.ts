@@ -14,22 +14,19 @@ class MultiTouch extends Kiwi.State {
     explosions: Kiwi.GameObjects.Sprite[];
 
     create() {
-
+        
         if (Kiwi.DEVICE.touch) {
-
             this.fingers = [];
             this.explosions = [];
 
-            this.game.input.touch.fingerUp.add(this.up, this);
-            this.game.input.touch.fingerDown.add(this.down, this);
-
+            this.game.input.onUp.add(this.up, this);
+            this.game.input.onDown.add(this.down, this);
         }
-    
     }
 
-    up(finger) {
+    up(x, y, timeDown, timeUp, duration, finger) {
         for (var i = 0; i < this.fingers.length; i++) {
-            if (this.fingers[i].identifier == finger.identifier) {
+            if (this.fingers[i].id  == finger.id ) {
                 this.removeChild(this.explosions[i]);
                 this.explosions.splice(i, 1);
                 this.fingers.splice(i, 1);
@@ -38,7 +35,7 @@ class MultiTouch extends Kiwi.State {
         }
     }
 
-    down(finger) {
+    down(x, y, timeDown, timeUp, duration, finger) {
         
         this.fingers.push(finger);
         var explosion = new Kiwi.GameObjects.Sprite(this.textures.explosion, finger.x, finger.y);

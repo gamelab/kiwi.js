@@ -1,5 +1,6 @@
 /// <reference path="../core/Game.ts" />
 /// <reference path="Finger.ts" />
+/// <reference path="../core/Signal.ts" />
 
 /**
  *	Kiwi - Input - Touch
@@ -29,18 +30,10 @@ module Kiwi.Input {
         * @return {Kiwi.Input.Touch} This object.
         */
         constructor(game: Kiwi.Game) {
-
             this._game = game;
-
         }
-
-        public objType() {
-            return "Touch";
-        }
-
 
         /** 
-        * 
         * @property _game
         * @type Kiwi.Game
         * @private
@@ -48,31 +41,13 @@ module Kiwi.Input {
         private _game: Kiwi.Game;
 
         /** 
-        * 
         * @property _domElement
         * @type HTMLElement
         * @private
         **/
         private _domElement: HTMLElement = null;
-
+         
         /** 
-        * 
-        * @property _x
-        * @type Number
-        * @private
-        **/
-        private _x: number;
-
-        /** 
-        * 
-        * @property _y
-        * @type Number
-        * @private
-        **/
-        private _y: number;
-
-        /** 
-        * 
         * @property _fingers
         * @type Array
         * @private
@@ -80,77 +55,66 @@ module Kiwi.Input {
         private _fingers: Finger[];
 
         /** 
-        * 
         * @property finger1
         * @type Kiwi.Input.Finger
         **/
         public finger1: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property finger2
         * @type Kiwi.Input.Finger
         **/
         public finger2: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property finger3
         * @type Kiwi.Input.Finger
         **/
         public finger3: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property finger4
         * @type Kiwi.Input.Finger
         **/
         public finger4: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property finger5
         * @type Kiwi.Input.Finger
         **/
         public finger5: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property finger6
         * @type Kiwi.Input.Finger
         **/
         public finger6: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property finger7
         * @type Kiwi.Input.Finger
         **/
         public finger7: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property finger8
         * @type Kiwi.Input.Finger
         **/
         public finger8: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property finger9
         * @type Kiwi.Input.Finger
         **/
         public finger9: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property finger10
         * @type Kiwi.Input.Finger
         **/
         public finger10: Kiwi.Input.Finger;
 
         /** 
-        * 
         * @property latestFinger
         * @type Kiwi.Input.Finger
         **/
@@ -172,18 +136,11 @@ module Kiwi.Input {
 
         /*
         * Event listeners that are for touch events in general
-        *
         */
         public touchDown: Kiwi.Signal;
         public touchUp: Kiwi.Signal;
+        public touchCancel: Kiwi.Signal;
 
-        /*
-        * Event Listeners specfically for returning fingers
-        * 
-        */
-        public fingerDown: Kiwi.Signal;
-        public fingerUp: Kiwi.Signal;
-        
         /** 
         * The DOM is ready, so we can start listening now
         * @method boot
@@ -205,14 +162,12 @@ module Kiwi.Input {
             this.finger10 = new Kiwi.Input.Finger(this._game);
 
             this._fingers = [this.finger1, this.finger2, this.finger3, this.finger4, this.finger5, this.finger6, this.finger7, this.finger8, this.finger9, this.finger10];
+            this.latestFinger = this.finger1;
 
             this.touchDown = new Kiwi.Signal();
             this.touchUp = new Kiwi.Signal();
-
-            this.fingerDown = new Kiwi.Signal();
-            this.fingerUp = new Kiwi.Signal();
-            
-            //shoot the event listeners.
+            this.touchCancel = new Kiwi.Signal();
+             
             this.start();
         }
 
@@ -242,36 +197,30 @@ module Kiwi.Input {
         * @param {Any} event
         **/
         private consumeTouchMove(event) {
-
             event.preventDefault();
-
         }
 
         /** 
-        * 
         * @method x
         * @return {Number}
         **/
         public get x(): number {
-            return this._x;
+            return this.latestFinger.x;
         }
 
-        /** 
-        * 
+        /**  
         * @method y
         * @return {Number}
         **/
         public get y(): number {
-            return this._y;
+            return this.latestFinger.y;
         }
 
         /** 
-        * 
         * @method onTouchStart
         * @param {Any} event
         **/
         private onTouchStart(event) {
-
             klog.info('touch start');
 
             event.preventDefault();
@@ -288,14 +237,12 @@ module Kiwi.Input {
                 //loop though the fingers to find the first one that is not active
                 for (var f = 0; f < this._fingers.length; f++) 
                 {
-                    if (this._fingers[f].active === false)
-                    {
+                    if (this._fingers[f].active === false) {
                         this._fingers[f].start(event.changedTouches[i]);
-                        this._x = this._fingers[f].x;
-                        this._y = this._fingers[f].y;
-                        klog.info('x: ' + this._x + ' y: ' + this._y);
-                        this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
-                        this.fingerDown.dispatch(this._fingers[f]);
+                        this.latestFinger = this._fingers[f];
+
+                        this.touchDown.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
+                        
                         this.isDown = true;
                         this.isUp = false;
                         break;  
@@ -321,9 +268,9 @@ module Kiwi.Input {
             {
                 for (var f = 0; f < this._fingers.length; f++)
                 {
-                    if (this._fingers[f].identifier === event.changedTouches[i].identifier)
-                    {
+                    if (this._fingers[f].id === event.changedTouches[i].identifier) {
                         this._fingers[f].stop(event.changedTouches[i]);
+                        this.touchCancel.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]);
                         break;
                     }
                 }
@@ -341,16 +288,10 @@ module Kiwi.Input {
             //event.preventDefault();
 
             //  For touch enter and leave its a list of the touch points that have entered or left the target
-
-            //  event.targetTouches = list of all touches on the TARGET ELEMENT (i.e. game dom element)
-            //  event.touches = list of all touches on the ENTIRE DOCUMENT, not just the target element
-            //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
             for (var i = 0; i < event.changedTouches.length; i++)
             {
-                for (var f = 0; f < this._fingers.length; f++)
-                {
-                    if (this._fingers[f].active === false)
-                    {
+                for (var f = 0; f < this._fingers.length; f++) {
+                    if (this._fingers[f].active === false) {
                         this._fingers[f].start(event.changedTouches[i]);
                         break;
                     }
@@ -370,15 +311,12 @@ module Kiwi.Input {
 
             //console.log('touch leave', event);
 
-            //  For touch enter and leave its a list of the touch points that have entered or left the target
-
-            //  event.changedTouches = the touches that CHANGED in this event, not the total number of them
+            //  For touch enter and leave its a list of the touch points that have entered or left the target 
             for (var i = 0; i < event.changedTouches.length; i++)
             {
                 for (var f = 0; f < this._fingers.length; f++)
                 {
-                    if (this._fingers[f].identifier === event.changedTouches[i].identifier)
-                    {
+                    if (this._fingers[f].id === event.changedTouches[i].identifier) {
                         this._fingers[f].leave(event.changedTouches[i]);
                         break;
                     }
@@ -403,12 +341,9 @@ module Kiwi.Input {
             {
                 for (var f = 0; f < this._fingers.length; f++)
                 {
-                    if (this._fingers[f].identifier === event.changedTouches[i].identifier)
-                    {
+                    if (this._fingers[f].id  === event.changedTouches[i].identifier) {
                         this._fingers[f].move(event.changedTouches[i]);
-                        this._x = this._fingers[f].x;
-                        this._y = this._fingers[f].y;
-                        //klog.info('x: ' + this._x + ' y: ' + this._y);
+                        this.latestFinger = this._fingers[f]; 
                         break;
                     }
                 }
@@ -433,13 +368,13 @@ module Kiwi.Input {
             {
                 for (var f = 0; f < this._fingers.length; f++)
                 {
-                    if (this._fingers[f].identifier === event.changedTouches[i].identifier)
+                    if (this._fingers[f].id === event.changedTouches[i].identifier)
                     {
                         this._fingers[f].stop(event.changedTouches[i]);
-                        this._x = this._fingers[f].x;
-                        this._y = this._fingers[f].y;
-                        this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration);
-                        this.fingerUp.dispatch(this._fingers[f]);
+                        this.latestFinger = this._fingers[f];
+                        
+                        this.touchUp.dispatch(this._fingers[f].x, this._fingers[f].y, this._fingers[f].timeDown, this._fingers[f].timeUp, this._fingers[f].duration, this._fingers[f]); 
+
                         this.isDown = false;
                         this.isUp = true;
                         break;
@@ -447,7 +382,6 @@ module Kiwi.Input {
                 }
             }
             
-            //are any fingers still down? Perhaps not needed as some of hte 
             for (var i = 0; i < this._fingers.length; i++) {
                 if (this._fingers[i].active) {
                     this.isDown = true;
@@ -458,66 +392,39 @@ module Kiwi.Input {
         }
 
         /** 
-        * 
-        * @method calculateDistance
-        * @param {Kiwi.Input.Finger} finger1
-        * @param {Kiwi.Input.Finger} finger2
-        **/
-        public calculateDistance(finger1: Kiwi.Input.Finger, finger2: Kiwi.Input.Finger) {
-        }
-
-        /** 
-        * 
-        * @method calculateAngle
-        * @param {Kiwi.Input.Finger} finger1
-        * @param {Kiwi.Input.Finger} finger2
-        **/
-        public calculateAngle(finger1: Kiwi.Input.Finger, finger2: Kiwi.Input.Finger) {
-        }
-
-        /** 
-        * 
-        * @method checkOverlap
-        * @param {Kiwi.Input.Finger} finger1
-        * @param {Kiwi.Input.Finger} finger2 -
-        **/
-        public checkOverlap(finger1: Kiwi.Input.Finger, finger2: Kiwi.Input.Finger) { //WHAT THE? I DIDNT KNOW FINGERS COULD OVERLAP!
-        } 
-
-        /** 
-        * 
         * @method update 
         */
         public update() {
-
+            if (this.isDown) {
+                for (var i = 0; i < this._fingers.length; i++) {
+                    if (this._fingers[i].active) {
+                        this._fingers[i].update();
+                    }
+                }
+            }
         }
 
         /** 
-        * 
         * @method stop 
         */
         public stop() {
 
-            //this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
-            //this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
-            //this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
-            //this._domElement.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-            //this._domElement.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-            //this._domElement.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+            this._domElement.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
+            this._domElement.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
+            this._domElement.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
+            this._domElement.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+            this._domElement.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+            this._domElement.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
 
         }
 
-        /** 
-        * 
+        /**  
         * @method reset
         **/
         public reset() {
-
-            //this.timeUp = 0;
-            //this.timeDown = 0;
-            //this.isDown = false;
-            //this.isUp = false;
-
+            for (var i = 0; i < this._fingers.length; i++) {
+                this._fingers[i].reset();
+            }
         }
 
     }

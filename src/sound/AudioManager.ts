@@ -98,7 +98,7 @@ module Kiwi.Sound {
         * @method boot
         */
         boot() {
-            /*
+            
             this._volume = 1;
             this._muted = false;
             this._sounds = [];
@@ -139,7 +139,7 @@ module Kiwi.Sound {
                 this.masterGain.gain.value = 1;
                 this.masterGain.connect(this.context.destination);
             }
-            */
+            
         }
 
         /*
@@ -150,7 +150,7 @@ module Kiwi.Sound {
         * @return {bool}
         */
         public set mute(value: bool) {
-            /*
+            
             if (value === true) {
                 if (this._muted) return;
                 this._muted = true;
@@ -179,7 +179,7 @@ module Kiwi.Sound {
                     }
                 }
             }
-        */
+        
         }
 
         public get mute(): bool {
@@ -195,7 +195,7 @@ module Kiwi.Sound {
         * @return {number}
         */
         public set volume(value: number) {
-            /*
+            
             if (value !== undefined) {
 
                 value = Kiwi.Utils.GameMath.clamp(value, 1, 0);
@@ -215,7 +215,7 @@ module Kiwi.Sound {
                     }
                 }
 
-            }*/
+            }
         }
 
         public get volume(): number {
@@ -234,13 +234,13 @@ module Kiwi.Sound {
         * @return {Kiwi.Sound.Audio}
         */
         public add(key: string, volume: number = 1, loop: bool = false): Kiwi.Sound.Audio {
-            /*
+            
             if (this.noAudio) return;
 
             var sound: Kiwi.Sound.Audio = new Kiwi.Sound.Audio(this._game, cacheID, cache, volume, loop);
             this._sounds.push(sound);
             return sound;
-        */
+        
             return null;
         }
 
@@ -252,7 +252,7 @@ module Kiwi.Sound {
         */
         public remove(sound: Kiwi.Sound.Audio) {
             //needs testing
-            /*for (var i = 0; i < this._sounds.length; i++) {
+            for (var i = 0; i < this._sounds.length; i++) {
 
                 if (sound == this._sounds[i]) {
                     this._sounds[i].gainNode.disconnect();
@@ -260,7 +260,7 @@ module Kiwi.Sound {
                     i--;
                 }
 
-            }*/
+            }
 
         }
         
@@ -270,13 +270,13 @@ module Kiwi.Sound {
         * @method playAll
         */
         public playAll() {
-           /* for (var i = 0; i < this._sounds.length; i++) {
+            for (var i = 0; i < this._sounds.length; i++) {
 
                 if (this._sounds[i]) {
                     this._sounds[i].play();
                 }
 
-            }*/
+            }
         }
     
         /*
@@ -285,7 +285,7 @@ module Kiwi.Sound {
         * @method playAll
         */
         public stopAll() {
-            /*
+            
             for (var i = 0; i < this._sounds.length; i++) {
 
                 if (this._sounds[i]) {
@@ -293,7 +293,7 @@ module Kiwi.Sound {
                 }
 
             }
-        */
+        
         }
     
         /*
@@ -302,7 +302,7 @@ module Kiwi.Sound {
         * @method playAll
         */
         public pauseAll() {
-            /*
+            
             for (var i = 0; i < this._sounds.length; i++) {
 
                 if (this._sounds[i]) {
@@ -311,7 +311,7 @@ module Kiwi.Sound {
 
             }
             
-        */
+        
         }
         
         /*
@@ -320,7 +320,7 @@ module Kiwi.Sound {
         * @method playAll
         */
         public resumeAll() {
-            /*
+            
             for (var i = 0; i < this._sounds.length; i++) {
 
                 if (this._sounds[i]) {
@@ -328,7 +328,7 @@ module Kiwi.Sound {
                 }
 
             }
-        */
+        
 
         }
 
@@ -337,13 +337,13 @@ module Kiwi.Sound {
         * Update Loop
         */
         update() {
-            /*
+            
             if (!this.noAudio) {
                 for (var i = 0; i < this._sounds.length; i++) {
                     this._sounds[i].update();
                 }
             }
-        */
+        
         }
 
     }

@@ -11,11 +11,9 @@ class Touch extends Kiwi.State {
     }
 
     create() {
-
-        if (Kiwi.DEVICE.touch) {
-            this.game.input.touch.touchDown.add(this.newCoin, this);
-        }
-    
+         
+        this.game.input.onUp.add(this.newCoin, this);
+         
     }
 
     newCoin(x, y) {
