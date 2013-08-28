@@ -84,14 +84,7 @@ module Kiwi.Sound {
         * @property _muteVolume
         */
         private _muteVolume: number;
-        
-        /*
-        * Web Audio API ONLY - Indicators weither or not the sound (once downloaded) should be decoded right away. If true this happens during the loading stage.
-        * True = longer loading times (especally for large audio files), but instant audio playback when the game has loaded.
-        * False = shorter loading times (only waits for the file and doesn't decode), but may have no audio in game while while it decodes.
-        */
-        public predecode: bool = true;
-
+         
         /*
         * The boot manager.
         *

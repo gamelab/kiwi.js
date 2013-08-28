@@ -31,9 +31,9 @@ class Marker_Playing extends Kiwi.State {
 
         this.random.play('boy');
         
-        this.boy = new Kiwi.GameObjects.Sprite(this.textures.boy, 100, 100);
-        this.horn = new Kiwi.GameObjects.Sprite(this.textures.horn, 300, 100);
-        this.prin = new Kiwi.GameObjects.Sprite(this.textures.prin, 500, 100);
+        this.boy = new Kiwi.GameObjects.Sprite(this.textures.boy, 100, 100, true);
+        this.horn = new Kiwi.GameObjects.Sprite(this.textures.horn, 300, 100, true);
+        this.prin = new Kiwi.GameObjects.Sprite(this.textures.prin, 500, 100, true);
         
         this.addChild(this.boy);
         this.addChild(this.horn);

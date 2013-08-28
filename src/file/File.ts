@@ -50,7 +50,7 @@ module Kiwi.Files {
                 //if (typeof window['Blob'] !== 'undefined')
                 //{
                 klog.info('blob support found - using blob loader');
-                this._useTagLoader = false;
+                this._useTagLoader = true;
             } else {
                 klog.info('blob support NOT found - using tag loader');
                 this._useTagLoader = true;
@@ -58,8 +58,18 @@ module Kiwi.Files {
             //this._useTagLoader = true;
             //}
 
-            if (this.dataType === Kiwi.Files.File.AUDIO && this._game.audio.usingAudioTag === true) {
-                this._useTagLoader = true;
+            if (this.dataType === Kiwi.Files.File.AUDIO) {
+                if (this._game.audio.usingAudioTag === true) {
+                    this._useTagLoader = true;
+                    console.log('Using Audio Tag Loader');
+                } else { //just dont use the tag loader...just dont....
+                    this._useTagLoader = false;
+                    console.log('Using Awesome');
+                }
+            }
+
+            if (this.dataType === Kiwi.Files.File.JSON) {
+                this._useTagLoader = false; 
             }
 
             this._saveToFileStore = saveToFileStore;
@@ -500,18 +510,19 @@ module Kiwi.Files {
             
 
             } else if (this.dataType === Kiwi.Files.File.AUDIO) {
-                console.log('Ewww...disgusting...your loading by the audio tags....');
+
+                    //if device == iOS.... do awesome stuff....
 
                 this.data = new Audio();
                 this.data.src = this.fileURL;
                 this.data.preload = 'auto';
                 this.data.onerror = (event) => this.tagLoaderOnError(event);
-                //this.data.addEventListener('canplaythrough', (event) => this.tagLoaderOnLoad(event), false); //never firing.?.?.?
-                //this.data.onload = (event) => this.tagLoaderOnLoad(event);
+                this.data.addEventListener('canplaythrough', () => this.tagLoaderOnLoad(null), false); //never firing.?.?.?
+                this.data.onload = (event) => this.tagLoaderOnLoad(event);
                 this.data.load();
-                
-
-                this.tagLoaderOnLoad(null);     //need to fix....for some reason the audio does not want to load...
+                this.data.volume = 0;
+                this.data.play(); //force the browser to load by playing the audio........ 
+                console.log('awesome');
             }
             
         }
@@ -546,7 +557,7 @@ module Kiwi.Files {
         }
 
         private tagLoaderProgressThrough(event) {
-            console.log('progress');
+            
             this.stop(); //hasn't really stopped but oh well.
 
             if (this.onCompleteCallback) {
@@ -557,21 +568,32 @@ module Kiwi.Files {
         /**
         * @method tagLoaderOnLoad
         * @param {Any}
-		*/
+        */
         private tagLoaderOnLoad(event) {
-            console.log('loaded');
-            this.stop(); 
 
-            if (this._saveToFileStore === true)
-            {
-                this._fileStore.addFile(this.key, this);
-            }
-            
-            if (this.onCompleteCallback)
-            {
-                this.onCompleteCallback(this);
-            }
+            if (this.percentLoaded !== 100) { // a hacky fix for the audio
+                 
+                this.stop();
 
+                if (this.dataType === Kiwi.Files.File.AUDIO) { //makes me sad
+                    console.log('Not so awesome finished loading, kill it with fire');
+                    this.data.removeEventListener('canplaythrough', () => this.tagLoaderOnLoad(null)); // the remove event that won't work :(
+                    this.data.pause();
+                    this.data.currentTime = 0;
+                    this.data.volume = 1;
+                }
+
+                if (this._saveToFileStore === true)
+                {
+                    this._fileStore.addFile(this.key, this);
+                }
+                
+                if (this.onCompleteCallback)
+                {
+                    this.onCompleteCallback(this);
+                }
+
+            }
         }
 
         /**
@@ -713,13 +735,14 @@ module Kiwi.Files {
                     }
                     
                     if (this.dataType === Kiwi.Files.File.AUDIO) {
-                        this.data = {
-                            raw: this._xhr.response,
-                            decoded: false,
-                            buffer: null
-                        }
 
-                        if (this._game.audio.predecode == true) {
+                        if (this._game.audio.usingWebAudio) {
+                            this.data = {
+                                raw: this._xhr.response,
+                                decoded: false,
+                                buffer: null
+                            }
+
                             console.log('Audio is Decoding');
                             //decode that audio
                             var that = this;
@@ -732,9 +755,7 @@ module Kiwi.Files {
                                 }
                             });
 
-                        } else {
-                            this.parseComplete();
-                        }    
+                        }
                     }
                     
                    

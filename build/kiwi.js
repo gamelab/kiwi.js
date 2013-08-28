@@ -5573,14 +5573,24 @@ var Kiwi;
 
                 if (Kiwi.DEVICE.blob) {
                     klog.info('blob support found - using blob loader');
-                    this._useTagLoader = false;
+                    this._useTagLoader = true;
                 } else {
                     klog.info('blob support NOT found - using tag loader');
                     this._useTagLoader = true;
                 }
 
-                if (this.dataType === Kiwi.Files.File.AUDIO && this._game.audio.usingAudioTag === true) {
-                    this._useTagLoader = true;
+                if (this.dataType === Kiwi.Files.File.AUDIO) {
+                    if (this._game.audio.usingAudioTag === true) {
+                        this._useTagLoader = true;
+                        console.log('Using Audio Tag Loader');
+                    } else {
+                        this._useTagLoader = false;
+                        console.log('Using Awesome');
+                    }
+                }
+
+                if (this.dataType === Kiwi.Files.File.JSON) {
+                    this._useTagLoader = false;
                 }
 
                 this._saveToFileStore = saveToFileStore;
@@ -5709,18 +5719,22 @@ var Kiwi;
                         return _this.tagLoaderOnReadyStateChange(event);
                     };
                 } else if (this.dataType === Kiwi.Files.File.AUDIO) {
-                    console.log('Ewww...disgusting...your loading by the audio tags....');
-
                     this.data = new Audio();
+                    this.data.type = 'audio/mpeg';
                     this.data.src = this.fileURL;
                     this.data.preload = 'auto';
                     this.data.onerror = function (event) {
                         return _this.tagLoaderOnError(event);
                     };
-
+                    this.data.addEventListener('canplaythrough', function () {
+                        return _this.tagLoaderOnLoad(null);
+                    }, false);
+                    this.data.onload = function (event) {
+                        return _this.tagLoaderOnLoad(event);
+                    };
                     this.data.load();
-
-                    this.tagLoaderOnLoad(null);
+                    this.data.volume = 0;
+                    this.data.play();
                 }
             };
 
@@ -5741,7 +5755,6 @@ var Kiwi;
             };
 
             File.prototype.tagLoaderProgressThrough = function (event) {
-                console.log('progress');
                 this.stop();
 
                 if (this.onCompleteCallback) {
@@ -5750,15 +5763,27 @@ var Kiwi;
             };
 
             File.prototype.tagLoaderOnLoad = function (event) {
-                console.log('loaded');
-                this.stop();
+                var _this = this;
+                if (this.percentLoaded !== 100) {
+                    this.stop();
 
-                if (this._saveToFileStore === true) {
-                    this._fileStore.addFile(this.key, this);
-                }
+                    if (this.dataType === Kiwi.Files.File.AUDIO) {
+                        console.log('Not so awesome finished loading, kill it with fire');
+                        this.data.removeEventListener('canplaythrough', function () {
+                            return _this.tagLoaderOnLoad(null);
+                        });
+                        this.data.pause();
+                        this.data.currentTime = 0;
+                        this.data.volume = 1;
+                    }
 
-                if (this.onCompleteCallback) {
-                    this.onCompleteCallback(this);
+                    if (this._saveToFileStore === true) {
+                        this._fileStore.addFile(this.key, this);
+                    }
+
+                    if (this.onCompleteCallback) {
+                        this.onCompleteCallback(this);
+                    }
                 }
             };
 
@@ -5859,13 +5884,13 @@ var Kiwi;
                         }
 
                         if (this.dataType === Kiwi.Files.File.AUDIO) {
-                            this.data = {
-                                raw: this._xhr.response,
-                                decoded: false,
-                                buffer: null
-                            };
+                            if (this._game.audio.usingWebAudio) {
+                                this.data = {
+                                    raw: this._xhr.response,
+                                    decoded: false,
+                                    buffer: null
+                                };
 
-                            if (this._game.audio.predecode == true) {
                                 console.log('Audio is Decoding');
 
                                 var that = this;
@@ -5877,8 +5902,6 @@ var Kiwi;
                                         console.log('Audio Decoded');
                                     }
                                 });
-                            } else {
-                                this.parseComplete();
                             }
                         }
                     }
@@ -10061,7 +10084,6 @@ var Kiwi;
                 this.usingAudioTag = false;
                 this.context = null;
                 this.masterGain = null;
-                this.predecode = true;
                 this._game = game;
             }
             AudioManager.prototype.objType = function () {
@@ -10286,6 +10308,7 @@ var Kiwi;
                 this._loop = loop;
 
                 this.addMarker('default', 0, this.totalDuration, this._loop);
+                this._currentMarker = 'default';
 
                 this.onPlay = new Kiwi.Signal();
                 this.onStop = new Kiwi.Signal();
@@ -10314,16 +10337,12 @@ var Kiwi;
             };
 
             Audio.prototype._decode = function () {
-                if (this._usingAudioTag)
+                if (this._usingAudioTag || this._file.data.decode == false)
                     return;
 
                 if (this._file.data.decoded === true && this._file.data.buffer !== null) {
                     this._buffer = this._file.data.buffer;
                     this._decoded = true;
-                    return;
-                }
-
-                if (this._game.audio.predecode == true && this._file.data.decode == false) {
                     return;
                 }
 
@@ -10394,7 +10413,7 @@ var Kiwi;
             };
 
             Audio.prototype.removeMarker = function (name) {
-                if (name == 'default')
+                if (name === 'default')
                     return;
 
                 if (this.isPlaying && this._currentMarker == name) {
