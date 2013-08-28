@@ -498,27 +498,31 @@ module Kiwi {
         * @method swapChildrenAt
         * @param {Number} The position of the first Entity in this Group to swap.
         * @param {Number} The position of the second Entity in this Group to swap.
-	    * @return {Boolean} true if the Entities were swapped successfully, otherwise false.
-		*/
-        public swapChildrenAt(index1: number, index2: number):boolean { 
-            //  If either Entity isn't in this Group, or is already at that index then bail out
-            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform)
-            {
-                return false;
-            }
+        * @return {Boolean} true if the Entities were swapped successfully, otherwise false.
+        */
+        public swapChildrenAt(index1: number, index2: number): boolean {
+
 
             var child1: Kiwi.IChild = this.getChildAt(index1);
             var child2: Kiwi.IChild = this.getChildAt(index2);
-
-            if (child1 !== null && child2 !== null)
+            if (child1 != null && child2 != null)
             {
-                this.members[index1] = child2;
-                this.members[index2] = child1;
+                //  If either Entity isn't in this Group, or is already at that index then bail out
+                if (child1==child2 || child1.transform.parent !== this.transform || child2.transform.parent !== this.transform)
+                {
+                    return false;
+                }
 
-                child1._changedPosition(this, index2);
-                child2._changedPosition(this, index1);
+                if (child1 !== null && child2 !== null)
+                {
+                    this.members[index1] = child2;
+                    this.members[index2] = child1;
 
-                return true;
+                    child1._changedPosition(this, index2);
+                    child2._changedPosition(this, index1);
+
+                    return true;
+                }
             }
 
           
@@ -535,10 +539,8 @@ module Kiwi {
         */
         public replaceChild(oldChild: Kiwi.IChild, newChild: Kiwi.IChild): boolean {
             
-            
             //fall through if replacing child with the same child
-            if (oldChild === newChild) return;
-
+            if (oldChild === newChild) return false;
 
             // remove the new child from the group if the group contains it, so it can be reinserted in new position
             if (this.getChildIndex(newChild)) {
@@ -547,7 +549,6 @@ module Kiwi {
 
             // get the index of the existing child
             var index: number = this.getChildIndex(oldChild);
-
             
             if (index > -1) {
                 this.removeChildAt(index);
@@ -561,7 +562,6 @@ module Kiwi {
                 return true;
 
             }
-            
 
             return false;
 
