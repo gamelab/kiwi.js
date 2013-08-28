@@ -42,7 +42,11 @@ module Kiwi.Input {
         public mouseDown: Kiwi.Signal;
         public mouseUp: Kiwi.Signal;
 
-        public cursor: Kiwi.Input.MouseCursor;
+        private _cursor: Kiwi.Input.MouseCursor;
+
+        public get cursor(): Kiwi.Input.MouseCursor {
+            return this._cursor;
+        }
 
         /** 
         * The DOM is ready, so we can start listening now
@@ -53,7 +57,10 @@ module Kiwi.Input {
 
             this._domElement = this._game.stage.container;
 
-            this.cursor = new Kiwi.Input.MouseCursor(this._game);
+            this._cursor = new Kiwi.Input.MouseCursor(this._game);
+            this._cursor.active = true;
+            this._cursor.id = 1;
+            
             this.mouseDown = new Kiwi.Signal();
             this.mouseUp = new Kiwi.Signal();
 
@@ -64,51 +71,51 @@ module Kiwi.Input {
         * The massive amount of atlases.
         */
         public get isDown():bool {
-            return this.cursor.isDown;
+            return this._cursor.isDown;
         }
 
         public get isUp():bool {
-            return this.cursor.isUp;
+            return this._cursor.isUp;
         }
 
         public get duration(): number {
-            return this.cursor.duration;
+            return this._cursor.duration;
         }
         
         public get x(): number {
-            return this.cursor.x;
+            return this._cursor.x;
         }
         
         public get y(): number {
-            return this.cursor.y;
+            return this._cursor.y;
         }
 
         public get wheelDeltaX(): number {
-            return this.cursor.wheelDeltaX;
+            return this._cursor.wheelDeltaX;
         }
 
         public get wheelDeltaY(): number {
-            return this.cursor.wheelDeltaY;
+            return this._cursor.wheelDeltaY;
         }
 
         public get ctrlKey(): bool {
-            return this.cursor.ctrlKey;
+            return this._cursor.ctrlKey;
         }
 
         public get shiftKey(): bool {
-            return this.cursor.shiftKey;
+            return this._cursor.shiftKey;
         }
 
         public get altKey(): bool {
-            return this.cursor.altKey;
+            return this._cursor.altKey;
         }
 
         public get button(): number {
-            return this.cursor.button;
+            return this._cursor.button;
         }
          
         public update() { 
-            this.cursor.update();
+            this._cursor.update();
         }
 
         /**  
@@ -150,8 +157,8 @@ module Kiwi.Input {
         * @param {MouseEvent} event. 
         */
         public onMouseDown(event: MouseEvent) { 
-            this.cursor.start(event); 
-            this.mouseDown.dispatch(this.cursor.x, this.cursor.y, this.cursor.timeDown, this.cursor.timeUp, this.duration, this.cursor); 
+            this._cursor.start(event); 
+            this.mouseDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
         }
 
         /**  
@@ -159,7 +166,7 @@ module Kiwi.Input {
         * @param {MouseEvent} event. 
         */
         public onMouseMove(event:MouseEvent) {
-            this.cursor.move(event);
+            this._cursor.move(event);
         }
 
         /**  
@@ -167,8 +174,8 @@ module Kiwi.Input {
         * @param {MouseEvent} event. 
         */
         public onMouseUp(event:MouseEvent) { 
-            this.cursor.stop(event);
-            this.mouseUp.dispatch(this.cursor.x, this.cursor.y, this.cursor.timeDown, this.cursor.timeUp, this.duration, this.cursor); 
+            this._cursor.stop(event);
+            this.mouseUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
         }
          
         /**  
@@ -176,7 +183,7 @@ module Kiwi.Input {
         * @param {MouseEvent} event. 
         */
         public onMouseWheel(event: WheelEvent) {
-            this.cursor.wheel(event);
+            this._cursor.wheel(event);
         }
 
         /**  
@@ -184,8 +191,8 @@ module Kiwi.Input {
         * @param {Number} [duration]. 
         * @return {Boolean}
         */
-        public justPressed(duration:number = this.cursor.justPressedRate): bool { 
-            return this.cursor.justPressed(duration);
+        public justPressed(duration: number = this._cursor.justPressedRate): bool { 
+            return this._cursor.justPressed(duration);
         }
 
         /**  
@@ -193,15 +200,15 @@ module Kiwi.Input {
         * @param {Number} [duration]. 
         * @return {Boolean}
         */
-        public justReleased(duration: number = this.cursor.justReleasedRate): bool { 
-            return this.cursor.justReleased(duration); 
+        public justReleased(duration: number = this._cursor.justReleasedRate): bool { 
+            return this._cursor.justReleased(duration); 
         }
 
         /** 
         * @method reset
         */
         public reset() {
-            this.cursor.reset();
+            this._cursor.reset();
         }
 
     }

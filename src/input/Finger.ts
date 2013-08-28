@@ -9,6 +9,10 @@ module Kiwi.Input {
             super(game);
             this.circle.diameter = 44;
         }
+
+        public objType(): string {
+            return 'Finger';
+        }
         
         /** 
         * @method start
@@ -16,9 +20,19 @@ module Kiwi.Input {
         */
         public start(event) {
             this.id = event.identifier;
+            this.active = true;
             super.start(event);
         }
-         
+        
+        /**
+        * @method stop
+        * @param {Any} event
+        */
+        public stop(event) {
+            this.active = false;
+            super.stop(event);
+        }
+
         /** 
         * @method leave
         * @param {Any} event

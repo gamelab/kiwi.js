@@ -237,7 +237,7 @@ module Kiwi.Sound {
             
             if (this.noAudio) return;
 
-            var sound: Kiwi.Sound.Audio = new Kiwi.Sound.Audio(this._game, cacheID, cache, volume, loop);
+            var sound: Kiwi.Sound.Audio = new Kiwi.Sound.Audio(this._game, key, volume, loop);
             this._sounds.push(sound);
             return sound;
         
