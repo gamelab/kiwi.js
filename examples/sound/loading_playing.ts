@@ -20,7 +20,7 @@ class loading_playing extends Kiwi.State {
 
     create() {
 
-        this.button = new Kiwi.GameObjects.Sprite(this.textures.star, 150, 150);
+        this.button = new Kiwi.GameObjects.Sprite(this.textures.star, 150, 150, true);
         this.addChild(this.button);
 
         this.button.input.onRelease.add(this.play, this);
@@ -29,7 +29,7 @@ class loading_playing extends Kiwi.State {
     }
 
     play() {
-
+        console.log('PLAY');
         this.sound.play();
 
     }

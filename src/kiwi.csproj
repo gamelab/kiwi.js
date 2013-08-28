@@ -29,6 +29,8 @@
     <Content Include="file\FileStore.ts" />
     <Content Include="file\Loader.ts" />
     <Content Include="gl-matrix-min.js" />
+    <Content Include="input\MouseCursor.ts" />
+    <Content Include="input\Pointer.ts" />
     <Content Include="renderers\GLArrayBuffer.ts" />
     <Content Include="renderers\GLElementArrayBuffer.ts" />
     <Content Include="renderers\GLRenderer.ts" />

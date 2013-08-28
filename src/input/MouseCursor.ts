@@ -5,6 +5,10 @@ module Kiwi.Input {
 
     export class MouseCursor extends Pointer {
         
+        public objType(): string {
+            return 'MouseCursor';
+        }
+
         public wheelDeltaX: number;
          
         public wheelDeltaY: number;

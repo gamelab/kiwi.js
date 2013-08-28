@@ -12,6 +12,10 @@ module Kiwi.Input {
             this.circle = new Kiwi.Geom.Circle(0, 0, 1);
         }
 
+        public objType():string {
+            return 'Pointer';
+        }
+
         /*
         * The game that this pointer belongs to.
         */
@@ -101,7 +105,9 @@ module Kiwi.Input {
         public timeUp: number = 0;
 
         public duration: number = 0;
-         
+        
+        public frameDuration: number = 0;
+
         public justPressedRate: number = 200;
          
         public justReleasedRate: number = 200;
@@ -109,7 +115,7 @@ module Kiwi.Input {
         public start(event) {
             this.move(event); 
 
-            this.active = true;
+            this.frameDuration = 0;
             this.withinGame = true;
             this.isDown = true;
             this.isUp = false;
@@ -117,7 +123,6 @@ module Kiwi.Input {
         }
 
         public stop(event) {
-            this.active = false;
             this.withinGame = false;
 
             this.isDown = false;
@@ -150,12 +155,9 @@ module Kiwi.Input {
 
         public justPressed(duration: number = this.justPressedRate): bool {
 
-            if (this.isDown === true && (this.timeDown + duration) > this._game.time.now())
-            {
+            if (this.isDown === true && (this.timeDown + duration) > this._game.time.now()) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
 
@@ -163,12 +165,9 @@ module Kiwi.Input {
          
         public justReleased(duration: number = this.justReleasedRate): bool {
 
-            if (this.isUp === true && (this.timeUp + duration) > this._game.time.now())
-            {
+            if (this.isUp === true && (this.timeUp + duration) > this._game.time.now()) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
 
@@ -179,10 +178,12 @@ module Kiwi.Input {
             this.isUp = false;
             this.timeDown = 0;
             this.timeUp = 0;
+            this.frameDuration = 0;
         }
 
         public update() {
             if (this.isDown === true) {
+                this.frameDuration ++;
                 this.duration = this._game.time.now() - this.timeDown;
             } 
         }

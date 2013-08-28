@@ -1,7 +1,7 @@
 /// <reference path="../../src/Kiwi.ts" />
 
 class looping extends Kiwi.State {
-    /*
+    
     constructor() {
         super('looping');
     }
@@ -16,13 +16,15 @@ class looping extends Kiwi.State {
 
     create() {
 
-        this.meow = this.game.audio.add('meow', this.cache, 1, true);
+        this.meow = this.game.audio.add('meow', 1, true);
 
         this.game.input.mouse.mouseUp.add(this.meowing, this);
 
-        this.cat = new Kiwi.GameObjects.Sprite(this.textures.baddie, 200, 200);
-        this.cat.animation.add('right', 0.2, [2, 3]);
-        this.cat.animation.add('left', 0.2, [0, 1]); 
+        console.log(this.audioLibrary);
+
+        this.cat = new Kiwi.GameObjects.Sprite(this.textures.baddie, 200, 200, true);
+        this.cat.animation.add('right', [2, 3], 0.2);
+        this.cat.animation.add('left', [0, 1], 0.2); 
         this.addChild(this.cat);
         this.cat.animation.play('left');
     }
@@ -38,5 +40,5 @@ class looping extends Kiwi.State {
         }
 
     }
-    */
+    
 }

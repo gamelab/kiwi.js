@@ -18,7 +18,7 @@ module Kiwi.GameObjects {
         * @param {Number} y
         * @return {Sprite}
         */
-        constructor(atlas:Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
+        constructor(atlas:Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: bool = false) {
 
             super();
 
@@ -39,9 +39,8 @@ module Kiwi.GameObjects {
             
 
             //Create the components needed
-            this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
             this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
-            this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
+            this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
             
             //Check to see if this sprite could be animated or not
             if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
@@ -52,12 +51,11 @@ module Kiwi.GameObjects {
                 this._isAnimated = true;
             }
 
-
-
             //  Signals
             //this.onAddedToLayer.add(this._onAddedToLayer, this);
             this.input.onDragStarted.add(this._dragStarted, this);
             this.onAddedToState.add(this._onAddedToState, this);
+            this.onAddedToGroup.add(this._onAddedToGroup, this);
 
             klog.info('Created Sprite Game Object');
         }
@@ -109,7 +107,6 @@ module Kiwi.GameObjects {
          * @property bounds
          * @type Kiwi.Components.Bounds
          **/
-        public bounds: Kiwi.Components.Bounds;
         public box: Kiwi.Components.Box;
 
         /** 
@@ -128,12 +125,29 @@ module Kiwi.GameObjects {
         private _onAddedToState(state: Kiwi.State): bool {
             
             klog.info('Sprite added to State');
-
+              
             if(this._isAnimated) 
-            this.animation.clock = this.clock;
+                this.animation.clock = this.clock; 
+            this.input.game = this.game;
 
             return true;
 
+        }
+        
+        /*
+        * Executed when this sprite gets added to a group.
+        * @method _onAddedToGroup
+        * @param {Kiwi.Group}
+        * @return {bool}
+        */
+        private _onAddedToGroup(group: Kiwi.Group): bool {
+            klog.info('Sprite added to Group');
+
+            if (this._isAnimated)
+                this.animation.clock = this.clock;
+            this.input.game = this.game;
+
+            return true;
         }
 
         /**
@@ -153,7 +167,6 @@ module Kiwi.GameObjects {
                 this.animation.update();
                 this.width = this.atlas.cells[this.atlas.cellIndex].w;
                 this.height = this.atlas.cells[this.atlas.cellIndex].h;
-                this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
             }    
         }
 

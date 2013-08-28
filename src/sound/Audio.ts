@@ -53,6 +53,7 @@ module Kiwi.Sound {
 
             //add the default marker
             this.addMarker('default', 0, this.totalDuration, this._loop);
+            this._currentMarker = 'default';
 
             //tonnes of signals to go here.
             this.onPlay = new Kiwi.Signal();
@@ -262,17 +263,12 @@ module Kiwi.Sound {
         private _decode() {
             
             //you only decode when using the web audio api
-            if (this._usingAudioTag) return;
+            if (this._usingAudioTag || this._file.data.decode == false) return;
 
             //has the 
             if (this._file.data.decoded === true && this._file.data.buffer !== null) {
                 this._buffer = this._file.data.buffer;
                 this._decoded = true;
-                return;
-            }
-
-            //the audio hasn't been decoded yet but it is decoding?
-            if (this._game.audio.predecode == true && this._file.data.decode == false) {
                 return;
             }
 
@@ -371,7 +367,7 @@ module Kiwi.Sound {
         * @method removeMarker
         */
         public removeMarker(name: string) {
-            if (name == 'default') return; //cannot delete the default
+            if (name === 'default') return; //cannot delete the default
 
             if (this.isPlaying && this._currentMarker == name) {
                 this.stop();    
@@ -442,7 +438,7 @@ module Kiwi.Sound {
                     
                 if (this._muted) this._sound.volume = 0;
                 else this._sound.volume = this._volume;
-                    
+                
                 this._sound.currentTime = this._markers[this._currentMarker].start;
                 this._sound.play();
                 this.isPlaying = true;

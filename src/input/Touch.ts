@@ -54,6 +54,10 @@ module Kiwi.Input {
         **/
         private _fingers: Finger[];
 
+        public get fingers(): Kiwi.Input.Finger[] {
+            return this._fingers;
+        }
+
         /** 
         * @property finger1
         * @type Kiwi.Input.Finger

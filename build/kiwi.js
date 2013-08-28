@@ -4052,36 +4052,125 @@ var Kiwi;
     (function (Components) {
         var Input = (function (_super) {
             __extends(Input, _super);
-            function Input(entity, bounds) {
+            function Input(entity, box, enabled) {
                 _super.call(this, 'Input');
                 this._dragEnabled = false;
                 this._dragSnapToCenter = false;
+                this._nowDown = null;
+                this._nowUp = null;
+                this._nowEntered = null;
+                this._nowLeft = null;
 
                 this.onEntered = new Kiwi.Signal();
                 this.onLeft = new Kiwi.Signal();
                 this.onDown = new Kiwi.Signal();
-                this.onRelease = new Kiwi.Signal();
+                this.onUp = new Kiwi.Signal();
                 this.onDragStarted = new Kiwi.Signal();
                 this.onDragStopped = new Kiwi.Signal();
 
                 this._entity = entity;
-                this._bounds = bounds;
+                this._box = box;
 
                 this.pointDown = new Kiwi.Geom.Point();
                 this.distance = new Kiwi.Geom.Point();
 
-                this.withinBounds = false;
-                this.outsideBounds = true;
+                this._withinBounds = null;
+                this._outsideBounds = true;
 
-                this.isUp = true;
-                this.isDown = false;
-                this.isDragging = false;
+                this._isUp = true;
+                this._isDown = null;
+                this._isDragging = false;
                 this._justEntered = false;
                 this._tempDragDisabled = false;
+                this.enabled = enabled;
             }
             Input.prototype.objType = function () {
                 return "Input";
             };
+
+
+            Object.defineProperty(Input.prototype, "game", {
+                get: function () {
+                    return this._game;
+                },
+                set: function (val) {
+                    this._game = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "onRelease", {
+                get: function () {
+                    return this.onUp;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "onPress", {
+                get: function () {
+                    return this.onDown;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "enabled", {
+                get: function () {
+                    return this._enabled;
+                },
+                set: function (val) {
+                    this._enabled = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Input.prototype, "isDown", {
+                get: function () {
+                    return (this._isDown !== null);
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Input.prototype, "isUp", {
+                get: function () {
+                    return this._isUp;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Input.prototype, "withinBounds", {
+                get: function () {
+                    return (this._withinBounds !== null);
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Input.prototype, "outsideBounds", {
+                get: function () {
+                    return this._outsideBounds;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "isDragging", {
+                get: function () {
+                    return this._isDragging;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Input.prototype, "dragDistance", {
+                get: function () {
+                    return this._dragDistance;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Input.prototype.enableDrag = function (snapToCenter, distance) {
                 if (typeof snapToCenter === "undefined") { snapToCenter = false; }
@@ -4089,76 +4178,149 @@ var Kiwi;
                 this._dragEnabled = true;
                 this._dragSnapToCenter = snapToCenter;
                 this._dragDistance = distance;
-                this.isDragging = false;
+                this._isDragging = false;
             };
 
             Input.prototype.disableDrag = function () {
                 this._dragEnabled = false;
-                this.isDragging = false;
+                this._isDragging = false;
             };
 
             Input.prototype.update = function () {
-                if (!this._entity.game || this._entity.active === false || this._entity.willRender === false) {
+                if (!this._game || this._entity.active === false || this._entity.willRender === false || this.enabled === false) {
                     return;
                 }
 
-                if (this._bounds.pointWithin(this._entity.game.input.position)) {
-                    this.distance.x = this._entity.game.input.position.x - this._bounds.getRect().left;
-                    this.distance.y = this._entity.game.input.position.y - this._bounds.getRect().top;
+                this._nowDown = null;
+                this._nowUp = null;
+                this._nowEntered = null;
+                this._nowLeft = null;
 
-                    if (this.withinBounds === false) {
-                        this.withinBounds = true;
-                        this.outsideBounds = false;
-                        this._justEntered = true;
-                        this.onEntered.dispatch(this._entity, this.distance.x, this.distance.y);
-                    }
+                if (Kiwi.DEVICE.touch) {
+                    this._updateTouch();
                 } else {
-                    if (this.withinBounds === true && this.isDragging === false) {
-                        this.withinBounds = false;
-                        this.outsideBounds = true;
-                        this.onLeft.dispatch(this._entity);
+                    this._updateMouse();
+                }
+            };
+
+            Input.prototype._updateTouch = function () {
+                for (var i = 0; i < this._game.input.touch.fingers.length; i++) {
+                    if (this._game.input.touch.fingers[i].active === true) {
+                        this._evaluateTouchPointer(this._game.input.touch.fingers[i]);
+                    } else if (this.isDown === true && this._isDown.id === this._game.input.touch.fingers[i].id) {
+                        this._nowUp = this._game.input.touch.fingers[i];
+                    } else if (this.isDown === false && this._nowUp === null && this.withinBounds === true && this._withinBounds.id === this._game.input.touch.fingers[i].id) {
+                        this._nowUp = this._game.input.touch.fingers[i];
                     }
                 }
 
-                if (this._entity.game.input.isDown === true) {
+                if (this._nowEntered !== null && this.withinBounds === false) {
+                    console.log('ENTERED');
+                    this._withinBounds = this._nowEntered;
+                    this._outsideBounds = false;
+                    this.onEntered.dispatch(this._entity, this._nowEntered);
+                }
+
+                if (this._nowLeft !== null && this.withinBounds === true) {
+                    console.log('LEFT');
+                    this._withinBounds = null;
+                    this._outsideBounds = true;
+                    this.onLeft.dispatch(this._entity, this._nowLeft);
+                }
+
+                if (this._nowDown !== null && this.isDown === false) {
+                    console.log('DOWN: ' + this._nowDown.frameDuration);
+                    this.onDown.dispatch(this._entity, this._nowDown);
+                    this._isDown = this._nowDown;
+                    this._isUp = false;
+                    this._withinBounds = this._nowDown;
+                    this._outsideBounds = false;
+                }
+
+                if (this._nowUp !== null) {
+                    console.log('UP');
+                    this.onUp.dispatch(this._entity, this._nowUp);
+                    this._isDown = null;
+                    this._isUp = true;
+                    this._withinBounds = null;
+                    this._outsideBounds = true;
+                }
+            };
+
+            Input.prototype._evaluateTouchPointer = function (pointer) {
+                if (this.isDown === false || this._isDown.id === pointer.id) {
+                    if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.bounds).result) {
+                        if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
+                            this._nowEntered = pointer;
+                        }
+                        if (this.isDown === false && pointer.frameDuration < 2) {
+                            this._nowDown = pointer;
+                        }
+                    } else {
+                        if (this.isDown === true) {
+                            this._nowLeft = pointer;
+                        } else if (this.withinBounds === true && this._withinBounds.id == pointer.id) {
+                            this._nowLeft = pointer;
+                        }
+                    }
+                }
+            };
+
+            Input.prototype._updateMouse = function () {
+                this._evaluateMousePointer(this._game.input.mouse.cursor);
+
+                if (this._nowLeft !== null) {
+                    this.onLeft.dispatch(this._entity, this._nowLeft);
+                }
+
+                if (this._nowEntered !== null) {
+                    this.onEntered.dispatch(this._entity, this._nowEntered, this.distance.x, this.distance.y);
+                }
+
+                if (this._nowDown !== null && this.isDown === false) {
+                    this.onDown.dispatch(this._entity, this._nowDown);
+                    this._isDown = this._nowDown;
+                    this._isUp = false;
+                }
+
+                if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
+                    this.onUp.dispatch(this._entity, this._nowUp);
+                    this._isDown = null;
+                    this._isUp = true;
+                }
+            };
+
+            Input.prototype._evaluateMousePointer = function (pointer) {
+                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.bounds).result) {
+                    if (this.withinBounds === false) {
+                        this._nowEntered = pointer;
+                        this._withinBounds = pointer;
+                        this._outsideBounds = false;
+                        this._justEntered = true;
+                    }
+                } else {
+                    if (this.withinBounds === true && this.isDragging === false) {
+                        this._nowLeft = pointer;
+                        this._withinBounds = null;
+                        this._outsideBounds = true;
+                    }
+                }
+
+                if (pointer.isDown === true) {
                     if (this._justEntered) {
-                        this.isDown = true;
-                        this.isUp = false;
+                        this._isDown = pointer;
+                        this._isUp = false;
                         this._tempDragDisabled = true;
                     }
 
-                    if (this.withinBounds === true && this.isDown === false) {
-                        this.isDown = true;
-                        this.isUp = false;
-                        this.pointDown.copyFrom(this.distance);
-                        this.onDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
-                    }
-
-                    if (this._dragEnabled === true && this.isDragging === false && this._tempDragDisabled === false) {
-                        if (this.isDown === true && this.pointDown.distanceTo(this.distance) >= this._dragDistance) {
-                            this.isDragging = true;
-
-                            if (this._dragSnapToCenter === true) {
-                                this.pointDown = this._bounds.getRect().center;
-                            }
-
-                            this.onDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
-                        }
+                    if (this.withinBounds === true && this.isDown === false && this._nowDown === null) {
+                        this._nowDown = pointer;
                     }
                 } else {
-                    if (this.isDragging === true) {
-                        this.isDragging = false;
-                        this.onDragStopped.dispatch(this._entity);
-                    }
-
                     if (this._tempDragDisabled === true)
                         this._tempDragDisabled = false;
-
-                    if (this.isDown === true) {
-                        this.isDown = false;
-                        this.isUp = true;
-                        this.onRelease.dispatch(this._entity);
-                    }
+                    if (this.isDown === true)
+                        this._nowUp = pointer;
                 }
 
                 if (this._justEntered)
@@ -5417,8 +5579,18 @@ var Kiwi;
                     this._useTagLoader = true;
                 }
 
-                if (this.dataType === Kiwi.Files.File.AUDIO && this._game.audio.usingAudioTag === true) {
-                    this._useTagLoader = true;
+                if (this.dataType === Kiwi.Files.File.AUDIO) {
+                    if (this._game.audio.usingAudioTag === true) {
+                        this._useTagLoader = true;
+                        console.log('Using Audio Tag Loader');
+                    } else {
+                        this._useTagLoader = false;
+                        console.log('Using Awesome');
+                    }
+                }
+
+                if (this.dataType === Kiwi.Files.File.JSON) {
+                    this._useTagLoader = false;
                 }
 
                 this._saveToFileStore = saveToFileStore;
@@ -5440,6 +5612,26 @@ var Kiwi;
             }
             File.prototype.objType = function () {
                 return "File";
+            };
+
+            File.prototype.addTag = function (tag) {
+                if (this._tags.indexOf(tag) == -1) {
+                    this._tags.push(tag);
+                }
+            };
+
+            File.prototype.removeTag = function (tag) {
+                var index = this._tags.indexOf(tag);
+                if (index != -1) {
+                    this._tags.splice(index, 1);
+                }
+            };
+
+            File.prototype.hasTag = function (tag) {
+                if (this._tags.indexOf(tag) == -1) {
+                    return false;
+                }
+                return true;
             };
 
             Object.defineProperty(File.prototype, "isTexture", {
@@ -5527,18 +5719,22 @@ var Kiwi;
                         return _this.tagLoaderOnReadyStateChange(event);
                     };
                 } else if (this.dataType === Kiwi.Files.File.AUDIO) {
-                    console.log('Ewww...disgusting...your loading by the audio tags....');
-
                     this.data = new Audio();
+                    this.data.type = 'audio/mpeg';
                     this.data.src = this.fileURL;
                     this.data.preload = 'auto';
                     this.data.onerror = function (event) {
                         return _this.tagLoaderOnError(event);
                     };
-
+                    this.data.addEventListener('canplaythrough', function () {
+                        return _this.tagLoaderOnLoad(null);
+                    }, false);
+                    this.data.onload = function (event) {
+                        return _this.tagLoaderOnLoad(event);
+                    };
                     this.data.load();
-
-                    this.tagLoaderOnLoad(null);
+                    this.data.volume = 0;
+                    this.data.play();
                 }
             };
 
@@ -5559,7 +5755,6 @@ var Kiwi;
             };
 
             File.prototype.tagLoaderProgressThrough = function (event) {
-                console.log('progress');
                 this.stop();
 
                 if (this.onCompleteCallback) {
@@ -5568,15 +5763,27 @@ var Kiwi;
             };
 
             File.prototype.tagLoaderOnLoad = function (event) {
-                console.log('loaded');
-                this.stop();
+                var _this = this;
+                if (this.percentLoaded !== 100) {
+                    this.stop();
 
-                if (this._saveToFileStore === true) {
-                    this._fileStore.addFile(this.key, this);
-                }
+                    if (this.dataType === Kiwi.Files.File.AUDIO) {
+                        console.log('Not so awesome finished loading, kill it with fire');
+                        this.data.removeEventListener('canplaythrough', function () {
+                            return _this.tagLoaderOnLoad(null);
+                        });
+                        this.data.pause();
+                        this.data.currentTime = 0;
+                        this.data.volume = 1;
+                    }
 
-                if (this.onCompleteCallback) {
-                    this.onCompleteCallback(this);
+                    if (this._saveToFileStore === true) {
+                        this._fileStore.addFile(this.key, this);
+                    }
+
+                    if (this.onCompleteCallback) {
+                        this.onCompleteCallback(this);
+                    }
                 }
             };
 
@@ -5677,13 +5884,13 @@ var Kiwi;
                         }
 
                         if (this.dataType === Kiwi.Files.File.AUDIO) {
-                            this.data = {
-                                raw: this._xhr.response,
-                                decoded: false,
-                                buffer: null
-                            };
+                            if (this._game.audio.usingWebAudio) {
+                                this.data = {
+                                    raw: this._xhr.response,
+                                    decoded: false,
+                                    buffer: null
+                                };
 
-                            if (this._game.audio.predecode == true) {
                                 console.log('Audio is Decoding');
 
                                 var that = this;
@@ -5695,8 +5902,6 @@ var Kiwi;
                                         console.log('Audio Decoded');
                                     }
                                 });
-                            } else {
-                                this.parseComplete();
                             }
                         }
                     }
@@ -5887,6 +6092,26 @@ var Kiwi;
                 return this._files[key];
             };
 
+            FileStore.prototype.getFilesByTag = function (tag) {
+                var obj = {};
+                for (var file in this._files) {
+                    if (this._files[file].hasTag(tag)) {
+                        obj[file] = this._files[file];
+                    }
+                }
+                return obj;
+            };
+
+            FileStore.prototype.removeFilesByTag = function (tag) {
+                var obj = {};
+                for (var file in this._files) {
+                    if (this._files[file].hasTag(tag)) {
+                        this.removeFile(file);
+                    }
+                }
+                return obj;
+            };
+
             Object.defineProperty(FileStore.prototype, "keys", {
                 get: function () {
                     var keys = new Array();
@@ -5919,6 +6144,14 @@ var Kiwi;
                     return true;
                 } else {
                     return false;
+                }
+            };
+
+            FileStore.prototype.removeStateFiles = function (state) {
+                for (var file in this._files) {
+                    if (this._files[file].ownerState === state) {
+                        this.removeFile(file);
+                    }
                 }
             };
 
@@ -6112,9 +6345,10 @@ var Kiwi;
     (function (GameObjects) {
         var Sprite = (function (_super) {
             __extends(Sprite, _super);
-            function Sprite(atlas, x, y) {
+            function Sprite(atlas, x, y, enableInput) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
+                if (typeof enableInput === "undefined") { enableInput = false; }
                 _super.call(this);
 
                 this.transform.x = x;
@@ -6129,9 +6363,8 @@ var Kiwi;
                 this.transform.rotPointX = this.width / 2;
                 this.transform.rotPointY = this.height / 2;
 
-                this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
                 this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
-                this.input = this.components.add(new Kiwi.Components.Input(this, this.bounds));
+                this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
 
                 if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
                     this.animation = null;
@@ -6143,6 +6376,7 @@ var Kiwi;
 
                 this.input.onDragStarted.add(this._dragStarted, this);
                 this.onAddedToState.add(this._onAddedToState, this);
+                this.onAddedToGroup.add(this._onAddedToGroup, this);
 
                 klog.info('Created Sprite Game Object');
             }
@@ -6161,6 +6395,17 @@ var Kiwi;
 
                 if (this._isAnimated)
                     this.animation.clock = this.clock;
+                this.input.game = this.game;
+
+                return true;
+            };
+
+            Sprite.prototype._onAddedToGroup = function (group) {
+                klog.info('Sprite added to Group');
+
+                if (this._isAnimated)
+                    this.animation.clock = this.clock;
+                this.input.game = this.game;
 
                 return true;
             };
@@ -6177,7 +6422,6 @@ var Kiwi;
                     this.animation.update();
                     this.width = this.atlas.cells[this.atlas.cellIndex].w;
                     this.height = this.atlas.cells[this.atlas.cellIndex].h;
-                    this.bounds.setSize(this.atlas.cells[this.atlas.cellIndex].w, this.atlas.cells[this.atlas.cellIndex].h);
                 }
             };
 
@@ -6227,7 +6471,6 @@ var Kiwi;
                 this.transform.rotPointX = this.width / 2;
                 this.transform.rotPointY = this.height / 2;
 
-                this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.width, this.height));
                 this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
 
                 klog.info('Created StaticImage Game Object');
@@ -9841,7 +10084,6 @@ var Kiwi;
                 this.usingAudioTag = false;
                 this.context = null;
                 this.masterGain = null;
-                this.predecode = true;
                 this._game = game;
             }
             AudioManager.prototype.objType = function () {
@@ -9849,6 +10091,39 @@ var Kiwi;
             };
 
             AudioManager.prototype.boot = function () {
+                this._volume = 1;
+                this._muted = false;
+                this._sounds = [];
+
+                if (Kiwi.DEVICE.iOS && Kiwi.DEVICE.webaudio == false) {
+                    this.channels = 1;
+                }
+
+                this.usingWebAudio = true;
+                this.usingAudioTag = false;
+
+                if (!!window['AudioContext']) {
+                    this.context = new window['AudioContext']();
+                } else if (!!window['webkitAudioContext']) {
+                    this.context = new window['webkitAudioContext']();
+                } else if (!!window['Audio']) {
+                    this.usingWebAudio = false;
+                    this.usingAudioTag = true;
+                } else {
+                    this.usingWebAudio = false;
+                    this.noAudio = true;
+                }
+
+                if (this.context !== null) {
+                    if (this.context.createGain === undefined) {
+                        this.masterGain = this.context.createGainNode();
+                    } else {
+                        this.masterGain = this.context.createGain();
+                    }
+
+                    this.masterGain.gain.value = 1;
+                    this.masterGain.connect(this.context.destination);
+                }
             };
 
 
@@ -9857,6 +10132,32 @@ var Kiwi;
                     return this._muted;
                 },
                 set: function (value) {
+                    if (value === true) {
+                        if (this._muted)
+                            return;
+                        this._muted = true;
+
+                        if (this.usingWebAudio) {
+                            this._muteVolume = this.masterGain.gain.value;
+                            this.masterGain.gain.value = 0;
+                        } else if (this.usingAudioTag) {
+                            for (var i = 0; i < this._sounds.length; i++) {
+                                this._sounds[i].mute(true);
+                            }
+                        }
+                    } else {
+                        if (this._muted == false)
+                            return;
+                        this._muted = false;
+
+                        if (this.usingWebAudio) {
+                            this.masterGain.gain.value = this._muteVolume;
+                        } else if (this.usingAudioTag) {
+                            for (var i = 0; i < this._sounds.length; i++) {
+                                this._sounds[i].mute(false);
+                            }
+                        }
+                    }
                 },
                 enumerable: true,
                 configurable: true
@@ -9868,6 +10169,22 @@ var Kiwi;
                     return this._volume;
                 },
                 set: function (value) {
+                    if (value !== undefined) {
+                        value = Kiwi.Utils.GameMath.clamp(value, 1, 0);
+                        this._volume = value;
+
+                        if (this._muted) {
+                            this._muteVolume = this._volume;
+                        }
+
+                        if (this.usingWebAudio) {
+                            this.masterGain.gain.value = value;
+                        } else if (this.usingAudioTag) {
+                            for (var i = 0; i < this._sounds.length; i++) {
+                                this._sounds[i].volume(this._sounds[i].volume());
+                            }
+                        }
+                    }
                 },
                 enumerable: true,
                 configurable: true
@@ -9876,25 +10193,64 @@ var Kiwi;
             AudioManager.prototype.add = function (key, volume, loop) {
                 if (typeof volume === "undefined") { volume = 1; }
                 if (typeof loop === "undefined") { loop = false; }
+                if (this.noAudio)
+                    return;
+
+                var sound = new Kiwi.Sound.Audio(this._game, key, volume, loop);
+                this._sounds.push(sound);
+                return sound;
+
                 return null;
             };
 
             AudioManager.prototype.remove = function (sound) {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (sound == this._sounds[i]) {
+                        this._sounds[i].gainNode.disconnect();
+                        this._sounds.splice(i, 1, 0);
+                        i--;
+                    }
+                }
             };
 
             AudioManager.prototype.playAll = function () {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (this._sounds[i]) {
+                        this._sounds[i].play();
+                    }
+                }
             };
 
             AudioManager.prototype.stopAll = function () {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (this._sounds[i]) {
+                        this._sounds[i].stop();
+                    }
+                }
             };
 
             AudioManager.prototype.pauseAll = function () {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (this._sounds[i]) {
+                        this._sounds[i].pause();
+                    }
+                }
             };
 
             AudioManager.prototype.resumeAll = function () {
+                for (var i = 0; i < this._sounds.length; i++) {
+                    if (this._sounds[i]) {
+                        this._sounds[i].resume();
+                    }
+                }
             };
 
             AudioManager.prototype.update = function () {
+                if (!this.noAudio) {
+                    for (var i = 0; i < this._sounds.length; i++) {
+                        this._sounds[i].update();
+                    }
+                }
             };
             return AudioManager;
         })();
@@ -9952,6 +10308,7 @@ var Kiwi;
                 this._loop = loop;
 
                 this.addMarker('default', 0, this.totalDuration, this._loop);
+                this._currentMarker = 'default';
 
                 this.onPlay = new Kiwi.Signal();
                 this.onStop = new Kiwi.Signal();
@@ -9980,16 +10337,12 @@ var Kiwi;
             };
 
             Audio.prototype._decode = function () {
-                if (this._usingAudioTag)
+                if (this._usingAudioTag || this._file.data.decode == false)
                     return;
 
                 if (this._file.data.decoded === true && this._file.data.buffer !== null) {
                     this._buffer = this._file.data.buffer;
                     this._decoded = true;
-                    return;
-                }
-
-                if (this._game.audio.predecode == true && this._file.data.decode == false) {
                     return;
                 }
 
@@ -10060,7 +10413,7 @@ var Kiwi;
             };
 
             Audio.prototype.removeMarker = function (name) {
-                if (name == 'default')
+                if (name === 'default')
                     return;
 
                 if (this.isPlaying && this._currentMarker == name) {
@@ -10606,12 +10959,17 @@ var Kiwi;
                 this.timeDown = 0;
                 this.timeUp = 0;
                 this.duration = 0;
+                this.frameDuration = 0;
                 this.justPressedRate = 200;
                 this.justReleasedRate = 200;
                 this._game = game;
                 this.point = new Kiwi.Geom.Point();
                 this.circle = new Kiwi.Geom.Circle(0, 0, 1);
             }
+            Pointer.prototype.objType = function () {
+                return 'Pointer';
+            };
+
             Object.defineProperty(Pointer.prototype, "game", {
                 get: function () {
                     return this._game;
@@ -10623,7 +10981,7 @@ var Kiwi;
             Pointer.prototype.start = function (event) {
                 this.move(event);
 
-                this.active = true;
+                this.frameDuration = 0;
                 this.withinGame = true;
                 this.isDown = true;
                 this.isUp = false;
@@ -10631,7 +10989,6 @@ var Kiwi;
             };
 
             Pointer.prototype.stop = function (event) {
-                this.active = false;
                 this.withinGame = false;
 
                 this.isDown = false;
@@ -10684,10 +11041,12 @@ var Kiwi;
                 this.isUp = false;
                 this.timeDown = 0;
                 this.timeUp = 0;
+                this.frameDuration = 0;
             };
 
             Pointer.prototype.update = function () {
                 if (this.isDown === true) {
+                    this.frameDuration++;
                     this.duration = this._game.time.now() - this.timeDown;
                 }
             };
@@ -10705,6 +11064,10 @@ var Kiwi;
             function MouseCursor() {
                 _super.apply(this, arguments);
             }
+            MouseCursor.prototype.objType = function () {
+                return 'MouseCursor';
+            };
+
             MouseCursor.prototype.start = function (event) {
                 this.ctrlKey = event.ctrlKey;
                 this.shiftKey = event.shiftKey;
@@ -10750,12 +11113,23 @@ var Kiwi;
                 return "Mouse";
             };
 
+            Object.defineProperty(Mouse.prototype, "cursor", {
+                get: function () {
+                    return this._cursor;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Mouse.prototype.boot = function () {
                 klog.info('Mouse Handler booted');
 
                 this._domElement = this._game.stage.container;
 
-                this.cursor = new Kiwi.Input.MouseCursor(this._game);
+                this._cursor = new Kiwi.Input.MouseCursor(this._game);
+                this._cursor.active = true;
+                this._cursor.id = 1;
+
                 this.mouseDown = new Kiwi.Signal();
                 this.mouseUp = new Kiwi.Signal();
 
@@ -10764,7 +11138,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "isDown", {
                 get: function () {
-                    return this.cursor.isDown;
+                    return this._cursor.isDown;
                 },
                 enumerable: true,
                 configurable: true
@@ -10772,7 +11146,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "isUp", {
                 get: function () {
-                    return this.cursor.isUp;
+                    return this._cursor.isUp;
                 },
                 enumerable: true,
                 configurable: true
@@ -10780,7 +11154,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "duration", {
                 get: function () {
-                    return this.cursor.duration;
+                    return this._cursor.duration;
                 },
                 enumerable: true,
                 configurable: true
@@ -10788,7 +11162,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "x", {
                 get: function () {
-                    return this.cursor.x;
+                    return this._cursor.x;
                 },
                 enumerable: true,
                 configurable: true
@@ -10796,7 +11170,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "y", {
                 get: function () {
-                    return this.cursor.y;
+                    return this._cursor.y;
                 },
                 enumerable: true,
                 configurable: true
@@ -10804,7 +11178,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "wheelDeltaX", {
                 get: function () {
-                    return this.cursor.wheelDeltaX;
+                    return this._cursor.wheelDeltaX;
                 },
                 enumerable: true,
                 configurable: true
@@ -10812,7 +11186,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "wheelDeltaY", {
                 get: function () {
-                    return this.cursor.wheelDeltaY;
+                    return this._cursor.wheelDeltaY;
                 },
                 enumerable: true,
                 configurable: true
@@ -10820,7 +11194,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "ctrlKey", {
                 get: function () {
-                    return this.cursor.ctrlKey;
+                    return this._cursor.ctrlKey;
                 },
                 enumerable: true,
                 configurable: true
@@ -10828,7 +11202,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "shiftKey", {
                 get: function () {
-                    return this.cursor.shiftKey;
+                    return this._cursor.shiftKey;
                 },
                 enumerable: true,
                 configurable: true
@@ -10836,7 +11210,7 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "altKey", {
                 get: function () {
-                    return this.cursor.altKey;
+                    return this._cursor.altKey;
                 },
                 enumerable: true,
                 configurable: true
@@ -10844,14 +11218,14 @@ var Kiwi;
 
             Object.defineProperty(Mouse.prototype, "button", {
                 get: function () {
-                    return this.cursor.button;
+                    return this._cursor.button;
                 },
                 enumerable: true,
                 configurable: true
             });
 
             Mouse.prototype.update = function () {
-                this.cursor.update();
+                this._cursor.update();
             };
 
             Mouse.prototype.start = function () {
@@ -10905,35 +11279,35 @@ var Kiwi;
             };
 
             Mouse.prototype.onMouseDown = function (event) {
-                this.cursor.start(event);
-                this.mouseDown.dispatch(this.cursor.x, this.cursor.y, this.cursor.timeDown, this.cursor.timeUp, this.duration, this.cursor);
+                this._cursor.start(event);
+                this.mouseDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
             };
 
             Mouse.prototype.onMouseMove = function (event) {
-                this.cursor.move(event);
+                this._cursor.move(event);
             };
 
             Mouse.prototype.onMouseUp = function (event) {
-                this.cursor.stop(event);
-                this.mouseUp.dispatch(this.cursor.x, this.cursor.y, this.cursor.timeDown, this.cursor.timeUp, this.duration, this.cursor);
+                this._cursor.stop(event);
+                this.mouseUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
             };
 
             Mouse.prototype.onMouseWheel = function (event) {
-                this.cursor.wheel(event);
+                this._cursor.wheel(event);
             };
 
             Mouse.prototype.justPressed = function (duration) {
-                if (typeof duration === "undefined") { duration = this.cursor.justPressedRate; }
-                return this.cursor.justPressed(duration);
+                if (typeof duration === "undefined") { duration = this._cursor.justPressedRate; }
+                return this._cursor.justPressed(duration);
             };
 
             Mouse.prototype.justReleased = function (duration) {
-                if (typeof duration === "undefined") { duration = this.cursor.justReleasedRate; }
-                return this.cursor.justReleased(duration);
+                if (typeof duration === "undefined") { duration = this._cursor.justReleasedRate; }
+                return this._cursor.justReleased(duration);
             };
 
             Mouse.prototype.reset = function () {
-                this.cursor.reset();
+                this._cursor.reset();
             };
             Mouse.LEFT_BUTTON = 0;
 
@@ -10957,17 +11331,27 @@ var Kiwi;
                 return "Manager";
             };
 
+            Object.defineProperty(Manager.prototype, "pointers", {
+                get: function () {
+                    return this._pointers;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Manager.prototype.boot = function () {
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch = new Kiwi.Input.Touch(this.game);
                     this.touch.boot();
                     this.touch.touchDown.add(this._onDownEvent, this);
                     this.touch.touchUp.add(this._onUpEvent, this);
+                    this._pointers = this.touch.fingers;
                 } else {
                     this.mouse = new Kiwi.Input.Mouse(this.game);
                     this.mouse.boot();
                     this.mouse.mouseDown.add(this._onDownEvent, this);
                     this.mouse.mouseUp.add(this._onUpEvent, this);
+                    this._pointers = [this.mouse.cursor];
                     this.keyboard = new Kiwi.Input.Keyboard(this.game);
                     this.keyboard.boot();
                 }
@@ -11055,9 +11439,19 @@ var Kiwi;
                 _super.call(this, game);
                 this.circle.diameter = 44;
             }
+            Finger.prototype.objType = function () {
+                return 'Finger';
+            };
+
             Finger.prototype.start = function (event) {
                 this.id = event.identifier;
+                this.active = true;
                 _super.prototype.start.call(this, event);
+            };
+
+            Finger.prototype.stop = function (event) {
+                this.active = false;
+                _super.prototype.stop.call(this, event);
             };
 
             Finger.prototype.leave = function (event) {
@@ -11080,6 +11474,14 @@ var Kiwi;
                 this.isUp = true;
                 this._game = game;
             }
+            Object.defineProperty(Touch.prototype, "fingers", {
+                get: function () {
+                    return this._fingers;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Touch.prototype.boot = function () {
                 klog.info('Touch Handler booted');
 

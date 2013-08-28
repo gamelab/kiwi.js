@@ -63,6 +63,12 @@ module Kiwi.Input {
         **/
         public touch:Kiwi.Input.Touch;
 
+        private _pointers: Kiwi.Input.Pointer[];
+
+        public get pointers(): Kiwi.Input.Pointers {
+            return this._pointers;
+        }
+
         /** 
         * The DOM is ready, so we can start the managers listening now
         * @method boot 
@@ -75,13 +81,13 @@ module Kiwi.Input {
                 this.touch.boot();
                 this.touch.touchDown.add(this._onDownEvent, this);
                 this.touch.touchUp.add(this._onUpEvent, this);
-            }
-            else
-            {
+                this._pointers = this.touch.fingers;
+            } else {
                 this.mouse = new Kiwi.Input.Mouse(this.game);
                 this.mouse.boot();
                 this.mouse.mouseDown.add(this._onDownEvent, this);
                 this.mouse.mouseUp.add(this._onUpEvent, this);
+                this._pointers = [this.mouse.cursor];
                 this.keyboard = new Kiwi.Input.Keyboard(this.game);
                 this.keyboard.boot();
             }
