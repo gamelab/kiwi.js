@@ -4,12 +4,23 @@
 module Kiwi.Input {
 
     export class Finger extends Pointer {
-
+        
+        /*
+        *
+        * @method constructor
+        * @param {Kiwi.Game}
+        * @return Kiwi.Input.Finger
+        */
         constructor(game: Kiwi.Game) {
             super(game);
-            this.circle.diameter = 44;
+            this.circle.diameter = 44; //The diameter of your average finger!
         }
-
+        
+        /*
+        * The type of object this is. 
+        * @method objType
+        * @return string
+        */
         public objType(): string {
             return 'Finger';
         }

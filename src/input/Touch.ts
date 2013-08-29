@@ -53,7 +53,11 @@ module Kiwi.Input {
         * @private
         **/
         private _fingers: Finger[];
-
+        
+        /**
+        * Get the fingers that are being used.
+        * @type Kiiw.Input.Finger[]
+        */
         public get fingers(): Kiwi.Input.Finger[] {
             return this._fingers;
         }
@@ -177,7 +181,7 @@ module Kiwi.Input {
 
 
         /** 
-        * 
+        * Starts up the event listeners that are being used on the touch manager.
         * @method start 
         */
         public start() {
@@ -205,6 +209,7 @@ module Kiwi.Input {
         }
 
         /** 
+        * Gets the position of the latest finger on the x axis.
         * @method x
         * @return {Number}
         **/
@@ -213,6 +218,7 @@ module Kiwi.Input {
         }
 
         /**  
+        * Gets the position of the latest finger on the y axis.
         * @method y
         * @return {Number}
         **/
@@ -330,7 +336,7 @@ module Kiwi.Input {
         }
 
         /** 
-        * 
+        * When a touch pointer moves.
         * @method onTouchMove
         * @param {Any} event
         **/
@@ -356,7 +362,7 @@ module Kiwi.Input {
         }
 
         /** 
-        * 
+        * When a touch event gets released.
         * @method onTouchEnd
         * @param {Any} event
         **/
@@ -386,6 +392,7 @@ module Kiwi.Input {
                 }
             }
             
+            //loop through the fingers and check to see that none of them are down.
             for (var i = 0; i < this._fingers.length; i++) {
                 if (this._fingers[i].active) {
                     this.isDown = true;
@@ -423,6 +430,7 @@ module Kiwi.Input {
         }
 
         /**  
+        * Resets the fingers
         * @method reset
         **/
         public reset() {
