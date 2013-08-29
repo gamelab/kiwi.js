@@ -44,7 +44,7 @@ if(isset($_GET['f'])) {
 			if($renderer == 'Kiwi.RENDERER_CANVAS' || $renderer == '0') {
 				echo '<a href="browser.php?f='.$filepath.$d.'&amp;r=1" class="button">Use WebGL</a>';
 			} else {
-				echo '<a href="browser.php?f='.$filepath.$d.'" class="button">Use Canvas</a>';
+				echo '<a href="browser.php?f='.$filepath.$d.'&amp;r=0" class="button">Use Canvas</a>';
 			}
 
 			//Debugging

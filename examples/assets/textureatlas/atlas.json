@@ -370,6 +370,7 @@
 			"w":  31,
 			"h":  31
 		},
+		
 
 		//single up
 		{//048
@@ -1577,13 +1578,15 @@ player hit 156
 			"name":"ExplosionSmall",
 			"cells": [
 			57, 58, 59, 60, 61, 62
-			]
+			],
+			"loop": false
 		},
 		{
 			"name":"ExplosionLarge",
 			"cells": [
 			63, 64, 65, 66, 67, 68, 69
-			]
+			],
+			"loop": false
 		},
 		{
 			"name":"EnemyJet",

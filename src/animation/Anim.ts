@@ -302,7 +302,7 @@ module Kiwi.Animation {
 
                     this._tick = this.clock.elapsed() + this._speed;
                     
-                    if (this._reverse) this._frameIndex--   ;
+                    if (this._reverse) this._frameIndex--;
                     else this._frameIndex++;
 
                     this.onUpdate.dispatch();

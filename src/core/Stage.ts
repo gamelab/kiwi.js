@@ -41,6 +41,7 @@ module Kiwi {
 
             this._width = 800;
             this._height = 600;
+            this.color = 'white';
 
             this.onResize = new Kiwi.Signal();
         }
@@ -209,11 +210,21 @@ module Kiwi {
         public name: string;
 
         /**
-		* Whether or not this Stage is DOM ready.
+        * Whether or not this Stage is DOM ready.
         * @property domReady
         * @type Boolean
-    	*/
+        */
         public domReady: bool;
+
+        public _color: string;
+        
+        public get color(): string {
+            return this._color;
+        }
+
+        public set color(val: string) {
+            this._color = val;
+        }
 
         /*
         * The various renderering contexts.
@@ -263,7 +274,6 @@ module Kiwi {
                 this._createDebugCanvas();
             }
         }
-
 
         private _createCompositeCanvas() {
             console.log("created canvas");

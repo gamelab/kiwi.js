@@ -34,6 +34,10 @@
       <DependentUpon>TextureAtlas.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Camera\test1.ts" />
+    <TypeScriptCompile Include="ArcadePhysics\arrays.ts" />
+    <Content Include="ArcadePhysics\arrays.js">
+      <DependentUpon>arrays.ts</DependentUpon>
+    </Content>
     <Content Include="Camera\test1.js">
       <DependentUpon>test1.ts</DependentUpon>
     </Content>
@@ -50,6 +54,7 @@
     <TypeScriptCompile Include="sprites\Sprite1.ts" />
     <TypeScriptCompile Include="TouchEvents\Touch.ts" />
     <TypeScriptCompile Include="TouchEvents\Dragging.ts" />
+    <Content Include="Misc\DPad.ts" />
     <Content Include="sprites\Atlas.js">
       <DependentUpon>AtlasTest.ts</DependentUpon>
     </Content>

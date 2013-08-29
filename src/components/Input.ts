@@ -185,22 +185,19 @@ module Kiwi.Components {
                  
             }
 
-            if (this._nowEntered !== null && this.withinBounds === false) {
-                console.log('ENTERED');
+            if (this._nowEntered !== null && this.withinBounds === false) { 
                 this._withinBounds = this._nowEntered;
                 this._outsideBounds = false;
                 this.onEntered.dispatch(this._entity, this._nowEntered);
             }
 
-            if (this._nowLeft !== null && this.withinBounds === true) {
-                console.log('LEFT');
+            if (this._nowLeft !== null && this.withinBounds === true) { 
                 this._withinBounds = null;
                 this._outsideBounds = true;
                 this.onLeft.dispatch(this._entity, this._nowLeft);
             }
 
-            if (this._nowDown !== null && this.isDown === false) {
-                console.log('DOWN: ' + this._nowDown.frameDuration);
+            if (this._nowDown !== null && this.isDown === false) { 
                 this.onDown.dispatch(this._entity, this._nowDown);
                 this._isDown = this._nowDown;
                 this._isUp = false;
@@ -208,8 +205,7 @@ module Kiwi.Components {
                 this._outsideBounds = false;
             }
             
-            if (this._nowUp !== null) {
-                console.log('UP');
+            if (this._nowUp !== null) { 
                 this.onUp.dispatch(this._entity, this._nowUp);
                 this._isDown = null;
                 this._isUp = true;

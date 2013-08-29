@@ -294,7 +294,7 @@ module Kiwi.Components {
         * @param {bool} seperate
         * @return {bool}
         */
-        public static collideGroup(gameObject: Entity, group: Group, seperate:bool = true): bool {
+        public static collideGroup(gameObject: Entity, group: any, seperate:bool = true): bool {
 
             return ArcadePhysics.overlapsObjectGroup(gameObject, group, seperate);
         }
@@ -308,7 +308,7 @@ module Kiwi.Components {
         * @param {bool} seperate
         * @return {bool}
         */
-        public static collideGroupGroup(group1: Group, group2: Group, seperate:bool = true): bool {
+        public static collideGroupGroup(group1: any, group2: any, seperate:bool = true): bool {
 
             return ArcadePhysics.overlapsGroupGroup(group1, group2, seperate);
         }
@@ -342,7 +342,7 @@ module Kiwi.Components {
         * @param {bool} separate - If they overlap should the seperate or not
         * @return {bool}
         */
-        public static overlapsObjectGroup(gameObject: Entity, group: Group, separateObjects: bool = true): bool {
+        public static overlapsObjectGroup(gameObject: Entity, group: any, separateObjects: bool = true): bool {
 
             var objPhysics: ArcadePhysics = gameObject.components.getComponent("ArcadePhysics");
             return objPhysics.overlapsGroup(group, separateObjects);
@@ -357,19 +357,33 @@ module Kiwi.Components {
         * @param {bool} separate - If they overlap should the seperate or not
         * @return {bool}
         */
-        public static overlapsGroupGroup(group1: Group, group2: Group, separateObjects: bool = true): bool {
+        public static overlapsGroupGroup(group1: any, group2: any, separateObjects: bool = true): bool {
             
-            var result: bool = false;
-            var members: IChild[] = group1.members;
-            var i: number = 0;
-            
-            while (i < group1.members.length) {
-                if (members[i].childType() == Kiwi.GROUP) { 
-                    if (ArcadePhysics.overlapsGroupGroup(<Kiwi.Group>members[i++], group2, separateObjects)) result = true;
-                } else { 
-                    if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>members[i++], group2, separateObjects)) result = true;
-                }    
-            }
+            var result: bool = false; 
+
+            if (group1.childType !== undefined && group1.childType() === Kiwi.GROUP) {
+                //if group1 is a type of group...
+
+                var members: IChild[] = group1.members;
+                var i: number = 0;
+                
+                while (i < group1.members.length) {
+                    if (members[i].childType() == Kiwi.GROUP) {
+                        if (ArcadePhysics.overlapsGroupGroup(<Kiwi.Group>members[i++], group2, separateObjects)) result = true;
+                    } else {
+                        if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>members[i++], group2, separateObjects)) result = true;
+                    }
+                }
+            } else if (Object.prototype.toString.call(group1) == '[object Array]') {
+                //loop through the array 
+                for (var i = 0; i < group1.length; i++) {
+                    if (group1[i].childType !== undefined && group1[i].childType() === Kiwi.ENTITY) {
+                        if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>group1[i], group2, separateObjects)) 
+                            result = true;
+                    }
+                }
+
+            } 
 
             return result;
         }
@@ -639,28 +653,43 @@ module Kiwi.Components {
         * @param { bool } seperateObjects
         * @return { bool }
         */
-        public overlapsGroup(group: Kiwi.Group, separateObjects: bool = false): bool {
+        public overlapsGroup(group: any, separateObjects: bool = false): bool {
             
+            //if the group is a Kiwi.Group
             var results: bool = false;
-            var childPhysics: ArcadePhysics;
+            
+            if (group.childType !== undefined && group.childType() === Kiwi.GROUP) {
 
-            for (var i = 0; i < group.members.length; i++) {
+                for (var i = 0; i < group.members.length; i++) {
 
-                if (group.members[i].childType() === Kiwi.GROUP) { 
-                    //recursively check overlap
-                    this.overlapsGroup(<Kiwi.Group>group.members[i], separateObjects);
-                    
-                } else { 
-                    //otherwise its an entity
+                    if (group.members[i].childType() === Kiwi.GROUP) {
+                        //recursively check overlap
+                        this.overlapsGroup(<Kiwi.Group>group.members[i], separateObjects);
 
-                    if (this.overlaps(<Kiwi.Entity>group.members[i], separateObjects)) {
-                        if (this._callbackContext !== null && this._callbackFunction !== null)
-                            this._callbackFunction.call(this._callbackContext, this._parent, childPhysics.parent());
-                        results = true;
+                    } else {
+                        //otherwise its an entity
+
+                        if (this.overlaps(<Kiwi.Entity>group.members[i], separateObjects)) {
+                            if (this._callbackContext !== null && this._callbackFunction !== null)
+                                this._callbackFunction.call(this._callbackContext, this._parent, group.members[i]);
+                            results = true;
+                        }
+
                     }
-
                 }
-            }
+            } else if (Object.prototype.toString.call(group) == '[object Array]') {
+                //loop through the array
+
+                for (var i = 0; i < group.length; i++) {
+                    if (group[i].childType !== undefined && group[i].childType() === Kiwi.ENTITY) {
+                        if (this.overlaps(<Kiwi.Entity>group[i], separateObjects)) {
+                            this._callbackFunction.call(this._callbackContext, this._parent, group[i]);
+                            results = true;
+                        }
+                    }
+                }
+
+            } 
 
             return results;
 

@@ -1870,21 +1870,22 @@ var Kiwi;
         };
 
         Group.prototype.swapChildrenAt = function (index1, index2) {
-            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
-                return false;
-            }
-
             var child1 = this.getChildAt(index1);
             var child2 = this.getChildAt(index2);
+            if (child1 != null && child2 != null) {
+                if (child1 == child2 || child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
+                    return false;
+                }
 
-            if (child1 !== null && child2 !== null) {
-                this.members[index1] = child2;
-                this.members[index2] = child1;
+                if (child1 !== null && child2 !== null) {
+                    this.members[index1] = child2;
+                    this.members[index2] = child1;
 
-                child1._changedPosition(this, index2);
-                child2._changedPosition(this, index1);
+                    child1._changedPosition(this, index2);
+                    child2._changedPosition(this, index1);
 
-                return true;
+                    return true;
+                }
             }
 
             return false;
@@ -1892,7 +1893,7 @@ var Kiwi;
 
         Group.prototype.replaceChild = function (oldChild, newChild) {
             if (oldChild === newChild)
-                return;
+                return false;
 
             if (this.getChildIndex(newChild)) {
                 this.removeChild(newChild);
@@ -3605,6 +3606,7 @@ var Kiwi;
 
             this._width = 800;
             this._height = 600;
+            this.color = 'white';
 
             this.onResize = new Kiwi.Signal();
         }
@@ -3678,6 +3680,20 @@ var Kiwi;
 
                 this._height = value;
                 this.onResize.dispatch(this._width, this._height);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "color", {
+            get: function () {
+                console.log('color');
+                return this._color;
+            },
+            set: function (val) {
+                this._color = val;
+                console.log(val);
             },
             enumerable: true,
             configurable: true
@@ -4215,21 +4231,18 @@ var Kiwi;
                 }
 
                 if (this._nowEntered !== null && this.withinBounds === false) {
-                    console.log('ENTERED');
                     this._withinBounds = this._nowEntered;
                     this._outsideBounds = false;
                     this.onEntered.dispatch(this._entity, this._nowEntered);
                 }
 
                 if (this._nowLeft !== null && this.withinBounds === true) {
-                    console.log('LEFT');
                     this._withinBounds = null;
                     this._outsideBounds = true;
                     this.onLeft.dispatch(this._entity, this._nowLeft);
                 }
 
                 if (this._nowDown !== null && this.isDown === false) {
-                    console.log('DOWN: ' + this._nowDown.frameDuration);
                     this.onDown.dispatch(this._entity, this._nowDown);
                     this._isDown = this._nowDown;
                     this._isUp = false;
@@ -4238,7 +4251,6 @@ var Kiwi;
                 }
 
                 if (this._nowUp !== null) {
-                    console.log('UP');
                     this.onUp.dispatch(this._entity, this._nowUp);
                     this._isDown = null;
                     this._isUp = true;
@@ -4496,16 +4508,26 @@ var Kiwi;
             ArcadePhysics.overlapsGroupGroup = function (group1, group2, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var result = false;
-                var members = group1.members;
-                var i = 0;
 
-                while (i < group1.members.length) {
-                    if (members[i].childType() == Kiwi.GROUP) {
-                        if (ArcadePhysics.overlapsGroupGroup(members[i++], group2, separateObjects))
-                            result = true;
-                    } else {
-                        if (ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects))
-                            result = true;
+                if (group1.childType !== undefined && group1.childType() === Kiwi.GROUP) {
+                    var members = group1.members;
+                    var i = 0;
+
+                    while (i < group1.members.length) {
+                        if (members[i].childType() == Kiwi.GROUP) {
+                            if (ArcadePhysics.overlapsGroupGroup(members[i++], group2, separateObjects))
+                                result = true;
+                        } else {
+                            if (ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects))
+                                result = true;
+                        }
+                    }
+                } else if (Object.prototype.toString.call(group1) == '[object Array]') {
+                    for (var i = 0; i < group1.length; i++) {
+                        if (group1[i].childType !== undefined && group1[i].childType() === Kiwi.ENTITY) {
+                            if (ArcadePhysics.overlapsObjectGroup(group1[i], group2, separateObjects))
+                                result = true;
+                        }
                     }
                 }
 
@@ -4704,16 +4726,26 @@ var Kiwi;
             ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = false; }
                 var results = false;
-                var childPhysics;
 
-                for (var i = 0; i < group.members.length; i++) {
-                    if (group.members[i].childType() === Kiwi.GROUP) {
-                        this.overlapsGroup(group.members[i], separateObjects);
-                    } else {
-                        if (this.overlaps(group.members[i], separateObjects)) {
-                            if (this._callbackContext !== null && this._callbackFunction !== null)
-                                this._callbackFunction.call(this._callbackContext, this._parent, childPhysics.parent());
-                            results = true;
+                if (group.childType !== undefined && group.childType() === Kiwi.GROUP) {
+                    for (var i = 0; i < group.members.length; i++) {
+                        if (group.members[i].childType() === Kiwi.GROUP) {
+                            this.overlapsGroup(group.members[i], separateObjects);
+                        } else {
+                            if (this.overlaps(group.members[i], separateObjects)) {
+                                if (this._callbackContext !== null && this._callbackFunction !== null)
+                                    this._callbackFunction.call(this._callbackContext, this._parent, group.members[i]);
+                                results = true;
+                            }
+                        }
+                    }
+                } else if (Object.prototype.toString.call(group) == '[object Array]') {
+                    for (var i = 0; i < group.length; i++) {
+                        if (group[i].childType !== undefined && group[i].childType() === Kiwi.ENTITY) {
+                            if (this.overlaps(group[i], separateObjects)) {
+                                this._callbackFunction.call(this._callbackContext, this._parent, group[i]);
+                                results = true;
+                            }
                         }
                     }
                 }
@@ -5720,7 +5752,6 @@ var Kiwi;
                     };
                 } else if (this.dataType === Kiwi.Files.File.AUDIO) {
                     this.data = new Audio();
-                    this.data.type = 'audio/mpeg';
                     this.data.src = this.fileURL;
                     this.data.preload = 'auto';
                     this.data.onerror = function (event) {
@@ -5735,6 +5766,7 @@ var Kiwi;
                     this.data.load();
                     this.data.volume = 0;
                     this.data.play();
+                    console.log('awesome');
                 }
             };
 
@@ -6290,6 +6322,8 @@ var Kiwi;
                     this.currentAnimation.stop();
                 if (this._animations[name]) {
                     this.currentAnimation = this._animations[name];
+                    if (this._clock !== null)
+                        this.currentAnimation.clock = this._clock;
                 } else {
                     klog.error(name, 'animation does not exist!');
                 }
@@ -11855,7 +11889,8 @@ var Kiwi;
                 this._currentCamera = camera;
                 var root = this._game.states.current.members;
 
-                this._game.stage.ctx.fillStyle = "white";
+                this._game.stage.ctx.fillStyle = this._game.stage.color;
+                console.log(this._game.stage.color);
                 this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
                 for (var i = 0; i < root.length; i++) {
