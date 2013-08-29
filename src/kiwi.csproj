@@ -47,7 +47,6 @@
     <Content Include="components\Sound.ts" />
     <Content Include="components\ArcadePhysics.ts" />
     <Content Include="textures\TextureLibrary.ts" />
-    <Content Include="components\Bounds.ts" />
     <Content Include="components\Animation.ts" />
     <Content Include="components\Input.ts" />
     <Content Include="core\Component.ts" />

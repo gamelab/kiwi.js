@@ -1,4 +1,4 @@
-
+/// <reference path="../Kiwi.ts" />
 
 module Kiwi {
 

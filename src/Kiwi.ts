@@ -25,12 +25,10 @@
 /// <reference path="core/State.ts" /> //must be initialised before group - typescript issue #599
 /// <reference path="core/Group.ts" />
 /// <reference path="core/IChild.ts" />
-
 /// <reference path="core/Signal.ts" />
 /// <reference path="core/SignalBinding.ts" />
 /// <reference path="core/Stage.ts" />
 
-/// <reference path="components/Bounds.ts" />
 /// <reference path="components/Box.ts" />
 /// <reference path="components/Input.ts" />
 /// <reference path="components/Sound.ts" />
@@ -51,7 +49,6 @@
  
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
-
 /// <reference path="gameobjects/Textfield.ts" />
 /// <reference path="gameobjects/tilemap/Tile.ts" />
 /// <reference path="gameobjects/tilemap/TileType.ts" />

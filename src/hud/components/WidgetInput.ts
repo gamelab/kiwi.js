@@ -9,7 +9,7 @@ module Kiwi.HUD.Components {
         * @param {Kiwi.Game} game
         * @param {Kiwi.Components.Bounds} bounds
         **/
-        constructor(game: Kiwi.Game, bounds: Kiwi.Components.Bounds) {
+        constructor(game: Kiwi.Game/*, bounds: Kiwi.Components.Bounds*/) {
 
             super('WidgetInput');
             
@@ -22,7 +22,7 @@ module Kiwi.HUD.Components {
             this.inputOnRelease = new Kiwi.Signal();
 
             //  Properties
-            this._bounds = bounds;
+            //this._bounds = bounds;
             this.pointDown = new Kiwi.Geom.Point();
 
             this.distance = new Kiwi.Geom.Point();
@@ -65,12 +65,12 @@ module Kiwi.HUD.Components {
         public outsideBounds: bool;
 
         public pointDown: Kiwi.Geom.Point;
-        private _bounds: Kiwi.Components.Bounds;
+        //private _bounds: Kiwi.Components.Bounds;
 
         //  Need to add a click timer?
 
         public update() {
-            
+            /*
             //  Is the input within the bounds now?
             if (this._bounds.pointWithin(this.game.input.position))
             {
@@ -117,7 +117,7 @@ module Kiwi.HUD.Components {
                     this.isUp = true;
                     this.inputOnRelease.dispatch();
                 }
-            }
+            }*/
             
         }
 

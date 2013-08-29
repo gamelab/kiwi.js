@@ -159,10 +159,6 @@ module Kiwi.GameObjects {
             super.update();
             this.input.update();
 
-            if (this.input.isDragging === true) {
-                this.transform.setPosition(this.game.input.x - this.input.pointDown.x, this.game.input.y - this.input.pointDown.y);
-            }
-
             if (this._isAnimated) {
                 this.animation.update();
                 this.width = this.atlas.cells[this.atlas.cellIndex].w;

@@ -27,7 +27,7 @@ module Kiwi.HUD.Widget {
         public input: Kiwi.HUD.Components.WidgetInput;
 
         //the bounds
-        public bounds: Kiwi.Components.Bounds;
+        //public bounds: Kiwi.Components.Bounds;
 
         private menu: Kiwi.HUD.Widget.Menu;
 
@@ -36,7 +36,7 @@ module Kiwi.HUD.Widget {
             this.game = game;
             this.menu = menu;
             this._applyCSS();
-            this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
+            //this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
         }
 
         //apply the css

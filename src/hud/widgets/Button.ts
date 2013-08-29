@@ -14,9 +14,9 @@ module Kiwi.HUD.Widget {
             this.width = width;
             this.height = height;
             
-            this.bounds = this.components.add(new Kiwi.Components.Bounds(this.x, this.y, this.width, this.height)); //create custom bounds for HUD
+            //this.bounds = this.components.add(new Kiwi.Components.Bounds(this.x, this.y, this.width, this.height)); //create custom bounds for HUD
             
-            this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
+            //this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
             this.onCoordsUpdate.add(this._changed, this);
         }
         
@@ -75,7 +75,7 @@ module Kiwi.HUD.Widget {
         
         public input: Kiwi.HUD.Components.WidgetInput;
 
-        public bounds: Kiwi.Components.Bounds;
+        //public bounds: Kiwi.Components.Bounds;
 
         private _changed() {
             //this.bounds.setTo(this.position.x(), this.position.y(), this.size.width(), this.size.height());

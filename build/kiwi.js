@@ -3688,12 +3688,10 @@ var Kiwi;
 
         Object.defineProperty(Stage.prototype, "color", {
             get: function () {
-                console.log('color');
                 return this._color;
             },
             set: function (val) {
                 this._color = val;
-                console.log(val);
             },
             enumerable: true,
             configurable: true
@@ -3778,127 +3776,6 @@ var Kiwi;
         return Stage;
     })();
     Kiwi.Stage = Stage;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Components) {
-        var Bounds = (function (_super) {
-            __extends(Bounds, _super);
-            function Bounds(x, y, width, height) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof width === "undefined") { width = 0; }
-                if (typeof height === "undefined") { height = 0; }
-                _super.call(this, 'Bounds');
-                this.showDebug = false;
-                this.debugLineColor = 0xffff0000;
-
-                this._rect = new Kiwi.Geom.Rectangle(x, y, width, height);
-                this._AABB = new Kiwi.Geom.Rectangle(x, y, width, height);
-
-                this.offsetX = 0;
-                this.offsetY = 0;
-                this.offsetWidth = 0;
-                this.offsetHeight = 0;
-            }
-            Bounds.prototype.objType = function () {
-                return "Bounds";
-            };
-
-            Bounds.prototype.pointWithin = function (point) {
-                return this._rect.containsPoint(point);
-            };
-
-            Bounds.prototype.calculateBounds = function (transform, width, height) {
-                var centerPoint = new Kiwi.Geom.Point(width / 2, height / 2);
-                var topLeftPoint = new Kiwi.Geom.Point(0, 0);
-                var bottomLeftPoint = new Kiwi.Geom.Point(0, height);
-                var topRightPoint = new Kiwi.Geom.Point(width, 0);
-                var bottomRightPoint = new Kiwi.Geom.Point(width, height);
-
-                var posx = transform.x;
-                var posy = transform.y;
-                var ox = transform.transformPoint(transform.getPositionPoint()).x;
-                var oy = transform.transformPoint(transform.getPositionPoint()).y;
-
-                this._transformPoint(centerPoint, transform, posx, posy, ox, oy);
-                this._transformPoint(topLeftPoint, transform, posx, posy, ox, oy);
-                this._transformPoint(bottomLeftPoint, transform, posx, posy, ox, oy);
-                this._transformPoint(topRightPoint, transform, posx, posy, ox, oy);
-                this._transformPoint(bottomRightPoint, transform, posx, posy, ox, oy);
-
-                var left = Math.min(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
-                var right = Math.max(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
-                var top = Math.min(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
-                var bottom = Math.max(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
-
-                this._AABB = new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
-
-                var sx = Math.abs(transform.scaleX);
-                var sy = Math.abs(transform.scaleY);
-
-                var ubW = (width - this.offsetWidth) * sx;
-                var ubH = (height - this.offsetHeight) * sy;
-                var ubX = (centerPoint.x - this.offsetX * sx) - ubW / 2;
-                var ubY = (centerPoint.y - this.offsetY * sy) - ubH / 2;
-
-                this._rect = new Kiwi.Geom.Rectangle(ubX, ubY, ubW, ubH);
-            };
-
-            Bounds.prototype._transformPoint = function (point, trans, x, y, ox, oy) {
-                point.x -= ox;
-                point.y -= oy;
-
-                point = trans.transformPoint(point);
-
-                point.x += ox + x;
-                point.y += oy + y;
-            };
-
-            Bounds.prototype.getRect = function () {
-                var rect = this._rect.clone();
-                return rect;
-            };
-
-            Bounds.prototype.getOffsetRect = function () {
-                var rect = this._rect.clone();
-                rect.x += this.offsetX;
-                rect.y += this.offsetY;
-                rect.width += this.offsetWidth;
-                rect.height += this.offsetHeight;
-
-                return rect;
-            };
-
-            Bounds.prototype.getAABB = function () {
-                var rect = this._AABB.clone();
-
-                return rect;
-            };
-
-            Bounds.prototype.setTo = function (x, y, width, height) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof width === "undefined") { width = 0; }
-                if (typeof height === "undefined") { height = 0; }
-                this._rect.setTo(x, y, width, height);
-            };
-
-            Bounds.prototype.setSize = function (width, height) {
-                this._rect.setTo(this._rect.x, this._rect.y, width, height);
-            };
-            Bounds.prototype.setPosition = function (x, y) {
-                this._rect.setTo(x, y, this._rect.width, this._rect.height);
-            };
-
-            Bounds.prototype.toString = function () {
-                return '[{Bounds (x=' + this._rect.x + ')}]';
-            };
-            return Bounds;
-        })(Kiwi.Component);
-        Components.Bounds = Bounds;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -4087,9 +3964,6 @@ var Kiwi;
                 this._entity = entity;
                 this._box = box;
 
-                this.pointDown = new Kiwi.Geom.Point();
-                this.distance = new Kiwi.Geom.Point();
-
                 this._withinBounds = null;
                 this._outsideBounds = true;
 
@@ -4151,6 +4025,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+
             Object.defineProperty(Input.prototype, "isUp", {
                 get: function () {
                     return this._isUp;
@@ -4158,6 +4033,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+
             Object.defineProperty(Input.prototype, "withinBounds", {
                 get: function () {
                     return (this._withinBounds !== null);
@@ -4165,6 +4041,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+
             Object.defineProperty(Input.prototype, "outsideBounds", {
                 get: function () {
                     return this._outsideBounds;
@@ -4203,7 +4080,7 @@ var Kiwi;
             };
 
             Input.prototype.update = function () {
-                if (!this._game || this._entity.active === false || this._entity.willRender === false || this.enabled === false) {
+                if (this.enabled === false || !this._game || this._entity.active === false || this._entity.willRender === false) {
                     return;
                 }
 
@@ -4286,7 +4163,7 @@ var Kiwi;
                 }
 
                 if (this._nowEntered !== null) {
-                    this.onEntered.dispatch(this._entity, this._nowEntered, this.distance.x, this.distance.y);
+                    this.onEntered.dispatch(this._entity, this._nowEntered);
                 }
 
                 if (this._nowDown !== null && this.isDown === false) {
@@ -6447,10 +6324,6 @@ var Kiwi;
             Sprite.prototype.update = function () {
                 _super.prototype.update.call(this);
                 this.input.update();
-
-                if (this.input.isDragging === true) {
-                    this.transform.setPosition(this.game.input.x - this.input.pointDown.x, this.game.input.y - this.input.pointDown.y);
-                }
 
                 if (this._isAnimated) {
                     this.animation.update();
@@ -9463,9 +9336,6 @@ var Kiwi;
                     this.width = width;
                     this.height = height;
 
-                    this.bounds = this.components.add(new Kiwi.Components.Bounds(this.x, this.y, this.width, this.height));
-
-                    this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
                     this.onCoordsUpdate.add(this._changed, this);
                 }
                 Object.defineProperty(Button.prototype, "width", {
@@ -9661,7 +9531,6 @@ var Kiwi;
                     this.game = game;
                     this.menu = menu;
                     this._applyCSS();
-                    this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
                 };
 
                 MenuItem.prototype._applyCSS = function () {
@@ -9741,7 +9610,7 @@ var Kiwi;
         (function (Components) {
             var WidgetInput = (function (_super) {
                 __extends(WidgetInput, _super);
-                function WidgetInput(game, bounds) {
+                function WidgetInput(game) {
                     _super.call(this, 'WidgetInput');
 
                     this.game = game;
@@ -9751,7 +9620,6 @@ var Kiwi;
                     this.inputOnDown = new Kiwi.Signal();
                     this.inputOnRelease = new Kiwi.Signal();
 
-                    this._bounds = bounds;
                     this.pointDown = new Kiwi.Geom.Point();
 
                     this.distance = new Kiwi.Geom.Point();
@@ -9765,37 +9633,6 @@ var Kiwi;
                 };
 
                 WidgetInput.prototype.update = function () {
-                    if (this._bounds.pointWithin(this.game.input.position)) {
-                        this.distance.x = this.game.input.position.x - this._bounds.getRect().left;
-                        this.distance.y = this.game.input.position.y - this._bounds.getRect().top;
-
-                        if (this.withinBounds === false) {
-                            this.withinBounds = true;
-                            this.outsideBounds = false;
-                            this.inputEntered.dispatch(this.distance.x, this.distance.y);
-                        }
-                    } else {
-                        if (this.withinBounds === true) {
-                            this.withinBounds = false;
-                            this.outsideBounds = true;
-                            this.inputLeft.dispatch();
-                        }
-                    }
-
-                    if (this.game.input.isDown === true) {
-                        if (this.withinBounds === true && this.isDown === false) {
-                            this.isDown = true;
-                            this.isUp = false;
-                            this.pointDown.copyFrom(this.distance);
-                            this.inputOnDown.dispatch(this.pointDown.x, this.pointDown.y);
-                        }
-                    } else {
-                        if (this.isDown === true) {
-                            this.isDown = false;
-                            this.isUp = true;
-                            this.inputOnRelease.dispatch();
-                        }
-                    }
                 };
 
                 Object.defineProperty(WidgetInput.prototype, "toString", {
@@ -11072,9 +10909,10 @@ var Kiwi;
 
             Pointer.prototype.reset = function () {
                 this.isDown = false;
-                this.isUp = false;
+                this.isUp = true;
                 this.timeDown = 0;
                 this.timeUp = 0;
+                this.duration = 0;
                 this.frameDuration = 0;
             };
 
@@ -11890,7 +11728,7 @@ var Kiwi;
                 var root = this._game.states.current.members;
 
                 this._game.stage.ctx.fillStyle = this._game.stage.color;
-                console.log(this._game.stage.color);
+
                 this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
                 for (var i = 0; i < root.length; i++) {
