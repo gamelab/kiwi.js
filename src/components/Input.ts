@@ -39,13 +39,15 @@ module Kiwi.Components {
             //  Properties
             this._entity = entity;
             this._box = box;
+
+            this._distance = new Kiwi.Geom.Point();
              
             this._withinBounds = null;
             this._outsideBounds = true;
              
             this._isUp = true;
             this._isDown = null;
-            this._isDragging = false;
+            this._isDragging = null;
             this._justEntered = false;
             this._tempDragDisabled = false;
             this.enabled = enabled;
@@ -217,13 +219,14 @@ module Kiwi.Components {
         /*
         * Dragging not implemented so not comment just yet as could be removed....
         */
-        private _isDragging: bool;
+        private _isDragging: Kiwi.Input.Pointer = null;
+        private _distance: Kiwi.Geom.Point;
         private _tempDragDisabled: bool;
         private _dragEnabled: bool = false;
         private _dragDistance: number;
         private _dragSnapToCenter: bool = false;
 
-        public get isDragging(): bool { return this._isDragging; }
+        public get isDragging(): bool { return (this._isDragging !== null); }
         public get dragDistance(): number { return this._dragDistance; }
         
         /*
@@ -253,7 +256,14 @@ module Kiwi.Components {
         * @type Kiwi.Input.Pointer
         */
         private _nowLeft: Kiwi.Input.Pointer = null;
-         
+        
+        /*
+        * Temporary property of the pointer that just started draggging the entity.
+        * @property _nowDragging
+        * @type Kiwi.Input.Pointer
+        */
+        private _nowDragging: Kiwi.Input.Pointer = null;
+
         /*
         * Enables the drag of this entity. Not currently being used.
         */
@@ -262,7 +272,7 @@ module Kiwi.Components {
             this._dragEnabled = true;
             this._dragSnapToCenter = snapToCenter;
             this._dragDistance = distance;
-            this._isDragging = false;
+            this._isDragging = null;
 
         }
         
@@ -271,7 +281,7 @@ module Kiwi.Components {
         */
         public disableDrag() {
             this._dragEnabled = false;
-            this._isDragging = false;
+            this._isDragging = null;
         }
         
         public update() {
@@ -285,6 +295,7 @@ module Kiwi.Components {
             this._nowUp = null;
             this._nowEntered = null;
             this._nowLeft = null;
+            this._nowDragging = null;
 
             if (Kiwi.DEVICE.touch) {
                 this._updateTouch();
@@ -292,6 +303,15 @@ module Kiwi.Components {
                 this._updateMouse();
             }
             
+            if (this.isDragging) {
+                this._entity.x = this._isDragging.x;
+                this._entity.y = this._isDragging.y;
+
+                if (this._dragSnapToCenter === false) {
+                    this._entity.x -= this._distance.x;
+                    this._entity.y -= this._distance.y;
+                }
+            }
         }
 
         /*
@@ -338,12 +358,25 @@ module Kiwi.Components {
                 this._outsideBounds = false;
             }
             
+            if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
+                this.onDragStarted.dispatch(this._entity, this._nowDragging);
+                this._isDragging = this._nowDragging;
+                console.log('dragging started');
+            }
+
             if (this._nowUp !== null) { 
                 this.onUp.dispatch(this._entity, this._nowUp);
                 this._isDown = null;
                 this._isUp = true;
                 this._withinBounds = null;
                 this._outsideBounds = true;
+
+                //dispatch drag event
+                if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
+                    this._isDragging = null;
+                    this.onDragStopped.dispatch(this._entity, this._nowUp);
+                    console.log('dragging stopped');
+                }
             }
 
         }
@@ -358,12 +391,22 @@ module Kiwi.Components {
             //if nothing isdown or what is down is the current pointer
             if (this.isDown === false || this._isDown.id === pointer.id) {
 
-                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.bounds).result) {
+                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
                     if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
                         this._nowEntered = pointer;
                     }
+
                     if (this.isDown === false && pointer.frameDuration < 2) {
                         this._nowDown = pointer;
+                    }
+
+                    if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
+                        this._distance.x = pointer.x - this._box.hitbox.left;
+                        this._distance.y = pointer.y - this._box.hitbox.top;
+
+                        if(this._isDown.startPoint.distanceTo(this._distance) >= this._dragDistance) {
+                            this._nowDragging = pointer;
+                        }
                     }
                 } else {
                     if (this.isDown === true) {
@@ -400,8 +443,22 @@ module Kiwi.Components {
                 this._isUp = false;
             }
 
+            if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
+                this.onDragStarted.dispatch(this._entity, this._nowDragging);
+                this._isDragging = this._nowDragging;
+                console.log('dragging started');
+            }
+
             if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
                 this.onUp.dispatch(this._entity, this._nowUp);
+                
+                //dispatch drag event
+                if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
+                    this._isDragging = null;
+                    this.onDragStopped.dispatch(this._entity, this._nowUp);
+                    console.log('dragging stopped');
+                }
+
                 this._isDown = null;
                 this._isUp = true;
             }
@@ -415,7 +472,12 @@ module Kiwi.Components {
         */
         private _evaluateMousePointer(pointer) {
 
-            if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.bounds).result) {
+            if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                
+                if (this._dragEnabled && this.isDragging === false) {
+                    this._distance.x = pointer.x - this._box.hitbox.left;
+                    this._distance.y = pointer.y - this._box.hitbox.top;
+                }
 
                 //  Has it just moved inside?
                 if (this.withinBounds === false) {
@@ -450,9 +512,23 @@ module Kiwi.Components {
                 if (this.withinBounds === true && this.isDown === false && this._nowDown === null) {
                     this._nowDown = pointer;
                 } 
+
+                if (this._dragEnabled === true && this.isDragging == false && this._tempDragDisabled === false) {
+                    
+                    if(this.isDown == true && this._isDown.startPoint.distanceTo(this._distance) >= this._dragDistance) {
+                        this._nowDragging = pointer;
+
+                    }
+                }
+
             } else { 
+                
                 if (this._tempDragDisabled === true) this._tempDragDisabled = false;
-                if (this.isDown === true) this._nowUp = pointer;
+
+                if (this.isDown === true) {
+                    this._nowUp = pointer;
+
+                }    
             }
 
             if (this._justEntered) this._justEntered = false;

@@ -3819,7 +3819,6 @@ var Kiwi;
             Object.defineProperty(Box.prototype, "hitbox", {
                 get: function () {
                     if (this.dirty) {
-                        console.log(this.rawHitbox.x);
                         this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
                     }
                     return this._transformedHitbox;
@@ -3947,12 +3946,14 @@ var Kiwi;
             __extends(Input, _super);
             function Input(entity, box, enabled) {
                 _super.call(this, 'Input');
+                this._isDragging = null;
                 this._dragEnabled = false;
                 this._dragSnapToCenter = false;
                 this._nowDown = null;
                 this._nowUp = null;
                 this._nowEntered = null;
                 this._nowLeft = null;
+                this._nowDragging = null;
 
                 this.onEntered = new Kiwi.Signal();
                 this.onLeft = new Kiwi.Signal();
@@ -3964,12 +3965,14 @@ var Kiwi;
                 this._entity = entity;
                 this._box = box;
 
+                this._distance = new Kiwi.Geom.Point();
+
                 this._withinBounds = null;
                 this._outsideBounds = true;
 
                 this._isUp = true;
                 this._isDown = null;
-                this._isDragging = false;
+                this._isDragging = null;
                 this._justEntered = false;
                 this._tempDragDisabled = false;
                 this.enabled = enabled;
@@ -4052,7 +4055,7 @@ var Kiwi;
 
             Object.defineProperty(Input.prototype, "isDragging", {
                 get: function () {
-                    return this._isDragging;
+                    return (this._isDragging !== null);
                 },
                 enumerable: true,
                 configurable: true
@@ -4071,12 +4074,12 @@ var Kiwi;
                 this._dragEnabled = true;
                 this._dragSnapToCenter = snapToCenter;
                 this._dragDistance = distance;
-                this._isDragging = false;
+                this._isDragging = null;
             };
 
             Input.prototype.disableDrag = function () {
                 this._dragEnabled = false;
-                this._isDragging = false;
+                this._isDragging = null;
             };
 
             Input.prototype.update = function () {
@@ -4088,11 +4091,22 @@ var Kiwi;
                 this._nowUp = null;
                 this._nowEntered = null;
                 this._nowLeft = null;
+                this._nowDragging = null;
 
                 if (Kiwi.DEVICE.touch) {
                     this._updateTouch();
                 } else {
                     this._updateMouse();
+                }
+
+                if (this.isDragging) {
+                    this._entity.x = this._isDragging.x;
+                    this._entity.y = this._isDragging.y;
+
+                    if (this._dragSnapToCenter === false) {
+                        this._entity.x -= this._distance.x;
+                        this._entity.y -= this._distance.y;
+                    }
                 }
             };
 
@@ -4127,23 +4141,45 @@ var Kiwi;
                     this._outsideBounds = false;
                 }
 
+                if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
+                    this.onDragStarted.dispatch(this._entity, this._nowDragging);
+                    this._isDragging = this._nowDragging;
+                    console.log('dragging started');
+                }
+
                 if (this._nowUp !== null) {
                     this.onUp.dispatch(this._entity, this._nowUp);
                     this._isDown = null;
                     this._isUp = true;
                     this._withinBounds = null;
                     this._outsideBounds = true;
+
+                    if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
+                        this._isDragging = null;
+                        this.onDragStopped.dispatch(this._entity, this._nowUp);
+                        console.log('dragging stopped');
+                    }
                 }
             };
 
             Input.prototype._evaluateTouchPointer = function (pointer) {
                 if (this.isDown === false || this._isDown.id === pointer.id) {
-                    if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.bounds).result) {
+                    if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
                         if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
                             this._nowEntered = pointer;
                         }
+
                         if (this.isDown === false && pointer.frameDuration < 2) {
                             this._nowDown = pointer;
+                        }
+
+                        if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
+                            this._distance.x = pointer.x - this._box.hitbox.left;
+                            this._distance.y = pointer.y - this._box.hitbox.top;
+
+                            if (this._isDown.startPoint.distanceTo(this._distance) >= this._dragDistance) {
+                                this._nowDragging = pointer;
+                            }
                         }
                     } else {
                         if (this.isDown === true) {
@@ -4172,15 +4208,33 @@ var Kiwi;
                     this._isUp = false;
                 }
 
+                if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
+                    this.onDragStarted.dispatch(this._entity, this._nowDragging);
+                    this._isDragging = this._nowDragging;
+                    console.log('dragging started');
+                }
+
                 if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
                     this.onUp.dispatch(this._entity, this._nowUp);
+
+                    if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
+                        this._isDragging = null;
+                        this.onDragStopped.dispatch(this._entity, this._nowUp);
+                        console.log('dragging stopped');
+                    }
+
                     this._isDown = null;
                     this._isUp = true;
                 }
             };
 
             Input.prototype._evaluateMousePointer = function (pointer) {
-                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.bounds).result) {
+                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                    if (this._dragEnabled && this.isDragging === false) {
+                        this._distance.x = pointer.x - this._box.hitbox.left;
+                        this._distance.y = pointer.y - this._box.hitbox.top;
+                    }
+
                     if (this.withinBounds === false) {
                         this._nowEntered = pointer;
                         this._withinBounds = pointer;
@@ -4205,11 +4259,19 @@ var Kiwi;
                     if (this.withinBounds === true && this.isDown === false && this._nowDown === null) {
                         this._nowDown = pointer;
                     }
+
+                    if (this._dragEnabled === true && this.isDragging == false && this._tempDragDisabled === false) {
+                        if (this.isDown == true && this._isDown.startPoint.distanceTo(this._distance) >= this._dragDistance) {
+                            this._nowDragging = pointer;
+                        }
+                    }
                 } else {
                     if (this._tempDragDisabled === true)
                         this._tempDragDisabled = false;
-                    if (this.isDown === true)
+
+                    if (this.isDown === true) {
                         this._nowUp = pointer;
+                    }
                 }
 
                 if (this._justEntered)
@@ -10836,6 +10898,8 @@ var Kiwi;
                 this._game = game;
                 this.point = new Kiwi.Geom.Point();
                 this.circle = new Kiwi.Geom.Circle(0, 0, 1);
+                this.startPoint = new Kiwi.Geom.Point();
+                this.endPoint = new Kiwi.Geom.Point();
             }
             Pointer.prototype.objType = function () {
                 return 'Pointer';
@@ -10851,7 +10915,7 @@ var Kiwi;
 
             Pointer.prototype.start = function (event) {
                 this.move(event);
-
+                this.startPoint.setTo(this.x, this.y);
                 this.frameDuration = 0;
                 this.withinGame = true;
                 this.isDown = true;
@@ -10861,7 +10925,7 @@ var Kiwi;
 
             Pointer.prototype.stop = function (event) {
                 this.withinGame = false;
-
+                this.endPoint.setTo(this.x, this.y);
                 this.isDown = false;
                 this.isUp = true;
 

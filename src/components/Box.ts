@@ -65,7 +65,6 @@ module Kiwi.Components {
         
         public get hitbox(): Kiwi.Geom.Rectangle {
             if (this.dirty) {
-                console.log(this.rawHitbox.x);
                 this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
             }
             return this._transformedHitbox;

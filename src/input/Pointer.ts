@@ -16,6 +16,8 @@ module Kiwi.Input {
             this._game = game;
             this.point = new Kiwi.Geom.Point();
             this.circle = new Kiwi.Geom.Circle(0, 0, 1);
+            this.startPoint = new Kiwi.Geom.Point();
+            this.endPoint = new Kiwi.Geom.Point();
         }
 
         /*
@@ -190,6 +192,20 @@ module Kiwi.Input {
         public justReleasedRate: number = 200;
         
         /**
+        * The points inital coordinates when pressed down.
+        * @property startPoint
+        * @type Kiwi.Geom.Point
+        */
+        public startPoint: Kiwi.Geom.Point;
+
+        /**
+        * The coordinates where the user released the pointer.
+        * @property endPoint
+        * @type Kiwi.Geom.Point
+        */
+        public endPoint: Kiwi.Geom.Point;
+
+        /**
         * The method that gets executed when the pointer presses/initially goes down on the screen.
         * From the event passed the coordinates are calculated.
         * @method start
@@ -197,7 +213,7 @@ module Kiwi.Input {
         */
         public start(event) {
             this.move(event); 
-
+            this.startPoint.setTo(this.x, this.y);
             this.frameDuration = 0;
             this.withinGame = true;
             this.isDown = true;
@@ -212,7 +228,7 @@ module Kiwi.Input {
         */
         public stop(event) {
             this.withinGame = false;
-
+            this.endPoint.setTo(this.x, this.y);
             this.isDown = false;
             this.isUp = true;
 
