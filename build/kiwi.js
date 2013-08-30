@@ -11330,6 +11330,11 @@ var Kiwi;
                 this.withinGame = false;
                 this.move(event);
             };
+
+            Finger.prototype.reset = function () {
+                this.active = false;
+                _super.prototype.reset.call(this);
+            };
             return Finger;
         })(Input.Pointer);
         Input.Finger = Finger;
@@ -11344,6 +11349,7 @@ var Kiwi;
                 this._domElement = null;
                 this.isDown = false;
                 this.isUp = true;
+                this._maxPointers = 10;
                 this._game = game;
             }
             Object.defineProperty(Touch.prototype, "fingers", {
@@ -11428,13 +11434,30 @@ var Kiwi;
                 configurable: true
             });
 
+
+            Object.defineProperty(Touch.prototype, "maximumPointers", {
+                get: function () {
+                    return this._maxPointers;
+                },
+                set: function (val) {
+                    if (val < 0)
+                        val = 1;
+                    if (val > this._fingers.length)
+                        val = this._fingers.length;
+
+                    this._maxPointers = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Touch.prototype.onTouchStart = function (event) {
                 klog.info('touch start');
 
                 event.preventDefault();
 
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    for (var f = 0; f < this._fingers.length; f++) {
+                    for (var f = 0; f < this._maxPointers; f++) {
                         if (this._fingers[f].active === false) {
                             this._fingers[f].start(event.changedTouches[i]);
                             this.latestFinger = this._fingers[f];
@@ -11463,7 +11486,7 @@ var Kiwi;
 
             Touch.prototype.onTouchEnter = function (event) {
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    for (var f = 0; f < this._fingers.length; f++) {
+                    for (var f = 0; f < this._maxPointers; f++) {
                         if (this._fingers[f].active === false) {
                             this._fingers[f].start(event.changedTouches[i]);
                             break;

@@ -226,6 +226,33 @@ module Kiwi.Input {
             return this.latestFinger.y;
         }
 
+        /*
+        * The developer defined maximum number of touch events.
+        * @property _maxTouchEvents
+        * @type number
+        */
+        private _maxPointers: number = 10;
+
+        /*
+        * Sets the maximum number of point of contact that are allowed on the game stage at one point.
+        * @type number
+        */
+        public set maximumPointers(val:number) {
+            if (val < 0)
+                val = 1;
+            if (val > this._fingers.length) val = this._fingers.length;
+            
+            this._maxPointers = val; 
+        }
+
+        /*
+        * Gets the maximum number of points of contact that are allowed on the game stage at one point.
+        * @type number
+        */
+        public get maximumPointers(): number {
+            return this._maxPointers;
+        }
+
         /** 
         * @method onTouchStart
         * @param {Any} event
@@ -245,7 +272,7 @@ module Kiwi.Input {
             for (var i = 0; i < event.changedTouches.length; i++)
             {
                 //loop though the fingers to find the first one that is not active
-                for (var f = 0; f < this._fingers.length; f++) 
+                for (var f = 0; f < this._maxPointers; f++) 
                 {
                     if (this._fingers[f].active === false) {
                         this._fingers[f].start(event.changedTouches[i]);
@@ -300,7 +327,7 @@ module Kiwi.Input {
             //  For touch enter and leave its a list of the touch points that have entered or left the target
             for (var i = 0; i < event.changedTouches.length; i++)
             {
-                for (var f = 0; f < this._fingers.length; f++) {
+                for (var f = 0; f < this._maxPointers; f++) {
                     if (this._fingers[f].active === false) {
                         this._fingers[f].start(event.changedTouches[i]);
                         break;
@@ -414,6 +441,7 @@ module Kiwi.Input {
                 }
             }
         }
+
 
         /** 
         * @method stop 

@@ -71,6 +71,10 @@
       <DependentUpon>Finger.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="TouchEvents\MultiSlingshots.ts" />
+    <TypeScriptCompile Include="TouchEvents\MaximumPoints.ts" />
+    <Content Include="TouchEvents\MaximumPoints.js">
+      <DependentUpon>MaximumPoints.ts</DependentUpon>
+    </Content>
     <Content Include="TouchEvents\MultiSlingshots.js">
       <DependentUpon>MultiSlingshots.ts</DependentUpon>
     </Content>

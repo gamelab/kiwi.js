@@ -52,6 +52,14 @@ module Kiwi.Input {
             this.withinGame = false;
             this.move(event);
         }
+
+        /**
+        * @method reset
+        */
+        public reset() {
+            this.active = false;
+            super.reset();
+        }
           
     }
 
