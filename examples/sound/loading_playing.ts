@@ -29,7 +29,6 @@ class loading_playing extends Kiwi.State {
     }
 
     play() {
-        console.log('PLAY');
         this.sound.play();
 
     }

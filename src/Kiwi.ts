@@ -180,8 +180,6 @@ module Kiwi {
 
         public static register(game: Kiwi.Game): number {
 
-            klog.info('Registering game with Kiwi.GameManager v' + Kiwi.VERSION);
-
             return Kiwi.GameManager._games.push(game);
 
         }
@@ -194,4 +192,3 @@ module Kiwi {
     
 }
 
-var klog;

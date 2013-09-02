@@ -143,7 +143,6 @@ module Kiwi.HUD {
 
             var containerElement: HTMLElement = document.getElementById(main);
             if (containerElement === undefined) {
-                console.log('Container element not found');
                 return;
             }
 
@@ -152,7 +151,6 @@ module Kiwi.HUD {
             } else {
                 var fieldElement: HTMLElement = document.getElementById(element);
                 if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
-                    console.log('Field element not found inside container');
                     return;
                 }
             }

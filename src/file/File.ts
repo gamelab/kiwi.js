@@ -44,27 +44,17 @@ module Kiwi.Files {
             //  Not safe if there is a query string after the file extension
             this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
 
-            //  TODO - Determine blob support properly, defaulting to tag loader for now :(
-
             if (Kiwi.DEVICE.blob) {
-                //if (typeof window['Blob'] !== 'undefined')
-                //{
-                klog.info('blob support found - using blob loader');
                 this._useTagLoader = true;
-            } else {
-                klog.info('blob support NOT found - using tag loader');
+            } else {                
                 this._useTagLoader = true;
             }
-            //this._useTagLoader = true;
-            //}
 
             if (this.dataType === Kiwi.Files.File.AUDIO) {
                 if (this._game.audio.usingAudioTag === true) {
                     this._useTagLoader = true;
-                    console.log('Using Audio Tag Loader');
                 } else { //just dont use the tag loader...just dont....
                     this._useTagLoader = false;
-                    console.log('Using Awesome');
                 }
             }
 
@@ -91,7 +81,6 @@ module Kiwi.Files {
                 this.key = name;
             }
 
-            klog.info('New Kiwi.File: ' + this.toString());
 
         }
 
@@ -522,7 +511,6 @@ module Kiwi.Files {
                 this.data.load();
                 this.data.volume = 0;
                 this.data.play(); //force the browser to load by playing the audio........ 
-                console.log('awesome');
             }
             
         }
@@ -533,9 +521,6 @@ module Kiwi.Files {
 		*/
         private tagLoaderOnReadyStateChange(event) {
 
-            klog.info('rs: ' + this.data.readyState);
-            klog.info('tagLoader onReadyStateChange', event);
-
         }
 
         /**
@@ -543,8 +528,6 @@ module Kiwi.Files {
         * @param {Any}
 		*/
         private tagLoaderOnError(event) {
-
-            klog.info('tagLoader onError', event);
 
             this.hasError = true;
             this.error = event;
@@ -576,7 +559,6 @@ module Kiwi.Files {
                 this.stop();
 
                 if (this.dataType === Kiwi.Files.File.AUDIO) { //makes me sad
-                    console.log('Not so awesome finished loading, kill it with fire');
                     this.data.removeEventListener('canplaythrough', () => this.tagLoaderOnLoad(null)); // the remove event that won't work :(
                     this.data.pause();
                     this.data.currentTime = 0;
@@ -649,8 +631,6 @@ module Kiwi.Files {
 		*/
         private xhrOnAbort(event) {
 
-            klog.info('xhrOnAbort', event);
-
         }
 
         /**
@@ -658,8 +638,6 @@ module Kiwi.Files {
         * @param {Any}
 		*/
         private xhrOnError(event) {
-
-            klog.info('xhrOnError', event);
 
         }
 
@@ -669,8 +647,6 @@ module Kiwi.Files {
 		*/
         private xhrOnTimeout(event) {
 
-            klog.info('xhrOnTimeout', event);
-
         }
 
         /**
@@ -679,13 +655,9 @@ module Kiwi.Files {
 		*/
         private xhrOnProgress(event) {
 
-            klog.info('xhrOnProgress', event);
-
             this.bytesLoaded = parseInt(event.loaded);
             this.bytesTotal = parseInt(event.totalSize);
             this.percentLoaded = Math.round((this.bytesLoaded / this.bytesTotal) * 100);
-
-            klog.info(this.fileName + ' = ' + this.bytesLoaded + ' / ' + this.bytesTotal);
 
             if (this.onProgressCallback)
             {
@@ -714,7 +686,6 @@ module Kiwi.Files {
 
             if (this._xhr.status === 200)
             {
-                console.log("XHR SUCCESS");
                 this.success = true;
                 this.hasError = false;
                 this.fileType = this._xhr.getResponseHeader('Content-Type');
@@ -743,7 +714,6 @@ module Kiwi.Files {
                                 buffer: null
                             }
 
-                            console.log('Audio is Decoding');
                             //decode that audio
                             var that = this;
                             this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
@@ -751,7 +721,6 @@ module Kiwi.Files {
                                     that.data.buffer = buffer;
                                     that.data.decoded = true;
                                     that.parseComplete();
-                                    console.log('Audio Decoded');
                                 }
                             });
 
@@ -774,8 +743,6 @@ module Kiwi.Files {
         * @method createBlob
 		*/
         private createBlob() {
-
-            klog.info('creating blob');
 
             this.data = document.createElement('img');
             this.data.onload = () => this.revoke();
@@ -838,8 +805,6 @@ module Kiwi.Files {
 		*/
         private revoke() {
 
-            klog.info('revoking');
-
             if (window['URL'])
             {
                 window['URL'].revokeObjectURL(this.data.src);
@@ -858,11 +823,8 @@ module Kiwi.Files {
 		*/
         private parseComplete() {
 
-            klog.info('parse complete');
-
             if (this._saveToFileStore === true)
             {
-                klog.info('saving to file store', this._fileStore, this.key);
                 this._fileStore.addFile(this.key, this);
             }
 
@@ -880,8 +842,6 @@ module Kiwi.Files {
          **/
         getFileDetails(callback: any = null, maxLoadAttempts:number = 1, timeout: number = 2000) {
 
-            klog.info('Getting File Details of ' + this.fileURL);
-
             this.onCompleteCallback = callback;
             this.maxLoadAttempts = maxLoadAttempts;
             this.timeOutDelay = timeout;
@@ -895,8 +855,6 @@ module Kiwi.Files {
         * @method sendXHRHeadRequest
         */
         private sendXHRHeadRequest() {
-
-            klog.info('xhr send');
 
             this.attemptCounter++;
 
@@ -915,8 +873,6 @@ module Kiwi.Files {
         * @method xhrHeadOnTimeout
         */
         private xhrHeadOnTimeout(event) {
-
-            klog.info('on XHR timeout', event);
 
             this.hasTimedOut = true;
             this.timedOut = Date.now();
@@ -945,8 +901,6 @@ module Kiwi.Files {
         */
         private xhrHeadOnError(event) {
 
-            klog.info('on XHR error', event);
-
             this.hasError = true;
             this.error = event;
             this.status = this._xhr.status;
@@ -970,8 +924,6 @@ module Kiwi.Files {
 
             this.status = this._xhr.status;
             this.statusText = this._xhr.statusText;
-
-            klog.info('xhr response ' + this.status, this.statusText);
 
             if (this._xhr.status === 200)
             {

@@ -41,9 +41,7 @@ module Kiwi {
 
             
             this._game.stage.onResize.add(this._updatedStageSize, this);
-            this._game.stage.onResize.add(this._updatedSize, this);
-
-            klog.info('Created Camera ' + this.id);
+            this._game.stage.onResize.add(this._updatedSize, this); 
         
         }
 

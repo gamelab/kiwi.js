@@ -53,7 +53,6 @@ module Kiwi.Input {
         * @method boot
         */
         public boot() {
-            klog.info('Mouse Handler booted');
 
             this._domElement = this._game.stage.container;
 

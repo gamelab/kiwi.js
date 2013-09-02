@@ -20,8 +20,6 @@ class looping extends Kiwi.State {
 
         this.game.input.mouse.mouseUp.add(this.meowing, this);
 
-        console.log(this.audioLibrary);
-
         this.cat = new Kiwi.GameObjects.Sprite(this.textures.baddie, 200, 200, true);
         this.cat.animation.add('right', [2, 3], 0.2);
         this.cat.animation.add('left', [0, 1], 0.2); 
@@ -30,7 +28,6 @@ class looping extends Kiwi.State {
     }
 
     meowing() {
-        console.log('Meow!');
         if (this.meow.isPlaying) {
             this.meow.stop();
             this.cat.animation.play('left');

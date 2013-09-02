@@ -73,8 +73,6 @@ module Kiwi.Input {
         */
         public boot() {
 
-            klog.info('Keyboard Handler booted');
-
             //this._domElement = this.game.settings.container;
             this.start();
 

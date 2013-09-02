@@ -253,9 +253,7 @@ module Kiwi {
         * @param {HTMLElement} container
         */
         public boot(dom: Kiwi.System.Bootstrap) {
-
-            klog.info('Stage DOM boot');
-
+            
             //  Properties
 
             this.domReady = true;
@@ -276,7 +274,6 @@ module Kiwi {
         }
 
         private _createCompositeCanvas() {
-            console.log("created canvas");
             this.canvas = <HTMLCanvasElement>document.createElement("canvas");
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
@@ -295,9 +292,7 @@ module Kiwi {
                 this.gl.clearColor(1, 1, .95, .7);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
-            } else {
-                klog.error("Unrecognised render mode");
-            }
+            } 
             
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.container.appendChild(this.canvas);
@@ -309,7 +304,7 @@ module Kiwi {
 
         private _createDebugCanvas() {
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                klog.warn("debug canvas not supported in cocoon, creating canvas and context anyway.");
+                //debug canvas not supported in cocoon, creating canvas and context anyway.
             } 
             this.debugCanvas = <HTMLCanvasElement>document.createElement("canvas");
             this.debugCanvas.id = this._game.id + "debugCanvas";

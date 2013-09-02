@@ -244,10 +244,7 @@ module Kiwi.Components {
             if (this._animations[name]) {
                 this.currentAnimation = this._animations[name];
                 if (this._clock !== null) this.currentAnimation.clock = this._clock;
-            } else {
-                //the animation does not exist.
-                klog.error(name, 'animation does not exist!');
-            }
+            }  
         }
 
         /*

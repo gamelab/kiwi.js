@@ -4,7 +4,6 @@
         (function (Tweens) {
             var Manager = (function () {
                 function Manager(game) {
-                    klog.info('Tween Manager created');
                     this._game = game;
                     this._tweens = [];
                 }
@@ -710,8 +709,6 @@ var Kiwi;
 
             this._game.stage.onResize.add(this._updatedStageSize, this);
             this._game.stage.onResize.add(this._updatedSize, this);
-
-            klog.info('Created Camera ' + this.id);
         }
         Camera.prototype.objType = function () {
             return "Camera";
@@ -888,9 +885,6 @@ var Kiwi;
             this.loader.boot();
             this.states.boot();
 
-            klog.info('Game Started. DOM Available. Valid State Given');
-            klog.info('Game Time: ' + this.time.now());
-
             this._lastTime = Date.now();
 
             this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
@@ -930,8 +924,6 @@ var Kiwi;
 (function (Kiwi) {
     var CameraManager = (function () {
         function CameraManager(game) {
-            klog.info('Layer Manager created');
-
             this._game = game;
 
             this._cameras = [];
@@ -957,8 +949,6 @@ var Kiwi;
         };
 
         CameraManager.prototype.remove = function (camera) {
-            klog.info('Remove camera');
-
             var i = this._cameras.indexOf(camera);
 
             if (i !== -1) {
@@ -991,7 +981,6 @@ var Kiwi;
 
         CameraManager.prototype.removeAll = function () {
             this._cameras.length = 0;
-            klog.info('TODO removeAll');
         };
         return CameraManager;
     })();
@@ -1038,8 +1027,6 @@ var Kiwi;
         };
 
         Component.prototype._addedToState = function (state) {
-            klog.info('Component added to State');
-
             this.state = state;
 
             this.game = this.state.game;
@@ -1050,16 +1037,12 @@ var Kiwi;
         };
 
         Component.prototype._removedFromState = function (state) {
-            klog.info('Component removed from State');
-
             this.state = null;
 
             this.onAddedToState.dispatch(this, state);
         };
 
         Component.prototype._addedToGroup = function (group) {
-            klog.info('Component added to Group');
-
             this.group = group;
 
             if (group.game !== null) {
@@ -1070,16 +1053,12 @@ var Kiwi;
         };
 
         Component.prototype._removedFromGroup = function (group) {
-            klog.info('Component removed from Group');
-
             this.group = null;
 
             this.onRemovedFromGroup.dispatch(this, group);
         };
 
         Component.prototype._addedToEntity = function (entity) {
-            klog.info('Component added to Entity');
-
             this.entity = entity;
 
             if (this.entity.game !== null) {
@@ -1092,8 +1071,6 @@ var Kiwi;
         };
 
         Component.prototype._removedFromEntity = function (entity) {
-            klog.info('Component removed from Entity');
-
             this.entity = null;
 
             this.onRemovedFromEntity.dispatch(this, entity);
@@ -1479,8 +1456,6 @@ var Kiwi;
         });
 
         Entity.prototype._addedToState = function (state) {
-            klog.info('Entity added to State');
-
             this.state = state;
 
             this.game = this.state.game;
@@ -1497,8 +1472,6 @@ var Kiwi;
         };
 
         Entity.prototype._removedFromState = function (state) {
-            klog.info('Entity removed from State');
-
             this.state = null;
 
             this.game = null;
@@ -1507,8 +1480,6 @@ var Kiwi;
         };
 
         Entity.prototype._addedToGroup = function (group) {
-            klog.info('Entity added to Group');
-
             if (group.game !== null) {
                 this.game = group.game;
 
@@ -1519,13 +1490,10 @@ var Kiwi;
         };
 
         Entity.prototype._removedFromGroup = function (group) {
-            klog.info('Entity removed from Group');
-
             this.onRemovedFromGroup.dispatch(this, group);
         };
 
         Entity.prototype._changedPosition = function (group, index) {
-            klog.info('Entity changed position within the group');
         };
 
         Entity.prototype.update = function () {
@@ -1566,8 +1534,6 @@ var Kiwi;
             this.hasDestroy = false;
             this.runCount = 0;
             this.type = 0;
-            klog.info('StateConfig created', name);
-
             this._state = parent;
             this.name = name;
 
@@ -1578,8 +1544,6 @@ var Kiwi;
         };
 
         StateConfig.prototype.populate = function () {
-            klog.info('populate StateConfig');
-
             if (typeof this._state['init'] === 'function') {
                 this.hasInit = true;
             }
@@ -1629,7 +1593,6 @@ var Kiwi;
             }
 
             if (this.hasInit === false && this.hasCreate === false) {
-                klog.info('If there are no init or create functions, then we consider the state already initialised');
                 this.isInitialised = true;
                 this.isCreated = true;
                 this.isReady = true;
@@ -1665,7 +1628,6 @@ var Kiwi;
             this.onRemovedFromLayer = new Kiwi.Signal();
             this.onRemovedFromState = new Kiwi.Signal();
             this._willRender = true;
-            klog.info('Created Group ' + this.name);
         }
         Group.prototype.childType = function () {
             return Kiwi.GROUP;
@@ -1705,8 +1667,6 @@ var Kiwi;
         };
 
         Group.prototype.addChild = function (child) {
-            klog.info('Group.addChild ' + this.members.length);
-
             if (child.transform.parent !== this.transform) {
                 this.members.push(child);
                 child.transform.parent = this.transform;
@@ -1718,8 +1678,6 @@ var Kiwi;
         };
 
         Group.prototype.addChildAt = function (child, index) {
-            klog.info('Group.addChildAt ' + child.id);
-
             if (child.transform.parent !== this.transform) {
                 this.members.splice(index, 0, child);
 
@@ -1730,8 +1688,6 @@ var Kiwi;
         };
 
         Group.prototype.addChildBefore = function (child, beforeChild) {
-            klog.info('Group.addChildBefore ' + child.id);
-
             if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index = this.getChildIndex(beforeChild);
 
@@ -1744,8 +1700,6 @@ var Kiwi;
         };
 
         Group.prototype.addChildAfter = function (child, beforeChild) {
-            klog.info('Group.addChildAfter ' + child.id);
-
             if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index = this.getChildIndex(beforeChild) + 1;
 
@@ -1866,7 +1820,6 @@ var Kiwi;
         };
 
         Group.prototype._changedPosition = function (group, index) {
-            klog.info('Group changed position within the group');
         };
 
         Group.prototype.swapChildrenAt = function (index1, index2) {
@@ -1909,7 +1862,6 @@ var Kiwi;
                 oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
                 newChild.transform.parent = null;
                 newChild.modify(Kiwi.ADDED_TO_GROUP, this);
-                console.log(this.members[0]);
                 return true;
             }
 
@@ -1960,7 +1912,6 @@ var Kiwi;
                 }
             } else {
                 for (var i = 0; i < this.members.length; i++) {
-                    console.log('callAll', this.members[i]);
                     this.members[i][componentName][functionName].apply(this.members[i][componentName], args);
                 }
             }
@@ -2129,8 +2080,6 @@ var Kiwi;
         };
 
         Group.prototype._addedToState = function (state) {
-            klog.info('Group added to State');
-
             this.state = state;
 
             this.game = this.state.game;
@@ -2141,8 +2090,6 @@ var Kiwi;
         };
 
         Group.prototype._removedFromState = function (state) {
-            klog.info('Group removed from State');
-
             this.onRemovedFromState.dispatch(this, state);
 
             this.state = null;
@@ -2177,8 +2124,6 @@ var Kiwi;
             _super.call(this, name);
             this.game = null;
 
-            klog.debug('----------- State created: ' + name + ' -----------');
-
             this.config = new Kiwi.StateConfig(this, name);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
@@ -2188,7 +2133,6 @@ var Kiwi;
         };
 
         State.prototype.boot = function () {
-            klog.info('State booted: ', this.config.name);
             this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
             this.textures = this.textureLibrary.textures;
             this.audioLibrary = new Kiwi.Sound.AudioLibrary(this.game);
@@ -2252,8 +2196,6 @@ var Kiwi;
         State.prototype.setType = function (value) {
             if (this.config.isInitialised === false) {
                 this.config.type = value;
-            } else {
-                klog.warn('State default type can only be changed in init()');
             }
         };
 
@@ -3699,8 +3641,6 @@ var Kiwi;
 
 
         Stage.prototype.boot = function (dom) {
-            klog.info('Stage DOM boot');
-
             this.domReady = true;
 
             this.container = dom.container;
@@ -3719,7 +3659,6 @@ var Kiwi;
         };
 
         Stage.prototype._createCompositeCanvas = function () {
-            console.log("created canvas");
             this.canvas = document.createElement("canvas");
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
@@ -3735,8 +3674,6 @@ var Kiwi;
                 this.gl.clearColor(1, 1, .95, .7);
                 this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                 this.ctx = null;
-            } else {
-                klog.error("Unrecognised render mode");
             }
 
             if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
@@ -3748,7 +3685,6 @@ var Kiwi;
 
         Stage.prototype._createDebugCanvas = function () {
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                klog.warn("debug canvas not supported in cocoon, creating canvas and context anyway.");
             }
             this.debugCanvas = document.createElement("canvas");
             this.debugCanvas.id = this._game.id + "debugCanvas";
@@ -4144,7 +4080,6 @@ var Kiwi;
                 if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
                     this.onDragStarted.dispatch(this._entity, this._nowDragging);
                     this._isDragging = this._nowDragging;
-                    console.log('dragging started');
                 }
 
                 if (this._nowUp !== null) {
@@ -4157,7 +4092,6 @@ var Kiwi;
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
                         this.onDragStopped.dispatch(this._entity, this._nowUp);
-                        console.log('dragging stopped');
                     }
                 }
             };
@@ -4211,7 +4145,6 @@ var Kiwi;
                 if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
                     this.onDragStarted.dispatch(this._entity, this._nowDragging);
                     this._isDragging = this._nowDragging;
-                    console.log('dragging started');
                 }
 
                 if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
@@ -4220,7 +4153,6 @@ var Kiwi;
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
                         this.onDragStopped.dispatch(this._entity, this._nowUp);
-                        console.log('dragging stopped');
                     }
 
                     this._isDown = null;
@@ -4854,6 +4786,9 @@ var Kiwi;
 
             Anim.prototype._start = function (index) {
                 if (typeof index === "undefined") { index = 0; }
+                if (this._validateFrame(index) == false)
+                    index = 0;
+
                 this._playPending = false;
                 this._isPlaying = true;
                 this._startTime = this._clock.elapsed();
@@ -4880,9 +4815,7 @@ var Kiwi;
             };
 
             Anim.prototype.resume = function () {
-                if (this._startTime === null) {
-                    klog.warn('Animation\'s can only resume if they have been played before!');
-                } else {
+                if (this._startTime !== null) {
                     this._isPlaying = true;
                 }
             };
@@ -4986,8 +4919,6 @@ var Kiwi;
 
         StateManager.prototype.addState = function (state, switchTo) {
             if (typeof switchTo === "undefined") { switchTo = false; }
-            klog.info('Adding new State');
-
             var tempState;
 
             if (typeof state === 'function') {
@@ -4999,18 +4930,14 @@ var Kiwi;
             }
 
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
-                klog.warn('State with this name already exists or state is malformed');
                 return false;
             }
 
             tempState.game = this._game;
 
             if (this.checkValidState(tempState) === false) {
-                klog.info('checkValidState failed');
                 return false;
             } else {
-                klog.info('State successfully added to StateManager');
-
                 this._states.push(tempState);
 
                 if (switchTo === true) {
@@ -5022,8 +4949,6 @@ var Kiwi;
         };
 
         StateManager.prototype.boot = function () {
-            klog.info('StateManager booting');
-
             if (this.current !== null) {
                 this.current.boot();
             }
@@ -5040,24 +4965,17 @@ var Kiwi;
         };
 
         StateManager.prototype.setCurrentState = function (key) {
-            klog.debug('-------------------------------------------------------------');
-            klog.info('Start of Setting Current State ' + key);
-
             if (this.current !== null && this.current.config.name === key) {
-                klog.info('Bailing out, switching to already current state');
                 return false;
             }
 
             if (this.current !== null) {
-                klog.info('Current State: ' + this.current.config.name + ' being destroyed');
                 this._game.input.reset();
                 this.current.destroy();
             }
 
             if (this.checkKeyExists(key) === true) {
                 this.current = this.getState(key);
-
-                klog.info('Key exists, so setting current state to: ', this.current.config.name);
 
                 if (this._game.stage.domReady === true) {
                     if (this.current.config.isInitialised === false) {
@@ -5079,7 +4997,6 @@ var Kiwi;
 
                 return true;
             } else {
-                klog.warn('Apparently the State key doesn\'t exist');
                 return false;
             }
         };
@@ -5088,10 +5005,7 @@ var Kiwi;
             if (typeof state === "undefined") { state = null; }
             if (typeof initParams === "undefined") { initParams = null; }
             if (typeof createParams === "undefined") { createParams = null; }
-            klog.info('Attempting to switch to State ' + key);
-
             if (this.current !== null && this.current.config.isReady === false) {
-                klog.warn('You cannot call switchState before the current state has called create()');
                 return false;
             }
 
@@ -5142,7 +5056,6 @@ var Kiwi;
                 this._game.loader.startLoad();
             } else {
                 if (this.current.config.hasCreate === true && this.current.config.isCreated === false) {
-                    klog.info('No preloaded, calling create function');
                     this.current.config.isCreated = true;
 
                     if (this.current.config.createParams) {
@@ -5172,7 +5085,6 @@ var Kiwi;
             this.current.config.isReady = true;
 
             if (this.current.config.hasCreate === true) {
-                klog.info('preload finished - now calling create function');
                 this.current.config.isCreated = true;
                 if (this.current.config.createParams) {
                     this.current.create.apply(this.current, this.current.config.createParams);
@@ -5245,8 +5157,6 @@ var Kiwi;
             };
 
             Loader.prototype.boot = function () {
-                klog.info('Loader Boot');
-
                 this._fileList = [];
                 this._loadList = [];
             };
@@ -5255,8 +5165,6 @@ var Kiwi;
                 if (typeof progress === "undefined") { progress = null; }
                 if (typeof complete === "undefined") { complete = null; }
                 if (typeof calculateBytes === "undefined") { calculateBytes = false; }
-                klog.info('Loader init - calculate bytes: ' + calculateBytes);
-
                 this._fileList.length = 0;
                 this._loadList.length = 0;
 
@@ -5326,8 +5234,6 @@ var Kiwi;
             };
 
             Loader.prototype.startLoad = function () {
-                klog.info('Loader startLoad');
-
                 if (this._fileList.length === 0) {
                     this._onCompleteCallback();
                 } else {
@@ -5342,10 +5248,8 @@ var Kiwi;
                     this._percentLoaded = 0;
 
                     if (this._calculateBytes === true) {
-                        klog.info('Loader - startLoad - getting total file sizes');
                         this.getNextFileSize();
                     } else {
-                        klog.info('Loader - startLoad - skipping xhr file size check');
                         this._fileChunk = Math.floor(100 / this._fileTotal);
                         this._loadList = this._fileList;
 
@@ -5368,8 +5272,6 @@ var Kiwi;
             };
 
             Loader.prototype.addToBytesTotal = function (file) {
-                klog.info('Loader - addToBytesTotal - ' + file.fileName + ' = ' + file.fileSize);
-
                 this._bytesTotal += file.fileSize;
 
                 this._loadList.push(file);
@@ -5418,7 +5320,6 @@ var Kiwi;
                     this._complete = true;
 
                     if (this._onCompleteCallback) {
-                        klog.info('onCompleteCallback');
                         this._onCompleteCallback();
                     }
                 } else {
@@ -5483,7 +5384,6 @@ var Kiwi;
                         break;
 
                     default:
-                        klog.error("Image file is of unknown type and was not added to data library");
                         break;
                 }
             };
@@ -5543,20 +5443,16 @@ var Kiwi;
                 this.fileExtension = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
 
                 if (Kiwi.DEVICE.blob) {
-                    klog.info('blob support found - using blob loader');
                     this._useTagLoader = true;
                 } else {
-                    klog.info('blob support NOT found - using tag loader');
                     this._useTagLoader = true;
                 }
 
                 if (this.dataType === Kiwi.Files.File.AUDIO) {
                     if (this._game.audio.usingAudioTag === true) {
                         this._useTagLoader = true;
-                        console.log('Using Audio Tag Loader');
                     } else {
                         this._useTagLoader = false;
-                        console.log('Using Awesome');
                     }
                 }
 
@@ -5578,8 +5474,6 @@ var Kiwi;
                 } else {
                     this.key = name;
                 }
-
-                klog.info('New Kiwi.File: ' + this.toString());
             }
             File.prototype.objType = function () {
                 return "File";
@@ -5705,18 +5599,13 @@ var Kiwi;
                     this.data.load();
                     this.data.volume = 0;
                     this.data.play();
-                    console.log('awesome');
                 }
             };
 
             File.prototype.tagLoaderOnReadyStateChange = function (event) {
-                klog.info('rs: ' + this.data.readyState);
-                klog.info('tagLoader onReadyStateChange', event);
             };
 
             File.prototype.tagLoaderOnError = function (event) {
-                klog.info('tagLoader onError', event);
-
                 this.hasError = true;
                 this.error = event;
 
@@ -5739,7 +5628,6 @@ var Kiwi;
                     this.stop();
 
                     if (this.dataType === Kiwi.Files.File.AUDIO) {
-                        console.log('Not so awesome finished loading, kill it with fire');
                         this.data.removeEventListener('canplaythrough', function () {
                             return _this.tagLoaderOnLoad(null);
                         });
@@ -5801,25 +5689,18 @@ var Kiwi;
             };
 
             File.prototype.xhrOnAbort = function (event) {
-                klog.info('xhrOnAbort', event);
             };
 
             File.prototype.xhrOnError = function (event) {
-                klog.info('xhrOnError', event);
             };
 
             File.prototype.xhrOnTimeout = function (event) {
-                klog.info('xhrOnTimeout', event);
             };
 
             File.prototype.xhrOnProgress = function (event) {
-                klog.info('xhrOnProgress', event);
-
                 this.bytesLoaded = parseInt(event.loaded);
                 this.bytesTotal = parseInt(event.totalSize);
                 this.percentLoaded = Math.round((this.bytesLoaded / this.bytesTotal) * 100);
-
-                klog.info(this.fileName + ' = ' + this.bytesLoaded + ' / ' + this.bytesTotal);
 
                 if (this.onProgressCallback) {
                     this.onProgressCallback(this);
@@ -5837,7 +5718,6 @@ var Kiwi;
                 this.statusText = this._xhr.statusText;
 
                 if (this._xhr.status === 200) {
-                    console.log("XHR SUCCESS");
                     this.success = true;
                     this.hasError = false;
                     this.fileType = this._xhr.getResponseHeader('Content-Type');
@@ -5862,15 +5742,12 @@ var Kiwi;
                                     buffer: null
                                 };
 
-                                console.log('Audio is Decoding');
-
                                 var that = this;
                                 this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
                                     if (buffer) {
                                         that.data.buffer = buffer;
                                         that.data.decoded = true;
                                         that.parseComplete();
-                                        console.log('Audio Decoded');
                                     }
                                 });
                             }
@@ -5885,8 +5762,6 @@ var Kiwi;
 
             File.prototype.createBlob = function () {
                 var _this = this;
-                klog.info('creating blob');
-
                 this.data = document.createElement('img');
                 this.data.onload = function () {
                     return _this.revoke();
@@ -5912,8 +5787,6 @@ var Kiwi;
             };
 
             File.prototype.revoke = function () {
-                klog.info('revoking');
-
                 if (window['URL']) {
                     window['URL'].revokeObjectURL(this.data.src);
                 } else if (window['webkitURL']) {
@@ -5924,10 +5797,7 @@ var Kiwi;
             };
 
             File.prototype.parseComplete = function () {
-                klog.info('parse complete');
-
                 if (this._saveToFileStore === true) {
-                    klog.info('saving to file store', this._fileStore, this.key);
                     this._fileStore.addFile(this.key, this);
                 }
 
@@ -5940,8 +5810,6 @@ var Kiwi;
                 if (typeof callback === "undefined") { callback = null; }
                 if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
                 if (typeof timeout === "undefined") { timeout = 2000; }
-                klog.info('Getting File Details of ' + this.fileURL);
-
                 this.onCompleteCallback = callback;
                 this.maxLoadAttempts = maxLoadAttempts;
                 this.timeOutDelay = timeout;
@@ -5951,8 +5819,6 @@ var Kiwi;
 
             File.prototype.sendXHRHeadRequest = function () {
                 var _this = this;
-                klog.info('xhr send');
-
                 this.attemptCounter++;
 
                 this._xhr = new XMLHttpRequest();
@@ -5971,8 +5837,6 @@ var Kiwi;
             };
 
             File.prototype.xhrHeadOnTimeout = function (event) {
-                klog.info('on XHR timeout', event);
-
                 this.hasTimedOut = true;
                 this.timedOut = Date.now();
 
@@ -5989,8 +5853,6 @@ var Kiwi;
             };
 
             File.prototype.xhrHeadOnError = function (event) {
-                klog.info('on XHR error', event);
-
                 this.hasError = true;
                 this.error = event;
                 this.status = this._xhr.status;
@@ -6004,8 +5866,6 @@ var Kiwi;
             File.prototype.getXHRResponseHeaders = function (event) {
                 this.status = this._xhr.status;
                 this.statusText = this._xhr.statusText;
-
-                klog.info('xhr response ' + this.status, this.statusText);
 
                 if (this._xhr.status === 200) {
                     this.fileType = this._xhr.getResponseHeader('Content-Type');
@@ -6263,8 +6123,6 @@ var Kiwi;
                     this.currentAnimation = this._animations[name];
                     if (this._clock !== null)
                         this.currentAnimation.clock = this._clock;
-                } else {
-                    klog.error(name, 'animation does not exist!');
                 }
             };
 
@@ -6350,8 +6208,6 @@ var Kiwi;
                 this.input.onDragStarted.add(this._dragStarted, this);
                 this.onAddedToState.add(this._onAddedToState, this);
                 this.onAddedToGroup.add(this._onAddedToGroup, this);
-
-                klog.info('Created Sprite Game Object');
             }
             Sprite.prototype.objType = function () {
                 return "Sprite";
@@ -6364,8 +6220,6 @@ var Kiwi;
             };
 
             Sprite.prototype._onAddedToState = function (state) {
-                klog.info('Sprite added to State');
-
                 if (this._isAnimated)
                     this.animation.clock = this.clock;
                 this.input.game = this.game;
@@ -6374,8 +6228,6 @@ var Kiwi;
             };
 
             Sprite.prototype._onAddedToGroup = function (group) {
-                klog.info('Sprite added to Group');
-
                 if (this._isAnimated)
                     this.animation.clock = this.clock;
                 this.input.game = this.game;
@@ -6441,8 +6293,6 @@ var Kiwi;
                 this.transform.rotPointY = this.height / 2;
 
                 this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
-
-                klog.info('Created StaticImage Game Object');
             }
             StaticImage.prototype.objType = function () {
                 return "Sprite";
@@ -6500,8 +6350,6 @@ var Kiwi;
                 this._lineHeight = 1;
                 this._textAlign = 'left';
                 this._baseline = 'top';
-
-                klog.info('Created Textfield Game Object');
             }
             Textfield.prototype.objType = function () {
                 return "Textfield";
@@ -6730,7 +6578,6 @@ var Kiwi;
 
                 TileMap.prototype.createFromFileStore = function (tileMapDataKey, atlas, game, format) {
                     if (this._game.fileStore.exists(tileMapDataKey) == false) {
-                        console.log('Missing json data', tileMapDataKey);
                         return;
                     }
 
@@ -8903,7 +8750,6 @@ var Kiwi;
 
             HUDManager.prototype.removeHUD = function (hud) {
                 if (hud === this._defaultHUD) {
-                    klog.error("Cannot remove the default HUD.");
                     return false;
                 }
 
@@ -8993,7 +8839,6 @@ var Kiwi;
                 }
                 var containerElement = document.getElementById(main);
                 if (containerElement === undefined) {
-                    console.log('Container element not found');
                     return;
                 }
 
@@ -9002,7 +8847,6 @@ var Kiwi;
                 } else {
                     var fieldElement = document.getElementById(element);
                     if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
-                        console.log('Field element not found inside container');
                         return;
                     }
                 }
@@ -9547,13 +9391,11 @@ var Kiwi;
                 Menu.prototype.setTemplate = function (main, sub) {
                     var mainElement = document.getElementById(main);
                     if (mainElement === undefined) {
-                        console.log('Failed find container');
                         return;
                     }
 
                     var subElements = mainElement.getElementsByTagName(sub);
                     if (subElements === undefined) {
-                        console.log('No menu items found');
                         return;
                     }
 
@@ -10256,7 +10098,6 @@ var Kiwi;
 
             Audio.prototype._setAudio = function (key) {
                 if (key == '' || this._game.fileStore.exists(key) === false) {
-                    klog.warn('Audio cannot be extracted from the file store. Invalid key given.', key);
                     this.ready = false;
                     return;
                 }
@@ -10574,7 +10415,6 @@ var Kiwi;
                         break;
 
                     default:
-                        klog.error("Audio file is of unknown type and was not added to audio library");
                         break;
                 }
             };
@@ -10671,8 +10511,6 @@ var Kiwi;
             };
 
             Keyboard.prototype.boot = function () {
-                klog.info('Keyboard Handler booted');
-
                 this.start();
             };
 
@@ -11058,8 +10896,6 @@ var Kiwi;
             });
 
             Mouse.prototype.boot = function () {
-                klog.info('Mouse Handler booted');
-
                 this._domElement = this._game.stage.container;
 
                 this._cursor = new Kiwi.Input.MouseCursor(this._game);
@@ -11425,8 +11261,6 @@ var Kiwi;
             });
 
             Touch.prototype.boot = function () {
-                klog.info('Touch Handler booted');
-
                 this._domElement = this._game.stage.container;
 
                 this.finger1 = new Kiwi.Input.Finger(this._game);
@@ -11516,8 +11350,6 @@ var Kiwi;
             });
 
             Touch.prototype.onTouchStart = function (event) {
-                klog.info('touch start');
-
                 event.preventDefault();
 
                 for (var i = 0; i < event.changedTouches.length; i++) {
@@ -11676,7 +11508,6 @@ var Kiwi;
                 };
 
                 TileMapConverter.prototype._convertWidthHeight = function () {
-                    console.log("converting GF to Kiwi Width Height");
                     var terrain = this._gfData.map.terrain;
 
                     for (var i = 0; i < terrain.length; i++) {
@@ -11685,12 +11516,9 @@ var Kiwi;
                         if (parseInt(terrain[i].ypos) > this.kiwiData.height)
                             this.kiwiData.height = parseInt(terrain[i].ypos) + 1;
                     }
-                    console.log("width = " + this.kiwiData.width + ", height = " + this.kiwiData.height);
                 };
 
                 TileMapConverter.prototype._convertTilesets = function () {
-                    console.log("converting GF to Kiwi TileSets");
-
                     var tileset = {
                         "firstgid": 1,
                         "image": "",
@@ -11711,8 +11539,6 @@ var Kiwi;
                 };
 
                 TileMapConverter.prototype._convertLayers = function () {
-                    console.log("converting GF to Kiwi Layers");
-
                     this.kiwiData.layers.push(this._convertLayer(1));
                 };
                 TileMapConverter.prototype._convertLayer = function (layerNumber) {
@@ -11732,8 +11558,6 @@ var Kiwi;
                     for (var i = 0; i < totalTiles; i++) {
                         layer.data.push(0);
                     }
-
-                    console.log("data len " + layer.data.length);
                     var tilesPerRow = this.kiwiData.tilesets[0].imagewidth / TileMapConverter.GF_TILE_WIDTH;
                     var tilesPerColumn = this.kiwiData.tilesets[0].imageheight / TileMapConverter.GF_TILE_HEIGHT;
 
@@ -11749,21 +11573,16 @@ var Kiwi;
 
                             var dataIndex = y * this.kiwiData.width + x;
 
-                            console.log("dataIndex" + dataIndex, x, y);
-
                             var gfpos = this._getSpritePosition(terrain[i].animation_id);
 
                             layer.data[dataIndex] = gfpos + 1;
                         }
                     }
-                    console.log("count " + count);
-                    console.log("data len " + layer.data.length);
                     return layer;
                 };
 
                 TileMapConverter.prototype._getSpritePosition = function (id) {
                     var sprites = this._gfData.sprites.animations;
-
                     var result = -1;
                     for (var i = 0; i < sprites.length; i++) {
                         if (sprites[i].id === String(id)) {
@@ -12101,7 +11920,6 @@ var Kiwi;
                 gl.compileShader(shader);
 
                 if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                    console.log(gl.getShaderInfoLog(shader));
                     return null;
                 }
                 return shader;
@@ -12293,8 +12111,6 @@ var Kiwi;
                 if (typeof callback === "undefined") { callback = null; }
                 if (typeof createContainer === "undefined") { createContainer = true; }
                 var _this = this;
-                klog.info('DOM Boot: ' + document.readyState);
-
                 this._callback = callback;
                 this._domParent = domParent;
 
@@ -12314,8 +12130,6 @@ var Kiwi;
 
             Bootstrap.prototype.ready = function () {
                 var _this = this;
-                klog.info('DOM Ready Check');
-
                 if (this.isReady === true) {
                     return;
                 }
@@ -12341,8 +12155,6 @@ var Kiwi;
                                 this._setupContainer(this._domParent);
                                 document.body.appendChild(this.container);
                             }
-
-                            klog.info('DOM Alive');
                         }
                     }
 
@@ -12381,7 +12193,6 @@ var Kiwi;
             };
 
             Browser.prototype.boot = function () {
-                klog.info('DOM.Browser booting');
             };
 
             Browser.prototype.getOffsetPoint = function (element, output) {
@@ -12442,8 +12253,6 @@ var Kiwi;
                 this.iPhone4 = false;
                 this.iPad = false;
                 this.pixelRatio = 0;
-                klog.info('Device DOM boot');
-
                 this._checkAudio();
                 this._checkBrowser();
                 this._checkCSS3D();
@@ -12739,7 +12548,6 @@ var Kiwi;
                         this.textures[imageFile.key] = this._buildTextureAtlas(imageFile);
                         break;
                     default:
-                        klog.error("Image file is of unknown type and was not added to texture library");
                         break;
                 }
             };
@@ -13431,8 +13239,6 @@ var Kiwi;
             };
 
             Manager.prototype.boot = function () {
-                klog.info('MasterClock booted');
-
                 this.master = new Kiwi.Time.MasterClock();
 
                 this.clock = new Time.Clock(this, this.master, 'default', 1000);
@@ -13452,8 +13258,6 @@ var Kiwi;
                         return this._clocks[i];
                     }
                 }
-
-                klog.error("No clock with the name: " + name + " exists.");
             };
 
             Manager.prototype.update = function () {
@@ -13819,8 +13623,6 @@ var Kiwi;
                         "dolor"
                     ]
                 };
-                klog.info('Random Data Generator created');
-
                 this.sow(seeds);
             }
             RandomDataGenerator.prototype.objType = function () {
@@ -14028,13 +13830,11 @@ var Kiwi;
                 }
 
                 if (!window.requestAnimationFrame) {
-                    klog.info('Kiwi.Utils.RequestAnimationFrame: false');
                     this._isSetTimeOut = true;
                     this._timeOutID = window.setTimeout(function () {
                         return _this.SetTimeoutUpdate();
                     }, 0);
                 } else {
-                    klog.info('Kiwi.Utils.RequestAnimationFrame: true');
                     this._isSetTimeOut = false;
                     window.requestAnimationFrame(function () {
                         return _this.RAFUpdate();
@@ -14542,8 +14342,6 @@ var Kiwi;
         };
 
         GameManager.register = function (game) {
-            klog.info('Registering game with Kiwi.GameManager v' + Kiwi.VERSION);
-
             return Kiwi.GameManager._games.push(game);
         };
 
@@ -14555,5 +14353,3 @@ var Kiwi;
     })();
     Kiwi.GameManager = GameManager;
 })(Kiwi || (Kiwi = {}));
-
-var klog;

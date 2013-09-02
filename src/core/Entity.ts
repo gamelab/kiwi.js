@@ -478,8 +478,6 @@ module Kiwi {
         */
         private _addedToState(state: Kiwi.State): bool {
 
-            klog.info('Entity added to State');
-
             this.state = state;
 
             this.game = this.state.game;
@@ -504,8 +502,6 @@ module Kiwi {
         */
         private _removedFromState(state: Kiwi.State) {
 
-            klog.info('Entity removed from State');
-
             this.state = null;
 
             this.game = null;
@@ -521,11 +517,9 @@ module Kiwi {
 		**/
         private _addedToGroup(group: Kiwi.Group) {
             
-            klog.info('Entity added to Group');
             /*
             if (this.transform.parent(group.transform) )
             {
-                klog.warn('Entity.addedToGroup() called but parent already set d');
                 return;
             }
           
@@ -565,7 +559,6 @@ module Kiwi {
 		**/
         private _removedFromGroup(group: Kiwi.Group) {
 
-            klog.info('Entity removed from Group');
             /*
             if (this.parent !== null)
             {
@@ -587,8 +580,6 @@ module Kiwi {
 	    * @param {Number} The new position of this Entity in the Group.
 		**/
         public _changedPosition(group: Kiwi.Group, index: number) {
-
-            klog.info('Entity changed position within the group');
 
         }
 

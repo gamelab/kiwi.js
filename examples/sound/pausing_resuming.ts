@@ -21,10 +21,8 @@ class pausing_resuming extends Kiwi.State {
     play() {
         
         if (this.sound.paused) {
-            console.log('Resume');
             this.sound.resume();
         } else {
-            console.log('Pause');
             this.sound.pause();
         }
 

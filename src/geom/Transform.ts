@@ -518,7 +518,6 @@ module Kiwi.Geom {
             
             /*if (transform === this)
             {
-                klog.warn("transform cannot be a parent to itself or an ancestor");
                 return true
             }
 

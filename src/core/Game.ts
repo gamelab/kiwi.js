@@ -291,9 +291,6 @@ module Kiwi {
             this.loader.boot();
             this.states.boot();
 
-            klog.info('Game Started. DOM Available. Valid State Given');
-            klog.info('Game Time: ' + this.time.now());
-
             this._lastTime = Date.now();
 
             this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this.loop());

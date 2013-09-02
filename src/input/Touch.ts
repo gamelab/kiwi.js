@@ -154,8 +154,6 @@ module Kiwi.Input {
         * @method boot
         */
         public boot() {
-            klog.info('Touch Handler booted');
-
             this._domElement = this._game.stage.container;
 
             this.finger1 = new Kiwi.Input.Finger(this._game);
@@ -258,7 +256,6 @@ module Kiwi.Input {
         * @param {Any} event
         **/
         private onTouchStart(event) {
-            klog.info('touch start');
 
             event.preventDefault();
 
@@ -345,8 +342,6 @@ module Kiwi.Input {
         private onTouchLeave(event) {
 
             //event.preventDefault();
-
-            //console.log('touch leave', event);
 
             //  For touch enter and leave its a list of the touch points that have entered or left the target 
             for (var i = 0; i < event.changedTouches.length; i++)

@@ -24,9 +24,7 @@ module Kiwi {
         * @return {Kiwi.CameraManager}
     	*/
         constructor(game: Kiwi.Game) {
-
-            klog.info('Layer Manager created');
-
+             
             this._game = game;
 
             
@@ -124,9 +122,7 @@ module Kiwi {
         * @return {Boolean} True if the camera was removed, false otherwise.
     	*/
         public remove(camera: Kiwi.Camera):bool {
-
-            klog.info('Remove camera');
-
+             
             var i = this._cameras.indexOf(camera);
 
             if (i !== -1) {
@@ -183,9 +179,7 @@ module Kiwi {
     	*/
         public removeAll() {
 
-            this._cameras.length = 0;
-            klog.info('TODO removeAll');
-
+            this._cameras.length = 0; 
         }
 
     }

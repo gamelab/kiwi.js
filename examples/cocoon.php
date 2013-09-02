@@ -14,7 +14,6 @@ if(isset($_GET['f'])) {
 
 <?php  if(file_exists($filepath)) { ?>
 
-    <script>var klog = {info:function(){},debug:function(){},warn:function(){}};</script>
     <script src="assets/js/ECMA262-5.js"></script>
     <script src="assets/js/gl-matrix-min.js"></script>
     <script src="kiwi.js"></script>

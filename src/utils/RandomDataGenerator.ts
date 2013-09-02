@@ -22,8 +22,6 @@ module Kiwi.Utils {
         */
         constructor(seeds: string[] = []) {
 
-            klog.info('Random Data Generator created');
-
             this.sow(seeds);
 
         }

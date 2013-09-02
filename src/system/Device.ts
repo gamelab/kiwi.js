@@ -24,8 +24,6 @@ module Kiwi.System {
         */
         constructor() {
 
-            klog.info('Device DOM boot');
-
             this._checkAudio();
             this._checkBrowser();
             this._checkCSS3D();

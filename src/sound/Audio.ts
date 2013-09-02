@@ -242,7 +242,6 @@ module Kiwi.Sound {
         private _setAudio(key: string): boolean {
             if (key == '' || this._game.fileStore.exists(key) === false)
             {
-                klog.warn('Audio cannot be extracted from the file store. Invalid key given.', key);
                 this.ready = false;
                 return;
             }

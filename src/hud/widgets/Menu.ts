@@ -52,13 +52,11 @@ module Kiwi.HUD.Widget {
         public setTemplate(main:string, sub?:string) {
             var mainElement = document.getElementById(main)
             if (mainElement === undefined) {
-                console.log('Failed find container');
                 return;
             }
 
             var subElements = mainElement.getElementsByTagName(sub);
             if (subElements === undefined) {
-                console.log('No menu items found');
                 return;
             } 
 

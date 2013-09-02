@@ -161,7 +161,6 @@ module Kiwi.Renderers {
         
 
         private _recurse(gl: WebGLRenderingContext, child: IChild, camera: Kiwi.Camera) {
-           // console.log("_recurse" + this._entityCount);
             if (!child.willRender) return;
 
             if (child.childType() === Kiwi.GROUP) {
@@ -170,14 +169,12 @@ module Kiwi.Renderers {
                 }
             } else {
                 if (!this._texApplied) {
-                    //console.log("applying texture");
                     this._applyTexture(gl, (<Entity>child).atlas.image);
                     this._texApplied = true;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 }
 
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
-                    //console.log("changing texture");
                     this._flush(gl);
                     this._entityCount = 0;
                     this._vertBuffer.clear();
@@ -203,7 +200,6 @@ module Kiwi.Renderers {
         }
 
         private _compileVertices(gl: WebGLRenderingContext, entity: Entity,camera:Kiwi.Camera) {
-            // console.log("_compverts" + this._vertBuffer.items.length);
             var t: Kiwi.Geom.Transform = entity.transform;
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
             var ct: Kiwi.Geom.Transform = camera.transform;

@@ -67,7 +67,7 @@ module Kiwi.Textures {
                     this.textures[imageFile.key] = this._buildTextureAtlas(imageFile);
                     break;
                 default:
-                    klog.error("Image file is of unknown type and was not added to texture library");
+                    //Image file is of unknown type and was not added to texture library
                     break;
             }
 

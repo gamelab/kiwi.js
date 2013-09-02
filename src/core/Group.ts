@@ -46,7 +46,6 @@ module Kiwi {
             this.onRemovedFromLayer = new Kiwi.Signal();
             this.onRemovedFromState = new Kiwi.Signal();
             this._willRender = true;
-            klog.info('Created Group ' + this.name);
 
         }
 
@@ -192,8 +191,6 @@ module Kiwi {
         **/
         public addChild(child: Kiwi.IChild): Kiwi.IChild {
 
-            klog.info('Group.addChild ' + this.members.length);
-
             if (child.transform.parent !== this.transform)
             {
                 this.members.push(child);
@@ -217,11 +214,6 @@ module Kiwi {
         */
         public addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild {
 
-           
-          
-
-            klog.info('Group.addChildAt ' + child.id);
-
             if (child.transform.parent !== this.transform)
             {
                 this.members.splice(index, 0, child);
@@ -241,10 +233,6 @@ module Kiwi {
         * @return {Kiwi.Entity} The child.
         */
         public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {
-
-          
-         
-            klog.info('Group.addChildBefore ' + child.id);
 
             if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index: number = this.getChildIndex(beforeChild);
@@ -267,9 +255,6 @@ module Kiwi {
         */
         public addChildAfter(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {
            
-          
-            klog.info('Group.addChildAfter ' + child.id);
-
             if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index: number = this.getChildIndex(beforeChild) + 1;
 
@@ -488,8 +473,6 @@ module Kiwi {
 
         public _changedPosition(group: Kiwi.Group, index: number) {
 
-            klog.info('Group changed position within the group');
-
         }
 
 
@@ -558,7 +541,6 @@ module Kiwi {
                 oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
                 newChild.transform.parent = null;
                 newChild.modify(Kiwi.ADDED_TO_GROUP, this);
-                console.log(this.members[0]);
                 return true;
 
             }
@@ -630,7 +612,6 @@ module Kiwi {
                 }
             } else {
                 for (var i: number = 0; i < this.members.length; i++) {
-                    console.log('callAll', this.members[i]);
                     this.members[i][componentName][functionName].apply(this.members[i][componentName], args);
                 }
             }
@@ -943,9 +924,7 @@ module Kiwi {
         * @param {Kiwi.State} state
         **/
         private _addedToState(state: Kiwi.State) {
-
-            klog.info('Group added to State');
-
+            
             this.state = state;
 
             this.game = this.state.game;
@@ -962,8 +941,6 @@ module Kiwi {
         * @param {Kiwi.State} state
 		**/
         private _removedFromState(state: Kiwi.State) {
-
-            klog.info('Group removed from State');
 
             this.onRemovedFromState.dispatch(this, state);
 

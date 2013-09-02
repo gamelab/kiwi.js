@@ -1424,4 +1424,3 @@ module Kiwi {
         static total(): number;
     }
 }
-var klog;

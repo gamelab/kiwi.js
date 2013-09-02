@@ -37,8 +37,7 @@ module Kiwi.Animation.Tweens {
         * @return {Kiwi.Tweens.Manager}
         **/
         constructor(game: Kiwi.Game) {
-
-            klog.info('Tween Manager created');
+             
             this._game = game;
             this._tweens = [];
 

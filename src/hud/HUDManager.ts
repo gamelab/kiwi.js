@@ -159,7 +159,6 @@ module Kiwi.HUD {
         public removeHUD(hud: Kiwi.HUD.HUDDisplay) {
             
             if (hud === this._defaultHUD) {
-                klog.error("Cannot remove the default HUD.");
                 return false;
             }
 

@@ -361,7 +361,6 @@ module Kiwi.Components {
             if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
                 this.onDragStarted.dispatch(this._entity, this._nowDragging);
                 this._isDragging = this._nowDragging;
-                console.log('dragging started');
             }
 
             if (this._nowUp !== null) { 
@@ -375,7 +374,6 @@ module Kiwi.Components {
                 if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                     this._isDragging = null;
                     this.onDragStopped.dispatch(this._entity, this._nowUp);
-                    console.log('dragging stopped');
                 }
             }
 
@@ -446,7 +444,6 @@ module Kiwi.Components {
             if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
                 this.onDragStarted.dispatch(this._entity, this._nowDragging);
                 this._isDragging = this._nowDragging;
-                console.log('dragging started');
             }
 
             if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
@@ -456,7 +453,6 @@ module Kiwi.Components {
                 if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                     this._isDragging = null;
                     this.onDragStopped.dispatch(this._entity, this._nowUp);
-                    console.log('dragging stopped');
                 }
 
                 this._isDown = null;

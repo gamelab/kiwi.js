@@ -32,7 +32,6 @@ class Groups extends Kiwi.State {
     }
 
     check() {
-        console.log(this.zombieA.game, this.zombieB.game);
         
     }
 

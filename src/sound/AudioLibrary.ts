@@ -58,7 +58,7 @@ module Kiwi.Sound {
                     break;
                
                 default:
-                    klog.error("Audio file is of unknown type and was not added to audio library");
+                    //Audio file is of unknown type and was not added to audio library
                     break;
             }
 

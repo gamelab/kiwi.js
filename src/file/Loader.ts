@@ -138,8 +138,6 @@ module Kiwi.Files {
         */
         public boot() {
 
-            klog.info('Loader Boot');
-
             this._fileList = [];
             this._loadList = [];
 
@@ -153,8 +151,6 @@ module Kiwi.Files {
         * @param {Boolean} calculateBytes
         */
         public init(progress: any = null, complete: any = null, calculateBytes: bool = false) {
-
-            klog.info('Loader init - calculate bytes: ' + calculateBytes);
 
             this._fileList.length = 0;
             this._loadList.length = 0;
@@ -293,8 +289,6 @@ module Kiwi.Files {
         */
         public startLoad() {
 
-            klog.info('Loader startLoad');
-
             if (this._fileList.length === 0)
             {
                 this._onCompleteCallback();
@@ -313,12 +307,10 @@ module Kiwi.Files {
 
                 if (this._calculateBytes === true)
                 {
-                    klog.info('Loader - startLoad - getting total file sizes');
                     this.getNextFileSize();
                 }
                 else
                 {
-                    klog.info('Loader - startLoad - skipping xhr file size check');
                     this._fileChunk = Math.floor(100 / this._fileTotal);
                     this._loadList = this._fileList;
 
@@ -355,8 +347,6 @@ module Kiwi.Files {
         */
         private addToBytesTotal(file: Kiwi.Files.File) {
 
-            klog.info('Loader - addToBytesTotal - ' + file.fileName + ' = ' + file.fileSize);
-
             this._bytesTotal += file.fileSize;
 
             this._loadList.push(file);
@@ -390,8 +380,6 @@ module Kiwi.Files {
             {
                 this._bytesCurrent = file.bytesLoaded;
 
-                //klog.info('Loader P: current: ' + this._bytesCurrent + ' Overall loaded: ' + this.bytesLoaded + ' total: ' + this._bytesTotal + ' = ' + this.percentLoaded);
-
                 if (this._onProgressCallback)
                 {
                     //  Send: the percentage complete (overall), the bytes total (overall) and the file currently being loaded
@@ -412,8 +400,6 @@ module Kiwi.Files {
             {
                 this._bytesLoaded += file.bytesTotal;
                 this._bytesCurrent = 0;
-
-                //console.log('Loader C: current: ' + this._bytesCurrent + ' Overall loaded: ' + this.bytesLoaded + ' total: ' + this._bytesTotal + ' = ' + this.percentLoaded);
 
                 if (this._onProgressCallback)
                 {
@@ -441,7 +427,6 @@ module Kiwi.Files {
                 
                 if (this._onCompleteCallback)
                 {
-                    klog.info('onCompleteCallback');
                     this._onCompleteCallback();
                 }
             }

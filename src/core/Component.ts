@@ -125,8 +125,6 @@ module Kiwi {
         */
         private _addedToState(state: Kiwi.State): bool {
 
-            klog.info('Component added to State');
-
             this.state = state;
 
             this.game = this.state.game;
@@ -144,8 +142,6 @@ module Kiwi {
         */
         private _removedFromState(state: Kiwi.State) {
 
-            klog.info('Component removed from State');
-
             this.state = null;
 
             this.onAddedToState.dispatch(this, state);
@@ -158,8 +154,6 @@ module Kiwi {
 	    * @param {Kiwi.Group} group. The Group this Component is being added to.
 		**/
         private _addedToGroup(group: Kiwi.Group) {
-
-            klog.info('Component added to Group');
 
             this.group = group;
 
@@ -179,8 +173,6 @@ module Kiwi {
 		**/
         private _removedFromGroup(group: Kiwi.Group) {
 
-            klog.info('Component removed from Group');
-
             this.group = null;
 
             this.onRemovedFromGroup.dispatch(this, group);
@@ -194,8 +186,6 @@ module Kiwi {
         * @return {Boolean}
         */
         private _addedToEntity(entity: Kiwi.Entity): bool {
-
-            klog.info('Component added to Entity');
 
             this.entity = entity;
 
@@ -216,9 +206,7 @@ module Kiwi {
         * @param {Kiwi.Entity} entity
         */
         private _removedFromEntity(entity: Kiwi.Entity) {
-
-            klog.info('Component removed from Entity');
-
+            
             this.entity = null;
 
             this.onRemovedFromEntity.dispatch(this, entity);

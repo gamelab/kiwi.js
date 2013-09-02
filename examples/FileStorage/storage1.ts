@@ -32,7 +32,6 @@ class storage1 extends Kiwi.State {
         this.zombieB.input.onRelease.add(this.liedown, this);
         this.zombieC.input.onRelease.add(this.explode, this);
 
-        console.log(this.game.fileStore);
     }
 
     walk() {

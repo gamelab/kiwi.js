@@ -44,7 +44,6 @@ module Kiwi.GameObjects {
             this._textAlign = 'left';
             this._baseline = 'top';
 
-            klog.info('Created Textfield Game Object');
 
         }
 

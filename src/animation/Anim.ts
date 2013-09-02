@@ -275,9 +275,7 @@ module Kiwi.Animation {
         * @method resume
         */
         public resume() {
-            if (this._startTime === null) {
-                klog.warn('Animation\'s can only resume if they have been played before!');
-            } else {
+            if (this._startTime !== null) { 
                 this._isPlaying = true;
             }
         }

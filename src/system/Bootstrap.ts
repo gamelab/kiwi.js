@@ -77,8 +77,6 @@ module Kiwi.System {
         */
         public boot(domParent: string, callback: any = null, createContainer: bool = true) {
 
-            klog.info('DOM Boot: ' + document.readyState);
-
             this._callback = callback;
             this._domParent = domParent;
             // if this is true a div will be created in browser
@@ -102,11 +100,6 @@ module Kiwi.System {
         * @method ready
         */
         public ready() {
-
-            klog.info('DOM Ready Check');
-
-
-
 
             if (this.isReady === true)
             {
@@ -147,7 +140,6 @@ module Kiwi.System {
                             document.body.appendChild(this.container);
                         }
 
-                        klog.info('DOM Alive');
                     }
                 }
 

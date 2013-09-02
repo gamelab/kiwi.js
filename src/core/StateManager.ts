@@ -105,8 +105,6 @@ module Kiwi {
          */
         public addState(state: any, switchTo:bool = false): bool {
 
-            klog.info('Adding new State');
-
             var tempState;
 
             //  Is it a Prototype?
@@ -125,7 +123,6 @@ module Kiwi {
 
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true)
             {
-                klog.warn('State with this name already exists or state is malformed');
                 return false;
             }
 
@@ -134,12 +131,10 @@ module Kiwi {
 
             if (this.checkValidState(tempState) === false)
             {
-                klog.info('checkValidState failed');
                 return false;
             }
             else
             {
-                klog.info('State successfully added to StateManager');
 
                 this._states.push(tempState);
 
@@ -159,8 +154,6 @@ module Kiwi {
         * @method boot
         */
         boot() {
-
-            klog.info('StateManager booting');
 
             if (this.current !== null)
             {
@@ -189,13 +182,9 @@ module Kiwi {
         **/
         private setCurrentState(key: string): bool {
 
-            klog.debug('-------------------------------------------------------------');
-            klog.info('Start of Setting Current State ' + key);
-
             //  Bail out if they are trying to switch to the already current state
             if (this.current !== null && this.current.config.name === key)
             {
-                klog.info('Bailing out, switching to already current state');
                 return false;
             }
 
@@ -206,7 +195,6 @@ module Kiwi {
                 //  If there is a shutdown function then we call it, passing it a callback.
                 //  The State is then responsible for hitting the callback when it is ready.
                 //  TODO: Transition support - both state updates need to be called at the same time.
-                klog.info('Current State: ' + this.current.config.name + ' being destroyed');
                 this._game.input.reset();
                 this.current.destroy();
             }
@@ -217,8 +205,6 @@ module Kiwi {
             if (this.checkKeyExists(key) === true)
             {
                 this.current = this.getState(key);
-
-                klog.info('Key exists, so setting current state to: ', this.current.config.name);
 
                 //  Do we need to init it?
                 if (this._game.stage.domReady === true)
@@ -251,7 +237,6 @@ module Kiwi {
             }
             else
             {
-                klog.warn('Apparently the State key doesn\'t exist');
                 return false;
             }
 
@@ -270,12 +255,9 @@ module Kiwi {
          */
         public switchState(key: string, state: any = null, initParams = null, createParams = null): bool {
 
-            klog.info('Attempting to switch to State ' + key);
-
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false)
             {
-                klog.warn('You cannot call switchState before the current state has called create()');
                 return false;
             }
 
@@ -353,7 +335,6 @@ module Kiwi {
                 //  No preloader, but does have a create function
                 if (this.current.config.hasCreate === true && this.current.config.isCreated === false)
                 {
-                    klog.info('No preloaded, calling create function');
                     this.current.config.isCreated = true;
 
                     if (this.current.config.createParams)
@@ -408,7 +389,6 @@ module Kiwi {
 
             if (this.current.config.hasCreate === true)
             {
-                klog.info('preload finished - now calling create function');
                 this.current.config.isCreated = true;
                 if (this.current.config.createParams)
                 {

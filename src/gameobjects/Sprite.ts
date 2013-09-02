@@ -57,7 +57,6 @@ module Kiwi.GameObjects {
             this.onAddedToState.add(this._onAddedToState, this);
             this.onAddedToGroup.add(this._onAddedToGroup, this);
 
-            klog.info('Created Sprite Game Object');
         }
 
         /*
@@ -124,8 +123,6 @@ module Kiwi.GameObjects {
         */
         private _onAddedToState(state: Kiwi.State): bool {
             
-            klog.info('Sprite added to State');
-              
             if(this._isAnimated) 
                 this.animation.clock = this.clock; 
             this.input.game = this.game;
@@ -141,8 +138,7 @@ module Kiwi.GameObjects {
         * @return {bool}
         */
         private _onAddedToGroup(group: Kiwi.Group): bool {
-            klog.info('Sprite added to Group');
-
+            
             if (this._isAnimated)
                 this.animation.clock = this.clock;
             this.input.game = this.game;

@@ -43,9 +43,6 @@ module Kiwi.GameObjects {
             
             this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
            
-
-            klog.info('Created StaticImage Game Object');
-
         }
 
         /*

@@ -26,8 +26,6 @@ module Kiwi {
         constructor(name: string) {
             super(name);
             
-            klog.debug('----------- State created: ' + name + ' -----------');
-            
             this.config = new Kiwi.StateConfig(this, name);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
@@ -81,7 +79,6 @@ module Kiwi {
         **/
         public boot() {
 
-            klog.info('State booted: ', this.config.name);
             this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
             this.textures = this.textureLibrary.textures;
             this.audioLibrary = new Kiwi.Sound.AudioLibrary(this.game);
@@ -198,10 +195,6 @@ module Kiwi {
             if (this.config.isInitialised === false)
             {
                 this.config.type = value;
-            }
-            else
-            {
-                klog.warn('State default type can only be changed in init()');
             }
 
         }

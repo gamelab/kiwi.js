@@ -62,7 +62,7 @@ module Kiwi.Files {
                     break;
                 
                 default:
-                    klog.error("Image file is of unknown type and was not added to data library");
+                   //Image file is of unknown type and was not added to data library
                     break;
             }
 

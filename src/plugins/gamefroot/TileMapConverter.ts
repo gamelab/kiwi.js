@@ -37,22 +37,18 @@ module Kiwi.Plugins.Gamefroot {
             this._convertWidthHeight();
             this._convertTilesets();
             this._convertLayers();
-            //console.log(JSON.stringify(this.kiwiData, undefined, 2));
         }
 
         private _convertWidthHeight() {
-            console.log("converting GF to Kiwi Width Height");
             var terrain = this._gfData.map.terrain;
             
             for (var i = 0; i < terrain.length; i++) {
                 if (parseInt(terrain[i].xpos) > this.kiwiData.width) this.kiwiData.width = parseInt(terrain[i].xpos) + 1;
                 if (parseInt(terrain[i].ypos) > this.kiwiData.height) this.kiwiData.height = parseInt(terrain[i].ypos) + 1;
             }
-            console.log("width = " + this.kiwiData.width + ", height = " + this.kiwiData.height);
         }
 
         private _convertTilesets() {
-            console.log("converting GF to Kiwi TileSets");
 
             var tileset = {
                 "firstgid": 1,
@@ -79,8 +75,6 @@ module Kiwi.Plugins.Gamefroot {
         }
 
         private _convertLayers() {
-            console.log("converting GF to Kiwi Layers");
-            
             //var terrain = this._gfData.map.terrain;
             
             //get background
@@ -113,12 +107,8 @@ module Kiwi.Plugins.Gamefroot {
             for (var i = 0; i < totalTiles; i++) {
                 layer.data.push(0);
             }
-            //console.log("totalTIles = " + totalTiles,layer.width,layer.height);
-            console.log("data len " + layer.data.length);
             var tilesPerRow:number = this.kiwiData.tilesets[0].imagewidth/TileMapConverter.GF_TILE_WIDTH;
             var tilesPerColumn:number = this.kiwiData.tilesets[0].imageheight/TileMapConverter.GF_TILE_HEIGHT;
-           // console.log("tilePerRow = " + tilesPerRow);
-           // console.log("tilePerColumn = " + tilesPerColumn);
 
             var terrain = this._gfData.map.terrain;
            
@@ -133,30 +123,21 @@ module Kiwi.Plugins.Gamefroot {
                     //calculate kiwi data index
                     var dataIndex = y * this.kiwiData.width + x;
 
-                    console.log("dataIndex" + dataIndex,x,y);
-
-                  //  console.log(dataIndex);
-           //         console.log("dataIndex " + dataIndex);
                     //get gf sprite id position
                     var gfpos = this._getSpritePosition(terrain[i].animation_id);
                   
-                    //console.log("gfpos " + gfpos);
                     layer.data[dataIndex] = gfpos + 1;//this will change with bigger map
-                    //if (layer.data[dataIndex] == null) console.log("AAAA");
+                    //if (layer.data[dataIndex] == null)
                     
                 }
             }
-            console.log("count " + count);
-            console.log("data len " + layer.data.length);
             return layer;
         }
 
         private _getSpritePosition(id): number {
             var sprites = this._gfData.sprites.animations;
-        //    console.log(sprites);
             var result: number = -1;
             for (var i = 0; i < sprites.length; i++) {
-            //    console.log(sprites[i].id);
                 if (sprites[i].id === String(id)) {
                     return sprites[i].sprite_id;
                 }

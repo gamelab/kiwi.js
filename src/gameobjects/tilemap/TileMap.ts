@@ -47,7 +47,6 @@ module Kiwi.GameObjects.Tilemap {
         public createFromFileStore(tileMapDataKey: string, atlas: Kiwi.Textures.SpriteSheet, game: Game, format: number) {
             //get the json
             if (this._game.fileStore.exists(tileMapDataKey) == false) {
-                console.log('Missing json data', tileMapDataKey);
                 return;
             }
             

@@ -20,10 +20,8 @@ if(isset($_GET['f'])) {
     <link rel="stylesheet" href="assets/css/examples.css" type="text/css" />
     <!-- All of the scripts -->
     <?php if(file_exists($filepath)) { ?>
-    <script src="assets/js/log4javascript.js"></script>
 	<script src="assets/js/jquery-1.9.1.js"></script>
     <script src="assets/js/gl-matrix-min.js"></script>
-    <script> var klog = log4javascript.getDefaultLogger(); </script>
     <script src="assets/js/ECMA262-5.js"></script>
     <script src="Kiwi.js"></script>
     <script src="<?php echo $filepath?>"></script>

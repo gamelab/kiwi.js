@@ -45,8 +45,6 @@ module Kiwi.System {
         */
         public boot() {
 
-            klog.info('DOM.Browser booting');
-
             //this._game.stage.offset = this.getOffsetPoint(this._game.stage.container);
 
         }

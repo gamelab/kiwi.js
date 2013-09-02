@@ -26,8 +26,6 @@ module Kiwi.Renderers {
 
         private _recurse(child: IChild) {
 
-            //console.log(child.childType());
-
             if (!child.willRender) return;
 
             if (child.childType() === Kiwi.GROUP) {
@@ -71,8 +69,6 @@ module Kiwi.Renderers {
             for (var i = 0; i < root.length; i++) {
                 this._recurse(root[i]);
             }
-            //console.log("reder");
-
             /*
             
             */

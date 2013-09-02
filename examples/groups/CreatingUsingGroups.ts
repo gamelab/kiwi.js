@@ -46,7 +46,6 @@ class CreatingUsingGroups extends Kiwi.State {
         if (this.left.isDown) {
             for (var i: number = 0; i < m.length; i++) {
                 var b = <Kiwi.Entity>m[i];
-                console.log(b.components.getComponent("Position").x());
                 b.components.getComponent("Position").x(b.components.getComponent("Position").x() - 1);
             }
         }
