@@ -229,6 +229,9 @@ module Kiwi.Animation {
         * @param {number} index
         */
         private _start(index: number = 0) {
+            if (this._validateFrame(index) == false) //if its not a valid frame
+                index = 0;
+            
             this._playPending = false;
             this._isPlaying = true;
             this._startTime = this._clock.elapsed();
