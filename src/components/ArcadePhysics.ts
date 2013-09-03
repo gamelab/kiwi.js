@@ -21,41 +21,42 @@
  *
 */
 
-
-
-
 module Kiwi.Components {
-
-   
-
+     
     export class ArcadePhysics extends Kiwi.Component {
 
         /*
         * The Entity that this physics component belongs to.
-        * @private
+        * @property _parent
+        * @type Kiwi.Entity
         */
         private _parent: Entity;
         
         /*
         * The transform component.
-        * @public
+        * @property transform
+        * @type Kiwi.Geom.Transform
         */
         public transform: Kiwi.Geom.Transform;
         
         /*
-        * The size component that this physics component uses.
-        * @public
+        * The width component that this physics component uses.
+        * @property width
+        * @type number
         */
-        public width: number;
+        public width: number;   //convert to hitbox 
 
+        /*
+        * The height that this physics component uses.
+        * @property height
+        * @type number
+        */ 
         public height: number;
 
         /*
         *
         * @constructor
         * @param {Kiwi.Entity} entity 
-        * @param {Kiwi.Components.Position} position
-        * @param {Kiwi.Components.Size} size
         * @return {Kiwi.Components.ArcadePhysics}
         */
         constructor(entity:Kiwi.Entity) {
@@ -99,126 +100,183 @@ module Kiwi.Components {
             return "ArcadePhysics";
         }
 
-        //************* needs replacing with clock implementation ************
-        public static updateInterval: number = 1 / 10;
+        /**
+         * Generic value for "left" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
+         * @property LEFT
+         * @type number
+         */
+        public static LEFT: number = 0x0001;
 
         /**
-		 * Generic value for "left" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-		 */
-        public static LEFT: number = 0x0001;
-        /**
-		 * Generic value for "right" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-		 */
+         * Generic value for "right" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
+         * @property RIGHT
+         * @type number
+         */
         public static RIGHT: number = 0x0010;
+
         /**
-		 * Generic value for "up" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-		 */
+         * Generic value for "up" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
+         * @property UP
+         * @type number
+         */
         public static UP: number = 0x0100;
+
         /**
 		 * Generic value for "down" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-		 */
+		 * @property DOWN
+         * @type number
+         */
         public static DOWN: number = 0x1000;
 
         /**
-		 * Special-case constant meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
+         * Special-case constant meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.
+         * @property NONE
+         * @type number
+         */
         public static NONE: number = 0;
+
         /**
-		 * Special-case constant meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
+         * Special-case constant meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.
+         * @property CEILING
+         * @type number
+         */
         public static CEILING: number = ArcadePhysics.UP;
+
         /**
-		 * Special-case constant meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
+         * Special-case constant meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.
+         * @property FLOOR
+         * @type number
+         */
         public static FLOOR: number = ArcadePhysics.DOWN;
+
         /**
-		 * Special-case constant meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
+         * Special-case constant meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.
+         * @property WALL
+         * @type number
+         */
         public static WALL: number = ArcadePhysics.LEFT | ArcadePhysics.RIGHT;
+
         /**
 		 * Special-case constant meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
+		 * @property ANY
+         * @type number
+         */
         public static ANY: number = ArcadePhysics.LEFT | ArcadePhysics.RIGHT | ArcadePhysics.UP | ArcadePhysics.DOWN;
 
         /**
 		 * Handy constant used during collision resolution (see <code>separateX()</code> and <code>separateY()</code>).
-		 */
+		 * @property OVERLAP_BIAS
+         * @type number
+         */
         public static OVERLAP_BIAS: number = 4;
 
         /**
 		 * Whether an object will move/alter position after a collision.
+         * @property immovable
+         * @type bool
 		 */
         public immovable: bool;
 
         /**
-		 * The basic speed of this object.
-		 */
+         * The basic speed of this object.
+         * @property velocity
+         * @type Kiwi.Geom.Point
+         */
         public velocity: Kiwi.Geom.Point;
+
         /**
 		 * The virtual mass of the object. Default value is 1.
 		 * Currently only used with <code>elasticity</code> during collision resolution.
 		 * Change at your own risk; effects seem crazy unpredictable so far!
+         * @property mass
+         * @type number
 		 */
         public mass: number;
+        
         /**
-		 * The bounciness of this object.  Only affects collisions.  Default value is 0, or "not bouncy at all."
-		 */
+         * The bounciness of this object.  Only affects collisions.  Default value is 0, or "not bouncy at all."
+         * @property elasticity
+         * @type number
+         */
         public elasticity: number;
+
         /**
-		 * How fast the speed of this object is changing.
-		 * Useful for smooth movement and gravity.
-		 */
+         * How fast the speed of this object is changing.
+         * Useful for smooth movement and gravity.
+         * @property acceleration
+         * @type Kiwi.Geom.Point
+         */
         public acceleration: Kiwi.Geom.Point;
+
         /**
-		 * This isn't drag exactly, more like deceleration that is only applied
-		 * when acceleration is not affecting the sprite.
-		 */
+         * This isn't drag exactly, more like deceleration that is only applied
+         * when acceleration is not affecting the sprite.
+         * @property drag
+         * @type Kiwi.Geom.Point
+         */
         public drag: Kiwi.Geom.Point;
+
         /**
-		 * If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it
-		 * to cap the speed automatically (very useful!).
-		 */
+         * If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it
+         * to cap the speed automatically (very useful!).
+         * @property maxVelocity
+         * @type Kiwi.Geom.Point
+         */
         public maxVelocity: Kiwi.Geom.Point;
+
         /**
-		 * Set the angle of a sprite to rotate it.
-		 * WARNING: rotating sprites decreases rendering
-		 * performance for this sprite by a factor of 10x!
-		 */
+         * Set the angle of a sprite to rotate it.
+         * WARNING: rotating sprites decreases rendering
+         * performance for this sprite by a factor of 10x!
+         * @property angle
+         * @type number
+         */
         public angle: number;
+
         /**
 		 * This is how fast you want this sprite to spin.
-		 */
+		 * @property angularVelocity
+         * @type number
+         */
         public angularVelocity: number;
+        
         /**
 		 * How fast the spin speed should change.
+         * @property angularAcceleration
+         * @type number
 		 */
         public angularAcceleration: number;
+        
         /**
 		 * Like <code>drag</code> but for spinning.
+         * @property angularDrag
+         * @type number
 		 */
         public angularDrag: number;
+        
         /**
-		 * Use in conjunction with <code>angularAcceleration</code> for fluid spin speed control.
-		 */
+         * Use in conjunction with <code>angularAcceleration</code> for fluid spin speed control.
+         * @property maxAngular
+         * @type number
+         */
         public maxAngular: number;
-        /**
-		 * Should always represent (0,0) - useful for different things, for avoiding unnecessary <code>new</code> calls.
-		 */
-        //static _pZero: Kiwi.Geom.Point = new Kiwi.Geom.Point();
 
         public moves: bool;
+
         /**
-		 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
-		 * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
-		 * You can even use them broadly as boolean values if you're feeling saucy!
-		 */
+         * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
+         * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
+         * You can even use them broadly as boolean values if you're feeling saucy!
+         */
         public touching: number;
+
         /**
-		 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.
-		 * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
-		 * You can even use them broadly as boolean values if you're feeling saucy!
-		 */
+         * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.
+         * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
+         * You can even use them broadly as boolean values if you're feeling saucy!
+         */
         public wasTouching: number;
+
         /**
 		 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.
 		 * Use bitwise operators to check the values stored here.
@@ -255,6 +313,9 @@ module Kiwi.Components {
 		 * Whether the object collides or not.  For more control over what directions
 		 * the object will collide from, use collision constants (like LEFT, FLOOR, etc)
 		 * to set the value of allowCollisions directly.
+         * @method solid
+         * @param {bool} value
+         * @return bool
 		 */
         public solid(value?: bool): bool {
             if (value !== undefined) {
@@ -266,8 +327,6 @@ module Kiwi.Components {
 
                 return (this.allowCollisions & ArcadePhysics.ANY) > ArcadePhysics.NONE;
         }
-
-
 
         ////////Static functions/////////
 
@@ -290,7 +349,7 @@ module Kiwi.Components {
         *
         * @method collideGroup
         * @param {Kiwi.GameObjects.Entity} gameObject1
-        * @param {Kiwi.Group} group
+        * @param {Any} group
         * @param {bool} seperate
         * @return {bool}
         */
@@ -304,7 +363,7 @@ module Kiwi.Components {
         *
         * @method collideGroupGroup
         * @param {Kiwi.GameObjects.Entity} gameObject1
-        * @param {Kiwi.Group} group
+        * @param {Any} group
         * @param {bool} seperate
         * @return {bool}
         */
@@ -318,7 +377,7 @@ module Kiwi.Components {
         *
         * @method overlaps
         * @param {Kiwi.GameObjects.Entity} gameObject1
-        * @param {Kiwi.Group} gameObject2
+        * @param {Kiwi.GameObjects.Entity} gameObject2
         * @param {bool} separate
         * @return {bool}
         */
@@ -338,7 +397,7 @@ module Kiwi.Components {
         *
         * @method overlaps
         * @param {Kiwi.GameObjects.Entity} gameObject1
-        * @param {Kiwi.Group} group
+        * @param {Any} group
         * @param {bool} separate - If they overlap should the seperate or not
         * @return {bool}
         */
@@ -352,8 +411,8 @@ module Kiwi.Components {
         * A Static method that checks to see if any objects in a group overlap with objects in another group.
         *
         * @method overlaps
-        * @param {Kiwi.GameObjects.Entity} gameObject1
-        * @param {Kiwi.Group} gameObject2
+        * @param {Any} gameObject1
+        * @param {Any} gameObject2
         * @param {bool} separate - If they overlap should the seperate or not
         * @return {bool}
         */
@@ -406,8 +465,8 @@ module Kiwi.Components {
         /**
 		 * The X-axis component of the object separation process.
 		 * 
-		 * @param	Object1 	Any <code>FlxObject</code>.
-		 * @param	Object2		Any other <code>FlxObject</code>.
+		 * @param	{Kiwi.Entity} object1
+		 * @param	{Kiwi.Entity} object2
 		 * 
 		 * @return	Whether the objects in fact touched and were separated along the X axis.
 		 */
@@ -497,8 +556,8 @@ module Kiwi.Components {
         /**
 		 * The Y-axis component of the object separation process.
 		 * 
-		 * @param	Object1 	Any <code>FlxObject</code>.
-		 * @param	Object2		Any other <code>FlxObject</code>.
+		 * @param	{Kiwi.Entity} object1
+		 * @param	{Kiwi.Entity} object2
 		 * 
 		 * @return	Whether the objects in fact touched and were separated along the Y axis.
 		 */
