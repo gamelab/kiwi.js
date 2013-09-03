@@ -36,9 +36,17 @@ module Kiwi.Components {
                 this.createFromSequence(this._atlas.sequences[i], false);
             }
 
-            //create a default animation.
-            this.currentAnimation = this.add('first', [this._atlas.cellIndex], 0, false, false); 
-            
+            //if a default animation already exists
+            if (this._animations['default']) {
+                this.currentAnimation = this._animations['default'];
+            //otherwise create one.
+            } else {
+                var defaultCells = [];
+                for (var i = 0; i < this._atlas.cells.length; i++) {
+                    defaultCells.push(i);
+                }
+                this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
+            }
         }
 
         /*
@@ -151,9 +159,9 @@ module Kiwi.Components {
         * @method play
         * @param {string} name - defaults to the current animation
         */
-        public play(name: string = this.currentAnimation.name) {
+        public play(name: string = this.currentAnimation.name):Kiwi.Animation.Anim {
 
-            this._play(0, name);
+            return this._play(name);
         }
         
         /*
@@ -163,9 +171,9 @@ module Kiwi.Components {
         * @param {Number} index
         * @param {String} name - defaults to the current animation
         */        
-        public playAt(index: number, name: string = this.currentAnimation.name) {
-
-            this._play(index, name);
+        public playAt(index: number, name: string = this.currentAnimation.name):Kiwi.Animation.Anim {
+            
+            return this._play(name, index);
         } 
 
         /*
@@ -175,14 +183,20 @@ module Kiwi.Components {
         * @param {number} index
         * @param {string} name
         */
-        private _play(index: number, name: string) {
+        private _play(name: string, index: number=null): Kiwi.Animation.Anim {
             
             this._isPlaying = true;
             this._setCurrentAnimation(name);
             if (this._clock !== null) this.currentAnimation.clock = this._clock; 
-            this.currentAnimation.playAt(index);
+            
+            if (index !== null)
+                this.currentAnimation.playAt(index);
+            else
+                this.currentAnimation.play();
+            
             this._setCellIndex();
 
+            return this.currentAnimation;
         }
 
         /*
@@ -223,13 +237,40 @@ module Kiwi.Components {
         * @param {string} name
         * @param {bool} play
         */
-        public switchTo(name: string, play:bool=null) { 
-            if (this.currentAnimation.name !== name) {
-                this._setCurrentAnimation(name);
+        public switchTo(val: any, play:bool=null) { 
+            switch (typeof val) {
+                case "string":
+                    if (this.currentAnimation.name !== val) {
+                        this._setCurrentAnimation(val);
+                    }
+                    break;
+                case "number":
+                    this.currentAnimation.frameIndex = val;
+                    break;
             }
 
             if (play || play === null && this.isPlaying) this.play();
-            if (play == false && this.isPlaying) this.isPlaying = false;
+            if (play == false && this.isPlaying) this.stop();
+
+            this._setCellIndex();
+        }
+
+        /*
+        * Makes the current animation go to the next frame. If the animation is at the end of the sequence it then goes back to the start.
+        * @method nextFrame
+        */
+        public nextFrame() {
+            this.currentAnimation.nextFrame();
+            this._setCellIndex();
+        }
+        
+        /*
+        * Makes the current animation go to the prev frame. If the animation is at the start, the animation will go the end of the sequence.
+        * @method prevFrame
+        */
+        public prevFrame() {
+            this.currentAnimation.prevFrame();
+            this._setCellIndex();
         }
 
         /*
@@ -273,6 +314,14 @@ module Kiwi.Components {
         */
         public get frameIndex():number {
             return this.currentAnimation.frameIndex;
+        }
+
+        /*
+        * Returns the length of the current animation that is playing.
+        * @type number
+        */
+        public get length(): number {
+            return this.currentAnimation.length;
         }
 
         /*

@@ -40,6 +40,7 @@ class Explosions extends Kiwi.State {
             //explosion.animation.getAnimation("test").frameIndex = Math.floor(Math.random() * 23);
             explosion.transform.x = Math.floor(Math.random() * 800);
             explosion.transform.y = Math.floor(Math.random() * 600);
+
             this.velsX.push(Math.floor(Math.random() * 20 - 10));
             this.velsY.push(Math.floor(Math.random() * 20 - 10));
 

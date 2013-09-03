@@ -88,6 +88,16 @@ module Kiwi.Animation {
         }
 
         /*
+        * Sets the current frame index that the animation is sitting at.
+        * @type number
+        */
+        public set frameIndex(val: number) {
+            if (this._validateFrame(val)) {
+                this._frameIndex = val;
+            }
+        }
+
+        /*
         * Returns the current cell that the animation is up to.
         * @type number
         */
@@ -228,24 +238,26 @@ module Kiwi.Animation {
         * @method _start
         * @param {number} index
         */
-        private _start(index: number = 0) {
-            if (this._validateFrame(index) == false) //if its not a valid frame
-                index = 0;
-            
+        private _start(index: number = null) {
+            if (index !== null) {
+                this.frameIndex = index;
+            }
             this._playPending = false;
             this._isPlaying = true;
             this._startTime = this._clock.elapsed();
             this._tick = this._startTime + this._speed;
-            this._frameIndex = index;
             this.onPlay.dispatch();
         }
 
         /*
-        * Plays the animation at the first frame
+        * Plays the animation.
         * @method play
         */
         public play() {
-            this.playAt(0);
+            //if the animation is at the last frame then start it at the beginning
+            if (this._frameIndex === this.length - 1) this.frameIndex = 0; 
+
+            this.playAt(this._frameIndex);
         }
 
         /*
@@ -293,6 +305,24 @@ module Kiwi.Animation {
         }
 
         /*
+        * Makes the animation go to the next frame. If the animation is at the end it goes back to the start.
+        * @method nextFrame
+        */
+        public nextFrame() {
+            this._frameIndex++;
+            if (this._frameIndex >= this.length) this.frameIndex = 0;
+        }
+        
+        /*
+        * Makes the animation go to the previous frame. If the animation is at the first frame it goes to the end.
+        * @method prevFrame
+        */
+        public prevFrame() {
+            this._frameIndex--;
+            if (this._frameIndex < 0) this.frameIndex = this.length - 1;
+        }
+
+        /*
         * The update loop. Returns a boolean indicating weither the animation has gone to a new frame or not.
         * @method update
         * @return {bool}
@@ -311,7 +341,7 @@ module Kiwi.Animation {
 
                         if (this._loop) {
                             if (this._reverse) {
-                                this._frameIndex = this._sequence.cells.length - 1;
+                                this._frameIndex = this.length - 1;
                                 this.onLoop.dispatch();
                             } else {
                                 this._frameIndex = 0;
@@ -335,7 +365,15 @@ module Kiwi.Animation {
         * @param {number} frame
         */
         private _validateFrame(frame: number) {
-            return (frame < this._sequence.cells.length && frame >= 0);
+            return (frame < this.length && frame >= 0);
+        }
+        
+        /*
+        * Returns the number of frames that in the animation. Thus the animations 'length'.
+        * @type number
+        */
+        public get length():number {
+            return this._sequence.cells.length;
         }
 
     }

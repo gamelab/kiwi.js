@@ -4796,9 +4796,15 @@ var Kiwi;
                 get: function () {
                     return this._frameIndex;
                 },
+                set: function (val) {
+                    if (this._validateFrame(val)) {
+                        this._frameIndex = val;
+                    }
+                },
                 enumerable: true,
                 configurable: true
             });
+
 
             Object.defineProperty(Anim.prototype, "currentCell", {
                 get: function () {
@@ -4848,20 +4854,22 @@ var Kiwi;
             });
 
             Anim.prototype._start = function (index) {
-                if (typeof index === "undefined") { index = 0; }
-                if (this._validateFrame(index) == false)
-                    index = 0;
-
+                if (typeof index === "undefined") { index = null; }
+                if (index !== null) {
+                    this.frameIndex = index;
+                }
                 this._playPending = false;
                 this._isPlaying = true;
                 this._startTime = this._clock.elapsed();
                 this._tick = this._startTime + this._speed;
-                this._frameIndex = index;
                 this.onPlay.dispatch();
             };
 
             Anim.prototype.play = function () {
-                this.playAt(0);
+                if (this._frameIndex === this.length - 1)
+                    this.frameIndex = 0;
+
+                this.playAt(this._frameIndex);
             };
 
             Anim.prototype.playAt = function (index) {
@@ -4891,6 +4899,18 @@ var Kiwi;
                 }
             };
 
+            Anim.prototype.nextFrame = function () {
+                this._frameIndex++;
+                if (this._frameIndex >= this.length)
+                    this.frameIndex = 0;
+            };
+
+            Anim.prototype.prevFrame = function () {
+                this._frameIndex--;
+                if (this._frameIndex < 0)
+                    this.frameIndex = this.length - 1;
+            };
+
             Anim.prototype.update = function () {
                 if (this._isPlaying) {
                     if (this.clock.elapsed() >= this._tick) {
@@ -4904,7 +4924,7 @@ var Kiwi;
                         if (!this._validateFrame(this._frameIndex)) {
                             if (this._loop) {
                                 if (this._reverse) {
-                                    this._frameIndex = this._sequence.cells.length - 1;
+                                    this._frameIndex = this.length - 1;
                                     this.onLoop.dispatch();
                                 } else {
                                     this._frameIndex = 0;
@@ -4923,8 +4943,16 @@ var Kiwi;
             };
 
             Anim.prototype._validateFrame = function (frame) {
-                return (frame < this._sequence.cells.length && frame >= 0);
+                return (frame < this.length && frame >= 0);
             };
+
+            Object.defineProperty(Anim.prototype, "length", {
+                get: function () {
+                    return this._sequence.cells.length;
+                },
+                enumerable: true,
+                configurable: true
+            });
             return Anim;
         })();
         Animation.Anim = Anim;
@@ -6083,7 +6111,15 @@ var Kiwi;
                     this.createFromSequence(this._atlas.sequences[i], false);
                 }
 
-                this.currentAnimation = this.add('first', [this._atlas.cellIndex], 0, false, false);
+                if (this._animations['default']) {
+                    this.currentAnimation = this._animations['default'];
+                } else {
+                    var defaultCells = [];
+                    for (var i = 0; i < this._atlas.cells.length; i++) {
+                        defaultCells.push(i);
+                    }
+                    this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
+                }
             }
             Object.defineProperty(Animation.prototype, "isPlaying", {
                 get: function () {
@@ -6133,21 +6169,28 @@ var Kiwi;
 
             Animation.prototype.play = function (name) {
                 if (typeof name === "undefined") { name = this.currentAnimation.name; }
-                this._play(0, name);
+                return this._play(name);
             };
 
             Animation.prototype.playAt = function (index, name) {
                 if (typeof name === "undefined") { name = this.currentAnimation.name; }
-                this._play(index, name);
+                return this._play(name, index);
             };
 
-            Animation.prototype._play = function (index, name) {
+            Animation.prototype._play = function (name, index) {
+                if (typeof index === "undefined") { index = null; }
                 this._isPlaying = true;
                 this._setCurrentAnimation(name);
                 if (this._clock !== null)
                     this.currentAnimation.clock = this._clock;
-                this.currentAnimation.playAt(index);
+
+                if (index !== null)
+                    this.currentAnimation.playAt(index); else
+                    this.currentAnimation.play();
+
                 this._setCellIndex();
+
+                return this.currentAnimation;
             };
 
             Animation.prototype.stop = function () {
@@ -6167,16 +6210,35 @@ var Kiwi;
                 this._isPlaying = true;
             };
 
-            Animation.prototype.switchTo = function (name, play) {
+            Animation.prototype.switchTo = function (val, play) {
                 if (typeof play === "undefined") { play = null; }
-                if (this.currentAnimation.name !== name) {
-                    this._setCurrentAnimation(name);
+                switch (typeof val) {
+                    case "string":
+                        if (this.currentAnimation.name !== val) {
+                            this._setCurrentAnimation(val);
+                        }
+                        break;
+                    case "number":
+                        this.currentAnimation.frameIndex = val;
+                        break;
                 }
 
                 if (play || play === null && this.isPlaying)
                     this.play();
                 if (play == false && this.isPlaying)
-                    this.isPlaying = false;
+                    this.stop();
+
+                this._setCellIndex();
+            };
+
+            Animation.prototype.nextFrame = function () {
+                this.currentAnimation.nextFrame();
+                this._setCellIndex();
+            };
+
+            Animation.prototype.prevFrame = function () {
+                this.currentAnimation.prevFrame();
+                this._setCellIndex();
             };
 
             Animation.prototype._setCurrentAnimation = function (name) {
@@ -6208,6 +6270,14 @@ var Kiwi;
             Object.defineProperty(Animation.prototype, "frameIndex", {
                 get: function () {
                     return this.currentAnimation.frameIndex;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "length", {
+                get: function () {
+                    return this.currentAnimation.length;
                 },
                 enumerable: true,
                 configurable: true
