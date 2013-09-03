@@ -26,14 +26,8 @@ module Kiwi {
         constructor(game: Kiwi.Game) {
              
             this._game = game;
-
-            
             this._cameras = [];
-
             this._nextCameraID = 0;
-
-            
-
 
         }
 
@@ -52,9 +46,7 @@ module Kiwi {
         * @private
     	*/
         private _game: Kiwi.Game;
-
-        
-        
+         
         /**
 		* A collection of cameras
         * @property _cameras
@@ -78,9 +70,6 @@ module Kiwi {
     	*/
         public defaultCamera: Kiwi.Camera;
 
-        
-        
-
         /**
 		* Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
         * @method boot
@@ -89,7 +78,6 @@ module Kiwi {
         public boot() {
 
             this.create("defaultCamera", 0, 0, this._game.stage.width, this._game.stage.height);
-
             this.defaultCamera = this._cameras[0];
         
         }
@@ -171,14 +159,11 @@ module Kiwi {
 
         }
 
-        
-
         /**
 		* Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
         * @method removeAll - note should not remove default
     	*/
         public removeAll() {
-
             this._cameras.length = 0; 
         }
 

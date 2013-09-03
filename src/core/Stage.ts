@@ -20,7 +20,8 @@ module Kiwi {
         *
         * @constructor
         * @param {Kiwi.Game} game
-        * @return {Settings} This Object
+        * @param {String} name
+        * @return {Stage} Kiwi.Stage
         */
         constructor(game: Kiwi.Game, name: string) {
 
@@ -29,9 +30,7 @@ module Kiwi {
             this.name = name;
 
             this.domReady = false;
-
-            
-
+             
             //  Properties
 
             this._alpha = 1;
@@ -48,6 +47,8 @@ module Kiwi {
 
         /**
         * Returns the type of this object.
+        * @method objType
+        * @return string
         */
         public objType():string {
             return "Stage";
@@ -142,7 +143,7 @@ module Kiwi {
         }
         
         /*
-        * Set the width og the stage.
+        * Set the width of the stage.
         * @type number
         */
         public set width(value: number) {
@@ -216,27 +217,62 @@ module Kiwi {
         */
         public domReady: bool;
 
+        /**
+        * The background color of the stage.
+        * @property _color
+        * @type string
+        */
         public _color: string;
         
+        /**
+        * Get the background color of the stage.
+        * @type string
+        */
         public get color(): string {
             return this._color;
         }
 
+        /*
+        * Sets the background color of the canvas.
+        * @type string
+        */ 
         public set color(val: string) {
             this._color = val;
         }
 
         /*
-        * The various renderering contexts.
+        * The webgl rendering context.
+        * @property gl
+        * @type WebGLRenderingContext
         */
         public gl: WebGLRenderingContext;
+
+        /*
+        * The canvas rendering context.
+        * @property ctx
+        * @type CanvasRenderingContext2D
+        */
         public ctx: CanvasRenderingContext2D;
+
+        /*
+        * The canvas element that is being rendered on.
+        * @property canvas
+        * @type HTMLCanvasElement
+        */
         public canvas: HTMLCanvasElement;
         
         /*
-        * The debugging canvas and context if debugging is on.
-        */ 
+        * The debugging canvas.
+        * @property debugCanvas
+        * @type HTMLCanvasElement
+        */
         public debugCanvas: HTMLCanvasElement;
+
+        /*
+        * The debug canvas rendering context.
+        * @property dctx
+        * @type CanvasRenderingContext2D
+        */
         public dctx: CanvasRenderingContext2D;
 
         /**
@@ -245,17 +281,14 @@ module Kiwi {
         * @type HTMLDivElement
         */
         public container:HTMLDivElement = null;
-
-        
+         
         /**
         * The DOM is ready, so if we have things to do we can set them now
         * @method boot
         * @param {HTMLElement} container
         */
         public boot(dom: Kiwi.System.Bootstrap) {
-            
-            //  Properties
-
+             
             this.domReady = true;
 
             this.container = dom.container;
@@ -273,6 +306,9 @@ module Kiwi {
             }
         }
 
+        /**
+        * TO DO
+        */
         private _createCompositeCanvas() {
             this.canvas = <HTMLCanvasElement>document.createElement("canvas");
             this.canvas.id = this._game.id + "compositeCanvas";
@@ -301,7 +337,10 @@ module Kiwi {
             }
         
         }
-
+        
+        /**
+        * TO DO
+        */
         private _createDebugCanvas() {
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 //debug canvas not supported in cocoon, creating canvas and context anyway.

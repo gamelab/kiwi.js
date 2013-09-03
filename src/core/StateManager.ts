@@ -29,12 +29,17 @@ module Kiwi {
 
         }
 
+        /*
+        * The type of object this is.
+        * @method objType
+        * @return string
+        */
         public objType() {
             return "StateManager";
         }
 
         /**
-        * 
+        * The game that this manager belongs to.
         * @property _game
         * @type Kiwi.Game
         * @private
@@ -42,7 +47,7 @@ module Kiwi {
         private _game: Kiwi.Game;
 
         /**
-        * 
+        * An array of all of the states that are contained within this manager.
         * @property _states
         * @type Kiwi.Structs.Dictionary
         * @private
@@ -57,7 +62,7 @@ module Kiwi {
         public current: Kiwi.State = null;
 
         /**
-        * 
+        * Checks to see if a key exists. Internal use only.
         * @method checkKeyExists
         * @param {String} key
         * @return {Boolean}
@@ -77,7 +82,7 @@ module Kiwi {
         }
 
         /**
-        * 
+        * Checks to see if the state passed is valid or not.
         * @method checkValidState
         * @param {Kiwi.State} state
         * @return {Boolean}
@@ -371,7 +376,7 @@ module Kiwi {
         }
 
         /**
-        *
+        * 
         * @method onLoadComplete
         * @private
         */
@@ -402,6 +407,10 @@ module Kiwi {
 
         }
 
+        /*
+        * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
+        * @method rebuildLibraries
+        */
         public rebuildLibraries() {
             
             this.current.textureLibrary.clear();

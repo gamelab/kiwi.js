@@ -19,9 +19,10 @@ module Kiwi {
     export class Component {
         
         /** 
-        * Constructor
-        * @param {string} componentType - The type of this component (i.e. "geom", "css", "effect")
+        * 
+        * @constructor
         * @param {string} componentName - The name of this component.
+        * @return Kiwi.Component
         */
         constructor (name:string) {
 
@@ -38,7 +39,6 @@ module Kiwi {
             this.onRemovedFromState = new Kiwi.Signal();
             this.onRemovedFromGroup = new Kiwi.Signal();
             this.onRemovedFromEntity = new Kiwi.Signal();
-           
         }
 
         /**
@@ -49,18 +49,54 @@ module Kiwi {
             return "Component";
         }
 
-        //  Subscribe to these signals for update information
+        /*
+        * Signal that fires callbacks when the component has been added to the state.
+        * @property onAddedToState
+        * @type Kiwi.Signal
+        */
         public onAddedToState: Kiwi.Signal;
-       
+        
+        /*
+        * Signal that fires callbacks when the component has been added to a group.
+        * @property onAddedToState
+        * @type Kiwi.Signal
+        */
         public onAddedToGroup: Kiwi.Signal;
+        
+        /*
+        * Signal that fires callbacks when the component has been added to an entity.
+        * @property onAddedToState
+        * @type Kiwi.Signal
+        */
         public onAddedToEntity: Kiwi.Signal;
-
+        
+        /*
+        * Signal that fires callbacks when the component has been removed from a state.
+        * @property onAddedToState
+        * @type Kiwi.Signal
+        */
         public onRemovedFromState: Kiwi.Signal;
-      
+        
+        /*
+        * Signal that fires callbacks when the component has been removed from a group.
+        * @property onAddedToState
+        * @type Kiwi.Signal
+        */
         public onRemovedFromGroup: Kiwi.Signal;
+        
+        /*
+        * Signal that fires callbacks when the component has been removed from a entity.
+        * @property onAddedToState
+        * @type Kiwi.Signal
+        */
         public onRemovedFromEntity: Kiwi.Signal;
 
-        //  Modify the state of this Component, such as adding to a Group, removing from a Layer, etc. Should be used by the internal Kiwi methods only.
+        /*
+        *  Modify the state of this Component, such as adding to a Group, removing from a Layer, etc. Should be used by the internal Kiwi methods only.
+        * @method modify
+        * @param {Number} action
+        * @param {Any} parent
+        */
         public modify(action:number, parent) {
 
             if (action === Kiwi.ADDED_TO_GROUP)
@@ -92,8 +128,6 @@ module Kiwi {
 
         }
 
-       
-
         /**
         * The state this Component has been added to, if any.
         * @property state
@@ -114,8 +148,6 @@ module Kiwi {
         * @type Entity
     	*/
         public entity: Kiwi.Entity = null;
-
-       
 
         /**
         * Called when this Component is added to a State

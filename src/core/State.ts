@@ -18,10 +18,10 @@ module Kiwi {
     export class State extends Group {
 
         /**
-        * Create a new Kiwi.State
+        *  
         * @constructor
         * @param {String} name
-        * @return {State} This Object
+        * @return {State} Kiwi.State
         */
         constructor(name: string) {
             super(name);
@@ -33,6 +33,11 @@ module Kiwi {
 
         }
 
+        /*
+        * Returns the type of object this state is.
+        * @method objType
+        * @return String
+        */
         public objType() {
             return "State";
         }
@@ -50,12 +55,26 @@ module Kiwi {
         * @type Kiwi.Game
         **/
         public game: Kiwi.Game = null;
-
-      
-
-     
+         
+        /*
+        * 
+        * @property textureLibrary
+        * @type Kiwi.Textures.TextureLibrary
+        */
         public textureLibrary: Kiwi.Textures.TextureLibrary;
+        
+        /*
+        *
+        * @property audioLibrary
+        * @type Kiwi.Sound.AudioLibrary
+        */
         public audioLibrary: Kiwi.Sound.AudioLibrary;
+        
+        /*
+        *
+        * @property dataLibrary
+        * @type Kiwi.Files.DataLibrary
+        */
         public dataLibrary: Kiwi.Files.DataLibrary;
 
         /*
@@ -63,7 +82,17 @@ module Kiwi {
         * @property textures
         */
         public textures;
+
+        /*
+        * Holds all of the audio that are avaiable to be accessed once this state has been loaded.
+        * @property audio
+        */
         public audio;
+
+        /*
+        * Holds all of the data that are avaiable to be accessed once this state has been loaded.
+        * @property audio
+        */
         public data;
 
         /**
@@ -87,9 +116,7 @@ module Kiwi {
             this.data = this.dataLibrary.data;
                 
         }
-
-        
-
+         
         //  Default methods that should be over-ridden
 
         /**
@@ -135,8 +162,7 @@ module Kiwi {
         
         }
 
-        /**
-        * 
+        /** 
         * @method create
         **/
         public create(...paramsArr: any[]) { }
@@ -198,48 +224,87 @@ module Kiwi {
             }
 
         }
-
-       
-
+         
         /**
+        * Adds a new image file that is be loaded when the state gets up to the loading all of the assets.
         *
         * @method addImage
         * @param {String} key
         * @param {String} url
         * @param {Boolean} storeAsGlobal 
+        * @param {Number} width
+        * @param {Number} height
+        * @param {Number} offsetX
+        * @param {Number} offsetY
         */
         public addImage(key: string, url: string, storeAsGlobal: bool = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
             this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
-            
-
+             
         }
-
+        
+        /**
+        * Adds a new spritesheet image file that is be loaded when the state gets up to the loading all of the assets.
+        *
+        * @method addSpriteSheet
+        * @param {String} key
+        * @param {String} url
+        * @param {Number} frameWidth
+        * @param {Number} frameHeight
+        * @param {Boolean} storeAsGlobal 
+        * @param {Number} numCells
+        * @param {Number} rows
+        * @param {Number} cols
+        * @param {Number} sheetOffsetX
+        * @param {Number} cellOffsetX
+        * @param {Number} cellOffsetY
+        */
         public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal: bool = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
             this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
             
 
         }
-        ///****
+        
+        /*
+        * Adds a new texture atlas that is to be loaded when the states gets up to the stage of loading the assets.
+        *
+        * @method addTextureAtlas
+        * @param {String} key
+        * @param {String} imageURL
+        * @param {String} jsonID
+        * @param {String} jsonURL
+        * @param {Bool} storeAsGlobal
+        */
         public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal: bool = true) {
-
-            
+             
             this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
            
         }
 
+        /*
+        * Adds a json file that is to be loaded when the state gets up to the stage of loading the assets.
+        * 
+        * @method addJSON
+        * @param {string} key
+        * @param {string} url
+        * @param {bool} storeAsGlobal
+        */
         public addJSON(key: string, url: string, storeAsGlobal: bool = true) {
 
-            
             this.game.loader.addJSON(key, url, storeAsGlobal);
           
         }
-
         
-
+        /*
+        * Adds a new audio file that is to be loaded when the state gets up to the stage of loading the assets.
+        * 
+        * @method addAudio
+        * @param {string} key
+        * @param {string} url
+        * @param {bool} storeAsGlobal
+        */
         public addAudio(key: string, url: string, storeAsGlobal: bool = true) {
-
-            
+             
             this.game.loader.addAudio(key, url, storeAsGlobal);
           
         }
@@ -253,7 +318,7 @@ module Kiwi {
         public addChild(child: Kiwi.IChild): Kiwi.IChild {
           
             child.modify(Kiwi.ADDED_TO_STATE, this);
-            super.removeChild(child);
+            super.removeChild(child);   //alright
             //this.members.push(child);
             
             super.addChild(child);

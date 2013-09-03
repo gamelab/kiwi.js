@@ -6,16 +6,11 @@ module Kiwi {
         render(camera: Kiwi.Camera);
         update();
         childType(): number;
-        //parent: Group;
         id: string;
         name: string;
         components: Kiwi.ComponentManager;
         modify(type: number, parent);
-        _changedPosition(group: Kiwi.Group, index: number);
-        //exists(value?: bool): bool;
-        //active(value?: bool): bool;
-        //dirty(value?: bool): bool;
-        //willRender(value?:bool): bool;
+        _changedPosition(group: Kiwi.Group, index: number); 
         dirty: bool;
         active: bool;
         exists: bool;

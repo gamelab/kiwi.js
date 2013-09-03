@@ -5,12 +5,12 @@ module Kiwi {
     export class Game {
 
         /*
-        * If you don't specify the default layer type it will assume DOM
+        *  
         * @constructor
         * @param {String} domParent
-        * @param {Number} defaultType
         * @param {String} name
         * @param {Any} state
+        * @param {Object} options
         * @return {Kiwi.Game}
         */
         constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null,options?) {
@@ -20,8 +20,7 @@ module Kiwi {
             this._debugOption = options.debug || Kiwi.DEBUG_ON;
             this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
             this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
-          
-
+            
             this.id = Kiwi.GameManager.register(this);
 
             this._startup = new Kiwi.System.Bootstrap();
@@ -90,16 +89,36 @@ module Kiwi {
             return this._renderOption;
         }
 
+        /*
+        * The type of device that you are targeting. This is either set to COCOON or BROWSER
+        * @property _deviceTargetOption
+        * @type number
+        */
         private _deviceTargetOption: number;
+
+        /*
+        * Returns the device target option for the game. This is READ ONLY and is decided once the game gets initialised.
+        * @type number
+        */
         public get deviceTargetOption(): number {
             return this._deviceTargetOption;
         }
 
+        /*
+        * If when rendering, the game should render a new CANVAS which is above everything. This new canvas is for debugging purposes only.
+        * This gets set to either DEBUG_ON or DEBUG_OFF
+        * @property _debugOption
+        * @type number
+        */
         private _debugOption: number;
+
+        /*
+        * Returns the debug option. This is READ ONLY and is decided once the game gets initialised.
+        * @type number
+        */
         public get debugOption(): number {
             return this._debugOption;
         }
-
 
         /*
         * Holds the renderer that is being used. This is detiremended based of the _renderMode
@@ -115,6 +134,11 @@ module Kiwi {
         */
         public huds: Kiwi.HUD.HUDManager;
 
+        /*
+        * The type of object that the game is.
+        * @method objType
+        * @return string
+        */
         public objType() {
             return "Game";
         }
@@ -128,90 +152,91 @@ module Kiwi {
         private _startup: Kiwi.System.Bootstrap = null;
 
         /*
-        * 
+        * The unique id for the game. 
         * @property id
         * @type Number
         */
         public id: number;
-
-      
-        
+         
         /*
-        *
+        * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
         * @property audio
         * @type Kiwi.Audio.AudioManager
         */
         public audio: Kiwi.Sound.AudioManager = null;
 
         /*
-        * 
+        * Used to get the coordinates of any DOM element on the game. 
         * @property browser
         * @type Kiwi.Dom.Browser
         */
         public browser: Kiwi.System.Browser = null;
 
-      
+        /*
+        * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
+        * @property fileStore
+        * @type Kiwi.Files.FileStore
+        */
         public fileStore: Kiwi.Files.FileStore = null;
 
         /*
-        * 
+        * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
         * @property input
         * @type Kiwi.Input.Manager
         */
         public input: Kiwi.Input.Manager = null;
-
-       
+         
         /*
-        * 
+        * Manages the cameras the are on the stage. This is still to be implemented.
         * @property layers
         * @type Kiwi.LayerManager
         */
         public cameras: Kiwi.CameraManager = null;
 
         /*
-        * 
+        * Loads files from outside sources and checks to see that they have loaded correctly or not.
         * @property loader
         * @type Kiwi.Loader
         */
         public loader: Kiwi.Files.Loader = null;
 
         /*
-        * 
+        * The Request Animation Frame that is being used for the update and render loops.
         * @property raf
         * @type Kiwi.Utils.RequestAnimationFrame
         */
         public raf: Kiwi.Utils.RequestAnimationFrame = null;
 
         /*
-        * 
+        * The ONLY stage that is being used for this game.
         * @property stage
         * @type Kiwi.Stage
         */
         public stage: Kiwi.Stage = null;
 
         /*
-        * 
+        * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
         * @property states
         * @type Kiwi.StateManager
         */
         public states: Kiwi.StateManager = null;
 
         /*
-        * 
+        * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
         * @type Kiwi.Time.Manager
         */
         public time: Kiwi.Time.Manager = null;
 
         /*
-        * 
+        * The tween manager holds a reference to all of the tweens that are created and currently being used. 
         * @property tweens
         * @type Kiwi.Tweens.Manager
         */
         public tweens: Kiwi.Animation.Tweens.Manager = null;
 
         /*
-        * 
+        * A Random Data Generator. This is useful for create unique ids and random information.
         * @property rnd
         * @type Kiwi.Utils.RandomDataGenerator
         */
@@ -247,13 +272,18 @@ module Kiwi {
         private _lastTime: number;
 
         /*
-        * Getters and setters for the frame rate.
+        * Returns the current frameRate that the update/render loops are running at. Note that this may  ot be a  accurate representation.
+        * @return string
         */
         public get frameRate(): number {
 
             return this._frameRate;
         }
 
+        /*
+        * Set the MAXIMUM frame rate of the update/render loops. 
+        * @type number
+        */
         public set frameRate(value: number) {
 
             //cannot exceed 60. The raf will stop this anyway.
@@ -266,7 +296,8 @@ module Kiwi {
         }
 
         /*
-        * 
+        * The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.
+        * Once the managers have started up the start loop will then begin to create the game loop.
         * @method start
         */
         private start() {
@@ -299,7 +330,7 @@ module Kiwi {
         }
         
         /*
-        * 
+        * The loop that the whole game is using. 
         * @method loop
         */
         private loop() {

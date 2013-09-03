@@ -53,29 +53,75 @@ module Kiwi {
         * Returns the type of this object
         * @return {String} The type of this object
         */
+        public objType(): string {
+            return 'Group';
+        }
+        
+        /*
+        * Represents the type of child that this is. Note: A 'CHILD' is any object that extends from ICHILD.
+        * @method childType
+        * @return number
+        */
         public childType():number {
             return Kiwi.GROUP;
         }
 
+        /*
+        * The parent of this group. This is used mainly for internal Kiwi Operations.
+        * @property parent
+        * @type Kiwi.Group
+        */
         public parent: Kiwi.Group = null;
 
-       /**
-       * A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging
-       * @property name
-       * @type string
-       */
+        /**
+        * A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging
+        * @property name
+        * @type string
+        */
         public name: string = '';
 
+        /*
+        * The transform object for this group. 
+        * Transform handles the calculation of coordinates/rotation/scale e.t.c in the Game World.
+        * @property transform
+        * @type Kiwi.Geom.Transform
+        */
         public transform: Kiwi.Geom.Transform;
-
-       
-        //  Subscribe to these signals for update information
+        
+        /*
+        * A Signal for firing callbacks when this groups is added to a layer. 
+        * @property onAddedToLayer
+        * @type Kiwi.Signal
+        */
         public onAddedToLayer: Kiwi.Signal;
+        
+        /*
+        * A signal for executing callbacks when the group is added to a state.
+        * @property on
+        * @type Kiwi.Signal
+        */
         public onAddedToState: Kiwi.Signal;
+        
+        /*
+        * A signal for executing events when this group is removed from a layer.
+        * @property on
+        * @type Kiwi.Signal
+        */
         public onRemovedFromLayer: Kiwi.Signal;
+        
+        /*
+        * A signal for executing events when this groups is removed from a state.
+        * @property on
+        * @type Kiwi.Signal
+        */
         public onRemovedFromState: Kiwi.Signal;
 
-        //  Modify the state of this Group, such as adding to a Layer, removing from a State, etc. Should be used by the internal Kiwi methods only.
+        /*
+        *  Modify the state of this Group, such as adding to a Layer, removing from a State, etc. Should be used by the internal Kiwi methods only.
+        * @method modify
+        * @param {Number} type
+        * @param {Any} parent
+        */
         public modify(type:number, parent) {
 
             if (type === Kiwi.ADDED_TO_STATE)
@@ -115,30 +161,14 @@ module Kiwi {
         * @type string
     	*/
         public id: string;
-
-
+         
         /**
         * The collection of children belonging to this group
         * @property members
         * @type Kiwi.Entity
         **/
         public members: Kiwi.IChild[];
-
-       
-        /**
-        * If this Group is a DOM type, then this contains a reference to the DOM Element it is bound to.
-        * @property domElement
-        * @type Kiwi.DOM.Element
-        **/
-        //public domElement: Kiwi.DOM.Element = null;
-
-        /**
-        * Where all the pending css style updates are stored
-        * @property _cssStack
-        * @type Array
-    	*/
-        //private _cssStack = [];
-
+          
         /** 
         * Returns the total number of children in this Group. Doesn't distinguish between alive and dead children.
         * @method numChildren
@@ -150,7 +180,11 @@ module Kiwi {
 
         }
 
-
+        /*
+        * An indication of weither or not this group is 'dirty' and thus needs to be re-rendered or not.
+        * @property _dirty
+        * @type bool
+        */
         private _dirty: bool = true;
 
         /**
@@ -169,6 +203,10 @@ module Kiwi {
             }
         }
 
+        /*
+        * Returns a boolean indicating if the group is dirty or not.
+        * @type bool
+        */
         public get dirty():bool {
             return this._dirty;
         }
@@ -191,8 +229,7 @@ module Kiwi {
         **/
         public addChild(child: Kiwi.IChild): Kiwi.IChild {
 
-            if (child.transform.parent !== this.transform)
-            {
+            if (child.transform.parent !== this.transform) {
                 this.members.push(child);
                 child.transform.parent = this.transform;
                 //child._addedToGroup(this);
@@ -202,9 +239,7 @@ module Kiwi {
             return child;
 
         }
-
-       
-
+         
         /**
         * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
         * @method addChildAt
@@ -448,16 +483,14 @@ module Kiwi {
         public swapChildren(child1: Kiwi.IChild, child2: Kiwi.IChild):bool {
         
             //  If either Entity isn't in this Group, or is already at that index then bail out
-            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform)
-            {
+            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
                 return false;
             }
 
             var index1 = this.getChildIndex(child1);
             var index2 = this.getChildIndex(child2);
 
-            if (index1 !== -1 && index2 !== -1 && index1 !== index2)
-            {
+            if (index1 !== -1 && index2 !== -1 && index1 !== index2) {
                 this.members[index1] = child2;
                 this.members[index2] = child1;
 
@@ -470,7 +503,13 @@ module Kiwi {
             return false;
 
         }
-
+        
+        /*
+        * If something changed position in the group??? - To be implemented.
+        * @method _changedPosition
+        * @param {Kiwi.Group} group
+        * @param {Number} index
+        */
         public _changedPosition(group: Kiwi.Group, index: number) {
 
         }
@@ -484,20 +523,17 @@ module Kiwi {
         * @return {Boolean} true if the Entities were swapped successfully, otherwise false.
         */
         public swapChildrenAt(index1: number, index2: number): boolean {
-
-
+             
             var child1: Kiwi.IChild = this.getChildAt(index1);
             var child2: Kiwi.IChild = this.getChildAt(index2);
-            if (child1 != null && child2 != null)
-            {
+            if (child1 != null && child2 != null) {
                 //  If either Entity isn't in this Group, or is already at that index then bail out
-                if (child1==child2 || child1.transform.parent !== this.transform || child2.transform.parent !== this.transform)
-                {
+                if (child1==child2 || child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
                     return false;
                 }
 
-                if (child1 !== null && child2 !== null)
-                {
+                if (child1 !== null && child2 !== null) {
+
                     this.members[index1] = child2;
                     this.members[index2] = child1;
 
@@ -550,7 +586,10 @@ module Kiwi {
         }
         
         /**
+        * Loops through each member in the group and run a method on for each one.
         * @method forEach
+        * @param {any} context
+        * @param {any} callback
 		*/
         public forEach(context, callback, ...params: any[]) {
 
@@ -563,7 +602,10 @@ module Kiwi {
         }
 
         /**
+        * Loop through each member of the groups that is alive. 
         * @method forEachAlive
+        * @param {any} context
+        * @param {any} callbacks
 		*/
         public forEachAlive(context, callback, ...params: any[]) {
 
@@ -636,6 +678,7 @@ module Kiwi {
         */
 
         /**
+        * The update loop for this group.
         * @method update
 		*/
         public update() {
@@ -658,8 +701,7 @@ module Kiwi {
         */
         public processUpdate(child: Kiwi.IChild) {
 
-            if (child.active === true)
-            {
+            if (child.active === true) {
                 child.update();
             }
 
@@ -817,10 +859,8 @@ module Kiwi {
         
             var total: number = 0;
 
-            for (var i = 0; i < this.members.length; i++)
-            {
-                if (this.members[i].exists === false)
-                {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
                     total++;
                 }
             }
@@ -839,29 +879,24 @@ module Kiwi {
 		 */
         public getRandom(start: number = 0, length: number = 0): Kiwi.IChild { 
         
-            if (this.members.length === 0)
-            {
+            if (this.members.length === 0) {
                 return null;
             }
 
-            if (length === 0)
-            {
+            if (length === 0) {
                 length = this.members.length;
             }
 
-            if (start < 0 || start > length)
-            {
+            if (start < 0 || start > length) {
                 start = 0;
             }
 
             var rnd = start + (Math.random() * (start + length));
 
-            if (rnd > this.members.length)
-            {
+            if (rnd > this.members.length) {
                 return this.members[this.members.length - 1];
-            }
-            else
-            {
+
+            } else {
                 return this.members[rnd];
             }
             
@@ -873,8 +908,7 @@ module Kiwi {
 		*/
         public clear() {
 
-            for (var i = 0; i < this.members.length; i++)
-            {
+            for (var i = 0; i < this.members.length; i++) {
                 //this.members[i]._removedFromGroup(this);
                 this.members[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
             }
@@ -882,9 +916,7 @@ module Kiwi {
             this.members.length = 0;
 
         }
-
-       
-
+ 
         /**
 		* Controls whether render is automatically called by the parent.
         * @property _visible
@@ -915,9 +947,7 @@ module Kiwi {
         public isGroup(): bool {
             return true;
         }
-
-       
-
+ 
         /**
 		* Called when this Group is added to a State
         * @method _addedToState

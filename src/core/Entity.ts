@@ -191,21 +191,18 @@ module Kiwi {
         */
         public modify(action:number, parent) {
 
-            if (action === Kiwi.ADDED_TO_GROUP)
-            {
+            if (action === Kiwi.ADDED_TO_GROUP) {
                 return this._addedToGroup(parent);
-            }
-            else if (action === Kiwi.ADDED_TO_STATE)
-            {
+
+            } else if (action === Kiwi.ADDED_TO_STATE) {
                 return this._addedToState(parent);
-            }
-            else if (action === Kiwi.REMOVED_FROM_GROUP)
-            {
+
+            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
                 return this._removedFromGroup(parent);
-            }
-            else if (action === Kiwi.REMOVED_FROM_STATE)
-            {
+
+            } else if (action === Kiwi.REMOVED_FROM_STATE) {
                 return this._removedFromState(parent);
+
             }
 
         }
@@ -585,6 +582,15 @@ module Kiwi {
 
         //  Both of these methods can and often should be over-ridden by classes extending Entity to handle specific implementations
 
+        /*
+        * The type of this object.
+        * @method objType
+        * @return {String}
+        */
+        public objType() {
+            return "Entity";
+        }
+
         /**
         * This isn't called until the Entity has been added to a Group or a State
         * @method update
@@ -603,7 +609,7 @@ module Kiwi {
         }
 
         /**
-        * 
+        * Used to completely destroy this objects all objects inside of it. Used to make set it up for garbage collection.
         * @method destroy
         */
         public destroy() {

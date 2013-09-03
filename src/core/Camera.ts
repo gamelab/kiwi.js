@@ -1,17 +1,7 @@
 /// <reference path="../Kiwi.ts" />
 
 /*
- *	Kiwi - Core - Camera
- *
- *	@desc		
- *				
- *	@version    1.0 - 1st March 2013
- *				
- *	@author 	Richard Davey
- *	@author		Ross Kettle
- *				
- *	@url		http://www.kiwijs.org
- *				
+ * TO BE RE IMPLEMENTED. 
 */
 
 module Kiwi {
@@ -24,7 +14,11 @@ module Kiwi {
         * @param {Kiwi.Game} game 
         * @param {Number} id 
         * @param {String} name
-        * @return {Kiwi.Layer}
+        * @param {Number} x
+        * @param {Number} y
+        * @param {Number} width
+        * @param {Number} height
+        * @return {Kiwi.Camera}
 		**/
         constructor(game: Kiwi.Game, id: number, name: string,x:number,y:number,width:number,height:number) {
 
@@ -45,15 +39,32 @@ module Kiwi {
         
         }
 
+        /*
+        * The width of this camara.
+        * @property width
+        * @type Number
+        */
         public width: number;
+        
+        /*
+        * The height of this camera.
+        * @property height
+        * @type Number
+        */
         public height: number;
 
+        /*
+        * The type of Kiwi.Object this is.
+        * @method objType
+        * @return {String}
+        */
         public objType() {
             return "Camera";
         }
 
-
-        // if true then the camera will be resized to fit the stage when the stage is resized
+        /*
+        * if true then the camera will be resized to fit the stage when the stage is resized
+        */
         public fitToStage:bool = true;
 
         /** 
