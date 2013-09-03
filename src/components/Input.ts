@@ -21,7 +21,7 @@ module Kiwi.Components {
         *
         * @constructor
         * @param {Kiwi.Entity} entity
-        * @param {Kiwi.Components.Bounds} bounds
+        * @param {Kiwi.Components.Box} box
         * @return {Kiwi.Components.Input}
         */
         constructor(entity: Kiwi.Entity, box:Kiwi.Components.Box, enabled:bool) {
@@ -29,12 +29,12 @@ module Kiwi.Components {
             super('Input');
             
             //  Signals
-            this.onEntered = new Kiwi.Signal();
-            this.onLeft = new Kiwi.Signal();
-            this.onDown = new Kiwi.Signal();
-            this.onUp = new Kiwi.Signal();
-            this.onDragStarted = new Kiwi.Signal();
-            this.onDragStopped = new Kiwi.Signal();
+            this._onEntered = new Kiwi.Signal();
+            this._onLeft = new Kiwi.Signal();
+            this._onDown = new Kiwi.Signal();
+            this._onUp = new Kiwi.Signal();
+            this._onDragStarted = new Kiwi.Signal();
+            this._onDragStopped = new Kiwi.Signal();
 
             //  Properties
             this._entity = entity;
@@ -100,26 +100,112 @@ module Kiwi.Components {
         public get game():Kiwi.Game {
             return this._game;
         }
-         
+        
         /*
-        * Tonnes of event listeners that run.
+        * Kiwi Signal for firing callbacks when a pointer is active and has entered the entities hit box.
+        * @property _onEntered
+        * @type Kiwi.Signal
         */
-        public onEntered: Kiwi.Signal;
-        public onLeft: Kiwi.Signal;
-        public onDown: Kiwi.Signal;
-        public onUp: Kiwi.Signal;
-        public onDragStarted: Kiwi.Signal;
-        public onDragStopped: Kiwi.Signal;
+        public _onEntered: Kiwi.Signal;
+        
+        /*
+        * Kiwi Signal for firing callbacks when a pointer is active and has left the entities hit box.
+        * @property _onLeft
+        * @type Kiwi.Signal
+        */
+        public _onLeft: Kiwi.Signal;
+        
+        /*
+        * Kiwi Signal for firing callbacks when a pointer is active and has pressed down on the entity.
+        * @property _onDown
+        * @type Kiwi.Signal
+        */
+        public _onDown: Kiwi.Signal;
+        
+        /*
+        * Kiwi Signal for firing callbacks when a pointer just released from either being above the entity or the pointer was initally pressed on it.
+        * @property _onUp
+        * @type Kiwi.Signal
+        */
+        public _onUp: Kiwi.Signal;
+        
+        /*
+        * Kiwi Signal for firing callbacks a entity starts being dragged.
+        * @property _onDragStarted
+        * @type Kiwi.Signal
+        */
+        public _onDragStarted: Kiwi.Signal;
          
         /*
-        * A alias for the on release signal
+        * Kiwi Signal for firing callbacks a entity stops being dragged. Like on release.
+        * @property _onDragStopped
+        * @type Kiwi.Signal
+        */
+        public _onDragStopped: Kiwi.Signal;
+        
+        /*
+        * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
+        * Note: Accessing this signal enables the input.
+        * @type Kiwi.Signal
+        */
+        public get onEntered(): Kiwi.Signal {
+            if (this.enabled == false) this.enabled = true;
+            return this._onEntered;
+        }
+        
+        /*
+        * Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
+        * Note: Accessing this signal enables the input.
+        * @type Kiwi.Signal
+        */
+        public get onLeft(): Kiwi.Signal {
+            if (this.enabled == false) this.enabled = true;
+            return this._onLeft;
+        }
+        
+        /*
+        * Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
+        * Note: Accessing this signal enables the input.
+        * @type Kiwi.Signal
+        */
+        public get onDown(): Kiwi.Signal {
+            if (this.enabled == false) this.enabled = true;
+            return this._onDown;
+        }
+        
+        /*
+        * Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
+        * Note: Accessing this signal enables the input.
+        * @type Kiwi.Signal
+        */
+        public get onUp(): Kiwi.Signal {
+            if (this.enabled == false) this.enabled = true;
+            return this._onUp;
+        }
+    
+        /*
+        * Returns the onDragStarted Signal.
+        * @type Kiwi.Signal
+        */
+        public get onDragStarted(): Kiwi.Signal { return this._onDragStarted; }
+
+        /*
+        * Returns the onDragStopped Signal.
+        * @type Kiwi.Signal
+        */
+        public get onDragStopped(): Kiwi.Signal { return this._onDragStopped; }
+
+        /*
+        * A alias for the on release signal.
+        * @type Kiwi.Signal
         */
         public get onRelease():Kiwi.Signal {
             return this.onUp;
         }
         
         /*
-        * A alias for the on press signal
+        * A alias for the on press signal.
+        * @type Kiwi.Signal
         */
         public get onPress(): Kiwi.Signal {
             return this.onDown;
@@ -265,10 +351,14 @@ module Kiwi.Components {
         private _nowDragging: Kiwi.Input.Pointer = null;
 
         /*
-        * Enables the drag of this entity. Not currently being used.
+        * Enables the dragging of this entity.
+        * @method enableDrag
+        * @param {bool} snapToCenter
+        * @param {number} distance
         */
         public enableDrag(snapToCenter:bool = false, distance:number = 1) {
-
+            
+            if (this.enabled == false) this.enabled = true;
             this._dragEnabled = true;
             this._dragSnapToCenter = snapToCenter;
             this._dragDistance = distance;
@@ -277,13 +367,18 @@ module Kiwi.Components {
         }
         
         /*
-        * Disables the drage of this entity. Not currently being used.
+        * Disables the dragging of this entity. 
+        * @method disableDrag
         */
         public disableDrag() {
             this._dragEnabled = false;
             this._isDragging = null;
         }
         
+        /*
+        * The update loop for the input. Note that is only runs if the input is enabled.
+        * @method update
+        */
         public update() {
 
             if (this.enabled === false  ||  !this._game || this._entity.active === false || this._entity.willRender === false) {
@@ -297,12 +392,14 @@ module Kiwi.Components {
             this._nowLeft = null;
             this._nowDragging = null;
 
+            //Use the appropriate method of checking.
             if (Kiwi.DEVICE.touch) {
                 this._updateTouch();
             } else {
                 this._updateMouse();
             }
             
+            //If the entity is dragging.
             if (this.isDragging) {
                 this._entity.x = this._isDragging.x;
                 this._entity.y = this._isDragging.y;
@@ -341,17 +438,17 @@ module Kiwi.Components {
             if (this._nowEntered !== null && this.withinBounds === false) { 
                 this._withinBounds = this._nowEntered;
                 this._outsideBounds = false;
-                this.onEntered.dispatch(this._entity, this._nowEntered);
+                this._onEntered.dispatch(this._entity, this._nowEntered);
             }
 
             if (this._nowLeft !== null && this.withinBounds === true) { 
                 this._withinBounds = null;
                 this._outsideBounds = true;
-                this.onLeft.dispatch(this._entity, this._nowLeft);
+                this._onLeft.dispatch(this._entity, this._nowLeft);
             }
 
             if (this._nowDown !== null && this.isDown === false) { 
-                this.onDown.dispatch(this._entity, this._nowDown);
+                this._onDown.dispatch(this._entity, this._nowDown);
                 this._isDown = this._nowDown;
                 this._isUp = false;
                 this._withinBounds = this._nowDown;
@@ -359,12 +456,12 @@ module Kiwi.Components {
             }
             
             if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
-                this.onDragStarted.dispatch(this._entity, this._nowDragging);
+                this._onDragStarted.dispatch(this._entity, this._nowDragging);
                 this._isDragging = this._nowDragging;
             }
 
             if (this._nowUp !== null) { 
-                this.onUp.dispatch(this._entity, this._nowUp);
+                this._onUp.dispatch(this._entity, this._nowUp);
                 this._isDown = null;
                 this._isUp = true;
                 this._withinBounds = null;
@@ -373,7 +470,7 @@ module Kiwi.Components {
                 //dispatch drag event
                 if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                     this._isDragging = null;
-                    this.onDragStopped.dispatch(this._entity, this._nowUp);
+                    this._onDragStopped.dispatch(this._entity, this._nowUp);
                 }
             }
 
@@ -428,31 +525,31 @@ module Kiwi.Components {
 
             //dispatch the events
             if (this._nowLeft !== null) {
-                this.onLeft.dispatch(this._entity, this._nowLeft);
+                this._onLeft.dispatch(this._entity, this._nowLeft);
             }
 
             if (this._nowEntered !== null) {
-                this.onEntered.dispatch(this._entity, this._nowEntered);
+                this._onEntered.dispatch(this._entity, this._nowEntered);
             }
             
             if (this._nowDown !== null && this.isDown === false) {
-                this.onDown.dispatch(this._entity, this._nowDown);
+                this._onDown.dispatch(this._entity, this._nowDown);
                 this._isDown = this._nowDown;
                 this._isUp = false;
             }
 
             if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
-                this.onDragStarted.dispatch(this._entity, this._nowDragging);
+                this._onDragStarted.dispatch(this._entity, this._nowDragging);
                 this._isDragging = this._nowDragging;
             }
 
             if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
-                this.onUp.dispatch(this._entity, this._nowUp);
+                this._onUp.dispatch(this._entity, this._nowUp);
                 
                 //dispatch drag event
                 if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                     this._isDragging = null;
-                    this.onDragStopped.dispatch(this._entity, this._nowUp);
+                    this._onDragStopped.dispatch(this._entity, this._nowUp);
                 }
 
                 this._isDown = null;

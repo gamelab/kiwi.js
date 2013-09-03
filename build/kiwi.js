@@ -925,9 +925,7 @@ var Kiwi;
     var CameraManager = (function () {
         function CameraManager(game) {
             this._game = game;
-
             this._cameras = [];
-
             this._nextCameraID = 0;
         }
         CameraManager.prototype.objType = function () {
@@ -936,7 +934,6 @@ var Kiwi;
 
         CameraManager.prototype.boot = function () {
             this.create("defaultCamera", 0, 0, this._game.stage.width, this._game.stage.height);
-
             this.defaultCamera = this._cameras[0];
         };
 
@@ -1496,6 +1493,10 @@ var Kiwi;
         Entity.prototype._changedPosition = function (group, index) {
         };
 
+        Entity.prototype.objType = function () {
+            return "Entity";
+        };
+
         Entity.prototype.update = function () {
         };
 
@@ -1629,6 +1630,10 @@ var Kiwi;
             this.onRemovedFromState = new Kiwi.Signal();
             this._willRender = true;
         }
+        Group.prototype.objType = function () {
+            return 'Group';
+        };
+
         Group.prototype.childType = function () {
             return Kiwi.GROUP;
         };
@@ -3891,12 +3896,12 @@ var Kiwi;
                 this._nowLeft = null;
                 this._nowDragging = null;
 
-                this.onEntered = new Kiwi.Signal();
-                this.onLeft = new Kiwi.Signal();
-                this.onDown = new Kiwi.Signal();
-                this.onUp = new Kiwi.Signal();
-                this.onDragStarted = new Kiwi.Signal();
-                this.onDragStopped = new Kiwi.Signal();
+                this._onEntered = new Kiwi.Signal();
+                this._onLeft = new Kiwi.Signal();
+                this._onDown = new Kiwi.Signal();
+                this._onUp = new Kiwi.Signal();
+                this._onDragStarted = new Kiwi.Signal();
+                this._onDragStopped = new Kiwi.Signal();
 
                 this._entity = entity;
                 this._box = box;
@@ -3924,6 +3929,62 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._game = val;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "onEntered", {
+                get: function () {
+                    if (this.enabled == false)
+                        this.enabled = true;
+                    return this._onEntered;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "onLeft", {
+                get: function () {
+                    if (this.enabled == false)
+                        this.enabled = true;
+                    return this._onLeft;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "onDown", {
+                get: function () {
+                    if (this.enabled == false)
+                        this.enabled = true;
+                    return this._onDown;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "onUp", {
+                get: function () {
+                    if (this.enabled == false)
+                        this.enabled = true;
+                    return this._onUp;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "onDragStarted", {
+                get: function () {
+                    return this._onDragStarted;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Input.prototype, "onDragStopped", {
+                get: function () {
+                    return this._onDragStopped;
                 },
                 enumerable: true,
                 configurable: true
@@ -4007,6 +4068,8 @@ var Kiwi;
             Input.prototype.enableDrag = function (snapToCenter, distance) {
                 if (typeof snapToCenter === "undefined") { snapToCenter = false; }
                 if (typeof distance === "undefined") { distance = 1; }
+                if (this.enabled == false)
+                    this.enabled = true;
                 this._dragEnabled = true;
                 this._dragSnapToCenter = snapToCenter;
                 this._dragDistance = distance;
@@ -4060,17 +4123,17 @@ var Kiwi;
                 if (this._nowEntered !== null && this.withinBounds === false) {
                     this._withinBounds = this._nowEntered;
                     this._outsideBounds = false;
-                    this.onEntered.dispatch(this._entity, this._nowEntered);
+                    this._onEntered.dispatch(this._entity, this._nowEntered);
                 }
 
                 if (this._nowLeft !== null && this.withinBounds === true) {
                     this._withinBounds = null;
                     this._outsideBounds = true;
-                    this.onLeft.dispatch(this._entity, this._nowLeft);
+                    this._onLeft.dispatch(this._entity, this._nowLeft);
                 }
 
                 if (this._nowDown !== null && this.isDown === false) {
-                    this.onDown.dispatch(this._entity, this._nowDown);
+                    this._onDown.dispatch(this._entity, this._nowDown);
                     this._isDown = this._nowDown;
                     this._isUp = false;
                     this._withinBounds = this._nowDown;
@@ -4078,12 +4141,12 @@ var Kiwi;
                 }
 
                 if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
-                    this.onDragStarted.dispatch(this._entity, this._nowDragging);
+                    this._onDragStarted.dispatch(this._entity, this._nowDragging);
                     this._isDragging = this._nowDragging;
                 }
 
                 if (this._nowUp !== null) {
-                    this.onUp.dispatch(this._entity, this._nowUp);
+                    this._onUp.dispatch(this._entity, this._nowUp);
                     this._isDown = null;
                     this._isUp = true;
                     this._withinBounds = null;
@@ -4091,7 +4154,7 @@ var Kiwi;
 
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
-                        this.onDragStopped.dispatch(this._entity, this._nowUp);
+                        this._onDragStopped.dispatch(this._entity, this._nowUp);
                     }
                 }
             };
@@ -4129,30 +4192,30 @@ var Kiwi;
                 this._evaluateMousePointer(this._game.input.mouse.cursor);
 
                 if (this._nowLeft !== null) {
-                    this.onLeft.dispatch(this._entity, this._nowLeft);
+                    this._onLeft.dispatch(this._entity, this._nowLeft);
                 }
 
                 if (this._nowEntered !== null) {
-                    this.onEntered.dispatch(this._entity, this._nowEntered);
+                    this._onEntered.dispatch(this._entity, this._nowEntered);
                 }
 
                 if (this._nowDown !== null && this.isDown === false) {
-                    this.onDown.dispatch(this._entity, this._nowDown);
+                    this._onDown.dispatch(this._entity, this._nowDown);
                     this._isDown = this._nowDown;
                     this._isUp = false;
                 }
 
                 if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
-                    this.onDragStarted.dispatch(this._entity, this._nowDragging);
+                    this._onDragStarted.dispatch(this._entity, this._nowDragging);
                     this._isDragging = this._nowDragging;
                 }
 
                 if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
-                    this.onUp.dispatch(this._entity, this._nowUp);
+                    this._onUp.dispatch(this._entity, this._nowUp);
 
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
-                        this.onDragStopped.dispatch(this._entity, this._nowUp);
+                        this._onDragStopped.dispatch(this._entity, this._nowUp);
                     }
 
                     this._isDown = null;
