@@ -652,8 +652,8 @@ module Kiwi.Components {
         /*
         * CURRENTLY UNTESTED...
         */
-        public static computeVelocity(velocity: number, acceleration: number = 0, drag: number = 0, max: number = 10000): number {
-
+        public static computeVelocity(velocity: number, acceleration: number = 0, drag: number = 0, max: number = 10000) {
+            /*
             if (acceleration != 0)
                 velocity += acceleration * ArcadePhysics.updateInterval;
             else if (drag != 0) {
@@ -671,7 +671,7 @@ module Kiwi.Components {
                 else if (velocity < -max)
                     velocity = -max;
             }
-            return velocity;
+            return velocity;*/
         }
 
 
@@ -759,7 +759,7 @@ module Kiwi.Components {
         * UNTESTED.
         */
         public updateMotion() {
-            
+            /*
             var delta: number;
             var velocityDelta: number;
             
@@ -780,7 +780,7 @@ module Kiwi.Components {
             delta = this.velocity.y * ArcadePhysics.updateInterval;
             this.velocity.y += velocityDelta;
             this.transform.y = this.transform.y + delta;
-
+        */
         }
     
         /*

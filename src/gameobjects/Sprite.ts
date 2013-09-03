@@ -20,7 +20,7 @@ module Kiwi.GameObjects {
         */
         constructor(atlas:Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: bool = false) {
 
-            super(x,y);
+            super(x, y);
 
             // Set the texture
             this.name = atlas.name;

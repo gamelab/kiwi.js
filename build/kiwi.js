@@ -3824,6 +3824,7 @@ var Kiwi;
                     if (this.dirty) {
                         this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
                     }
+
                     return this._transformedHitbox;
                 },
                 set: function (value) {
@@ -3898,7 +3899,6 @@ var Kiwi;
                 m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
 
                 out = this.extents(m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY + rect.height }), m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY + rect.height }));
-
                 return out;
             };
 
@@ -4686,20 +4686,6 @@ var Kiwi;
                 if (typeof acceleration === "undefined") { acceleration = 0; }
                 if (typeof drag === "undefined") { drag = 0; }
                 if (typeof max === "undefined") { max = 10000; }
-                if (acceleration != 0)
-                    velocity += acceleration * ArcadePhysics.updateInterval; else if (drag != 0) {
-                    drag = drag * ArcadePhysics.updateInterval;
-                    if (velocity - drag > 0)
-                        velocity = velocity - drag; else if (velocity + drag < 0)
-                        velocity += drag; else
-                        velocity = 0;
-                }
-                if ((velocity != 0) && (max != 10000)) {
-                    if (velocity > max)
-                        velocity = max; else if (velocity < -max)
-                        velocity = -max;
-                }
-                return velocity;
             };
 
             ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
@@ -4750,25 +4736,6 @@ var Kiwi;
             };
 
             ArcadePhysics.prototype.updateMotion = function () {
-                var delta;
-                var velocityDelta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
-                this.angularVelocity += velocityDelta;
-                this.angle += this.angularVelocity * ArcadePhysics.updateInterval;
-                this.angularVelocity += velocityDelta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
-                this.velocity.x += velocityDelta;
-                delta = this.velocity.x * ArcadePhysics.updateInterval;
-                this.velocity.x += velocityDelta;
-                this.transform.x = this.transform.x + delta;
-
-                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
-                this.velocity.y += velocityDelta;
-                delta = this.velocity.y * ArcadePhysics.updateInterval;
-                this.velocity.y += velocityDelta;
-                this.transform.y = this.transform.y + delta;
             };
 
             ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
@@ -4793,8 +4760,6 @@ var Kiwi;
                 this.wasTouching = this.touching;
                 this.touching = ArcadePhysics.NONE;
             };
-            ArcadePhysics.updateInterval = 1 / 10;
-
             ArcadePhysics.LEFT = 0x0001;
 
             ArcadePhysics.RIGHT = 0x0010;

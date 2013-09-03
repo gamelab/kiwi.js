@@ -197,27 +197,19 @@ module Kiwi.Components {
         * @return {Kiwi.Geom.Rectangle}
         */      
         private _rotateRect(rect: Kiwi.Geom.Rectangle): Kiwi.Geom.Rectangle {
-    var out: Kiwi.Geom.Rectangle = new Kiwi.Geom.Recta             var t: Kiwi.Ge m Transform = this.entity.tran            var  : Ki i.Ge m.Ma rix = t.getConcate ate M trix();
-    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
+            var out: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle();
+            var t: Kiwi.Geom.Transform = this.entity.transform;
+            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+            m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY)
 
 
-                
-            ou  = this.exten
-            s(
-         .transformPoint({ 
-            :   t.rotPointX, y  - t.rotPoi tY }),
-                    int({ x: - t.rotPo
-            nt  + rect.width   : - t.rotPo nt }),
-                m.tran
-        for         tPointX + rect.wid
-            h, y: - t.rotPoin Y   rect.height  ) 
-         
-                  n t({ x: - t.rotPointX, y: - t.rotPointY + rect.height })
+            out = this.extents(
+                m.transformPoint({ x: - t.rotPointX, y: - t.rotPointY }),
+                m.transformPoint({ x: - t.rotPointX + rect.width, y: - t.rotPointY }),
+                m.transformPoint({ x: - t.rotPointX + rect.width, y: - t.rotPointY + rect.height }),
+                m.transformPoint({ x: - t.rotPointX, y: - t.rotPointY + rect.height })
                 );
-    
-    
-
-    return out;
+            return out;
         }
 
         /*

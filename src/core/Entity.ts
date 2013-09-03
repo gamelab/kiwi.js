@@ -24,7 +24,7 @@ module Kiwi {
         * @constructor
         * @return {Kiwi.Entity}
         */
-        constructor(x:number, y: number) {
+        constructor( x:number, y: number) {
         
             //  Properties
 
@@ -36,7 +36,7 @@ module Kiwi {
             this.transform.x = x;
             this.transform.y = y;
 
-            //  Signals
+            //  Signals - REMOVE ALL OF THEM
 
             this.onAddedToGroup = new Kiwi.Signal();
             this.onAddedToLayer = new Kiwi.Signal();
