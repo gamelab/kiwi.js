@@ -15,7 +15,7 @@ module Kiwi.GameObjects.Tilemap {
         */
         constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.Tilemap.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
             
-            super();
+            super(0,0);
 
             this._game = game;
             this._parent = parent;

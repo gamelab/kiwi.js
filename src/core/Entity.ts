@@ -24,8 +24,8 @@ module Kiwi {
         * @constructor
         * @return {Kiwi.Entity}
         */
-        constructor() {
-
+        constructor(x:number, y: number) {
+        
             //  Properties
 
             this._exists = true;
@@ -33,6 +33,8 @@ module Kiwi {
             this._willRender = true;
             this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
             this.transform = new Kiwi.Geom.Transform();
+            this.transform.x = x;
+            this.transform.y = y;
 
             //  Signals
 

@@ -258,6 +258,7 @@ module Kiwi.Components {
         /*
         * Makes the current animation go to the next frame. If the animation is at the end of the sequence it then goes back to the start.
         * @method nextFrame
+
         */
         public nextFrame() {
             this.currentAnimation.nextFrame();

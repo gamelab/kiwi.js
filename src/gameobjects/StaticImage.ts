@@ -29,13 +29,11 @@ module Kiwi.GameObjects {
         */
         constructor(atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
 
-            super();
+            super(x,y);
             
             //Set coordinates and texture
             this.atlas = atlas;
             this.cellIndex = this.atlas.cellIndex;
-            this.transform.x = x;
-            this.transform.y = y;
             this.width = atlas.cells[0].w;
             this.height = atlas.cells[0].h;
             this.transform.rotPointX = this.width / 2;

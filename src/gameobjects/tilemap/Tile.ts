@@ -13,12 +13,10 @@ module Kiwi.GameObjects.Tilemap {
         * @param {number} y
         */
         constructor(tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer, tileType: Kiwi.GameObjects.Tilemap.TileType, width: number, height: number, x: number, y: number) {
-            super();
+            super(x,y);
 
             this.tileLayer = tileLayer;
 
-            this.transform.x = x;
-            this.transform.y = y;
             this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this)); //i think this is no longer needed....
             this.tileUpdate(tileType);
         }

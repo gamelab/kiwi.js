@@ -30,10 +30,7 @@ module Kiwi.GameObjects {
          **/
         constructor(text: string, x: number = 0, y: number = 0, color: string = '#ffffff', size: number = 32, weight: string = 'normal', fontFamily: string = 'cursive') {
 
-            super();
-
-            this.transform.x = x;
-            this.transform.y = y;
+            super(x,y);
 
             this._text = text;
             this._fontWeight = weight;

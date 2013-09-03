@@ -20,11 +20,7 @@ module Kiwi.GameObjects {
         */
         constructor(atlas:Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: bool = false) {
 
-            super();
-
-            // Set the coordinates
-            this.transform.x = x;
-            this.transform.y = y;
+            super(x,y);
 
             // Set the texture
             this.name = atlas.name;
@@ -153,13 +149,17 @@ module Kiwi.GameObjects {
         public update() {
             
             super.update();
-            this.input.update();
 
             if (this._isAnimated) {
                 this.animation.update();
-                this.width = this.atlas.cells[this.atlas.cellIndex].w;
-                this.height = this.atlas.cells[this.atlas.cellIndex].h;
+                this.width = this.atlas.cells[this.cellIndex].w;
+                this.height = this.atlas.cells[this.cellIndex].h;
+
+                this.box.rawHitbox.width = this.width;
+                this.box.rawHitbox.height = this.height;
             }    
+
+            this.input.update();
         }
 
         /**

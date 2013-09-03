@@ -1253,7 +1253,7 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Entity = (function () {
-        function Entity() {
+        function Entity(x, y) {
             this._alpha = 1;
             this._visible = true;
             this.width = 0;
@@ -1268,6 +1268,8 @@ var Kiwi;
             this._willRender = true;
             this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
             this.transform = new Kiwi.Geom.Transform();
+            this.transform.x = x;
+            this.transform.y = y;
 
             this.onAddedToGroup = new Kiwi.Signal();
             this.onAddedToLayer = new Kiwi.Signal();
@@ -1637,6 +1639,66 @@ var Kiwi;
         Group.prototype.childType = function () {
             return Kiwi.GROUP;
         };
+
+        Object.defineProperty(Group.prototype, "x", {
+            get: function () {
+                return this.transform.x;
+            },
+            set: function (value) {
+                this.transform.x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Group.prototype, "y", {
+            get: function () {
+                return this.transform.y;
+            },
+            set: function (value) {
+                this.transform.y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Group.prototype, "scaleX", {
+            get: function () {
+                return this.transform.scaleX;
+            },
+            set: function (value) {
+                this.transform.scaleX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Group.prototype, "scaleY", {
+            get: function () {
+                return this.transform.scaleY;
+            },
+            set: function (value) {
+                this.transform.scaleY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Group.prototype, "rotation", {
+            get: function () {
+                return this.transform.rotation;
+            },
+            set: function (value) {
+                this.transform.rotation = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
 
         Group.prototype.modify = function (type, parent) {
             if (type === Kiwi.ADDED_TO_STATE) {
@@ -6313,10 +6375,7 @@ var Kiwi;
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof enableInput === "undefined") { enableInput = false; }
-                _super.call(this);
-
-                this.transform.x = x;
-                this.transform.y = y;
+                _super.call(this, x, y);
 
                 this.name = atlas.name;
                 this.atlas = atlas;
@@ -6370,13 +6429,17 @@ var Kiwi;
 
             Sprite.prototype.update = function () {
                 _super.prototype.update.call(this);
-                this.input.update();
 
                 if (this._isAnimated) {
                     this.animation.update();
-                    this.width = this.atlas.cells[this.atlas.cellIndex].w;
-                    this.height = this.atlas.cells[this.atlas.cellIndex].h;
+                    this.width = this.atlas.cells[this.cellIndex].w;
+                    this.height = this.atlas.cells[this.cellIndex].h;
+
+                    this.box.rawHitbox.width = this.width;
+                    this.box.rawHitbox.height = this.height;
                 }
+
+                this.input.update();
             };
 
             Sprite.prototype.render = function (camera) {
@@ -6414,12 +6477,10 @@ var Kiwi;
             function StaticImage(atlas, x, y) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
-                _super.call(this);
+                _super.call(this, x, y);
 
                 this.atlas = atlas;
                 this.cellIndex = this.atlas.cellIndex;
-                this.transform.x = x;
-                this.transform.y = y;
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
                 this.transform.rotPointX = this.width / 2;
@@ -6470,10 +6531,7 @@ var Kiwi;
                 if (typeof size === "undefined") { size = 32; }
                 if (typeof weight === "undefined") { weight = 'normal'; }
                 if (typeof fontFamily === "undefined") { fontFamily = 'cursive'; }
-                _super.call(this);
-
-                this.transform.x = x;
-                this.transform.y = y;
+                _super.call(this, x, y);
 
                 this._text = text;
                 this._fontWeight = weight;
@@ -6619,12 +6677,10 @@ var Kiwi;
             var Tile = (function (_super) {
                 __extends(Tile, _super);
                 function Tile(tileLayer, tileType, width, height, x, y) {
-                    _super.call(this);
+                    _super.call(this, x, y);
 
                     this.tileLayer = tileLayer;
 
-                    this.transform.x = x;
-                    this.transform.y = y;
                     this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
                     this.tileUpdate(tileType);
                 }
@@ -6686,7 +6742,7 @@ var Kiwi;
             var TileMap = (function (_super) {
                 __extends(TileMap, _super);
                 function TileMap() {
-                    _super.call(this);
+                    _super.call(this, 0, 0);
                     this._collisionCallback = null;
                 }
                 TileMap.prototype.createFromData = function (tileMapData, atlas, game, format) {
@@ -6929,7 +6985,7 @@ var Kiwi;
             var TileMapLayer = (function (_super) {
                 __extends(TileMapLayer, _super);
                 function TileMapLayer(game, parent, atlas, name, tileWidth, tileHeight) {
-                    _super.call(this);
+                    _super.call(this, 0, 0);
                     this._startX = 0;
                     this._startY = 0;
                     this._maxX = 0;

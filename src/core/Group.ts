@@ -89,6 +89,86 @@ module Kiwi {
         public transform: Kiwi.Geom.Transform;
         
         /*
+        * Get the X coordinate of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get x(): number {
+            return this.transform.x;
+        }
+
+        /*
+        * Set the X coordinate of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set x(value: number) {
+            this.transform.x = value;
+        }
+
+        /*
+        * Get the Y coordinate of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get y(): number {
+            return this.transform.y;
+        }
+
+        /*
+        * Set the Y coordinate of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set y(value: number) {
+            this.transform.y = value;
+        }
+
+        /*
+        * Get the Scale X of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get scaleX(): number {
+            return this.transform.scaleX;
+        }
+
+        /*
+        * Set the Scale X coordinate of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set scaleX(value: number) {
+            this.transform.scaleX = value;
+        }
+
+        /*
+        * Get the Scale Y coordinate of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get scaleY(): number {
+            return this.transform.scaleY;
+        }
+
+        /*
+        * Set the Scale Y coordinate of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set scaleY(value: number) {
+            this.transform.scaleY = value;
+        }
+
+        /*
+        * Get the rotation of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public get rotation(): number {
+            return this.transform.rotation;
+        }
+
+        /*
+        * Get the rotation of this group. This is just aliased to the transform property.
+        * @type Number
+        */
+        public set rotation(value: number) {
+            this.transform.rotation = value;
+        }
+        
+        /*
         * A Signal for firing callbacks when this groups is added to a layer. 
         * @property onAddedToLayer
         * @type Kiwi.Signal
