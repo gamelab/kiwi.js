@@ -43,8 +43,6 @@ module Kiwi {
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
             this.transform.y = y;
-            this.transform.rotPointX = this.width / 2;
-            this.transform.rotPointY = this.height / 2;
 
         }
 

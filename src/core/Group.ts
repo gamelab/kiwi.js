@@ -261,14 +261,13 @@ module Kiwi {
         **/
         public addChild(child: Kiwi.IChild): Kiwi.IChild {              //REVISE
 
-            //make sure you aren't adding a state.
+            //make sure you aren't adding a state or itself
             if (child.childType() === Kiwi.STATE || child == this) return;
 
             //make sure it is not itself.
             if (child.parent !== null) 
                 child.parent.removeChild(child);
             
-
             //check to see if the child is already part of a group.
             this.members.push(child);
             child.parent = this;
@@ -284,14 +283,17 @@ module Kiwi {
         * @param {Number} The index the child will be set at.
         * @return {Kiwi.Entity} The child.
         */
-        public addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild { //MORE CHECKS NEEDED
+        public addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild {
 
-            if (child.transform.parent !== this.transform) {
-                this.members.splice(index, 0, child);
-            }
+            if (child.childType() === Kiwi.STATE || child == this) return;
+
+            if (child.parent !== null) child.parent.removeChild(child);
+
+            this.members.splice(index, 0, child);
+            child.parent = this;
+            child.transform.parent = this.transform;
 
             return child;
-
         }
 
         /**
@@ -301,7 +303,7 @@ module Kiwi {
         * @param {Kiwi.Entity} The child before which the child will be added.
         * @return {Kiwi.Entity} The child.
         */
-        public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {
+        public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {                      //REWORK
 
             if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
                 var index: number = this.getChildIndex(beforeChild);
@@ -322,7 +324,7 @@ module Kiwi {
         */
         public addChildAfter(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {
            
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) { //REWORK
                 var index: number = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
@@ -402,19 +404,21 @@ module Kiwi {
         * @param {Kiwi.Entity} The child to be removed.
         * @return {Kiwi.Entity} The child.
         **/
-        public removeChild(child: Kiwi.IChild): Kiwi.IChild {
+        public removeChild(child: Kiwi.IChild): Kiwi.IChild {   
 
-            if (child && child.transform.parent === this.transform) {
+            if (child.parent === this) {
+
                 var index: number = this.getChildIndex(child);
 
                 if (index > -1) {
                     this.members.splice(index, 1);
+                    child.transform.parent = null;
+                    child.parent = null;
                 }
 
-            }
+            } 
 
             return child;
-
         }
 
         /**
@@ -428,13 +432,7 @@ module Kiwi {
             if (this.members[index]) {
                 var child: Kiwi.IChild = this.members[index];
 
-                if (child) {
-                    this.members.splice(index, 1);
-
-                    //child._removedFromGroup(this); 
-                }
-
-                return child;
+                return this.removeChild(child);
             } else {
                 return null;
             }
@@ -442,7 +440,7 @@ module Kiwi {
         }
 
         /**
-        * Removes all Entities from this Group within the given range.
+        * Removes all Entities from this Group within the given range. 
         * @method removeChildren
         * @param {Number} The begining index.
         * @param {Number} The last index of the range.
@@ -454,12 +452,16 @@ module Kiwi {
             
             var removed: Kiwi.IChild[] = this.members.splice(begin, end);
 
-            return removed.length;
+            for (var i = 0; i < removed.length; i++) {
+                removed[i].parent = null;
+                removed[i].transform.parent = null;
+            }
 
+            return removed.length;
         }
         
         /**
-        * Sets a new position of an existing Entity within the Group
+        * Sets a new position of an existing Entity within the Group.
         * @method setChildIndex
         * @param {Kiwi.Entity} The child in this Group to change.
         * @param {Number} The index for the child to be set at.
@@ -468,7 +470,7 @@ module Kiwi {
         public setChildIndex(child: Kiwi.IChild, index: number): bool {
         
             //  If the Entity isn't in this Group, or is already at that index then bail out
-            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index) {
+            if (child.parent !== this || this.getChildIndex(child) === index) {
                 return false;
             }
 
@@ -476,11 +478,10 @@ module Kiwi {
             this.addChildAt(child, index);
 
             return true;
-        
         }
 
         /**
-        * Swaps the position of two existing Entities within the Group
+        * Swaps the position of two existing Entities that are a direct child of this group.
         * @method swapChildren
         * @param {Kiwi.Entity} The first child in this Group to swap.
         * @param {Kiwi.Entity} The second child in this Group to swap.
@@ -489,7 +490,7 @@ module Kiwi {
         public swapChildren(child1: Kiwi.IChild, child2: Kiwi.IChild):bool {
         
             //  If either Entity isn't in this Group, or is already at that index then bail out
-            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
+            if (child1.parent !== this || child2.parent !== this) {
                 return false;
             }
 
@@ -504,7 +505,6 @@ module Kiwi {
             }
 
             return false;
-
         }
          
         /**
@@ -518,24 +518,20 @@ module Kiwi {
              
             var child1: Kiwi.IChild = this.getChildAt(index1);
             var child2: Kiwi.IChild = this.getChildAt(index2);
-            if (child1 != null && child2 != null) {
+
+            if (child1 !== null && child2 !== null) {
                 //  If either Entity isn't in this Group, or is already at that index then bail out
-                if (child1==child2 || child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
+                if (child1 == child2 || child1.parent !== this || child2.parent !== this) {
                     return false;
                 }
 
-                if (child1 !== null && child2 !== null) {
-
-                    this.members[index1] = child2;
-                    this.members[index2] = child1;
+                this.members[index1] = child2;
+                this.members[index2] = child1;
                      
-                    return true;
-                }
+                return true;
             }
 
-          
             return false;
-        
         }
 
         /**
@@ -550,26 +546,25 @@ module Kiwi {
             //fall through if replacing child with the same child
             if (oldChild === newChild) return false;
 
-            // remove the new child from the group if the group contains it, so it can be reinserted in new position
-            if (this.getChildIndex(newChild)) {
-                this.removeChild(newChild);
-            }
-
             // get the index of the existing child
             var index: number = this.getChildIndex(oldChild);
             
             if (index > -1) {
+                // remove the new child from the group if the group contains it, so it can be reinserted in new position
+                if (newChild.parent) {
+                    newChild.parent.removeChild(newChild);
+                }
+
                 this.removeChildAt(index);
                 
                 this.addChildAt(newChild, index); 
+                newChild.parent = null;
                 newChild.transform.parent = null; 
-
+                
                 return true;
-
             }
 
             return false;
-
         }
         
         /**
@@ -580,10 +575,8 @@ module Kiwi {
 		*/
         public forEach(context, callback, ...params: any[]) {
 
-            if (this.members.length > 0)
-            {
+            if (this.members.length > 0) {
                 this.members.forEach((child) => callback.apply(context, [child].concat(params)));
-                //this.members.forEach((child) => this._processForEach(context, child, true, callback, params) );
             }
 
         }
@@ -702,9 +695,8 @@ module Kiwi {
 
         /**
         * Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+        * This method should be over-ridden to handle specific canvas/webgl implementations.
         **/
-        //********TODO  - set children - as below
         public set exists(value: bool) {
             this._exists = value;
         }
@@ -731,39 +723,7 @@ module Kiwi {
         public get active():bool {
             return this._active;
         }
-
-        /**
-        * @method render
-		*/
-        public render(camera:Kiwi.Camera) {
-
-            this.components.preRender();
-
-            this.components.render();
-
-            if (this.members.length > 0) {
-                this.members.forEach((child) => this.processRender(child,camera));
-            }
-
-            this.components.postRender();
-
-        }
-
         
-
-        /**
-        * Calls the render method on all alive children
-        * @method processRender
-        * @param {Kiwi.Entity} 
-        */
-        public processRender(child: Kiwi.IChild,camera:Kiwi.Camera) {
-
-            if (child.active === true) {
-                child.render(camera);
-            }
-
-        }
-
         /**
         * Removes the first Entity from this Group marked as 'alive'
         * @method removeFirstAlive
@@ -779,7 +739,7 @@ module Kiwi {
         * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
         * @method getFirstAlive
 		*/
-        public getFirstAlive() { 
+        public getFirstAlive(): Kiwi.IChild { 
         
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === true) {
@@ -789,14 +749,13 @@ module Kiwi {
             }
 
             return null;
-        
         }
 
         /**
         * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
         * @method getFirstDead
 		*/
-        public getFirstDead() { 
+        public getFirstDead():Kiwi.IChild { 
         
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === false) {

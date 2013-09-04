@@ -37,6 +37,8 @@ module Kiwi.GameObjects {
             this.cellIndex = this.atlas.cellIndex;
             this.width = atlas.cells[0].w;
             this.height = atlas.cells[0].h;
+            this.transform.rotPointX = this.width / 2;
+            this.transform.rotPointY = this.height / 2;
             
             this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
            

@@ -1689,9 +1689,15 @@ var Kiwi;
         };
 
         Group.prototype.addChildAt = function (child, index) {
-            if (child.transform.parent !== this.transform) {
-                this.members.splice(index, 0, child);
-            }
+            if (child.childType() === Kiwi.STATE || child == this)
+                return;
+
+            if (child.parent !== null)
+                child.parent.removeChild(child);
+
+            this.members.splice(index, 0, child);
+            child.parent = this;
+            child.transform.parent = this.transform;
 
             return child;
         };
@@ -1749,11 +1755,13 @@ var Kiwi;
         };
 
         Group.prototype.removeChild = function (child) {
-            if (child && child.transform.parent === this.transform) {
+            if (child.parent === this) {
                 var index = this.getChildIndex(child);
 
                 if (index > -1) {
                     this.members.splice(index, 1);
+                    child.transform.parent = null;
+                    child.parent = null;
                 }
             }
 
@@ -1764,11 +1772,7 @@ var Kiwi;
             if (this.members[index]) {
                 var child = this.members[index];
 
-                if (child) {
-                    this.members.splice(index, 1);
-                }
-
-                return child;
+                return this.removeChild(child);
             } else {
                 return null;
             }
@@ -1780,6 +1784,11 @@ var Kiwi;
             end -= begin;
 
             var removed = this.members.splice(begin, end);
+
+            for (var i = 0; i < removed.length; i++) {
+                removed[i].parent = null;
+                removed[i].transform.parent = null;
+            }
 
             return removed.length;
         };

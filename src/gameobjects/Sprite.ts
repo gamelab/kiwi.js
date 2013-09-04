@@ -31,6 +31,8 @@ module Kiwi.GameObjects {
             //may need to add an optional other cell frame index here
             this.width = atlas.cells[0].w;
             this.height = atlas.cells[0].h;
+            this.transform.rotPointX = this.width / 2;
+            this.transform.rotPointY = this.height / 2;
             
 
             //Create the components needed
