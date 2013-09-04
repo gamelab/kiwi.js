@@ -66,13 +66,6 @@ module Kiwi.Animation {
         }
 
         /*
-        * An internal property to store the a frameindex that is to be played if the animation is pending
-        * @property _uniqueFrameIndex
-        * @type number
-        */
-        private _uniqueFrameIndex: number = 0;
-
-        /*
         * The current frame index that the animation is upto. 
         * @property _frameIndex
         * @type number
@@ -133,7 +126,7 @@ module Kiwi.Animation {
         * @property _clock
         * @type Kiwi.Time.Clock
         */
-        private _clock: Kiwi.Time.Clock = null;
+        private _clock: Kiwi.Time.Clock;
 
         /*
         * The starting time of the animation from when it was played. Internal use only.
@@ -180,13 +173,6 @@ module Kiwi.Animation {
         private _isPlaying: bool;
 
         /*
-        * If the animation has been played but we are waiting on the entity to be added to stage.
-        * @property _playPending
-        * @type bool
-        */
-        private _playPending: bool = false;
-
-        /*
         * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
         * @property onStop
         * @type Kiwi.Signal
@@ -213,26 +199,7 @@ module Kiwi.Animation {
         * @type Kiwi.Signal
         */
         public onLoop: Kiwi.Signal;
-
-        /*
-        * Set the clock for this animation.
-        * @type Kiwi.Time.Clock
-        */
-        public set clock(clock: Kiwi.Time.Clock) {
-
-            this._clock = clock;
-
-            if (this._playPending) this._start(this._uniqueFrameIndex);
-        }
-
-        /*
-        * Get the clock.
-        * @type Kiwi.Time.Clock
-        */
-        public get clock(): Kiwi.Time.Clock {
-            return this._clock;
-        }
-
+         
         /*
         * An Internal method used to start the animation.
         * @method _start
@@ -241,8 +208,7 @@ module Kiwi.Animation {
         private _start(index: number = null) {
             if (index !== null) {
                 this.frameIndex = index;
-            }
-            this._playPending = false;
+            } 
             this._isPlaying = true;
             this._startTime = this._clock.elapsed();
             this._tick = this._startTime + this._speed;
@@ -265,13 +231,8 @@ module Kiwi.Animation {
         * @method playAt
         * @param {number} index
         */
-        public playAt(index: number) {
-            this._uniqueFrameIndex = index;
-            if (this.clock === null) {
-                this._playPending = true;
-            } else {
-                this._start(index);
-            }
+        public playAt(index: number) {  
+            this._start(index);
         }
 
         /*
@@ -298,8 +259,7 @@ module Kiwi.Animation {
         */
         public stop() {
             if (this._isPlaying) {
-                this._isPlaying = false;
-                this._playPending = false;
+                this._isPlaying = false; 
                 this.onStop.dispatch();
             }
         }
@@ -329,9 +289,9 @@ module Kiwi.Animation {
         */
         public update(): bool {
             if (this._isPlaying) {
-                if (this.clock.elapsed() >= this._tick) {
+                if (this._clock.elapsed() >= this._tick) {
 
-                    this._tick = this.clock.elapsed() + this._speed;
+                    this._tick = this._clock.elapsed() + this._speed;
                     
                     if (this._reverse) this._frameIndex--;
                     else this._frameIndex++;

@@ -24,9 +24,9 @@ module Kiwi.Components {
         * @param {Kiwi.Components.Box} box
         * @return {Kiwi.Components.Input}
         */
-        constructor(entity: Kiwi.Entity, box:Kiwi.Components.Box, enabled:bool) {
+        constructor(owner: Kiwi.IChild, box:Kiwi.Components.Box, enabled:bool) {
 
-            super('Input');
+            super(owner,'Input');
             
             //  Signals
             this._onEntered = new Kiwi.Signal();
@@ -37,7 +37,6 @@ module Kiwi.Components {
             this._onDragStopped = new Kiwi.Signal();
 
             //  Properties
-            this._entity = entity;
             this._box = box;
 
             this._distance = new Kiwi.Geom.Point();
@@ -63,44 +62,12 @@ module Kiwi.Components {
         }
         
         /*
-        * The entity that this input belongs to. 
-        * NOTE: This should be replace eventually with the natural component version.
-        * @property _entity
-        * @type Kiwi.Entity
-        */
-        private _entity: Kiwi.Entity;
-        
-        /*
         * The bounding box that is being used for the 'hitarea'.
         * @property _box
         * @type Kiwi.Components.Box
         */
         private _box: Kiwi.Components.Box;
 
-        /*
-        * The game that this input belongs to. 
-        * NOTE: This should be replace eventually with the natural component version.
-        * @property _game
-        * @type Kiwi.Game
-        */
-        private _game: Kiwi.Game;
-
-        /*
-        * Set the game that this input belongs to.
-        * @type Kiwi.Game
-        */
-        public set game(val: Kiwi.Game) {
-            this._game = val; 
-        }
-        
-        /*
-        * Get the game that this input belongs to.
-        * @type Kiwi.Game
-        */
-        public get game():Kiwi.Game {
-            return this._game;
-        }
-        
         /*
         * Kiwi Signal for firing callbacks when a pointer is active and has entered the entities hit box.
         * @property _onEntered
@@ -381,7 +348,7 @@ module Kiwi.Components {
         */
         public update() {
 
-            if (this.enabled === false  ||  !this._game || this._entity.active === false || this._entity.willRender === false) {
+            if (this.enabled === false  ||  !this.game || this.owner.active === false || this.owner.willRender === false) {
                 return;
             }
             
@@ -401,12 +368,12 @@ module Kiwi.Components {
             
             //If the entity is dragging.
             if (this.isDragging) {
-                this._entity.x = this._isDragging.x;
-                this._entity.y = this._isDragging.y;
-
+                this.owner.transform.x = this._isDragging.x;
+                this.owner.transform.y = this._isDragging.y;
+                
                 if (this._dragSnapToCenter === false) {
-                    this._entity.x -= this._distance.x;
-                    this._entity.y -= this._distance.y;
+                    this.owner.transform.x -= this._distance.x;
+                    this.owner.transform.y -= this._distance.y;
                 }
             }
         }
@@ -417,19 +384,19 @@ module Kiwi.Components {
         */
         private _updateTouch() {
         
-            for (var i = 0; i < this._game.input.touch.fingers.length; i++) {
+            for (var i = 0; i < this.game.input.touch.fingers.length; i++) {
 
                 //if that pointer is active then see where it is
-                if (this._game.input.touch.fingers[i].active === true) {
-                    this._evaluateTouchPointer(this._game.input.touch.fingers[i]);
+                if (this.game.input.touch.fingers[i].active === true) {
+                    this._evaluateTouchPointer(this.game.input.touch.fingers[i]);
                 }
                 //if the pointer is inactive check to see if it was just down
-                else if (this.isDown === true && this._isDown.id === this._game.input.touch.fingers[i].id) {
-                    this._nowUp = this._game.input.touch.fingers[i];
+                else if (this.isDown === true && this._isDown.id === this.game.input.touch.fingers[i].id) {
+                    this._nowUp = this.game.input.touch.fingers[i];
                 }
                 //if the pointer is not active but was within the bounds check to see if it is now outside
-                else if (this.isDown === false && this._nowUp === null && this.withinBounds === true && this._withinBounds.id === this._game.input.touch.fingers[i].id) {
-                    this._nowUp = this._game.input.touch.fingers[i];
+                else if (this.isDown === false && this._nowUp === null && this.withinBounds === true && this._withinBounds.id === this.game.input.touch.fingers[i].id) {
+                    this._nowUp = this.game.input.touch.fingers[i];
                 }
                  
             }
@@ -438,17 +405,17 @@ module Kiwi.Components {
             if (this._nowEntered !== null && this.withinBounds === false) { 
                 this._withinBounds = this._nowEntered;
                 this._outsideBounds = false;
-                this._onEntered.dispatch(this._entity, this._nowEntered);
+                this._onEntered.dispatch(this.owner, this._nowEntered);
             }
 
             if (this._nowLeft !== null && this.withinBounds === true) { 
                 this._withinBounds = null;
                 this._outsideBounds = true;
-                this._onLeft.dispatch(this._entity, this._nowLeft);
+                this._onLeft.dispatch(this.owner, this._nowLeft);
             }
 
             if (this._nowDown !== null && this.isDown === false) { 
-                this._onDown.dispatch(this._entity, this._nowDown);
+                this._onDown.dispatch(this.owner, this._nowDown);
                 this._isDown = this._nowDown;
                 this._isUp = false;
                 this._withinBounds = this._nowDown;
@@ -456,12 +423,12 @@ module Kiwi.Components {
             }
             
             if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
-                this._onDragStarted.dispatch(this._entity, this._nowDragging);
+                this._onDragStarted.dispatch(this.owner, this._nowDragging);
                 this._isDragging = this._nowDragging;
             }
 
             if (this._nowUp !== null) { 
-                this._onUp.dispatch(this._entity, this._nowUp);
+                this._onUp.dispatch(this.owner, this._nowUp);
                 this._isDown = null;
                 this._isUp = true;
                 this._withinBounds = null;
@@ -470,7 +437,7 @@ module Kiwi.Components {
                 //dispatch drag event
                 if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                     this._isDragging = null;
-                    this._onDragStopped.dispatch(this._entity, this._nowUp);
+                    this._onDragStopped.dispatch(this.owner, this._nowUp);
                 }
             }
 
@@ -521,35 +488,35 @@ module Kiwi.Components {
         */
         private _updateMouse() {
 
-            this._evaluateMousePointer(this._game.input.mouse.cursor);
+            this._evaluateMousePointer(this.game.input.mouse.cursor);
 
             //dispatch the events
             if (this._nowLeft !== null) {
-                this._onLeft.dispatch(this._entity, this._nowLeft);
+                this._onLeft.dispatch(this.owner, this._nowLeft);
             }
 
             if (this._nowEntered !== null) {
-                this._onEntered.dispatch(this._entity, this._nowEntered);
+                this._onEntered.dispatch(this.owner, this._nowEntered);
             }
             
             if (this._nowDown !== null && this.isDown === false) {
-                this._onDown.dispatch(this._entity, this._nowDown);
+                this._onDown.dispatch(this.owner, this._nowDown);
                 this._isDown = this._nowDown;
                 this._isUp = false;
             }
 
             if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
-                this._onDragStarted.dispatch(this._entity, this._nowDragging);
+                this._onDragStarted.dispatch(this.owner, this._nowDragging);
                 this._isDragging = this._nowDragging;
             }
 
             if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
-                this._onUp.dispatch(this._entity, this._nowUp);
+                this._onUp.dispatch(this.owner, this._nowUp);
                 
                 //dispatch drag event
                 if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                     this._isDragging = null;
-                    this._onDragStopped.dispatch(this._entity, this._nowUp);
+                    this._onDragStopped.dispatch(this.owner, this._nowUp);
                 }
 
                 this._isDown = null;

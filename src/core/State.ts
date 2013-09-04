@@ -201,7 +201,7 @@ module Kiwi {
                     this.members[i].update();
                 }
             }
-        
+            
         }
 
         /**
@@ -248,7 +248,6 @@ module Kiwi {
         */
         public addImage(key: string, url: string, storeAsGlobal: bool = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
             this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
-             
         }
         
         /**
@@ -319,55 +318,11 @@ module Kiwi {
         }
 
         /**
-        * Add a child to this State. Child can be any Game Object that extends Kiwi.Entity or Kiwi.Group
-        * @method addChild
-        * @param {Any} child
-        * @param {Kiwi.Layer} layer
-        **/
-        public addChild(child: Kiwi.IChild): Kiwi.IChild {
-          
-            super.removeChild(child);   //alright
-            //this.members.push(child);
-            
-            super.addChild(child);
-            
-            //    this.currentLayer.add(child);
-            
-
-            return child;
-        
-        }
-
-        //remove child!---
-        public removeChild(child: Kiwi.IChild): Kiwi.IChild {
-            
-
-            var layer = null;
-            //check that is exists...
-            for (var i = 0; i < this.members.length; i++) {
-
-                if (this.members[i].id === child.id) {
-
-                    this.members.splice(i, 1);
-
-                   
-                }  
-                  
-            }
-            return child;
-           // return false;
-        }
-
-        /**
         * 
         * @method destroy
         **/
         public destroy() {
-
-            for (var i = 0; i < this.members.length; i++)
-            {
-                //this.members[i].destroy();
-            }
+            super.destroy();
         
         }
 

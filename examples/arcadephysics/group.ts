@@ -20,11 +20,11 @@ class group extends Kiwi.State {
         this.balls = new Kiwi.Group(this);
         this.addChild(this.balls);
 
-        this.spartan = new customB(this.textures.spartan, 400, 100);
+        this.spartan = new customB(this, this.textures.spartan, 400, 100);
         this.spartan.phy.immovable = true;
 
         for (var i = 0; i < this.numBalls; i++) {
-            var ball = new customB(this.textures.shiny, Math.random() * this.game.stage.width , this.game.stage.height * Math.random());
+            var ball = new customB(this,this.textures.shiny, Math.random() * this.game.stage.width , this.game.stage.height * Math.random());
             
             this.balls.addChild(ball);
         }
@@ -64,8 +64,8 @@ class group extends Kiwi.State {
 
 class customB extends Kiwi.GameObjects.Sprite {
 
-    constructor(atlas, x, y) {
-        super(atlas, x, y);
+    constructor(state,atlas, x, y) {
+        super(state,atlas, x, y);
 
         this.phy = this.components.add(new Kiwi.Components.ArcadePhysics(this));
     }

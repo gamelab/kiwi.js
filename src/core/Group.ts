@@ -639,32 +639,15 @@ module Kiwi {
             }
         }
 
-        /*
-        //  Currently doesn't work!
-
-        private _processForEach(context, child: Kiwi.Entity, testAlive: bool, callback, paramsArr) {
-
-            if (testAlive === true && child.exists() === false)
-            {
-                return;
-            }
-
-            var params = [child];
-            params.concat(paramsArr);
-
-            callback.apply(context, params);
-
-        }
-        */
-
         /**
         * The update loop for this group.
         * @method update
 		*/
         public update() {
 
-            this.components.update();
+            this.components.preUpdate();
 
+            this.components.update();
             if (this.members.length > 0) {
                 this.members.forEach((child) => this.processUpdate(child));
             }
@@ -724,6 +707,11 @@ module Kiwi {
             return this._active;
         }
         
+        //DO NOTHING!!
+        public render(camera) {
+
+        }
+
         /**
         * Removes the first Entity from this Group marked as 'alive'
         * @method removeFirstAlive
@@ -785,12 +773,6 @@ module Kiwi {
 
             return total;
         
-        }
-
-
-        //DO NOTHING!!
-        public render(camera) {
-
         }
 
         /**
@@ -864,7 +846,7 @@ module Kiwi {
 
         /**
         * Toggles the visible state of this Entity. visible(false) are stopped from rendering.
-        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+        * This method should be over-ridden to handle specific canvas/webgl implementations.
         * @method visible
         * @param {Boolean} value
         * @return {Boolean}

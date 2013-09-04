@@ -34,16 +34,14 @@ module Kiwi {
             this.game = state.game;
             this.id = this.game.rnd.uuid();
             this._clock = this.game.time.clock;
-
-
+             
             this._exists = true;
             this._active = true;
             this._willRender = true;
-            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this); //to redo!!
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this); 
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
-            this.transform.y = y;
-
+            this.transform.y = y; 
         }
 
         /*
@@ -223,7 +221,7 @@ module Kiwi {
         * @property cellIndex
         * @type number
         */
-        public cellIndex: number = 0; //perhaps check to see that the cell index exists before allowing it to be set
+        public cellIndex: number = 0; 
 
         /**
         * The Component Manager

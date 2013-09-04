@@ -36,11 +36,9 @@ module Kiwi.GameObjects {
             
 
             //Create the components needed
-            this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
+            this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
 
-            //to re implement!!!
-            this.input.game = this.game;
             
             //Check to see if this sprite could be animated or not
             if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
@@ -48,7 +46,6 @@ module Kiwi.GameObjects {
                 this._isAnimated = false;
             } else {
                 this.animation = this.components.add(new Kiwi.Components.Animation(this));
-                this.animation.clock = this.clock;
                 this._isAnimated = true;
             }
 

@@ -119,7 +119,7 @@ module Kiwi {
             }
             else if (typeof state === 'string')
             {
-                tempState = window[state];
+                tempState = window[state];  //make new?
             }
             else
             {

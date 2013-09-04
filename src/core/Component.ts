@@ -24,21 +24,13 @@ module Kiwi {
         * @param {string} componentName - The name of this component.
         * @return Kiwi.Component
         */
-        constructor (name:string) {
+        constructor (owner:IChild, name:string) {
 
-            //  Properties
-
+            this.owner = owner; 
+            this.game = this.owner.game;
             this.name = name;
             this.active = true;
 
-            //  Signals
-
-            this.onAddedToState = new Kiwi.Signal();
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToEntity = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromEntity = new Kiwi.Signal();
         }
 
         /**
@@ -48,209 +40,20 @@ module Kiwi {
         public objType():string {
             return "Component";
         }
-
-        /*
-        * Signal that fires callbacks when the component has been added to the state.
-        * @property onAddedToState
-        * @type Kiwi.Signal
-        */
-        public onAddedToState: Kiwi.Signal;
         
-        /*
-        * Signal that fires callbacks when the component has been added to a group.
-        * @property onAddedToState
-        * @type Kiwi.Signal
-        */
-        public onAddedToGroup: Kiwi.Signal;
-        
-        /*
-        * Signal that fires callbacks when the component has been added to an entity.
-        * @property onAddedToState
-        * @type Kiwi.Signal
-        */
-        public onAddedToEntity: Kiwi.Signal;
-        
-        /*
-        * Signal that fires callbacks when the component has been removed from a state.
-        * @property onAddedToState
-        * @type Kiwi.Signal
-        */
-        public onRemovedFromState: Kiwi.Signal;
-        
-        /*
-        * Signal that fires callbacks when the component has been removed from a group.
-        * @property onAddedToState
-        * @type Kiwi.Signal
-        */
-        public onRemovedFromGroup: Kiwi.Signal;
-        
-        /*
-        * Signal that fires callbacks when the component has been removed from a entity.
-        * @property onAddedToState
-        * @type Kiwi.Signal
-        */
-        public onRemovedFromEntity: Kiwi.Signal;
-
-        /*
-        *  Modify the state of this Component, such as adding to a Group, removing from a Layer, etc. Should be used by the internal Kiwi methods only.
-        * @method modify
-        * @param {Number} action
-        * @param {Any} parent
-        */
-        public modify(action:number, parent) {
-
-            if (action === Kiwi.ADDED_TO_GROUP)
-            {
-                return this._addedToGroup(parent);
-            }
-           
-            else if (action === Kiwi.ADDED_TO_STATE)
-            {
-                return this._addedToState(parent);
-            }
-            else if (action === Kiwi.ADDED_TO_ENTITY)
-            {
-                return this._addedToEntity(parent);
-            }
-            else if (action === Kiwi.REMOVED_FROM_GROUP)
-            {
-                return this._removedFromGroup(parent);
-            }
-           
-            else if (action === Kiwi.REMOVED_FROM_STATE)
-            {
-                return this._removedFromState(parent);
-            }
-            else if (action === Kiwi.REMOVED_FROM_ENTITY)
-            {
-                return this._removedFromEntity(parent);
-            }
-
-        }
-
         /**
-        * The state this Component has been added to, if any.
-        * @property state
-        * @type State
-    	*/
-        public state: Kiwi.State = null;
-
-        /**
-        * The Group this component has been added to, if any.
-        * @property group
-        * @type Entity
-    	*/
-        public group: Kiwi.Group = null;
-
-        /**
-        * The Entity this component has been added to, if any.
-        * @property entity
-        * @type Entity
-    	*/
-        public entity: Kiwi.Entity = null;
-
-        /**
-        * Called when this Component is added to a State
-        * @method _addedToState
-        * @param {Kiwi.State} state
-        * @return {Boolean}
+        * The IChild that owns this entity
+        * @property owner
+        * @type IChild
         */
-        private _addedToState(state: Kiwi.State): bool {
+        public owner: Kiwi.IChild;
 
-            this.state = state;
-
-            this.game = this.state.game;
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-
-        }
-
-        /**
-        * Called when this Component is removed from a State
-        * @method _removedFromState
-        * @param {Kiwi.State} state
-        */
-        private _removedFromState(state: Kiwi.State) {
-
-            this.state = null;
-
-            this.onAddedToState.dispatch(this, state);
-
-        }
-
-        /**
-		* Called when this Componet is added to a Group.
-        * @method _addedToGroup
-	    * @param {Kiwi.Group} group. The Group this Component is being added to.
-		**/
-        private _addedToGroup(group: Kiwi.Group) {
-
-            this.group = group;
-
-            if (group.game !== null)
-            {
-                this.game = group.game;
-            }
-
-            this.onAddedToGroup.dispatch(this, group);
-
-        }
-
-        /**
-		* Called when this Component is removed from a Group.
-        * @method _removedFromGroup
-	    * @param {Kiwi.Group} The Group this Component has just been removed from.
-		**/
-        private _removedFromGroup(group: Kiwi.Group) {
-
-            this.group = null;
-
-            this.onRemovedFromGroup.dispatch(this, group);
-
-        }
-
-        /**
-        * Called when this Componenet is added to an Entity
-        * @method _addedToEntity
-        * @param {Kiwi.Entity} entity
-        * @return {Boolean}
-        */
-        private _addedToEntity(entity: Kiwi.Entity): bool {
-
-            this.entity = entity;
-
-            if (this.entity.game !== null)
-            {
-                this.game = this.entity.game;
-            }
-
-            this.onAddedToEntity.dispatch(this, this.entity);
-
-            return true;
-
-        }
-
-        /**
-        * Called when this Componenet is removed from an Entity
-        * @method _removedFromEntity
-        * @param {Kiwi.Entity} entity
-        */
-        private _removedFromEntity(entity: Kiwi.Entity) {
-            
-            this.entity = null;
-
-            this.onRemovedFromEntity.dispatch(this, entity);
-
-        }
-         
         /**
         * The game this Component belongs to
         * @property game
         * @type Game
 	    */
-        public game: Kiwi.Game = null;
+        public game: Kiwi.Game;
 
         /**
         * The name of this component.
@@ -292,36 +95,14 @@ module Kiwi {
         public postUpdate() { }
 
         /**
-        * Components can preRender, that is render before the parent renders
-        * @method render
-        */
-        public preRender() { }
-
-        /**
-        * If the component renders, over-ride this function to provide implementation
-        * @method render
-        */
-        public render() { }
-
-        /**
-        * Components can postRender, that is render after the parent has rendered
-        * @method render
-        */
-        public postRender() { }
-
-        /**
         * Destroys this component
         * @method destroy
         */
         public destroy() {
 
             this.active = false;
-
-            this.entity = null;
             this.game = null;
-            this.group = null;
-          
-
+            this.owner = null;
             this.name = '';
 
         }

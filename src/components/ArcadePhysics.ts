@@ -60,7 +60,7 @@ module Kiwi.Components {
         * @return {Kiwi.Components.ArcadePhysics}
         */
         constructor(entity:Kiwi.Entity) {
-            super('ArcadePhysics');
+            super(entity,'ArcadePhysics');
             
             this._parent = entity;
             this.transform = this._parent.transform;

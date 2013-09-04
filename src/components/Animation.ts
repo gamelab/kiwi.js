@@ -24,11 +24,11 @@ module Kiwi.Components {
         * @return {Kiwi.Components.Animation}
         */
         constructor(entity: Kiwi.Entity) {
-            super('Animation');
+            super(entity, 'Animation');
 
             //get the entity and the animation.
             this.entity = entity;
-            this._atlas = this.entity.atlas;
+            this._atlas = this.entity.atlas; 
             this._animations = {};
 
             //create all of the default animations.
@@ -48,6 +48,13 @@ module Kiwi.Components {
                 this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
             }
         }
+
+        /*
+        * The entity that this animation belongs to.
+        * @property entity
+        * @type Kiwi.Entity
+        */
+        private entity: Kiwi.Entity;
 
         /*
         * The texture atlas that this animation is taking affect on.
@@ -83,33 +90,7 @@ module Kiwi.Components {
         public get isPlaying(): bool {
             return this._isPlaying;
         }
-
-        /*
-        * The clock that this animation uses.
-        * @property _clock
-        * @type Kiwi.Time.Clock
-        */
-        private _clock: Kiwi.Time.Clock = null;
-        
-        /*
-        * Set the clock.
-        * @type Kiwi.Time.Clock
-        */
-        public set clock(clock: Kiwi.Time.Clock) {
-
-            if(this.clock == null) this.currentAnimation.clock = clock;
-            
-            this._clock = clock;
-        }
-
-        /*
-        * Returns the clock that is being used.
-        * @type Kiwi.Time.Clock
-        */
-        public get clock():Kiwi.Time.Clock {
-            return this._clock;
-        }
-        
+         
         /*
         * The type of object that this is.
         * @method objType
@@ -146,7 +127,7 @@ module Kiwi.Components {
         * @return {Kiwi.Animation}
         */
         public createFromSequence(sequence: Kiwi.Animation.Sequence, play: boolean= false): Kiwi.Animation.Anim {
-            this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.clock);
+            this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.entity.clock);
 
             if (play) this.play(sequence.name);
             
@@ -186,8 +167,7 @@ module Kiwi.Components {
         private _play(name: string, index: number=null): Kiwi.Animation.Anim {
             
             this._isPlaying = true;
-            this._setCurrentAnimation(name);
-            if (this._clock !== null) this.currentAnimation.clock = this._clock; 
+            this._setCurrentAnimation(name); 
             
             if (index !== null)
                 this.currentAnimation.playAt(index);
@@ -283,8 +263,7 @@ module Kiwi.Components {
 
             if (this.currentAnimation !== null) this.currentAnimation.stop();
             if (this._animations[name]) {
-                this.currentAnimation = this._animations[name];
-                if (this._clock !== null) this.currentAnimation.clock = this._clock;
+                this.currentAnimation = this._animations[name]; 
             }  
         }
 

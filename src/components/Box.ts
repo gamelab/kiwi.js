@@ -13,10 +13,11 @@ module Kiwi.Components {
         * @param {Number} height
         * @return {Kiwi.Components.Box}
         */
-        constructor(x: number = 0, y: number = 0, width: number = 0, height: number = 0) {
+        constructor(parent: Entity, x: number = 0, y: number = 0, width: number = 0, height: number = 0) {
             
-            super('Box');
-
+            super(parent, 'Box');
+            
+            this.entity = parent;
             this.dirty = true;
 
             this._rawBounds = new Kiwi.Geom.Rectangle(x,y,width,height);
@@ -28,6 +29,13 @@ module Kiwi.Components {
             this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height); 
             
         }
+
+        /*
+        * The entity that this box belongs to.
+        * @property entity
+        * @type Kiwi.Entity
+        */
+        public entity: Kiwi.Entity;
 
         /*
         * The type of object that this is.

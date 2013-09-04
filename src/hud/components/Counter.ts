@@ -25,7 +25,7 @@ module Kiwi.HUD.Components {
         * @return {Kiwi.Components.Counter}
         **/
         constructor(initial:number,step:number=1) {
-            super("counter");
+            super(null, "counter");
             this._value = initial;
             this.step = step;
 

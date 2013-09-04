@@ -16,8 +16,8 @@ class overlaps extends Kiwi.State {
 
     create() {
         
-        this.zombie = new custom(this.textures.zombie, 100, 100);
-        this.spartan = new custom(this.textures.spartan, 400, 100);
+        this.zombie = new custom(this,this.textures.zombie, 100, 100);
+        this.spartan = new custom(this,this.textures.spartan, 400, 100);
 
         this.addChild(this.zombie);
         this.addChild(this.spartan);
@@ -41,8 +41,8 @@ class overlaps extends Kiwi.State {
 
 class custom extends Kiwi.GameObjects.Sprite {
 
-    constructor(atlas, x, y) {
-        super(atlas, x, y);
+    constructor(state,atlas, x, y) {
+        super(state,atlas, x, y);
         
         this.phy = this.components.add(new Kiwi.Components.ArcadePhysics(this));
     }

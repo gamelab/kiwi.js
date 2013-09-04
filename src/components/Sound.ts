@@ -9,19 +9,12 @@ module Kiwi.Components {
         * @param {Kiwi.Game} game
         * @return Kiwi.Components.Sound
         */
-        constructor(game: Kiwi.Game) {
+        constructor(parent) {
 
-            super('Sound');
+            super(parent, 'Sound');
 
-            this._game = game;
             this._audio = [];
         }
-
-        /*
-        * The game that this sound component is on.
-        * @private
-        */
-        private _game: Kiwi.Game;
 
         /*
         * An array of all of the sound components that are on this component.
@@ -43,7 +36,7 @@ module Kiwi.Components {
 
             if (this._validate(name) == true) return;
 
-            var audio = this._game.audio.add(key, volume, loop);
+            var audio = this.game.audio.add(key, volume, loop);
             this._audio[name] = audio;
 
             return audio;

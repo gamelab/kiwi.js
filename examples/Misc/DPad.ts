@@ -16,7 +16,6 @@ class DPad extends Kiwi.State {
     create() {
         this.DPad = new DPadGroup(this,this.textures.phone, this.textures.shiny, 0, 300);
         this.addChild(this.DPad);
-        this.DPad.addButtons(this);
     }
 
 }
@@ -26,31 +25,27 @@ class DPadGroup extends Kiwi.Group {
     constructor(state,atlas1,atlas2,x,y) {
         super(state,'DPad Group');
         
-        //way hacky but....meah...it works.
-        this.upButton = new Button(atlas1, 80 + x, 0 + y, 0);
-        this.downButton = new Button(atlas1, 80 + x, 160 + y, 180);
-        this.leftButton = new Button(atlas1, 0 + x, 80 + y, -90);
-        this.rightButton = new Button(atlas1, 160 + x, 80 + y, 90);
+        this.upButton = new Button(state,atlas1, 80 + x, 0 + y, 0);
+        this.downButton = new Button(state,atlas1, 80 + x, 160 + y, 180);
+        this.leftButton = new Button(state,atlas1, 0 + x, 80 + y, -90);
+        this.rightButton = new Button(state,atlas1, 160 + x, 80 + y, 90);
 
-        this.aButton = new Button(atlas1, 300,  80 + y, 0);
-        this.bButton = new Button(atlas1, 400,  80 + y, 0);
+        this.aButton = new Button(state,atlas1, 300,  80 + y, 0);
+        this.bButton = new Button(state,atlas1, 400,  80 + y, 0);
 
-        this.stick = new Stick(atlas2, 670 - x, 125 + y, 70);
+        this.stick = new Stick(state, atlas2, 670 - x, 125 + y, 70);
+
+        this.addChild(this.upButton);
+        this.addChild(this.downButton);
+        this.addChild(this.leftButton);
+        this.addChild(this.rightButton);
+
+        this.addChild(this.aButton);
+        this.addChild(this.bButton);
+
+        this.addChild(this.stick);
     }
-
-    addButtons(state) {
-        //again....hacky :L
-        state.addChild(this.upButton);
-        state.addChild(this.downButton);
-        state.addChild(this.leftButton);
-        state.addChild(this.rightButton);
-
-        state.addChild(this.aButton);
-        state.addChild(this.bButton);
-
-        state.addChild(this.stick);
-    }
-    
+     
     aButton: Button;
     bButton: Button;
 
@@ -65,8 +60,8 @@ class DPadGroup extends Kiwi.Group {
 
 class Stick extends Kiwi.GameObjects.Sprite {
     
-    constructor(atlas, x, y, radius) {
-        super(atlas, x, y, true);
+    constructor(state,atlas, x, y, radius) {
+        super(state,atlas, x, y, true);
         this.radius = radius;
         this.iX = x;
         this.iY = y;
@@ -129,8 +124,8 @@ class Stick extends Kiwi.GameObjects.Sprite {
 
 class Button extends Kiwi.GameObjects.Sprite {
 
-    constructor(atlas, x, y, rotateDeg) {
-        super(atlas, x, y, true);
+    constructor(state,atlas, x, y, rotateDeg) {
+        super(state, atlas, x, y, true);
         this.scaleX = 0.65;
         this.scaleY = 0.65;
         this.rotation = Kiwi.Utils.GameMath.degreesToRadians(rotateDeg);

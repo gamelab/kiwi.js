@@ -986,91 +986,16 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Component = (function () {
-        function Component(name) {
-            this.state = null;
-            this.group = null;
-            this.entity = null;
-            this.game = null;
+        function Component(owner, name) {
             this.active = true;
             this.dirty = false;
+            this.owner = owner;
+            this.game = this.owner.game;
             this.name = name;
             this.active = true;
-
-            this.onAddedToState = new Kiwi.Signal();
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToEntity = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromEntity = new Kiwi.Signal();
         }
         Component.prototype.objType = function () {
             return "Component";
-        };
-
-        Component.prototype.modify = function (action, parent) {
-            if (action === Kiwi.ADDED_TO_GROUP) {
-                return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (action === Kiwi.ADDED_TO_ENTITY) {
-                return this._addedToEntity(parent);
-            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
-                return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            } else if (action === Kiwi.REMOVED_FROM_ENTITY) {
-                return this._removedFromEntity(parent);
-            }
-        };
-
-        Component.prototype._addedToState = function (state) {
-            this.state = state;
-
-            this.game = this.state.game;
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-        };
-
-        Component.prototype._removedFromState = function (state) {
-            this.state = null;
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Component.prototype._addedToGroup = function (group) {
-            this.group = group;
-
-            if (group.game !== null) {
-                this.game = group.game;
-            }
-
-            this.onAddedToGroup.dispatch(this, group);
-        };
-
-        Component.prototype._removedFromGroup = function (group) {
-            this.group = null;
-
-            this.onRemovedFromGroup.dispatch(this, group);
-        };
-
-        Component.prototype._addedToEntity = function (entity) {
-            this.entity = entity;
-
-            if (this.entity.game !== null) {
-                this.game = this.entity.game;
-            }
-
-            this.onAddedToEntity.dispatch(this, this.entity);
-
-            return true;
-        };
-
-        Component.prototype._removedFromEntity = function (entity) {
-            this.entity = null;
-
-            this.onRemovedFromEntity.dispatch(this, entity);
         };
 
         Component.prototype.preUpdate = function () {
@@ -1082,22 +1007,10 @@ var Kiwi;
         Component.prototype.postUpdate = function () {
         };
 
-        Component.prototype.preRender = function () {
-        };
-
-        Component.prototype.render = function () {
-        };
-
-        Component.prototype.postRender = function () {
-        };
-
         Component.prototype.destroy = function () {
             this.active = false;
-
-            this.entity = null;
             this.game = null;
-            this.group = null;
-
+            this.owner = null;
             this.name = '';
         };
         return Component;
@@ -1143,16 +1056,6 @@ var Kiwi;
 
         ComponentManager.prototype.add = function (component) {
             this._components[component.name] = component;
-
-            if (this._type === Kiwi.STATE) {
-                component.modify(Kiwi.ADDED_TO_STATE, this._owner);
-            } else if (this._type === Kiwi.LAYER) {
-                component.modify(Kiwi.ADDED_TO_LAYER, this._owner);
-            } else if (this._type === Kiwi.GROUP) {
-                component.modify(Kiwi.ADDED_TO_GROUP, this._owner);
-            } else if (this._type === Kiwi.ENTITY) {
-                component.modify(Kiwi.ADDED_TO_ENTITY, this._owner);
-            }
 
             return component;
         };
@@ -1912,8 +1815,9 @@ var Kiwi;
 
         Group.prototype.update = function () {
             var _this = this;
-            this.components.update();
+            this.components.preUpdate();
 
+            this.components.update();
             if (this.members.length > 0) {
                 this.members.forEach(function (child) {
                     return _this.processUpdate(child);
@@ -1953,6 +1857,9 @@ var Kiwi;
             configurable: true
         });
 
+        Group.prototype.render = function (camera) {
+        };
+
         Group.prototype.removeFirstAlive = function () {
             return this.removeChild(this.getFirstAlive());
         };
@@ -1989,9 +1896,6 @@ var Kiwi;
             }
 
             return total;
-        };
-
-        Group.prototype.render = function (camera) {
         };
 
         Group.prototype.countDead = function () {
@@ -2177,28 +2081,8 @@ var Kiwi;
             this.game.loader.addAudio(key, url, storeAsGlobal);
         };
 
-        State.prototype.addChild = function (child) {
-            _super.prototype.removeChild.call(this, child);
-
-            _super.prototype.addChild.call(this, child);
-
-            return child;
-        };
-
-        State.prototype.removeChild = function (child) {
-            var layer = null;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === child.id) {
-                    this.members.splice(i, 1);
-                }
-            }
-            return child;
-        };
-
         State.prototype.destroy = function () {
-            for (var i = 0; i < this.members.length; i++) {
-            }
+            _super.prototype.destroy.call(this);
         };
         return State;
     })(Kiwi.Group);
@@ -3669,13 +3553,14 @@ var Kiwi;
     (function (Components) {
         var Box = (function (_super) {
             __extends(Box, _super);
-            function Box(x, y, width, height) {
+            function Box(parent, x, y, width, height) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof width === "undefined") { width = 0; }
                 if (typeof height === "undefined") { height = 0; }
-                _super.call(this, 'Box');
+                _super.call(this, parent, 'Box');
 
+                this.entity = parent;
                 this.dirty = true;
 
                 this._rawBounds = new Kiwi.Geom.Rectangle(x, y, width, height);
@@ -3831,8 +3716,8 @@ var Kiwi;
     (function (Components) {
         var Input = (function (_super) {
             __extends(Input, _super);
-            function Input(entity, box, enabled) {
-                _super.call(this, 'Input');
+            function Input(owner, box, enabled) {
+                _super.call(this, owner, 'Input');
                 this._isDragging = null;
                 this._dragEnabled = false;
                 this._dragSnapToCenter = false;
@@ -3849,7 +3734,6 @@ var Kiwi;
                 this._onDragStarted = new Kiwi.Signal();
                 this._onDragStopped = new Kiwi.Signal();
 
-                this._entity = entity;
                 this._box = box;
 
                 this._distance = new Kiwi.Geom.Point();
@@ -3867,18 +3751,6 @@ var Kiwi;
             Input.prototype.objType = function () {
                 return "Input";
             };
-
-
-            Object.defineProperty(Input.prototype, "game", {
-                get: function () {
-                    return this._game;
-                },
-                set: function (val) {
-                    this._game = val;
-                },
-                enumerable: true,
-                configurable: true
-            });
 
             Object.defineProperty(Input.prototype, "onEntered", {
                 get: function () {
@@ -4028,7 +3900,7 @@ var Kiwi;
             };
 
             Input.prototype.update = function () {
-                if (this.enabled === false || !this._game || this._entity.active === false || this._entity.willRender === false) {
+                if (this.enabled === false || !this.game || this.owner.active === false || this.owner.willRender === false) {
                     return;
                 }
 
@@ -4045,41 +3917,41 @@ var Kiwi;
                 }
 
                 if (this.isDragging) {
-                    this._entity.x = this._isDragging.x;
-                    this._entity.y = this._isDragging.y;
+                    this.owner.transform.x = this._isDragging.x;
+                    this.owner.transform.y = this._isDragging.y;
 
                     if (this._dragSnapToCenter === false) {
-                        this._entity.x -= this._distance.x;
-                        this._entity.y -= this._distance.y;
+                        this.owner.transform.x -= this._distance.x;
+                        this.owner.transform.y -= this._distance.y;
                     }
                 }
             };
 
             Input.prototype._updateTouch = function () {
-                for (var i = 0; i < this._game.input.touch.fingers.length; i++) {
-                    if (this._game.input.touch.fingers[i].active === true) {
-                        this._evaluateTouchPointer(this._game.input.touch.fingers[i]);
-                    } else if (this.isDown === true && this._isDown.id === this._game.input.touch.fingers[i].id) {
-                        this._nowUp = this._game.input.touch.fingers[i];
-                    } else if (this.isDown === false && this._nowUp === null && this.withinBounds === true && this._withinBounds.id === this._game.input.touch.fingers[i].id) {
-                        this._nowUp = this._game.input.touch.fingers[i];
+                for (var i = 0; i < this.game.input.touch.fingers.length; i++) {
+                    if (this.game.input.touch.fingers[i].active === true) {
+                        this._evaluateTouchPointer(this.game.input.touch.fingers[i]);
+                    } else if (this.isDown === true && this._isDown.id === this.game.input.touch.fingers[i].id) {
+                        this._nowUp = this.game.input.touch.fingers[i];
+                    } else if (this.isDown === false && this._nowUp === null && this.withinBounds === true && this._withinBounds.id === this.game.input.touch.fingers[i].id) {
+                        this._nowUp = this.game.input.touch.fingers[i];
                     }
                 }
 
                 if (this._nowEntered !== null && this.withinBounds === false) {
                     this._withinBounds = this._nowEntered;
                     this._outsideBounds = false;
-                    this._onEntered.dispatch(this._entity, this._nowEntered);
+                    this._onEntered.dispatch(this.owner, this._nowEntered);
                 }
 
                 if (this._nowLeft !== null && this.withinBounds === true) {
                     this._withinBounds = null;
                     this._outsideBounds = true;
-                    this._onLeft.dispatch(this._entity, this._nowLeft);
+                    this._onLeft.dispatch(this.owner, this._nowLeft);
                 }
 
                 if (this._nowDown !== null && this.isDown === false) {
-                    this._onDown.dispatch(this._entity, this._nowDown);
+                    this._onDown.dispatch(this.owner, this._nowDown);
                     this._isDown = this._nowDown;
                     this._isUp = false;
                     this._withinBounds = this._nowDown;
@@ -4087,12 +3959,12 @@ var Kiwi;
                 }
 
                 if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
-                    this._onDragStarted.dispatch(this._entity, this._nowDragging);
+                    this._onDragStarted.dispatch(this.owner, this._nowDragging);
                     this._isDragging = this._nowDragging;
                 }
 
                 if (this._nowUp !== null) {
-                    this._onUp.dispatch(this._entity, this._nowUp);
+                    this._onUp.dispatch(this.owner, this._nowUp);
                     this._isDown = null;
                     this._isUp = true;
                     this._withinBounds = null;
@@ -4100,7 +3972,7 @@ var Kiwi;
 
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
-                        this._onDragStopped.dispatch(this._entity, this._nowUp);
+                        this._onDragStopped.dispatch(this.owner, this._nowUp);
                     }
                 }
             };
@@ -4135,33 +4007,33 @@ var Kiwi;
             };
 
             Input.prototype._updateMouse = function () {
-                this._evaluateMousePointer(this._game.input.mouse.cursor);
+                this._evaluateMousePointer(this.game.input.mouse.cursor);
 
                 if (this._nowLeft !== null) {
-                    this._onLeft.dispatch(this._entity, this._nowLeft);
+                    this._onLeft.dispatch(this.owner, this._nowLeft);
                 }
 
                 if (this._nowEntered !== null) {
-                    this._onEntered.dispatch(this._entity, this._nowEntered);
+                    this._onEntered.dispatch(this.owner, this._nowEntered);
                 }
 
                 if (this._nowDown !== null && this.isDown === false) {
-                    this._onDown.dispatch(this._entity, this._nowDown);
+                    this._onDown.dispatch(this.owner, this._nowDown);
                     this._isDown = this._nowDown;
                     this._isUp = false;
                 }
 
                 if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
-                    this._onDragStarted.dispatch(this._entity, this._nowDragging);
+                    this._onDragStarted.dispatch(this.owner, this._nowDragging);
                     this._isDragging = this._nowDragging;
                 }
 
                 if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
-                    this._onUp.dispatch(this._entity, this._nowUp);
+                    this._onUp.dispatch(this.owner, this._nowUp);
 
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
-                        this._onDragStopped.dispatch(this._entity, this._nowUp);
+                        this._onDragStopped.dispatch(this.owner, this._nowUp);
                     }
 
                     this._isDown = null;
@@ -4233,17 +4105,16 @@ var Kiwi;
     (function (Components) {
         var Sound = (function (_super) {
             __extends(Sound, _super);
-            function Sound(game) {
-                _super.call(this, 'Sound');
+            function Sound(parent) {
+                _super.call(this, parent, 'Sound');
 
-                this._game = game;
                 this._audio = [];
             }
             Sound.prototype.addSound = function (name, key, volume, loop) {
                 if (this._validate(name) == true)
                     return;
 
-                var audio = this._game.audio.add(key, volume, loop);
+                var audio = this.game.audio.add(key, volume, loop);
                 this._audio[name] = audio;
 
                 return audio;
@@ -4312,7 +4183,7 @@ var Kiwi;
         var ArcadePhysics = (function (_super) {
             __extends(ArcadePhysics, _super);
             function ArcadePhysics(entity) {
-                _super.call(this, 'ArcadePhysics');
+                _super.call(this, entity, 'ArcadePhysics');
                 this._callbackFunction = null;
                 this._callbackContext = null;
 
@@ -4674,12 +4545,9 @@ var Kiwi;
     (function (Animation) {
         var Anim = (function () {
             function Anim(name, sequence, clock) {
-                this._uniqueFrameIndex = 0;
                 this._frameIndex = 0;
-                this._clock = null;
                 this._startTime = null;
                 this._reverse = false;
-                this._playPending = false;
                 this.name = name;
                 this._sequence = sequence;
                 this._speed = sequence.speed;
@@ -4749,27 +4617,11 @@ var Kiwi;
                 configurable: true
             });
 
-
-            Object.defineProperty(Anim.prototype, "clock", {
-                get: function () {
-                    return this._clock;
-                },
-                set: function (clock) {
-                    this._clock = clock;
-
-                    if (this._playPending)
-                        this._start(this._uniqueFrameIndex);
-                },
-                enumerable: true,
-                configurable: true
-            });
-
             Anim.prototype._start = function (index) {
                 if (typeof index === "undefined") { index = null; }
                 if (index !== null) {
                     this.frameIndex = index;
                 }
-                this._playPending = false;
                 this._isPlaying = true;
                 this._startTime = this._clock.elapsed();
                 this._tick = this._startTime + this._speed;
@@ -4784,12 +4636,7 @@ var Kiwi;
             };
 
             Anim.prototype.playAt = function (index) {
-                this._uniqueFrameIndex = index;
-                if (this.clock === null) {
-                    this._playPending = true;
-                } else {
-                    this._start(index);
-                }
+                this._start(index);
             };
 
             Anim.prototype.pause = function () {
@@ -4805,7 +4652,6 @@ var Kiwi;
             Anim.prototype.stop = function () {
                 if (this._isPlaying) {
                     this._isPlaying = false;
-                    this._playPending = false;
                     this.onStop.dispatch();
                 }
             };
@@ -4824,8 +4670,8 @@ var Kiwi;
 
             Anim.prototype.update = function () {
                 if (this._isPlaying) {
-                    if (this.clock.elapsed() >= this._tick) {
-                        this._tick = this.clock.elapsed() + this._speed;
+                    if (this._clock.elapsed() >= this._tick) {
+                        this._tick = this._clock.elapsed() + this._speed;
 
                         if (this._reverse)
                             this._frameIndex--; else
@@ -6009,10 +5855,9 @@ var Kiwi;
         var Animation = (function (_super) {
             __extends(Animation, _super);
             function Animation(entity) {
-                _super.call(this, 'Animation');
+                _super.call(this, entity, 'Animation');
                 this.currentAnimation = null;
                 this._isPlaying = false;
-                this._clock = null;
 
                 this.entity = entity;
                 this._atlas = this.entity.atlas;
@@ -6040,21 +5885,6 @@ var Kiwi;
                 configurable: true
             });
 
-
-            Object.defineProperty(Animation.prototype, "clock", {
-                get: function () {
-                    return this._clock;
-                },
-                set: function (clock) {
-                    if (this.clock == null)
-                        this.currentAnimation.clock = clock;
-
-                    this._clock = clock;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
             Animation.prototype.objType = function () {
                 return "Animation";
             };
@@ -6070,7 +5900,7 @@ var Kiwi;
 
             Animation.prototype.createFromSequence = function (sequence, play) {
                 if (typeof play === "undefined") { play = false; }
-                this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.clock);
+                this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.entity.clock);
 
                 if (play)
                     this.play(sequence.name);
@@ -6092,8 +5922,6 @@ var Kiwi;
                 if (typeof index === "undefined") { index = null; }
                 this._isPlaying = true;
                 this._setCurrentAnimation(name);
-                if (this._clock !== null)
-                    this.currentAnimation.clock = this._clock;
 
                 if (index !== null)
                     this.currentAnimation.playAt(index); else
@@ -6157,8 +5985,6 @@ var Kiwi;
                     this.currentAnimation.stop();
                 if (this._animations[name]) {
                     this.currentAnimation = this._animations[name];
-                    if (this._clock !== null)
-                        this.currentAnimation.clock = this._clock;
                 }
             };
 
@@ -6235,17 +6061,14 @@ var Kiwi;
                 this.transform.rotPointX = this.width / 2;
                 this.transform.rotPointY = this.height / 2;
 
-                this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
+                this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
-
-                this.input.game = this.game;
 
                 if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
                     this.animation = null;
                     this._isAnimated = false;
                 } else {
                     this.animation = this.components.add(new Kiwi.Components.Animation(this));
-                    this.animation.clock = this.clock;
                     this._isAnimated = true;
                 }
             }
@@ -6312,7 +6135,7 @@ var Kiwi;
                 this.transform.rotPointX = this.width / 2;
                 this.transform.rotPointY = this.height / 2;
 
-                this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
+                this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
             }
             StaticImage.prototype.objType = function () {
                 return "Sprite";
@@ -9474,7 +9297,7 @@ var Kiwi;
                 __extends(Counter, _super);
                 function Counter(initial, step) {
                     if (typeof step === "undefined") { step = 1; }
-                    _super.call(this, "counter");
+                    _super.call(this, null, "counter");
                     this._value = 0;
                     this._value = initial;
                     this.step = step;
@@ -9530,7 +9353,7 @@ var Kiwi;
             var WidgetInput = (function (_super) {
                 __extends(WidgetInput, _super);
                 function WidgetInput(game) {
-                    _super.call(this, 'WidgetInput');
+                    _super.call(this, null, 'WidgetInput');
 
                     this.game = game;
 
@@ -9576,7 +9399,7 @@ var Kiwi;
             var Range = (function (_super) {
                 __extends(Range, _super);
                 function Range(current, max, min) {
-                    _super.call(this, "counter");
+                    _super.call(this, null, "counter");
 
                     this._current = current;
 
@@ -9681,7 +9504,7 @@ var Kiwi;
             var Time = (function (_super) {
                 __extends(Time, _super);
                 function Time(milliseconds, seconds, minutes, hours) {
-                    _super.call(this, "time");
+                    _super.call(this, null, "time");
 
                     this.paused = true;
                     this._countDown = true;

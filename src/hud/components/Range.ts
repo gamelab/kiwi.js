@@ -25,7 +25,7 @@ module Kiwi.HUD.Components {
         * @return {number}
         **/
         constructor(current: number, max: number, min: number) {
-            super("counter");
+            super(null, "counter");
             
             this._current = current;
 

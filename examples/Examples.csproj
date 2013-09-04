@@ -62,7 +62,7 @@
     <TypeScriptCompile Include="sprites\Sprite1.ts" />
     <TypeScriptCompile Include="TouchEvents\Touch.ts" />
     <TypeScriptCompile Include="TouchEvents\Dragging.ts" />
-    <Content Include="Misc\DPad.ts" />
+    <TypeScriptCompile Include="Misc\DPad.ts" />
     <Content Include="sprites\Atlas.js">
       <DependentUpon>AtlasTest.ts</DependentUpon>
     </Content>

@@ -8,6 +8,8 @@ module Kiwi {
         childType(): number;
         id: string;
         name: string;
+        game: Kiwi.Game;
+        state: Kiwi.State;
         components: Kiwi.ComponentManager;
         dirty: bool;
         active: bool;

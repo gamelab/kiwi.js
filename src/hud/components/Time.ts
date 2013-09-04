@@ -29,7 +29,7 @@ module Kiwi.HUD.Components {
         * @param {number} hours
         **/
         constructor(milliseconds: number, seconds?: number, minutes?: number, hours?: number) {
-            super("time");
+            super(null, "time");
 
             this.paused = true;
             this._countDown = true;

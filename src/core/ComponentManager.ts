@@ -119,20 +119,6 @@ module Kiwi {
 
             this._components[component.name] = component;
 
-            if (this._type === Kiwi.STATE) {
-                component.modify(Kiwi.ADDED_TO_STATE, this._owner);
-
-            } else if (this._type === Kiwi.LAYER) {
-                component.modify(Kiwi.ADDED_TO_LAYER, this._owner);
-
-            } else if (this._type === Kiwi.GROUP) {
-                component.modify(Kiwi.ADDED_TO_GROUP, this._owner);
-
-            } else if (this._type === Kiwi.ENTITY) {
-                component.modify(Kiwi.ADDED_TO_ENTITY, this._owner);
-
-            }
-
             return component; 
         }
 
