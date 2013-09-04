@@ -32,11 +32,11 @@ class test1 extends Kiwi.State {
         //this.at.animation.add("test", [0, 1, 2, 3, 4], .2, true);
         //this.at.animation.play("test");
 
-        this.background = new Kiwi.GameObjects.StaticImage(this.textures.craters, 0,0);
+        this.background = new Kiwi.GameObjects.StaticImage(this,this.textures.craters, 0,0);
         
         this.addChild(this.background);
 
-        this.spartan = new Kiwi.GameObjects.StaticImage(this.textures.spartan, 100, 120);
+        this.spartan = new Kiwi.GameObjects.StaticImage(this,this.textures.spartan, 100, 120);
         //this.spartan.transform.regX = 16;
         //this.spartan.transform.regY = 16;
         this.addChild(this.spartan);

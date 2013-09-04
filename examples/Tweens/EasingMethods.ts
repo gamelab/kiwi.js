@@ -21,7 +21,7 @@ class EasingMethods extends Kiwi.State {
         easing.push(Kiwi.Animation.Tweens.Easing.Quartic.In);
 
         for (var i = 0; i < easing.length; i++) {
-            var ufo = new Kiwi.GameObjects.Sprite(this.textures.ufo, 50, 40 * i + 25);
+            var ufo = new Kiwi.GameObjects.Sprite(this,this.textures.ufo, 50, 40 * i + 25);
             this.addChild(ufo);
 
             //Creation Method A

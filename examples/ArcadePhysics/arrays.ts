@@ -12,7 +12,7 @@ class arrays extends Kiwi.State {
     horngirl: Custom;
 
     create() {
-        this.horngirl = new Custom(this.textures.horngirl, this.game.stage.width / 2, 50);
+        this.horngirl = new Custom(this,this.textures.horngirl, this.game.stage.width / 2, 50);
         this.horngirl.physics.immovable = true;
         this.addChild(this.horngirl);
 
@@ -28,7 +28,7 @@ class arrays extends Kiwi.State {
     }
 
     createHeart() {
-        var h = new Custom(this.textures.heart, Math.random() * (this.game.stage.width - this.textures.heart.cells[0].w), this.game.stage.height);
+        var h = new Custom(this,this.textures.heart, Math.random() * (this.game.stage.width - this.textures.heart.cells[0].w), this.game.stage.height);
         this.addChild(h);
         this.hearts.push(h);
 
@@ -79,8 +79,8 @@ class arrays extends Kiwi.State {
 
 class Custom extends Kiwi.GameObjects.Sprite {
 
-    constructor(atlas, x, y) {
-        super(atlas, x, y, false);
+    constructor(state,atlas, x, y) {
+        super(state,atlas, x, y, false);
 
         this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
     }

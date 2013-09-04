@@ -13,7 +13,7 @@ class StaticImages extends Kiwi.State {
     public zom: Kiwi.GameObjects.StaticImage;
 
     create() {
-        this.zom = new Kiwi.GameObjects.StaticImage(this.textures.zombie, 100, 100);
+        this.zom = new Kiwi.GameObjects.StaticImage(this,this.textures.zombie, 100, 100);
 
         this.addChild(this.zom);
     }

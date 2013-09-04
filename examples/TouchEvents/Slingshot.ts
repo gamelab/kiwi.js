@@ -34,17 +34,17 @@ class Slingshot extends Kiwi.State {
             var x = Math.random() * this.game.stage.width;
             var y = Math.random() * this.game.stage.height;
 
-            //add the shiny and its ghost
-            this.shiny = new Kiwi.GameObjects.Sprite(this.textures.shiny, x, y);
-            this.shinyGhost = new Kiwi.GameObjects.Sprite(this.textures.shiny, x, y);
+        //add the shiny and its ghost
+        this.shiny = new Kiwi.GameObjects.Sprite(this,this.textures.shiny, x, y);
+        this.shinyGhost = new Kiwi.GameObjects.Sprite(this,this.textures.shiny, x, y);
             this.shinyGhost.alpha = 0;
 
             //add the shinys.
             this.addChild(this.shiny);
             this.addChild(this.shinyGhost);
 
-            //explosion.
-            this.explosion = new Kiwi.GameObjects.Sprite(this.textures.explosion, 0, 0);
+        //explosion.
+        this.explosion = new Kiwi.GameObjects.Sprite(this,this.textures.explosion, 0, 0);
             this.addChild(this.explosion);
             this.explosion.animation.getAnimation('default').loop = false;  //stop looping of explosion by default.
             this.explosion.animation.getAnimation('default').speed = 0.01;

@@ -20,9 +20,9 @@ class storage1 extends Kiwi.State {
         this.textures.zombie.sequences.push(new Kiwi.Animation.Sequence('liedown', [0, 7, 8], 0.15, false));
         this.textures.zombie.sequences.push(new Kiwi.Animation.Sequence('explode', [11, 12, 13, 14, 15], 0.05, false));
 
-        this.zombieA = new Kiwi.GameObjects.Sprite(this.textures.zombie, 100, 10);
-        this.zombieB = new Kiwi.GameObjects.Sprite(this.textures.zombie, 300, 10);
-        this.zombieC = new Kiwi.GameObjects.Sprite(this.textures.zombie, 500, 10);
+        this.zombieA = new Kiwi.GameObjects.Sprite(this,this.textures.zombie, 100, 10);
+        this.zombieB = new Kiwi.GameObjects.Sprite(this,this.textures.zombie, 300, 10);
+        this.zombieC = new Kiwi.GameObjects.Sprite(this,this.textures.zombie, 500, 10);
 
         this.addChild(this.zombieA);
         this.addChild(this.zombieB);

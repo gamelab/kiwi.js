@@ -21,8 +21,8 @@ class SpeedAnimation extends Kiwi.State {
         this.textures.explosion.sequences[0].loop = false;
         this.textures.explosion.sequences.push(new Kiwi.Animation.Sequence('stop', [24], 0, false));
 
-        this.explosionA = new Kiwi.GameObjects.Sprite(this.textures.explosion, 200, 100);
-        this.explosionB = new Kiwi.GameObjects.Sprite(this.textures.explosion, 400, 100);
+        this.explosionA = new Kiwi.GameObjects.Sprite(this,this.textures.explosion, 200, 100);
+        this.explosionB = new Kiwi.GameObjects.Sprite(this,this.textures.explosion, 400, 100);
 
         this.explosionA.animation.play('stop');
         this.explosionB.animation.play('stop');

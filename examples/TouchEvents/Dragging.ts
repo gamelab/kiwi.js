@@ -14,7 +14,7 @@ class Dragging extends Kiwi.State {
 
     create() {
 
-        this.bunny = new Kiwi.GameObjects.Sprite(this.textures.bunny, 200, 200, true);
+        this.bunny = new Kiwi.GameObjects.Sprite(this,this.textures.bunny, 200, 200, true);
         this.addChild(this.bunny);
 
         this.bunny.input.enableDrag();

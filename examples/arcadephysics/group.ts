@@ -17,7 +17,7 @@ class group extends Kiwi.State {
 
     create() {
 
-        this.balls = new Kiwi.Group();
+        this.balls = new Kiwi.Group(this);
         this.addChild(this.balls);
 
         this.spartan = new customB(this.textures.spartan, 400, 100);

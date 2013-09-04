@@ -13,9 +13,9 @@ module Kiwi.GameObjects.Tilemap {
         * @param {number} tileWidth
         * @param {number} tileHeight
         */
-        constructor(game: Kiwi.Game, parent: Kiwi.GameObjects.Tilemap.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
+        constructor(state:Kiwi.State, game: Kiwi.Game, parent: Kiwi.GameObjects.Tilemap.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
             
-            super(0,0);
+            super(state,0,0);
 
             this._game = game;
             this._parent = parent;
@@ -403,7 +403,7 @@ module Kiwi.GameObjects.Tilemap {
             var data = [];
             
             for (var c = 0; c < row.length; c++) {
-                data[c] = new Kiwi.GameObjects.Tilemap.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
+                data[c] = new Kiwi.GameObjects.Tilemap.Tile(this.state, this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
                 data[c].ty = this.heightInTiles;
                 data[c].tx = c;
             }

@@ -22,7 +22,7 @@ class AtlasTest extends Kiwi.State {
 
     create() {
         console.log(this.textures);
-        this.testAtlas = new Kiwi.GameObjects.Sprite(this.textures.n45image, 100, 100);
+        this.testAtlas = new Kiwi.GameObjects.Sprite(this,this.textures.n45image, 100, 100);
         this.addChild(this.testAtlas);
     }
 

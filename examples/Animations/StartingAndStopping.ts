@@ -14,7 +14,7 @@ class StartingAndStopping extends Kiwi.State {
 
     create() {
         
-        this.zombie = new Kiwi.GameObjects.Sprite(this.textures.zombie, 100, 10);
+        this.zombie = new Kiwi.GameObjects.Sprite(this,this.textures.zombie, 100, 10);
         this.zombie.animation.add('walkright', [1, 2, 3, 4, 5, 6], 0.1, true);
         
         this.zombie.animation.play('walkright');

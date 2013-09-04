@@ -14,15 +14,15 @@ class movement extends Kiwi.State {
 
     create() {
 
-        this.tileMap = new Kiwi.GameObjects.Tilemap.TileMap();
+        this.tileMap = new Kiwi.GameObjects.Tilemap.TileMap(this);
         this.addChild(this.tileMap); //has to be added to the stage first
         this.tileMap.createFromFileStore('desert', this.textures.tiles, this.game, Kiwi.GameObjects.Tilemap.TileMap.FORMAT_TILED_JSON);
 
-        this.textfield = new Kiwi.GameObjects.Textfield('', 400, 10, '#000', 12);
+        this.textfield = new Kiwi.GameObjects.Textfield(this,'', 400, 10, '#000', 12);
         this.textfield.textAlign = 'center';
         this.addChild(this.textfield);
 
-        this.ufo = new Kiwi.GameObjects.Sprite(this.textures.ufo, 400, 300);
+        this.ufo = new Kiwi.GameObjects.Sprite(this,this.textures.ufo, 400, 300);
         this.addChild(this.ufo);
 
         this.game.input.mouse.mouseUp.add(this.check, this);

@@ -27,7 +27,7 @@ class ShowAndHide extends Kiwi.State {
     }
 
     create() {
-        this.girl = new Kiwi.GameObjects.Sprite(this.textures.catgirl, 200, 200);
+        this.girl = new Kiwi.GameObjects.Sprite(this,this.textures.catgirl, 200, 200);
         this.addChild(this.girl);
 
         this.girl.input.onEntered.add(this.show, this);

@@ -1253,16 +1253,19 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Entity = (function () {
-        function Entity(x, y) {
+        function Entity(state, x, y) {
             this._alpha = 1;
             this._visible = true;
             this.width = 0;
             this.height = 0;
             this.cellIndex = 0;
-            this.game = null;
-            this.state = null;
             this.name = '';
             this._clock = null;
+            this.state = state;
+            this.game = state.game;
+            this.id = this.game.rnd.uuid();
+            this._clock = this.game.time.clock;
+
             this._exists = true;
             this._active = true;
             this._willRender = true;
@@ -1270,13 +1273,8 @@ var Kiwi;
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
             this.transform.y = y;
-
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
+            this.transform.rotPointX = this.width / 2;
+            this.transform.rotPointY = this.height / 2;
         }
         Object.defineProperty(Entity.prototype, "x", {
             get: function () {
@@ -1340,18 +1338,6 @@ var Kiwi;
 
         Entity.prototype.childType = function () {
             return Kiwi.ENTITY;
-        };
-
-        Entity.prototype.modify = function (action, parent) {
-            if (action === Kiwi.ADDED_TO_GROUP) {
-                return this._addedToGroup(parent);
-            } else if (action === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
-                return this._removedFromGroup(parent);
-            } else if (action === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            }
         };
 
 
@@ -1453,47 +1439,6 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-
-        Entity.prototype._addedToState = function (state) {
-            this.state = state;
-
-            this.game = this.state.game;
-
-            if (this._clock === null) {
-                this._clock = this.game.time.clock;
-            }
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-        };
-
-        Entity.prototype._removedFromState = function (state) {
-            this.state = null;
-
-            this.game = null;
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Entity.prototype._addedToGroup = function (group) {
-            if (group.game !== null) {
-                this.game = group.game;
-
-                if (this._clock === null) {
-                    this._clock = this.game.time.clock;
-                }
-            }
-        };
-
-        Entity.prototype._removedFromGroup = function (group) {
-            this.onRemovedFromGroup.dispatch(this, group);
-        };
-
-        Entity.prototype._changedPosition = function (group, index) {
-        };
 
         Entity.prototype.objType = function () {
             return "Entity";
@@ -1608,13 +1553,19 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     var Group = (function () {
-        function Group(name) {
+        function Group(state, name) {
             if (typeof name === "undefined") { name = ''; }
             this.parent = null;
             this.name = '';
             this.game = null;
             this.state = null;
             this._dirty = true;
+            if (state !== null) {
+                this.state = state;
+                this.game = this.state.game;
+                this.id = this.game.rnd.uuid();
+            }
+
             this.name = name;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
 
@@ -1626,10 +1577,6 @@ var Kiwi;
 
             this.members = [];
 
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
             this._willRender = true;
         }
         Group.prototype.objType = function () {
@@ -1700,14 +1647,6 @@ var Kiwi;
         });
 
 
-        Group.prototype.modify = function (type, parent) {
-            if (type === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-            } else if (type === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-            }
-        };
-
         Group.prototype.numChildren = function () {
             return this.members.length;
         };
@@ -1737,8 +1676,6 @@ var Kiwi;
             if (child.transform.parent !== this.transform) {
                 this.members.push(child);
                 child.transform.parent = this.transform;
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
 
             return child;
@@ -1747,8 +1684,6 @@ var Kiwi;
         Group.prototype.addChildAt = function (child, index) {
             if (child.transform.parent !== this.transform) {
                 this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
 
             return child;
@@ -1759,8 +1694,6 @@ var Kiwi;
                 var index = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
 
             return child;
@@ -1771,8 +1704,6 @@ var Kiwi;
                 var index = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
 
             return child;
@@ -1817,8 +1748,6 @@ var Kiwi;
                 if (index > -1) {
                     this.members.splice(index, 1);
                 }
-
-                child.modify(Kiwi.REMOVED_FROM_GROUP, this);
             }
 
             return child;
@@ -1830,8 +1759,6 @@ var Kiwi;
 
                 if (child) {
                     this.members.splice(index, 1);
-
-                    child.modify(Kiwi.REMOVED_FROM_GROUP, this);
                 }
 
                 return child;
@@ -1846,10 +1773,6 @@ var Kiwi;
             end -= begin;
 
             var removed = this.members.splice(begin, end);
-
-            for (var i = 0; i < removed.length; i++) {
-                removed[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
 
             return removed.length;
         };
@@ -1877,16 +1800,10 @@ var Kiwi;
                 this.members[index1] = child2;
                 this.members[index2] = child1;
 
-                child1._changedPosition(this, index2);
-                child2._changedPosition(this, index1);
-
                 return true;
             }
 
             return false;
-        };
-
-        Group.prototype._changedPosition = function (group, index) {
         };
 
         Group.prototype.swapChildrenAt = function (index1, index2) {
@@ -1900,9 +1817,6 @@ var Kiwi;
                 if (child1 !== null && child2 !== null) {
                     this.members[index1] = child2;
                     this.members[index2] = child1;
-
-                    child1._changedPosition(this, index2);
-                    child2._changedPosition(this, index1);
 
                     return true;
                 }
@@ -1925,10 +1839,8 @@ var Kiwi;
                 this.removeChildAt(index);
 
                 this.addChildAt(newChild, index);
-
-                oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
                 newChild.transform.parent = null;
-                newChild.modify(Kiwi.ADDED_TO_GROUP, this);
+
                 return true;
             }
 
@@ -2123,10 +2035,6 @@ var Kiwi;
         };
 
         Group.prototype.clear = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                this.members[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
-
             this.members.length = 0;
         };
 
@@ -2141,28 +2049,6 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-
-        Group.prototype.isGroup = function () {
-            return true;
-        };
-
-        Group.prototype._addedToState = function (state) {
-            this.state = state;
-
-            this.game = this.state.game;
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, state);
-        };
-
-        Group.prototype._removedFromState = function (state) {
-            this.onRemovedFromState.dispatch(this, state);
-
-            this.state = null;
-
-            this.game = null;
-        };
 
         Group.prototype.destroy = function () {
             this.removeChildren();
@@ -2188,7 +2074,7 @@ var Kiwi;
     var State = (function (_super) {
         __extends(State, _super);
         function State(name) {
-            _super.call(this, name);
+            _super.call(this, null, name);
             this.game = null;
 
             this.config = new Kiwi.StateConfig(this, name);
@@ -2292,7 +2178,6 @@ var Kiwi;
         };
 
         State.prototype.addChild = function (child) {
-            child.modify(Kiwi.ADDED_TO_STATE, this);
             _super.prototype.removeChild.call(this, child);
 
             _super.prototype.addChild.call(this, child);
@@ -2301,7 +2186,6 @@ var Kiwi;
         };
 
         State.prototype.removeChild = function (child) {
-            child.modify(Kiwi.REMOVED_FROM_STATE, this);
             var layer = null;
 
             for (var i = 0; i < this.members.length; i++) {
@@ -6336,11 +6220,11 @@ var Kiwi;
     (function (GameObjects) {
         var Sprite = (function (_super) {
             __extends(Sprite, _super);
-            function Sprite(atlas, x, y, enableInput) {
+            function Sprite(state, atlas, x, y, enableInput) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof enableInput === "undefined") { enableInput = false; }
-                _super.call(this, x, y);
+                _super.call(this, state, x, y);
 
                 this.name = atlas.name;
                 this.atlas = atlas;
@@ -6348,48 +6232,23 @@ var Kiwi;
 
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
-                this.transform.rotPointX = this.width / 2;
-                this.transform.rotPointY = this.height / 2;
 
                 this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
+
+                this.input.game = this.game;
 
                 if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
                     this.animation = null;
                     this._isAnimated = false;
                 } else {
                     this.animation = this.components.add(new Kiwi.Components.Animation(this));
+                    this.animation.clock = this.clock;
                     this._isAnimated = true;
                 }
-
-                this.input.onDragStarted.add(this._dragStarted, this);
-                this.onAddedToState.add(this._onAddedToState, this);
-                this.onAddedToGroup.add(this._onAddedToGroup, this);
             }
             Sprite.prototype.objType = function () {
                 return "Sprite";
-            };
-
-            Sprite.prototype._dragStarted = function (entity, x, y, snapToCenter) {
-                if (snapToCenter === true) {
-                    this.transform.setPosition(this.game.input.position.x - this.width / 2, this.game.input.position.y - this.height / 2);
-                }
-            };
-
-            Sprite.prototype._onAddedToState = function (state) {
-                if (this._isAnimated)
-                    this.animation.clock = this.clock;
-                this.input.game = this.game;
-
-                return true;
-            };
-
-            Sprite.prototype._onAddedToGroup = function (group) {
-                if (this._isAnimated)
-                    this.animation.clock = this.clock;
-                this.input.game = this.game;
-
-                return true;
             };
 
             Sprite.prototype.update = function () {
@@ -6439,17 +6298,15 @@ var Kiwi;
     (function (GameObjects) {
         var StaticImage = (function (_super) {
             __extends(StaticImage, _super);
-            function StaticImage(atlas, x, y) {
+            function StaticImage(state, atlas, x, y) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
-                _super.call(this, x, y);
+                _super.call(this, state, x, y);
 
                 this.atlas = atlas;
                 this.cellIndex = this.atlas.cellIndex;
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
-                this.transform.rotPointX = this.width / 2;
-                this.transform.rotPointY = this.height / 2;
 
                 this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
             }
@@ -6489,14 +6346,14 @@ var Kiwi;
     (function (GameObjects) {
         var Textfield = (function (_super) {
             __extends(Textfield, _super);
-            function Textfield(text, x, y, color, size, weight, fontFamily) {
+            function Textfield(state, text, x, y, color, size, weight, fontFamily) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof color === "undefined") { color = '#ffffff'; }
                 if (typeof size === "undefined") { size = 32; }
                 if (typeof weight === "undefined") { weight = 'normal'; }
                 if (typeof fontFamily === "undefined") { fontFamily = 'cursive'; }
-                _super.call(this, x, y);
+                _super.call(this, state, x, y);
 
                 this._text = text;
                 this._fontWeight = weight;
@@ -6641,8 +6498,8 @@ var Kiwi;
         (function (Tilemap) {
             var Tile = (function (_super) {
                 __extends(Tile, _super);
-                function Tile(tileLayer, tileType, width, height, x, y) {
-                    _super.call(this, x, y);
+                function Tile(state, tileLayer, tileType, width, height, x, y) {
+                    _super.call(this, state, x, y);
 
                     this.tileLayer = tileLayer;
 
@@ -6706,8 +6563,8 @@ var Kiwi;
         (function (Tilemap) {
             var TileMap = (function (_super) {
                 __extends(TileMap, _super);
-                function TileMap() {
-                    _super.call(this, 0, 0);
+                function TileMap(state) {
+                    _super.call(this, state, 0, 0);
                     this._collisionCallback = null;
                 }
                 TileMap.prototype.createFromData = function (tileMapData, atlas, game, format) {
@@ -6767,7 +6624,7 @@ var Kiwi;
                     var mapObj = data;
 
                     for (var i = 0; i < mapObj.layers.length; i++) {
-                        var layer = new Tilemap.TileMapLayer(this._game, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
+                        var layer = new Tilemap.TileMapLayer(this.state, this._game, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
 
                         layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                         layer.alpha = parseInt(mapObj.layers[i].opacity);
@@ -6949,8 +6806,8 @@ var Kiwi;
         (function (Tilemap) {
             var TileMapLayer = (function (_super) {
                 __extends(TileMapLayer, _super);
-                function TileMapLayer(game, parent, atlas, name, tileWidth, tileHeight) {
-                    _super.call(this, 0, 0);
+                function TileMapLayer(state, game, parent, atlas, name, tileWidth, tileHeight) {
+                    _super.call(this, state, 0, 0);
                     this._startX = 0;
                     this._startY = 0;
                     this._maxX = 0;
@@ -7134,7 +6991,7 @@ var Kiwi;
                     var data = [];
 
                     for (var c = 0; c < row.length; c++) {
-                        data[c] = new Kiwi.GameObjects.Tilemap.Tile(this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
+                        data[c] = new Kiwi.GameObjects.Tilemap.Tile(this.state, this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
                         data[c].ty = this.heightInTiles;
                         data[c].tx = c;
                     }

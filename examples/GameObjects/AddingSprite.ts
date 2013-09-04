@@ -26,7 +26,7 @@ class AddingSprite extends Kiwi.State {
     create() {
         ///////////////////////////////////////
         //Creating Sprite
-        this.mySprite = new Kiwi.GameObjects.Sprite(this.textures.mySprite, 50, 50);
+        this.mySprite = new Kiwi.GameObjects.Sprite(this,this.textures.mySprite, 50, 50);
 
         ////////////////////////////////////////
         //Adding to Stage

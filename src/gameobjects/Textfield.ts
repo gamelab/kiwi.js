@@ -28,9 +28,9 @@ module Kiwi.GameObjects {
          * @param {String} fontFamily
          * @return {Kiwi.GameObjects.Textfield} This Game Object.
          **/
-        constructor(text: string, x: number = 0, y: number = 0, color: string = '#ffffff', size: number = 32, weight: string = 'normal', fontFamily: string = 'cursive') {
+        constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#ffffff', size: number = 32, weight: string = 'normal', fontFamily: string = 'cursive') {
 
-            super(x,y);
+            super(state, x,y);
 
             this._text = text;
             this._fontWeight = weight;
@@ -40,7 +40,6 @@ module Kiwi.GameObjects {
             this._lineHeight = 1;
             this._textAlign = 'left';
             this._baseline = 'top';
-
 
         }
 

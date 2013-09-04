@@ -15,7 +15,7 @@ class CreatingATween extends Kiwi.State {
 
     create() {
 
-        this.cat = new Kiwi.GameObjects.Sprite(this.textures.cat, 100, 200);
+        this.cat = new Kiwi.GameObjects.Sprite(this,this.textures.cat, 100, 200);
         this.cat.animation.add('left', [0, 1], 0.1, true);
         this.cat.animation.add('right', [2, 3], 0.1, true);
         this.cat.animation.add('leftstop', [1], 0, false);

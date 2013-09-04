@@ -17,7 +17,7 @@ class Touch extends Kiwi.State {
     }
 
     newCoin(x, y) {
-        var coin = new Kiwi.GameObjects.Sprite(this.textures.coin, x-10, y-10);
+        var coin = new Kiwi.GameObjects.Sprite(this,this.textures.coin, x-10, y-10);
         this.addChild(coin);
         coin.animation.play('default');
     }

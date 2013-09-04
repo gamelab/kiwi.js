@@ -35,9 +35,9 @@ class GroupGraph extends Kiwi.State {
 */
 
 
-        this.subGroup = new Kiwi.Group();
+        this.subGroup = new Kiwi.Group(this);
         for (var i = 0; i < 3; i++) {
-            this.subGroup.addChild(new Kiwi.GameObjects.Sprite(this.textures['star' + i],  Math.random() * 100, Math.random() * 100));
+            this.subGroup.addChild(new Kiwi.GameObjects.Sprite(this,this.textures['star' + i],  Math.random() * 100, Math.random() * 100));
         }
 
         this.addChild(this.subGroup);

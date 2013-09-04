@@ -32,7 +32,7 @@ class RemovingWidgets extends Kiwi.State {
     }
 
     create() {
-        this.catGirl = new Kiwi.GameObjects.Sprite(this.textures.catgirl, 200, 200);
+        this.catGirl = new Kiwi.GameObjects.Sprite(this,this.textures.catgirl, 200, 200);
         this.addChild(this.catGirl);
         this.catGirl.input.onRelease.add(this.change, this);
     }

@@ -4,8 +4,8 @@ module Kiwi.GameObjects.Tilemap {
 
     export class TileMap extends Kiwi.Entity {
 
-        constructor() {
-            super(0,0);
+        constructor(state: Kiwi.State) {
+            super(state,0,0);
         }
 
         /*
@@ -158,7 +158,7 @@ module Kiwi.GameObjects.Tilemap {
             var mapObj = data;
 
             for (var i = 0; i < mapObj.layers.length; i++) {
-                var layer: TileMapLayer = new TileMapLayer(this._game, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
+                var layer: TileMapLayer = new TileMapLayer(this.state, this._game, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
                 
                 layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                 layer.alpha = parseInt(mapObj.layers[i].opacity);

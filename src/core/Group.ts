@@ -21,13 +21,19 @@ module Kiwi {
         /*
         * 
         * @constructor
+        * @param {Kiwi.State} state
         * @param {String} name
         * @return {Kiwi.Group}
         */
-        constructor(name: string = '') {
+        constructor(state:Kiwi.State, name: string = '') {
+
+            if (state !== null) {
+                this.state = state;
+                this.game = this.state.game;
+                this.id = this.game.rnd.uuid();
+            }
 
             //  Properties
-
             this.name = name;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
 
@@ -41,10 +47,6 @@ module Kiwi {
 
             //  Signals
 
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
             this._willRender = true;
 
         }
@@ -168,53 +170,6 @@ module Kiwi {
             this.transform.rotation = value;
         }
         
-        /*
-        * A Signal for firing callbacks when this groups is added to a layer. 
-        * @property onAddedToLayer
-        * @type Kiwi.Signal
-        */
-        public onAddedToLayer: Kiwi.Signal;
-        
-        /*
-        * A signal for executing callbacks when the group is added to a state.
-        * @property on
-        * @type Kiwi.Signal
-        */
-        public onAddedToState: Kiwi.Signal;
-        
-        /*
-        * A signal for executing events when this group is removed from a layer.
-        * @property on
-        * @type Kiwi.Signal
-        */
-        public onRemovedFromLayer: Kiwi.Signal;
-        
-        /*
-        * A signal for executing events when this groups is removed from a state.
-        * @property on
-        * @type Kiwi.Signal
-        */
-        public onRemovedFromState: Kiwi.Signal;
-
-        /*
-        *  Modify the state of this Group, such as adding to a Layer, removing from a State, etc. Should be used by the internal Kiwi methods only.
-        * @method modify
-        * @param {Number} type
-        * @param {Any} parent
-        */
-        public modify(type:number, parent) {
-
-            if (type === Kiwi.ADDED_TO_STATE)
-            {
-                return this._addedToState(parent);
-            }
-            else if (type === Kiwi.REMOVED_FROM_STATE)
-            {
-                return this._removedFromState(parent);
-            }
-
-        }
-
         /**
         * The Component Manager
         * @property components
@@ -255,9 +210,7 @@ module Kiwi {
         * @return {Number} The number of children in this Group
         */
         public numChildren(): number {
-
             return this.members.length;
-
         }
 
         /*
@@ -302,18 +255,23 @@ module Kiwi {
         }
 
         /**
-        * Adds an Entity to this Group. The Entity must not already be in this Group and it must be supported by the Group.
+        * Adds an Entity to this Group. The Entity must not already be in this Group.
         * @method addChild
         * @param {Kiwi.Entity} The child to be added.
         * @return {Kiwi.Entity} The child.
         **/
-        public addChild(child: Kiwi.IChild): Kiwi.IChild {
+        public addChild(child: Kiwi.IChild): Kiwi.IChild {              //REVISE
+
+            //check to see if the child is already part of a group.
+
+            //if it is remove it.
+
+            //check to see if the descending thingy
 
             if (child.transform.parent !== this.transform) {
                 this.members.push(child);
                 child.transform.parent = this.transform;
                 //child._addedToGroup(this);
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
 
             return child;
@@ -327,13 +285,10 @@ module Kiwi {
         * @param {Number} The index the child will be set at.
         * @return {Kiwi.Entity} The child.
         */
-        public addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild {
+        public addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild { //MORE CHECKS NEEDED
 
-            if (child.transform.parent !== this.transform)
-            {
+            if (child.transform.parent !== this.transform) {
                 this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
 
             return child;
@@ -353,8 +308,6 @@ module Kiwi {
                 var index: number = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
 
             return child;
@@ -374,8 +327,6 @@ module Kiwi {
                 var index: number = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
-
-                child.modify(Kiwi.ADDED_TO_GROUP, this);
             }
 
             return child;
@@ -390,12 +341,9 @@ module Kiwi {
         */
         public getChildAt(index: number): Kiwi.IChild {
 
-            if (this.members[index])
-            {
+            if (this.members[index]) {
                 return this.members[index];
-            }
-            else
-            {
+            } else {
                 return null;
             }
 
@@ -407,12 +355,10 @@ module Kiwi {
         * @param {String} The name of the child
         * @return {Kiwi.Entity} The child, if found or null if not.
         */
-        public getChildByName(name: string): Kiwi.IChild {
+        public getChildByName(name: string): Kiwi.IChild {              //make recursive!!
 
-            for (var i = 0; i < this.members.length; i++)
-            {
-                if (this.members[i].name === name)
-                {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].name === name) {
                     return this.members[i];
                 }
             }
@@ -427,12 +373,10 @@ module Kiwi {
         * @param {String} The ID of the child.
         * @return {Kiwi.Entity} The child, if found or null if not.
         */
-        public getChildByID(id: string): Kiwi.IChild {
+        public getChildByID(id: string): Kiwi.IChild {                  //make recursive!!
 
-            for (var i = 0; i < this.members.length; i++)
-            {
-                if (this.members[i].id === id)
-                {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === id) {
                     return this.members[i];
                 }
             }
@@ -447,7 +391,7 @@ module Kiwi {
         * @param {Kiwi.Entity} The child.
         * @return {Number} The index of the child or -1 if not found.
         */
-        public getChildIndex(child: Kiwi.IChild): number {
+        public getChildIndex(child: Kiwi.IChild): number {              
 
             return this.members.indexOf(child);
 
@@ -461,17 +405,12 @@ module Kiwi {
         **/
         public removeChild(child: Kiwi.IChild): Kiwi.IChild {
 
-            if (child && child.transform.parent === this.transform)
-            {
+            if (child && child.transform.parent === this.transform) {
                 var index: number = this.getChildIndex(child);
 
-                if (index > -1)
-                {
+                if (index > -1) {
                     this.members.splice(index, 1);
                 }
-
-                //child._removedFromGroup(this);
-                child.modify(Kiwi.REMOVED_FROM_GROUP, this);
 
             }
 
@@ -487,22 +426,17 @@ module Kiwi {
         */
         public removeChildAt(index: number): Kiwi.IChild {
 
-            if (this.members[index])
-            {
+            if (this.members[index]) {
                 var child: Kiwi.IChild = this.members[index];
 
-                if (child)
-                {
+                if (child) {
                     this.members.splice(index, 1);
 
-                    //child._removedFromGroup(this);
-                    child.modify(Kiwi.REMOVED_FROM_GROUP, this);
+                    //child._removedFromGroup(this); 
                 }
 
                 return child;
-            }
-            else
-            {
+            } else {
                 return null;
             }
 
@@ -521,12 +455,6 @@ module Kiwi {
             
             var removed: Kiwi.IChild[] = this.members.splice(begin, end);
 
-            for (var i = 0; i < removed.length; i++)
-            {
-                //removed[i]._removedFromGroup(this);
-                removed[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
-
             return removed.length;
 
         }
@@ -541,8 +469,7 @@ module Kiwi {
         public setChildIndex(child: Kiwi.IChild, index: number): bool {
         
             //  If the Entity isn't in this Group, or is already at that index then bail out
-            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index)
-            {
+            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index) {
                 return false;
             }
 
@@ -574,27 +501,13 @@ module Kiwi {
                 this.members[index1] = child2;
                 this.members[index2] = child1;
 
-                child1._changedPosition(this, index2);
-                child2._changedPosition(this, index1);
-
                 return true;
             }
 
             return false;
 
         }
-        
-        /*
-        * If something changed position in the group??? - To be implemented.
-        * @method _changedPosition
-        * @param {Kiwi.Group} group
-        * @param {Number} index
-        */
-        public _changedPosition(group: Kiwi.Group, index: number) {
-
-        }
-
-
+         
         /**
         * Swaps the position of two existing Entities within the Group based on their index.
         * @method swapChildrenAt
@@ -616,10 +529,7 @@ module Kiwi {
 
                     this.members[index1] = child2;
                     this.members[index2] = child1;
-
-                    child1._changedPosition(this, index2);
-                    child2._changedPosition(this, index1);
-
+                     
                     return true;
                 }
             }
@@ -652,11 +562,9 @@ module Kiwi {
             if (index > -1) {
                 this.removeChildAt(index);
                 
-                this.addChildAt(newChild, index);
-                
-                oldChild.modify(Kiwi.REMOVED_FROM_GROUP, this);
-                newChild.transform.parent = null;
-                newChild.modify(Kiwi.ADDED_TO_GROUP, this);
+                this.addChildAt(newChild, index); 
+                newChild.transform.parent = null; 
+
                 return true;
 
             }
@@ -765,8 +673,7 @@ module Kiwi {
 
             this.components.update();
 
-            if (this.members.length > 0)
-            {
+            if (this.members.length > 0) {
                 this.members.forEach((child) => this.processUpdate(child));
             }
 
@@ -835,8 +742,7 @@ module Kiwi {
 
             this.components.render();
 
-            if (this.members.length > 0)
-            {
+            if (this.members.length > 0) {
                 this.members.forEach((child) => this.processRender(child,camera));
             }
 
@@ -853,8 +759,7 @@ module Kiwi {
         */
         public processRender(child: Kiwi.IChild,camera:Kiwi.Camera) {
 
-            if (child.active === true)
-            {
+            if (child.active === true) {
                 child.render(camera);
             }
 
@@ -877,10 +782,8 @@ module Kiwi {
 		*/
         public getFirstAlive() { 
         
-            for (var i = 0; i < this.members.length; i++)
-            {
-                if (this.members[i].exists === true)
-                {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
                     return this.members[i];
                     break;
                 }
@@ -896,10 +799,8 @@ module Kiwi {
 		*/
         public getFirstDead() { 
         
-            for (var i = 0; i < this.members.length; i++)
-            {
-                if (this.members[i].exists === false)
-                {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
                     return this.members[i];
                     break;
                 }
@@ -918,10 +819,8 @@ module Kiwi {
 
             var total: number = 0;
 
-            for (var i = 0; i < this.members.length; i++)
-            {
-                if (this.members[i].exists === true)
-                {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
                     total++;
                 }
             }
@@ -988,11 +887,6 @@ module Kiwi {
 		*/
         public clear() {
 
-            for (var i = 0; i < this.members.length; i++) {
-                //this.members[i]._removedFromGroup(this);
-                this.members[i].modify(Kiwi.REMOVED_FROM_GROUP, this);
-            }
-
             this.members.length = 0;
 
         }
@@ -1017,47 +911,6 @@ module Kiwi {
 
         public get willRender():bool {
             return this._willRender;
-        }
-
-        /*
-        * Returns true as this is a Group
-        * @method isGroup
-        * @return {Boolean}
-        */
-        public isGroup(): bool {
-            return true;
-        }
- 
-        /**
-		* Called when this Group is added to a State
-        * @method _addedToState
-        * @param {Kiwi.State} state
-        **/
-        private _addedToState(state: Kiwi.State) {
-            
-            this.state = state;
-
-            this.game = this.state.game;
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, state);
-
-        }
-
-        /**
-		* Called when this Group is removed from a State
-        * @method _removedFromState
-        * @param {Kiwi.State} state
-		**/
-        private _removedFromState(state: Kiwi.State) {
-
-            this.onRemovedFromState.dispatch(this, state);
-
-            this.state = null;
-
-            this.game = null;
-
         }
 
         /**

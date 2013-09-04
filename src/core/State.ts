@@ -24,7 +24,7 @@ module Kiwi {
         * @return {State} Kiwi.State
         */
         constructor(name: string) {
-            super(name);
+            super(null, name);
             
             this.config = new Kiwi.StateConfig(this, name);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
@@ -317,7 +317,6 @@ module Kiwi {
         **/
         public addChild(child: Kiwi.IChild): Kiwi.IChild {
           
-            child.modify(Kiwi.ADDED_TO_STATE, this);
             super.removeChild(child);   //alright
             //this.members.push(child);
             
@@ -334,8 +333,6 @@ module Kiwi {
         public removeChild(child: Kiwi.IChild): Kiwi.IChild {
             
 
-            //  Needs validation
-            child.modify(Kiwi.REMOVED_FROM_STATE, this);
             var layer = null;
             //check that is exists...
             for (var i = 0; i < this.members.length; i++) {
@@ -361,8 +358,6 @@ module Kiwi {
             for (var i = 0; i < this.members.length; i++)
             {
                 //this.members[i].destroy();
-
-                //need to remove files here too
             }
         
         }

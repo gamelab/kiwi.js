@@ -23,25 +23,25 @@ class TextureAtlas extends Kiwi.State {
 
     create() {
 
-        this.submarineA = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 120, 400);
-        this.submarineB = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 670, 400);
+        this.submarineA = new Kiwi.GameObjects.Sprite(this,this.textures.atlasImage, 120, 400);
+        this.submarineB = new Kiwi.GameObjects.Sprite(this,this.textures.atlasImage, 670, 400);
         this.submarineA.animation.play('submarineRise');
         this.submarineB.animation.play('submarineRise');
 
-        this.blueEnemyA = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 80, 100);
-        this.blueEnemyB = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 680, 100);
+        this.blueEnemyA = new Kiwi.GameObjects.Sprite(this,this.textures.atlasImage, 80, 100);
+        this.blueEnemyB = new Kiwi.GameObjects.Sprite(this,this.textures.atlasImage, 680, 100);
         this.blueEnemyA.animation.play('enemyBlueIdle');
         this.blueEnemyB.animation.play('enemyBlueIdle');
 
-        this.orangeEnemy = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 380, 200);
+        this.orangeEnemy = new Kiwi.GameObjects.Sprite(this,this.textures.atlasImage, 380, 200);
         this.orangeEnemy.animation.play('enemyOrangeIdle');
         
-        this.greenEnemyA = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 230, 150);
-        this.greenEnemyB = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 530, 150);
+        this.greenEnemyA = new Kiwi.GameObjects.Sprite(this,this.textures.atlasImage, 230, 150);
+        this.greenEnemyB = new Kiwi.GameObjects.Sprite(this,this.textures.atlasImage, 530, 150);
         this.greenEnemyA.animation.play('enemyGreenIdle');
         this.greenEnemyB.animation.play('enemyGreenIdle');
 
-        this.playerPlane = new Kiwi.GameObjects.Sprite(this.textures.atlasImage, 365, 300);
+        this.playerPlane = new Kiwi.GameObjects.Sprite(this,this.textures.atlasImage, 365, 300);
         this.playerPlane.animation.play('Player');
 
         this.blueEnemyA.input.onRelease.add(this.spinB, this);

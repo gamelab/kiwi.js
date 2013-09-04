@@ -13,14 +13,15 @@ module Kiwi.GameObjects {
         /**
         * 
         * @constructor
+        * @param {Kiwi.State} state - The state that this sprite belongs to
         * @param {Kiwi.Textures.TextureAtlas} atlas - The texture you want to apply to this entity 
         * @param {Number} x 
         * @param {Number} y
         * @return {Sprite}
         */
-        constructor(atlas:Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: bool = false) {
+        constructor(state: Kiwi.State, atlas:Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: bool = false) {
 
-            super(x, y);
+            super(state, x, y);
 
             // Set the texture
             this.name = atlas.name;
@@ -30,13 +31,14 @@ module Kiwi.GameObjects {
             //may need to add an optional other cell frame index here
             this.width = atlas.cells[0].w;
             this.height = atlas.cells[0].h;
-            this.transform.rotPointX = this.width / 2;
-            this.transform.rotPointY = this.height / 2;
             
 
             //Create the components needed
             this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
+
+            //to re implement!!!
+            this.input.game = this.game;
             
             //Check to see if this sprite could be animated or not
             if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
@@ -44,14 +46,9 @@ module Kiwi.GameObjects {
                 this._isAnimated = false;
             } else {
                 this.animation = this.components.add(new Kiwi.Components.Animation(this));
+                this.animation.clock = this.clock;
                 this._isAnimated = true;
             }
-
-            //  Signals
-            //this.onAddedToLayer.add(this._onAddedToLayer, this);
-            this.input.onDragStarted.add(this._dragStarted, this);
-            this.onAddedToState.add(this._onAddedToState, this);
-            this.onAddedToGroup.add(this._onAddedToGroup, this);
 
         }
 
@@ -71,23 +68,6 @@ module Kiwi.GameObjects {
         */
         private _isAnimated: bool;
 
-        /*
-        * Gets executed when someone starts to drag this sprite. Used to when snapping the sprite to center.
-        * @method _dragStarted
-        * @param {Kiwi.GameObjects.Entity} entity
-        * @param {number} x
-        * @param {number} y
-        * @param {boolean} snapToCenter
-        */
-        private _dragStarted(entity:Kiwi.Entity, x:number, y:number, snapToCenter:boolean) {
-            //  Should snap from the offset point, but for now will use the sprite size
-            if (snapToCenter === true)
-            {
-                this.transform.setPosition(this.game.input.position.x - this.width / 2, this.game.input.position.y - this.height / 2);
-            }
-        }
-        
-
         /** 
 	     * The animation component that allows you to create a animation with spritesheets/texture atlas's. 
          * Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.
@@ -95,7 +75,6 @@ module Kiwi.GameObjects {
 	     * @type Kiwi.Components.Animation
 	     **/
         public animation: Kiwi.Components.Animation;
-
         
         /** 
          * The Bounds component that controls the bounding box around this Game Object
@@ -111,37 +90,6 @@ module Kiwi.GameObjects {
 	     **/
         public input: Kiwi.Components.Input;
         
-        /*
-        * Executed when this sprite gets added to a state.
-        * @method _onAddedToState
-        * @param {Kiwi.State}
-        * @return {bool}
-        */
-        private _onAddedToState(state: Kiwi.State): bool {
-            
-            if(this._isAnimated) 
-                this.animation.clock = this.clock; 
-            this.input.game = this.game;
-
-            return true;
-
-        }
-        
-        /*
-        * Executed when this sprite gets added to a group.
-        * @method _onAddedToGroup
-        * @param {Kiwi.Group}
-        * @return {bool}
-        */
-        private _onAddedToGroup(group: Kiwi.Group): bool {
-            
-            if (this._isAnimated)
-                this.animation.clock = this.clock;
-            this.input.game = this.game;
-
-            return true;
-        }
-
         /**
 	     * Called by the State to which this Game Object is added
 	     * @method update

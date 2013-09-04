@@ -9,14 +9,12 @@ module Kiwi {
         id: string;
         name: string;
         components: Kiwi.ComponentManager;
-        modify(type: number, parent);
-        _changedPosition(group: Kiwi.Group, index: number); 
         dirty: bool;
         active: bool;
         exists: bool;
         willRender: bool;
         transform: Kiwi.Geom.Transform;
-        
+        destroy(...params:any[]);
     }
 
 }

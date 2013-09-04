@@ -33,7 +33,7 @@ class Explosions extends Kiwi.State {
         this.velsY = new Array();
 
         for (var i = 0; i < this.numExplosions; i++) {
-            var explosion: Kiwi.GameObjects.Sprite = new Kiwi.GameObjects.Sprite(this.textures.explosion, 100, 100);
+            var explosion: Kiwi.GameObjects.Sprite = new Kiwi.GameObjects.Sprite(this,this.textures.explosion, 100, 100);
             
             explosion.animation.add("test", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22], Math.random()/10, true);
             explosion.animation.play("test");

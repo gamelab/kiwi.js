@@ -14,7 +14,7 @@ class NextFrames extends Kiwi.State {
 
     create() {
 
-        this.zombie = new Kiwi.GameObjects.Sprite(this.textures.zombie, 100, 10);
+        this.zombie = new Kiwi.GameObjects.Sprite(this,this.textures.zombie, 100, 10);
         this.addChild(this.zombie);
 
         this.game.input.onUp.add(this.released, this);

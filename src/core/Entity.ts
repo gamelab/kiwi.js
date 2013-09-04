@@ -22,28 +22,29 @@ module Kiwi {
         /**
         * 
         * @constructor
+        * @param {Kiwi.State} state
+        * @param {Number} x
+        * @param {Number} y
         * @return {Kiwi.Entity}
         */
-        constructor( x:number, y: number) {
-        
+        constructor(state: Kiwi.State, x:number, y: number) {
+            
             //  Properties
+            this.state = state;
+            this.game = state.game;
+            this.id = this.game.rnd.uuid();
+            this._clock = this.game.time.clock;
+
 
             this._exists = true;
             this._active = true;
             this._willRender = true;
-            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this); //to redo!!
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
             this.transform.y = y;
-
-            //  Signals - REMOVE ALL OF THEM
-
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToState = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
+            this.transform.rotPointX = this.width / 2;
+            this.transform.rotPointY = this.height / 2;
 
         }
 
@@ -143,73 +144,6 @@ module Kiwi {
         }
 
         /*
-        * A signal that will dispatch an event when this entity has been added to a group.
-        * @property onAddedToGroup
-        * @type Kiwi.Signal
-        */
-        public onAddedToGroup: Kiwi.Signal;
-        
-        /*
-        * A signal that will dispatch an event when this entity has been added to a layer.
-        * @property onAddedToLayer
-        * @type Kiwi.Signal
-        */
-        public onAddedToLayer: Kiwi.Signal;
-        
-        /*
-        * A signal that will dispatch an event when this entity has been added to a state.
-        * @property onAddedToState
-        * @type Kiwi.Signal
-        */
-        public onAddedToState: Kiwi.Signal;
-
-        /*
-        * A signal that will dispatch an event when this entity has been removed from a group.
-        * @property onRemovedFromGroup
-        * @type Kiwi.Signal
-        */
-        public onRemovedFromGroup: Kiwi.Signal;
-        
-        /*
-        * A signal that will dispatch an event when this entity has been removed from a layer.
-        * @property onRemovedFromLayer
-        * @type Kiwi.Signal
-        */
-        public onRemovedFromLayer: Kiwi.Signal;
-        
-        /*
-        * A signal that will dispatch an event when this entity has been removed from a state.
-        * @property onRemovedFromState
-        * @type Kiwi.Signal
-        */
-        public onRemovedFromState: Kiwi.Signal;
-
-        /*
-        * Modify the state of this Entity, such as adding to a Group, removing from a Layer, etc. Should be used by the internal Kiwi methods only.
-        *
-        * @method modify
-        * @param {Number} action
-        * @param {Any} parent
-        */
-        public modify(action:number, parent) {
-
-            if (action === Kiwi.ADDED_TO_GROUP) {
-                return this._addedToGroup(parent);
-
-            } else if (action === Kiwi.ADDED_TO_STATE) {
-                return this._addedToState(parent);
-
-            } else if (action === Kiwi.REMOVED_FROM_GROUP) {
-                return this._removedFromGroup(parent);
-
-            } else if (action === Kiwi.REMOVED_FROM_STATE) {
-                return this._removedFromState(parent);
-
-            }
-
-        }
-
-        /*
         * The actual alpha of this entity.
         * @property _alpha
         * @type Number
@@ -281,8 +215,8 @@ module Kiwi {
         /*
         * Used as a reference to a single Cell in the atlas that is to be rendered. 
         * E.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1
-        * @property
-        * @type
+        * @property cellIndex
+        * @type number
         */
         public cellIndex: number = 0; //perhaps check to see that the cell index exists before allowing it to be set
 
@@ -298,14 +232,14 @@ module Kiwi {
         * @property game
         * @type Game
 	    */
-        public game: Kiwi.Game = null;
+        public game: Kiwi.Game;
 
         /**
         * The state this Entity belongs to (either the current game state or a persistent world state)
         * @property state
         * @type State
     	*/
-        public state: Kiwi.State = null;
+        public state: Kiwi.State;
 
         /**
         * A unique identifier for this Entity within the game used internally by the framework. See the name property for a friendly version.
@@ -320,8 +254,6 @@ module Kiwi {
         * @type string
     	*/
         public name: string = '';
-
-      
 
         /**
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
@@ -467,121 +399,6 @@ module Kiwi {
             return this._dirty;
         }
 
-      
-
-        /**
-        * Executes when the entity gets added to a state. 
-        * @method _addedToState
-        * @param {Kiwi.State} state
-        * @return {Boolean}
-        */
-        private _addedToState(state: Kiwi.State): bool {
-
-            this.state = state;
-
-            this.game = this.state.game;
-
-            if (this._clock === null)
-            {
-                this._clock = this.game.time.clock;
-            }
-
-            this.id = this.game.rnd.uuid();
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-
-        }
-
-        /**
-        * Is executed when the entity gets removed from a state.
-        * @method _removedFromState
-        * @param {Kiwi.State} state
-        */
-        private _removedFromState(state: Kiwi.State) {
-
-            this.state = null;
-
-            this.game = null;
-
-            this.onAddedToState.dispatch(this, state);
-
-        }
-
-        /**
-		* Called when this Entity is added to a Group.
-        * @method _addedToGroup
-	    * @param {Kiwi.Group} group. The Group this Entity is being added to.
-		**/
-        private _addedToGroup(group: Kiwi.Group) {
-            
-            /*
-            if (this.transform.parent(group.transform) )
-            {
-                return;
-            }
-          
-            if (this.parent !== null)
-            {
-                //  Notify the current parent this child has been removed, they can only exist in one Group at once
-                this.parent.removeChild(this);
-            }
-        
-            this.parent = group;
-            */
-            if (group.game !== null)
-            {
-                this.game = group.game;
-            
-                if (this._clock === null)
-                {
-                    this._clock = this.game.time.clock;
-                }
-            }
-            /*
-            this.onAddedToGroup.dispatch(this, group);
-            
-            //  If the parent group has already been added to a layer then call addedToLayer on the Entity now,
-            //  otherwise it happens when the Group is added to a layer
-            if (this.parent.layer !== null)
-            {
-                this._addedToLayer(this.parent.layer);
-            }
-            */
-        }
-
-        /**
-		* Called when this Entity is removed from a Group.
-        * @method _removedFromGroup
-	    * @param {Kiwi.Group} The Group this Entity has just been removed from.
-		**/
-        private _removedFromGroup(group: Kiwi.Group) {
-
-            /*
-            if (this.parent !== null)
-            {
-                //  TODO: Notify the current parent this child has been removed?
-            }
-
-            this.parent = null;
-
-           
-        */
-            this.onRemovedFromGroup.dispatch(this, group);
-
-        }
-
-        /**
-		* Called when this Entity has swapped to a new position within the Group.
-        * @method _changedPosition
-	    * @param {Kiwi.Group} The Group in which the change of position took place.
-	    * @param {Number} The new position of this Entity in the Group.
-		**/
-        public _changedPosition(group: Kiwi.Group, index: number) {
-
-        }
-
         //  Both of these methods can and often should be over-ridden by classes extending Entity to handle specific implementations
 
         /*
@@ -619,6 +436,8 @@ module Kiwi {
             this._exists = false;
             this._active = false;
             this._willRender = false;
+
+            //DELETE THE REST OF THE STUFF
 
         }
 

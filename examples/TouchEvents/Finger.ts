@@ -14,8 +14,8 @@ class Finger extends Kiwi.State {
     bunny: Kiwi.GameObjects.Sprite;
 
     create() {
-         
-        this.bunny = new Kiwi.GameObjects.Sprite(this.textures.bunny, 0, 0);
+        
+        this.bunny = new Kiwi.GameObjects.Sprite(this,this.textures.bunny, 0, 0);
         this.addChild(this.bunny);
         this.bunny.alpha = 0;
 

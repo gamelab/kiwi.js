@@ -16,7 +16,7 @@ class Chaining extends Kiwi.State {
 
     create() {
 
-        this.ufo = new Kiwi.GameObjects.Sprite(this.textures.ufo, 100, 200);
+        this.ufo = new Kiwi.GameObjects.Sprite(this,this.textures.ufo, 100, 200);
         this.addChild(this.ufo);
 
         //only apply the callback once.

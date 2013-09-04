@@ -14,7 +14,7 @@ class Creating extends Kiwi.State {
 
     create() {
 
-        this.coin = new Kiwi.GameObjects.Sprite(this.textures.coin, 10, 10);
+        this.coin = new Kiwi.GameObjects.Sprite(this,this.textures.coin, 10, 10);
 
         this.coin.animation.add('rotateleft', [0, 1, 2, 3, 4, 5], 0.1, true);
 

@@ -28,7 +28,7 @@ class MultiSprite extends Kiwi.State {
 
 
         for (var i = 0; i < this.numSprites; i++) {
-            this.sprites.push(new Kiwi.GameObjects.Sprite(this.textures.character, 0, 0));
+            this.sprites.push(new Kiwi.GameObjects.Sprite(this,this.textures.character, 0, 0));
             this.sprites[i].transform.x = Math.floor(Math.random() * 800);
             this.sprites[i].transform.y = Math.floor(Math.random() * 600);
             this.addChild(this.sprites[i]);

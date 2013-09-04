@@ -26,7 +26,7 @@ export class BasicTime extends Kiwi.State {
 
     create() {
 
-        this.key = new Kiwi.GameObjects.Sprite(this.textures.key, 50, 50);
+        this.key = new Kiwi.GameObjects.Sprite(this,this.textures.key, 50, 50);
 
         this.addChild(this.key);
     }

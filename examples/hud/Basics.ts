@@ -26,7 +26,7 @@ class Basics extends Kiwi.State {
     }
 
     create() {
-        this.player = new Kiwi.GameObjects.Sprite(this.textures.horngirl, 100, 200);
+        this.player = new Kiwi.GameObjects.Sprite(this,this.textures.horngirl, 100, 200);
 
         this.addChild(this.player);
     }

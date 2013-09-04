@@ -22,22 +22,21 @@ module Kiwi.GameObjects {
         /**
         * 
         * @constructor
+        * @param {Kiwi.State} state
         * @param {Kiwi.Textures.TextureAtlas} atlas
         * @param {Number} x
         * @param {Number} y
         * @return {StaticImage}
         */
-        constructor(atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
+        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
 
-            super(x,y);
+            super(state,x,y);
             
             //Set coordinates and texture
             this.atlas = atlas;
             this.cellIndex = this.atlas.cellIndex;
             this.width = atlas.cells[0].w;
             this.height = atlas.cells[0].h;
-            this.transform.rotPointX = this.width / 2;
-            this.transform.rotPointY = this.height / 2;
             
             this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
            
@@ -58,8 +57,6 @@ module Kiwi.GameObjects {
          * @type Kiwi.Components.Bounds
          **/
         public box: Kiwi.Components.Box;
-
-	  
 
         /**
 	     * Called by the Layer to which this Game Object is attached
