@@ -13,6 +13,7 @@ module Kiwi {
         active: bool;
         exists: bool;
         willRender: bool;
+        parent: Kiwi.Group;
         transform: Kiwi.Geom.Transform;
         destroy(...params:any[]);
     }

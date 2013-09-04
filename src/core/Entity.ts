@@ -56,6 +56,13 @@ module Kiwi {
         public transform: Kiwi.Geom.Transform;
 
         /*
+        * The group that this entity belongs to. If added onto the state then this is the state.
+        * @property parent
+        * @type Kiwi.Group
+        */
+        public parent: Kiwi.Group = null;
+
+        /*
         * Get the X coordinate of this Entity. This is just aliased to the transform property.
         * @type Number
         */

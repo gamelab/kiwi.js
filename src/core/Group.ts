@@ -68,13 +68,6 @@ module Kiwi {
             return Kiwi.GROUP;
         }
 
-        /*
-        * The parent of this group. This is used mainly for internal Kiwi Operations.
-        * @property parent
-        * @type Kiwi.Group
-        */
-        public parent: Kiwi.Group = null;
-
         /**
         * A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging
         * @property name
@@ -90,6 +83,13 @@ module Kiwi {
         */
         public transform: Kiwi.Geom.Transform;
         
+        /*
+        * The parent group of this group.
+        * @property parent
+        * @type Kiwi.IChild
+        */
+        public parent: Kiwi.Group = null;
+
         /*
         * Get the X coordinate of this group. This is just aliased to the transform property.
         * @type Number
@@ -226,11 +226,10 @@ module Kiwi {
         * @param {Boolean} The value to be set on all children
 		*/
         public set dirty(value: bool) {
-
             if (value !== undefined) {
                 this._dirty = value;
-                for (var i = 0; i < this.members.length; i++)
-                {
+
+                for (var i = 0; i < this.members.length; i++) {
                     this.members[i].dirty = value;
                 }
             }
@@ -250,7 +249,7 @@ module Kiwi {
         * @param {Kiwi.Entity} The entity to be checked.
         * @return {bool} true if entity exists in group.
         **/
-        public contains(child: Kiwi.IChild): bool {
+        public contains(child: Kiwi.IChild): bool {                                         // MAKE RECURSIVE
             return (this.members.indexOf(child) === -1) ? false : true;
         }
 
@@ -262,20 +261,20 @@ module Kiwi {
         **/
         public addChild(child: Kiwi.IChild): Kiwi.IChild {              //REVISE
 
+            //make sure you aren't adding a state.
+            if (child.childType() === Kiwi.STATE || child == this) return;
+
+            //make sure it is not itself.
+            if (child.parent !== null) 
+                child.parent.removeChild(child);
+            
+
             //check to see if the child is already part of a group.
-
-            //if it is remove it.
-
-            //check to see if the descending thingy
-
-            if (child.transform.parent !== this.transform) {
-                this.members.push(child);
-                child.transform.parent = this.transform;
-                //child._addedToGroup(this);
-            }
-
+            this.members.push(child);
+            child.parent = this;
+            child.transform.parent = this.transform;
+            
             return child;
-
         }
          
         /**

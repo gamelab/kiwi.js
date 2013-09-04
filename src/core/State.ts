@@ -42,6 +42,15 @@ module Kiwi {
             return "State";
         }
 
+        /*
+        * Returns the type of child this is. 
+        * @method childType
+        * @return Number
+        */
+        public childType() {
+            return Kiwi.STATE;
+        }
+
         /**
         * The configuration object for this State
         * @property config

@@ -14,7 +14,7 @@ class DPad extends Kiwi.State {
     DPad: DPadGroup;
 
     create() {
-        this.DPad = new DPadGroup(this.textures.phone, this.textures.shiny, 0, 300);
+        this.DPad = new DPadGroup(this,this.textures.phone, this.textures.shiny, 0, 300);
         this.addChild(this.DPad);
         this.DPad.addButtons(this);
     }
@@ -23,8 +23,8 @@ class DPad extends Kiwi.State {
 
 class DPadGroup extends Kiwi.Group {
 
-    constructor(atlas1,atlas2,x,y) {
-        super('DPad Group');
+    constructor(state,atlas1,atlas2,x,y) {
+        super(state,'DPad Group');
         
         //way hacky but....meah...it works.
         this.upButton = new Button(atlas1, 80 + x, 0 + y, 0);

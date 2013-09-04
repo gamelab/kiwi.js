@@ -1254,6 +1254,7 @@ var Kiwi;
 (function (Kiwi) {
     var Entity = (function () {
         function Entity(state, x, y) {
+            this.parent = null;
             this._alpha = 1;
             this._visible = true;
             this.width = 0;
@@ -1555,8 +1556,8 @@ var Kiwi;
     var Group = (function () {
         function Group(state, name) {
             if (typeof name === "undefined") { name = ''; }
-            this.parent = null;
             this.name = '';
+            this.parent = null;
             this.game = null;
             this.state = null;
             this._dirty = true;
@@ -1659,6 +1660,7 @@ var Kiwi;
             set: function (value) {
                 if (value !== undefined) {
                     this._dirty = value;
+
                     for (var i = 0; i < this.members.length; i++) {
                         this.members[i].dirty = value;
                     }
@@ -1673,10 +1675,15 @@ var Kiwi;
         };
 
         Group.prototype.addChild = function (child) {
-            if (child.transform.parent !== this.transform) {
-                this.members.push(child);
-                child.transform.parent = this.transform;
-            }
+            if (child.childType() === Kiwi.STATE || child == this)
+                return;
+
+            if (child.parent !== null)
+                child.parent.removeChild(child);
+
+            this.members.push(child);
+            child.parent = this;
+            child.transform.parent = this.transform;
 
             return child;
         };
@@ -2083,6 +2090,10 @@ var Kiwi;
         }
         State.prototype.objType = function () {
             return "State";
+        };
+
+        State.prototype.childType = function () {
+            return Kiwi.STATE;
         };
 
         State.prototype.boot = function () {
