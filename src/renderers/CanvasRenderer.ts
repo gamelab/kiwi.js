@@ -33,7 +33,7 @@ module Kiwi.Renderers {
                     this._recurse((<Kiwi.Group>child).members[i]);
                 }
             } else {
-
+                
                 child.render(this._currentCamera);
 
             }

@@ -787,6 +787,12 @@ module Kiwi {
         
         }
 
+
+        //DO NOTHING!!
+        public render(camera) {
+
+        }
+
         /**
         * Returns the number of member which are not marked as 'alive'
         * @method countDead

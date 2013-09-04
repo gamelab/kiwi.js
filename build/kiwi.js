@@ -1274,8 +1274,6 @@ var Kiwi;
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
             this.transform.y = y;
-            this.transform.rotPointX = this.width / 2;
-            this.transform.rotPointY = this.height / 2;
         }
         Object.defineProperty(Entity.prototype, "x", {
             get: function () {
@@ -1794,7 +1792,7 @@ var Kiwi;
         };
 
         Group.prototype.setChildIndex = function (child, index) {
-            if (child.transform.parent !== this.transform || this.getChildIndex(child) === index) {
+            if (child.parent !== this || this.getChildIndex(child) === index) {
                 return false;
             }
 
@@ -1805,7 +1803,7 @@ var Kiwi;
         };
 
         Group.prototype.swapChildren = function (child1, child2) {
-            if (child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
+            if (child1.parent !== this || child2.parent !== this) {
                 return false;
             }
 
@@ -1825,17 +1823,16 @@ var Kiwi;
         Group.prototype.swapChildrenAt = function (index1, index2) {
             var child1 = this.getChildAt(index1);
             var child2 = this.getChildAt(index2);
-            if (child1 != null && child2 != null) {
-                if (child1 == child2 || child1.transform.parent !== this.transform || child2.transform.parent !== this.transform) {
+
+            if (child1 !== null && child2 !== null) {
+                if (child1 == child2 || child1.parent !== this || child2.parent !== this) {
                     return false;
                 }
 
-                if (child1 !== null && child2 !== null) {
-                    this.members[index1] = child2;
-                    this.members[index2] = child1;
+                this.members[index1] = child2;
+                this.members[index2] = child1;
 
-                    return true;
-                }
+                return true;
             }
 
             return false;
@@ -1845,16 +1842,17 @@ var Kiwi;
             if (oldChild === newChild)
                 return false;
 
-            if (this.getChildIndex(newChild)) {
-                this.removeChild(newChild);
-            }
-
             var index = this.getChildIndex(oldChild);
 
             if (index > -1) {
+                if (newChild.parent) {
+                    newChild.parent.removeChild(newChild);
+                }
+
                 this.removeChildAt(index);
 
                 this.addChildAt(newChild, index);
+                newChild.parent = null;
                 newChild.transform.parent = null;
 
                 return true;
@@ -1955,27 +1953,6 @@ var Kiwi;
             configurable: true
         });
 
-        Group.prototype.render = function (camera) {
-            var _this = this;
-            this.components.preRender();
-
-            this.components.render();
-
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return _this.processRender(child, camera);
-                });
-            }
-
-            this.components.postRender();
-        };
-
-        Group.prototype.processRender = function (child, camera) {
-            if (child.active === true) {
-                child.render(camera);
-            }
-        };
-
         Group.prototype.removeFirstAlive = function () {
             return this.removeChild(this.getFirstAlive());
         };
@@ -2012,6 +1989,9 @@ var Kiwi;
             }
 
             return total;
+        };
+
+        Group.prototype.render = function (camera) {
         };
 
         Group.prototype.countDead = function () {
@@ -6252,6 +6232,8 @@ var Kiwi;
 
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
+                this.transform.rotPointX = this.width / 2;
+                this.transform.rotPointY = this.height / 2;
 
                 this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
                 this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
@@ -6327,6 +6309,8 @@ var Kiwi;
                 this.cellIndex = this.atlas.cellIndex;
                 this.width = atlas.cells[0].w;
                 this.height = atlas.cells[0].h;
+                this.transform.rotPointX = this.width / 2;
+                this.transform.rotPointY = this.height / 2;
 
                 this.box = this.components.add(new Kiwi.Components.Box(x, y, this.width, this.height));
             }

@@ -3,6 +3,7 @@
 module Kiwi {
 
     export interface IChild {
+        render(camera:Kiwi.Camera);
         update();
         childType(): number;
         id: string;
