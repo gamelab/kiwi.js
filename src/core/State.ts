@@ -339,6 +339,19 @@ module Kiwi {
         }
 
         /*
+        * Removes a IChild from the tracking list. This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
+        * @method removeFromTrackingList
+        * @param {Kiwi.IChild} child
+        */
+        public removeFromTrackingList(child:Kiwi.IChild) {
+            //check to see that it is in the tracking list.
+            var n = this._trackingList.indexOf(child);
+            if (n > -1) {
+                this._trackingList.splice(n, 1);
+            } 
+        }
+
+        /*
         * Destroys all of IChilds that are not currently on stage. All IChilds that currently don't have this STATE as an ancestor.
         * Returns the number of IChilds removed.  
         * @method destroyUnused

@@ -1375,6 +1375,7 @@ var Kiwi;
         };
 
         Entity.prototype.destroy = function () {
+            this.state.removeFromTrackingList(this);
             this._exists = false;
             this._active = false;
             this._willRender = false;
@@ -1719,13 +1720,18 @@ var Kiwi;
             return this.members.indexOf(child);
         };
 
-        Group.prototype.removeChild = function (child) {
+        Group.prototype.removeChild = function (child, destroy) {
+            if (typeof destroy === "undefined") { destroy = false; }
             if (child.parent === this) {
                 var index = this.getChildIndex(child);
 
                 if (index > -1) {
                     this.members.splice(index, 1);
                     child.parent = null;
+
+                    if (destroy) {
+                        child.destroy();
+                    }
                 }
             }
 
@@ -1742,15 +1748,20 @@ var Kiwi;
             }
         };
 
-        Group.prototype.removeChildren = function (begin, end) {
+        Group.prototype.removeChildren = function (begin, end, destroy) {
             if (typeof begin === "undefined") { begin = 0; }
             if (typeof end === "undefined") { end = 0x7fffffff; }
+            if (typeof destroy === "undefined") { destroy = false; }
             end -= begin;
 
             var removed = this.members.splice(begin, end);
 
             for (var i = 0; i < removed.length; i++) {
                 removed[i].parent = null;
+
+                if (destroy) {
+                    removed[i].destroy();
+                }
             }
 
             return removed.length;
@@ -1921,8 +1932,9 @@ var Kiwi;
         Group.prototype.render = function (camera) {
         };
 
-        Group.prototype.removeFirstAlive = function () {
-            return this.removeChild(this.getFirstAlive());
+        Group.prototype.removeFirstAlive = function (destroy) {
+            if (typeof destroy === "undefined") { destroy = false; }
+            return this.removeChild(this.getFirstAlive(), destroy);
         };
 
         Group.prototype.getFirstAlive = function () {
@@ -2021,15 +2033,18 @@ var Kiwi;
                 this.removeChildren();
             }
 
+            this.state.removeFromTrackingList(this);
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            this.transform = null;
+            delete this.transform;
             if (this.components)
                 this.components.removeAll();
-            this.components = null;
-            this.name = '';
-            this.members.length = 0;
+            delete this.components;
+            delete this.name;
+            delete this.members;
+            delete this.game;
+            delete this.state;
         };
         return Group;
     })();
@@ -2159,6 +2174,13 @@ var Kiwi;
                 return;
 
             this._trackingList.push(child);
+        };
+
+        State.prototype.removeFromTrackingList = function (child) {
+            var n = this._trackingList.indexOf(child);
+            if (n > -1) {
+                this._trackingList.splice(n, 1);
+            }
         };
 
         State.prototype.destroyUnused = function () {

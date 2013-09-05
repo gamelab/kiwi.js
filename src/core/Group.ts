@@ -295,7 +295,7 @@ module Kiwi {
         * Checks to see if one child is an ansector of another child.
         * @method containsAncestor
         * @param {Kiwi.IChild} descendant
-        * @param {Kiwi.Group} ancestor
+        * @param {Kiwi.Group} ancestor  
         * @return {bool}
         **/ 
         public containsAncestor(descendant: Kiwi.IChild, ancestor:Kiwi.Group): bool {
@@ -453,9 +453,10 @@ module Kiwi {
         * Removes an Entity from this Group if it is a child of it.
         * @method removeChild
         * @param {Kiwi.Entity} The child to be removed.
+        * @param {Bool} If the entity that gets removed should be destroyed as well.s
         * @return {Kiwi.Entity} The child.
         **/
-        public removeChild(child: Kiwi.IChild): Kiwi.IChild {   
+        public removeChild(child: Kiwi.IChild, destroy:bool=false): Kiwi.IChild {   
 
             if (child.parent === this) {
 
@@ -464,6 +465,10 @@ module Kiwi {
                 if (index > -1) {
                     this.members.splice(index, 1);
                     child.parent = null;
+                    
+                    if (destroy) {
+                        child.destroy();
+                    }
                 }
 
             } 
@@ -494,9 +499,10 @@ module Kiwi {
         * @method removeChildren
         * @param {Number} The begining index.
         * @param {Number} The last index of the range.
+        * @param {Number} If the children should be destroyed as well.
         * @return {Number} The number of removed entities.
 		*/
-        public removeChildren(begin: number = 0, end: number = 0x7fffffff): number {
+        public removeChildren(begin: number = 0, end: number = 0x7fffffff, destroy:bool = false): number {
 
             end -= begin;
             
@@ -504,6 +510,10 @@ module Kiwi {
 
             for (var i = 0; i < removed.length; i++) {
                 removed[i].parent = null;
+
+                if (destroy) {
+                    removed[i].destroy();
+                }
             }
 
             return removed.length;
@@ -768,11 +778,12 @@ module Kiwi {
         /**
         * Removes the first Entity from this Group marked as 'alive'
         * @method removeFirstAlive
+        * @param {Bool} destroy 
         * @return {Kiwi.Entity} The Entity that was removed from this Group if alive, otherwise null
         */
-        public removeFirstAlive(): Kiwi.IChild { 
+        public removeFirstAlive(destroy:bool = false): Kiwi.IChild { 
 
-            return this.removeChild(this.getFirstAlive());
+            return this.removeChild(this.getFirstAlive(), destroy);
         
         }
 
@@ -926,15 +937,18 @@ module Kiwi {
             } else {
                 this.removeChildren();
             }
-                
+             
+            this.state.removeFromTrackingList(this); 
             this._exists = false;
             this._active = false
             this._willRender = false;
-            this.transform = null;
+            delete this.transform;
             if(this.components) this.components.removeAll();
-            this.components = null;
-            this.name = ''; 
-            this.members.length = 0;  
+            delete this.components;
+            delete this.name;
+            delete this.members;
+            delete this.game;
+            delete this.state;
         }
 
     }
