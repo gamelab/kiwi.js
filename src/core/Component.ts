@@ -101,8 +101,9 @@ module Kiwi {
         public destroy() {
 
             this.active = false;
-            this.game = null;
-            this.owner = null;
+            delete this.game;
+            delete this.owner;
+
             this.name = '';
 
         }

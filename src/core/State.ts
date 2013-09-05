@@ -29,8 +29,7 @@ module Kiwi {
             this.config = new Kiwi.StateConfig(this, name);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
-           
-
+            this._trackingList = [];
         }
 
         /*
@@ -317,13 +316,80 @@ module Kiwi {
           
         }
 
+        //garbage collection stuff
+
+        /*
+        * Contains a reference to all of the IChilds that have ever been created for this state. 
+        * Useful for keeping track of sprites that are not used any more and need to be destroyed.
+        * @property trackingList
+        * @type Kiwi.IChild[]
+        */
+        private _trackingList: Kiwi.IChild[];
+
+        /*
+        * Adds a new IChild to the tracking list. This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
+        * @method addIChild
+        * @param {Kiwi.IChild} child
+        */
+        public addToTrackingList(child: Kiwi.IChild) {
+            //check to see that its not already in the tracking list.
+            if (this._trackingList.indexOf(child) !== -1) return;
+            //add to the list
+            this._trackingList.push(child);
+        }
+
+        /*
+        * Destroys all of IChilds that are not currently on stage. All IChilds that currently don't have this STATE as an ancestor.
+        * Returns the number of IChilds removed.  
+        * @method destroyUnused
+        * @return {Number}
+        */
+        public destroyUnused():number {
+
+            var d = 0; 
+            for (var i = 0; i < this._trackingList.length; i++) {
+                if (this.containsAncestor(this._trackingList[i], this) === false) {
+                    this._trackingList[i].destroy();
+                    this._trackingList.splice(i, 1);
+                    i--;
+                    d++;
+                }
+            }
+
+            return d;
+        }
+
         /**
-        * 
+        * Destroys all of the IChild's on the start.
         * @method destroy
         **/
-        public destroy() {
-            super.destroy();
-        
+        public destroy(deleteAll:bool=true) {
+            
+            //destroy all of the tracking list
+            for (var i = 0; i < this._trackingList.length; i++) {
+                this._trackingList[i].destroy();
+            }
+            this._trackingList = [];
+
+            //destroy all of the members
+            for (var i = 0; i < this.members.length; i++) {
+                this._destroyChildren(this.members[i]);
+            }
+            
+        }
+
+        /*
+        * Recursively goes through a child given and runs the destroy method on all that are passed.
+        * @method _destroyChildren
+        * @param {Kiwi.IChild} child
+        */
+        private _destroyChildren(child: any) {
+            if (child.childType() == Kiwi.GROUP) {
+                for (var i = 0; i < child.members.length; i++) {
+                    this._destroyChildren(child.members[i]);
+                }
+            } 
+            child.destroy();
         }
 
     }

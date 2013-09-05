@@ -33,6 +33,7 @@ module Kiwi {
             this.state = state;
             this.game = state.game;
             this.id = this.game.rnd.uuid();
+            this.state.addToTrackingList(this);
             this._clock = this.game.time.clock;
              
             this._exists = true;
@@ -456,8 +457,15 @@ module Kiwi {
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            
-            this.components.removeAll();
+            delete this._parent; 
+            delete this.transform;
+            delete this._clock;
+            delete this.state;
+            delete this.game;
+            delete this.atlas;
+
+            if (this.components) this.components.removeAll(true);
+            delete this.components;
 
         }
 

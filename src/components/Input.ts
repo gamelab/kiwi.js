@@ -614,18 +614,24 @@ module Kiwi.Components {
             super.destroy();
             
             this.enabled = false;
-            this._box = null;
-            this._isDown = null;
-            this._isUp = null;
-            this._isDragging = null;
-            this._dragEnabled = null;
-            this._onDown = null;
-            this._onDragStarted = null;
-            this._onUp = null;
-            this._onLeft = null;
-            this._onEntered = null;
-            this._onDragStopped = null;
-            this._dragDistance = null;
+            delete this._box;
+            delete this._isDown;
+            delete this._isUp;
+            delete this._isDragging;
+            delete this._dragEnabled;
+            if(this._onDown) this._onDown.dispose();
+            delete this._onDown;
+            if(this._onDragStarted) this._onDragStarted.dispose();
+            delete this._onDragStarted;
+            if (this._onUp) this._onUp.dispose();
+            delete this._onUp;
+            if (this._onLeft) this._onLeft.dispose();
+            delete this._onLeft;
+            if (this._onEntered) this._onEntered.dispose();
+            delete this._onEntered;
+            if (this._onDragStopped) this._onDragStopped.dispose();
+            delete this._onDragStopped;
+            delete this._dragDistance;
 
         }
 

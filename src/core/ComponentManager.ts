@@ -186,9 +186,9 @@ module Kiwi {
         * Removes all of the components from the component manager. 
         * @method removeAll
         */
-        public removeAll() {
-            for (var key in this._components) {
-                this.removeComponent(this._components[key]);
+        public removeAll(destroy:bool = true) {
+            for (var key in this._components) { 
+                this.removeComponent(this._components[key], destroy);
             }
         }
 
@@ -275,7 +275,7 @@ module Kiwi {
             }
         
         }
-
+         
     }
 
 }

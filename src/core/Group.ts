@@ -25,12 +25,14 @@ module Kiwi {
         * @param {String} name
         * @return {Kiwi.Group}
         */
-        constructor(state:Kiwi.State, name: string = '') {
+        constructor(state: Kiwi.State, name: string = '') {
 
+            //prevents the state going AHHH...since the state extends group.
             if (state !== null) {
                 this.state = state;
                 this.game = this.state.game;
                 this.id = this.game.rnd.uuid();
+                this.state.addToTrackingList(this);
             }
 
             //  Properties
@@ -47,8 +49,7 @@ module Kiwi {
 
             //  Signals
 
-            this._willRender = true;
-
+            this._willRender = true; 
         }
 
         /**
@@ -58,13 +59,13 @@ module Kiwi {
         public objType(): string {
             return 'Group';
         }
-        
+
         /*
         * Represents the type of child that this is. Note: A 'CHILD' is any object that extends from ICHILD.
         * @method childType
         * @return number
         */
-        public childType():number {
+        public childType(): number {
             return Kiwi.GROUP;
         }
 
@@ -82,22 +83,25 @@ module Kiwi {
         * @type Kiwi.Geom.Transform
         */
         public transform: Kiwi.Geom.Transform;
-        
+
         /*
         * The parent group of this group.
         * @property parent
         * @type Kiwi.IChild
         */
         private _parent: Kiwi.Group = null;
-        
+
         /*
         * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
         * @type Kiwi.Group
         */
         public set parent(val: Kiwi.Group) {
-            this.transform.parent = (val !== null) ? val.transform : null;
-            this._parent = val;
-        }      
+            //check to see if the parent is not an descendor
+            //if (this.containsDescendant(val) === false) {
+                this.transform.parent = (val !== null) ? val.transform : null;
+                this._parent = val;
+            //}
+        }
 
         /*
         * Returns the group that this entity belongs to.
@@ -186,19 +190,19 @@ module Kiwi {
         public set rotation(value: number) {
             this.transform.rotation = value;
         }
-        
+
         /**
         * The Component Manager
         * @property components
         * @type Kiwi.ComponentManager
-	    */
+        */
         public components: Kiwi.ComponentManager;
 
         /**
         * The game this Group belongs to
         * @property game
         * @type Game
-	    */
+        */
         public game: Kiwi.Game = null;
 
         /**
@@ -211,16 +215,16 @@ module Kiwi {
         * A unique identifier for this Group within the game used internally by the framework. See the name property for a friendly version.
         * @property id
         * @type string
-    	*/
+        */
         public id: string;
-         
+        
         /**
         * The collection of children belonging to this group
         * @property members
         * @type Kiwi.Entity
         **/
         public members: Kiwi.IChild[];
-          
+        
         /** 
         * Returns the total number of children in this Group. Doesn't distinguish between alive and dead children.
         * @method numChildren
@@ -241,7 +245,7 @@ module Kiwi {
         * Sets all children of the Group to be dirty.
         * @method dirty
         * @param {Boolean} The value to be set on all children
-		*/
+        */
         public set dirty(value: bool) {
             if (value !== undefined) {
                 this._dirty = value;
@@ -256,18 +260,50 @@ module Kiwi {
         * Returns a boolean indicating if the group is dirty or not.
         * @type bool
         */
-        public get dirty():bool {
+        public get dirty(): bool {
             return this._dirty;
         }
 
         /**
         * Checks if the given entity is in this group
         * @method contains
-        * @param {Kiwi.Entity} The entity to be checked.
+        * @param {Kiwi.IChild} The entity to be checked.
         * @return {bool} true if entity exists in group.
         **/
         public contains(child: Kiwi.IChild): bool {                                         // MAKE RECURSIVE
             return (this.members.indexOf(child) === -1) ? false : true;
+        }
+
+        /*
+        * Checks to see if the given IChild is contained in this group as a descendant
+        * @method containsDescendant
+        * @param {Kiwi.IChild} child
+        * @return {bool}
+        */
+        public containsDescendant(child: Kiwi.IChild): bool {
+            for (var i = 0; i < this.members.length; i++) {
+                console.log(i);
+                var curMember: any = this.members[i];
+                if (curMember.id == child.id || curMember.childType() == Kiwi.Group && curMember.containsDesendant(child)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+        * Checks to see if one child is an ansector of another child.
+        * @method containsAncestor
+        * @param {Kiwi.IChild} descendant
+        * @param {Kiwi.Group} ancestor
+        * @return {bool}
+        **/ 
+        public containsAncestor(descendant: Kiwi.IChild, ancestor:Kiwi.Group): bool {
+            if (descendant.parent === null || descendant.parent === undefined) {
+                return false;   
+            }
+            if (descendant.parent == ancestor) return true; //desendants parent is the same? 
+            return descendant.parent.containsAncestor(descendant.parent, ancestor); //keep going up the chain.
         }
 
         /**
@@ -878,15 +914,24 @@ module Kiwi {
 
         /**
 		* Removes all children and destroys the Group
+        * @method destroy
+        * @param {bool} destroyChildren
 		**/
-        public destroy() {
+        public destroy(destroyChildren:bool = true) {
 
-            this.removeChildren(); 
+            if (destroyChildren == true) {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i].destroy();
+                }
+            } else {
+                this.removeChildren();
+            }
+                
             this._exists = false;
             this._active = false
             this._willRender = false;
             this.transform = null;
-            this.components.removeAll();
+            if(this.components) this.components.removeAll();
             this.components = null;
             this.name = ''; 
             this.members.length = 0;  

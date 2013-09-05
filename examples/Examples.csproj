@@ -75,6 +75,10 @@
     <Content Include="Tests\AddingChildren.js">
       <DependentUpon>AddingChildren.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Tests\DestroyOfBrowsers.ts" />
+    <Content Include="Tests\DestroyOfBrowsers.js">
+      <DependentUpon>DestroyOfBrowsers.ts</DependentUpon>
+    </Content>
     <Content Include="TouchEvents\Dragging.js">
       <DependentUpon>Dragging.ts</DependentUpon>
     </Content>

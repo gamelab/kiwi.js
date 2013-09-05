@@ -343,10 +343,11 @@ module Kiwi.Components {
 
             for (var key in this._animations) {
                 this._animations[key].destroy();
+                delete this._animations[key];
             }
-            this._animations = null;
-            this.currentAnimation = null;
-            this._atlas = null;
+            delete this._animations;
+            delete this.currentAnimation;
+            delete this._atlas;
         }
 
     }

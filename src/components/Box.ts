@@ -278,7 +278,10 @@ module Kiwi.Components {
 
         }
 
-      
+        public destroy() {
+            super.destroy();
+            delete this.entity;
+        }
 	
 
     }

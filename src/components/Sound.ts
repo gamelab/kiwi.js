@@ -140,6 +140,16 @@ module Kiwi.Components {
             this._audio[name].resume();
         }
 
+        public destroy() {
+            super.destroy();
+            for (var key in this._audio) {
+                this._audio[key].stop();
+                this._audio[key].destroy();
+                delete this._audio[key];
+            }
+            delete this._audio;
+        }
+
     }
 
 }

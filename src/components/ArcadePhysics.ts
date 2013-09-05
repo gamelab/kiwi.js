@@ -830,6 +830,14 @@ module Kiwi.Components {
 
         }
 
+        public destroy() {
+            super.destroy();
+
+            delete this.transform;
+            delete this._parent;
+            delete this._callbackContext;
+            delete this._callbackFunction;
+        }
         
 
     }

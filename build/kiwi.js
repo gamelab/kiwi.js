@@ -1009,8 +1009,9 @@ var Kiwi;
 
         Component.prototype.destroy = function () {
             this.active = false;
-            this.game = null;
-            this.owner = null;
+            delete this.game;
+            delete this.owner;
+
             this.name = '';
         };
         return Component;
@@ -1102,9 +1103,10 @@ var Kiwi;
             return false;
         };
 
-        ComponentManager.prototype.removeAll = function () {
+        ComponentManager.prototype.removeAll = function (destroy) {
+            if (typeof destroy === "undefined") { destroy = true; }
             for (var key in this._components) {
-                this.removeComponent(this._components[key]);
+                this.removeComponent(this._components[key], destroy);
             }
         };
 
@@ -1174,6 +1176,7 @@ var Kiwi;
             this.state = state;
             this.game = state.game;
             this.id = this.game.rnd.uuid();
+            this.state.addToTrackingList(this);
             this._clock = this.game.time.clock;
 
             this._exists = true;
@@ -1375,8 +1378,16 @@ var Kiwi;
             this._exists = false;
             this._active = false;
             this._willRender = false;
+            delete this._parent;
+            delete this.transform;
+            delete this._clock;
+            delete this.state;
+            delete this.game;
+            delete this.atlas;
 
-            this.components.removeAll();
+            if (this.components)
+                this.components.removeAll(true);
+            delete this.components;
         };
         return Entity;
     })();
@@ -1487,6 +1498,7 @@ var Kiwi;
                 this.state = state;
                 this.game = this.state.game;
                 this.id = this.game.rnd.uuid();
+                this.state.addToTrackingList(this);
             }
 
             this.name = name;
@@ -1607,6 +1619,26 @@ var Kiwi;
 
         Group.prototype.contains = function (child) {
             return (this.members.indexOf(child) === -1) ? false : true;
+        };
+
+        Group.prototype.containsDescendant = function (child) {
+            for (var i = 0; i < this.members.length; i++) {
+                console.log(i);
+                var curMember = this.members[i];
+                if (curMember.id == child.id || curMember.childType() == Kiwi.Group && curMember.containsDesendant(child)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        Group.prototype.containsAncestor = function (descendant, ancestor) {
+            if (descendant.parent === null || descendant.parent === undefined) {
+                return false;
+            }
+            if (descendant.parent == ancestor)
+                return true;
+            return descendant.parent.containsAncestor(descendant.parent, ancestor);
         };
 
         Group.prototype.addChild = function (child) {
@@ -1979,13 +2011,22 @@ var Kiwi;
             configurable: true
         });
 
-        Group.prototype.destroy = function () {
-            this.removeChildren();
+        Group.prototype.destroy = function (destroyChildren) {
+            if (typeof destroyChildren === "undefined") { destroyChildren = true; }
+            if (destroyChildren == true) {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i].destroy();
+                }
+            } else {
+                this.removeChildren();
+            }
+
             this._exists = false;
             this._active = false;
             this._willRender = false;
             this.transform = null;
-            this.components.removeAll();
+            if (this.components)
+                this.components.removeAll();
             this.components = null;
             this.name = '';
             this.members.length = 0;
@@ -2011,6 +2052,7 @@ var Kiwi;
             this.config = new Kiwi.StateConfig(this, name);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
             this.transform.parent = null;
+            this._trackingList = [];
         }
         State.prototype.objType = function () {
             return "State";
@@ -2112,8 +2154,46 @@ var Kiwi;
             this.game.loader.addAudio(key, url, storeAsGlobal);
         };
 
-        State.prototype.destroy = function () {
-            _super.prototype.destroy.call(this);
+        State.prototype.addToTrackingList = function (child) {
+            if (this._trackingList.indexOf(child) !== -1)
+                return;
+
+            this._trackingList.push(child);
+        };
+
+        State.prototype.destroyUnused = function () {
+            var d = 0;
+            for (var i = 0; i < this._trackingList.length; i++) {
+                if (this.containsAncestor(this._trackingList[i], this) === false) {
+                    this._trackingList[i].destroy();
+                    this._trackingList.splice(i, 1);
+                    i--;
+                    d++;
+                }
+            }
+
+            return d;
+        };
+
+        State.prototype.destroy = function (deleteAll) {
+            if (typeof deleteAll === "undefined") { deleteAll = true; }
+            for (var i = 0; i < this._trackingList.length; i++) {
+                this._trackingList[i].destroy();
+            }
+            this._trackingList = [];
+
+            for (var i = 0; i < this.members.length; i++) {
+                this._destroyChildren(this.members[i]);
+            }
+        };
+
+        State.prototype._destroyChildren = function (child) {
+            if (child.childType() == Kiwi.GROUP) {
+                for (var i = 0; i < child.members.length; i++) {
+                    this._destroyChildren(child.members[i]);
+                }
+            }
+            child.destroy();
         };
         return State;
     })(Kiwi.Group);
@@ -3736,6 +3816,11 @@ var Kiwi;
 
                 return new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
             };
+
+            Box.prototype.destroy = function () {
+                _super.prototype.destroy.call(this);
+                delete this.entity;
+            };
             return Box;
         })(Kiwi.Component);
         Components.Box = Box;
@@ -4130,18 +4215,30 @@ var Kiwi;
                 _super.prototype.destroy.call(this);
 
                 this.enabled = false;
-                this._box = null;
-                this._isDown = null;
-                this._isUp = null;
-                this._isDragging = null;
-                this._dragEnabled = null;
-                this._onDown = null;
-                this._onDragStarted = null;
-                this._onUp = null;
-                this._onLeft = null;
-                this._onEntered = null;
-                this._onDragStopped = null;
-                this._dragDistance = null;
+                delete this._box;
+                delete this._isDown;
+                delete this._isUp;
+                delete this._isDragging;
+                delete this._dragEnabled;
+                if (this._onDown)
+                    this._onDown.dispose();
+                delete this._onDown;
+                if (this._onDragStarted)
+                    this._onDragStarted.dispose();
+                delete this._onDragStarted;
+                if (this._onUp)
+                    this._onUp.dispose();
+                delete this._onUp;
+                if (this._onLeft)
+                    this._onLeft.dispose();
+                delete this._onLeft;
+                if (this._onEntered)
+                    this._onEntered.dispose();
+                delete this._onEntered;
+                if (this._onDragStopped)
+                    this._onDragStopped.dispose();
+                delete this._onDragStopped;
+                delete this._dragDistance;
             };
             return Input;
         })(Kiwi.Component);
@@ -4219,6 +4316,16 @@ var Kiwi;
                     return;
 
                 this._audio[name].resume();
+            };
+
+            Sound.prototype.destroy = function () {
+                _super.prototype.destroy.call(this);
+                for (var key in this._audio) {
+                    this._audio[key].stop();
+                    this._audio[key].destroy();
+                    delete this._audio[key];
+                }
+                delete this._audio;
             };
             return Sound;
         })(Kiwi.Component);
@@ -4564,6 +4671,15 @@ var Kiwi;
                 this.wasTouching = this.touching;
                 this.touching = ArcadePhysics.NONE;
             };
+
+            ArcadePhysics.prototype.destroy = function () {
+                _super.prototype.destroy.call(this);
+
+                delete this.transform;
+                delete this._parent;
+                delete this._callbackContext;
+                delete this._callbackFunction;
+            };
             ArcadePhysics.LEFT = 0x0001;
 
             ArcadePhysics.RIGHT = 0x0010;
@@ -4762,16 +4878,24 @@ var Kiwi;
 
             Anim.prototype.destroy = function () {
                 this._isPlaying = false;
-                this._clock = null;
-                this._sequence = null;
-                this.onLoop = null;
-                this.onStop = null;
-                this.onPlay = null;
-                this.onUpdate = null;
-                this.frameIndex = null;
-                this.loop = null;
-                this._reverse = null;
-                this._tick = null;
+                delete this._clock;
+                delete this._sequence;
+                if (this.onLoop)
+                    this.onLoop.dispose();
+                if (this.onStop)
+                    this.onStop.dispose();
+                if (this.onPlay)
+                    this.onPlay.dispose();
+                if (this.onUpdate)
+                    this.onUpdate.dispose();
+                delete this.onLoop;
+                delete this.onStop;
+                delete this.onPlay;
+                delete this.onUpdate;
+                delete this.frameIndex;
+                delete this.loop;
+                delete this._reverse;
+                delete this._tick;
             };
             return Anim;
         })();
@@ -6105,10 +6229,11 @@ var Kiwi;
 
                 for (var key in this._animations) {
                     this._animations[key].destroy();
+                    delete this._animations[key];
                 }
-                this._animations = null;
-                this.currentAnimation = null;
-                this._atlas = null;
+                delete this._animations;
+                delete this.currentAnimation;
+                delete this._atlas;
             };
             return Animation;
         })(Kiwi.Component);
@@ -10284,18 +10409,18 @@ var Kiwi;
             };
 
             Audio.prototype.destroy = function () {
-                this._sound = null;
-                this._currentTime = null;
-                this._startTime = null;
-                this._stopTime = null;
-                this._pending = null;
-                this.masterGainNode = null;
-                this.gainNode = null;
-                this.totalDuration = null;
-                this.duration = null;
-                this._file = null;
-                this._buffer = null;
-                this._decoded = null;
+                delete this._sound;
+                delete this._currentTime;
+                delete this._startTime;
+                delete this._stopTime;
+                delete this._pending;
+                delete this.masterGainNode;
+                delete this.gainNode;
+                delete this.totalDuration;
+                delete this.duration;
+                delete this._file;
+                delete this._buffer;
+                delete this._decoded;
             };
             return Audio;
         })();

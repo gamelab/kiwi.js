@@ -342,16 +342,20 @@ module Kiwi.Animation {
         */
         public destroy() {
             this._isPlaying = false;
-            this._clock = null;
-            this._sequence = null;
-            this.onLoop = null;
-            this.onStop = null;
-            this.onPlay = null;
-            this.onUpdate = null;
-            this.frameIndex = null;
-            this.loop = null;
-            this._reverse = null;
-            this._tick = null;
+            delete this._clock;
+            delete this._sequence;
+            if(this.onLoop) this.onLoop.dispose();
+            if(this.onStop) this.onStop.dispose();
+            if(this.onPlay) this.onPlay.dispose();
+            if(this.onUpdate) this.onUpdate.dispose();
+            delete this.onLoop;
+            delete this.onStop ;
+            delete this.onPlay ;
+            delete this.onUpdate ;
+            delete this.frameIndex ;
+            delete this.loop;
+            delete this._reverse;
+            delete this._tick;
         }
         
     }

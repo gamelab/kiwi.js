@@ -591,18 +591,18 @@ module Kiwi.Sound {
         * @method destroy
         */
         public destroy() {
-            this._sound = null;
-            this._currentTime = null;
-            this._startTime = null;
-            this._stopTime = null;
-            this._pending = null;
-            this.masterGainNode = null;
-            this.gainNode = null;
-            this.totalDuration = null;
-            this.duration = null;
-            this._file = null;
-            this._buffer = null;
-            this._decoded = null;
+            delete this._sound;
+            delete this._currentTime;
+            delete this._startTime;
+            delete this._stopTime;
+            delete this._pending;
+            delete this.masterGainNode;
+            delete this.gainNode;
+            delete this.totalDuration;
+            delete this.duration;
+            delete this._file;
+            delete this._buffer;
+            delete this._decoded;
         }
 
     }
