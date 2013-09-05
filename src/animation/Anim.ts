@@ -336,5 +336,23 @@ module Kiwi.Animation {
             return this._sequence.cells.length;
         }
 
+        /*
+        * Destroys the anim.
+        * @method destroy
+        */
+        public destroy() {
+            this._isPlaying = false;
+            this._clock = null;
+            this._sequence = null;
+            this.onLoop = null;
+            this.onStop = null;
+            this.onPlay = null;
+            this.onUpdate = null;
+            this.frameIndex = null;
+            this.loop = null;
+            this._reverse = null;
+            this._tick = null;
+        }
+        
     }
 }

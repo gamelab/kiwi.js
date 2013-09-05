@@ -333,6 +333,22 @@ module Kiwi.Components {
 
         }
 
+        /*
+        * Destroys all of the stuff
+        * @method destroy
+        */
+        public destroy() {
+            this._isPlaying = false;
+            super.destroy();
+
+            for (var key in this._animations) {
+                this._animations[key].destroy();
+            }
+            this._animations = null;
+            this.currentAnimation = null;
+            this._atlas = null;
+        }
+
     }
 
 }

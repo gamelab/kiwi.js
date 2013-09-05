@@ -88,7 +88,24 @@ module Kiwi {
         * @property parent
         * @type Kiwi.IChild
         */
-        public parent: Kiwi.Group = null;
+        private _parent: Kiwi.Group = null;
+        
+        /*
+        * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
+        * @type Kiwi.Group
+        */
+        public set parent(val: Kiwi.Group) {
+            this.transform.parent = (val !== null) ? val.transform : null;
+            this._parent = val;
+        }      
+
+        /*
+        * Returns the group that this entity belongs to.
+        * @type Kiwi.Group
+        */
+        public get parent(): Kiwi.Group {
+            return this._parent;
+        }
 
         /*
         * Get the X coordinate of this group. This is just aliased to the transform property.
@@ -271,7 +288,6 @@ module Kiwi {
             //check to see if the child is already part of a group.
             this.members.push(child);
             child.parent = this;
-            child.transform.parent = this.transform;
             
             return child;
         }
@@ -291,7 +307,6 @@ module Kiwi {
 
             this.members.splice(index, 0, child);
             child.parent = this;
-            child.transform.parent = this.transform;
 
             return child;
         }
@@ -412,7 +427,6 @@ module Kiwi {
 
                 if (index > -1) {
                     this.members.splice(index, 1);
-                    child.transform.parent = null;
                     child.parent = null;
                 }
 
@@ -454,7 +468,6 @@ module Kiwi {
 
             for (var i = 0; i < removed.length; i++) {
                 removed[i].parent = null;
-                removed[i].transform.parent = null;
             }
 
             return removed.length;
@@ -559,7 +572,6 @@ module Kiwi {
                 
                 this.addChildAt(newChild, index); 
                 newChild.parent = null;
-                newChild.transform.parent = null; 
                 
                 return true;
             }
@@ -707,8 +719,13 @@ module Kiwi {
             return this._active;
         }
         
-        //DO NOTHING!!
-        public render(camera) {
+        /*
+        * The render method that is required by the IChild. 
+        * This method never gets called as the render is only worried about rendering entities.
+        * @method render
+        * @param {Kiwi.Camera}
+        */
+        public render(camera:Kiwi.Camera) {
 
         }
 
@@ -864,14 +881,15 @@ module Kiwi {
 		**/
         public destroy() {
 
-            this.removeChildren();
-
+            this.removeChildren(); 
             this._exists = false;
             this._active = false
             this._willRender = false;
-
-            this.members.length = 0;
-
+            this.transform = null;
+            this.components.removeAll();
+            this.components = null;
+            this.name = ''; 
+            this.members.length = 0;  
         }
 
     }

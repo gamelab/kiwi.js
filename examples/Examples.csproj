@@ -71,6 +71,10 @@
     <Content Include="sprites\Dragging.ts" />
     <Content Include="sprites\MultiSprite.js" />
     <Content Include="sprites\Sprite1.js" />
+    <TypeScriptCompile Include="Tests\AddingChildren.ts" />
+    <Content Include="Tests\AddingChildren.js">
+      <DependentUpon>AddingChildren.ts</DependentUpon>
+    </Content>
     <Content Include="TouchEvents\Dragging.js">
       <DependentUpon>Dragging.ts</DependentUpon>
     </Content>

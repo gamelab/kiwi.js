@@ -56,7 +56,24 @@ module Kiwi {
         * @property parent
         * @type Kiwi.Group
         */
-        public parent: Kiwi.Group = null;
+        private _parent: Kiwi.Group = null;
+
+        /*
+        * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
+        * @type Kiwi.Group
+        */
+        public set parent(val: Kiwi.Group) {
+            this.transform.parent = (val !== null) ? val.transform : null ;
+            this._parent = val;
+        }
+
+        /*
+        * Returns the group that this entity belongs to.
+        * @type Kiwi.Group
+        */
+        public get parent(): Kiwi.Group {
+            return this._parent;
+        }
 
         /*
         * Get the X coordinate of this Entity. This is just aliased to the transform property.
@@ -439,8 +456,8 @@ module Kiwi {
             this._exists = false;
             this._active = false;
             this._willRender = false;
-
-            //DELETE THE REST OF THE STUFF
+            
+            this.components.removeAll();
 
         }
 

@@ -605,6 +605,30 @@ module Kiwi.Components {
 
         }
 
+        /*
+        * Destroys the input.
+        * @method destory
+        */
+        public destroy() {
+            
+            super.destroy();
+            
+            this.enabled = false;
+            this._box = null;
+            this._isDown = null;
+            this._isUp = null;
+            this._isDragging = null;
+            this._dragEnabled = null;
+            this._onDown = null;
+            this._onDragStarted = null;
+            this._onUp = null;
+            this._onLeft = null;
+            this._onEntered = null;
+            this._onDragStopped = null;
+            this._dragDistance = null;
+
+        }
+
     }
 
 }

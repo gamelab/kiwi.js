@@ -18,7 +18,7 @@ module Kiwi.GameObjects.Tilemap {
             super(state,0,0);
 
             this._game = game;
-            this._parent = parent;
+            this.tileParent = parent;
 
             this.name = name;
             this.tileWidth = tileWidth;
@@ -32,16 +32,13 @@ module Kiwi.GameObjects.Tilemap {
             
         }
 
+        public tileParent: Kiwi.GameObjects.Tilemap.TileMap;
+
         /*
         * The game
         */
         private _game: Game;
 
-        /*
-        * The parent tileMap of this layer.
-        */
-        private _parent: Kiwi.GameObjects.Tilemap.TileMap;
-        
         /*
         * Holds all of the components for the layer
         */
@@ -173,7 +170,7 @@ module Kiwi.GameObjects.Tilemap {
             this.getTempBlock(x, y, width, height); 
 
             for (var r = 0; r < this._tempTileBlock.length; r++) {
-                this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[index]);
+                this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[index]);
             }
 
         }
@@ -193,7 +190,7 @@ module Kiwi.GameObjects.Tilemap {
             this.getTempBlock(x, y, width, height);
 
             for (var r = 0; r < this._tempTileBlock.length; r++) {
-                this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[this._game.rnd.pick(tiles)]);
+                this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[this._game.rnd.pick(tiles)]);
             }
         } 
 
@@ -215,10 +212,10 @@ module Kiwi.GameObjects.Tilemap {
             for (var r = 0; r < this._tempTileBlock.length; r++) {
 
                 if (this._tempTileBlock[r].tileType.index === indexA) {
-                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
+                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[indexB]);
 
                 } else if (this._tempTileBlock[r].tileType.index === indexB) {
-                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexA]);
+                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[indexA]);
                 }
 
             }
@@ -242,7 +239,7 @@ module Kiwi.GameObjects.Tilemap {
             for (var r = 0; r < this._tempTileBlock.length; r++) {
 
                 if (this._tempTileBlock[r].tileType.index === indexA) {
-                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
+                    this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[indexB]);
                 }
 
             }
@@ -431,7 +428,7 @@ module Kiwi.GameObjects.Tilemap {
 
             var i = 0;
 
-            if (this._parent.mapFormat == TileMap.FORMAT_TILED_JSON) {
+            if (this.tileParent.mapFormat == TileMap.FORMAT_TILED_JSON) {
                 //  For some reason Tiled counts from 1 not 0 - perhaps 0 means no tile but exists?
                 this._tileOffsets[0] = null;
                 i = 1;

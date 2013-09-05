@@ -1102,6 +1102,12 @@ var Kiwi;
             return false;
         };
 
+        ComponentManager.prototype.removeAll = function () {
+            for (var key in this._components) {
+                this.removeComponent(this._components[key]);
+            }
+        };
+
         ComponentManager.prototype.preUpdate = function () {
             for (var name in this._components) {
                 if (this._components[name].active) {
@@ -1157,7 +1163,7 @@ var Kiwi;
 (function (Kiwi) {
     var Entity = (function () {
         function Entity(state, x, y) {
-            this.parent = null;
+            this._parent = null;
             this._alpha = 1;
             this._visible = true;
             this.width = 0;
@@ -1178,6 +1184,19 @@ var Kiwi;
             this.transform.x = x;
             this.transform.y = y;
         }
+
+        Object.defineProperty(Entity.prototype, "parent", {
+            get: function () {
+                return this._parent;
+            },
+            set: function (val) {
+                this.transform.parent = (val !== null) ? val.transform : null;
+                this._parent = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(Entity.prototype, "x", {
             get: function () {
                 return this.transform.x;
@@ -1356,6 +1375,8 @@ var Kiwi;
             this._exists = false;
             this._active = false;
             this._willRender = false;
+
+            this.components.removeAll();
         };
         return Entity;
     })();
@@ -1458,7 +1479,7 @@ var Kiwi;
         function Group(state, name) {
             if (typeof name === "undefined") { name = ''; }
             this.name = '';
-            this.parent = null;
+            this._parent = null;
             this.game = null;
             this.state = null;
             this._dirty = true;
@@ -1488,6 +1509,19 @@ var Kiwi;
         Group.prototype.childType = function () {
             return Kiwi.GROUP;
         };
+
+
+        Object.defineProperty(Group.prototype, "parent", {
+            get: function () {
+                return this._parent;
+            },
+            set: function (val) {
+                this.transform.parent = (val !== null) ? val.transform : null;
+                this._parent = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
 
         Object.defineProperty(Group.prototype, "x", {
             get: function () {
@@ -1584,7 +1618,6 @@ var Kiwi;
 
             this.members.push(child);
             child.parent = this;
-            child.transform.parent = this.transform;
 
             return child;
         };
@@ -1598,7 +1631,6 @@ var Kiwi;
 
             this.members.splice(index, 0, child);
             child.parent = this;
-            child.transform.parent = this.transform;
 
             return child;
         };
@@ -1661,7 +1693,6 @@ var Kiwi;
 
                 if (index > -1) {
                     this.members.splice(index, 1);
-                    child.transform.parent = null;
                     child.parent = null;
                 }
             }
@@ -1688,7 +1719,6 @@ var Kiwi;
 
             for (var i = 0; i < removed.length; i++) {
                 removed[i].parent = null;
-                removed[i].transform.parent = null;
             }
 
             return removed.length;
@@ -1756,7 +1786,6 @@ var Kiwi;
 
                 this.addChildAt(newChild, index);
                 newChild.parent = null;
-                newChild.transform.parent = null;
 
                 return true;
             }
@@ -1952,11 +1981,13 @@ var Kiwi;
 
         Group.prototype.destroy = function () {
             this.removeChildren();
-
             this._exists = false;
             this._active = false;
             this._willRender = false;
-
+            this.transform = null;
+            this.components.removeAll();
+            this.components = null;
+            this.name = '';
             this.members.length = 0;
         };
         return Group;
@@ -4094,6 +4125,24 @@ var Kiwi;
             Input.prototype.toString = function () {
                 return '[{Input (x=' + this.withinBounds + ')}]';
             };
+
+            Input.prototype.destroy = function () {
+                _super.prototype.destroy.call(this);
+
+                this.enabled = false;
+                this._box = null;
+                this._isDown = null;
+                this._isUp = null;
+                this._isDragging = null;
+                this._dragEnabled = null;
+                this._onDown = null;
+                this._onDragStarted = null;
+                this._onUp = null;
+                this._onLeft = null;
+                this._onEntered = null;
+                this._onDragStopped = null;
+                this._dragDistance = null;
+            };
             return Input;
         })(Kiwi.Component);
         Components.Input = Input;
@@ -4710,6 +4759,20 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+
+            Anim.prototype.destroy = function () {
+                this._isPlaying = false;
+                this._clock = null;
+                this._sequence = null;
+                this.onLoop = null;
+                this.onStop = null;
+                this.onPlay = null;
+                this.onUpdate = null;
+                this.frameIndex = null;
+                this.loop = null;
+                this._reverse = null;
+                this._tick = null;
+            };
             return Anim;
         })();
         Animation.Anim = Anim;
@@ -6035,6 +6098,18 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+
+            Animation.prototype.destroy = function () {
+                this._isPlaying = false;
+                _super.prototype.destroy.call(this);
+
+                for (var key in this._animations) {
+                    this._animations[key].destroy();
+                }
+                this._animations = null;
+                this.currentAnimation = null;
+                this._atlas = null;
+            };
             return Animation;
         })(Kiwi.Component);
         Components.Animation = Animation;
@@ -6651,7 +6726,7 @@ var Kiwi;
                     this.tileSpacing = 0;
 
                     this._game = game;
-                    this._parent = parent;
+                    this.tileParent = parent;
 
                     this.name = name;
                     this.tileWidth = tileWidth;
@@ -6682,7 +6757,7 @@ var Kiwi;
                     this.getTempBlock(x, y, width, height);
 
                     for (var r = 0; r < this._tempTileBlock.length; r++) {
-                        this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[index]);
+                        this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[index]);
                     }
                 };
 
@@ -6694,7 +6769,7 @@ var Kiwi;
                     this.getTempBlock(x, y, width, height);
 
                     for (var r = 0; r < this._tempTileBlock.length; r++) {
-                        this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[this._game.rnd.pick(tiles)]);
+                        this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[this._game.rnd.pick(tiles)]);
                     }
                 };
 
@@ -6707,9 +6782,9 @@ var Kiwi;
 
                     for (var r = 0; r < this._tempTileBlock.length; r++) {
                         if (this._tempTileBlock[r].tileType.index === indexA) {
-                            this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
+                            this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[indexB]);
                         } else if (this._tempTileBlock[r].tileType.index === indexB) {
-                            this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexA]);
+                            this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[indexA]);
                         }
                     }
                 };
@@ -6723,7 +6798,7 @@ var Kiwi;
 
                     for (var r = 0; r < this._tempTileBlock.length; r++) {
                         if (this._tempTileBlock[r].tileType.index === indexA) {
-                            this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this._parent.tiles[indexB]);
+                            this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[indexB]);
                         }
                     }
                 };
@@ -6839,7 +6914,7 @@ var Kiwi;
 
                     var i = 0;
 
-                    if (this._parent.mapFormat == Tilemap.TileMap.FORMAT_TILED_JSON) {
+                    if (this.tileParent.mapFormat == Tilemap.TileMap.FORMAT_TILED_JSON) {
                         this._tileOffsets[0] = null;
                         i = 1;
                     }

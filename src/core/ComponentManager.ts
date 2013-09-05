@@ -182,6 +182,16 @@ module Kiwi {
             return false; 
         }
 
+        /*
+        * Removes all of the components from the component manager. 
+        * @method removeAll
+        */
+        public removeAll() {
+            for (var key in this._components) {
+                this.removeComponent(this._components[key]);
+            }
+        }
+
         /**
 		* Calls preUpdate on all active Components
         * @method preUpdate
