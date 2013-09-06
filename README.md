@@ -54,6 +54,18 @@ Within the next few weeks
 Within the next few months
 
 * Plugins and products
+* Much optimisation
+
+###Build
+
+Kiwi.js is currently using Typescript 9.0.1
+Either - use Visual Studio/TS extension. There are csproj files for both the main project and also the examples.
+Or - use the grunt file. This requires installing node.js, and the grunt CLI package. 
+
+The csproj and grunt compilation methods both output a single kiwi.js file in /build
+Grunt will also create a min.js version and also output a kiwi.d.ts definition file in /build as well
+Shortly there will be further grunt options for dev builds and for compiling the documentation using YUIDoc
+
 
 ###Contribution
 

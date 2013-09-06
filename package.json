@@ -1,0 +1,29 @@
+{
+    "name": "Kiwi.js",
+    "version": "0.4.9",
+    "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
+    "author": "GameLab",
+    "logo": "xx",
+
+    "homepage": "http://kwiwjs.org/",
+    "bugs": "xx",
+    "license": "xx",
+    "licenseUrl": "xx",
+
+    "repository": {
+        "type": "git",
+        "url": "xx"
+    },
+
+    "main": "kiwi.js",
+
+    "dependencies": {},
+    "devDependencies": {
+        "grunt": "~0.4.x",
+        "grunt-contrib-uglify": "0.2.x",
+        "typescript": "0.9.0-1",
+        "grunt-ts" : "latest",
+        "grunt-contrib-yuidoc": "0.4.x"
+      
+    }
+}
