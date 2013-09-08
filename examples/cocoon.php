@@ -14,8 +14,8 @@ if(isset($_GET['f'])) {
 
 <?php  if(file_exists($filepath)) { ?>
 
-    <script src="assets/js/ECMA262-5.js"></script>
-    <script src="assets/js/gl-matrix-min.js"></script>
+    <script src="assets/webpage/js/ECMA262-5.js"></script>
+    <script src="assets/webpage/js/gl-matrix-min.js"></script>
     <script src="kiwi.js"></script>
     <script src="<?php echo $filepath?>"></script>
 

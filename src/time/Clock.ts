@@ -307,9 +307,13 @@ module Kiwi.Time {
         * @param {Number} repeatCount. The number of times to repeat this Timer (default 0)
         * @return {Kiwi.Time.Timer} The newly created Timer.
         **/
-        public createTimer(name: string, delay: number = 1, repeatCount: number = 0): Timer {
+        public createTimer(name: string, delay: number = 1, repeatCount: number = 0, start:bool=true): Timer {
 
             this.timers.push(new Timer(name, this, delay, repeatCount));
+
+            if (start === true) {
+                this.timers[this.timers.length - 1].start();
+            }
 
             return this.timers[this.timers.length - 1];
 

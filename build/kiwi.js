@@ -4017,6 +4017,9 @@ var Kiwi;
                 get: function () {
                     return this._dragDistance;
                 },
+                set: function (val) {
+                    this._dragDistance = val;
+                },
                 enumerable: true,
                 configurable: true
             });
@@ -4055,12 +4058,12 @@ var Kiwi;
                 }
 
                 if (this.isDragging) {
-                    this.owner.transform.x = this._isDragging.x;
-                    this.owner.transform.y = this._isDragging.y;
-
                     if (this._dragSnapToCenter === false) {
-                        this.owner.transform.x -= this._distance.x;
-                        this.owner.transform.y -= this._distance.y;
+                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
+                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
+                    } else {
+                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitbox.width / 2), this._dragDistance);
+                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitbox.height / 2), this._dragDistance);
                     }
                 }
             };
@@ -4129,10 +4132,7 @@ var Kiwi;
                         if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
                             this._distance.x = pointer.x - this._box.hitbox.left;
                             this._distance.y = pointer.y - this._box.hitbox.top;
-
-                            if (this._isDown.startPoint.distanceTo(this._distance) >= this._dragDistance) {
-                                this._nowDragging = pointer;
-                            }
+                            this._nowDragging = pointer;
                         }
                     } else {
                         if (this.isDown === true) {
@@ -4212,7 +4212,7 @@ var Kiwi;
                     }
 
                     if (this._dragEnabled === true && this.isDragging == false && this._tempDragDisabled === false) {
-                        if (this.isDown == true && this._isDown.startPoint.distanceTo(this._distance) >= this._dragDistance) {
+                        if (this.isDown == true) {
                             this._nowDragging = pointer;
                         }
                     }
@@ -10964,6 +10964,7 @@ var Kiwi;
 
                 this.mouseDown = new Kiwi.Signal();
                 this.mouseUp = new Kiwi.Signal();
+                this.mouseWheel = new Kiwi.Signal();
 
                 this.start();
             };
@@ -11126,6 +11127,7 @@ var Kiwi;
 
             Mouse.prototype.onMouseWheel = function (event) {
                 this._cursor.wheel(event);
+                this.mouseWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
             };
 
             Mouse.prototype.justPressed = function (duration) {
@@ -12892,14 +12894,14 @@ var Kiwi;
             };
 
             Timer.prototype.update = function () {
-                if (this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false) {
+                if (this._isRunning && this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false) {
                     this._currentCount++;
 
                     this.processEvents(Time.TimerEvent.TIMER_COUNT);
 
                     this._timeLastCount = this._clock.elapsed() || 0;
 
-                    if (this._currentCount >= this.repeatCount) {
+                    if (this.repeatCount !== -1 && this._currentCount >= this.repeatCount) {
                         this.stop();
                     }
                 }
@@ -13155,10 +13157,15 @@ var Kiwi;
                 return this;
             };
 
-            Clock.prototype.createTimer = function (name, delay, repeatCount) {
+            Clock.prototype.createTimer = function (name, delay, repeatCount, start) {
                 if (typeof delay === "undefined") { delay = 1; }
                 if (typeof repeatCount === "undefined") { repeatCount = 0; }
+                if (typeof start === "undefined") { start = true; }
                 this.timers.push(new Time.Timer(name, this, delay, repeatCount));
+
+                if (start === true) {
+                    this.timers[this.timers.length - 1].start();
+                }
 
                 return this.timers[this.timers.length - 1];
             };
