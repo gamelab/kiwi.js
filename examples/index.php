@@ -28,17 +28,17 @@ if(isset($_POST['t'])) {
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0" />
-	<title>Kiwi Test Suite</title>
-    <link rel="stylesheet" href="assets/css/examples.css" type="text/css" />
-	<script type="text/javascript" src="assets/js/jquery-1.9.1.js"></script>
+	<title>Kiwi Example Suite</title>
+    <link rel="stylesheet" href="assets/webpage/css/examples.css" type="text/css" />
+	<script type="text/javascript" src="assets/webpage/js/jquery-1.9.1.js"></script>
 </head>
 <body>
 
 <div class="container">
 	<div id="header">
 
-		<a href="index.php"><img src="/examples/webpage_assets/kiwi_logo.png" alt="Kiwi.js Logo" /></a>
-		<h1>Kiwi.js Test Suite</h1>
+		<a href="index.php"><img src="/examples/assets/webpage/kiwi_logo.png" alt="Kiwi.js Logo" /></a>
+		<h1>Kiwi.js Example Suite</h1>
 
 	</div>
 

@@ -73,42 +73,42 @@ module Kiwi.Components {
         * @property _onEntered
         * @type Kiwi.Signal
         */
-        public _onEntered: Kiwi.Signal;
+        private _onEntered: Kiwi.Signal;
         
         /*
         * Kiwi Signal for firing callbacks when a pointer is active and has left the entities hit box.
         * @property _onLeft
         * @type Kiwi.Signal
         */
-        public _onLeft: Kiwi.Signal;
+        private _onLeft: Kiwi.Signal;
         
         /*
         * Kiwi Signal for firing callbacks when a pointer is active and has pressed down on the entity.
         * @property _onDown
         * @type Kiwi.Signal
         */
-        public _onDown: Kiwi.Signal;
+        private _onDown: Kiwi.Signal;
         
         /*
         * Kiwi Signal for firing callbacks when a pointer just released from either being above the entity or the pointer was initally pressed on it.
         * @property _onUp
         * @type Kiwi.Signal
         */
-        public _onUp: Kiwi.Signal;
+        private _onUp: Kiwi.Signal;
         
         /*
         * Kiwi Signal for firing callbacks a entity starts being dragged.
         * @property _onDragStarted
         * @type Kiwi.Signal
         */
-        public _onDragStarted: Kiwi.Signal;
-         
+        private _onDragStarted: Kiwi.Signal;
+        
         /*
         * Kiwi Signal for firing callbacks a entity stops being dragged. Like on release.
         * @property _onDragStopped
         * @type Kiwi.Signal
         */
-        public _onDragStopped: Kiwi.Signal;
+        private _onDragStopped: Kiwi.Signal;
         
         /*
         * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
@@ -183,7 +183,7 @@ module Kiwi.Components {
         * @property _enabled
         * @type bool
         */
-        public _enabled: bool;
+        private _enabled: bool;
 
         /*
         * Get if the input is enabled or not.
@@ -281,6 +281,7 @@ module Kiwi.Components {
 
         public get isDragging(): bool { return (this._isDragging !== null); }
         public get dragDistance(): number { return this._dragDistance; }
+        public set dragDistance(val: number) { this._dragDistance = val; }
         
         /*
         * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
@@ -318,7 +319,7 @@ module Kiwi.Components {
         private _nowDragging: Kiwi.Input.Pointer = null;
 
         /*
-        * Enables the dragging of this entity.
+        * Enables the dragging of this entity. 
         * @method enableDrag
         * @param {bool} snapToCenter
         * @param {number} distance
@@ -367,13 +368,13 @@ module Kiwi.Components {
             }
             
             //If the entity is dragging.
-            if (this.isDragging) {
-                this.owner.transform.x = this._isDragging.x;
-                this.owner.transform.y = this._isDragging.y;
-                
+            if (this.isDragging) { 
                 if (this._dragSnapToCenter === false) {
-                    this.owner.transform.x -= this._distance.x;
-                    this.owner.transform.y -= this._distance.y;
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
+                } else {
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitbox.width / 2), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitbox.height / 2), this._dragDistance);
                 }
             }
         }
@@ -465,10 +466,7 @@ module Kiwi.Components {
                     if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
                         this._distance.x = pointer.x - this._box.hitbox.left;
                         this._distance.y = pointer.y - this._box.hitbox.top;
-
-                        if(this._isDown.startPoint.distanceTo(this._distance) >= this._dragDistance) {
-                            this._nowDragging = pointer;
-                        }
+                        this._nowDragging = pointer; 
                     }
                 } else {
                     if (this.isDown === true) {
@@ -574,8 +572,8 @@ module Kiwi.Components {
                 } 
 
                 if (this._dragEnabled === true && this.isDragging == false && this._tempDragDisabled === false) {
-                    
-                    if(this.isDown == true && this._isDown.startPoint.distanceTo(this._distance) >= this._dragDistance) {
+
+                    if(this.isDown == true) {
                         this._nowDragging = pointer;
 
                     }

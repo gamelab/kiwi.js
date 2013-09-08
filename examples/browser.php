@@ -16,13 +16,13 @@ if(isset($_GET['f'])) {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0" />
-    <title>Kiwi Test : <?php echo $state ?></title>
-    <link rel="stylesheet" href="assets/css/examples.css" type="text/css" />
+    <title>Kiwi Example : <?php echo $state ?></title>
+    <link rel="stylesheet" href="assets/webpage/css/examples.css" type="text/css" />
     <!-- All of the scripts -->
     <?php if(file_exists($filepath)) { ?>
-	<script src="assets/js/jquery-1.9.1.js"></script>
-    <script src="assets/js/gl-matrix-min.js"></script>
-    <script src="assets/js/ECMA262-5.js"></script>
+	<script src="assets/webpage/js/jquery-1.9.1.js"></script>
+    <script src="assets/webpage/js/gl-matrix-min.js"></script>
+    <script src="assets/webpage/js/ECMA262-5.js"></script>
     <script src="Kiwi.js"></script>
     <script src="<?php echo $filepath?>"></script>
     <?php } ?>

@@ -267,11 +267,9 @@ module Kiwi {
             }
 
             //  if state key already exists let's try swapping to it, even if the state was passed
-            if (this.checkKeyExists(key) === false && state !== null)
-            {
+            if (this.checkKeyExists(key) === false && state !== null) {
                 //  Does the state already exist?
-                if (this.addState(state, false) === false)
-                {
+                if (this.addState(state, false) === false) {
                     //  Error adding the state
                     return false;
                 }
