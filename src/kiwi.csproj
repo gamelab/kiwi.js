@@ -50,7 +50,6 @@
     <Content Include="components\Animation.ts" />
     <Content Include="components\Input.ts" />
     <Content Include="core\Component.ts" />
-    <Content Include="components\Template.ts" />
     <Content Include="core\CameraManager.ts" />
     <Content Include="core\Camera.ts" />
     <Content Include="core\Entity.ts" />
@@ -67,7 +66,6 @@
     <Content Include="geom\Circle.ts" />
     <Content Include="system\Bootstrap.ts" />
     <Content Include="system\Browser.ts" />
-    <Content Include="ECMA262-5.js" />
     <Content Include="gameobjects\StaticImage.ts" />
     <Content Include="gameobjects\Sprite.ts" />
     <Content Include="geom\AABB.ts" />
@@ -117,10 +115,8 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="time\Clock.ts" />
-    <Content Include="utils\Dictionary.ts" />
     <Content Include="plugins\gamefroot\TileMapConverter.ts" />
     <Content Include="renderers\CanvasRenderer.ts" />
-    <Content Include="utils\LinkedList.ts" />
     <Content Include="time\Manager.ts" />
     <Content Include="time\MasterClock.ts" />
     <Content Include="time\Timer.ts" />

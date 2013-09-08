@@ -133,8 +133,6 @@
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
-/// <reference path="utils/Dictionary.ts" />
-/// <reference path="utils/LinkedList.ts" />
 
 module Kiwi {
 
