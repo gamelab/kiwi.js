@@ -1,19 +1,19 @@
-/// <reference path="Point.ts" />
-
 /**
- *	Kiwi - Geom - Circle
- *
- *	@desc 		A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
- *
- *	@version 	1.2 - 27th February 2013
- *	@author 	Richard Davey
- *	@author 	Ross Kettle
- *	@url 		http://www.kiwijs.org
- *
- *  @todo       Intersections
- */
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
+
+
 
 module Kiwi.Geom {
+
+ /**
+ *	
+ * @class Circle
+ * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
+ *
+ */
 
     export class Circle {
 

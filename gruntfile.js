@@ -49,12 +49,13 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  //grunt.loadNpmTasks('grunt-contrib-yuidoc');
+  grunt.loadNpmTasks('grunt-contrib-yuidoc');
 
   
   
   
   // Default task(s).
+  //grunt.registerTask("default", ["ts:build",'uglify:build',"yuidoc"]);
   grunt.registerTask("default", ["ts:build",'uglify:build']);
   
   

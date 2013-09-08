@@ -2588,53 +2588,6 @@ declare module Kiwi.Utils {
         public SetTimeoutUpdate(): void;
     }
 }
-declare module Kiwi.Utils {
-    class Dictionary {
-        constructor(toStrFunction?: (item: any) => any);
-        public objType(): string;
-        private nElements;
-        public size(): number;
-        public isEmpty(): boolean;
-        private table;
-        private toStr;
-        public get(key);
-        public set(key, value);
-        public remove(key);
-        public keys(): any[];
-        public values(): any[];
-        public forEach(callback): void;
-        public containsKey(key): boolean;
-        public clear(): void;
-        public toString(): string;
-    }
-}
-declare module Kiwi.Utils {
-    class LinkedList {
-        public objType(): string;
-        public firstNode;
-        public lastNode;
-        private nElements;
-        public size(): number;
-        public isEmpty(): boolean;
-        private nodeAtIndex(index);
-        private createNode(item);
-        private equalsAux(n1, n2, eqF);
-        public add(item, index?: number): boolean;
-        public first();
-        public last();
-        public elementAtIndex(index);
-        public indexOf(item, equalsFunction?: (a: any, b: any) => boolean): number;
-        public contains(item, equalsFunction): boolean;
-        public remove(item, equalsFunction?: (a: any, b: any) => boolean): boolean;
-        public clear(): void;
-        public equals(other: LinkedList, equalsFunction?: (a: any, b: any) => boolean): boolean;
-        public removeElementAtIndex(index);
-        public forEach(callback): void;
-        public reverse(): void;
-        public toArray(): any[];
-        public toString(): string;
-    }
-}
 declare module Kiwi {
     var VERSION: string;
     var RENDERER_CANVAS: number;

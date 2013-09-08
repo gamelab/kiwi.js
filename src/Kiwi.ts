@@ -1,4 +1,3 @@
-///<reference path="renderers/WebGL.d.ts"/>
 
 /// <reference path="animation/tweens/easing/Back.ts" />
 /// <reference path="animation/tweens/easing/Bounce.ts" />
@@ -18,7 +17,6 @@
 /// <reference path="core/CameraManager.ts" />
 /// <reference path="core/Component.ts" />
 /// <reference path="core/ComponentManager.ts" />
-
 /// <reference path="core/Entity.ts" />
 
 /// <reference path="core/Game.ts" />
@@ -40,12 +38,10 @@
 /// <reference path="core/StateConfig.ts" />
 /// <reference path="core/StateManager.ts" />
 
-
 /// <reference path="file/Loader.ts" />
 /// <reference path="file/DataLibrary.ts" />
 /// <reference path="file/File.ts" />
 /// <reference path="file/FileStore.ts" />
-
  
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
@@ -98,8 +94,6 @@
 /// <reference path="input/MouseCursor.ts" />
 /// <reference path="input/Finger.ts" />
 
-
-
 /// <reference path="plugins/gamefroot/TileMapConverter.ts" />
 
 /// <reference path="renderers/CanvasRenderer.ts" />
@@ -108,8 +102,7 @@
 /// <reference path="renderers/GLTexture.ts" />
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />
-
-
+/// <reference path="renderers/WebGL.d.ts"/>
 
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
@@ -120,19 +113,24 @@
 /// <reference path="textures/SpriteSheet.ts" />
 /// <reference path="textures/SingleImage.ts" />
 
-
 /// <reference path="time/Clock.ts" />
 /// <reference path="time/Manager.ts" />
 /// <reference path="time/MasterClock.ts" />
 /// <reference path="time/Timer.ts" />
 /// <reference path="time/TimerEvent.ts" />
 
-
 /// <reference path="utils/Canvas.ts" />
 /// <reference path="utils/Common.ts" />
 /// <reference path="utils/GameMath.ts" />
 /// <reference path="utils/RandomDataGenerator.ts" />
 /// <reference path="utils/RequestAnimationFrame.ts" />
+
+/**
+* Module - Kiwi (Core)
+* The top level namespace in which all core classes and modules are defined.
+* @module Kiwi
+* @main Kiwi
+*/
 
 module Kiwi {
 
@@ -168,6 +166,13 @@ module Kiwi {
     export var TILE_LAYER: number = 6;
 
     
+    /**
+    * The GameManager maintains a list an array of all instances of Kiwi games within a single document.
+    *  
+    * @class GameManager
+    * 
+    */
+
     export class GameManager {
 
         public objType() {

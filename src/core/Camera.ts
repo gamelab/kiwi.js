@@ -1,11 +1,17 @@
-/// <reference path="../Kiwi.ts" />
-
-/*
- * TO BE RE IMPLEMENTED. 
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
 */
 
 module Kiwi {
-
+    /**
+    * My method description.  Like other pieces of your comment blocks, 
+    * this can span multiple lines.
+    *
+    * @class Camera
+    * 
+    */
     export class Camera {
 
         /**
@@ -39,21 +45,21 @@ module Kiwi {
         
         }
 
-        /*
+        /**
         * The width of this camara.
         * @property width
         * @type Number
         */
         public width: number;
         
-        /*
+        /**
         * The height of this camera.
         * @property height
         * @type Number
         */
         public height: number;
 
-        /*
+        /**
         * The type of Kiwi.Object this is.
         * @method objType
         * @return {String}
@@ -62,7 +68,7 @@ module Kiwi {
             return "Camera";
         }
 
-        /*
+        /**
         * if true then the camera will be resized to fit the stage when the stage is resized
         */
         public fitToStage:bool = true;
@@ -89,7 +95,7 @@ module Kiwi {
 
         }
 
-          /**
+        /**
 		* 
         * @method _updatedStageSize
         * @param {Number} width
