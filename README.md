@@ -8,6 +8,7 @@ Kiwi.js (BETA)
 
 version 0.4.9
 
+See [Kiwijs.org](http://kiwijs.org) for more information about using Kiwi.js to build games, including some getting started examples. Note: this release is a beta and is not intended as a preview only and not for building production games at this stage.
 
 ###Aim
 
@@ -70,3 +71,11 @@ Shortly there will be further grunt options for dev builds and for compiling the
 ###Contribution
 
 We'd love you to get involved in making the Kiwi.js library. If you'd like to contribute please get in touch, clone the repo and have a dig around. Full contributor guidelines will be here soon along with detailed build instructions.
+
+###Main Contributors
+
+Ben Harding
+Richard Davey
+Ross Kettle
+
+Kiwi.js also uses code from a number of open source projects. Authors are clearly identified in the code comments.
