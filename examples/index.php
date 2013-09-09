@@ -1,160 +1,104 @@
 <?php
-function dirToArray($dir) { 
+include 'functions.php';
 
-    $ignore = array('.', '..', 'Tests.csproj', 'Tests.csproj.user', 'bin', 'index.php', 'k2.css', 'obj', 'assets');
-    $result = array(); 
-    $root = scandir($dir); 
-    $dirs = array_diff($root, $ignore);
+//redirect here...
+if(isset($_POST['t'])) {
 
-    foreach ($dirs as $key => $value) 
-    { 
-        if (!in_array($value,array(".",".."))) 
-        { 
-            if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) 
-            { 
-                $result[$value] = dirToArray($dir . DIRECTORY_SEPARATOR . $value); 
-            } 
-            else 
-            {
-                if (substr($value, -3) == '.js')
-                {
-                    $result[] = $value; 
-                }
-            } 
-        } 
-    } 
+	$ignore = array('t', 'r', 'd');
+	$target = $_POST['t'];
+	$renderer = (isset($_POST['r'])) ? '&r='.$_POST['r'] : '';
+	$debug = (isset($_POST['d'])) ? '&d='.$_POST['d'] : '';
 
-    return $result; 
-} 
+	//a little hack...sad panda
+	foreach($_POST as $key => $value) {
+		if(!in_array($key, $ignore)) {	
+			$tempfile = $key . '/'. $_POST[$key].'.js';
+			if(file_exists($tempfile)) $filepath = $tempfile;
+		}
+	}
 
-$state = false;
-$kiwiType = 'TYPE_DOM';
-$canvas = false;
-$canvasLink = '';
-
-if (isset($_GET['f']))
-{
-    $js = $_GET['d'] . '/' . $_GET['f'];
-    $state = substr($_GET['f'], 0, -3);
-    $domLink = $_SERVER["SCRIPT_NAME"] . '?f=' . $_GET['f'] . '&d=' . $_GET['d'];
-    $canvasLink = $_SERVER["SCRIPT_NAME"] . '?f=' . $_GET['f'] . '&d=' . $_GET['d'] . '&c=true';
-
-    if (isset($_GET['c']))
-    {
-        $canvas = true;
-        $kiwiType = 'TYPE_CANVAS';
-    }
+	if(isset($filepath)) {
+		//Get the target...
+		header('location: '.$target.'.php?f='.$filepath.$renderer.$debug);
+	}
 }
 
-?>
-<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+?><!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0" />
-    <title>Kiwi Test Runner : <?php echo $state?></title>
-    <link rel="stylesheet" href="examples.css" type="text/css" />
-    <script type="text/javascript" src="log4javascript.js"></script>
-	<script type="text/javascript" src="jquery-1.9.1.js"></script>
-    <script type="text/javascript">
-        var klog = log4javascript.getDefaultLogger();
-    </script>
-    <script src="ECMA262-5.js"></script>
-    <script src="kiwi.js"></script>
-<?php
-    if ($state)
-    {
-?>
-    <script src="<?php echo $js?>"></script>
-<?php
-    }
-?>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0" />
+	<title>Kiwi Example Suite</title>
+    <link rel="stylesheet" href="assets/webpage/css/examples.css" type="text/css" />
+	<script type="text/javascript" src="assets/webpage/js/jquery-1.9.1.js"></script>
 </head>
 <body>
 
-<a href="index.php">home</a> || <a href="<?php echo $canvasLink?>">run as canvas</a>
+<div class="container">
+	<div id="header">
 
-    <div id="game"></div>
+		<a href="index.php"><img src="/examples/assets/webpage/kiwi_logo.png" alt="Kiwi.js Logo" /></a>
+		<h1>Kiwi.js Example Suite</h1>
 
-<?php
+	</div>
 
-    if ($state)
-    {
-?>
-<script>
-var game;
+	<form method="post" action="index.php">
 
-//  So our IE7 tests pass, normally DOMContentReady would be better!
-window.onload = start;
+	<!-- Options to choose from -->
+	<section class="options">
+		<section>
+			<div>
+				<label for="browser">Browser</label>
+				<input type="radio" name="t" id="browser" value="browser" checked />
+			</div>
+			<div>
+				<label for="cocoon">Cocoon</label>
+				<input type="radio" name="t" id="cocoon" value="cocoon" />
+			</div>
+		</section>
 
-function start() {
-    //  div to hook to, default layer type, game title, State to run
-    game = new Kiwi.Game('game', Kiwi.<?php echo $kiwiType?>, 'KiwiTests', <?php echo $state?>);
-}
-</script>
+		<section>
+			<div>
+				<label for="webgl">WebGL</label>
+				<input type="radio" name="r" id="webgl" value="1" />
+			</div>
+			<div>
+				<label for="canvas">Canvas</label>
+				<input type="radio" name="r" id="canvas" value="0" checked />
+			</div>
+		</section>
 
-<div id="buttons" style="position: absolute; top: 620px">
-    <a href="index.php" class="button">Home</a>
-<?php
-    if ($canvas)
-    {
-?>
-    <a href="<?php echo $domLink?>" class="button">Run as DOM</a>
-<?php
-    } else {
-?>
-    <a href="<?php echo $canvasLink?>" class="button">Run as Canvas</a>
-<?php
-    }
-?>
+		<section>
+			<div>
+				<label for="on"><span class="mobile-off">Debug</span> On</label>
+				<input type="radio" name="d" id="on" value="1" checked />
+			</div>
+			<div>
+				<label for="off"><span class="mobile-off">Debug</span> Off</label>
+				<input type="radio" name="d" id="off" value="0" />
+			</div>
+		</section>
+	</section>
+
+	<div class="content list">
+	<?php
+		$files = dirToArray(dirname(__FILE__)); //change to more uptodate version
+
+		foreach ($files as $key => $value) {
+	        
+	        if (is_array($value) && count($value) > 0) { //update
+	        	echo '<section class="area">';
+	            echo '<h2>'.ucfirst($key).'</h2>';
+	            echo '<div>';
+	            printJSLinks($key, $value);
+	        	echo '</div>';
+	        	echo '</section>';
+	        }
+
+	    }
+	?>
+	</div>
+	</form>
 </div>
-
-<?php
-    }
-?>
-
-<?php
-
-function printJSLinks($dir, $files) {
-
-    foreach ($files as $key => $value) {
-
-        $value2 = substr($value, 0, -3);
-        echo "<a href=\"index.php?f=$value&d=$dir\" class=\"button\">$value2</a>";
-
-    }
-
-}
-
-if ($state == false)
-{
-?>
-
-    <div id="header">
-        <a href="index.php"><img src="/examples/webpage_assets/kiwi_logo.png" /></a>
-        <h1 id="title">Test Suite</h1>
-    </div>
-
-    <div id="links">
-<?php
-    $files = dirToArray(dirname(__FILE__));
-
-    foreach ($files as $key => $value) {
-        
-        //  If $key is an array, output it as an h2 or something
-        if (is_array($value) && count($value) > 0)
-        {
-            echo "<h2>$key</h2>";
-            printJSLinks($key, $value);
-        }
-
-    }
-?>
-</div>
-<?php
-}
-?>
-
 </body>
 </html>

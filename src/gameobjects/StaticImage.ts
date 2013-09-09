@@ -1,8 +1,6 @@
 /// <reference path="../core/Game.ts" />
 /// <reference path="../core/Entity.ts" />
 /// <reference path="../core/State.ts" />
-/// <reference path="../components/Position.ts" />
-/// <reference path="../components/Texture.ts" />
 
 /*
  *	Kiwi - GameObjects - StaticImage
@@ -24,185 +22,76 @@ module Kiwi.GameObjects {
         /**
         * 
         * @constructor
-        * @param {String} cacheID
-        * @param {Kiwi.Cache} cache
+        * @param {Kiwi.State} state
+        * @param {Kiwi.Textures.TextureAtlas} atlas
         * @param {Number} x
         * @param {Number} y
         * @return {StaticImage}
         */
-        constructor(cacheID: string, cache: Kiwi.Cache, x: number = 0, y: number = 0) {
+        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
 
-            super(true, true, false);
-
-            //  Properties
-
-            this.position = this.components.add(new Kiwi.Components.Position(x, y));
-            this.texture = this.components.add(new Kiwi.Components.Texture(cacheID, cache));
-            this.size = this.components.add(new Kiwi.Components.Size(this.texture.file.data.width, this.texture.file.data.height));
-            this.bounds = this.components.add(new Kiwi.Components.Bounds(x, y, this.size.width(), this.size.height()));
-
-            //  Signals
-
-            this.onAddedToLayer.add(this._onAddedToLayer, this);
-
-            this.position.updated.add(this._updatePosition, this);
-            this.texture.updatedRepeat.add(this._updateRepeat, this);
-            this.texture.position.updated.add(this._updateTexturePosition, this);
-            this.size.updated.add(this._updateSize, this);
-
-            klog.info('Created StaticImage Game Object');
-
+            super(state,x,y);
+            
+            //Set coordinates and texture
+            this.atlas = atlas;
+            this.cellIndex = this.atlas.cellIndex;
+            this.width = atlas.cells[0].w;
+            this.height = atlas.cells[0].h;
+            this.transform.rotPointX = this.width / 2;
+            this.transform.rotPointY = this.height / 2;
+            
+            this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
+           
         }
 
-        public objType() {
-            return "StaticImage";
+        /*
+        * Returns the type of object that this is.
+        * @method objType
+        * @return {string}
+        */
+        public objType(): string {
+            return "Sprite";
         }
 
         /** 
-	     * The Position component that controls the location of this Game Object within the game world
-	     * @property position
-	     * @type Kiwi.Components.Position
-	     **/
-        public position: Kiwi.Components.Position;
-
-        /** 
-	     * The Boounds component that controls the bounding box around this Game Object
-	     * @property bounds
-	     * @type Kiwi.Components.Bounds
-	     **/
-        public bounds: Kiwi.Components.Bounds;
-
-        /** 
-	     * 
-	     * @property texture
-	     * @type Kiwi.Components.Texture
-	     **/
-        public texture: Kiwi.Components.Texture;
-
-        /** 
-	     * 
-	     * @property size
-	     * @type Kiwi.Componenets.Size
-	     **/
-        public size: Kiwi.Components.Size;
-
-        /** 
-	     * 
-	     * @property _transformCSS
-	     * @type String
-         * @private
-	     **/
-        private _transformCSS: string;
-
-         /** 
-	     * 
-	     * @method _updatePosition
-         * @param {Number} x
-         * @param {Number} y 
-	     * @param {Number} z
-	     **/
-        private _updatePosition(x: number, y: number, z: number) {
-
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.position.addStyleUpdates(this);
-            }
-
-            this.bounds.setTo(x, y, this.size.width(), this.size.height());
-
-        }
-
-        /** 
-	     * 
-	     * @method _updateSize
-         * @param {Number} width
-         * @param {Number} height
-	     **/
-        private _updateSize(width: number, height: number) {
-
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.size.addStyleUpdates(this);
-            }
-
-            this.bounds.setTo(this.position.x(), this.position.y(), width, height);
-
-        }
-
-        /** 
-	     * 
-	     * @method _updateTexturePosition
-         * @param {Number} x
-         * @param {Number} y
-	     **/
-        private _updateTexturePosition(x: number, y: number) {
-
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.addStyleUpdate('backgroundPositionX', x + 'px');
-                this.addStyleUpdate('backgroundPositionY', y + 'px');
-            }
-
-        }
-
-        /** 
-	     * 
-	     * @method _updateRepeat
-         * @param {String} value
-	     **/
-        private _updateRepeat(value:string) {
-
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.addStyleUpdate('backgroundRepeat', value);
-            }
-
-        }
-
-	    /**
-	     * Called when this Game Object is added to a Layer, usually as a result of an addChild() call or being in a Group that was added.
-	     * @method _addedToLayer
-	     * @param {Kiwi.Layer} layer - The Layer onto which this Game Object was added
-	     * @return {Boolean} true if the Game Object was successfully added, otherwise false
-	     * @private
-	     **/
-        private _onAddedToLayer(layer: Kiwi.Layer): bool {
-
-            klog.info('StaticImage added to Layer: ' + layer.name + ' type: ' + this.type);
-
-            if (this.type === Kiwi.TYPE_DOM)
-            {
-                this.domElement.element.style.backgroundImage = 'url(' + this.texture.getURL() + ')';
-                this.domElement.element.style.backgroundRepeat = this.texture.repeat();
-                this.domElement.element.style.backgroundSize = '100%';
-                this.size.addStyleImmediately(this);
-                this.position.addStyleImmediately(this);
-                klog.info('StaticImage DOM set');
-            }
-
-            return true;
-
-        }
+         * The Bounds component that controls the bounding box around this Game Object
+         * @property bounds
+         * @type Kiwi.Components.Bounds
+         **/
+        public box: Kiwi.Components.Box;
 
         /**
 	     * Called by the Layer to which this Game Object is attached
 	     * @method render
 	     **/
         public render(camera: Kiwi.Camera) {
-
+            
             super.render(camera);
 
-            if (this.type === Kiwi.TYPE_CANVAS && this.willRender() === true)
-            {
-                if (this.bounds.showDebug === true)
-                {
-                    this.bounds.drawCanvasDebugOutline(this.layer);
+            //if it is would even be visible.
+            if (this.alpha > 0 && this.visiblity) {
+
+                var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
+                ctx.save();
+
+                if (this.alpha > 0 && this.alpha <= 1) {
+                    ctx.globalAlpha = this.alpha;
                 }
 
-                this.layer.canvas.context.drawImage(this.texture.image, this.position.x(), this.position.y(), this.size.width(), this.size.height());
+                //get entity/view matrix
+                var t: Kiwi.Geom.Transform = this.transform;
+                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+                
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
+                //ctx.fillStyle = "green";
+                //ctx.fillRect(-2, -2, 5, 5);
+
+                var cell = this.atlas.cells[this.cellIndex];
+                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
+                ctx.restore();
+            
             }
-
         }
 
 

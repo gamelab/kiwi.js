@@ -123,7 +123,7 @@ module Kiwi.Geom {
         * @method angle
         * @return {Number}
         */
-        public angle(): number {
+        public get angle(): number {
 
             return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
 
@@ -134,7 +134,7 @@ module Kiwi.Geom {
         * @method slope
         * @return {Number}
         */
-        public slope(): number {
+        public get slope(): number {
 
             return (this.y2 - this.y1) / (this.x2 - this.x1);
 
@@ -145,9 +145,9 @@ module Kiwi.Geom {
         * @method yIntercept
         * @return {Number}
         */
-        public yIntercept(): number {
+        public get yIntercept(): number {
 
-            return (this.y1 - this.slope() * this.x1);
+            return (this.y1 - this.slope * this.x1);
 
         }
 

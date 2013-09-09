@@ -22,6 +22,7 @@ module Kiwi {
         * @constructor
         * @param {number} type
         * @param {any} owner
+        * @return {Kiwi.ComponentManager} 
         */
         constructor(type: number, owner) {
 
@@ -43,9 +44,9 @@ module Kiwi {
         /**
         * The owner of this Component Manager
         * @property _owner
-        * @type 
+        * @type {any}
         **/
-        private _owner;
+        private _owner: any;
 
         /**
         * The type of this object
@@ -69,13 +70,11 @@ module Kiwi {
         **/
         public hasComponent(value: string): bool {
 
-            if (this._components[value])
-            {
+            if (this._components[value]) {
                 return true;
             }
 
-            return false;
-
+            return false; 
         }
 
         /**
@@ -103,13 +102,11 @@ module Kiwi {
         **/
         public getComponent(value: string): any {
 
-            if (this._components[value])
-            {
+            if (this._components[value]) {
                 return this._components[value];
             }
 
-            return null;
-
+            return null; 
         }
 
         /**
@@ -122,25 +119,7 @@ module Kiwi {
 
             this._components[component.name] = component;
 
-            if (this._type === Kiwi.STATE)
-            {
-                component.modify(Kiwi.ADDED_TO_STATE, this._owner);
-            }
-            else if (this._type === Kiwi.LAYER)
-            {
-                component.modify(Kiwi.ADDED_TO_LAYER, this._owner);
-            }
-            else if (this._type === Kiwi.GROUP)
-            {
-                component.modify(Kiwi.ADDED_TO_GROUP, this._owner);
-            }
-            else if (this._type === Kiwi.ENTITY)
-            {
-                component.modify(Kiwi.ADDED_TO_ENTITY, this._owner);
-            }
-
-            return component;
-
+            return component; 
         }
 
         /**
@@ -151,8 +130,7 @@ module Kiwi {
         **/
         public addBatch(...paramsArr: any[]) {
 
-            for (var i = 0; i < paramsArr.length; i++)
-            {
+            for (var i = 0; i < paramsArr.length; i++) {
                 this.add(paramsArr[i]);
             }
 
@@ -169,21 +147,17 @@ module Kiwi {
 
             var name = component.name;
 
-            if (this._components[name])
-            {
-                if (destroy)
-                {
+            if (this._components[name]) {
+                if (destroy) {
                     this._components[name].destroy();
                 }
                 
                 delete this._components[name];
 
-                return true;
-
+                return true; 
             }
 
-            return false;
-
+            return false; 
         }
 
         /**
@@ -195,21 +169,27 @@ module Kiwi {
         **/
         public removeComponentByName(name: string, destroy:bool = true): bool {
 
-            if (this._components[name])
-            {
-                if (destroy)
-                {
+            if (this._components[name]) {
+                if (destroy) {
                     this._components[name].destroy();
                 }
                 
                 delete this._components[name];
 
-                return true;
-
+                return true; 
             }
 
-            return false;
+            return false; 
+        }
 
+        /*
+        * Removes all of the components from the component manager. 
+        * @method removeAll
+        */
+        public removeAll(destroy:bool = true) {
+            for (var key in this._components) { 
+                this.removeComponent(this._components[key], destroy);
+            }
         }
 
         /**
@@ -218,10 +198,8 @@ module Kiwi {
     	*/
         public preUpdate() {
 
-            for (var name in this._components)
-            {
-                if (this._components[name].active)
-                {
+            for (var name in this._components) {
+                if (this._components[name].active) {
                     this._components[name].preUpdate();
                 }
             }
@@ -234,10 +212,8 @@ module Kiwi {
     	*/
         public update() {
         
-            for (var name in this._components)
-            {
-                if (this._components[name].active)
-                {
+            for (var name in this._components) {
+                if (this._components[name].active) {
                     this._components[name].update();
                 }
             }
@@ -250,10 +226,8 @@ module Kiwi {
     	*/
         public postUpdate() {
         
-            for (var name in this._components)
-            {
-                if (this._components[name].active)
-                {
+            for (var name in this._components) {
+                if (this._components[name].active) {
                     this._components[name].postUpdate();
                 }
             }
@@ -266,10 +240,8 @@ module Kiwi {
     	*/
         public preRender() {
         
-            for (var name in this._components)
-            {
-                if (this._components[name].active)
-                {
+            for (var name in this._components) {
+                if (this._components[name].active) {
                     this._components[name].preRender();
                 }
             }
@@ -282,10 +254,8 @@ module Kiwi {
     	*/
         public render() {
         
-            for (var name in this._components)
-            {
-                if (this._components[name].active)
-                {
+            for (var name in this._components) {
+                if (this._components[name].active) {
                     this._components[name].render();
                 }
             }
@@ -298,16 +268,14 @@ module Kiwi {
     	*/
         public postRender() {
         
-            for (var name in this._components)
-            {
-                if (this._components[name].active)
-                {
+            for (var name in this._components) {
+                if (this._components[name].active) {
                     this._components[name].postRender();
                 }
             }
         
         }
-
+         
     }
 
 }

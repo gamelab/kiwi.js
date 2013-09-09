@@ -29,12 +29,17 @@ module Kiwi {
 
         }
 
+        /*
+        * The type of object this is.
+        * @method objType
+        * @return string
+        */
         public objType() {
             return "StateManager";
         }
 
         /**
-        * 
+        * The game that this manager belongs to.
         * @property _game
         * @type Kiwi.Game
         * @private
@@ -42,7 +47,7 @@ module Kiwi {
         private _game: Kiwi.Game;
 
         /**
-        * 
+        * An array of all of the states that are contained within this manager.
         * @property _states
         * @type Kiwi.Structs.Dictionary
         * @private
@@ -57,7 +62,7 @@ module Kiwi {
         public current: Kiwi.State = null;
 
         /**
-        * 
+        * Checks to see if a key exists. Internal use only.
         * @method checkKeyExists
         * @param {String} key
         * @return {Boolean}
@@ -77,7 +82,7 @@ module Kiwi {
         }
 
         /**
-        * 
+        * Checks to see if the state passed is valid or not.
         * @method checkValidState
         * @param {Kiwi.State} state
         * @return {Boolean}
@@ -105,8 +110,6 @@ module Kiwi {
          */
         public addState(state: any, switchTo:bool = false): bool {
 
-            klog.info('Adding new State');
-
             var tempState;
 
             //  Is it a Prototype?
@@ -116,7 +119,7 @@ module Kiwi {
             }
             else if (typeof state === 'string')
             {
-                tempState = window[state];
+                tempState = window[state];  //make new?
             }
             else
             {
@@ -125,21 +128,18 @@ module Kiwi {
 
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true)
             {
-                klog.warn('State with this name already exists or state is malformed');
                 return false;
             }
 
             tempState.game = this._game;
-            tempState.config.type = this._game.stage.defaultType;
+           
 
             if (this.checkValidState(tempState) === false)
             {
-                klog.info('checkValidState failed');
                 return false;
             }
             else
             {
-                klog.info('State successfully added to StateManager');
 
                 this._states.push(tempState);
 
@@ -159,8 +159,6 @@ module Kiwi {
         * @method boot
         */
         boot() {
-
-            klog.info('StateManager booting');
 
             if (this.current !== null)
             {
@@ -189,13 +187,9 @@ module Kiwi {
         **/
         private setCurrentState(key: string): bool {
 
-            klog.debug('-------------------------------------------------------------');
-            klog.info('Start of Setting Current State ' + key);
-
             //  Bail out if they are trying to switch to the already current state
             if (this.current !== null && this.current.config.name === key)
             {
-                klog.info('Bailing out, switching to already current state');
                 return false;
             }
 
@@ -206,18 +200,16 @@ module Kiwi {
                 //  If there is a shutdown function then we call it, passing it a callback.
                 //  The State is then responsible for hitting the callback when it is ready.
                 //  TODO: Transition support - both state updates need to be called at the same time.
-                klog.info('Current State: ' + this.current.config.name + ' being destroyed');
                 this._game.input.reset();
                 this.current.destroy();
             }
+
 
             //  Assume by this point that the current state has been destroyed (in reality we'll move this part to a callback probably)
 
             if (this.checkKeyExists(key) === true)
             {
                 this.current = this.getState(key);
-
-                klog.info('Key exists, so setting current state to: ', this.current.config.name);
 
                 //  Do we need to init it?
                 if (this._game.stage.domReady === true)
@@ -244,13 +236,12 @@ module Kiwi {
                     this.checkPreload();
 
                 }
-
+             
                 return true;
 
             }
             else
             {
-                klog.warn('Apparently the State key doesn\'t exist');
                 return false;
             }
 
@@ -269,21 +260,16 @@ module Kiwi {
          */
         public switchState(key: string, state: any = null, initParams = null, createParams = null): bool {
 
-            klog.info('Attempting to switch to State ' + key);
-
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false)
             {
-                klog.warn('You cannot call switchState before the current state has called create()');
                 return false;
             }
 
             //  if state key already exists let's try swapping to it, even if the state was passed
-            if (this.checkKeyExists(key) === false && state !== null)
-            {
+            if (this.checkKeyExists(key) === false && state !== null) {
                 //  Does the state already exist?
-                if (this.addState(state, false) === false)
-                {
+                if (this.addState(state, false) === false) {
                     //  Error adding the state
                     return false;
                 }
@@ -309,7 +295,7 @@ module Kiwi {
                 }
 
             }
-
+            
             return this.setCurrentState(key);
 
         }
@@ -352,7 +338,6 @@ module Kiwi {
                 //  No preloader, but does have a create function
                 if (this.current.config.hasCreate === true && this.current.config.isCreated === false)
                 {
-                    klog.info('No preloaded, calling create function');
                     this.current.config.isCreated = true;
 
                     if (this.current.config.createParams)
@@ -376,10 +361,10 @@ module Kiwi {
         * @method onLoadProgress
         * @param {Number} percent
         * @param {Number} bytesLoaded
-        * @param {Kiwi.File} file
+        * @param {Kiwi.Filess} file
         * @private
         */
-        private onLoadProgress(percent: number, bytesLoaded: number, file: Kiwi.File) {
+        private onLoadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File) {
 
             if (this.current.config.hasLoadProgress === true)
             {
@@ -389,7 +374,7 @@ module Kiwi {
         }
 
         /**
-        *
+        * 
         * @method onLoadComplete
         * @private
         */
@@ -400,11 +385,13 @@ module Kiwi {
                 this.current.loadComplete();
             }
 
+           
+            this.rebuildLibraries();
+            
             this.current.config.isReady = true;
 
             if (this.current.config.hasCreate === true)
             {
-                klog.info('preload finished - now calling create function');
                 this.current.config.isCreated = true;
                 if (this.current.config.createParams)
                 {
@@ -416,6 +403,33 @@ module Kiwi {
                 }
             }
 
+        }
+
+        /*
+        * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
+        * @method rebuildLibraries
+        */
+        public rebuildLibraries() {
+            
+            this.current.textureLibrary.clear();
+            this.current.audioLibrary.clear();
+            this.current.dataLibrary.clear();
+         
+
+            var fileStoreKeys: Array = this._game.fileStore.keys;
+            
+            for (var i = 0; i < fileStoreKeys.length; i++) {
+                var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
+                if (file.isTexture) {
+                    this.current.textureLibrary.add(file);
+                } else if (file.isAudio) {
+                    this.current.audioLibrary.add(file);
+                } else if (file.isData) {
+                    this.current.dataLibrary.add(file);
+                }
+            }            
+          
+            
         }
 
         /**

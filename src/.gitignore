@@ -23,8 +23,10 @@ Thumbs.db
 *.map
 *.orig
 *.js
+/obj/debug/*
 !log4javascript.js
 !ECMA262-5.js
+!gl-matrix-min.js
 *.map
 *.config
 [Bb]in

@@ -133,13 +133,11 @@ module Kiwi.Utils {
 
             if (!window.requestAnimationFrame)
             {
-                klog.info('Kiwi.Utils.RequestAnimationFrame: false');
                 this._isSetTimeOut = true;
                 this._timeOutID = window.setTimeout(() => this.SetTimeoutUpdate(), 0);
             }
             else
             {
-                klog.info('Kiwi.Utils.RequestAnimationFrame: true');
                 this._isSetTimeOut = false;
                 window.requestAnimationFrame(() => this.RAFUpdate());
             }

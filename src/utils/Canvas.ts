@@ -1,5 +1,5 @@
 /// <reference path="../core/Game.ts" />
-/// <reference path="../core/Layer.ts" />
+
 
 /**
  *  Kiwi - Utils - Canvas
@@ -28,22 +28,16 @@ module Kiwi.Utils {
         * @param {Boolean} offScreen
         * @return {Kiwi.Utils.Canvas}
         **/
-        constructor (layer: Kiwi.Layer, width: number, height: number, visible: bool = true, offScreen: bool = false) {
+        constructor (width: number, height: number, visible: bool = true, offScreen: bool = false) {
 
-            if (layer === null && offScreen === false)
-            {
-                klog.warn('Cannot create a canvas on a null layer');
-                return;
-            }
-
-            this._layer = layer;
+          
 
             this.domElement = <HTMLCanvasElement> document.createElement('canvas');
             this.domElement.width = width;
             this.domElement.height = height;
 
-            this.size = new Kiwi.Components.Size(width, height);
-            this.size.updated.add(this._updatedSize, this);
+            this._width = width;
+            this._height = height;
 
             this.context = this.domElement.getContext('2d');
 
@@ -57,17 +51,33 @@ module Kiwi.Utils {
 
         }
 
+        private _width: number;
+
+        public set width(value: number) {
+            this._width = value;
+            this._updatedSize();
+        }
+
+        public get width(): number {
+            return this._width;
+        }
+
+        private _height: number;
+
+        public set height(value: number) {
+            this._height = value;
+            this._updatedSize();
+        }
+
+        public get height(): number {
+            return this._height;
+        }
+
         public objType() {
             return "Canvas";
         }
 
-        /**
-        * @property _layer
-        * @type Kiwi.Layer
-        * @private
-    	*/
-        private _layer: Kiwi.Layer;
-
+       
         /**
         * @property domElement
         * @type HTMLCanvasElement
@@ -137,22 +147,15 @@ module Kiwi.Utils {
         public bgColor = 'rgb(0, 0, 0)';
 
         /**
-        * @property size
-        * @type Kiwi.Components.Size
-        */
-        public size: Kiwi.Components.Size;
-
-        /**
         * @method _updatedSize
         * @param {Number} width
         * @param {Number} height
         * @private
         */
-        private _updatedSize(width: number, height: number) {
+        private _updatedSize() {
 
-            this.domElement.width = width;
-            this.domElement.height = height;
-            this.size.dirty = false;
+            this.domElement.width = this._width;
+            this.domElement.height = this._height;
 
         }
 
@@ -164,7 +167,7 @@ module Kiwi.Utils {
             if (this._offScreen === false)
             {
                 this.domElement.style.display = 'none';
-                this._layer.domContainer.removeChild(this.domElement);
+              
             }
 
         }
@@ -174,7 +177,7 @@ module Kiwi.Utils {
         * @param {Boolean} value
         * @return {Boolean}
         */
-        public visible(value: bool = null): bool {
+        public set visible(value: boolean) {
 
             if (value !== null && value !== this._visible)
             {
@@ -191,6 +194,10 @@ module Kiwi.Utils {
                 }
             }
 
+        }
+
+        public get visible(): bool {
+
             return this._visible;
 
         }
@@ -200,12 +207,16 @@ module Kiwi.Utils {
         * @method clearMode
         * @return {Number} 
         */
-        public clearMode(value:number = null): number {
+        public set clearMode(value: number) {
 
             if (value !== null && value !== this._clearMode && value >= Kiwi.Utils.Canvas.CLEARMODE_NONE && value <= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA)
             {
                 this._clearMode = value;
             }
+
+        }
+
+        public get clearMode(): number {
 
             return this._clearMode;
 
@@ -260,7 +271,7 @@ module Kiwi.Utils {
 	     **/
 	    toString():string {
 		
-		    return '[{Canvas (width=' + this.size.width() + ' height=' + this.size.height() + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
+		    return '[{Canvas (width=' + this.width + ' height=' + this.height + ' visible=' + this.visible + ' offScreen=' + this._offScreen + ' clearMode=' + this.clearMode + ')}]';
 
 	    }
 

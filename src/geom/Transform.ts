@@ -3,8 +3,8 @@
 /**
  *	Kiwi - Geom - Transform
  *
- *	@desc 		Represents position, scale, rotation and registration of an Entity.
- *				- A transform is a component and implements all properties and methods required by components.
+ *	@desc 		Represents position, scale, rotation and rotationPoint of an Entity.
+ *			
  *				- Values can be transformed with a 3x3 affine transformation matrix, which each transform is assigned.
  *				- A tranform can be assigned a parent, which may in turn have it's own parent, thereby creating a tranform inheritence heirarchy
  *				- A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
@@ -12,7 +12,7 @@
  *	@version 	0.2 - 18th October 2012
  *
  *	@author 	Ross Kettle
- *	@author 	Richard Davey
+ *
  *
  *	@url 		http://www.kiwijs.org
  *
@@ -30,13 +30,13 @@ module Kiwi.Geom {
         * @param {Number} scaleX. X scaling of the transform.
         * @param {Number} scaleY. Y scaling of the transform.
         * @param {Number} rotation. Rotation of the transform in radians.
-        * @param {Number} regX. Registration offset on X axis.
-        * @param {Number} regY. Registration offset on Y axis.
+        * @param {Number} rotX. rotationPoint offset on X axis.
+        * @param {Number} rotY. rotationPoint offset on Y axis.
         * @return {Kiwi.Geom.Transform} This object.
         */
-        constructor(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, regX: number = 0, regY: number = 0) {
+        constructor(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0) {
 
-            this.setTransform(x, y, scaleX, scaleY, rotation, regX, regY);
+            this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
 
             this._matrix = new Matrix();
 
@@ -63,14 +63,13 @@ module Kiwi.Geom {
         * @method x
         * @return {Number} The X value of the transform.
         */
-        public x(value: number = null): number {
+        public set x(value: number) {
+            
+            this._x = value;
 
-            if (value !== null && value !== this._x)
-            {
-                this._x = value;
-                //this.owner.dirty = true;
-            }
+        }
 
+        public get x():number {
             return this._x;
         }
 
@@ -87,16 +86,15 @@ module Kiwi.Geom {
         * @method y
         * @return {Number} The Y value of the transform.
         */
-        public y(value: number = null): number {
+        
+        public set y(value: number) {
+            this._y = value;
+        }
 
-            if (value !== null && value !== this._y)
-            {
-                this._y = value;
-                //this.owner.dirty = true;
-            }
-
+        public get y(): number {
             return this._y;
         }
+
 
         /** 
         * X scaleof the transform
@@ -111,14 +109,11 @@ module Kiwi.Geom {
         * @method scaleX
         * @return {Number} The X value of the transform.
         */
-        public scaleX(value: number = null): number {
+        public set scaleX(value: number) {
+            this._scaleX = value;
+        }
 
-            if (value !== null && value !== this._scaleX)
-            {
-                this._scaleX = value;
-                //this.owner.dirty = true;
-            }
-
+        public get scaleX(): number {
             return this._scaleX;
         }
 
@@ -135,14 +130,11 @@ module Kiwi.Geom {
         * @method scaleY
         * @return {Number} The Y value of the transform.
         */
-        public scaleY(value: number = null): number {
+        public set scaleY(value: number) {
+            this._scaleY = value;
+        }
 
-            if (value !== null && value !== this._scaleY)
-            {
-                this._scaleY = value;
-                //this.owner.dirty = true;
-            }
-
+        public get scaleY():number {
             return this._scaleY;
         }
 
@@ -159,63 +151,54 @@ module Kiwi.Geom {
         * @method rotation
         * @return {Number} The rotation value of the transform.
         */
-        public rotation(value: number = null): number {
+        public set rotation(value: number) {
+            this._rotation = value;
+        }
 
-            if (value !== null && value !== this._rotation)
-            {
-                this._rotation = value;// * Math.PI / 180;
-                //this.owner.dirty = true;
-            }
-
+        public get rotation():number {
             return this._rotation;
         }
 
         /** 
-        * Registration offset on X axis.
-        * @property _regX
+        * Rotation offset on X axis.
+        * @property _rotPointX
         * @type Number
         * @private
         **/
-        private _regX: number = 0;
+        private _rotPointX: number = 0;
 
         /** 
-        * Return the registration value from the x axis.
-        * @method regX
+        * Return the Rotation value from the x axis.
+        * @method rotPointX
         * @return {Number} The registration value from the x axis.
         */
-        public regX(value: number = null): number {
+        public set rotPointX(value: number) {
+            this._rotPointX = value;
+        }
 
-            if (value !== null && value !== this._regX)
-            {
-                this._regX = value;
-                //this.owner.dirty = true;
-            }
-
-            return this._regX;
+        public get rotPointX(): number {
+            return this._rotPointX;
         }
 
         /** 
-        * Registration offset on Y axis.
-        * @property _regY
+        * Rotation offset on Y axis.
+        * @property _rotY
         * @type Number
         * @private
         **/
-        private _regY: number = 0;
+        private _rotPointY: number = 0;
 
         /** 
-        * Return the registration value from the y axis.
-        * @method regY
-        * @return {Number} The registration value from the y axis.
+        * Return the rotation value from the y axis.
+        * @method rotY
+        * @return {Number} The rotation value from the y axis.
         */
-        public regY(value: number = null): number {
+        public set rotPointY(value: number) {
+            this._rotPointY = value;
+        }
 
-            if (value !== null && value !== this._regY)
-            {
-                this._regY = value;
-                //this.owner.dirty = true;
-            }
-
-            return this._regY;
+        public get rotPointY(): number {
+            return this._rotPointY;
         }
 
         /** 
@@ -231,7 +214,7 @@ module Kiwi.Geom {
         * @method matrix
         * @return {Kiwi.Geom.Matrix} The Matrix being used by this Transform
         */
-        public matrix(): Matrix {
+        public get matrix(): Matrix {
 
             return this._matrix;
 
@@ -250,7 +233,7 @@ module Kiwi.Geom {
         * @method worldX
         * @return {Number} x coordinate in world space
         */
-        public worldX(): number {
+        public get worldX(): number {
 
             return this.getConcatenatedMatrix().tx;
 
@@ -261,7 +244,7 @@ module Kiwi.Geom {
         * @method worldY
         * @return {Number} y coordinate in world space
         */
-        public worldY(): number {
+        public get worldY(): number {
 
             return this.getConcatenatedMatrix().ty;
 
@@ -281,19 +264,14 @@ module Kiwi.Geom {
         * @method parent
         * @return {Kiwi.Geom.Transform} The parent Transform, or null.
         */
-        public parent(value: Transform = null): Transform {
-
-            if (value !== null)
-            {
-                // check that the parenting does not set up circular inheritance	
-                if (!this.checkAncestor(value))
-                {
-                    this._parent = value;
-                }
-
-                //this.owner.dirty = true;
+        
+        public set parent(value: Transform) {
+            if(!this.checkAncestor(value)) {
+                this._parent = value;
             }
+        }
 
+        public get parent(): Transform {
             return this._parent;
         }
 
@@ -311,7 +289,6 @@ module Kiwi.Geom {
             //this.owner.dirty = true;
 
             return this;
-
         }
 
         /** 
@@ -364,13 +341,11 @@ module Kiwi.Geom {
 	    * @param {Number} scaleY.
         * @return {Kiwi.Geom.Transform} This object.
 	    */
-        public scale(scaleX: number, scaleY: number): Transform {
+        public set scale(value:number) {
 
-            this._scaleX = scaleX;
-            this._scaleY = scaleY;
+            this._scaleX = value;
+            this._scaleY = value;
             //this.owner.dirty = true;
-
-            return this;
 
         }
 
@@ -382,19 +357,19 @@ module Kiwi.Geom {
         * @param {Number} scaleX. X scaling of the transform.
         * @param {Number} scaleY. Y scaling of the transform.
         * @param {Number} rotation. Rotation of the transform in radians.
-        * @param {Number} regX. Registration offset on X axis.
-        * @param {Number} regY. Registration offset on Y axis.
+        * @param {Number} rotX. Rotation offset on X axis.
+        * @param {Number} rotY. Rotation offset on Y axis.
         * @return {Kiwi.Geom.Transform} This object.
         */
-        public setTransform(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, regX: number = 0, regY: number = 0): Transform {
+        public setTransform(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0): Transform {
 
             this._x = x;
             this._y = y;
             this._scaleX = scaleX;
             this._scaleY = scaleY;
             this._rotation = rotation;
-            this._regX = regX;
-            this._regY = regY;
+            this._rotPointX = rotPointX;
+            this._rotPointY = rotPointY;
 
             //if (this.owner)
             //{
@@ -493,13 +468,13 @@ module Kiwi.Geom {
         */
         public copyFrom(source: Transform): Transform {
 
-            this.setTransform(source.x(), source.y(), source.scaleX(), source.scaleY(), source.rotation(), source.regX(), source.regY());
+            this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.rotPointX, source.rotPointY);
 
             this.parent = source.parent;
 
             //this.owner = source.owner;
 
-            this._matrix = source.matrix().clone();
+            this._matrix = source.matrix.clone();
 
             return this;
 
@@ -540,18 +515,17 @@ module Kiwi.Geom {
 	     * @return {Boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
 	     */
         public checkAncestor(transform: Transform): bool {
-
-            if (transform === this)
+            
+            /*if (transform === this)
             {
-                klog.warn("transform cannot be a parent to itself or an ancestor");
                 return true
             }
 
-            if (transform._parent !== null)
+            if (transform.parent !== null)
             {
                 return (this.checkAncestor(transform._parent))
-            }
-
+            }*/
+        
             return false;
 
         }
@@ -561,9 +535,9 @@ module Kiwi.Geom {
         * @method toString
         * @return (string) A string represention of this object.
         */
-        public toString(): string {
+        public get toString(): string {
 
-            return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._regX + " regY=" + this.regY + " matrix=" + this._matrix + ")}]";
+            return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._rotPointX + " regY=" + this.rotPointY + " matrix=" + this._matrix + ")}]";
 
         }
 

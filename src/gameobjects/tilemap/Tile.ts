@@ -1,118 +1,63 @@
+module Kiwi.GameObjects.Tilemap {
 
+    export class Tile extends Kiwi.Entity {
 
-module Kiwi.GameObjects {
+        /*
+        *
+        * @constructor
+        * @param {Kiwi.GameObjects.TileMapLayer} tileLayer
+        * @param {Kiwi.GameObjects.TileType} tileType
+        * @param {number} width
+        * @param {number} height
+        * @param {number} x
+        * @param {number} y
+        */
+        constructor(state:Kiwi.State, tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer, tileType: Kiwi.GameObjects.Tilemap.TileType, width: number, height: number, x: number, y: number) {
+            super(state,x,y);
 
-    export class Tile {
+            this.tileLayer = tileLayer;
 
-        constructor(game: Game, tilemap: Kiwi.GameObjects.TileMap, index: number, width: number, height: number) {
-
-            this._game = game;
-            this.tilemap = tilemap;
-            this.index = index;
-
-            this.width = width;
-            this.height = height;
-            this.allowCollisions = 0//Collision.NONE;
-
+            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this)); //i think this is no longer needed....
+            this.tileUpdate(tileType);
         }
 
-        private _game: Game;
-
-        //  You can give this Tile a friendly name to help with debugging. Never used internally.
-        public name: string;
-
-        public mass: number = 1.0;
-        public width: number;
-        public height: number;
-
-        public allowCollisions: number;
-
-        public collideLeft: bool = false;
-        public collideRight: bool = false;
-        public collideUp: bool = false;
-        public collideDown: bool = false;
-
-        public separateX: bool = true;
-        public separateY: bool = true;
-
-        /**
-         * A reference to the tilemap this tile object belongs to.
-         */
-        public tilemap: TileMap;
-
-        /**
-         * The index of this tile type in the core map data.
-         * For example, if your map only has 16 kinds of tiles in it,
-         * this number is usually between 0 and 15.
-         */
-        public index: number;
-
-        /**
-         * Clean up memory.
-         */
-        public destroy() {
-
-            this.tilemap = null;
-
+        public objType() {
+            return "Tile";
         }
 
-        public setCollision(collision: number, resetCollisions: bool, separateX: bool, separateY: bool) {
-
-            if (resetCollisions) {
-                this.resetCollision();
-            }
-
-            this.separateX = separateX;
-            this.separateY = separateY;
-
-            this.allowCollisions = collision;
-            /*
-        //    if (collision & Collision.ANY) {
-                this.collideLeft = true;
-                this.collideRight = true;
-                this.collideUp = true;
-                this.collideDown = true;
-                return;
-          ///  }
-
-            if (collision & Collision.LEFT || collision & Collision.WALL) {
-                this.collideLeft = true;
-            }
-
-            if (collision & Collision.RIGHT || collision & Collision.WALL) {
-                this.collideRight = true;
-            }
-
-            if (collision & Collision.UP || collision & Collision.CEILING) {
-                this.collideUp = true;
-            }
-
-            if (collision & Collision.DOWN || collision & Collision.CEILING) {
-                this.collideDown = true;
-            }
-            */
+        /*
+        * This method handles the updating of the type of tile this tile is.
+        * 
+        * @method tileUpdate
+        * @param {Kiwi.GameObjects.TileType} tileType
+        */
+        public tileUpdate(tileType: Kiwi.GameObjects.Tilemap.TileType) {
+            this.tileType = tileType;
+            this.physics.mass = this.tileType.mass;
+            this.physics.allowCollisions = this.tileType.allowCollisions;
+            this.physics.immovable = this.tileType.immovable;
         }
 
-        public resetCollision() {
+        /*
+        * What tile map layer it is currently on.
+        */
+        public tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer;
 
-            //this.allowCollisions = Collision.NONE;
-            this.collideLeft = false;
-            this.collideRight = false;
-            this.collideUp = false;
-            this.collideDown = false;
+        /*
+        * Reference to the type of tile that this tile is.
+        */
+        public tileType: Kiwi.GameObjects.Tilemap.TileType;
 
-        }
-
-        /**
-        * Returns a string representation of this object.
-        * @method toString
-        * @return {string} a string representation of the object.
-        **/
-        public toString(): string {
-
-            return "[{Tiled (index=" + this.index + " collisions=" + this.allowCollisions + " width=" + this.width + " height=" + this.height + ")}]";
-
-        }
+        /*
+        * The physics component used for arcade physics
+        */
+        public physics: Kiwi.Components.ArcadePhysics;
+        
+        /*
+        * Position in the mapData that this tile is in.
+        */ 
+        public tx: number;
+        public ty: number;
 
     }
 

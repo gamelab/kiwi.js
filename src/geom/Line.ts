@@ -123,7 +123,7 @@ module Kiwi.Geom {
         * @method length
         * @return {Number}
         */
-        public length(): number {
+        public get length(): number {
 
             return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
 
@@ -137,7 +137,7 @@ module Kiwi.Geom {
         */
         public getY(x: number): number {
 
-            return this.slope() * x + this.yIntercept();
+            return this.slope * x + this.yIntercept;
 
         }
 
@@ -146,7 +146,7 @@ module Kiwi.Geom {
         * @method angle 
         * @return {Number}
         */
-        public angle(): number {
+        public get angle(): number {
 
             return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
 
@@ -157,7 +157,7 @@ module Kiwi.Geom {
         * @method slope
         * @return {Number}
         */
-        public slope(): number {
+        public get slope(): number {
 
             return (this.y2 - this.y1) / (this.x2 - this.x1);
 
@@ -168,7 +168,7 @@ module Kiwi.Geom {
         * @method perpSlope
         * @return {Number}
         */
-        public perpSlope(): number {
+        public get perpSlope(): number {
 
             return -((this.x2 - this.x1) / (this.y2 - this.y1));
 
@@ -179,9 +179,9 @@ module Kiwi.Geom {
         * @method yIntercept
         * @return {Number}
         */
-        public yIntercept(): number {
+        public get yIntercept(): number {
 
-            return (this.y1 - this.slope() * this.x1);
+            return (this.y1 - this.slope * this.x1);
 
         }
 
@@ -262,7 +262,7 @@ module Kiwi.Geom {
                 }
             }
 
-            var yInt: number = (y - this.perpSlope() * x);
+            var yInt: number = (y - this.perpSlope * x);
 
             var pt: any = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
 

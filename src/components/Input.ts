@@ -17,171 +17,579 @@ module Kiwi.Components {
 
     export class Input extends Component {
 
-        constructor(entity: Kiwi.Entity, bounds:Kiwi.Components.Bounds) {
+        /*
+        *
+        * @constructor
+        * @param {Kiwi.Entity} entity
+        * @param {Kiwi.Components.Box} box
+        * @return {Kiwi.Components.Input}
+        */
+        constructor(owner: Kiwi.IChild, box:Kiwi.Components.Box, enabled:bool) {
 
-            super('Input', true, true, true);
-
+            super(owner,'Input');
+            
             //  Signals
-            this.inputEntered = new Kiwi.Signal();
-            this.inputLeft = new Kiwi.Signal();
-            this.inputOnDown = new Kiwi.Signal();
-            this.inputOnRelease = new Kiwi.Signal();
-            this.inputDragStarted = new Kiwi.Signal();
-            this.inputDragStopped = new Kiwi.Signal();
+            this._onEntered = new Kiwi.Signal();
+            this._onLeft = new Kiwi.Signal();
+            this._onDown = new Kiwi.Signal();
+            this._onUp = new Kiwi.Signal();
+            this._onDragStarted = new Kiwi.Signal();
+            this._onDragStopped = new Kiwi.Signal();
 
             //  Properties
-            this._entity = entity;
-            this._bounds = bounds;
-            this.pointDown = new Kiwi.Geom.Point();
+            this._box = box;
 
-            this.distance = new Kiwi.Geom.Point();
-            this.withinBounds = false;
-            this.outsideBounds = true;
-            this.isUp = true;
-            this.isDown = false;
-            this.isDragging = false;
-
+            this._distance = new Kiwi.Geom.Point();
+             
+            this._withinBounds = null;
+            this._outsideBounds = true;
+             
+            this._isUp = true;
+            this._isDown = null;
+            this._isDragging = null;
+            this._justEntered = false;
+            this._tempDragDisabled = false;
+            this.enabled = enabled;
         }
 
+        /*
+        * The type of object this input is.
+        * @method objType
+        * @return string
+        */
         public objType() {
             return "Input";
         }
+        
+        /*
+        * The bounding box that is being used for the 'hitarea'.
+        * @property _box
+        * @type Kiwi.Components.Box
+        */
+        private _box: Kiwi.Components.Box;
 
-        private _entity: Kiwi.Entity;
+        /*
+        * Kiwi Signal for firing callbacks when a pointer is active and has entered the entities hit box.
+        * @property _onEntered
+        * @type Kiwi.Signal
+        */
+        private _onEntered: Kiwi.Signal;
+        
+        /*
+        * Kiwi Signal for firing callbacks when a pointer is active and has left the entities hit box.
+        * @property _onLeft
+        * @type Kiwi.Signal
+        */
+        private _onLeft: Kiwi.Signal;
+        
+        /*
+        * Kiwi Signal for firing callbacks when a pointer is active and has pressed down on the entity.
+        * @property _onDown
+        * @type Kiwi.Signal
+        */
+        private _onDown: Kiwi.Signal;
+        
+        /*
+        * Kiwi Signal for firing callbacks when a pointer just released from either being above the entity or the pointer was initally pressed on it.
+        * @property _onUp
+        * @type Kiwi.Signal
+        */
+        private _onUp: Kiwi.Signal;
+        
+        /*
+        * Kiwi Signal for firing callbacks a entity starts being dragged.
+        * @property _onDragStarted
+        * @type Kiwi.Signal
+        */
+        private _onDragStarted: Kiwi.Signal;
+        
+        /*
+        * Kiwi Signal for firing callbacks a entity stops being dragged. Like on release.
+        * @property _onDragStopped
+        * @type Kiwi.Signal
+        */
+        private _onDragStopped: Kiwi.Signal;
+        
+        /*
+        * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
+        * Note: Accessing this signal enables the input.
+        * @type Kiwi.Signal
+        */
+        public get onEntered(): Kiwi.Signal {
+            if (this.enabled == false) this.enabled = true;
+            return this._onEntered;
+        }
+        
+        /*
+        * Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
+        * Note: Accessing this signal enables the input.
+        * @type Kiwi.Signal
+        */
+        public get onLeft(): Kiwi.Signal {
+            if (this.enabled == false) this.enabled = true;
+            return this._onLeft;
+        }
+        
+        /*
+        * Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
+        * Note: Accessing this signal enables the input.
+        * @type Kiwi.Signal
+        */
+        public get onDown(): Kiwi.Signal {
+            if (this.enabled == false) this.enabled = true;
+            return this._onDown;
+        }
+        
+        /*
+        * Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
+        * Note: Accessing this signal enables the input.
+        * @type Kiwi.Signal
+        */
+        public get onUp(): Kiwi.Signal {
+            if (this.enabled == false) this.enabled = true;
+            return this._onUp;
+        }
+    
+        /*
+        * Returns the onDragStarted Signal.
+        * @type Kiwi.Signal
+        */
+        public get onDragStarted(): Kiwi.Signal { return this._onDragStarted; }
 
-        //  Subscribe to these Signals to receive updates
+        /*
+        * Returns the onDragStopped Signal.
+        * @type Kiwi.Signal
+        */
+        public get onDragStopped(): Kiwi.Signal { return this._onDragStopped; }
 
-        //  When the input enters the bounds of this entity
-        public inputEntered: Kiwi.Signal;
+        /*
+        * A alias for the on release signal.
+        * @type Kiwi.Signal
+        */
+        public get onRelease():Kiwi.Signal {
+            return this.onUp;
+        }
+        
+        /*
+        * A alias for the on press signal.
+        * @type Kiwi.Signal
+        */
+        public get onPress(): Kiwi.Signal {
+            return this.onDown;
+        }
 
-        //  When the input leaves the bounds of this entity
-        public inputLeft: Kiwi.Signal;
+        /*
+        * If this input is enabled or not. 
+        * @property _enabled
+        * @type bool
+        */
+        private _enabled: bool;
 
-        //  When the input is within the bounds of this entity AND pressed down
-        public inputOnDown: Kiwi.Signal;
+        /*
+        * Get if the input is enabled or not.
+        * @type bool
+        */
+        public get enabled(): bool {
+            return this._enabled;
+        }
 
-        //  When the input is within the bounds of this entity AND is released, having previously been pressed down on this entity
-        public inputOnRelease: Kiwi.Signal;
+        /*
+        * Set if the input should be enabled or not. 
+        * @type bool
+        */
+        public set enabled(val: bool) {//perhaps later the signals should only be set if the input is enabled.
+            this._enabled = val; 
+        }
+        
+        /*
+        * If a pointer is current pressing down on the input, this will be a reference to that pointer. Otherwise it will be null.
+        * @property _isDown
+        * @type Kiwi.Input.Pointer
+        */
+        private _isDown: Kiwi.Input.Pointer;    
 
-        //  Fired once when the drag first starts (if enabled)
-        public inputDragStarted: Kiwi.Signal;
+        /*
+        * A boolean that indicates if no pointer is currently on the pointer
+        * @property _isUp
+        * @type bool
+        */
+        private _isUp: bool;
 
-        //  Fired once when the drag stops (if enabled)
-        public inputDragStopped: Kiwi.Signal;
+        /*
+        * Indicates if a pointer is within the bounds or not. If one is then it referers to the pointer that is. Other it will be null.
+        * @property _withinBounds
+        * @type Kiwi.Input.Pointer
+        */
+        private _withinBounds: Kiwi.Input.Pointer;
 
-        //  Distance from the top left corner of the entity bounds to the current input position
-        public distance: Kiwi.Geom.Point;
-
-        public isDown: bool;
-        public isUp: bool;
-        public isDragging: bool;
-        public withinBounds: bool;
-        public outsideBounds: bool;
-
-        public pointDown: Kiwi.Geom.Point;
-        private _bounds: Kiwi.Components.Bounds;
+        /*
+        * Boolean indicating if every pointer is currently outside of the bounds.
+        * @property _outsideBounds
+        * @type bool
+        */
+        private _outsideBounds: bool;
+        
+        /*
+        * If a pointer just entered the input. Used for mouse's to indicate when to appropriately fire the down event.
+        * Note: Could be removed once mouse version of update gets updated.
+        * @property _justEntered
+        * @type bool
+        */
+        private _justEntered: bool;
+        
+        /*
+        * Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false
+        * @type bool
+        */
+        public get isDown(): bool {
+            return (this._isDown !== null);
+        }
+        
+        /*
+        * Used to see if no pointer is on this input (so it is up).
+        * @type bool
+        */
+        public get isUp(): bool {
+            return this._isUp;
+        }
+        
+        /*
+        * Check to see if any pointer is within the bounds of this input.
+        * @type bool
+        */
+        public get withinBounds(): bool {
+            return (this._withinBounds !== null);
+        }
+        
+        /*
+        * See if no pointers are within the bounds of this entity.
+        * @type bool
+        */
+        public get outsideBounds(): bool {
+            return this._outsideBounds;
+        }
+        
+        /*
+        * Dragging not implemented so not comment just yet as could be removed....
+        */
+        private _isDragging: Kiwi.Input.Pointer = null;
+        private _distance: Kiwi.Geom.Point;
+        private _tempDragDisabled: bool;
         private _dragEnabled: bool = false;
         private _dragDistance: number;
         private _dragSnapToCenter: bool = false;
 
-        //  Allow the entity to be dragged.
-        //  snapToCenter - snap the center of the entity to the input x/y (false)
-        //  distance - how many pixels to move the mouse away from the downPoint before it considers the drag to have started
-        public enableDrag(snapToCenter:bool = false, distance:number = 1) {
+        public get isDragging(): bool { return (this._isDragging !== null); }
+        public get dragDistance(): number { return this._dragDistance; }
+        public set dragDistance(val: number) { this._dragDistance = val; }
+        
+        /*
+        * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
+        * @property _nowDown
+        * @type Kiwi.Input.Pointer
+        */
+        private _nowDown: Kiwi.Input.Pointer = null;
+        
+        /*
+        * Temporary property that gets updated everyframe with the pointer that was just 'released' from being down on this entity
+        * @property _nowUp
+        * @type Kiwi.Input.Pointer
+        */
+        private _nowUp: Kiwi.Input.Pointer = null;
+        
+        /*
+        * Temporary property of the pointer that is now within the bounds of the entity
+        * @property _nowEntered
+        * @type Kiwi.Input.Pointer
+        */
+        private _nowEntered: Kiwi.Input.Pointer = null;
+        
+        /*
+        * Temporary property of the pointer that just left the bounds of the entity.
+        * @property _nowLeft
+        * @type Kiwi.Input.Pointer
+        */
+        private _nowLeft: Kiwi.Input.Pointer = null;
+        
+        /*
+        * Temporary property of the pointer that just started draggging the entity.
+        * @property _nowDragging
+        * @type Kiwi.Input.Pointer
+        */
+        private _nowDragging: Kiwi.Input.Pointer = null;
 
+        /*
+        * Enables the dragging of this entity. 
+        * @method enableDrag
+        * @param {bool} snapToCenter
+        * @param {number} distance
+        */
+        public enableDrag(snapToCenter:bool = false, distance:number = 1) {
+            
+            if (this.enabled == false) this.enabled = true;
             this._dragEnabled = true;
             this._dragSnapToCenter = snapToCenter;
             this._dragDistance = distance;
-            this.isDragging = false;
+            this._isDragging = null;
 
-        }
-
-        public disableDrag() {
-            this._dragEnabled = false;
-            this.isDragging = false;
         }
         
-        //  Need to add a click timer?
-
+        /*
+        * Disables the dragging of this entity. 
+        * @method disableDrag
+        */
+        public disableDrag() {
+            this._dragEnabled = false;
+            this._isDragging = null;
+        }
+        
+        /*
+        * The update loop for the input. Note that is only runs if the input is enabled.
+        * @method update
+        */
         public update() {
 
-            if (!this._entity.game || this._entity.active() === false || this._entity.willRender() === false)
-            {
+            if (this.enabled === false  ||  !this.game || this.owner.active === false || this.owner.willRender === false) {
                 return;
             }
+            
+            //reset the temporary properties
+            this._nowDown = null;
+            this._nowUp = null;
+            this._nowEntered = null;
+            this._nowLeft = null;
+            this._nowDragging = null;
 
-            //  Is the input within the bounds now?
-            if (this._bounds.pointWithin(this._entity.game.input.position))
-            {
-                this.distance.x = this._entity.game.input.position.x - this._bounds.getRect().left();
-                this.distance.y = this._entity.game.input.position.y - this._bounds.getRect().top();
-
-                //  Has it just moved inside?
-                if (this.withinBounds === false)
-                {
-                    this.withinBounds = true;
-                    this.outsideBounds = false;
-                    this.inputEntered.dispatch(this._entity, this.distance.x, this.distance.y);
+            //Use the appropriate method of checking.
+            if (Kiwi.DEVICE.touch) {
+                this._updateTouch();
+            } else {
+                this._updateMouse();
+            }
+            
+            //If the entity is dragging.
+            if (this.isDragging) { 
+                if (this._dragSnapToCenter === false) {
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
+                } else {
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitbox.width / 2), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitbox.height / 2), this._dragDistance);
                 }
             }
-            else
-            {
-                //  It's outside the bounds now, was it previously in?
-                if (this.withinBounds === true)
-                {
-                    this.withinBounds = false;
-                    this.outsideBounds = true;
-                    this.inputLeft.dispatch(this._entity);
+        }
+
+        /*
+        * The update loop that gets executed when the game is using the touch manager.
+        * @method _updateTouch
+        */
+        private _updateTouch() {
+        
+            for (var i = 0; i < this.game.input.touch.fingers.length; i++) {
+
+                //if that pointer is active then see where it is
+                if (this.game.input.touch.fingers[i].active === true) {
+                    this._evaluateTouchPointer(this.game.input.touch.fingers[i]);
                 }
+                //if the pointer is inactive check to see if it was just down
+                else if (this.isDown === true && this._isDown.id === this.game.input.touch.fingers[i].id) {
+                    this._nowUp = this.game.input.touch.fingers[i];
+                }
+                //if the pointer is not active but was within the bounds check to see if it is now outside
+                else if (this.isDown === false && this._nowUp === null && this.withinBounds === true && this._withinBounds.id === this.game.input.touch.fingers[i].id) {
+                    this._nowUp = this.game.input.touch.fingers[i];
+                }
+                 
+            }
+    
+            //Fire the events. LOTS OF CONDITIONS
+            if (this._nowEntered !== null && this.withinBounds === false) { 
+                this._withinBounds = this._nowEntered;
+                this._outsideBounds = false;
+                this._onEntered.dispatch(this.owner, this._nowEntered);
+            }
+
+            if (this._nowLeft !== null && this.withinBounds === true) { 
+                this._withinBounds = null;
+                this._outsideBounds = true;
+                this._onLeft.dispatch(this.owner, this._nowLeft);
+            }
+
+            if (this._nowDown !== null && this.isDown === false) { 
+                this._onDown.dispatch(this.owner, this._nowDown);
+                this._isDown = this._nowDown;
+                this._isUp = false;
+                this._withinBounds = this._nowDown;
+                this._outsideBounds = false;
+            }
+            
+            if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
+                this._onDragStarted.dispatch(this.owner, this._nowDragging);
+                this._isDragging = this._nowDragging;
+            }
+
+            if (this._nowUp !== null) { 
+                this._onUp.dispatch(this.owner, this._nowUp);
+                this._isDown = null;
+                this._isUp = true;
+                this._withinBounds = null;
+                this._outsideBounds = true;
+
+                //dispatch drag event
+                if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
+                    this._isDragging = null;
+                    this._onDragStopped.dispatch(this.owner, this._nowUp);
+                }
+            }
+
+        }
+        
+        /*
+        * A private method for checking to see if a touch pointer should activate any events.
+        * @method _evaluateTouchPointer
+        * @param {Kiwi.Input.Finger} pointer
+        */
+        private _evaluateTouchPointer(pointer) {
+            
+            //if nothing isdown or what is down is the current pointer
+            if (this.isDown === false || this._isDown.id === pointer.id) {
+
+                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                    if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
+                        this._nowEntered = pointer;
+                    }
+
+                    if (this.isDown === false && pointer.frameDuration < 2) {
+                        this._nowDown = pointer;
+                    }
+
+                    if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
+                        this._distance.x = pointer.x - this._box.hitbox.left;
+                        this._distance.y = pointer.y - this._box.hitbox.top;
+                        this._nowDragging = pointer; 
+                    }
+                } else {
+                    if (this.isDown === true) {
+                        this._nowLeft = pointer;
+                    } else if(this.withinBounds === true && this._withinBounds.id == pointer.id) {
+                        this._nowLeft = pointer;
+                    }
+                }
+
+            }
+
+        }
+
+        /*
+        * The update loop that runs when the mouse manager is the method for interacting with the screen.
+        * @method _updateMouse
+        */
+        private _updateMouse() {
+
+            this._evaluateMousePointer(this.game.input.mouse.cursor);
+
+            //dispatch the events
+            if (this._nowLeft !== null) {
+                this._onLeft.dispatch(this.owner, this._nowLeft);
+            }
+
+            if (this._nowEntered !== null) {
+                this._onEntered.dispatch(this.owner, this._nowEntered);
+            }
+            
+            if (this._nowDown !== null && this.isDown === false) {
+                this._onDown.dispatch(this.owner, this._nowDown);
+                this._isDown = this._nowDown;
+                this._isUp = false;
+            }
+
+            if (this._dragEnabled == true && this.isDragging === false && this._nowDragging !== null) {
+                this._onDragStarted.dispatch(this.owner, this._nowDragging);
+                this._isDragging = this._nowDragging;
+            }
+
+            if (this.isDown === true && this._nowUp !== null && this._isDown.id === this._nowUp.id) {
+                this._onUp.dispatch(this.owner, this._nowUp);
+                
+                //dispatch drag event
+                if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
+                    this._isDragging = null;
+                    this._onDragStopped.dispatch(this.owner, this._nowUp);
+                }
+
+                this._isDown = null;
+                this._isUp = true;
+            }
+
+        }
+
+        /*
+        * Evaluates where and what the mouse cursor is doing in relation to this box. Needs a little bit more love.
+        * @method _evaluateMousePointer
+        * @param {Kiwi.Input.MouseCursor} pointer
+        */
+        private _evaluateMousePointer(pointer) {
+
+            if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                
+                if (this._dragEnabled && this.isDragging === false) {
+                    this._distance.x = pointer.x - this._box.hitbox.left;
+                    this._distance.y = pointer.y - this._box.hitbox.top;
+                }
+
+                //  Has it just moved inside?
+                if (this.withinBounds === false) {
+                    this._nowEntered = pointer;
+                    this._withinBounds = pointer;
+                    this._outsideBounds = false;
+                    this._justEntered = true;
+                }
+
+            } else {
+                
+                //  It's outside the bounds now, was it previously in?
+                if (this.withinBounds === true && this.isDragging === false) {
+                    this._nowLeft = pointer;
+                    this._withinBounds = null;
+                    this._outsideBounds = true;
+                }
+
             }
 
             //  Input is down (click/touch)
-            if (this._entity.game.input.isDown === true)
-            {
-                //  Within bounds?
-                if (this.withinBounds === true && this.isDown === false)
-                {
-                    this.isDown = true;
-                    this.isUp = false;
-                    this.pointDown.copyFrom(this.distance);
-                    this.inputOnDown.dispatch(this._entity, this.pointDown.x, this.pointDown.y);
+            if (pointer.isDown === true) {
+
+                //if is was a mouse, did it just enter?
+                if (this._justEntered) {
+                    this._isDown = pointer;
+                    this._isUp = false;
+                    this._tempDragDisabled = true;
                 }
 
-                //  Start Drag check
-                if (this._dragEnabled === true && this.isDragging === false)
-                {
-                    //  Turn drag on?
-                    if (this.isDown === true && this.pointDown.distanceTo(this.distance) >= this._dragDistance)
-                    {
-                        this.isDragging = true;
+                //  Within bounds? 
+                if (this.withinBounds === true && this.isDown === false && this._nowDown === null) {
+                    this._nowDown = pointer;
+                } 
 
-                        if (this._dragSnapToCenter === true)
-                        {
-                            //  Copy the mid-point coordinates into pointDown
-                            this._bounds.getRect().center(this.pointDown);
-                        }
+                if (this._dragEnabled === true && this.isDragging == false && this._tempDragDisabled === false) {
 
-                        this.inputDragStarted.dispatch(this._entity, this.pointDown.x, this.pointDown.y, this._dragSnapToCenter);
+                    if(this.isDown == true) {
+                        this._nowDragging = pointer;
+
                     }
                 }
-            }
-            else
-            {
-                //  Stop Drag check
-                if (this.isDragging === true)
-                {
-                    this.isDragging = false;
-                    this.inputDragStopped.dispatch(this._entity);
-                }
 
-                if (this.isDown === true)
-                {
-                    this.isDown = false;
-                    this.isUp = true;
-                    this.inputOnRelease.dispatch(this._entity);
-                }
+            } else { 
+                
+                if (this._tempDragDisabled === true) this._tempDragDisabled = false;
+
+                if (this.isDown === true) {
+                    this._nowUp = pointer;
+
+                }    
             }
 
+            if (this._justEntered) this._justEntered = false;
         }
 
 	    /**
@@ -192,6 +600,36 @@ module Kiwi.Components {
         public toString(): string {
 
             return '[{Input (x=' + this.withinBounds + ')}]';
+
+        }
+
+        /*
+        * Destroys the input.
+        * @method destory
+        */
+        public destroy() {
+            
+            super.destroy();
+            
+            this.enabled = false;
+            delete this._box;
+            delete this._isDown;
+            delete this._isUp;
+            delete this._isDragging;
+            delete this._dragEnabled;
+            if(this._onDown) this._onDown.dispose();
+            delete this._onDown;
+            if(this._onDragStarted) this._onDragStarted.dispose();
+            delete this._onDragStarted;
+            if (this._onUp) this._onUp.dispose();
+            delete this._onUp;
+            if (this._onLeft) this._onLeft.dispose();
+            delete this._onLeft;
+            if (this._onEntered) this._onEntered.dispose();
+            delete this._onEntered;
+            if (this._onDragStopped) this._onDragStopped.dispose();
+            delete this._onDragStopped;
+            delete this._dragDistance;
 
         }
 

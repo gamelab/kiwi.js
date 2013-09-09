@@ -19,32 +19,18 @@ module Kiwi {
     export class Component {
         
         /** 
-        * Constructor
-        * @param {string} componentType - The type of this component (i.e. "geom", "css", "effect")
+        * 
+        * @constructor
         * @param {string} componentName - The name of this component.
+        * @return Kiwi.Component
         */
-        constructor (name:string, supportsCanvas: bool = true, supportsDOM: bool = false, supportsWebGL: bool = false) {
+        constructor (owner:IChild, name:string) {
 
-            //  Properties
-
+            this.owner = owner; 
+            this.game = this.owner.game;
             this.name = name;
             this.active = true;
 
-            this._supportsCanvas = supportsCanvas;
-            this._supportsDOM = supportsDOM;
-            this._supportsWebGL = supportsWebGL;
-
-            //  Signals
-
-            this.onAddedToState = new Kiwi.Signal();
-            this.onAddedToLayer = new Kiwi.Signal();
-            this.onAddedToGroup = new Kiwi.Signal();
-            this.onAddedToEntity = new Kiwi.Signal();
-            this.onRemovedFromState = new Kiwi.Signal();
-            this.onRemovedFromLayer = new Kiwi.Signal();
-            this.onRemovedFromGroup = new Kiwi.Signal();
-            this.onRemovedFromEntity = new Kiwi.Signal();
-           
         }
 
         /**
@@ -54,274 +40,20 @@ module Kiwi {
         public objType():string {
             return "Component";
         }
-
-        //  Subscribe to these signals for update information
-        public onAddedToState: Kiwi.Signal;
-        public onAddedToLayer: Kiwi.Signal;
-        public onAddedToGroup: Kiwi.Signal;
-        public onAddedToEntity: Kiwi.Signal;
-
-        public onRemovedFromState: Kiwi.Signal;
-        public onRemovedFromLayer: Kiwi.Signal;
-        public onRemovedFromGroup: Kiwi.Signal;
-        public onRemovedFromEntity: Kiwi.Signal;
-
-        //  Modify the state of this Component, such as adding to a Group, removing from a Layer, etc. Should be used by the internal Kiwi methods only.
-        public modify(action:number, parent) {
-
-            if (action === Kiwi.ADDED_TO_GROUP)
-            {
-                return this._addedToGroup(parent);
-            }
-            else if (action === Kiwi.ADDED_TO_LAYER)
-            {
-                return this._addedToLayer(parent);
-            }
-            else if (action === Kiwi.ADDED_TO_STATE)
-            {
-                return this._addedToState(parent);
-            }
-            else if (action === Kiwi.ADDED_TO_ENTITY)
-            {
-                return this._addedToEntity(parent);
-            }
-            else if (action === Kiwi.REMOVED_FROM_GROUP)
-            {
-                return this._removedFromGroup(parent);
-            }
-            else if (action === Kiwi.REMOVED_FROM_LAYER)
-            {
-                return this._removedFromLayer(parent);
-            }
-            else if (action === Kiwi.REMOVED_FROM_STATE)
-            {
-                return this._removedFromState(parent);
-            }
-            else if (action === Kiwi.REMOVED_FROM_ENTITY)
-            {
-                return this._removedFromEntity(parent);
-            }
-
-        }
-
+        
         /**
-        * The Layer this Component has been added to, if any.
-        * @property layer
-        * @type Kiwi.Layer
-        **/
-        public layer: Kiwi.Layer = null;
-
-        /**
-        * The state this Component has been added to, if any.
-        * @property state
-        * @type State
-    	*/
-        public state: Kiwi.State = null;
-
-        /**
-        * The Group this component has been added to, if any.
-        * @property group
-        * @type Entity
-    	*/
-        public group: Kiwi.Group = null;
-
-        /**
-        * The Entity this component has been added to, if any.
-        * @property entity
-        * @type Entity
-    	*/
-        public entity: Kiwi.Entity = null;
-
-        /**
-        * Called when this Component is added to a Layer
-        * @method _addedToLayer
-        * @param {Kiwi.Layer} layer
-        * @return {Boolean}
+        * The IChild that owns this entity
+        * @property owner
+        * @type IChild
         */
-        private _addedToLayer(layer: Kiwi.Layer): bool {
-
-            if (this.layer !== null)
-            {
-                klog.warn('Component already exists on Layer ' + this.layer.id);
-
-                return false;
-            }
-            else
-            {
-                if (this.supportsType(layer.type) === true)
-                {
-                    this.layer = layer;
-
-                    if (layer.game !== null)
-                    {
-                        this.game = layer.game;
-                    }
-
-                    this.onAddedToLayer.dispatch(this, this.layer);
-
-                    return true;
-                }
-                else
-                {
-                    klog.warn('Warning - Component does not support Layer of this type: ' + layer.type);
-                    return false;
-                }
-
-            }
-
-        }
-
-        /**
-        * Called when this Component is removed from a Layer
-        * @method _removedFromLayer
-        * @param {Kiwi.Layer} layer
-        */
-        private _removedFromLayer(layer: Kiwi.Layer) {
-
-            this.layer = null;
-
-            this.onRemovedFromLayer.dispatch(this, layer);
-
-        }
-
-        /**
-        * Called when this Component is added to a State
-        * @method _addedToState
-        * @param {Kiwi.State} state
-        * @return {Boolean}
-        */
-        private _addedToState(state: Kiwi.State): bool {
-
-            klog.info('Component added to State');
-
-            this.state = state;
-
-            this.game = this.state.game;
-
-            this.onAddedToState.dispatch(this, this.state);
-
-            return true;
-
-        }
-
-        /**
-        * Called when this Component is removed from a State
-        * @method _removedFromState
-        * @param {Kiwi.State} state
-        */
-        private _removedFromState(state: Kiwi.State) {
-
-            klog.info('Component removed from State');
-
-            this.state = null;
-
-            this.onAddedToState.dispatch(this, state);
-
-        }
-
-        /**
-		* Called when this Componet is added to a Group.
-        * @method _addedToGroup
-	    * @param {Kiwi.Group} group. The Group this Component is being added to.
-		**/
-        private _addedToGroup(group: Kiwi.Group) {
-
-            klog.info('Component added to Group');
-
-            this.group = group;
-
-            if (group.game !== null)
-            {
-                this.game = group.game;
-            }
-
-            this.onAddedToGroup.dispatch(this, group);
-
-        }
-
-        /**
-		* Called when this Component is removed from a Group.
-        * @method _removedFromGroup
-	    * @param {Kiwi.Group} The Group this Component has just been removed from.
-		**/
-        private _removedFromGroup(group: Kiwi.Group) {
-
-            klog.info('Component removed from Group');
-
-            this.group = null;
-
-            this.onRemovedFromGroup.dispatch(this, group);
-
-        }
-
-        /**
-        * Called when this Componenet is added to an Entity
-        * @method _addedToEntity
-        * @param {Kiwi.Entity} entity
-        * @return {Boolean}
-        */
-        private _addedToEntity(entity: Kiwi.Entity): bool {
-
-            klog.info('Component added to Entity');
-
-            this.entity = entity;
-
-            if (this.entity.game !== null)
-            {
-                this.game = this.entity.game;
-            }
-
-            this.onAddedToEntity.dispatch(this, this.entity);
-
-            return true;
-
-        }
-
-        /**
-        * Called when this Componenet is removed from an Entity
-        * @method _removedFromEntity
-        * @param {Kiwi.Entity} entity
-        */
-        private _removedFromEntity(entity: Kiwi.Entity) {
-
-            klog.info('Component removed from Entity');
-
-            this.entity = null;
-
-            this.onRemovedFromEntity.dispatch(this, entity);
-
-        }
-
-        /*
-        * Whether this component supports Canvas entities
-        * @property _supportsCanvas
-        * @type Boolean
-        * @private
-        */
-        private _supportsCanvas: bool;
-
-        /*
-        * Whether this component supports DOM entities
-        * @property _supportsDOM
-        * @type Boolean
-        * @private
-        */
-        private _supportsDOM: bool;
-
-        /*
-        * Whether this component supports WebGL entities
-        * @property _supportsWebGL
-        * @type Boolean
-        * @private
-        */
-        private _supportsWebGL: bool;
+        public owner: Kiwi.IChild;
 
         /**
         * The game this Component belongs to
         * @property game
         * @type Game
 	    */
-        public game: Kiwi.Game = null;
+        public game: Kiwi.Game;
 
         /**
         * The name of this component.
@@ -329,60 +61,7 @@ module Kiwi {
         * @type string
         **/
         public name: string;
-
-        /**
-        * Returns true if this component supports the given render type
-        * @param {Number} Kiwi.TYPE_CANVAS, Kiwi.TYPE_DOM or Kiwi.TYPE_WEBGL
-        * @return Boolean
-        **/
-        public supportsType(type: number): bool {
-
-            if (type === Kiwi.TYPE_CANVAS && this._supportsCanvas)
-            {
-                return true;
-            }
-            
-            if (type === Kiwi.TYPE_DOM && this._supportsDOM)
-            {
-                return true;
-            }
-
-            if (type === Kiwi.TYPE_WEBGL && this._supportsWebGL)
-            {
-                return true;
-            }
-
-            return false;
-
-        }
-
-        /**
-        * Returns true if this component supports Canvas entities
-        * @method supportsCanvas
-        * @return Boolean
-        **/
-        public supportsCanvas(): bool {
-            return this._supportsCanvas;
-        }
-
-        /**
-        * Returns true if this component supports DOM entities
-        * @method supportsDOM
-        * @return Boolean
-        **/
-        public supportsDOM(): bool {
-            return this._supportsDOM;
-        }
-
-        /**
-        * Returns true if this component supports WebGL entities
-        * @method supportsWebGL
-        * @return Boolean
-        **/
-        public supportsWebGL(): bool {
-            return this._supportsWebGL;
-        }
-
+         
         /**
 		* An active Component is one that has its update method called by its parent.
         * @property active
@@ -416,35 +95,14 @@ module Kiwi {
         public postUpdate() { }
 
         /**
-        * Components can preRender, that is render before the parent renders
-        * @method render
-        */
-        public preRender() { }
-
-        /**
-        * If the component renders, over-ride this function to provide implementation
-        * @method render
-        */
-        public render() { }
-
-        /**
-        * Components can postRender, that is render after the parent has rendered
-        * @method render
-        */
-        public postRender() { }
-
-        /**
         * Destroys this component
         * @method destroy
         */
         public destroy() {
 
             this.active = false;
-
-            this.entity = null;
-            this.game = null;
-            this.group = null;
-            this.layer = null;
+            delete this.game;
+            delete this.owner;
 
             this.name = '';
 

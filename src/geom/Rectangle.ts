@@ -1,4 +1,5 @@
 /// <reference path="Point.ts" />
+/// <reference path="Transform.ts" />
 
 /**
  *	Kiwi - Geom - Rectangle
@@ -68,7 +69,7 @@ module Kiwi.Geom {
         * @method bottom
         * @return {Number}
          **/
-        public bottom(value?:number): number {
+        public set bottom(value: number) {
 
             if (value)
             {
@@ -82,6 +83,10 @@ module Kiwi.Geom {
                 }
             }
 
+        }
+
+        public get bottom(): number {
+
             return this.y + this.height;
 
         }
@@ -91,8 +96,9 @@ module Kiwi.Geom {
         * @method center
         * @return {Point} 
         **/
-        public center(output: Point = new Point): Point {
+        public get center(): Point {
 
+            var output: Point = new Point();
             return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
 
         }
@@ -102,15 +108,20 @@ module Kiwi.Geom {
         * @method bottomRight
         * @return {Point} 
         **/
-        public bottomRight(value?: Point, output: Point = new Point): Point {
-
+        public set bottomRight(value: Point) {
+            
             if (value)
             {
-                this.right(value.x);
-                this.bottom(value.y);
+                this.right = value.x;
+                this.bottom = value.y;
             }
 
-            return output.setTo(this.right(), this.bottom());
+        }
+
+        public get bottomRight(): Point {
+
+            var output: Point = new Point();
+            return output.setTo(this.right, this.bottom);
 
         }
 
@@ -120,7 +131,7 @@ module Kiwi.Geom {
         * @param {Number} value 
         * @ return {number} 
         **/
-        public left(value?: number): number {
+        public set left(value: number) {
 
             if (value)
             {
@@ -140,6 +151,10 @@ module Kiwi.Geom {
                 }
             }
 
+        }
+
+        public get left(): number {
+
             return this.x;
 
         }
@@ -149,21 +164,23 @@ module Kiwi.Geom {
         * @method right
         * @return {Number} 
         **/
-        public right(value?:number): number {
+        public set right(value: number) {
 
             if (value)
             {
                 if (value < this.x)
                 {
                     this.width = 0;
-
-                    return this.x;
                 }
                 else
                 {
-                    this.width = (value - this.x);
+                    this.width = value - this.x;
                 }
             }
+
+        }
+
+        public get right(): number {
 
             return this.x + this.width;
 
@@ -175,8 +192,9 @@ module Kiwi.Geom {
          * @param {Point} output Optional Point object. If given the values will be set into the object, otherwise a brand new Point object will be created and returned.
          * @return {Kiwi.Geom.Point} The size of the Rectangle object
          **/
-        public size(output: Point = new Point): Point {
+        public get size(): Point {
 
+            var output: Point = new Point();
             return output.setTo(this.width, this.height);
 
         }
@@ -186,7 +204,7 @@ module Kiwi.Geom {
         * @method volume
         * @return {Number} 
         **/
-        public volume(): number {
+        public get volume(): number {
 
             return this.width * this.height;
 
@@ -197,7 +215,7 @@ module Kiwi.Geom {
         * @method perimeter
         * @return {Number} 
         **/
-        public perimeter(): number {
+        public get perimeter(): number {
 
             return (this.width * 2) + (this.height * 2);
 
@@ -208,7 +226,7 @@ module Kiwi.Geom {
         * @method top
         * @return {Number} 
         **/
-        public top(value?: number): number {
+        public set top(value: number) {
 
             if (value)
             {
@@ -228,6 +246,10 @@ module Kiwi.Geom {
                 }
             }
 
+        }
+
+        public get top(): number {
+
             return this.y;
 
         }
@@ -237,7 +259,7 @@ module Kiwi.Geom {
         * @param {Point} value
         * @return {Point}
         **/
-        public topLeft(value?:Point, output: Point = new Point): Point {
+        public set topLeft(value: Point) {
 
             if (value)
             {
@@ -245,6 +267,11 @@ module Kiwi.Geom {
                 this.y = value.y;
             }
 
+        }
+
+        public get topLeft(): Point {
+
+            var output: Point = new Point();
             return output.setTo(this.x, this.y);
 
         }
@@ -270,7 +297,7 @@ module Kiwi.Geom {
          **/
         public contains(x: number, y: number): bool {
 
-            if (x >= this.x && x <= this.right() && y >= this.y && y <= this.bottom())
+            if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom)
             {
                 return true;
             }
@@ -305,7 +332,7 @@ module Kiwi.Geom {
                 return false;
             }
 
-            if (rect.x >= this.x && rect.y >= this.y && rect.right() <= this.right() && rect.bottom() <= this.bottom())
+            if (rect.x >= this.x && rect.y >= this.y && rect.right <= this.right && rect.bottom <= this.bottom)
             {
                 return true;
             }
@@ -402,8 +429,8 @@ module Kiwi.Geom {
             {
                 output.x = Math.max(toIntersect.x, this.x);
                 output.y = Math.max(toIntersect.y, this.y);
-                output.width = Math.min(toIntersect.right(), this.right()) - output.x;
-                output.height = Math.min(toIntersect.bottom(), this.bottom()) - output.y;
+                output.width = Math.min(toIntersect.right, this.right) - output.x;
+                output.height = Math.min(toIntersect.bottom, this.bottom) - output.y;
             }
 
             return output;
@@ -418,19 +445,19 @@ module Kiwi.Geom {
          **/
         public intersects(toIntersect: Rectangle): bool {
 
-            if (toIntersect.x > this.right() - 1) {
+            if (toIntersect.x > this.right - 1) {
                 return false;
             }
 
-            if (toIntersect.right() - 1 < this.x) {
+            if (toIntersect.right - 1 < this.x) {
                 return false;
             }
 
-            if (toIntersect.bottom() - 1 < this.y) {
+            if (toIntersect.bottom - 1 < this.y) {
                 return false;
             }
 
-            if (toIntersect.y > this.bottom() - 1) {
+            if (toIntersect.y > this.bottom - 1) {
                 return false;
             }
 
@@ -562,8 +589,8 @@ module Kiwi.Geom {
             return output.setTo(
                     Math.min(toUnion.x, this.x),
                     Math.min(toUnion.y, this.y),
-                    Math.max(toUnion.right(), this.right()),
-                    Math.max(toUnion.bottom(), this.bottom())
+                    Math.max(toUnion.right, this.right),
+                    Math.max(toUnion.bottom, this.bottom)
                   );
 
         }
@@ -571,13 +598,14 @@ module Kiwi.Geom {
         public scale(x:number,y:number,translation:Kiwi.Geom.Point): Rectangle {
 
             var trans: Kiwi.Geom.Transform = new Kiwi.Geom.Transform;
-            trans.scale(x, y);
-            trans.x(translation.x);
-            trans.y(translation.y);
+            trans.scaleX = x;
+            trans.scaleY = y;
+            trans.x = translation.x;
+            trans.y = translation.y;
             
-            var tl: Kiwi.Geom.Point = this.topLeft();
+            var tl: Kiwi.Geom.Point = this.topLeft;
             trans.transformPoint(tl);
-            this.topLeft(tl);
+            this.topLeft = tl;
 
             this.width *= x;
             this.height *= y;

@@ -71,8 +71,6 @@ module Kiwi.Time {
         */
         public boot() {
 
-            klog.info('MasterClock booted');
-
             this.master = new Kiwi.Time.MasterClock();
 
             this.clock = new Clock(this, this.master, 'default', 1000);
@@ -110,8 +108,6 @@ module Kiwi.Time {
                     return this._clocks[i];
                 }
             }
-
-            klog.error("No clock with the name: " + name + " exists.");
 
         }
 

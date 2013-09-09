@@ -1,21 +1,17 @@
-/// <reference path="../Kiwi.ts" />
-
-/*
- *	Kiwi - Core - Camera
- *
- *	@desc		
- *				
- *	@version    1.0 - 1st March 2013
- *				
- *	@author 	Richard Davey
- *	@author		Ross Kettle
- *				
- *	@url		http://www.kiwijs.org
- *				
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
 */
 
 module Kiwi {
-
+    /**
+    * My method description.  Like other pieces of your comment blocks, 
+    * this can span multiple lines.
+    *
+    * @class Camera
+    * 
+    */
     export class Camera {
 
         /**
@@ -24,72 +20,57 @@ module Kiwi {
         * @param {Kiwi.Game} game 
         * @param {Number} id 
         * @param {String} name
-        * @return {Kiwi.Layer}
+        * @param {Number} x
+        * @param {Number} y
+        * @param {Number} width
+        * @param {Number} height
+        * @return {Kiwi.Camera}
 		**/
         constructor(game: Kiwi.Game, id: number, name: string,x:number,y:number,width:number,height:number) {
 
             this._game = game;
             this.id = id;
             this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.CAMERA, this);
             
             //size could autoresize to fit stage
-            this.size = new Kiwi.Components.Size(width, height);
-            this.position = new Kiwi.Components.Position(x, y);
-
-            this.components.add(this.size);
-            this.components.add(this.position);
-
-            if (Kiwi.DEVICE.canvas) {  
-                this._createCompositeCanvas();
-
-            } else {
-                klog.warn("Canvas is not supported - no canvas was created on camera " + name);
-            }
-
-
-           
+            this.width = width;
+            this.height = height;
+            this.transform = new Kiwi.Geom.Transform(x, y);
+            this.transform.rotPointX = x + width / 2;
+            this.transform.rotPointY = y + height / 2;
 
             
-            this._game.stage.size.updated.add(this._updatedStageSize, this);
-
-            this.size.updated.add(this._updatedSize,this);
-
-            klog.info('Created Camera ' + this.id);
-            
+            this._game.stage.onResize.add(this._updatedStageSize, this);
+            this._game.stage.onResize.add(this._updatedSize, this); 
+        
         }
 
+        /**
+        * The width of this camara.
+        * @property width
+        * @type Number
+        */
+        public width: number;
+        
+        /**
+        * The height of this camera.
+        * @property height
+        * @type Number
+        */
+        public height: number;
+
+        /**
+        * The type of Kiwi.Object this is.
+        * @method objType
+        * @return {String}
+        */
         public objType() {
             return "Camera";
         }
 
-        private _createCompositeCanvas() {
-            this._compositeCanvas = <HTMLCanvasElement>document.createElement("canvas");
-            this._ctx = this._compositeCanvas.getContext("2d");
-
-            this._compositeCanvas.id = this._game.id + "compositeCanvas";
-           // this._compositeCanvas.style.width = "100%";
-            //this._compositeCanvas.style.height = "100%";
-            this._compositeCanvas.style.position = "absolute";
-
-            this._resizeCompositeCanvas();
-          
-            this._game.stage.canvasLayers.appendChild(this._compositeCanvas);
-            this._compositeCanvasCreated = true;
-
-        }
-
-        private _resizeCompositeCanvas() {
-            this._compositeCanvas.width = this.size.width();
-            this._compositeCanvas.height = this.size.height();
-        }
-
-        private _compositeCanvas: HTMLCanvasElement;
-        private _ctx: CanvasRenderingContext2D;
-
-        private _compositeCanvasCreated: bool = false;
-
-        // if true then the camera will be resized to fit the stage when the stage is resized
+        /**
+        * if true then the camera will be resized to fit the stage when the stage is resized
+        */
         public fitToStage:bool = true;
 
         /** 
@@ -97,9 +78,7 @@ module Kiwi {
 	     * @property position
 	     * @type Kiwi.Components.Position
 	     **/
-        public position: Kiwi.Components.Position;
-
-        public size: Kiwi.Components.Size;
+        public transform: Kiwi.Geom.Transform;
 
         /**
 		* 
@@ -109,20 +88,21 @@ module Kiwi {
 		**/
         private _updatedStageSize(width: number, height: number) {
 
-           
-            this.size.setTo(width, height);
-            this._resizeCompositeCanvas();
+            
+            this.width = width;
+            this.height = height;
+          
 
         }
 
-          /**
+        /**
 		* 
         * @method _updatedStageSize
         * @param {Number} width
         * @param {Number} height
 		**/
         private _updatedSize(width: number, height: number) {
-            this._game.stage.domLayersMask.style.width = width + "px";
+           /* this._game.stage.domLayersMask.style.width = width + "px";
             this._game.stage.domLayersMask.style.height = height + "px";
             this._resizeCompositeCanvas();
             for (var i = 0; i < this._game.layers.layers.length; i++) {
@@ -132,16 +112,10 @@ module Kiwi {
                
 
             }
-           
+           */
         }
 
 
-        /**
-        * The Component Manager
-        * @property components
-        * @type Kiwi.ComponentManager
-	    */
-        public components: Kiwi.ComponentManager;
 
         /**
         * The game this Group belongs to
@@ -213,38 +187,22 @@ module Kiwi {
 
         public update() {
             
-            this.components.update();
+            //this.components.update();
             
         }
 
         public render() {
-            //console.log("render cam " + this.name);
             
-            if (this._compositeCanvasCreated) {
-                //clear this
-                this._compositeCanvas.width = this.size.width();
-                var layer: Kiwi.Layer;
-                for (var i = 0; i < this._game.layers.layers.length; i++) {
-                    
-                    layer = this._game.layers.layers[i];
-                    
-                    if (layer.type === Kiwi.TYPE_CANVAS) {
-                       
-                        this._ctx.drawImage(layer.canvas.domElement, 0, 0, this.size.width(), this.size.height(), 0, 0, this.size.width(), this.size.height());
-                        
-                    }
-                }
-                    
+            this._game.renderer.render(this);
 
-            }
+        }
 
             
 
 
 
-            //composite each layer canvas onto this one.
+        
         }
 
     }
 
-}

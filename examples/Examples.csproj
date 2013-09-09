@@ -21,15 +21,91 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="examples.css" />
-    <Content Include="jquery-1.9.1.d.ts" />
-    <Content Include="jquery-1.9.1.js" />
-    <TypeScriptCompile Include="sprites\Sprite1.ts" />
+    <TypeScriptCompile Include="Tweening\Chaining.ts" />
+    <TypeScriptCompile Include="Transform\Alpha.ts" />
+    <TypeScriptCompile Include="Input\General.ts" />
+    <Content Include="Input\General.js">
+      <DependentUpon>General.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Input\MouseManager.ts" />
+    <Content Include="Input\MouseManager.js">
+      <DependentUpon>MouseManager.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Timer\Repeating.ts" />
+    <TypeScriptCompile Include="Timer\SetNumber.ts" />
+    <Content Include="Timer\SetNumber.js">
+      <DependentUpon>SetNumber.ts</DependentUpon>
+    </Content>
+    <Content Include="Timer\TimerEvent.js">
+      <DependentUpon>Repeating.ts</DependentUpon>
+    </Content>
+    <Content Include="Transform\Alpha.js">
+      <DependentUpon>Alpha.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Transform\GroupTransform.ts" />
+    <Content Include="Transform\Group.js">
+      <DependentUpon>GroupTransform.ts</DependentUpon>
+    </Content>
+    <Content Include="Tweening\CreateTween.js">
+      <DependentUpon>CreateTween.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Tweening\CreateTween.ts" />
+    <TypeScriptCompile Include="Tweening\Looping.ts" />
+    <TypeScriptCompile Include="Tweening\EasingMethods.ts" />
+    <TypeScriptCompile Include="Transform\Moving.ts" />
+    <Content Include="Transform\Moving.js">
+      <DependentUpon>Moving.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Transform\Rotation.ts" />
+    <Content Include="Transform\Rotation.js">
+      <DependentUpon>Rotation.ts</DependentUpon>
+    </Content>
+    <Content Include="Transform\Scaling.js">
+      <DependentUpon>Scaling.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Transform\Scaling.ts" />
+    <TypeScriptCompile Include="Introduction\Spritesheets.ts" />
+    <TypeScriptCompile Include="AnimationComponent\Creation.ts" />
+    <TypeScriptCompile Include="AnimationComponent\AddingCallbacks.ts" />
+    <Content Include="AnimationComponent\Animation.js">
+      <DependentUpon>Creation.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Introduction\Sprite.ts" />
+    <TypeScriptCompile Include="AnimationComponent\MultipleSprites.ts" />
+    <TypeScriptCompile Include="AnimationComponent\NextAndPrevFrames.ts" />
+    <TypeScriptCompile Include="AnimationComponent\PausingAndResuming.ts" />
+    <TypeScriptCompile Include="Input\Dragging.ts" />
+    <TypeScriptCompile Include="AnimationComponent\PlayingInReverse.ts" />
+    <Content Include="AnimationComponent\PlayingInReverse.js">
+      <DependentUpon>PlayingInReverse.ts</DependentUpon>
+    </Content>
+    <Content Include="Input\Dragging.js">
+      <DependentUpon>Dragging.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Input\InputComponent.ts" />
+    <Content Include="Input\OnDownEvent.js">
+      <DependentUpon>InputComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Introduction\Sprite.js">
+      <DependentUpon>Sprite.ts</DependentUpon>
+    </Content>
+    <Content Include="Introduction\Introduction.js">
+      <DependentUpon>StateIntroduction.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Introduction\StateIntroduction.ts" />
+    <TypeScriptCompile Include="Introduction\StaticImage.ts" />
+    <Content Include="Introduction\1- Creation.js">
+      <DependentUpon>StaticImage.ts</DependentUpon>
+    </Content>
+    <Content Include="cocoon.php" />
     <Content Include="how to setup tests.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
     <Content Include="index.php" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="assets\" />
+    <Content Include="browser.php" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -37,6 +113,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>Tests</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -47,7 +126,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>58581</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:58753/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
@@ -60,20 +139,21 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)\..\build\Kiwi.js .
-
-
-</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\examples\</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

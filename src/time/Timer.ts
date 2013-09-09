@@ -214,15 +214,15 @@ module Kiwi.Time {
         **/
         public update() {
 
-            if (this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false)
+            if (this._isRunning && this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false)
             {
                 this._currentCount++;
 
                 this.processEvents(TimerEvent.TIMER_COUNT);
 
                 this._timeLastCount = this._clock.elapsed() || 0;
-
-                if (this._currentCount >= this.repeatCount)
+                 
+                if (this.repeatCount !== -1 && this._currentCount >= this.repeatCount)
                 {
                     this.stop();
                 }

@@ -22,8 +22,6 @@ module Kiwi {
         */
         constructor(parent: Kiwi.State, name: string) {
 
-            klog.info('StateConfig created', name);
-
             this._state = parent;
             this.name = name;
 
@@ -220,8 +218,6 @@ module Kiwi {
          */
         populate() {
 
-            klog.info('populate StateConfig');
-
             if (typeof this._state['init'] === 'function')
             {
                 this.hasInit = true;
@@ -285,24 +281,10 @@ module Kiwi {
             if (this.hasInit === false && this.hasCreate === false)
             {
                 //  If there are no init or create functions, then we consider the state already initialised
-                klog.info('If there are no init or create functions, then we consider the state already initialised');
                 this.isInitialised = true;
                 this.isCreated = true;
                 this.isReady = true;
             }
-
-            //klog.info('StateConfig: hasInit', this.hasInit);
-            //klog.info('StateConfig: hasPreloader', this.hasPreloader);
-            //klog.info('StateConfig: hasLoadProgress', this.hasLoadProgress);
-            //klog.info('StateConfig: hasLoadComplete', this.hasLoadComplete);
-            //klog.info('StateConfig: hasLoadUpdate', this.hasLoadUpdate);
-            //klog.info('StateConfig: hasCreate', this.hasCreate);
-            //klog.info('StateConfig: hasOnEnter', this.hasOnEnter);
-            //klog.info('StateConfig: hasUpdate', this.hasUpdate);
-            //klog.info('StateConfig: hasRender', this.hasRender);
-            //klog.info('StateConfig: hasOnExit', this.hasOnExit);
-            //klog.info('StateConfig: hasShutDown', this.hasShutDown);
-            //klog.info('StateConfig: hasDestroy', this.hasDestroy);
 
         }
 
