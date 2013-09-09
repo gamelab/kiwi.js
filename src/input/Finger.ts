@@ -1,8 +1,17 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="Pointer.ts" />
+/**
+* Kiwi - Input
+* @module Kiwi
+* @submodule Input
+* 
+*/ 
  
 module Kiwi.Input {
 
+    /**
+    *
+    * @class Finger
+    * 
+    */
     export class Finger extends Pointer {
         
         /*

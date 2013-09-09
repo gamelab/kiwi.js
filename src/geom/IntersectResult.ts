@@ -1,15 +1,17 @@
 /**
- *	Kiwi - Geom - IntersectResult
- *
- *	@desc 		A light result object to hold the results of an intersection
- *
- *	@version 	1.0 - 15th October 2012
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- */
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
 
 module Kiwi.Geom {
 
+    /**
+    * A light result object to hold the results of an intersection
+    *
+    * @class IntersectResult
+    *
+    */
     export class IntersectResult {
 
         public objType() {

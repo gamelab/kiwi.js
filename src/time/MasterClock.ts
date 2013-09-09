@@ -1,17 +1,19 @@
 /**
- *  Kiwi - Time - MasterClock
- *
- *  @desc       The masterclock tracks time elapsed since the application started.
- *              You should not access it directly, use the Clock and Timer classes instead.
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Ross Kettle
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
+* Kiwi - Time
+* @module Kiwi
+* @submodule Time
+*
+*/
 
 module Kiwi.Time {
 
+    /**
+    * The masterclock tracks time elapsed since the application started.
+    * You should not access it directly, use the Clock and Timer classes instead.
+    *
+    * @class MasterClock
+    *
+    */
     export class MasterClock {
 
         /**

@@ -1,6 +1,12 @@
-/// <reference path="Game.ts" />
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
+*/
 
 module Kiwi {
+    
+    
 
     export interface IChild {
         render(camera:Kiwi.Camera);

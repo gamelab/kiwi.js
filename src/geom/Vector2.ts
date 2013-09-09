@@ -1,17 +1,17 @@
-/// <reference path="Point.ts" />
-
 /**
- *  Kiwi - Geom - Vector2
- *
- *  @desc       A two dimensional vector object for storing and manipulating x and y vector components.
- *
- *	@version 	1.1 - 12th October 2012
- *	@author 	Ross Kettle
- *  @url        http://www.kiwijs.org
- */
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
 
 module Kiwi.Geom {
 
+    /**
+    * A two dimensional vector object for storing and manipulating x and y vector components.
+    *
+    * @class Vector2
+    *
+    */
     export class Vector2 {
 
         /**

@@ -1,8 +1,17 @@
-/// <reference path="TextureAtlas.ts" />
+/**
+* Kiwi - Textures
+* @module Kiwi
+* @submodule Textures
+* 
+*/ 
 
 module Kiwi.Textures  {
 
-
+    /**
+    *
+    * @class SingleImage
+    *
+    */
     export class SingleImage extends TextureAtlas {
 
         /*

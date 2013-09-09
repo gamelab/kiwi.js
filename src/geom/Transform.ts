@@ -1,26 +1,20 @@
-﻿/// <reference path="Matrix.ts" />
-
-/**
- *	Kiwi - Geom - Transform
- *
- *	@desc 		Represents position, scale, rotation and rotationPoint of an Entity.
- *			
- *				- Values can be transformed with a 3x3 affine transformation matrix, which each transform is assigned.
- *				- A tranform can be assigned a parent, which may in turn have it's own parent, thereby creating a tranform inheritence heirarchy
- *				- A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
- *
- *	@version 	0.2 - 18th October 2012
- *
- *	@author 	Ross Kettle
- *
- *
- *	@url 		http://www.kiwijs.org
- *
- *	@todo 		Check tranforms don't have themselves as ancestors
+﻿/**
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
 */
 
 module Kiwi.Geom {
 
+    /**
+    * Represents position, scale, rotation and rotationPoint of an Entity.
+    * - Values can be transformed with a 3x3 affine transformation matrix, which each transform is assigned.
+    * - A tranform can be assigned a parent, which may in turn have it's own parent, thereby creating a tranform inheritence heirarchy
+    * - A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
+    *
+    * @class Transform
+    *
+    */
     export class Transform {
 
         /** 

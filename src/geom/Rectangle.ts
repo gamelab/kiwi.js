@@ -1,19 +1,17 @@
-/// <reference path="Point.ts" />
-/// <reference path="Transform.ts" />
-
 /**
- *	Kiwi - Geom - Rectangle
- *
- *	@desc 		A Rectangle object is an area defined by its position, as indicated by its top-left corner (x,y) and width and height.
- *
- *	@version 	1.3 - 27th February 2013
- *	@author 	Richard Davey
- *
- *  @todo       Get each corner as a Point objet
- */
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
 
 module Kiwi.Geom {
 
+    /**
+    * An area defined by its position, as indicated by its top-left corner (x,y) and width and height
+    *
+    * @class Rectangle
+    * 
+    */
     export class Rectangle {
 
         /**

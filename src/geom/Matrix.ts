@@ -1,24 +1,22 @@
-﻿/// <reference path="Point.ts" />
-
-/*
-	Kiwi - Geom - Matrix
-
-	@desc 		Represents a 2d transformation matrix. This can be used to map points between different coordinate spaces. Matrices are used
-				by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
-				Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent transform.
-				By concatenating an object's transformatkion matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
-				See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
-				
-	@version 	0.2 - 12th October 2012
-	@author 	Ross Kettle www.rosskettle.net
-	@url 		http://www.kiwijs.org
-
-	@todo 		
-
+﻿/**
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
 */
 
 module Kiwi.Geom {
 
+    /**
+    * Represents a 2d transformation matrix. This can be used to map points between different coordinate spaces. Matrices are used
+	* by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
+	* Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
+    * transform.
+    * By concatenating an object's transformatkion matrix with it's ancestors matrices, it is possible to determine the absolute position of the object in world space.
+    * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
+    * 
+    * @class Matrix
+    * 
+    */
     export class Matrix {
 
         /**

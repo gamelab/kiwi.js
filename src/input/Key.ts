@@ -1,17 +1,18 @@
-/// <reference path="../core/Game.ts" />
-
 /**
- *	Kiwi - Input - Key
- *
- *	@desc 		A compact object that holds the most important details about a Keyboard Event response
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- */
+* Kiwi - Input
+* @module Kiwi
+* @submodule Input
+* 
+*/ 
 
 module Kiwi.Input {
-
+    
+    /**
+    * A compact object that holds the most important details about a Keyboard Event response
+    *
+    * @class Key
+    *
+    */
     export class Key {
 
         /** 

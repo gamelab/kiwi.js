@@ -1,17 +1,18 @@
-
-
-
 /**
- *  Kiwi - Core - File
- *
- *  @desc       This class handles the loading of external data files via a tag loader or xhr + arraybuffer, and optionally saves to the file store
- *
-
- *
- */
-
+* Kiwi - Files
+* @module Kiwi
+* @submodule Files 
+* 
+*/
+ 
 module Kiwi.Files {
      
+    /**
+    * Handles the loading of external data files via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
+    *
+    * @class File
+    *
+    */
     export class File {
 
         /*

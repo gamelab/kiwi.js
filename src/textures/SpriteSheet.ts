@@ -1,9 +1,18 @@
-
-
+/**
+* Kiwi - Textures
+* @module Kiwi
+* @submodule Textures
+*
+*/ 
 
 module Kiwi.Textures  {
 
-
+    /**
+    *
+    *
+    * @class SpriteSheet
+    *
+    */
     export class SpriteSheet extends TextureAtlas{
 
         /*

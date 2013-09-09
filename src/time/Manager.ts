@@ -1,22 +1,18 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="Clock.ts" />
-/// <reference path="Timer.ts" />
-/// <reference path="MasterClock.ts" />
-
 /**
- *	Kiwi - Time - Manager
- *
- *	@desc 		A Proxy to the Clock and Time related classes. Access this via Kiwi.Game.Clock.
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- *
- *	@todo       Remove a Clock. Use High Resolution Timer.
- */
+* Kiwi - Time
+* @module Kiwi
+* @submodule Time
+* @main Time
+*/
 
 module Kiwi.Time {
 
+    /**
+    * A Proxy to the Clock and Time related classes. Access this via Kiwi.Game.Clock
+    *
+    * @class Manager
+    *
+    */
     export class Manager {
 
         /**

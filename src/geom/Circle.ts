@@ -8,12 +8,12 @@
 
 module Kiwi.Geom {
 
- /**
- *	
- * @class Circle
- * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
- *
- */
+     /**
+     * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
+     *	
+     * @class Circle
+     *
+     */
 
     export class Circle {
 

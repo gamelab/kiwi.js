@@ -1,17 +1,18 @@
 /**
- *  Kiwi - DOM - Bootstrap
- *
- *  @desc       DOM Boot and Ready functions (based on those used by jQuery)
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- *
- *  @update     Added readyState interactive check
- */
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+* @main System
+*/
 
 module Kiwi.System {
 
+    /**
+    * DOM Boot and Ready functions (based on those used by jQuery)
+    * 
+    * @class Bootstrap
+    *
+    */
     export class Bootstrap {
 
         /**

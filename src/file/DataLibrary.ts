@@ -1,9 +1,18 @@
-
-
+/**
+* Kiwi - Files
+* @module Kiwi
+* @submodule Files 
+* @main Files
+*/
+ 
 module Kiwi.Files {
 
-
-    // Class
+    /**
+    *
+    *
+    * @class DataLibrary
+    *
+    */
     export class DataLibrary {
 
         /*

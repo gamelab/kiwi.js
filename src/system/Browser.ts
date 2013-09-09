@@ -1,18 +1,19 @@
-/// <reference path="../geom/Point.ts" />
-
 /**
- *  Kiwi - DOM - Browser Utilities
- *
- *  @desc       Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
- *              Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
- *
- *	@version 	1.0 - 11th March 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+*
+*/
 
 module Kiwi.System {
 
+    /**
+    * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+    * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
+    * 
+    * @class Browser
+    *
+    */
     export class Browser {
 
         /**

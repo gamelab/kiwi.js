@@ -1,28 +1,24 @@
-
-/*
- *	Kiwi - Components - ArcadePhysics
- *				
- *	@desc		Basic Arcade Physics - ported from Flixel (www.flixel.org)
- *				Most functions operate identically to the original flixel functions, though some
- *              have been split into multiple functions. Generally where functions originally accepted
- *              either groups or gameobjects within the same argument, the ported functions one or the other.
- *
- *	@version	1.0 - 1st April 2013
- *
- *	@author 	Adam 'Atomic' Saltsman
-
- *	@author		Ross Kettle (port)
- *
- *	@url		http://www.kiwijs.org
- *              http://www.adamatomic.com/
- *              
- *  @todo       implement camera space
- *              resolve clock issue
- *
-*/
+/**
+* Kiwi - Components
+* @module Kiwi
+* @submodule Components 
+* 
+*/ 
 
 module Kiwi.Components {
      
+    /**
+    * Ported from Flixel, most functions operation identically to the original flixel functions, though some
+    * have been split into multiple functions. Generally where functions originally accepted
+    * either groups or gameobjects within the same argument, the ported functions one or the other.
+    * http://www.flixel.org/
+    * http://www.adamatomic.com/
+    *
+    * @class ArcadePhysics
+    *
+    * @author Adam 'Atomic' Saltsman, Flixel
+    *
+    */
     export class ArcadePhysics extends Kiwi.Component {
 
         /*

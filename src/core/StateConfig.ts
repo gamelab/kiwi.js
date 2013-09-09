@@ -1,17 +1,16 @@
-/// <reference path="State.ts" />
-
 /**
- *  Kiwi - Core - StateConfig
- *
- *  @desc       A State Configuration Object
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
+*/  
 
 module Kiwi {
 
+    /**
+    *
+    * @class StateConfig
+    * 
+    */ 
     export class StateConfig {
 
         /**

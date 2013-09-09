@@ -27,6 +27,7 @@
 /// <reference path="core/SignalBinding.ts" />
 /// <reference path="core/Stage.ts" />
 
+/// <reference path="components/Animation.ts" />
 /// <reference path="components/Box.ts" />
 /// <reference path="components/Input.ts" />
 /// <reference path="components/Sound.ts" />

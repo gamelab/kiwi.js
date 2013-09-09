@@ -1,18 +1,17 @@
-/// <reference path="Game.ts" />
-/// <reference path="../geom/Rectangle.ts" />
-
 /**
- *  Kiwi - Core - Stage
- *
- *  @desc       A game contains one single Stage which controls the size of the game, frame rate, position, etc
- *
- *	@version 	1.0 - March 5th 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
-
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
+*/ 
 
 module Kiwi {
+
+    /**
+    * A game contains one single Stage which controls the size of the game, frame rate, position, e.t.c.
+    *
+    * @class Stage
+    *
+    */
 
     export class Stage {
 

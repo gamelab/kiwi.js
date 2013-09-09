@@ -1,23 +1,21 @@
-/// <reference path="Signal.ts" />
-
-/*
- *	Kiwi - Core - SignalBinding
- *				
- *	@desc		An object that represents a binding between a Signal and a listener function.
- *              Released under the MIT license
- *				http://millermedeiros.github.com/js-signals/
- *
- *	@version	1. - 7th March 2013
- *
- *	@author 	Richard Davey, TypeScript conversion
- *	@author		Miller Medeiros, JS Signals
- *
- *	@url		http://www.kiwijs.org
- *
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
 */
-
+  
 module Kiwi {
 
+    /**
+    * An object that represents a binding between a Signal and a listener function.
+    * Released under the MIT license
+    * http://millermedeiros.github.com/js-signals/
+    * 
+    * @class SignalBinding
+    * 
+    * @author Miller Medeiros, JS Signals
+    *
+    */
     export class SignalBinding {
 
         /**

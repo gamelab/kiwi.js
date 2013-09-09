@@ -1,9 +1,18 @@
-/// <reference path="../animation/Sequence.ts" />
-
+/**
+* Kiwi - Textures
+* @module Kiwi
+* @submodule Textures
+*
+*/ 
 
 module Kiwi.Textures {
 
-    
+    /**
+    *
+    *
+    * @class TextureAtlas
+    *
+    */
     export class TextureAtlas {
 
         /*

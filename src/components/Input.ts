@@ -1,19 +1,18 @@
-/// <reference path="../core/Component.ts" />
-
-/*
- *	Kiwi - Components - Input
- *
- *	@desc		Description
- *
- *	@version	1.0 - ? February 2013
- *				
- *	@author 	Richard Davey
- *				
- *	@url		http://www.kiwijs.org
- *
-*/
-
+/**
+* Kiwi - Components
+* @module Kiwi
+* @submodule Components 
+* 
+*/ 
+ 
 module Kiwi.Components {
+
+    /**
+    *   
+    *
+    * @class Input
+    *
+    */
 
     export class Input extends Component {
 

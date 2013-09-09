@@ -748,180 +748,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var Game = (function () {
-        function Game(domParent, name, state, options) {
-            if (typeof domParent === "undefined") { domParent = ''; }
-            if (typeof name === "undefined") { name = 'KiwiGame'; }
-            if (typeof state === "undefined") { state = null; }
-            var _this = this;
-            this._startup = null;
-            this.audio = null;
-            this.browser = null;
-            this.fileStore = null;
-            this.input = null;
-            this.cameras = null;
-            this.loader = null;
-            this.raf = null;
-            this.stage = null;
-            this.states = null;
-            this.time = null;
-            this.tweens = null;
-            this.rnd = null;
-            this._frameRate = 60;
-            this._interval = 1000 / 60;
-            this._delta = 0;
-            options = options || {};
-            this._debugOption = options.debug || Kiwi.DEBUG_ON;
-            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
-            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
-
-            this.id = Kiwi.GameManager.register(this);
-
-            this._startup = new Kiwi.System.Bootstrap();
-
-            this.audio = new Kiwi.Sound.AudioManager(this);
-            this.browser = new Kiwi.System.Browser(this);
-
-            this.fileStore = new Kiwi.Files.FileStore(this);
-            this.input = new Kiwi.Input.Manager(this);
-
-            this.stage = new Kiwi.Stage(this, name);
-
-            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
-                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
-            } else {
-                this.renderer = new Kiwi.Renderers.GLRenderer(this);
-            }
-
-            this.cameras = new Kiwi.CameraManager(this);
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds = new Kiwi.HUD.HUDManager(this);
-            }
-            this.loader = new Kiwi.Files.Loader(this);
-
-            this.states = new Kiwi.StateManager(this);
-            this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
-            this.time = new Kiwi.Time.Manager(this);
-            this.tweens = new Kiwi.Animation.Tweens.Manager(this);
-
-            if (state !== null) {
-                if (this.states.addState(state, true) === false) {
-                    throw Error("Invalid State passed to Kiwi.Game");
-                }
-            }
-
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this._startup.boot(domParent, function () {
-                    return _this.start();
-                });
-            } else {
-                this.start();
-            }
-        }
-        Object.defineProperty(Game.prototype, "renderOption", {
-            get: function () {
-                return this._renderOption;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Game.prototype, "deviceTargetOption", {
-            get: function () {
-                return this._deviceTargetOption;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Game.prototype, "debugOption", {
-            get: function () {
-                return this._debugOption;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Game.prototype.objType = function () {
-            return "Game";
-        };
-
-        Object.defineProperty(Game.prototype, "frameRate", {
-            get: function () {
-                return this._frameRate;
-            },
-            set: function (value) {
-                if (value > 60)
-                    value = 60;
-
-                if (value >= 0) {
-                    this._frameRate = value;
-                    this._interval = 1000 / this._frameRate;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Game.prototype.start = function () {
-            var _this = this;
-            if (Kiwi.DEVICE === null) {
-                Kiwi.DEVICE = new Kiwi.System.Device();
-            }
-
-            this.browser.boot();
-            this.stage.boot(this._startup);
-            this.renderer.boot();
-            this.cameras.boot();
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds.boot();
-            }
-            this.time.boot();
-            this.audio.boot();
-            this.input.boot();
-
-            this.fileStore.boot();
-            this.loader.boot();
-            this.states.boot();
-
-            this._lastTime = Date.now();
-
-            this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
-                return _this.loop();
-            });
-            this.raf.start();
-        };
-
-        Game.prototype.loop = function () {
-            this._delta = this.raf.currentTime - this._lastTime;
-
-            if (this._delta > this._interval) {
-                this.time.update();
-                this.audio.update();
-                this.input.update();
-                this.tweens.update();
-                this.cameras.update();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.update();
-                }
-                this.states.update();
-
-                this.cameras.render();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.render();
-                }
-                this.states.postRender();
-
-                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
-            }
-        };
-        return Game;
-    })();
-    Kiwi.Game = Game;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var CameraManager = (function () {
         function CameraManager(game) {
             this._game = game;
@@ -1396,94 +1222,348 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    var StateConfig = (function () {
-        function StateConfig(parent, name) {
-            this.name = '';
-            this.isPersistent = false;
-            this.isCreated = false;
-            this.isInitialised = false;
-            this.isReady = false;
-            this.hasInit = false;
-            this.hasPreloader = false;
-            this.hasLoadProgress = false;
-            this.hasLoadComplete = false;
-            this.hasLoadUpdate = false;
-            this.hasCreate = false;
-            this.hasOnEnter = false;
-            this.hasUpdate = false;
-            this.hasRender = false;
-            this.hasOnExit = false;
-            this.hasShutDown = false;
-            this.hasDestroy = false;
-            this.runCount = 0;
-            this.type = 0;
-            this._state = parent;
-            this.name = name;
+    var Game = (function () {
+        function Game(domParent, name, state, options) {
+            if (typeof domParent === "undefined") { domParent = ''; }
+            if (typeof name === "undefined") { name = 'KiwiGame'; }
+            if (typeof state === "undefined") { state = null; }
+            var _this = this;
+            this._startup = null;
+            this.audio = null;
+            this.browser = null;
+            this.fileStore = null;
+            this.input = null;
+            this.cameras = null;
+            this.loader = null;
+            this.raf = null;
+            this.stage = null;
+            this.states = null;
+            this.time = null;
+            this.tweens = null;
+            this.rnd = null;
+            this._frameRate = 60;
+            this._interval = 1000 / 60;
+            this._delta = 0;
+            options = options || {};
+            this._debugOption = options.debug || Kiwi.DEBUG_ON;
+            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
+            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
 
-            this.populate();
+            this.id = Kiwi.GameManager.register(this);
+
+            this._startup = new Kiwi.System.Bootstrap();
+
+            this.audio = new Kiwi.Sound.AudioManager(this);
+            this.browser = new Kiwi.System.Browser(this);
+
+            this.fileStore = new Kiwi.Files.FileStore(this);
+            this.input = new Kiwi.Input.Manager(this);
+
+            this.stage = new Kiwi.Stage(this, name);
+
+            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
+                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
+            } else {
+                this.renderer = new Kiwi.Renderers.GLRenderer(this);
+            }
+
+            this.cameras = new Kiwi.CameraManager(this);
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds = new Kiwi.HUD.HUDManager(this);
+            }
+            this.loader = new Kiwi.Files.Loader(this);
+
+            this.states = new Kiwi.StateManager(this);
+            this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
+            this.time = new Kiwi.Time.Manager(this);
+            this.tweens = new Kiwi.Animation.Tweens.Manager(this);
+
+            if (state !== null) {
+                if (this.states.addState(state, true) === false) {
+                    throw Error("Invalid State passed to Kiwi.Game");
+                }
+            }
+
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this._startup.boot(domParent, function () {
+                    return _this.start();
+                });
+            } else {
+                this.start();
+            }
         }
-        StateConfig.prototype.objType = function () {
-            return "StateConfig";
+        Object.defineProperty(Game.prototype, "renderOption", {
+            get: function () {
+                return this._renderOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "deviceTargetOption", {
+            get: function () {
+                return this._deviceTargetOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "debugOption", {
+            get: function () {
+                return this._debugOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Game.prototype.objType = function () {
+            return "Game";
         };
 
-        StateConfig.prototype.populate = function () {
-            if (typeof this._state['init'] === 'function') {
-                this.hasInit = true;
+        Object.defineProperty(Game.prototype, "frameRate", {
+            get: function () {
+                return this._frameRate;
+            },
+            set: function (value) {
+                if (value > 60)
+                    value = 60;
+
+                if (value >= 0) {
+                    this._frameRate = value;
+                    this._interval = 1000 / this._frameRate;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Game.prototype.start = function () {
+            var _this = this;
+            if (Kiwi.DEVICE === null) {
+                Kiwi.DEVICE = new Kiwi.System.Device();
             }
 
-            if (typeof this._state['preload'] === 'function') {
-                this.hasPreloader = true;
+            this.browser.boot();
+            this.stage.boot(this._startup);
+            this.renderer.boot();
+            this.cameras.boot();
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds.boot();
             }
+            this.time.boot();
+            this.audio.boot();
+            this.input.boot();
 
-            if (typeof this._state['loadProgress'] === 'function') {
-                this.hasLoadProgress = true;
-            }
+            this.fileStore.boot();
+            this.loader.boot();
+            this.states.boot();
 
-            if (typeof this._state['loadComplete'] === 'function') {
-                this.hasLoadComplete = true;
-            }
+            this._lastTime = Date.now();
 
-            if (typeof this._state['loadUpdate'] === 'function') {
-                this.hasLoadUpdate = true;
-            }
+            this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
+                return _this.loop();
+            });
+            this.raf.start();
+        };
 
-            if (typeof this._state['create'] === 'function') {
-                this.hasCreate = true;
-            }
+        Game.prototype.loop = function () {
+            this._delta = this.raf.currentTime - this._lastTime;
 
-            if (typeof this._state['onEnter'] === 'function') {
-                this.hasOnEnter = true;
-            }
+            if (this._delta > this._interval) {
+                this.time.update();
+                this.audio.update();
+                this.input.update();
+                this.tweens.update();
+                this.cameras.update();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.update();
+                }
+                this.states.update();
 
-            if (typeof this._state['update'] === 'function') {
-                this.hasUpdate = true;
-            }
+                this.cameras.render();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.render();
+                }
+                this.states.postRender();
 
-            if (typeof this._state['render'] === 'function') {
-                this.hasRender = true;
-            }
-
-            if (typeof this._state['onExit'] === 'function') {
-                this.hasOnExit = true;
-            }
-
-            if (typeof this._state['shutdown'] === 'function') {
-                this.hasShutDown = true;
-            }
-
-            if (typeof this._state['destroy'] === 'function') {
-                this.hasDestroy = true;
-            }
-
-            if (this.hasInit === false && this.hasCreate === false) {
-                this.isInitialised = true;
-                this.isCreated = true;
-                this.isReady = true;
+                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
             }
         };
-        return StateConfig;
+        return Game;
     })();
-    Kiwi.StateConfig = StateConfig;
+    Kiwi.Game = Game;
+})(Kiwi || (Kiwi = {}));
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var Kiwi;
+(function (Kiwi) {
+    var State = (function (_super) {
+        __extends(State, _super);
+        function State(name) {
+            _super.call(this, null, name);
+            this.game = null;
+
+            this.config = new Kiwi.StateConfig(this, name);
+            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
+            this.transform.parent = null;
+            this._trackingList = [];
+        }
+        State.prototype.objType = function () {
+            return "State";
+        };
+
+        State.prototype.childType = function () {
+            return Kiwi.STATE;
+        };
+
+        State.prototype.boot = function () {
+            this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
+            this.textures = this.textureLibrary.textures;
+            this.audioLibrary = new Kiwi.Sound.AudioLibrary(this.game);
+            this.audio = this.audioLibrary.audio;
+            this.dataLibrary = new Kiwi.Files.DataLibrary(this.game);
+            this.data = this.dataLibrary.data;
+        };
+
+        State.prototype.init = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preload = function () {
+        };
+
+        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
+        };
+
+        State.prototype.loadComplete = function () {
+        };
+
+        State.prototype.loadUpdate = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.create = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preUpdate = function () {
+            this.components.preUpdate();
+        };
+
+        State.prototype.update = function () {
+            this.components.update();
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.postUpdate = function () {
+            this.components.postUpdate();
+        };
+
+        State.prototype.postRender = function () {
+        };
+
+        State.prototype.setType = function (value) {
+            if (this.config.isInitialised === false) {
+                this.config.type = value;
+            }
+        };
+
+        State.prototype.addImage = function (key, url, storeAsGlobal, width, height, offsetX, offsetY) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
+        };
+
+        State.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, storeAsGlobal, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
+        };
+
+        State.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
+        };
+
+        State.prototype.addJSON = function (key, url, storeAsGlobal) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addJSON(key, url, storeAsGlobal);
+        };
+
+        State.prototype.addAudio = function (key, url, storeAsGlobal) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addAudio(key, url, storeAsGlobal);
+        };
+
+        State.prototype.addToTrackingList = function (child) {
+            if (this._trackingList.indexOf(child) !== -1)
+                return;
+
+            this._trackingList.push(child);
+        };
+
+        State.prototype.removeFromTrackingList = function (child) {
+            var n = this._trackingList.indexOf(child);
+            if (n > -1) {
+                this._trackingList.splice(n, 1);
+            }
+        };
+
+        State.prototype.destroyUnused = function () {
+            var d = 0;
+            for (var i = 0; i < this._trackingList.length; i++) {
+                if (this.containsAncestor(this._trackingList[i], this) === false) {
+                    this._trackingList[i].destroy();
+                    this._trackingList.splice(i, 1);
+                    i--;
+                    d++;
+                }
+            }
+
+            return d;
+        };
+
+        State.prototype.destroy = function (deleteAll) {
+            if (typeof deleteAll === "undefined") { deleteAll = true; }
+            for (var i = 0; i < this._trackingList.length; i++) {
+                this._trackingList[i].destroy();
+            }
+            this._trackingList = [];
+
+            for (var i = 0; i < this.members.length; i++) {
+                this._destroyChildren(this.members[i]);
+            }
+        };
+
+        State.prototype._destroyChildren = function (child) {
+            if (child.childType() == Kiwi.GROUP) {
+                for (var i = 0; i < child.members.length; i++) {
+                    this._destroyChildren(child.members[i]);
+                }
+            }
+            child.destroy();
+        };
+        return State;
+    })(Kiwi.Group);
+    Kiwi.State = State;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -2050,244 +2130,6 @@ var Kiwi;
     })();
     Kiwi.Group = Group;
 })(Kiwi || (Kiwi = {}));
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var Kiwi;
-(function (Kiwi) {
-    var State = (function (_super) {
-        __extends(State, _super);
-        function State(name) {
-            _super.call(this, null, name);
-            this.game = null;
-
-            this.config = new Kiwi.StateConfig(this, name);
-            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
-            this.transform.parent = null;
-            this._trackingList = [];
-        }
-        State.prototype.objType = function () {
-            return "State";
-        };
-
-        State.prototype.childType = function () {
-            return Kiwi.STATE;
-        };
-
-        State.prototype.boot = function () {
-            this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
-            this.textures = this.textureLibrary.textures;
-            this.audioLibrary = new Kiwi.Sound.AudioLibrary(this.game);
-            this.audio = this.audioLibrary.audio;
-            this.dataLibrary = new Kiwi.Files.DataLibrary(this.game);
-            this.data = this.dataLibrary.data;
-        };
-
-        State.prototype.init = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preload = function () {
-        };
-
-        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
-        };
-
-        State.prototype.loadComplete = function () {
-        };
-
-        State.prototype.loadUpdate = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.create = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preUpdate = function () {
-            this.components.preUpdate();
-        };
-
-        State.prototype.update = function () {
-            this.components.update();
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.postUpdate = function () {
-            this.components.postUpdate();
-        };
-
-        State.prototype.postRender = function () {
-        };
-
-        State.prototype.setType = function (value) {
-            if (this.config.isInitialised === false) {
-                this.config.type = value;
-            }
-        };
-
-        State.prototype.addImage = function (key, url, storeAsGlobal, width, height, offsetX, offsetY) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
-        };
-
-        State.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, storeAsGlobal, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
-        };
-
-        State.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
-        };
-
-        State.prototype.addJSON = function (key, url, storeAsGlobal) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addJSON(key, url, storeAsGlobal);
-        };
-
-        State.prototype.addAudio = function (key, url, storeAsGlobal) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addAudio(key, url, storeAsGlobal);
-        };
-
-        State.prototype.addToTrackingList = function (child) {
-            if (this._trackingList.indexOf(child) !== -1)
-                return;
-
-            this._trackingList.push(child);
-        };
-
-        State.prototype.removeFromTrackingList = function (child) {
-            var n = this._trackingList.indexOf(child);
-            if (n > -1) {
-                this._trackingList.splice(n, 1);
-            }
-        };
-
-        State.prototype.destroyUnused = function () {
-            var d = 0;
-            for (var i = 0; i < this._trackingList.length; i++) {
-                if (this.containsAncestor(this._trackingList[i], this) === false) {
-                    this._trackingList[i].destroy();
-                    this._trackingList.splice(i, 1);
-                    i--;
-                    d++;
-                }
-            }
-
-            return d;
-        };
-
-        State.prototype.destroy = function (deleteAll) {
-            if (typeof deleteAll === "undefined") { deleteAll = true; }
-            for (var i = 0; i < this._trackingList.length; i++) {
-                this._trackingList[i].destroy();
-            }
-            this._trackingList = [];
-
-            for (var i = 0; i < this.members.length; i++) {
-                this._destroyChildren(this.members[i]);
-            }
-        };
-
-        State.prototype._destroyChildren = function (child) {
-            if (child.childType() == Kiwi.GROUP) {
-                for (var i = 0; i < child.members.length; i++) {
-                    this._destroyChildren(child.members[i]);
-                }
-            }
-            child.destroy();
-        };
-        return State;
-    })(Kiwi.Group);
-    Kiwi.State = State;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var SignalBinding = (function () {
-        function SignalBinding(signal, listener, isOnce, listenerContext, priority) {
-            if (typeof priority === "undefined") { priority = 0; }
-            this.active = true;
-            this.params = null;
-            this._listener = listener;
-            this._isOnce = isOnce;
-            this.context = listenerContext;
-            this._signal = signal;
-            this.priority = priority || 0;
-        }
-        SignalBinding.prototype.objType = function () {
-            return "SignalBinding";
-        };
-
-        SignalBinding.prototype.execute = function (paramsArr) {
-            var handlerReturn;
-            var params;
-
-            if (this.active && !!this._listener) {
-                params = this.params ? this.params.concat(paramsArr) : paramsArr;
-
-                handlerReturn = this._listener.apply(this.context, params);
-
-                if (this._isOnce) {
-                    this.detach();
-                }
-            }
-
-            return handlerReturn;
-        };
-
-        SignalBinding.prototype.detach = function () {
-            return this.isBound() ? this._signal.remove(this._listener, this.context) : null;
-        };
-
-        SignalBinding.prototype.isBound = function () {
-            return (!!this._signal && !!this._listener);
-        };
-
-        SignalBinding.prototype.isOnce = function () {
-            return this._isOnce;
-        };
-
-        SignalBinding.prototype.getListener = function () {
-            return this._listener;
-        };
-
-        SignalBinding.prototype.getSignal = function () {
-            return this._signal;
-        };
-
-        SignalBinding.prototype._destroy = function () {
-            delete this._signal;
-            delete this._listener;
-            delete this.context;
-        };
-
-        SignalBinding.prototype.toString = function () {
-            return '[SignalBinding isOnce:' + this._isOnce + ', isBound:' + this.isBound() + ', active:' + this.active + ']';
-        };
-        return SignalBinding;
-    })();
-    Kiwi.SignalBinding = SignalBinding;
-})(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
     var Signal = (function () {
@@ -2459,1043 +2301,70 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Geom) {
-        var Point = (function () {
-            function Point(x, y) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                this.setTo(x, y);
+    var SignalBinding = (function () {
+        function SignalBinding(signal, listener, isOnce, listenerContext, priority) {
+            if (typeof priority === "undefined") { priority = 0; }
+            this.active = true;
+            this.params = null;
+            this._listener = listener;
+            this._isOnce = isOnce;
+            this.context = listenerContext;
+            this._signal = signal;
+            this.priority = priority || 0;
+        }
+        SignalBinding.prototype.objType = function () {
+            return "SignalBinding";
+        };
+
+        SignalBinding.prototype.execute = function (paramsArr) {
+            var handlerReturn;
+            var params;
+
+            if (this.active && !!this._listener) {
+                params = this.params ? this.params.concat(paramsArr) : paramsArr;
+
+                handlerReturn = this._listener.apply(this.context, params);
+
+                if (this._isOnce) {
+                    this.detach();
+                }
             }
-            Point.prototype.objType = function () {
-                return "Point";
-            };
 
-            Point.prototype.polar = function (distance, angle) {
-                this.x = distance * Math.cos(angle * Math.PI / 180);
-                this.y = distance * Math.sin(angle * Math.PI / 180);
-                return this;
-            };
-
-            Point.prototype.add = function (toAdd, output) {
-                if (typeof output === "undefined") { output = new Point(); }
-                return output.setTo(this.x + toAdd.x, this.y + toAdd.y);
-            };
-
-            Point.prototype.addTo = function (x, y) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                return this.setTo(this.x + x, this.y + y);
-            };
-
-            Point.prototype.subtractFrom = function (x, y) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                return this.setTo(this.x - x, this.y - y);
-            };
-
-            Point.prototype.invert = function () {
-                return this.setTo(this.y, this.x);
-            };
-
-            Point.prototype.clamp = function (min, max) {
-                this.clampX(min, max);
-                this.clampY(min, max);
-                return this;
-            };
-
-            Point.prototype.clampX = function (min, max) {
-                this.x = Math.max(Math.min(this.x, max), min);
-
-                return this;
-            };
-
-            Point.prototype.clampY = function (min, max) {
-                this.x = Math.max(Math.min(this.x, max), min);
-                this.y = Math.max(Math.min(this.y, max), min);
-
-                return this;
-            };
-
-            Point.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Point(); }
-                return output.setTo(this.x, this.y);
-            };
-
-            Point.prototype.copyFrom = function (source) {
-                return this.setTo(source.x, source.y);
-            };
-
-            Point.prototype.copyTo = function (target) {
-                return target.setTo(this.x, this.y);
-            };
-
-            Point.prototype.distanceTo = function (target, round) {
-                if (typeof round === "undefined") { round = false; }
-                var dx = this.x - target.x;
-                var dy = this.y - target.y;
-
-                if (round === true) {
-                    return Math.round(Math.sqrt(dx * dx + dy * dy));
-                } else {
-                    return Math.sqrt(dx * dx + dy * dy);
-                }
-            };
-
-            Point.prototype.distanceToXY = function (x, y, round) {
-                if (typeof round === "undefined") { round = false; }
-                var dx = this.x - x;
-                var dy = this.y - y;
-
-                if (round === true) {
-                    return Math.round(Math.sqrt(dx * dx + dy * dy));
-                } else {
-                    return Math.sqrt(dx * dx + dy * dy);
-                }
-            };
-
-            Point.distanceBetween = function (pointA, pointB, round) {
-                if (typeof round === "undefined") { round = false; }
-                var dx = pointA.x - pointB.x;
-                var dy = pointA.y - pointB.y;
-
-                if (round === true) {
-                    return Math.round(Math.sqrt(dx * dx + dy * dy));
-                } else {
-                    return Math.sqrt(dx * dx + dy * dy);
-                }
-            };
-
-            Point.polar = function (length, angle) {
-                return new Point(length * Math.cos(angle * Math.PI / 180), length * Math.sin(angle * Math.PI / 180));
-            };
-
-            Point.prototype.distanceCompare = function (target, distance) {
-                if (this.distanceTo(target) >= distance) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Point.prototype.equals = function (toCompare) {
-                if (this.x === toCompare.x && this.y === toCompare.y) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Point.interpolate = function (pointA, pointB, f) {
-                var xDiff = pointB.x - pointA.x;
-                var yDiff = pointB.y - pointA.y;
-                return new Point(pointB.x - xDiff * f, pointB.y - yDiff * f);
-            };
-
-            Point.prototype.offset = function (dx, dy) {
-                this.x += dx;
-                this.y += dy;
-
-                return this;
-            };
-
-            Point.prototype.setTo = function (x, y) {
-                this.x = x;
-                this.y = y;
-
-                return this;
-            };
-
-            Point.prototype.subtract = function (point, output) {
-                if (typeof output === "undefined") { output = new Point(); }
-                return output.setTo(this.x - point.x, this.y - point.y);
-            };
-
-            Point.prototype.getCSS = function () {
-                return this.x + 'px ' + this.y + 'px';
-            };
-
-            Point.prototype.toString = function () {
-                return '[{Point (x=' + this.x + ' y=' + this.y + ')}]';
-            };
-            return Point;
-        })();
-        Geom.Point = Point;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Matrix = (function () {
-            function Matrix(a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                this.a = 1;
-                this.b = 0;
-                this.c = 0;
-                this.d = 1;
-                this.tx = 0;
-                this.ty = 0;
-                this.setTo(a, b, c, d, tx, ty);
-            }
-            Matrix.prototype.objType = function () {
-                return "Matrix";
-            };
-
-            Matrix.prototype.setTo = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                this.a = a;
-                this.b = b;
-                this.c = c;
-                this.d = d;
-                this.tx = tx;
-                this.ty = ty;
-
-                return this;
-            };
-
-            Matrix.prototype.setFromTransform = function (tx, ty, scaleX, scaleY, rotation) {
-                this.identity();
-                var cos = Math.cos(rotation);
-                var sin = Math.sin(rotation);
-
-                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty);
-
-                return this;
-            };
-
-            Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                var tx1 = this.tx;
-                var a1 = this.a;
-                var c1 = this.c;
-
-                this.a = a1 * a + this.b * c;
-                this.b = a1 * b + this.b * d;
-                this.c = c1 * a + this.d * c;
-                this.d = c1 * b + this.d * d;
-
-                this.tx = tx1 * a + this.ty * c + tx;
-                this.ty = tx1 * b + this.ty * d + ty;
-                return this;
-            };
-
-            Matrix.prototype.prependMatrix = function (m) {
-                var tx1 = this.tx;
-                var a1 = this.a;
-                var c1 = this.c;
-
-                this.a = a1 * m.a + this.b * m.c;
-                this.b = a1 * m.b + this.b * m.d;
-                this.c = c1 * m.a + this.d * m.c;
-                this.d = c1 * m.b + this.d * m.d;
-
-                this.tx = tx1 * m.a + this.ty * m.c + m.tx;
-                this.ty = tx1 * m.b + this.ty * m.d + m.ty;
-                return this;
-            };
-
-            Matrix.prototype.append = function (a, b, c, d, tx, ty) {
-                if (typeof a === "undefined") { a = 1; }
-                if (typeof b === "undefined") { b = 0; }
-                if (typeof c === "undefined") { c = 0; }
-                if (typeof d === "undefined") { d = 1; }
-                if (typeof tx === "undefined") { tx = 0; }
-                if (typeof ty === "undefined") { ty = 0; }
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-
-                this.a = a * a1 + b * c1;
-                this.b = a * b1 + b * d1;
-                this.c = c * a1 + d * c1;
-                this.d = c * b1 + d * d1;
-                this.tx = tx * a1 + ty * c1 + this.tx;
-                this.ty = tx * b1 + ty * d1 + this.ty;
-                return this;
-            };
-
-            Matrix.prototype.appendMatrix = function (m) {
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-
-                this.a = m.a * a1 + m.b * c1;
-                this.b = m.a * b1 + m.b * d1;
-                this.c = m.c * a1 + m.d * c1;
-                this.d = m.c * b1 + m.d * d1;
-                this.tx = m.tx * a1 + m.ty * c1 + this.tx;
-                this.ty = m.tx * b1 + m.ty * d1 + this.ty;
-                return this;
-            };
-
-            Matrix.prototype.setPosition = function (x, y) {
-                this.tx = x;
-                this.ty = y;
-                return this;
-            };
-
-            Matrix.prototype.setPositionPoint = function (p) {
-                this.tx = p.x;
-                this.ty = p.y;
-                return this;
-            };
-
-            Matrix.prototype.getPosition = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.setTo(this.tx, this.ty);
-            };
-
-            Matrix.prototype.identity = function () {
-                this.a = 1;
-                this.b = 0;
-                this.c = 0;
-                this.d = 1;
-                this.tx = 0;
-                this.ty = 0;
-                return this;
-            };
-
-            Matrix.prototype.rotate = function (radians) {
-                var cos = Math.cos(radians);
-                var sin = Math.sin(radians);
-
-                var a1 = this.a;
-                var c1 = this.c;
-                var tx1 = this.tx;
-
-                this.a = a1 * cos - this.b * sin;
-                this.b = a1 * sin + this.b * cos;
-                this.c = c1 * cos - this.d * sin;
-                this.d = c1 * sin + this.d * cos;
-                this.tx = tx1 * cos - this.ty * sin;
-                this.ty = tx1 * sin + this.ty * cos;
-                return this;
-            };
-
-            Matrix.prototype.translate = function (tx, ty) {
-                this.tx += tx;
-                this.ty += ty;
-                return this;
-            };
-
-            Matrix.prototype.scale = function (scaleX, scaleY) {
-                this.a *= scaleX;
-                this.d *= scaleY;
-                return this;
-            };
-
-            Matrix.prototype.transformPoint = function (pt) {
-                var x = pt.x;
-                var y = pt.y;
-                pt.x = this.a * x + this.c * y + this.tx;
-                pt.y = this.b * x + this.d * y + this.ty;
-                return pt;
-            };
-
-            Matrix.prototype.invert = function () {
-                var a1 = this.a;
-                var b1 = this.b;
-                var c1 = this.c;
-                var d1 = this.d;
-                var tx1 = this.tx;
-                var n = a1 * d1 - b1 * c1;
-
-                this.a = d1 / n;
-                this.b = -b1 / n;
-                this.c = -c1 / n;
-                this.d = a1 / n;
-                this.tx = (c1 * this.ty - d1 * tx1) / n;
-                this.ty = -(a1 * this.ty - b1 * tx1) / n;
-                return this;
-            };
-
-            Matrix.prototype.copyFrom = function (m) {
-                this.a = m.a;
-                this.b = m.b;
-                this.c = m.c;
-                this.d = m.d;
-                this.tx = m.tx;
-                this.ty = m.ty;
-
-                return this;
-            };
-
-            Matrix.prototype.copyTo = function (m) {
-                m.a = this.a;
-                m.b = this.b;
-                m.c = this.c;
-                m.d = this.d;
-                m.tx = this.tx;
-                m.ty = this.ty;
-                return this;
-            };
-
-            Matrix.prototype.clone = function () {
-                return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
-            };
-
-            Object.defineProperty(Matrix.prototype, "toString", {
-                get: function () {
-                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Matrix;
-        })();
-        Geom.Matrix = Matrix;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Transform = (function () {
-            function Transform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof scaleX === "undefined") { scaleX = 1; }
-                if (typeof scaleY === "undefined") { scaleY = 1; }
-                if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof rotPointX === "undefined") { rotPointX = 0; }
-                if (typeof rotPointY === "undefined") { rotPointY = 0; }
-                this._x = 0;
-                this._y = 0;
-                this._scaleX = 1;
-                this._scaleY = 1;
-                this._rotation = 0;
-                this._rotPointX = 0;
-                this._rotPointY = 0;
-                this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
-
-                this._matrix = new Geom.Matrix();
-
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
-
-                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
-            }
-            Transform.prototype.objType = function () {
-                return "Transform";
-            };
-
-
-            Object.defineProperty(Transform.prototype, "x", {
-                get: function () {
-                    return this._x;
-                },
-                set: function (value) {
-                    this._x = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "y", {
-                get: function () {
-                    return this._y;
-                },
-                set: function (value) {
-                    this._y = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "scaleX", {
-                get: function () {
-                    return this._scaleX;
-                },
-                set: function (value) {
-                    this._scaleX = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "scaleY", {
-                get: function () {
-                    return this._scaleY;
-                },
-                set: function (value) {
-                    this._scaleY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "rotation", {
-                get: function () {
-                    return this._rotation;
-                },
-                set: function (value) {
-                    this._rotation = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "rotPointX", {
-                get: function () {
-                    return this._rotPointX;
-                },
-                set: function (value) {
-                    this._rotPointX = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "rotPointY", {
-                get: function () {
-                    return this._rotPointY;
-                },
-                set: function (value) {
-                    this._rotPointY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "matrix", {
-                get: function () {
-                    return this._matrix;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "worldX", {
-                get: function () {
-                    return this.getConcatenatedMatrix().tx;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Transform.prototype, "worldY", {
-                get: function () {
-                    return this.getConcatenatedMatrix().ty;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Transform.prototype, "parent", {
-                get: function () {
-                    return this._parent;
-                },
-                set: function (value) {
-                    if (!this.checkAncestor(value)) {
-                        this._parent = value;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Transform.prototype.setPosition = function (x, y) {
-                this._x = x;
-                this._y = y;
-
-                return this;
-            };
-
-            Transform.prototype.setPositionFromPoint = function (point) {
-                this._x = point.x;
-                this._y = point.y;
-
-                return this;
-            };
-
-            Transform.prototype.translatePositionFromPoint = function (point) {
-                this._x += point.x;
-                this._y += point.y;
-
-                return this;
-            };
-
-            Transform.prototype.getPositionPoint = function (output) {
-                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
-                return output.setTo(this._x, this._y);
-            };
-
-            Object.defineProperty(Transform.prototype, "scale", {
-                set: function (value) {
-                    this._scaleX = value;
-                    this._scaleY = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof scaleX === "undefined") { scaleX = 1; }
-                if (typeof scaleY === "undefined") { scaleY = 1; }
-                if (typeof rotation === "undefined") { rotation = 0; }
-                if (typeof rotPointX === "undefined") { rotPointX = 0; }
-                if (typeof rotPointY === "undefined") { rotPointY = 0; }
-                this._x = x;
-                this._y = y;
-                this._scaleX = scaleX;
-                this._scaleY = scaleY;
-                this._rotation = rotation;
-                this._rotPointX = rotPointX;
-                this._rotPointY = rotPointY;
-
-                return this;
-            };
-
-            Transform.prototype.getParentMatrix = function () {
-                if (this._parent) {
-                    return this._parent.getConcatenatedMatrix();
-                }
-
-                return null;
-            };
-
-            Transform.prototype.getConcatenatedMatrix = function () {
-                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
-
-                var parentMatrix = this.getParentMatrix();
-
-                if (parentMatrix) {
-                    var matrix = this._matrix.clone();
-                    matrix.prependMatrix(parentMatrix);
-                    this._cachedConcatenatedMatrix.copyFrom(matrix);
-                    return matrix;
-                }
-
-                return this._matrix;
-            };
-
-            Transform.prototype.transformPoint = function (point) {
-                var mat = this.getConcatenatedMatrix();
-
-                return mat.transformPoint(point);
-            };
-
-            Transform.prototype.copyFrom = function (source) {
-                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.rotPointX, source.rotPointY);
-
-                this.parent = source.parent;
-
-                this._matrix = source.matrix.clone();
-
-                return this;
-            };
-
-            Transform.prototype.copyTo = function (destination) {
-                destination.copyFrom(this);
-
-                return this;
-            };
-
-            Transform.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Transform(); }
-                output.copyFrom(this);
-
-                return output;
-            };
-
-            Transform.prototype.checkAncestor = function (transform) {
-                return false;
-            };
-
-            Object.defineProperty(Transform.prototype, "toString", {
-                get: function () {
-                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._rotPointX + " regY=" + this.rotPointY + " matrix=" + this._matrix + ")}]";
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Transform;
-        })();
-        Geom.Transform = Transform;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var Rectangle = (function () {
-            function Rectangle(x, y, width, height) {
-                if (typeof x === "undefined") { x = 0; }
-                if (typeof y === "undefined") { y = 0; }
-                if (typeof width === "undefined") { width = 0; }
-                if (typeof height === "undefined") { height = 0; }
-                this.x = 0;
-                this.y = 0;
-                this.width = 0;
-                this.height = 0;
-                this.setTo(x, y, width, height);
-            }
-            Rectangle.prototype.objType = function () {
-                return "Rectangle";
-            };
-
-
-            Object.defineProperty(Rectangle.prototype, "bottom", {
-                get: function () {
-                    return this.y + this.height;
-                },
-                set: function (value) {
-                    if (value) {
-                        if (value < this.y) {
-                            this.height = 0;
-                        } else {
-                            this.height = value;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "center", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "bottomRight", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(this.right, this.bottom);
-                },
-                set: function (value) {
-                    if (value) {
-                        this.right = value.x;
-                        this.bottom = value.y;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "left", {
-                get: function () {
-                    return this.x;
-                },
-                set: function (value) {
-                    if (value) {
-                        var diff = this.x - value;
-
-                        if (this.width + diff < 0) {
-                            this.width = 0;
-
-                            this.x = value;
-                        } else {
-                            this.width += diff;
-
-                            this.x = value;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "right", {
-                get: function () {
-                    return this.x + this.width;
-                },
-                set: function (value) {
-                    if (value) {
-                        if (value < this.x) {
-                            this.width = 0;
-                        } else {
-                            this.width = value - this.x;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "size", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(this.width, this.height);
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "volume", {
-                get: function () {
-                    return this.width * this.height;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Rectangle.prototype, "perimeter", {
-                get: function () {
-                    return (this.width * 2) + (this.height * 2);
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "top", {
-                get: function () {
-                    return this.y;
-                },
-                set: function (value) {
-                    if (value) {
-                        var diff = this.y - value;
-
-                        if (this.height + diff < 0) {
-                            this.height = 0;
-
-                            this.y = value;
-                        } else {
-                            this.height += diff;
-
-                            this.y = value;
-                        }
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Rectangle.prototype, "topLeft", {
-                get: function () {
-                    var output = new Geom.Point();
-                    return output.setTo(this.x, this.y);
-                },
-                set: function (value) {
-                    if (value) {
-                        this.x = value.x;
-                        this.y = value.y;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Rectangle.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
-                return output.setTo(this.x, this.y, this.width, this.height);
-            };
-
-            Rectangle.prototype.contains = function (x, y) {
-                if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.containsPoint = function (point) {
-                return this.contains(point.x, point.y);
-            };
-
-            Rectangle.prototype.containsRect = function (rect) {
-                if (rect.volume > this.volume) {
-                    return false;
-                }
-
-                if (rect.x >= this.x && rect.y >= this.y && rect.right <= this.right && rect.bottom <= this.bottom) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.copyFrom = function (source) {
-                return this.setTo(source.x, source.y, source.width, source.height);
-            };
-
-            Rectangle.prototype.copyTo = function (target) {
-                return target.copyFrom(this);
-            };
-
-            Rectangle.prototype.equals = function (toCompare) {
-                if (this.x === toCompare.x && this.y === toCompare.y && this.width === toCompare.width && this.height === toCompare.height) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.inflate = function (dx, dy) {
-                if (!isNaN(dx) && !isNaN(dy)) {
-                    this.x -= dx;
-                    this.width += 2 * dx;
-
-                    this.y -= dy;
-                    this.height += 2 * dy;
-                }
-
-                return this;
-            };
-
-            Rectangle.prototype.inflatePoint = function (point) {
-                return this.inflate(point.x, point.y);
-            };
-
-            Rectangle.prototype.intersection = function (toIntersect, output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
-                if (this.intersects(toIntersect) === true) {
-                    output.x = Math.max(toIntersect.x, this.x);
-                    output.y = Math.max(toIntersect.y, this.y);
-                    output.width = Math.min(toIntersect.right, this.right) - output.x;
-                    output.height = Math.min(toIntersect.bottom, this.bottom) - output.y;
-                }
-
-                return output;
-            };
-
-            Rectangle.prototype.intersects = function (toIntersect) {
-                if (toIntersect.x > this.right - 1) {
-                    return false;
-                }
-
-                if (toIntersect.right - 1 < this.x) {
-                    return false;
-                }
-
-                if (toIntersect.bottom - 1 < this.y) {
-                    return false;
-                }
-
-                if (toIntersect.y > this.bottom - 1) {
-                    return false;
-                }
-
-                return true;
-            };
-
-            Rectangle.prototype.overlap = function (rect) {
-                var result = { top: false, bottom: false, left: false, right: false, contains: false, contained: false };
-                var interRect = this.intersection(rect);
-
-                if (interRect.isEmpty)
-                    return result;
-                if (this.containsRect(rect))
-                    result.contains = true;
-                if (rect.containsRect(this))
-                    result.contained = true;
-                if (this.top < rect.top)
-                    result.top = true;
-                if (this.bottom > rect.bottom)
-                    result.bottom = true;
-                if (this.left < rect.left)
-                    result.left = true;
-                if (this.right > rect.right)
-                    result.right = true;
-
-                return result;
-            };
-
-            Rectangle.prototype.isEmpty = function () {
-                if (this.width < 1 || this.height < 1) {
-                    return true;
-                }
-
-                return false;
-            };
-
-            Rectangle.prototype.offset = function (dx, dy) {
-                if (!isNaN(dx) && !isNaN(dy)) {
-                    this.x += dx;
-                    this.y += dy;
-                }
-
-                return this;
-            };
-
-            Rectangle.prototype.offsetPoint = function (point) {
-                return this.offset(point.x, point.y);
-            };
-
-            Rectangle.prototype.setEmpty = function () {
-                return this.setTo(0, 0, 0, 0);
-            };
-
-            Rectangle.prototype.setTo = function (x, y, width, height) {
-                if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
-                    this.x = x;
-                    this.y = y;
-
-                    if (width >= 0) {
-                        this.width = width;
-                    }
-
-                    if (height >= 0) {
-                        this.height = height;
-                    }
-                }
-
-                return this;
-            };
-
-            Rectangle.prototype.union = function (toUnion, output) {
-                if (typeof output === "undefined") { output = new Rectangle(); }
-                return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right, this.right), Math.max(toUnion.bottom, this.bottom));
-            };
-
-            Rectangle.prototype.scale = function (x, y, translation) {
-                var trans = new Kiwi.Geom.Transform();
-                trans.scaleX = x;
-                trans.scaleY = y;
-                trans.x = translation.x;
-                trans.y = translation.y;
-
-                var tl = this.topLeft;
-                trans.transformPoint(tl);
-                this.topLeft = tl;
-
-                this.width *= x;
-                this.height *= y;
-
-                return this;
-            };
-
-            Rectangle.prototype.toString = function () {
-                return "[{Rectangle (x=" + this.x + " y=" + this.y + " width=" + this.width + " height=" + this.height + " isEmpty=" + this.isEmpty() + ")}]";
-            };
-            return Rectangle;
-        })();
-        Geom.Rectangle = Rectangle;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
+            return handlerReturn;
+        };
+
+        SignalBinding.prototype.detach = function () {
+            return this.isBound() ? this._signal.remove(this._listener, this.context) : null;
+        };
+
+        SignalBinding.prototype.isBound = function () {
+            return (!!this._signal && !!this._listener);
+        };
+
+        SignalBinding.prototype.isOnce = function () {
+            return this._isOnce;
+        };
+
+        SignalBinding.prototype.getListener = function () {
+            return this._listener;
+        };
+
+        SignalBinding.prototype.getSignal = function () {
+            return this._signal;
+        };
+
+        SignalBinding.prototype._destroy = function () {
+            delete this._signal;
+            delete this._listener;
+            delete this.context;
+        };
+
+        SignalBinding.prototype.toString = function () {
+            return '[SignalBinding isOnce:' + this._isOnce + ', isBound:' + this.isBound() + ', active:' + this.active + ']';
+        };
+        return SignalBinding;
+    })();
+    Kiwi.SignalBinding = SignalBinding;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -3680,6 +2549,211 @@ var Kiwi;
         return Stage;
     })();
     Kiwi.Stage = Stage;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Components) {
+        var Animation = (function (_super) {
+            __extends(Animation, _super);
+            function Animation(entity) {
+                _super.call(this, entity, 'Animation');
+                this.currentAnimation = null;
+                this._isPlaying = false;
+
+                this.entity = entity;
+                this._atlas = this.entity.atlas;
+                this._animations = {};
+
+                for (var i = 0; i < this._atlas.sequences.length; i++) {
+                    this.createFromSequence(this._atlas.sequences[i], false);
+                }
+
+                if (this._animations['default']) {
+                    this.currentAnimation = this._animations['default'];
+                } else {
+                    var defaultCells = [];
+                    for (var i = 0; i < this._atlas.cells.length; i++) {
+                        defaultCells.push(i);
+                    }
+                    this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
+                }
+            }
+            Object.defineProperty(Animation.prototype, "isPlaying", {
+                get: function () {
+                    return this._isPlaying;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Animation.prototype.objType = function () {
+                return "Animation";
+            };
+
+            Animation.prototype.add = function (name, cells, speed, loop, play) {
+                if (typeof loop === "undefined") { loop = false; }
+                if (typeof play === "undefined") { play = false; }
+                var newSequence = new Kiwi.Animation.Sequence(name, cells, speed, loop);
+                this._atlas.sequences.push(newSequence);
+
+                return this.createFromSequence(newSequence, play);
+            };
+
+            Animation.prototype.createFromSequence = function (sequence, play) {
+                if (typeof play === "undefined") { play = false; }
+                this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.entity.clock);
+
+                if (play)
+                    this.play(sequence.name);
+
+                return this._animations[sequence.name];
+            };
+
+            Animation.prototype.play = function (name) {
+                if (typeof name === "undefined") { name = this.currentAnimation.name; }
+                return this._play(name);
+            };
+
+            Animation.prototype.playAt = function (index, name) {
+                if (typeof name === "undefined") { name = this.currentAnimation.name; }
+                return this._play(name, index);
+            };
+
+            Animation.prototype._play = function (name, index) {
+                if (typeof index === "undefined") { index = null; }
+                this._isPlaying = true;
+                this._setCurrentAnimation(name);
+
+                if (index !== null)
+                    this.currentAnimation.playAt(index); else
+                    this.currentAnimation.play();
+
+                this._setCellIndex();
+
+                return this.currentAnimation;
+            };
+
+            Animation.prototype.stop = function () {
+                if (this.isPlaying === true) {
+                    this.currentAnimation.stop();
+                }
+                this._isPlaying = false;
+            };
+
+            Animation.prototype.pause = function () {
+                this.currentAnimation.pause();
+                this._isPlaying = false;
+            };
+
+            Animation.prototype.resume = function () {
+                this.currentAnimation.resume();
+                this._isPlaying = true;
+            };
+
+            Animation.prototype.switchTo = function (val, play) {
+                if (typeof play === "undefined") { play = null; }
+                switch (typeof val) {
+                    case "string":
+                        if (this.currentAnimation.name !== val) {
+                            this._setCurrentAnimation(val);
+                        }
+                        break;
+                    case "number":
+                        this.currentAnimation.frameIndex = val;
+                        break;
+                }
+
+                if (play || play === null && this.isPlaying)
+                    this.play();
+                if (play == false && this.isPlaying)
+                    this.stop();
+
+                this._setCellIndex();
+            };
+
+            Animation.prototype.nextFrame = function () {
+                this.currentAnimation.nextFrame();
+                this._setCellIndex();
+            };
+
+            Animation.prototype.prevFrame = function () {
+                this.currentAnimation.prevFrame();
+                this._setCellIndex();
+            };
+
+            Animation.prototype._setCurrentAnimation = function (name) {
+                if (this.currentAnimation !== null)
+                    this.currentAnimation.stop();
+                if (this._animations[name]) {
+                    this.currentAnimation = this._animations[name];
+                }
+            };
+
+            Animation.prototype.update = function () {
+                if (this.currentAnimation && this.isPlaying) {
+                    if (this.currentAnimation.update()) {
+                        this._setCellIndex();
+                    }
+                }
+            };
+
+            Object.defineProperty(Animation.prototype, "currentCell", {
+                get: function () {
+                    return this.currentAnimation.currentCell;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "frameIndex", {
+                get: function () {
+                    return this.currentAnimation.frameIndex;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "length", {
+                get: function () {
+                    return this.currentAnimation.length;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Animation.prototype.getAnimation = function (name) {
+                return this._animations[name];
+            };
+
+            Animation.prototype._setCellIndex = function () {
+                this.entity.cellIndex = this.currentCell;
+            };
+
+            Object.defineProperty(Animation.prototype, "toString", {
+                get: function () {
+                    return '[{Animation (x=' + this.active + ')}]';
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Animation.prototype.destroy = function () {
+                this._isPlaying = false;
+                _super.prototype.destroy.call(this);
+
+                for (var key in this._animations) {
+                    this._animations[key].destroy();
+                    delete this._animations[key];
+                }
+                delete this._animations;
+                delete this.currentAnimation;
+                delete this._atlas;
+            };
+            return Animation;
+        })(Kiwi.Component);
+        Components.Animation = Animation;
+    })(Kiwi.Components || (Kiwi.Components = {}));
+    var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -4945,6 +4019,97 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    var StateConfig = (function () {
+        function StateConfig(parent, name) {
+            this.name = '';
+            this.isPersistent = false;
+            this.isCreated = false;
+            this.isInitialised = false;
+            this.isReady = false;
+            this.hasInit = false;
+            this.hasPreloader = false;
+            this.hasLoadProgress = false;
+            this.hasLoadComplete = false;
+            this.hasLoadUpdate = false;
+            this.hasCreate = false;
+            this.hasOnEnter = false;
+            this.hasUpdate = false;
+            this.hasRender = false;
+            this.hasOnExit = false;
+            this.hasShutDown = false;
+            this.hasDestroy = false;
+            this.runCount = 0;
+            this.type = 0;
+            this._state = parent;
+            this.name = name;
+
+            this.populate();
+        }
+        StateConfig.prototype.objType = function () {
+            return "StateConfig";
+        };
+
+        StateConfig.prototype.populate = function () {
+            if (typeof this._state['init'] === 'function') {
+                this.hasInit = true;
+            }
+
+            if (typeof this._state['preload'] === 'function') {
+                this.hasPreloader = true;
+            }
+
+            if (typeof this._state['loadProgress'] === 'function') {
+                this.hasLoadProgress = true;
+            }
+
+            if (typeof this._state['loadComplete'] === 'function') {
+                this.hasLoadComplete = true;
+            }
+
+            if (typeof this._state['loadUpdate'] === 'function') {
+                this.hasLoadUpdate = true;
+            }
+
+            if (typeof this._state['create'] === 'function') {
+                this.hasCreate = true;
+            }
+
+            if (typeof this._state['onEnter'] === 'function') {
+                this.hasOnEnter = true;
+            }
+
+            if (typeof this._state['update'] === 'function') {
+                this.hasUpdate = true;
+            }
+
+            if (typeof this._state['render'] === 'function') {
+                this.hasRender = true;
+            }
+
+            if (typeof this._state['onExit'] === 'function') {
+                this.hasOnExit = true;
+            }
+
+            if (typeof this._state['shutdown'] === 'function') {
+                this.hasShutDown = true;
+            }
+
+            if (typeof this._state['destroy'] === 'function') {
+                this.hasDestroy = true;
+            }
+
+            if (this.hasInit === false && this.hasCreate === false) {
+                this.isInitialised = true;
+                this.isCreated = true;
+                this.isReady = true;
+            }
+        };
+        return StateConfig;
+    })();
+    Kiwi.StateConfig = StateConfig;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     var StateManager = (function () {
         function StateManager(game) {
             this.current = null;
@@ -6060,211 +5225,6 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Components) {
-        var Animation = (function (_super) {
-            __extends(Animation, _super);
-            function Animation(entity) {
-                _super.call(this, entity, 'Animation');
-                this.currentAnimation = null;
-                this._isPlaying = false;
-
-                this.entity = entity;
-                this._atlas = this.entity.atlas;
-                this._animations = {};
-
-                for (var i = 0; i < this._atlas.sequences.length; i++) {
-                    this.createFromSequence(this._atlas.sequences[i], false);
-                }
-
-                if (this._animations['default']) {
-                    this.currentAnimation = this._animations['default'];
-                } else {
-                    var defaultCells = [];
-                    for (var i = 0; i < this._atlas.cells.length; i++) {
-                        defaultCells.push(i);
-                    }
-                    this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
-                }
-            }
-            Object.defineProperty(Animation.prototype, "isPlaying", {
-                get: function () {
-                    return this._isPlaying;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Animation.prototype.objType = function () {
-                return "Animation";
-            };
-
-            Animation.prototype.add = function (name, cells, speed, loop, play) {
-                if (typeof loop === "undefined") { loop = false; }
-                if (typeof play === "undefined") { play = false; }
-                var newSequence = new Kiwi.Animation.Sequence(name, cells, speed, loop);
-                this._atlas.sequences.push(newSequence);
-
-                return this.createFromSequence(newSequence, play);
-            };
-
-            Animation.prototype.createFromSequence = function (sequence, play) {
-                if (typeof play === "undefined") { play = false; }
-                this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.entity.clock);
-
-                if (play)
-                    this.play(sequence.name);
-
-                return this._animations[sequence.name];
-            };
-
-            Animation.prototype.play = function (name) {
-                if (typeof name === "undefined") { name = this.currentAnimation.name; }
-                return this._play(name);
-            };
-
-            Animation.prototype.playAt = function (index, name) {
-                if (typeof name === "undefined") { name = this.currentAnimation.name; }
-                return this._play(name, index);
-            };
-
-            Animation.prototype._play = function (name, index) {
-                if (typeof index === "undefined") { index = null; }
-                this._isPlaying = true;
-                this._setCurrentAnimation(name);
-
-                if (index !== null)
-                    this.currentAnimation.playAt(index); else
-                    this.currentAnimation.play();
-
-                this._setCellIndex();
-
-                return this.currentAnimation;
-            };
-
-            Animation.prototype.stop = function () {
-                if (this.isPlaying === true) {
-                    this.currentAnimation.stop();
-                }
-                this._isPlaying = false;
-            };
-
-            Animation.prototype.pause = function () {
-                this.currentAnimation.pause();
-                this._isPlaying = false;
-            };
-
-            Animation.prototype.resume = function () {
-                this.currentAnimation.resume();
-                this._isPlaying = true;
-            };
-
-            Animation.prototype.switchTo = function (val, play) {
-                if (typeof play === "undefined") { play = null; }
-                switch (typeof val) {
-                    case "string":
-                        if (this.currentAnimation.name !== val) {
-                            this._setCurrentAnimation(val);
-                        }
-                        break;
-                    case "number":
-                        this.currentAnimation.frameIndex = val;
-                        break;
-                }
-
-                if (play || play === null && this.isPlaying)
-                    this.play();
-                if (play == false && this.isPlaying)
-                    this.stop();
-
-                this._setCellIndex();
-            };
-
-            Animation.prototype.nextFrame = function () {
-                this.currentAnimation.nextFrame();
-                this._setCellIndex();
-            };
-
-            Animation.prototype.prevFrame = function () {
-                this.currentAnimation.prevFrame();
-                this._setCellIndex();
-            };
-
-            Animation.prototype._setCurrentAnimation = function (name) {
-                if (this.currentAnimation !== null)
-                    this.currentAnimation.stop();
-                if (this._animations[name]) {
-                    this.currentAnimation = this._animations[name];
-                }
-            };
-
-            Animation.prototype.update = function () {
-                if (this.currentAnimation && this.isPlaying) {
-                    if (this.currentAnimation.update()) {
-                        this._setCellIndex();
-                    }
-                }
-            };
-
-            Object.defineProperty(Animation.prototype, "currentCell", {
-                get: function () {
-                    return this.currentAnimation.currentCell;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Animation.prototype, "frameIndex", {
-                get: function () {
-                    return this.currentAnimation.frameIndex;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Animation.prototype, "length", {
-                get: function () {
-                    return this.currentAnimation.length;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Animation.prototype.getAnimation = function (name) {
-                return this._animations[name];
-            };
-
-            Animation.prototype._setCellIndex = function () {
-                this.entity.cellIndex = this.currentCell;
-            };
-
-            Object.defineProperty(Animation.prototype, "toString", {
-                get: function () {
-                    return '[{Animation (x=' + this.active + ')}]';
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Animation.prototype.destroy = function () {
-                this._isPlaying = false;
-                _super.prototype.destroy.call(this);
-
-                for (var key in this._animations) {
-                    this._animations[key].destroy();
-                    delete this._animations[key];
-                }
-                delete this._animations;
-                delete this.currentAnimation;
-                delete this._atlas;
-            };
-            return Animation;
-        })(Kiwi.Component);
-        Components.Animation = Animation;
-    })(Kiwi.Components || (Kiwi.Components = {}));
-    var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (GameObjects) {
         var Sprite = (function (_super) {
             __extends(Sprite, _super);
@@ -7159,6 +6119,79 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
+        var AABB = (function () {
+            function AABB(cx, cy, width, height) {
+                this.cx = 0;
+                this.cy = 0;
+                this.halfWidth = 0;
+                this.halfHeight = 0;
+                this.cx = cx || 0;
+                this.cy = cy || 0;
+                this.halfWidth = width / 2 || 0;
+                this.halfHeight = height / 2 || 0;
+            }
+            AABB.prototype.objType = function () {
+                return "AABB";
+            };
+
+            Object.defineProperty(AABB.prototype, "height", {
+                get: function () {
+                    return this.halfHeight * 2;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(AABB.prototype, "width", {
+                get: function () {
+                    return this.halfWidth * 2;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            AABB.prototype.draw = function (ctx) {
+                ctx.beginPath();
+                ctx.moveTo(this.cx - this.halfWidth, this.cy);
+                ctx.lineTo(this.cx + this.halfWidth, this.cy);
+                ctx.moveTo(this.cx, this.cy - this.halfHeight);
+                ctx.lineTo(this.cx, this.cy + this.halfHeight);
+                ctx.stroke();
+                return this;
+            };
+
+            AABB.prototype.setPosition = function (cx, cy) {
+                this.cx = cx;
+                this.cy = cy;
+                return this;
+            };
+
+            AABB.prototype.setPositionPoint = function (pos) {
+                this.cx = pos.x;
+                this.cy = pos.y;
+                return this;
+            };
+
+            AABB.prototype.toRect = function () {
+                return new Geom.Rectangle(this.cx - this.halfWidth, this.cy - this.halfHeight, this.halfWidth * 2, this.halfHeight * 2);
+            };
+
+            AABB.prototype.fromRect = function (rect) {
+                this.halfWidth = rect.width / 2;
+                this.halfHeight = rect.height / 2;
+                this.cx = rect.x + this.halfWidth;
+                this.cy = rect.y + this.halfHeight;
+                return this;
+            };
+            return AABB;
+        })();
+        Geom.AABB = AABB;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
         var Circle = (function () {
             function Circle(x, y, diameter) {
                 if (typeof x === "undefined") { x = 0; }
@@ -7400,8 +6433,8 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
-        var Line = (function () {
-            function Line(x1, y1, x2, y2) {
+        var Ray = (function () {
+            function Ray(x1, y1, x2, y2) {
                 if (typeof x1 === "undefined") { x1 = 0; }
                 if (typeof y1 === "undefined") { y1 = 0; }
                 if (typeof x2 === "undefined") { x2 = 0; }
@@ -7412,24 +6445,24 @@ var Kiwi;
                 this.y2 = 0;
                 this.setTo(x1, y1, x2, y2);
             }
-            Line.prototype.objType = function () {
-                return "Line";
+            Ray.prototype.objType = function () {
+                return "Ray";
             };
 
-            Line.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Line(); }
+            Ray.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Ray(); }
                 return output.setTo(this.x1, this.y1, this.x2, this.y2);
             };
 
-            Line.prototype.copyFrom = function (source) {
+            Ray.prototype.copyFrom = function (source) {
                 return this.setTo(source.x1, source.y1, source.x2, source.y2);
             };
 
-            Line.prototype.copyTo = function (target) {
+            Ray.prototype.copyTo = function (target) {
                 return target.copyFrom(this);
             };
 
-            Line.prototype.setTo = function (x1, y1, x2, y2) {
+            Ray.prototype.setTo = function (x1, y1, x2, y2) {
                 if (typeof x1 === "undefined") { x1 = 0; }
                 if (typeof y1 === "undefined") { y1 = 0; }
                 if (typeof x2 === "undefined") { x2 = 0; }
@@ -7442,19 +6475,7 @@ var Kiwi;
                 return this;
             };
 
-            Object.defineProperty(Line.prototype, "length", {
-                get: function () {
-                    return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Line.prototype.getY = function (x) {
-                return this.slope * x + this.yIntercept;
-            };
-
-            Object.defineProperty(Line.prototype, "angle", {
+            Object.defineProperty(Ray.prototype, "angle", {
                 get: function () {
                     return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
                 },
@@ -7462,7 +6483,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Line.prototype, "slope", {
+            Object.defineProperty(Ray.prototype, "slope", {
                 get: function () {
                     return (this.y2 - this.y1) / (this.x2 - this.x1);
                 },
@@ -7470,15 +6491,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Line.prototype, "perpSlope", {
-                get: function () {
-                    return -((this.x2 - this.x1) / (this.y2 - this.y1));
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Line.prototype, "yIntercept", {
+            Object.defineProperty(Ray.prototype, "yIntercept", {
                 get: function () {
                     return (this.y1 - this.slope * this.x1);
                 },
@@ -7486,90 +6499,22 @@ var Kiwi;
                 configurable: true
             });
 
-            Line.prototype.isPointOnLine = function (x, y) {
+            Ray.prototype.isPointOnRay = function (x, y) {
                 if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Line.prototype.isPointOnLineSegment = function (x, y) {
-                var xMin = Math.min(this.x1, this.x2);
-                var xMax = Math.max(this.x1, this.x2);
-                var yMin = Math.min(this.y1, this.y2);
-                var yMax = Math.max(this.y1, this.y2);
-
-                if (this.isPointOnLine(x, y) && (x >= xMin && x <= xMax) && (y >= yMin && y <= yMax)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Line.prototype.intersectLineLine = function (line) {
-            };
-
-            Line.prototype.perp = function (x, y, output) {
-                if (this.y1 === this.y2) {
-                    if (output) {
-                        output.setTo(x, y, x, this.y1);
-                    } else {
-                        return new Line(x, y, x, this.y1);
+                    if (Math.atan2(y - this.y1, x - this.x1) == Math.atan2(this.y2 - this.y1, this.x2 - this.x1)) {
+                        return true;
                     }
                 }
 
-                var yInt = (y - this.perpSlope * x);
-
-                var pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
-
-                if (output) {
-                    output.setTo(x, y, pt.x, pt.y);
-                } else {
-                    return new Line(x, y, pt.x, pt.y);
-                }
+                return false;
             };
 
-            Line.prototype.toString = function () {
-                return "[{Line (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
+            Ray.prototype.toString = function () {
+                return "[{Ray (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
             };
-            return Line;
+            return Ray;
         })();
-        Geom.Line = Line;
-    })(Kiwi.Geom || (Kiwi.Geom = {}));
-    var Geom = Kiwi.Geom;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Geom) {
-        var IntersectResult = (function () {
-            function IntersectResult() {
-                this.result = false;
-            }
-            IntersectResult.prototype.objType = function () {
-                return "IntersectResult";
-            };
-
-            IntersectResult.prototype.setTo = function (x1, y1, x2, y2, width, height) {
-                if (typeof x2 === "undefined") { x2 = 0; }
-                if (typeof y2 === "undefined") { y2 = 0; }
-                if (typeof width === "undefined") { width = 0; }
-                if (typeof height === "undefined") { height = 0; }
-                this.x = x1;
-                this.y = y1;
-
-                this.x1 = x1;
-                this.y1 = y1;
-
-                this.x2 = x2;
-                this.y2 = y2;
-
-                this.width = width;
-                this.height = height;
-            };
-            return IntersectResult;
-        })();
-        Geom.IntersectResult = IntersectResult;
+        Geom.Ray = Ray;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
@@ -7870,592 +6815,43 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Utils) {
-        var GameMath = (function () {
-            function GameMath() {
-            }
-            GameMath.prototype.objType = function () {
-                return "GameMath";
-            };
-
-            GameMath.computeMachineEpsilon = function () {
-                var fourThirds = 4.0 / 3.0;
-                var third = fourThirds - 1.0;
-                var one = third + third + third;
-                return Math.abs(1.0 - one);
-            };
-
-            GameMath.fuzzyEqual = function (a, b, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return Math.abs(a - b) < epsilon;
-            };
-
-            GameMath.fuzzyLessThan = function (a, b, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return a < b + epsilon;
-            };
-
-            GameMath.fuzzyGreaterThan = function (a, b, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return a > b - epsilon;
-            };
-
-            GameMath.fuzzyCeil = function (val, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return Math.ceil(val - epsilon);
-            };
-
-            GameMath.fuzzyFloor = function (val, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return Math.floor(val + epsilon);
-            };
-
-            GameMath.average = function () {
-                var args = [];
-                for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                    args[_i] = arguments[_i + 0];
-                }
-                var avg = 0;
-
-                for (var i = 0; i < args.length; i++) {
-                    avg += args[i];
-                }
-
-                return avg / args.length;
-            };
-
-            GameMath.slam = function (value, target, epsilon) {
-                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
-                return (Math.abs(value - target) < epsilon) ? target : value;
-            };
-
-            GameMath.percentageMinMax = function (val, max, min) {
-                if (typeof min === "undefined") { min = 0; }
-                val -= min;
-                max -= min;
-
-                if (!max)
-                    return 0; else
-                    return val / max;
-            };
-
-            GameMath.sign = function (n) {
-                if (n)
-                    return n / Math.abs(n); else
-                    return 0;
-            };
-
-            GameMath.truncate = function (n) {
-                return (n > 0) ? Math.floor(n) : Math.ceil(n);
-            };
-
-            GameMath.shear = function (n) {
-                return n % 1;
-            };
-
-            GameMath.wrap = function (val, max, min) {
-                if (typeof min === "undefined") { min = 0; }
-                val -= min;
-                max -= min;
-                if (max == 0)
-                    return min;
-                val %= max;
-                val += min;
-                while (val < min)
-                    val += max;
-
-                return val;
-            };
-
-            GameMath.arithWrap = function (value, max, min) {
-                if (typeof min === "undefined") { min = 0; }
-                max -= min;
-                if (max == 0)
-                    return min;
-                return value - max * Math.floor((value - min) / max);
-            };
-
-            GameMath.clamp = function (input, max, min) {
-                if (typeof min === "undefined") { min = 0; }
-                return Math.max(min, Math.min(max, input));
-            };
-
-            GameMath.snapTo = function (input, gap, start) {
-                if (typeof start === "undefined") { start = 0; }
-                if (gap == 0)
-                    return input;
-
-                input -= start;
-                input = gap * Math.round(input / gap);
-                return start + input;
-            };
-
-            GameMath.snapToFloor = function (input, gap, start) {
-                if (typeof start === "undefined") { start = 0; }
-                if (gap == 0)
-                    return input;
-
-                input -= start;
-                input = gap * Math.floor(input / gap);
-                return start + input;
-            };
-
-            GameMath.snapToCeil = function (input, gap, start) {
-                if (typeof start === "undefined") { start = 0; }
-                if (gap == 0)
-                    return input;
-
-                input -= start;
-                input = gap * Math.ceil(input / gap);
-                return start + input;
-            };
-
-            GameMath.snapToInArray = function (input, arr, sort) {
-                if (typeof sort === "undefined") { sort = true; }
-                if (sort)
-                    arr.sort();
-                if (input < arr[0])
-                    return arr[0];
-
-                var i = 1;
-
-                while (arr[i] < input)
-                    i++;
-
-                var low = arr[i - 1];
-                var high = (i < arr.length) ? arr[i] : Number.POSITIVE_INFINITY;
-
-                return ((high - input) <= (input - low)) ? high : low;
-            };
-
-            GameMath.roundTo = function (value, place, base) {
-                if (typeof place === "undefined") { place = 0; }
-                if (typeof base === "undefined") { base = 10; }
-                var p = Math.pow(base, -place);
-                return Math.round(value * p) / p;
-            };
-
-            GameMath.floorTo = function (value, place, base) {
-                if (typeof place === "undefined") { place = 0; }
-                if (typeof base === "undefined") { base = 10; }
-                var p = Math.pow(base, -place);
-                return Math.floor(value * p) / p;
-            };
-
-            GameMath.ceilTo = function (value, place, base) {
-                if (typeof place === "undefined") { place = 0; }
-                if (typeof base === "undefined") { base = 10; }
-                var p = Math.pow(base, -place);
-                return Math.ceil(value * p) / p;
-            };
-
-            GameMath.interpolateFloat = function (a, b, weight) {
-                return (b - a) * weight + a;
-            };
-
-            GameMath.radiansToDegrees = function (angle) {
-                return angle * GameMath.RAD_TO_DEG;
-            };
-
-            GameMath.degreesToRadians = function (angle) {
-                return angle * GameMath.DEG_TO_RAD;
-            };
-
-            GameMath.angleBetween = function (x1, y1, x2, y2) {
-                return Math.atan2(y2 - y1, x2 - x1);
-            };
-
-            GameMath.normalizeAngle = function (angle, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                var rd = (radians) ? GameMath.PI : 180;
-                return GameMath.wrap(angle, rd, -rd);
-            };
-
-            GameMath.nearestAngleBetween = function (a1, a2, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                var rd = (radians) ? GameMath.PI : 180;
-
-                a1 = GameMath.normalizeAngle(a1, radians);
-                a2 = GameMath.normalizeAngle(a2, radians);
-
-                if (a1 < -rd / 2 && a2 > rd / 2)
-                    a1 += rd * 2;
-                if (a2 < -rd / 2 && a1 > rd / 2)
-                    a2 += rd * 2;
-
-                return a2 - a1;
-            };
-
-            GameMath.normalizeAngleToAnother = function (dep, ind, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                return ind + Kiwi.Utils.GameMath.nearestAngleBetween(ind, dep, radians);
-            };
-
-            GameMath.normalizeAngleAfterAnother = function (dep, ind, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                dep = Kiwi.Utils.GameMath.normalizeAngle(dep - ind, radians);
-                return ind + dep;
-            };
-
-            GameMath.normalizeAngleBeforeAnother = function (dep, ind, radians) {
-                if (typeof radians === "undefined") { radians = true; }
-                dep = Kiwi.Utils.GameMath.normalizeAngle(ind - dep, radians);
-                return ind - dep;
-            };
-
-            GameMath.interpolateAngles = function (a1, a2, weight, radians, ease) {
-                if (typeof radians === "undefined") { radians = true; }
-                if (typeof ease === "undefined") { ease = null; }
-                a1 = Kiwi.Utils.GameMath.normalizeAngle(a1, radians);
-                a2 = Kiwi.Utils.GameMath.normalizeAngleToAnother(a2, a1, radians);
-
-                return (typeof ease === 'function') ? ease(weight, a1, a2 - a1, 1) : Kiwi.Utils.GameMath.interpolateFloat(a1, a2, weight);
-            };
-
-            GameMath.logBaseOf = function (value, base) {
-                return Math.log(value) / Math.log(base);
-            };
-
-            GameMath.GCD = function (m, n) {
-                var r;
-
-                m = Math.abs(m);
-                n = Math.abs(n);
-
-                if (m < n) {
-                    r = m;
-                    m = n;
-                    n = r;
-                }
-
-                while (true) {
-                    r = m % n;
-                    if (!r)
-                        return n;
-                    m = n;
-                    n = r;
-                }
-
-                return 1;
-            };
-
-            GameMath.LCM = function (m, n) {
-                return (m * n) / Kiwi.Utils.GameMath.GCD(m, n);
-            };
-
-            GameMath.factorial = function (value) {
-                if (value == 0)
-                    return 1;
-
-                var res = value;
-
-                while (--value) {
-                    res *= value;
-                }
-
-                return res;
-            };
-
-            GameMath.gammaFunction = function (value) {
-                return Kiwi.Utils.GameMath.factorial(value - 1);
-            };
-
-            GameMath.fallingFactorial = function (base, exp) {
-                return Kiwi.Utils.GameMath.factorial(base) / Kiwi.Utils.GameMath.factorial(base - exp);
-            };
-
-            GameMath.risingFactorial = function (base, exp) {
-                return Kiwi.Utils.GameMath.factorial(base + exp - 1) / Kiwi.Utils.GameMath.factorial(base - 1);
-            };
-
-            GameMath.binCoef = function (n, k) {
-                return Kiwi.Utils.GameMath.fallingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
-            };
-
-            GameMath.risingBinCoef = function (n, k) {
-                return Kiwi.Utils.GameMath.risingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
-            };
-
-            GameMath.chanceRoll = function (chance) {
-                if (typeof chance === "undefined") { chance = 50; }
-                if (chance <= 0) {
-                    return false;
-                } else if (chance >= 100) {
-                    return true;
-                } else {
-                    if (Math.random() * 100 >= chance) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
-            };
-
-            GameMath.maxAdd = function (value, amount, max) {
-                value += amount;
-
-                if (value > max) {
-                    value = max;
-                }
-
-                return value;
-            };
-
-            GameMath.minSub = function (value, amount, min) {
-                value -= amount;
-
-                if (value < min) {
-                    value = min;
-                }
-
-                return value;
-            };
-
-            GameMath.wrapValue = function (value, amount, max) {
-                var diff;
-
-                value = Math.abs(value);
-                amount = Math.abs(amount);
-                max = Math.abs(max);
-
-                diff = (value + amount) % max;
-
-                return diff;
-            };
-
-            GameMath.randomSign = function () {
-                return (Math.random() > 0.5) ? 1 : -1;
-            };
-
-            GameMath.isOdd = function (n) {
-                if (n & 1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            GameMath.isEven = function (n) {
-                if (n & 1) {
-                    return false;
-                } else {
-                    return true;
-                }
-            };
-
-            GameMath.wrapAngle = function (angle) {
-                var result = angle;
-
-                if (angle >= -180 && angle <= 180) {
-                    return angle;
-                }
-
-                result = (angle + 180) % 360;
-
-                if (result < 0) {
-                    result += 360;
-                }
-
-                return result - 180;
-            };
-
-            GameMath.angleLimit = function (angle, min, max) {
-                var result = angle;
-
-                if (angle > max) {
-                    result = max;
-                } else if (angle < min) {
-                    result = min;
-                }
-
-                return result;
-            };
-
-            GameMath.linearInterpolation = function (v, k) {
-                var m = v.length - 1;
-                var f = m * k;
-                var i = Math.floor(f);
-
-                if (k < 0)
-                    return Kiwi.Utils.GameMath.linear(v[0], v[1], f);
-                if (k > 1)
-                    return Kiwi.Utils.GameMath.linear(v[m], v[m - 1], m - f);
-
-                return Kiwi.Utils.GameMath.linear(v[i], v[i + 1 > m ? m : i + 1], f - i);
-            };
-
-            GameMath.bezierInterpolation = function (v, k) {
-                var b = 0;
-                var n = v.length - 1;
-
-                for (var i = 0; i <= n; i++) {
-                    b += Math.pow(1 - k, n - i) * Math.pow(k, i) * v[i] * Kiwi.Utils.GameMath.bernstein(n, i);
-                }
-
-                return b;
-            };
-
-            GameMath.catmullRomInterpolation = function (v, k) {
-                var m = v.length - 1;
-                var f = m * k;
-                var i = Math.floor(f);
-
-                if (v[0] === v[m]) {
-                    if (k < 0)
-                        i = Math.floor(f = m * (1 + k));
-
-                    return Kiwi.Utils.GameMath.catmullRom(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
-                } else {
-                    if (k < 0)
-                        return v[0] - (Kiwi.Utils.GameMath.catmullRom(v[0], v[0], v[1], v[1], -f) - v[0]);
-
-                    if (k > 1)
-                        return v[m] - (Kiwi.Utils.GameMath.catmullRom(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
-
-                    return Kiwi.Utils.GameMath.catmullRom(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
-                }
-            };
-
-            GameMath.linear = function (p0, p1, t) {
-                return (p1 - p0) * t + p0;
-            };
-
-            GameMath.bernstein = function (n, i) {
-                return Kiwi.Utils.GameMath.factorial(n) / Kiwi.Utils.GameMath.factorial(i) / Kiwi.Utils.GameMath.factorial(n - i);
-            };
-
-            GameMath.catmullRom = function (p0, p1, p2, p3, t) {
-                var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t, t3 = t * t2;
-                return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
-            };
-
-            GameMath.difference = function (a, b) {
-                return Math.abs(a - b);
-            };
-            GameMath.PI = 3.141592653589793;
-            GameMath.PI_2 = 1.5707963267948965;
-            GameMath.PI_4 = 0.7853981633974483;
-            GameMath.PI_8 = 0.39269908169872413;
-            GameMath.PI_16 = 0.19634954084936206;
-            GameMath.TWO_PI = 6.283185307179586;
-            GameMath.THREE_PI_2 = 4.7123889803846895;
-            GameMath.E = 2.71828182845905;
-            GameMath.LN10 = 2.302585092994046;
-            GameMath.LN2 = 0.6931471805599453;
-            GameMath.LOG10E = 0.4342944819032518;
-            GameMath.LOG2E = 1.442695040888963387;
-            GameMath.SQRT1_2 = 0.7071067811865476;
-            GameMath.SQRT2 = 1.4142135623730951;
-            GameMath.DEG_TO_RAD = 0.017453292519943294444444444444444;
-            GameMath.RAD_TO_DEG = 57.295779513082325225835265587527;
-
-            GameMath.B_16 = 65536;
-            GameMath.B_31 = 2147483648;
-            GameMath.B_32 = 4294967296;
-            GameMath.B_48 = 281474976710656;
-            GameMath.B_53 = 9007199254740992;
-            GameMath.B_64 = 18446744073709551616;
-
-            GameMath.ONE_THIRD = 0.333333333333333333333333333333333;
-            GameMath.TWO_THIRDS = 0.666666666666666666666666666666666;
-            GameMath.ONE_SIXTH = 0.166666666666666666666666666666666;
-
-            GameMath.COS_PI_3 = 0.86602540378443864676372317075294;
-            GameMath.SIN_2PI_3 = 0.03654595;
-
-            GameMath.CIRCLE_ALPHA = 0.5522847498307933984022516322796;
-
-            GameMath.ON = true;
-            GameMath.OFF = false;
-
-            GameMath.SHORT_EPSILON = 0.1;
-            GameMath.PERC_EPSILON = 0.001;
-            GameMath.EPSILON = 0.0001;
-            GameMath.LONG_EPSILON = 0.00000001;
-            return GameMath;
-        })();
-        Utils.GameMath = GameMath;
-    })(Kiwi.Utils || (Kiwi.Utils = {}));
-    var Utils = Kiwi.Utils;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (Geom) {
-        var AABB = (function () {
-            function AABB(cx, cy, width, height) {
-                this.cx = 0;
-                this.cy = 0;
-                this.halfWidth = 0;
-                this.halfHeight = 0;
-                this.cx = cx || 0;
-                this.cy = cy || 0;
-                this.halfWidth = width / 2 || 0;
-                this.halfHeight = height / 2 || 0;
+        var IntersectResult = (function () {
+            function IntersectResult() {
+                this.result = false;
             }
-            AABB.prototype.objType = function () {
-                return "AABB";
+            IntersectResult.prototype.objType = function () {
+                return "IntersectResult";
             };
 
-            Object.defineProperty(AABB.prototype, "height", {
-                get: function () {
-                    return this.halfHeight * 2;
-                },
-                enumerable: true,
-                configurable: true
-            });
+            IntersectResult.prototype.setTo = function (x1, y1, x2, y2, width, height) {
+                if (typeof x2 === "undefined") { x2 = 0; }
+                if (typeof y2 === "undefined") { y2 = 0; }
+                if (typeof width === "undefined") { width = 0; }
+                if (typeof height === "undefined") { height = 0; }
+                this.x = x1;
+                this.y = y1;
 
-            Object.defineProperty(AABB.prototype, "width", {
-                get: function () {
-                    return this.halfWidth * 2;
-                },
-                enumerable: true,
-                configurable: true
-            });
+                this.x1 = x1;
+                this.y1 = y1;
 
-            AABB.prototype.draw = function (ctx) {
-                ctx.beginPath();
-                ctx.moveTo(this.cx - this.halfWidth, this.cy);
-                ctx.lineTo(this.cx + this.halfWidth, this.cy);
-                ctx.moveTo(this.cx, this.cy - this.halfHeight);
-                ctx.lineTo(this.cx, this.cy + this.halfHeight);
-                ctx.stroke();
-                return this;
+                this.x2 = x2;
+                this.y2 = y2;
+
+                this.width = width;
+                this.height = height;
             };
-
-            AABB.prototype.setPosition = function (cx, cy) {
-                this.cx = cx;
-                this.cy = cy;
-                return this;
-            };
-
-            AABB.prototype.setPositionPoint = function (pos) {
-                this.cx = pos.x;
-                this.cy = pos.y;
-                return this;
-            };
-
-            AABB.prototype.toRect = function () {
-                return new Geom.Rectangle(this.cx - this.halfWidth, this.cy - this.halfHeight, this.halfWidth * 2, this.halfHeight * 2);
-            };
-
-            AABB.prototype.fromRect = function (rect) {
-                this.halfWidth = rect.width / 2;
-                this.halfHeight = rect.height / 2;
-                this.cx = rect.x + this.halfWidth;
-                this.cy = rect.y + this.halfHeight;
-                return this;
-            };
-            return AABB;
+            return IntersectResult;
         })();
-        Geom.AABB = AABB;
+        Geom.IntersectResult = IntersectResult;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
-        var Ray = (function () {
-            function Ray(x1, y1, x2, y2) {
+        var Line = (function () {
+            function Line(x1, y1, x2, y2) {
                 if (typeof x1 === "undefined") { x1 = 0; }
                 if (typeof y1 === "undefined") { y1 = 0; }
                 if (typeof x2 === "undefined") { x2 = 0; }
@@ -8466,24 +6862,24 @@ var Kiwi;
                 this.y2 = 0;
                 this.setTo(x1, y1, x2, y2);
             }
-            Ray.prototype.objType = function () {
-                return "Ray";
+            Line.prototype.objType = function () {
+                return "Line";
             };
 
-            Ray.prototype.clone = function (output) {
-                if (typeof output === "undefined") { output = new Ray(); }
+            Line.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Line(); }
                 return output.setTo(this.x1, this.y1, this.x2, this.y2);
             };
 
-            Ray.prototype.copyFrom = function (source) {
+            Line.prototype.copyFrom = function (source) {
                 return this.setTo(source.x1, source.y1, source.x2, source.y2);
             };
 
-            Ray.prototype.copyTo = function (target) {
+            Line.prototype.copyTo = function (target) {
                 return target.copyFrom(this);
             };
 
-            Ray.prototype.setTo = function (x1, y1, x2, y2) {
+            Line.prototype.setTo = function (x1, y1, x2, y2) {
                 if (typeof x1 === "undefined") { x1 = 0; }
                 if (typeof y1 === "undefined") { y1 = 0; }
                 if (typeof x2 === "undefined") { x2 = 0; }
@@ -8496,7 +6892,19 @@ var Kiwi;
                 return this;
             };
 
-            Object.defineProperty(Ray.prototype, "angle", {
+            Object.defineProperty(Line.prototype, "length", {
+                get: function () {
+                    return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Line.prototype.getY = function (x) {
+                return this.slope * x + this.yIntercept;
+            };
+
+            Object.defineProperty(Line.prototype, "angle", {
                 get: function () {
                     return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
                 },
@@ -8504,7 +6912,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Ray.prototype, "slope", {
+            Object.defineProperty(Line.prototype, "slope", {
                 get: function () {
                     return (this.y2 - this.y1) / (this.x2 - this.x1);
                 },
@@ -8512,7 +6920,15 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Ray.prototype, "yIntercept", {
+            Object.defineProperty(Line.prototype, "perpSlope", {
+                get: function () {
+                    return -((this.x2 - this.x1) / (this.y2 - this.y1));
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Line.prototype, "yIntercept", {
                 get: function () {
                     return (this.y1 - this.slope * this.x1);
                 },
@@ -8520,22 +6936,1096 @@ var Kiwi;
                 configurable: true
             });
 
-            Ray.prototype.isPointOnRay = function (x, y) {
+            Line.prototype.isPointOnLine = function (x, y) {
                 if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
-                    if (Math.atan2(y - this.y1, x - this.x1) == Math.atan2(this.y2 - this.y1, this.x2 - this.x1)) {
-                        return true;
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Line.prototype.isPointOnLineSegment = function (x, y) {
+                var xMin = Math.min(this.x1, this.x2);
+                var xMax = Math.max(this.x1, this.x2);
+                var yMin = Math.min(this.y1, this.y2);
+                var yMax = Math.max(this.y1, this.y2);
+
+                if (this.isPointOnLine(x, y) && (x >= xMin && x <= xMax) && (y >= yMin && y <= yMax)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Line.prototype.intersectLineLine = function (line) {
+            };
+
+            Line.prototype.perp = function (x, y, output) {
+                if (this.y1 === this.y2) {
+                    if (output) {
+                        output.setTo(x, y, x, this.y1);
+                    } else {
+                        return new Line(x, y, x, this.y1);
                     }
+                }
+
+                var yInt = (y - this.perpSlope * x);
+
+                var pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
+
+                if (output) {
+                    output.setTo(x, y, pt.x, pt.y);
+                } else {
+                    return new Line(x, y, pt.x, pt.y);
+                }
+            };
+
+            Line.prototype.toString = function () {
+                return "[{Line (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
+            };
+            return Line;
+        })();
+        Geom.Line = Line;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Matrix = (function () {
+            function Matrix(a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                this.a = 1;
+                this.b = 0;
+                this.c = 0;
+                this.d = 1;
+                this.tx = 0;
+                this.ty = 0;
+                this.setTo(a, b, c, d, tx, ty);
+            }
+            Matrix.prototype.objType = function () {
+                return "Matrix";
+            };
+
+            Matrix.prototype.setTo = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                this.a = a;
+                this.b = b;
+                this.c = c;
+                this.d = d;
+                this.tx = tx;
+                this.ty = ty;
+
+                return this;
+            };
+
+            Matrix.prototype.setFromTransform = function (tx, ty, scaleX, scaleY, rotation) {
+                this.identity();
+                var cos = Math.cos(rotation);
+                var sin = Math.sin(rotation);
+
+                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty);
+
+                return this;
+            };
+
+            Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                var tx1 = this.tx;
+                var a1 = this.a;
+                var c1 = this.c;
+
+                this.a = a1 * a + this.b * c;
+                this.b = a1 * b + this.b * d;
+                this.c = c1 * a + this.d * c;
+                this.d = c1 * b + this.d * d;
+
+                this.tx = tx1 * a + this.ty * c + tx;
+                this.ty = tx1 * b + this.ty * d + ty;
+                return this;
+            };
+
+            Matrix.prototype.prependMatrix = function (m) {
+                var tx1 = this.tx;
+                var a1 = this.a;
+                var c1 = this.c;
+
+                this.a = a1 * m.a + this.b * m.c;
+                this.b = a1 * m.b + this.b * m.d;
+                this.c = c1 * m.a + this.d * m.c;
+                this.d = c1 * m.b + this.d * m.d;
+
+                this.tx = tx1 * m.a + this.ty * m.c + m.tx;
+                this.ty = tx1 * m.b + this.ty * m.d + m.ty;
+                return this;
+            };
+
+            Matrix.prototype.append = function (a, b, c, d, tx, ty) {
+                if (typeof a === "undefined") { a = 1; }
+                if (typeof b === "undefined") { b = 0; }
+                if (typeof c === "undefined") { c = 0; }
+                if (typeof d === "undefined") { d = 1; }
+                if (typeof tx === "undefined") { tx = 0; }
+                if (typeof ty === "undefined") { ty = 0; }
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+
+                this.a = a * a1 + b * c1;
+                this.b = a * b1 + b * d1;
+                this.c = c * a1 + d * c1;
+                this.d = c * b1 + d * d1;
+                this.tx = tx * a1 + ty * c1 + this.tx;
+                this.ty = tx * b1 + ty * d1 + this.ty;
+                return this;
+            };
+
+            Matrix.prototype.appendMatrix = function (m) {
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+
+                this.a = m.a * a1 + m.b * c1;
+                this.b = m.a * b1 + m.b * d1;
+                this.c = m.c * a1 + m.d * c1;
+                this.d = m.c * b1 + m.d * d1;
+                this.tx = m.tx * a1 + m.ty * c1 + this.tx;
+                this.ty = m.tx * b1 + m.ty * d1 + this.ty;
+                return this;
+            };
+
+            Matrix.prototype.setPosition = function (x, y) {
+                this.tx = x;
+                this.ty = y;
+                return this;
+            };
+
+            Matrix.prototype.setPositionPoint = function (p) {
+                this.tx = p.x;
+                this.ty = p.y;
+                return this;
+            };
+
+            Matrix.prototype.getPosition = function (output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                return output.setTo(this.tx, this.ty);
+            };
+
+            Matrix.prototype.identity = function () {
+                this.a = 1;
+                this.b = 0;
+                this.c = 0;
+                this.d = 1;
+                this.tx = 0;
+                this.ty = 0;
+                return this;
+            };
+
+            Matrix.prototype.rotate = function (radians) {
+                var cos = Math.cos(radians);
+                var sin = Math.sin(radians);
+
+                var a1 = this.a;
+                var c1 = this.c;
+                var tx1 = this.tx;
+
+                this.a = a1 * cos - this.b * sin;
+                this.b = a1 * sin + this.b * cos;
+                this.c = c1 * cos - this.d * sin;
+                this.d = c1 * sin + this.d * cos;
+                this.tx = tx1 * cos - this.ty * sin;
+                this.ty = tx1 * sin + this.ty * cos;
+                return this;
+            };
+
+            Matrix.prototype.translate = function (tx, ty) {
+                this.tx += tx;
+                this.ty += ty;
+                return this;
+            };
+
+            Matrix.prototype.scale = function (scaleX, scaleY) {
+                this.a *= scaleX;
+                this.d *= scaleY;
+                return this;
+            };
+
+            Matrix.prototype.transformPoint = function (pt) {
+                var x = pt.x;
+                var y = pt.y;
+                pt.x = this.a * x + this.c * y + this.tx;
+                pt.y = this.b * x + this.d * y + this.ty;
+                return pt;
+            };
+
+            Matrix.prototype.invert = function () {
+                var a1 = this.a;
+                var b1 = this.b;
+                var c1 = this.c;
+                var d1 = this.d;
+                var tx1 = this.tx;
+                var n = a1 * d1 - b1 * c1;
+
+                this.a = d1 / n;
+                this.b = -b1 / n;
+                this.c = -c1 / n;
+                this.d = a1 / n;
+                this.tx = (c1 * this.ty - d1 * tx1) / n;
+                this.ty = -(a1 * this.ty - b1 * tx1) / n;
+                return this;
+            };
+
+            Matrix.prototype.copyFrom = function (m) {
+                this.a = m.a;
+                this.b = m.b;
+                this.c = m.c;
+                this.d = m.d;
+                this.tx = m.tx;
+                this.ty = m.ty;
+
+                return this;
+            };
+
+            Matrix.prototype.copyTo = function (m) {
+                m.a = this.a;
+                m.b = this.b;
+                m.c = this.c;
+                m.d = this.d;
+                m.tx = this.tx;
+                m.ty = this.ty;
+                return this;
+            };
+
+            Matrix.prototype.clone = function () {
+                return new Kiwi.Geom.Matrix(this.a, this.b, this.c, this.d, this.tx, this.ty);
+            };
+
+            Object.defineProperty(Matrix.prototype, "toString", {
+                get: function () {
+                    return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Matrix;
+        })();
+        Geom.Matrix = Matrix;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Point = (function () {
+            function Point(x, y) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                this.setTo(x, y);
+            }
+            Point.prototype.objType = function () {
+                return "Point";
+            };
+
+            Point.prototype.polar = function (distance, angle) {
+                this.x = distance * Math.cos(angle * Math.PI / 180);
+                this.y = distance * Math.sin(angle * Math.PI / 180);
+                return this;
+            };
+
+            Point.prototype.add = function (toAdd, output) {
+                if (typeof output === "undefined") { output = new Point(); }
+                return output.setTo(this.x + toAdd.x, this.y + toAdd.y);
+            };
+
+            Point.prototype.addTo = function (x, y) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                return this.setTo(this.x + x, this.y + y);
+            };
+
+            Point.prototype.subtractFrom = function (x, y) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                return this.setTo(this.x - x, this.y - y);
+            };
+
+            Point.prototype.invert = function () {
+                return this.setTo(this.y, this.x);
+            };
+
+            Point.prototype.clamp = function (min, max) {
+                this.clampX(min, max);
+                this.clampY(min, max);
+                return this;
+            };
+
+            Point.prototype.clampX = function (min, max) {
+                this.x = Math.max(Math.min(this.x, max), min);
+
+                return this;
+            };
+
+            Point.prototype.clampY = function (min, max) {
+                this.x = Math.max(Math.min(this.x, max), min);
+                this.y = Math.max(Math.min(this.y, max), min);
+
+                return this;
+            };
+
+            Point.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Point(); }
+                return output.setTo(this.x, this.y);
+            };
+
+            Point.prototype.copyFrom = function (source) {
+                return this.setTo(source.x, source.y);
+            };
+
+            Point.prototype.copyTo = function (target) {
+                return target.setTo(this.x, this.y);
+            };
+
+            Point.prototype.distanceTo = function (target, round) {
+                if (typeof round === "undefined") { round = false; }
+                var dx = this.x - target.x;
+                var dy = this.y - target.y;
+
+                if (round === true) {
+                    return Math.round(Math.sqrt(dx * dx + dy * dy));
+                } else {
+                    return Math.sqrt(dx * dx + dy * dy);
+                }
+            };
+
+            Point.prototype.distanceToXY = function (x, y, round) {
+                if (typeof round === "undefined") { round = false; }
+                var dx = this.x - x;
+                var dy = this.y - y;
+
+                if (round === true) {
+                    return Math.round(Math.sqrt(dx * dx + dy * dy));
+                } else {
+                    return Math.sqrt(dx * dx + dy * dy);
+                }
+            };
+
+            Point.distanceBetween = function (pointA, pointB, round) {
+                if (typeof round === "undefined") { round = false; }
+                var dx = pointA.x - pointB.x;
+                var dy = pointA.y - pointB.y;
+
+                if (round === true) {
+                    return Math.round(Math.sqrt(dx * dx + dy * dy));
+                } else {
+                    return Math.sqrt(dx * dx + dy * dy);
+                }
+            };
+
+            Point.polar = function (length, angle) {
+                return new Point(length * Math.cos(angle * Math.PI / 180), length * Math.sin(angle * Math.PI / 180));
+            };
+
+            Point.prototype.distanceCompare = function (target, distance) {
+                if (this.distanceTo(target) >= distance) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Point.prototype.equals = function (toCompare) {
+                if (this.x === toCompare.x && this.y === toCompare.y) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Point.interpolate = function (pointA, pointB, f) {
+                var xDiff = pointB.x - pointA.x;
+                var yDiff = pointB.y - pointA.y;
+                return new Point(pointB.x - xDiff * f, pointB.y - yDiff * f);
+            };
+
+            Point.prototype.offset = function (dx, dy) {
+                this.x += dx;
+                this.y += dy;
+
+                return this;
+            };
+
+            Point.prototype.setTo = function (x, y) {
+                this.x = x;
+                this.y = y;
+
+                return this;
+            };
+
+            Point.prototype.subtract = function (point, output) {
+                if (typeof output === "undefined") { output = new Point(); }
+                return output.setTo(this.x - point.x, this.y - point.y);
+            };
+
+            Point.prototype.getCSS = function () {
+                return this.x + 'px ' + this.y + 'px';
+            };
+
+            Point.prototype.toString = function () {
+                return '[{Point (x=' + this.x + ' y=' + this.y + ')}]';
+            };
+            return Point;
+        })();
+        Geom.Point = Point;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Rectangle = (function () {
+            function Rectangle(x, y, width, height) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof width === "undefined") { width = 0; }
+                if (typeof height === "undefined") { height = 0; }
+                this.x = 0;
+                this.y = 0;
+                this.width = 0;
+                this.height = 0;
+                this.setTo(x, y, width, height);
+            }
+            Rectangle.prototype.objType = function () {
+                return "Rectangle";
+            };
+
+
+            Object.defineProperty(Rectangle.prototype, "bottom", {
+                get: function () {
+                    return this.y + this.height;
+                },
+                set: function (value) {
+                    if (value) {
+                        if (value < this.y) {
+                            this.height = 0;
+                        } else {
+                            this.height = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "center", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(Math.round(this.width / 2), Math.round(this.height / 2));
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "bottomRight", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.right, this.bottom);
+                },
+                set: function (value) {
+                    if (value) {
+                        this.right = value.x;
+                        this.bottom = value.y;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "left", {
+                get: function () {
+                    return this.x;
+                },
+                set: function (value) {
+                    if (value) {
+                        var diff = this.x - value;
+
+                        if (this.width + diff < 0) {
+                            this.width = 0;
+
+                            this.x = value;
+                        } else {
+                            this.width += diff;
+
+                            this.x = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "right", {
+                get: function () {
+                    return this.x + this.width;
+                },
+                set: function (value) {
+                    if (value) {
+                        if (value < this.x) {
+                            this.width = 0;
+                        } else {
+                            this.width = value - this.x;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "size", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.width, this.height);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "volume", {
+                get: function () {
+                    return this.width * this.height;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Rectangle.prototype, "perimeter", {
+                get: function () {
+                    return (this.width * 2) + (this.height * 2);
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "top", {
+                get: function () {
+                    return this.y;
+                },
+                set: function (value) {
+                    if (value) {
+                        var diff = this.y - value;
+
+                        if (this.height + diff < 0) {
+                            this.height = 0;
+
+                            this.y = value;
+                        } else {
+                            this.height += diff;
+
+                            this.y = value;
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Rectangle.prototype, "topLeft", {
+                get: function () {
+                    var output = new Geom.Point();
+                    return output.setTo(this.x, this.y);
+                },
+                set: function (value) {
+                    if (value) {
+                        this.x = value.x;
+                        this.y = value.y;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Rectangle.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Rectangle(); }
+                return output.setTo(this.x, this.y, this.width, this.height);
+            };
+
+            Rectangle.prototype.contains = function (x, y) {
+                if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom) {
+                    return true;
                 }
 
                 return false;
             };
 
-            Ray.prototype.toString = function () {
-                return "[{Ray (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
+            Rectangle.prototype.containsPoint = function (point) {
+                return this.contains(point.x, point.y);
             };
-            return Ray;
+
+            Rectangle.prototype.containsRect = function (rect) {
+                if (rect.volume > this.volume) {
+                    return false;
+                }
+
+                if (rect.x >= this.x && rect.y >= this.y && rect.right <= this.right && rect.bottom <= this.bottom) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.copyFrom = function (source) {
+                return this.setTo(source.x, source.y, source.width, source.height);
+            };
+
+            Rectangle.prototype.copyTo = function (target) {
+                return target.copyFrom(this);
+            };
+
+            Rectangle.prototype.equals = function (toCompare) {
+                if (this.x === toCompare.x && this.y === toCompare.y && this.width === toCompare.width && this.height === toCompare.height) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.inflate = function (dx, dy) {
+                if (!isNaN(dx) && !isNaN(dy)) {
+                    this.x -= dx;
+                    this.width += 2 * dx;
+
+                    this.y -= dy;
+                    this.height += 2 * dy;
+                }
+
+                return this;
+            };
+
+            Rectangle.prototype.inflatePoint = function (point) {
+                return this.inflate(point.x, point.y);
+            };
+
+            Rectangle.prototype.intersection = function (toIntersect, output) {
+                if (typeof output === "undefined") { output = new Rectangle(); }
+                if (this.intersects(toIntersect) === true) {
+                    output.x = Math.max(toIntersect.x, this.x);
+                    output.y = Math.max(toIntersect.y, this.y);
+                    output.width = Math.min(toIntersect.right, this.right) - output.x;
+                    output.height = Math.min(toIntersect.bottom, this.bottom) - output.y;
+                }
+
+                return output;
+            };
+
+            Rectangle.prototype.intersects = function (toIntersect) {
+                if (toIntersect.x > this.right - 1) {
+                    return false;
+                }
+
+                if (toIntersect.right - 1 < this.x) {
+                    return false;
+                }
+
+                if (toIntersect.bottom - 1 < this.y) {
+                    return false;
+                }
+
+                if (toIntersect.y > this.bottom - 1) {
+                    return false;
+                }
+
+                return true;
+            };
+
+            Rectangle.prototype.overlap = function (rect) {
+                var result = { top: false, bottom: false, left: false, right: false, contains: false, contained: false };
+                var interRect = this.intersection(rect);
+
+                if (interRect.isEmpty)
+                    return result;
+                if (this.containsRect(rect))
+                    result.contains = true;
+                if (rect.containsRect(this))
+                    result.contained = true;
+                if (this.top < rect.top)
+                    result.top = true;
+                if (this.bottom > rect.bottom)
+                    result.bottom = true;
+                if (this.left < rect.left)
+                    result.left = true;
+                if (this.right > rect.right)
+                    result.right = true;
+
+                return result;
+            };
+
+            Rectangle.prototype.isEmpty = function () {
+                if (this.width < 1 || this.height < 1) {
+                    return true;
+                }
+
+                return false;
+            };
+
+            Rectangle.prototype.offset = function (dx, dy) {
+                if (!isNaN(dx) && !isNaN(dy)) {
+                    this.x += dx;
+                    this.y += dy;
+                }
+
+                return this;
+            };
+
+            Rectangle.prototype.offsetPoint = function (point) {
+                return this.offset(point.x, point.y);
+            };
+
+            Rectangle.prototype.setEmpty = function () {
+                return this.setTo(0, 0, 0, 0);
+            };
+
+            Rectangle.prototype.setTo = function (x, y, width, height) {
+                if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height)) {
+                    this.x = x;
+                    this.y = y;
+
+                    if (width >= 0) {
+                        this.width = width;
+                    }
+
+                    if (height >= 0) {
+                        this.height = height;
+                    }
+                }
+
+                return this;
+            };
+
+            Rectangle.prototype.union = function (toUnion, output) {
+                if (typeof output === "undefined") { output = new Rectangle(); }
+                return output.setTo(Math.min(toUnion.x, this.x), Math.min(toUnion.y, this.y), Math.max(toUnion.right, this.right), Math.max(toUnion.bottom, this.bottom));
+            };
+
+            Rectangle.prototype.scale = function (x, y, translation) {
+                var trans = new Kiwi.Geom.Transform();
+                trans.scaleX = x;
+                trans.scaleY = y;
+                trans.x = translation.x;
+                trans.y = translation.y;
+
+                var tl = this.topLeft;
+                trans.transformPoint(tl);
+                this.topLeft = tl;
+
+                this.width *= x;
+                this.height *= y;
+
+                return this;
+            };
+
+            Rectangle.prototype.toString = function () {
+                return "[{Rectangle (x=" + this.x + " y=" + this.y + " width=" + this.width + " height=" + this.height + " isEmpty=" + this.isEmpty() + ")}]";
+            };
+            return Rectangle;
         })();
-        Geom.Ray = Ray;
+        Geom.Rectangle = Rectangle;
+    })(Kiwi.Geom || (Kiwi.Geom = {}));
+    var Geom = Kiwi.Geom;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Geom) {
+        var Transform = (function () {
+            function Transform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof scaleX === "undefined") { scaleX = 1; }
+                if (typeof scaleY === "undefined") { scaleY = 1; }
+                if (typeof rotation === "undefined") { rotation = 0; }
+                if (typeof rotPointX === "undefined") { rotPointX = 0; }
+                if (typeof rotPointY === "undefined") { rotPointY = 0; }
+                this._x = 0;
+                this._y = 0;
+                this._scaleX = 1;
+                this._scaleY = 1;
+                this._rotation = 0;
+                this._rotPointX = 0;
+                this._rotPointY = 0;
+                this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
+
+                this._matrix = new Geom.Matrix();
+
+                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+
+                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
+            }
+            Transform.prototype.objType = function () {
+                return "Transform";
+            };
+
+
+            Object.defineProperty(Transform.prototype, "x", {
+                get: function () {
+                    return this._x;
+                },
+                set: function (value) {
+                    this._x = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "y", {
+                get: function () {
+                    return this._y;
+                },
+                set: function (value) {
+                    this._y = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "scaleX", {
+                get: function () {
+                    return this._scaleX;
+                },
+                set: function (value) {
+                    this._scaleX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "scaleY", {
+                get: function () {
+                    return this._scaleY;
+                },
+                set: function (value) {
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "rotation", {
+                get: function () {
+                    return this._rotation;
+                },
+                set: function (value) {
+                    this._rotation = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "rotPointX", {
+                get: function () {
+                    return this._rotPointX;
+                },
+                set: function (value) {
+                    this._rotPointX = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "rotPointY", {
+                get: function () {
+                    return this._rotPointY;
+                },
+                set: function (value) {
+                    this._rotPointY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "matrix", {
+                get: function () {
+                    return this._matrix;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "worldX", {
+                get: function () {
+                    return this.getConcatenatedMatrix().tx;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Transform.prototype, "worldY", {
+                get: function () {
+                    return this.getConcatenatedMatrix().ty;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Transform.prototype, "parent", {
+                get: function () {
+                    return this._parent;
+                },
+                set: function (value) {
+                    if (!this.checkAncestor(value)) {
+                        this._parent = value;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Transform.prototype.setPosition = function (x, y) {
+                this._x = x;
+                this._y = y;
+
+                return this;
+            };
+
+            Transform.prototype.setPositionFromPoint = function (point) {
+                this._x = point.x;
+                this._y = point.y;
+
+                return this;
+            };
+
+            Transform.prototype.translatePositionFromPoint = function (point) {
+                this._x += point.x;
+                this._y += point.y;
+
+                return this;
+            };
+
+            Transform.prototype.getPositionPoint = function (output) {
+                if (typeof output === "undefined") { output = new Kiwi.Geom.Point(); }
+                return output.setTo(this._x, this._y);
+            };
+
+            Object.defineProperty(Transform.prototype, "scale", {
+                set: function (value) {
+                    this._scaleX = value;
+                    this._scaleY = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Transform.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, rotPointX, rotPointY) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                if (typeof scaleX === "undefined") { scaleX = 1; }
+                if (typeof scaleY === "undefined") { scaleY = 1; }
+                if (typeof rotation === "undefined") { rotation = 0; }
+                if (typeof rotPointX === "undefined") { rotPointX = 0; }
+                if (typeof rotPointY === "undefined") { rotPointY = 0; }
+                this._x = x;
+                this._y = y;
+                this._scaleX = scaleX;
+                this._scaleY = scaleY;
+                this._rotation = rotation;
+                this._rotPointX = rotPointX;
+                this._rotPointY = rotPointY;
+
+                return this;
+            };
+
+            Transform.prototype.getParentMatrix = function () {
+                if (this._parent) {
+                    return this._parent.getConcatenatedMatrix();
+                }
+
+                return null;
+            };
+
+            Transform.prototype.getConcatenatedMatrix = function () {
+                this._matrix.setFromTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation);
+
+                var parentMatrix = this.getParentMatrix();
+
+                if (parentMatrix) {
+                    var matrix = this._matrix.clone();
+                    matrix.prependMatrix(parentMatrix);
+                    this._cachedConcatenatedMatrix.copyFrom(matrix);
+                    return matrix;
+                }
+
+                return this._matrix;
+            };
+
+            Transform.prototype.transformPoint = function (point) {
+                var mat = this.getConcatenatedMatrix();
+
+                return mat.transformPoint(point);
+            };
+
+            Transform.prototype.copyFrom = function (source) {
+                this.setTransform(source.x, source.y, source.scaleX, source.scaleY, source.rotation, source.rotPointX, source.rotPointY);
+
+                this.parent = source.parent;
+
+                this._matrix = source.matrix.clone();
+
+                return this;
+            };
+
+            Transform.prototype.copyTo = function (destination) {
+                destination.copyFrom(this);
+
+                return this;
+            };
+
+            Transform.prototype.clone = function (output) {
+                if (typeof output === "undefined") { output = new Transform(); }
+                output.copyFrom(this);
+
+                return output;
+            };
+
+            Transform.prototype.checkAncestor = function (transform) {
+                return false;
+            };
+
+            Object.defineProperty(Transform.prototype, "toString", {
+                get: function () {
+                    return "[{Transform (x=" + this._x + " y=" + this._y + " scaleX=" + this._scaleX + " scaleY=" + this._scaleY + " rotation=" + this._rotation + " regX=" + this._rotPointX + " regY=" + this.rotPointY + " matrix=" + this._matrix + ")}]";
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Transform;
+        })();
+        Geom.Transform = Transform;
     })(Kiwi.Geom || (Kiwi.Geom = {}));
     var Geom = Kiwi.Geom;
 })(Kiwi || (Kiwi = {}));
@@ -10773,165 +10263,110 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Input) {
-        var Pointer = (function () {
-            function Pointer(game) {
-                this.x = -1;
-                this.y = -1;
-                this.clientX = -1;
-                this.clientY = -1;
-                this.pageX = -1;
-                this.pageY = -1;
-                this.screenX = -1;
-                this.screenY = -1;
-                this.isDown = false;
-                this.isUp = true;
-                this.withinGame = false;
-                this.active = false;
-                this.timeDown = 0;
-                this.timeUp = 0;
-                this.duration = 0;
-                this.frameDuration = 0;
-                this.justPressedRate = 200;
-                this.justReleasedRate = 200;
-                this._game = game;
-                this.point = new Kiwi.Geom.Point();
-                this.circle = new Kiwi.Geom.Circle(0, 0, 1);
-                this.startPoint = new Kiwi.Geom.Point();
-                this.endPoint = new Kiwi.Geom.Point();
+        var Manager = (function () {
+            function Manager(game) {
+                this.game = game;
             }
-            Pointer.prototype.objType = function () {
-                return 'Pointer';
+            Manager.prototype.objType = function () {
+                return "Manager";
             };
 
-            Object.defineProperty(Pointer.prototype, "game", {
+            Object.defineProperty(Manager.prototype, "pointers", {
                 get: function () {
-                    return this._game;
+                    return this._pointers;
                 },
                 enumerable: true,
                 configurable: true
             });
 
-            Pointer.prototype.start = function (event) {
-                this.move(event);
-                this.startPoint.setTo(this.x, this.y);
-                this.frameDuration = 0;
-                this.withinGame = true;
-                this.isDown = true;
-                this.isUp = false;
-                this.timeDown = this.game.time.now();
-            };
-
-            Pointer.prototype.stop = function (event) {
-                this.withinGame = false;
-                this.endPoint.setTo(this.x, this.y);
-                this.isDown = false;
-                this.isUp = true;
-
-                this.timeUp = this.game.time.now();
-                this.duration = this.timeUp - this.timeDown;
-            };
-
-            Pointer.prototype.move = function (event) {
-                this.clientX = event.clientX;
-                this.clientY = event.clientY;
-
-                this.pageX = event.pageX;
-                this.pageY = event.pageY;
-
-                this.screenX = event.screenX;
-                this.screenY = event.screenY;
-
-                this.x = this.pageX - this.game.stage.offset.x;
-                this.y = this.pageY - this.game.stage.offset.y;
-
-                this.point.setTo(this.x, this.y);
-                this.circle.x = this.x;
-                this.circle.y = this.y;
-
-                this.duration = this.game.time.now() - this.timeDown;
-            };
-
-            Pointer.prototype.justPressed = function (duration) {
-                if (typeof duration === "undefined") { duration = this.justPressedRate; }
-                if (this.isDown === true && (this.timeDown + duration) > this._game.time.now()) {
-                    return true;
+            Manager.prototype.boot = function () {
+                if (Kiwi.DEVICE.touch === true) {
+                    this.touch = new Kiwi.Input.Touch(this.game);
+                    this.touch.boot();
+                    this.touch.touchDown.add(this._onDownEvent, this);
+                    this.touch.touchUp.add(this._onUpEvent, this);
+                    this._pointers = this.touch.fingers;
                 } else {
-                    return false;
+                    this.mouse = new Kiwi.Input.Mouse(this.game);
+                    this.mouse.boot();
+                    this.mouse.mouseDown.add(this._onDownEvent, this);
+                    this.mouse.mouseUp.add(this._onUpEvent, this);
+                    this._pointers = [this.mouse.cursor];
+                    this.keyboard = new Kiwi.Input.Keyboard(this.game);
+                    this.keyboard.boot();
                 }
-            };
 
-            Pointer.prototype.justReleased = function (duration) {
-                if (typeof duration === "undefined") { duration = this.justReleasedRate; }
-                if (this.isUp === true && (this.timeUp + duration) > this._game.time.now()) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Pointer.prototype.reset = function () {
                 this.isDown = false;
-                this.isUp = true;
-                this.timeDown = 0;
-                this.timeUp = 0;
-                this.duration = 0;
-                this.frameDuration = 0;
+                this.position = new Kiwi.Geom.Point();
+
+                this.onDown = new Kiwi.Signal();
+                this.onUp = new Kiwi.Signal();
             };
 
-            Pointer.prototype.update = function () {
-                if (this.isDown === true) {
-                    this.frameDuration++;
-                    this.duration = this._game.time.now() - this.timeDown;
+            Manager.prototype._onDownEvent = function (x, y, timeDown, timeUp, duration, pointer) {
+                this.onDown.dispatch(x, y, timeDown, timeUp, duration, pointer);
+            };
+
+            Manager.prototype._onUpEvent = function (x, y, timeDown, timeUp, duration, pointer) {
+                this.onUp.dispatch(x, y, timeDown, timeUp, duration, pointer);
+            };
+
+            Object.defineProperty(Manager.prototype, "onPressed", {
+                get: function () {
+                    return this.onDown;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Manager.prototype, "onReleased", {
+                get: function () {
+                    return this.onUp;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Manager.prototype.update = function () {
+                if (Kiwi.DEVICE.touch === true) {
+                    this.touch.update();
+                    this.position.setTo(this.touch.x, this.touch.y);
+                    this.isDown = this.touch.isDown;
+                } else {
+                    this.keyboard.update();
+                    this.mouse.update();
+                    this.position.setTo(this.mouse.x, this.mouse.y);
+                    this.isDown = this.mouse.isDown;
                 }
             };
-            return Pointer;
+
+            Manager.prototype.reset = function () {
+                if (Kiwi.DEVICE.touch === true) {
+                    this.touch.reset();
+                } else {
+                    this.mouse.reset();
+                    this.keyboard.reset();
+                }
+            };
+
+            Object.defineProperty(Manager.prototype, "x", {
+                get: function () {
+                    return this.position.x;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Manager.prototype, "y", {
+                get: function () {
+                    return this.position.y;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return Manager;
         })();
-        Input.Pointer = Pointer;
-    })(Kiwi.Input || (Kiwi.Input = {}));
-    var Input = Kiwi.Input;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Input) {
-        var MouseCursor = (function (_super) {
-            __extends(MouseCursor, _super);
-            function MouseCursor() {
-                _super.apply(this, arguments);
-            }
-            MouseCursor.prototype.objType = function () {
-                return 'MouseCursor';
-            };
-
-            MouseCursor.prototype.start = function (event) {
-                this.ctrlKey = event.ctrlKey;
-                this.shiftKey = event.shiftKey;
-                this.altKey = event.altKey;
-                this.button - event.button;
-
-                _super.prototype.start.call(this, event);
-            };
-
-            MouseCursor.prototype.stop = function (event) {
-                this.move(event);
-                _super.prototype.stop.call(this, event);
-            };
-
-            MouseCursor.prototype.wheel = function (event) {
-                if (event['wheelDeltaX']) {
-                    this.wheelDeltaX = event['wheelDeltaX'];
-                } else {
-                    this.wheelDeltaX = event.deltaX;
-                }
-
-                if (event['wheelDeltaY']) {
-                    this.wheelDeltaY = event['wheelDeltaY'];
-                } else {
-                    this.wheelDeltaY = event.deltaY;
-                }
-            };
-            return MouseCursor;
-        })(Input.Pointer);
-        Input.MouseCursor = MouseCursor;
+        Input.Manager = Manager;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
@@ -11151,155 +10586,6 @@ var Kiwi;
             return Mouse;
         })();
         Input.Mouse = Mouse;
-    })(Kiwi.Input || (Kiwi.Input = {}));
-    var Input = Kiwi.Input;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Input) {
-        var Manager = (function () {
-            function Manager(game) {
-                this.game = game;
-            }
-            Manager.prototype.objType = function () {
-                return "Manager";
-            };
-
-            Object.defineProperty(Manager.prototype, "pointers", {
-                get: function () {
-                    return this._pointers;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Manager.prototype.boot = function () {
-                if (Kiwi.DEVICE.touch === true) {
-                    this.touch = new Kiwi.Input.Touch(this.game);
-                    this.touch.boot();
-                    this.touch.touchDown.add(this._onDownEvent, this);
-                    this.touch.touchUp.add(this._onUpEvent, this);
-                    this._pointers = this.touch.fingers;
-                } else {
-                    this.mouse = new Kiwi.Input.Mouse(this.game);
-                    this.mouse.boot();
-                    this.mouse.mouseDown.add(this._onDownEvent, this);
-                    this.mouse.mouseUp.add(this._onUpEvent, this);
-                    this._pointers = [this.mouse.cursor];
-                    this.keyboard = new Kiwi.Input.Keyboard(this.game);
-                    this.keyboard.boot();
-                }
-
-                this.isDown = false;
-                this.position = new Kiwi.Geom.Point();
-
-                this.onDown = new Kiwi.Signal();
-                this.onUp = new Kiwi.Signal();
-            };
-
-            Manager.prototype._onDownEvent = function (x, y, timeDown, timeUp, duration, pointer) {
-                this.onDown.dispatch(x, y, timeDown, timeUp, duration, pointer);
-            };
-
-            Manager.prototype._onUpEvent = function (x, y, timeDown, timeUp, duration, pointer) {
-                this.onUp.dispatch(x, y, timeDown, timeUp, duration, pointer);
-            };
-
-            Object.defineProperty(Manager.prototype, "onPressed", {
-                get: function () {
-                    return this.onDown;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Manager.prototype, "onReleased", {
-                get: function () {
-                    return this.onUp;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Manager.prototype.update = function () {
-                if (Kiwi.DEVICE.touch === true) {
-                    this.touch.update();
-                    this.position.setTo(this.touch.x, this.touch.y);
-                    this.isDown = this.touch.isDown;
-                } else {
-                    this.keyboard.update();
-                    this.mouse.update();
-                    this.position.setTo(this.mouse.x, this.mouse.y);
-                    this.isDown = this.mouse.isDown;
-                }
-            };
-
-            Manager.prototype.reset = function () {
-                if (Kiwi.DEVICE.touch === true) {
-                    this.touch.reset();
-                } else {
-                    this.mouse.reset();
-                    this.keyboard.reset();
-                }
-            };
-
-            Object.defineProperty(Manager.prototype, "x", {
-                get: function () {
-                    return this.position.x;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Manager.prototype, "y", {
-                get: function () {
-                    return this.position.y;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Manager;
-        })();
-        Input.Manager = Manager;
-    })(Kiwi.Input || (Kiwi.Input = {}));
-    var Input = Kiwi.Input;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Input) {
-        var Finger = (function (_super) {
-            __extends(Finger, _super);
-            function Finger(game) {
-                _super.call(this, game);
-                this.circle.diameter = 44;
-            }
-            Finger.prototype.objType = function () {
-                return 'Finger';
-            };
-
-            Finger.prototype.start = function (event) {
-                this.id = event.identifier;
-                this.active = true;
-                _super.prototype.start.call(this, event);
-            };
-
-            Finger.prototype.stop = function (event) {
-                this.active = false;
-                _super.prototype.stop.call(this, event);
-            };
-
-            Finger.prototype.leave = function (event) {
-                this.withinGame = false;
-                this.move(event);
-            };
-
-            Finger.prototype.reset = function () {
-                this.active = false;
-                _super.prototype.reset.call(this);
-            };
-            return Finger;
-        })(Input.Pointer);
-        Input.Finger = Finger;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
@@ -11540,6 +10826,210 @@ var Kiwi;
             return Touch;
         })();
         Input.Touch = Touch;
+    })(Kiwi.Input || (Kiwi.Input = {}));
+    var Input = Kiwi.Input;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Input) {
+        var Pointer = (function () {
+            function Pointer(game) {
+                this.x = -1;
+                this.y = -1;
+                this.clientX = -1;
+                this.clientY = -1;
+                this.pageX = -1;
+                this.pageY = -1;
+                this.screenX = -1;
+                this.screenY = -1;
+                this.isDown = false;
+                this.isUp = true;
+                this.withinGame = false;
+                this.active = false;
+                this.timeDown = 0;
+                this.timeUp = 0;
+                this.duration = 0;
+                this.frameDuration = 0;
+                this.justPressedRate = 200;
+                this.justReleasedRate = 200;
+                this._game = game;
+                this.point = new Kiwi.Geom.Point();
+                this.circle = new Kiwi.Geom.Circle(0, 0, 1);
+                this.startPoint = new Kiwi.Geom.Point();
+                this.endPoint = new Kiwi.Geom.Point();
+            }
+            Pointer.prototype.objType = function () {
+                return 'Pointer';
+            };
+
+            Object.defineProperty(Pointer.prototype, "game", {
+                get: function () {
+                    return this._game;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Pointer.prototype.start = function (event) {
+                this.move(event);
+                this.startPoint.setTo(this.x, this.y);
+                this.frameDuration = 0;
+                this.withinGame = true;
+                this.isDown = true;
+                this.isUp = false;
+                this.timeDown = this.game.time.now();
+            };
+
+            Pointer.prototype.stop = function (event) {
+                this.withinGame = false;
+                this.endPoint.setTo(this.x, this.y);
+                this.isDown = false;
+                this.isUp = true;
+
+                this.timeUp = this.game.time.now();
+                this.duration = this.timeUp - this.timeDown;
+            };
+
+            Pointer.prototype.move = function (event) {
+                this.clientX = event.clientX;
+                this.clientY = event.clientY;
+
+                this.pageX = event.pageX;
+                this.pageY = event.pageY;
+
+                this.screenX = event.screenX;
+                this.screenY = event.screenY;
+
+                this.x = this.pageX - this.game.stage.offset.x;
+                this.y = this.pageY - this.game.stage.offset.y;
+
+                this.point.setTo(this.x, this.y);
+                this.circle.x = this.x;
+                this.circle.y = this.y;
+
+                this.duration = this.game.time.now() - this.timeDown;
+            };
+
+            Pointer.prototype.justPressed = function (duration) {
+                if (typeof duration === "undefined") { duration = this.justPressedRate; }
+                if (this.isDown === true && (this.timeDown + duration) > this._game.time.now()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Pointer.prototype.justReleased = function (duration) {
+                if (typeof duration === "undefined") { duration = this.justReleasedRate; }
+                if (this.isUp === true && (this.timeUp + duration) > this._game.time.now()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Pointer.prototype.reset = function () {
+                this.isDown = false;
+                this.isUp = true;
+                this.timeDown = 0;
+                this.timeUp = 0;
+                this.duration = 0;
+                this.frameDuration = 0;
+            };
+
+            Pointer.prototype.update = function () {
+                if (this.isDown === true) {
+                    this.frameDuration++;
+                    this.duration = this._game.time.now() - this.timeDown;
+                }
+            };
+            return Pointer;
+        })();
+        Input.Pointer = Pointer;
+    })(Kiwi.Input || (Kiwi.Input = {}));
+    var Input = Kiwi.Input;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Input) {
+        var MouseCursor = (function (_super) {
+            __extends(MouseCursor, _super);
+            function MouseCursor() {
+                _super.apply(this, arguments);
+            }
+            MouseCursor.prototype.objType = function () {
+                return 'MouseCursor';
+            };
+
+            MouseCursor.prototype.start = function (event) {
+                this.ctrlKey = event.ctrlKey;
+                this.shiftKey = event.shiftKey;
+                this.altKey = event.altKey;
+                this.button - event.button;
+
+                _super.prototype.start.call(this, event);
+            };
+
+            MouseCursor.prototype.stop = function (event) {
+                this.move(event);
+                _super.prototype.stop.call(this, event);
+            };
+
+            MouseCursor.prototype.wheel = function (event) {
+                if (event['wheelDeltaX']) {
+                    this.wheelDeltaX = event['wheelDeltaX'];
+                } else {
+                    this.wheelDeltaX = event.deltaX;
+                }
+
+                if (event['wheelDeltaY']) {
+                    this.wheelDeltaY = event['wheelDeltaY'];
+                } else {
+                    this.wheelDeltaY = event.deltaY;
+                }
+            };
+            return MouseCursor;
+        })(Input.Pointer);
+        Input.MouseCursor = MouseCursor;
+    })(Kiwi.Input || (Kiwi.Input = {}));
+    var Input = Kiwi.Input;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Input) {
+        var Finger = (function (_super) {
+            __extends(Finger, _super);
+            function Finger(game) {
+                _super.call(this, game);
+                this.circle.diameter = 44;
+            }
+            Finger.prototype.objType = function () {
+                return 'Finger';
+            };
+
+            Finger.prototype.start = function (event) {
+                this.id = event.identifier;
+                this.active = true;
+                _super.prototype.start.call(this, event);
+            };
+
+            Finger.prototype.stop = function (event) {
+                this.active = false;
+                _super.prototype.stop.call(this, event);
+            };
+
+            Finger.prototype.leave = function (event) {
+                this.withinGame = false;
+                this.move(event);
+            };
+
+            Finger.prototype.reset = function () {
+                this.active = false;
+                _super.prototype.reset.call(this);
+            };
+            return Finger;
+        })(Input.Pointer);
+        Input.Finger = Finger;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
@@ -12801,281 +12291,6 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Time) {
-        var TimerEvent = (function () {
-            function TimerEvent(type, callback, context) {
-                this._callback = null;
-                this.type = 0;
-                this.type = type;
-                this._callback = callback;
-                this._callbackContext = context;
-            }
-            TimerEvent.prototype.objType = function () {
-                return "TimerEvent";
-            };
-
-            TimerEvent.prototype.run = function () {
-                if (this._callback) {
-                    this._callback.apply(this._callbackContext);
-                }
-            };
-            TimerEvent.TIMER_START = 1;
-
-            TimerEvent.TIMER_COUNT = 2;
-
-            TimerEvent.TIMER_STOP = 3;
-            return TimerEvent;
-        })();
-        Time.TimerEvent = TimerEvent;
-    })(Kiwi.Time || (Kiwi.Time = {}));
-    var Time = Kiwi.Time;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Time) {
-        var Timer = (function () {
-            function Timer(name, clock, delay, repeatCount) {
-                if (typeof repeatCount === "undefined") { repeatCount = 0; }
-                this._currentCount = 0;
-                this._startEvents = null;
-                this._countEvents = null;
-                this._stopEvents = null;
-                this._clock = null;
-                this._timeLastCount = null;
-                this._isRunning = false;
-                this._isStopped = true;
-                this._isPaused = false;
-                this.name = null;
-                this.delay = 0;
-                this.repeatCount = 0;
-                this._clock = clock;
-
-                this._startEvents = [];
-                this._countEvents = [];
-                this._stopEvents = [];
-
-                this.name = name;
-                this.delay = delay;
-                this.repeatCount = repeatCount;
-            }
-            Timer.prototype.objType = function () {
-                return "Timer";
-            };
-
-            Timer.prototype.currentCount = function () {
-                return this._currentCount;
-            };
-
-            Timer.prototype.isRunning = function () {
-                return this._isRunning;
-            };
-
-            Timer.prototype.isStopped = function () {
-                return this._isStopped;
-            };
-
-            Timer.prototype.isPaused = function () {
-                return this._isPaused;
-            };
-
-            Timer.prototype.processEvents = function (type) {
-                if (type === Time.TimerEvent.TIMER_START) {
-                    for (var i = 0; i < this._startEvents.length; i++) {
-                        this._startEvents[i].run();
-                    }
-                } else if (type === Time.TimerEvent.TIMER_COUNT) {
-                    for (var i = 0; i < this._countEvents.length; i++) {
-                        this._countEvents[i].run();
-                    }
-                } else if (type === Time.TimerEvent.TIMER_STOP) {
-                    for (var i = 0; i < this._stopEvents.length; i++) {
-                        this._stopEvents[i].run();
-                    }
-                }
-            };
-
-            Timer.prototype.update = function () {
-                if (this._isRunning && this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false) {
-                    this._currentCount++;
-
-                    this.processEvents(Time.TimerEvent.TIMER_COUNT);
-
-                    this._timeLastCount = this._clock.elapsed() || 0;
-
-                    if (this.repeatCount !== -1 && this._currentCount >= this.repeatCount) {
-                        this.stop();
-                    }
-                }
-            };
-
-            Timer.prototype.start = function () {
-                if (this._isStopped === true) {
-                    this._isRunning = true;
-                    this._isPaused = false;
-                    this._isStopped = false;
-
-                    this._currentCount = 0;
-                    this._timeLastCount = this._clock.elapsed() || 0;
-
-                    this.processEvents(Time.TimerEvent.TIMER_START);
-                }
-
-                return this;
-            };
-
-            Timer.prototype.stop = function () {
-                if (this._isRunning === true || this._isPaused === true) {
-                    this._isRunning = false;
-                    this._isPaused = false;
-                    this._isStopped = true;
-
-                    this.processEvents(Time.TimerEvent.TIMER_STOP);
-                }
-
-                return this;
-            };
-
-            Timer.prototype.pause = function () {
-                if (this._isRunning === true) {
-                    this._isRunning = false;
-                    this._isPaused = true;
-                }
-
-                return this;
-            };
-
-            Timer.prototype.resume = function () {
-                if (this._isPaused === true) {
-                    this._isRunning = true;
-                    this._isPaused = false;
-                }
-
-                return this;
-            };
-
-            Timer.prototype.addTimerEvent = function (event) {
-                if (event.type === Time.TimerEvent.TIMER_START) {
-                    this._startEvents.push(event);
-                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
-                    this._countEvents.push(event);
-                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
-                    this._stopEvents.push(event);
-                }
-
-                return event;
-            };
-
-            Timer.prototype.createTimerEvent = function (type, callback, context) {
-                if (type === Time.TimerEvent.TIMER_START) {
-                    this._startEvents.push(new Time.TimerEvent(type, callback, context));
-                    return this._startEvents[this._startEvents.length - 1];
-                } else if (type === Time.TimerEvent.TIMER_COUNT) {
-                    this._countEvents.push(new Time.TimerEvent(type, callback, context));
-                    return this._countEvents[this._countEvents.length - 1];
-                } else if (type === Time.TimerEvent.TIMER_STOP) {
-                    this._stopEvents.push(new Time.TimerEvent(type, callback, context));
-                    return this._stopEvents[this._stopEvents.length - 1];
-                }
-
-                return null;
-            };
-
-            Timer.prototype.removeTimerEvent = function (event) {
-                var removed = [];
-
-                if (event.type === Time.TimerEvent.TIMER_START) {
-                    removed = this._startEvents.splice(this._startEvents.indexOf(event), 1);
-                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
-                    removed = this._countEvents.splice(this._countEvents.indexOf(event), 1);
-                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
-                    removed = this._stopEvents.splice(this._stopEvents.indexOf(event), 1);
-                }
-
-                if (removed.length === 1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-
-            Timer.prototype.clear = function (type) {
-                if (typeof type === "undefined") { type = 0; }
-                if (type === 0) {
-                    this._startEvents.length = 0;
-                    this._countEvents.length = 0;
-                    this._stopEvents.length = 0;
-                } else if (type === Time.TimerEvent.TIMER_START) {
-                    this._startEvents.length = 0;
-                } else if (type === Time.TimerEvent.TIMER_COUNT) {
-                    this._countEvents.length = 0;
-                } else if (type === Time.TimerEvent.TIMER_STOP) {
-                    this._stopEvents.length = 0;
-                }
-            };
-
-            Timer.prototype.toString = function () {
-                return "[{Timer (name=" + this.name + " delay=" + this.delay + " repeatCount=" + this.repeatCount + " running=" + this._isRunning + ")}]";
-            };
-            return Timer;
-        })();
-        Time.Timer = Timer;
-    })(Kiwi.Time || (Kiwi.Time = {}));
-    var Time = Kiwi.Time;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Time) {
-        var MasterClock = (function () {
-            function MasterClock() {
-                this.time = 0;
-                this.now = 0;
-                this.delta = 0;
-                this._started = Date.now();
-                this.time = this._started;
-            }
-            MasterClock.prototype.objType = function () {
-                return "MasterClock";
-            };
-
-            MasterClock.prototype.elapsed = function () {
-                return this.now - this._started;
-            };
-
-            MasterClock.prototype.totalElapsedSeconds = function () {
-                return (this.now - this._started) * 0.001;
-            };
-
-            MasterClock.prototype.update = function () {
-                this.now = Date.now();
-
-                this.delta = this.now - this.time;
-
-                this.time = this.now;
-
-                if (this.delta > 0.1) {
-                    this.delta = 0.1;
-                }
-            };
-
-            MasterClock.prototype.elapsedSince = function (since) {
-                return this.now - since;
-            };
-
-            MasterClock.prototype.elapsedSecondsSince = function (since) {
-                return (this.now - since) * 0.001;
-            };
-
-            MasterClock.prototype.reset = function () {
-                this._started = this.now;
-            };
-            return MasterClock;
-        })();
-        Time.MasterClock = MasterClock;
-    })(Kiwi.Time || (Kiwi.Time = {}));
-    var Time = Kiwi.Time;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Time) {
         var Clock = (function () {
             function Clock(manager, master, name, units) {
                 if (typeof units === "undefined") { units = 1000; }
@@ -13351,6 +12566,281 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Time) {
+        var MasterClock = (function () {
+            function MasterClock() {
+                this.time = 0;
+                this.now = 0;
+                this.delta = 0;
+                this._started = Date.now();
+                this.time = this._started;
+            }
+            MasterClock.prototype.objType = function () {
+                return "MasterClock";
+            };
+
+            MasterClock.prototype.elapsed = function () {
+                return this.now - this._started;
+            };
+
+            MasterClock.prototype.totalElapsedSeconds = function () {
+                return (this.now - this._started) * 0.001;
+            };
+
+            MasterClock.prototype.update = function () {
+                this.now = Date.now();
+
+                this.delta = this.now - this.time;
+
+                this.time = this.now;
+
+                if (this.delta > 0.1) {
+                    this.delta = 0.1;
+                }
+            };
+
+            MasterClock.prototype.elapsedSince = function (since) {
+                return this.now - since;
+            };
+
+            MasterClock.prototype.elapsedSecondsSince = function (since) {
+                return (this.now - since) * 0.001;
+            };
+
+            MasterClock.prototype.reset = function () {
+                this._started = this.now;
+            };
+            return MasterClock;
+        })();
+        Time.MasterClock = MasterClock;
+    })(Kiwi.Time || (Kiwi.Time = {}));
+    var Time = Kiwi.Time;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Time) {
+        var Timer = (function () {
+            function Timer(name, clock, delay, repeatCount) {
+                if (typeof repeatCount === "undefined") { repeatCount = 0; }
+                this._currentCount = 0;
+                this._startEvents = null;
+                this._countEvents = null;
+                this._stopEvents = null;
+                this._clock = null;
+                this._timeLastCount = null;
+                this._isRunning = false;
+                this._isStopped = true;
+                this._isPaused = false;
+                this.name = null;
+                this.delay = 0;
+                this.repeatCount = 0;
+                this._clock = clock;
+
+                this._startEvents = [];
+                this._countEvents = [];
+                this._stopEvents = [];
+
+                this.name = name;
+                this.delay = delay;
+                this.repeatCount = repeatCount;
+            }
+            Timer.prototype.objType = function () {
+                return "Timer";
+            };
+
+            Timer.prototype.currentCount = function () {
+                return this._currentCount;
+            };
+
+            Timer.prototype.isRunning = function () {
+                return this._isRunning;
+            };
+
+            Timer.prototype.isStopped = function () {
+                return this._isStopped;
+            };
+
+            Timer.prototype.isPaused = function () {
+                return this._isPaused;
+            };
+
+            Timer.prototype.processEvents = function (type) {
+                if (type === Time.TimerEvent.TIMER_START) {
+                    for (var i = 0; i < this._startEvents.length; i++) {
+                        this._startEvents[i].run();
+                    }
+                } else if (type === Time.TimerEvent.TIMER_COUNT) {
+                    for (var i = 0; i < this._countEvents.length; i++) {
+                        this._countEvents[i].run();
+                    }
+                } else if (type === Time.TimerEvent.TIMER_STOP) {
+                    for (var i = 0; i < this._stopEvents.length; i++) {
+                        this._stopEvents[i].run();
+                    }
+                }
+            };
+
+            Timer.prototype.update = function () {
+                if (this._isRunning && this._clock.elapsed() - this._timeLastCount >= this.delay && this._isPaused === false) {
+                    this._currentCount++;
+
+                    this.processEvents(Time.TimerEvent.TIMER_COUNT);
+
+                    this._timeLastCount = this._clock.elapsed() || 0;
+
+                    if (this.repeatCount !== -1 && this._currentCount >= this.repeatCount) {
+                        this.stop();
+                    }
+                }
+            };
+
+            Timer.prototype.start = function () {
+                if (this._isStopped === true) {
+                    this._isRunning = true;
+                    this._isPaused = false;
+                    this._isStopped = false;
+
+                    this._currentCount = 0;
+                    this._timeLastCount = this._clock.elapsed() || 0;
+
+                    this.processEvents(Time.TimerEvent.TIMER_START);
+                }
+
+                return this;
+            };
+
+            Timer.prototype.stop = function () {
+                if (this._isRunning === true || this._isPaused === true) {
+                    this._isRunning = false;
+                    this._isPaused = false;
+                    this._isStopped = true;
+
+                    this.processEvents(Time.TimerEvent.TIMER_STOP);
+                }
+
+                return this;
+            };
+
+            Timer.prototype.pause = function () {
+                if (this._isRunning === true) {
+                    this._isRunning = false;
+                    this._isPaused = true;
+                }
+
+                return this;
+            };
+
+            Timer.prototype.resume = function () {
+                if (this._isPaused === true) {
+                    this._isRunning = true;
+                    this._isPaused = false;
+                }
+
+                return this;
+            };
+
+            Timer.prototype.addTimerEvent = function (event) {
+                if (event.type === Time.TimerEvent.TIMER_START) {
+                    this._startEvents.push(event);
+                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
+                    this._countEvents.push(event);
+                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
+                    this._stopEvents.push(event);
+                }
+
+                return event;
+            };
+
+            Timer.prototype.createTimerEvent = function (type, callback, context) {
+                if (type === Time.TimerEvent.TIMER_START) {
+                    this._startEvents.push(new Time.TimerEvent(type, callback, context));
+                    return this._startEvents[this._startEvents.length - 1];
+                } else if (type === Time.TimerEvent.TIMER_COUNT) {
+                    this._countEvents.push(new Time.TimerEvent(type, callback, context));
+                    return this._countEvents[this._countEvents.length - 1];
+                } else if (type === Time.TimerEvent.TIMER_STOP) {
+                    this._stopEvents.push(new Time.TimerEvent(type, callback, context));
+                    return this._stopEvents[this._stopEvents.length - 1];
+                }
+
+                return null;
+            };
+
+            Timer.prototype.removeTimerEvent = function (event) {
+                var removed = [];
+
+                if (event.type === Time.TimerEvent.TIMER_START) {
+                    removed = this._startEvents.splice(this._startEvents.indexOf(event), 1);
+                } else if (event.type === Time.TimerEvent.TIMER_COUNT) {
+                    removed = this._countEvents.splice(this._countEvents.indexOf(event), 1);
+                } else if (event.type === Time.TimerEvent.TIMER_STOP) {
+                    removed = this._stopEvents.splice(this._stopEvents.indexOf(event), 1);
+                }
+
+                if (removed.length === 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            Timer.prototype.clear = function (type) {
+                if (typeof type === "undefined") { type = 0; }
+                if (type === 0) {
+                    this._startEvents.length = 0;
+                    this._countEvents.length = 0;
+                    this._stopEvents.length = 0;
+                } else if (type === Time.TimerEvent.TIMER_START) {
+                    this._startEvents.length = 0;
+                } else if (type === Time.TimerEvent.TIMER_COUNT) {
+                    this._countEvents.length = 0;
+                } else if (type === Time.TimerEvent.TIMER_STOP) {
+                    this._stopEvents.length = 0;
+                }
+            };
+
+            Timer.prototype.toString = function () {
+                return "[{Timer (name=" + this.name + " delay=" + this.delay + " repeatCount=" + this.repeatCount + " running=" + this._isRunning + ")}]";
+            };
+            return Timer;
+        })();
+        Time.Timer = Timer;
+    })(Kiwi.Time || (Kiwi.Time = {}));
+    var Time = Kiwi.Time;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Time) {
+        var TimerEvent = (function () {
+            function TimerEvent(type, callback, context) {
+                this._callback = null;
+                this.type = 0;
+                this.type = type;
+                this._callback = callback;
+                this._callbackContext = context;
+            }
+            TimerEvent.prototype.objType = function () {
+                return "TimerEvent";
+            };
+
+            TimerEvent.prototype.run = function () {
+                if (this._callback) {
+                    this._callback.apply(this._callbackContext);
+                }
+            };
+            TimerEvent.TIMER_START = 1;
+
+            TimerEvent.TIMER_COUNT = 2;
+
+            TimerEvent.TIMER_STOP = 3;
+            return TimerEvent;
+        })();
+        Time.TimerEvent = TimerEvent;
+    })(Kiwi.Time || (Kiwi.Time = {}));
+    var Time = Kiwi.Time;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     (function (Utils) {
         var Canvas = (function () {
             function Canvas(width, height, visible, offScreen) {
@@ -13576,6 +13066,516 @@ var Kiwi;
             return Common;
         })();
         Utils.Common = Common;
+    })(Kiwi.Utils || (Kiwi.Utils = {}));
+    var Utils = Kiwi.Utils;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Utils) {
+        var GameMath = (function () {
+            function GameMath() {
+            }
+            GameMath.prototype.objType = function () {
+                return "GameMath";
+            };
+
+            GameMath.computeMachineEpsilon = function () {
+                var fourThirds = 4.0 / 3.0;
+                var third = fourThirds - 1.0;
+                var one = third + third + third;
+                return Math.abs(1.0 - one);
+            };
+
+            GameMath.fuzzyEqual = function (a, b, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return Math.abs(a - b) < epsilon;
+            };
+
+            GameMath.fuzzyLessThan = function (a, b, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return a < b + epsilon;
+            };
+
+            GameMath.fuzzyGreaterThan = function (a, b, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return a > b - epsilon;
+            };
+
+            GameMath.fuzzyCeil = function (val, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return Math.ceil(val - epsilon);
+            };
+
+            GameMath.fuzzyFloor = function (val, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return Math.floor(val + epsilon);
+            };
+
+            GameMath.average = function () {
+                var args = [];
+                for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                    args[_i] = arguments[_i + 0];
+                }
+                var avg = 0;
+
+                for (var i = 0; i < args.length; i++) {
+                    avg += args[i];
+                }
+
+                return avg / args.length;
+            };
+
+            GameMath.slam = function (value, target, epsilon) {
+                if (typeof epsilon === "undefined") { epsilon = 0.0001; }
+                return (Math.abs(value - target) < epsilon) ? target : value;
+            };
+
+            GameMath.percentageMinMax = function (val, max, min) {
+                if (typeof min === "undefined") { min = 0; }
+                val -= min;
+                max -= min;
+
+                if (!max)
+                    return 0; else
+                    return val / max;
+            };
+
+            GameMath.sign = function (n) {
+                if (n)
+                    return n / Math.abs(n); else
+                    return 0;
+            };
+
+            GameMath.truncate = function (n) {
+                return (n > 0) ? Math.floor(n) : Math.ceil(n);
+            };
+
+            GameMath.shear = function (n) {
+                return n % 1;
+            };
+
+            GameMath.wrap = function (val, max, min) {
+                if (typeof min === "undefined") { min = 0; }
+                val -= min;
+                max -= min;
+                if (max == 0)
+                    return min;
+                val %= max;
+                val += min;
+                while (val < min)
+                    val += max;
+
+                return val;
+            };
+
+            GameMath.arithWrap = function (value, max, min) {
+                if (typeof min === "undefined") { min = 0; }
+                max -= min;
+                if (max == 0)
+                    return min;
+                return value - max * Math.floor((value - min) / max);
+            };
+
+            GameMath.clamp = function (input, max, min) {
+                if (typeof min === "undefined") { min = 0; }
+                return Math.max(min, Math.min(max, input));
+            };
+
+            GameMath.snapTo = function (input, gap, start) {
+                if (typeof start === "undefined") { start = 0; }
+                if (gap == 0)
+                    return input;
+
+                input -= start;
+                input = gap * Math.round(input / gap);
+                return start + input;
+            };
+
+            GameMath.snapToFloor = function (input, gap, start) {
+                if (typeof start === "undefined") { start = 0; }
+                if (gap == 0)
+                    return input;
+
+                input -= start;
+                input = gap * Math.floor(input / gap);
+                return start + input;
+            };
+
+            GameMath.snapToCeil = function (input, gap, start) {
+                if (typeof start === "undefined") { start = 0; }
+                if (gap == 0)
+                    return input;
+
+                input -= start;
+                input = gap * Math.ceil(input / gap);
+                return start + input;
+            };
+
+            GameMath.snapToInArray = function (input, arr, sort) {
+                if (typeof sort === "undefined") { sort = true; }
+                if (sort)
+                    arr.sort();
+                if (input < arr[0])
+                    return arr[0];
+
+                var i = 1;
+
+                while (arr[i] < input)
+                    i++;
+
+                var low = arr[i - 1];
+                var high = (i < arr.length) ? arr[i] : Number.POSITIVE_INFINITY;
+
+                return ((high - input) <= (input - low)) ? high : low;
+            };
+
+            GameMath.roundTo = function (value, place, base) {
+                if (typeof place === "undefined") { place = 0; }
+                if (typeof base === "undefined") { base = 10; }
+                var p = Math.pow(base, -place);
+                return Math.round(value * p) / p;
+            };
+
+            GameMath.floorTo = function (value, place, base) {
+                if (typeof place === "undefined") { place = 0; }
+                if (typeof base === "undefined") { base = 10; }
+                var p = Math.pow(base, -place);
+                return Math.floor(value * p) / p;
+            };
+
+            GameMath.ceilTo = function (value, place, base) {
+                if (typeof place === "undefined") { place = 0; }
+                if (typeof base === "undefined") { base = 10; }
+                var p = Math.pow(base, -place);
+                return Math.ceil(value * p) / p;
+            };
+
+            GameMath.interpolateFloat = function (a, b, weight) {
+                return (b - a) * weight + a;
+            };
+
+            GameMath.radiansToDegrees = function (angle) {
+                return angle * GameMath.RAD_TO_DEG;
+            };
+
+            GameMath.degreesToRadians = function (angle) {
+                return angle * GameMath.DEG_TO_RAD;
+            };
+
+            GameMath.angleBetween = function (x1, y1, x2, y2) {
+                return Math.atan2(y2 - y1, x2 - x1);
+            };
+
+            GameMath.normalizeAngle = function (angle, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                var rd = (radians) ? GameMath.PI : 180;
+                return GameMath.wrap(angle, rd, -rd);
+            };
+
+            GameMath.nearestAngleBetween = function (a1, a2, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                var rd = (radians) ? GameMath.PI : 180;
+
+                a1 = GameMath.normalizeAngle(a1, radians);
+                a2 = GameMath.normalizeAngle(a2, radians);
+
+                if (a1 < -rd / 2 && a2 > rd / 2)
+                    a1 += rd * 2;
+                if (a2 < -rd / 2 && a1 > rd / 2)
+                    a2 += rd * 2;
+
+                return a2 - a1;
+            };
+
+            GameMath.normalizeAngleToAnother = function (dep, ind, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                return ind + Kiwi.Utils.GameMath.nearestAngleBetween(ind, dep, radians);
+            };
+
+            GameMath.normalizeAngleAfterAnother = function (dep, ind, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                dep = Kiwi.Utils.GameMath.normalizeAngle(dep - ind, radians);
+                return ind + dep;
+            };
+
+            GameMath.normalizeAngleBeforeAnother = function (dep, ind, radians) {
+                if (typeof radians === "undefined") { radians = true; }
+                dep = Kiwi.Utils.GameMath.normalizeAngle(ind - dep, radians);
+                return ind - dep;
+            };
+
+            GameMath.interpolateAngles = function (a1, a2, weight, radians, ease) {
+                if (typeof radians === "undefined") { radians = true; }
+                if (typeof ease === "undefined") { ease = null; }
+                a1 = Kiwi.Utils.GameMath.normalizeAngle(a1, radians);
+                a2 = Kiwi.Utils.GameMath.normalizeAngleToAnother(a2, a1, radians);
+
+                return (typeof ease === 'function') ? ease(weight, a1, a2 - a1, 1) : Kiwi.Utils.GameMath.interpolateFloat(a1, a2, weight);
+            };
+
+            GameMath.logBaseOf = function (value, base) {
+                return Math.log(value) / Math.log(base);
+            };
+
+            GameMath.GCD = function (m, n) {
+                var r;
+
+                m = Math.abs(m);
+                n = Math.abs(n);
+
+                if (m < n) {
+                    r = m;
+                    m = n;
+                    n = r;
+                }
+
+                while (true) {
+                    r = m % n;
+                    if (!r)
+                        return n;
+                    m = n;
+                    n = r;
+                }
+
+                return 1;
+            };
+
+            GameMath.LCM = function (m, n) {
+                return (m * n) / Kiwi.Utils.GameMath.GCD(m, n);
+            };
+
+            GameMath.factorial = function (value) {
+                if (value == 0)
+                    return 1;
+
+                var res = value;
+
+                while (--value) {
+                    res *= value;
+                }
+
+                return res;
+            };
+
+            GameMath.gammaFunction = function (value) {
+                return Kiwi.Utils.GameMath.factorial(value - 1);
+            };
+
+            GameMath.fallingFactorial = function (base, exp) {
+                return Kiwi.Utils.GameMath.factorial(base) / Kiwi.Utils.GameMath.factorial(base - exp);
+            };
+
+            GameMath.risingFactorial = function (base, exp) {
+                return Kiwi.Utils.GameMath.factorial(base + exp - 1) / Kiwi.Utils.GameMath.factorial(base - 1);
+            };
+
+            GameMath.binCoef = function (n, k) {
+                return Kiwi.Utils.GameMath.fallingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
+            };
+
+            GameMath.risingBinCoef = function (n, k) {
+                return Kiwi.Utils.GameMath.risingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
+            };
+
+            GameMath.chanceRoll = function (chance) {
+                if (typeof chance === "undefined") { chance = 50; }
+                if (chance <= 0) {
+                    return false;
+                } else if (chance >= 100) {
+                    return true;
+                } else {
+                    if (Math.random() * 100 >= chance) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            };
+
+            GameMath.maxAdd = function (value, amount, max) {
+                value += amount;
+
+                if (value > max) {
+                    value = max;
+                }
+
+                return value;
+            };
+
+            GameMath.minSub = function (value, amount, min) {
+                value -= amount;
+
+                if (value < min) {
+                    value = min;
+                }
+
+                return value;
+            };
+
+            GameMath.wrapValue = function (value, amount, max) {
+                var diff;
+
+                value = Math.abs(value);
+                amount = Math.abs(amount);
+                max = Math.abs(max);
+
+                diff = (value + amount) % max;
+
+                return diff;
+            };
+
+            GameMath.randomSign = function () {
+                return (Math.random() > 0.5) ? 1 : -1;
+            };
+
+            GameMath.isOdd = function (n) {
+                if (n & 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            GameMath.isEven = function (n) {
+                if (n & 1) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            GameMath.wrapAngle = function (angle) {
+                var result = angle;
+
+                if (angle >= -180 && angle <= 180) {
+                    return angle;
+                }
+
+                result = (angle + 180) % 360;
+
+                if (result < 0) {
+                    result += 360;
+                }
+
+                return result - 180;
+            };
+
+            GameMath.angleLimit = function (angle, min, max) {
+                var result = angle;
+
+                if (angle > max) {
+                    result = max;
+                } else if (angle < min) {
+                    result = min;
+                }
+
+                return result;
+            };
+
+            GameMath.linearInterpolation = function (v, k) {
+                var m = v.length - 1;
+                var f = m * k;
+                var i = Math.floor(f);
+
+                if (k < 0)
+                    return Kiwi.Utils.GameMath.linear(v[0], v[1], f);
+                if (k > 1)
+                    return Kiwi.Utils.GameMath.linear(v[m], v[m - 1], m - f);
+
+                return Kiwi.Utils.GameMath.linear(v[i], v[i + 1 > m ? m : i + 1], f - i);
+            };
+
+            GameMath.bezierInterpolation = function (v, k) {
+                var b = 0;
+                var n = v.length - 1;
+
+                for (var i = 0; i <= n; i++) {
+                    b += Math.pow(1 - k, n - i) * Math.pow(k, i) * v[i] * Kiwi.Utils.GameMath.bernstein(n, i);
+                }
+
+                return b;
+            };
+
+            GameMath.catmullRomInterpolation = function (v, k) {
+                var m = v.length - 1;
+                var f = m * k;
+                var i = Math.floor(f);
+
+                if (v[0] === v[m]) {
+                    if (k < 0)
+                        i = Math.floor(f = m * (1 + k));
+
+                    return Kiwi.Utils.GameMath.catmullRom(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
+                } else {
+                    if (k < 0)
+                        return v[0] - (Kiwi.Utils.GameMath.catmullRom(v[0], v[0], v[1], v[1], -f) - v[0]);
+
+                    if (k > 1)
+                        return v[m] - (Kiwi.Utils.GameMath.catmullRom(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
+
+                    return Kiwi.Utils.GameMath.catmullRom(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
+                }
+            };
+
+            GameMath.linear = function (p0, p1, t) {
+                return (p1 - p0) * t + p0;
+            };
+
+            GameMath.bernstein = function (n, i) {
+                return Kiwi.Utils.GameMath.factorial(n) / Kiwi.Utils.GameMath.factorial(i) / Kiwi.Utils.GameMath.factorial(n - i);
+            };
+
+            GameMath.catmullRom = function (p0, p1, p2, p3, t) {
+                var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t, t3 = t * t2;
+                return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
+            };
+
+            GameMath.difference = function (a, b) {
+                return Math.abs(a - b);
+            };
+            GameMath.PI = 3.141592653589793;
+            GameMath.PI_2 = 1.5707963267948965;
+            GameMath.PI_4 = 0.7853981633974483;
+            GameMath.PI_8 = 0.39269908169872413;
+            GameMath.PI_16 = 0.19634954084936206;
+            GameMath.TWO_PI = 6.283185307179586;
+            GameMath.THREE_PI_2 = 4.7123889803846895;
+            GameMath.E = 2.71828182845905;
+            GameMath.LN10 = 2.302585092994046;
+            GameMath.LN2 = 0.6931471805599453;
+            GameMath.LOG10E = 0.4342944819032518;
+            GameMath.LOG2E = 1.442695040888963387;
+            GameMath.SQRT1_2 = 0.7071067811865476;
+            GameMath.SQRT2 = 1.4142135623730951;
+            GameMath.DEG_TO_RAD = 0.017453292519943294444444444444444;
+            GameMath.RAD_TO_DEG = 57.295779513082325225835265587527;
+
+            GameMath.B_16 = 65536;
+            GameMath.B_31 = 2147483648;
+            GameMath.B_32 = 4294967296;
+            GameMath.B_48 = 281474976710656;
+            GameMath.B_53 = 9007199254740992;
+            GameMath.B_64 = 18446744073709551616;
+
+            GameMath.ONE_THIRD = 0.333333333333333333333333333333333;
+            GameMath.TWO_THIRDS = 0.666666666666666666666666666666666;
+            GameMath.ONE_SIXTH = 0.166666666666666666666666666666666;
+
+            GameMath.COS_PI_3 = 0.86602540378443864676372317075294;
+            GameMath.SIN_2PI_3 = 0.03654595;
+
+            GameMath.CIRCLE_ALPHA = 0.5522847498307933984022516322796;
+
+            GameMath.ON = true;
+            GameMath.OFF = false;
+
+            GameMath.SHORT_EPSILON = 0.1;
+            GameMath.PERC_EPSILON = 0.001;
+            GameMath.EPSILON = 0.0001;
+            GameMath.LONG_EPSILON = 0.00000001;
+            return GameMath;
+        })();
+        Utils.GameMath = GameMath;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));

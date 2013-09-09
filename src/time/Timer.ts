@@ -1,20 +1,20 @@
-/// <reference path="Clock.ts" />
-/// <reference path="TimerEvent.ts" />
-
 /**
- *  Kiwi - Time - Timer
- *
- *  @desc       The Timer class hooks into a game clock and allows you run code at a specified point in game time.
- *              Use the start() method to start a timer. Add TimerEvents to set-up code to be run on the timer interval.
- *              Timer objects can run once or repeat at specified intervals to execute code on a schedule.
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
+* Kiwi - Time
+* @module Kiwi
+* @submodule Time
+*
+*/ 
 
 module Kiwi.Time {
 
+    /**
+    * The Timer class hooks into a game clock and allows you run code at a specified point in game time.
+    * Use the start() method to start a timer. Add TimerEvents to set-up code to be run on the timer interval.
+    * Timer objects can run once or repeat at specified intervals to execute code on a schedule.
+    *
+    * @class Timer
+    *
+    */
     export class Timer {
 
         /**

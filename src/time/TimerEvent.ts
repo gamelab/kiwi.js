@@ -1,18 +1,18 @@
-/// <reference path="Clock.ts" />
-/// <reference path="Timer.ts" />
-
 /**
- *  Kiwi - Time - TimerEvent
- *
- *  @desc       
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
+* Kiwi - Time
+* @module Kiwi
+* @submodule Time
+*
+*/ 
 
 module Kiwi.Time {
 
+    /**
+    *
+    *
+    * @
+    *
+    */
     export class TimerEvent {
 
         /**

@@ -1,13 +1,17 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="../core/Entity.ts" />
-/// <reference path="../core/State.ts" />
-/// <reference path="../components/Animation.ts" />
-/// <reference path="../components/Input.ts" />
-
-
-
+/**
+* Kiwi - GameObjects
+* @module Kiwi
+* @submodule GameObjects 
+* @main GameObjects
+*/ 
 module Kiwi.GameObjects {
 
+    /**
+    *
+    *
+    * @class Sprite
+    *
+    */
     export class Sprite extends Kiwi.Entity {
 
         /**

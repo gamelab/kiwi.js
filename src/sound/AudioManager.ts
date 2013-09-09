@@ -1,6 +1,18 @@
+/**
+* Kiwi - Sound
+* @module Kiwi
+* @submodule Sound
+* @main Sound 
+*/ 
 
 module Kiwi.Sound {
 
+    /**
+    *
+    *
+    * @class AudioManager
+    *
+    */
     export class AudioManager {
 
         /*

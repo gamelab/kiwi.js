@@ -1,27 +1,17 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="Finger.ts" />
-/// <reference path="../core/Signal.ts" />
-
 /**
- *	Kiwi - Input - Touch
- *
- *	@desc 		http://www.w3.org/TR/touch-events/
- *              https://developer.mozilla.org/en-US/docs/DOM/TouchList
- *              Android 2.x only supports 1 touch event at once, no multi-touch
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- *
- *  @todo       Try and resolve update lag in Chrome/Android
- *              Gestures (pinch, zoom, swipe)
- *              Entity Touch
- *              Touch point within entity
- *              Input Zones (mouse and touch) - lock entities within them + axis aligned drags
- */
+* Kiwi - Input
+* @module Kiwi
+* @submodule Input
+* 
+*/ 
 
 module Kiwi.Input {
 
+    /**
+    *
+    * @class Touch
+    *
+    */
     export class Touch {
 
         /** 

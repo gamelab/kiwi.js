@@ -1,19 +1,17 @@
-/// <reference path="Component.ts" />
-
-/*
- *	Kiwi - Core - Component Manager
- *
- *	@desc		
- *				
- *	@version    1.0 - 18th March 2013
- *				
- *	@author 	Richard Davey
- *				
- *	@url		http://www.kiwijs.org
- *				
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
 */
 
 module Kiwi {
+
+    /**
+    * 
+    *
+    * @class ComponentManager
+    *
+    */
 
     export class ComponentManager {
 

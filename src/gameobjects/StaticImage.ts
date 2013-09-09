@@ -1,22 +1,18 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="../core/Entity.ts" />
-/// <reference path="../core/State.ts" />
-
-/*
- *	Kiwi - GameObjects - StaticImage
- *				
- *	@desc		An extremely light-weight entity consisting of just a single image with position
- *
- *	@version	1.1 - 5th March 2013
- *
- *	@author 	Richard Davey
- *
- *	@url		http://www.kiwijs.org
- *
-*/
+/**
+* Kiwi - GameObjects
+* @module Kiwi
+* @submodule GameObjects 
+* 
+*/ 
 
 module Kiwi.GameObjects {
 
+    /**
+    * A light weight game object for displaying static images (such as backgrounds) that would have little or no interaction with other game objects.
+    *
+    * @class StaticImage
+    *
+    */
     export class StaticImage extends Kiwi.Entity {
 
         /**

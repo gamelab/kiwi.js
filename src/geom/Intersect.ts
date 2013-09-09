@@ -1,24 +1,17 @@
-/// <reference path="Circle.ts" />
-/// <reference path="Line.ts" />
-/// <reference path="Point.ts" />
-/// <reference path="Rectangle.ts" />
-/// <reference path="IntersectResult.ts" />
-
 /**
- *	Kiwi - Geom - Intersect
- *
- *	@desc 		A collection of methods to help determine and return intersection between geometric objects
- *
- *	@version 	1.0 - 15th October 2012
- *	@author 	Ross Kettle
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- *
- *  @todo       Check the Ray and LineSegment methods
- */
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/ 
 
 module Kiwi.Geom {
 
+    /**
+    * A collection of methods to help determine and return intersection between geometric objects.
+    *
+    * @class Intersect
+    *
+    */
     export class Intersect {
 
 

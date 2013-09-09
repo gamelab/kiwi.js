@@ -1,19 +1,15 @@
-/// <reference path="Game.ts" />
-
-
 /**
- *	Kiwi - Core - CameraManager
- *
- *	@desc 		
- *
- *	@version 	1.0 - 11th January 2013
- *
- *	@author 	Ross Kettle
- *
- *	@url 		http://www.kiwijs.org
- */
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
+*/
 
 module Kiwi {
+
+    /**
+    *
+    * @class CameraManager
+    */
 
     export class CameraManager {
 

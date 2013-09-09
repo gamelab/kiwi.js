@@ -1,8 +1,18 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="Pointer.ts" />
+/**
+* Kiwi - Input
+* @module Kiwi
+* @submodule Input
+* 
+*/ 
 
 module Kiwi.Input {
-
+    
+    /**
+    *
+    *
+    * @class MouseCursor
+    *
+    */
     export class MouseCursor extends Pointer {
         
         /*

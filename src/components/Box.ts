@@ -1,6 +1,18 @@
-
+/**
+* Kiwi - Components
+* @module Kiwi
+* @submodule Components 
+* 
+*/ 
 
 module Kiwi.Components {
+
+    /**
+    *  
+    *
+    * @class Box
+    *
+    */
 
     export class Box extends Component {
 

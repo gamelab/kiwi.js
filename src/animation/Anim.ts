@@ -1,8 +1,17 @@
-/// <reference path="../core/game.ts" />
+/**
+* Kiwi - Animation
+* @module Kiwi
+* @submodule Animation 
+* @main Animation
+*/
 
 module Kiwi.Animation {
 
-
+    /**
+    * 
+    * @class Anim
+    * 
+    */
     export class Anim {
 
         /*

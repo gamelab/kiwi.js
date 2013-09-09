@@ -1,20 +1,17 @@
-/// <reference path="Entity.ts" />
-/// <reference path="StateConfig.ts" />
-/// <reference path="Group.ts" />
-
 /**
- *  Kiwi - Core - State
- *
- *  @desc       Game State to extend and over-ride as needed
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *	@author 	Ross Kettle
- *  @url        http://www.kiwijs.org
- */
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
+*/  
 
 module Kiwi {
 
+    /**
+    * 
+    * 
+    * @class State
+    * 
+    */ 
     export class State extends Group {
 
         /**

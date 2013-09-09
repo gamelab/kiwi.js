@@ -1,33 +1,29 @@
-
-
 /**
- *	Kiwi - Tween - Manager
- *
- *	@desc 		Based heavily on tween.js by sole (https://github.com/sole/tween.js) converted to TypeScript and integrated into Kiwi
- *
- *	@version 	1.0 - 11th January 2013
- *
- *	@author 	Richard Davey, TypeScript conversion and Kiwi/signals integration
- *  @author     sole / http://soledadpenades.com
- *  @author     mrdoob / http://mrdoob.com
- *  @author     Robert Eisele / http://www.xarg.org
- *  @author     Philippe / http://philippe.elsass.me
- *  @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
- *  @author     Paul Lewis / http://www.aerotwist.com/
- *  @author     lechecacharro
- *  @author     Josh Faul / http://jocafa.com/
- *  @author     egraether / http://egraether.com/
- *
- *	@url 		http://www.kiwijs.org
- *
- *	@todo       1) Hook tweens to a given game clock (so they can run at different update speeds and pause)
- *              2) Allow for tweening direct numeric values, not just object properties
- *              3) YoYo support
- *              4) Delta time support
- */
+* Kiwi - Animation - Tweens 
+* @module Animation
+* @submodule Tweens 
+* @main Tweens
+*/
 
 module Kiwi.Animation.Tweens {
 
+    /** 
+    * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
+    * https://github.com/sole/tween.js
+    *
+    * @class Manager
+    * 
+    * @author     sole / http://soledadpenades.com
+    * @author     mrdoob / http://mrdoob.com
+    * @author     Robert Eisele / http://www.xarg.org
+    * @author     Philippe / http://philippe.elsass.me
+    * @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
+    * @author     Paul Lewis / http://www.aerotwist.com/
+    * @author     lechecacharro
+    * @author     Josh Faul / http://jocafa.com/
+    * @author     egraether / http://egraether.com/
+    * 
+    */
     export class Manager {
 
         /** 

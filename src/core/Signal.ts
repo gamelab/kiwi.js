@@ -1,30 +1,20 @@
-/// <reference path="SignalBinding.ts" />
-
-/*
- *	Kiwi - Core - Signal
- *				
- *	@desc		A TypeScript conversion of JS Signals by Miller Medeiros
- *              Released under the MIT license
- *				http://millermedeiros.github.com/js-signals/
- *
- *	@version	1. - 7th March 2013
- *
- *	@author 	Richard Davey, TypeScript conversion
- *	@author		Miller Medeiros, JS Signals
- *
- *	@url		http://www.kiwijs.org
- *
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
 */
-
+ 
 module Kiwi {
 
     /**
-        * Custom event broadcaster
-        * <br />- inspired by Robert Penner's AS3 Signals.
-        * @name Signal
-        * @author Miller Medeiros
-        * @constructor
-        */
+    * A TypeScript conversion of JS Signals by Miller Medeiros.
+    * Released under the MIT license
+    * http://millermedeiros.github.com/js-signals/
+    *
+    * @class Signal
+    *
+    * @author Miller Medeiros, JS Signals
+    */
     export class Signal {
 
         /**

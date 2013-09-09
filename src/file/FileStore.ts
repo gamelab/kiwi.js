@@ -1,6 +1,18 @@
+/**
+* Kiwi - Files
+* @module Kiwi
+* @submodule Files 
+* 
+*/
 
 module Kiwi.Files {
 
+    /**
+    *
+    *
+    * @class FileStore
+    *
+    */
     export class FileStore {
 
         /**

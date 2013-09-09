@@ -1,20 +1,16 @@
-/// <reference path="Game.ts" />
-
-/*
- *	Kiwi - Core - Component
- *
- *	@desc		The component base class.
- *
- *	@version	1.0 - 8th March 2013
- *
- *	@author 	Richard Davey
- *	@author		Ross Kettle
- *				
- *	@url		http://www.kiwijs.org
- *
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
 */
 
 module Kiwi {
+
+    /**
+    * The component base class.
+    *
+    * @class Component
+    */
 
     export class Component {
         

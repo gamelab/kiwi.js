@@ -1,32 +1,25 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="Timer.ts" />
-/// <reference path="MasterClock.ts" />
-
 /**
- *  Kiwi - Time - Clock
- *
- *  @desc       The Clock class offers a way of tracking time within a game.
- *              - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started.
- *                This happens automatically and there is no need to do anything to set this up.
- *              - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
- *              - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
- *              - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
- *              - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
- *                (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
- *
- *	@version 	1.1 - 27th February 2013
- *
- *	@author 	Ross Kettle
- *	@author 	Richard Davey
- *
- *  @url        http://www.kiwijs.org
- *
- *  @todo       Removing timers from clock - does this stop them?
- *              Delta timers
- */
+* Kiwi - Time
+* @module Kiwi
+* @submodule Time
+*
+*/
 
 module Kiwi.Time {
 
+    /**
+    * The Clock class offers a way of tracking time within a game.
+    * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started.
+    * This happens automatically and there is no need to do anything to set this up.
+    * - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
+    * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
+    * - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
+    * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
+    * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
+    *
+    * @class Clock
+    *
+    */
     export class Clock {
 
         /**

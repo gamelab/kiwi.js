@@ -1,21 +1,30 @@
 
-
 /**
- *	Kiwi - Tween (note the global namespace for brevity during development)
- *
- *	@desc 		Based heavily on tween.js by sole (https://github.com/sole/tween.js) converted to TypeScript and integrated into Kiwi
- *
- *	@version 	1.0 - 11th January 2013
- *
- *	@author 	Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens.Manager for the full tween.js author list
- *
- *	@url 		http://www.kiwijs.org
- *
- *	@todo       Tests
- */
-
-//  Note the core namespace
+* Kiwi - Animation - Tweens 
+* @module Animation
+* @submodule Tweens 
+* 
+*/
+ 
 module Kiwi.Animation {
+
+    /**
+    * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
+    * https://github.com/sole/tween.js
+    *
+    * @class Tween
+    *
+    * @author     sole / http://soledadpenades.com
+    * @author     mrdoob / http://mrdoob.com
+    * @author     Robert Eisele / http://www.xarg.org
+    * @author     Philippe / http://philippe.elsass.me
+    * @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
+    * @author     Paul Lewis / http://www.aerotwist.com/
+    * @author     lechecacharro
+    * @author     Josh Faul / http://jocafa.com/
+    * @author     egraether / http://egraether.com/
+    *
+    */
 
     export class Tween {
 

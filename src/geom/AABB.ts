@@ -1,22 +1,17 @@
-/// <reference path="Intersect.ts" />
-/// <reference path="IntersectResult.ts" />
-/// <reference path="Point.ts" />
-/// <reference path="../utils/GameMath.ts" />
-
 /**
- *	Kiwi - Geom - AABB
- *
- *	@desc 		
- *
- *	@version 	1.1 - 11th October 2012
-  *	@author 	Ross Kettle
- *	@url 		http://www.kiwijs.org
- *
- *  @todo       
- */
-
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
+ 
 module Kiwi.Geom {
 
+    /**
+    *
+    *
+    * @class AABB
+    *
+    */
     export class AABB {
 
         /** 

@@ -1,18 +1,17 @@
 /**
- *	Kiwi - Geom - Ray
- *
- *	@desc 		A ray object is represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
- *
- *	@version 	1.2 - 27th February 2013
- *	@author 	Ross Kettle
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- *
- *  @todo       
- */
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
 
 module Kiwi.Geom {
 
+    /**
+    * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
+    *
+    * @class Ray
+    *
+    */
     export class Ray {
 
         /**

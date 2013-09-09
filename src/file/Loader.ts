@@ -1,7 +1,17 @@
-
+/**
+* Kiwi - Files
+* @module Kiwi
+* @submodule Files 
+* 
+*/
 
 module Kiwi.Files {
 
+    /**
+    *
+    * @class Loader
+    *
+    */
     export class Loader {
 
         /**

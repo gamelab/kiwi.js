@@ -1,19 +1,18 @@
-
 /**
- *	Kiwi - GameObjects - Textfield
- *				
- *	@desc		
- *
- *	@version	1.1 - 1st March 2013
- *
- *	@author 	Richard Davey
- *
- *	@url		http://www.kiwijs.org
- *
- **/
-
+* Kiwi - GameObjects
+* @module Kiwi
+* @submodule GameObjects 
+* 
+*/ 
+ 
 module Kiwi.GameObjects {
-
+    
+    /**
+    *
+    *
+    * @class Textfield
+    *
+    */
     export class Textfield extends Kiwi.Entity {
 
         /**

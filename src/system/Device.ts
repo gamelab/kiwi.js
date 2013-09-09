@@ -1,20 +1,21 @@
-
 /**
- *  Kiwi - Static  - Device
- *
- *  @desc       Detects device support capabilities. Using some elements from System.js by MrDoob and Modernizr
- *              https://github.com/Modernizr/Modernizr/blob/master/feature-detects/audio.js
- *
- *	@version 	1.0 - March 5th 2013
- *	@author 	Richard Davey
- *	@author		mrdoob
- *	@author		Modernizr team
- *  @url        http://www.kiwijs.org
- */
-
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+*/ 
 
 module Kiwi.System {
 
+    /**
+    * Detects device support capabilities. Using some elements from System.js by MrDoob and Modernizr
+    * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/audio.js
+    *
+    * @class Device
+    *
+    * @author mrdoob
+    * @author Modernizr team
+    * 
+    */
     export class Device {
 
         /**

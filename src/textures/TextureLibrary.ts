@@ -1,9 +1,19 @@
-
+/**
+* Kiwi - Textures
+* @module Kiwi
+* @submodule Textures
+* @main Textures
+* 
+*/ 
 
 module Kiwi.Textures {
     
-
-    // Class
+    /**
+    *
+    *
+    * @class TextureLibrary
+    *
+    */
     export class TextureLibrary {
 
         /*

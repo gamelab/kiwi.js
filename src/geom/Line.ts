@@ -1,18 +1,17 @@
 /**
- *	Kiwi - Geom - Line
- *
- *	@desc 		A Line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
- *
- *	@version 	1.2 - 27th February 2013
- *	@author 	Ross Kettle
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- *
- *  @todo       
- */
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
 
 module Kiwi.Geom {
 
+    /**
+    * A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
+    *
+    * @class Line
+    *
+    */
     export class Line {
 
         /**

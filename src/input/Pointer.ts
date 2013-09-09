@@ -1,9 +1,18 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="../geom/Point.ts" />
-/// <reference path="../geom/Circle.ts" />
+/**
+* Kiwi - Input
+* @module Kiwi
+* @submodule Input
+* 
+*/ 
 
 module Kiwi.Input {
 
+    /**
+    *
+    *
+    * @class Pointer
+    *
+    */
     export class Pointer {
 
         /*

@@ -1,20 +1,17 @@
-/// <reference path="../Kiwi.ts" />
-
-/*
- *	Kiwi - Core - Group
- *
- *	@desc		A multi-purpose container for any class that extends Kiwi.Entity
- *				
- *	@version    1.0 - 1st March 2013
- *				
- *	@author 	Richard Davey
- *	@author		Ross Kettle
- *				
- *	@url		http://www.kiwijs.org
- *				
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
 */
 
 module Kiwi {
+
+    /**
+    *
+    * 
+    * @class Group
+    *
+    */
 
     export class Group implements Kiwi.IChild {
 

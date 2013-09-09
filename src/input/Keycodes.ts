@@ -1,15 +1,18 @@
 /**
- *	Kiwi - Input - Keycodes
- *
- *	@desc 		Keyboard scancodes
- *
- *	@version 	1.1 - 30th October 2012
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- */
+* Kiwi - Input
+* @module Kiwi
+* @submodule Input
+* 
+*/ 
 
 module Kiwi.Input {
 
+    /**
+    * 
+    *
+    * @class Keycodes
+    *
+    */
     export class Keycodes {
 
         public objType() {

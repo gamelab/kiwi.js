@@ -1,20 +1,17 @@
-/// <reference path="../core/Component.ts" />
-
-/*
- *	Kiwi - Components - Animation
- *
- *	@desc		Description
- *
- *	@version	1.0 - 16 August 2013
- *				
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
-*/
-
+/**
+* Kiwi - Components
+* @module Kiwi
+* @submodule Components 
+* @main Components
+*/ 
+ 
 module Kiwi.Components {
 
+    /**
+    *  
+    * @class Animation
+    *
+    */
     export class Animation extends Component {
 
         /*

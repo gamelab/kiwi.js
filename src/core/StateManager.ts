@@ -1,18 +1,17 @@
-/// <reference path="Game.ts" />
-/// <reference path="State.ts" />
-
 /**
- *  Kiwi - Core - StateManager
- *
- *  @desc       Handles the starting, parsing, looping and swapping of game states
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
+*/  
 
 module Kiwi {
 
+    /**
+    * Handles the starting, parsing, looping and swapping of game states.
+    *
+    * @class StateManager
+    *
+    */
     export class StateManager {
 
         /**

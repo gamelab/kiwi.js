@@ -1,21 +1,18 @@
-/// <reference path="../Kiwi.ts" />
-
-/*
- *	Kiwi - Core - Entity
- *				
- *	@desc		Serves as a container for components and core framework properties.
- *				Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
- *
- *	@version	1.1 - 1st March 2013 / Version way higher since then.
- *
- *	@author 	Richard Davey
- *	@author		Ross Kettle
- *
- *	@url		http://www.kiwijs.org
- *
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
 */
 
 module Kiwi {
+
+    /**
+    * Serves as a container for game objects.
+    * Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
+    * 
+    * @class Entity
+    *
+    */
 
     export class Entity implements Kiwi.IChild {
 
