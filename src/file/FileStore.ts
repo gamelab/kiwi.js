@@ -112,7 +112,7 @@ module Kiwi.Files {
         * @param {String} key
         * @param {File} value
 		*/
-        public addFile(key: string, value: Kiwi.Files.File):bool {
+        public addFile(key: string, value: Kiwi.Files.File): boolean {
 
             if (!this._files[key])
             {
@@ -130,7 +130,7 @@ module Kiwi.Files {
         * @param {Sting} key
         * @return Boolean
 		*/
-        public exists(key: string): bool {
+        public exists(key: string): boolean {
 
             if (this._files[key])
             {

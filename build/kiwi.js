@@ -1,699 +1,5 @@
 ﻿var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            var Manager = (function () {
-                function Manager(game) {
-                    this._game = game;
-                    this._tweens = [];
-                }
-                Manager.prototype.objType = function () {
-                    return "Manager";
-                };
-
-                Manager.prototype.getAll = function () {
-                    return this._tweens;
-                };
-
-                Manager.prototype.removeAll = function () {
-                    this._tweens.length = 0;
-                };
-
-                Manager.prototype.create = function (object) {
-                    return new Kiwi.Animation.Tween(object, this._game);
-                };
-
-                Manager.prototype.add = function (tween) {
-                    tween.setParent(this._game);
-
-                    this._tweens.push(tween);
-
-                    return tween;
-                };
-
-                Manager.prototype.remove = function (tween) {
-                    var i = this._tweens.indexOf(tween);
-
-                    if (i !== -1) {
-                        this._tweens.splice(i, 1);
-                    }
-                };
-
-                Manager.prototype.update = function () {
-                    if (this._tweens.length === 0) {
-                        return false;
-                    }
-
-                    var i = 0;
-                    var numTweens = this._tweens.length;
-
-                    while (i < numTweens) {
-                        if (this._tweens[i].update(this._game.time.now())) {
-                            i++;
-                        } else {
-                            this._tweens.splice(i, 1);
-                            numTweens--;
-                        }
-                    }
-
-                    return true;
-                };
-                return Manager;
-            })();
-            Tweens.Manager = Manager;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Back = (function () {
-                    function Back() {
-                    }
-                    Back.prototype.objType = function () {
-                        return "Back";
-                    };
-
-                    Back.In = function (k) {
-                        var s = 1.70158;
-                        return k * k * ((s + 1) * k - s);
-                    };
-
-                    Back.Out = function (k) {
-                        var s = 1.70158;
-                        return --k * k * ((s + 1) * k + s) + 1;
-                    };
-
-                    Back.InOut = function (k) {
-                        var s = 1.70158 * 1.525;
-                        if ((k *= 2) < 1)
-                            return 0.5 * (k * k * ((s + 1) * k - s));
-                        return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
-                    };
-                    return Back;
-                })();
-                Easing.Back = Back;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Bounce = (function () {
-                    function Bounce() {
-                    }
-                    Bounce.prototype.objType = function () {
-                        return "Bounce";
-                    };
-
-                    Bounce.In = function (k) {
-                        return 1 - Kiwi.Animation.Tweens.Easing.Bounce.Out(1 - k);
-                    };
-
-                    Bounce.Out = function (k) {
-                        if (k < (1 / 2.75)) {
-                            return 7.5625 * k * k;
-                        } else if (k < (2 / 2.75)) {
-                            return 7.5625 * (k -= (1.5 / 2.75)) * k + 0.75;
-                        } else if (k < (2.5 / 2.75)) {
-                            return 7.5625 * (k -= (2.25 / 2.75)) * k + 0.9375;
-                        } else {
-                            return 7.5625 * (k -= (2.625 / 2.75)) * k + 0.984375;
-                        }
-                    };
-
-                    Bounce.InOut = function (k) {
-                        if (k < 0.5)
-                            return Kiwi.Animation.Tweens.Easing.Bounce.In(k * 2) * 0.5;
-                        return Kiwi.Animation.Tweens.Easing.Bounce.Out(k * 2 - 1) * 0.5 + 0.5;
-                    };
-                    return Bounce;
-                })();
-                Easing.Bounce = Bounce;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Circular = (function () {
-                    function Circular() {
-                    }
-                    Circular.prototype.objType = function () {
-                        return "Circular";
-                    };
-
-                    Circular.In = function (k) {
-                        return 1 - Math.sqrt(1 - k * k);
-                    };
-
-                    Circular.Out = function (k) {
-                        return Math.sqrt(1 - (--k * k));
-                    };
-
-                    Circular.InOut = function (k) {
-                        if ((k *= 2) < 1)
-                            return -0.5 * (Math.sqrt(1 - k * k) - 1);
-                        return 0.5 * (Math.sqrt(1 - (k -= 2) * k) + 1);
-                    };
-                    return Circular;
-                })();
-                Easing.Circular = Circular;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Cubic = (function () {
-                    function Cubic() {
-                    }
-                    Cubic.prototype.objType = function () {
-                        return "Cubic";
-                    };
-
-                    Cubic.In = function (k) {
-                        return k * k * k;
-                    };
-
-                    Cubic.Out = function (k) {
-                        return --k * k * k + 1;
-                    };
-
-                    Cubic.InOut = function (k) {
-                        if ((k *= 2) < 1)
-                            return 0.5 * k * k * k;
-                        return 0.5 * ((k -= 2) * k * k + 2);
-                    };
-                    return Cubic;
-                })();
-                Easing.Cubic = Cubic;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Elastic = (function () {
-                    function Elastic() {
-                    }
-                    Elastic.prototype.objType = function () {
-                        return "Elastic";
-                    };
-
-                    Elastic.In = function (k) {
-                        var s, a = 0.1, p = 0.4;
-                        if (k === 0)
-                            return 0;
-                        if (k === 1)
-                            return 1;
-                        if (!a || a < 1) {
-                            a = 1;
-                            s = p / 4;
-                        } else
-                            s = p * Math.asin(1 / a) / (2 * Math.PI);
-                        return -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p));
-                    };
-
-                    Elastic.Out = function (k) {
-                        var s, a = 0.1, p = 0.4;
-                        if (k === 0)
-                            return 0;
-                        if (k === 1)
-                            return 1;
-                        if (!a || a < 1) {
-                            a = 1;
-                            s = p / 4;
-                        } else
-                            s = p * Math.asin(1 / a) / (2 * Math.PI);
-                        return (a * Math.pow(2, -10 * k) * Math.sin((k - s) * (2 * Math.PI) / p) + 1);
-                    };
-
-                    Elastic.InOut = function (k) {
-                        var s, a = 0.1, p = 0.4;
-                        if (k === 0)
-                            return 0;
-                        if (k === 1)
-                            return 1;
-                        if (!a || a < 1) {
-                            a = 1;
-                            s = p / 4;
-                        } else
-                            s = p * Math.asin(1 / a) / (2 * Math.PI);
-                        if ((k *= 2) < 1)
-                            return -0.5 * (a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p));
-                        return a * Math.pow(2, -10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p) * 0.5 + 1;
-                    };
-                    return Elastic;
-                })();
-                Easing.Elastic = Elastic;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Exponential = (function () {
-                    function Exponential() {
-                    }
-                    Exponential.prototype.objType = function () {
-                        return "Exponential";
-                    };
-
-                    Exponential.In = function (k) {
-                        return k === 0 ? 0 : Math.pow(1024, k - 1);
-                    };
-
-                    Exponential.Out = function (k) {
-                        return k === 1 ? 1 : 1 - Math.pow(2, -10 * k);
-                    };
-
-                    Exponential.InOut = function (k) {
-                        if (k === 0)
-                            return 0;
-                        if (k === 1)
-                            return 1;
-                        if ((k *= 2) < 1)
-                            return 0.5 * Math.pow(1024, k - 1);
-                        return 0.5 * (-Math.pow(2, -10 * (k - 1)) + 2);
-                    };
-                    return Exponential;
-                })();
-                Easing.Exponential = Exponential;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Linear = (function () {
-                    function Linear() {
-                    }
-                    Linear.prototype.objType = function () {
-                        return "Linear";
-                    };
-
-                    Linear.None = function (k) {
-                        return k;
-                    };
-                    return Linear;
-                })();
-                Easing.Linear = Linear;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Quadratic = (function () {
-                    function Quadratic() {
-                    }
-                    Quadratic.prototype.objType = function () {
-                        return "Quadratic";
-                    };
-
-                    Quadratic.In = function (k) {
-                        return k * k;
-                    };
-
-                    Quadratic.Out = function (k) {
-                        return k * (2 - k);
-                    };
-
-                    Quadratic.InOut = function (k) {
-                        if ((k *= 2) < 1)
-                            return 0.5 * k * k;
-                        return -0.5 * (--k * (k - 2) - 1);
-                    };
-                    return Quadratic;
-                })();
-                Easing.Quadratic = Quadratic;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Quartic = (function () {
-                    function Quartic() {
-                    }
-                    Quartic.prototype.objType = function () {
-                        return "Quartic";
-                    };
-
-                    Quartic.In = function (k) {
-                        return k * k * k * k;
-                    };
-
-                    Quartic.Out = function (k) {
-                        return 1 - (--k * k * k * k);
-                    };
-
-                    Quartic.InOut = function (k) {
-                        if ((k *= 2) < 1)
-                            return 0.5 * k * k * k * k;
-                        return -0.5 * ((k -= 2) * k * k * k - 2);
-                    };
-                    return Quartic;
-                })();
-                Easing.Quartic = Quartic;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Quintic = (function () {
-                    function Quintic() {
-                    }
-                    Quintic.prototype.objType = function () {
-                        return "Quintic";
-                    };
-
-                    Quintic.In = function (k) {
-                        return k * k * k * k * k;
-                    };
-
-                    Quintic.Out = function (k) {
-                        return --k * k * k * k * k + 1;
-                    };
-
-                    Quintic.InOut = function (k) {
-                        if ((k *= 2) < 1)
-                            return 0.5 * k * k * k * k * k;
-                        return 0.5 * ((k -= 2) * k * k * k * k + 2);
-                    };
-                    return Quintic;
-                })();
-                Easing.Quintic = Quintic;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
-            (function (Easing) {
-                var Sinusoidal = (function () {
-                    function Sinusoidal() {
-                    }
-                    Sinusoidal.prototype.objType = function () {
-                        return "Sinusoidal";
-                    };
-
-                    Sinusoidal.In = function (k) {
-                        return 1 - Math.cos(k * Math.PI / 2);
-                    };
-
-                    Sinusoidal.Out = function (k) {
-                        return Math.sin(k * Math.PI / 2);
-                    };
-
-                    Sinusoidal.InOut = function (k) {
-                        return 0.5 * (1 - Math.cos(Math.PI * k));
-                    };
-                    return Sinusoidal;
-                })();
-                Easing.Sinusoidal = Sinusoidal;
-            })(Tweens.Easing || (Tweens.Easing = {}));
-            var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        var Tween = (function () {
-            function Tween(object, game) {
-                if (typeof game === "undefined") { game = null; }
-                this._game = null;
-                this._manager = null;
-                this._object = null;
-                this._valuesStart = {};
-                this._valuesEnd = {};
-                this._duration = 1000;
-                this._delayTime = 0;
-                this._startTime = null;
-                this._easingFunction = Kiwi.Animation.Tweens.Easing.Linear.None;
-                this._interpolationFunction = Kiwi.Utils.GameMath.linearInterpolation;
-                this._chainedTweens = [];
-                this._onStartCallback = null;
-                this._onStartContext = null;
-                this._onStartCallbackFired = false;
-                this._onUpdateCallback = null;
-                this._onUpdateContext = null;
-                this._onCompleteCallback = null;
-                this._onCompleteCalled = false;
-                this.isRunning = false;
-                this._object = object;
-
-                if (game !== null) {
-                    this._game = game;
-                    this._manager = this._game.tweens;
-                }
-
-                this.isRunning = false;
-            }
-            Tween.prototype.objType = function () {
-                return "Tween";
-            };
-
-            Tween.prototype.to = function (properties, duration, ease, autoStart) {
-                if (typeof duration === "undefined") { duration = 1000; }
-                if (typeof ease === "undefined") { ease = null; }
-                if (typeof autoStart === "undefined") { autoStart = false; }
-                this._duration = duration;
-
-                this._valuesEnd = properties;
-
-                if (ease !== null) {
-                    this._easingFunction = ease;
-                }
-
-                if (autoStart === true) {
-                    return this.start();
-                } else {
-                    return this;
-                }
-            };
-
-            Tween.prototype.start = function () {
-                if (this._game === null || this._object === null) {
-                    return;
-                }
-
-                this.isRunning = true;
-
-                this._manager.add(this);
-
-                this._onStartCallbackFired = false;
-
-                this._startTime = this._game.time.now() + this._delayTime;
-
-                for (var property in this._valuesEnd) {
-                    if (this._object[property] === null || !(property in this._object)) {
-                        continue;
-                    }
-
-                    if (this._valuesEnd[property] instanceof Array) {
-                        if (this._valuesEnd[property].length === 0) {
-                            continue;
-                        }
-
-                        this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property]);
-                    }
-
-                    if (typeof this._object[property] === 'function') {
-                        this._valuesStart[property] = this._object[property]();
-                    } else {
-                        this._valuesStart[property] = this._object[property];
-                    }
-                }
-
-                return this;
-            };
-
-            Tween.prototype.stop = function () {
-                if (this._manager !== null) {
-                    this._manager.remove(this);
-                }
-
-                this.isRunning = false;
-
-                return this;
-            };
-
-            Tween.prototype.setParent = function (value) {
-                this._game = value;
-                this._manager = this._game.tweens;
-            };
-
-            Tween.prototype.delay = function (amount) {
-                this._delayTime = amount;
-                return this;
-            };
-
-            Tween.prototype.easing = function (easing) {
-                this._easingFunction = easing;
-                return this;
-            };
-
-            Tween.prototype.interpolation = function (interpolation) {
-                this._interpolationFunction = interpolation;
-
-                return this;
-            };
-
-            Tween.prototype.chain = function (tween) {
-                this._chainedTweens.push(tween);
-                return this;
-            };
-
-            Tween.prototype.onStart = function (callback, context) {
-                this._onStartCallback = callback;
-                this._onStartContext = context;
-                return this;
-            };
-
-            Tween.prototype.onUpdate = function (callback, context) {
-                this._onUpdateCallback = callback;
-                this._onUpdateContext = context;
-                return this;
-            };
-
-            Tween.prototype.onComplete = function (callback, context) {
-                this._onCompleteCallback = callback;
-                this._onCompleteContext = context;
-
-                return this;
-            };
-
-            Tween.prototype.update = function (time) {
-                if (time < this._startTime) {
-                    return true;
-                }
-
-                if (this._onStartCallbackFired === false) {
-                    if (this._onStartCallback !== null) {
-                        this._onStartCallback.call(this._onStartContext, this._object);
-                    }
-
-                    this._onStartCallbackFired = true;
-                }
-
-                var elapsed = (time - this._startTime) / this._duration;
-                elapsed = elapsed > 1 ? 1 : elapsed;
-
-                var value = this._easingFunction(elapsed);
-
-                for (var property in this._valuesStart) {
-                    var start = this._valuesStart[property];
-                    var end = this._valuesEnd[property];
-
-                    if (end instanceof Array) {
-                        this._object[property] = this._interpolationFunction(end, value);
-                    } else {
-                        if (typeof this._object[property] === 'function') {
-                            this._object[property](start + (end - start) * value);
-                        } else {
-                            this._object[property] = start + (end - start) * value;
-                        }
-                    }
-                }
-
-                if (this._onUpdateCallback !== null) {
-                    this._onUpdateCallback.call(this._onUpdateContext, this._object, value);
-                }
-
-                if (elapsed == 1) {
-                    this.isRunning = false;
-
-                    if (this._onCompleteCallback !== null && this._onCompleteCalled == false) {
-                        this._onCompleteCalled = true;
-                        this._onCompleteCallback.call(this._onCompleteContext, this._object);
-                    }
-
-                    for (var i = 0; i < this._chainedTweens.length; i++) {
-                        this._chainedTweens[i].start();
-                    }
-
-                    return false;
-                }
-
-                return true;
-            };
-            return Tween;
-        })();
-        Animation.Tween = Tween;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     var Camera = (function () {
         function Camera(game, id, name, x, y, width, height) {
             this.fitToStage = true;
@@ -1037,7 +343,6 @@ var Kiwi;
             configurable: true
         });
 
-
         Object.defineProperty(Entity.prototype, "y", {
             get: function () {
                 return this.transform.y;
@@ -1060,7 +365,6 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-
 
         Object.defineProperty(Entity.prototype, "scaleY", {
             get: function () {
@@ -1085,7 +389,6 @@ var Kiwi;
             configurable: true
         });
 
-
         Entity.prototype.childType = function () {
             return Kiwi.ENTITY;
         };
@@ -1106,7 +409,6 @@ var Kiwi;
             configurable: true
         });
 
-
         Object.defineProperty(Entity.prototype, "visiblity", {
             get: function () {
                 return this._visible;
@@ -1117,7 +419,6 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-
 
         Object.defineProperty(Entity.prototype, "exists", {
             get: function () {
@@ -1130,7 +431,6 @@ var Kiwi;
             configurable: true
         });
 
-
         Object.defineProperty(Entity.prototype, "active", {
             get: function () {
                 return this._active;
@@ -1141,7 +441,6 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-
 
         Object.defineProperty(Entity.prototype, "willRender", {
             get: function () {
@@ -1154,7 +453,6 @@ var Kiwi;
             configurable: true
         });
 
-
         Object.defineProperty(Entity.prototype, "inputEnabled", {
             get: function () {
                 return this._inputEnabled;
@@ -1166,7 +464,6 @@ var Kiwi;
             configurable: true
         });
 
-
         Object.defineProperty(Entity.prototype, "clock", {
             get: function () {
                 return this._clock;
@@ -1177,7 +474,6 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-
 
         Object.defineProperty(Entity.prototype, "dirty", {
             get: function () {
@@ -1336,7 +632,6 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-
 
         Game.prototype.start = function () {
             var _this = this;
@@ -1603,7 +898,6 @@ var Kiwi;
             return Kiwi.GROUP;
         };
 
-
         Object.defineProperty(Group.prototype, "parent", {
             get: function () {
                 return this._parent;
@@ -1627,7 +921,6 @@ var Kiwi;
             configurable: true
         });
 
-
         Object.defineProperty(Group.prototype, "y", {
             get: function () {
                 return this.transform.y;
@@ -1638,7 +931,6 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-
 
         Object.defineProperty(Group.prototype, "scaleX", {
             get: function () {
@@ -1651,7 +943,6 @@ var Kiwi;
             configurable: true
         });
 
-
         Object.defineProperty(Group.prototype, "scaleY", {
             get: function () {
                 return this.transform.scaleY;
@@ -1662,7 +953,6 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-
 
         Object.defineProperty(Group.prototype, "rotation", {
             get: function () {
@@ -1675,11 +965,9 @@ var Kiwi;
             configurable: true
         });
 
-
         Group.prototype.numChildren = function () {
             return this.members.length;
         };
-
 
         Object.defineProperty(Group.prototype, "dirty", {
             get: function () {
@@ -2549,6 +1837,1257 @@ var Kiwi;
         return Stage;
     })();
     Kiwi.Stage = Stage;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var StateConfig = (function () {
+        function StateConfig(parent, name) {
+            this.name = '';
+            this.isPersistent = false;
+            this.isCreated = false;
+            this.isInitialised = false;
+            this.isReady = false;
+            this.hasInit = false;
+            this.hasPreloader = false;
+            this.hasLoadProgress = false;
+            this.hasLoadComplete = false;
+            this.hasLoadUpdate = false;
+            this.hasCreate = false;
+            this.hasOnEnter = false;
+            this.hasUpdate = false;
+            this.hasRender = false;
+            this.hasOnExit = false;
+            this.hasShutDown = false;
+            this.hasDestroy = false;
+            this.runCount = 0;
+            this.type = 0;
+            this._state = parent;
+            this.name = name;
+
+            this.populate();
+        }
+        StateConfig.prototype.objType = function () {
+            return "StateConfig";
+        };
+
+        StateConfig.prototype.populate = function () {
+            if (typeof this._state['init'] === 'function') {
+                this.hasInit = true;
+            }
+
+            if (typeof this._state['preload'] === 'function') {
+                this.hasPreloader = true;
+            }
+
+            if (typeof this._state['loadProgress'] === 'function') {
+                this.hasLoadProgress = true;
+            }
+
+            if (typeof this._state['loadComplete'] === 'function') {
+                this.hasLoadComplete = true;
+            }
+
+            if (typeof this._state['loadUpdate'] === 'function') {
+                this.hasLoadUpdate = true;
+            }
+
+            if (typeof this._state['create'] === 'function') {
+                this.hasCreate = true;
+            }
+
+            if (typeof this._state['onEnter'] === 'function') {
+                this.hasOnEnter = true;
+            }
+
+            if (typeof this._state['update'] === 'function') {
+                this.hasUpdate = true;
+            }
+
+            if (typeof this._state['render'] === 'function') {
+                this.hasRender = true;
+            }
+
+            if (typeof this._state['onExit'] === 'function') {
+                this.hasOnExit = true;
+            }
+
+            if (typeof this._state['shutdown'] === 'function') {
+                this.hasShutDown = true;
+            }
+
+            if (typeof this._state['destroy'] === 'function') {
+                this.hasDestroy = true;
+            }
+
+            if (this.hasInit === false && this.hasCreate === false) {
+                this.isInitialised = true;
+                this.isCreated = true;
+                this.isReady = true;
+            }
+        };
+        return StateConfig;
+    })();
+    Kiwi.StateConfig = StateConfig;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var StateManager = (function () {
+        function StateManager(game) {
+            this.current = null;
+            this._game = game;
+
+            this._states = [];
+        }
+        StateManager.prototype.objType = function () {
+            return "StateManager";
+        };
+
+        StateManager.prototype.checkKeyExists = function (key) {
+            for (var i = 0; i < this._states.length; i++) {
+                if (this._states[i].config.name === key) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        StateManager.prototype.checkValidState = function (state) {
+            if (!state['game'] || !state['config']) {
+                return false;
+            }
+
+            return true;
+        };
+
+        StateManager.prototype.addState = function (state, switchTo) {
+            if (typeof switchTo === "undefined") { switchTo = false; }
+            var tempState;
+
+            if (typeof state === 'function') {
+                tempState = new state();
+            } else if (typeof state === 'string') {
+                tempState = window[state];
+            } else {
+                tempState = state;
+            }
+
+            if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
+                return false;
+            }
+
+            tempState.game = this._game;
+
+            if (this.checkValidState(tempState) === false) {
+                return false;
+            } else {
+                this._states.push(tempState);
+
+                if (switchTo === true) {
+                    this.setCurrentState(tempState.config.name);
+                }
+
+                return true;
+            }
+        };
+
+        StateManager.prototype.boot = function () {
+            if (this.current !== null) {
+                this.current.boot();
+            }
+
+            if (this.current !== null && this.current.config.isInitialised === false) {
+                if (this.current.config.hasInit === true) {
+                    this.current.init();
+                }
+
+                this.current.config.isInitialised = true;
+
+                this.checkPreload();
+            }
+        };
+
+        StateManager.prototype.setCurrentState = function (key) {
+            if (this.current !== null && this.current.config.name === key) {
+                return false;
+            }
+
+            if (this.current !== null) {
+                this._game.input.reset();
+                this.current.destroy();
+            }
+
+            if (this.checkKeyExists(key) === true) {
+                this.current = this.getState(key);
+
+                if (this._game.stage.domReady === true) {
+                    if (this.current.config.isInitialised === false) {
+                        this.current.boot();
+
+                        if (this.current.config.hasInit === true) {
+                            if (this.current.config.initParams) {
+                                this.current.init.apply(this.current, this.current.config.initParams);
+                            } else {
+                                this.current.init.call(this.current);
+                            }
+                        }
+
+                        this.current.config.isInitialised = true;
+                    }
+
+                    this.checkPreload();
+                }
+
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        StateManager.prototype.switchState = function (key, state, initParams, createParams) {
+            if (typeof state === "undefined") { state = null; }
+            if (typeof initParams === "undefined") { initParams = null; }
+            if (typeof createParams === "undefined") { createParams = null; }
+            if (this.current !== null && this.current.config.isReady === false) {
+                return false;
+            }
+
+            if (this.checkKeyExists(key) === false && state !== null) {
+                if (this.addState(state, false) === false) {
+                    return false;
+                }
+            }
+
+            if (initParams !== null || createParams !== null) {
+                var newState = this.getState(key);
+
+                newState.config.initParams = [];
+
+                for (var initParameter in initParams) {
+                    newState.config.initParams.push(initParams[initParameter]);
+                }
+
+                newState.config.createParams = [];
+
+                for (var createParameter in createParams) {
+                    newState.config.createParams.push(createParams[createParameter]);
+                }
+            }
+
+            return this.setCurrentState(key);
+        };
+
+        StateManager.prototype.getState = function (key) {
+            for (var i = 0; i < this._states.length; i++) {
+                if (this._states[i].config.name === key) {
+                    return this._states[i];
+                }
+            }
+
+            return null;
+        };
+
+        StateManager.prototype.checkPreload = function () {
+            var _this = this;
+            if (this.current.config.hasPreloader === true) {
+                this._game.loader.init(function (percent, bytes, file) {
+                    return _this.onLoadProgress(percent, bytes, file);
+                }, function () {
+                    return _this.onLoadComplete();
+                });
+                this.current.preload();
+                this._game.loader.startLoad();
+            } else {
+                if (this.current.config.hasCreate === true && this.current.config.isCreated === false) {
+                    this.current.config.isCreated = true;
+
+                    if (this.current.config.createParams) {
+                        this.current.create.apply(this.current, this.current.config.createParams);
+                    } else {
+                        this.current.create.call(this.current);
+                    }
+                }
+
+                this.current.config.isReady = true;
+            }
+        };
+
+        StateManager.prototype.onLoadProgress = function (percent, bytesLoaded, file) {
+            if (this.current.config.hasLoadProgress === true) {
+                this.current.loadProgress(percent, bytesLoaded, file);
+            }
+        };
+
+        StateManager.prototype.onLoadComplete = function () {
+            if (this.current.config.hasLoadComplete === true) {
+                this.current.loadComplete();
+            }
+
+            this.rebuildLibraries();
+
+            this.current.config.isReady = true;
+
+            if (this.current.config.hasCreate === true) {
+                this.current.config.isCreated = true;
+                if (this.current.config.createParams) {
+                    this.current.create.apply(this.current, this.current.config.createParams);
+                } else {
+                    this.current.create.call(this.current);
+                }
+            }
+        };
+
+        StateManager.prototype.rebuildLibraries = function () {
+            this.current.textureLibrary.clear();
+            this.current.audioLibrary.clear();
+            this.current.dataLibrary.clear();
+
+            var fileStoreKeys = this._game.fileStore.keys;
+
+            for (var i = 0; i < fileStoreKeys.length; i++) {
+                var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                if (file.isTexture) {
+                    this.current.textureLibrary.add(file);
+                } else if (file.isAudio) {
+                    this.current.audioLibrary.add(file);
+                } else if (file.isData) {
+                    this.current.dataLibrary.add(file);
+                }
+            }
+        };
+
+        StateManager.prototype.update = function () {
+            if (this.current !== null) {
+                if (this.current.config.isReady === true) {
+                    this.current.preUpdate();
+                    this.current.update();
+                    this.current.postUpdate();
+                } else {
+                    this.current.loadUpdate();
+                }
+            }
+        };
+
+        StateManager.prototype.postRender = function () {
+            if (this.current !== null) {
+                if (this.current.config.isReady === true) {
+                    this.current.postRender();
+                }
+            }
+        };
+        return StateManager;
+    })();
+    Kiwi.StateManager = StateManager;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            var Manager = (function () {
+                function Manager(game) {
+                    this._game = game;
+                    this._tweens = [];
+                }
+                Manager.prototype.objType = function () {
+                    return "Manager";
+                };
+
+                Manager.prototype.getAll = function () {
+                    return this._tweens;
+                };
+
+                Manager.prototype.removeAll = function () {
+                    this._tweens.length = 0;
+                };
+
+                Manager.prototype.create = function (object) {
+                    return new Kiwi.Animation.Tween(object, this._game);
+                };
+
+                Manager.prototype.add = function (tween) {
+                    tween.setParent(this._game);
+
+                    this._tweens.push(tween);
+
+                    return tween;
+                };
+
+                Manager.prototype.remove = function (tween) {
+                    var i = this._tweens.indexOf(tween);
+
+                    if (i !== -1) {
+                        this._tweens.splice(i, 1);
+                    }
+                };
+
+                Manager.prototype.update = function () {
+                    if (this._tweens.length === 0) {
+                        return false;
+                    }
+
+                    var i = 0;
+                    var numTweens = this._tweens.length;
+
+                    while (i < numTweens) {
+                        if (this._tweens[i].update(this._game.time.now())) {
+                            i++;
+                        } else {
+                            this._tweens.splice(i, 1);
+                            numTweens--;
+                        }
+                    }
+
+                    return true;
+                };
+                return Manager;
+            })();
+            Tweens.Manager = Manager;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Back = (function () {
+                    function Back() {
+                    }
+                    Back.prototype.objType = function () {
+                        return "Back";
+                    };
+
+                    Back.In = function (k) {
+                        var s = 1.70158;
+                        return k * k * ((s + 1) * k - s);
+                    };
+
+                    Back.Out = function (k) {
+                        var s = 1.70158;
+                        return --k * k * ((s + 1) * k + s) + 1;
+                    };
+
+                    Back.InOut = function (k) {
+                        var s = 1.70158 * 1.525;
+                        if ((k *= 2) < 1)
+                            return 0.5 * (k * k * ((s + 1) * k - s));
+                        return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
+                    };
+                    return Back;
+                })();
+                Easing.Back = Back;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Bounce = (function () {
+                    function Bounce() {
+                    }
+                    Bounce.prototype.objType = function () {
+                        return "Bounce";
+                    };
+
+                    Bounce.In = function (k) {
+                        return 1 - Kiwi.Animation.Tweens.Easing.Bounce.Out(1 - k);
+                    };
+
+                    Bounce.Out = function (k) {
+                        if (k < (1 / 2.75)) {
+                            return 7.5625 * k * k;
+                        } else if (k < (2 / 2.75)) {
+                            return 7.5625 * (k -= (1.5 / 2.75)) * k + 0.75;
+                        } else if (k < (2.5 / 2.75)) {
+                            return 7.5625 * (k -= (2.25 / 2.75)) * k + 0.9375;
+                        } else {
+                            return 7.5625 * (k -= (2.625 / 2.75)) * k + 0.984375;
+                        }
+                    };
+
+                    Bounce.InOut = function (k) {
+                        if (k < 0.5)
+                            return Kiwi.Animation.Tweens.Easing.Bounce.In(k * 2) * 0.5;
+                        return Kiwi.Animation.Tweens.Easing.Bounce.Out(k * 2 - 1) * 0.5 + 0.5;
+                    };
+                    return Bounce;
+                })();
+                Easing.Bounce = Bounce;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Circular = (function () {
+                    function Circular() {
+                    }
+                    Circular.prototype.objType = function () {
+                        return "Circular";
+                    };
+
+                    Circular.In = function (k) {
+                        return 1 - Math.sqrt(1 - k * k);
+                    };
+
+                    Circular.Out = function (k) {
+                        return Math.sqrt(1 - (--k * k));
+                    };
+
+                    Circular.InOut = function (k) {
+                        if ((k *= 2) < 1)
+                            return -0.5 * (Math.sqrt(1 - k * k) - 1);
+                        return 0.5 * (Math.sqrt(1 - (k -= 2) * k) + 1);
+                    };
+                    return Circular;
+                })();
+                Easing.Circular = Circular;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Cubic = (function () {
+                    function Cubic() {
+                    }
+                    Cubic.prototype.objType = function () {
+                        return "Cubic";
+                    };
+
+                    Cubic.In = function (k) {
+                        return k * k * k;
+                    };
+
+                    Cubic.Out = function (k) {
+                        return --k * k * k + 1;
+                    };
+
+                    Cubic.InOut = function (k) {
+                        if ((k *= 2) < 1)
+                            return 0.5 * k * k * k;
+                        return 0.5 * ((k -= 2) * k * k + 2);
+                    };
+                    return Cubic;
+                })();
+                Easing.Cubic = Cubic;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Elastic = (function () {
+                    function Elastic() {
+                    }
+                    Elastic.prototype.objType = function () {
+                        return "Elastic";
+                    };
+
+                    Elastic.In = function (k) {
+                        var s, a = 0.1, p = 0.4;
+                        if (k === 0)
+                            return 0;
+                        if (k === 1)
+                            return 1;
+                        if (!a || a < 1) {
+                            a = 1;
+                            s = p / 4;
+                        } else
+                            s = p * Math.asin(1 / a) / (2 * Math.PI);
+                        return -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p));
+                    };
+
+                    Elastic.Out = function (k) {
+                        var s, a = 0.1, p = 0.4;
+                        if (k === 0)
+                            return 0;
+                        if (k === 1)
+                            return 1;
+                        if (!a || a < 1) {
+                            a = 1;
+                            s = p / 4;
+                        } else
+                            s = p * Math.asin(1 / a) / (2 * Math.PI);
+                        return (a * Math.pow(2, -10 * k) * Math.sin((k - s) * (2 * Math.PI) / p) + 1);
+                    };
+
+                    Elastic.InOut = function (k) {
+                        var s, a = 0.1, p = 0.4;
+                        if (k === 0)
+                            return 0;
+                        if (k === 1)
+                            return 1;
+                        if (!a || a < 1) {
+                            a = 1;
+                            s = p / 4;
+                        } else
+                            s = p * Math.asin(1 / a) / (2 * Math.PI);
+                        if ((k *= 2) < 1)
+                            return -0.5 * (a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p));
+                        return a * Math.pow(2, -10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p) * 0.5 + 1;
+                    };
+                    return Elastic;
+                })();
+                Easing.Elastic = Elastic;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Exponential = (function () {
+                    function Exponential() {
+                    }
+                    Exponential.prototype.objType = function () {
+                        return "Exponential";
+                    };
+
+                    Exponential.In = function (k) {
+                        return k === 0 ? 0 : Math.pow(1024, k - 1);
+                    };
+
+                    Exponential.Out = function (k) {
+                        return k === 1 ? 1 : 1 - Math.pow(2, -10 * k);
+                    };
+
+                    Exponential.InOut = function (k) {
+                        if (k === 0)
+                            return 0;
+                        if (k === 1)
+                            return 1;
+                        if ((k *= 2) < 1)
+                            return 0.5 * Math.pow(1024, k - 1);
+                        return 0.5 * (-Math.pow(2, -10 * (k - 1)) + 2);
+                    };
+                    return Exponential;
+                })();
+                Easing.Exponential = Exponential;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Linear = (function () {
+                    function Linear() {
+                    }
+                    Linear.prototype.objType = function () {
+                        return "Linear";
+                    };
+
+                    Linear.None = function (k) {
+                        return k;
+                    };
+                    return Linear;
+                })();
+                Easing.Linear = Linear;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Quadratic = (function () {
+                    function Quadratic() {
+                    }
+                    Quadratic.prototype.objType = function () {
+                        return "Quadratic";
+                    };
+
+                    Quadratic.In = function (k) {
+                        return k * k;
+                    };
+
+                    Quadratic.Out = function (k) {
+                        return k * (2 - k);
+                    };
+
+                    Quadratic.InOut = function (k) {
+                        if ((k *= 2) < 1)
+                            return 0.5 * k * k;
+                        return -0.5 * (--k * (k - 2) - 1);
+                    };
+                    return Quadratic;
+                })();
+                Easing.Quadratic = Quadratic;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Quartic = (function () {
+                    function Quartic() {
+                    }
+                    Quartic.prototype.objType = function () {
+                        return "Quartic";
+                    };
+
+                    Quartic.In = function (k) {
+                        return k * k * k * k;
+                    };
+
+                    Quartic.Out = function (k) {
+                        return 1 - (--k * k * k * k);
+                    };
+
+                    Quartic.InOut = function (k) {
+                        if ((k *= 2) < 1)
+                            return 0.5 * k * k * k * k;
+                        return -0.5 * ((k -= 2) * k * k * k - 2);
+                    };
+                    return Quartic;
+                })();
+                Easing.Quartic = Quartic;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Quintic = (function () {
+                    function Quintic() {
+                    }
+                    Quintic.prototype.objType = function () {
+                        return "Quintic";
+                    };
+
+                    Quintic.In = function (k) {
+                        return k * k * k * k * k;
+                    };
+
+                    Quintic.Out = function (k) {
+                        return --k * k * k * k * k + 1;
+                    };
+
+                    Quintic.InOut = function (k) {
+                        if ((k *= 2) < 1)
+                            return 0.5 * k * k * k * k * k;
+                        return 0.5 * ((k -= 2) * k * k * k * k + 2);
+                    };
+                    return Quintic;
+                })();
+                Easing.Quintic = Quintic;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            (function (Easing) {
+                var Sinusoidal = (function () {
+                    function Sinusoidal() {
+                    }
+                    Sinusoidal.prototype.objType = function () {
+                        return "Sinusoidal";
+                    };
+
+                    Sinusoidal.In = function (k) {
+                        return 1 - Math.cos(k * Math.PI / 2);
+                    };
+
+                    Sinusoidal.Out = function (k) {
+                        return Math.sin(k * Math.PI / 2);
+                    };
+
+                    Sinusoidal.InOut = function (k) {
+                        return 0.5 * (1 - Math.cos(Math.PI * k));
+                    };
+                    return Sinusoidal;
+                })();
+                Easing.Sinusoidal = Sinusoidal;
+            })(Tweens.Easing || (Tweens.Easing = {}));
+            var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        var Tween = (function () {
+            function Tween(object, game) {
+                if (typeof game === "undefined") { game = null; }
+                this._game = null;
+                this._manager = null;
+                this._object = null;
+                this._valuesStart = {};
+                this._valuesEnd = {};
+                this._duration = 1000;
+                this._delayTime = 0;
+                this._startTime = null;
+                this._easingFunction = Kiwi.Animation.Tweens.Easing.Linear.None;
+                this._interpolationFunction = Kiwi.Utils.GameMath.linearInterpolation;
+                this._chainedTweens = [];
+                this._onStartCallback = null;
+                this._onStartContext = null;
+                this._onStartCallbackFired = false;
+                this._onUpdateCallback = null;
+                this._onUpdateContext = null;
+                this._onCompleteCallback = null;
+                this._onCompleteCalled = false;
+                this.isRunning = false;
+                this._object = object;
+
+                if (game !== null) {
+                    this._game = game;
+                    this._manager = this._game.tweens;
+                }
+
+                this.isRunning = false;
+            }
+            Tween.prototype.objType = function () {
+                return "Tween";
+            };
+
+            Tween.prototype.to = function (properties, duration, ease, autoStart) {
+                if (typeof duration === "undefined") { duration = 1000; }
+                if (typeof ease === "undefined") { ease = null; }
+                if (typeof autoStart === "undefined") { autoStart = false; }
+                this._duration = duration;
+
+                this._valuesEnd = properties;
+
+                if (ease !== null) {
+                    this._easingFunction = ease;
+                }
+
+                if (autoStart === true) {
+                    return this.start();
+                } else {
+                    return this;
+                }
+            };
+
+            Tween.prototype.start = function () {
+                if (this._game === null || this._object === null) {
+                    return;
+                }
+
+                this.isRunning = true;
+
+                this._manager.add(this);
+
+                this._onStartCallbackFired = false;
+
+                this._startTime = this._game.time.now() + this._delayTime;
+
+                for (var property in this._valuesEnd) {
+                    if (this._object[property] === null || !(property in this._object)) {
+                        continue;
+                    }
+
+                    if (this._valuesEnd[property] instanceof Array) {
+                        if (this._valuesEnd[property].length === 0) {
+                            continue;
+                        }
+
+                        this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property]);
+                    }
+
+                    if (typeof this._object[property] === 'function') {
+                        this._valuesStart[property] = this._object[property]();
+                    } else {
+                        this._valuesStart[property] = this._object[property];
+                    }
+                }
+
+                return this;
+            };
+
+            Tween.prototype.stop = function () {
+                if (this._manager !== null) {
+                    this._manager.remove(this);
+                }
+
+                this.isRunning = false;
+
+                return this;
+            };
+
+            Tween.prototype.setParent = function (value) {
+                this._game = value;
+                this._manager = this._game.tweens;
+            };
+
+            Tween.prototype.delay = function (amount) {
+                this._delayTime = amount;
+                return this;
+            };
+
+            Tween.prototype.easing = function (easing) {
+                this._easingFunction = easing;
+                return this;
+            };
+
+            Tween.prototype.interpolation = function (interpolation) {
+                this._interpolationFunction = interpolation;
+
+                return this;
+            };
+
+            Tween.prototype.chain = function (tween) {
+                this._chainedTweens.push(tween);
+                return this;
+            };
+
+            Tween.prototype.onStart = function (callback, context) {
+                this._onStartCallback = callback;
+                this._onStartContext = context;
+                return this;
+            };
+
+            Tween.prototype.onUpdate = function (callback, context) {
+                this._onUpdateCallback = callback;
+                this._onUpdateContext = context;
+                return this;
+            };
+
+            Tween.prototype.onComplete = function (callback, context) {
+                this._onCompleteCallback = callback;
+                this._onCompleteContext = context;
+
+                return this;
+            };
+
+            Tween.prototype.update = function (time) {
+                if (time < this._startTime) {
+                    return true;
+                }
+
+                if (this._onStartCallbackFired === false) {
+                    if (this._onStartCallback !== null) {
+                        this._onStartCallback.call(this._onStartContext, this._object);
+                    }
+
+                    this._onStartCallbackFired = true;
+                }
+
+                var elapsed = (time - this._startTime) / this._duration;
+                elapsed = elapsed > 1 ? 1 : elapsed;
+
+                var value = this._easingFunction(elapsed);
+
+                for (var property in this._valuesStart) {
+                    var start = this._valuesStart[property];
+                    var end = this._valuesEnd[property];
+
+                    if (end instanceof Array) {
+                        this._object[property] = this._interpolationFunction(end, value);
+                    } else {
+                        if (typeof this._object[property] === 'function') {
+                            this._object[property](start + (end - start) * value);
+                        } else {
+                            this._object[property] = start + (end - start) * value;
+                        }
+                    }
+                }
+
+                if (this._onUpdateCallback !== null) {
+                    this._onUpdateCallback.call(this._onUpdateContext, this._object, value);
+                }
+
+                if (elapsed == 1) {
+                    this.isRunning = false;
+
+                    if (this._onCompleteCallback !== null && this._onCompleteCalled == false) {
+                        this._onCompleteCalled = true;
+                        this._onCompleteCallback.call(this._onCompleteContext, this._object);
+                    }
+
+                    for (var i = 0; i < this._chainedTweens.length; i++) {
+                        this._chainedTweens[i].start();
+                    }
+
+                    return false;
+                }
+
+                return true;
+            };
+            return Tween;
+        })();
+        Animation.Tween = Tween;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        var Anim = (function () {
+            function Anim(name, sequence, clock) {
+                this._frameIndex = 0;
+                this._startTime = null;
+                this._reverse = false;
+                this.name = name;
+                this._sequence = sequence;
+                this._speed = sequence.speed;
+                this._loop = sequence.loop;
+                this._clock = clock;
+
+                this.onUpdate = new Kiwi.Signal();
+                this.onPlay = new Kiwi.Signal();
+                this.onStop = new Kiwi.Signal();
+                this.onLoop = new Kiwi.Signal();
+            }
+            Object.defineProperty(Anim.prototype, "loop", {
+                get: function () {
+                    return this._loop;
+                },
+                set: function (value) {
+                    this._loop = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Anim.prototype, "frameIndex", {
+                get: function () {
+                    return this._frameIndex;
+                },
+                set: function (val) {
+                    if (this._validateFrame(val)) {
+                        this._frameIndex = val;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Anim.prototype, "currentCell", {
+                get: function () {
+                    return this._sequence.cells[this.frameIndex];
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Anim.prototype, "speed", {
+                get: function () {
+                    return this._speed;
+                },
+                set: function (value) {
+                    this._speed = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+
+            Object.defineProperty(Anim.prototype, "reverse", {
+                get: function () {
+                    return this._reverse;
+                },
+                set: function (value) {
+                    this._reverse = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Anim.prototype._start = function (index) {
+                if (typeof index === "undefined") { index = null; }
+                if (index !== null) {
+                    this.frameIndex = index;
+                }
+                this._isPlaying = true;
+                this._startTime = this._clock.elapsed();
+                this._tick = this._startTime + this._speed;
+                this.onPlay.dispatch();
+            };
+
+            Anim.prototype.play = function () {
+                if (this._frameIndex === this.length - 1)
+                    this.frameIndex = 0;
+
+                this.playAt(this._frameIndex);
+            };
+
+            Anim.prototype.playAt = function (index) {
+                this._start(index);
+            };
+
+            Anim.prototype.pause = function () {
+                this.stop();
+            };
+
+            Anim.prototype.resume = function () {
+                if (this._startTime !== null) {
+                    this._isPlaying = true;
+                }
+            };
+
+            Anim.prototype.stop = function () {
+                if (this._isPlaying) {
+                    this._isPlaying = false;
+                    this.onStop.dispatch();
+                }
+            };
+
+            Anim.prototype.nextFrame = function () {
+                this._frameIndex++;
+                if (this._frameIndex >= this.length)
+                    this.frameIndex = 0;
+            };
+
+            Anim.prototype.prevFrame = function () {
+                this._frameIndex--;
+                if (this._frameIndex < 0)
+                    this.frameIndex = this.length - 1;
+            };
+
+            Anim.prototype.update = function () {
+                if (this._isPlaying) {
+                    if (this._clock.elapsed() >= this._tick) {
+                        this._tick = this._clock.elapsed() + this._speed;
+
+                        if (this._reverse)
+                            this._frameIndex--; else
+                            this._frameIndex++;
+
+                        this.onUpdate.dispatch();
+                        if (!this._validateFrame(this._frameIndex)) {
+                            if (this._loop) {
+                                if (this._reverse) {
+                                    this._frameIndex = this.length - 1;
+                                    this.onLoop.dispatch();
+                                } else {
+                                    this._frameIndex = 0;
+                                    this.onLoop.dispatch();
+                                }
+                            } else {
+                                this._frameIndex--;
+                                this.stop();
+                            }
+                        }
+
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            Anim.prototype._validateFrame = function (frame) {
+                return (frame < this.length && frame >= 0);
+            };
+
+            Object.defineProperty(Anim.prototype, "length", {
+                get: function () {
+                    return this._sequence.cells.length;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Anim.prototype.destroy = function () {
+                this._isPlaying = false;
+                delete this._clock;
+                delete this._sequence;
+                if (this.onLoop)
+                    this.onLoop.dispose();
+                if (this.onStop)
+                    this.onStop.dispose();
+                if (this.onPlay)
+                    this.onPlay.dispose();
+                if (this.onUpdate)
+                    this.onUpdate.dispose();
+                delete this.onLoop;
+                delete this.onStop;
+                delete this.onPlay;
+                delete this.onUpdate;
+                delete this.frameIndex;
+                delete this.loop;
+                delete this._reverse;
+                delete this._tick;
+            };
+            return Anim;
+        })();
+        Animation.Anim = Anim;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        var Sequence = (function () {
+            function Sequence(name, cells, speed, loop) {
+                if (typeof speed === "undefined") { speed = 0.1; }
+                if (typeof loop === "undefined") { loop = true; }
+                this.name = name;
+                this.cells = cells;
+                this.speed = speed;
+                this.loop = loop;
+            }
+            return Sequence;
+        })();
+        Animation.Sequence = Sequence;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -3800,563 +4339,6 @@ var Kiwi;
         Components.ArcadePhysics = ArcadePhysics;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        var Anim = (function () {
-            function Anim(name, sequence, clock) {
-                this._frameIndex = 0;
-                this._startTime = null;
-                this._reverse = false;
-                this.name = name;
-                this._sequence = sequence;
-                this._speed = sequence.speed;
-                this._loop = sequence.loop;
-                this._clock = clock;
-
-                this.onUpdate = new Kiwi.Signal();
-                this.onPlay = new Kiwi.Signal();
-                this.onStop = new Kiwi.Signal();
-                this.onLoop = new Kiwi.Signal();
-            }
-            Object.defineProperty(Anim.prototype, "loop", {
-                get: function () {
-                    return this._loop;
-                },
-                set: function (value) {
-                    this._loop = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Anim.prototype, "frameIndex", {
-                get: function () {
-                    return this._frameIndex;
-                },
-                set: function (val) {
-                    if (this._validateFrame(val)) {
-                        this._frameIndex = val;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Anim.prototype, "currentCell", {
-                get: function () {
-                    return this._sequence.cells[this.frameIndex];
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Anim.prototype, "speed", {
-                get: function () {
-                    return this._speed;
-                },
-                set: function (value) {
-                    this._speed = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-
-            Object.defineProperty(Anim.prototype, "reverse", {
-                get: function () {
-                    return this._reverse;
-                },
-                set: function (value) {
-                    this._reverse = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Anim.prototype._start = function (index) {
-                if (typeof index === "undefined") { index = null; }
-                if (index !== null) {
-                    this.frameIndex = index;
-                }
-                this._isPlaying = true;
-                this._startTime = this._clock.elapsed();
-                this._tick = this._startTime + this._speed;
-                this.onPlay.dispatch();
-            };
-
-            Anim.prototype.play = function () {
-                if (this._frameIndex === this.length - 1)
-                    this.frameIndex = 0;
-
-                this.playAt(this._frameIndex);
-            };
-
-            Anim.prototype.playAt = function (index) {
-                this._start(index);
-            };
-
-            Anim.prototype.pause = function () {
-                this.stop();
-            };
-
-            Anim.prototype.resume = function () {
-                if (this._startTime !== null) {
-                    this._isPlaying = true;
-                }
-            };
-
-            Anim.prototype.stop = function () {
-                if (this._isPlaying) {
-                    this._isPlaying = false;
-                    this.onStop.dispatch();
-                }
-            };
-
-            Anim.prototype.nextFrame = function () {
-                this._frameIndex++;
-                if (this._frameIndex >= this.length)
-                    this.frameIndex = 0;
-            };
-
-            Anim.prototype.prevFrame = function () {
-                this._frameIndex--;
-                if (this._frameIndex < 0)
-                    this.frameIndex = this.length - 1;
-            };
-
-            Anim.prototype.update = function () {
-                if (this._isPlaying) {
-                    if (this._clock.elapsed() >= this._tick) {
-                        this._tick = this._clock.elapsed() + this._speed;
-
-                        if (this._reverse)
-                            this._frameIndex--; else
-                            this._frameIndex++;
-
-                        this.onUpdate.dispatch();
-                        if (!this._validateFrame(this._frameIndex)) {
-                            if (this._loop) {
-                                if (this._reverse) {
-                                    this._frameIndex = this.length - 1;
-                                    this.onLoop.dispatch();
-                                } else {
-                                    this._frameIndex = 0;
-                                    this.onLoop.dispatch();
-                                }
-                            } else {
-                                this._frameIndex--;
-                                this.stop();
-                            }
-                        }
-
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-            Anim.prototype._validateFrame = function (frame) {
-                return (frame < this.length && frame >= 0);
-            };
-
-            Object.defineProperty(Anim.prototype, "length", {
-                get: function () {
-                    return this._sequence.cells.length;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Anim.prototype.destroy = function () {
-                this._isPlaying = false;
-                delete this._clock;
-                delete this._sequence;
-                if (this.onLoop)
-                    this.onLoop.dispose();
-                if (this.onStop)
-                    this.onStop.dispose();
-                if (this.onPlay)
-                    this.onPlay.dispose();
-                if (this.onUpdate)
-                    this.onUpdate.dispose();
-                delete this.onLoop;
-                delete this.onStop;
-                delete this.onPlay;
-                delete this.onUpdate;
-                delete this.frameIndex;
-                delete this.loop;
-                delete this._reverse;
-                delete this._tick;
-            };
-            return Anim;
-        })();
-        Animation.Anim = Anim;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        var Sequence = (function () {
-            function Sequence(name, cells, speed, loop) {
-                if (typeof speed === "undefined") { speed = 0.1; }
-                if (typeof loop === "undefined") { loop = true; }
-                this.name = name;
-                this.cells = cells;
-                this.speed = speed;
-                this.loop = loop;
-            }
-            return Sequence;
-        })();
-        Animation.Sequence = Sequence;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var StateConfig = (function () {
-        function StateConfig(parent, name) {
-            this.name = '';
-            this.isPersistent = false;
-            this.isCreated = false;
-            this.isInitialised = false;
-            this.isReady = false;
-            this.hasInit = false;
-            this.hasPreloader = false;
-            this.hasLoadProgress = false;
-            this.hasLoadComplete = false;
-            this.hasLoadUpdate = false;
-            this.hasCreate = false;
-            this.hasOnEnter = false;
-            this.hasUpdate = false;
-            this.hasRender = false;
-            this.hasOnExit = false;
-            this.hasShutDown = false;
-            this.hasDestroy = false;
-            this.runCount = 0;
-            this.type = 0;
-            this._state = parent;
-            this.name = name;
-
-            this.populate();
-        }
-        StateConfig.prototype.objType = function () {
-            return "StateConfig";
-        };
-
-        StateConfig.prototype.populate = function () {
-            if (typeof this._state['init'] === 'function') {
-                this.hasInit = true;
-            }
-
-            if (typeof this._state['preload'] === 'function') {
-                this.hasPreloader = true;
-            }
-
-            if (typeof this._state['loadProgress'] === 'function') {
-                this.hasLoadProgress = true;
-            }
-
-            if (typeof this._state['loadComplete'] === 'function') {
-                this.hasLoadComplete = true;
-            }
-
-            if (typeof this._state['loadUpdate'] === 'function') {
-                this.hasLoadUpdate = true;
-            }
-
-            if (typeof this._state['create'] === 'function') {
-                this.hasCreate = true;
-            }
-
-            if (typeof this._state['onEnter'] === 'function') {
-                this.hasOnEnter = true;
-            }
-
-            if (typeof this._state['update'] === 'function') {
-                this.hasUpdate = true;
-            }
-
-            if (typeof this._state['render'] === 'function') {
-                this.hasRender = true;
-            }
-
-            if (typeof this._state['onExit'] === 'function') {
-                this.hasOnExit = true;
-            }
-
-            if (typeof this._state['shutdown'] === 'function') {
-                this.hasShutDown = true;
-            }
-
-            if (typeof this._state['destroy'] === 'function') {
-                this.hasDestroy = true;
-            }
-
-            if (this.hasInit === false && this.hasCreate === false) {
-                this.isInitialised = true;
-                this.isCreated = true;
-                this.isReady = true;
-            }
-        };
-        return StateConfig;
-    })();
-    Kiwi.StateConfig = StateConfig;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var StateManager = (function () {
-        function StateManager(game) {
-            this.current = null;
-            this._game = game;
-
-            this._states = [];
-        }
-        StateManager.prototype.objType = function () {
-            return "StateManager";
-        };
-
-        StateManager.prototype.checkKeyExists = function (key) {
-            for (var i = 0; i < this._states.length; i++) {
-                if (this._states[i].config.name === key) {
-                    return true;
-                }
-            }
-
-            return false;
-        };
-
-        StateManager.prototype.checkValidState = function (state) {
-            if (!state['game'] || !state['config']) {
-                return false;
-            }
-
-            return true;
-        };
-
-        StateManager.prototype.addState = function (state, switchTo) {
-            if (typeof switchTo === "undefined") { switchTo = false; }
-            var tempState;
-
-            if (typeof state === 'function') {
-                tempState = new state();
-            } else if (typeof state === 'string') {
-                tempState = window[state];
-            } else {
-                tempState = state;
-            }
-
-            if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
-                return false;
-            }
-
-            tempState.game = this._game;
-
-            if (this.checkValidState(tempState) === false) {
-                return false;
-            } else {
-                this._states.push(tempState);
-
-                if (switchTo === true) {
-                    this.setCurrentState(tempState.config.name);
-                }
-
-                return true;
-            }
-        };
-
-        StateManager.prototype.boot = function () {
-            if (this.current !== null) {
-                this.current.boot();
-            }
-
-            if (this.current !== null && this.current.config.isInitialised === false) {
-                if (this.current.config.hasInit === true) {
-                    this.current.init();
-                }
-
-                this.current.config.isInitialised = true;
-
-                this.checkPreload();
-            }
-        };
-
-        StateManager.prototype.setCurrentState = function (key) {
-            if (this.current !== null && this.current.config.name === key) {
-                return false;
-            }
-
-            if (this.current !== null) {
-                this._game.input.reset();
-                this.current.destroy();
-            }
-
-            if (this.checkKeyExists(key) === true) {
-                this.current = this.getState(key);
-
-                if (this._game.stage.domReady === true) {
-                    if (this.current.config.isInitialised === false) {
-                        this.current.boot();
-
-                        if (this.current.config.hasInit === true) {
-                            if (this.current.config.initParams) {
-                                this.current.init.apply(this.current, this.current.config.initParams);
-                            } else {
-                                this.current.init.call(this.current);
-                            }
-                        }
-
-                        this.current.config.isInitialised = true;
-                    }
-
-                    this.checkPreload();
-                }
-
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        StateManager.prototype.switchState = function (key, state, initParams, createParams) {
-            if (typeof state === "undefined") { state = null; }
-            if (typeof initParams === "undefined") { initParams = null; }
-            if (typeof createParams === "undefined") { createParams = null; }
-            if (this.current !== null && this.current.config.isReady === false) {
-                return false;
-            }
-
-            if (this.checkKeyExists(key) === false && state !== null) {
-                if (this.addState(state, false) === false) {
-                    return false;
-                }
-            }
-
-            if (initParams !== null || createParams !== null) {
-                var newState = this.getState(key);
-
-                newState.config.initParams = [];
-
-                for (var initParameter in initParams) {
-                    newState.config.initParams.push(initParams[initParameter]);
-                }
-
-                newState.config.createParams = [];
-
-                for (var createParameter in createParams) {
-                    newState.config.createParams.push(createParams[createParameter]);
-                }
-            }
-
-            return this.setCurrentState(key);
-        };
-
-        StateManager.prototype.getState = function (key) {
-            for (var i = 0; i < this._states.length; i++) {
-                if (this._states[i].config.name === key) {
-                    return this._states[i];
-                }
-            }
-
-            return null;
-        };
-
-        StateManager.prototype.checkPreload = function () {
-            var _this = this;
-            if (this.current.config.hasPreloader === true) {
-                this._game.loader.init(function (percent, bytes, file) {
-                    return _this.onLoadProgress(percent, bytes, file);
-                }, function () {
-                    return _this.onLoadComplete();
-                });
-                this.current.preload();
-                this._game.loader.startLoad();
-            } else {
-                if (this.current.config.hasCreate === true && this.current.config.isCreated === false) {
-                    this.current.config.isCreated = true;
-
-                    if (this.current.config.createParams) {
-                        this.current.create.apply(this.current, this.current.config.createParams);
-                    } else {
-                        this.current.create.call(this.current);
-                    }
-                }
-
-                this.current.config.isReady = true;
-            }
-        };
-
-        StateManager.prototype.onLoadProgress = function (percent, bytesLoaded, file) {
-            if (this.current.config.hasLoadProgress === true) {
-                this.current.loadProgress(percent, bytesLoaded, file);
-            }
-        };
-
-        StateManager.prototype.onLoadComplete = function () {
-            if (this.current.config.hasLoadComplete === true) {
-                this.current.loadComplete();
-            }
-
-            this.rebuildLibraries();
-
-            this.current.config.isReady = true;
-
-            if (this.current.config.hasCreate === true) {
-                this.current.config.isCreated = true;
-                if (this.current.config.createParams) {
-                    this.current.create.apply(this.current, this.current.config.createParams);
-                } else {
-                    this.current.create.call(this.current);
-                }
-            }
-        };
-
-        StateManager.prototype.rebuildLibraries = function () {
-            this.current.textureLibrary.clear();
-            this.current.audioLibrary.clear();
-            this.current.dataLibrary.clear();
-
-            var fileStoreKeys = this._game.fileStore.keys;
-
-            for (var i = 0; i < fileStoreKeys.length; i++) {
-                var file = this._game.fileStore.getFile(fileStoreKeys[i]);
-                if (file.isTexture) {
-                    this.current.textureLibrary.add(file);
-                } else if (file.isAudio) {
-                    this.current.audioLibrary.add(file);
-                } else if (file.isData) {
-                    this.current.dataLibrary.add(file);
-                }
-            }
-        };
-
-        StateManager.prototype.update = function () {
-            if (this.current !== null) {
-                if (this.current.config.isReady === true) {
-                    this.current.preUpdate();
-                    this.current.update();
-                    this.current.postUpdate();
-                } else {
-                    this.current.loadUpdate();
-                }
-            }
-        };
-
-        StateManager.prototype.postRender = function () {
-            if (this.current !== null) {
-                if (this.current.config.isReady === true) {
-                    this.current.postRender();
-                }
-            }
-        };
-        return StateManager;
-    })();
-    Kiwi.StateManager = StateManager;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {

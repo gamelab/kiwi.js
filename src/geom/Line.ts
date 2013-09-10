@@ -191,7 +191,7 @@ module Kiwi.Geom {
         * @param {Number} y
         * @return {Boolean}
         */
-        public isPointOnLine(x: number, y: number): bool {
+        public isPointOnLine(x: number, y: number): boolean {
 
             if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1))
             {
@@ -211,7 +211,7 @@ module Kiwi.Geom {
         * @param {Number} y
         * @return {Boolean}
         */
-        public isPointOnLineSegment(x: number, y: number): bool {
+        public isPointOnLineSegment(x: number, y: number): boolean {
 
             var xMin = Math.min(this.x1, this.x2);
             var xMax = Math.max(this.x1, this.x2);

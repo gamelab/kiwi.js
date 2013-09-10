@@ -23,7 +23,7 @@ module Kiwi.Sound {
         * @param {number} volume - A number between 0 (silence) and 1 (loud).
         * @param {bool} loop 
         */
-        constructor(game: Kiwi.Game, key: string, volume:number, loop:bool) {
+        constructor(game: Kiwi.Game, key: string, volume: number, loop: boolean) {
             
             this._game = game;
 
@@ -109,19 +109,19 @@ module Kiwi.Sound {
         * A boolean indicating weither or not that audio tags are being used to generate sounds.
         * @private
         */
-        private _usingAudioTag: bool;
+        private _usingAudioTag: boolean;
 
         /*
         * A boolean indicating weither or not the webAuduio api is being used. 
         * @private
         */
-        private _usingWebAudio: bool;
+        private _usingWebAudio: boolean;
 
         /*
         * A private indicator of weither this audio is currently muted or not.
         * @private
         */
-        private _muted: bool = false;  
+        private _muted: boolean = false;  
         
         /*
         * A number between 0 and 1 representing the current volume of this audio piece. 
@@ -133,7 +133,7 @@ module Kiwi.Sound {
         * A boolean indicating weither this piece of audio should loop or not.
         * @private
         */
-        private _loop: bool;
+        private _loop: boolean;
 
         /*
         * The key that was used to get th  audio i formation.
@@ -153,7 +153,7 @@ module Kiwi.Sound {
         * This is just an indicator of if the file has been retrieved successfully from the file store or not.
         * @public
         */
-        public ready: bool;
+        public ready: boolean;
 
         /*
         * The total duration of the audio in seconds
@@ -177,7 +177,7 @@ module Kiwi.Sound {
         * Web Audio API ONLY - A boolean to indicate if the audio has been decoded or not yet. If not you will need to run the decode() method.
         * @private
         */
-        private _decoded: bool = false;
+        private _decoded: boolean = false;
 
         /*
         * A private property that holds the volume before the sound was muted. Used so that when unmuted the sound will resume at its old spot.
@@ -189,19 +189,19 @@ module Kiwi.Sound {
         * Indicates weither or not the sound is currently playing.
         * @public
         */
-        public isPlaying: bool;
+        public isPlaying: boolean;
 
         /*
         * A indicator of if the sound is currently paused.
         * @public
         */
-        public paused: bool;
+        public paused: boolean;
 
         /*
         * If the sound needs to be played but is waiting on something.
         * @private 
         */
-        private _pending: bool;
+        private _pending: boolean;
 
         /*
         * When the audio started playing. In milliseconds
@@ -336,7 +336,7 @@ module Kiwi.Sound {
         * @param {bool} val
         * @return {bool}
         */
-        public set mute(val: bool) {
+        public set mute(val: boolean) {
 
             if (this._game.audio.noAudio) return;
 
@@ -353,7 +353,7 @@ module Kiwi.Sound {
             }
         }
 
-        public get mute(): bool {
+        public get mute(): boolean {
 
             return this._muted;
 
@@ -368,7 +368,7 @@ module Kiwi.Sound {
         * @param {number} stop - The stopping point of the audio. In seconds.
         * @param {bool} loop
         */
-        public addMarker(name:string, start:number, stop: number, loop:bool = false) {
+        public addMarker(name: string, start: number, stop: number, loop: boolean = false) {
             this._markers[name] = { start: start, stop: stop, duration: stop - start, loop: loop };
         }
 
@@ -395,7 +395,7 @@ module Kiwi.Sound {
         * @param {string} marker - the marker that is to be played.
         * @param {bool} forceRestart - force the audio to stop and start again.
         */
-        public play(marker:string=this._currentMarker, forceRestart:bool = false) {
+        public play(marker: string= this._currentMarker, forceRestart: boolean = false) {
             
             if (this.isPlaying && forceRestart == false || this._game.audio.noAudio) return;
 

@@ -192,14 +192,14 @@ module Kiwi.Time {
         * @private
         * @type Boolean
         **/
-        private _isRunning: bool = false;
+        private _isRunning: boolean = false;
 
         /**
         * Check if the clock is in the running state.
         * @method isRunning
         * @return {Boolean} true if running.
         **/
-        public isRunning(): bool {
+        public isRunning(): boolean {
 
             return this._isRunning;
 
@@ -211,14 +211,14 @@ module Kiwi.Time {
         * @private
         * @type Boolean
         **/
-        private _isStopped: bool = true;
+        private _isStopped: boolean = true;
 
         /**
         * Check if the clock is in the stopped state.
         * @method isStopped
         * @return {Boolean} true if stopped.
         **/
-        public isStopped(): bool {
+        public isStopped(): boolean {
 
             return this._isStopped;
 
@@ -230,14 +230,14 @@ module Kiwi.Time {
         * @private
         * @type Boolean
         **/
-        private _isPaused: bool = false;
+        private _isPaused: boolean = false;
 
         /**
         * Check if the clock is in the paused state.
         * @method isPaused
         * @return {Boolean} true if paused.
         **/
-        public isPaused(): bool {
+        public isPaused(): boolean {
 
             return this._isPaused;
 
@@ -300,7 +300,7 @@ module Kiwi.Time {
         * @param {Number} repeatCount. The number of times to repeat this Timer (default 0)
         * @return {Kiwi.Time.Timer} The newly created Timer.
         **/
-        public createTimer(name: string, delay: number = 1, repeatCount: number = 0, start:bool=true): Timer {
+        public createTimer(name: string, delay: number = 1, repeatCount: number = 0, start: boolean=true): Timer {
 
             this.timers.push(new Timer(name, this, delay, repeatCount));
 
@@ -360,7 +360,7 @@ module Kiwi.Time {
         * @param {string} name. The name of the Timer.
         * @return {Boolean} true if the Timer exists, false if not.
         **/
-        public checkExists(name:string):bool {
+        public checkExists(name: string): boolean {
 
             if (this.timers[name])
             {

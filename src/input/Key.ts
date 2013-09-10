@@ -58,35 +58,35 @@ module Kiwi.Input {
         * @property isDown
         * @type Boolean
         **/
-        public isDown: bool = false;
+        public isDown: boolean = false;
 
         /** 
         * 
         * @property isUp
         * @type Boolean
         **/
-        public isUp: bool = false;
+        public isUp: boolean = false;
 
         /** 
         * 
         * @property altKey
         * @type Boolean
         **/
-        public altKey: bool = false;
+        public altKey: boolean = false;
 
         /** 
         * 
         * @property ctrlKey
         * @type Boolean
         **/
-        public ctrlKey: bool = false;
+        public ctrlKey: boolean = false;
 
         /** 
         * 
         * @property shiftKey
         * @type Boolean
         **/
-        public shiftKey: bool = false;
+        public shiftKey: boolean = false;
 
         /** 
         * 
@@ -160,7 +160,7 @@ module Kiwi.Input {
         * @param {Number} [duration].
         * @return {Boolean} 
         */
-        public justPressed(duration:number = this._manager.justPressedRate): bool {
+        public justPressed(duration: number = this._manager.justPressedRate): boolean {
 
             if (this.isDown === true && (this.timeDown + duration) < this._manager.game.time.now())
             {
@@ -179,7 +179,7 @@ module Kiwi.Input {
         * @param {Number} [duration].
         * @return {Boolean} 
         */
-        public justReleased(duration:number = this._manager.justReleasedRate): bool {
+        public justReleased(duration: number = this._manager.justReleasedRate): boolean {
 
             if (this.isUp === true && (this.timeUp + duration) < this._manager.game.time.now())
             {

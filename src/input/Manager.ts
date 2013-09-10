@@ -203,7 +203,7 @@ module Kiwi.Input {
         * @property isDown
         * @type bool
         */
-        public isDown: bool;
+        public isDown: boolean;
  
         /**
         * Populated x coordinate based on the most recent click/touch event

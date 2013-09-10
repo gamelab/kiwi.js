@@ -44,7 +44,7 @@ module Kiwi.Components {
         * @param {bool} loop
         * @return {Kiwi.Sound.Audio} 
         */
-        public addSound(name: string, key: string, volume: number, loop: bool): Kiwi.Sound.Audio {
+        public addSound(name: string, key: string, volume: number, loop: boolean): Kiwi.Sound.Audio {
 
             if (this._validate(name) == true) return;
 

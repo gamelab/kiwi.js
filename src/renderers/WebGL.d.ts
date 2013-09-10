@@ -53,12 +53,12 @@ interface WebGLShaderPrecisionFormat
 
 interface WebGLContextAttributes
 {
-	alpha: bool;
-	depth: bool;
-	stencil: bool;
-	antialias: bool;
-	premultipliedAlpha: bool;
-	preserveDrawingBuffer: bool;
+    alpha: boolean;
+    depth: boolean;
+    stencil: boolean;
+    antialias: boolean;
+    premultipliedAlpha: boolean;
+    preserveDrawingBuffer: boolean;
 }
 
 interface WebGLRenderingContext
@@ -486,7 +486,7 @@ interface WebGLRenderingContext
 	drawingBufferHeight: number;
 
 	getContextAttributes(): WebGLContextAttributes;
-	isContextLost(): bool;
+    isContextLost(): boolean;
 
 	getSupportedExtensions(): string[];
 	getExtension(name: string): any;

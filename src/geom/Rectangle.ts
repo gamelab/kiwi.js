@@ -293,7 +293,7 @@ module Kiwi.Geom {
          * @param {Number} y The y coordinate of the point to test.
          * @return {Boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
          **/
-        public contains(x: number, y: number): bool {
+        public contains(x: number, y: number): boolean {
 
             if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom)
             {
@@ -310,7 +310,7 @@ module Kiwi.Geom {
          * @param {Point} point The point object being checked. Can be Kiwi.Geom.Point or any object with .x and .y values.
          * @return {Boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
          **/
-        public containsPoint(point: Point): bool {
+        public containsPoint(point: Point): boolean {
 
             return this.contains(point.x, point.y);
 
@@ -322,7 +322,7 @@ module Kiwi.Geom {
          * @param {Rectangle} rect The rectangle object being checked.
          * @return {Boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
          **/
-        public containsRect(rect: Rectangle): bool {
+        public containsRect(rect: Rectangle): boolean {
 
             //	If the given rect has a larger volume than this one then it can never contain it
             if (rect.volume > this.volume)
@@ -369,7 +369,7 @@ module Kiwi.Geom {
          * @param {Rectangle} toCompare The rectangle to compare to this Rectangle object.
          * @return {Boolean} A value of true if the object has exactly the same values for the x, y, width, and height properties as this Rectangle object; otherwise false.
          **/
-        public equals(toCompare: Rectangle): bool {
+        public equals(toCompare: Rectangle): boolean {
 
             if (this.x === toCompare.x && this.y === toCompare.y && this.width === toCompare.width && this.height === toCompare.height)
             {
@@ -441,7 +441,7 @@ module Kiwi.Geom {
          * @param {Rectangle} toIntersect The Rectangle object to compare against to see if it intersects with this Rectangle object.
          * @return {Boolean} A value of true if the specified object intersects with this Rectangle object; otherwise false.
          **/
-        public intersects(toIntersect: Rectangle): bool {
+        public intersects(toIntersect: Rectangle): boolean {
 
             if (toIntersect.x > this.right - 1) {
                 return false;
@@ -491,7 +491,7 @@ module Kiwi.Geom {
          * @method isEmpty
          * @return {Boolean} A value of true if the Rectangle object's width or height is less than or equal to 0; otherwise false.
          **/
-        public isEmpty(): bool {
+        public isEmpty(): boolean {
 
             if (this.width < 1 || this.height < 1)
             {

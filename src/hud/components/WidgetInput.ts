@@ -59,10 +59,10 @@ module Kiwi.HUD.Components {
         //  Distance from the top left corner of the entity bounds to the current input position
         public distance: Kiwi.Geom.Point;
 
-        public isDown: bool;
-        public isUp: bool;
-        public withinBounds: bool;
-        public outsideBounds: bool;
+        public isDown: boolean;
+        public isUp: boolean;
+        public withinBounds: boolean;
+        public outsideBounds: boolean;
 
         public pointDown: Kiwi.Geom.Point;
         //private _bounds: Kiwi.Components.Bounds;

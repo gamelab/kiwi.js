@@ -1,16 +1,19 @@
 /**
- *  Kiwi - Utils - GameMath
- *
- *  @desc       Adds a set of extra Math functions and extends a few commonly used ones.
- *              Includes some methods written by Dylan Engelman.
- *
- *	@version 	1.0 - 17th March 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
-
+* Kiwi - Utils
+* @module Kiwi
+* @submodule Utils
+*/
 module Kiwi.Utils {
 
+    /**
+    * Adds a set of extra Math functions and extends a few commonly used ones.
+    * Includes some methods written by Dylan Engelman.
+    *
+    * @class GameMath
+    *
+    * @author Richard Davey
+    * @author Dylan Engelman
+    */
     export class GameMath {
 
         public objType() {

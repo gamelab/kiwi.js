@@ -157,7 +157,7 @@ module Kiwi.Geom {
         * @param {Number} y
         * @return {Boolean}
         */
-        public isPointOnRay(x: number, y: number): bool {
+        public isPointOnRay(x: number, y: number): boolean {
 
             if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
                 if (Math.atan2(y-this.y1, x-this.x1) == Math.atan2(this.y2-this.y1, this.x2- this.x1)){ 

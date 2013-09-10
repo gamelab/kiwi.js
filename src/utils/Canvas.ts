@@ -1,21 +1,16 @@
-/// <reference path="../core/Game.ts" />
-
-
 /**
- *  Kiwi - Utils - Canvas
- *
- *  @desc       Creates a canvas DOM element and adds it to a Layer
- *
- *	@version 	1.0 - March 9th 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
-
-//////////NOTE OFFSCREEN DOES NOTHING
-
-
+* Kiwi - Utils
+* @module Kiwi
+* @submodule Utils
+*/
 module Kiwi.Utils {
 
+    /**
+    * Creates a canvas DOM element and adds it to a layer.
+    * 
+    * @class Canvas
+    *
+    */
     export class Canvas {
 
         /** 

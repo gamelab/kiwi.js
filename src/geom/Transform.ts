@@ -508,7 +508,7 @@ module Kiwi.Geom {
          * @param {Kiwi.Geom.Transform} The Transform to check.
 	     * @return {Boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
 	     */
-        public checkAncestor(transform: Transform): bool {
+        public checkAncestor(transform: Transform): boolean {
             
             /*if (transform === this)
             {

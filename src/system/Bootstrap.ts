@@ -37,14 +37,14 @@ module Kiwi.System {
         * @type Boolean
         * @private
         */
-        private _createContainer: bool;
+        private _createContainer: boolean;
 
         /**
         *
         * @property isReady
         * @type Boolean
         */
-        public isReady: bool = false;
+        public isReady: boolean = false;
         
         /**
         * The parent div in which the layers and input live
@@ -76,7 +76,7 @@ module Kiwi.System {
         * @param {Any} [callback]
         * @param {Boolean} [createContainer]
         */
-        public boot(domParent: string, callback: any = null, createContainer: bool = true) {
+        public boot(domParent: string, callback: any = null, createContainer: boolean = true) {
 
             this._callback = callback;
             this._domParent = domParent;

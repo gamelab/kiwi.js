@@ -71,7 +71,7 @@ module Kiwi {
         /**
         * if true then the camera will be resized to fit the stage when the stage is resized
         */
-        public fitToStage:bool = true;
+        public fitToStage: boolean = true;
 
         /** 
 	     * The Position component that controls the location of this Game Object within the game world
@@ -146,7 +146,7 @@ module Kiwi {
         * @property _visible
         * @type Boolean
 		*/
-        private _visible: bool;
+        private _visible: boolean;
 
         /**
 		* Toggles the visible state of this Camera
@@ -154,7 +154,7 @@ module Kiwi {
         * @param {Boolean} value
         * @return {Boolean}
 		**/
-        public visible(value: bool = null): bool {
+        public visible(value: boolean = null): boolean {
 
             
             return this._visible;
@@ -167,7 +167,7 @@ module Kiwi {
         * @type Boolean
         * @private
 		**/
-        private _dirty: bool;
+        private _dirty: boolean;
 
         /**
 		* A value used by components to control if the camera needs re-rendering
@@ -175,7 +175,7 @@ module Kiwi {
         * @param {Boolean} value
         * @return {Boolean}
     	*/
-        public dirty(value: bool = null): bool {
+        public dirty(value: boolean = null): boolean {
 
             if (value !== null) {
                 this._dirty = value;

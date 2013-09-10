@@ -43,21 +43,21 @@ module Kiwi.Input {
         * @property ctrlKey
         * @type bool
         */
-        public ctrlKey: bool;
+        public ctrlKey: boolean;
          
         /*
         * If the shift key is down.
         * @property shiftKey
         * @type bool
         */
-        public shiftKey: bool;
+        public shiftKey: boolean;
          
         /*
         * If the alt key is down.
         * @property altKey
         * @type bool
         */
-        public altKey: bool;
+        public altKey: boolean;
          
         /*
         * The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0

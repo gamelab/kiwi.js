@@ -252,7 +252,7 @@ module Kiwi.Geom {
 	     * @method isEmpty
 	     * @return {Boolean} A value of true if the Circle objects diameter is less than or equal to 0; otherwise false.
 	     **/
-        public get isEmpty(): bool {
+        public get isEmpty(): boolean {
 
             if (this._diameter <= 0)
             {
@@ -271,7 +271,7 @@ module Kiwi.Geom {
 	     * @return {Boolean}
 	     **/
         /*
-        public intersectCircleLine(line: Line): bool {
+        public intersectCircleLine(line: Line): boolean {
 
             return Intersect.lineToCircle(line, this).result;
 
@@ -299,7 +299,7 @@ module Kiwi.Geom {
 	     * @return {Boolean} True if the coordinates are within this circle, otherwise false.
 	     **/
         /*
-        public contains(x: number, y: number): bool {
+        public contains(x: number, y: number): boolean {
 
             return Intersect.circleContainsPoint(this, <Point> { x: x, y: y }).result;
 
@@ -314,7 +314,7 @@ module Kiwi.Geom {
 	     * @return {Boolean} True if the coordinates are within this circle, otherwise false.
 	     **/
         /*
-        public containsPoint(point:Point): bool {
+        public containsPoint(point:Point): boolean {
 
             return Intersect.circleContainsPoint(this, point).result;
 
@@ -329,7 +329,7 @@ module Kiwi.Geom {
 	     * @return {Boolean} True if the coordinates are within this circle, otherwise false.
 	     **/
         /*
-        public containsCircle(circle:Circle): bool {
+        public containsCircle(circle:Circle): boolean {
 
             return Intersect.circleToCircle(this, circle).result;
 
@@ -367,7 +367,7 @@ module Kiwi.Geom {
 	     * @param {Boolean} round - Round the distance to the nearest integer (default false)
 	     * @return {Number} The distance between this Point object and the destination Point object.
 	     **/
-        public distanceTo(target: any, round: bool = false): number {
+        public distanceTo(target: any, round: boolean = false): number {
 
             var dx = this.x - target.x;
             var dy = this.y - target.y;
@@ -389,7 +389,7 @@ module Kiwi.Geom {
 	     * @param {Circle} toCompare The circle to compare to this Circle object.
 	     * @return {Boolean} A value of true if the object has exactly the same values for the x, y and diameter properties as this Circle object; otherwise false.
 	     **/
-        public equals(toCompare: Circle): bool {
+        public equals(toCompare: Circle): boolean {
 
             if (this.x === toCompare.x && this.y === toCompare.y && this.diameter === toCompare.diameter)
             {
@@ -406,7 +406,7 @@ module Kiwi.Geom {
 	     * @param {Circle} toIntersect The Circle object to compare against to see if it intersects with this Circle object.
 	     * @return {Boolean} A value of true if the specified object intersects with this Circle object; otherwise false.
 	     **/
-        public intersects(toIntersect: Circle): bool {
+        public intersects(toIntersect: Circle): boolean {
 
             if (this.distanceTo(toIntersect, false) < (this._radius + toIntersect._radius))
             {
@@ -425,7 +425,7 @@ module Kiwi.Geom {
 	     * @param {Kiwi.Geom.Point} An optional Point object to put the result in to. If none specified a new Point object will be created.
 	     * @return {Kiwi.Geom.Point} The Point object holding the result.
 	     **/
-        public circumferencePoint(angle: number, asDegrees: bool = false, output: Point = new Point): Point {
+        public circumferencePoint(angle: number, asDegrees: boolean = false, output: Point = new Point): Point {
 
             if (asDegrees === true)
             {

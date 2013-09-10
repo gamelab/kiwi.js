@@ -23,7 +23,7 @@ module Kiwi.GameObjects {
         * @param {Number} y
         * @return {Sprite}
         */
-        constructor(state: Kiwi.State, atlas:Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: bool = false) {
+        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: boolean = false) {
 
             super(state, x, y);
 
@@ -69,7 +69,7 @@ module Kiwi.GameObjects {
         * @property _isAnimated
         * @type bool
         */
-        private _isAnimated: bool;
+        private _isAnimated: boolean;
 
         /** 
 	     * The animation component that allows you to create a animation with spritesheets/texture atlas's. 

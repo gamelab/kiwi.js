@@ -54,7 +54,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public isPersistent: bool = false;
+        public isPersistent: boolean = false;
 
         /**
         * 
@@ -62,7 +62,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public isCreated: bool = false;
+        public isCreated: boolean = false;
 
         /**
         * 
@@ -70,7 +70,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public isInitialised: bool = false;
+        public isInitialised: boolean = false;
 
         /**
         * 
@@ -78,7 +78,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public isReady: bool = false;
+        public isReady: boolean = false;
 
         /**
         * 
@@ -86,7 +86,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasInit: bool = false;
+        public hasInit: boolean = false;
 
         /**
         * 
@@ -94,7 +94,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasPreloader: bool = false;
+        public hasPreloader: boolean = false;
 
         /**
         * 
@@ -102,7 +102,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasLoadProgress: bool = false;
+        public hasLoadProgress: boolean = false;
 
         /**
         * 
@@ -110,7 +110,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasLoadComplete: bool = false;
+        public hasLoadComplete: boolean = false;
 
         /**
         * 
@@ -118,7 +118,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasLoadUpdate: bool = false;
+        public hasLoadUpdate: boolean = false;
 
         /**
         * 
@@ -126,7 +126,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasCreate: bool = false;
+        public hasCreate: boolean = false;
 
         /**
         * 
@@ -134,7 +134,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasOnEnter: bool = false;
+        public hasOnEnter: boolean = false;
 
         /**
         * 
@@ -142,7 +142,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasUpdate: bool = false;
+        public hasUpdate: boolean = false;
 
         /**
         * 
@@ -150,7 +150,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasRender: bool = false;
+        public hasRender: boolean = false;
 
         /**
         * 
@@ -158,7 +158,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasOnExit: bool = false;
+        public hasOnExit: boolean = false;
 
         /**
         * 
@@ -166,7 +166,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasShutDown: bool = false;
+        public hasShutDown: boolean = false;
 
         /**
         * 
@@ -174,7 +174,7 @@ module Kiwi {
         * @type Boolean
         * @private
         **/
-        public hasDestroy: bool = false;
+        public hasDestroy: boolean = false;
 
         /**
         * 

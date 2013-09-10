@@ -22,7 +22,7 @@ module Kiwi.Geom {
         * @property result
         * @type Boolean
         */
-        public result: bool = false;
+        public result: boolean = false;
 
         /**
         * @property x

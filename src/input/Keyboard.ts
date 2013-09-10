@@ -189,7 +189,7 @@ module Kiwi.Input {
         * @param {Number} keycode
         * @return {Boolean}
         */
-        public isDown(keycode:number):bool {
+        public isDown(keycode: number): boolean {
 
             if (this._keys[keycode])
             {
@@ -208,7 +208,7 @@ module Kiwi.Input {
         * @param {Number} keycode
         * @return {Boolean}
         */
-        public isUp(keycode:number):bool {
+        public isUp(keycode: number): boolean {
 
             if (this._keys[keycode])
             {

@@ -1,4 +1,3 @@
-
 /**
 * Kiwi - Animation - Tweens 
 * @module Animation
@@ -177,7 +176,7 @@ module Kiwi.Animation {
         **/
 	    private _onCompleteCallback = null;
 
-	    private _onCompleteCalled: bool = false;
+	    private _onCompleteCalled: boolean = false;
 
         /** 
         * 
@@ -187,7 +186,7 @@ module Kiwi.Animation {
         **/
 	    private _onCompleteContext;
 
-        public isRunning: bool = false;
+        public isRunning: boolean = false;
 
         /** 
         * 
@@ -197,7 +196,7 @@ module Kiwi.Animation {
         * @param {Any} ease
         * @param {Boolean} autoStart
         **/
-	    public to(properties, duration: number = 1000, ease: any = null, autoStart: bool = false) {
+        public to(properties, duration: number = 1000, ease: any = null, autoStart: boolean = false) {
 
 	        this._duration = duration;
 

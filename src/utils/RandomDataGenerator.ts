@@ -1,18 +1,20 @@
 /**
- *  Kiwi - Utils - Repeatable Random Data Generator
- *
- *  @desc       Manages the creation of unique internal game IDs
- *              Based on Nonsense by Josh Faul https://github.com/jocafa/Nonsense
- *              Random number generator from http://baagoe.org/en/wiki/Better_random_numbers_for_javascript
- *
- *	@version 	1.1 - 1st March 2013
- *	@author 	Josh Faul
- *	@author 	Richard Davey, TypeScript conversion and additional methods
- *  @url        http://www.kiwijs.org
- */
+* Kiwi - Utils
+* @module Kiwi
+* @submodule Utils
+*/
 
 module Kiwi.Utils {
 
+    /**
+    * Manages the creation of unique internal game IDs.
+    * Based on Nonsense by Josh Faul https://github.com/jocafa/Nonsense
+    * Random number generator from http://baagoe.org/en/wiki/Better_random_numbers_for_javascript
+    *
+    * @class RandomDataGenerator
+    *
+    * @author Josh Faul
+    */
     export class RandomDataGenerator {
 
         /**

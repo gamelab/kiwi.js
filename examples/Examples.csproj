@@ -33,6 +33,7 @@
     </Content>
     <TypeScriptCompile Include="Timer\Repeating.ts" />
     <TypeScriptCompile Include="Timer\SetNumber.ts" />
+    <TypeScriptCompile Include="Introduction\Textarea.ts" />
     <Content Include="Timer\SetNumber.js">
       <DependentUpon>SetNumber.ts</DependentUpon>
     </Content>

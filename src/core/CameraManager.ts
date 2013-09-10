@@ -105,7 +105,7 @@ module Kiwi {
         * @param {Kiwi.Camera} camera
         * @return {Boolean} True if the camera was removed, false otherwise.
     	*/
-        public remove(camera: Kiwi.Camera):bool {
+        public remove(camera: Kiwi.Camera):boolean {
              
             var i = this._cameras.indexOf(camera);
 

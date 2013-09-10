@@ -149,14 +149,14 @@ module Kiwi.Input {
         * @property withinGame
         * @type boolean
         */
-        public withinGame: bool = false;
+        public withinGame: boolean = false;
          
         /**
         * Indicates if this pointer is active. Note a mouse is always 'active' where as a finger is only active when it is down.
         * @property active
         * @type boolean
         */
-        public active: bool = false;
+        public active: boolean = false;
          
         /**
         * Indicates the time that the pointer was pressed initially.
@@ -276,7 +276,7 @@ module Kiwi.Input {
         * @param {number} duration
         * @return bool
         */
-        public justPressed(duration: number = this.justPressedRate): bool {
+        public justPressed(duration: number = this.justPressedRate): boolean {
 
             if (this.isDown === true && (this.timeDown + duration) > this._game.time.now()) {
                 return true;
@@ -292,7 +292,7 @@ module Kiwi.Input {
         * @param {number} duration
         * @return bool
         */
-        public justReleased(duration: number = this.justReleasedRate): bool {
+        public justReleased(duration: number = this.justReleasedRate): boolean {
 
             if (this.isUp === true && (this.timeUp + duration) > this._game.time.now()) {
                 return true;

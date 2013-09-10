@@ -23,7 +23,7 @@ module Kiwi.Components {
         * @param {Kiwi.Components.Box} box
         * @return {Kiwi.Components.Input}
         */
-        constructor(owner: Kiwi.IChild, box:Kiwi.Components.Box, enabled:bool) {
+        constructor(owner: Kiwi.IChild, box:Kiwi.Components.Box, enabled:boolean) {
 
             super(owner,'Input');
             
@@ -180,23 +180,23 @@ module Kiwi.Components {
         /*
         * If this input is enabled or not. 
         * @property _enabled
-        * @type bool
+        * @type boolean
         */
-        private _enabled: bool;
+        private _enabled: boolean;
 
         /*
         * Get if the input is enabled or not.
-        * @type bool
+        * @type boolean
         */
-        public get enabled(): bool {
+        public get enabled(): boolean {
             return this._enabled;
         }
 
         /*
         * Set if the input should be enabled or not. 
-        * @type bool
+        * @type boolean
         */
-        public set enabled(val: bool) {//perhaps later the signals should only be set if the input is enabled.
+        public set enabled(val: boolean) {//perhaps later the signals should only be set if the input is enabled.
             this._enabled = val; 
         }
         
@@ -210,9 +210,9 @@ module Kiwi.Components {
         /*
         * A boolean that indicates if no pointer is currently on the pointer
         * @property _isUp
-        * @type bool
+        * @type boolean
         */
-        private _isUp: bool;
+        private _isUp: boolean;
 
         /*
         * Indicates if a pointer is within the bounds or not. If one is then it referers to the pointer that is. Other it will be null.
@@ -224,47 +224,47 @@ module Kiwi.Components {
         /*
         * Boolean indicating if every pointer is currently outside of the bounds.
         * @property _outsideBounds
-        * @type bool
+        * @type boolean
         */
-        private _outsideBounds: bool;
+        private _outsideBounds: boolean;
         
         /*
         * If a pointer just entered the input. Used for mouse's to indicate when to appropriately fire the down event.
         * Note: Could be removed once mouse version of update gets updated.
         * @property _justEntered
-        * @type bool
+        * @type boolean
         */
-        private _justEntered: bool;
+        private _justEntered: boolean;
         
         /*
         * Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false
-        * @type bool
+        * @type boolean
         */
-        public get isDown(): bool {
+        public get isDown(): boolean {
             return (this._isDown !== null);
         }
         
         /*
         * Used to see if no pointer is on this input (so it is up).
-        * @type bool
+        * @type boolean
         */
-        public get isUp(): bool {
+        public get isUp(): boolean {
             return this._isUp;
         }
         
         /*
         * Check to see if any pointer is within the bounds of this input.
-        * @type bool
+        * @type boolean
         */
-        public get withinBounds(): bool {
+        public get withinBounds(): boolean {
             return (this._withinBounds !== null);
         }
         
         /*
         * See if no pointers are within the bounds of this entity.
-        * @type bool
+        * @type boolean
         */
-        public get outsideBounds(): bool {
+        public get outsideBounds(): boolean {
             return this._outsideBounds;
         }
         
@@ -273,12 +273,12 @@ module Kiwi.Components {
         */
         private _isDragging: Kiwi.Input.Pointer = null;
         private _distance: Kiwi.Geom.Point;
-        private _tempDragDisabled: bool;
-        private _dragEnabled: bool = false;
+        private _tempDragDisabled: boolean;
+        private _dragEnabled: boolean = false;
         private _dragDistance: number;
-        private _dragSnapToCenter: bool = false;
+        private _dragSnapToCenter: boolean = false;
 
-        public get isDragging(): bool { return (this._isDragging !== null); }
+        public get isDragging(): boolean { return (this._isDragging !== null); }
         public get dragDistance(): number { return this._dragDistance; }
         public set dragDistance(val: number) { this._dragDistance = val; }
         
@@ -320,10 +320,10 @@ module Kiwi.Components {
         /*
         * Enables the dragging of this entity. 
         * @method enableDrag
-        * @param {bool} snapToCenter
+        * @param {boolean} snapToCenter
         * @param {number} distance
         */
-        public enableDrag(snapToCenter:bool = false, distance:number = 1) {
+        public enableDrag(snapToCenter:boolean = false, distance:number = 1) {
             
             if (this.enabled == false) this.enabled = true;
             this._dragEnabled = true;

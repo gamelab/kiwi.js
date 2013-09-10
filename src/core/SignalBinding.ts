@@ -32,7 +32,7 @@ module Kiwi {
          * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
          * @param {Number} [priority] The priority level of the event listener. (default = 0).
          */
-        constructor(signal: Signal, listener, isOnce: bool, listenerContext, priority: number = 0) {
+        constructor(signal: Signal, listener, isOnce: boolean, listenerContext, priority: number = 0) {
 
             this._listener = listener;
             this._isOnce = isOnce;
@@ -58,7 +58,7 @@ module Kiwi {
          * @type boolean
          * @private
          */
-        private _isOnce: bool;
+        private _isOnce: boolean;
 
         /**
          * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
@@ -85,7 +85,7 @@ module Kiwi {
          * If binding is active and should be executed.
          * @type boolean
          */
-        public active: bool = true;
+        public active: boolean = true;
 
         /**
          * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
@@ -134,7 +134,7 @@ module Kiwi {
         /**
          * @return {Boolean} `true` if binding is still bound to the signal and have a listener.
          */
-        public isBound(): bool {
+        public isBound(): boolean {
 
             return (!!this._signal && !!this._listener);
 
@@ -143,7 +143,7 @@ module Kiwi {
         /**
          * @return {boolean} If SignalBinding will only be executed once.
          */
-        public isOnce(): bool {
+        public isOnce(): boolean {
 
             return this._isOnce;
 

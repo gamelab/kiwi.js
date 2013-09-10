@@ -74,7 +74,7 @@ module Kiwi.Files {
         * @type Boolean
         * @private
         */
-        private _calculateBytes: bool = true;
+        private _calculateBytes: boolean = true;
 
         /**
         * Total number of files to be loaded
@@ -138,7 +138,7 @@ module Kiwi.Files {
         * @type Boolean
         * @private
         */
-        private _complete: bool = false;
+        private _complete: boolean = false;
 
         //  DOM is ready
 
@@ -160,7 +160,7 @@ module Kiwi.Files {
         * @param {Any} [complete]
         * @param {Boolean} calculateBytes
         */
-        public init(progress: any = null, complete: any = null, calculateBytes: bool = false) {
+        public init(progress: any = null, complete: any = null, calculateBytes: boolean = false) {
 
             this._fileList.length = 0;
             this._loadList.length = 0;
@@ -483,7 +483,7 @@ module Kiwi.Files {
         * @param {Boolean} value
         * @return {Boolean}
         */
-        public calculateBytes(value?: bool): bool {
+        public calculateBytes(value?: boolean): boolean {
 
             if (value)
             {
@@ -499,7 +499,7 @@ module Kiwi.Files {
         * @method complete
         * @return {Boolean}
         */
-        public complete():bool {
+        public complete(): boolean {
 
             return this._complete;
 

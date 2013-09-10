@@ -214,7 +214,7 @@ module Kiwi {
         * @property domReady
         * @type Boolean
         */
-        public domReady: bool;
+        public domReady: boolean;
 
         /**
         * The background color of the stage.

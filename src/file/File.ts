@@ -193,14 +193,14 @@ module Kiwi.Files {
         * @type Boolean
         * @private
 	    */
-        private _saveToFileStore: bool = true;
+        private _saveToFileStore: boolean = true;
 
         /**
         * @property _useTagLoader
         * @type Boolean
         * @private
 	    */
-        private _useTagLoader: bool = true;
+        private _useTagLoader: boolean = true;
 
         /**
         * @property dataType
@@ -308,7 +308,7 @@ module Kiwi.Files {
         * @property hasTimedOut
         * @type Boolean
     	*/
-        public hasTimedOut: bool = false;
+        public hasTimedOut: boolean = false;
 
         /**
         * @property timedOut
@@ -341,12 +341,12 @@ module Kiwi.Files {
         * @property hasError
         * @type Boolean
     	*/
-        public hasError: bool = false;
+        public hasError:  boolean = false;
         /**
         * @property success
         * @type Boolean
     	*/
-        public success: bool = false;
+        public success: boolean = false;
 
         /**
         * @property attemptCounter

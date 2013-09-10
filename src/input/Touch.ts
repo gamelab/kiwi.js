@@ -123,14 +123,14 @@ module Kiwi.Input {
         * @property isDown
         * @type Boolean
         **/
-        public isDown: bool = false;
+        public isDown: boolean = false;
 
         /** 
         * If all the fingers are up.
         * @property isUp
         * @type Boolean
         **/
-        public isUp: bool = true;
+        public isUp: boolean = true;
 
         /*
         * Event listeners that are for touch events in general

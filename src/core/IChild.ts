@@ -17,10 +17,10 @@ module Kiwi {
         game: Kiwi.Game;
         state: Kiwi.State;
         components: Kiwi.ComponentManager;
-        dirty: bool;
-        active: bool;
-        exists: bool;
-        willRender: bool;
+        dirty: boolean;
+        active: boolean;
+        exists: boolean;
+        willRender: boolean;
         parent: Kiwi.Group;
         transform: Kiwi.Geom.Transform;
         destroy(...params:any[]);

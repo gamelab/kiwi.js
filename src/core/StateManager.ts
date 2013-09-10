@@ -66,7 +66,7 @@ module Kiwi {
         * @param {String} key
         * @return {Boolean}
         **/
-        private checkKeyExists(key: string): bool {
+        private checkKeyExists(key: string): boolean {
 
             for (var i = 0; i < this._states.length; i++)
             {
@@ -86,7 +86,7 @@ module Kiwi {
         * @param {Kiwi.State} state
         * @return {Boolean}
         **/
-        private checkValidState(state: Kiwi.State): bool {
+        private checkValidState(state: Kiwi.State): boolean {
 
             if (!state['game'] || !state['config'])
             {
@@ -107,7 +107,7 @@ module Kiwi {
          * @param {Boolean} switchTo If set to true automatically switch to the given state after adding it
          * @return {Boolean} true if the State was added successfully, otherwise false
          */
-        public addState(state: any, switchTo:bool = false): bool {
+        public addState(state: any, switchTo:boolean = false): boolean {
 
             var tempState;
 
@@ -184,7 +184,7 @@ module Kiwi {
         * @param {String} key
         * @return {Boolean}
         **/
-        private setCurrentState(key: string): bool {
+        private setCurrentState(key: string): boolean {
 
             //  Bail out if they are trying to switch to the already current state
             if (this.current !== null && this.current.config.name === key)
@@ -257,7 +257,7 @@ module Kiwi {
          * @param {Boolean} skipAdd if set to true it will skip the adding of the state and just set it as current
          * @return {Boolean}
          */
-        public switchState(key: string, state: any = null, initParams = null, createParams = null): bool {
+        public switchState(key: string, state: any = null, initParams = null, createParams = null): boolean {
 
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false)

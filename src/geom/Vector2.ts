@@ -243,7 +243,7 @@ module Kiwi.Geom {
         * @param {Vector2} vector2. Vector2 to check against.
         * @return {Boolean} returns true if equal.
 	    */
-        public equal(vector2: Vector2):bool {
+        public equal(vector2: Vector2): boolean {
             return this.x === vector2.x && this.y === vector2.y;
         }
 

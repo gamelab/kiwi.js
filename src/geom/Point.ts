@@ -197,7 +197,7 @@ module Kiwi.Geom {
 	     * @param {Boolean} round - Round the distance to the nearest integer (default false)
 	     * @return {Number} The distance between this Point object and the destination Point object.
 	     **/
-        public distanceTo(target: Point, round: bool = false): number {
+        public distanceTo(target: Point, round: boolean = false): number {
 
             var dx = this.x - target.x;
             var dy = this.y - target.y;
@@ -221,7 +221,7 @@ module Kiwi.Geom {
 	     * @param {Boolean} round - Round the distance to the nearest integer (default false)
 	     * @return {Number} The distance between this Point object and the x/y values.
 	     **/
-        public distanceToXY(x: number, y: number, round: bool = false): number {
+        public distanceToXY(x: number, y: number, round: boolean = false): number {
 
             var dx = this.x - x;
             var dy = this.y - y;
@@ -281,7 +281,7 @@ module Kiwi.Geom {
 	     * @param {Number} distance - The distance to use for comparison.
 	     * @return {Boolena} True if distance is >= specified distance.
 	     **/
-        public distanceCompare(target: Point, distance: number): bool {
+        public distanceCompare(target: Point, distance: number): boolean {
 
             if (this.distanceTo(target) >= distance)
             {

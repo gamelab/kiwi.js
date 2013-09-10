@@ -80,11 +80,11 @@ module Kiwi.Input {
         /*
         * The massive amount of atlases.
         */
-        public get isDown():bool {
+        public get isDown(): boolean {
             return this._cursor.isDown;
         }
 
-        public get isUp():bool {
+        public get isUp(): boolean {
             return this._cursor.isUp;
         }
 
@@ -108,15 +108,15 @@ module Kiwi.Input {
             return this._cursor.wheelDeltaY;
         }
 
-        public get ctrlKey(): bool {
+        public get ctrlKey(): boolean {
             return this._cursor.ctrlKey;
         }
 
-        public get shiftKey(): bool {
+        public get shiftKey(): boolean {
             return this._cursor.shiftKey;
         }
 
-        public get altKey(): bool {
+        public get altKey(): boolean {
             return this._cursor.altKey;
         }
 
@@ -202,7 +202,7 @@ module Kiwi.Input {
         * @param {Number} [duration]. 
         * @return {Boolean}
         */
-        public justPressed(duration: number = this._cursor.justPressedRate): bool { 
+        public justPressed(duration: number = this._cursor.justPressedRate): boolean { 
             return this._cursor.justPressed(duration);
         }
 
@@ -211,7 +211,7 @@ module Kiwi.Input {
         * @param {Number} [duration]. 
         * @return {Boolean}
         */
-        public justReleased(duration: number = this._cursor.justReleasedRate): bool { 
+        public justReleased(duration: number = this._cursor.justReleasedRate): boolean { 
             return this._cursor.justReleased(duration); 
         }
 

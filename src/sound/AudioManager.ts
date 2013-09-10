@@ -46,7 +46,7 @@ module Kiwi.Sound {
         * A boolean that controls weither the whole games audio should be muted or not.
         * @property _muted
         */
-        private _muted: bool;
+        private _muted: boolean;
 
         /*
         * An array containing all of the sounds on the game.
@@ -65,19 +65,19 @@ module Kiwi.Sound {
         * If the current game has audio support or not.
         * @property noAudio
         */
-        public noAudio: bool = false;
+        public noAudio: boolean = false;
 
         /*
         * If the game is currently using the Web Audio API for the sound.
         * @property usingWebAudio
         */
-        public usingWebAudio: bool = false;
+        public usingWebAudio: boolean = false;
 
         /*
         * If the game is using audio tags for the sound. This is the fallback if the web audio api is not supported. 
         * @property usingAudioTag
         */
-        public usingAudioTag: bool = false;
+        public usingAudioTag: boolean = false;
 
         /*
         * Web Audio API ONLY - The audio context that is used for decoding audio, e.t.c. 
@@ -154,7 +154,7 @@ module Kiwi.Sound {
         * @param {bool} value
         * @return {bool}
         */
-        public set mute(value: bool) {
+        public set mute(value: boolean) {
             
             if (value === true) {
                 if (this._muted) return;
@@ -187,7 +187,7 @@ module Kiwi.Sound {
         
         }
 
-        public get mute(): bool {
+        public get mute(): boolean {
             return this._muted;
             
         }
@@ -238,7 +238,7 @@ module Kiwi.Sound {
         * @param {bool} loop
         * @return {Kiwi.Sound.Audio}
         */
-        public add(key: string, volume: number = 1, loop: bool = false): Kiwi.Sound.Audio {
+        public add(key: string, volume: number = 1, loop: boolean = false): Kiwi.Sound.Audio {
             
             if (this.noAudio) return;
 

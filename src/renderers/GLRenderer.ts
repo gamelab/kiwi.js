@@ -38,7 +38,7 @@ module Kiwi.Renderers {
         private _entityCount: number = 0;
         private _maxItems: number = 1000;
 
-        private _texApplied: bool = false;
+        private _texApplied: boolean = false;
         private _firstPass: boolean = true;
 
         public mvMatrix:Float32Array;

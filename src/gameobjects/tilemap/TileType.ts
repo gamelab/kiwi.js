@@ -62,7 +62,7 @@ module Kiwi.GameObjects.Tilemap {
         /*
         * If when collided with seperate the objects it collided with.
         */
-        public seperate: bool;
+        public seperate: boolean;
 
         /**
          * A reference to the tilemap this tile object belongs to.

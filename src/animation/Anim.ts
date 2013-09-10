@@ -62,7 +62,7 @@ module Kiwi.Animation {
         * Get if this animation is to loop or not.
         * @type bool
         */
-        public get loop(): bool {
+        public get loop(): boolean {
             return this._loop;
         }
 
@@ -70,7 +70,7 @@ module Kiwi.Animation {
         * Set if this animation should loop or not
         * @type bool
         */
-        public set loop(value: bool) {
+        public set loop(value: boolean) {
             this._loop = value;
         }
 
@@ -179,7 +179,7 @@ module Kiwi.Animation {
         * @property _isPlaying
         * @type bool
         */
-        private _isPlaying: bool;
+        private _isPlaying: boolean;
 
         /*
         * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
@@ -296,7 +296,7 @@ module Kiwi.Animation {
         * @method update
         * @return {bool}
         */
-        public update(): bool {
+        public update(): boolean {
             if (this._isPlaying) {
                 if (this._clock.elapsed() >= this._tick) {
 

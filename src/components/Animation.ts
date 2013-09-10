@@ -76,15 +76,15 @@ module Kiwi.Components {
         /*
         * Indicates weither or not this animation is currently playing or not.
         * @property _isPlaying
-        * @type bool
+        * @type boolean
         */
-        private _isPlaying: bool = false;
+        private _isPlaying: boolean = false;
         
         /*
         * Returns a boolean indicating weither or not the current animation is playing.
-        * @type bool
+        * @type boolean
         */
-        public get isPlaying(): bool {
+        public get isPlaying(): boolean {
             return this._isPlaying;
         }
          
@@ -212,9 +212,9 @@ module Kiwi.Components {
         *
         * @method switchTo
         * @param {string} name
-        * @param {bool} play
+        * @param {boolean} play
         */
-        public switchTo(val: any, play:bool=null) { 
+        public switchTo(val: any, play:boolean=null) { 
             switch (typeof val) {
                 case "string":
                     if (this.currentAnimation.name !== val) {

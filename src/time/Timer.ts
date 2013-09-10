@@ -106,14 +106,14 @@ module Kiwi.Time {
         * @property _isRunning
         * @type Boolean
         **/
-        private _isRunning: bool = false;
+        private _isRunning: boolean = false;
 
         /**
         * The Timers current state. True if the Timer is running, otherwise false.
         * @method running
         * @return (Boolean) 
         **/
-        public isRunning(): bool {
+        public isRunning(): boolean {
 
             return this._isRunning;
 
@@ -124,14 +124,14 @@ module Kiwi.Time {
         * @property _isStopped
         * @type Boolean
         **/
-        private _isStopped: bool = true;
+        private _isStopped: boolean = true;
 
         /**
         * Whether the timer is in a stopped state.
         * @method stopped
         * @return (Boolean) 
         **/
-        public isStopped(): bool {
+        public isStopped(): boolean {
 
             return this._isStopped;
 
@@ -142,14 +142,14 @@ module Kiwi.Time {
         * @property _isPaused
         * @type Boolean
         **/
-        private _isPaused: bool = false;
+        private _isPaused: boolean = false;
 
         /**
         * Whether the timer is in a paused state.
         * @method paused
         * @return (Boolean) 
         **/
-        public isPaused(): bool {
+        public isPaused(): boolean {
 
             return this._isPaused;
 

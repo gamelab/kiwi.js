@@ -1,15 +1,17 @@
 /**
- *  Kiwi - Utils - RequestAnimationFrame
- *
- *  @desc       Abstracts away the use of RAF or setTimeOut for the core game update loop. The callback can be re-mapped on the fly.
- *
- *	@version 	0.3 - 15th October 2012
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
+* Kiwi - Utils
+* @module Kiwi
+* @submodule Utils
+*/
 
 module Kiwi.Utils {
 
+    /**
+    * Abstracts away the use of RAF or setTimeout for the core game update loop. The callback can be re-mapped on the fly.
+    *
+    * @class RequestAnimationFrame
+    *
+    */
     export class RequestAnimationFrame {
 
         /** 

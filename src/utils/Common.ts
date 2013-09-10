@@ -1,23 +1,21 @@
 /**
- *  Kiwi - Utils - Common
- *
- *  @desc       Methods to assist in working with Structs.
- *
- *	@version 	0.2 - 11th October 2012
- *	@author		Mauricio Santos
- *	@author 	Richard Davey - TypeScript conversion
- *  @url        http://www.kiwijs.org
- *
- *  A lot of the functions in this class are Copyright 2012 Mauricio Santos and used with permission.
- *  His work is licensed under the Apache License, Version 2.0 (the "License");
- *
- *  You may not use this file except in compliance with the License.
- *
- *  Some documentation is borrowed from the official Java API as it serves the same purpose.
- */
+* Kiwi - Utils
+* @module Kiwi
+* @submodule Utils
+* @main Utils
+*/
 
 module Kiwi.Utils {
 
+    /**
+    * Methods to assist in working with Structs.
+    * A lot of the functions in this class are Copyright 2012 Mauricio Santos and used with permission.
+    * His work is licensed under the Apache License, Version 2.0 (the "License")
+    *
+    * @class Common
+    *
+    * @author Mauricio Santos
+    */
     export class Common {
 
         /**

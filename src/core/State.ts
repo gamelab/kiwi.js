@@ -242,7 +242,7 @@ module Kiwi {
         * @param {Number} offsetX
         * @param {Number} offsetY
         */
-        public addImage(key: string, url: string, storeAsGlobal: bool = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
+        public addImage(key: string, url: string, storeAsGlobal: boolean = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
             this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
         }
         
@@ -262,7 +262,7 @@ module Kiwi {
         * @param {Number} cellOffsetX
         * @param {Number} cellOffsetY
         */
-        public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal: bool = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
+        public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal: boolean = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
             this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
             
@@ -277,9 +277,9 @@ module Kiwi {
         * @param {String} imageURL
         * @param {String} jsonID
         * @param {String} jsonURL
-        * @param {Bool} storeAsGlobal
+        * @param {boolean} storeAsGlobal
         */
-        public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal: bool = true) {
+        public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal: boolean = true) {
              
             this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
            
@@ -293,7 +293,7 @@ module Kiwi {
         * @param {string} url
         * @param {bool} storeAsGlobal
         */
-        public addJSON(key: string, url: string, storeAsGlobal: bool = true) {
+        public addJSON(key: string, url: string, storeAsGlobal: boolean = true) {
 
             this.game.loader.addJSON(key, url, storeAsGlobal);
           
@@ -305,9 +305,9 @@ module Kiwi {
         * @method addAudio
         * @param {string} key
         * @param {string} url
-        * @param {bool} storeAsGlobal
+        * @param {boolean} storeAsGlobal
         */
-        public addAudio(key: string, url: string, storeAsGlobal: bool = true) {
+        public addAudio(key: string, url: string, storeAsGlobal: boolean = true) {
              
             this.game.loader.addAudio(key, url, storeAsGlobal);
           
@@ -373,7 +373,7 @@ module Kiwi {
         * Destroys all of the IChild's on the start.
         * @method destroy
         **/
-        public destroy(deleteAll:bool=true) {
+        public destroy(deleteAll: boolean=true) {
             
             //destroy all of the tracking list
             for (var i = 0; i < this._trackingList.length; i++) {

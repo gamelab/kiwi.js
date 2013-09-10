@@ -1,4 +1,20 @@
 
+ 
+/// <reference path="core/Camera.ts" />
+/// <reference path="core/CameraManager.ts" />
+/// <reference path="core/Component.ts" />
+/// <reference path="core/ComponentManager.ts" />
+/// <reference path="core/Entity.ts" />
+/// <reference path="core/Game.ts" />
+/// <reference path="core/State.ts" /> //must be initialised before group - typescript issue #599
+/// <reference path="core/Group.ts" />
+/// <reference path="core/IChild.ts" />
+/// <reference path="core/Signal.ts" />
+/// <reference path="core/SignalBinding.ts" />
+/// <reference path="core/Stage.ts" />
+/// <reference path="core/StateConfig.ts" />
+/// <reference path="core/StateManager.ts" />
+
 /// <reference path="animation/tweens/easing/Back.ts" />
 /// <reference path="animation/tweens/easing/Bounce.ts" />
 /// <reference path="animation/tweens/easing/Circular.ts" />
@@ -12,32 +28,14 @@
 /// <reference path="animation/tweens/easing/Sinusoidal.ts" />
 /// <reference path="animation/tweens/Manager.ts" />
 /// <reference path="animation/tweens/Tween.ts" />
- 
-/// <reference path="core/Camera.ts" />
-/// <reference path="core/CameraManager.ts" />
-/// <reference path="core/Component.ts" />
-/// <reference path="core/ComponentManager.ts" />
-/// <reference path="core/Entity.ts" />
-
-/// <reference path="core/Game.ts" />
-/// <reference path="core/State.ts" /> //must be initialised before group - typescript issue #599
-/// <reference path="core/Group.ts" />
-/// <reference path="core/IChild.ts" />
-/// <reference path="core/Signal.ts" />
-/// <reference path="core/SignalBinding.ts" />
-/// <reference path="core/Stage.ts" />
+/// <reference path="animation/Anim.ts" />
+/// <reference path="animation/Sequence.ts" />
 
 /// <reference path="components/Animation.ts" />
 /// <reference path="components/Box.ts" />
 /// <reference path="components/Input.ts" />
 /// <reference path="components/Sound.ts" />
 /// <reference path="components/ArcadePhysics.ts" />
-
-/// <reference path="animation/Anim.ts" />
-/// <reference path="animation/Sequence.ts" />
-
-/// <reference path="core/StateConfig.ts" />
-/// <reference path="core/StateManager.ts" />
 
 /// <reference path="file/Loader.ts" />
 /// <reference path="file/DataLibrary.ts" />

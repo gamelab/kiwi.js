@@ -171,7 +171,7 @@ module Kiwi.Components {
          * @property immovable
          * @type bool
 		 */
-        public immovable: bool;
+        public immovable: boolean;
 
         /**
          * The basic speed of this object.
@@ -257,7 +257,7 @@ module Kiwi.Components {
          */
         public maxAngular: number;
 
-        public moves: bool;
+        public moves: boolean;
 
         /**
          * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
@@ -291,7 +291,7 @@ module Kiwi.Components {
         * A boolean to indicate if this object is solid or not.
         * @private
         */
-        private _solid: bool;
+        private _solid: boolean;
 
         /*
         * A function that is to execute when this object overlaps with another.
@@ -313,7 +313,7 @@ module Kiwi.Components {
          * @param {bool} value
          * @return bool
 		 */
-        public solid(value?: bool): bool {
+        public solid(value?: boolean): boolean {
             if (value !== undefined) {
                 if (value)
                     this.allowCollisions = ArcadePhysics.ANY;
@@ -335,7 +335,7 @@ module Kiwi.Components {
         * @param {bool} seperate
         * @return {bool}
         */
-        public static collide(gameObject1: Entity, gameObject2: Entity, seperate:bool = true): bool {
+        public static collide(gameObject1: Entity, gameObject2: Entity, seperate: boolean = true): boolean {
 
             return ArcadePhysics.overlaps(gameObject1, gameObject2, seperate);
         }
@@ -349,7 +349,7 @@ module Kiwi.Components {
         * @param {bool} seperate
         * @return {bool}
         */
-        public static collideGroup(gameObject: Entity, group: any, seperate:bool = true): bool {
+        public static collideGroup(gameObject: Entity, group: any, seperate: boolean = true): boolean {
 
             return ArcadePhysics.overlapsObjectGroup(gameObject, group, seperate);
         }
@@ -363,7 +363,7 @@ module Kiwi.Components {
         * @param {bool} seperate
         * @return {bool}
         */
-        public static collideGroupGroup(group1: any, group2: any, seperate:bool = true): bool {
+        public static collideGroupGroup(group1: any, group2: any, seperate: boolean = true): boolean {
 
             return ArcadePhysics.overlapsGroupGroup(group1, group2, seperate);
         }
@@ -377,7 +377,7 @@ module Kiwi.Components {
         * @param {bool} separate
         * @return {bool}
         */
-        public static overlaps(gameObject1: Entity, gameObject2: Entity, separateObjects: bool = true): bool {
+        public static overlaps(gameObject1: Entity, gameObject2: Entity, separateObjects: boolean = true): boolean {
 
             //Flixel uses quadtree here
 
@@ -397,7 +397,7 @@ module Kiwi.Components {
         * @param {bool} separate - If they overlap should the seperate or not
         * @return {bool}
         */
-        public static overlapsObjectGroup(gameObject: Entity, group: any, separateObjects: bool = true): bool {
+        public static overlapsObjectGroup(gameObject: Entity, group: any, separateObjects: boolean = true): boolean {
 
             var objPhysics: ArcadePhysics = gameObject.components.getComponent("ArcadePhysics");
             return objPhysics.overlapsGroup(group, separateObjects);
@@ -412,9 +412,9 @@ module Kiwi.Components {
         * @param {bool} separate - If they overlap should the seperate or not
         * @return {bool}
         */
-        public static overlapsGroupGroup(group1: any, group2: any, separateObjects: bool = true): bool {
+        public static overlapsGroupGroup(group1: any, group2: any, separateObjects: boolean = true): boolean {
             
-            var result: bool = false; 
+            var result: boolean = false; 
 
             if (group1.childType !== undefined && group1.childType() === Kiwi.GROUP) {
                 //if group1 is a type of group...
@@ -451,10 +451,10 @@ module Kiwi.Components {
         * @param {Kiwi.Entity} object2
         * @return {bool}
         */
-        public static separate(object1:Kiwi.Entity, object2:Kiwi.Entity): bool {
+        public static separate(object1: Kiwi.Entity, object2: Kiwi.Entity): boolean {
             
-            var separatedX: bool = this.separateX(object1, object2);
-            var separatedY: bool = this.separateY(object1, object2);
+            var separatedX: boolean = this.separateX(object1, object2);
+            var separatedY: boolean = this.separateY(object1, object2);
             return separatedX || separatedY;
         }
 
@@ -466,14 +466,14 @@ module Kiwi.Components {
 		 * 
 		 * @return	Whether the objects in fact touched and were separated along the X axis.
 		 */
-        public static separateX(object1, object2): bool {
+        public static separateX(object1, object2): boolean {
 
             var phys1: ArcadePhysics = <ArcadePhysics>object1.components._components["ArcadePhysics"];
             var phys2: ArcadePhysics = <ArcadePhysics>object2.components._components["ArcadePhysics"];
 
             //can't separate two immovable objects
-            var obj1immovable: bool = phys1.immovable;
-            var obj2immovable: bool = phys2.immovable;
+            var obj1immovable: boolean = phys1.immovable;
+            var obj2immovable: boolean = phys2.immovable;
             if (obj1immovable && obj2immovable)
                 return false;
 
@@ -557,14 +557,14 @@ module Kiwi.Components {
 		 * 
 		 * @return	Whether the objects in fact touched and were separated along the Y axis.
 		 */
-        public static separateY(object1, object2): bool {
+        public static separateY(object1, object2): boolean {
 
             var phys1: ArcadePhysics = <ArcadePhysics>object1.components._components["ArcadePhysics"];
             var phys2: ArcadePhysics = <ArcadePhysics>object2.components._components["ArcadePhysics"];
 
             //can't separate two immovable objects
-            var obj1immovable: bool = phys1.immovable;
-            var obj2immovable: bool = phys2.immovable;
+            var obj1immovable: boolean = phys1.immovable;
+            var obj2immovable: boolean = phys2.immovable;
             if (obj1immovable && obj2immovable)
                 return false;
 
@@ -681,11 +681,11 @@ module Kiwi.Components {
         * @param { bool } seperateObjects
         * @return { bool }
         */
-        public overlaps(gameObject:Entity, separateObjects: bool = false): bool {
+        public overlaps(gameObject: Entity, separateObjects: boolean = false): boolean {
             
             var objTransform: Kiwi.Geom.Transform = gameObject.transform;
 
-            var result: bool = (objTransform.x + gameObject.width > this.transform.x) && (objTransform.x < this.transform.x + this.width) &&
+            var result: boolean = (objTransform.x + gameObject.width > this.transform.x) && (objTransform.x < this.transform.x + this.width) &&
                 (objTransform.y + gameObject.height > this.transform.y) && (objTransform.y < this.transform.y + this.height);
 
             if (result && separateObjects) {
@@ -708,10 +708,10 @@ module Kiwi.Components {
         * @param { bool } seperateObjects
         * @return { bool }
         */
-        public overlapsGroup(group: any, separateObjects: bool = false): bool {
+        public overlapsGroup(group: any, separateObjects: boolean = false): boolean {
             
             //if the group is a Kiwi.Group
-            var results: bool = false;
+            var results: boolean = false;
             
             if (group.childType !== undefined && group.childType() === Kiwi.GROUP) {
 
