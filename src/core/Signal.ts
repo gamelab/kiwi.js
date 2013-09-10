@@ -45,11 +45,13 @@ module Kiwi {
          * If Signal should keep record of previously dispatched parameters and
          * automatically execute listener during `add()`/`addOnce()` if Signal was
          * already dispatched before.
+         * @property memorize
          * @type boolean
          */
         public memorize: bool = false;
 
         /**
+         * [REQUIRES DESCRIPTION]
          * @type boolean
          * @private
          */
@@ -58,16 +60,23 @@ module Kiwi {
         /**
          * If Signal is active and should broadcast events.
          * <p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
+         * @property active
          * @type boolean
          */
         public active: bool = true;
 
+
+        /**
+        * Returns the type of this object
+        * @method objType
+        * @return {String} The type of this object
+        */
         public objType() {
             return "Signal";
         }
 
         /**
-		* 
+		* [REQUIRES DESCRIPTION]
         * @method validateListener
         * @param {Any} listener
         * @param {Any} fnName
@@ -82,6 +91,7 @@ module Kiwi {
         }
 
         /**
+         * [REQUIRES DESCRIPTION]
          * @param {Function} listener
          * @param {boolean} isOnce
          * @param {Object} [listenerContext]
@@ -138,9 +148,10 @@ module Kiwi {
         }
 
         /**
-         *
+         * [REQUIRES DESCRIPTION]
          * @method _indexOfListener
          * @param {Function} listener
+         * @param {any} context
          * @return {number}
          * @private
          */
@@ -229,6 +240,7 @@ module Kiwi {
 
         /**
          * Remove all listeners from the Signal.
+         * @method removeAll
          */
         public removeAll() {
 
@@ -244,6 +256,8 @@ module Kiwi {
         }
 
         /**
+         * [REQUIRES DESCRIPTION]
+         * @method getNumListeners
          * @return {number} Number of listeners attached to the Signal.
          */
         public getNumListeners(): number {
@@ -253,9 +267,11 @@ module Kiwi {
         }
 
         /**
+         * [REQUIRES DESCRIPTION]
          * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
          * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
          * @see Signal.prototype.disable
+         * @method halt
          */
         public halt() {
 
@@ -265,6 +281,7 @@ module Kiwi {
 
         /**
          * Dispatch/Broadcast Signal to all listeners added to the queue.
+         * @method dispatch
          * @param {...*} [params] Parameters that should be passed to each handler.
          */
         public dispatch(...paramsArr: any[]) {
@@ -299,7 +316,9 @@ module Kiwi {
         }
 
         /**
+         * [REQUIRES DESCRIPTION]
          * Forget memorized arguments.
+         * @method forget
          * @see Signal.memorize
          */
         public forget() {
@@ -311,6 +330,7 @@ module Kiwi {
         /**
          * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
          * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
+         * @method dispose
          */
         public dispose() {
 
@@ -322,6 +342,7 @@ module Kiwi {
         }
 
         /**
+         * @method toString
          * @return {string} String representation of the object.
          */
         public toString(): string {

@@ -51,14 +51,16 @@ module Kiwi {
 
         /*
         * The group that this entity belongs to. If added onto the state then this is the state.
-        * @property parent
+        * @property _parent
         * @type Kiwi.Group
+        * @private
         */
         private _parent: Kiwi.Group = null;
 
         /*
         * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
         * @type Kiwi.Group
+        * @param {Kiwi.Group} val
         */
         public set parent(val: Kiwi.Group) {
             this.transform.parent = (val !== null) ? val.transform : null ;
@@ -66,89 +68,73 @@ module Kiwi {
         }
 
         /*
+        * [REQUIRES DESCRIPTION]
         * Returns the group that this entity belongs to.
         * @type Kiwi.Group
+        * @return {Kiwi.Group} 
         */
         public get parent(): Kiwi.Group {
             return this._parent;
         }
 
         /*
-        * Get the X coordinate of this Entity. This is just aliased to the transform property.
+        * X coordinate of this Entity. This is just aliased to the transform property.
+        * property x
         * @type Number
         */
         public get x(): number {
             return this.transform.x;
         }
-        
-        /*
-        * Set the X coordinate of this Entity. This is just aliased to the transform property.
-        * @type Number
-        */
         public set x(value: number) {
             this.transform.x = value;
         }
         
         /*
-        * Get the Y coordinate of this Entity. This is just aliased to the transform property.
+        * Y coordinate of this Entity. This is just aliased to the transform property.
+        * @property y
         * @type Number
         */
         public get y(): number {
             return this.transform.y;
         }
         
-        /*
-        * Set the Y coordinate of this Entity. This is just aliased to the transform property.
-        * @type Number
-        */
         public set y(value: number) {
             this.transform.y = value;
         }
         
         /*
-        * Get the Scale X of this Entity. This is just aliased to the transform property.
+        * Scale X of this Entity. This is just aliased to the transform property.
+        * @property scaleX
         * @type Number
         */
         public get scaleX():number {
             return this.transform.scaleX;
         }
-        
-        /*
-        * Set the Scale X coordinate of this Entity. This is just aliased to the transform property.
-        * @type Number
-        */
         public set scaleX(value:number) {
             this.transform.scaleX = value;
         }
 
         /*
-        * Get the Scale Y coordinate of this Entity. This is just aliased to the transform property.
+        * Scale Y coordinate of this Entity. This is just aliased to the transform property.
+        * @property scaleY
         * @type Number
         */
         public get scaleY(): number {
             return this.transform.scaleY;
         }
         
-        /*
-        * Set the Scale Y coordinate of this Entity. This is just aliased to the transform property.
-        * @type Number
-        */
         public set scaleY(value: number) {
             this.transform.scaleY = value;
         }
         
         /*
-        * Get the rotation of this Entity. This is just aliased to the transform property.
+        * Rotation of this Entity. This is just aliased to the transform property.
+        * @property rotation
         * @type Number
         */
         public get rotation(): number {
             return this.transform.rotation;
         }
-        
-        /*
-        * Get the rotation of this Entity. This is just aliased to the transform property.
-        * @type Number
-        */
         public set rotation(value: number) {
             this.transform.rotation = value;
         }
@@ -156,6 +142,7 @@ module Kiwi {
         /*
         * Returns the type of child that this is. 
         * @type Number
+        * @return {Number} returns the type of child that the entity is
         */
         public childType():number {
             return Kiwi.ENTITY;
@@ -165,11 +152,13 @@ module Kiwi {
         * The actual alpha of this entity.
         * @property _alpha
         * @type Number
+        * @private
         */
         private _alpha: number = 1;
 
         /*
-        * Set the alpha of this entity. A number between 0 (invisible) and 1 (completely visible).
+        * Alpha of this entity. A number between 0 (invisible) and 1 (completely visible).
+        * @property alpha
         * @type Number
         */
         public set alpha(value: number) {
@@ -178,10 +167,6 @@ module Kiwi {
             this._alpha = value;
         }
         
-        /*
-        * Get the alpha of this entity. A number between 0 (invisible) and 1 (completely visible).
-        * @type Number
-        */
         public get alpha(): number {
             return this._alpha;
         }
@@ -190,21 +175,18 @@ module Kiwi {
         * A boolean that indicates weither or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
         * @property _visible
         * @type bool
+        * @private
         */
         private _visible: bool = true;
         
         /*
         * Set the visiblity of this entity. True or False.
+        * @property visibility
         * @type bool
         */
         public set visiblity(value: bool) {
             this._visible = value;
         }
-        
-        /*
-        * Get the visiblity of this entity. Note that is does not get set to false if the alpha is 0.
-        * @type bool
-        */
         public get visiblity(): bool {
             return this._visible;
         }
@@ -275,7 +257,7 @@ module Kiwi {
 
         /**
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
-        * @property exists 
+        * @property _exists 
         * @type Boolean
 		**/
         private _exists: bool;
@@ -283,15 +265,12 @@ module Kiwi {
         /**
 		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+        * @property exists
+        * @type Boolean
 		**/
         public set exists(value: bool) {
             this._exists = value;
         }
-        
-        /**
-		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
-		**/
         public get exists():bool {
             return this._exists;
         }
@@ -300,22 +279,19 @@ module Kiwi {
 		* An active Entity is one that has its update method called by its parent.
         * @property _active
         * @type Boolean
+        * @private
 		**/
         private _active: bool;
 
         /**
 		* Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+        * @property active
+        * @type Boolean
 		**/
         public set active(value: bool) {
             this._active = value;
         }
-
-        /**
-		* An active Entity is one that has its update method called by its parent.
-        * @property _active
-        * @type Boolean
-		**/
         public get active():bool {
             return this._active;
         }
@@ -324,24 +300,18 @@ module Kiwi {
 		* Controls whether render is automatically called by the parent. 
         * @property _willRender
         * @type Boolean
+        * @private
 		*/
 		private _willRender: bool;
 
         /**
 		* Toggles if this Entity will be rendered by a canvas layer. Use the visibile component for DOM layers.
-        * @method willRender
-        * @param {Boolean} value
-        * @return {Boolean}
+        * @property willRender
+        * @type Boolean
 		**/
         public set willRender(value: bool) {
             this._willRender = value;
         }
-
-        /**
-		* Controls whether render is automatically called by the parent. 
-        * @property _willRender
-        * @type Boolean
-		*/
         public get willRender():bool {
             return this._willRender;
         }
@@ -350,21 +320,19 @@ module Kiwi {
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property exists 
         * @type Boolean
+        * @private
 		**/
         private _inputEnabled: bool;
 
         /**
 		* Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
         * This method should be over-ridden to handle specific game object implementations.
+        * @property inputEnabled
+        * @type Boolean
 		**/
         public set inputEnabled(value: bool) {
             this._inputEnabled = value;
         }
-        
-        /**
-		* Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
-        * This method should be over-ridden to handle specific game object implementations.
-		**/
         public get inputEnabled():bool {
             return this._inputEnabled;
         }
@@ -373,21 +341,18 @@ module Kiwi {
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property exists 
         * @type Boolean
+        * @private
 		**/
         private _clock: Kiwi.Time.Clock = null;
 
         /**
 		* The Clock used to update this all of this Entities components (defaults to the Game MasterClock)
+        * @property clock 
+        * @type Boolean
 		**/
         public set clock(value: Kiwi.Time.Clock) {
             this._clock = value;
         }
-    
-        /**
-		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
-        * @property exists 
-        * @type Boolean
-		**/
         public get clock(): Kiwi.Time.Clock {
             return this._clock;
         }
@@ -396,6 +361,7 @@ module Kiwi {
 		* A value used by components to control if the Entity needs re-rendering
         * @property dirty
         * @type Boolean
+        * @private
     	*/
         private _dirty: bool;
         
@@ -407,12 +373,6 @@ module Kiwi {
         public set dirty(value: bool) {
             this._dirty = value;
         }
-    
-        /**
-		* A value used by components to control if the Entity needs re-rendering
-        * @property dirty
-        * @type Boolean
-    	*/
         public get dirty():bool {
             return this._dirty;
         }
@@ -422,7 +382,7 @@ module Kiwi {
         /*
         * The type of this object.
         * @method objType
-        * @return {String}
+        * @return {String} The type of the object
         */
         public objType() {
             return "Entity";
@@ -440,6 +400,7 @@ module Kiwi {
         * This isn't called until the Entity has been added to a layer.
         * This functionality is handled by the sub classes. 
         * @method render
+        * @param {Kiwi.Camera} camera
         */
         public render(camera:Kiwi.Camera) {
             

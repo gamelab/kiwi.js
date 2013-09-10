@@ -7,7 +7,7 @@
 module Kiwi {
 
     /**
-    *
+    *[REQUIRES DESCRIPTION]
     * 
     * @class Group
     *
@@ -16,7 +16,7 @@ module Kiwi {
     export class Group implements Kiwi.IChild {
 
         /*
-        * 
+        * [REQUIRES DESCRIPTION]
         * @constructor
         * @param {Kiwi.State} state
         * @param {String} name
@@ -51,6 +51,7 @@ module Kiwi {
 
         /**
         * Returns the type of this object
+        * @method objType
         * @return {String} The type of this object
         */
         public objType(): string {
@@ -83,13 +84,15 @@ module Kiwi {
 
         /*
         * The parent group of this group.
-        * @property parent
+        * @property _parent
         * @type Kiwi.IChild
+        * @private
         */
         private _parent: Kiwi.Group = null;
 
         /*
         * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
+        * @property parent
         * @type Kiwi.Group
         */
         public set parent(val: Kiwi.Group) {
@@ -99,91 +102,66 @@ module Kiwi {
                 this._parent = val;
             //}
         }
-
-        /*
-        * Returns the group that this entity belongs to.
-        * @type Kiwi.Group
-        */
         public get parent(): Kiwi.Group {
             return this._parent;
         }
 
         /*
-        * Get the X coordinate of this group. This is just aliased to the transform property.
+        * The X coordinate of this group. This is just aliased to the transform property.
+        * @property x
         * @type Number
         */
         public get x(): number {
             return this.transform.x;
         }
-
-        /*
-        * Set the X coordinate of this group. This is just aliased to the transform property.
-        * @type Number
-        */
         public set x(value: number) {
             this.transform.x = value;
         }
 
         /*
-        * Get the Y coordinate of this group. This is just aliased to the transform property.
+        * The Y coordinate of this group. This is just aliased to the transform property.
+        * @property
         * @type Number
         */
         public get y(): number {
             return this.transform.y;
         }
-
-        /*
-        * Set the Y coordinate of this group. This is just aliased to the transform property.
-        * @type Number
-        */
         public set y(value: number) {
             this.transform.y = value;
         }
 
         /*
-        * Get the Scale X of this group. This is just aliased to the transform property.
+        * The Scale X of this group. This is just aliased to the transform property.
+        * @property scaleX
         * @type Number
         */
         public get scaleX(): number {
             return this.transform.scaleX;
         }
-
-        /*
-        * Set the Scale X coordinate of this group. This is just aliased to the transform property.
-        * @type Number
-        */
         public set scaleX(value: number) {
             this.transform.scaleX = value;
         }
 
         /*
-        * Get the Scale Y coordinate of this group. This is just aliased to the transform property.
+        * The Scale Y coordinate of this group. This is just aliased to the transform property.
+        * @property scaleY
         * @type Number
         */
         public get scaleY(): number {
             return this.transform.scaleY;
         }
-
-        /*
-        * Set the Scale Y coordinate of this group. This is just aliased to the transform property.
-        * @type Number
-        */
         public set scaleY(value: number) {
             this.transform.scaleY = value;
         }
 
         /*
-        * Get the rotation of this group. This is just aliased to the transform property.
+        * The rotation of this group. This is just aliased to the transform property.
+        * @property rotation
         * @type Number
         */
         public get rotation(): number {
             return this.transform.rotation;
         }
-
-        /*
-        * Get the rotation of this group. This is just aliased to the transform property.
-        * @type Number
-        */
         public set rotation(value: number) {
             this.transform.rotation = value;
         }
@@ -204,6 +182,7 @@ module Kiwi {
 
         /**
         * The State that this Group belongs to
+        * @property state
         * @type Kiwi.State
         **/
         public state: Kiwi.State = null;
@@ -235,13 +214,14 @@ module Kiwi {
         * An indication of weither or not this group is 'dirty' and thus needs to be re-rendered or not.
         * @property _dirty
         * @type bool
+        * @private
         */
         private _dirty: bool = true;
 
         /**
         * Sets all children of the Group to be dirty.
-        * @method dirty
-        * @param {Boolean} The value to be set on all children
+        * @property dirty
+        * @type Boolean
         */
         public set dirty(value: bool) {
             if (value !== undefined) {
@@ -252,11 +232,6 @@ module Kiwi {
                 }
             }
         }
-
-        /*
-        * Returns a boolean indicating if the group is dirty or not.
-        * @type bool
-        */
         public get dirty(): bool {
             return this._dirty;
         }
@@ -728,12 +703,15 @@ module Kiwi {
         * If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property exists 
         * @type Boolean
+        * @private
         **/
         private _exists: bool;
 
         /**
         * Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
         * This method should be over-ridden to handle specific canvas/webgl implementations.
+        * @property exists
+        * @type Boolean
         **/
         public set exists(value: bool) {
             this._exists = value;
@@ -753,6 +731,8 @@ module Kiwi {
         /**
         * Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+        * @property active
+        * @type Boolean
         **/
         public set active(value: bool) {
             this._active = value;
@@ -787,6 +767,7 @@ module Kiwi {
         /**
         * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
         * @method getFirstAlive
+        * @return {Kiwi.IChild}
 		*/
         public getFirstAlive(): Kiwi.IChild { 
         
@@ -803,6 +784,7 @@ module Kiwi {
         /**
         * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
         * @method getFirstDead
+        * @return {Kiwi.IChild}
 		*/
         public getFirstDead():Kiwi.IChild { 
         
@@ -858,10 +840,10 @@ module Kiwi {
 		/**
 		 * Returns a member at random from the group.
 		 * 
-		 * @param	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
-		 * @param	Length		Optional restriction on the number of values you want to randomly select from.
+		 * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
+		 * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
 		 * 
-		 * @return	A child from the members list.
+		 * @return {Kiwi.IChild}	A child from the members list.
 		 */
         public getRandom(start: number = 0, length: number = 0): Kiwi.IChild { 
         
@@ -923,7 +905,7 @@ module Kiwi {
         /**
 		* Removes all children and destroys the Group
         * @method destroy
-        * @param {bool} destroyChildren
+        * @param {Boolean} destroyChildren
 		**/
         public destroy(destroyChildren:bool = true) {
 

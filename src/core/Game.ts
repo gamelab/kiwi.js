@@ -17,7 +17,7 @@ module Kiwi {
     export class Game {
 
         /**
-        * constructor desc
+        * [REQUIRES DESCRIPTION]
         * @constructor
         * @param {String} domParent
         * @param {String} name
@@ -86,11 +86,13 @@ module Kiwi {
         * The render mode of the game. This will be either set to CANVAS or WEBGL.
         * @property _renderOption
         * @type number
+        * @private
         */
         private _renderOption: number;
 
         /**
         * Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.
+        * @property renderOption
         * @type number
         */
         public get renderOption(): number {
@@ -101,11 +103,13 @@ module Kiwi {
         * The type of device that you are targeting. This is either set to COCOON or BROWSER
         * @property _deviceTargetOption
         * @type number
+        * @private
         */
         private _deviceTargetOption: number;
 
         /**
         * Returns the device target option for the game. This is READ ONLY and is decided once the game gets initialised.
+        * @property deviceTargetOption
         * @type number
         */
         public get deviceTargetOption(): number {
@@ -117,11 +121,13 @@ module Kiwi {
         * This gets set to either DEBUG_ON or DEBUG_OFF
         * @property _debugOption
         * @type number
+        * @private
         */
         private _debugOption: number;
 
         /**
         * Returns the debug option. This is READ ONLY and is decided once the game gets initialised.
+        * @property debugOption
         * @type number
         */
         public get debugOption(): number {
@@ -145,14 +151,14 @@ module Kiwi {
         /**
         * The type of object that the game is.
         * @method objType
-        * @return string
+        * @return {String} The type of object
         */
         public objType() {
             return "Game";
         }
 
         /**
-        * 
+        * [REQUIRES DESCRIPTION]
         * @property _dom
         * @type Kiwi.DOM.Bootstrap
         * @private
@@ -196,8 +202,8 @@ module Kiwi {
          
         /**
         * Manages the cameras the are on the stage. This is still to be implemented.
-        * @property layers
-        * @type Kiwi.LayerManager
+        * @property cameras
+        * @type Kiwi.CameraManager
         */
         public cameras: Kiwi.CameraManager = null;
 
@@ -281,17 +287,13 @@ module Kiwi {
 
         /**
         * Returns the current frameRate that the update/render loops are running at. Note that this may  ot be a  accurate representation.
+        * @property frameRate
         * @return string
         */
         public get frameRate(): number {
 
             return this._frameRate;
         }
-
-        /**
-        * Set the MAXIMUM frame rate of the update/render loops. 
-        * @type number
-        */
         public set frameRate(value: number) {
 
             //cannot exceed 60. The raf will stop this anyway.

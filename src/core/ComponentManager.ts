@@ -8,7 +8,7 @@ module Kiwi {
 
     /**
     * 
-    *
+    * [REQUIRES DESCRIPTION]
     * @class ComponentManager
     *
     */
@@ -16,7 +16,7 @@ module Kiwi {
     export class ComponentManager {
 
         /**
-        *
+        * [REQUIRES DESCRIPTION]
         * @constructor
         * @param {number} type
         * @param {any} owner
@@ -33,6 +33,7 @@ module Kiwi {
 
         /**
         * Returns the type of this object
+        * @method objType
         * @return {string} The type of this object
         */
         public objType():string {
@@ -43,6 +44,7 @@ module Kiwi {
         * The owner of this Component Manager
         * @property _owner
         * @type {any}
+        * @private
         **/
         private _owner: any;
 
@@ -50,6 +52,7 @@ module Kiwi {
         * The type of this object
         * @property _type
         * @type number
+        * @private
         **/
         private _type: number;
 
@@ -57,6 +60,7 @@ module Kiwi {
         * A list of all components
         * @property _components
         * @type Kiwi.Component {}
+        * @private
         **/
         public _components;
 
@@ -121,10 +125,11 @@ module Kiwi {
         }
 
         /**
+        * [REQUIRES DESCRIPTION]
+        * [ZACH QUESTION]
         * Adds a Component to the manager.
-        * @method addComponent
-        * @param {Kiwi.Component} component - The component to add
-        * @return {Kiwi.Component} The component that was added
+        * @method addBatch
+        * @param {}
         **/
         public addBatch(...paramsArr: any[]) {
 
@@ -183,6 +188,7 @@ module Kiwi {
         /*
         * Removes all of the components from the component manager. 
         * @method removeAll
+        * @param {Boolean} destroy - if true will destroy all components
         */
         public removeAll(destroy:bool = true) {
             for (var key in this._components) { 

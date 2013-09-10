@@ -15,10 +15,10 @@ module Kiwi {
     export class Component {
         
         /** 
-        * 
+        * [REQUIRES DESCRIPTION]
         * @constructor
         * @param {string} componentName - The name of this component.
-        * @return Kiwi.Component
+        * @return {Kiwi.Component}
         */
         constructor (owner:IChild, name:string) {
 
@@ -31,6 +31,7 @@ module Kiwi {
 
         /**
         * Returns the type of this object
+        * @method objType
         * @return {String} The type of this object
         */
         public objType():string {
@@ -53,7 +54,7 @@ module Kiwi {
 
         /**
         * The name of this component.
-        * @property componentName
+        * @property name
         * @type string
         **/
         public name: string;

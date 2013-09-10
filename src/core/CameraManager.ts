@@ -7,17 +7,17 @@
 module Kiwi {
 
     /**
-    *
+    * [REQUIRES DESCRIPTION]
     * @class CameraManager
     */
 
     export class CameraManager {
 
         /**
-		* 
+		* [REQUIRES DESCRIPTION]
         * @constructor
         * @param {Kiwi.Game} game
-        * @return {Kiwi.CameraManager}
+        * @return {Kiwi.CameraManager} 
     	*/
         constructor(game: Kiwi.Game) {
              
@@ -29,6 +29,7 @@ module Kiwi {
 
         /**
         * Returns the type of this object
+        * @method objType
         * @return {String} The type of this object
         */
         public objType():string {
@@ -69,7 +70,6 @@ module Kiwi {
         /**
 		* Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
         * @method boot
-        * @param {HTMLDivElement} domCamera
     	*/
         public boot() {
 
