@@ -23,7 +23,7 @@ module Kiwi.Utils {
         * @param {Boolean} offScreen
         * @return {Kiwi.Utils.Canvas}
         **/
-        constructor (width: number, height: number, visible: bool = true, offScreen: bool = false) {
+        constructor (width: number, height: number, visible: boolean = true, offScreen: boolean = false) {
 
           
 
@@ -191,7 +191,7 @@ module Kiwi.Utils {
 
         }
 
-        public get visible(): bool {
+        public get visible(): boolean {
 
             return this._visible;
 

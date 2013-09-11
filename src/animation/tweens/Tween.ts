@@ -33,7 +33,7 @@ module Kiwi.Animation {
         * @param {Any} object
         * @param {Kiwi.Game} game
         * @return {Kiwi.Tween}
-        **/
+        */
         constructor(object, game:Kiwi.Game = null) {
 
             this._object = object;
@@ -53,11 +53,11 @@ module Kiwi.Animation {
         }
 
         /** 
-        * 
+        * The game that this tween belongs to.
         * @property _game
         * @type Kiwi.Game
         * @private
-        **/
+        */
         private _game: Kiwi.Game = null;
 
         /** 
@@ -65,7 +65,7 @@ module Kiwi.Animation {
         * @property _manager
         * @type Kiwi.Tweens.Manager
         * @private
-        **/
+        */
         private _manager: Kiwi.Animation.Tweens.Manager = null;
 
         /** 
@@ -73,7 +73,7 @@ module Kiwi.Animation {
         * @property _object
         * @type Any
         * @private
-        **/
+        */
 	    private _object = null;
 
         /** 
@@ -81,7 +81,7 @@ module Kiwi.Animation {
         * @property _valuesStart
         * @type 
         * @private
-        **/
+        */
 	    private _valuesStart = {};
 
         /** 
@@ -89,7 +89,7 @@ module Kiwi.Animation {
         * @property _valuesEnd
         * @type
         * @private
-        **/
+        */
 	    private _valuesEnd = {};
 
         /** 
@@ -97,7 +97,7 @@ module Kiwi.Animation {
         * @property _duration
         * @type Number
         * @private
-        **/
+        */
 	    private _duration = 1000;
 
         /** 
@@ -105,7 +105,7 @@ module Kiwi.Animation {
         * @property _delayTime
         * @type Number
         * @private
-        **/
+        */
 	    private _delayTime = 0;
 
         /** 
@@ -113,7 +113,7 @@ module Kiwi.Animation {
         * @property _startTime
         * @type
         * @private
-        **/
+        */
 	    private _startTime = null;
 
         /** 
@@ -121,7 +121,7 @@ module Kiwi.Animation {
         * @property _easingFunction
         * @type Kiwi.Tweens.Easing.Linear.None
         * @private
-        **/
+        */
         private _easingFunction = Kiwi.Animation.Tweens.Easing.Linear.None;
 
         /** 
@@ -129,7 +129,7 @@ module Kiwi.Animation {
         * @property _interpolationFunction
         * @type Kiwi.Utils.Interpolation.Linear
         * @private
-        **/
+        */
 	    private _interpolationFunction = Kiwi.Utils.GameMath.linearInterpolation;
 
         /** 
@@ -137,7 +137,7 @@ module Kiwi.Animation {
         * @property _chainedTweens
         * @type Array
         * @private
-        **/
+        */
 	    private _chainedTweens = [];
 
         /** 
@@ -145,7 +145,7 @@ module Kiwi.Animation {
         * @property _onStartCallback
         * @type
         * @private
-        **/
+        */
 	    private _onStartCallback = null;
         private _onStartContext = null;
 
@@ -155,7 +155,7 @@ module Kiwi.Animation {
         * @property _onStartCallbackFired
         * @type
         * @private
-        **/
+        */
 	    private _onStartCallbackFired = false;
 
         /** 
@@ -163,7 +163,7 @@ module Kiwi.Animation {
         * @property _onUpdateCallback
         * @type
         * @private
-        **/
+        */
 	    private _onUpdateCallback = null;
 
         private _onUpdateContext = null;
@@ -173,7 +173,7 @@ module Kiwi.Animation {
         * @property _onCompleteCallback
         * @type
         * @private
-        **/
+        */
 	    private _onCompleteCallback = null;
 
 	    private _onCompleteCalled: boolean = false;
@@ -183,7 +183,7 @@ module Kiwi.Animation {
         * @property _onCompleteContext
         * @type
         * @private
-        **/
+        */
 	    private _onCompleteContext;
 
         public isRunning: boolean = false;
@@ -195,7 +195,7 @@ module Kiwi.Animation {
         * @param {Number} duration
         * @param {Any} ease
         * @param {Boolean} autoStart
-        **/
+        */
         public to(properties, duration: number = 1000, ease: any = null, autoStart: boolean = false) {
 
 	        this._duration = duration;
@@ -222,7 +222,7 @@ module Kiwi.Animation {
         /** 
         * 
         * @method start
-        **/
+        */
 	    public start() {
 
 	        if (this._game === null || this._object === null)
@@ -278,7 +278,7 @@ module Kiwi.Animation {
         /** 
         * 
         * @method stop
-        **/
+        */
 	    public stop() {
 
 	        if (this._manager !== null)
@@ -296,7 +296,7 @@ module Kiwi.Animation {
         * 
         * @method setParent
         * @param {Kiwi.Game} value
-        **/
+        */
 	    public setParent(value:Kiwi.Game) {
 
 	        this._game = value;
@@ -308,7 +308,7 @@ module Kiwi.Animation {
         * 
         * @method delay
         * @param {Any} amount
-        **/
+        */
 	    public delay(amount) {
 
 	        this._delayTime = amount;
@@ -320,7 +320,7 @@ module Kiwi.Animation {
         * 
         * @method easing
         * @param {Any} easing
-        **/
+        */
 	    public easing(easing) {
 
 	        this._easingFunction = easing;
@@ -332,7 +332,7 @@ module Kiwi.Animation {
         * 
         * @method interpolation
         * @param {Any} interpolation
-        **/
+        */
 	    public interpolation(interpolation) {
 
 	        this._interpolationFunction = interpolation;
@@ -345,7 +345,7 @@ module Kiwi.Animation {
         * 
         * @method chain
         * @param {Kiwi.Tween} tween
-        **/
+        */
 	    public chain(tween:Kiwi.Animation.Tween) {
 
 	        this._chainedTweens.push(tween);
@@ -357,7 +357,7 @@ module Kiwi.Animation {
         * 
         * @method onStart
         * @param {Any} callback
-        **/
+        */
 	    public onStart(callback, context) {
 
 	        this._onStartCallback = callback;
@@ -370,7 +370,7 @@ module Kiwi.Animation {
         * 
         * @method onUpdate
         * @param {Any} callback
-        **/
+        */
 	    public onUpdate(callback, context) {
 
             this._onUpdateCallback = callback;
@@ -383,7 +383,7 @@ module Kiwi.Animation {
         * 
         * @method onComplete
         * @param {Any} callback
-        **/
+        */
 	    public onComplete(callback, context) {
 
 	        this._onCompleteCallback = callback;
@@ -397,14 +397,14 @@ module Kiwi.Animation {
         * 
         * @property debugValue
         * @type Any
-        **/
+        */
 	    public debugValue;
 
         /** 
         * 
         * @method update
         * @param {Any} time
-        **/
+        */
 	    public update(time) {
 
 	        if (time < this._startTime)

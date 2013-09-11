@@ -10,11 +10,11 @@ module Kiwi.Components {
     /**
     *  
     * @class Animation
-    *
+    * @extends Component
     */
     export class Animation extends Component {
 
-        /*
+        /**
         *
         * @constructor
         * @param {Kiwi.Entity} entity
@@ -46,58 +46,68 @@ module Kiwi.Components {
             }
         }
 
-        /*
+        /**
         * The entity that this animation belongs to.
         * @property entity
         * @type Kiwi.Entity
+        * @private
         */
         private entity: Kiwi.Entity;
 
-        /*
+        /**
         * The texture atlas that this animation is taking affect on.
         * @property _atlas
         * @type Kiwi.Textures.TextureAtlas
+        * @private
         */
         private _atlas: Kiwi.Textures.TextureAtlas;
         
-        /*
+        /**
         * A dictionary containing all of the animations that are avaiable.
         * @property _animations
+        * @type {}
+        * @private
         */
         private _animations: {};
     
-        /*
+        /**
         * A reference to the animation that is currently being played.
         * @property _currentAnimation
         * @type Kiwi.Animation
+        * @default null
+        * @private
         */
         public currentAnimation: Kiwi.Animation.Anim = null;
 
-        /*
+        /**
         * Indicates weither or not this animation is currently playing or not.
         * @property _isPlaying
         * @type boolean
+        * @default false
+        * @private
         */
         private _isPlaying: boolean = false;
         
-        /*
+        /**
         * Returns a boolean indicating weither or not the current animation is playing.
         * @type boolean
+        * @public
         */
         public get isPlaying(): boolean {
             return this._isPlaying;
         }
          
-        /*
+        /**
         * The type of object that this is.
         * @method objType
         * @type string
+        * @public
         */
         public objType() {
             return "Animation";
         }
 
-        /*
+        /**
         * Creates a new sequence that can then be used to play. Returns that animation that was created.
         *
         * @method add
@@ -107,6 +117,7 @@ module Kiwi.Components {
         * @param {boolean} loop
         * @param {boolean} play - If once created the animation should play right away.
         * @return {Kiwi.Animation }
+        * @public
         */
         public add(name: string, cells: number[], speed: number, loop: boolean= false, play: boolean= false): Kiwi.Animation.Anim {
             var newSequence = new Kiwi.Animation.Sequence(name, cells, speed, loop);
@@ -115,13 +126,14 @@ module Kiwi.Components {
             return this.createFromSequence(newSequence, play);
         }
 
-        /*
+        /**
         * Creates a new animation based of a sequence. Returns that animation that was created.
         *
         * @method createFromSequence
         * @param {Kiwi.Sequence} sequence
         * @param {boolean} play - If the animation should play once it has been created
         * @return {Kiwi.Animation}
+        * @public
         */
         public createFromSequence(sequence: Kiwi.Animation.Sequence, play: boolean= false): Kiwi.Animation.Anim {
             this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.entity.clock);
@@ -131,35 +143,38 @@ module Kiwi.Components {
             return this._animations[sequence.name];
         }
 
-        /*
+        /**
         * Plays either the current animation or the name of the animation that you pass.
         * 
         * @method play
         * @param {string} name - defaults to the current animation
+        * @public
         */
         public play(name: string = this.currentAnimation.name):Kiwi.Animation.Anim {
 
             return this._play(name);
         }
         
-        /*
+        /**
         * Play an animation at a particular frameIndex. 
         * 
         * @method playAt
         * @param {Number} index
         * @param {String} name - defaults to the current animation
+        * @public
         */        
         public playAt(index: number, name: string = this.currentAnimation.name):Kiwi.Animation.Anim {
             
             return this._play(name, index);
         } 
 
-        /*
+        /**
         *  An internal method used to actually play the animation.
         * 
         * @method _play
         * @param {number} index
         * @param {string} name
+        * @private
         */
         private _play(name: string, index: number=null): Kiwi.Animation.Anim {
             
@@ -176,10 +191,11 @@ module Kiwi.Components {
             return this.currentAnimation;
         }
 
-        /*
+        /**
         * Stops the current animation from playing.
         *
         * @method stop
+        * @public
         */
         public stop() {
             if (this.isPlaying === true) {
@@ -188,31 +204,34 @@ module Kiwi.Components {
             this._isPlaying = false;
         }
 
-        /*
+        /**
         * Pauses the current animation.
         * @method pause
+        * @public
         */ 
         public pause() {
             this.currentAnimation.pause();
             this._isPlaying = false;
         }
 
-        /*
+        /**
         * Resumes the current animation. The animation should have already been paused.
         * @method resume
+        * @public
         */
         public resume() {
             this.currentAnimation.resume();
             this._isPlaying = true;
         }
 
-        /*
+        /**
         * Switches to animation that you pass. 
         * You can say weither to play the animation when it has switched otherwise it just goes off what is currently happening
         *
         * @method switchTo
         * @param {string} name
         * @param {boolean} play
+        * @public
         */
         public switchTo(val: any, play:boolean=null) { 
             switch (typeof val) {
@@ -232,29 +251,32 @@ module Kiwi.Components {
             this._setCellIndex();
         }
 
-        /*
+        /**
         * Makes the current animation go to the next frame. If the animation is at the end of the sequence it then goes back to the start.
         * @method nextFrame
+        * @public
         */
         public nextFrame() {
             this.currentAnimation.nextFrame();
             this._setCellIndex();
         }
         
-        /*
+        /**
         * Makes the current animation go to the prev frame. If the animation is at the start, the animation will go the end of the sequence.
         * @method prevFrame
+        * @public
         */
         public prevFrame() {
             this.currentAnimation.prevFrame();
             this._setCellIndex();
         }
 
-        /*
+        /**
         * Internal method that sets the current animation to the animation passed.
         *
         * @method _setCurrentAnimation
         * @param {string} name
+        * @private
         */
         private _setCurrentAnimation(name: string) {
 
@@ -264,9 +286,10 @@ module Kiwi.Components {
             }  
         }
 
-        /*
+        /**
         * The update loop, it only updates the currentAnimation and only if it is playing.
         * @method update 
+        * @public
         */
         public update() { 
             if (this.currentAnimation && this.isPlaying) {
@@ -276,63 +299,70 @@ module Kiwi.Components {
             }
         }
         
-        /*
+        /**
         * Gets the current cell that the current animation is up to.
         * @type number
+        * @public
         */
         public get currentCell():number {
             return this.currentAnimation.currentCell;
         }
 
-        /*
+        /**
         * Gets the current frame index that the current animation is up to.
         * @type number
+        * @public
         */
         public get frameIndex():number {
             return this.currentAnimation.frameIndex;
         }
 
-        /*
+        /**
         * Returns the length of the current animation that is playing.
         * @type number
+        * @public
         */
         public get length(): number {
             return this.currentAnimation.length;
         }
 
-        /*
+        /**
         * Get a animation that is on the animation component. 
         * 
         * @method getAnimation
         * @param {string} name
         * @return {Kiwi.Animation} 
+        * @public
         */
         public getAnimation(name: string): Kiwi.Animation.Anim {
             return this._animations[name];
         }
         
-        /*
+        /**
         * An internal method that is used to set the cell index of the entity. This is how the animation changes.
         * @method _setCellIndex
+        * @public
         */
         private _setCellIndex() {
             this.entity.cellIndex = this.currentCell;
         }
 
 	    /**
-	     * Returns a string representation of this object.
-	     * @method toString
-	     * @return {string} A string representation of this object.
-	     **/
+	    * Returns a string representation of this object.
+	    * @method toString
+	    * @return {string} A string representation of this object.
+        * @public
+	    */
         public get toString(): string {
 
             return '[{Animation (x=' + this.active + ')}]';
 
         }
 
-        /*
-        * Destroys all of the stuff
+        /**
+        * Destroys the animation component and runs the destroy on all of the anims that it has.
         * @method destroy
+        * @public
         */
         public destroy() {
             this._isPlaying = false;

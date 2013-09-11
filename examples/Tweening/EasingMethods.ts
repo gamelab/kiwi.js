@@ -19,7 +19,11 @@ class EasingMethods extends Kiwi.State {
         this.addImage('bullet', 'assets/static/bullet-rocket.png');
     }
 
+    tweens: Kiwi.Animation.Tween[];
+
     create() {
+
+        this.tweens = [];
 
         var easing = new Array();
         easing.push(Kiwi.Animation.Tweens.Easing.Linear.None);
@@ -33,13 +37,21 @@ class EasingMethods extends Kiwi.State {
             var bullet = new Kiwi.GameObjects.Sprite(this, this.textures.bullet, 50, 40 * i + 25);
             this.addChild(bullet);
 
-            //Creation Method A
             var tween = this.game.tweens.create(bullet);  
-            tween.delay(2000);
-            tween.to({ x: 700 }, 4000, easing[i], true);
-
+            tween.delay(0);
+            tween.to({ x: 700 }, 4000, easing[i]);
+            this.tweens.push(tween);
+            
+            if (i !== 0) {
+                this.tweens[i-1].chain(this.tweens[i]);
+            }
         }
+
+        this.game.input.onUp.addOnce(this.play, this);
     }
 
+    play() {
+        this.tweens[0].start();
+    }
 
 }

@@ -5127,7 +5127,7 @@ var Kiwi;
                 if (typeof color === "undefined") { color = '#ffffff'; }
                 if (typeof size === "undefined") { size = 32; }
                 if (typeof weight === "undefined") { weight = 'normal'; }
-                if (typeof fontFamily === "undefined") { fontFamily = 'cursive'; }
+                if (typeof fontFamily === "undefined") { fontFamily = 'sans-serif'; }
                 _super.call(this, state, x, y);
 
                 this._text = text;
@@ -5138,6 +5138,8 @@ var Kiwi;
                 this._lineHeight = 1;
                 this._textAlign = 'left';
                 this._baseline = 'top';
+
+                this.dirty = true;
             }
             Textfield.prototype.objType = function () {
                 return "Textfield";
@@ -5150,6 +5152,7 @@ var Kiwi;
                 },
                 set: function (value) {
                     this._text = value;
+                    this.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5162,6 +5165,7 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._fontColor = val;
+                    this.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5174,6 +5178,7 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._fontWeight = val;
+                    this.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5186,6 +5191,7 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._fontSize = val;
+                    this.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5198,18 +5204,7 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._fontFamily = val;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(Textfield.prototype, "lineHeight", {
-                get: function () {
-                    return this._lineHeight;
-                },
-                set: function (val) {
-                    this._lineHeight = val;
+                    this.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5222,45 +5217,77 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._textAlign = val;
+                    this.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
             });
 
+            Textfield.prototype._renderText = function () {
+                this._tempCanvas = document.createElement('canvas');
+                var ctxTemp = this._tempCanvas.getContext('2d');
 
-            Object.defineProperty(Textfield.prototype, "baseline", {
-                get: function () {
-                    return this._baseline;
-                },
-                set: function (val) {
-                    this._baseline = val;
-                },
-                enumerable: true,
-                configurable: true
-            });
+                ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                var _measurements = ctxTemp.measureText(this._text);
+                this._tempCanvas.width = _measurements.width;
+                this._tempCanvas.height = this._fontSize * 1.3;
+
+                ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                ctxTemp.fillStyle = this._fontColor;
+                ctxTemp.textBaseline = this._baseline;
+
+                ctxTemp.fillText(this._text, 0, 0);
+
+                this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
+                this._textImage.src = this._tempCanvas.toDataURL("image/png");
+
+                this.dirty = false;
+            };
 
             Textfield.prototype.render = function (camera) {
                 if (this.alpha > 0 && this.visiblity) {
+                    if (this.dirty) {
+                        this._renderText();
+                    }
+
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
-                    var m = this.transform.getConcatenatedMatrix();
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                    var t = this.transform;
 
                     if (this.alpha > 0 && this.alpha <= 1) {
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                    ctx.textAlign = this._textAlign;
-                    ctx.textBaseline = this._baseline;
-                    ctx.fillStyle = this._fontColor;
+                    var x = 0;
+                    switch (this._textAlign) {
+                        case Kiwi.GameObjects.Textfield.TEXTALIGN_LEFT:
+                            x = 0;
+                            break;
+                        case Kiwi.GameObjects.Textfield.TEXTALIGN_CENTER:
+                            x = this._textImage.width / 2;
+                            break;
+                        case Kiwi.GameObjects.Textfield.TEXTALIGN_RIGHT:
+                            x = this._textImage.width;
+                            break;
+                    }
 
-                    ctx.fillText(this._text, 0, 0);
+                    t.x -= x;
+                    var m = t.getConcatenatedMatrix();
+
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
+
+                    t.x += x;
 
                     ctx.restore();
                 }
             };
+            Textfield.TEXTALIGN_CENTER = 'center';
+
+            Textfield.TEXTALIGN_RIGHT = 'right';
+
+            Textfield.TEXTALIGN_LEFT = 'left';
             return Textfield;
         })(Kiwi.Entity);
         GameObjects.Textfield = Textfield;

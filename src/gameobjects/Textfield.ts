@@ -230,10 +230,26 @@ module Kiwi.GameObjects {
             return this._baseline;
         }*/
 
+        /**
+        * A temporary property that we use to render the actual text to and then get the information from.
+        * @property _tempCanvas
+        * @type HTMLCanvasElement.
+        */
         private _tempCanvas: HTMLCanvasElement;
 
+        /**
+        * The HTMLImageElement which has the text rendered as an image once the _tempCanvas has generated it. 
+        * @property _textImage
+        * @type HTMLImageElement
+        */
         private _textImage: HTMLImageElement;
 
+        /**
+        * This method is used to render the text to a off-screen canvas, which is then saved as a HTMLImageElement. 
+        * This is so that the canvas doesn't render it every frame as it can be costly.
+        *
+        * @method _renderText
+        */
         private _renderText() {
             
             //create the canvas
@@ -244,27 +260,16 @@ module Kiwi.GameObjects {
             ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
             var _measurements: TextMetrics = ctxTemp.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
             this._tempCanvas.width = _measurements.width;  
-            this._tempCanvas.height = this._fontSize;
+            this._tempCanvas.height = this._fontSize * 1.3; //for the characters that fall below the baseline. Should find better implementation.
 
-            //align the text
-            var x:number = 0;
-            switch (this._textAlign) {
-                case Kiwi.GameObjects.Textfield.TEXTALIGN_CENTER:
-                    x = _measurements.width / 2;
-                    break;
-                case Kiwi.GameObjects.Textfield.TEXTALIGN_RIGHT:
-                    x = _measurements.width;
-                    break;
-            }
             
             //reapply the styles....cause it unapplies after a measurement...?!?
             ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
             ctxTemp.fillStyle = this._fontColor;
             ctxTemp.textBaseline = this._baseline;
-            ctxTemp.textAlign = this._textAlign;
 
             //add text
-            ctxTemp.fillText(this._text, x, 0);
+            ctxTemp.fillText(this._text, 0, 0);
 
             //create the image
             this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
@@ -291,16 +296,35 @@ module Kiwi.GameObjects {
                 ctx.save();
 
                 var t: Kiwi.Geom.Transform = this.transform;
-                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
                 if (this.alpha > 0 && this.alpha <= 1) {
                     ctx.globalAlpha = this.alpha;
                 }
-               
+                
+                //align the text
+                var x = 0;
+                switch (this._textAlign) {
+                    case Kiwi.GameObjects.Textfield.TEXTALIGN_LEFT:
+                        x = 0;
+                        break;
+                    case Kiwi.GameObjects.Textfield.TEXTALIGN_CENTER:
+                        x = this._textImage.width / 2;
+                        break;
+                    case Kiwi.GameObjects.Textfield.TEXTALIGN_RIGHT:
+                        x = this._textImage.width;
+                        break;
+                }
+
+                //add the alignment to the transformation
+                t.x -= x;
+                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
                 ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
                 
+                //remove it again.
+                t.x += x;
+
                 ctx.restore();
                 
             }

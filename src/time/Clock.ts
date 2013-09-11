@@ -319,7 +319,7 @@ module Kiwi.Time {
         * @param {string} The name of the Timer object to remove.
         * @return {Boolean} True if the Timer was successfully removed, false if not.
         **/
-        public removeTimer(timer: Timer = null, timerName:string = ''): bool {
+        public removeTimer(timer: Timer = null, timerName:string = ''): boolean {
 
             //  Timer object given?
             if (timer !== null)

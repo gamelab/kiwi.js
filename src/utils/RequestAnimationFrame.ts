@@ -70,14 +70,14 @@ module Kiwi.Utils {
         * @type Boolean
         * @private
         **/
-        private _isSetTimeOut: bool = false;
+        private _isSetTimeOut: boolean = false;
 
         /**
         * 
         * @method usingSetTimeOut
         * @return Boolean
         **/
-        public isUsingSetTimeOut(): bool {
+        public isUsingSetTimeOut(): boolean {
 
             return this._isSetTimeOut;
 
@@ -88,7 +88,7 @@ module Kiwi.Utils {
         * @method usingRAF
         * @return Boolean
         **/
-        public isUsingRAF(): bool {
+        public isUsingRAF(): boolean {
 
             if (this._isSetTimeOut === true)
             {
@@ -119,7 +119,7 @@ module Kiwi.Utils {
         * @property isRunning
         * @type Boolean
         **/
-        public isRunning: bool = false;
+        public isRunning: boolean = false;
 
         /**
         * 

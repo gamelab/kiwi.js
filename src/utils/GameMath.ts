@@ -53,8 +53,8 @@ module Kiwi.Utils {
 
         public static CIRCLE_ALPHA: number = 0.5522847498307933984022516322796; //4*(Math.sqrt(2)-1)/3.0;
 
-        public static ON: bool = true;
-        public static OFF: bool = false;
+        public static ON: boolean = true;
+        public static OFF: boolean = false;
 
         public static SHORT_EPSILON: number = 0.1;//round integer epsilon
         public static PERC_EPSILON: number = 0.001;//percentage epsilon
@@ -69,15 +69,15 @@ module Kiwi.Utils {
             return Math.abs(1.0 - one);
         }
 
-        public static fuzzyEqual(a: number, b: number, epsilon: number = 0.0001): bool {
+        public static fuzzyEqual(a: number, b: number, epsilon: number = 0.0001): boolean {
             return Math.abs(a - b) < epsilon;
         }
 
-        public static fuzzyLessThan(a: number, b: number, epsilon: number = 0.0001): bool {
+        public static fuzzyLessThan(a: number, b: number, epsilon: number = 0.0001): boolean {
             return a < b + epsilon;
         }
 
-        public static fuzzyGreaterThan(a: number, b: number, epsilon: number = 0.0001): bool {
+        public static fuzzyGreaterThan(a: number, b: number, epsilon: number = 0.0001): boolean {
             return a > b - epsilon;
         }
 
@@ -316,18 +316,18 @@ module Kiwi.Utils {
 
 
         /**
-		 * set an angle with in the bounds of -PI to PI
-		 */
-        public static normalizeAngle(angle: number, radians: bool = true): number {
+         * set an angle with in the bounds of -PI to PI
+         */
+        public static normalizeAngle(angle: number, radians: boolean = true): number {
             var rd: number = (radians) ? GameMath.PI : 180;
             return GameMath.wrap(angle, rd, -rd);
         }
 
         /**
-		 * closest angle between two angles from a1 to a2
-		 * absolute value the return for exact angle
-		 */
-        public static nearestAngleBetween(a1: number, a2: number, radians: bool = true): number {
+         * closest angle between two angles from a1 to a2
+         * absolute value the return for exact angle
+         */
+        public static nearestAngleBetween(a1: number, a2: number, radians: boolean = true): number {
 
             var rd: number = (radians) ? GameMath.PI : 180;
 
@@ -341,40 +341,40 @@ module Kiwi.Utils {
         }
 
         /**
-		 * normalizes independent and then sets dep to the nearest value respective to independent
-		 * 
-		 * for instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170
-		 */
-        public static normalizeAngleToAnother(dep: number, ind: number, radians: bool = true): number {
+         * normalizes independent and then sets dep to the nearest value respective to independent
+         * 
+         * for instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170
+         */
+        public static normalizeAngleToAnother(dep: number, ind: number, radians: boolean = true): number {
             return ind + Kiwi.Utils.GameMath.nearestAngleBetween(ind, dep, radians);
         }
 
         /**
-		 * normalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent
-		 * 
-		 * for instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170
-		 */
-        public static normalizeAngleAfterAnother(dep: number, ind: number, radians: bool = true): number {
+         * normalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent
+         * 
+         * for instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170
+         */
+        public static normalizeAngleAfterAnother(dep: number, ind: number, radians: boolean = true): number {
 
             dep = Kiwi.Utils.GameMath.normalizeAngle(dep - ind, radians);
             return ind + dep;
         }
 
         /**
-		 * normalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent
-		 * 
-		 * for instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190
-		 */
-        public static normalizeAngleBeforeAnother(dep: number, ind: number, radians: bool = true): number {
+         * normalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent
+         * 
+         * for instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190
+         */
+        public static normalizeAngleBeforeAnother(dep: number, ind: number, radians: boolean = true): number {
 
             dep = Kiwi.Utils.GameMath.normalizeAngle(ind - dep, radians);
             return ind - dep;
         }
 
         /**
-		 * interpolate across the shortest arc between two angles
-		 */
-        public static interpolateAngles(a1: number, a2: number, weight: number, radians: bool = true, ease = null): number {
+         * interpolate across the shortest arc between two angles
+         */
+        public static interpolateAngles(a1: number, a2: number, weight: number, radians: boolean = true, ease = null): number {
 
             a1 = Kiwi.Utils.GameMath.normalizeAngle(a1, radians);
             a2 = Kiwi.Utils.GameMath.normalizeAngleToAnother(a2, a1, radians);
@@ -514,15 +514,15 @@ module Kiwi.Utils {
         }
 
         /**
-		 * Generate a random boolean result based on the chance value
-		 * <p>
-		 * Returns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance
-		 * of getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.
-		 * </p>
-		 * @param chance The chance of receiving the value. A number between 0 and 100 (effectively 0% to 100%)
-		 * @return true if the roll passed, or false
-		 */
-        public static chanceRoll(chance: number = 50): bool {
+         * Generate a random boolean result based on the chance value
+         * <p>
+         * Returns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance
+         * of getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.
+         * </p>
+         * @param chance The chance of receiving the value. A number between 0 and 100 (effectively 0% to 100%)
+         * @return true if the roll passed, or false
+         */
+        public static chanceRoll(chance: number = 50): boolean {
 
             if (chance <= 0)
             {
@@ -620,13 +620,13 @@ module Kiwi.Utils {
         }
 
         /**
-		 * Returns true if the number given is odd.
-		 * 
-		 * @param	n	The number to check
-		 * 
-		 * @return	True if the given number is odd. False if the given number is even.
-		 */
-        public static isOdd(n: number): bool {
+         * Returns true if the number given is odd.
+         * 
+         * @param	n	The number to check
+         * 
+         * @return	True if the given number is odd. False if the given number is even.
+         */
+        public static isOdd(n: number): boolean {
 
             if (n & 1)
             {
@@ -640,13 +640,13 @@ module Kiwi.Utils {
         }
 
         /**
-		 * Returns true if the number given is even.
-		 * 
-		 * @param	n	The number to check
-		 * 
-		 * @return	True if the given number is even. False if the given number is odd.
-		 */
-        public static isEven(n: number): bool {
+         * Returns true if the number given is even.
+         * 
+         * @param	n	The number to check
+         * 
+         * @return	True if the given number is even. False if the given number is odd.
+         */
+        public static isEven(n: number): boolean {
 
             if (n & 1)
             {

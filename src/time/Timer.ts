@@ -367,7 +367,7 @@ module Kiwi.Time {
         * @param {Kiwi.Time.TimerEvent} The TimerEvent to remove
         * @return {Boolean} True if the event was removed, otherwise false.
         **/
-        public removeTimerEvent(event:TimerEvent):bool {
+        public removeTimerEvent(event:TimerEvent):boolean {
 
             var removed = [];
 

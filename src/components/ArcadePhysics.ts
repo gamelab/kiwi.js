@@ -21,35 +21,35 @@ module Kiwi.Components {
     */
     export class ArcadePhysics extends Kiwi.Component {
 
-        /*
+        /**
         * The Entity that this physics component belongs to.
         * @property _parent
         * @type Kiwi.Entity
         */
         private _parent: Entity;
         
-        /*
+        /**
         * The transform component.
         * @property transform
         * @type Kiwi.Geom.Transform
         */
         public transform: Kiwi.Geom.Transform;
         
-        /*
+        /**
         * The width component that this physics component uses.
         * @property width
         * @type number
         */
         public width: number;   //convert to hitbox 
 
-        /*
+        /**
         * The height that this physics component uses.
         * @property height
         * @type number
         */ 
         public height: number;
 
-        /*
+        /**
         *
         * @constructor
         * @param {Kiwi.Entity} entity 
@@ -86,7 +86,7 @@ module Kiwi.Components {
             this.maxAngular = 10000;
         }
 
-        /*
+        /**
         * The type of object that this is.
         * 
         * @method objType
@@ -287,19 +287,19 @@ module Kiwi.Components {
 		 */
         public last: Kiwi.Geom.Point;
 
-        /*
+        /**
         * A boolean to indicate if this object is solid or not.
         * @private
         */
         private _solid: boolean;
 
-        /*
+        /**
         * A function that is to execute when this object overlaps with another.
         * @private
         */
         private _callbackFunction: any = null;
 
-        /*
+        /**
         * The context that the callback method should have when it executes.
         * @private
         */
@@ -645,7 +645,7 @@ module Kiwi.Components {
 
         }
 
-        /*
+        /**
         * CURRENTLY UNTESTED...
         */
         public static computeVelocity(velocity: number, acceleration: number = 0, drag: number = 0, max: number = 10000) {
@@ -673,7 +673,7 @@ module Kiwi.Components {
 
         ////////Instance Functions/////////
 
-        /*
+        /**
         * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
         * 
         * @method overlaps
@@ -700,7 +700,7 @@ module Kiwi.Components {
 
         }
 
-        /*
+        /**
         * A method to check to see if the parent of this physics component overlaps with another group of objects
         * 
         * @method overlaps
@@ -750,7 +750,7 @@ module Kiwi.Components {
 
         }
 
-        /*
+        /**
         * Updates the motion...
         * UNTESTED.
         */
@@ -779,7 +779,7 @@ module Kiwi.Components {
         */
         }
     
-        /*
+        /**
         * Sets up a callback function that will run when this object overlaps with another.
         * 
         * @method setCallback
@@ -793,7 +793,7 @@ module Kiwi.Components {
 
         }
 
-        /*
+        /**
         * Returns the parent of this entity. Mainly used for executing callbacks.
         *
         * @method parent
@@ -803,7 +803,7 @@ module Kiwi.Components {
             return this._parent;
         }
 
-        /*
+        /**
         * The Update loop of the physics component
         */
         public update() {
