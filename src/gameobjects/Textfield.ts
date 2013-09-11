@@ -15,6 +15,8 @@ module Kiwi.GameObjects {
     */
     export class Textfield extends Kiwi.Entity {
 
+        //TO DO - MULTIPLE LINES OF TEXT! Use an array.
+
         /**
          * 
          * @constructor
@@ -27,7 +29,7 @@ module Kiwi.GameObjects {
          * @param {String} fontFamily
          * @return {Kiwi.GameObjects.Textfield} This Game Object.
          **/
-        constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#ffffff', size: number = 32, weight: string = 'normal', fontFamily: string = 'cursive') {
+        constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#ffffff', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif') {
 
             super(state, x,y);
 
@@ -39,7 +41,8 @@ module Kiwi.GameObjects {
             this._lineHeight = 1;
             this._textAlign = 'left';
             this._baseline = 'top';
-
+            
+            this.dirty = true;
         }
 
         /*
@@ -114,6 +117,7 @@ module Kiwi.GameObjects {
          **/
         public set text(value: string) {
             this._text = value;
+            this.dirty = true;
         }
 
         /*
@@ -134,6 +138,7 @@ module Kiwi.GameObjects {
          **/
         public set color(val: string) {
             this._fontColor = val;
+            this.dirty = true;
         }
 
         public get color(): string {
@@ -149,6 +154,7 @@ module Kiwi.GameObjects {
          **/
         public set fontWeight(val: string) {
             this._fontWeight = val;
+            this.dirty = true;
         }
 
         public get fontWeight(): string {
@@ -164,6 +170,7 @@ module Kiwi.GameObjects {
          **/
         public set fontSize(val: number) {
             this._fontSize = val;
+            this.dirty = true;
         }
 
         public get fontSize(): number {
@@ -179,27 +186,18 @@ module Kiwi.GameObjects {
          **/
         public set fontFamily(val: string) {
             this._fontFamily = val;
+            this.dirty = true;
         }
 
         public get fontFamily(): string {
             return this._fontFamily;
         }
-
-        /**
-         * Modify the spacing between lines in the textfield. This is a relative messurement that is in relation to your font-size.
-         * Example: If you font size is 18px and your line height is 1.5 then each line will be roughly 18 * 1.5 = 27 pixels high.
-         * 
-         * @method lineHeight
-         * @param {number} val
-         * @return {number}
-         **/
-        public set lineHeight(val: number) {
-            this._lineHeight = val;
-        }
         
-        public get lineHeight(): number {
-            return this._lineHeight;
-        }
+        public static TEXTALIGN_CENTER: string = 'center';
+
+        public static TEXTALIGN_RIGHT: string = 'right';
+
+        public static TEXTALIGN_LEFT: string = 'left';
 
         /**
          * Lets you change the text alignment.
@@ -210,6 +208,7 @@ module Kiwi.GameObjects {
          **/
         public set textAlign(val: string) {
             this._textAlign = val;
+            this.dirty = true;
         }
 
         public get textAlign(): string {
@@ -217,19 +216,62 @@ module Kiwi.GameObjects {
         }
 
         /**
-         * Allows you to change the baseline.
+         * Allows you to change the baseline. COMMNENTED OUT DUE TO BUG FIX
          *
          * @method baseline
          * @param {string}
          **/
-        public set baseline(val: string) {
+        /*public set baseline(val: string) {
             this._baseline = val;
+            this.dirty = true;
         }
         
         public get baseline(): string {
             return this._baseline;
-        }
+        }*/
 
+        private _tempCanvas: HTMLCanvasElement;
+
+        private _textImage: HTMLImageElement;
+
+        private _renderText() {
+            
+            //create the canvas
+            this._tempCanvas = document.createElement('canvas');
+            var ctxTemp: CanvasRenderingContext2D = this._tempCanvas.getContext('2d');
+
+            //get/set the width
+            ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+            var _measurements: TextMetrics = ctxTemp.measureText(this._text);   //when you measure the text for some reason it resets the values?! 
+            this._tempCanvas.width = _measurements.width;  
+            this._tempCanvas.height = this._fontSize;
+
+            //align the text
+            var x:number = 0;
+            switch (this._textAlign) {
+                case Kiwi.GameObjects.Textfield.TEXTALIGN_CENTER:
+                    x = _measurements.width / 2;
+                    break;
+                case Kiwi.GameObjects.Textfield.TEXTALIGN_RIGHT:
+                    x = _measurements.width;
+                    break;
+            }
+            
+            //reapply the styles....cause it unapplies after a measurement...?!?
+            ctxTemp.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+            ctxTemp.fillStyle = this._fontColor;
+            ctxTemp.textBaseline = this._baseline;
+            ctxTemp.textAlign = this._textAlign;
+
+            //add text
+            ctxTemp.fillText(this._text, x, 0);
+
+            //create the image
+            this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
+            this._textImage.src = this._tempCanvas.toDataURL("image/png");
+
+            this.dirty = false;
+        }
        
         /**
 	     * Called by the Layer to which this Game Object is attached
@@ -237,25 +279,27 @@ module Kiwi.GameObjects {
 	     **/
         public render(camera:Kiwi.Camera) {
             
+            if (this.alpha > 0 && this.visiblity) {
 
-            if (this.alpha > 0 && this.visiblity)
-            {
+                //has the text changed at all? 
+                if (this.dirty) {
+                    this._renderText();
+                }
+                
+                //render on stage
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
 
-                var m: Kiwi.Geom.Matrix = this.transform.getConcatenatedMatrix();
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                var t: Kiwi.Geom.Transform = this.transform;
+                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+
+                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
                 if (this.alpha > 0 && this.alpha <= 1) {
                     ctx.globalAlpha = this.alpha;
                 }
-
-                ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
-                ctx.textAlign = this._textAlign;
-                ctx.textBaseline = this._baseline;
-                ctx.fillStyle = this._fontColor;
-
-                ctx.fillText(this._text, 0, 0);
+               
+                ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
                 
                 ctx.restore();
                 
