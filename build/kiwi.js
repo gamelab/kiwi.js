@@ -1,2186 +1,5 @@
 ﻿var Kiwi;
 (function (Kiwi) {
-    var Camera = (function () {
-        function Camera(game, id, name, x, y, width, height) {
-            this.fitToStage = true;
-            this._game = game;
-            this.id = id;
-            this.name = name;
-
-            this.width = width;
-            this.height = height;
-            this.transform = new Kiwi.Geom.Transform(x, y);
-            this.transform.rotPointX = x + width / 2;
-            this.transform.rotPointY = y + height / 2;
-
-            this._game.stage.onResize.add(this._updatedStageSize, this);
-            this._game.stage.onResize.add(this._updatedSize, this);
-        }
-        Camera.prototype.objType = function () {
-            return "Camera";
-        };
-
-        Camera.prototype._updatedStageSize = function (width, height) {
-            this.width = width;
-            this.height = height;
-        };
-
-        Camera.prototype._updatedSize = function (width, height) {
-        };
-
-        Camera.prototype.visible = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            return this._visible;
-        };
-
-        Camera.prototype.dirty = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._dirty = value;
-            }
-
-            return this._dirty;
-        };
-
-        Camera.prototype.update = function () {
-        };
-
-        Camera.prototype.render = function () {
-            this._game.renderer.render(this);
-        };
-        return Camera;
-    })();
-    Kiwi.Camera = Camera;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var CameraManager = (function () {
-        function CameraManager(game) {
-            this._game = game;
-            this._cameras = [];
-            this._nextCameraID = 0;
-        }
-        CameraManager.prototype.objType = function () {
-            return "CameraManager";
-        };
-
-        CameraManager.prototype.boot = function () {
-            this.create("defaultCamera", 0, 0, this._game.stage.width, this._game.stage.height);
-            this.defaultCamera = this._cameras[0];
-        };
-
-        CameraManager.prototype.create = function (name, x, y, width, height) {
-            var newCamera = new Kiwi.Camera(this._game, this._nextCameraID++, name, x, y, width, height);
-
-            this._cameras.push(newCamera);
-
-            return newCamera;
-        };
-
-        CameraManager.prototype.remove = function (camera) {
-            var i = this._cameras.indexOf(camera);
-
-            if (i !== -1) {
-                this._cameras.splice(i, 1);
-                return true;
-            }
-
-            return false;
-        };
-
-        CameraManager.prototype.update = function () {
-            if (this._cameras.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this._cameras.length; i++) {
-                this._cameras[i].update();
-            }
-        };
-
-        CameraManager.prototype.render = function () {
-            if (this._cameras.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i < this._cameras.length; i++) {
-                this._cameras[i].render();
-            }
-        };
-
-        CameraManager.prototype.removeAll = function () {
-            this._cameras.length = 0;
-        };
-        return CameraManager;
-    })();
-    Kiwi.CameraManager = CameraManager;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Component = (function () {
-        function Component(owner, name) {
-            this.active = true;
-            this.dirty = false;
-            this.owner = owner;
-            this.game = this.owner.game;
-            this.name = name;
-            this.active = true;
-        }
-        Component.prototype.objType = function () {
-            return "Component";
-        };
-
-        Component.prototype.preUpdate = function () {
-        };
-
-        Component.prototype.update = function () {
-        };
-
-        Component.prototype.postUpdate = function () {
-        };
-
-        Component.prototype.destroy = function () {
-            this.active = false;
-            delete this.game;
-            delete this.owner;
-
-            this.name = '';
-        };
-        return Component;
-    })();
-    Kiwi.Component = Component;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var ComponentManager = (function () {
-        function ComponentManager(type, owner) {
-            this._components = {};
-
-            this._type = type;
-            this._owner = owner;
-        }
-        ComponentManager.prototype.objType = function () {
-            return "ComponentManager";
-        };
-
-        ComponentManager.prototype.hasComponent = function (value) {
-            if (this._components[value]) {
-                return true;
-            }
-
-            return false;
-        };
-
-        ComponentManager.prototype.hasActiveComponent = function (value) {
-            if (this._components[value] && this._components[value].active === true) {
-                return true;
-            }
-
-            return false;
-        };
-
-        ComponentManager.prototype.getComponent = function (value) {
-            if (this._components[value]) {
-                return this._components[value];
-            }
-
-            return null;
-        };
-
-        ComponentManager.prototype.add = function (component) {
-            this._components[component.name] = component;
-
-            return component;
-        };
-
-        ComponentManager.prototype.addBatch = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-            for (var i = 0; i < paramsArr.length; i++) {
-                this.add(paramsArr[i]);
-            }
-        };
-
-        ComponentManager.prototype.removeComponent = function (component, destroy) {
-            if (typeof destroy === "undefined") { destroy = true; }
-            var name = component.name;
-
-            if (this._components[name]) {
-                if (destroy) {
-                    this._components[name].destroy();
-                }
-
-                delete this._components[name];
-
-                return true;
-            }
-
-            return false;
-        };
-
-        ComponentManager.prototype.removeComponentByName = function (name, destroy) {
-            if (typeof destroy === "undefined") { destroy = true; }
-            if (this._components[name]) {
-                if (destroy) {
-                    this._components[name].destroy();
-                }
-
-                delete this._components[name];
-
-                return true;
-            }
-
-            return false;
-        };
-
-        ComponentManager.prototype.removeAll = function (destroy) {
-            if (typeof destroy === "undefined") { destroy = true; }
-            for (var key in this._components) {
-                this.removeComponent(this._components[key], destroy);
-            }
-        };
-
-        ComponentManager.prototype.preUpdate = function () {
-            for (var name in this._components) {
-                if (this._components[name].active) {
-                    this._components[name].preUpdate();
-                }
-            }
-        };
-
-        ComponentManager.prototype.update = function () {
-            for (var name in this._components) {
-                if (this._components[name].active) {
-                    this._components[name].update();
-                }
-            }
-        };
-
-        ComponentManager.prototype.postUpdate = function () {
-            for (var name in this._components) {
-                if (this._components[name].active) {
-                    this._components[name].postUpdate();
-                }
-            }
-        };
-
-        ComponentManager.prototype.preRender = function () {
-            for (var name in this._components) {
-                if (this._components[name].active) {
-                    this._components[name].preRender();
-                }
-            }
-        };
-
-        ComponentManager.prototype.render = function () {
-            for (var name in this._components) {
-                if (this._components[name].active) {
-                    this._components[name].render();
-                }
-            }
-        };
-
-        ComponentManager.prototype.postRender = function () {
-            for (var name in this._components) {
-                if (this._components[name].active) {
-                    this._components[name].postRender();
-                }
-            }
-        };
-        return ComponentManager;
-    })();
-    Kiwi.ComponentManager = ComponentManager;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Entity = (function () {
-        function Entity(state, x, y) {
-            this._parent = null;
-            this._alpha = 1;
-            this._visible = true;
-            this.width = 0;
-            this.height = 0;
-            this.cellIndex = 0;
-            this.name = '';
-            this._clock = null;
-            this.state = state;
-            this.game = state.game;
-            this.id = this.game.rnd.uuid();
-            this.state.addToTrackingList(this);
-            this._clock = this.game.time.clock;
-
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
-            this.transform = new Kiwi.Geom.Transform();
-            this.transform.x = x;
-            this.transform.y = y;
-        }
-
-        Object.defineProperty(Entity.prototype, "parent", {
-            get: function () {
-                return this._parent;
-            },
-            set: function (val) {
-                this.transform.parent = (val !== null) ? val.transform : null;
-                this._parent = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "x", {
-            get: function () {
-                return this.transform.x;
-            },
-            set: function (value) {
-                this.transform.x = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "y", {
-            get: function () {
-                return this.transform.y;
-            },
-            set: function (value) {
-                this.transform.y = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "scaleX", {
-            get: function () {
-                return this.transform.scaleX;
-            },
-            set: function (value) {
-                this.transform.scaleX = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "scaleY", {
-            get: function () {
-                return this.transform.scaleY;
-            },
-            set: function (value) {
-                this.transform.scaleY = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Entity.prototype, "rotation", {
-            get: function () {
-                return this.transform.rotation;
-            },
-            set: function (value) {
-                this.transform.rotation = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Entity.prototype.childType = function () {
-            return Kiwi.ENTITY;
-        };
-
-
-        Object.defineProperty(Entity.prototype, "alpha", {
-            get: function () {
-                return this._alpha;
-            },
-            set: function (value) {
-                if (value <= 0)
-                    value = 0;
-                if (value > 1)
-                    value = 1;
-                this._alpha = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "visiblity", {
-            get: function () {
-                return this._visible;
-            },
-            set: function (value) {
-                this._visible = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "exists", {
-            get: function () {
-                return this._exists;
-            },
-            set: function (value) {
-                this._exists = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "active", {
-            get: function () {
-                return this._active;
-            },
-            set: function (value) {
-                this._active = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "willRender", {
-            get: function () {
-                return this._willRender;
-            },
-            set: function (value) {
-                this._willRender = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "inputEnabled", {
-            get: function () {
-                return this._inputEnabled;
-            },
-            set: function (value) {
-                this._inputEnabled = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "clock", {
-            get: function () {
-                return this._clock;
-            },
-            set: function (value) {
-                this._clock = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Entity.prototype, "dirty", {
-            get: function () {
-                return this._dirty;
-            },
-            set: function (value) {
-                this._dirty = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Entity.prototype.objType = function () {
-            return "Entity";
-        };
-
-        Entity.prototype.update = function () {
-        };
-
-        Entity.prototype.render = function (camera) {
-        };
-
-        Entity.prototype.destroy = function () {
-            this.state.removeFromTrackingList(this);
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-            delete this._parent;
-            delete this.transform;
-            delete this._clock;
-            delete this.state;
-            delete this.game;
-            delete this.atlas;
-
-            if (this.components)
-                this.components.removeAll(true);
-            delete this.components;
-        };
-        return Entity;
-    })();
-    Kiwi.Entity = Entity;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Game = (function () {
-        function Game(domParent, name, state, options) {
-            if (typeof domParent === "undefined") { domParent = ''; }
-            if (typeof name === "undefined") { name = 'KiwiGame'; }
-            if (typeof state === "undefined") { state = null; }
-            var _this = this;
-            this._startup = null;
-            this.audio = null;
-            this.browser = null;
-            this.fileStore = null;
-            this.input = null;
-            this.cameras = null;
-            this.loader = null;
-            this.raf = null;
-            this.stage = null;
-            this.states = null;
-            this.time = null;
-            this.tweens = null;
-            this.rnd = null;
-            this._frameRate = 60;
-            this._interval = 1000 / 60;
-            this._delta = 0;
-            options = options || {};
-            this._debugOption = options.debug || Kiwi.DEBUG_ON;
-            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
-            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
-
-            this.id = Kiwi.GameManager.register(this);
-
-            this._startup = new Kiwi.System.Bootstrap();
-
-            this.audio = new Kiwi.Sound.AudioManager(this);
-            this.browser = new Kiwi.System.Browser(this);
-
-            this.fileStore = new Kiwi.Files.FileStore(this);
-            this.input = new Kiwi.Input.Manager(this);
-
-            this.stage = new Kiwi.Stage(this, name);
-
-            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
-                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
-            } else {
-                this.renderer = new Kiwi.Renderers.GLRenderer(this);
-            }
-
-            this.cameras = new Kiwi.CameraManager(this);
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds = new Kiwi.HUD.HUDManager(this);
-            }
-            this.loader = new Kiwi.Files.Loader(this);
-
-            this.states = new Kiwi.StateManager(this);
-            this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
-            this.time = new Kiwi.Time.Manager(this);
-            this.tweens = new Kiwi.Animation.Tweens.Manager(this);
-
-            if (state !== null) {
-                if (this.states.addState(state, true) === false) {
-                    throw Error("Invalid State passed to Kiwi.Game");
-                }
-            }
-
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this._startup.boot(domParent, function () {
-                    return _this.start();
-                });
-            } else {
-                this.start();
-            }
-        }
-        Object.defineProperty(Game.prototype, "renderOption", {
-            get: function () {
-                return this._renderOption;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Game.prototype, "deviceTargetOption", {
-            get: function () {
-                return this._deviceTargetOption;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Game.prototype, "debugOption", {
-            get: function () {
-                return this._debugOption;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Game.prototype.objType = function () {
-            return "Game";
-        };
-
-        Object.defineProperty(Game.prototype, "frameRate", {
-            get: function () {
-                return this._frameRate;
-            },
-            set: function (value) {
-                if (value > 60)
-                    value = 60;
-
-                if (value >= 0) {
-                    this._frameRate = value;
-                    this._interval = 1000 / this._frameRate;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Game.prototype.start = function () {
-            var _this = this;
-            if (Kiwi.DEVICE === null) {
-                Kiwi.DEVICE = new Kiwi.System.Device();
-            }
-
-            this.browser.boot();
-            this.stage.boot(this._startup);
-            this.renderer.boot();
-            this.cameras.boot();
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds.boot();
-            }
-            this.time.boot();
-            this.audio.boot();
-            this.input.boot();
-
-            this.fileStore.boot();
-            this.loader.boot();
-            this.states.boot();
-
-            this._lastTime = Date.now();
-
-            this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
-                return _this.loop();
-            });
-            this.raf.start();
-        };
-
-        Game.prototype.loop = function () {
-            this._delta = this.raf.currentTime - this._lastTime;
-
-            if (this._delta > this._interval) {
-                this.time.update();
-                this.audio.update();
-                this.input.update();
-                this.tweens.update();
-                this.cameras.update();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.update();
-                }
-                this.states.update();
-
-                this.cameras.render();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.render();
-                }
-                this.states.postRender();
-
-                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
-            }
-        };
-        return Game;
-    })();
-    Kiwi.Game = Game;
-})(Kiwi || (Kiwi = {}));
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var Kiwi;
-(function (Kiwi) {
-    var State = (function (_super) {
-        __extends(State, _super);
-        function State(name) {
-            _super.call(this, null, name);
-            this.game = null;
-
-            this.config = new Kiwi.StateConfig(this, name);
-            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
-            this.transform.parent = null;
-            this._trackingList = [];
-        }
-        State.prototype.objType = function () {
-            return "State";
-        };
-
-        State.prototype.childType = function () {
-            return Kiwi.STATE;
-        };
-
-        State.prototype.boot = function () {
-            this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
-            this.textures = this.textureLibrary.textures;
-            this.audioLibrary = new Kiwi.Sound.AudioLibrary(this.game);
-            this.audio = this.audioLibrary.audio;
-            this.dataLibrary = new Kiwi.Files.DataLibrary(this.game);
-            this.data = this.dataLibrary.data;
-        };
-
-        State.prototype.init = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preload = function () {
-        };
-
-        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
-        };
-
-        State.prototype.loadComplete = function () {
-        };
-
-        State.prototype.loadUpdate = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.create = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-        };
-
-        State.prototype.preUpdate = function () {
-            this.components.preUpdate();
-        };
-
-        State.prototype.update = function () {
-            this.components.update();
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].active === true) {
-                    this.members[i].update();
-                }
-            }
-        };
-
-        State.prototype.postUpdate = function () {
-            this.components.postUpdate();
-        };
-
-        State.prototype.postRender = function () {
-        };
-
-        State.prototype.setType = function (value) {
-            if (this.config.isInitialised === false) {
-                this.config.type = value;
-            }
-        };
-
-        State.prototype.addImage = function (key, url, storeAsGlobal, width, height, offsetX, offsetY) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
-        };
-
-        State.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, storeAsGlobal, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
-        };
-
-        State.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
-        };
-
-        State.prototype.addJSON = function (key, url, storeAsGlobal) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addJSON(key, url, storeAsGlobal);
-        };
-
-        State.prototype.addAudio = function (key, url, storeAsGlobal) {
-            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
-            this.game.loader.addAudio(key, url, storeAsGlobal);
-        };
-
-        State.prototype.addToTrackingList = function (child) {
-            if (this._trackingList.indexOf(child) !== -1)
-                return;
-
-            this._trackingList.push(child);
-        };
-
-        State.prototype.removeFromTrackingList = function (child) {
-            var n = this._trackingList.indexOf(child);
-            if (n > -1) {
-                this._trackingList.splice(n, 1);
-            }
-        };
-
-        State.prototype.destroyUnused = function () {
-            var d = 0;
-            for (var i = 0; i < this._trackingList.length; i++) {
-                if (this.containsAncestor(this._trackingList[i], this) === false) {
-                    this._trackingList[i].destroy();
-                    this._trackingList.splice(i, 1);
-                    i--;
-                    d++;
-                }
-            }
-
-            return d;
-        };
-
-        State.prototype.destroy = function (deleteAll) {
-            if (typeof deleteAll === "undefined") { deleteAll = true; }
-            for (var i = 0; i < this._trackingList.length; i++) {
-                this._trackingList[i].destroy();
-            }
-            this._trackingList = [];
-
-            for (var i = 0; i < this.members.length; i++) {
-                this._destroyChildren(this.members[i]);
-            }
-        };
-
-        State.prototype._destroyChildren = function (child) {
-            if (child.childType() == Kiwi.GROUP) {
-                for (var i = 0; i < child.members.length; i++) {
-                    this._destroyChildren(child.members[i]);
-                }
-            }
-            child.destroy();
-        };
-        return State;
-    })(Kiwi.Group);
-    Kiwi.State = State;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Group = (function () {
-        function Group(state, name) {
-            if (typeof name === "undefined") { name = ''; }
-            this.name = '';
-            this._parent = null;
-            this.game = null;
-            this.state = null;
-            this._dirty = true;
-            if (state !== null) {
-                this.state = state;
-                this.game = this.state.game;
-                this.id = this.game.rnd.uuid();
-                this.state.addToTrackingList(this);
-            }
-
-            this.name = name;
-            this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
-
-            this._exists = true;
-            this._active = true;
-            this._willRender = true;
-
-            this.transform = new Kiwi.Geom.Transform();
-
-            this.members = [];
-
-            this._willRender = true;
-        }
-        Group.prototype.objType = function () {
-            return 'Group';
-        };
-
-        Group.prototype.childType = function () {
-            return Kiwi.GROUP;
-        };
-
-        Object.defineProperty(Group.prototype, "parent", {
-            get: function () {
-                return this._parent;
-            },
-            set: function (val) {
-                this.transform.parent = (val !== null) ? val.transform : null;
-                this._parent = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Group.prototype, "x", {
-            get: function () {
-                return this.transform.x;
-            },
-            set: function (value) {
-                this.transform.x = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Group.prototype, "y", {
-            get: function () {
-                return this.transform.y;
-            },
-            set: function (value) {
-                this.transform.y = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Group.prototype, "scaleX", {
-            get: function () {
-                return this.transform.scaleX;
-            },
-            set: function (value) {
-                this.transform.scaleX = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Group.prototype, "scaleY", {
-            get: function () {
-                return this.transform.scaleY;
-            },
-            set: function (value) {
-                this.transform.scaleY = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Object.defineProperty(Group.prototype, "rotation", {
-            get: function () {
-                return this.transform.rotation;
-            },
-            set: function (value) {
-                this.transform.rotation = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.numChildren = function () {
-            return this.members.length;
-        };
-
-        Object.defineProperty(Group.prototype, "dirty", {
-            get: function () {
-                return this._dirty;
-            },
-            set: function (value) {
-                if (value !== undefined) {
-                    this._dirty = value;
-
-                    for (var i = 0; i < this.members.length; i++) {
-                        this.members[i].dirty = value;
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.contains = function (child) {
-            return (this.members.indexOf(child) === -1) ? false : true;
-        };
-
-        Group.prototype.containsDescendant = function (child) {
-            for (var i = 0; i < this.members.length; i++) {
-                console.log(i);
-                var curMember = this.members[i];
-                if (curMember.id == child.id || curMember.childType() == Kiwi.Group && curMember.containsDesendant(child)) {
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        Group.prototype.containsAncestor = function (descendant, ancestor) {
-            if (descendant.parent === null || descendant.parent === undefined) {
-                return false;
-            }
-            if (descendant.parent == ancestor)
-                return true;
-            return descendant.parent.containsAncestor(descendant.parent, ancestor);
-        };
-
-        Group.prototype.addChild = function (child) {
-            if (child.childType() === Kiwi.STATE || child == this)
-                return;
-
-            if (child.parent !== null)
-                child.parent.removeChild(child);
-
-            this.members.push(child);
-            child.parent = this;
-
-            return child;
-        };
-
-        Group.prototype.addChildAt = function (child, index) {
-            if (child.childType() === Kiwi.STATE || child == this)
-                return;
-
-            if (child.parent !== null)
-                child.parent.removeChild(child);
-
-            this.members.splice(index, 0, child);
-            child.parent = this;
-
-            return child;
-        };
-
-        Group.prototype.addChildBefore = function (child, beforeChild) {
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
-                var index = this.getChildIndex(beforeChild);
-
-                this.members.splice(index, 0, child);
-            }
-
-            return child;
-        };
-
-        Group.prototype.addChildAfter = function (child, beforeChild) {
-            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
-                var index = this.getChildIndex(beforeChild) + 1;
-
-                this.members.splice(index, 0, child);
-            }
-
-            return child;
-        };
-
-        Group.prototype.getChildAt = function (index) {
-            if (this.members[index]) {
-                return this.members[index];
-            } else {
-                return null;
-            }
-        };
-
-        Group.prototype.getChildByName = function (name) {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].name === name) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.getChildByID = function (id) {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].id === id) {
-                    return this.members[i];
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.getChildIndex = function (child) {
-            return this.members.indexOf(child);
-        };
-
-        Group.prototype.removeChild = function (child, destroy) {
-            if (typeof destroy === "undefined") { destroy = false; }
-            if (child.parent === this) {
-                var index = this.getChildIndex(child);
-
-                if (index > -1) {
-                    this.members.splice(index, 1);
-                    child.parent = null;
-
-                    if (destroy) {
-                        child.destroy();
-                    }
-                }
-            }
-
-            return child;
-        };
-
-        Group.prototype.removeChildAt = function (index) {
-            if (this.members[index]) {
-                var child = this.members[index];
-
-                return this.removeChild(child);
-            } else {
-                return null;
-            }
-        };
-
-        Group.prototype.removeChildren = function (begin, end, destroy) {
-            if (typeof begin === "undefined") { begin = 0; }
-            if (typeof end === "undefined") { end = 0x7fffffff; }
-            if (typeof destroy === "undefined") { destroy = false; }
-            end -= begin;
-
-            var removed = this.members.splice(begin, end);
-
-            for (var i = 0; i < removed.length; i++) {
-                removed[i].parent = null;
-
-                if (destroy) {
-                    removed[i].destroy();
-                }
-            }
-
-            return removed.length;
-        };
-
-        Group.prototype.setChildIndex = function (child, index) {
-            if (child.parent !== this || this.getChildIndex(child) === index) {
-                return false;
-            }
-
-            this.removeChild(child);
-            this.addChildAt(child, index);
-
-            return true;
-        };
-
-        Group.prototype.swapChildren = function (child1, child2) {
-            if (child1.parent !== this || child2.parent !== this) {
-                return false;
-            }
-
-            var index1 = this.getChildIndex(child1);
-            var index2 = this.getChildIndex(child2);
-
-            if (index1 !== -1 && index2 !== -1 && index1 !== index2) {
-                this.members[index1] = child2;
-                this.members[index2] = child1;
-
-                return true;
-            }
-
-            return false;
-        };
-
-        Group.prototype.swapChildrenAt = function (index1, index2) {
-            var child1 = this.getChildAt(index1);
-            var child2 = this.getChildAt(index2);
-
-            if (child1 !== null && child2 !== null) {
-                if (child1 == child2 || child1.parent !== this || child2.parent !== this) {
-                    return false;
-                }
-
-                this.members[index1] = child2;
-                this.members[index2] = child1;
-
-                return true;
-            }
-
-            return false;
-        };
-
-        Group.prototype.replaceChild = function (oldChild, newChild) {
-            if (oldChild === newChild)
-                return false;
-
-            var index = this.getChildIndex(oldChild);
-
-            if (index > -1) {
-                if (newChild.parent) {
-                    newChild.parent.removeChild(newChild);
-                }
-
-                this.removeChildAt(index);
-
-                this.addChildAt(newChild, index);
-                newChild.parent = null;
-
-                return true;
-            }
-
-            return false;
-        };
-
-        Group.prototype.forEach = function (context, callback) {
-            var params = [];
-            for (var _i = 0; _i < (arguments.length - 2); _i++) {
-                params[_i] = arguments[_i + 2];
-            }
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return callback.apply(context, [child].concat(params));
-                });
-            }
-        };
-
-        Group.prototype.forEachAlive = function (context, callback) {
-            var params = [];
-            for (var _i = 0; _i < (arguments.length - 2); _i++) {
-                params[_i] = arguments[_i + 2];
-            }
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    if (child.exists)
-                        callback.apply(context, [child].concat(params));
-                });
-            }
-        };
-
-        Group.prototype.setAll = function (componentName, property, value) {
-            if (componentName === null) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][property] = value;
-                }
-            } else {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][componentName][property] = value;
-                }
-            }
-        };
-
-        Group.prototype.callAll = function (componentName, functionName, args) {
-            if (componentName === null) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][functionName].apply(this.members[i], args);
-                }
-            } else {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i][componentName][functionName].apply(this.members[i][componentName], args);
-                }
-            }
-        };
-
-        Group.prototype.update = function () {
-            var _this = this;
-            this.components.preUpdate();
-
-            this.components.update();
-            if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return _this.processUpdate(child);
-                });
-            }
-
-            this.components.postUpdate();
-        };
-
-        Group.prototype.processUpdate = function (child) {
-            if (child.active === true) {
-                child.update();
-            }
-        };
-
-
-        Object.defineProperty(Group.prototype, "exists", {
-            get: function () {
-                return this._exists;
-            },
-            set: function (value) {
-                this._exists = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Group.prototype, "active", {
-            get: function () {
-                return this._active;
-            },
-            set: function (value) {
-                this._active = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.render = function (camera) {
-        };
-
-        Group.prototype.removeFirstAlive = function (destroy) {
-            if (typeof destroy === "undefined") { destroy = false; }
-            return this.removeChild(this.getFirstAlive(), destroy);
-        };
-
-        Group.prototype.getFirstAlive = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === true) {
-                    return this.members[i];
-                    break;
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.getFirstDead = function () {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === false) {
-                    return this.members[i];
-                    break;
-                }
-            }
-
-            return null;
-        };
-
-        Group.prototype.countLiving = function () {
-            var total = 0;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === true) {
-                    total++;
-                }
-            }
-
-            return total;
-        };
-
-        Group.prototype.countDead = function () {
-            var total = 0;
-
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].exists === false) {
-                    total++;
-                }
-            }
-
-            return total;
-        };
-
-        Group.prototype.getRandom = function (start, length) {
-            if (typeof start === "undefined") { start = 0; }
-            if (typeof length === "undefined") { length = 0; }
-            if (this.members.length === 0) {
-                return null;
-            }
-
-            if (length === 0) {
-                length = this.members.length;
-            }
-
-            if (start < 0 || start > length) {
-                start = 0;
-            }
-
-            var rnd = start + (Math.random() * (start + length));
-
-            if (rnd > this.members.length) {
-                return this.members[this.members.length - 1];
-            } else {
-                return this.members[rnd];
-            }
-        };
-
-        Group.prototype.clear = function () {
-            this.members.length = 0;
-        };
-
-
-        Object.defineProperty(Group.prototype, "willRender", {
-            get: function () {
-                return this._willRender;
-            },
-            set: function (value) {
-                this._willRender = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        Group.prototype.destroy = function (destroyChildren) {
-            if (typeof destroyChildren === "undefined") { destroyChildren = true; }
-            if (destroyChildren == true) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i].destroy();
-                }
-            } else {
-                this.removeChildren();
-            }
-
-            this.state.removeFromTrackingList(this);
-            this._exists = false;
-            this._active = false;
-            this._willRender = false;
-            delete this.transform;
-            if (this.components)
-                this.components.removeAll();
-            delete this.components;
-            delete this.name;
-            delete this.members;
-            delete this.game;
-            delete this.state;
-        };
-        return Group;
-    })();
-    Kiwi.Group = Group;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Signal = (function () {
-        function Signal() {
-            this._bindings = [];
-            this._prevParams = null;
-            this.memorize = false;
-            this._shouldPropagate = true;
-            this.active = true;
-        }
-        Signal.prototype.objType = function () {
-            return "Signal";
-        };
-
-        Signal.prototype.validateListener = function (listener, fnName) {
-            if (typeof listener !== 'function') {
-                throw new Error('listener is a required param of {fn}() and should be a Function.'.replace('{fn}', fnName));
-            }
-        };
-
-        Signal.prototype._registerListener = function (listener, isOnce, listenerContext, priority) {
-            var prevIndex = this._indexOfListener(listener, listenerContext);
-            var binding;
-
-            if (prevIndex !== -1) {
-                binding = this._bindings[prevIndex];
-
-                if (binding.isOnce() !== isOnce) {
-                    throw new Error('You cannot add' + (isOnce ? '' : 'Once') + '() then add' + (!isOnce ? '' : 'Once') + '() the same listener without removing the relationship first.');
-                }
-            } else {
-                binding = new Kiwi.SignalBinding(this, listener, isOnce, listenerContext, priority);
-
-                this._addBinding(binding);
-            }
-
-            if (this.memorize && this._prevParams) {
-                binding.execute(this._prevParams);
-            }
-
-            return binding;
-        };
-
-        Signal.prototype._addBinding = function (binding) {
-            var n = this._bindings.length;
-
-            do {
-                --n;
-            } while(this._bindings[n] && binding.priority <= this._bindings[n].priority);
-
-            this._bindings.splice(n + 1, 0, binding);
-        };
-
-        Signal.prototype._indexOfListener = function (listener, context) {
-            var n = this._bindings.length;
-            var cur;
-
-            while (n--) {
-                cur = this._bindings[n];
-
-                if (cur.getListener() === listener && cur.context === context) {
-                    return n;
-                }
-            }
-
-            return -1;
-        };
-
-        Signal.prototype.has = function (listener, context) {
-            if (typeof context === "undefined") { context = null; }
-            return this._indexOfListener(listener, context) !== -1;
-        };
-
-        Signal.prototype.add = function (listener, listenerContext, priority) {
-            if (typeof listenerContext === "undefined") { listenerContext = null; }
-            if (typeof priority === "undefined") { priority = 0; }
-            this.validateListener(listener, 'add');
-
-            return this._registerListener(listener, false, listenerContext, priority);
-        };
-
-        Signal.prototype.addOnce = function (listener, listenerContext, priority) {
-            if (typeof listenerContext === "undefined") { listenerContext = null; }
-            if (typeof priority === "undefined") { priority = 0; }
-            this.validateListener(listener, 'addOnce');
-
-            return this._registerListener(listener, true, listenerContext, priority);
-        };
-
-        Signal.prototype.remove = function (listener, context) {
-            if (typeof context === "undefined") { context = null; }
-            this.validateListener(listener, 'remove');
-
-            var i = this._indexOfListener(listener, context);
-
-            if (i !== -1) {
-                this._bindings[i]._destroy();
-                this._bindings.splice(i, 1);
-            }
-
-            return listener;
-        };
-
-        Signal.prototype.removeAll = function () {
-            var n = this._bindings.length;
-
-            while (n--) {
-                this._bindings[n]._destroy();
-            }
-
-            this._bindings.length = 0;
-        };
-
-        Signal.prototype.getNumListeners = function () {
-            return this._bindings.length;
-        };
-
-        Signal.prototype.halt = function () {
-            this._shouldPropagate = false;
-        };
-
-        Signal.prototype.dispatch = function () {
-            var paramsArr = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                paramsArr[_i] = arguments[_i + 0];
-            }
-            if (!this.active) {
-                return;
-            }
-
-            var n = this._bindings.length;
-            var bindings;
-
-            if (this.memorize) {
-                this._prevParams = paramsArr;
-            }
-
-            if (!n) {
-                return;
-            }
-
-            bindings = this._bindings.slice(0);
-
-            this._shouldPropagate = true;
-
-            do {
-                n--;
-            } while(bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
-        };
-
-        Signal.prototype.forget = function () {
-            this._prevParams = null;
-        };
-
-        Signal.prototype.dispose = function () {
-            this.removeAll();
-
-            delete this._bindings;
-            delete this._prevParams;
-        };
-
-        Signal.prototype.toString = function () {
-            return '[Signal active:' + this.active + ' numListeners:' + this.getNumListeners() + ']';
-        };
-        Signal.VERSION = '1.0.0';
-        return Signal;
-    })();
-    Kiwi.Signal = Signal;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var SignalBinding = (function () {
-        function SignalBinding(signal, listener, isOnce, listenerContext, priority) {
-            if (typeof priority === "undefined") { priority = 0; }
-            this.active = true;
-            this.params = null;
-            this._listener = listener;
-            this._isOnce = isOnce;
-            this.context = listenerContext;
-            this._signal = signal;
-            this.priority = priority || 0;
-        }
-        SignalBinding.prototype.objType = function () {
-            return "SignalBinding";
-        };
-
-        SignalBinding.prototype.execute = function (paramsArr) {
-            var handlerReturn;
-            var params;
-
-            if (this.active && !!this._listener) {
-                params = this.params ? this.params.concat(paramsArr) : paramsArr;
-
-                handlerReturn = this._listener.apply(this.context, params);
-
-                if (this._isOnce) {
-                    this.detach();
-                }
-            }
-
-            return handlerReturn;
-        };
-
-        SignalBinding.prototype.detach = function () {
-            return this.isBound() ? this._signal.remove(this._listener, this.context) : null;
-        };
-
-        SignalBinding.prototype.isBound = function () {
-            return (!!this._signal && !!this._listener);
-        };
-
-        SignalBinding.prototype.isOnce = function () {
-            return this._isOnce;
-        };
-
-        SignalBinding.prototype.getListener = function () {
-            return this._listener;
-        };
-
-        SignalBinding.prototype.getSignal = function () {
-            return this._signal;
-        };
-
-        SignalBinding.prototype._destroy = function () {
-            delete this._signal;
-            delete this._listener;
-            delete this.context;
-        };
-
-        SignalBinding.prototype.toString = function () {
-            return '[SignalBinding isOnce:' + this._isOnce + ', isBound:' + this.isBound() + ', active:' + this.active + ']';
-        };
-        return SignalBinding;
-    })();
-    Kiwi.SignalBinding = SignalBinding;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var Stage = (function () {
-        function Stage(game, name) {
-            this.offset = new Kiwi.Geom.Point();
-            this.container = null;
-            this._game = game;
-
-            this.name = name;
-
-            this.domReady = false;
-
-            this._alpha = 1;
-
-            this._x = 0;
-            this._y = 0;
-
-            this._width = 800;
-            this._height = 600;
-            this.color = 'white';
-
-            this.onResize = new Kiwi.Signal();
-        }
-        Stage.prototype.objType = function () {
-            return "Stage";
-        };
-
-        Object.defineProperty(Stage.prototype, "alpha", {
-            get: function () {
-                return this._alpha;
-            },
-            set: function (value) {
-                this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
-
-                this._alpha = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Stage.prototype, "x", {
-            get: function () {
-                return this._x;
-            },
-            set: function (value) {
-                this.container.style.left = String(value + 'px');
-                this._x = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Stage.prototype, "y", {
-            get: function () {
-                return this._y;
-            },
-            set: function (value) {
-                this.container.style.top = String(value + 'px');
-                this._y = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Stage.prototype, "width", {
-            get: function () {
-                return this._width;
-            },
-            set: function (value) {
-                this.container.style.width = String(value + 'px');
-                this.canvas.width = value;
-
-                this._width = value;
-                this.onResize.dispatch(this._width, this._height);
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Stage.prototype, "height", {
-            get: function () {
-                return this._height;
-            },
-            set: function (value) {
-                this.container.style.height = String(value + 'px');
-                this.canvas.height = value;
-
-                this._height = value;
-                this.onResize.dispatch(this._width, this._height);
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Object.defineProperty(Stage.prototype, "color", {
-            get: function () {
-                return this._color;
-            },
-            set: function (val) {
-                this._color = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-
-        Stage.prototype.boot = function (dom) {
-            this.domReady = true;
-
-            this.container = dom.container;
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.offset = this._game.browser.getOffsetPoint(this.container);
-                this._x = this.offset.x;
-                this._y = this.offset.y;
-                this._width = parseInt(this.container.style.width);
-                this._height = parseInt(this.container.style.height);
-            }
-
-            this._createCompositeCanvas();
-            if (this._game.debugOption === Kiwi.DEBUG_ON) {
-                this._createDebugCanvas();
-            }
-        };
-
-        Stage.prototype._createCompositeCanvas = function () {
-            this.canvas = document.createElement("canvas");
-            this.canvas.id = this._game.id + "compositeCanvas";
-            this.canvas.style.position = "absolute";
-            this.canvas.width = this.width;
-            this.canvas.height = this.height;
-
-            if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
-                this.ctx = this.canvas.getContext("2d");
-                this.ctx.fillStyle = '#fff';
-                this.gl = null;
-            } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
-                this.gl = this.canvas.getContext("webgl");
-                this.gl.clearColor(1, 1, .95, .7);
-                this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-                this.ctx = null;
-            }
-
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.appendChild(this.canvas);
-            } else {
-                document.body.appendChild(this.canvas);
-            }
-        };
-
-        Stage.prototype._createDebugCanvas = function () {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-            }
-            this.debugCanvas = document.createElement("canvas");
-            this.debugCanvas.id = this._game.id + "debugCanvas";
-            this.debugCanvas.style.position = "absolute";
-            this.debugCanvas.style.display = "none";
-            this.debugCanvas.width = this.width;
-            this.debugCanvas.height = this.height;
-            this.dctx = this.debugCanvas.getContext("2d");
-            this.clearDebugCanvas();
-
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.appendChild(this.debugCanvas);
-            }
-        };
-
-        Stage.prototype.clearDebugCanvas = function (color) {
-            this.dctx.fillStyle = color || "rgba(255,0,0,.2)";
-            this.dctx.clearRect(0, 0, this.width, this.height);
-            this.dctx.fillRect(0, 0, this.width, this.height);
-        };
-
-        Stage.prototype.toggleDebugCanvas = function () {
-            this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
-        };
-        return Stage;
-    })();
-    Kiwi.Stage = Stage;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var StateConfig = (function () {
-        function StateConfig(parent, name) {
-            this.name = '';
-            this.isPersistent = false;
-            this.isCreated = false;
-            this.isInitialised = false;
-            this.isReady = false;
-            this.hasInit = false;
-            this.hasPreloader = false;
-            this.hasLoadProgress = false;
-            this.hasLoadComplete = false;
-            this.hasLoadUpdate = false;
-            this.hasCreate = false;
-            this.hasOnEnter = false;
-            this.hasUpdate = false;
-            this.hasRender = false;
-            this.hasOnExit = false;
-            this.hasShutDown = false;
-            this.hasDestroy = false;
-            this.runCount = 0;
-            this.type = 0;
-            this._state = parent;
-            this.name = name;
-
-            this.populate();
-        }
-        StateConfig.prototype.objType = function () {
-            return "StateConfig";
-        };
-
-        StateConfig.prototype.populate = function () {
-            if (typeof this._state['init'] === 'function') {
-                this.hasInit = true;
-            }
-
-            if (typeof this._state['preload'] === 'function') {
-                this.hasPreloader = true;
-            }
-
-            if (typeof this._state['loadProgress'] === 'function') {
-                this.hasLoadProgress = true;
-            }
-
-            if (typeof this._state['loadComplete'] === 'function') {
-                this.hasLoadComplete = true;
-            }
-
-            if (typeof this._state['loadUpdate'] === 'function') {
-                this.hasLoadUpdate = true;
-            }
-
-            if (typeof this._state['create'] === 'function') {
-                this.hasCreate = true;
-            }
-
-            if (typeof this._state['onEnter'] === 'function') {
-                this.hasOnEnter = true;
-            }
-
-            if (typeof this._state['update'] === 'function') {
-                this.hasUpdate = true;
-            }
-
-            if (typeof this._state['render'] === 'function') {
-                this.hasRender = true;
-            }
-
-            if (typeof this._state['onExit'] === 'function') {
-                this.hasOnExit = true;
-            }
-
-            if (typeof this._state['shutdown'] === 'function') {
-                this.hasShutDown = true;
-            }
-
-            if (typeof this._state['destroy'] === 'function') {
-                this.hasDestroy = true;
-            }
-
-            if (this.hasInit === false && this.hasCreate === false) {
-                this.isInitialised = true;
-                this.isCreated = true;
-                this.isReady = true;
-            }
-        };
-        return StateConfig;
-    })();
-    Kiwi.StateConfig = StateConfig;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    var StateManager = (function () {
-        function StateManager(game) {
-            this.current = null;
-            this._game = game;
-
-            this._states = [];
-        }
-        StateManager.prototype.objType = function () {
-            return "StateManager";
-        };
-
-        StateManager.prototype.checkKeyExists = function (key) {
-            for (var i = 0; i < this._states.length; i++) {
-                if (this._states[i].config.name === key) {
-                    return true;
-                }
-            }
-
-            return false;
-        };
-
-        StateManager.prototype.checkValidState = function (state) {
-            if (!state['game'] || !state['config']) {
-                return false;
-            }
-
-            return true;
-        };
-
-        StateManager.prototype.addState = function (state, switchTo) {
-            if (typeof switchTo === "undefined") { switchTo = false; }
-            var tempState;
-
-            if (typeof state === 'function') {
-                tempState = new state();
-            } else if (typeof state === 'string') {
-                tempState = window[state];
-            } else {
-                tempState = state;
-            }
-
-            if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
-                return false;
-            }
-
-            tempState.game = this._game;
-
-            if (this.checkValidState(tempState) === false) {
-                return false;
-            } else {
-                this._states.push(tempState);
-
-                if (switchTo === true) {
-                    this.setCurrentState(tempState.config.name);
-                }
-
-                return true;
-            }
-        };
-
-        StateManager.prototype.boot = function () {
-            if (this.current !== null) {
-                this.current.boot();
-            }
-
-            if (this.current !== null && this.current.config.isInitialised === false) {
-                if (this.current.config.hasInit === true) {
-                    this.current.init();
-                }
-
-                this.current.config.isInitialised = true;
-
-                this.checkPreload();
-            }
-        };
-
-        StateManager.prototype.setCurrentState = function (key) {
-            if (this.current !== null && this.current.config.name === key) {
-                return false;
-            }
-
-            if (this.current !== null) {
-                this._game.input.reset();
-                this.current.destroy();
-            }
-
-            if (this.checkKeyExists(key) === true) {
-                this.current = this.getState(key);
-
-                if (this._game.stage.domReady === true) {
-                    if (this.current.config.isInitialised === false) {
-                        this.current.boot();
-
-                        if (this.current.config.hasInit === true) {
-                            if (this.current.config.initParams) {
-                                this.current.init.apply(this.current, this.current.config.initParams);
-                            } else {
-                                this.current.init.call(this.current);
-                            }
-                        }
-
-                        this.current.config.isInitialised = true;
-                    }
-
-                    this.checkPreload();
-                }
-
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        StateManager.prototype.switchState = function (key, state, initParams, createParams) {
-            if (typeof state === "undefined") { state = null; }
-            if (typeof initParams === "undefined") { initParams = null; }
-            if (typeof createParams === "undefined") { createParams = null; }
-            if (this.current !== null && this.current.config.isReady === false) {
-                return false;
-            }
-
-            if (this.checkKeyExists(key) === false && state !== null) {
-                if (this.addState(state, false) === false) {
-                    return false;
-                }
-            }
-
-            if (initParams !== null || createParams !== null) {
-                var newState = this.getState(key);
-
-                newState.config.initParams = [];
-
-                for (var initParameter in initParams) {
-                    newState.config.initParams.push(initParams[initParameter]);
-                }
-
-                newState.config.createParams = [];
-
-                for (var createParameter in createParams) {
-                    newState.config.createParams.push(createParams[createParameter]);
-                }
-            }
-
-            return this.setCurrentState(key);
-        };
-
-        StateManager.prototype.getState = function (key) {
-            for (var i = 0; i < this._states.length; i++) {
-                if (this._states[i].config.name === key) {
-                    return this._states[i];
-                }
-            }
-
-            return null;
-        };
-
-        StateManager.prototype.checkPreload = function () {
-            var _this = this;
-            if (this.current.config.hasPreloader === true) {
-                this._game.loader.init(function (percent, bytes, file) {
-                    return _this.onLoadProgress(percent, bytes, file);
-                }, function () {
-                    return _this.onLoadComplete();
-                });
-                this.current.preload();
-                this._game.loader.startLoad();
-            } else {
-                if (this.current.config.hasCreate === true && this.current.config.isCreated === false) {
-                    this.current.config.isCreated = true;
-
-                    if (this.current.config.createParams) {
-                        this.current.create.apply(this.current, this.current.config.createParams);
-                    } else {
-                        this.current.create.call(this.current);
-                    }
-                }
-
-                this.current.config.isReady = true;
-            }
-        };
-
-        StateManager.prototype.onLoadProgress = function (percent, bytesLoaded, file) {
-            if (this.current.config.hasLoadProgress === true) {
-                this.current.loadProgress(percent, bytesLoaded, file);
-            }
-        };
-
-        StateManager.prototype.onLoadComplete = function () {
-            if (this.current.config.hasLoadComplete === true) {
-                this.current.loadComplete();
-            }
-
-            this.rebuildLibraries();
-
-            this.current.config.isReady = true;
-
-            if (this.current.config.hasCreate === true) {
-                this.current.config.isCreated = true;
-                if (this.current.config.createParams) {
-                    this.current.create.apply(this.current, this.current.config.createParams);
-                } else {
-                    this.current.create.call(this.current);
-                }
-            }
-        };
-
-        StateManager.prototype.rebuildLibraries = function () {
-            this.current.textureLibrary.clear();
-            this.current.audioLibrary.clear();
-            this.current.dataLibrary.clear();
-
-            var fileStoreKeys = this._game.fileStore.keys;
-
-            for (var i = 0; i < fileStoreKeys.length; i++) {
-                var file = this._game.fileStore.getFile(fileStoreKeys[i]);
-                if (file.isTexture) {
-                    this.current.textureLibrary.add(file);
-                } else if (file.isAudio) {
-                    this.current.audioLibrary.add(file);
-                } else if (file.isData) {
-                    this.current.dataLibrary.add(file);
-                }
-            }
-        };
-
-        StateManager.prototype.update = function () {
-            if (this.current !== null) {
-                if (this.current.config.isReady === true) {
-                    this.current.preUpdate();
-                    this.current.update();
-                    this.current.postUpdate();
-                } else {
-                    this.current.loadUpdate();
-                }
-            }
-        };
-
-        StateManager.prototype.postRender = function () {
-            if (this.current !== null) {
-                if (this.current.config.isReady === true) {
-                    this.current.postRender();
-                }
-            }
-        };
-        return StateManager;
-    })();
-    Kiwi.StateManager = StateManager;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
     (function (Animation) {
         (function (Tweens) {
             var Manager = (function () {
@@ -2875,219 +694,1843 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
-        var Anim = (function () {
-            function Anim(name, sequence, clock) {
-                this._frameIndex = 0;
-                this._startTime = null;
-                this._reverse = false;
-                this.name = name;
-                this._sequence = sequence;
-                this._speed = sequence.speed;
-                this._loop = sequence.loop;
-                this._clock = clock;
+    var Camera = (function () {
+        function Camera(game, id, name, x, y, width, height) {
+            this.fitToStage = true;
+            this._game = game;
+            this.id = id;
+            this.name = name;
 
-                this.onUpdate = new Kiwi.Signal();
-                this.onPlay = new Kiwi.Signal();
-                this.onStop = new Kiwi.Signal();
-                this.onLoop = new Kiwi.Signal();
+            this.width = width;
+            this.height = height;
+            this.transform = new Kiwi.Geom.Transform(x, y);
+            this.transform.rotPointX = x + width / 2;
+            this.transform.rotPointY = y + height / 2;
+
+            this._game.stage.onResize.add(this._updatedStageSize, this);
+            this._game.stage.onResize.add(this._updatedSize, this);
+        }
+        Camera.prototype.objType = function () {
+            return "Camera";
+        };
+
+        Camera.prototype._updatedStageSize = function (width, height) {
+            this.width = width;
+            this.height = height;
+        };
+
+        Camera.prototype._updatedSize = function (width, height) {
+        };
+
+        Camera.prototype.visible = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            return this._visible;
+        };
+
+        Camera.prototype.dirty = function (value) {
+            if (typeof value === "undefined") { value = null; }
+            if (value !== null) {
+                this._dirty = value;
             }
-            Object.defineProperty(Anim.prototype, "loop", {
-                get: function () {
-                    return this._loop;
-                },
-                set: function (value) {
-                    this._loop = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
 
+            return this._dirty;
+        };
 
-            Object.defineProperty(Anim.prototype, "frameIndex", {
-                get: function () {
-                    return this._frameIndex;
-                },
-                set: function (val) {
-                    if (this._validateFrame(val)) {
-                        this._frameIndex = val;
-                    }
-                },
-                enumerable: true,
-                configurable: true
-            });
+        Camera.prototype.update = function () {
+        };
 
-
-            Object.defineProperty(Anim.prototype, "currentCell", {
-                get: function () {
-                    return this._sequence.cells[this.frameIndex];
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(Anim.prototype, "speed", {
-                get: function () {
-                    return this._speed;
-                },
-                set: function (value) {
-                    this._speed = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-
-            Object.defineProperty(Anim.prototype, "reverse", {
-                get: function () {
-                    return this._reverse;
-                },
-                set: function (value) {
-                    this._reverse = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Anim.prototype._start = function (index) {
-                if (typeof index === "undefined") { index = null; }
-                if (index !== null) {
-                    this.frameIndex = index;
-                }
-                this._isPlaying = true;
-                this._startTime = this._clock.elapsed();
-                this._tick = this._startTime + this._speed;
-                this.onPlay.dispatch();
-            };
-
-            Anim.prototype.play = function () {
-                if (this._frameIndex === this.length - 1)
-                    this.frameIndex = 0;
-
-                this.playAt(this._frameIndex);
-            };
-
-            Anim.prototype.playAt = function (index) {
-                this._start(index);
-            };
-
-            Anim.prototype.pause = function () {
-                this.stop();
-            };
-
-            Anim.prototype.resume = function () {
-                if (this._startTime !== null) {
-                    this._isPlaying = true;
-                }
-            };
-
-            Anim.prototype.stop = function () {
-                if (this._isPlaying) {
-                    this._isPlaying = false;
-                    this.onStop.dispatch();
-                }
-            };
-
-            Anim.prototype.nextFrame = function () {
-                this._frameIndex++;
-                if (this._frameIndex >= this.length)
-                    this.frameIndex = 0;
-            };
-
-            Anim.prototype.prevFrame = function () {
-                this._frameIndex--;
-                if (this._frameIndex < 0)
-                    this.frameIndex = this.length - 1;
-            };
-
-            Anim.prototype.update = function () {
-                if (this._isPlaying) {
-                    if (this._clock.elapsed() >= this._tick) {
-                        this._tick = this._clock.elapsed() + this._speed;
-
-                        if (this._reverse)
-                            this._frameIndex--; else
-                            this._frameIndex++;
-
-                        this.onUpdate.dispatch();
-                        if (!this._validateFrame(this._frameIndex)) {
-                            if (this._loop) {
-                                if (this._reverse) {
-                                    this._frameIndex = this.length - 1;
-                                    this.onLoop.dispatch();
-                                } else {
-                                    this._frameIndex = 0;
-                                    this.onLoop.dispatch();
-                                }
-                            } else {
-                                this._frameIndex--;
-                                this.stop();
-                            }
-                        }
-
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-            Anim.prototype._validateFrame = function (frame) {
-                return (frame < this.length && frame >= 0);
-            };
-
-            Object.defineProperty(Anim.prototype, "length", {
-                get: function () {
-                    return this._sequence.cells.length;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Anim.prototype.destroy = function () {
-                this._isPlaying = false;
-                delete this._clock;
-                delete this._sequence;
-                if (this.onLoop)
-                    this.onLoop.dispose();
-                if (this.onStop)
-                    this.onStop.dispose();
-                if (this.onPlay)
-                    this.onPlay.dispose();
-                if (this.onUpdate)
-                    this.onUpdate.dispose();
-                delete this.onLoop;
-                delete this.onStop;
-                delete this.onPlay;
-                delete this.onUpdate;
-                delete this.frameIndex;
-                delete this.loop;
-                delete this._reverse;
-                delete this._tick;
-            };
-            return Anim;
-        })();
-        Animation.Anim = Anim;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        Camera.prototype.render = function () {
+            this._game.renderer.render(this);
+        };
+        return Camera;
+    })();
+    Kiwi.Camera = Camera;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
-        var Sequence = (function () {
-            function Sequence(name, cells, speed, loop) {
-                if (typeof speed === "undefined") { speed = 0.1; }
-                if (typeof loop === "undefined") { loop = true; }
-                this.name = name;
-                this.cells = cells;
-                this.speed = speed;
-                this.loop = loop;
+    var CameraManager = (function () {
+        function CameraManager(game) {
+            this._game = game;
+            this._cameras = [];
+            this._nextCameraID = 0;
+        }
+        CameraManager.prototype.objType = function () {
+            return "CameraManager";
+        };
+
+        CameraManager.prototype.boot = function () {
+            this.create("defaultCamera", 0, 0, this._game.stage.width, this._game.stage.height);
+            this.defaultCamera = this._cameras[0];
+        };
+
+        CameraManager.prototype.create = function (name, x, y, width, height) {
+            var newCamera = new Kiwi.Camera(this._game, this._nextCameraID++, name, x, y, width, height);
+
+            this._cameras.push(newCamera);
+
+            return newCamera;
+        };
+
+        CameraManager.prototype.remove = function (camera) {
+            var i = this._cameras.indexOf(camera);
+
+            if (i !== -1) {
+                this._cameras.splice(i, 1);
+                return true;
             }
-            return Sequence;
-        })();
-        Animation.Sequence = Sequence;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+
+            return false;
+        };
+
+        CameraManager.prototype.update = function () {
+            if (this._cameras.length === 0) {
+                return false;
+            }
+
+            for (var i = 0; i < this._cameras.length; i++) {
+                this._cameras[i].update();
+            }
+        };
+
+        CameraManager.prototype.render = function () {
+            if (this._cameras.length === 0) {
+                return false;
+            }
+
+            for (var i = 0; i < this._cameras.length; i++) {
+                this._cameras[i].render();
+            }
+        };
+
+        CameraManager.prototype.removeAll = function () {
+            this._cameras.length = 0;
+        };
+        return CameraManager;
+    })();
+    Kiwi.CameraManager = CameraManager;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Component = (function () {
+        function Component(owner, name) {
+            this.active = true;
+            this.dirty = false;
+            this.owner = owner;
+            this.game = this.owner.game;
+            this.name = name;
+            this.active = true;
+        }
+        Component.prototype.objType = function () {
+            return "Component";
+        };
+
+        Component.prototype.preUpdate = function () {
+        };
+
+        Component.prototype.update = function () {
+        };
+
+        Component.prototype.postUpdate = function () {
+        };
+
+        Component.prototype.destroy = function () {
+            this.active = false;
+            delete this.game;
+            delete this.owner;
+
+            this.name = '';
+        };
+        return Component;
+    })();
+    Kiwi.Component = Component;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var ComponentManager = (function () {
+        function ComponentManager(type, owner) {
+            this._components = {};
+
+            this._type = type;
+            this._owner = owner;
+        }
+        ComponentManager.prototype.objType = function () {
+            return "ComponentManager";
+        };
+
+        ComponentManager.prototype.hasComponent = function (value) {
+            if (this._components[value]) {
+                return true;
+            }
+
+            return false;
+        };
+
+        ComponentManager.prototype.hasActiveComponent = function (value) {
+            if (this._components[value] && this._components[value].active === true) {
+                return true;
+            }
+
+            return false;
+        };
+
+        ComponentManager.prototype.getComponent = function (value) {
+            if (this._components[value]) {
+                return this._components[value];
+            }
+
+            return null;
+        };
+
+        ComponentManager.prototype.add = function (component) {
+            this._components[component.name] = component;
+
+            return component;
+        };
+
+        ComponentManager.prototype.addBatch = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+            for (var i = 0; i < paramsArr.length; i++) {
+                this.add(paramsArr[i]);
+            }
+        };
+
+        ComponentManager.prototype.removeComponent = function (component, destroy) {
+            if (typeof destroy === "undefined") { destroy = true; }
+            var name = component.name;
+
+            if (this._components[name]) {
+                if (destroy) {
+                    this._components[name].destroy();
+                }
+
+                delete this._components[name];
+
+                return true;
+            }
+
+            return false;
+        };
+
+        ComponentManager.prototype.removeComponentByName = function (name, destroy) {
+            if (typeof destroy === "undefined") { destroy = true; }
+            if (this._components[name]) {
+                if (destroy) {
+                    this._components[name].destroy();
+                }
+
+                delete this._components[name];
+
+                return true;
+            }
+
+            return false;
+        };
+
+        ComponentManager.prototype.removeAll = function (destroy) {
+            if (typeof destroy === "undefined") { destroy = true; }
+            for (var key in this._components) {
+                this.removeComponent(this._components[key], destroy);
+            }
+        };
+
+        ComponentManager.prototype.preUpdate = function () {
+            for (var name in this._components) {
+                if (this._components[name].active) {
+                    this._components[name].preUpdate();
+                }
+            }
+        };
+
+        ComponentManager.prototype.update = function () {
+            for (var name in this._components) {
+                if (this._components[name].active) {
+                    this._components[name].update();
+                }
+            }
+        };
+
+        ComponentManager.prototype.postUpdate = function () {
+            for (var name in this._components) {
+                if (this._components[name].active) {
+                    this._components[name].postUpdate();
+                }
+            }
+        };
+
+        ComponentManager.prototype.preRender = function () {
+            for (var name in this._components) {
+                if (this._components[name].active) {
+                    this._components[name].preRender();
+                }
+            }
+        };
+
+        ComponentManager.prototype.render = function () {
+            for (var name in this._components) {
+                if (this._components[name].active) {
+                    this._components[name].render();
+                }
+            }
+        };
+
+        ComponentManager.prototype.postRender = function () {
+            for (var name in this._components) {
+                if (this._components[name].active) {
+                    this._components[name].postRender();
+                }
+            }
+        };
+        return ComponentManager;
+    })();
+    Kiwi.ComponentManager = ComponentManager;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Entity = (function () {
+        function Entity(state, x, y) {
+            this._parent = null;
+            this._alpha = 1;
+            this._visible = true;
+            this.width = 0;
+            this.height = 0;
+            this.cellIndex = 0;
+            this.name = '';
+            this._clock = null;
+            this.state = state;
+            this.game = state.game;
+            this.id = this.game.rnd.uuid();
+            this.state.addToTrackingList(this);
+            this._clock = this.game.time.clock;
+
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+            this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this);
+            this.transform = new Kiwi.Geom.Transform();
+            this.transform.x = x;
+            this.transform.y = y;
+        }
+
+        Object.defineProperty(Entity.prototype, "parent", {
+            get: function () {
+                return this._parent;
+            },
+            set: function (val) {
+                this.transform.parent = (val !== null) ? val.transform : null;
+                this._parent = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "x", {
+            get: function () {
+                return this.transform.x;
+            },
+            set: function (value) {
+                this.transform.x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "y", {
+            get: function () {
+                return this.transform.y;
+            },
+            set: function (value) {
+                this.transform.y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "scaleX", {
+            get: function () {
+                return this.transform.scaleX;
+            },
+            set: function (value) {
+                this.transform.scaleX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "scaleY", {
+            get: function () {
+                return this.transform.scaleY;
+            },
+            set: function (value) {
+                this.transform.scaleY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Entity.prototype, "rotation", {
+            get: function () {
+                return this.transform.rotation;
+            },
+            set: function (value) {
+                this.transform.rotation = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Entity.prototype.childType = function () {
+            return Kiwi.ENTITY;
+        };
+
+
+        Object.defineProperty(Entity.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                if (value <= 0)
+                    value = 0;
+                if (value > 1)
+                    value = 1;
+                this._alpha = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "visiblity", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (value) {
+                this._visible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
+                this._exists = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
+                this._active = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
+                this._willRender = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "inputEnabled", {
+            get: function () {
+                return this._inputEnabled;
+            },
+            set: function (value) {
+                this._inputEnabled = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "clock", {
+            get: function () {
+                return this._clock;
+            },
+            set: function (value) {
+                this._clock = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
+                this._dirty = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Entity.prototype.objType = function () {
+            return "Entity";
+        };
+
+        Entity.prototype.update = function () {
+        };
+
+        Entity.prototype.render = function (camera) {
+        };
+
+        Entity.prototype.destroy = function () {
+            this.state.removeFromTrackingList(this);
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+            delete this._parent;
+            delete this.transform;
+            delete this._clock;
+            delete this.state;
+            delete this.game;
+            delete this.atlas;
+
+            if (this.components)
+                this.components.removeAll(true);
+            delete this.components;
+        };
+        return Entity;
+    })();
+    Kiwi.Entity = Entity;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Game = (function () {
+        function Game(domParent, name, state, options) {
+            if (typeof domParent === "undefined") { domParent = ''; }
+            if (typeof name === "undefined") { name = 'KiwiGame'; }
+            if (typeof state === "undefined") { state = null; }
+            var _this = this;
+            this._startup = null;
+            this.audio = null;
+            this.browser = null;
+            this.fileStore = null;
+            this.input = null;
+            this.cameras = null;
+            this.loader = null;
+            this.raf = null;
+            this.stage = null;
+            this.states = null;
+            this.time = null;
+            this.tweens = null;
+            this.rnd = null;
+            this._frameRate = 60;
+            this._interval = 1000 / 60;
+            this._delta = 0;
+            options = options || {};
+            this._debugOption = options.debug || Kiwi.DEBUG_ON;
+            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
+            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
+
+            this.id = Kiwi.GameManager.register(this);
+
+            this._startup = new Kiwi.System.Bootstrap();
+
+            this.audio = new Kiwi.Sound.AudioManager(this);
+            this.browser = new Kiwi.System.Browser(this);
+
+            this.fileStore = new Kiwi.Files.FileStore(this);
+            this.input = new Kiwi.Input.Manager(this);
+
+            this.stage = new Kiwi.Stage(this, name);
+
+            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
+                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
+            } else {
+                this.renderer = new Kiwi.Renderers.GLRenderer(this);
+            }
+
+            this.cameras = new Kiwi.CameraManager(this);
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds = new Kiwi.HUD.HUDManager(this);
+            }
+            this.loader = new Kiwi.Files.Loader(this);
+
+            this.states = new Kiwi.StateManager(this);
+            this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
+            this.time = new Kiwi.Time.Manager(this);
+            this.tweens = new Kiwi.Animation.Tweens.Manager(this);
+
+            if (state !== null) {
+                if (this.states.addState(state, true) === false) {
+                    throw Error("Invalid State passed to Kiwi.Game");
+                }
+            }
+
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this._startup.boot(domParent, function () {
+                    return _this.start();
+                });
+            } else {
+                this.start();
+            }
+        }
+        Object.defineProperty(Game.prototype, "renderOption", {
+            get: function () {
+                return this._renderOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "deviceTargetOption", {
+            get: function () {
+                return this._deviceTargetOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "debugOption", {
+            get: function () {
+                return this._debugOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Game.prototype.objType = function () {
+            return "Game";
+        };
+
+        Object.defineProperty(Game.prototype, "frameRate", {
+            get: function () {
+                return this._frameRate;
+            },
+            set: function (value) {
+                if (value > 60)
+                    value = 60;
+
+                if (value >= 0) {
+                    this._frameRate = value;
+                    this._interval = 1000 / this._frameRate;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Game.prototype.start = function () {
+            var _this = this;
+            if (Kiwi.DEVICE === null) {
+                Kiwi.DEVICE = new Kiwi.System.Device();
+            }
+
+            this.browser.boot();
+            this.stage.boot(this._startup);
+            this.renderer.boot();
+            this.cameras.boot();
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds.boot();
+            }
+            this.time.boot();
+            this.audio.boot();
+            this.input.boot();
+
+            this.fileStore.boot();
+            this.loader.boot();
+            this.states.boot();
+
+            this._lastTime = Date.now();
+
+            this.raf = new Kiwi.Utils.RequestAnimationFrame(function () {
+                return _this.loop();
+            });
+            this.raf.start();
+        };
+
+        Game.prototype.loop = function () {
+            this._delta = this.raf.currentTime - this._lastTime;
+
+            if (this._delta > this._interval) {
+                this.time.update();
+                this.audio.update();
+                this.input.update();
+                this.tweens.update();
+                this.cameras.update();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.update();
+                }
+                this.states.update();
+
+                this.cameras.render();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.render();
+                }
+                this.states.postRender();
+
+                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
+            }
+        };
+        return Game;
+    })();
+    Kiwi.Game = Game;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Group = (function () {
+        function Group(state, name) {
+            if (typeof name === "undefined") { name = ''; }
+            this.name = '';
+            this._parent = null;
+            this.game = null;
+            this.state = null;
+            this._dirty = true;
+            if (state !== null) {
+                this.state = state;
+                this.game = this.state.game;
+                this.id = this.game.rnd.uuid();
+                this.state.addToTrackingList(this);
+            }
+
+            this.name = name;
+            this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
+
+            this._exists = true;
+            this._active = true;
+            this._willRender = true;
+
+            this.transform = new Kiwi.Geom.Transform();
+
+            this.members = [];
+
+            this._willRender = true;
+        }
+        Group.prototype.objType = function () {
+            return 'Group';
+        };
+
+        Group.prototype.childType = function () {
+            return Kiwi.GROUP;
+        };
+
+        Object.defineProperty(Group.prototype, "parent", {
+            get: function () {
+                return this._parent;
+            },
+            set: function (val) {
+                this.transform.parent = (val !== null) ? val.transform : null;
+                this._parent = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "x", {
+            get: function () {
+                return this.transform.x;
+            },
+            set: function (value) {
+                this.transform.x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "y", {
+            get: function () {
+                return this.transform.y;
+            },
+            set: function (value) {
+                this.transform.y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "scaleX", {
+            get: function () {
+                return this.transform.scaleX;
+            },
+            set: function (value) {
+                this.transform.scaleX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "scaleY", {
+            get: function () {
+                return this.transform.scaleY;
+            },
+            set: function (value) {
+                this.transform.scaleY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Group.prototype, "rotation", {
+            get: function () {
+                return this.transform.rotation;
+            },
+            set: function (value) {
+                this.transform.rotation = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.numChildren = function () {
+            return this.members.length;
+        };
+
+        Object.defineProperty(Group.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (value) {
+                if (value !== undefined) {
+                    this._dirty = value;
+
+                    for (var i = 0; i < this.members.length; i++) {
+                        this.members[i].dirty = value;
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.contains = function (child) {
+            return (this.members.indexOf(child) === -1) ? false : true;
+        };
+
+        Group.prototype.containsDescendant = function (child) {
+            for (var i = 0; i < this.members.length; i++) {
+                console.log(i);
+                var curMember = this.members[i];
+                if (curMember.id == child.id || curMember.childType() == Kiwi.Group && curMember.containsDesendant(child)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        Group.prototype.containsAncestor = function (descendant, ancestor) {
+            if (descendant.parent === null || descendant.parent === undefined) {
+                return false;
+            }
+            if (descendant.parent == ancestor)
+                return true;
+            return descendant.parent.containsAncestor(descendant.parent, ancestor);
+        };
+
+        Group.prototype.addChild = function (child) {
+            if (child.childType() === Kiwi.STATE || child == this)
+                return;
+
+            if (child.parent !== null)
+                child.parent.removeChild(child);
+
+            this.members.push(child);
+            child.parent = this;
+
+            return child;
+        };
+
+        Group.prototype.addChildAt = function (child, index) {
+            if (child.childType() === Kiwi.STATE || child == this)
+                return;
+
+            if (child.parent !== null)
+                child.parent.removeChild(child);
+
+            this.members.splice(index, 0, child);
+            child.parent = this;
+
+            return child;
+        };
+
+        Group.prototype.addChildBefore = function (child, beforeChild) {
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
+                var index = this.getChildIndex(beforeChild);
+
+                this.members.splice(index, 0, child);
+            }
+
+            return child;
+        };
+
+        Group.prototype.addChildAfter = function (child, beforeChild) {
+            if (child.transform.parent !== this.transform && beforeChild.transform.parent === this.transform) {
+                var index = this.getChildIndex(beforeChild) + 1;
+
+                this.members.splice(index, 0, child);
+            }
+
+            return child;
+        };
+
+        Group.prototype.getChildAt = function (index) {
+            if (this.members[index]) {
+                return this.members[index];
+            } else {
+                return null;
+            }
+        };
+
+        Group.prototype.getChildByName = function (name) {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].name === name) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.getChildByID = function (id) {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].id === id) {
+                    return this.members[i];
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.getChildIndex = function (child) {
+            return this.members.indexOf(child);
+        };
+
+        Group.prototype.removeChild = function (child, destroy) {
+            if (typeof destroy === "undefined") { destroy = false; }
+            if (child.parent === this) {
+                var index = this.getChildIndex(child);
+
+                if (index > -1) {
+                    this.members.splice(index, 1);
+                    child.parent = null;
+
+                    if (destroy) {
+                        child.destroy();
+                    }
+                }
+            }
+
+            return child;
+        };
+
+        Group.prototype.removeChildAt = function (index) {
+            if (this.members[index]) {
+                var child = this.members[index];
+
+                return this.removeChild(child);
+            } else {
+                return null;
+            }
+        };
+
+        Group.prototype.removeChildren = function (begin, end, destroy) {
+            if (typeof begin === "undefined") { begin = 0; }
+            if (typeof end === "undefined") { end = 0x7fffffff; }
+            if (typeof destroy === "undefined") { destroy = false; }
+            end -= begin;
+
+            var removed = this.members.splice(begin, end);
+
+            for (var i = 0; i < removed.length; i++) {
+                removed[i].parent = null;
+
+                if (destroy) {
+                    removed[i].destroy();
+                }
+            }
+
+            return removed.length;
+        };
+
+        Group.prototype.setChildIndex = function (child, index) {
+            if (child.parent !== this || this.getChildIndex(child) === index) {
+                return false;
+            }
+
+            this.removeChild(child);
+            this.addChildAt(child, index);
+
+            return true;
+        };
+
+        Group.prototype.swapChildren = function (child1, child2) {
+            if (child1.parent !== this || child2.parent !== this) {
+                return false;
+            }
+
+            var index1 = this.getChildIndex(child1);
+            var index2 = this.getChildIndex(child2);
+
+            if (index1 !== -1 && index2 !== -1 && index1 !== index2) {
+                this.members[index1] = child2;
+                this.members[index2] = child1;
+
+                return true;
+            }
+
+            return false;
+        };
+
+        Group.prototype.swapChildrenAt = function (index1, index2) {
+            var child1 = this.getChildAt(index1);
+            var child2 = this.getChildAt(index2);
+
+            if (child1 !== null && child2 !== null) {
+                if (child1 == child2 || child1.parent !== this || child2.parent !== this) {
+                    return false;
+                }
+
+                this.members[index1] = child2;
+                this.members[index2] = child1;
+
+                return true;
+            }
+
+            return false;
+        };
+
+        Group.prototype.replaceChild = function (oldChild, newChild) {
+            if (oldChild === newChild)
+                return false;
+
+            var index = this.getChildIndex(oldChild);
+
+            if (index > -1) {
+                if (newChild.parent) {
+                    newChild.parent.removeChild(newChild);
+                }
+
+                this.removeChildAt(index);
+
+                this.addChildAt(newChild, index);
+                newChild.parent = null;
+
+                return true;
+            }
+
+            return false;
+        };
+
+        Group.prototype.forEach = function (context, callback) {
+            var params = [];
+            for (var _i = 0; _i < (arguments.length - 2); _i++) {
+                params[_i] = arguments[_i + 2];
+            }
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    return callback.apply(context, [child].concat(params));
+                });
+            }
+        };
+
+        Group.prototype.forEachAlive = function (context, callback) {
+            var params = [];
+            for (var _i = 0; _i < (arguments.length - 2); _i++) {
+                params[_i] = arguments[_i + 2];
+            }
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    if (child.exists)
+                        callback.apply(context, [child].concat(params));
+                });
+            }
+        };
+
+        Group.prototype.setAll = function (componentName, property, value) {
+            if (componentName === null) {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][property] = value;
+                }
+            } else {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][componentName][property] = value;
+                }
+            }
+        };
+
+        Group.prototype.callAll = function (componentName, functionName, args) {
+            if (componentName === null) {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][functionName].apply(this.members[i], args);
+                }
+            } else {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i][componentName][functionName].apply(this.members[i][componentName], args);
+                }
+            }
+        };
+
+        Group.prototype.update = function () {
+            var _this = this;
+            this.components.preUpdate();
+
+            this.components.update();
+            if (this.members.length > 0) {
+                this.members.forEach(function (child) {
+                    return _this.processUpdate(child);
+                });
+            }
+
+            this.components.postUpdate();
+        };
+
+        Group.prototype.processUpdate = function (child) {
+            if (child.active === true) {
+                child.update();
+            }
+        };
+
+
+        Object.defineProperty(Group.prototype, "exists", {
+            get: function () {
+                return this._exists;
+            },
+            set: function (value) {
+                this._exists = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Group.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            set: function (value) {
+                this._active = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.render = function (camera) {
+        };
+
+        Group.prototype.removeFirstAlive = function (destroy) {
+            if (typeof destroy === "undefined") { destroy = false; }
+            return this.removeChild(this.getFirstAlive(), destroy);
+        };
+
+        Group.prototype.getFirstAlive = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
+                    return this.members[i];
+                    break;
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.getFirstDead = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
+                    return this.members[i];
+                    break;
+                }
+            }
+
+            return null;
+        };
+
+        Group.prototype.countLiving = function () {
+            var total = 0;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === true) {
+                    total++;
+                }
+            }
+
+            return total;
+        };
+
+        Group.prototype.countDead = function () {
+            var total = 0;
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].exists === false) {
+                    total++;
+                }
+            }
+
+            return total;
+        };
+
+        Group.prototype.getRandom = function (start, length) {
+            if (typeof start === "undefined") { start = 0; }
+            if (typeof length === "undefined") { length = 0; }
+            if (this.members.length === 0) {
+                return null;
+            }
+
+            if (length === 0) {
+                length = this.members.length;
+            }
+
+            if (start < 0 || start > length) {
+                start = 0;
+            }
+
+            var rnd = start + (Math.random() * (start + length));
+
+            if (rnd > this.members.length) {
+                return this.members[this.members.length - 1];
+            } else {
+                return this.members[rnd];
+            }
+        };
+
+        Group.prototype.clear = function () {
+            this.members.length = 0;
+        };
+
+
+        Object.defineProperty(Group.prototype, "willRender", {
+            get: function () {
+                return this._willRender;
+            },
+            set: function (value) {
+                this._willRender = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Group.prototype.destroy = function (destroyChildren) {
+            if (typeof destroyChildren === "undefined") { destroyChildren = true; }
+            if (destroyChildren == true) {
+                for (var i = 0; i < this.members.length; i++) {
+                    this.members[i].destroy();
+                }
+            } else {
+                this.removeChildren();
+            }
+
+            this.state.removeFromTrackingList(this);
+            this._exists = false;
+            this._active = false;
+            this._willRender = false;
+            delete this.transform;
+            if (this.components)
+                this.components.removeAll();
+            delete this.components;
+            delete this.name;
+            delete this.members;
+            delete this.game;
+            delete this.state;
+        };
+        return Group;
+    })();
+    Kiwi.Group = Group;
+})(Kiwi || (Kiwi = {}));
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var Kiwi;
+(function (Kiwi) {
+    var State = (function (_super) {
+        __extends(State, _super);
+        function State(name) {
+            _super.call(this, null, name);
+            this.game = null;
+
+            this.config = new Kiwi.StateConfig(this, name);
+            this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
+            this.transform.parent = null;
+            this._trackingList = [];
+        }
+        State.prototype.objType = function () {
+            return "State";
+        };
+
+        State.prototype.childType = function () {
+            return Kiwi.STATE;
+        };
+
+        State.prototype.boot = function () {
+            this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
+            this.textures = this.textureLibrary.textures;
+            this.audioLibrary = new Kiwi.Sound.AudioLibrary(this.game);
+            this.audio = this.audioLibrary.audio;
+            this.dataLibrary = new Kiwi.Files.DataLibrary(this.game);
+            this.data = this.dataLibrary.data;
+        };
+
+        State.prototype.init = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preload = function () {
+        };
+
+        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
+        };
+
+        State.prototype.loadComplete = function () {
+        };
+
+        State.prototype.loadUpdate = function () {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.create = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+        };
+
+        State.prototype.preUpdate = function () {
+            this.components.preUpdate();
+        };
+
+        State.prototype.update = function () {
+            this.components.update();
+
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].active === true) {
+                    this.members[i].update();
+                }
+            }
+        };
+
+        State.prototype.postUpdate = function () {
+            this.components.postUpdate();
+        };
+
+        State.prototype.postRender = function () {
+        };
+
+        State.prototype.setType = function (value) {
+            if (this.config.isInitialised === false) {
+                this.config.type = value;
+            }
+        };
+
+        State.prototype.addImage = function (key, url, storeAsGlobal, width, height, offsetX, offsetY) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
+        };
+
+        State.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, storeAsGlobal, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
+        };
+
+        State.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
+        };
+
+        State.prototype.addJSON = function (key, url, storeAsGlobal) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addJSON(key, url, storeAsGlobal);
+        };
+
+        State.prototype.addAudio = function (key, url, storeAsGlobal) {
+            if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+            this.game.loader.addAudio(key, url, storeAsGlobal);
+        };
+
+        State.prototype.addToTrackingList = function (child) {
+            if (this._trackingList.indexOf(child) !== -1)
+                return;
+
+            this._trackingList.push(child);
+        };
+
+        State.prototype.removeFromTrackingList = function (child) {
+            var n = this._trackingList.indexOf(child);
+            if (n > -1) {
+                this._trackingList.splice(n, 1);
+            }
+        };
+
+        State.prototype.destroyUnused = function () {
+            var d = 0;
+            for (var i = 0; i < this._trackingList.length; i++) {
+                if (this.containsAncestor(this._trackingList[i], this) === false) {
+                    this._trackingList[i].destroy();
+                    this._trackingList.splice(i, 1);
+                    i--;
+                    d++;
+                }
+            }
+
+            return d;
+        };
+
+        State.prototype.destroy = function (deleteAll) {
+            if (typeof deleteAll === "undefined") { deleteAll = true; }
+            for (var i = 0; i < this._trackingList.length; i++) {
+                this._trackingList[i].destroy();
+            }
+            this._trackingList = [];
+
+            for (var i = 0; i < this.members.length; i++) {
+                this._destroyChildren(this.members[i]);
+            }
+        };
+
+        State.prototype._destroyChildren = function (child) {
+            if (child.childType() == Kiwi.GROUP) {
+                for (var i = 0; i < child.members.length; i++) {
+                    this._destroyChildren(child.members[i]);
+                }
+            }
+            child.destroy();
+        };
+        return State;
+    })(Kiwi.Group);
+    Kiwi.State = State;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Signal = (function () {
+        function Signal() {
+            this._bindings = [];
+            this._prevParams = null;
+            this.memorize = false;
+            this._shouldPropagate = true;
+            this.active = true;
+        }
+        Signal.prototype.objType = function () {
+            return "Signal";
+        };
+
+        Signal.prototype.validateListener = function (listener, fnName) {
+            if (typeof listener !== 'function') {
+                throw new Error('listener is a required param of {fn}() and should be a Function.'.replace('{fn}', fnName));
+            }
+        };
+
+        Signal.prototype._registerListener = function (listener, isOnce, listenerContext, priority) {
+            var prevIndex = this._indexOfListener(listener, listenerContext);
+            var binding;
+
+            if (prevIndex !== -1) {
+                binding = this._bindings[prevIndex];
+
+                if (binding.isOnce() !== isOnce) {
+                    throw new Error('You cannot add' + (isOnce ? '' : 'Once') + '() then add' + (!isOnce ? '' : 'Once') + '() the same listener without removing the relationship first.');
+                }
+            } else {
+                binding = new Kiwi.SignalBinding(this, listener, isOnce, listenerContext, priority);
+
+                this._addBinding(binding);
+            }
+
+            if (this.memorize && this._prevParams) {
+                binding.execute(this._prevParams);
+            }
+
+            return binding;
+        };
+
+        Signal.prototype._addBinding = function (binding) {
+            var n = this._bindings.length;
+
+            do {
+                --n;
+            } while(this._bindings[n] && binding.priority <= this._bindings[n].priority);
+
+            this._bindings.splice(n + 1, 0, binding);
+        };
+
+        Signal.prototype._indexOfListener = function (listener, context) {
+            var n = this._bindings.length;
+            var cur;
+
+            while (n--) {
+                cur = this._bindings[n];
+
+                if (cur.getListener() === listener && cur.context === context) {
+                    return n;
+                }
+            }
+
+            return -1;
+        };
+
+        Signal.prototype.has = function (listener, context) {
+            if (typeof context === "undefined") { context = null; }
+            return this._indexOfListener(listener, context) !== -1;
+        };
+
+        Signal.prototype.add = function (listener, listenerContext, priority) {
+            if (typeof listenerContext === "undefined") { listenerContext = null; }
+            if (typeof priority === "undefined") { priority = 0; }
+            this.validateListener(listener, 'add');
+
+            return this._registerListener(listener, false, listenerContext, priority);
+        };
+
+        Signal.prototype.addOnce = function (listener, listenerContext, priority) {
+            if (typeof listenerContext === "undefined") { listenerContext = null; }
+            if (typeof priority === "undefined") { priority = 0; }
+            this.validateListener(listener, 'addOnce');
+
+            return this._registerListener(listener, true, listenerContext, priority);
+        };
+
+        Signal.prototype.remove = function (listener, context) {
+            if (typeof context === "undefined") { context = null; }
+            this.validateListener(listener, 'remove');
+
+            var i = this._indexOfListener(listener, context);
+
+            if (i !== -1) {
+                this._bindings[i]._destroy();
+                this._bindings.splice(i, 1);
+            }
+
+            return listener;
+        };
+
+        Signal.prototype.removeAll = function () {
+            var n = this._bindings.length;
+
+            while (n--) {
+                this._bindings[n]._destroy();
+            }
+
+            this._bindings.length = 0;
+        };
+
+        Signal.prototype.getNumListeners = function () {
+            return this._bindings.length;
+        };
+
+        Signal.prototype.halt = function () {
+            this._shouldPropagate = false;
+        };
+
+        Signal.prototype.dispatch = function () {
+            var paramsArr = [];
+            for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                paramsArr[_i] = arguments[_i + 0];
+            }
+            if (!this.active) {
+                return;
+            }
+
+            var n = this._bindings.length;
+            var bindings;
+
+            if (this.memorize) {
+                this._prevParams = paramsArr;
+            }
+
+            if (!n) {
+                return;
+            }
+
+            bindings = this._bindings.slice(0);
+
+            this._shouldPropagate = true;
+
+            do {
+                n--;
+            } while(bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
+        };
+
+        Signal.prototype.forget = function () {
+            this._prevParams = null;
+        };
+
+        Signal.prototype.dispose = function () {
+            this.removeAll();
+
+            delete this._bindings;
+            delete this._prevParams;
+        };
+
+        Signal.prototype.toString = function () {
+            return '[Signal active:' + this.active + ' numListeners:' + this.getNumListeners() + ']';
+        };
+        Signal.VERSION = '1.0.0';
+        return Signal;
+    })();
+    Kiwi.Signal = Signal;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var SignalBinding = (function () {
+        function SignalBinding(signal, listener, isOnce, listenerContext, priority) {
+            if (typeof priority === "undefined") { priority = 0; }
+            this.active = true;
+            this.params = null;
+            this._listener = listener;
+            this._isOnce = isOnce;
+            this.context = listenerContext;
+            this._signal = signal;
+            this.priority = priority || 0;
+        }
+        SignalBinding.prototype.objType = function () {
+            return "SignalBinding";
+        };
+
+        SignalBinding.prototype.execute = function (paramsArr) {
+            var handlerReturn;
+            var params;
+
+            if (this.active && !!this._listener) {
+                params = this.params ? this.params.concat(paramsArr) : paramsArr;
+
+                handlerReturn = this._listener.apply(this.context, params);
+
+                if (this._isOnce) {
+                    this.detach();
+                }
+            }
+
+            return handlerReturn;
+        };
+
+        SignalBinding.prototype.detach = function () {
+            return this.isBound() ? this._signal.remove(this._listener, this.context) : null;
+        };
+
+        SignalBinding.prototype.isBound = function () {
+            return (!!this._signal && !!this._listener);
+        };
+
+        SignalBinding.prototype.isOnce = function () {
+            return this._isOnce;
+        };
+
+        SignalBinding.prototype.getListener = function () {
+            return this._listener;
+        };
+
+        SignalBinding.prototype.getSignal = function () {
+            return this._signal;
+        };
+
+        SignalBinding.prototype._destroy = function () {
+            delete this._signal;
+            delete this._listener;
+            delete this.context;
+        };
+
+        SignalBinding.prototype.toString = function () {
+            return '[SignalBinding isOnce:' + this._isOnce + ', isBound:' + this.isBound() + ', active:' + this.active + ']';
+        };
+        return SignalBinding;
+    })();
+    Kiwi.SignalBinding = SignalBinding;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var Stage = (function () {
+        function Stage(game, name) {
+            this.offset = new Kiwi.Geom.Point();
+            this.container = null;
+            this._game = game;
+
+            this.name = name;
+
+            this.domReady = false;
+
+            this._alpha = 1;
+
+            this._x = 0;
+            this._y = 0;
+
+            this._width = 800;
+            this._height = 600;
+            this.color = 'white';
+
+            this.onResize = new Kiwi.Signal();
+        }
+        Stage.prototype.objType = function () {
+            return "Stage";
+        };
+
+        Object.defineProperty(Stage.prototype, "alpha", {
+            get: function () {
+                return this._alpha;
+            },
+            set: function (value) {
+                this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
+
+                this._alpha = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "x", {
+            get: function () {
+                return this._x;
+            },
+            set: function (value) {
+                this.container.style.left = String(value + 'px');
+                this._x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "y", {
+            get: function () {
+                return this._y;
+            },
+            set: function (value) {
+                this.container.style.top = String(value + 'px');
+                this._y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "width", {
+            get: function () {
+                return this._width;
+            },
+            set: function (value) {
+                this.container.style.width = String(value + 'px');
+                this.canvas.width = value;
+
+                this._width = value;
+                this.onResize.dispatch(this._width, this._height);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "height", {
+            get: function () {
+                return this._height;
+            },
+            set: function (value) {
+                this.container.style.height = String(value + 'px');
+                this.canvas.height = value;
+
+                this._height = value;
+                this.onResize.dispatch(this._width, this._height);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Object.defineProperty(Stage.prototype, "color", {
+            get: function () {
+                return this._color;
+            },
+            set: function (val) {
+                this._color = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+
+        Stage.prototype.boot = function (dom) {
+            this.domReady = true;
+
+            this.container = dom.container;
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.offset = this._game.browser.getOffsetPoint(this.container);
+                this._x = this.offset.x;
+                this._y = this.offset.y;
+                this._width = parseInt(this.container.style.width);
+                this._height = parseInt(this.container.style.height);
+            }
+
+            this._createCompositeCanvas();
+            if (this._game.debugOption === Kiwi.DEBUG_ON) {
+                this._createDebugCanvas();
+            }
+        };
+
+        Stage.prototype._createCompositeCanvas = function () {
+            this.canvas = document.createElement("canvas");
+            this.canvas.id = this._game.id + "compositeCanvas";
+            this.canvas.style.position = "absolute";
+            this.canvas.width = this.width;
+            this.canvas.height = this.height;
+
+            if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
+                this.ctx = this.canvas.getContext("2d");
+                this.ctx.fillStyle = '#fff';
+                this.gl = null;
+            } else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                this.gl = this.canvas.getContext("webgl");
+                this.gl.clearColor(1, 1, .95, .7);
+                this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+                this.ctx = null;
+            }
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.appendChild(this.canvas);
+            } else {
+                document.body.appendChild(this.canvas);
+            }
+        };
+
+        Stage.prototype._createDebugCanvas = function () {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+            }
+            this.debugCanvas = document.createElement("canvas");
+            this.debugCanvas.id = this._game.id + "debugCanvas";
+            this.debugCanvas.style.position = "absolute";
+            this.debugCanvas.style.display = "none";
+            this.debugCanvas.width = this.width;
+            this.debugCanvas.height = this.height;
+            this.dctx = this.debugCanvas.getContext("2d");
+            this.clearDebugCanvas();
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.appendChild(this.debugCanvas);
+            }
+        };
+
+        Stage.prototype.clearDebugCanvas = function (color) {
+            this.dctx.fillStyle = color || "rgba(255,0,0,.2)";
+            this.dctx.clearRect(0, 0, this.width, this.height);
+            this.dctx.fillRect(0, 0, this.width, this.height);
+        };
+
+        Stage.prototype.toggleDebugCanvas = function () {
+            this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
+        };
+        return Stage;
+    })();
+    Kiwi.Stage = Stage;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -5204,6 +4647,347 @@ var Kiwi;
         Files.FileStore = FileStore;
     })(Kiwi.Files || (Kiwi.Files = {}));
     var Files = Kiwi.Files;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var StateConfig = (function () {
+        function StateConfig(parent, name) {
+            this.name = '';
+            this.isPersistent = false;
+            this.isCreated = false;
+            this.isInitialised = false;
+            this.isReady = false;
+            this.hasInit = false;
+            this.hasPreloader = false;
+            this.hasLoadProgress = false;
+            this.hasLoadComplete = false;
+            this.hasLoadUpdate = false;
+            this.hasCreate = false;
+            this.hasOnEnter = false;
+            this.hasUpdate = false;
+            this.hasRender = false;
+            this.hasOnExit = false;
+            this.hasShutDown = false;
+            this.hasDestroy = false;
+            this.runCount = 0;
+            this.type = 0;
+            this._state = parent;
+            this.name = name;
+
+            this.populate();
+        }
+        StateConfig.prototype.objType = function () {
+            return "StateConfig";
+        };
+
+        StateConfig.prototype.populate = function () {
+            if (typeof this._state['init'] === 'function') {
+                this.hasInit = true;
+            }
+
+            if (typeof this._state['preload'] === 'function') {
+                this.hasPreloader = true;
+            }
+
+            if (typeof this._state['loadProgress'] === 'function') {
+                this.hasLoadProgress = true;
+            }
+
+            if (typeof this._state['loadComplete'] === 'function') {
+                this.hasLoadComplete = true;
+            }
+
+            if (typeof this._state['loadUpdate'] === 'function') {
+                this.hasLoadUpdate = true;
+            }
+
+            if (typeof this._state['create'] === 'function') {
+                this.hasCreate = true;
+            }
+
+            if (typeof this._state['onEnter'] === 'function') {
+                this.hasOnEnter = true;
+            }
+
+            if (typeof this._state['update'] === 'function') {
+                this.hasUpdate = true;
+            }
+
+            if (typeof this._state['render'] === 'function') {
+                this.hasRender = true;
+            }
+
+            if (typeof this._state['onExit'] === 'function') {
+                this.hasOnExit = true;
+            }
+
+            if (typeof this._state['shutdown'] === 'function') {
+                this.hasShutDown = true;
+            }
+
+            if (typeof this._state['destroy'] === 'function') {
+                this.hasDestroy = true;
+            }
+
+            if (this.hasInit === false && this.hasCreate === false) {
+                this.isInitialised = true;
+                this.isCreated = true;
+                this.isReady = true;
+            }
+        };
+        return StateConfig;
+    })();
+    Kiwi.StateConfig = StateConfig;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    var StateManager = (function () {
+        function StateManager(game) {
+            this.current = null;
+            this._game = game;
+
+            this._states = [];
+        }
+        StateManager.prototype.objType = function () {
+            return "StateManager";
+        };
+
+        StateManager.prototype.checkKeyExists = function (key) {
+            for (var i = 0; i < this._states.length; i++) {
+                if (this._states[i].config.name === key) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        StateManager.prototype.checkValidState = function (state) {
+            if (!state['game'] || !state['config']) {
+                return false;
+            }
+
+            return true;
+        };
+
+        StateManager.prototype.addState = function (state, switchTo) {
+            if (typeof switchTo === "undefined") { switchTo = false; }
+            var tempState;
+
+            if (typeof state === 'function') {
+                tempState = new state();
+            } else if (typeof state === 'string') {
+                tempState = window[state];
+            } else {
+                tempState = state;
+            }
+
+            if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true) {
+                return false;
+            }
+
+            tempState.game = this._game;
+
+            if (this.checkValidState(tempState) === false) {
+                return false;
+            } else {
+                this._states.push(tempState);
+
+                if (switchTo === true) {
+                    this.setCurrentState(tempState.config.name);
+                }
+
+                return true;
+            }
+        };
+
+        StateManager.prototype.boot = function () {
+            if (this.current !== null) {
+                this.current.boot();
+            }
+
+            if (this.current !== null && this.current.config.isInitialised === false) {
+                if (this.current.config.hasInit === true) {
+                    this.current.init();
+                }
+
+                this.current.config.isInitialised = true;
+
+                this.checkPreload();
+            }
+        };
+
+        StateManager.prototype.setCurrentState = function (key) {
+            if (this.current !== null && this.current.config.name === key) {
+                return false;
+            }
+
+            if (this.current !== null) {
+                this._game.input.reset();
+                this.current.destroy();
+            }
+
+            if (this.checkKeyExists(key) === true) {
+                this.current = this.getState(key);
+
+                if (this._game.stage.domReady === true) {
+                    if (this.current.config.isInitialised === false) {
+                        this.current.boot();
+
+                        if (this.current.config.hasInit === true) {
+                            if (this.current.config.initParams) {
+                                this.current.init.apply(this.current, this.current.config.initParams);
+                            } else {
+                                this.current.init.call(this.current);
+                            }
+                        }
+
+                        this.current.config.isInitialised = true;
+                    }
+
+                    this.checkPreload();
+                }
+
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        StateManager.prototype.switchState = function (key, state, initParams, createParams) {
+            if (typeof state === "undefined") { state = null; }
+            if (typeof initParams === "undefined") { initParams = null; }
+            if (typeof createParams === "undefined") { createParams = null; }
+            if (this.current !== null && this.current.config.isReady === false) {
+                return false;
+            }
+
+            if (this.checkKeyExists(key) === false && state !== null) {
+                if (this.addState(state, false) === false) {
+                    return false;
+                }
+            }
+
+            if (initParams !== null || createParams !== null) {
+                var newState = this.getState(key);
+
+                newState.config.initParams = [];
+
+                for (var initParameter in initParams) {
+                    newState.config.initParams.push(initParams[initParameter]);
+                }
+
+                newState.config.createParams = [];
+
+                for (var createParameter in createParams) {
+                    newState.config.createParams.push(createParams[createParameter]);
+                }
+            }
+
+            return this.setCurrentState(key);
+        };
+
+        StateManager.prototype.getState = function (key) {
+            for (var i = 0; i < this._states.length; i++) {
+                if (this._states[i].config.name === key) {
+                    return this._states[i];
+                }
+            }
+
+            return null;
+        };
+
+        StateManager.prototype.checkPreload = function () {
+            var _this = this;
+            if (this.current.config.hasPreloader === true) {
+                this._game.loader.init(function (percent, bytes, file) {
+                    return _this.onLoadProgress(percent, bytes, file);
+                }, function () {
+                    return _this.onLoadComplete();
+                });
+                this.current.preload();
+                this._game.loader.startLoad();
+            } else {
+                if (this.current.config.hasCreate === true && this.current.config.isCreated === false) {
+                    this.current.config.isCreated = true;
+
+                    if (this.current.config.createParams) {
+                        this.current.create.apply(this.current, this.current.config.createParams);
+                    } else {
+                        this.current.create.call(this.current);
+                    }
+                }
+
+                this.current.config.isReady = true;
+            }
+        };
+
+        StateManager.prototype.onLoadProgress = function (percent, bytesLoaded, file) {
+            if (this.current.config.hasLoadProgress === true) {
+                this.current.loadProgress(percent, bytesLoaded, file);
+            }
+        };
+
+        StateManager.prototype.onLoadComplete = function () {
+            if (this.current.config.hasLoadComplete === true) {
+                this.current.loadComplete();
+            }
+
+            this.rebuildLibraries();
+
+            this.current.config.isReady = true;
+
+            if (this.current.config.hasCreate === true) {
+                this.current.config.isCreated = true;
+                if (this.current.config.createParams) {
+                    this.current.create.apply(this.current, this.current.config.createParams);
+                } else {
+                    this.current.create.call(this.current);
+                }
+            }
+        };
+
+        StateManager.prototype.rebuildLibraries = function () {
+            this.current.textureLibrary.clear();
+            this.current.audioLibrary.clear();
+            this.current.dataLibrary.clear();
+
+            var fileStoreKeys = this._game.fileStore.keys;
+
+            for (var i = 0; i < fileStoreKeys.length; i++) {
+                var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                if (file.isTexture) {
+                    this.current.textureLibrary.add(file);
+                } else if (file.isAudio) {
+                    this.current.audioLibrary.add(file);
+                } else if (file.isData) {
+                    this.current.dataLibrary.add(file);
+                }
+            }
+        };
+
+        StateManager.prototype.update = function () {
+            if (this.current !== null) {
+                if (this.current.config.isReady === true) {
+                    this.current.preUpdate();
+                    this.current.update();
+                    this.current.postUpdate();
+                } else {
+                    this.current.loadUpdate();
+                }
+            }
+        };
+
+        StateManager.prototype.postRender = function () {
+            if (this.current !== null) {
+                if (this.current.config.isReady === true) {
+                    this.current.postRender();
+                }
+            }
+        };
+        return StateManager;
+    })();
+    Kiwi.StateManager = StateManager;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -9955,6 +9739,222 @@ var Kiwi;
         Sound.AudioLibrary = AudioLibrary;
     })(Kiwi.Sound || (Kiwi.Sound = {}));
     var Sound = Kiwi.Sound;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        var Anim = (function () {
+            function Anim(name, sequence, clock) {
+                this._frameIndex = 0;
+                this._startTime = null;
+                this._reverse = false;
+                this.name = name;
+                this._sequence = sequence;
+                this._speed = sequence.speed;
+                this._loop = sequence.loop;
+                this._clock = clock;
+
+                this.onUpdate = new Kiwi.Signal();
+                this.onPlay = new Kiwi.Signal();
+                this.onStop = new Kiwi.Signal();
+                this.onLoop = new Kiwi.Signal();
+            }
+            Object.defineProperty(Anim.prototype, "loop", {
+                get: function () {
+                    return this._loop;
+                },
+                set: function (value) {
+                    this._loop = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Anim.prototype, "frameIndex", {
+                get: function () {
+                    return this._frameIndex;
+                },
+                set: function (val) {
+                    if (this._validateFrame(val)) {
+                        this._frameIndex = val;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Anim.prototype, "currentCell", {
+                get: function () {
+                    return this._sequence.cells[this.frameIndex];
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Anim.prototype, "speed", {
+                get: function () {
+                    return this._speed;
+                },
+                set: function (value) {
+                    this._speed = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+
+            Object.defineProperty(Anim.prototype, "reverse", {
+                get: function () {
+                    return this._reverse;
+                },
+                set: function (value) {
+                    this._reverse = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Anim.prototype._start = function (index) {
+                if (typeof index === "undefined") { index = null; }
+                if (index !== null) {
+                    this.frameIndex = index;
+                }
+                this._isPlaying = true;
+                this._startTime = this._clock.elapsed();
+                this._tick = this._startTime + this._speed;
+                this.onPlay.dispatch();
+            };
+
+            Anim.prototype.play = function () {
+                if (this._frameIndex === this.length - 1)
+                    this.frameIndex = 0;
+
+                this.playAt(this._frameIndex);
+            };
+
+            Anim.prototype.playAt = function (index) {
+                this._start(index);
+            };
+
+            Anim.prototype.pause = function () {
+                this.stop();
+            };
+
+            Anim.prototype.resume = function () {
+                if (this._startTime !== null) {
+                    this._isPlaying = true;
+                }
+            };
+
+            Anim.prototype.stop = function () {
+                if (this._isPlaying) {
+                    this._isPlaying = false;
+                    this.onStop.dispatch();
+                }
+            };
+
+            Anim.prototype.nextFrame = function () {
+                this._frameIndex++;
+                if (this._frameIndex >= this.length)
+                    this.frameIndex = 0;
+            };
+
+            Anim.prototype.prevFrame = function () {
+                this._frameIndex--;
+                if (this._frameIndex < 0)
+                    this.frameIndex = this.length - 1;
+            };
+
+            Anim.prototype.update = function () {
+                if (this._isPlaying) {
+                    if (this._clock.elapsed() >= this._tick) {
+                        this._tick = this._clock.elapsed() + this._speed;
+
+                        if (this._reverse)
+                            this._frameIndex--; else
+                            this._frameIndex++;
+
+                        this.onUpdate.dispatch();
+                        if (!this._validateFrame(this._frameIndex)) {
+                            if (this._loop) {
+                                if (this._reverse) {
+                                    this._frameIndex = this.length - 1;
+                                    this.onLoop.dispatch();
+                                } else {
+                                    this._frameIndex = 0;
+                                    this.onLoop.dispatch();
+                                }
+                            } else {
+                                this._frameIndex--;
+                                this.stop();
+                            }
+                        }
+
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            Anim.prototype._validateFrame = function (frame) {
+                return (frame < this.length && frame >= 0);
+            };
+
+            Object.defineProperty(Anim.prototype, "length", {
+                get: function () {
+                    return this._sequence.cells.length;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Anim.prototype.destroy = function () {
+                this._isPlaying = false;
+                delete this._clock;
+                delete this._sequence;
+                if (this.onLoop)
+                    this.onLoop.dispose();
+                if (this.onStop)
+                    this.onStop.dispose();
+                if (this.onPlay)
+                    this.onPlay.dispose();
+                if (this.onUpdate)
+                    this.onUpdate.dispose();
+                delete this.onLoop;
+                delete this.onStop;
+                delete this.onPlay;
+                delete this.onUpdate;
+                delete this.frameIndex;
+                delete this.loop;
+                delete this._reverse;
+                delete this._tick;
+            };
+            return Anim;
+        })();
+        Animation.Anim = Anim;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        var Sequence = (function () {
+            function Sequence(name, cells, speed, loop) {
+                if (typeof speed === "undefined") { speed = 0.1; }
+                if (typeof loop === "undefined") { loop = true; }
+                this.name = name;
+                this.cells = cells;
+                this.speed = speed;
+                this.loop = loop;
+            }
+            return Sequence;
+        })();
+        Animation.Sequence = Sequence;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
