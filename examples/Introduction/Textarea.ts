@@ -30,13 +30,13 @@ class Textarea extends Kiwi.State {
         this.addChild(this.text1);
         
         this.text2 = new Kiwi.GameObjects.Textfield(this, 'This text is right aligned', this.game.stage.width, 20, 'red', 16);
-        this.text2.textAlign = Kiwi.GameObjects.Textfield.TEXTALIGN_RIGHT;
+        this.text2.textAlign = Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT;
         this.text2.alpha = 0.5;
         this.addChild(this.text2);
 
         this.text3 = new Kiwi.GameObjects.Textfield(this, 'I am on a angle!', this.game.stage.width / 2, 200, 'green', 32, 'bold', 'serif');
         this.text3.rotation += Math.PI / 5;
-        this.text3.textAlign = Kiwi.GameObjects.Textfield.TEXTALIGN_CENTER;
+        this.text3.textAlign = Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER;
         this.addChild(this.text3);
 
     }

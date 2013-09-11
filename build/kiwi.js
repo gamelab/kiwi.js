@@ -3069,6 +3069,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+
             Object.defineProperty(Input.prototype, "dragDistance", {
                 get: function () {
                     return this._dragDistance;
@@ -3079,6 +3080,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+
 
             Input.prototype.enableDrag = function (snapToCenter, distance) {
                 if (typeof snapToCenter === "undefined") { snapToCenter = false; }
@@ -5124,7 +5126,7 @@ var Kiwi;
             function Textfield(state, text, x, y, color, size, weight, fontFamily) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
-                if (typeof color === "undefined") { color = '#ffffff'; }
+                if (typeof color === "undefined") { color = '#000000'; }
                 if (typeof size === "undefined") { size = 32; }
                 if (typeof weight === "undefined") { weight = 'normal'; }
                 if (typeof fontFamily === "undefined") { fontFamily = 'sans-serif'; }
@@ -5135,7 +5137,6 @@ var Kiwi;
                 this._fontSize = size;
                 this._fontColor = color;
                 this._fontFamily = fontFamily;
-                this._lineHeight = 1;
                 this._textAlign = 'left';
                 this._baseline = 'top';
 
@@ -5236,7 +5237,7 @@ var Kiwi;
                 ctxTemp.fillStyle = this._fontColor;
                 ctxTemp.textBaseline = this._baseline;
 
-                ctxTemp.fillText(this._text, 0, 0);
+                ctxTemp.fillText(this._text, 0.5, 0.5);
 
                 this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
                 this._textImage.src = this._tempCanvas.toDataURL("image/png");
@@ -5261,13 +5262,13 @@ var Kiwi;
 
                     var x = 0;
                     switch (this._textAlign) {
-                        case Kiwi.GameObjects.Textfield.TEXTALIGN_LEFT:
+                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
                             x = 0;
                             break;
-                        case Kiwi.GameObjects.Textfield.TEXTALIGN_CENTER:
+                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
                             x = this._textImage.width / 2;
                             break;
-                        case Kiwi.GameObjects.Textfield.TEXTALIGN_RIGHT:
+                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                             x = this._textImage.width;
                             break;
                     }
@@ -5283,11 +5284,11 @@ var Kiwi;
                     ctx.restore();
                 }
             };
-            Textfield.TEXTALIGN_CENTER = 'center';
+            Textfield.TEXT_ALIGN_CENTER = 'center';
 
-            Textfield.TEXTALIGN_RIGHT = 'right';
+            Textfield.TEXT_ALIGN_RIGHT = 'right';
 
-            Textfield.TEXTALIGN_LEFT = 'left';
+            Textfield.TEXT_ALIGN_LEFT = 'left';
             return Textfield;
         })(Kiwi.Entity);
         GameObjects.Textfield = Textfield;

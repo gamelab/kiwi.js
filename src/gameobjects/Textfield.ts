@@ -11,25 +11,23 @@ module Kiwi.GameObjects {
     *
     *
     * @class Textfield
-    *
+    * @extends Entity
     */
     export class Textfield extends Kiwi.Entity {
 
-        //TO DO - MULTIPLE LINES OF TEXT! Use an array.
-
         /**
-         * 
-         * @constructor
-         * @param {String} text
-         * @param {Number} x - The new x coordinate from the Position component
-         * @param {Number} y - The new y coordinate from the Position component
-         * @param {String} color - The color of the pixel in 0xAARRGGBB format. Default is 0xFF000000 (black).
-         * @param {Number} size - Yes we know pixels don't really have a size, but on large monitors you need to pump them up a bit!
-         * @param {String} weight 
-         * @param {String} fontFamily
-         * @return {Kiwi.GameObjects.Textfield} This Game Object.
-         **/
-        constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#ffffff', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif') {
+        * 
+        * @constructor
+        * @param {String} text
+        * @param {Number} x - The new x coordinate from the Position component
+        * @param {Number} y - The new y coordinate from the Position component
+        * @param {String} color - The color of the pixel in 0xAARRGGBB format. Default is 0xFF000000 (black).
+        * @param {Number} size - Yes we know pixels don't really have a size, but on large monitors you need to pump them up a bit!
+        * @param {String} weight 
+        * @param {String} fontFamily
+        * @return {Kiwi.GameObjects.Textfield} This Game Object.
+        */
+        constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#000000', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif') {
 
             super(state, x,y);
 
@@ -38,202 +36,233 @@ module Kiwi.GameObjects {
             this._fontSize = size;
             this._fontColor = color;
             this._fontFamily = fontFamily;
-            this._lineHeight = 1;
             this._textAlign = 'left';
             this._baseline = 'top';
             
             this.dirty = true;
         }
 
-        /*
+        /**
         * Returns the type of object that this is
         * @method objType
-        * @param {string}
+        * @return {string}
+        * @public
         */
         public objType() {
             return "Textfield";
         }
 
         /**
-         * The text that is to be rendered.
-         * @property _text
-         * @type string
-         **/
+        * The text that is to be rendered.
+        * @property _text
+        * @type string[]
+        * @private
+        */
         private _text: string;
         
         /**
-         * The weight of the font.
-         * @property _fontWeight
-         * @type string
-         **/
+        * The weight of the font.
+        * @property _fontWeight
+        * @type string
+        * @default 'normal'
+        * @private
+        */
         private _fontWeight: string;
 
         /**
-         * The size of the font.
-         * @property _fontSize
-         * @type number
-         **/
+        * The size of the font.
+        * @property _fontSize
+        * @type number
+        * @default 32
+        * @private
+        */
         private _fontSize: number;
 
         /**
-         * The color of the text.
-         * @property _fontColor
-         * @type string
-         **/
+        * The color of the text.
+        * @property _fontColor
+        * @type string
+        * @default '#000000'
+        * @private
+        */
         private _fontColor: string;
 
         /**
-         * The font family that is to be rendered.
-         * @property _fontFamily
-         * @type string
-         **/
+        * The font family that is to be rendered.
+        * @property _fontFamily
+        * @type string
+        * @default 'sans-serif'
+        * @private
+        */
         private _fontFamily: string;
 
         /**
-         * The line height. This is a relational measurement.
-         * @property _lineHeight
-         * @type number
-         **/
-        private _lineHeight: number;
-
-        /**
-         * The alignment of the font
-         * @property _textAlign
-         * @type string
-         **/
+        * The alignment of the text. This can either be 'left', 'right' or 'center'
+        * @property _textAlign
+        * @type string
+        * @default 'center'
+        * @private
+        */
         private _textAlign: string;
 
         /**
-         * The baseline of the text to be rendered.
-         * @property _baseline
-         * @type string
-         **/
+        * The baseline of the text to be rendered.
+        * @property _baseline
+        * @type string
+        * @private
+        */
         private _baseline: string; 
 
         /**
-         * Sets the text that is to appear.
-         * @method setText
-         * @param {string} value
-         **/
+        * Sets the text that is to appear.
+        * @method setText
+        * @param {string} value
+        * @public
+        */
         public set text(value: string) {
             this._text = value;
             this.dirty = true;
         }
 
-        /*
-        * Get the text that is to appear.
-        * @return {string}
+        /**
+        * Get the text that is to appear. If there are multiple lines this will return the first line of text.
+        * @type string
+        * @public
         */
         public get text(): string {
             return this._text;
         }
 
         /**
-         * Allows the setting of the font colour if a parameter has been passed. 
-         * Returns the current font colour.
-         * 
-         * @method fontColor
-         * @param {string} val
-         * @return {string} 
-         **/
+        * Allows the setting of the font colour. 
+        * @type string
+        * @public
+        */
         public set color(val: string) {
             this._fontColor = val;
             this.dirty = true;
         }
 
+        /**
+        * Returns the color of the text.
+        * @type string
+        * @public
+        */ 
         public get color(): string {
             return this._fontColor;
         }
 
         /**
-         * Allows the changing of the font weight. Returns the current font weight.
-         * 
-         * @method fontWeight
-         * @param {string} val
-         * @return {string}
-         **/
+        * Sets the weight of the font. 
+        * @type string
+        * @public
+        */
         public set fontWeight(val: string) {
             this._fontWeight = val;
             this.dirty = true;
         }
 
+        /**
+        * Returns the weight of that will be used when rendering the font.
+        * @type string
+        * @public
+        */
         public get fontWeight(): string {
             return this._fontWeight;
         }
 
         /**
-         * Changes the font size if a parameter is passed. Returns the current font size.
-         * 
-         * @method fontSize
-         * @param {number} val
-         * @return {number}
-         **/
+        * Sets the size of the the font that is being used. 
+        * @type number
+        * @public
+        */
         public set fontSize(val: number) {
             this._fontSize = val;
             this.dirty = true;
         }
-
+        
+        /**
+        * Returns the size of the font that is being used. 
+        * @type number
+        * @public
+        */
         public get fontSize(): number {
             return this._fontSize;
         }
 
         /**
-         * Allows the modification of the font family. Returns the current font family.
-         * 
-         * @method fontFamily
-         * @param {string} val
-         * @return {string}
-         **/
+        * Allows the modification of the font family. 
+        * @type string
+        * @public
+        */
         public set fontFamily(val: string) {
             this._fontFamily = val;
             this.dirty = true;
         }
 
+        /**
+        * Returns the font family that is being used.
+        * @type string
+        * @public
+        */
         public get fontFamily(): string {
             return this._fontFamily;
         }
         
-        public static TEXTALIGN_CENTER: string = 'center';
-
-        public static TEXTALIGN_RIGHT: string = 'right';
-
-        public static TEXTALIGN_LEFT: string = 'left';
+        /**
+        * A static property that contains the string to center align the text.
+        * @property TEXT_ALIGN_CENTER
+        * @type string
+        * @static
+        * @final
+        * @public
+        */
+        public static TEXT_ALIGN_CENTER: string = 'center';
+        
+        /**
+        * A static property that contains the string to right align the text.
+        * @property TEXT_ALIGN_RIGHT
+        * @type string
+        * @static
+        * @final
+        * @public
+        */
+        public static TEXT_ALIGN_RIGHT: string = 'right';
+        
+        /**
+        * A static property that contains the string to left align the text.
+        * @property TEXT_ALIGN_LEFT
+        * @type string
+        * @static
+        * @final
+        * @public
+        */
+        public static TEXT_ALIGN_LEFT: string = 'left';
 
         /**
-         * Lets you change the text alignment.
-         *
-         * @method textAlign
-         * @param {string} val
-         * @return {string} 
-         **/
+        * Changes the alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
+        * @type string
+        * @public
+        */
         public set textAlign(val: string) {
             this._textAlign = val;
             this.dirty = true;
         }
-
+        
+        /**
+        * Returns a string containing the text alignment for this textfield.
+        * @type string
+        * @public
+        */
         public get textAlign(): string {
             return this._textAlign;
         }
 
         /**
-         * Allows you to change the baseline. COMMNENTED OUT DUE TO BUG FIX
-         *
-         * @method baseline
-         * @param {string}
-         **/
-        /*public set baseline(val: string) {
-            this._baseline = val;
-            this.dirty = true;
-        }
-        
-        public get baseline(): string {
-            return this._baseline;
-        }*/
-
-        /**
         * A temporary property that we use to render the actual text to and then get the information from.
         * @property _tempCanvas
         * @type HTMLCanvasElement.
+        * @private
         */
         private _tempCanvas: HTMLCanvasElement;
 
@@ -241,6 +270,7 @@ module Kiwi.GameObjects {
         * The HTMLImageElement which has the text rendered as an image once the _tempCanvas has generated it. 
         * @property _textImage
         * @type HTMLImageElement
+        * @private
         */
         private _textImage: HTMLImageElement;
 
@@ -269,7 +299,7 @@ module Kiwi.GameObjects {
             ctxTemp.textBaseline = this._baseline;
 
             //add text
-            ctxTemp.fillText(this._text, 0, 0);
+            ctxTemp.fillText(this._text, 0.5, 0.5);
 
             //create the image
             this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
@@ -279,9 +309,10 @@ module Kiwi.GameObjects {
         }
        
         /**
-	     * Called by the Layer to which this Game Object is attached
-	     * @method render
-	     **/
+	    * Called by the Layer to which this Game Object is attached
+	    * @method render
+        * @param {Kiwi.Camera}
+	    */
         public render(camera:Kiwi.Camera) {
             
             if (this.alpha > 0 && this.visiblity) {
@@ -304,13 +335,13 @@ module Kiwi.GameObjects {
                 //align the text
                 var x = 0;
                 switch (this._textAlign) {
-                    case Kiwi.GameObjects.Textfield.TEXTALIGN_LEFT:
+                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
                         x = 0;
                         break;
-                    case Kiwi.GameObjects.Textfield.TEXTALIGN_CENTER:
+                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
                         x = this._textImage.width / 2;
                         break;
-                    case Kiwi.GameObjects.Textfield.TEXTALIGN_RIGHT:
+                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
                         x = this._textImage.width;
                         break;
                 }

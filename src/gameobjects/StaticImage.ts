@@ -11,17 +11,17 @@ module Kiwi.GameObjects {
     * A light weight game object for displaying static images (such as backgrounds) that would have little or no interaction with other game objects.
     *
     * @class StaticImage
-    *
+    * @extends Entity
     */
     export class StaticImage extends Kiwi.Entity {
 
         /**
         * 
         * @constructor
-        * @param {Kiwi.State} state
-        * @param {Kiwi.Textures.TextureAtlas} atlas
-        * @param {Number} x
-        * @param {Number} y
+        * @param {Kiwi.State} state - The state that this static image belongs to 
+        * @param {Kiwi.Textures.TextureAtlas} atlas - The texture atlas to use as the image.
+        * @param {Number} x - Its coordinates on the x axis
+        * @param {Number} y - The coordinates on the y axis
         * @return {StaticImage}
         */
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
@@ -40,26 +40,30 @@ module Kiwi.GameObjects {
            
         }
 
-        /*
+        /**
         * Returns the type of object that this is.
         * @method objType
         * @return {string}
+        * @public
         */
         public objType(): string {
             return "Sprite";
         }
 
         /** 
-         * The Bounds component that controls the bounding box around this Game Object
-         * @property bounds
-         * @type Kiwi.Components.Bounds
-         **/
+        * The Bounds component that controls the bounding box around this Game Object
+        * @property bounds
+        * @type Kiwi.Components.Bounds
+        * @public
+        */
         public box: Kiwi.Components.Box;
 
         /**
-	     * Called by the Layer to which this Game Object is attached
-	     * @method render
-	     **/
+	    * Called by the Layer to which this Game Object is attached
+	    * @method render
+        * @param {Kiwi.Camara} camera
+        * @public
+	    */
         public render(camera: Kiwi.Camera) {
             
             super.render(camera);

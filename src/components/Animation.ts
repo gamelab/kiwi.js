@@ -96,7 +96,7 @@ module Kiwi.Components {
         public get isPlaying(): boolean {
             return this._isPlaying;
         }
-         
+        
         /**
         * The type of object that this is.
         * @method objType

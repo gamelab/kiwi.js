@@ -10,7 +10,7 @@ module Kiwi.Input {
     /**
     *
     * @class Finger
-    * 
+    * @extends Pointer
     */
     export class Finger extends Pointer {
         
@@ -29,6 +29,7 @@ module Kiwi.Input {
         * The type of object this is. 
         * @method objType
         * @return string
+        * @public
         */
         public objType(): string {
             return 'Finger';
@@ -37,6 +38,7 @@ module Kiwi.Input {
         /** 
         * @method start
         * @param {Any} event
+        * @public
         */
         public start(event) {
             this.id = event.identifier;
@@ -47,6 +49,7 @@ module Kiwi.Input {
         /**
         * @method stop
         * @param {Any} event
+        * @public
         */
         public stop(event) {
             this.active = false;
@@ -56,6 +59,7 @@ module Kiwi.Input {
         /** 
         * @method leave
         * @param {Any} event
+        * @public
         */
         public leave(event) {
             this.withinGame = false;
@@ -64,6 +68,7 @@ module Kiwi.Input {
 
         /**
         * @method reset
+        * @public
         */
         public reset() {
             this.active = false;
