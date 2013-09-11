@@ -28,6 +28,7 @@ class TouchManager extends Kiwi.State {
 
             //create a new character for each finger.
             this.characters = [];
+            this.pointers = [];
             for (var i = 0; i < this.game.input.touch.fingers.length; i++) {
 
                 var c = new Kiwi.GameObjects.Sprite(this, this.textures.characters);
@@ -78,8 +79,8 @@ class TouchManager extends Kiwi.State {
 
                 if (this.pointers[i].active) {
 
-                    this.characters[i].x = this.pointers[i].x;
-                    this.characters[i].y = this.pointers[i].y;
+                    this.characters[i].x = this.pointers[i].x - 75;
+                    this.characters[i].y = this.pointers[i].y - 50;
 
                 } else {
                     if (this.removePointer(this.pointers[i])) {

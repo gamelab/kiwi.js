@@ -15,14 +15,14 @@ module Kiwi.Textures {
     */
     export class TextureAtlas {
 
-        /*
+        /**
         * 
         * @constructor
-        * @param {string} name
-        * @param {number} type
-        * @param {any} cells
-        * @param {HTMLImageElement} image
-        * @param {Sequence[]} sequences
+        * @param {string} name - Name of the texture atlas. This is usually defined by the developer when loading the assets.
+        * @param {number} type - The type of texture atlas that this is. There are currently only three types.
+        * @param {any} cells - The cells that are within this image..
+        * @param {HTMLImageElement} image - The image that the texture atlas is using.
+        * @param {Sequence[]} sequences - Any sequences of cells for this texture atlas. Used for animation.
         * @return {Kiwi.Textures.TextureAtlas}
         */
         constructor(name: string, type:number, cells, image?: HTMLImageElement, sequences?: Kiwi.Animation.Sequence[]) {
@@ -32,75 +32,114 @@ module Kiwi.Textures {
             this.image = image;
             this._type = type;
         }
-
+        
+        /**
+        * The type of object that this texture atlas is.
+        * @method objType
+        * @return string
+        * @public
+        */
         public objType(): string {
             return "TextureAtlas";
         }
 
-        /*
+        /**
         * The name of this texture atlas
         * @property name
         * @type string
+        * @public
         */
         public name: string;
         
-        /*
+        /**
         * The image that this texture atlas is holding.
         * @property image
         * @type HTMLImageElement
+        * @public
         */
         public image: HTMLImageElement;
         
-        /*
+        /**
         * The cells for this image.
         * @property cells
         * @type Array
+        * @public
         */
         public cells: Array;
         
-        /*
+        /**
         * Sequences that are for this texture.
         * @property sequences
         * @type Kiwi.Sequence
+        * @public
         */
         public sequences: Kiwi.Animation.Sequence[];
         
-        /*
+        /**
         * The cell that is to be render at the start.
         * @property cellIndex
         * @type number
+        * @default 0 
+        * @public
         */
         public cellIndex: number = 0;
         
-        /*
-        * The type of texture atlas that this is.
+        /**
+        * The type of texture atlas that this is. This only ever is given a value when the object is instantated. 
         * @property _type
         * @type number
+        * @private
         */
         private _type: number;
         
-        /*
-        * The difference types of texture atlases.
+        /**
+        * The number that defines a single image type of texture atlas
+        * @property SINGLE_IMAGE
+        * @static
+        * @default 0
+        * @type number
+        * @final
+        * @public
         */
         public static SINGLE_IMAGE: number = 0;
-
+    
+        /**
+        * The number that defines a spritesheet type of texture atlas
+        * @property SPRITE_SHEET
+        * @static
+        * @default 1
+        * @type number
+        * @final
+        * @public
+        */
         public static SPRITE_SHEET: number = 1;
 
+        /**
+        * The number that defines a normal texture atlas
+        * @property TEXTURE_ATLAS
+        * @static
+        * @default 2
+        * @type number
+        * @final
+        * @public
+        */
         public static TEXTURE_ATLAS: number = 2;
 
-        /*
-        * Will return to you the type of texture atlas that this one is.
+        /**
+        * Will return to you this type of texture atlas. This is READ ONLY.
         * @type number
+        * @public
         */
         public get type(): number {
             return this._type;
         }
         
-        /*
-        * Will populate this texture atlas with information based of the JSON file that was passed.
+        /**
+        * Will populate this texture atlas with information based on a JSON file that was passed.
         * 
         * @method readJSON
         * @param {any} atlasJSON
+        * @public 
         */
         public readJSON(atlasJSON) {
             //populate from json

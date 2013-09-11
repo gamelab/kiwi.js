@@ -64,14 +64,14 @@ module Kiwi {
         * @property active
         * @type Boolean
 		**/
-        public active: bool = true;
+        public active: boolean = true;
 
         /**
         * The state of this component. DEPRECATED so we can use signals instead, but left in case is needed elsewhere
         * @property dirty
         * @type boolean
         **/
-        public dirty: bool = false;
+        public dirty: boolean = false;
 
         /**
         * Components can preUpdate, that is update before the parent updates

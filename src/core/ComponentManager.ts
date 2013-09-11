@@ -35,6 +35,7 @@ module Kiwi {
         * Returns the type of this object
         * @method objType
         * @return {string} The type of this object
+        * @public
         */
         public objType():string {
             return "ComponentManager";
@@ -45,7 +46,7 @@ module Kiwi {
         * @property _owner
         * @type {any}
         * @private
-        **/
+        */
         private _owner: any;
 
         /**
@@ -53,7 +54,7 @@ module Kiwi {
         * @property _type
         * @type number
         * @private
-        **/
+        */
         private _type: number;
 
         /**
@@ -69,8 +70,9 @@ module Kiwi {
         * @method hasComponent
         * @param {String} the name of the component
         * @return {Boolean} True if this component manager contains the given component, false otherwise.
-        **/
-        public hasComponent(value: string): bool {
+        * @public
+        */
+        public hasComponent(value: string): boolean {
 
             if (this._components[value]) {
                 return true;
@@ -84,8 +86,9 @@ module Kiwi {
         * @method hasActiveComponent
         * @param {String} The name of the component.
         * @return {Boolean} true if this manager contains the component and it is active, false otherwise.
-        **/
-        public hasActiveComponent(value: string): bool {
+        * @public
+        */
+        public hasActiveComponent(value: string): boolean {
 
             if (this._components[value] && this._components[value].active === true)
             {
@@ -101,7 +104,8 @@ module Kiwi {
         * @method getComponent
         * @param {String} name - The component name
         * @return {Kiwi.Component} The component, if found, otherwise null
-        **/
+        * @public
+        */
         public getComponent(value: string): any {
 
             if (this._components[value]) {
@@ -116,7 +120,8 @@ module Kiwi {
         * @method addComponent
         * @param {Kiwi.Component} component - The component to add
         * @return {Kiwi.Component} The component that was added
-        **/
+        * @public
+        */
         public add(component: Kiwi.Component): any {
 
             this._components[component.name] = component;
@@ -130,7 +135,8 @@ module Kiwi {
         * Adds a Component to the manager.
         * @method addBatch
         * @param {}
-        **/
+        * @public
+        */
         public addBatch(...paramsArr: any[]) {
 
             for (var i = 0; i < paramsArr.length; i++) {
@@ -145,8 +151,9 @@ module Kiwi {
         * @param {Kiwi.Component} component - The component to be removed
         * @param {Boolean} destroy - Set to true (default) to call destroy on the component before removing it
         * @return {Boolean} true if the component was removed successfully
-        **/
-        public removeComponent(component: Kiwi.Component, destroy:bool = true): bool {
+        * @public
+        */
+        public removeComponent(component: Kiwi.Component, destroy: boolean = true): boolean {
 
             var name = component.name;
 
@@ -169,8 +176,9 @@ module Kiwi {
         * @param {String} name - The name of the component to be removed
         * @param {Boolean} destroy - Set to true (default) to call destroy on the component before removing it
         * @return {Boolean} true if the component was removed successfully
-        **/
-        public removeComponentByName(name: string, destroy:bool = true): bool {
+        * @public
+        */
+        public removeComponentByName(name: string, destroy: boolean = true): boolean {
 
             if (this._components[name]) {
                 if (destroy) {
@@ -185,12 +193,13 @@ module Kiwi {
             return false; 
         }
 
-        /*
+        /**
         * Removes all of the components from the component manager. 
         * @method removeAll
         * @param {Boolean} destroy - if true will destroy all components
+        * @public
         */
-        public removeAll(destroy:bool = true) {
+        public removeAll(destroy: boolean = true) {
             for (var key in this._components) { 
                 this.removeComponent(this._components[key], destroy);
             }
@@ -199,6 +208,7 @@ module Kiwi {
         /**
 		* Calls preUpdate on all active Components
         * @method preUpdate
+        * @public
     	*/
         public preUpdate() {
 
@@ -213,6 +223,7 @@ module Kiwi {
         /**
 		* Calls update on all active Components
         * @method update
+        * @public
     	*/
         public update() {
         
@@ -227,6 +238,7 @@ module Kiwi {
         /**
 		* Calls postUpdate on all active Components
         * @method postUpdate
+        * @public
     	*/
         public postUpdate() {
         
@@ -241,6 +253,7 @@ module Kiwi {
         /**
 		* Calls preRender on all active Components
         * @method preRender
+        * @public
     	*/
         public preRender() {
         
@@ -255,6 +268,7 @@ module Kiwi {
         /**
 		* Renders all active Components
         * @method render
+        * @public
     	*/
         public render() {
         
@@ -269,6 +283,7 @@ module Kiwi {
         /**
 		* Calls postRender on all active Components
         * @method postRender
+        * @public
     	*/
         public postRender() {
         
