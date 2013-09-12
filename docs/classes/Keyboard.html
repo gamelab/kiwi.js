@@ -294,77 +294,91 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addKey">addKey</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_boot">boot</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_isDown">isDown</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_isUp">isUp</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_justPressed">justPressed</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_justReleased">justReleased</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method_onKeyDown">onKeyDown</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method private">
                                 <a href="#method_onKeyUp">onKeyUp</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_reset">reset</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_start">start</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_stop">stop</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_update">update</a>
 
                                 
@@ -382,35 +396,49 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property private">
-                                <a href="#property__domElement">_domElement</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
                                 <a href="#property__keys">_keys</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private">
+                            <li class="index-item property public">
                                 <a href="#property_game">game</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_justPressedRate">justPressedRate</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_justReleasedRate">justReleasedRate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_keys">keys</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onKeyUp">onKeyUp</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onKeyUp">onKeyUp</a>
 
                                 
                                 
@@ -430,7 +458,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_addKey" class="method item">
+                    <div id="method_addKey" class="method item public">
     <h3 class="name"><code>addKey</code></h3>
 
     
@@ -439,7 +467,7 @@
             
                 <li class="arg">
                     
-                        <code>keycode.</code>
+                        <code>keycode</code>
                     
                 </li>
             
@@ -449,12 +477,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Input.Key</span>
+            <span class="type"><a href="..\classes\Key.html" class="crosslink">Key</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -476,7 +506,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l156"><code>src\input\Keyboard.ts:156</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l184"><code>src\input\Keyboard.ts:184</code></a>
         
         </p>
 
@@ -487,7 +517,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates a new Key object for a keycode that is specified.
+Not strictly needed (as one will be created once an event occurs on that keycode) by can be good for setting the game up.</p>
+
     </div>
 
     
@@ -498,14 +530,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">keycode.</code>
+                        <code class="param-name">keycode</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The keycode of the key that you want to add.</p>
+
                     </div>
 
                     
@@ -522,7 +555,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Input.Key</span>:
+                        <span class="type"><a href="..\classes\Key.html" class="crosslink">Key</a></span>:
                     
                 
             </div>
@@ -533,7 +566,7 @@
 </div>
 
                 
-                    <div id="method_boot" class="method item">
+                    <div id="method_boot" class="method item public">
     <h3 class="name"><code>boot</code></h3>
 
     
@@ -544,6 +577,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -565,7 +600,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l71"><code>src\input\Keyboard.ts:71</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l84"><code>src\input\Keyboard.ts:84</code></a>
         
         </p>
 
@@ -576,7 +611,7 @@
     </div>
 
     <div class="description">
-        <p>The DOM is ready, so we can start listening now</p>
+        <p>Is executed when the DOMElements that are need to get the game going are loaded and thus the game can &#39;boot&#39;</p>
 
     </div>
 
@@ -588,7 +623,7 @@
 </div>
 
                 
-                    <div id="method_isDown" class="method item">
+                    <div id="method_isDown" class="method item public">
     <h3 class="name"><code>isDown</code></h3>
 
     
@@ -614,6 +649,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -634,7 +671,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l186"><code>src\input\Keyboard.ts:186</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l221"><code>src\input\Keyboard.ts:221</code></a>
         
         </p>
 
@@ -645,7 +682,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a boolean indicating whether a key is down or not.</p>
+
     </div>
 
     
@@ -663,7 +701,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The keycode of the key that you are checking.</p>
+
                     </div>
 
                     
@@ -691,7 +730,7 @@
 </div>
 
                 
-                    <div id="method_isUp" class="method item">
+                    <div id="method_isUp" class="method item public">
     <h3 class="name"><code>isUp</code></h3>
 
     
@@ -717,6 +756,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -737,7 +778,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l205"><code>src\input\Keyboard.ts:205</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l238"><code>src\input\Keyboard.ts:238</code></a>
         
         </p>
 
@@ -748,7 +789,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a boolean indicating whether a key is up or not.</p>
+
     </div>
 
     
@@ -766,7 +808,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The keycode of the key that you are checking.</p>
+
                     </div>
 
                     
@@ -794,7 +837,7 @@
 </div>
 
                 
-                    <div id="method_justPressed" class="method item">
+                    <div id="method_justPressed" class="method item public">
     <h3 class="name"><code>justPressed</code></h3>
 
     
@@ -807,6 +850,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[duration]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -815,6 +864,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -836,7 +887,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l168"><code>src\input\Keyboard.ts:168</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l198"><code>src\input\Keyboard.ts:198</code></a>
         
         </p>
 
@@ -847,7 +898,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just pressed or not.</p>
+
     </div>
 
     
@@ -865,7 +917,29 @@
                     
 
                     <div class="param-description">
-                         
+                        <ul>
+<li>The key that you would like to check against.</li>
+</ul>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[duration]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <ul>
+<li>The duration at which determines if a key was &#39;just&#39; pressed or not. If not specified defaults to the justPressedRate</li>
+</ul>
+
                     </div>
 
                     
@@ -881,7 +955,7 @@
 </div>
 
                 
-                    <div id="method_justReleased" class="method item">
+                    <div id="method_justReleased" class="method item public">
     <h3 class="name"><code>justReleased</code></h3>
 
     
@@ -894,6 +968,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[duration]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -902,6 +982,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -923,7 +1005,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l177"><code>src\input\Keyboard.ts:177</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l210"><code>src\input\Keyboard.ts:210</code></a>
         
         </p>
 
@@ -934,7 +1016,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[NOT CURRENTLY IMPLEMENTED] Returns a boolean indicating if a key was just released or not.</p>
+
     </div>
 
     
@@ -952,7 +1035,29 @@
                     
 
                     <div class="param-description">
-                         
+                        <ul>
+<li>The key that you would like to check against.</li>
+</ul>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[duration]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <ul>
+<li>The duration at which determines if a key was &#39;just&#39; released or not. If not specified defaults to the justReleasedRate</li>
+</ul>
+
                     </div>
 
                     
@@ -968,7 +1073,80 @@
 </div>
 
                 
-                    <div id="method_onKeyDown" class="method item">
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keyboard.ts.html#l30"><code>src\input\Keyboard.ts:30</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_onKeyDown" class="method item private">
     <h3 class="name"><code>onKeyDown</code></h3>
 
     
@@ -990,6 +1168,8 @@
     
 
     
+        <span class="flag private">private</span>
+    
 
     
 
@@ -1010,7 +1190,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l118"><code>src\input\Keyboard.ts:118</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l148"><code>src\input\Keyboard.ts:148</code></a>
         
         </p>
 
@@ -1021,7 +1201,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode, 
+or it updates the key that was pressed (if one does exist).</p>
+
     </div>
 
     
@@ -1055,7 +1237,7 @@
 </div>
 
                 
-                    <div id="method_onKeyUp" class="method item">
+                    <div id="method_onKeyUp" class="method item private">
     <h3 class="name"><code>onKeyUp</code></h3>
 
     
@@ -1077,6 +1259,8 @@
     
 
     
+        <span class="flag private">private</span>
+    
 
     
 
@@ -1097,7 +1281,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l137"><code>src\input\Keyboard.ts:137</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l166"><code>src\input\Keyboard.ts:166</code></a>
         
         </p>
 
@@ -1108,7 +1292,9 @@
     </div>
 
     <div class="description">
-        
+        <p>Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode, 
+or it updates the key that was released (if one does exist).</p>
+
     </div>
 
     
@@ -1120,7 +1306,7 @@
                 <li class="param">
                     
                         <code class="param-name">event.</code>
-                        <span class="type">Any</span>
+                        <span class="type">KeyboardEvent</span>
                     
 
                     
@@ -1142,7 +1328,64 @@
 </div>
 
                 
-                    <div id="method_start" class="method item">
+                    <div id="method_reset" class="method item public">
+    <h3 class="name"><code>reset</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keyboard.ts.html#l255"><code>src\input\Keyboard.ts:255</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Executes the reset method on every Key that currently exists.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_start" class="method item public">
     <h3 class="name"><code>start</code></h3>
 
     
@@ -1154,6 +1397,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1174,7 +1419,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l92"><code>src\input\Keyboard.ts:92</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l120"><code>src\input\Keyboard.ts:120</code></a>
         
         </p>
 
@@ -1185,7 +1430,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Adds the event listeners to the browser to listen for key events.</p>
+
     </div>
 
     
@@ -1196,7 +1442,7 @@
 </div>
 
                 
-                    <div id="method_stop" class="method item">
+                    <div id="method_stop" class="method item public">
     <h3 class="name"><code>stop</code></h3>
 
     
@@ -1208,6 +1454,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1228,7 +1476,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l105"><code>src\input\Keyboard.ts:105</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l134"><code>src\input\Keyboard.ts:134</code></a>
         
         </p>
 
@@ -1239,7 +1487,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Removes the event listeners and so effectively &#39;stops&#39; all keyboard events.</p>
+
     </div>
 
     
@@ -1250,7 +1499,7 @@
 </div>
 
                 
-                    <div id="method_update" class="method item">
+                    <div id="method_update" class="method item public">
     <h3 class="name"><code>update</code></h3>
 
     
@@ -1262,6 +1511,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1282,7 +1533,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l82"><code>src\input\Keyboard.ts:82</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l95"><code>src\input\Keyboard.ts:95</code></a>
         
         </p>
 
@@ -1293,7 +1544,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The update loop that is executed every frame.</p>
+
     </div>
 
     
@@ -1312,55 +1564,9 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__domElement" class="property item private">
-    <h3 class="name"><code>_domElement</code></h3>
-    <span class="type">HTMLElement</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_input_Keyboard.ts.html#l41"><code>src\input\Keyboard.ts:41</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="property__keys" class="property item private">
     <h3 class="name"><code>_keys</code></h3>
-    <span class="type">Array</span>
+    <span class="type"><a href="..\classes\Key.html" class="crosslink">Key[]</a></span>
 
     
 
@@ -1383,7 +1589,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l49"><code>src\input\Keyboard.ts:49</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l48"><code>src\input\Keyboard.ts:48</code></a>
         
         </p>
 
@@ -1393,7 +1599,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.</p>
+
     </div>
 
     
@@ -1404,14 +1611,14 @@
 </div>
 
                 
-                    <div id="property_game" class="property item private">
+                    <div id="property_game" class="property item public">
     <h3 class="name"><code>game</code></h3>
-    <span class="type">Kiwi.Game</span>
+    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -1429,7 +1636,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l33"><code>src\input\Keyboard.ts:33</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l40"><code>src\input\Keyboard.ts:40</code></a>
         
         </p>
 
@@ -1439,7 +1646,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The game that this Keyboard belongs to.</p>
+
     </div>
 
     
@@ -1450,13 +1658,15 @@
 </div>
 
                 
-                    <div id="property_justPressedRate" class="property item">
+                    <div id="property_justPressedRate" class="property item public">
     <h3 class="name"><code>justPressedRate</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1473,7 +1683,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l57"><code>src\input\Keyboard.ts:57</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l66"><code>src\input\Keyboard.ts:66</code></a>
         
         </p>
 
@@ -1483,7 +1693,106 @@
     </div>
 
     <div class="description">
+        <p>The time in milliseconds which determines if a key was just pressed or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 200</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_justReleasedRate" class="property item public">
+    <h3 class="name"><code>justReleasedRate</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keyboard.ts.html#l75"><code>src\input\Keyboard.ts:75</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The time in milliseconds which determines if a key was just released or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 200</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_keys" class="property item public">
+    <h3 class="name"><code>keys</code></h3>
+    <span class="type">Keys</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keyboard.ts.html#l56"><code>src\input\Keyboard.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns all of the Key objects that currently exist. This is READ ONLY.</p>
+
     </div>
 
     
@@ -1494,12 +1803,14 @@
 </div>
 
                 
-                    <div id="property_justReleasedRate" class="property item">
-    <h3 class="name"><code>justReleasedRate</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_onKeyUp" class="property item public">
+    <h3 class="name"><code>onKeyUp</code></h3>
+    <span class="type"><a href="..\classes\Signal.html" class="crosslink">Signal</a></span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1517,7 +1828,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l64"><code>src\input\Keyboard.ts:64</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l104"><code>src\input\Keyboard.ts:104</code></a>
         
         </p>
 
@@ -1527,7 +1838,55 @@
     </div>
 
     <div class="description">
+        <p>A Signal that dispatches events when a key is released/is now up.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onKeyUp" class="property item public">
+    <h3 class="name"><code>onKeyUp</code></h3>
+    <span class="type"><a href="..\classes\Signal.html" class="crosslink">Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keyboard.ts.html#l112"><code>src\input\Keyboard.ts:112</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal that dispatches events when a key is pressed/is now down.</p>
+
     </div>
 
     

@@ -295,21 +295,35 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_justPressed">justPressed</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_justReleased">justReleased</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_reset">reset</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_update">update</a>
 
                                 
@@ -333,70 +347,70 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_altKey">altKey</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_ctrlKey">ctrlKey</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_duration">duration</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_isDown">isDown</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_isUp">isUp</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_keyCode">keyCode</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_repeats">repeats</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_shiftKey">shiftKey</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_timeDown">timeDown</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_timeUp">timeUp</a>
 
                                 
@@ -417,7 +431,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_justPressed" class="method item">
+                    <div id="method_justPressed" class="method item public">
     <h3 class="name"><code>justPressed</code></h3>
 
     
@@ -443,109 +457,7 @@
     
 
     
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_input_Key.ts.html#l157"><code>src\input\Key.ts:157</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[duration]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_justReleased" class="method item">
-    <h3 class="name"><code>justReleased</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code class="optional">[duration]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
+        <span class="flag public">public</span>
     
 
     
@@ -578,7 +490,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a boolean indicating whether or not this key was just pressed.</p>
+
     </div>
 
     
@@ -597,7 +510,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The duration at which determines if a key was just pressed. Defaults to the managers just pressed rate.</p>
+
                     </div>
 
                     
@@ -625,8 +539,8 @@
 </div>
 
                 
-                    <div id="method_update" class="method item">
-    <h3 class="name"><code>update</code></h3>
+                    <div id="method_justReleased" class="method item public">
+    <h3 class="name"><code>justReleased</code></h3>
 
     
         <div class="args">
@@ -634,7 +548,7 @@
             
                 <li class="arg">
                     
-                        <code>event.</code>
+                        <code class="optional">[duration]</code>
                     
                 </li>
             
@@ -644,12 +558,14 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Boolean</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -671,7 +587,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l119"><code>src\input\Key.ts:119</code></a>
+        <a href="../files/src_input_Key.ts.html#l193"><code>src\input\Key.ts:193</code></a>
         
         </p>
 
@@ -682,7 +598,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a boolean indicating whether or not this key was just released.</p>
+
     </div>
 
     
@@ -693,7 +610,241 @@
             
                 <li class="param">
                     
-                        <code class="param-name">event.</code>
+                        <code class="param-name optional">[duration]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The duration at which determines if a key was just released. Defaults to the managers just pressed rate.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Key.ts.html#l37"><code>src\input\Key.ts:37</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_reset" class="method item public">
+    <h3 class="name"><code>reset</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Key.ts.html#l212"><code>src\input\Key.ts:212</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Resets all of the properties on the Key to their default values.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item public">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Key.ts.html#l144"><code>src\input\Key.ts:144</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The &#39;update&#39; method fires when an event occur&#39;s. Updates the keys properties</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event</code>
                         <span class="type">KeyboardEvent</span>
                     
 
@@ -711,16 +862,6 @@
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                
-            </div>
-        </div>
-    
 
     
 </div>
@@ -736,7 +877,7 @@
                 
                     <div id="property__manager" class="property item private">
     <h3 class="name"><code>_manager</code></h3>
-    <span class="type">Kiwi.Input.Keyboard</span>
+    <span class="type"><a href="..\classes\Keyboard.html" class="crosslink">Keyboard</a></span>
 
     
 
@@ -759,7 +900,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l41"><code>src\input\Key.ts:41</code></a>
+        <a href="../files/src_input_Key.ts.html#l47"><code>src\input\Key.ts:47</code></a>
         
         </p>
 
@@ -769,7 +910,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The keyboard manager that this key belongs to.</p>
+
     </div>
 
     
@@ -780,13 +922,15 @@
 </div>
 
                 
-                    <div id="property_altKey" class="property item">
+                    <div id="property_altKey" class="property item public">
     <h3 class="name"><code>altKey</code></h3>
     <span class="type">Boolean</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -803,7 +947,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l70"><code>src\input\Key.ts:70</code></a>
+        <a href="../files/src_input_Key.ts.html#l81"><code>src\input\Key.ts:81</code></a>
         
         </p>
 
@@ -813,9 +957,12 @@
     </div>
 
     <div class="description">
-        
+        <p>If the alt key was held at the time of the event happening.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -824,13 +971,15 @@
 </div>
 
                 
-                    <div id="property_ctrlKey" class="property item">
+                    <div id="property_ctrlKey" class="property item public">
     <h3 class="name"><code>ctrlKey</code></h3>
     <span class="type">Boolean</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -847,7 +996,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l77"><code>src\input\Key.ts:77</code></a>
+        <a href="../files/src_input_Key.ts.html#l90"><code>src\input\Key.ts:90</code></a>
         
         </p>
 
@@ -857,9 +1006,12 @@
     </div>
 
     <div class="description">
-        
+        <p>If the ctrl key was held at the time of the event happening.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -868,13 +1020,15 @@
 </div>
 
                 
-                    <div id="property_duration" class="property item">
+                    <div id="property_duration" class="property item public">
     <h3 class="name"><code>duration</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -891,7 +1045,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l98"><code>src\input\Key.ts:98</code></a>
+        <a href="../files/src_input_Key.ts.html#l117"><code>src\input\Key.ts:117</code></a>
         
         </p>
 
@@ -901,9 +1055,12 @@
     </div>
 
     <div class="description">
-        
+        <p>[CURRENTLY NOT IMPLEMENTED] The duration (in milliseconds) that the key has been down for.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -912,56 +1069,14 @@
 </div>
 
                 
-                    <div id="property_isDown" class="property item">
+                    <div id="property_isDown" class="property item public">
     <h3 class="name"><code>isDown</code></h3>
     <span class="type">Boolean</span>
 
     
 
     
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_input_Key.ts.html#l56"><code>src\input\Key.ts:56</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_isUp" class="property item">
-    <h3 class="name"><code>isUp</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
+        <span class="flag public">public</span>
     
 
     
@@ -989,9 +1104,12 @@
     </div>
 
     <div class="description">
-        
+        <p>Indicated whether or not the key is currently down.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -1000,13 +1118,64 @@
 </div>
 
                 
-                    <div id="property_keyCode" class="property item">
+                    <div id="property_isUp" class="property item public">
+    <h3 class="name"><code>isUp</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Key.ts.html#l72"><code>src\input\Key.ts:72</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Indicates whether or not the key is currently up.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_keyCode" class="property item public">
     <h3 class="name"><code>keyCode</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1023,7 +1192,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l49"><code>src\input\Key.ts:49</code></a>
+        <a href="../files/src_input_Key.ts.html#l55"><code>src\input\Key.ts:55</code></a>
         
         </p>
 
@@ -1033,7 +1202,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The keycode that this key is.</p>
+
     </div>
 
     
@@ -1044,13 +1214,15 @@
 </div>
 
                 
-                    <div id="property_repeats" class="property item">
+                    <div id="property_repeats" class="property item public">
     <h3 class="name"><code>repeats</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1067,7 +1239,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l112"><code>src\input\Key.ts:112</code></a>
+        <a href="../files/src_input_Key.ts.html#l135"><code>src\input\Key.ts:135</code></a>
         
         </p>
 
@@ -1077,9 +1249,12 @@
     </div>
 
     <div class="description">
-        
+        <p>If the key was already down when the down event fired again, this indicates the number of times the event has fired.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -1088,13 +1263,15 @@
 </div>
 
                 
-                    <div id="property_shiftKey" class="property item">
+                    <div id="property_shiftKey" class="property item public">
     <h3 class="name"><code>shiftKey</code></h3>
     <span class="type">Boolean</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1111,7 +1288,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l84"><code>src\input\Key.ts:84</code></a>
+        <a href="../files/src_input_Key.ts.html#l99"><code>src\input\Key.ts:99</code></a>
         
         </p>
 
@@ -1121,9 +1298,12 @@
     </div>
 
     <div class="description">
-        
+        <p>If the shift key was held at the time of the event happening.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -1132,13 +1312,15 @@
 </div>
 
                 
-                    <div id="property_timeDown" class="property item">
+                    <div id="property_timeDown" class="property item public">
     <h3 class="name"><code>timeDown</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1155,7 +1337,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l91"><code>src\input\Key.ts:91</code></a>
+        <a href="../files/src_input_Key.ts.html#l108"><code>src\input\Key.ts:108</code></a>
         
         </p>
 
@@ -1165,9 +1347,12 @@
     </div>
 
     <div class="description">
-        
+        <p>The time that the key was pressed initially.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -1176,12 +1361,14 @@
 </div>
 
                 
-                    <div id="property_timeUp" class="property item">
+                    <div id="property_timeUp" class="property item public">
     <h3 class="name"><code>timeUp</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1199,7 +1386,7 @@
             
         
         
-        <a href="../files/src_input_Key.ts.html#l105"><code>src\input\Key.ts:105</code></a>
+        <a href="../files/src_input_Key.ts.html#l126"><code>src\input\Key.ts:126</code></a>
         
         </p>
 
@@ -1209,9 +1396,12 @@
     </div>
 
     <div class="description">
-        
+        <p>The time at which the key was released.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     

@@ -9971,7 +9971,7 @@ var Kiwi;
         var Key = (function () {
             function Key(manager, keycode, event) {
                 this.isDown = false;
-                this.isUp = false;
+                this.isUp = true;
                 this.altKey = false;
                 this.ctrlKey = false;
                 this.shiftKey = false;
@@ -10032,6 +10032,14 @@ var Kiwi;
             };
 
             Key.prototype.reset = function () {
+                this.isDown = false;
+                this.isUp = true;
+                this.timeUp = 0;
+                this.timeDown = 0;
+                this.duration = 0;
+                this.altKey = false;
+                this.shiftKey = false;
+                this.ctrlKey = false;
             };
             return Key;
         })();
@@ -10162,107 +10170,199 @@ var Kiwi;
             };
 
             Keycodes.A = "A".charCodeAt(0);
+
             Keycodes.B = "B".charCodeAt(0);
+
             Keycodes.C = "C".charCodeAt(0);
+
             Keycodes.D = "D".charCodeAt(0);
+
             Keycodes.E = "E".charCodeAt(0);
+
             Keycodes.F = "F".charCodeAt(0);
+
             Keycodes.G = "G".charCodeAt(0);
+
             Keycodes.H = "H".charCodeAt(0);
+
             Keycodes.I = "I".charCodeAt(0);
+
             Keycodes.J = "J".charCodeAt(0);
+
             Keycodes.K = "K".charCodeAt(0);
+
             Keycodes.L = "L".charCodeAt(0);
+
             Keycodes.M = "M".charCodeAt(0);
+
             Keycodes.N = "N".charCodeAt(0);
+
             Keycodes.O = "O".charCodeAt(0);
+
             Keycodes.P = "P".charCodeAt(0);
+
             Keycodes.Q = "Q".charCodeAt(0);
+
             Keycodes.R = "R".charCodeAt(0);
+
             Keycodes.S = "S".charCodeAt(0);
+
             Keycodes.T = "T".charCodeAt(0);
+
             Keycodes.U = "U".charCodeAt(0);
+
             Keycodes.V = "V".charCodeAt(0);
+
             Keycodes.W = "W".charCodeAt(0);
+
             Keycodes.X = "X".charCodeAt(0);
+
             Keycodes.Y = "Y".charCodeAt(0);
+
             Keycodes.Z = "Z".charCodeAt(0);
 
             Keycodes.ZERO = "0".charCodeAt(0);
+
             Keycodes.ONE = "1".charCodeAt(0);
+
             Keycodes.TWO = "2".charCodeAt(0);
+
             Keycodes.THREE = "3".charCodeAt(0);
+
             Keycodes.FOUR = "4".charCodeAt(0);
+
             Keycodes.FIVE = "5".charCodeAt(0);
+
             Keycodes.SIX = "6".charCodeAt(0);
+
             Keycodes.SEVEN = "7".charCodeAt(0);
+
             Keycodes.EIGHT = "8".charCodeAt(0);
+
             Keycodes.NINE = "9".charCodeAt(0);
 
             Keycodes.NUMPAD_0 = 96;
+
             Keycodes.NUMPAD_1 = 97;
+
             Keycodes.NUMPAD_2 = 98;
+
             Keycodes.NUMPAD_3 = 99;
+
             Keycodes.NUMPAD_4 = 100;
+
             Keycodes.NUMPAD_5 = 101;
+
             Keycodes.NUMPAD_6 = 102;
+
             Keycodes.NUMPAD_7 = 103;
+
             Keycodes.NUMPAD_8 = 104;
+
             Keycodes.NUMPAD_9 = 105;
+
             Keycodes.NUMPAD_MULTIPLY = 106;
+
             Keycodes.NUMPAD_ADD = 107;
+
             Keycodes.NUMPAD_ENTER = 108;
+
             Keycodes.NUMPAD_SUBTRACT = 109;
+
             Keycodes.NUMPAD_DECIMAL = 110;
+
             Keycodes.NUMPAD_DIVIDE = 111;
 
             Keycodes.F1 = 112;
+
             Keycodes.F2 = 113;
+
             Keycodes.F3 = 114;
+
             Keycodes.F4 = 115;
+
             Keycodes.F5 = 116;
+
             Keycodes.F6 = 117;
+
             Keycodes.F7 = 118;
+
             Keycodes.F8 = 119;
+
             Keycodes.F9 = 120;
+
             Keycodes.F10 = 121;
+
             Keycodes.F11 = 122;
+
             Keycodes.F12 = 123;
+
             Keycodes.F13 = 124;
+
             Keycodes.F14 = 125;
+
             Keycodes.F15 = 126;
 
             Keycodes.COLON = 186;
+
             Keycodes.EQUALS = 187;
+
             Keycodes.UNDERSCORE = 189;
+
             Keycodes.QUESTION_MARK = 191;
+
             Keycodes.TILDE = 192;
+
             Keycodes.OPEN_BRACKET = 219;
+
             Keycodes.BACKWARD_SLASH = 220;
+
             Keycodes.CLOSED_BRACKET = 221;
+
             Keycodes.QUOTES = 222;
 
             Keycodes.BACKSPACE = 8;
+
             Keycodes.TAB = 9;
+
             Keycodes.CLEAR = 12;
+
             Keycodes.ENTER = 13;
+
             Keycodes.SHIFT = 16;
+
             Keycodes.CONTROL = 17;
+
             Keycodes.ALT = 18;
+
             Keycodes.CAPS_LOCK = 20;
+
             Keycodes.ESC = 27;
+
             Keycodes.SPACEBAR = 32;
+
             Keycodes.PAGE_UP = 33;
+
             Keycodes.PAGE_DOWN = 34;
+
             Keycodes.END = 35;
+
             Keycodes.HOME = 36;
+
             Keycodes.LEFT = 37;
+
             Keycodes.UP = 38;
+
             Keycodes.RIGHT = 39;
+
             Keycodes.DOWN = 40;
+
             Keycodes.INSERT = 45;
+
             Keycodes.DELETE = 46;
+
             Keycodes.HELP = 47;
+
             Keycodes.NUM_LOCK = 144;
             return Keycodes;
         })();
