@@ -109,51 +109,49 @@ module Kiwi.Textures {
         * @private
         */
         private _rebuildImage(imageFile: Kiwi.Files.File): Kiwi.Files.File {
-
+            
             var width = imageFile.data.width;
-            var height = imageFile.data .h ight
+            var height = imageFile.data.height
 
             if (this._base2Sizes.indexOf(width) == -1) {
-                                var i= 0;
-                whil   width > this._base2S
-
-                wi th = this._base2Sizes[i];
-            } 
-
-            if (thi . b se ght)  = -1) { 
                 var i = 0;
-                while  h ight > this._base2Sizes[i]) i++;
-  ei ht = this._base2Sizes i]; 
+                while (width > this._base2Sizes[i]) i++;
+                width = this._base2Sizes[i];
             }
 
-             f ( mageFil .
-                        ta. eight  =  height) {
+            if (this._base2Sizes.indexOf(height) == -1) {
+                var i = 0;
+                while (height > this._base2Sizes[i]) i++;
+                height = this._base2Sizes[i];
+            }
 
-                var can lement> docu e t.crea );
-                can 
+            if (imageFile.data.width !== width || imageFile.data.height !== height) {
+
+                var canvas = <HTMLCanvasElement> document.createElement('canvas');
+                canvas.width = width;
                 canvas.height = height;
-              (im geFil . ata  0, 0);
+                canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
 
-                var i a e = new Image(width, height);
-                image src = canvas.toData RL( image/png");
+                var image = new Image(width, height);
+                image.src = canvas.toDataURL("image/png");
 
                 if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
-                    //if no rows w re passed then calculate them now.
-                    if (!imageFile.metad t .rows)
-                        imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight; 
-                    
-                    //if no columns wer  passed then calculate them again.
-                    if (!imageFile.metad t .cols)
-                        imageFile.metadata.c
-                data.frameWidth; 
+                    //if no rows were passed then calculate them now.
+                    if (!imageFile.metadata.rows)
+                        imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight;
+
+                    //if no columns were passed then calculate them again.
+                    if (!imageFile.metadata.cols)
+                        imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
+                
 
                 }
 
-            imageFile.data = image;
-            canvas = null;
-            width = null;
-            height = null;
-        }
+                imageFile.data = image;
+                canvas = null;
+                width = null;
+                height = null;
+            }
 
             return imageFile;
         }
@@ -197,7 +195,9 @@ module Kiwi.Textures {
         /**
         * Builds a single image atlas from a image file that is provided.
         * @method _buildImage
-        * @param imageFile {File}
+        * @param imageFile {File} The image file that is to be used.
+        * @return {SingleImage} The SingleImage that was created.
+        * @private
         */
         private _buildImage(imageFile: Kiwi.Files.File): Kiwi.Textures.SingleImage {
             var m = imageFile.metadata;
