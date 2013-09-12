@@ -262,11 +262,11 @@ module Kiwi.Textures {
     */
     export class TextureLibrary {
 
-        /*
+        /**
         * 
         * @constructor
-        * @param {Kiwi.Game} game
-        * @return {Kiwi.Textures.TextureLibrary}
+        * @param game {Game} The game that this texture library belongs to.
+        * @return {TextureLibrary}
         */
         constructor(game: Kiwi.Game) {
             
@@ -274,6 +274,12 @@ module Kiwi.Textures {
             this.textures = new Object();
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {string}
+        * @public
+        */
         public objType(): string {
             return &quot;TextureLibrary&quot;;
         }

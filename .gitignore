@@ -26,6 +26,7 @@ Thumbs.db
 /obj/debug/*
 !log4javascript.js
 !gl-matrix-min.js
+!docs/*.js
 *.map
 *.config
 [Bb]in

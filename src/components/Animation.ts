@@ -342,7 +342,7 @@ module Kiwi.Components {
         /**
         * An internal method that is used to set the cell index of the entity. This is how the animation changes.
         * @method _setCellIndex
-        * @public
+        * @private
         */
         private _setCellIndex() {
             this.entity.cellIndex = this.currentCell;

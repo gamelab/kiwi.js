@@ -17,10 +17,10 @@ module Kiwi.Animation {
         /**
         *
         * @constructor
-        * @param {string} name - The name of this anim.
-        * @param {Sequences} sequences - The sequence that this anim will be using to animate.
-        * @param {Kiwi.Time.Clock} clock - A game clock that this anim will be using to keep record of the time between frames.
-        * @return {Kiwi.Animation.Anim} 
+        * @param name {string} The name of this anim.
+        * @param sequences {Sequences} The sequence that this anim will be using to animate.
+        * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+        * @return {Anim} 
         */
         constructor(name: string, sequence: Kiwi.Animation.Sequence, clock: Kiwi.Time.Clock) {
             
@@ -48,7 +48,7 @@ module Kiwi.Animation {
         /**
         * The sequence on the texture atlas that this animation is based off.
         * @property _sequence
-        * @type Kiwi.Sequence
+        * @type Sequence
         * @private
         */
         private _sequence: Kiwi.Animation.Sequence;
@@ -145,7 +145,7 @@ module Kiwi.Animation {
         /**
         * The clock that is to be used to calculate the animations.
         * @property _clock
-        * @type Kiwi.Time.Clock
+        * @type Clock
         * @private
         */
         private _clock: Kiwi.Time.Clock;
@@ -196,6 +196,7 @@ module Kiwi.Animation {
         * If the animation is currently playing or not.
         * @property _isPlaying
         * @type boolean
+        * @default false
         * @private
         */
         private _isPlaying: boolean;
@@ -203,7 +204,7 @@ module Kiwi.Animation {
         /**
         * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
         * @property onStop
-        * @type Kiwi.Signal
+        * @type Signal
         * @public
         */
         public onStop: Kiwi.Signal;
@@ -235,7 +236,7 @@ module Kiwi.Animation {
         /**
         * An Internal method used to start the animation.
         * @method _start
-        * @param {number} index
+        * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
         * @private
         */
         private _start(index: number = null) {
@@ -263,7 +264,7 @@ module Kiwi.Animation {
         /**
         * Plays the animation at a particular frame
         * @method playAt
-        * @param {number} index
+        * @param index {number} The index of the cell in the sequence that the animation is to start at.
         * @public
         */
         public playAt(index: number) {  
@@ -363,7 +364,7 @@ module Kiwi.Animation {
         /**
         * An internal method used to check to see if frame passed is valid or not
         * @method _validateFrame
-        * @param {number} frame
+        * @param frame {number} The index of the frame that is to be validated.
         * @private
         */
         private _validateFrame(frame: number) {
@@ -380,7 +381,7 @@ module Kiwi.Animation {
         }
 
         /**
-        * Destroys the anim.
+        * Destroys the anim and all of the properties that exist on it.
         * @method destroy
         * @public
         */

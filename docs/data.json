@@ -3365,23 +3365,23 @@
             "params": [
                 {
                     "name": "name",
-                    "description": "- The name of this anim.",
+                    "description": "The name of this anim.",
                     "type": "String"
                 },
                 {
                     "name": "sequences",
-                    "description": "- The sequence that this anim will be using to animate.",
+                    "description": "The sequence that this anim will be using to animate.",
                     "type": "Sequences"
                 },
                 {
                     "name": "clock",
-                    "description": "- A game clock that this anim will be using to keep record of the time between frames.",
-                    "type": "Kiwi.Time.Clock"
+                    "description": "A game clock that this anim will be using to keep record of the time between frames.",
+                    "type": "Clock"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Animation.Anim"
+                "type": "Anim"
             },
             "class": "Anim",
             "module": "Kiwi",
@@ -3406,7 +3406,7 @@
             "description": "The sequence on the texture atlas that this animation is based off.",
             "itemtype": "property",
             "name": "_sequence",
-            "type": "Kiwi.Sequence",
+            "type": "Sequence",
             "access": "private",
             "tagname": "",
             "class": "Anim",
@@ -3535,7 +3535,7 @@
             "description": "The clock that is to be used to calculate the animations.",
             "itemtype": "property",
             "name": "_clock",
-            "type": "Kiwi.Time.Clock",
+            "type": "Clock",
             "access": "private",
             "tagname": "",
             "class": "Anim",
@@ -3610,6 +3610,7 @@
             "itemtype": "property",
             "name": "_isPlaying",
             "type": "boolean",
+            "default": "false",
             "access": "private",
             "tagname": "",
             "class": "Anim",
@@ -3618,11 +3619,11 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 203,
+            "line": 204,
             "description": "A Kiwi.Signal that dispatches an event when the animation has stopped playing.",
             "itemtype": "property",
             "name": "onStop",
-            "type": "Kiwi.Signal",
+            "type": "Signal",
             "access": "public",
             "tagname": "",
             "class": "Anim",
@@ -3631,7 +3632,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 211,
+            "line": 212,
             "description": "A Kiwi.Signal that dispatches an event when the animation has started playing.",
             "itemtype": "property",
             "name": "onPlay",
@@ -3644,7 +3645,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 219,
+            "line": 220,
             "description": "A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.",
             "itemtype": "property",
             "name": "onUpdate",
@@ -3657,7 +3658,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 227,
+            "line": 228,
             "description": "A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.",
             "itemtype": "property",
             "name": "onLoop",
@@ -3670,15 +3671,17 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 235,
+            "line": 236,
             "description": "An Internal method used to start the animation.",
             "itemtype": "method",
             "name": "_start",
             "params": [
                 {
                     "name": "index",
-                    "description": "",
-                    "type": "Number"
+                    "description": "The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "null"
                 }
             ],
             "access": "private",
@@ -3689,7 +3692,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 251,
+            "line": 252,
             "description": "Plays the animation.",
             "itemtype": "method",
             "name": "play",
@@ -3701,14 +3704,14 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 263,
+            "line": 264,
             "description": "Plays the animation at a particular frame",
             "itemtype": "method",
             "name": "playAt",
             "params": [
                 {
                     "name": "index",
-                    "description": "",
+                    "description": "The index of the cell in the sequence that the animation is to start at.",
                     "type": "Number"
                 }
             ],
@@ -3720,7 +3723,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 273,
+            "line": 274,
             "description": "Pauses the current animation.",
             "itemtype": "method",
             "name": "pause",
@@ -3732,7 +3735,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 282,
+            "line": 283,
             "description": "Resumes the current animation after stopping.",
             "itemtype": "method",
             "name": "resume",
@@ -3744,7 +3747,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 293,
+            "line": 294,
             "description": "Stops the current animation from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -3756,7 +3759,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 305,
+            "line": 306,
             "description": "Makes the animation go to the next frame. If the animation is at the end it goes back to the start.",
             "itemtype": "method",
             "name": "nextFrame",
@@ -3768,7 +3771,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 315,
+            "line": 316,
             "description": "Makes the animation go to the previous frame. If the animation is at the first frame it goes to the end.",
             "itemtype": "method",
             "name": "prevFrame",
@@ -3780,7 +3783,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 325,
+            "line": 326,
             "description": "The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.",
             "itemtype": "method",
             "name": "update",
@@ -3796,14 +3799,14 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 363,
+            "line": 364,
             "description": "An internal method used to check to see if frame passed is valid or not",
             "itemtype": "method",
             "name": "_validateFrame",
             "params": [
                 {
                     "name": "frame",
-                    "description": "",
+                    "description": "The index of the frame that is to be validated.",
                     "type": "Number"
                 }
             ],
@@ -3815,7 +3818,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 373,
+            "line": 374,
             "description": "Returns the number of frames that in the animation. Thus the animations 'length'.",
             "type": "number",
             "access": "public",
@@ -3826,8 +3829,8 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 382,
-            "description": "Destroys the anim.",
+            "line": 383,
+            "description": "Destroys the anim and all of the properties that exist on it.",
             "itemtype": "method",
             "name": "destroy",
             "access": "public",
@@ -3843,28 +3846,32 @@
             "params": [
                 {
                     "name": "name",
-                    "description": "- The name of this sequence. This is not unique.",
+                    "description": "The name of this sequence. This is not unique.",
                     "type": "String"
                 },
                 {
                     "name": "cells",
-                    "description": "- The cells that are in this animation.",
+                    "description": "The cells that are in this animation.",
                     "type": "Number[]"
                 },
                 {
                     "name": "speed",
-                    "description": "- The time an animation should spend on each frame.",
-                    "type": "Number"
+                    "description": "The time an animation should spend on each frame.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0.1"
                 },
                 {
                     "name": "loop",
-                    "description": "- If the sequence should play again if it was animating and the animation reaches the last frame.",
-                    "type": "Boolean"
+                    "description": "If the sequence should play again if it was animating and the animation reaches the last frame.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Animation.Sequence"
+                "type": "Sequence"
             },
             "class": "Sequence",
             "module": "Kiwi",
@@ -22995,38 +23002,42 @@
             "params": [
                 {
                     "name": "name",
-                    "description": "- The name of the single image",
+                    "description": "The name of the single image",
                     "type": "String"
                 },
                 {
                     "name": "image",
-                    "description": "- the image that is being used.",
+                    "description": "the image that is being used.",
                     "type": "HTMLImageElement"
                 },
                 {
                     "name": "width",
-                    "description": "- the width of the image",
-                    "type": "Number"
+                    "description": "the width of the image",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "height",
-                    "description": "- the height of the image",
-                    "type": "Number"
+                    "description": "the height of the image",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "offsetX",
-                    "description": "- the offset of the image on the x axis. Useful if the image has a border that you don't want to show.",
-                    "type": "Number"
+                    "description": "the offset of the image on the x axis. Useful if the image has a border that you don't want to show.",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "offsetY",
-                    "description": "- the offset of the image of the y axis. Useful if the image has a border that you don't want to show.",
-                    "type": "Number"
+                    "description": "the offset of the image of the y axis. Useful if the image has a border that you don't want to show.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Textures.SingleImage"
+                "type": "SingleImage"
             },
             "class": "SingleImage",
             "module": "Kiwi",
@@ -23122,63 +23133,70 @@
             "params": [
                 {
                     "name": "name",
-                    "description": "- The name of the spritesheet.",
+                    "description": "The name of the spritesheet.",
                     "type": "String"
                 },
                 {
                     "name": "texture",
-                    "description": "- The image that is being used for the spritesheet.",
+                    "description": "The image that is being used for the spritesheet.",
                     "type": "HTMLImageElement"
                 },
                 {
                     "name": "cellWidth",
-                    "description": "- The width of a single cell.",
+                    "description": "The width of a single cell.",
                     "type": "Number"
                 },
                 {
                     "name": "cellHeight",
-                    "description": "- The height of a single cell.",
+                    "description": "The height of a single cell.",
                     "type": "Number"
                 },
                 {
                     "name": "numCells",
-                    "description": "- The number of cells in total.",
-                    "type": "Number"
+                    "description": "The number of cells in total.",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "rows",
-                    "description": "- The number of cells that make up a row.",
-                    "type": "Number"
+                    "description": "The number of cells that make up a row.",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "cols",
-                    "description": "- The number of cells that make up a column.",
-                    "type": "Number"
+                    "description": "The number of cells that make up a column.",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "sheetOffsetX",
-                    "description": "- The offset of the whole sheet on the x axis. Useful if the image has a border you don't want to show.",
-                    "type": "Number"
+                    "description": "The offset of the whole sheet on the x axis. Useful if the image has a border you don't want to show.",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "sheetOffsetY",
-                    "description": "- The offset of the whole sheet on the y axis. Useful if the image has a border you don't want to show.",
-                    "type": "Number"
+                    "description": "The offset of the whole sheet on the y axis. Useful if the image has a border you don't want to show.",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "cellOffsetX",
-                    "description": "- An offset between cells on the x axis. Useful if there is a border between cells which is not to be shown.",
-                    "type": "Number"
+                    "description": "An offset between cells on the x axis. Useful if there is a border between cells which is not to be shown.",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "cellOffsetY",
-                    "description": "- An offset between cells on the y axis. Useful if there is a border between cells which is not to be shown.",
-                    "type": "Number"
+                    "description": "An offset between cells on the y axis. Useful if there is a border between cells which is not to be shown.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Textures.SpriteSheet"
+                "type": "SpriteSheet"
             },
             "class": "SpriteSheet",
             "module": "Kiwi",
@@ -23361,33 +23379,34 @@
             "params": [
                 {
                     "name": "name",
-                    "description": "- Name of the texture atlas. This is usually defined by the developer when loading the assets.",
+                    "description": "Name of the texture atlas. This is usually defined by the developer when loading the assets.",
                     "type": "String"
                 },
                 {
                     "name": "type",
-                    "description": "- The type of texture atlas that this is. There are currently only three types.",
+                    "description": "The type of texture atlas that this is. There are currently only three types.",
                     "type": "Number"
                 },
                 {
                     "name": "cells",
-                    "description": "- The cells that are within this image..",
+                    "description": "The cells that are within this image..",
                     "type": "Any"
                 },
                 {
                     "name": "image",
-                    "description": "- The image that the texture atlas is using.",
+                    "description": "The image that the texture atlas is using.",
                     "type": "HTMLImageElement"
                 },
                 {
                     "name": "sequences",
-                    "description": "- Any sequences of cells for this texture atlas. Used for animation.",
-                    "type": "Sequence[]"
+                    "description": "Any sequences of cells for this texture atlas. Used for animation.",
+                    "type": "Sequence[]",
+                    "optional": true
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Textures.TextureAtlas"
+                "type": "TextureAtlas"
             },
             "class": "TextureAtlas",
             "module": "Kiwi",
@@ -23453,7 +23472,7 @@
             "description": "Sequences that are for this texture.",
             "itemtype": "property",
             "name": "sequences",
-            "type": "Kiwi.Sequence",
+            "type": "Sequence",
             "access": "public",
             "tagname": "",
             "class": "TextureAtlas",
@@ -23562,6 +23581,41 @@
             "access": "public",
             "tagname": "",
             "class": "TextureAtlas",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 19,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "game",
+                    "description": "The game that this texture library belongs to.",
+                    "type": "Game"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "TextureLibrary"
+            },
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 31,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TextureLibrary",
             "module": "Kiwi",
             "submodule": "Textures"
         },
@@ -26789,7 +26843,7 @@
         },
         {
             "message": "Missing item type\nReturns the number of frames that in the animation. Thus the animations 'length'.",
-            "line": " src\\animation\\Anim.ts:373"
+            "line": " src\\animation\\Anim.ts:374"
         },
         {
             "message": "Missing item type",
@@ -27222,6 +27276,10 @@
         {
             "message": "Missing item type\nWill return to you this type of texture atlas. This is READ ONLY.",
             "line": " src\\textures\\TextureAtlas.ts:128"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src\\textures\\TextureLibrary.ts:19"
         },
         {
             "message": "Missing item type",

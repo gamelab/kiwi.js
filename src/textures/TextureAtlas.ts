@@ -18,14 +18,14 @@ module Kiwi.Textures {
         /**
         * 
         * @constructor
-        * @param {string} name - Name of the texture atlas. This is usually defined by the developer when loading the assets.
-        * @param {number} type - The type of texture atlas that this is. There are currently only three types.
-        * @param {any} cells - The cells that are within this image..
-        * @param {HTMLImageElement} image - The image that the texture atlas is using.
-        * @param {Sequence[]} sequences - Any sequences of cells for this texture atlas. Used for animation.
-        * @return {Kiwi.Textures.TextureAtlas}
+        * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
+        * @param type {number} The type of texture atlas that this is. There are currently only three types.
+        * @param cells {any} The cells that are within this image..
+        * @param image {HTMLImageElement} The image that the texture atlas is using.
+        * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
+        * @return {TextureAtlas}
         */
-        constructor(name: string, type:number, cells, image?: HTMLImageElement, sequences?: Kiwi.Animation.Sequence[]) {
+        constructor(name: string, type:number, cells, image: HTMLImageElement, sequences?: Kiwi.Animation.Sequence[]) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
@@ -70,7 +70,7 @@ module Kiwi.Textures {
         /**
         * Sequences that are for this texture.
         * @property sequences
-        * @type Kiwi.Sequence
+        * @type Sequence
         * @public
         */
         public sequences: Kiwi.Animation.Sequence[];

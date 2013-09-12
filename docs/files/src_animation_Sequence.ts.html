@@ -264,11 +264,11 @@ module Kiwi.Animation {
         /**
         * 
         * @constructor
-        * @param {String} name - The name of this sequence. This is not unique.
-        * @param {Number[]} cells - The cells that are in this animation.
-        * @param {Number} speed - The time an animation should spend on each frame.
-        * @param {boolean} loop - If the sequence should play again if it was animating and the animation reaches the last frame.
-        * @return {Kiwi.Animation.Sequence} 
+        * @param name {String} The name of this sequence. This is not unique.
+        * @param cells {Number[]} The cells that are in this animation.
+        * @param [speed=0.1] {Number} The time an animation should spend on each frame.
+        * @param [loop=true] {boolean} If the sequence should play again if it was animating and the animation reaches the last frame.
+        * @return {Sequence} 
         */
         constructor(name:string,cells:number[],speed:number=0.1,loop:boolean=true) {
             this.name = name;
