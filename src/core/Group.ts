@@ -225,7 +225,7 @@ module Kiwi {
         }
 
         /**
-        * An indication of weither or not this group is 'dirty' and thus needs to be re-rendered or not.
+        * An indication of whether or not this group is 'dirty' and thus needs to be re-rendered or not.
         * @property _dirty
         * @type boolean
         * @private

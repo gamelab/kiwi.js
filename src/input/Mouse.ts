@@ -147,7 +147,7 @@ module Kiwi.Input {
         }
 
         /**
-        * Indicates weither or not the cursor is currently down. This is READ ONLY.
+        * Indicates whether or not the cursor is currently down. This is READ ONLY.
         * @property isDown
         * @type boolean
         * @default false
@@ -158,7 +158,7 @@ module Kiwi.Input {
         }
 
         /**
-        * Indicates weither or not the cursor is currently up. This is READ ONLY.
+        * Indicates whether or not the cursor is currently up. This is READ ONLY.
         * @property isUp
         * @type boolean
         * @default true

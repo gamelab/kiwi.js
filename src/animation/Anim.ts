@@ -159,7 +159,7 @@ module Kiwi.Animation {
         private _startTime: number = null;
         
         /**
-        * Indicates weither the animation is playing in reverse or not.
+        * Indicates whether the animation is playing in reverse or not.
         * @property _reverse
         * @type boolean
         * @private
@@ -167,7 +167,7 @@ module Kiwi.Animation {
         private _reverse: boolean = false;
 
         /**
-        * Set's weither or not the animation is playing in reverse or not.
+        * Set's whether or not the animation is playing in reverse or not.
         * @type boolean
         * @public
         */
@@ -323,7 +323,7 @@ module Kiwi.Animation {
         }
 
         /**
-        * The update loop. Returns a boolean indicating weither the animation has gone to a new frame or not.
+        * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
         * @method update
         * @return {boolean}
         * @public

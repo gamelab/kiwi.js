@@ -10030,6 +10030,9 @@ var Kiwi;
                     return false;
                 }
             };
+
+            Key.prototype.reset = function () {
+            };
             return Key;
         })();
         Input.Key = Key;
@@ -10041,7 +10044,6 @@ var Kiwi;
     (function (Input) {
         var Keyboard = (function () {
             function Keyboard(game) {
-                this._domElement = null;
                 this._keys = [];
                 this.justPressedRate = 200;
                 this.justReleasedRate = 200;
@@ -10051,7 +10053,17 @@ var Kiwi;
                 return "Keyboard";
             };
 
+            Object.defineProperty(Keyboard.prototype, "keys", {
+                get: function () {
+                    return this._keys;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Keyboard.prototype.boot = function () {
+                this.onKeyUp = new Kiwi.Signal();
+                this.onKeyDown = new Kiwi.Signal();
                 this.start();
             };
 
@@ -10062,10 +10074,10 @@ var Kiwi;
                 var _this = this;
                 if (this.game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     document.body.addEventListener('keydown', function (event) {
-                        return _this.onKeyDown(event);
+                        return _this._keyPressed(event);
                     }, false);
                     document.body.addEventListener('keyup', function (event) {
-                        return _this.onKeyUp(event);
+                        return _this._keyReleased(event);
                     }, false);
                 }
             };
@@ -10073,39 +10085,43 @@ var Kiwi;
             Keyboard.prototype.stop = function () {
                 var _this = this;
                 if (this.game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this._domElement.removeEventListener('keydown', function (event) {
-                        return _this.onKeyDown(event);
+                    document.body.removeEventListener('keydown', function (event) {
+                        return _this._keyPressed(event);
                     }, false);
-                    this._domElement.removeEventListener('keyup', function (event) {
-                        return _this.onKeyUp(event);
+                    document.body.removeEventListener('keyup', function (event) {
+                        return _this._keyReleased(event);
                     }, false);
                 }
             };
 
-            Keyboard.prototype.onKeyDown = function (event) {
+            Keyboard.prototype._keyPressed = function (event) {
                 if (this._keys[event.keyCode]) {
                     this._keys[event.keyCode].update(event);
                 } else {
                     this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
                 }
+                this.onKeyDown.dispatch(event.keyCode, this._keys[event.keyCode]);
             };
 
-            Keyboard.prototype.onKeyUp = function (event) {
+            Keyboard.prototype._keyReleased = function (event) {
                 if (this._keys[event.keyCode]) {
                     this._keys[event.keyCode].update(event);
                 } else {
                     this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
                 }
+                this.onKeyUp.dispatch(event.keyCode, this._keys[event.keyCode]);
             };
 
             Keyboard.prototype.addKey = function (keycode) {
                 return this._keys[keycode] = new Kiwi.Input.Key(this, keycode);
             };
 
-            Keyboard.prototype.justPressed = function (key) {
+            Keyboard.prototype.justPressed = function (key, duration) {
+                if (typeof duration === "undefined") { duration = this.justPressedRate; }
             };
 
-            Keyboard.prototype.justReleased = function (key) {
+            Keyboard.prototype.justReleased = function (key, duration) {
+                if (typeof duration === "undefined") { duration = this.justReleasedRate; }
             };
 
             Keyboard.prototype.isDown = function (keycode) {
@@ -10125,6 +10141,9 @@ var Kiwi;
             };
 
             Keyboard.prototype.reset = function () {
+                for (var index in this._keys) {
+                    this._keys[index].reset();
+                }
             };
             return Keyboard;
         })();

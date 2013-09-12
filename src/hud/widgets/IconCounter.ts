@@ -42,7 +42,7 @@ module Kiwi.HUD.Widget {
         }
 
         /*
-        * Knowledge of weither the icons should be horizontal or vertical
+        * Knowledge of whether the icons should be horizontal or vertical
         * @private
         */
         private _horizontal: boolean;

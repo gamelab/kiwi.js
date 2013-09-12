@@ -16,10 +16,11 @@ module Kiwi.Input {
     export class Key {
 
         /** 
-        * Constructor
-        * @param {Keyboard} manager. 
-        * @param {Number} keycode. 
-        * @param {KeyboardEvent} [event].
+        * 
+        * @constructor
+        * @param manager {Keyboard} The keyboard manager that this key belongs to. 
+        * @param keycode {Number} The keycode that this key is. 
+        * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.
         * @return {Key} This object.
         */
         constructor (manager: Kiwi.Input.Keyboard, keycode: number, event?: KeyboardEvent) {
@@ -33,7 +34,12 @@ module Kiwi.Input {
             }
 
         }
-
+        
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @
+        */
         public objType() {
             return "Key";
         }
@@ -189,6 +195,10 @@ module Kiwi.Input {
             {
                 return false;
             }
+
+        }
+
+        public reset() {
 
         }
 

@@ -62,7 +62,7 @@ module Kiwi.Components {
         }
 
         /**
-        * Indicates weither or not this component needs re-rendering/updating or not.
+        * Indicates whether or not this component needs re-rendering/updating or not.
         * @property dirty
         * @type boolean
         * @public

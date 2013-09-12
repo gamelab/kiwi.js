@@ -67,7 +67,7 @@ module Kiwi.GameObjects {
         }
         
         /**
-        * Indicates weither or not this sprite is animated or not. 
+        * Indicates whether or not this sprite is animated or not. 
         * This sprite will not be animated if the texture used is a SINGLE_IMAGE.
         * @property _isAnimated
         * @type boolean

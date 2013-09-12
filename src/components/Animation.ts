@@ -80,7 +80,7 @@ module Kiwi.Components {
         public currentAnimation: Kiwi.Animation.Anim = null;
 
         /**
-        * Indicates weither or not this animation is currently playing or not.
+        * Indicates whether or not this animation is currently playing or not.
         * @property _isPlaying
         * @type boolean
         * @default false
@@ -89,7 +89,7 @@ module Kiwi.Components {
         private _isPlaying: boolean = false;
         
         /**
-        * Returns a boolean indicating weither or not the current animation is playing.
+        * Returns a boolean indicating whether or not the current animation is playing.
         * @type boolean
         * @public
         */

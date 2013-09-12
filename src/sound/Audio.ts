@@ -106,19 +106,19 @@ module Kiwi.Sound {
         public gainNode: any;
 
         /*
-        * A boolean indicating weither or not that audio tags are being used to generate sounds.
+        * A boolean indicating whether or not that audio tags are being used to generate sounds.
         * @private
         */
         private _usingAudioTag: boolean;
 
         /*
-        * A boolean indicating weither or not the webAuduio api is being used. 
+        * A boolean indicating whether or not the webAuduio api is being used. 
         * @private
         */
         private _usingWebAudio: boolean;
 
         /*
-        * A private indicator of weither this audio is currently muted or not.
+        * A private indicator of whether this audio is currently muted or not.
         * @private
         */
         private _muted: boolean = false;  
@@ -130,7 +130,7 @@ module Kiwi.Sound {
         private _volume: number;  
         
         /*
-        * A boolean indicating weither this piece of audio should loop or not.
+        * A boolean indicating whether this piece of audio should loop or not.
         * @private
         */
         private _loop: boolean;
@@ -186,7 +186,7 @@ module Kiwi.Sound {
         private _muteVolume: number;
 
         /*
-        * Indicates weither or not the sound is currently playing.
+        * Indicates whether or not the sound is currently playing.
         * @public
         */
         public isPlaying: boolean;
