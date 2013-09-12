@@ -63,7 +63,7 @@ module Kiwi.Animation {
 
         /**
         * Get if this animation is to loop or not.
-        * @type bool
+        * @type boolean
         * @public
         */
         public get loop(): boolean {
@@ -72,7 +72,7 @@ module Kiwi.Animation {
 
         /**
         * Set if this animation should loop or not
-        * @type bool
+        * @type boolean
         * @public
         */
         public set loop(value: boolean) {
@@ -195,7 +195,7 @@ module Kiwi.Animation {
         /**
         * If the animation is currently playing or not.
         * @property _isPlaying
-        * @type bool
+        * @type boolean
         * @private
         */
         private _isPlaying: boolean;
@@ -325,7 +325,7 @@ module Kiwi.Animation {
         /**
         * The update loop. Returns a boolean indicating weither the animation has gone to a new frame or not.
         * @method update
-        * @return {bool}
+        * @return {boolean}
         * @public
         */
         public update(): boolean {

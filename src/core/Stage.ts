@@ -18,8 +18,8 @@ module Kiwi {
         /**
         *
         * @constructor
-        * @param {Kiwi.Game} game
-        * @param {String} name
+        * @param game {Kiwi.Game}
+        * @param name {String}
         * @return {Stage} Kiwi.Stage
         */
         constructor(game: Kiwi.Game, name: string) {
@@ -48,103 +48,96 @@ module Kiwi {
         * Returns the type of this object.
         * @method objType
         * @return string
+        * @public
         */
         public objType():string {
             return "Stage";
         }
 
-        /*
+        /**
         * The alpha of the stage.
         * @property _alpha
         * @type number
+        * @private
         */
         private _alpha: number;
 
-        /*
+        /**
         * Get the current alpha of the stage. 0 = invisible, 1 = fully visible.
+        * @property alpha
         * @type number
+        * @public
         */
         public get alpha():number {
             return this._alpha;
         }
-
-        /*
-        * Set the alpha of the stage. A number between 0 (invisible) and 1 (fully visible).
-        * @type number
-        */
         public set alpha(value: number) {
             this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
 
             this._alpha = value;
         }
 
-        /*
+        /**
         * The X coordinate of the stage.
         * @property _x
         * @type number
+        * @private 
         */
         private _x: number;
 
-        /*
-        * Get the X coordinate of the stage. This number should be the same as the stages left property.
+        /**
+        * The X coordinate of the stage. This number should be the same as the stages left property.
+        * @property x
         * @type number
+        * @public
         */
         public get x(): number {
             return this._x;
-        }
-
-        /*
-        * Set the X coordinate of the stage. When setting the X coordinate it modifies the left style on the stage.
-        * @type number
-        */
+        } 
         public set x(value: number) {
             this.container.style.left = String(value + 'px');
             this._x = value;
         }
 
-        /*
+        /**
         * The Y coordinate of the stage.
         * @property _y
         * @type number
+        * @private
         */
         private _y: number;
 
-        /*
+        /**
         * Get the Y coordinate of the stage. This number should be the same as the stages top property.
+        * @property y
         * @type number
+        * @public
         */
         public get y(): number {
             return this._y;
         }
-
-        /*
-        * Set the Y coordinate of the stage. When setting the X coordinate it modifies the top style on the stage.
-        * @type number
-        */
         public set y(value: number) {
             this.container.style.top = String(value + 'px');
             this._y = value;
         }
 
-        /*
+        /**
         * The width of the stage.
         * @property _width
         * @type number
+        * @private
         */
         private _width: number;
         
-        /*
+        /**
         * The width of the stage.
+        * @property width
         * @type number
+        * @public 
         */
         public get width(): number {
             return this._width;
         }
-        
-        /*
-        * Set the width of the stage.
-        * @type number
-        */
         public set width(value: number) {
             this.container.style.width = String(value + 'px');
             this.canvas.width = value;
@@ -153,25 +146,23 @@ module Kiwi {
             this.onResize.dispatch(this._width, this._height);
         }
 
-        /*
+        /**
         * The height of the stage
         * @property _height
         * @type number
+        * @private
         */
         private _height: number;
         
-        /*
-        * Returns the height of the stage
+        /**
+        * The height of the stage
+        * @property height
         * @type number
+        * @private
         */
         public get height(): number {
             return this._height;
         }
-        
-        /*
-        * Sets the height of the stage .
-        * @type number
-        */
         public set height(value: number) {
             this.container.style.height = String(value + 'px');
             this.canvas.height = value;
@@ -183,21 +174,23 @@ module Kiwi {
         /*
         * A kiwi signal that dispatches an event when the stage gets resized.
         * @property onResize
-        * @type Kiwi.Signal
+        * @type Signal
+        * @public
         */
         public onResize: Kiwi.Signal;
 
         /**
 		* A point which determines the offset of this Stage
         * @property offset
-        * @type Kiwi.Geom.Point
+        * @type Point
+        * @public
     	*/
         public offset: Kiwi.Geom.Point = new Kiwi.Geom.Point();
         
         /**
         * The game this Stage belongs to
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private 
         */
         private _game: Kiwi.Game;
@@ -206,13 +199,15 @@ module Kiwi {
         * The title of your stage
         * @property name
         * @type string
+        * @public
         */
         public name: string;
 
         /**
         * Whether or not this Stage is DOM ready.
         * @property domReady
-        * @type Boolean
+        * @type boolean
+        * @public
         */
         public domReady: boolean;
 
@@ -220,57 +215,61 @@ module Kiwi {
         * The background color of the stage.
         * @property _color
         * @type string
+        * @default '#ffffff'
+        * @public
         */
         public _color: string;
         
         /**
         * Get the background color of the stage.
+        * @property color
         * @type string
+        * @public
         */
         public get color(): string {
             return this._color;
         }
-
-        /*
-        * Sets the background color of the canvas.
-        * @type string
-        */ 
         public set color(val: string) {
             this._color = val;
         }
 
-        /*
+        /**
         * The webgl rendering context.
         * @property gl
         * @type WebGLRenderingContext
+        * @public
         */
         public gl: WebGLRenderingContext;
 
-        /*
+        /**
         * The canvas rendering context.
         * @property ctx
         * @type CanvasRenderingContext2D
+        * @public
         */
         public ctx: CanvasRenderingContext2D;
 
-        /*
+        /**
         * The canvas element that is being rendered on.
         * @property canvas
         * @type HTMLCanvasElement
+        * @public
         */
         public canvas: HTMLCanvasElement;
         
-        /*
+        /**
         * The debugging canvas.
         * @property debugCanvas
         * @type HTMLCanvasElement
+        * @public
         */
         public debugCanvas: HTMLCanvasElement;
 
-        /*
+        /**
         * The debug canvas rendering context.
         * @property dctx
         * @type CanvasRenderingContext2D
+        * @public
         */
         public dctx: CanvasRenderingContext2D;
 
@@ -278,13 +277,15 @@ module Kiwi {
         * The parent div in which the layers and input live
         * @property container
         * @type HTMLDivElement
+        * @public
         */
         public container:HTMLDivElement = null;
          
         /**
-        * The DOM is ready, so if we have things to do we can set them now
+        * Is executed when the DOM has loaded and the game is just starting. 
         * @method boot
-        * @param {HTMLElement} container
+        * @param {HTMLElement} dom
+        * @public
         */
         public boot(dom: Kiwi.System.Bootstrap) {
              
@@ -306,7 +307,9 @@ module Kiwi {
         }
 
         /**
-        * TO DO
+        * [DESCRIPTION REQUIRED]
+        * @method _createComponsiteCanvas
+        * @private
         */
         private _createCompositeCanvas() {
             this.canvas = <HTMLCanvasElement>document.createElement("canvas");
@@ -338,7 +341,9 @@ module Kiwi {
         }
         
         /**
-        * TO DO
+        * [DESCRIPTION REQUIRED]
+        * @method _createDebugCanvas
+        * @private
         */
         private _createDebugCanvas() {
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
@@ -358,7 +363,13 @@ module Kiwi {
             }
           
         }
-
+        
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @method clearDebugCanvas
+        * @param [color='rgba(255,0,0,0.2)'] {string} debug color
+        * @public
+        */
         public clearDebugCanvas(color?:string) {
             this.dctx.fillStyle = color || "rgba(255,0,0,.2)";
             this.dctx.clearRect(0, 0, this.width, this.height);
@@ -366,6 +377,11 @@ module Kiwi {
             
         }
 
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @method toggleDebugCanvas
+        * @public
+        */
         public toggleDebugCanvas() {
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         }

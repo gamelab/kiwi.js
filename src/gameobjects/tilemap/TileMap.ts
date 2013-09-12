@@ -371,7 +371,7 @@ module Kiwi.GameObjects.Tilemap {
         * @params {number} start
         * @params {number} end
         * @params {number} collision
-        * @params {bool} seperate
+        * @params {boolean} seperate
         */
         public setCollisionRange(start: number, end: number, collision: number = Kiwi.Components.ArcadePhysics.ANY, seperate: boolean = true) {
 
@@ -387,7 +387,7 @@ module Kiwi.GameObjects.Tilemap {
         * @method setCollisionIndex
         * @params {number} index
         * @params {number} collision
-        * @params {bool} seperate
+        * @params {boolean} seperate
         */
         public setCollisionByIndex(index: number, collision: number = Kiwi.Components.ArcadePhysics.ANY, seperate: boolean = true) {
             this.tiles[index].seperate = seperate;

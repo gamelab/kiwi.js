@@ -17,8 +17,8 @@ module Kiwi.Input {
         /**
         *
         * @method constructor
-        * @param {Kiwi.Game}
-        * @return Kiwi.Input.Finger
+        * @param game {Game} The game that this finger belongs to.
+        * @return Finger
         */
         constructor(game: Kiwi.Game) {
             super(game);
@@ -48,7 +48,7 @@ module Kiwi.Input {
         
         /**
         * @method stop
-        * @param {Any} event
+        * @param event {Any}
         * @public
         */
         public stop(event) {
@@ -58,7 +58,7 @@ module Kiwi.Input {
 
         /** 
         * @method leave
-        * @param {Any} event
+        * @param event {Any} 
         * @public
         */
         public leave(event) {

@@ -34,7 +34,7 @@ module Kiwi.System {
         /**
         *
         * @property _createContainer
-        * @type Boolean
+        * @type boolean
         * @private
         */
         private _createContainer: boolean;
@@ -42,7 +42,7 @@ module Kiwi.System {
         /**
         *
         * @property isReady
-        * @type Boolean
+        * @type boolean
         */
         public isReady: boolean = false;
         
@@ -74,7 +74,7 @@ module Kiwi.System {
         * @method boot
         * @param {String} domParent 
         * @param {Any} [callback]
-        * @param {Boolean} [createContainer]
+        * @param {boolean} [createContainer]
         */
         public boot(domParent: string, callback: any = null, createContainer: boolean = true) {
 

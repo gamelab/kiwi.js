@@ -103,7 +103,7 @@ module Kiwi {
 		* Removes the given camera, if it is present in the camera managers camera collection.
         * @method remove
         * @param {Kiwi.Camera} camera
-        * @return {Boolean} True if the camera was removed, false otherwise.
+        * @return {boolean} True if the camera was removed, false otherwise.
     	*/
         public remove(camera: Kiwi.Camera):boolean {
              

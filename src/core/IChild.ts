@@ -6,8 +6,10 @@
 
 module Kiwi {
     
-    
-
+    /**
+    * 
+    * @class IChild
+    */
     export interface IChild {
         render(camera:Kiwi.Camera);
         update();
@@ -23,7 +25,12 @@ module Kiwi {
         willRender: boolean;
         parent: Kiwi.Group;
         transform: Kiwi.Geom.Transform;
-        destroy(...params:any[]);
+        x: number;
+        y: number;
+        rotation: number;
+        scaleX: number;
+        scaleY: number;
+        destroy(...params: any[]);
     }
 
 }

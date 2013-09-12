@@ -190,14 +190,14 @@ module Kiwi.Time {
         * Whether the clock is in a running state.
         * @property _isRunning
         * @private
-        * @type Boolean
+        * @type boolean
         **/
         private _isRunning: boolean = false;
 
         /**
         * Check if the clock is in the running state.
         * @method isRunning
-        * @return {Boolean} true if running.
+        * @return {boolean} true if running.
         **/
         public isRunning(): boolean {
 
@@ -209,14 +209,14 @@ module Kiwi.Time {
         * Whether the clock is in a stopped state.
         * @property _isStopped
         * @private
-        * @type Boolean
+        * @type boolean
         **/
         private _isStopped: boolean = true;
 
         /**
         * Check if the clock is in the stopped state.
         * @method isStopped
-        * @return {Boolean} true if stopped.
+        * @return {boolean} true if stopped.
         **/
         public isStopped(): boolean {
 
@@ -228,14 +228,14 @@ module Kiwi.Time {
         * Whether the clock is in a paused state.
         * @property _isPaused
         * @private
-        * @type Boolean
+        * @type boolean
         **/
         private _isPaused: boolean = false;
 
         /**
         * Check if the clock is in the paused state.
         * @method isPaused
-        * @return {Boolean} true if paused.
+        * @return {boolean} true if paused.
         **/
         public isPaused(): boolean {
 
@@ -317,7 +317,7 @@ module Kiwi.Time {
         * @method removeTimer
         * @param {Kiwi.Time.Timer} The Timer object you wish to remove. If you wish to delete by Timer Name set this to null.
         * @param {string} The name of the Timer object to remove.
-        * @return {Boolean} True if the Timer was successfully removed, false if not.
+        * @return {boolean} True if the Timer was successfully removed, false if not.
         **/
         public removeTimer(timer: Timer = null, timerName:string = ''): boolean {
 
@@ -358,7 +358,7 @@ module Kiwi.Time {
         * Check if the Timer already exists on this Clock
         * @method checkExists
         * @param {string} name. The name of the Timer.
-        * @return {Boolean} true if the Timer exists, false if not.
+        * @return {boolean} true if the Timer exists, false if not.
         **/
         public checkExists(name: string): boolean {
 

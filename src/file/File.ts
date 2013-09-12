@@ -20,7 +20,7 @@ module Kiwi.Files {
         * @constructor
         * @param {String} dataType
         * @param {String} path
-        * @param {Boolean} saveToFileStore
+        * @param {boolean} saveToFileStore
         * @return {Kiwi.Files}
         */
         constructor(game: Kiwi.Game, dataType: number, path: string, name: string = '', saveToFileStore: boolean = true, storeAsGlobal:boolean = true) {
@@ -190,14 +190,14 @@ module Kiwi.Files {
 
         /**
         * @property _saveToFileStore
-        * @type Boolean
+        * @type boolean
         * @private
 	    */
         private _saveToFileStore: boolean = true;
 
         /**
         * @property _useTagLoader
-        * @type Boolean
+        * @type boolean
         * @private
 	    */
         private _useTagLoader: boolean = true;
@@ -306,7 +306,7 @@ module Kiwi.Files {
 
         /**
         * @property hasTimedOut
-        * @type Boolean
+        * @type boolean
     	*/
         public hasTimedOut: boolean = false;
 
@@ -339,12 +339,12 @@ module Kiwi.Files {
 
         /**
         * @property hasError
-        * @type Boolean
+        * @type boolean
     	*/
         public hasError:  boolean = false;
         /**
         * @property success
-        * @type Boolean
+        * @type boolean
     	*/
         public success: boolean = false;
 

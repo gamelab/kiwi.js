@@ -17,14 +17,14 @@ module Kiwi.HUD.Widget {
 
     export class Bar extends Kiwi.HUD.HUDWidget {
         
-        /**
+        /*
         *
         * @constructor 
         * @param {number} current - The current value.
         * @param {number} max - The maximum value.
         * @param {number} x 
         * @param {number} y
-        **/
+        */
         constructor(current: number, max:number, x:number,y:number, width:number=120, height:number=20) {
             super("bar", x, y);
 
@@ -95,35 +95,35 @@ module Kiwi.HUD.Widget {
             this._height = value;
         }
         
-        /**
+        /*
         * Knows if this bar is ment to be horizontal or veritical
         * @private 
-        **/
+        */
         private _horizontal: boolean;
         
-        /**
+        /*
         * The HTMLElement that is currently being used as the 'bar'.
         * @public
-        **/
+        */
         public bar: HTMLElement;
 
-        /**
+        /*
         * A reference to the HTMLElement that this class always generates.
         * @private
-        **/
+        */
         private _bar: HTMLElement;
         
-        /**
+        /*
         * The range component.
         * @public
-        **/
+        */
         public range: Kiwi.HUD.Components.Range;
         
-        /**
+        /*
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @param {boolean} val
         * @public
-        **/
+        */
         public get horizontal(): boolean {
             return this._horizontal;
         }
@@ -133,11 +133,11 @@ module Kiwi.HUD.Widget {
             this.updateCSS();
         }
 
-        /**
+        /*
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @param {boolean} val
         * @public
-        **/
+        */
         public get vertical(): boolean {
             return !this._horizontal;
         }
@@ -148,14 +148,14 @@ module Kiwi.HUD.Widget {
         }
 
 
-        /**
+        /*
         * This method is used to remove existing DOM elements and place them inside a HUDWidget's container element.
         * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
         * 
         * @method setTemplate
         * @param {string} main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
         * @param {string} innerbar - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
-        **/
+        */
         public setTemplate(main: string, innerbar?: string) {
 
             super.setTemplate(main, innerbar);
@@ -166,11 +166,11 @@ module Kiwi.HUD.Widget {
 
         }
 
-        /**
+        /*
         * Used to remove any the template HTML from this HUDWidget.
         * 
         * @method removeTemplate
-        **/
+        */
         public removeTemplate() {
             super.removeTemplate();
 
@@ -179,11 +179,11 @@ module Kiwi.HUD.Widget {
             this.updateCSS();
         }
 
-        /**
+        /*
         * Will be called when the range has been updated and thus you will want to preform the render of the bar here.
         * This should be overriden by subclasses so that you have your own custom bars. 
         * @public
-        **/
+        */
         public updateCSS() {
             
             if (this.horizontal === true) {

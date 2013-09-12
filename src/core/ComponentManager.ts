@@ -7,10 +7,12 @@
 module Kiwi {
 
     /**
-    * 
-    * [REQUIRES DESCRIPTION]
-    * @class ComponentManager
+    * The component manager is a class that is used to handle a number of components that are active on a particular object.
+    * This way if you want to check to see if a particular component is on an object you can ask the component manager, 
+    * Or when updating components you can tell the component manager to update and all of the components will update as well.
     *
+    * @class ComponentManager
+    * 
     */
 
     export class ComponentManager {
@@ -18,11 +20,11 @@ module Kiwi {
         /**
         * [REQUIRES DESCRIPTION]
         * @constructor
-        * @param {number} type
-        * @param {any} owner
-        * @return {Kiwi.ComponentManager} 
+        * @param type {number} - The type of object that this component manager's owner is.
+        * @param owner {IChild} - The owner of this component manager.
+        * @return {ComponentManager} 
         */
-        constructor(type: number, owner) {
+        constructor(type: number, owner:Kiwi.IChild) {
 
             this._components = {};
 
@@ -50,7 +52,7 @@ module Kiwi {
         private _owner: any;
 
         /**
-        * The type of this object
+        * The type of this object.
         * @property _type
         * @type number
         * @private
@@ -58,18 +60,18 @@ module Kiwi {
         private _type: number;
 
         /**
-        * A list of all components
+        * A list of all components that are currently on the ComponentManager
         * @property _components
-        * @type Kiwi.Component {}
+        * @type Component 
         * @private
-        **/
+        */
         public _components;
 
         /**
         * Returns true if this contains the component given, false otherwise.
         * @method hasComponent
-        * @param {String} the name of the component
-        * @return {Boolean} True if this component manager contains the given component, false otherwise.
+        * @param value {String} the name of the component
+        * @return {boolean} True if this component manager contains the given component, false otherwise.
         * @public
         */
         public hasComponent(value: string): boolean {
@@ -84,8 +86,8 @@ module Kiwi {
         /**
         * Returns true if this contains the component given and the component is active, false otherwise.
         * @method hasActiveComponent
-        * @param {String} The name of the component.
-        * @return {Boolean} true if this manager contains the component and it is active, false otherwise.
+        * @param value {String} The name of the component.
+        * @return {boolean} true if this manager contains the component and it is active, false otherwise.
         * @public
         */
         public hasActiveComponent(value: string): boolean {
@@ -102,8 +104,8 @@ module Kiwi {
         /**
         * Get an existing component that has been added to the layer by its name
         * @method getComponent
-        * @param {String} name - The component name
-        * @return {Kiwi.Component} The component, if found, otherwise null
+        * @param value {String} The component name
+        * @return {Component} The component, if found, otherwise null
         * @public
         */
         public getComponent(value: string): any {
@@ -118,8 +120,8 @@ module Kiwi {
         /**
         * Adds a Component to the manager.
         * @method addComponent
-        * @param {Kiwi.Component} component - The component to add
-        * @return {Kiwi.Component} The component that was added
+        * @param component {Component} The component to add
+        * @return {Component} The component that was added
         * @public
         */
         public add(component: Kiwi.Component): any {
@@ -129,12 +131,10 @@ module Kiwi {
             return component; 
         }
 
-        /**
-        * [REQUIRES DESCRIPTION]
-        * [ZACH QUESTION]
-        * Adds a Component to the manager.
+        /** 
+        * Adds a batch of components to the manager at a single time. 
         * @method addBatch
-        * @param {}
+        * @param value* {Component} The component/s that you would like to add.
         * @public
         */
         public addBatch(...paramsArr: any[]) {
@@ -146,11 +146,11 @@ module Kiwi {
         }
 
         /**
-        * Removes a component
+        * Removes a component from the component manager
         * @method removeComponent
-        * @param {Kiwi.Component} component - The component to be removed
-        * @param {Boolean} destroy - Set to true (default) to call destroy on the component before removing it
-        * @return {Boolean} true if the component was removed successfully
+        * @param component {Component} The component to be removed.
+        * @param [destroy=true] {boolean} If the destroy method is to be called on the component when it is removed.
+        * @return {boolean} true if the component was removed successfully
         * @public
         */
         public removeComponent(component: Kiwi.Component, destroy: boolean = true): boolean {
@@ -173,9 +173,9 @@ module Kiwi {
         /**
         * Removes a component based on its name
         * @method removeComponentByName
-        * @param {String} name - The name of the component to be removed
-        * @param {Boolean} destroy - Set to true (default) to call destroy on the component before removing it
-        * @return {Boolean} true if the component was removed successfully
+        * @param name {String} The name of the component to be removed
+        * @param [destroy=true] {boolean} If the destroy method is to be called on the component when it is removed.
+        * @return {boolean} true if the component was removed successfully
         * @public
         */
         public removeComponentByName(name: string, destroy: boolean = true): boolean {
@@ -196,7 +196,7 @@ module Kiwi {
         /**
         * Removes all of the components from the component manager. 
         * @method removeAll
-        * @param {Boolean} destroy - if true will destroy all components
+        * @param [destroy=true] {boolean} If true will destroy all components
         * @public
         */
         public removeAll(destroy: boolean = true) {

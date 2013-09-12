@@ -18,7 +18,7 @@ module Kiwi.HUD.Widget {
 
     export class IconCounter extends Kiwi.HUD.Widget.Icon {
 
-        /**
+        /*
         * 
         * @constructor
         * @param {string} key
@@ -27,7 +27,7 @@ module Kiwi.HUD.Widget {
         * @param {number} max
         * @param {number} x
         * @param {number} y
-        **/
+        */
         constructor(atlas: Kiwi.Textures.TextureAtlas, current: number, max: number, x: number, y: number) {
             
             super(atlas, x, y);
@@ -41,16 +41,16 @@ module Kiwi.HUD.Widget {
             this._applyCSS();
         }
 
-        /**
+        /*
         * Knowledge of weither the icons should be horizontal or vertical
         * @private
-        **/
+        */
         private _horizontal: boolean;
 
-        /**
+        /*
         * Holds the range component.
         * @public
-        **/
+        */
         public range: Kiwi.HUD.Components.Range;
 
         public _repeat: string;
@@ -59,10 +59,10 @@ module Kiwi.HUD.Widget {
             return this._repeat;
         }
 
-        /**
+        /*
         * Gets called when the range has updated and then it updates the size of the bar.
         * @private
-        **/
+        */
         private _changeSize() {
             
             if (this._horizontal) {
@@ -77,20 +77,20 @@ module Kiwi.HUD.Widget {
         
         }
         
-        /**
+        /*
         * Applys the background image CSS.
         * @public
-        **/
+        */
         public _applyCSS() {
             super._applyCSS();
             this.icon.style.backgroundRepeat = this.repeat;
         }
         
-        /**
+        /*
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @param {boolean} val
         * @public
-        **/
+        */
         public get horizontal(): boolean {
             return this._horizontal;
         }
@@ -100,11 +100,11 @@ module Kiwi.HUD.Widget {
             this._changeSize();
         }
 
-        /**
+        /*
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @param {boolean} val
         * @public
-        **/
+        */
         public get vertical(): boolean {
             return !this._horizontal;
         }

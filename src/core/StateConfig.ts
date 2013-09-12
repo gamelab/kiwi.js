@@ -7,7 +7,7 @@
 module Kiwi {
 
     /**
-    *
+    * [WHOLE THING REQUIRES DESCRIPTION]
     * @class StateConfig
     * 
     */ 
@@ -16,7 +16,8 @@ module Kiwi {
         /**
         * 
         * @constructor
-        * @param {Kiwi.State} parent
+        * @param {State} parent
+        * @param {String} name
         * @return {StateConfig} This Object
         */
         constructor(parent: Kiwi.State, name: string) {
@@ -35,187 +36,203 @@ module Kiwi {
         /**
         * 
         * @property _state
-        * @type Kiwi.State
+        * @type State
         * @private
-        **/
+        */
         private _state: Kiwi.State;
 
         /**
         * The name of the State, must be unique within your game.
         * @property name
         * @type String
-        * @private
+        * @public
         */
         public name: string = '';
 
         /**
         * 
         * @property isPersistent
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public isPersistent: boolean = false;
 
         /**
         * 
         * @property isCreated
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public isCreated: boolean = false;
 
         /**
         * 
         * @property isInitialised
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public isInitialised: boolean = false;
 
         /**
         * 
         * @property isReady
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public isReady: boolean = false;
 
         /**
         * 
         * @property hasInit
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasInit: boolean = false;
 
         /**
         * 
         * @property hasPreloader
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasPreloader: boolean = false;
 
         /**
         * 
         * @property hasLoadProgress
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasLoadProgress: boolean = false;
 
         /**
         * 
         * @property hasLoadComplete
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasLoadComplete: boolean = false;
 
         /**
         * 
         * @property hasLoadUpdate
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasLoadUpdate: boolean = false;
 
         /**
         * 
         * @property hasCreate
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasCreate: boolean = false;
 
         /**
         * 
         * @property hasOnEnter
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasOnEnter: boolean = false;
 
         /**
         * 
         * @property hasUpdate
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasUpdate: boolean = false;
 
         /**
         * 
         * @property hasRender
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasRender: boolean = false;
 
         /**
         * 
         * @property hasOnExit
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasOnExit: boolean = false;
 
         /**
         * 
         * @property hasShutDown
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasShutDown: boolean = false;
 
         /**
         * 
         * @property hasDestroy
-        * @type Boolean
-        * @private
-        **/
+        * @type boolean
+        * @default false
+        * @public
+        */
         public hasDestroy: boolean = false;
 
         /**
         * 
         * @property runCount
         * @type Number
-        * @private
-        **/
+        * @default 0
+        * @public
+        */
         public runCount: number = 0;
 
         /**
         * 
         * @property type
         * @type Number
-        * @private
-        **/
+        * @default 0
+        * @public
+        */
         public type: number = 0;
 
         /**
         * Stores any parameters passed to the init method
         * @property initParams
         * @type array
-        **/
+        * @public
+        */
         public initParams;
 
         /**
         * Stores any parameters passed to the create method
         * @property initParams
         * @type array
-        **/
+        * @public
+        */
         public createParams;
 
         /**
-         *  Builds up a StateManager Object on the State itself (called KiwiSMData).
-         *  This is used to save time when doing function loops.
-         *  Add Persistent State support? So it's called all the time, regardless of which state is current.
-         *
-         * @method buildStateConfig
-         * @param {String} key
-         * @param {Boolean} persistent
-         */
-        populate() {
+        *
+        * @method populate
+        * @public
+        */
+        public populate() {
 
             if (typeof this._state['init'] === 'function')
             {

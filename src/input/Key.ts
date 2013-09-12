@@ -17,10 +17,10 @@ module Kiwi.Input {
 
         /** 
         * Constructor
-        * @param {Kiwi.Input.Keyboard} manager. 
+        * @param {Keyboard} manager. 
         * @param {Number} keycode. 
         * @param {KeyboardEvent} [event].
-        * @return {Kiwi.Input.Key} This object.
+        * @return {Key} This object.
         */
         constructor (manager: Kiwi.Input.Keyboard, keycode: number, event?: KeyboardEvent) {
 
@@ -56,35 +56,35 @@ module Kiwi.Input {
         /** 
         * 
         * @property isDown
-        * @type Boolean
+        * @type boolean
         **/
         public isDown: boolean = false;
 
         /** 
         * 
         * @property isUp
-        * @type Boolean
+        * @type boolean
         **/
         public isUp: boolean = false;
 
         /** 
         * 
         * @property altKey
-        * @type Boolean
+        * @type boolean
         **/
         public altKey: boolean = false;
 
         /** 
         * 
         * @property ctrlKey
-        * @type Boolean
+        * @type boolean
         **/
         public ctrlKey: boolean = false;
 
         /** 
         * 
         * @property shiftKey
-        * @type Boolean
+        * @type boolean
         **/
         public shiftKey: boolean = false;
 
@@ -158,7 +158,7 @@ module Kiwi.Input {
         * 
         * @method justPressed
         * @param {Number} [duration].
-        * @return {Boolean} 
+        * @return {boolean} 
         */
         public justPressed(duration: number = this._manager.justPressedRate): boolean {
 
@@ -177,7 +177,7 @@ module Kiwi.Input {
         * 
         * @method justReleased
         * @param {Number} [duration].
-        * @return {Boolean} 
+        * @return {boolean} 
         */
         public justReleased(duration: number = this._manager.justReleasedRate): boolean {
 

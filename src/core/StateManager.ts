@@ -7,7 +7,7 @@
 module Kiwi {
 
     /**
-    * Handles the starting, parsing, looping and swapping of game states.
+    * The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.
     *
     * @class StateManager
     *
@@ -17,7 +17,7 @@ module Kiwi {
         /**
         * 
         * @constructor
-        * @param {Kiwi.Game} game
+        * @param game {Game} The game that this statemanager belongs to.
         * @return {StateMananger} This Object
         */
         constructor(game: Kiwi.Game) {
@@ -28,10 +28,11 @@ module Kiwi {
 
         }
 
-        /*
+        /**
         * The type of object this is.
         * @method objType
         * @return string
+        * @public
         */
         public objType() {
             return "StateManager";
@@ -40,32 +41,35 @@ module Kiwi {
         /**
         * The game that this manager belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
-        **/
+        */
         private _game: Kiwi.Game;
 
         /**
         * An array of all of the states that are contained within this manager.
         * @property _states
-        * @type Kiwi.Structs.Dictionary
+        * @type State[]
         * @private
-        **/
+        */
         private _states: Kiwi.State[];
 
         /**
         * The current State
         * @property current
-        * @type Kiwi.State
-        **/
+        * @type State
+        * @default null
+        * @public
+        */
         public current: Kiwi.State = null;
 
         /**
         * Checks to see if a key exists. Internal use only.
         * @method checkKeyExists
-        * @param {String} key
-        * @return {Boolean}
-        **/
+        * @param key {String}
+        * @return {boolean}
+        * @private
+        */
         private checkKeyExists(key: string): boolean {
 
             for (var i = 0; i < this._states.length; i++)
@@ -83,9 +87,10 @@ module Kiwi {
         /**
         * Checks to see if the state passed is valid or not.
         * @method checkValidState
-        * @param {Kiwi.State} state
-        * @return {Boolean}
-        **/
+        * @param {State} state
+        * @return {boolean}
+        * @private
+        */
         private checkValidState(state: Kiwi.State): boolean {
 
             if (!state['game'] || !state['config'])
@@ -98,15 +103,16 @@ module Kiwi {
         }
 
         /**
-         * Adds the given State to the StateManager.
-         * The State must have a unique key set on it, or it will fail to be added to the manager.
-         * Returns true if added successfully, otherwise false (can happen if State is already in the StateManager)
-         * 
-         * @method addState
-         * @param {Any} state The Kiwi.State instance to add
-         * @param {Boolean} switchTo If set to true automatically switch to the given state after adding it
-         * @return {Boolean} true if the State was added successfully, otherwise false
-         */
+        * Adds the given State to the StateManager.
+        * The State must have a unique key set on it, or it will fail to be added to the manager.
+        * Returns true if added successfully, otherwise false (can happen if State is already in the StateManager)
+        * 
+        * @method addState
+        * @param state {Any} The Kiwi.State instance to add
+        * @param [switchTo=false] {boolean} If set to true automatically switch to the given state after adding it
+        * @return {boolean} true if the State was added successfully, otherwise false
+        * @public
+        */
         public addState(state: any, switchTo:boolean = false): boolean {
 
             var tempState;
@@ -154,8 +160,9 @@ module Kiwi {
         }
 
         /**
-        * The DOM is ready, so if we have a current state pending we can init it now
+        * Is executed once the DOM has finished loading.
         * @method boot
+        * @public
         */
         boot() {
 
@@ -179,11 +186,12 @@ module Kiwi {
         }
 
         /**
-        * 
+        * Switches to the name of the state that you pass. Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
         * @method setCurrentState
         * @param {String} key
-        * @return {Boolean}
-        **/
+        * @return {boolean}
+        * @private
+        */
         private setCurrentState(key: string): boolean {
 
             //  Bail out if they are trying to switch to the already current state
@@ -247,16 +255,18 @@ module Kiwi {
         }
 
         /**
-         *  Swaps the current state.
-         *  If the state has already been loaded (via addState) then you can just pass the key.
-         *  Otherwise you can pass the state object as well and it will load it then swap to it.
-         *
-         * @method switchState
-         * @param {String} key
-         * @param {Any} [state]
-         * @param {Boolean} skipAdd if set to true it will skip the adding of the state and just set it as current
-         * @return {Boolean}
-         */
+        *  Swaps the current state.
+        *  If the state has already been loaded (via addState) then you can just pass the key.
+        *  Otherwise you can pass the state object as well and it will load it then swap to it.
+        *
+        * @method switchState
+        * @param key {String} The name/key of the state you would like to switch to.
+        * @param [state=null] {Any} The state that you want to switch to. This is only used to create the state if it doesn't exist already.
+        * @param [initParams=null] {Object} Any parameters that you would like to pass to the init method of that new state.
+        * @param [createParams=null] {Object} Any parameters that you would like to pass to the create method of that new state.
+        * @return {boolean}
+        * @public
+        */
         public switchState(key: string, state: any = null, initParams = null, createParams = null): boolean {
 
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
@@ -300,11 +310,12 @@ module Kiwi {
         }
 
         /**
-        * 
+        * Gets a state by the key that is passed.
         * @method getState
         * @param {String} key
-        * @return {Kiwi.State}
-        **/
+        * @return {State}
+        * @private
+        */
         private getState(key: string): Kiwi.State {
 
             for (var i = 0; i < this._states.length; i++)
@@ -320,7 +331,8 @@ module Kiwi {
         }
 
         /**
-        *
+        * Checks to see if the state that is being switched to needs to load some files or not.
+        * If it does it loads the file, if it does not it runs the create method.
         * @method checkPreload
         * @private
         */
@@ -356,11 +368,11 @@ module Kiwi {
         }
 
         /**
-        *
+        * Is execute whilst files are being loaded by the state.
         * @method onLoadProgress
         * @param {Number} percent
         * @param {Number} bytesLoaded
-        * @param {Kiwi.Filess} file
+        * @param {File} file
         * @private
         */
         private onLoadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File) {
@@ -373,7 +385,7 @@ module Kiwi {
         }
 
         /**
-        * 
+        * Executed when the preloading has completed. Then executes the loadComplete and create methods of the new state.
         * @method onLoadComplete
         * @private
         */
@@ -404,9 +416,10 @@ module Kiwi {
 
         }
 
-        /*
+        /**
         * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
         * @method rebuildLibraries
+        * @private
         */
         public rebuildLibraries() {
             
@@ -432,10 +445,11 @@ module Kiwi {
         }
 
         /**
-         * Update Loop
-         * @method update
-         */
-        update() {
+        * The update loop that is accessable on the state manager.
+        * @method update
+        * @public
+        */
+        public update() {
 
             if (this.current !== null)
             {
@@ -454,10 +468,11 @@ module Kiwi {
         }
 
         /**
-         * postRender - called after all of the Layers have been rendered
-         * @method postRender
-         */
-        postRender() {
+        * postRender - called after all of the Layers have been rendered
+        * @method postRender
+        * @public
+        */
+        public postRender() {
 
             if (this.current !== null)
             {

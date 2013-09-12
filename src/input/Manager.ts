@@ -16,8 +16,8 @@ module Kiwi.Input {
 
         /** 
         * Constructor
-        * @param {Kiwi.Game} game.
-        * @return {Kiwi.Input.Manager} This object.
+        * @param game {Game} The game that this object belongs to.
+        * @return {Manager} This object.
         */
         constructor (game: Kiwi.Game) {
 
@@ -28,59 +28,83 @@ module Kiwi.Input {
         /**
         * The type of object this is.
         * @method objType
+        * @return String
+        * @public
         */
         public objType() {
             return "Manager";
         }
 
-        /*
-        * Kiwi Signals for listening to certain events.
+        /**
+        * A Signal that dispatches a event when any Pointer is pressed from the game.
+        * @property onDown
+        * @type Signal
+        * @public
         */
         public onDown: Kiwi.Signal;
+        
+        /**
+        * A Signal that dispatches a event when any Pointer is released from the game.
+        * @property onUp
+        * @type Signal
+        * @public
+        */
         public onUp: Kiwi.Signal;
 
         /** 
-        * 
+        * The game that this manager belongs to.
         * @property game
-        * @type Kiwi.Game
-        **/
+        * @type Game
+        * @public
+        */
         public game: Kiwi.Game;
 
         /** 
-        * A reference to the mouse manager
+        * A reference to the mouse manager.
         * @property mouse
-        * @type Kiwi.Input.Mouse
-        **/
+        * @type Mouse
+        * @public
+        */
         public mouse:Kiwi.Input.Mouse;
 
         /** 
         * The keyboard manager
         * @property keyboard
-        * @type Kiwi.Input.Keyboard
-        **/
+        * @type Keyboard
+        * @public
+        */
         public keyboard:Kiwi.Input.Keyboard;
 
         /** 
         * The touch manager.
         * @property touch
-        * @type Kiwi.Input.Touch
-        **/
+        * @type Touch
+        * @public
+        */
         public touch:Kiwi.Input.Touch;
         
         /**
         * An array containing all of the pointers that are active on the stage.
         * @property _pointers
-        * @type Kiwi.Input.Pointer[]
+        * @type Pointer[]
+        * @private
         */
         private _pointers: Kiwi.Input.Pointer[];
 
+        /**
+        * Returns all of the pointers that can be used on the Input Manager. This is READ only.
+        * @property pointer
+        * @type Pointer[]
+        * @public
+        */
         public get pointers(): Kiwi.Input.Pointers {
             return this._pointers;
         }
 
         /** 
-        * The DOM is ready, so we can start the managers listening now
+        * This method is executed when the DOM has loaded and the manager is ready to load.
         * @method boot 
+        * @public
         */
         public boot() {
 
@@ -111,12 +135,13 @@ module Kiwi.Input {
         /**
         * A private method that gets dispatched when either the mouse or touch manager dispatches a down event
         * @method _onDownEvent
-        * @param {Number} x
-        * @param {Number} y
-        * @param {Number} timeDown
-        * @param {Number} timeUp
-        * @param {Number} duration
-        * @param {Kiwi.Input.Pointer} pointer
+        * @param x {Number} The x coordinate of the pointer
+        * @param y {Number} The y coordinate of the pointer
+        * @param timeDown {Number} The time that the pointer has been down for.
+        * @param timeUp {Number} The Time that the pointer has been up form
+        * @param duration {Number} 
+        * @param pointer {Pointer} The pointer that was used.
+        * @private
         */
         private _onDownEvent(x, y, timeDown, timeUp, duration, pointer) {
             this.onDown.dispatch(x, y, timeDown, timeUp, duration, pointer);
@@ -126,12 +151,13 @@ module Kiwi.Input {
         /**
         * A private method that gets dispatched when either the mouse or touch manager dispatches a up event
         * @method _onUpEvent
-        * @param {Number} x
-        * @param {Number} y
-        * @param {Number} timeDown
-        * @param {Number} timeUp
-        * @param {Number} duration
-        * @param {Kiwi.Input.Pointer} pointer
+        * @param x {Number} The x coordinate of the pointer
+        * @param y {Number} The y coordinate of the pointer
+        * @param timeDown {Number} The time that the pointer has been down for.
+        * @param timeUp {Number} The Time that the pointer has been up form
+        * @param duration {Number} 
+        * @param pointer {Pointer} The pointer that was used.
+        * @private
         */
         private _onUpEvent(x, y, timeDown, timeUp, duration, pointer) {
             this.onUp.dispatch(x, y, timeDown, timeUp, duration, pointer);
@@ -139,6 +165,9 @@ module Kiwi.Input {
 
         /*
         * An alias for the onPress signal that goes straight to the onDown.
+        * @property onPressed
+        * @type Signal
+        * @public
         */
         public get onPressed(): Kiwi.Signal {
             return this.onDown;
@@ -146,14 +175,18 @@ module Kiwi.Input {
         
         /**
         * An alias for the onRelease signal that goes straight to the onUp
+        * @property onReleased
+        * @type Signal
+        * @public
         */
         public get onReleased(): Kiwi.Signal {
             return this.onUp;
         }
 
         /** 
-        * 
+        * The update loop that gets executed every frame.
         * @method update 
+        * @public
         */
         public update() {
 
@@ -174,7 +207,7 @@ module Kiwi.Input {
         }
 
         /** 
-        * 
+        * Runs the reset method on the managers.
         * @method reset
         */
         public reset() {
@@ -194,14 +227,16 @@ module Kiwi.Input {
         /*
         * The position of the last pointer that was/is active on the stage.
         * @property position
-        * @type Kiwi.Geom.Point
+        * @type Point
+        * @public
         */
         public position: Kiwi.Geom.Point;
 
         /*
         * If an input is currently down. Not an accurate representation, should use the individual managers.
         * @property isDown
-        * @type bool
+        * @type boolean
+        * @public
         */
         public isDown: boolean;
  
@@ -209,6 +244,7 @@ module Kiwi.Input {
         * Populated x coordinate based on the most recent click/touch event
         * @property x
         * @type Number
+        * @public
         */
         public get x(): number {
 
@@ -220,6 +256,7 @@ module Kiwi.Input {
         * Populated y coordinate based on the most recent click/touch event
         * @property y
         * @type Number
+        * @public
         */
         public get y(): number {
 

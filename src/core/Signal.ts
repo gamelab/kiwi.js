@@ -18,9 +18,10 @@ module Kiwi {
     export class Signal {
 
         /**
-		* 
+		* A list of all of the signal bindings that are on this signal.
         * @property _bindings
-        * @type Array
+        * @type SignalBinding[]
+        * @default []
         * @private
     	*/
         private _bindings: SignalBinding[] = [];
@@ -29,6 +30,7 @@ module Kiwi {
 		* 
         * @property _prevParams
         * @type Any
+        * @default null
         * @private
     	*/
         private _prevParams = null;
@@ -37,7 +39,9 @@ module Kiwi {
          * Signals Version Number
          * @property VERSION
          * @type String
-         * @const
+         * @final
+         * @static
+         * @public
          */
         public static VERSION: string = '1.0.0';
 
@@ -47,39 +51,45 @@ module Kiwi {
          * already dispatched before.
          * @property memorize
          * @type boolean
+         * @default false
+         * @public
          */
-        public memorize: bool = false;
+        public memorize: boolean = false;
 
         /**
          * [REQUIRES DESCRIPTION]
          * @type boolean
+         * @default true
          * @private
          */
-        private _shouldPropagate: bool = true;
+        private _shouldPropagate: boolean = true;
 
         /**
          * If Signal is active and should broadcast events.
          * <p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
          * @property active
          * @type boolean
+         * @default true
+         * @public
          */
-        public active: bool = true;
+        public active: boolean = true;
 
 
         /**
         * Returns the type of this object
         * @method objType
         * @return {String} The type of this object
+        * @public
         */
         public objType() {
             return "Signal";
         }
 
         /**
-		* [REQUIRES DESCRIPTION]
+		* Validates a event listener an is used to check to see if it is valid or not.
         * @method validateListener
-        * @param {Any} listener
-        * @param {Any} fnName
+        * @param listener {Any} 
+        * @param fnName {Any} 
     	*/
         public validateListener(listener, fnName) {
 
@@ -92,14 +102,14 @@ module Kiwi {
 
         /**
          * [REQUIRES DESCRIPTION]
-         * @param {Function} listener
-         * @param {boolean} isOnce
-         * @param {Object} [listenerContext]
-         * @param {Number} [priority]
+         * @param listener {Function} 
+         * @param isOnce {boolean}
+         * @param listenerContext {Object}
+         * @param priority {Number}
          * @return {SignalBinding}
          * @private
          */
-        private _registerListener(listener, isOnce: bool, listenerContext, priority: number): SignalBinding {
+        private _registerListener(listener, isOnce: boolean, listenerContext, priority: number): SignalBinding {
 
             var prevIndex: number = this._indexOfListener(listener, listenerContext);
             var binding: SignalBinding;
@@ -132,7 +142,7 @@ module Kiwi {
         /**
         *
         * @method _addBinding
-         * @param {SignalBinding} binding
+         * @param binding {SignalBinding}
          * @private
          */
         private _addBinding(binding: SignalBinding) {
@@ -150,8 +160,8 @@ module Kiwi {
         /**
          * [REQUIRES DESCRIPTION]
          * @method _indexOfListener
-         * @param {Function} listener
-         * @param {any} context
+         * @param listener {Function}
+         * @param context {any}
          * @return {number}
          * @private
          */
@@ -176,11 +186,12 @@ module Kiwi {
 
         /**
          * Check if listener was attached to Signal.
-         * @param {Function} listener
-         * @param {Object} [context]
+         * @param listener {Function}
+         * @param [context=null] {Any}
          * @return {boolean} if Signal has the specified listener.
+         * @public
          */
-        public has(listener, context:any = null): bool {
+        public has(listener, context:any = null): boolean {
 
             return this._indexOfListener(listener, context) !== -1;
 
@@ -188,10 +199,11 @@ module Kiwi {
 
         /**
          * Add a listener to the signal.
-         * @param {Function} listener Signal handler function.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
+         * @param listener {Function} Signal handler function.
+         * @param [listenerContext=null] {Any} Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+         * @param [priority=0] {Number} The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
+         * @public
          */
         public add(listener, listenerContext:any = null, priority: number = 0): SignalBinding {
 
@@ -203,10 +215,11 @@ module Kiwi {
 
         /**
          * Add listener to the signal that should be removed after first execution (will be executed only once).
-         * @param {Function} listener Signal handler function.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
+         * @param listener {Function} Signal handler function.
+         * @param [listenerContext=null] {Any} Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+         * @param [priority=0] {Number} The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
+         * @public
          */
         public addOnce(listener, listenerContext:any = null, priority: number = 0): SignalBinding {
 
@@ -218,9 +231,10 @@ module Kiwi {
 
         /**
          * Remove a single listener from the dispatch queue.
-         * @param {Function} listener Handler function that should be removed.
-         * @param {Object} [context] Execution context (since you can add the same handler multiple times if executing in a different context).
+         * @param listener {Function} Handler function that should be removed.
+         * @param [context=null] {Any} Execution context (since you can add the same handler multiple times if executing in a different context).
          * @return {Function} Listener handler function.
+         * @public
          */
         public remove(listener, context:any = null) {
 
@@ -241,6 +255,7 @@ module Kiwi {
         /**
          * Remove all listeners from the Signal.
          * @method removeAll
+         * @public
          */
         public removeAll() {
 
@@ -259,6 +274,7 @@ module Kiwi {
          * [REQUIRES DESCRIPTION]
          * @method getNumListeners
          * @return {number} Number of listeners attached to the Signal.
+         * @public
          */
         public getNumListeners(): number {
 
@@ -272,6 +288,7 @@ module Kiwi {
          * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
          * @see Signal.prototype.disable
          * @method halt
+         * @public
          */
         public halt() {
 
@@ -282,7 +299,8 @@ module Kiwi {
         /**
          * Dispatch/Broadcast Signal to all listeners added to the queue.
          * @method dispatch
-         * @param {...*} [params] Parameters that should be passed to each handler.
+         * @param [params]* {any} Parameters that should be passed to each handler.
+         * @public
          */
         public dispatch(...paramsArr: any[]) {
 
@@ -317,9 +335,9 @@ module Kiwi {
 
         /**
          * [REQUIRES DESCRIPTION]
-         * Forget memorized arguments.
+         * Forget memorized arguments. See Signal.memorize
          * @method forget
-         * @see Signal.memorize
+         * @public
          */
         public forget() {
 
@@ -331,6 +349,7 @@ module Kiwi {
          * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
          * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
          * @method dispose
+         * @public
          */
         public dispose() {
 
@@ -344,6 +363,7 @@ module Kiwi {
         /**
          * @method toString
          * @return {string} String representation of the object.
+         * @public
          */
         public toString(): string {
 

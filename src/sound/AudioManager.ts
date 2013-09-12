@@ -151,8 +151,8 @@ module Kiwi.Sound {
         * Used to mute the audio on the device, or to check to see if the device is muted.
         *
         * @method mute
-        * @param {bool} value
-        * @return {bool}
+        * @param {boolean} value
+        * @return {boolean}
         */
         public set mute(value: boolean) {
             
@@ -235,7 +235,7 @@ module Kiwi.Sound {
         * @method add
         * @param {string} key
         * @param {number} volume
-        * @param {bool} loop
+        * @param {boolean} loop
         * @return {Kiwi.Sound.Audio}
         */
         public add(key: string, volume: number = 1, loop: boolean = false): Kiwi.Sound.Audio {

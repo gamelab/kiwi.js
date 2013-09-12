@@ -52,7 +52,7 @@ class KeyboardEvents extends Kiwi.State {
             
             var x = 0;
             var y = 0; 
-            var update: bool = false;
+            var update: boolean = false;
 
             if (this.left.isDown) {
                 x -= 3;

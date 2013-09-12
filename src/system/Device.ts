@@ -43,42 +43,42 @@ module Kiwi.System {
         /**
         * 
         * @property iOS 
-        * @type Boolean
+        * @type boolean
         */
         public iOS: boolean = false;
 
         /**
         * 
         * @property android
-        * @type Boolean
+        * @type boolean
         */
         public android: boolean = false;
 
         /**
         * 
         * @property chromeOS
-        * @type Boolean
+        * @type boolean
         */
         public chromeOS: boolean = false;
 
         /**
         * 
         * @property linux
-        * @type Boolean
+        * @type boolean
         */
         public linux: boolean = false;
 
         /**
         * 
         * @property maxOS
-        * @type Boolean
+        * @type boolean
         */
         public macOS: boolean = false;
 
         /**
         * 
         * @property windows
-        * @type Boolean
+        * @type boolean
         */
         public windows: boolean = false;
 
@@ -87,49 +87,49 @@ module Kiwi.System {
         /**
         * 
         * @property canvas
-        * @type Boolean
+        * @type boolean
         */
         public canvas: boolean = false;
 
         /**
         * 
         * @property file
-        * @type Boolean
+        * @type boolean
         */
         public file: boolean = false;
 
         /**
         * 
         * @property fileSystem
-        * @type Boolean
+        * @type boolean
         */
         public fileSystem: boolean = false;
 
         /**
         * 
         * @property localStorage
-        * @type Boolean
+        * @type boolean
         */
         public localStorage: boolean = false;
 
         /**
         * 
         * @property webGL
-        * @type Boolean
+        * @type boolean
         */
         public webGL: boolean = false;
 
         /**
         * 
         * @property worker
-        * @type Boolean
+        * @type boolean
         */
         public worker: boolean = false;
 
         /**
         * 
         * @property blob
-        * @type Boolean
+        * @type boolean
         */
         public blob: boolean = false;
 
@@ -137,14 +137,14 @@ module Kiwi.System {
         /**
         * 
         * @property touch
-        * @type Boolean
+        * @type boolean
         */
         public touch: boolean = false;
 
         /**
         * 
         * @property css3D
-        * @type Boolean
+        * @type boolean
         */
         public css3D: boolean = false;
 
@@ -153,35 +153,35 @@ module Kiwi.System {
         /**
         * 
         * @property arora
-        * @type Boolean
+        * @type boolean
         */
         public arora: boolean = false;
 
         /**
         * 
         * @property chrome
-        * @type Boolean
+        * @type boolean
         */
         public chrome: boolean = false;
 
         /**
         * 
         * @property epiphany
-        * @type Boolean
+        * @type boolean
         */
         public epiphany: boolean = false;
 
         /**
         * 
         * @property firefox
-        * @type Boolean
+        * @type boolean
         */
         public firefox: boolean = false;
 
         /**
         * 
         * @property ie
-        * @type Boolean
+        * @type boolean
         */
         public ie: boolean = false;
 
@@ -195,28 +195,28 @@ module Kiwi.System {
         /**
         * 
         * @property mobileSafari
-        * @type Boolean
+        * @type boolean
         */
         public mobileSafari: boolean = false;
 
         /**
         * 
         * @property midori
-        * @type Boolean
+        * @type boolean
         */
         public midori: boolean = false;
 
         /**
         * 
         * @property opera
-        * @type Boolean
+        * @type boolean
         */
         public opera: boolean = false;
 
         /**
         * 
         * @property safari
-        * @type Boolean 
+        * @type boolean 
         */
         public safari: boolean = false;
         public webApp: boolean = false;
@@ -226,42 +226,42 @@ module Kiwi.System {
         /**
         * 
         * @property audioData
-        * @type Boolean
+        * @type boolean
         */
         public audioData: boolean = false;
 
         /**
         * 
         * @property webaudio
-        * @type Boolean
+        * @type boolean
         */
         public webaudio: boolean = false;
 
         /**
         * 
         * @property ogg
-        * @type Boolean
+        * @type boolean
         */
         public ogg: boolean = false;
 
         /**
         * 
         * @property mp3
-        * @type Boolean
+        * @type boolean
         */
         public mp3: boolean = false;
 
         /**
         * 
         * @property wav
-        * @type Boolean
+        * @type boolean
         */
         public wav: boolean = false;
 
         /**
         * 
         * @property m4a
-        * @type Boolean
+        * @type boolean
         */
         public m4a: boolean = false;
 
@@ -270,21 +270,21 @@ module Kiwi.System {
         /**
         * 
         * @property iPhone
-        * @type Boolean
+        * @type boolean
         */
         public iPhone: boolean = false;
 
         /**
         * 
         * @property iPhone4
-        * @type Boolean
+        * @type boolean
         */
         public iPhone4: boolean = false;
 
         /**
         * 
         * @property iPad
-        * @type Boolean
+        * @type boolean
         */
         public iPad: boolean = false;
 

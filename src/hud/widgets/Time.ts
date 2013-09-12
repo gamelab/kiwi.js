@@ -18,13 +18,13 @@ module Kiwi.HUD.Widget {
 
     export class Time extends Kiwi.HUD.Widget.TextField {
 
-        /**
+        /*
         *
         * @constructor
         * @param {string} format - The format that you want the time to be in.
         * @param {number} x
         * @param {number} y
-        **/
+        */
         constructor(format:string,x:number,y:number) {
             super('time', x, y);
 
@@ -35,19 +35,19 @@ module Kiwi.HUD.Widget {
             this.updateTime();
         }
         
-        /**
+        /*
         * The format that they want the time to be displayed.
         * @private
-        **/
+        */
         private _format: string;
 
-        /**
+        /*
         * Holds the time component.
         * @public
-        **/
+        */
         public time: Kiwi.HUD.Components.Time;
 
-        /**
+        /*
         * Allows you to set the time based on the parameter's passed.
         *
         * @method setTime
@@ -56,7 +56,7 @@ module Kiwi.HUD.Widget {
         * @param {number} minutes
         * @param {number} hours
         * @return {number} 
-        **/
+        */
         public setTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number) {
             this.time.setTime(milliseconds, seconds, minutes, hours);
 
@@ -64,12 +64,12 @@ module Kiwi.HUD.Widget {
             return this.time.milliseconds;
         }
 
-        /**
+        /*
         * The format that you want the text to be in.
         * @method format
         * @param {string} val
         * @return {string}
-        **/
+        */
         public format(val?: string):string {
             if (val !== undefined) {
                 this._format = val;
@@ -77,13 +77,13 @@ module Kiwi.HUD.Widget {
             return this._format;
         }
 
-        /**
+        /*
         * Updates the time that is being displayed in the text field.
         *
         * To Do: remove the use of regexp. RegExp are slow.
         *
         * @method updateTime
-        **/
+        */
         public updateTime() {
             var ms = String(this.time.milliseconds);
             var s = String(this.time.seconds);

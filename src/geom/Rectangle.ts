@@ -291,7 +291,7 @@ module Kiwi.Geom {
          * @method contains
          * @param {Number} x The x coordinate of the point to test.
          * @param {Number} y The y coordinate of the point to test.
-         * @return {Boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
+         * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
          **/
         public contains(x: number, y: number): boolean {
 
@@ -308,7 +308,7 @@ module Kiwi.Geom {
          * Determines whether the specified point is contained within the rectangular region defined by this Rectangle object. This method is similar to the Rectangle.contains() method, except that it takes a Point object as a parameter.
          * @method containsPoint
          * @param {Point} point The point object being checked. Can be Kiwi.Geom.Point or any object with .x and .y values.
-         * @return {Boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
+         * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
          **/
         public containsPoint(point: Point): boolean {
 
@@ -320,7 +320,7 @@ module Kiwi.Geom {
          * Determines whether the Rectangle object specified by the rect parameter is contained within this Rectangle object. A Rectangle object is said to contain another if the second Rectangle object falls entirely within the boundaries of the first.
          * @method containsRect
          * @param {Rectangle} rect The rectangle object being checked.
-         * @return {Boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
+         * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
          **/
         public containsRect(rect: Rectangle): boolean {
 
@@ -367,7 +367,7 @@ module Kiwi.Geom {
          * Determines whether the object specified in the toCompare parameter is equal to this Rectangle object. This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.
          * @method equals
          * @param {Rectangle} toCompare The rectangle to compare to this Rectangle object.
-         * @return {Boolean} A value of true if the object has exactly the same values for the x, y, width, and height properties as this Rectangle object; otherwise false.
+         * @return {boolean} A value of true if the object has exactly the same values for the x, y, width, and height properties as this Rectangle object; otherwise false.
          **/
         public equals(toCompare: Rectangle): boolean {
 
@@ -439,7 +439,7 @@ module Kiwi.Geom {
          * Determines whether the object specified in the toIntersect parameter intersects with this Rectangle object. This method checks the x, y, width, and height properties of the specified Rectangle object to see if it intersects with this Rectangle object.
          * @method intersects
          * @param {Rectangle} toIntersect The Rectangle object to compare against to see if it intersects with this Rectangle object.
-         * @return {Boolean} A value of true if the specified object intersects with this Rectangle object; otherwise false.
+         * @return {boolean} A value of true if the specified object intersects with this Rectangle object; otherwise false.
          **/
         public intersects(toIntersect: Rectangle): boolean {
 
@@ -489,7 +489,7 @@ module Kiwi.Geom {
         /**
          * Determines whether or not this Rectangle object is empty.
          * @method isEmpty
-         * @return {Boolean} A value of true if the Rectangle object's width or height is less than or equal to 0; otherwise false.
+         * @return {boolean} A value of true if the Rectangle object's width or height is less than or equal to 0; otherwise false.
          **/
         public isEmpty(): boolean {
 

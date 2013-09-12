@@ -5,6 +5,7 @@
 */
 
 module Kiwi {
+
     /**
     * My method description.  Like other pieces of your comment blocks, 
     * this can span multiple lines.
@@ -144,15 +145,15 @@ module Kiwi {
         /**
 		* Controls whether this Camera is rendered
         * @property _visible
-        * @type Boolean
+        * @type boolean
 		*/
         private _visible: boolean;
 
         /**
 		* Toggles the visible state of this Camera
         * @method visible
-        * @param {Boolean} value
-        * @return {Boolean}
+        * @param {boolean} value
+        * @return {boolean}
 		**/
         public visible(value: boolean = null): boolean {
 
@@ -164,7 +165,7 @@ module Kiwi {
         /**
 		* 
         * @property _dirty
-        * @type Boolean
+        * @type boolean
         * @private
 		**/
         private _dirty: boolean;
@@ -172,8 +173,8 @@ module Kiwi {
         /**
 		* A value used by components to control if the camera needs re-rendering
         * @method dirty
-        * @param {Boolean} value
-        * @return {Boolean}
+        * @param {boolean} value
+        * @return {boolean}
     	*/
         public dirty(value: boolean = null): boolean {
 

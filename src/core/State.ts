@@ -10,15 +10,15 @@ module Kiwi {
     * 
     * 
     * @class State
-    * 
+    * @extends Group
     */ 
     export class State extends Group {
 
         /**
         *  
         * @constructor
-        * @param {String} name
-        * @return {State} Kiwi.State
+        * @param name {String}
+        * @return {State} 
         */
         constructor(name: string) {
             super(null, name);
@@ -29,19 +29,21 @@ module Kiwi {
             this._trackingList = [];
         }
 
-        /*
+        /**
         * Returns the type of object this state is.
         * @method objType
         * @return String
+        * @public
         */
         public objType() {
             return "State";
         }
 
-        /*
+        /**
         * Returns the type of child this is. 
         * @method childType
         * @return Number
+        * @public
         */
         public childType() {
             return Kiwi.STATE;
@@ -50,67 +52,75 @@ module Kiwi {
         /**
         * The configuration object for this State
         * @property config
-        * @type Kiwi.StateConfig
-        **/
+        * @type StateConfig
+        * @public
+        */
         public config: Kiwi.StateConfig;
 
         /**
         * A reference to the Kiwi.Game that this State belongs to
         * @property game
-        * @type Kiwi.Game
-        **/
+        * @type Game
+        * @public
+        */
         public game: Kiwi.Game = null;
          
-        /*
-        * 
+        /**
+        * The library that this state use's for the loading of textures.
         * @property textureLibrary
-        * @type Kiwi.Textures.TextureLibrary
+        * @type TextureLibrary
+        * @public
         */
         public textureLibrary: Kiwi.Textures.TextureLibrary;
         
-        /*
-        *
+        /**
+        * The library that this state use's for the loading of audio.
         * @property audioLibrary
-        * @type Kiwi.Sound.AudioLibrary
+        * @type AudioLibrary
+        * @public
         */
         public audioLibrary: Kiwi.Sound.AudioLibrary;
         
-        /*
-        *
+        /**
+        * The library that this state use's for the loading of data.
         * @property dataLibrary
-        * @type Kiwi.Files.DataLibrary
+        * @type DataLibrary
+        * @public
         */
         public dataLibrary: Kiwi.Files.DataLibrary;
 
-        /*
+        /**
         * Holds all of the textures that are avaiable to be accessed once this state has been loaded.
+        * E.g. If you loaded a image and named it 'flower', once everything has loaded you can then access the flower image by saying this.textures.flower
         * @property textures
+        * @type Object
+        * @public
         */
         public textures;
 
-        /*
+        /**
         * Holds all of the audio that are avaiable to be accessed once this state has been loaded.
+        * E.g. If you loaded a piece of audio and named it 'lazerz', once everything has loaded you can then access the lazers (pew pew) by saying this.audio.lazerz
         * @property audio
+        * @type Object
+        * @public
         */
         public audio;
 
-        /*
+        /**
         * Holds all of the data that are avaiable to be accessed once this state has been loaded.
-        * @property audio
+        * E.g. If you loaded a piece of data and named it 'cookieLocation', once everything has loaded you can then access the cookies by saying this.data.cookieLocation
+        * @property data
+        * @type Object
+        * @public
         */
         public data;
 
         /**
-        * The Component Manager
-        * @property components
-        * @type Kiwi.ComponentManager
-	    */
-        public components: Kiwi.ComponentManager;
-
-        /**
-        * 
+        * [REQUIRES DESCRIPTION]
         * @method boot
-        **/
+        * @public
+        */
         public boot() {
 
             this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
@@ -125,40 +135,46 @@ module Kiwi {
         //  Default methods that should be over-ridden
 
         /**
-        * 
+        * Gets executed when the state has been initalised and gets switched to for the first time.
+        * This method only ever gets called once and it is before the preload method.
         * @method init
-        **/
+        * @param[values] * {Any } 
+        * @public
+        */
         public init(...paramsArr: any[]) { }
 
         /**
-        * 
+        * This method is where you would load of all the assets that are requried for this state/in the game.
         * @method preload
-        **/
+        * @public
+        */
         public preload() { }
 
         /**
-        * 
+        * This method is progressively called whilst loading a file.
+        * This can be used to create a 'progress' bar for each file.
         * @method loadProgress
         * @param {Number} percent
         * @param {Number} bytesLoaded
         * @param {Kiwi.Files} file
-        **/
+        * @public
+        */
         public loadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File) { }
 
         /**
-        * 
+        * Gets executed when the game is finished loading and it is about to 'create' the state. 
         * @method loadComplete
-        **/
+        * @public
+        */
         public loadComplete() { }
 
         /**
-        * 
-        * @method update
-        **/
+        * The game loop that gets executed while the game is loading.
+        * @method loadUpdate
+        */
         public loadUpdate() {
         
-            for (var i = 0; i < this.members.length; i++)
-            {
+            for (var i = 0; i < this.members.length; i++) { 
                 if (this.members[i].active === true)
                 {
                     this.members[i].update();
@@ -168,14 +184,18 @@ module Kiwi {
         }
 
         /** 
+        * Is executed once all of the assets have loaded and the game is ready to be 'created'.
         * @method create
-        **/
+        * @param [values]* {Any} 
+        * @public
+        */
         public create(...paramsArr: any[]) { }
 
         /**
-        * Calls preUpdate on all the components
+        * Is called every frame before the update loop. When overriding make sure you include a super call.
         * @method preUpdate
-        **/
+        * @public
+        */
         public preUpdate() {
 
             this.components.preUpdate();
@@ -183,9 +203,10 @@ module Kiwi {
         }
 
         /**
-        * Calls update on all the components, entities and groups added to this State
+        * The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call to.
         * @method update
-        **/
+        * @public
+        */
         public update() {
             
             this.components.update();
@@ -201,9 +222,10 @@ module Kiwi {
         }
 
         /**
-        * Calls postUpdate on all the components
+        * The post update loop is executed every frame after the update method. When overriding make sure you include a super call.
         * @method postUpdate
-        **/
+        * @public
+        */
         public postUpdate() {
 
             this.components.postUpdate();
@@ -213,14 +235,15 @@ module Kiwi {
         /**
         * Called after all of the layers have rendered themselves, useful for debugging
         * @method postRender
-        **/
+        * @public
+        */
         public postRender() {}
 
         /**
-        * 
+        * [DESCRIPTION REQUIRED]
         * @method setType
         * @param {Number} value
-        **/
+        */
         public setType(value: number) {
 
             if (this.config.isInitialised === false)
@@ -234,13 +257,14 @@ module Kiwi {
         * Adds a new image file that is be loaded when the state gets up to the loading all of the assets.
         *
         * @method addImage
-        * @param {String} key
-        * @param {String} url
-        * @param {Boolean} storeAsGlobal 
-        * @param {Number} width
-        * @param {Number} height
-        * @param {Number} offsetX
-        * @param {Number} offsetY
+        * @param key {String} A key for this image so that you can access it when the loading has finished.
+        * @param url {String} The location of the image.
+        * @param [storeAsGlobal=true] {boolean} If the image should be deleted when switching to another state or if the other states should still be able to access this image.
+        * @param [width] {Number} The width of the image. If not passed the width will be automatically calculated.
+        * @param [height] {Number} The height of the image. If not passed the height will be automatically calculated.
+        * @param [offsetX] {Number} The offset of the image when rendering on the x axis. 
+        * @param [offsetY] {Number} The offset of the image when rendering on the y axis.
+        * @public
         */
         public addImage(key: string, url: string, storeAsGlobal: boolean = true, width?: number, height?: number, offsetX?: number, offsetY?: number) {
             this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
@@ -250,17 +274,19 @@ module Kiwi {
         * Adds a new spritesheet image file that is be loaded when the state gets up to the loading all of the assets.
         *
         * @method addSpriteSheet
-        * @param {String} key
-        * @param {String} url
-        * @param {Number} frameWidth
-        * @param {Number} frameHeight
-        * @param {Boolean} storeAsGlobal 
-        * @param {Number} numCells
-        * @param {Number} rows
-        * @param {Number} cols
-        * @param {Number} sheetOffsetX
-        * @param {Number} cellOffsetX
-        * @param {Number} cellOffsetY
+        * @param key {String} A key for this image so that you can access it when the loading has finished.
+        * @param url {String} The location of the image.
+        * @param frameWidth {Number} The width of a single frame in the spritesheet
+        * @param frameHeight {Number} The height of a single frame in the spritesheet
+        * @param [storeAsGlobal=true] {boolean} If the image should be deleted when switching to another state or if the other states should still be able to access this image.
+        * @param [numCells] {Number} The number of cells/frames that are in the spritesheet. If not specified will calculate this based of the width/height of the image.
+        * @param [rows] {Number} The number of cells that are in a row. If not specified will calculate this based of the width/height of the image. 
+        * @param [cols] {Number} The number of cells that are in a column. If not specified will calculate this based of the width/height of the image.
+        * @param [sheetOffsetX=0] {Number} The offset of the whole spritesheet on the x axis.
+        * @param [sheetOffsetY=0] {Number} The offset of the whole spritesheet on the y axis.
+        * @param [cellOffsetX=0] {Number} The spacing between cells on the x axis.
+        * @param [cellOffsetY=0] {Number} The spacing between cells on the y axis.
+        * @public 
         */
         public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal: boolean = true, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number) {
 
@@ -269,15 +295,16 @@ module Kiwi {
 
         }
         
-        /*
+        /**
         * Adds a new texture atlas that is to be loaded when the states gets up to the stage of loading the assets.
         *
         * @method addTextureAtlas
-        * @param {String} key
-        * @param {String} imageURL
-        * @param {String} jsonID
-        * @param {String} jsonURL
-        * @param {boolean} storeAsGlobal
+        * @param key {String} A key for this image so that you can access it when the loading has finished.
+        * @param imageURL {String} The location of the image.
+        * @param [jsonID] {String} The id for the json file that is to be loaded. So that you can access it outside of the texture atlas.
+        * @param [jsonURL] {String} The location of the json file you have loaded.
+        * @param [storeAsGlobal=true] {boolean} If the image should be delete when switching to another state or if the other states should still be able to access this image.
+        * @public
         */
         public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal: boolean = true) {
              
@@ -285,27 +312,27 @@ module Kiwi {
            
         }
 
-        /*
+        /**
         * Adds a json file that is to be loaded when the state gets up to the stage of loading the assets.
         * 
         * @method addJSON
-        * @param {string} key
-        * @param {string} url
-        * @param {bool} storeAsGlobal
+        * @param key {string} A key for this json so that you can access it when the loading has finished
+        * @param url {string} The location of the JSON file.
+        * @param [storeAsGlobal=true] {boolean} If the json should be deleted when switching to another state or if the other states should still be able to access this json.
+        * @public
         */
         public addJSON(key: string, url: string, storeAsGlobal: boolean = true) {
 
             this.game.loader.addJSON(key, url, storeAsGlobal);
-          
         }
         
-        /*
+        /**
         * Adds a new audio file that is to be loaded when the state gets up to the stage of loading the assets.
         * 
         * @method addAudio
-        * @param {string} key
-        * @param {string} url
-        * @param {boolean} storeAsGlobal
+        * @param key {string} A key for this audio so that you can access it when the loading has finished
+        * @param url {string} The location of the audio file.
+        * @param [storeAsGlobal=true] {boolean} If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.
         */
         public addAudio(key: string, url: string, storeAsGlobal: boolean = true) {
              
@@ -315,18 +342,20 @@ module Kiwi {
 
         //garbage collection stuff
 
-        /*
+        /**
         * Contains a reference to all of the IChilds that have ever been created for this state. 
         * Useful for keeping track of sprites that are not used any more and need to be destroyed.
         * @property trackingList
-        * @type Kiwi.IChild[]
+        * @type IChild[]
+        * @private
         */
         private _trackingList: Kiwi.IChild[];
 
-        /*
+        /**
         * Adds a new IChild to the tracking list. This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
-        * @method addIChild
-        * @param {Kiwi.IChild} child
+        * @method addToTrackingList
+        * @param {IChild} child
+        * @public
         */
         public addToTrackingList(child: Kiwi.IChild) {
             //check to see that its not already in the tracking list.
@@ -335,10 +364,12 @@ module Kiwi {
             this._trackingList.push(child);
         }
 
-        /*
-        * Removes a IChild from the tracking list. This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
+        /**
+        * Removes a IChild from the tracking list. This should only need to happen when a child is being destroyed.
+        * This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
         * @method removeFromTrackingList
-        * @param {Kiwi.IChild} child
+        * @param {IChild} child
+        * @public
         */
         public removeFromTrackingList(child:Kiwi.IChild) {
             //check to see that it is in the tracking list.
@@ -348,11 +379,12 @@ module Kiwi {
             } 
         }
 
-        /*
+        /**
         * Destroys all of IChilds that are not currently on stage. All IChilds that currently don't have this STATE as an ancestor.
         * Returns the number of IChilds removed.  
         * @method destroyUnused
         * @return {Number}
+        * @public
         */
         public destroyUnused():number {
 
@@ -372,7 +404,9 @@ module Kiwi {
         /**
         * Destroys all of the IChild's on the start.
         * @method destroy
-        **/
+        * @param [deleteAll=true] If all of the IChild's ever created should have the destroy method executed also.
+        * @public
+        */
         public destroy(deleteAll: boolean=true) {
             
             //destroy all of the tracking list
@@ -388,10 +422,11 @@ module Kiwi {
             
         }
 
-        /*
+        /**
         * Recursively goes through a child given and runs the destroy method on all that are passed.
         * @method _destroyChildren
-        * @param {Kiwi.IChild} child
+        * @param {IChild} child
+        * @private
         */
         private _destroyChildren(child: any) {
             if (child.childType() == Kiwi.GROUP) {

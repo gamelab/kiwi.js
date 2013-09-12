@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\geom\Line.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.4.9</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AABB.html">AABB</a></li>
+            
+                <li><a href="../classes/Anim.html">Anim</a></li>
+            
+                <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Audio.html">Audio</a></li>
+            
+                <li><a href="../classes/AudioManager.html">AudioManager</a></li>
+            
+                <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Box.html">Box</a></li>
+            
+                <li><a href="../classes/Browser.html">Browser</a></li>
+            
+                <li><a href="../classes/Camera.html">Camera</a></li>
+            
+                <li><a href="../classes/CameraManager.html">CameraManager</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/Clock.html">Clock</a></li>
+            
+                <li><a href="../classes/Common.html">Common</a></li>
+            
+                <li><a href="../classes/Component.html">Component</a></li>
+            
+                <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
+            
+                <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
+            
+                <li><a href="../classes/Device.html">Device</a></li>
+            
+                <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/File.html">File</a></li>
+            
+                <li><a href="../classes/FileStore.html">FileStore</a></li>
+            
+                <li><a href="../classes/Finger.html">Finger</a></li>
+            
+                <li><a href="../classes/Game.html">Game</a></li>
+            
+                <li><a href="../classes/GameManager.html">GameManager</a></li>
+            
+                <li><a href="../classes/GameMath.html">GameMath</a></li>
+            
+                <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/IChild.html">IChild</a></li>
+            
+                <li><a href="../classes/Input.html">Input</a></li>
+            
+                <li><a href="../classes/Intersect.html">Intersect</a></li>
+            
+                <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
+            
+                <li><a href="../classes/Key.html">Key</a></li>
+            
+                <li><a href="../classes/Keyboard.html">Keyboard</a></li>
+            
+                <li><a href="../classes/Keycodes.html">Keycodes</a></li>
+            
+                <li><a href="../classes/Line.html">Line</a></li>
+            
+                <li><a href="../classes/Loader.html">Loader</a></li>
+            
+                <li><a href="../classes/Manager.html">Manager</a></li>
+            
+                <li><a href="../classes/MasterClock.html">MasterClock</a></li>
+            
+                <li><a href="../classes/Matrix.html">Matrix</a></li>
+            
+                <li><a href="../classes/Mouse.html">Mouse</a></li>
+            
+                <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
+            
+                <li><a href="../classes/Point.html">Point</a></li>
+            
+                <li><a href="../classes/Pointer.html">Pointer</a></li>
+            
+                <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Ray.html">Ray</a></li>
+            
+                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+            
+                <li><a href="../classes/RequestAnimationFrame.html">RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Sequence.html">Sequence</a></li>
+            
+                <li><a href="../classes/Signal.html">Signal</a></li>
+            
+                <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
+            
+                <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sound.html">Sound</a></li>
+            
+                <li><a href="../classes/Sprite.html">Sprite</a></li>
+            
+                <li><a href="../classes/SpriteSheet.html">SpriteSheet</a></li>
+            
+                <li><a href="../classes/Stage.html">Stage</a></li>
+            
+                <li><a href="../classes/State.html">State</a></li>
+            
+                <li><a href="../classes/StateConfig.html">StateConfig</a></li>
+            
+                <li><a href="../classes/StateManager.html">StateManager</a></li>
+            
+                <li><a href="../classes/StaticImage.html">StaticImage</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
+            
+                <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/Touch.html">Touch</a></li>
+            
+                <li><a href="../classes/Transform.html">Transform</a></li>
+            
+                <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/Vector2.html">Vector2</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animation.html">Animation</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\geom\Line.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
+
+module Kiwi.Geom {
+
+    /**
+    * A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
+    *
+    * @class Line
+    *
+    */
+    export class Line {
+
+        /**
+        * Creates an line defined by two points. Can be treated as either a Line or Line Segment depending on context.
+        * @constructor
+        * @param {Number} x1 x component of first point.
+        * @param {Number} y1 y component of first point.
+        * @param {Number} x2 x component of second point.
+        * @param {Number} y2 y component of second point.
+        * @return {Kiwi.Geom.Line} This Object
+        */
+        constructor(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0) {
+
+            this.setTo(x1, y1, x2, y2);
+
+        }
+
+        public objType() {
+            return &quot;Line&quot;;
+        }
+
+        /**
+        * x component of first point.
+        * @property x1
+        * @type Number
+        */
+        public x1: number = 0;
+
+        /**
+        * y component of first point.
+        * @property y1
+        * @type Number
+        */
+        public y1: number = 0;
+
+        /**
+        * x component of second point.
+        * @property x2
+        * @type Number
+        */
+        public x2: number = 0;
+
+        /**
+        * y component of second point.
+        * @property y2
+        * @type Number
+        */
+        public y2: number = 0;
+
+        /**
+        * Return a clone of the line.
+        * @method clone
+        * @param {Kiwi.Geom.Line} [output]
+        * @return {Kiwi.Geom.Line}
+        */
+        public clone(output: Line = new Line): Line {
+
+            return output.setTo(this.x1, this.y1, this.x2, this.y2);
+
+        }
+
+        /**
+        * Copy the line from another existing line.
+        * @method copyFrom 
+        * @param {Kiwi.Geom.Line} source
+        * @return {Kiwi.Geom.Line}
+        */
+        public copyFrom(source: Line): Line {
+
+            return this.setTo(source.x1, source.y1, source.x2, source.y2);
+
+        }
+
+        /**
+        * Copy the line to another existing line.
+        * @method copyTo
+        * @param {Kiwi.Geom.Line} target
+        * @return {Kiwi.Geom.Line}
+        */
+        public copyTo(target: Line): Line {
+
+            return target.copyFrom(this);
+
+        }
+
+        /**
+        * Set all components on the line.
+        * @method setTo
+        * @param {Number} x1 x component of first point.
+        * @param {Number} y1 y component of first point.
+        * @param {Number} x2 x component of second point.
+        * @param {Number} y2 y component of second point.
+        * @return {Kiwi.Geom.Line}
+        */
+        public setTo(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): Line {
+
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+
+            return this;
+
+        }
+
+        /**
+        * Get the length of the line as a line segement.
+        * @method length
+        * @return {Number}
+        */
+        public get length(): number {
+
+            return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
+
+        }
+
+        /**
+        * Get the y of a point on the line for a given x.
+        * @method getY
+        * @param {Number} x
+        * @return {Number}
+        */
+        public getY(x: number): number {
+
+            return this.slope * x + this.yIntercept;
+
+        }
+
+        /**
+        * Get the angle of the line.
+        * @method angle 
+        * @return {Number}
+        */
+        public get angle(): number {
+
+            return Math.atan2(this.x2 - this.x1, this.y2 - this.y1);
+
+        }
+
+        /**
+        * Get the slope of the line (y/x).
+        * @method slope
+        * @return {Number}
+        */
+        public get slope(): number {
+
+            return (this.y2 - this.y1) / (this.x2 - this.x1);
+
+        }
+
+        /**
+        * Get the perpendicular slope of the line (x/y).
+        * @method perpSlope
+        * @return {Number}
+        */
+        public get perpSlope(): number {
+
+            return -((this.x2 - this.x1) / (this.y2 - this.y1));
+
+        }
+
+        /**
+        * Get the y intercept for the line.
+        * @method yIntercept
+        * @return {Number}
+        */
+        public get yIntercept(): number {
+
+            return (this.y1 - this.slope * this.x1);
+
+        }
+
+        /**
+        * Check if a point is on the line.
+        * @method isPointOnLine
+        * @param {Number} x
+        * @param {Number} y
+        * @return {boolean}
+        */
+        public isPointOnLine(x: number, y: number): boolean {
+
+            if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        /**
+        * Check if the point is both on the line and within the line segment.
+        * @method isPointOnLineSegment
+        * @param {Number} x
+        * @param {Number} y
+        * @return {boolean}
+        */
+        public isPointOnLineSegment(x: number, y: number): boolean {
+
+            var xMin = Math.min(this.x1, this.x2);
+            var xMax = Math.max(this.x1, this.x2);
+            var yMin = Math.min(this.y1, this.y2);
+            var yMax = Math.max(this.y1, this.y2);
+
+            if (this.isPointOnLine(x, y) &amp;&amp; (x &gt;= xMin &amp;&amp; x &lt;= xMax) &amp;&amp; (y &gt;= yMin &amp;&amp; y &lt;= yMax))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        /**
+        * 
+        * @method intersectLineLine
+        * @param {Any} line
+        * @return {Any}
+        */
+        public intersectLineLine(line): any {
+            //return Kiwi.Geom.intersectLineLine(this,line);
+        }
+
+        /**
+        * Get a line perpendicular to the line passing through a given point.
+        * @method perp
+        * @param {Number} x
+        * @param {Number} y
+        * @param {Kiwi.Geom.Line} [output]
+        * @return {Kiwi.Geom.Line}
+        */
+        public perp(x: number, y: number, output?: Line): Line {
+
+            if (this.y1 === this.y2)
+            {
+                if (output)
+                {
+                    output.setTo(x, y, x, this.y1);
+                }
+                else
+                {
+                    return new Line(x, y, x, this.y1);
+                }
+            }
+
+            var yInt: number = (y - this.perpSlope * x);
+
+            var pt: any = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
+
+            if (output)
+            {
+                output.setTo(x, y, pt.x, pt.y);
+            }
+            else
+            {
+                return new Line(x, y, pt.x, pt.y);
+            }
+
+        }
+
+        /**
+        * Get a string representation of the line.
+        * @method toString
+        * @return {String}
+        */
+        public toString(): string {
+
+            return &quot;[{Line (x1=&quot; + this.x1 + &quot; y1=&quot; + this.y1 + &quot; x2=&quot; + this.x2 + &quot; y2=&quot; + this.y2 + &quot;)}]&quot;;
+
+        }
+
+    }
+
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

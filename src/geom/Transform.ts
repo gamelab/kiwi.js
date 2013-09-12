@@ -506,7 +506,7 @@ module Kiwi.Geom {
 	     * Recursively check that a transform does not appear as its own ancestor
 	     * @method checkAncestor
          * @param {Kiwi.Geom.Transform} The Transform to check.
-	     * @return {Boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
+	     * @return {boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
 	     */
         public checkAncestor(transform: Transform): boolean {
             

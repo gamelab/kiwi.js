@@ -169,7 +169,7 @@ module Kiwi.Components {
         /**
 		 * Whether an object will move/alter position after a collision.
          * @property immovable
-         * @type bool
+         * @type boolean
 		 */
         public immovable: boolean;
 
@@ -310,8 +310,8 @@ module Kiwi.Components {
 		 * the object will collide from, use collision constants (like LEFT, FLOOR, etc)
 		 * to set the value of allowCollisions directly.
          * @method solid
-         * @param {bool} value
-         * @return bool
+         * @param {boolean} value
+         * @return boolean
 		 */
         public solid(value?: boolean): boolean {
             if (value !== undefined) {
@@ -332,8 +332,8 @@ module Kiwi.Components {
         * @method collide
         * @param {Kiwi.GameObjects.Entity} gameObject1
         * @param {Kiwi.GameObjects.Entity} gameObject2
-        * @param {bool} seperate
-        * @return {bool}
+        * @param {boolean} seperate
+        * @return {boolean}
         */
         public static collide(gameObject1: Entity, gameObject2: Entity, seperate: boolean = true): boolean {
 
@@ -346,8 +346,8 @@ module Kiwi.Components {
         * @method collideGroup
         * @param {Kiwi.GameObjects.Entity} gameObject1
         * @param {Any} group
-        * @param {bool} seperate
-        * @return {bool}
+        * @param {boolean} seperate
+        * @return {boolean}
         */
         public static collideGroup(gameObject: Entity, group: any, seperate: boolean = true): boolean {
 
@@ -360,8 +360,8 @@ module Kiwi.Components {
         * @method collideGroupGroup
         * @param {Kiwi.GameObjects.Entity} gameObject1
         * @param {Any} group
-        * @param {bool} seperate
-        * @return {bool}
+        * @param {boolean} seperate
+        * @return {boolean}
         */
         public static collideGroupGroup(group1: any, group2: any, seperate: boolean = true): boolean {
 
@@ -374,8 +374,8 @@ module Kiwi.Components {
         * @method overlaps
         * @param {Kiwi.GameObjects.Entity} gameObject1
         * @param {Kiwi.GameObjects.Entity} gameObject2
-        * @param {bool} separate
-        * @return {bool}
+        * @param {boolean} separate
+        * @return {boolean}
         */
         public static overlaps(gameObject1: Entity, gameObject2: Entity, separateObjects: boolean = true): boolean {
 
@@ -394,8 +394,8 @@ module Kiwi.Components {
         * @method overlaps
         * @param {Kiwi.GameObjects.Entity} gameObject1
         * @param {Any} group
-        * @param {bool} separate - If they overlap should the seperate or not
-        * @return {bool}
+        * @param {boolean} separate - If they overlap should the seperate or not
+        * @return {boolean}
         */
         public static overlapsObjectGroup(gameObject: Entity, group: any, separateObjects: boolean = true): boolean {
 
@@ -409,8 +409,8 @@ module Kiwi.Components {
         * @method overlaps
         * @param {Any} gameObject1
         * @param {Any} gameObject2
-        * @param {bool} separate - If they overlap should the seperate or not
-        * @return {bool}
+        * @param {boolean} separate - If they overlap should the seperate or not
+        * @return {boolean}
         */
         public static overlapsGroupGroup(group1: any, group2: any, separateObjects: boolean = true): boolean {
             
@@ -449,7 +449,7 @@ module Kiwi.Components {
         * @method seperate
         * @param {Kiwi.Entity} object1
         * @param {Kiwi.Entity} object2
-        * @return {bool}
+        * @return {boolean}
         */
         public static separate(object1: Kiwi.Entity, object2: Kiwi.Entity): boolean {
             
@@ -678,8 +678,8 @@ module Kiwi.Components {
         * 
         * @method overlaps
         * @param { Kiwi.Entity } gameObject
-        * @param { bool } seperateObjects
-        * @return { bool }
+        * @param { boolean } seperateObjects
+        * @return { boolean }
         */
         public overlaps(gameObject: Entity, separateObjects: boolean = false): boolean {
             
@@ -705,8 +705,8 @@ module Kiwi.Components {
         * 
         * @method overlaps
         * @param { Kiwi.Group } gameObject
-        * @param { bool } seperateObjects
-        * @return { bool }
+        * @param { boolean } seperateObjects
+        * @return { boolean }
         */
         public overlapsGroup(group: any, separateObjects: boolean = false): boolean {
             

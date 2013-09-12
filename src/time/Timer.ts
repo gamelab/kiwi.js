@@ -104,14 +104,14 @@ module Kiwi.Time {
         /**
         * Whether the timer is in a running state.
         * @property _isRunning
-        * @type Boolean
+        * @type boolean
         **/
         private _isRunning: boolean = false;
 
         /**
         * The Timers current state. True if the Timer is running, otherwise false.
         * @method running
-        * @return (Boolean) 
+        * @return (boolean) 
         **/
         public isRunning(): boolean {
 
@@ -122,14 +122,14 @@ module Kiwi.Time {
         /**
         * Whether the timer is in a stopped state.
         * @property _isStopped
-        * @type Boolean
+        * @type boolean
         **/
         private _isStopped: boolean = true;
 
         /**
         * Whether the timer is in a stopped state.
         * @method stopped
-        * @return (Boolean) 
+        * @return (boolean) 
         **/
         public isStopped(): boolean {
 
@@ -140,14 +140,14 @@ module Kiwi.Time {
         /**
         * Whether the timer is in a paused state.
         * @property _isPaused
-        * @type Boolean
+        * @type boolean
         **/
         private _isPaused: boolean = false;
 
         /**
         * Whether the timer is in a paused state.
         * @method paused
-        * @return (Boolean) 
+        * @return (boolean) 
         **/
         public isPaused(): boolean {
 
@@ -365,7 +365,7 @@ module Kiwi.Time {
         * Removes a TimerEvent object from this Timer
         * @method removeTimerEvent
         * @param {Kiwi.Time.TimerEvent} The TimerEvent to remove
-        * @return {Boolean} True if the event was removed, otherwise false.
+        * @return {boolean} True if the event was removed, otherwise false.
         **/
         public removeTimerEvent(event:TimerEvent):boolean {
 
@@ -399,7 +399,7 @@ module Kiwi.Time {
         * Removes all TimerEvent objects from this Timer
         * @method clear
         * @param {Number} The type of TimerEvents to remove. Set to zero to remove them all.
-        * @return {Boolean} True if the event was removed, otherwise false.
+        * @return {boolean} True if the event was removed, otherwise false.
         **/
         public clear(type:number = 0) {
 

@@ -18,14 +18,15 @@ module Kiwi.GameObjects {
         /**
         * 
         * @constructor
-        * @param {String} text
-        * @param {Number} x - The new x coordinate from the Position component
-        * @param {Number} y - The new y coordinate from the Position component
-        * @param {String} color - The color of the pixel in 0xAARRGGBB format. Default is 0xFF000000 (black).
-        * @param {Number} size - Yes we know pixels don't really have a size, but on large monitors you need to pump them up a bit!
-        * @param {String} weight 
-        * @param {String} fontFamily
-        * @return {Kiwi.GameObjects.Textfield} This Game Object.
+        * @param state {State} The state that this Textfield belongs to
+        * @param text {String} The text that is contained within this textfield.
+        * @param [x=0] {Number} The new x coordinate from the Position component
+        * @param [y=0] {Number} The new y coordinate from the Position component
+        * @param [color='#000000'] {String} The color of the text. 
+        * @param [size=32] {Number} The size of the text in pixels.
+        * @param [weight='normal'] {String} The weight of the text.
+        * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
+        * @return {Textfield} This Game Object.
         */
         constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#000000', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif') {
 
@@ -55,7 +56,7 @@ module Kiwi.GameObjects {
         /**
         * The text that is to be rendered.
         * @property _text
-        * @type string[]
+        * @type string
         * @private
         */
         private _text: string;
@@ -114,46 +115,36 @@ module Kiwi.GameObjects {
         private _baseline: string; 
 
         /**
-        * Sets the text that is to appear.
-        * @method setText
-        * @param {string} value
+        * The text that you would like to appear in this textfield.
+        * @property text
+        * @type string
         * @public
         */
         public set text(value: string) {
             this._text = value;
             this.dirty = true;
-        }
-
-        /**
-        * Get the text that is to appear. If there are multiple lines this will return the first line of text.
-        * @type string
-        * @public
-        */
+        } 
         public get text(): string {
             return this._text;
         }
 
         /**
-        * Allows the setting of the font colour. 
+        * The color of the font that is contained in this textfield.
+        * @property color
         * @type string
         * @public
         */
         public set color(val: string) {
             this._fontColor = val;
             this.dirty = true;
-        }
-
-        /**
-        * Returns the color of the text.
-        * @type string
-        * @public
-        */ 
+        } 
         public get color(): string {
             return this._fontColor;
         }
 
         /**
-        * Sets the weight of the font. 
+        * The weight of the font.
+        * @property fontWeight
         * @type string
         * @public
         */
@@ -161,50 +152,34 @@ module Kiwi.GameObjects {
             this._fontWeight = val;
             this.dirty = true;
         }
-
-        /**
-        * Returns the weight of that will be used when rendering the font.
-        * @type string
-        * @public
-        */
         public get fontWeight(): string {
             return this._fontWeight;
         }
 
         /**
-        * Sets the size of the the font that is being used. 
+        * The size on font when being displayed onscreen.
+        * @property fontSize
         * @type number
         * @public
         */
         public set fontSize(val: number) {
             this._fontSize = val;
             this.dirty = true;
-        }
-        
-        /**
-        * Returns the size of the font that is being used. 
-        * @type number
-        * @public
-        */
+        } 
         public get fontSize(): number {
             return this._fontSize;
         }
 
         /**
-        * Allows the modification of the font family. 
+        * The font family that is being used to render the text.
+        * @property fontFamily 
         * @type string
         * @public
         */
         public set fontFamily(val: string) {
             this._fontFamily = val;
             this.dirty = true;
-        }
-
-        /**
-        * Returns the font family that is being used.
-        * @type string
-        * @public
-        */
+        } 
         public get fontFamily(): string {
             return this._fontFamily;
         }
@@ -279,6 +254,7 @@ module Kiwi.GameObjects {
         * This is so that the canvas doesn't render it every frame as it can be costly.
         *
         * @method _renderText
+        * @private
         */
         private _renderText() {
             
@@ -311,7 +287,8 @@ module Kiwi.GameObjects {
         /**
 	    * Called by the Layer to which this Game Object is attached
 	    * @method render
-        * @param {Kiwi.Camera}
+        * @param {Camera}
+        * @public
 	    */
         public render(camera:Kiwi.Camera) {
             

@@ -46,7 +46,7 @@ module Kiwi.Input {
         /**
         * If the ctrl key is down.
         * @property ctrlKey
-        * @type bool
+        * @type boolean
         * @public
         */
         public ctrlKey: boolean;
@@ -54,7 +54,7 @@ module Kiwi.Input {
         /**
         * If the shift key is down.
         * @property shiftKey
-        * @type bool
+        * @type boolean
         * @public
         */
         public shiftKey: boolean;
@@ -62,7 +62,7 @@ module Kiwi.Input {
         /**
         * If the alt key is down.
         * @property altKey
-        * @type bool
+        * @type boolean
         * @public
         */
         public altKey: boolean;

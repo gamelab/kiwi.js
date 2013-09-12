@@ -21,7 +21,7 @@ class Looping extends Kiwi.State {
 
     cat: Kiwi.GameObjects.Sprite;
     tween: Kiwi.Animation.Tween;
-    playing: bool = false;
+    playing: boolean = false;
     direction: string = 'right';
 
     create() {

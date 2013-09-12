@@ -292,7 +292,7 @@ module Kiwi.GameObjects.Tilemap {
         * @param {number} y
         * @param {number} width - In Tiles.
         * @param {number} height - In Tiles.
-        * @param {bool} collisionOnly - Get only the tiles that can have collisions.
+        * @param {boolean} collisionOnly - Get only the tiles that can have collisions.
         */ 
         private getTempBlock(x: number, y: number, width: number, height: number, collisionOnly: boolean = false) {
 

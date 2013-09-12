@@ -187,7 +187,7 @@ module Kiwi.Input {
         * 
         * @method isDown
         * @param {Number} keycode
-        * @return {Boolean}
+        * @return {boolean}
         */
         public isDown(keycode: number): boolean {
 
@@ -206,7 +206,7 @@ module Kiwi.Input {
         * 
         * @method isUp
         * @param {Number} keycode
-        * @return {Boolean}
+        * @return {boolean}
         */
         public isUp(keycode: number): boolean {
 

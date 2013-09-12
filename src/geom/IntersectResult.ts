@@ -20,7 +20,7 @@ module Kiwi.Geom {
 
         /**
         * @property result
-        * @type Boolean
+        * @type boolean
         */
         public result: boolean = false;
 

@@ -17,12 +17,12 @@ module Kiwi.Geom {
         /** 
 	     * 
 	     * @constructor
-         * @param {Number} cx
-         * @param {Number} cy
-         * @param {Number} width
-         * @param {Number} height
-         * @return {Kiwi.Geom.AABB}
-	     **/
+         * @param cx {Number}
+         * @param cy {Number}
+         * @param width {Number}
+         * @param height {Number}
+         * @return {AABB}
+	     */
         constructor(cx: number, cy: number, width: number, height: number) {
             this.cx = cx || 0;
             this.cy = cy || 0;
@@ -38,6 +38,7 @@ module Kiwi.Geom {
         *
         * @property cx
         * @type Number
+        * @public
         */
         public cx: number = 0;
 
@@ -45,46 +46,52 @@ module Kiwi.Geom {
         *
         * @property cy
         * @type Number
+        * @public
         */
         public cy: number = 0;
 
         /**
-        *
+        * Half of the width.
         * @property halfWidth
         * @type Number
+        * @public
         */
         public halfWidth: number = 0;
 
         /**
-        *
+        * Half of the height.
         * @property halfHeight
         * @type Number
+        * @public
         */
         public halfHeight: number = 0;
 
         /**
-        *
-        * @method height
-        * @return {Number}
+        * Returns the full height. This is read only.
+        * @property height
+        * @type number
+        * @public
         */
         public get height():number {
             return this.halfHeight * 2;
         }
 
         /**
-        *
-        * @method width
-        * @return {Number}
+        * Returns the full width. This is read only.
+        * @property width
+        * @type number
+        * @public
         */
         public get width():number {
             return this.halfWidth * 2;
         }
 
         /**
-        *
+        * Draws the object to a canvas
         * @method draw
-        * @param {CanvasRenderingContext2D} ctx
+        * @param ctx {CanvasRenderingContext2D} The context you want this drawn to.
         * @return {AABB}
+        * @public
         */
         public draw(ctx: CanvasRenderingContext2D): AABB {
             ctx.beginPath();
@@ -97,11 +104,12 @@ module Kiwi.Geom {
         }
 
         /**
-        *
+        * Sets the position of the object.
         * @method setPosition
-        * @param {Number} cx
-        * @param {Number} cy
+        * @param cx {Number}
+        * @param cy {Number}
         * @return {AABB}
+        * @public
         */
         public setPosition(cx: number, cy: number): AABB {
             this.cx = cx;
@@ -110,10 +118,11 @@ module Kiwi.Geom {
         }
 
         /**
-        *
+        * Sets the position of the object by a point that you pass.
         * @method setPositionPoint
         * @param {Point} pos
         * @return {AABB}
+        * @public
         */
         public setPositionPoint(pos: Point): AABB {
             this.cx = pos.x;
@@ -122,19 +131,21 @@ module Kiwi.Geom {
         }
 
         /**
-        *
+        * Returns this object but as a new Rectangle.
         * @method toRect
         * @return {Rectangle}
+        * @public
         */
         public toRect(): Rectangle {
             return new Rectangle(this.cx - this.halfWidth, this.cy - this.halfHeight, this.halfWidth * 2, this.halfHeight * 2);
         }
 
         /**
-        *
+        * Gives the dimension of this AABB from a rectangle's.
         * @method fromRect
         * @param {Rectangle} rect
         * @return {AABB}
+        * @public
         */
         public fromRect(rect: Rectangle): AABB {
             this.halfWidth = rect.width / 2;

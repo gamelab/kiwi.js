@@ -3,12 +3,12 @@ module Kiwi.HUD.Components {
 
     export class WidgetInput extends Component {
 
-        /**
+        /*
         * 
         * @constructor
         * @param {Kiwi.Game} game
         * @param {Kiwi.Components.Bounds} bounds
-        **/
+        */
         constructor(game: Kiwi.Game/*, bounds: Kiwi.Components.Bounds*/) {
 
             super(null, 'WidgetInput');
@@ -33,10 +33,10 @@ module Kiwi.HUD.Components {
         
         }
 
-        /**
+        /*
         * reutrns the object type
         * @method objType
-        **/
+        */
         public objType():string {
             return "Input";
         }
@@ -121,11 +121,11 @@ module Kiwi.HUD.Components {
             
         }
 
-        /**
+        /*
          * Returns a string representation of this object.
          * @method toString
          * @return {string} A string representation of this object.
-         **/
+         */
         public get toString(): string {
 
             return '[{WidgetInput (x=' + this.withinBounds + ')}]';

@@ -17,9 +17,9 @@ module Kiwi.Input {
 
         /**
         *
-        * @method constructor
-        * @param {Kiwi.Game} game
-        * @return Kiwi.Input.Pointer
+        * @constructor
+        * @param {Game} game
+        * @return Pointer
         */
         constructor(game:Kiwi.Game) {
             this._game = game;
@@ -42,14 +42,14 @@ module Kiwi.Input {
         /**
         * The game that this pointer belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
         */
         private _game: Kiwi.Game;
 
         /**
         * Get the game that this pointer belongs to.
-        * @type Kiwi.Game
+        * @type Game
         * @public
         */
         public get game(): Kiwi.Game {
@@ -60,7 +60,7 @@ module Kiwi.Input {
         * The unique identifier for this pointer.
         * @property _id
         * @type number
-        * @public
+        * @private
         */
         public id: number;
 
@@ -139,7 +139,7 @@ module Kiwi.Input {
         /**
         * The point that this pointer is at. Same c ordina es asX/Y properties.
         * @property point
-        * @type Kiwi.Geom.Point
+        * @type Point
         * @public
         */
         public point: Kiwi.Geom.Point;
@@ -147,7 +147,7 @@ module Kiwi.Input {
         /**
         * A circle that is representative of the area this point covers.
         * @property circle
-        * @type Kiwi.Geom.Circle
+        * @type Circle
         * @public
         */
         public circle: Kiwi.Geom.Circle;
@@ -245,7 +245,7 @@ module Kiwi.Input {
         /**
         * The points inital coordinates when pressed down.
         * @property startPoint
-        * @type Kiwi.Geom.Point
+        * @type Point
         * @public
         */
         public startPoint: Kiwi.Geom.Point;
@@ -253,7 +253,7 @@ module Kiwi.Input {
         /**
         * The coordinates where the user released the pointer.
         * @property endPoint
-        * @type Kiwi.Geom.Point
+        * @type Point
         * @public
         */
         public endPoint: Kiwi.Geom.Point;
@@ -321,7 +321,7 @@ module Kiwi.Input {
         * Indicates if the pointer was just pressed. This is based of the justPressedRate unless otherwise specifieds.
         * @method justPressed
         * @param {number} duration
-        * @return bool
+        * @return boolean
         * @public
         */
         public justPressed(duration: number = this.justPressedRate): boolean {
@@ -338,7 +338,7 @@ module Kiwi.Input {
         * Indicates if the pointer was just released. This is based of the justReleasedRate unless otherwise specified.
         * @method justReleased
         * @param {number} duration
-        * @return bool
+        * @return boolean
         * @public
         */
         public justReleased(duration: number = this.justReleasedRate): boolean {

@@ -219,7 +219,7 @@ module Kiwi.Utils {
         /**
 		 * Snaps a value to the nearest value in an array.
 		 */
-        public static snapToInArray(input: number, arr: number[], sort: bool = true): number {
+        public static snapToInArray(input: number, arr: number[], sort: boolean = true): number {
 
             if (sort) arr.sort();
             if (input < arr[0]) return arr[0];

@@ -395,10 +395,10 @@ interface WebGLRenderingContext
 	INT_VEC2: number;
 	INT_VEC3: number;
 	INT_VEC4: number;
-	BOOL: number;
-	BOOL_VEC2: number;
-	BOOL_VEC3: number;
-	BOOL_VEC4: number;
+	boolean: number;
+	boolean_VEC2: number;
+	boolean_VEC3: number;
+	boolean_VEC4: number;
 	FLOAT_MAT2: number;
 	FLOAT_MAT3: number;
 	FLOAT_MAT4: number;
@@ -515,7 +515,7 @@ interface WebGLRenderingContext
 	clearColor(red: number, green: number, blue: number, alpha: number): void;
 	clearDepth(depth: number): void;
 	clearStencil(s: number): void;
-	colorMask(red: bool, green: bool, blue: bool, alpha: bool): void;
+	colorMask(red: boolean, green: boolean, blue: boolean, alpha: boolean): void;
 	compileShader(shader: WebGLShader): void;
 
 	compressedTexImage2D(target: number, level: number, internalformat: number, width: number, height: number, border: number, data: ArrayBufferView): void;
@@ -541,7 +541,7 @@ interface WebGLRenderingContext
 	deleteTexture(texture: WebGLTexture): void;
 
 	depthFunc(func: number): void;
-	depthMask(flag: bool): void;
+	depthMask(flag: boolean): void;
 	depthRange(zNear: number, zFar: number): void;
 	detachShader(program: WebGLProgram, shader: WebGLShader): void;
 	disable(cap: number): void;
@@ -591,13 +591,13 @@ interface WebGLRenderingContext
 	getVertexAttribOffset(index: number, pname: number): number;
 
 	hint(target: number, mode: number): void;
-	isBuffer(buffer: WebGLBuffer): bool;
-	isEnabled(cap: number): bool;
-	isFramebuffer(framebuffer: WebGLFramebuffer): bool;
-	isProgram(program: WebGLProgram): bool;
-	isRenderbuffer(renderbuffer: WebGLRenderbuffer): bool;
-	isShader(shader: WebGLShader): bool;
-	isTexture(texture: WebGLTexture): bool;
+	isBuffer(buffer: WebGLBuffer): boolean;
+	isEnabled(cap: number): boolean;
+	isFramebuffer(framebuffer: WebGLFramebuffer): boolean;
+	isProgram(program: WebGLProgram): boolean;
+	isRenderbuffer(renderbuffer: WebGLRenderbuffer): boolean;
+	isShader(shader: WebGLShader): boolean;
+	isTexture(texture: WebGLTexture): boolean;
 	lineWidth(width: number): void;
 	linkProgram(program: WebGLProgram): void;
 	pixelStorei(pname: number, param: boolean): void;
@@ -606,7 +606,7 @@ interface WebGLRenderingContext
 	readPixels(x: number, y: number, width: number, height: number, format: number, type: number, pixels: ArrayBufferView): void;
 
 	renderbufferStorage(target: number, internalformat: number, width: number, height: number): void;
-	sampleCoverage(value: number, invert: bool): void;
+	sampleCoverage(value: number, invert: boolean): void;
 	scissor(x: number, y: number, width: number, height: number): void;
 
 	shaderSource(shader: WebGLShader, source: string): void;
@@ -658,12 +658,12 @@ interface WebGLRenderingContext
 	uniform4iv(location: WebGLUniformLocation, v: Int32Array): void;
 	uniform4iv(location: WebGLUniformLocation, v: number[]): void;
 
-	uniformMatrix2fv(location: WebGLUniformLocation, transpose: bool, value: Float32Array): void;
-	uniformMatrix2fv(location: WebGLUniformLocation, transpose: bool, value: number[]): void;
-	uniformMatrix3fv(location: WebGLUniformLocation, transpose: bool, value: Float32Array): void;
-	uniformMatrix3fv(location: WebGLUniformLocation, transpose: bool, value: number[]): void;
-	uniformMatrix4fv(location: WebGLUniformLocation, transpose: bool, value: Float32Array): void;
-	uniformMatrix4fv(location: WebGLUniformLocation, transpose: bool, value: number[]): void;
+	uniformMatrix2fv(location: WebGLUniformLocation, transpose: boolean, value: Float32Array): void;
+	uniformMatrix2fv(location: WebGLUniformLocation, transpose: boolean, value: number[]): void;
+	uniformMatrix3fv(location: WebGLUniformLocation, transpose: boolean, value: Float32Array): void;
+	uniformMatrix3fv(location: WebGLUniformLocation, transpose: boolean, value: number[]): void;
+	uniformMatrix4fv(location: WebGLUniformLocation, transpose: boolean, value: Float32Array): void;
+	uniformMatrix4fv(location: WebGLUniformLocation, transpose: boolean, value: number[]): void;
 
 	useProgram(program: WebGLProgram): void;
 	validateProgram(program: WebGLProgram): void;
@@ -680,7 +680,7 @@ interface WebGLRenderingContext
 	vertexAttrib4f(indx: number, x: number, y: number, z: number, w: number): void;
 	vertexAttrib4fv(indx: number, values: Float32Array): void;
 	vertexAttrib4fv(indx: number, value: number[]): void;
-	vertexAttribPointer(indx: number, size: number, type: number, normalized: bool, stride: number, offset: number): void;
+	vertexAttribPointer(indx: number, size: number, type: number, normalized: boolean, stride: number, offset: number): void;
 
 	viewport(x: number, y: number, width: number, height: number): void;
 }

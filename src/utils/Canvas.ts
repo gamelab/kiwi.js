@@ -19,8 +19,8 @@ module Kiwi.Utils {
         * @param {Kiwi.Layer} layer 
         * @param {Number} width
         * @param {Number} height
-        * @param {Boolean} visible
-        * @param {Boolean} offScreen
+        * @param {boolean} visible
+        * @param {boolean} offScreen
         * @return {Kiwi.Utils.Canvas}
         **/
         constructor (width: number, height: number, visible: boolean = true, offScreen: boolean = false) {
@@ -87,14 +87,14 @@ module Kiwi.Utils {
 
         /**
         * @property _visible
-        * @type Boolean
+        * @type boolean
         * @private
 	    */
         private _visible = true;
 
         /**
         * @property _offScreen
-        * @type Boolean
+        * @type boolean
         * @private
 	    */
         private _offScreen = false;
@@ -169,8 +169,8 @@ module Kiwi.Utils {
 
         /**
         * @method visible
-        * @param {Boolean} value
-        * @return {Boolean}
+        * @param {boolean} value
+        * @return {boolean}
         */
         public set visible(value: boolean) {
 

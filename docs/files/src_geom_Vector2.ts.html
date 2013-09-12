@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\geom\Vector2.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.4.9</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AABB.html">AABB</a></li>
+            
+                <li><a href="../classes/Anim.html">Anim</a></li>
+            
+                <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Audio.html">Audio</a></li>
+            
+                <li><a href="../classes/AudioManager.html">AudioManager</a></li>
+            
+                <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Box.html">Box</a></li>
+            
+                <li><a href="../classes/Browser.html">Browser</a></li>
+            
+                <li><a href="../classes/Camera.html">Camera</a></li>
+            
+                <li><a href="../classes/CameraManager.html">CameraManager</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/Clock.html">Clock</a></li>
+            
+                <li><a href="../classes/Common.html">Common</a></li>
+            
+                <li><a href="../classes/Component.html">Component</a></li>
+            
+                <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
+            
+                <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
+            
+                <li><a href="../classes/Device.html">Device</a></li>
+            
+                <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/File.html">File</a></li>
+            
+                <li><a href="../classes/FileStore.html">FileStore</a></li>
+            
+                <li><a href="../classes/Finger.html">Finger</a></li>
+            
+                <li><a href="../classes/Game.html">Game</a></li>
+            
+                <li><a href="../classes/GameManager.html">GameManager</a></li>
+            
+                <li><a href="../classes/GameMath.html">GameMath</a></li>
+            
+                <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/IChild.html">IChild</a></li>
+            
+                <li><a href="../classes/Input.html">Input</a></li>
+            
+                <li><a href="../classes/Intersect.html">Intersect</a></li>
+            
+                <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
+            
+                <li><a href="../classes/Key.html">Key</a></li>
+            
+                <li><a href="../classes/Keyboard.html">Keyboard</a></li>
+            
+                <li><a href="../classes/Keycodes.html">Keycodes</a></li>
+            
+                <li><a href="../classes/Line.html">Line</a></li>
+            
+                <li><a href="../classes/Loader.html">Loader</a></li>
+            
+                <li><a href="../classes/Manager.html">Manager</a></li>
+            
+                <li><a href="../classes/MasterClock.html">MasterClock</a></li>
+            
+                <li><a href="../classes/Matrix.html">Matrix</a></li>
+            
+                <li><a href="../classes/Mouse.html">Mouse</a></li>
+            
+                <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
+            
+                <li><a href="../classes/Point.html">Point</a></li>
+            
+                <li><a href="../classes/Pointer.html">Pointer</a></li>
+            
+                <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Ray.html">Ray</a></li>
+            
+                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+            
+                <li><a href="../classes/RequestAnimationFrame.html">RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Sequence.html">Sequence</a></li>
+            
+                <li><a href="../classes/Signal.html">Signal</a></li>
+            
+                <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
+            
+                <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sound.html">Sound</a></li>
+            
+                <li><a href="../classes/Sprite.html">Sprite</a></li>
+            
+                <li><a href="../classes/SpriteSheet.html">SpriteSheet</a></li>
+            
+                <li><a href="../classes/Stage.html">Stage</a></li>
+            
+                <li><a href="../classes/State.html">State</a></li>
+            
+                <li><a href="../classes/StateConfig.html">StateConfig</a></li>
+            
+                <li><a href="../classes/StateManager.html">StateManager</a></li>
+            
+                <li><a href="../classes/StaticImage.html">StaticImage</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
+            
+                <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/Touch.html">Touch</a></li>
+            
+                <li><a href="../classes/Transform.html">Transform</a></li>
+            
+                <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/Vector2.html">Vector2</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animation.html">Animation</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\geom\Vector2.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
+
+module Kiwi.Geom {
+
+    /**
+    * A two dimensional vector object for storing and manipulating x and y vector components.
+    *
+    * @class Vector2
+    *
+    */
+    export class Vector2 {
+
+        /**
+        * Creates a new Vector2 Object
+        * @class Vector2
+        * @constructor
+        * @param {Number} x The x component of the vector.
+        * @param {Number} y The y component of the vector.
+        **/
+        constructor (x: number = 0, y: number = 0) {
+            this.setTo(x, y);
+        }
+
+        public objType() {
+            return &quot;Vector2&quot;;
+        }
+
+        /**
+        * The x component of this Vector2.
+        * @property x
+        * @type Number
+        **/
+        public x: number;
+        
+        /**
+        * The y component of this Vector2.
+        * @property y
+        * @type Number
+        **/
+        public y: number;
+
+        /**
+        * Generate a Vector2 from an angle
+        * @method fromAngle
+        * @param {Number} angle. The angle to generate the Vector2 from.
+        * @static
+        * @return {Vector2} A new Vector2.
+        */
+        public static fromAngle(angle:number): Vector2 {
+             return new Vector2(Math.cos(angle), Math.sin(angle));
+        }
+
+        /**
+        * Generate a random Vector2 within a given radius.
+        * @method randomRadius
+        * @param {Number} radius. The size of the radius to use.
+        * @static
+        * @return {Vector2} A new Vector2.
+        */
+        public static randomRadius(radius:number): Vector2 {
+            return new Vector2
+				(
+					Math.random() * 2 - 1,
+					Math.random() * 2 - 1
+				).multiplyScalar( radius );
+        }
+
+        /**
+        * Generate a Vector2 from a point.
+        * @method fromPoint
+        * @param {Point} point. 
+        * @static
+        * @return {Vector2} A new Vector2.
+        */
+        public static fromPoint(point: Point): Vector2 {
+            return new Vector2(point.x,point.y);
+        }
+
+        /**
+        * Add each component of another Vector2 to this vectors components.
+        * @method add
+        * @param {Vector2} Vector2 to add.
+        * @return {Vector2} A new Vector2 containing the product.
+        */
+        public add(vector2: Vector2): Vector2 {
+            return new Vector2(this.x + vector2.x, this.y + vector2.y);
+        }
+
+        /**
+        * Add only the x component of another Vector2 to this vector.
+        * @method addX
+        * @param {Vector2} Vector2 to add.
+        * @return {Vector2} A new Vector2 containing the result.
+        */
+        public addX(vector2: Vector2): Vector2 {
+            return new Vector2(this.x + vector2.x, this.y);
+        }
+
+        /**
+        * Add only the y component of another Vector2 to this vector.
+        * @method addY
+        * @param {Vector2} Vector2 to add.
+        * @return {Vector2} A new Vector2 containing the result.
+        */
+        public addY(vector2: Vector2): Vector2 {
+            return new Vector2(this.x, this.y + vector2.y);
+        }
+
+        /**
+        * Subtract each component of another Vector2 from this vectors components.
+        * @method subtract
+        * @param {Vector2} Vector2 to subtract.
+        * @return {Vector2} A new Vector2 containing the result.
+        */
+        public subtract (vector2:Vector2):Vector2 {
+            return new Kiwi.Geom.Vector2(this.x - vector2.x, this.y - vector2.y);
+        }
+
+        /**
+        * Multiply each component of another Vector2 with this vectors components.
+        * @method multiply
+        * @param {Vector2} Vector2 to multiply.
+        * @return {Vector2} A new Vector2 containing the result.
+        */
+        public multiply (vector2:Vector2):Vector2 {
+            return new Kiwi.Geom.Vector2(this.x * vector2.x, this.y * vector2.y);
+        }
+
+        /**
+        * Multiply each component of this vector with a scalar number.
+        * @method multiplyScalar
+        * @param {Number} Scalar to multiply.
+        * @return {Vector2} A new Vector2 containing the result.
+        */
+        public multiplyScalar (scalar:number):Vector2 {
+            return new Kiwi.Geom.Vector2(this.x * scalar, this.y * scalar);
+        }
+	
+        /**
+	    * Calculate the dot product if a Vector2 with this Vector2.
+        * @method dot
+	    * @param {Vector2} Vector2 to dot with this Vector2.
+	    * @return {Number} Result of dot product.
+	    */
+        public dot(vector2:Vector2): number {
+            return this.x * vector2.x + this.y * vector2.y;
+        }
+
+        /**
+	    * Calculate the square length of this Vector2 (Distance from the origin).
+        * @method lenSqr
+	    * @return {Number} The square length.
+	    */
+        public lenSqr(): number {
+            return this.x * this.x + this.y * this.y;
+        }
+
+        /**
+	    * Calculate the length of this Vector2 (Distance from the origin).
+        * @method len
+	    * @return {Number} The length.
+	    */
+        public len(): number {
+            return Math.sqrt(this.x * this.x + this.y * this.y);
+        }
+
+        /**
+	    * Calculate a normalised unit Vector2 from this Vector2.
+        * @method unit
+	    * @return {Vector2} a new Unit Length Vector2.
+	    */
+        public unit(): Vector2 {
+            var invLen = 1.0 / this.len();
+            return this.multiplyScalar(invLen);
+        }
+
+        /**
+	    * Reduce each component of the Vector to the closest lower round value.
+        * @method floor
+	    * @return {Vector2} a rounded down Vector2.
+	    */
+        public floor(): Vector2 {
+            return new Vector2(Math.floor(this.x), Math.floor(this.y));
+        }
+
+        /**
+	    * Increase each component of the Vector to the closest upper round value.
+        * @method ceil
+	    * @return {Vector2} a rounded up Vector2.
+	    */
+        public ceil(): Vector2 {
+            return new Vector2(Math.ceil(this.x), Math.ceil(this.y));
+        }
+
+        /**
+	    * Round each component of the Vector to the closest round value.
+        * @method round
+	    * @return {Vector2} a rounded Vector2.
+	    */
+        public round(): Vector2 {
+            return new Vector2(Math.round(this.x), Math.round(this.y));
+        }
+        
+        /**
+	    * Clamp the vector between a maximum and minimum Vector2 range component-wise.
+        * @method clamp
+        * @param {Vector2} min. Minimum values for Vector2.
+        * @param {Vector2} max. Maximum values for Vector2.
+	    * @return {Vector2} a clamped Vector2.
+	    */
+        public clamp(min:Vector2,max:Vector2): Vector2 {
+            return new Vector2(
+                                Math.max( Math.min(this.x, max.x), min.x ),
+						        Math.max( Math.min(this.y, max.y), min.y )
+                               );
+        }
+
+        /**
+	    * Calculate a Vector2 perpendicular to this Vector2.
+        * @method perp
+	    * @return {Vector2} the perpendicular Vector2.
+	    */
+        public perp(): Vector2 {
+            return new Vector2(-this.y, this.x);
+        }
+        
+        /**
+	    * Calculate a Vector2 opposite to this Vector2.
+        * @method neg
+	    * @return {Vector2} the opposite Vector2.
+	    */
+        public neg(): Vector2 {
+            return new Vector2( -this.x, -this.y);
+        }
+
+        /**
+	    * Check if two Vector2s from equal components.
+        * @method equal
+        * @param {Vector2} vector2. Vector2 to check against.
+        * @return {boolean} returns true if equal.
+	    */
+        public equal(vector2: Vector2): boolean {
+            return this.x === vector2.x &amp;&amp; this.y === vector2.y;
+        }
+
+        /**
+	    * Get a Point object with the same components as this Vector2.
+        * @method point
+	    * @return {Point} A new Point.
+	    */
+        public point():Point {
+            return new Point(this.x, this.y);
+        }
+
+        /**
+	    * Set both components to zero.
+        * @method clear
+	    * @return {Vector2} This object.
+	    */
+        public clear(): Vector2 {
+            this.x = 0;
+            this.y = 0;
+            return this;
+        }
+
+        /**
+	    * Get a clone of this Vector2.
+        * @method clone
+        * @param {Vector2} vector2. A vector2 that will be cloned to. Optional.
+        * @return {Vector2} Either a new cloned Vector2 or the output vector with cloned components.
+	    */
+        public clone(output?: Vector2): Vector2 {
+            if (output) {
+                return output.setTo(this.x, this.y);
+            }
+            else {
+                return new Vector2(this.x, this.y);
+            }
+
+        }
+
+        /**
+	    * Copy components from another Vector2.
+        * @method copyFrom
+        * @param {Vector2} source. A Vector2 to copy from.
+        * @return {Vector2} This object.
+	    */
+        public copyFrom(source: Vector2): Vector2 {
+            this.x = source.x;
+            this.y = source.y;
+            return this;
+        }
+
+        /**
+	    * Copy components to another Vector2.
+        * @method copyTo
+        * @param {Vector2} source. A Vector2 to copy to.
+        * @return {Vector2} The supplied Vector2.
+	    */
+        public copyTo(target: Vector2): Vector2 {
+            target.x = this.x;
+            target.y = this.y;
+            return target;
+        }
+
+        /**
+	    * Set components on this Vector2.
+        * @method setTo
+        * @param {Number} x. x component to set.
+        * @param {Number} y. y component to set.
+        * @return {Vector2} This object.
+	    */
+        public setTo(x: number, y: number): Vector2 {
+            this.x = x;
+            this.y = y;
+            return this;
+        }
+
+        /**
+	    * Get a string representation of this object.
+        * @method toString
+        * @return {string} This object as a string.
+	    */
+        public toString(): string {
+            return &#x27;[{Vector2 (x=&#x27; + this.x + &#x27; y=&#x27; + this.y + &#x27;)}]&#x27;;
+        }
+
+    }
+
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -57,7 +57,7 @@ class TouchManager extends Kiwi.State {
     }
 
     //removes a pointer from the stage.
-    removePointer(pointer):bool {
+    removePointer(pointer):boolean {
         for (var i = 0; i < this.pointers.length; i++) {
             if (pointer.id == this.pointers[i].id) {
 

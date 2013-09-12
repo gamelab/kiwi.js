@@ -7,7 +7,7 @@
 module Kiwi {
 
     /**
-    * Serves as a container for game objects.
+    * Serves as a container for game objects to extend from. 
     * Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
     * 
     * @class Entity
@@ -19,10 +19,10 @@ module Kiwi {
         /**
         * 
         * @constructor
-        * @param {Kiwi.State} state
-        * @param {Number} x
-        * @param {Number} y
-        * @return {Kiwi.Entity}
+        * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
+        * @param x {Number} The entities position on the x axis.
+        * @param y {Number} The entities position on the y axis.
+        * @return {Entity} This entity.
         */
         constructor(state: Kiwi.State, x:number, y: number) {
             
@@ -45,7 +45,7 @@ module Kiwi {
         /**
         * Represents the position, scale, rotation and registration of this Entity.
         * @property transform
-        * @type Kiwi.Geom.Transform
+        * @type Transform
         * @public
         */
         public transform: Kiwi.Geom.Transform;
@@ -53,29 +53,22 @@ module Kiwi {
         /**
         * The group that this entity belongs to. If added onto the state then this is the state.
         * @property _parent
-        * @type Kiwi.Group
+        * @type Group
         * @private
         */
         private _parent: Kiwi.Group = null;
 
         /**
-        * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
-        * @type Kiwi.Group
-        * @param {Kiwi.Group} val
+        * The group that this entity belongs to/is a child of once added to one. If added onto the state then this is the state.
+        * @property parent
+        * @type Group
+        * @param val {Group}
         * @public
         */
         public set parent(val: Kiwi.Group) {
             this.transform.parent = (val !== null) ? val.transform : null ;
             this._parent = val;
         }
-
-        /**
-        * [REQUIRES DESCRIPTION]
-        * Returns the group that this entity belongs to.
-        * @type Kiwi.Group
-        * @return {Kiwi.Group} 
-        * @public
-        */
         public get parent(): Kiwi.Group {
             return this._parent;
         }
@@ -184,21 +177,23 @@ module Kiwi {
         /**
         * A boolean that indicates weither or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
         * @property _visible
-        * @type bool
+        * @type boolean
+        * @default true
         * @private
         */
-        private _visible: bool = true;
+        private _visible: boolean = true;
         
         /**
         * Set the visiblity of this entity. True or False.
         * @property visibility
-        * @type bool
+        * @type boolean
+        * @default true
         * @public
         */
-        public set visiblity(value: bool) {
+        public set visiblity(value: boolean) {
             this._visible = value;
         }
-        public get visiblity(): bool {
+        public get visiblity(): boolean {
             return this._visible;
         }
         
@@ -223,7 +218,7 @@ module Kiwi {
         /**
         * The texture atlas that is to be used on this entity.
         * @property atlas
-        * @type Kiwi.Textures.TextureAtlas
+        * @type TextureAtlas
         * @public
         */
         public atlas: Kiwi.Textures.TextureAtlas;
@@ -241,7 +236,7 @@ module Kiwi {
         /**
         * The Component Manager
         * @property components
-        * @type Kiwi.ComponentManager
+        * @type ComponentManager
         * @public
 	    */
         public components: Kiwi.ComponentManager;
@@ -282,8 +277,8 @@ module Kiwi {
         /**
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property _exists 
-        * @type Boolean
-        * @public
+        * @type boolean
+        * @private
 		*/
         private _exists: boolean;
 
@@ -291,7 +286,8 @@ module Kiwi {
 		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
         * This method should be over-ridden to handle specific canvas/webgl implementations.
         * @property exists
-        * @type Boolean
+        * @type boolean
+        * @public
 		*/
         public set exists(value: boolean) {
             this._exists = value;
@@ -301,9 +297,10 @@ module Kiwi {
         }
 
         /**
-		* An active Entity is one that has its update method called by its parent.
+		* An active Entity is one that has its update method called by its parent. 
         * @property _active
-        * @type Boolean
+        * @type boolean
+        * @default true
         * @private
 		*/
         private _active: boolean;
@@ -312,7 +309,7 @@ module Kiwi {
 		* Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
         * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
         * @property active
-        * @type Boolean
+        * @type boolean
         * @public
 		*/
         public set active(value: boolean) {
@@ -325,7 +322,8 @@ module Kiwi {
         /**
 		* Controls whether render is automatically called by the parent. 
         * @property _willRender
-        * @type Boolean
+        * @type boolean
+        * @default true
         * @private
 		*/
 		private _willRender: boolean;
@@ -333,7 +331,8 @@ module Kiwi {
         /**
 		* Toggles if this Entity will be rendered by a canvas layer. Use the visibile component for DOM layers.
         * @property willRender
-        * @type Boolean
+        * @type boolean
+        * @default true
         * @public
 		*/
         public set willRender(value: boolean) {
@@ -346,7 +345,7 @@ module Kiwi {
         /**
 		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property exists 
-        * @type Boolean
+        * @type boolean
         * @private
 		*/
         private _inputEnabled: boolean;
@@ -355,7 +354,8 @@ module Kiwi {
 		* Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)
         * This method should be over-ridden to handle specific game object implementations.
         * @property inputEnabled
-        * @type Boolean
+        * @type boolean
+        * @public
 		*/
         public set inputEnabled(value: boolean) {
             this._inputEnabled = value;
@@ -365,10 +365,9 @@ module Kiwi {
         }
         
         /**
-		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
-        * @property exists 
-        * @type Boolean
-        * @default null
+		* The clock that this entity use's for time based calculations. This generated by the state on instatiation.
+        * @property _clock
+        * @type Clock
         * @private
 		*/
         private _clock: Kiwi.Time.Clock = null;
@@ -376,7 +375,7 @@ module Kiwi {
         /**
 		* The Clock used to update this all of this Entities components (defaults to the Game MasterClock)
         * @property clock 
-        * @type Boolean
+        * @type Clock
         * @public
 		*/
         public set clock(value: Kiwi.Time.Clock) {
@@ -389,7 +388,7 @@ module Kiwi {
         /**
 		* A value used by components to control if the Entity needs re-rendering
         * @property dirty
-        * @type Boolean
+        * @type boolean
         * @private
     	*/
         private _dirty: boolean;
@@ -397,7 +396,7 @@ module Kiwi {
         /**
 		* A value used by components to control if the Entity needs re-rendering
         * @property dirty
-        * @type Boolean
+        * @type boolean
         * @public
     	*/
         public set dirty(value: boolean) {
@@ -432,7 +431,7 @@ module Kiwi {
         * This isn't called until the Entity has been added to a layer.
         * This functionality is handled by the sub classes. 
         * @method render
-        * @param {Kiwi.Camera} camera
+        * @param {Camera} camera
         * @public
         */
         public render(camera:Kiwi.Camera) {
@@ -440,7 +439,7 @@ module Kiwi {
         }
 
         /**
-        * Used to completely destroy this objects all objects inside of it. Used to make set it up for garbage collection.
+        * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
         * @method destroy
         * @public
         */

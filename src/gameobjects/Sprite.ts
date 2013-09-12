@@ -17,11 +17,11 @@ module Kiwi.GameObjects {
         /**
         * 
         * @constructor
-        * @param {Kiwi.State} state - The state that this sprite belongs to
-        * @param {Kiwi.Textures.TextureAtlas} atlas - The texture you want to apply to this entity 
-        * @param {Number} x 
-        * @param {Number} y  
-        * @param {Boolean} enableInput - If the input component should be enabled or not.
+        * @param state {State} The state that this sprite belongs to
+        * @param atlas {TextureAtlas} The texture you want to apply to this entity 
+        * @param [x=0] {Number} The sprites initial coordinates on the x axis.
+        * @param [y=0] {Number} The sprites initial coordinates on the y axis.
+        * @param [enableInput=false] {boolean} If the input component should be enabled or not.
         * @return {Sprite}
         */
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: boolean = false) {
@@ -70,7 +70,7 @@ module Kiwi.GameObjects {
         * Indicates weither or not this sprite is animated or not. 
         * This sprite will not be animated if the texture used is a SINGLE_IMAGE.
         * @property _isAnimated
-        * @type bool
+        * @type boolean
         * @private
         */
         private _isAnimated: boolean;
@@ -79,7 +79,7 @@ module Kiwi.GameObjects {
 	    * The animation component that allows you to create a animation with spritesheets/texture atlas's. 
         * Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.
 	    * @property animation
-	    * @type Kiwi.Components.Animation
+	    * @type Animation
         * @public
 	    */
         public animation: Kiwi.Components.Animation;
@@ -87,7 +87,7 @@ module Kiwi.GameObjects {
         /** 
         * The box component that controls the bounding box around this Game Object
         * @property bounds
-        * @type Kiwi.Components.Bounds
+        * @type Bounds
         * @public
         */
         public box: Kiwi.Components.Box;
@@ -95,13 +95,13 @@ module Kiwi.GameObjects {
         /** 
 	    * The Input component controls the user interaction with this Game Object
 	    * @property input
-	    * @type Kiwi.Components.Input
+	    * @type Input
         * @public
 	    */
         public input: Kiwi.Components.Input;
         
         /**
-	    * Called by the State to which this Game Object is added
+	    * Called by parent when its update loop gets executed.
 	    * @method update
         * @public
 	    */
@@ -124,7 +124,7 @@ module Kiwi.GameObjects {
         /**
 	    * Called by the Layer to which this Game Object is attached
 	    * @method render
-        * @param {Kiwi.Camara} camera
+        * @param {Camera} camera
         * @public
 	    */
         public render(camera:Kiwi.Camera) {

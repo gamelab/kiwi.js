@@ -194,7 +194,7 @@ module Kiwi.Animation {
         * @param {Any} properties
         * @param {Number} duration
         * @param {Any} ease
-        * @param {Boolean} autoStart
+        * @param {boolean} autoStart
         */
         public to(properties, duration: number = 1000, ease: any = null, autoStart: boolean = false) {
 

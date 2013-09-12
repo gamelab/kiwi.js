@@ -18,10 +18,10 @@ module Kiwi.GameObjects {
         /**
         * 
         * @constructor
-        * @param {Kiwi.State} state - The state that this static image belongs to 
-        * @param {Kiwi.Textures.TextureAtlas} atlas - The texture atlas to use as the image.
-        * @param {Number} x - Its coordinates on the x axis
-        * @param {Number} y - The coordinates on the y axis
+        * @param state {State} The state that this static image belongs to 
+        * @param atlas {TextureAtlas} The texture atlas to use as the image.
+        * @param [x=0] {Number} Its coordinates on the x axis
+        * @param [y=0] {Number} The coordinates on the y axis
         * @return {StaticImage}
         */
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
@@ -53,7 +53,7 @@ module Kiwi.GameObjects {
         /** 
         * The Bounds component that controls the bounding box around this Game Object
         * @property bounds
-        * @type Kiwi.Components.Bounds
+        * @type Bounds
         * @public
         */
         public box: Kiwi.Components.Box;
@@ -61,7 +61,7 @@ module Kiwi.GameObjects {
         /**
 	    * Called by the Layer to which this Game Object is attached
 	    * @method render
-        * @param {Kiwi.Camara} camera
+        * @param {Camara} camera
         * @public
 	    */
         public render(camera: Kiwi.Camera) {

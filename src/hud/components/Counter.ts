@@ -17,13 +17,13 @@ module Kiwi.HUD.Components {
 
     export class Counter extends Kiwi.Component {
         
-        /**
+        /*
         * 
         * @constructor
         * @param {number} initial - Counters initial value
         * @param {number} step - How much the counter should increment/decrement by
         * @return {Kiwi.Components.Counter}
-        **/
+        */
         constructor(initial:number,step:number=1) {
             super(null, "counter");
             this._value = initial;
@@ -32,32 +32,32 @@ module Kiwi.HUD.Components {
             this.updated = new Kiwi.Signal;
         }
 
-        /**
+        /*
         * The current value of the counter
         * @private
-        **/
+        */
         private _value:number = 0;
 
-        /**
+        /*
         * How much the counter should increment/decrement by.
         * @public 
-        **/
+        */
         public step:number;
 
-        /**
+        /*
         * A Kiwi.Signal that dispatches an event when the changes.
         * @public
-        **/
+        */
         public updated: Kiwi.Signal;
 
-        /**
+        /*
         * Set allows you to get the current value of the counter
         * Get allows you to change the current value if you pass a value.
         *
         * @method value
         * @param {number} val
         * @return {number}
-        **/
+        */
         public set value(val: number) {
             if (val !== undefined) {
                 this._value = val;
@@ -71,7 +71,7 @@ module Kiwi.HUD.Components {
 
         }
 
-        /**
+        /*
         * Increments the current value by the value passed.
         * If no value was passed increments it by the step property.
         * Returns the new value.
@@ -79,7 +79,7 @@ module Kiwi.HUD.Components {
         * @method increment
         * @param {number} val
         * @return {number} 
-        **/
+        */
         public increment(val?: number) {
             if (val !== undefined) {
                 this._value += val;
@@ -90,7 +90,7 @@ module Kiwi.HUD.Components {
             return this._value;
         }
 
-        /**
+        /*
         * Decrements the current value by the value passed.
         * If no value was passed decrements it by the step property.
         * Returns the new value.
@@ -98,7 +98,7 @@ module Kiwi.HUD.Components {
         * @method increment
         * @param {number} val
         * @return {number} 
-        **/
+        */
         public decrement(val?: number) {
             if (val !== undefined) {
                 this._value -= val;

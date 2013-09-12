@@ -128,7 +128,7 @@ module Kiwi.Files {
         /**
         * @method exists
         * @param {Sting} key
-        * @return Boolean
+        * @return boolean
 		*/
         public exists(key: string): boolean {
 

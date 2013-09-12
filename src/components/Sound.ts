@@ -41,7 +41,7 @@ module Kiwi.Components {
         * @param {string} name
         * @param {string} key
         * @param {number} volume
-        * @param {bool} loop
+        * @param {boolean} loop
         * @return {Kiwi.Sound.Audio} 
         */
         public addSound(name: string, key: string, volume: number, loop: boolean): Kiwi.Sound.Audio {
@@ -88,7 +88,7 @@ module Kiwi.Components {
         * 
         * @method _validate
         * @param {string} name
-        * @return {bool}
+        * @return {boolean}
         */
         
         private _validate(name:string) {

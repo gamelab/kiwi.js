@@ -71,7 +71,7 @@ module Kiwi.Files {
         /**
         * If a real byte value calculation will be made prior to the load (much smoother progress bar but costs HEAD calls x total file count)
         * @property _calculateBytes
-        * @type Boolean
+        * @type boolean
         * @private
         */
         private _calculateBytes: boolean = true;
@@ -135,7 +135,7 @@ module Kiwi.Files {
         /**
         * Everything in the queue loaded?
         * @property _complete
-        * @type Boolean
+        * @type boolean
         * @private
         */
         private _complete: boolean = false;
@@ -158,7 +158,7 @@ module Kiwi.Files {
         * @method init
         * @param {Any} [progress]
         * @param {Any} [complete]
-        * @param {Boolean} calculateBytes
+        * @param {boolean} calculateBytes
         */
         public init(progress: any = null, complete: any = null, calculateBytes: boolean = false) {
 
@@ -480,8 +480,8 @@ module Kiwi.Files {
         * If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
           If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
         * @method calculateBytes
-        * @param {Boolean} value
-        * @return {Boolean}
+        * @param {boolean} value
+        * @return {boolean}
         */
         public calculateBytes(value?: boolean): boolean {
 
@@ -497,7 +497,7 @@ module Kiwi.Files {
         /**
         * 
         * @method complete
-        * @return {Boolean}
+        * @return {boolean}
         */
         public complete(): boolean {
 

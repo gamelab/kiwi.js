@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\geom\Point.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.4.9</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AABB.html">AABB</a></li>
+            
+                <li><a href="../classes/Anim.html">Anim</a></li>
+            
+                <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Audio.html">Audio</a></li>
+            
+                <li><a href="../classes/AudioManager.html">AudioManager</a></li>
+            
+                <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Box.html">Box</a></li>
+            
+                <li><a href="../classes/Browser.html">Browser</a></li>
+            
+                <li><a href="../classes/Camera.html">Camera</a></li>
+            
+                <li><a href="../classes/CameraManager.html">CameraManager</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/Clock.html">Clock</a></li>
+            
+                <li><a href="../classes/Common.html">Common</a></li>
+            
+                <li><a href="../classes/Component.html">Component</a></li>
+            
+                <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
+            
+                <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
+            
+                <li><a href="../classes/Device.html">Device</a></li>
+            
+                <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/File.html">File</a></li>
+            
+                <li><a href="../classes/FileStore.html">FileStore</a></li>
+            
+                <li><a href="../classes/Finger.html">Finger</a></li>
+            
+                <li><a href="../classes/Game.html">Game</a></li>
+            
+                <li><a href="../classes/GameManager.html">GameManager</a></li>
+            
+                <li><a href="../classes/GameMath.html">GameMath</a></li>
+            
+                <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/IChild.html">IChild</a></li>
+            
+                <li><a href="../classes/Input.html">Input</a></li>
+            
+                <li><a href="../classes/Intersect.html">Intersect</a></li>
+            
+                <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
+            
+                <li><a href="../classes/Key.html">Key</a></li>
+            
+                <li><a href="../classes/Keyboard.html">Keyboard</a></li>
+            
+                <li><a href="../classes/Keycodes.html">Keycodes</a></li>
+            
+                <li><a href="../classes/Line.html">Line</a></li>
+            
+                <li><a href="../classes/Loader.html">Loader</a></li>
+            
+                <li><a href="../classes/Manager.html">Manager</a></li>
+            
+                <li><a href="../classes/MasterClock.html">MasterClock</a></li>
+            
+                <li><a href="../classes/Matrix.html">Matrix</a></li>
+            
+                <li><a href="../classes/Mouse.html">Mouse</a></li>
+            
+                <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
+            
+                <li><a href="../classes/Point.html">Point</a></li>
+            
+                <li><a href="../classes/Pointer.html">Pointer</a></li>
+            
+                <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Ray.html">Ray</a></li>
+            
+                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+            
+                <li><a href="../classes/RequestAnimationFrame.html">RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Sequence.html">Sequence</a></li>
+            
+                <li><a href="../classes/Signal.html">Signal</a></li>
+            
+                <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
+            
+                <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sound.html">Sound</a></li>
+            
+                <li><a href="../classes/Sprite.html">Sprite</a></li>
+            
+                <li><a href="../classes/SpriteSheet.html">SpriteSheet</a></li>
+            
+                <li><a href="../classes/Stage.html">Stage</a></li>
+            
+                <li><a href="../classes/State.html">State</a></li>
+            
+                <li><a href="../classes/StateConfig.html">StateConfig</a></li>
+            
+                <li><a href="../classes/StateManager.html">StateManager</a></li>
+            
+                <li><a href="../classes/StaticImage.html">StaticImage</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
+            
+                <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/Touch.html">Touch</a></li>
+            
+                <li><a href="../classes/Transform.html">Transform</a></li>
+            
+                <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/Vector2.html">Vector2</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animation.html">Animation</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\geom\Point.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* Kiwi - Geom
+* @module Kiwi
+* @submodule Geom
+*/
+
+module Kiwi.Geom {
+
+    /**
+    * Represetns a location in a two-dimensional coordinate system, where x represents the horizontal axis and y represents the vertical axis.
+    *
+    * @class Point
+    *
+    */
+    export class Point {
+
+        /**
+        * Creates a new point. If you pass no parameters to this method, a point is created at (0,0).
+        * @class Point
+        * @constructor
+        * @param {Number} x One-liner. Default is ?.
+        * @param {Number} y One-liner. Default is ?.
+        **/
+        constructor (x: number = 0, y: number = 0) {
+
+            this.setTo(x, y);
+
+        }
+
+        public objType() {
+            return &quot;Point&quot;;
+        }
+
+	    /** 
+	     * The horizontal position of this point (default 0)
+	     * @property x
+	     * @type Number
+	     **/
+        public x: number;
+
+	    /** 
+	     * The vertical position of this point (default 0)
+	     * @property y
+	     * @type Number
+	     **/
+        public y: number;
+
+
+        /**
+         * Converts a pair of polar coordinates to a Cartesian point coordinate and sets them on the point instance.
+         * @method polar
+         * @param {Number} length - The length coordinate of the polar pair.
+         * @param {Number} angle - The angle, in radians, of the polar pair.
+         * @return {Point} The new Cartesian Point object.
+         **/
+        public polar(distance: number,angle: number):Point {
+            this.x = distance * Math.cos(angle * Math.PI / 180);
+            this.y = distance * Math.sin(angle * Math.PI / 180);
+            return this;
+        }   
+
+	    /**
+	     * Adds the coordinates of another point to the coordinates of this point to create a new point.
+	     * @method add
+	     * @param {Point} point - The point to be added.
+	     * @return {Point} The new Point object.
+	     **/
+        public add(toAdd: Point, output: Point = new Point): Point {
+
+            return output.setTo(this.x + toAdd.x, this.y + toAdd.y);
+
+        }
+
+	    /**
+	     * Adds the given values to the coordinates of this point and returns it
+	     * @method addTo
+	     * @param {Number} x - The amount to add to the x value of the point
+	     * @param {Number} y - The amount to add to the x value of the point
+	     * @return {Point} This Point object.
+	     **/
+        public addTo(x: number = 0, y: number = 0): Point {
+
+            return this.setTo(this.x + x, this.y + y);
+
+        }
+
+	    /**
+	     * Adds the given values to the coordinates of this point and returns it
+	     * @method addTo
+	     * @param {Number} x - The amount to add to the x value of the point
+	     * @param {Number} y - The amount to add to the x value of the point
+	     * @return {Point} This Point object.
+	     **/
+        public subtractFrom(x: number = 0, y: number = 0): Point {
+
+            return this.setTo(this.x - x, this.y - y);
+
+        }
+
+        /**
+        * Inverts the x and y values of this point
+        * @method invert
+	    * @return {Point} This Point object.
+        **/
+        public invert(): Point {
+
+            return this.setTo(this.y, this.x);
+
+        }
+
+	    /**
+	     * Clamps this Point object to be between the given min and max
+	     * @method clamp
+	     * @param {number} The minimum value to clamp this Point to
+	     * @param {number} The maximum value to clamp this Point to
+	     * @return {Point} This Point object.
+	     **/
+        public clamp(min: number, max: number): Point {
+
+            this.clampX(min, max);
+            this.clampY(min, max);
+            return this;
+
+        }
+
+	    /**
+	     * Clamps the x value of this Point object to be between the given min and max
+	     * @method clampX
+	     * @param {number} The minimum value to clamp this Point to
+	     * @param {number} The maximum value to clamp this Point to
+	     * @return {Point} This Point object.
+	     **/
+        public clampX(min: number, max: number): Point {
+
+            this.x = Math.max(Math.min(this.x, max), min);
+
+            return this;
+
+        }
+
+	    /**
+	     * Clamps the y value of this Point object to be between the given min and max
+	     * @method clampY
+	     * @param {number} The minimum value to clamp this Point to
+	     * @param {number} The maximum value to clamp this Point to
+	     * @return {Point} This Point object.
+	     **/
+        public clampY(min: number, max: number): Point {
+
+            this.x = Math.max(Math.min(this.x, max), min);
+            this.y = Math.max(Math.min(this.y, max), min);
+
+            return this;
+
+        }
+
+	    /**
+	     * Creates a copy of this Point.
+	     * @method clone
+	     * @param {Point} output Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.
+	     * @return {Point} The new Point object.
+	     **/
+        public clone(output: Point = new Point): Point {
+
+            return output.setTo(this.x, this.y);
+
+        }
+
+	    /**
+	     * Copies the point data from the source Point object into this Point object.
+	     * @method copyFrom
+	     * @param {Point} source - The point to copy from.
+	     * @return {Point} This Point object. Useful for chaining method calls.
+	     **/
+        public copyFrom(source: Point): Point {
+
+            return this.setTo(source.x, source.y);
+
+        }
+
+	    /**
+	     * Copies the point data from this Point object to the given target Point object.
+	     * @method copyTo
+	     * @param {Point} target - The point to copy to.
+	     * @return {Point} The target Point object.
+	     **/
+        public copyTo(target: Point): Point {
+
+            return target.setTo(this.x, this.y);
+
+        }
+
+	    /**
+	     * Returns the distance from this Point object to the given Point object.
+	     * @method distanceFrom
+	     * @param {Point} target - The destination Point object.
+	     * @param {boolean} round - Round the distance to the nearest integer (default false)
+	     * @return {Number} The distance between this Point object and the destination Point object.
+	     **/
+        public distanceTo(target: Point, round: boolean = false): number {
+
+            var dx = this.x - target.x;
+            var dy = this.y - target.y;
+
+            if (round === true)
+            {
+                return Math.round(Math.sqrt(dx * dx + dy * dy));
+            }
+            else
+            {
+                return Math.sqrt(dx * dx + dy * dy);
+            }
+
+        }
+
+	    /**
+	     * Returns the distance from this Point object to the given Point object.
+	     * @method distanceToXY
+	     * @param {Number} x - The x value.
+	     * @param {Number} y - The y value.
+	     * @param {boolean} round - Round the distance to the nearest integer (default false)
+	     * @return {Number} The distance between this Point object and the x/y values.
+	     **/
+        public distanceToXY(x: number, y: number, round: boolean = false): number {
+
+            var dx = this.x - x;
+            var dy = this.y - y;
+
+            if (round === true)
+            {
+                return Math.round(Math.sqrt(dx * dx + dy * dy));
+            }
+            else
+            {
+                return Math.sqrt(dx * dx + dy * dy);
+            }
+
+        }
+
+        /**
+         * Returns the distance between the two Point objects.
+         * @method distanceBetween
+         * @param {Point} pointA - The first Point object.
+         * @param {Point} pointB - The second Point object.
+         * @param {boolean} round - Round the distance to the nearest integer (default false)
+         * @return {Number} The distance between the two Point objects.
+         **/
+        static distanceBetween(pointA: Point, pointB: Point, round: boolean = false): number {
+
+            var dx: number = pointA.x - pointB.x;
+            var dy: number = pointA.y - pointB.y;
+
+            if (round === true)
+            {
+                return Math.round(Math.sqrt(dx * dx + dy * dy));
+            }
+            else
+            {
+                return Math.sqrt(dx * dx + dy * dy);
+            }
+
+        }
+        
+        /**
+         * Creates a new point with cartesian coordinates from a pair of polar coordinates
+         * @method polar
+         * @param {Number} length - The length coordinate of the polar pair.
+         * @param {Number} angle - The angle, in radians, of the polar pair.
+         * @return {Point} The new Cartesian Point object.
+         **/
+        static polar(length: number, angle: number): Point {
+            return new Point(length * Math.cos(angle * Math.PI / 180), length * Math.sin(angle * Math.PI / 180));
+                   
+        }
+
+	    /**
+	     * Returns true if the distance between this point and a target point is greater than or equal a specified distance.
+	     * This avoids using a costly square root operation
+	     * @method distanceCompare
+	     * @param {Point} target - The Point object to use for comparison.
+	     * @param {Number} distance - The distance to use for comparison.
+	     * @return {booleanena} True if distance is &gt;= specified distance.
+	     **/
+        public distanceCompare(target: Point, distance: number): boolean {
+
+            if (this.distanceTo(target) &gt;= distance)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+	    /**
+	     * Determines whether this Point object and the given point object are equal. They are equal if they have the same x and y values.
+	     * @method equals
+	     * @param {Point} point - The point to compare against.
+	     * @return {boolean} A value of true if the object is equal to this Point object; false if it is not equal.
+	     **/
+        public equals(toCompare: Point): boolean {
+
+            if (this.x === toCompare.x &amp;&amp; this.y === toCompare.y)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        /**
+         * Determines a point between two specified points. The parameter f determines where the new interpolated point is located relative to the two end points specified by parameters pt1 and pt2.
+         * The closer the value of the parameter f is to 1.0, the closer the interpolated point is to the first point (parameter pt1). The closer the value of the parameter f is to 0, the closer the interpolated point is to the second point (parameter pt2).
+         * @method interpolate
+         * @param {Point} pointA - The first Point object.
+         * @param {Point} pointB - The second Point object.
+         * @param {Number} f - The level of interpolation between the two points. Indicates where the new point will be, along the line between pt1 and pt2. If f=1, pt1 is returned; if f=0, pt2 is returned.
+         * @return {Point} The new interpolated Point object.
+         **/
+        public static interpolate(pointA:Point, pointB:Point, f:number):Point {
+            
+            var xDiff: number = pointB.x - pointA.x;
+            var yDiff: number = pointB.y - pointA.y;
+            return new Point(pointB.x - xDiff * f, pointB.y - yDiff * f);
+
+        }
+
+	    /**
+	     * Offsets the Point object by the specified amount. The value of dx is added to the original value of x to create the new x value.
+	     * The value of dy is added to the original value of y to create the new y value.
+	     * @method offset
+	     * @param {Number} dx - The amount by which to offset the horizontal coordinate, x.
+	     * @param {Number} dy - The amount by which to offset the vertical coordinate, y.
+	     * @return {Point} This Point object. Useful for chaining method calls.
+	     **/
+        public offset(dx: number, dy: number): Point {
+
+            this.x += dx;
+            this.y += dy;
+
+            return this;
+
+        }
+
+        
+        
+	    /**
+	     * Sets the x and y values of this Point object to the given coordinates.
+	     * @method set
+	     * @param {Number} x - The horizontal position of this point.
+	     * @param {Number} y - The vertical position of this point.
+	     * @return {Point} This Point object. Useful for chaining method calls.
+	     **/
+        public setTo(x: number, y: number): Point {
+
+            this.x = x;
+            this.y = y;
+
+            return this;
+
+        }
+
+	    /**
+	     * Subtracts the coordinates of another point from the coordinates of this point to create a new point.
+	     * @method subtract
+	     * @param {Point} point - The point to be subtracted.
+	     * @param {Point} output Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.
+	     * @return {Point} The new Point object.
+	     **/
+        public subtract(point: Point, output: Point = new Point): Point {
+
+            return output.setTo(this.x - point.x, this.y - point.y);
+
+        }
+
+        public getCSS(): string {
+
+            return this.x + &#x27;px &#x27; + this.y + &#x27;px&#x27;;
+
+        }
+
+	    /**
+	     * Returns a string representation of this object.
+	     * @method toString
+	     * @return {string} a string representation of the instance.
+	     **/
+        public toString(): string {
+
+            return &#x27;[{Point (x=&#x27; + this.x + &#x27; y=&#x27; + this.y + &#x27;)}]&#x27;;
+
+        }
+
+    }
+
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -194,7 +194,7 @@ module Kiwi.Geom {
 	     * Returns the distance from this Point object to the given Point object.
 	     * @method distanceFrom
 	     * @param {Point} target - The destination Point object.
-	     * @param {Boolean} round - Round the distance to the nearest integer (default false)
+	     * @param {boolean} round - Round the distance to the nearest integer (default false)
 	     * @return {Number} The distance between this Point object and the destination Point object.
 	     **/
         public distanceTo(target: Point, round: boolean = false): number {
@@ -218,7 +218,7 @@ module Kiwi.Geom {
 	     * @method distanceToXY
 	     * @param {Number} x - The x value.
 	     * @param {Number} y - The y value.
-	     * @param {Boolean} round - Round the distance to the nearest integer (default false)
+	     * @param {boolean} round - Round the distance to the nearest integer (default false)
 	     * @return {Number} The distance between this Point object and the x/y values.
 	     **/
         public distanceToXY(x: number, y: number, round: boolean = false): number {
@@ -242,10 +242,10 @@ module Kiwi.Geom {
          * @method distanceBetween
          * @param {Point} pointA - The first Point object.
          * @param {Point} pointB - The second Point object.
-         * @param {Boolean} round - Round the distance to the nearest integer (default false)
+         * @param {boolean} round - Round the distance to the nearest integer (default false)
          * @return {Number} The distance between the two Point objects.
          **/
-        static distanceBetween(pointA: Point, pointB: Point, round: bool = false): number {
+        static distanceBetween(pointA: Point, pointB: Point, round: boolean = false): number {
 
             var dx: number = pointA.x - pointB.x;
             var dy: number = pointA.y - pointB.y;
@@ -279,7 +279,7 @@ module Kiwi.Geom {
 	     * @method distanceCompare
 	     * @param {Point} target - The Point object to use for comparison.
 	     * @param {Number} distance - The distance to use for comparison.
-	     * @return {Boolena} True if distance is >= specified distance.
+	     * @return {booleanena} True if distance is >= specified distance.
 	     **/
         public distanceCompare(target: Point, distance: number): boolean {
 
@@ -298,9 +298,9 @@ module Kiwi.Geom {
 	     * Determines whether this Point object and the given point object are equal. They are equal if they have the same x and y values.
 	     * @method equals
 	     * @param {Point} point - The point to compare against.
-	     * @return {Boolean} A value of true if the object is equal to this Point object; false if it is not equal.
+	     * @return {boolean} A value of true if the object is equal to this Point object; false if it is not equal.
 	     **/
-        public equals(toCompare: Point): bool {
+        public equals(toCompare: Point): boolean {
 
             if (this.x === toCompare.x && this.y === toCompare.y)
             {

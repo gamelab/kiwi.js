@@ -15,7 +15,7 @@ module Kiwi.HUD.Widget {
 
     export class Icon extends Kiwi.HUD.HUDWidget {
 
-        /**
+        /*
         * 
         * @constructor
     
@@ -23,7 +23,7 @@ module Kiwi.HUD.Widget {
         * @param {number} x
         * @param {number y
         * @return {Kiwi.HUD.Icon}
-        **/
+        */
         constructor(atlas: Kiwi.Textures.TextureAtlas, x:number, y:number) {
 
             super('Icon', x, y);
@@ -34,10 +34,10 @@ module Kiwi.HUD.Widget {
             this._applyCSS();
         }
 
-        /**
+        /*
         * Holds the texture atlas that is being used
         * @public
-        **/
+        */
         public atlas: Kiwi.Textures.TextureAtlas;
         
         /*
@@ -82,17 +82,17 @@ module Kiwi.HUD.Widget {
             return this.atlas.cells[this.cellIndex].h;
         }
 
-        /**
+        /*
         * Is a reference to the element that the icon CSS is being applyed to.
         * @public
-        **/
+        */
         public icon: HTMLElement;
 
-        /**
+        /*
         * Removes the CSS from the Icon. 
         * This can happen when setting/removing a template and is public to allow for overriding from subclasses.
         * @public
-        **/
+        */
         public _removeCSS() {
             this.icon.style.width = '';
             this.icon.style.height = '';
@@ -114,14 +114,14 @@ module Kiwi.HUD.Widget {
             this.icon.style.backgroundImage = this.atlas.image.src;
         }
 
-        /**
+        /*
         * This method is used to remove existing DOM elements and place them inside a HUDWidget's container element.
         * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
         * 
         * @method setTemplate
         * @param {string} main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
         * @param {string} icon - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
-        **/
+        */
         public setTemplate(main: string, icon?: string) {  
 
             this._removeCSS();
@@ -136,11 +136,11 @@ module Kiwi.HUD.Widget {
 
         }
 
-        /**
+        /*
         * Used to remove any the template HTML from this HUDWidget.
         * 
         * @method removeTemplate
-        **/
+        */
         public removeTemplate() {
 
             super.removeTemplate();

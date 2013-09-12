@@ -20,14 +20,14 @@ module Kiwi.HUD.Components {
 
     export class Time extends Kiwi.Component {
 
-        /**
+        /*
         *
         * @constructor
         * @param {number} milliseconds
         * @param {number} seconds
         * @param {number} minutes
         * @param {number} hours
-        **/
+        */
         constructor(milliseconds: number, seconds?: number, minutes?: number, hours?: number) {
             super(null, "time");
 
@@ -39,43 +39,43 @@ module Kiwi.HUD.Components {
 
         }
 
-        /**
+        /*
         * The current amount of milliseconds
         * @private
-        **/
+        */
         private _milliseconds: number;
 
-        /**
+        /*
         * If the timer is paused or not.
         * @public
-        **/
+        */
         public paused: boolean;
 
-        /**
+        /*
         * What the last time that it updated was. In milliseconds
         * @private
-        **/
+        */
         private _lastTime: number;
 
-        /**
+        /*
         * If it is counting down or up. 
         * @private
-        **/
+        */
         private _countDown: boolean;
 
-        /**
+        /*
         * A Kiwi.Signal dispatch a event when the time changes.
         * @public
-        **/
+        */
         public updated: Kiwi.Signal;
 
-        /**
+        /*
         * Used to set/tell if the timer should count down or not
         * 
         * @method countingDown
         * @param {boolean} val
         * @return {boolean}
-        **/
+        */
         public set countingDown(val: boolean) {
 
             if (val !== undefined) {
@@ -92,13 +92,13 @@ module Kiwi.HUD.Components {
 
         }
 
-        /**
+        /*
         * Used to set/tell if the timer should count up or not
         * 
         * @method countingDown
         * @param {boolean} val
         * @return {boolean}
-        **/
+        */
         public set countingUp(val: boolean) {
 
             if (val !== undefined) {
@@ -115,7 +115,7 @@ module Kiwi.HUD.Components {
 
         }
 
-        /**
+        /*
         * Sets the time to be at a certain point.
         *
         * @method setTime
@@ -124,7 +124,7 @@ module Kiwi.HUD.Components {
         * @param {number} minutes
         * @param {number} hours
         * @return {number} 
-        **/
+        */
         public setTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number): number {
 
             if (seconds !== undefined) milliseconds += this.convertToMilli(seconds, 's');
@@ -137,7 +137,7 @@ module Kiwi.HUD.Components {
             return this._milliseconds;
         }
 
-        /**
+        /*
         * Add's more time to the component.
         *
         * @method addTime
@@ -146,7 +146,7 @@ module Kiwi.HUD.Components {
         * @param {number} minutes
         * @param {number} hours
         * @return {number} 
-        **/
+        */
         public increaseTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number): number {
             
             if (seconds !== undefined) milliseconds += this.convertToMilli(seconds, 's');
@@ -159,7 +159,7 @@ module Kiwi.HUD.Components {
             return this._milliseconds;
         }
 
-        /**
+        /*
         * Removes some time from the component.
         *
         * @method removeTime
@@ -168,7 +168,7 @@ module Kiwi.HUD.Components {
         * @param {number} minutes
         * @param {number} hours
         * @return {number} 
-        **/
+        */
         public decreaseTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number): number {
         
             if (seconds !== undefined) milliseconds += this.convertToMilli(seconds, 's');
@@ -181,14 +181,14 @@ module Kiwi.HUD.Components {
             return this._milliseconds;
         }
 
-        /**
+        /*
         * A method to convert a number / unit into milliseconds. 
         *
         * @method convertToMilli
         * @param {number} val - The number that you want converted.
         * @param {number} unit - Units that the number is in. 's' => seconds, 'm' => minutes, 'h' => hours
         * @return {number}
-        **/
+        */
         public convertToMilli(val: number, unit: string):number {
 
             var num = 0;
@@ -205,13 +205,13 @@ module Kiwi.HUD.Components {
             return num;
         }
 
-        /**
+        /*
         * Gives you the number of milliseconds. Alternatively can also set the number of milliseconds
         *
         * @method milliseconds
         * @param {number} val
         * @return {number}
-        **/
+        */
         public set milliseconds(val: number) {
 
             if (val !== undefined) {
@@ -227,13 +227,13 @@ module Kiwi.HUD.Components {
 
         }
         
-        /**
+        /*
         * Gives you the number of seconds. Alternatively can also set the time.
         *
         * @method seconds
         * @param {number} val
         * @return {number}
-        **/
+        */
         public set seconds(val: number) {
             if (val !== undefined) {
                 this._milliseconds = this.convertToMilli(val, 's');
@@ -247,13 +247,13 @@ module Kiwi.HUD.Components {
 
         }
         
-        /**
+        /*
         * Gives you the number of minutes. Alternatively can also set the number of minutes
         *
         * @method minutes
         * @param {number} val
         * @return {number}
-        **/
+        */
         public set minutes(val: number) {
             if (val !== undefined) {
                 this._milliseconds = this.convertToMilli(val, 'm');
@@ -267,13 +267,13 @@ module Kiwi.HUD.Components {
 
         }
         
-        /**
+        /*
         * Gives you the number of hours Alternatively can also set the number of hours
         * 
         * @method hours
         * @param {number} val
         * @return {number}
-        **/
+        */
         public set hours(val: number) {
 
             if (val !== undefined) {
@@ -289,10 +289,10 @@ module Kiwi.HUD.Components {
 
         }
         
-        /**
+        /*
         * Update loop.
         * @public
-        **/
+        */
         public update() {
             
             if (!this.paused) {

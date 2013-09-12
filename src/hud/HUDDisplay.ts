@@ -5,12 +5,12 @@ module Kiwi.HUD {
 
     export class HUDDisplay {
         
-        /**
+        /*
         * 
         * @constructor
         * @param {Kiwi.Game} game 
         * @param {string} name 
-        **/
+        */
         constructor(game: Kiwi.Game,name:string) {
             this._game = game;
             this.name = name;
@@ -23,34 +23,34 @@ module Kiwi.HUD {
             this._widgets = new Array();
         }
 
-        /**
+        /*
         * Contains the container element.
         * @public
-        **/
+        */
         public container: HTMLDivElement;
 
-        /**
+        /*
         * @public
-        **/
+        */
         public name: string;
 
-        /**
+        /*
         * @private
-        **/
+        */
         private _game: Kiwi.Game;
 
-        /**
+        /*
         * Contains all of the widgets that are contained in this HUDDisplay.
         * @private
-        **/
+        */
         private _widgets: Kiwi.HUD.HUDWidget[];
 
-        /**
+        /*
         * Adds a widget to the HUDDisplay.
         *
         * @method addWidget
         * @param {Kiwi.HUD.HUDWidget} widget - The widget to be added to the Display
-        **/
+        */
         public addWidget(widget: Kiwi.HUD.HUDWidget) {
             widget.container.id = 'HUD-widget-' + this._game.rnd.uuid();
             this._widgets.push(widget);
@@ -92,13 +92,13 @@ module Kiwi.HUD {
             this._widgets = [];
         }
 
-        /**
+        /*
         * Removes a widget from being on the HUDDisplay.
         *
         * @method destroyWidget
         * @param {Kiwi.HUD.HUDWidget} widget - The Widget to be removed.
         * @returns {boolean}
-        **/
+        */
         private destroyWidget(widget:Kiwi.HUD.HUDWidget):boolean {
             if (this.container.contains(widget.container)) {
                 this.container.removeChild(widget.container);
@@ -107,18 +107,18 @@ module Kiwi.HUD {
             return false;
         }
 
-        /**
+        /*
         * Update loop
-        **/
+        */
         public update() {
             for (var i = 0; i < this._widgets.length; i++) {
                 this._widgets[i].update();
             }
         }
 
-        /**
+        /*
         * Render
-        **/
+        */
         public render() {
 
         }

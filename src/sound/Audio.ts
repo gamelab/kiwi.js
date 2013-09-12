@@ -21,7 +21,7 @@ module Kiwi.Sound {
         * @param {Kiwi.Game}
         * @param {string} key
         * @param {number} volume - A number between 0 (silence) and 1 (loud).
-        * @param {bool} loop 
+        * @param {boolean} loop 
         */
         constructor(game: Kiwi.Game, key: string, volume: number, loop: boolean) {
             
@@ -333,8 +333,8 @@ module Kiwi.Sound {
         * Allows you to mute the sound.
         *
         * @method muted
-        * @param {bool} val
-        * @return {bool}
+        * @param {boolean} val
+        * @return {boolean}
         */
         public set mute(val: boolean) {
 
@@ -366,7 +366,7 @@ module Kiwi.Sound {
         * @param {string} name
         * @param {number} start - The starting point of the audio. In seconds.
         * @param {number} stop - The stopping point of the audio. In seconds.
-        * @param {bool} loop
+        * @param {boolean} loop
         */
         public addMarker(name: string, start: number, stop: number, loop: boolean = false) {
             this._markers[name] = { start: start, stop: stop, duration: stop - start, loop: loop };
@@ -393,7 +393,7 @@ module Kiwi.Sound {
         *
         * @method play
         * @param {string} marker - the marker that is to be played.
-        * @param {bool} forceRestart - force the audio to stop and start again.
+        * @param {boolean} forceRestart - force the audio to stop and start again.
         */
         public play(marker: string= this._currentMarker, forceRestart: boolean = false) {
             

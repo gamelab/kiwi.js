@@ -155,7 +155,7 @@ module Kiwi.Geom {
         * @method isPointOnRay
         * @param {Number} x
         * @param {Number} y
-        * @return {Boolean}
+        * @return {boolean}
         */
         public isPointOnRay(x: number, y: number): boolean {
 

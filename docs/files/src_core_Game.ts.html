@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\core\Game.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.4.9</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AABB.html">AABB</a></li>
+            
+                <li><a href="../classes/Anim.html">Anim</a></li>
+            
+                <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Audio.html">Audio</a></li>
+            
+                <li><a href="../classes/AudioManager.html">AudioManager</a></li>
+            
+                <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Box.html">Box</a></li>
+            
+                <li><a href="../classes/Browser.html">Browser</a></li>
+            
+                <li><a href="../classes/Camera.html">Camera</a></li>
+            
+                <li><a href="../classes/CameraManager.html">CameraManager</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/Clock.html">Clock</a></li>
+            
+                <li><a href="../classes/Common.html">Common</a></li>
+            
+                <li><a href="../classes/Component.html">Component</a></li>
+            
+                <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
+            
+                <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
+            
+                <li><a href="../classes/Device.html">Device</a></li>
+            
+                <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/File.html">File</a></li>
+            
+                <li><a href="../classes/FileStore.html">FileStore</a></li>
+            
+                <li><a href="../classes/Finger.html">Finger</a></li>
+            
+                <li><a href="../classes/Game.html">Game</a></li>
+            
+                <li><a href="../classes/GameManager.html">GameManager</a></li>
+            
+                <li><a href="../classes/GameMath.html">GameMath</a></li>
+            
+                <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/IChild.html">IChild</a></li>
+            
+                <li><a href="../classes/Input.html">Input</a></li>
+            
+                <li><a href="../classes/Intersect.html">Intersect</a></li>
+            
+                <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
+            
+                <li><a href="../classes/Key.html">Key</a></li>
+            
+                <li><a href="../classes/Keyboard.html">Keyboard</a></li>
+            
+                <li><a href="../classes/Keycodes.html">Keycodes</a></li>
+            
+                <li><a href="../classes/Line.html">Line</a></li>
+            
+                <li><a href="../classes/Loader.html">Loader</a></li>
+            
+                <li><a href="../classes/Manager.html">Manager</a></li>
+            
+                <li><a href="../classes/MasterClock.html">MasterClock</a></li>
+            
+                <li><a href="../classes/Matrix.html">Matrix</a></li>
+            
+                <li><a href="../classes/Mouse.html">Mouse</a></li>
+            
+                <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
+            
+                <li><a href="../classes/Point.html">Point</a></li>
+            
+                <li><a href="../classes/Pointer.html">Pointer</a></li>
+            
+                <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Ray.html">Ray</a></li>
+            
+                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+            
+                <li><a href="../classes/RequestAnimationFrame.html">RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Sequence.html">Sequence</a></li>
+            
+                <li><a href="../classes/Signal.html">Signal</a></li>
+            
+                <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
+            
+                <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sound.html">Sound</a></li>
+            
+                <li><a href="../classes/Sprite.html">Sprite</a></li>
+            
+                <li><a href="../classes/SpriteSheet.html">SpriteSheet</a></li>
+            
+                <li><a href="../classes/Stage.html">Stage</a></li>
+            
+                <li><a href="../classes/State.html">State</a></li>
+            
+                <li><a href="../classes/StateConfig.html">StateConfig</a></li>
+            
+                <li><a href="../classes/StateManager.html">StateManager</a></li>
+            
+                <li><a href="../classes/StaticImage.html">StaticImage</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
+            
+                <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/Touch.html">Touch</a></li>
+            
+                <li><a href="../classes/Transform.html">Transform</a></li>
+            
+                <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/Vector2.html">Vector2</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animation.html">Animation</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\core\Game.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* Module - Kiwi (Core)
+* @module Kiwi
+* 
+*/
+
+module Kiwi {
+
+    /**
+    * My method description.  Like other pieces of your comment blocks, 
+    * this can span multiple lines.
+    *
+    * @class Game
+    * 
+    */
+
+    export class Game {
+
+        /**
+        * 
+        * @constructor
+        * @param [domParent=&#x27;&#x27;] {String} The dom element that the game should use as its &#x27;container&#x27; 
+        * @param [name=&#x27;KiwiGame&#x27;] {String} The name of the game that is being created.
+        * @param [state=null] {Any} The state to load initially. This can either be the name of a state, or the state object itself.
+        * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
+        * @return {Kiwi.Game}
+        */
+        constructor (domParent: string = &#x27;&#x27;, name: string = &#x27;KiwiGame&#x27;, state: any = null, options?) {
+
+            //set options
+            options = options || {};          
+            this._debugOption = options.debug || Kiwi.DEBUG_ON;
+            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
+            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
+            
+            this.id = Kiwi.GameManager.register(this);
+
+            this._startup = new Kiwi.System.Bootstrap();
+
+            this.audio = new Kiwi.Sound.AudioManager(this);
+            this.browser = new Kiwi.System.Browser(this);
+      
+            this.fileStore = new Kiwi.Files.FileStore(this);
+            this.input = new Kiwi.Input.Manager(this);
+
+            this.stage = new Kiwi.Stage(this, name);
+            
+            if (this._renderOption === Kiwi.RENDERER_CANVAS) {
+                this.renderer = new Kiwi.Renderers.CanvasRenderer(this);
+            } else {
+                this.renderer = new Kiwi.Renderers.GLRenderer(this);
+            }
+
+           
+            this.cameras = new Kiwi.CameraManager(this);
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds = new Kiwi.HUD.HUDManager(this);
+            }
+            this.loader = new Kiwi.Files.Loader(this);
+            
+            this.states = new Kiwi.StateManager(this);
+            this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
+            this.time = new Kiwi.Time.Manager(this);
+            this.tweens = new Kiwi.Animation.Tweens.Manager(this);
+            
+
+            //  If we have a state then pass it to the StateManager
+            if (state !== null)
+            {
+                if (this.states.addState(state, true) === false)
+                {
+                    throw Error(&quot;Invalid State passed to Kiwi.Game&quot;);
+                }
+            }
+
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                //  Wait for the DOM
+                this._startup.boot(domParent, () =&gt; this.start());
+            } else {
+                this.start();
+            }
+
+        }
+
+        /**
+        * The render mode of the game. This will be either set to CANVAS or WEBGL.
+        * @property _renderOption
+        * @type number
+        * @private
+        */
+        private _renderOption: number;
+
+        /**
+        * Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.
+        * @property renderOption
+        * @type number
+        * @public
+        */
+        public get renderOption(): number {
+            return this._renderOption;
+        }
+
+        /**
+        * The type of device that you are targeting. This is either set to COCOON or BROWSER
+        * @property _deviceTargetOption
+        * @type number
+        * @private
+        */
+        private _deviceTargetOption: number;
+
+        /**
+        * Returns the device target option for the game. This is READ ONLY and is decided once the game gets initialised.
+        * @property deviceTargetOption
+        * @type number
+        * @public
+        */
+        public get deviceTargetOption(): number {
+            return this._deviceTargetOption;
+        }
+
+        /**
+        * If when rendering, the game should render a new CANVAS which is above everything. This new canvas is for debugging purposes only.
+        * This gets set to either DEBUG_ON or DEBUG_OFF
+        * @property _debugOption
+        * @type number
+        * @private
+        */
+        private _debugOption: number;
+
+        /**
+        * Returns the debug option. This is READ ONLY and is decided once the game gets initialised.
+        * @property debugOption
+        * @type number
+        * @public
+        */
+        public get debugOption(): number {
+            return this._debugOption;
+        }
+
+        /**
+        * Holds the renderer that is being used. This is detiremended based of the _renderMode
+        * @property renderer
+        * @type IRenderer
+        * @public
+        */
+        public renderer: IRenderer;
+
+        /**
+        * Holds the hud manager.
+        * @property huds
+        * @type HUDManager
+        * @public
+        */
+        public huds: Kiwi.HUD.HUDManager;
+
+        /**
+        * The type of object that the game is.
+        * @method objType
+        * @return {String} The type of object
+        * @public
+        */
+        public objType() {
+            return &quot;Game&quot;;
+        }
+
+        /**
+        * [REQUIRES DESCRIPTION]
+        * @property _dom
+        * @type Bootstrap
+        * @private
+        */
+        private _startup: Kiwi.System.Bootstrap = null;
+
+        /*
+        * The unique id for the game. 
+        * @property id
+        * @type Number
+        * @public
+        */
+        public id: number;
+         
+        /**
+        * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
+        * @property audio
+        * @type AudioManager
+        * @public
+        */
+        public audio: Kiwi.Sound.AudioManager = null;
+
+        /**
+        * Used to get the coordinates of any DOM element on the game. 
+        * @property browser
+        * @type Browser
+        * @public
+        */
+        public browser: Kiwi.System.Browser = null;
+
+        /**
+        * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
+        * @property fileStore
+        * @type FileStore
+        * @public
+        */
+        public fileStore: Kiwi.Files.FileStore = null;
+
+        /**
+        * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
+        * @property input
+        * @type Manager
+        * @public
+        */
+        public input: Kiwi.Input.Manager = null;
+         
+        /**
+        * Manages the cameras the are on the stage. This is still to be implemented.
+        * @property cameras
+        * @type CameraManager
+        * @public
+        */
+        public cameras: Kiwi.CameraManager = null;
+
+        /**
+        * Loads files from outside sources and checks to see that they have loaded correctly or not.
+        * @property loader
+        * @type Loader
+        * @public
+        */
+        public loader: Kiwi.Files.Loader = null;
+
+        /**
+        * The Request Animation Frame that is being used for the update and render loops.
+        * @property raf
+        * @type RequestAnimationFrame
+        * @public
+        */
+        public raf: Kiwi.Utils.RequestAnimationFrame = null;
+
+        /**
+        * The ONLY stage that is being used for this game.
+        * @property stage
+        * @type Stage
+        * @public
+        */
+        public stage: Kiwi.Stage = null;
+
+        /**
+        * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
+        * @property states
+        * @type StateManager
+        * @public
+        */
+        public states: Kiwi.StateManager = null;
+
+        /**
+        * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
+        * @property time
+        * @type Manager
+        * @public
+        */
+        public time: Kiwi.Time.Manager = null;
+
+        /**
+        * The tween manager holds a reference to all of the tweens that are created and currently being used. 
+        * @property tweens
+        * @type Manager
+        * @public
+        */
+        public tweens: Kiwi.Animation.Tweens.Manager = null;
+
+        /**
+        * A Random Data Generator. This is useful for create unique ids and random information.
+        * @property rnd
+        * @type RandomDataGenerator
+        * @public
+        */
+        public rnd: Kiwi.Utils.RandomDataGenerator = null;
+        
+        /**
+        * The framerate at which the game will update at.
+        * @property _framerate
+        * @type Number
+        * @default 60
+        * @public
+        */
+        private _frameRate: number = 60;
+
+        /**
+        * The interval between frames.
+        * @property _interval
+        * @type Number
+        * @default 1000/60
+        * @private
+        */
+        private _interval: number = 1000 / 60;
+
+        /**
+        * The current interval between frames.
+        * @property _delta
+        * @type number
+        * @private
+        */
+        private _delta: number = 0;
+
+        /**
+        * The last time the game was updated
+        * @property _lastTime
+        * @type number
+        * @private
+        */
+        private _lastTime: number;
+
+        /**
+        * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
+        * @property frameRate
+        * @return string
+        * @public
+        */
+        public get frameRate(): number {
+
+            return this._frameRate;
+        }
+        public set frameRate(value: number) {
+
+            //cannot exceed 60. The raf will stop this anyway.
+            if (value &gt; 60) value = 60;
+
+            if (value &gt;= 0) {
+                this._frameRate = value;
+                this._interval = 1000 / this._frameRate;
+            }
+        }
+
+        /**
+        * The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.
+        * Once the managers have started up the start loop will then begin to create the game loop.
+        * @method start
+        * @private
+        */
+        private start() {
+
+            if (Kiwi.DEVICE === null)
+            {
+                Kiwi.DEVICE = new Kiwi.System.Device();
+            }
+
+            this.browser.boot();
+            this.stage.boot(this._startup);
+            this.renderer.boot();
+            this.cameras.boot();
+            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.huds.boot();
+            }
+            this.time.boot();
+            this.audio.boot();
+            this.input.boot();
+          
+            this.fileStore.boot();
+            this.loader.boot();
+            this.states.boot();
+
+            this._lastTime = Date.now();
+
+            this.raf = new Kiwi.Utils.RequestAnimationFrame(() =&gt; this.loop());
+            this.raf.start();
+            
+        }
+        
+        /**
+        * The loop that the whole game is using. 
+        * @method loop
+        * @private
+        */
+        private loop() {
+    
+            this._delta = this.raf.currentTime - this._lastTime;
+            
+            if (this._delta &gt; this._interval) {
+                this.time.update();
+                this.audio.update();
+                this.input.update();
+                this.tweens.update();
+                this.cameras.update();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.update();
+                }
+                this.states.update();
+                
+                this.cameras.render();
+                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.huds.render();
+                }
+                this.states.postRender();
+                
+                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
+            }
+        }
+
+    }
+
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

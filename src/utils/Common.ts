@@ -52,7 +52,7 @@ module Kiwi.Utils {
         * @method defaultEquals
         * @param {Any} a.
         * @param {Any} b.
-        * @return {Boolean}
+        * @return {boolean}
         * @static
         */
         public static defaultEquals(a, b) {
@@ -93,7 +93,7 @@ module Kiwi.Utils {
         * Checks if the given argument is a function.
         * @method isFunction
         * @param {Any} func.
-        * @return {Boolean}
+        * @return {boolean}
         * @static
         */
         public static isFunction(func) {
@@ -115,7 +115,7 @@ module Kiwi.Utils {
         * Checks if the given argument is undefined.
         * @method isUndefined
         * @param {Any} obj.
-        * @return {Boolean}
+        * @return {boolean}
         * @static
         */
         public static isUndefined(obj) {
@@ -128,7 +128,7 @@ module Kiwi.Utils {
         * Checks if the given argument is a string.
         * @method isString
         * @param {Any} obj.
-        * @return {Boolean}
+        * @return {boolean}
         * @static
         */
         public static isString(obj) {
@@ -176,7 +176,7 @@ module Kiwi.Utils {
         * Returns an equal function given a compare function.
         * @method compareToEquals
         * @param {Any} compareFunction.
-        * @return {Boolean}
+        * @return {boolean}
         * @static
         */
         public static compareToEquals(compareFunction) {

@@ -189,7 +189,7 @@ module Kiwi.Geom {
         * @method isPointOnLine
         * @param {Number} x
         * @param {Number} y
-        * @return {Boolean}
+        * @return {boolean}
         */
         public isPointOnLine(x: number, y: number): boolean {
 
@@ -209,7 +209,7 @@ module Kiwi.Geom {
         * @method isPointOnLineSegment
         * @param {Number} x
         * @param {Number} y
-        * @return {Boolean}
+        * @return {boolean}
         */
         public isPointOnLineSegment(x: number, y: number): boolean {
 

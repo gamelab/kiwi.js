@@ -16,8 +16,8 @@ module Kiwi.Input {
 
         /** 
         * Constructor
-        * @param {Kiwi.Game} game.
-        * @return {Kiwi.Input.Touch} This object.
+        * @param game {Game} the game that this touch manager belongs to.
+        * @return {Touch} This object.
         */
         constructor(game: Kiwi.Game) {
             this._game = game;
@@ -36,7 +36,7 @@ module Kiwi.Input {
         /** 
         * The game that this touch manager belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
         **/
         private _game: Kiwi.Game;
@@ -60,7 +60,7 @@ module Kiwi.Input {
         
         /**
         * Get the fingers that are being used.
-        * @type Kiwi.Input.Finger[]
+        * @type Finger[]
         * @public
         */
         public get fingers(): Kiwi.Input.Finger[] {
@@ -70,7 +70,7 @@ module Kiwi.Input {
         /** 
         * The first finger that is used for touch events.
         * @property finger1
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger1: Kiwi.Input.Finger;
@@ -78,7 +78,7 @@ module Kiwi.Input {
         /** 
         * The second finger that is used for touch events.
         * @property finger2
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger2: Kiwi.Input.Finger;
@@ -86,7 +86,7 @@ module Kiwi.Input {
         /** 
         * The third finger that is used for touch events.
         * @property finger3
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger3: Kiwi.Input.Finger;
@@ -94,7 +94,7 @@ module Kiwi.Input {
         /** 
         * The fourth finger that is used for touch events.
         * @property finger4
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger4: Kiwi.Input.Finger;
@@ -102,7 +102,7 @@ module Kiwi.Input {
         /** 
         * Finger number five that is used for touch events.
         * @property finger5
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger5: Kiwi.Input.Finger;
@@ -110,7 +110,7 @@ module Kiwi.Input {
         /** 
         * Finger number six, that is used for touch events.
         * @property finger6
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger6: Kiwi.Input.Finger;
@@ -118,7 +118,7 @@ module Kiwi.Input {
         /** 
         * The seventh finger used for touch events.
         * @property finger7
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger7: Kiwi.Input.Finger;
@@ -126,7 +126,7 @@ module Kiwi.Input {
         /** 
         * Finger number eight
         * @property finger8
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger8: Kiwi.Input.Finger;
@@ -134,7 +134,7 @@ module Kiwi.Input {
         /** 
         * The ninth finger that is used for touch events.
         * @property finger9
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger9: Kiwi.Input.Finger;
@@ -142,7 +142,7 @@ module Kiwi.Input {
         /** 
         * The tenth finger that is used for touch events.
         * @property finger10
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public finger10: Kiwi.Input.Finger;
@@ -150,7 +150,7 @@ module Kiwi.Input {
         /** 
         * The latest finger that was used for any task.
         * @property latestFinger
-        * @type Kiwi.Input.Finger
+        * @type Finger
         * @public
         */
         public latestFinger: Kiwi.Input.Finger;
@@ -158,7 +158,7 @@ module Kiwi.Input {
         /** 
         * A boolean that will roughly indicate if any finger is currently down.
         * @property isDown
-        * @type Boolean
+        * @type boolean
         * @default false
         * @public
         */
@@ -167,7 +167,7 @@ module Kiwi.Input {
         /** 
         * If all the fingers are up.
         * @property isUp
-        * @type Boolean
+        * @type boolean
         * @default true
         * @public
         */
@@ -176,7 +176,7 @@ module Kiwi.Input {
         /**
         * A Kiwi Signal that dispatches an event when a user presses down on the stage.
         * @property touchDown
-        * @type Kiwi.Signal
+        * @type Signal
         * @public
         */
         public touchDown: Kiwi.Signal;
@@ -184,7 +184,7 @@ module Kiwi.Input {
         /**
         * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
         * @property touchUp
-        * @type Kiwi.Signal
+        * @type Signal
         * @public
         */
         public touchUp: Kiwi.Signal;
@@ -192,7 +192,7 @@ module Kiwi.Input {
         /**
         * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
         * @property touchCancel
-        * @tpye Kiwi.Signal
+        * @tpye Signal
         * @public
         */
         public touchCancel: Kiwi.Signal;
