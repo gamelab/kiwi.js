@@ -14,7 +14,12 @@ module Kiwi.Geom {
     */
     export class Intersect {
 
-
+        /**
+        * The type of this object.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Intersect";
         }

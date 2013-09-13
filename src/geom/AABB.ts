@@ -30,6 +30,13 @@ module Kiwi.Geom {
             this.halfHeight = height / 2 || 0;
         }
 
+
+        /**
+        * Returns the type of this object
+        * @method objType
+        * @return {String} The type of this object
+        * @public
+        */
         public objType() {
             return "AABB";
         }

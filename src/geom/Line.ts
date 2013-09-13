@@ -17,10 +17,10 @@ module Kiwi.Geom {
         /**
         * Creates an line defined by two points. Can be treated as either a Line or Line Segment depending on context.
         * @constructor
-        * @param {Number} x1 x component of first point.
-        * @param {Number} y1 y component of first point.
-        * @param {Number} x2 x component of second point.
-        * @param {Number} y2 y component of second point.
+        * @param [x1 = 0] {Number} x1 x component of first point.
+        * @param [y1 = 0]{Number} y1 y component of first point.
+        * @param [x2 = 0]{Number} x2 x component of second point.
+        * @param [y2 = 0]{Number} y2 y component of second point.
         * @return {Kiwi.Geom.Line} This Object
         */
         constructor(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0) {
@@ -29,6 +29,12 @@ module Kiwi.Geom {
 
         }
 
+        /**
+        * Returns the type of this object
+        * @method objType
+        * @return {string} The type of this object
+        * @public
+        */
         public objType() {
             return "Line";
         }
@@ -37,6 +43,7 @@ module Kiwi.Geom {
         * x component of first point.
         * @property x1
         * @type Number
+        * @public
         */
         public x1: number = 0;
 
@@ -44,6 +51,7 @@ module Kiwi.Geom {
         * y component of first point.
         * @property y1
         * @type Number
+        * @public
         */
         public y1: number = 0;
 
@@ -51,6 +59,7 @@ module Kiwi.Geom {
         * x component of second point.
         * @property x2
         * @type Number
+        * @public
         */
         public x2: number = 0;
 
@@ -58,14 +67,16 @@ module Kiwi.Geom {
         * y component of second point.
         * @property y2
         * @type Number
+        * @public
         */
         public y2: number = 0;
 
         /**
         * Return a clone of the line.
         * @method clone
-        * @param {Kiwi.Geom.Line} [output]
-        * @return {Kiwi.Geom.Line}
+        * @param [output = Line] {Line}
+        * @return {Line}
+        * @public
         */
         public clone(output: Line = new Line): Line {
 
@@ -76,8 +87,9 @@ module Kiwi.Geom {
         /**
         * Copy the line from another existing line.
         * @method copyFrom 
-        * @param {Kiwi.Geom.Line} source
-        * @return {Kiwi.Geom.Line}
+        * @param source {Line} source
+        * @return {Line}
+        * @public
         */
         public copyFrom(source: Line): Line {
 
@@ -88,8 +100,9 @@ module Kiwi.Geom {
         /**
         * Copy the line to another existing line.
         * @method copyTo
-        * @param {Kiwi.Geom.Line} target
-        * @return {Kiwi.Geom.Line}
+        * @param target {Line} target
+        * @return {Line}
+        * @public
         */
         public copyTo(target: Line): Line {
 
@@ -100,11 +113,12 @@ module Kiwi.Geom {
         /**
         * Set all components on the line.
         * @method setTo
-        * @param {Number} x1 x component of first point.
-        * @param {Number} y1 y component of first point.
-        * @param {Number} x2 x component of second point.
-        * @param {Number} y2 y component of second point.
+        * @param [x1 = 0]{Number} x1 x component of first point.
+        * @param [y1 = 0]{Number} y1 y component of first point.
+        * @param [x2 = 0]{Number} x2 x component of second point.
+        * @param [y2 = 0]{Number} y2 y component of second point.
         * @return {Kiwi.Geom.Line}
+        * @public
         */
         public setTo(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): Line {
 
@@ -121,6 +135,7 @@ module Kiwi.Geom {
         * Get the length of the line as a line segement.
         * @method length
         * @return {Number}
+        * @public
         */
         public get length(): number {
 
@@ -133,16 +148,19 @@ module Kiwi.Geom {
         * @method getY
         * @param {Number} x
         * @return {Number}
+        * @public
         */
         public getY(x: number): number {
-
+            if (this.x1 == this.x2)
+                return null;
+            else
             return this.slope * x + this.yIntercept;
 
         }
 
         /**
         * Get the angle of the line.
-        * @method angle 
+        * @property angle 
         * @return {Number}
         */
         public get angle(): number {
@@ -153,8 +171,9 @@ module Kiwi.Geom {
 
         /**
         * Get the slope of the line (y/x).
-        * @method slope
+        * @property slope
         * @return {Number}
+        * @public
         */
         public get slope(): number {
 
@@ -164,8 +183,9 @@ module Kiwi.Geom {
 
         /**
         * Get the perpendicular slope of the line (x/y).
-        * @method perpSlope
+        * @propery perpSlope
         * @return {Number}
+        * @public
         */
         public get perpSlope(): number {
 
@@ -175,8 +195,9 @@ module Kiwi.Geom {
 
         /**
         * Get the y intercept for the line.
-        * @method yIntercept
+        * @property yIntercept
         * @return {Number}
+        * @property
         */
         public get yIntercept(): number {
 
@@ -187,9 +208,10 @@ module Kiwi.Geom {
         /**
         * Check if a point is on the line.
         * @method isPointOnLine
-        * @param {Number} x
-        * @param {Number} y
+        * @param x {Number}
+        * @param y {Number}
         * @return {boolean}
+        * @public
         */
         public isPointOnLine(x: number, y: number): boolean {
 
@@ -210,6 +232,7 @@ module Kiwi.Geom {
         * @param {Number} x
         * @param {Number} y
         * @return {boolean}
+        * @public
         */
         public isPointOnLineSegment(x: number, y: number): boolean {
 
@@ -230,10 +253,11 @@ module Kiwi.Geom {
         }
 
         /**
-        * 
+        * [REQUIRES DESCRIPTION]
         * @method intersectLineLine
-        * @param {Any} line
+        * @param line {Any} line
         * @return {Any}
+        * @public
         */
         public intersectLineLine(line): any {
             //return Kiwi.Geom.intersectLineLine(this,line);
@@ -242,10 +266,11 @@ module Kiwi.Geom {
         /**
         * Get a line perpendicular to the line passing through a given point.
         * @method perp
-        * @param {Number} x
-        * @param {Number} y
-        * @param {Kiwi.Geom.Line} [output]
-        * @return {Kiwi.Geom.Line}
+        * @param x {Number} 
+        * @param y {Number} 
+        * @param [output = Line]{Line} 
+        * @return {Line}
+        * @public
         */
         public perp(x: number, y: number, output?: Line): Line {
 
@@ -280,6 +305,7 @@ module Kiwi.Geom {
         * Get a string representation of the line.
         * @method toString
         * @return {String}
+        * @public
         */
         public toString(): string {
 

@@ -19,6 +19,7 @@ module Kiwi.Geom {
         }
 
         /**
+        * [REQUIRES DESCRIPTION]
         * @property result
         * @type boolean
         */
