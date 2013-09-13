@@ -561,6 +561,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\sound\\AudioLibrary.ts": {
+            "name": "src\\sound\\AudioLibrary.ts",
+            "modules": {},
+            "classes": {
+                "AudioLibrary": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\sound\\AudioManager.ts": {
             "name": "src\\sound\\AudioManager.ts",
             "modules": {},
@@ -678,7 +687,9 @@
         "src\\time\\TimerEvent.ts": {
             "name": "src\\time\\TimerEvent.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "TimerEvent": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -842,6 +853,7 @@
                 "Pointer": 1,
                 "Touch": 1,
                 "Audio": 1,
+                "AudioLibrary": 1,
                 "AudioManager": 1,
                 "Bootstrap": 1,
                 "Browser": 1,
@@ -853,6 +865,7 @@
                 "Clock": 1,
                 "MasterClock": 1,
                 "Timer": 1,
+                "TimerEvent": 1,
                 "Canvas": 1,
                 "Common": 1,
                 "GameMath": 1,
@@ -980,6 +993,7 @@
             "submodules": {},
             "classes": {
                 "Audio": 1,
+                "AudioLibrary": 1,
                 "AudioManager": 1
             },
             "fors": {},
@@ -1039,14 +1053,15 @@
                 "Manager": 1,
                 "Clock": 1,
                 "MasterClock": 1,
-                "Timer": 1
+                "Timer": 1,
+                "TimerEvent": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "Kiwi",
             "namespace": "",
-            "file": "src\\time\\Timer.ts",
+            "file": "src\\time\\TimerEvent.ts",
             "line": 10,
             "description": "Kiwi - Time",
             "tag": "main",
@@ -1909,6 +1924,20 @@
             "file": "src\\sound\\Audio.ts",
             "line": 10
         },
+        "AudioLibrary": {
+            "name": "AudioLibrary",
+            "shortname": "AudioLibrary",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Kiwi",
+            "submodule": "Sound",
+            "namespace": "",
+            "file": "src\\sound\\AudioLibrary.ts",
+            "line": 10
+        },
         "AudioManager": {
             "name": "AudioManager",
             "shortname": "AudioManager",
@@ -2039,25 +2068,8 @@
             "submodule": "Time",
             "namespace": "",
             "file": "src\\time\\Clock.ts",
-            "line": 25,
-            "description": "A clock class for keeping time.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "name.",
-                    "description": "The name of the clock.",
-                    "type": "String"
-                },
-                {
-                    "name": "units.",
-                    "description": "The number of milliseconds that make up one unit of time on this clock.",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "This Clock object.",
-                "type": "Kiwi.Time.Clock"
-            }
+            "line": 10,
+            "description": "The Clock class offers a way of tracking time within a game.\n- The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started.\nThis happens automatically and there is no need to do anything to set this up.\n- An instance of a clock is used to track time in arbitrary units (milliseconds by default)\n- A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.\n- Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.\n- If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.\n(Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)"
         },
         "MasterClock": {
             "name": "MasterClock",
@@ -2088,6 +2100,20 @@
             "file": "src\\time\\Timer.ts",
             "line": 10,
             "description": "The Timer class hooks into a game clock and allows you run code at a specified point in game time.\nUse the start() method to start a timer. Add TimerEvents to set-up code to be run on the timer interval.\nTimer objects can run once or repeat at specified intervals to execute code on a schedule."
+        },
+        "TimerEvent": {
+            "name": "TimerEvent",
+            "shortname": "TimerEvent",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Kiwi",
+            "submodule": "Time",
+            "namespace": "",
+            "file": "src\\time\\TimerEvent.ts",
+            "line": 10
         },
         "Canvas": {
             "name": "Canvas",
@@ -4370,7 +4396,7 @@
             "description": "An internal method that is used to set the cell index of the entity. This is how the animation changes.",
             "itemtype": "method",
             "name": "_setCellIndex",
-            "access": "public",
+            "access": "private",
             "tagname": "",
             "class": "Animation",
             "module": "Kiwi",
@@ -22364,6 +22390,1061 @@
             "submodule": "Input"
         },
         {
+            "file": "src\\sound\\Audio.ts",
+            "line": 81,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 91,
+            "description": "The game that this sound belongs to.",
+            "itemtype": "property",
+            "name": "_game",
+            "type": "Game",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 99,
+            "description": "Web Audio API ONLY - A reference to the audio context that the game's audio manager has.",
+            "itemtype": "property",
+            "name": "context",
+            "type": "Any",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 107,
+            "description": "Web Audio API ONLY - A reference to the master gain node on the audio manager.",
+            "itemtype": "property",
+            "name": "masterGainNode",
+            "type": "Any",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 115,
+            "description": "Web Audio API ONLY - This sounds local gainNode that it uses.",
+            "itemtype": "property",
+            "name": "gainNode",
+            "type": "Any",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 123,
+            "description": "A boolean indicating whether or not that audio tags are being used to generate sounds.",
+            "itemtype": "property",
+            "name": "_usingAudioTag",
+            "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 131,
+            "description": "A boolean indicating whether or not the webAuduio api is being used.",
+            "itemtype": "property",
+            "name": "_usingWebAudio",
+            "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 139,
+            "description": "A private indicator of whether this audio is currently muted or not.",
+            "itemtype": "property",
+            "name": "_muted",
+            "type": "boolean",
+            "default": "false",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 148,
+            "description": "A number between 0 and 1 representing the current volume of this audio piece.",
+            "itemtype": "property",
+            "name": "_volume",
+            "type": "number",
+            "default": "1",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 157,
+            "description": "A boolean indicating whether this piece of audio should loop or not.",
+            "itemtype": "property",
+            "name": "_loop",
+            "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 165,
+            "description": "The key that was used to get the audio from the AudioLibrary.",
+            "itemtype": "property",
+            "name": "key",
+            "type": "string",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 173,
+            "description": "The property containing the file information about the audio.",
+            "itemtype": "property",
+            "name": "_file",
+            "type": "File",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 181,
+            "description": "This is the piece of audio that either method will use to play audio. E.g.\nIn the case of the Web Audio API this is the sound buffer source, in which the audio plays from. \nIn the case of Audio Tags this is the Audio Tag itself.",
+            "itemtype": "property",
+            "name": "_sound",
+            "type": "Any",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 191,
+            "description": "A boolean that controls/knows if the audio is ready to be played or not.\nThis is just an indicator of if the file has been retrieved successfully from the file store or not.",
+            "itemtype": "property",
+            "name": "ready",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 200,
+            "description": "The total duration of the audio in seconds.",
+            "itemtype": "property",
+            "name": "totalDuration",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 208,
+            "description": "The current duration of the section of audio that is being played. In milliseconds.",
+            "itemtype": "property",
+            "name": "duration",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 216,
+            "description": "Web Audio API ONLY - The audio buffer that is to be used when playing audio segments.",
+            "itemtype": "property",
+            "name": "_buffer",
+            "type": "any",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 224,
+            "description": "Web Audio API ONLY - A boolean to indicate if the audio has been decoded or not yet. If not you will need to run the decode() method.",
+            "itemtype": "property",
+            "name": "_decoded",
+            "type": "boolean",
+            "default": "false",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 233,
+            "description": "A private property that holds the volume before the sound was muted. Used so that when unmuted the sound will resume at its old spot.",
+            "itemtype": "property",
+            "name": "_muteVolume",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 241,
+            "description": "Indicates whether or not the sound is currently playing.",
+            "itemtype": "property",
+            "name": "isPlaying",
+            "type": "boolean",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 250,
+            "description": "A indicator of if the sound is currently paused.",
+            "itemtype": "property",
+            "name": "paused",
+            "type": "boolean",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 259,
+            "description": "If the sound needs to be played but is waiting on something.",
+            "itemtype": "property",
+            "name": "_pending",
+            "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 267,
+            "description": "When the audio started playing. In milliseconds",
+            "itemtype": "property",
+            "name": "_startTime",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 275,
+            "description": "When the audio is playing, this is the current time we are at with it playing. In milliseconds",
+            "itemtype": "property",
+            "name": "_currentTime",
+            "type": "number",
+            "access": "private",
+            "tagname": ".",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 283,
+            "description": "The time at which the audio should stop playing. In milliseconds. This is assuming that the audio is not on loop.",
+            "itemtype": "property",
+            "name": "_stopTime",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 291,
+            "description": "An array of all of the markers that are on this piece of audio.",
+            "itemtype": "property",
+            "name": "_markers",
+            "type": "Array",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 299,
+            "description": "The current marker that is being used.",
+            "itemtype": "property",
+            "name": "_currentMarker",
+            "type": "String",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 307,
+            "description": "A Kiwi Signal that dispatches a event when the audio starts playing.",
+            "itemtype": "property",
+            "name": "onPlay",
+            "type": "Signal",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 315,
+            "description": "A Kiwi Signal that dispatches a event when the audio stops playing.",
+            "itemtype": "property",
+            "name": "onStop",
+            "type": "Signal",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 323,
+            "description": "A Kiwi Signal that dispatches a event when the audio gets paused.",
+            "itemtype": "property",
+            "name": "onPause",
+            "type": "Signal",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 331,
+            "description": "A Kiwi Signal that dispatches a event when the audio resumes.",
+            "itemtype": "property",
+            "name": "onResume",
+            "type": "Signal",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 339,
+            "description": "A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.",
+            "itemtype": "property",
+            "name": "onLoop",
+            "type": "Signal",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 347,
+            "description": "A Kiwi Signal that dispatches a event when the audio gets muted.",
+            "itemtype": "property",
+            "name": "onMute",
+            "type": "Signal",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 355,
+            "description": "Retrieves the audio data from the file store.",
+            "itemtype": "method",
+            "name": "_setAudio",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "The key of the file that you are wanting to get.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 378,
+            "description": "Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.",
+            "itemtype": "method",
+            "name": "_decode",
+            "access": "private",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 404,
+            "description": "Used to control the current volume for this sound.",
+            "itemtype": "property",
+            "name": "volume",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 441,
+            "description": "Allows you to mute the sound.",
+            "itemtype": "property",
+            "name": "mute",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 470,
+            "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
+            "itemtype": "method",
+            "name": "addMarker",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The name of the marker that you are adding.",
+                    "type": "String"
+                },
+                {
+                    "name": "start",
+                    "description": "The starting point of the audio. In seconds.",
+                    "type": "Number"
+                },
+                {
+                    "name": "stop",
+                    "description": "The stopping point of the audio. In seconds.",
+                    "type": "Number"
+                },
+                {
+                    "name": "loop",
+                    "description": "If the marker's pieve of audio should loop or not.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 484,
+            "description": "Removes a currently existing marker from this audio.",
+            "itemtype": "method",
+            "name": "removeMarker",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "name of the audio that you want to remove.",
+                    "type": "String"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 502,
+            "description": "Plays the current sound/audio from the start.",
+            "itemtype": "method",
+            "name": "play",
+            "params": [
+                {
+                    "name": "marker",
+                    "description": "The marker that is to be played. If no marker is specified then it will play the current marker (which would be the whole audio piece if no marker was ever added).",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "forceRestart",
+                    "description": "Force the audio to stop and start again. Otherwise if the audio was already playing it would ignore the play.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 577,
+            "description": "Stop the sound from playing.",
+            "itemtype": "method",
+            "name": "stop",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 605,
+            "description": "Pauses the sound so that you can resume it from at point to paused it at.",
+            "itemtype": "method",
+            "name": "pause",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 619,
+            "description": "Plays the sound from when you paused the sound.",
+            "itemtype": "method",
+            "name": "resume",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 655,
+            "description": "The update loop that gets executed every frame.",
+            "itemtype": "method",
+            "name": "update",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 716,
+            "description": "This method handles the destruction of all of the properties when the audio is no longer needed.",
+            "itemtype": "method",
+            "name": "destroy",
+            "access": "public",
+            "tagname": "",
+            "class": "Audio",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioLibrary.ts",
+            "line": 17,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "game",
+                    "description": "The game that this audio library is a member of.",
+                    "type": "Game"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "AudioLibrary"
+            },
+            "class": "AudioLibrary",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioLibrary.ts",
+            "line": 29,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "AudioLibrary",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioLibrary.ts",
+            "line": 39,
+            "description": "The game that the AudioLibrary belongs to.",
+            "itemtype": "property",
+            "name": "_game",
+            "type": "Game",
+            "access": "private",
+            "tagname": "",
+            "class": "AudioLibrary",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioLibrary.ts",
+            "line": 47,
+            "description": "Contains all of the audio files that are available.",
+            "itemtype": "property",
+            "name": "audio",
+            "type": "Object",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioLibrary",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioLibrary.ts",
+            "line": 55,
+            "description": "Resets the audio library.",
+            "itemtype": "method",
+            "name": "clear",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioLibrary",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioLibrary.ts",
+            "line": 66,
+            "description": "Adds a new audio file to the audio library.",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "imageFile",
+                    "description": "",
+                    "type": "File"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "AudioLibrary",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 18,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "game",
+                    "description": "The game that this audio manager belongs to.",
+                    "type": "Game"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "AudioManager"
+            },
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 30,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 40,
+            "description": "The game that this manager belongs to.",
+            "itemtype": "property",
+            "name": "_game",
+            "type": "Game",
+            "access": "private",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 48,
+            "description": "The global volume of all of the games audio.",
+            "itemtype": "property",
+            "name": "_volume",
+            "type": "number",
+            "default": "1",
+            "access": "private",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 57,
+            "description": "A boolean that controls whether the whole games audio should be muted or not.",
+            "itemtype": "property",
+            "name": "_muted",
+            "type": "boolean",
+            "default": "false",
+            "access": "private",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 66,
+            "description": "An array containing all of the sounds on the game.",
+            "itemtype": "property",
+            "name": "_sounds",
+            "type": "Audio[]",
+            "access": "private",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 74,
+            "description": "The number of channels that are supported.\nNot in much use at this point in time.",
+            "itemtype": "property",
+            "name": "channels",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 83,
+            "description": "If the current game has audio support or not.",
+            "itemtype": "property",
+            "name": "noAudio",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 91,
+            "description": "If the game is currently using the Web Audio API for the sound.",
+            "itemtype": "property",
+            "name": "usingWebAudio",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 99,
+            "description": "If the game is using audio tags for the sound. This is the fallback if the web audio api is not supported.",
+            "itemtype": "property",
+            "name": "usingAudioTag",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 107,
+            "description": "Web Audio API ONLY - The audio context that is used for decoding audio, e.t.c.",
+            "itemtype": "property",
+            "name": "context",
+            "type": "any",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 115,
+            "description": "Web Audio API ONLY - The master gain node through which all sounds play.",
+            "itemtype": "property",
+            "name": "masterGain",
+            "type": "any",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 131,
+            "description": "The boot method is executed when all of the DOM elements needed for the game are loaded and the game is ready to 'start' up.",
+            "itemtype": "method",
+            "name": "boot",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 182,
+            "description": "Used to mute the audio on the device, or to check to see if the device is muted.",
+            "itemtype": "property",
+            "name": "mute",
+            "type": "boolean",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 228,
+            "description": "Global setting and getting of the volume. A number between 0 (silence) and 1 (full volume)",
+            "itemtype": "property",
+            "name": "volume",
+            "type": "number",
+            "default": "1",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 265,
+            "description": "Used to create a new sound on the audio manager. Returns the newly created sound.",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "The key for the audio file that is to be loaded from the AudioLibrary.",
+                    "type": "String"
+                },
+                {
+                    "name": "volume",
+                    "description": "The volume for the piece of audio.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "1"
+                },
+                {
+                    "name": "loop",
+                    "description": "If the audio should keep repeat when it gets to the end.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Audio"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 286,
+            "description": "Removes the passed sound from the audio manager. Needs testing.",
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "sound",
+                    "description": "The audio file that you want to remove.",
+                    "type": "Audio"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 307,
+            "description": "Plays all of the sounds listed in the audio manager.",
+            "itemtype": "method",
+            "name": "playAll",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 323,
+            "description": "Stops all of the sounds that are listed in the audio manager from playing.",
+            "itemtype": "method",
+            "name": "playAll",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 341,
+            "description": "Pauses all of the sounds listed in the audio manager.",
+            "itemtype": "method",
+            "name": "pauseAll",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 360,
+            "description": "Resumes all of the sounds listed in the audio manager.",
+            "itemtype": "method",
+            "name": "resumeAll",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
+            "file": "src\\sound\\AudioManager.ts",
+            "line": 379,
+            "description": "The update loop that is executed every frame.",
+            "itemtype": "method",
+            "name": "update",
+            "access": "public",
+            "tagname": "",
+            "class": "AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound"
+        },
+        {
             "file": "src\\system\\Bootstrap.ts",
             "line": 18,
             "itemtype": "property",
@@ -23620,32 +24701,249 @@
             "submodule": "Textures"
         },
         {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 41,
+            "description": "The game that this texture library is on.",
+            "itemtype": "property",
+            "name": "_game",
+            "type": "Game",
+            "access": "private",
+            "tagname": "",
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 49,
+            "description": "Contains all of the textures that are available.",
+            "itemtype": "property",
+            "name": "textures",
+            "access": "public",
+            "tagname": "",
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 56,
+            "description": "Resets the texture library.",
+            "itemtype": "method",
+            "name": "clear",
+            "access": "public",
+            "tagname": "",
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 67,
+            "description": "Adds a new image file to the texture library.",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "imageFile",
+                    "description": "",
+                    "type": "File"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 96,
+            "description": "An array containing all of the base2 sizes that we support. This could be changed to a static property at some point.",
+            "itemtype": "property",
+            "name": "_base2Sizes",
+            "type": "number[]",
+            "access": "private",
+            "tagname": "",
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 104,
+            "description": "Is used to make image have base2 dimenisons. Used for webgl rendering and optimisation.",
+            "itemtype": "method",
+            "name": "_rebuildImage",
+            "params": [
+                {
+                    "name": "imageFile",
+                    "description": "The image file that is to be rebuilt.",
+                    "type": "File"
+                }
+            ],
+            "return": {
+                "description": "The new image file.",
+                "type": "File"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 159,
+            "description": "Used to build a new texture atlas based on the image file provided. Internal use only.",
+            "itemtype": "method",
+            "name": "_buildTextureAtlas",
+            "params": [
+                {
+                    "name": "imageFile",
+                    "description": "The image file that is to be used.",
+                    "type": "File"
+                }
+            ],
+            "return": {
+                "description": "The new texture atlas that is created.",
+                "type": "TextureAtlas"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 179,
+            "description": "Builds a spritesheet atlas from the an image file that is provided.",
+            "itemtype": "method",
+            "name": "_buildSpriteSheet",
+            "params": [
+                {
+                    "name": "imageFile",
+                    "description": "The image file that is to be used.",
+                    "type": "File"
+                }
+            ],
+            "return": {
+                "description": "The SpriteSheet that was just created.",
+                "type": "SpriteSheet"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 195,
+            "description": "Builds a single image atlas from a image file that is provided.",
+            "itemtype": "method",
+            "name": "_buildImage",
+            "params": [
+                {
+                    "name": "imageFile",
+                    "description": "The image file that is to be used.",
+                    "type": "File"
+                }
+            ],
+            "return": {
+                "description": "The SingleImage that was created.",
+                "type": "SingleImage"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures"
+        },
+        {
             "file": "src\\time\\Clock.ts",
-            "line": 52,
+            "line": 25,
+            "description": "A clock class for keeping time.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "The time manager that this clock belongs to.",
+                    "type": "Manager"
+                },
+                {
+                    "name": "master",
+                    "description": "The master clock.",
+                    "type": "MasterClock"
+                },
+                {
+                    "name": "name",
+                    "description": "The name of the clock.",
+                    "type": "String"
+                },
+                {
+                    "name": "units",
+                    "description": "The units that this clock is to operate in.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "1000"
+                }
+            ],
+            "return": {
+                "description": "This Clock object.",
+                "type": "Clock"
+            },
+            "class": "Clock",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Clock.ts",
+            "line": 50,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Clock",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Clock.ts",
+            "line": 60,
             "description": "A collection of Timer objects using this clock.",
             "itemtype": "property",
             "name": "timers",
-            "type": "Array",
+            "type": "Timer",
+            "access": "private",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 59,
+            "line": 68,
             "description": "The time the clock was first started relative to the master clock.",
             "itemtype": "property",
             "name": "_timeFirstStarted",
+            "type": "Number",
+            "default": "null",
             "access": "private",
             "tagname": "",
-            "type": "Number",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 67,
+            "line": 77,
             "description": "The number of clock units elapsed since the clock was first started.",
             "itemtype": "method",
             "name": "elapsedSinceFirstStarted.",
@@ -23653,26 +24951,29 @@
                 "description": "number of clock units.",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 78,
+            "line": 89,
             "description": "The time the clock was most recently started relative to the master clock.",
             "itemtype": "property",
             "name": "_timeLastStarted",
+            "type": "Number",
+            "default": "null",
             "access": "private",
             "tagname": "",
-            "type": "Number",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 86,
+            "line": 98,
             "description": "Get the most recent time the clock was started relative to the master clock.",
             "itemtype": "method",
             "name": "started",
@@ -23680,13 +24981,15 @@
                 "description": "milliseconds.",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 97,
+            "line": 110,
             "description": "The number of clock units elapsed since the clock was most recently started (not including time spent paused)",
             "itemtype": "method",
             "name": "elapsed",
@@ -23694,26 +24997,29 @@
                 "description": "number of clock units.",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 124,
+            "line": 138,
             "description": "The time the clock was most recently stopped relative to the master clock.",
             "itemtype": "property",
             "name": "_timeLastStopped",
+            "type": "Number",
+            "default": "null",
             "access": "private",
             "tagname": "",
-            "type": "Number",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 132,
+            "line": 147,
             "description": "The number of clock units elapsed since the clock was most recently stopped.",
             "itemtype": "method",
             "name": "elapsedSinceLastStopped.",
@@ -23721,26 +25027,29 @@
                 "description": "number of clock units.",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 143,
+            "line": 159,
             "description": "The time the clock was most receently paused relative to the master clock.",
             "itemtype": "property",
             "name": "_timeLastPaused",
             "access": "private",
             "tagname": "",
             "type": "Number",
+            "default": "null",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 151,
+            "line": 169,
             "description": "The number of clock units elapsed since the clock was most recently paused.",
             "itemtype": "method",
             "name": "elapsedSinceLastPaused.",
@@ -23748,33 +25057,8 @@
                 "description": "number of clock units.",
                 "type": "Number"
             },
-            "class": "Clock",
-            "module": "Kiwi",
-            "submodule": "Time"
-        },
-        {
-            "file": "src\\time\\Clock.ts",
-            "line": 162,
-            "description": "The time the clock was most recently unpaused relative to the master clock.",
-            "itemtype": "property",
-            "name": "_timeLastUnpaused",
-            "access": "private",
+            "access": "public",
             "tagname": "",
-            "type": "Number",
-            "class": "Clock",
-            "module": "Kiwi",
-            "submodule": "Time"
-        },
-        {
-            "file": "src\\time\\Clock.ts",
-            "line": 170,
-            "description": "The number of clock units elapsed since the clock was most recently unpaused.",
-            "itemtype": "method",
-            "name": "elapsedSinceLastUnpaused.",
-            "return": {
-                "description": "number of clock units.",
-                "type": "Number"
-            },
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
@@ -23782,59 +25066,94 @@
         {
             "file": "src\\time\\Clock.ts",
             "line": 181,
-            "description": "THe total number of milliseconds the clock has been paused since it was last started.",
+            "description": "The time the clock was most recently unpaused relative to the master clock.",
+            "itemtype": "property",
+            "name": "_timeLastUnpaused",
+            "access": "private",
+            "tagname": "",
+            "type": "Number",
+            "default": "null",
+            "class": "Clock",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Clock.ts",
+            "line": 191,
+            "description": "The number of clock units elapsed since the clock was most recently unpaused.",
+            "itemtype": "method",
+            "name": "elapsedSinceLastUnpaused.",
+            "return": {
+                "description": "number of clock units.",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Clock",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Clock.ts",
+            "line": 203,
+            "description": "The total number of milliseconds the clock has been paused since it was last started.",
             "itemtype": "property",
             "name": "_totalPaused",
             "access": "private",
             "tagname": "",
             "type": "Number",
+            "default": "0",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 189,
+            "line": 213,
             "description": "Whether the clock is in a running state.",
             "itemtype": "property",
             "name": "_isRunning",
+            "type": "boolean",
+            "default": "false",
             "access": "private",
             "tagname": "",
-            "type": "boolean",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 197,
-            "description": "Check if the clock is in the running state.",
+            "line": 222,
+            "description": "Check if the clock is currently running.",
             "itemtype": "method",
             "name": "isRunning",
             "return": {
                 "description": "true if running.",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 208,
+            "line": 234,
             "description": "Whether the clock is in a stopped state.",
             "itemtype": "property",
             "name": "_isStopped",
+            "type": "boolean",
+            "default": "true",
             "access": "private",
             "tagname": "",
-            "type": "boolean",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 216,
+            "line": 243,
             "description": "Check if the clock is in the stopped state.",
             "itemtype": "method",
             "name": "isStopped",
@@ -23842,26 +25161,29 @@
                 "description": "true if stopped.",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 227,
+            "line": 255,
             "description": "Whether the clock is in a paused state.",
             "itemtype": "property",
             "name": "_isPaused",
+            "type": "boolean",
+            "default": "false",
             "access": "private",
             "tagname": "",
-            "type": "boolean",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 235,
+            "line": 264,
             "description": "Check if the clock is in the paused state.",
             "itemtype": "method",
             "name": "isPaused",
@@ -23869,152 +25191,186 @@
                 "description": "true if paused.",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 246,
+            "line": 276,
             "description": "An internal reference to the state of the elapsed timer",
             "itemtype": "property",
             "name": "_elapsedState",
+            "type": "Number",
+            "default": "0",
             "access": "private",
             "tagname": "",
-            "type": "Number",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 254,
+            "line": 285,
+            "description": "The time manager that this clock belongs to.",
             "itemtype": "property",
             "name": "manager",
-            "type": "Kiwi.Time.Manager",
+            "type": "Manager",
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 261,
+            "line": 293,
+            "description": "The master clock.",
             "itemtype": "property",
             "name": "master",
-            "type": "Kiwi.Time.MasterClock",
+            "type": "MasterClock",
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 268,
+            "line": 301,
             "description": "Name of the clock",
             "itemtype": "property",
             "name": "name",
             "type": "string",
+            "ublic": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 275,
+            "line": 309,
             "description": "The number of milliseconds counted as one unit of time by the clock.",
             "itemtype": "property",
             "name": "units",
             "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 282,
+            "line": 318,
             "description": "Add an existing Timer to the Clock.",
             "itemtype": "method",
             "name": "addTimer",
             "params": [
                 {
-                    "name": "The",
-                    "description": "Timer object instance to be added to ths Clock.",
-                    "type": "Kiwi.Time.Timer"
+                    "name": "timer",
+                    "description": "The Timer object instance to be added to ths Clock.",
+                    "type": "Timer"
                 }
             ],
             "return": {
                 "description": "This Clock object.",
-                "type": "Kiwi.Time.Clock"
+                "type": "Clock"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 295,
+            "line": 332,
             "description": "Creates a new Timer and adds it to this Clock.",
             "itemtype": "method",
             "name": "createTimer",
             "params": [
                 {
-                    "name": "name.",
+                    "name": "name",
                     "description": "The name of the Timer (must be unique on this Clock).",
                     "type": "String"
                 },
                 {
-                    "name": "delay.",
+                    "name": "delay",
                     "description": "The number of clock units to wait between firing events (default 1)",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "1"
                 },
                 {
-                    "name": "repeatCount.",
+                    "name": "repeatCount",
                     "description": "The number of times to repeat this Timer (default 0)",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "start",
+                    "description": "If the timer should start.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
             "return": {
                 "description": "The newly created Timer.",
-                "type": "Kiwi.Time.Timer"
+                "type": "Timer"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 315,
+            "line": 354,
             "description": "Remove a Timer from this Clock based on either the Timer object or its name.",
             "itemtype": "method",
             "name": "removeTimer",
             "params": [
                 {
-                    "name": "The",
-                    "description": "Timer object you wish to remove. If you wish to delete by Timer Name set this to null.",
-                    "type": "Kiwi.Time.Timer"
+                    "name": "timer",
+                    "description": "The Timer object you wish to remove. If you wish to delete by Timer Name set this to null.",
+                    "type": "Timer",
+                    "optional": true,
+                    "optdefault": "null"
                 },
                 {
-                    "name": "The",
-                    "description": "name of the Timer object to remove.",
-                    "type": "String"
+                    "name": "timerName",
+                    "description": "The name of the Timer object to remove.",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "''"
                 }
             ],
             "return": {
                 "description": "True if the Timer was successfully removed, false if not.",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 357,
+            "line": 397,
             "description": "Check if the Timer already exists on this Clock",
             "itemtype": "method",
             "name": "checkExists",
             "params": [
                 {
-                    "name": "name.",
+                    "name": "name",
                     "description": "The name of the Timer.",
                     "type": "String"
                 }
@@ -24023,27 +25379,31 @@
                 "description": "true if the Timer exists, false if not.",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 376,
+            "line": 417,
             "description": "Stop all timers attached to the clock.",
             "itemtype": "method",
             "name": "stopAllTimers",
             "return": {
                 "description": "This Clock object.",
-                "type": "Kiwi.Time.Clock"
+                "type": "Clock"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 392,
+            "line": 434,
             "description": "Convert a number to milliseconds based on clock units.",
             "itemtype": "method",
             "name": "toMilliseconds.",
@@ -24051,79 +25411,91 @@
                 "description": "milliseconds.",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 403,
+            "line": 446,
             "description": "Updates all Timers linked to this Clock.",
             "itemtype": "method",
             "name": "update",
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 416,
+            "line": 460,
             "description": "Start the clock. This resets the clock and starts it running.",
             "itemtype": "method",
             "name": "start",
             "return": {
                 "description": "This Clock object.",
-                "type": "Kiwi.Time.Clock"
+                "type": "Clock"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 441,
-            "description": "Pause the clock. THe clock can only be paused if it is already running.",
+            "line": 486,
+            "description": "Pause the clock. The clock can only be paused if it is already running.",
             "itemtype": "method",
             "name": "pause",
             "return": {
                 "description": "This Clock object.",
-                "type": "Kiwi.Time.Clock"
+                "type": "Clock"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 461,
+            "line": 507,
             "description": "Resume the clock. The clock can only be resumed if it is already paused.",
             "itemtype": "method",
             "name": "resume",
             "return": {
                 "description": "This Clock object.",
-                "type": "Kiwi.Time.Clock"
+                "type": "Clock"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 483,
+            "line": 530,
             "description": "Stop the clock. Clock can only be stopped if it is already running or is paused.",
             "itemtype": "method",
             "name": "stop",
             "return": {
                 "description": "This Clock object.",
-                "type": "Kiwi.Time.Clock"
+                "type": "Clock"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 510,
+            "line": 558,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -24131,6 +25503,8 @@
                 "description": "a string representation of the instance.",
                 "type": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Clock",
             "module": "Kiwi",
             "submodule": "Time"
@@ -24143,12 +25517,12 @@
                 {
                     "name": "game.",
                     "description": "",
-                    "type": "Kiwi.Game"
+                    "type": "Game"
                 }
             ],
             "return": {
                 "description": "This Object.",
-                "type": "Kiwi.Time.Manager"
+                "type": "Manager"
             },
             "class": "Manager",
             "module": "Kiwi",
@@ -24156,10 +25530,27 @@
         },
         {
             "file": "src\\time\\Manager.ts",
-            "line": 34,
+            "line": 30,
+            "description": "The type of object this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Manager",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Manager.ts",
+            "line": 40,
+            "description": "The game that this belongs to.",
             "itemtype": "property",
             "name": "_game",
-            "type": "Kiwi.Game",
+            "type": "Game",
             "access": "private",
             "tagname": "",
             "class": "Manager",
@@ -24168,10 +25559,11 @@
         },
         {
             "file": "src\\time\\Manager.ts",
-            "line": 42,
+            "line": 48,
+            "description": "An array containing all of the clocks that exist on this manager.",
             "itemtype": "property",
             "name": "_clocks",
-            "type": "Array",
+            "type": "Clock[]",
             "access": "private",
             "tagname": "",
             "class": "Manager",
@@ -24180,21 +25572,13 @@
         },
         {
             "file": "src\\time\\Manager.ts",
-            "line": 50,
+            "line": 56,
+            "description": "The MasterClock for this manager.",
             "itemtype": "property",
             "name": "master",
-            "type": "Kiwi.Time.MasterClock",
-            "class": "Manager",
-            "module": "Kiwi",
-            "submodule": "Time"
-        },
-        {
-            "file": "src\\time\\Manager.ts",
-            "line": 57,
-            "description": "The default Game Clock - you can use this via this.game.time.clock. Uses a 1000 millisecond time unit.",
-            "itemtype": "property",
-            "name": "clock",
-            "type": "Kiwi.Time.Clock",
+            "type": "MasterClock",
+            "access": "private",
+            "tagname": "",
             "class": "Manager",
             "module": "Kiwi",
             "submodule": "Time"
@@ -24202,91 +25586,121 @@
         {
             "file": "src\\time\\Manager.ts",
             "line": 64,
-            "description": "The DOM is ready, so let's start the clocks running",
-            "itemtype": "method",
-            "name": "boot",
+            "description": "The default Game Clock - you can use this via this.game.time.clock. Uses a 1000 millisecond time unit.",
+            "itemtype": "property",
+            "name": "clock",
+            "type": "Clock",
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Manager.ts",
-            "line": 77,
-            "description": "Creates a Kiwi.Time.Clock class for keeping time relative to the MasterClock.",
+            "line": 72,
+            "description": "When all of the DOM elements that the game requires have loaded successfully then this object will 'boot'.",
+            "itemtype": "method",
+            "name": "boot",
+            "access": "public",
+            "tagname": "",
+            "class": "Manager",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Manager.ts",
+            "line": 86,
+            "description": "Creates a Clock class for keeping time relative to the MasterClock.",
             "itemtype": "method",
             "name": "addClock",
             "params": [
                 {
-                    "name": "name.",
+                    "name": "name",
                     "description": "The name of the Clock.",
                     "type": "String"
                 },
                 {
-                    "name": "units.",
+                    "name": "units",
                     "description": "The number of milliseconds that make up one unit of time on this clock. Default 1000.",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "1000"
                 }
             ],
             "return": {
                 "description": "A reference to the newly created Clock object.",
-                "type": "Kiwi.Time.Clock"
+                "type": "Clock"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Manager.ts",
-            "line": 92,
+            "line": 102,
             "description": "Returns the Clock with the matching name. Throws and error if no Clock with that name exists",
             "itemtype": "method",
             "name": "getClock",
             "params": [
                 {
-                    "name": "name.",
+                    "name": "name",
                     "description": "The name of the Clock to be returned.",
                     "type": "String"
                 }
             ],
             "return": {
                 "description": "The clock which matches the name given.",
-                "type": "Kiwi.Time.Clock"
+                "type": "Clock"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Manager.ts",
-            "line": 110,
+            "line": 121,
+            "description": "Is executed every frame and updates all of the clocks that exist on this manager, times.",
             "itemtype": "method",
             "name": "update",
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Manager.ts",
-            "line": 126,
+            "line": 138,
+            "description": "Returns the current time. Based on the master clock.",
             "itemtype": "method",
             "name": "now",
             "return": {
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Manager.ts",
-            "line": 137,
+            "line": 150,
+            "description": "Returns the delta of the master clock.",
             "itemtype": "method",
             "name": "delta",
             "return": {
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Kiwi",
             "submodule": "Time"
@@ -24297,7 +25711,7 @@
             "is_constructor": 1,
             "return": {
                 "description": "This Object.",
-                "type": "Kiwi.Time.MasterClock"
+                "type": "MasterClock"
             },
             "class": "MasterClock",
             "module": "Kiwi",
@@ -24305,7 +25719,24 @@
         },
         {
             "file": "src\\time\\MasterClock.ts",
-            "line": 35,
+            "line": 31,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "MasterClock",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\MasterClock.ts",
+            "line": 41,
+            "description": "The time when the MasterClock was started.",
             "itemtype": "property",
             "name": "_started",
             "type": "Number",
@@ -24317,20 +25748,13 @@
         },
         {
             "file": "src\\time\\MasterClock.ts",
-            "line": 43,
+            "line": 49,
+            "description": "The current time. This is updated every frame but AFTER the delta is calculated.",
             "itemtype": "property",
             "name": "time",
             "type": "Number",
-            "class": "MasterClock",
-            "module": "Kiwi",
-            "submodule": "Time"
-        },
-        {
-            "file": "src\\time\\MasterClock.ts",
-            "line": 50,
-            "itemtype": "property",
-            "name": "now",
-            "type": "Number",
+            "access": "public",
+            "tagname": "",
             "class": "MasterClock",
             "module": "Kiwi",
             "submodule": "Time"
@@ -24338,64 +25762,69 @@
         {
             "file": "src\\time\\MasterClock.ts",
             "line": 57,
+            "description": "The current time, this is straight from the Date.now() method and is updated every frame BEFORE the delta.",
             "itemtype": "property",
-            "name": "delta",
+            "name": "now",
             "type": "Number",
+            "access": "public",
+            "tagname": "",
             "class": "MasterClock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\MasterClock.ts",
-            "line": 64,
+            "line": 65,
+            "description": "The time it takes for the time to update. Using this you can calculate the fps.",
+            "itemtype": "property",
+            "name": "delta",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "MasterClock",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\MasterClock.ts",
+            "line": 73,
+            "description": "The time that has elapsed since the game started. In milliseconds.",
             "itemtype": "method",
             "name": "elapsed",
             "return": {
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "MasterClock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\MasterClock.ts",
-            "line": 75,
+            "line": 85,
+            "description": "The time that has elapsed since the game started but in seconds.",
             "itemtype": "method",
             "name": "totalElapsedSeconds",
             "return": {
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "MasterClock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\MasterClock.ts",
-            "line": 86,
+            "line": 97,
+            "description": "The update loop that should be executed every frame. Used to update the time.",
             "itemtype": "method",
             "name": "update",
-            "class": "MasterClock",
-            "module": "Kiwi",
-            "submodule": "Time"
-        },
-        {
-            "file": "src\\time\\MasterClock.ts",
-            "line": 108,
-            "itemtype": "method",
-            "name": "elapsedSince",
-            "params": [
-                {
-                    "name": "since",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
+            "access": "public",
+            "tagname": "",
             "class": "MasterClock",
             "module": "Kiwi",
             "submodule": "Time"
@@ -24403,12 +25832,13 @@
         {
             "file": "src\\time\\MasterClock.ts",
             "line": 120,
+            "description": "Used to calculate the elapsed time from a point that is specified. This is returned in Milliseconds.",
             "itemtype": "method",
-            "name": "elapsedSecondsSince",
+            "name": "elapsedSince",
             "params": [
                 {
                     "name": "since",
-                    "description": "",
+                    "description": "The point in time in which you would like to see how many milliseconds have passed. In milliseconds.",
                     "type": "Number"
                 }
             ],
@@ -24416,15 +25846,43 @@
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "MasterClock",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\MasterClock.ts",
-            "line": 132,
+            "line": 133,
+            "description": "Used to calculate the elapsed time from a point that is specified BUT this is in seconds.",
+            "itemtype": "method",
+            "name": "elapsedSecondsSince",
+            "params": [
+                {
+                    "name": "since",
+                    "description": "The point in time in which you would like to see how many seconds have passed. In milliseconds.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "MasterClock",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\MasterClock.ts",
+            "line": 146,
+            "description": "Resets the MasterClocks time.",
             "itemtype": "method",
             "name": "reset",
+            "access": "public",
+            "tagname": "",
             "class": "MasterClock",
             "module": "Kiwi",
             "submodule": "Time"
@@ -24435,30 +25893,31 @@
             "description": "Constructor",
             "params": [
                 {
-                    "name": "The",
-                    "description": "name of the timer.",
+                    "name": "name",
+                    "description": "The name of the timer.",
                     "type": "String"
                 },
                 {
-                    "name": "The",
-                    "description": "game clock instance this Timer is based on.",
-                    "type": "Kiwi.Time.Clock"
+                    "name": "clock",
+                    "description": "The game clock instance this Timer is based on.",
+                    "type": "Clock"
                 },
                 {
                     "name": "delay",
-                    "description": "- The number of clock units to wait between firing events.",
+                    "description": "The number of clock units to wait between firing events.",
                     "type": "Number"
                 },
                 {
                     "name": "repeatCount",
-                    "description": "- The number of times to repeat the timer before it is expired. If you don't want it to ever expire, set a value of -1.",
-                    "type": "Number"
+                    "description": "The number of times to repeat the timer before it is expired. If you don't want it to ever expire, set a value of -1.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
                 }
             ],
-            "access": "protected",
-            "tagname": "",
             "return": {
-                "description": "(Object) This object."
+                "description": "This object.",
+                "type": "Timer"
             },
             "class": "Timer",
             "module": "Kiwi",
@@ -24466,76 +25925,85 @@
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 47,
+            "line": 42,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Timer",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Timer.ts",
+            "line": 52,
             "description": "The number of times the timer has repeated so far.",
             "itemtype": "property",
             "name": "_currentCount",
             "type": "Number",
+            "default": "0",
+            "access": "private",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 54,
+            "line": 61,
             "description": "Get the number of times the timer has repeated.",
             "itemtype": "method",
             "name": "getCurrentCount",
-            "access": "protected",
-            "tagname": "",
             "return": {
-                "description": "(Number)"
+                "description": "",
+                "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 66,
+            "line": 73,
             "description": "A collection of the TimerEvents associated with TimerEvent.TIMER_START",
             "itemtype": "property",
             "name": "_startEvents",
+            "type": "TimerEvent[]",
             "access": "private",
             "tagname": "",
-            "type": "Array",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 74,
+            "line": 81,
             "description": "A collection of the TimerEvents associated with TimerEvent.TIMER_COUNT",
             "itemtype": "property",
             "name": "_countEvents",
             "access": "private",
             "tagname": "",
-            "type": "Array",
+            "type": "TimerEvent[]",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 82,
+            "line": 89,
             "description": "A collection of the TimerEvents associated with TimerEvent.TIMER_STOP",
             "itemtype": "property",
             "name": "_stopEvents",
             "access": "private",
             "tagname": "",
-            "type": "Array",
-            "class": "Timer",
-            "module": "Kiwi",
-            "submodule": "Time"
-        },
-        {
-            "file": "src\\time\\Timer.ts",
-            "line": 90,
-            "description": "The clock which this timer bases its timing on.",
-            "itemtype": "property",
-            "name": "_clock",
-            "type": "Object",
+            "type": "TimerEvent[]",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
@@ -24543,34 +26011,39 @@
         {
             "file": "src\\time\\Timer.ts",
             "line": 97,
+            "description": "The clock which this timer bases its timing on.",
+            "itemtype": "property",
+            "name": "_clock",
+            "type": "Clock",
+            "access": "private",
+            "tagname": "",
+            "class": "Timer",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Timer.ts",
+            "line": 105,
             "description": "The time the last repeat occurred in clock units.",
             "itemtype": "property",
             "name": "_timeLastCount",
             "type": "Number",
+            "access": "private",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 104,
+            "line": 113,
             "description": "Whether the timer is in a running state.",
             "itemtype": "property",
             "name": "_isRunning",
             "type": "boolean",
-            "class": "Timer",
-            "module": "Kiwi",
-            "submodule": "Time"
-        },
-        {
-            "file": "src\\time\\Timer.ts",
-            "line": 111,
-            "description": "The Timers current state. True if the Timer is running, otherwise false.",
-            "itemtype": "method",
-            "name": "running",
-            "return": {
-                "description": "(boolean)"
-            },
+            "default": "false",
+            "access": "private",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
@@ -24578,168 +26051,219 @@
         {
             "file": "src\\time\\Timer.ts",
             "line": 122,
+            "description": "The Timers current state. True if the Timer is running, otherwise false.",
+            "itemtype": "method",
+            "name": "running",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Timer",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Timer.ts",
+            "line": 134,
             "description": "Whether the timer is in a stopped state.",
             "itemtype": "property",
             "name": "_isStopped",
             "type": "boolean",
+            "default": "true",
+            "access": "private",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 129,
+            "line": 143,
             "description": "Whether the timer is in a stopped state.",
             "itemtype": "method",
             "name": "stopped",
             "return": {
-                "description": "(boolean)"
+                "description": "",
+                "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 140,
+            "line": 155,
             "description": "Whether the timer is in a paused state.",
             "itemtype": "property",
             "name": "_isPaused",
             "type": "boolean",
+            "default": "false",
+            "access": "private",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 147,
+            "line": 164,
             "description": "Whether the timer is in a paused state.",
             "itemtype": "method",
             "name": "paused",
             "return": {
-                "description": "(boolean)"
+                "description": "",
+                "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 158,
+            "line": 176,
             "description": "The name of the timer.",
             "itemtype": "property",
             "name": "name",
-            "type": "Number",
+            "type": "String",
+            "default": "null",
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 165,
+            "line": 185,
             "description": "The delay, in game clock units, that the timer will wait before firing the event",
             "itemtype": "property",
             "name": "delay",
             "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 172,
+            "line": 194,
             "description": "The number of times the timer will repeat before stopping.",
             "itemtype": "property",
             "name": "repeatCount",
             "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 179,
+            "line": 203,
             "description": "Checks the list of TimerEvents added and processes them based on their type.",
             "itemtype": "method",
-            "name": "dispatchEvents",
-            "access": "private",
-            "tagname": "",
+            "name": "processEvents",
             "params": [
                 {
-                    "name": "The",
-                    "description": "type of events to dispatch",
+                    "name": "type",
+                    "description": "The type of events to dispatch",
                     "type": "Number"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 211,
-            "description": "Internal update loop called by the CLock that this Timer belongs to.",
+            "line": 235,
+            "description": "Internal update loop called by the Clock that this Timer belongs to.",
             "itemtype": "method",
             "name": "update",
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 234,
+            "line": 259,
             "description": "Start the Timer. This will reset the timer and start it. The timer can only be started if it is in a stopped state.",
             "itemtype": "method",
             "name": "start",
             "return": {
-                "description": "(Object) this object."
+                "description": "this object.",
+                "type": "Timer"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 256,
+            "line": 282,
             "description": "Stop the Timer. Only possible when the timer is running or paused.",
             "itemtype": "method",
             "name": "stop",
             "return": {
-                "description": "(Object) this object."
+                "description": "this object.",
+                "type": "Timer"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 276,
+            "line": 303,
             "description": "Pause the Timer. Only possible when the timer is running.",
             "itemtype": "method",
             "name": "pause",
             "return": {
-                "description": "(Object) this object."
+                "description": "this object.",
+                "type": "Timer"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 292,
+            "line": 320,
             "description": "Resume the Timer. Only possible if the timer has been paused.",
             "itemtype": "method",
             "name": "resume",
             "return": {
-                "description": "(Object) this object."
+                "description": "this object.",
+                "type": "Timer"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 309,
+            "line": 338,
             "description": "Adds an existing TimerEvent object to this Timer.",
             "itemtype": "method",
             "name": "addTimerEvent",
@@ -24747,44 +26271,15 @@
                 {
                     "name": "A",
                     "description": "TimerEvent object",
-                    "type": "Kiwi.Time.TimerEvent"
+                    "type": "TimerEvent"
                 }
             ],
             "return": {
                 "description": "The TimerEvent object",
-                "type": "Kiwi.Time.TimerEvent"
+                "type": "TimerEvent"
             },
-            "class": "Timer",
-            "module": "Kiwi",
-            "submodule": "Time"
-        },
-        {
-            "file": "src\\time\\Timer.ts",
-            "line": 334,
-            "description": "Creates a new TimerEvent and adds it to this Timer",
-            "itemtype": "method",
-            "name": "createTimerEvent",
-            "params": [
-                {
-                    "name": "The",
-                    "description": "type of TimerEvent to create (TIMER_START, TIMER_COUNT or TIMER_STOP).",
-                    "type": "Number"
-                },
-                {
-                    "name": "The",
-                    "description": "function to call when the TimerEvent fires.",
-                    "type": "Function"
-                },
-                {
-                    "name": "The",
-                    "description": "context in which the given function will run (usually 'this')",
-                    "type": "Function"
-                }
-            ],
-            "return": {
-                "description": "The newly created TimerEvent.",
-                "type": "Kiwi.Time.TimerEvent"
-            },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
@@ -24792,6 +26287,39 @@
         {
             "file": "src\\time\\Timer.ts",
             "line": 364,
+            "description": "Creates a new TimerEvent and adds it to this Timer",
+            "itemtype": "method",
+            "name": "createTimerEvent",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The type of TimerEvent to create (TIMER_START, TIMER_COUNT or TIMER_STOP).",
+                    "type": "Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when the TimerEvent fires.",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context in which the given function will run (usually 'this')",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "The newly created TimerEvent.",
+                "type": "TimerEvent"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Timer",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\Timer.ts",
+            "line": 395,
             "description": "Removes a TimerEvent object from this Timer",
             "itemtype": "method",
             "name": "removeTimerEvent",
@@ -24799,27 +26327,29 @@
                 {
                     "name": "The",
                     "description": "TimerEvent to remove",
-                    "type": "Kiwi.Time.TimerEvent"
+                    "type": "TimerEvent"
                 }
             ],
             "return": {
                 "description": "True if the event was removed, otherwise false.",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 398,
+            "line": 430,
             "description": "Removes all TimerEvent objects from this Timer",
             "itemtype": "method",
             "name": "clear",
             "params": [
                 {
-                    "name": "The",
-                    "description": "type of TimerEvents to remove. Set to zero to remove them all.",
+                    "name": "type",
+                    "description": "The type of TimerEvents to remove. Set to zero to remove them all.",
                     "type": "Number"
                 }
             ],
@@ -24827,13 +26357,15 @@
                 "description": "True if the event was removed, otherwise false.",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\Timer.ts",
-            "line": 427,
+            "line": 460,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -24841,14 +26373,9 @@
                 "description": "a string representation of the instance.",
                 "type": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Timer",
-            "module": "Kiwi",
-            "submodule": "Time"
-        },
-        {
-            "file": "src\\time\\TimerEvent.ts",
-            "line": 10,
-            "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Time"
         },
@@ -24859,103 +26386,140 @@
             "params": [
                 {
                     "name": "type",
-                    "description": "",
+                    "description": "The type of TimerEvent that this is.",
                     "type": "Number"
                 },
                 {
                     "name": "callback",
-                    "description": "",
+                    "description": "The method that is to be executed when the event occurs.",
+                    "type": "Any"
+                },
+                {
+                    "name": "context",
+                    "description": "The context that the callback is to be called in.",
                     "type": "Any"
                 }
             ],
             "return": {
                 "description": "This Object.",
-                "type": "Kiwi.Time.TimerEvent"
+                "type": "TimerEvent"
             },
-            "class": "Canvas",
+            "class": "TimerEvent",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\TimerEvent.ts",
-            "line": 36,
-            "description": "Name for the event fired when a timer starts.",
-            "itemtype": "property",
-            "name": "TIMER_START",
-            "constant": "",
-            "type": "string",
-            "class": "Canvas",
+            "line": 34,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TimerEvent",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\TimerEvent.ts",
             "line": 44,
+            "description": "Name for the event fired when a timer starts.",
+            "itemtype": "property",
+            "name": "TIMER_START",
+            "type": "number",
+            "final": 1,
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "default": "1",
+            "class": "TimerEvent",
+            "module": "Kiwi",
+            "submodule": "Time"
+        },
+        {
+            "file": "src\\time\\TimerEvent.ts",
+            "line": 55,
             "description": "Name for the event fired when a timer repeats.",
             "itemtype": "property",
             "name": "TIMER_COUNT",
-            "constant": "",
+            "access": "public",
+            "tagname": "",
             "type": "string",
-            "class": "Canvas",
+            "final": 1,
+            "static": 1,
+            "default": "2",
+            "class": "TimerEvent",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\TimerEvent.ts",
-            "line": 52,
+            "line": 66,
             "description": "Name for the event fired when a timer stops.",
             "itemtype": "property",
             "name": "TIMER_STOP",
-            "constant": "",
             "type": "string",
-            "class": "Canvas",
+            "final": 1,
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "default": "3",
+            "class": "TimerEvent",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\TimerEvent.ts",
-            "line": 60,
+            "line": 77,
             "description": "The callback to be called when this TimerEvent triggers",
             "itemtype": "property",
             "name": "_callback",
+            "type": "Function",
             "access": "private",
             "tagname": "",
-            "type": "Function",
-            "class": "Canvas",
+            "class": "TimerEvent",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\TimerEvent.ts",
-            "line": 68,
+            "line": 85,
             "description": "The context in which the callback will be fired",
             "itemtype": "property",
             "name": "_callbackContext",
+            "type": "Function",
             "access": "private",
             "tagname": "",
-            "type": "Function",
-            "class": "Canvas",
+            "class": "TimerEvent",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\TimerEvent.ts",
-            "line": 76,
+            "line": 93,
             "description": "The type of TimerEvent",
             "itemtype": "property",
             "name": "type",
-            "type": "Funcation",
-            "class": "Canvas",
+            "type": "Function",
+            "access": "public",
+            "tagname": "",
+            "class": "TimerEvent",
             "module": "Kiwi",
             "submodule": "Time"
         },
         {
             "file": "src\\time\\TimerEvent.ts",
-            "line": 83,
+            "line": 101,
             "description": "Fires the callback associated with this TimerEvent",
             "itemtype": "method",
             "name": "run",
-            "class": "Canvas",
+            "access": "public",
+            "tagname": "",
+            "class": "TimerEvent",
             "module": "Kiwi",
             "submodule": "Time"
         },
@@ -26738,16 +28302,8 @@
             "line": " src\\textures\\SingleImage.ts:79"
         },
         {
-            "message": "unknown tag: constant",
-            "line": " src\\time\\TimerEvent.ts:36"
-        },
-        {
-            "message": "unknown tag: constant",
-            "line": " src\\time\\TimerEvent.ts:44"
-        },
-        {
-            "message": "unknown tag: constant",
-            "line": " src\\time\\TimerEvent.ts:52"
+            "message": "unknown tag: ublic",
+            "line": " src\\time\\Clock.ts:301"
         },
         {
             "message": "Missing item type\nKiwi - Tween - Easing - Back",
@@ -27247,6 +28803,14 @@
         },
         {
             "message": "Missing item type",
+            "line": " src\\sound\\AudioLibrary.ts:17"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src\\sound\\AudioManager.ts:18"
+        },
+        {
+            "message": "Missing item type",
             "line": " src\\system\\Browser.ts:19"
         },
         {
@@ -27282,6 +28846,10 @@
             "line": " src\\textures\\TextureLibrary.ts:19"
         },
         {
+            "message": "Missing item type\nA clock class for keeping time.",
+            "line": " src\\time\\Clock.ts:25"
+        },
+        {
             "message": "Missing item type",
             "line": " src\\time\\Manager.ts:18"
         },
@@ -27292,10 +28860,6 @@
         {
             "message": "Missing item type\nConstructor",
             "line": " src\\time\\Timer.ts:20"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src\\time\\TimerEvent.ts:10"
         },
         {
             "message": "Missing item type",

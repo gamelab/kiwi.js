@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\file\FileStore.ts - Kiwi.js</title>
+    <title>src\sound\AudioLibrary.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -244,185 +244,101 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\file\FileStore.ts</h1>
+                        <h1 class="file-heading">File: src\sound\AudioLibrary.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Files
+* Kiwi - Sound
 * @module Kiwi
-* @submodule Files 
+* @submodule Sound
 * 
-*/
+*/ 
 
-module Kiwi.Files {
+module Kiwi.Sound {
 
     /**
     *
     *
-    * @class FileStore
-    *
+    * @class AudioLibrary
     */
-    export class FileStore {
+    export class AudioLibrary {
 
         /**
         * 
         * @constructor
-        * @return {Kiwi.FilesStore}
+        * @param game {Game} The game that this audio library is a member of.
+        * @return {AudioLibrary}
         */
         constructor(game: Kiwi.Game) {
+
             this._game = game;
-            this._files = {};
-
+            this.audio = {};
         }
 
-        public objType() {
-            return &quot;FileStore&quot;;
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string {
+            return &quot;AudioLibrary&quot;;
         }
 
+        /**
+        * The game that the AudioLibrary belongs to.
+        * @property _game
+        * @type Game
+        * @private
+        */
         private _game: Kiwi.Game;
 
         /**
-        * 
-        * @property _files
-        * @private
+        * Contains all of the audio files that are available.
+        * @property audio
+        * @type Object
+        * @public
         */
-        private _files;
+        public audio;
 
         /**
-        * 
-        * @property _size
-        * @type Number
-        * @private
+        * Resets the audio library.
+        * @method clear
+        * @public
         */
-        private _size:number = 0;
-
-        public boot() {
-            
-        }
-
-        /** 
-        * 
-        * @method getFile
-        * @param {Sting} key
-        * @return {Kiwi.Files} 
-        */
-        public getFile(key: string): Kiwi.Files.File {
-
-            return this._files[key];
-
-        }
-
-        public getFilesByTag(tag: string): Object {
-
-            var obj = {};
-            for (var file in this._files) {
-                if (this._files[file].hasTag(tag)) {
-                    obj[file] = this._files[file];
-                }
+        public clear() {
+            for (var prop in this.audio) {
+                delete this.audio[prop];
             }
-            return obj;
         }
-
-        public removeFilesByTag(tag: string) {
-
-            var obj = {};
-            for (var file in this._files) {
-                if (this._files[file].hasTag(tag)) {
-                    this.removeFile(file);
-                }
-            }
-            return obj;
-        }
-
-        public get keys(): string[]{
-            var keys: string[] = new Array();
-            for (var key in this._files) {
-                keys.push(key);
-            }
-
-            return keys;
-        }
-
-        /** 
-        * Gets 
-        * @method size
-        * @return {Number} 
-        */
-        public size(): number {
-
-            return this._size;
-
-        }
-
-
 
         /**
+        * Adds a new audio file to the audio library.
         * @method add
-        * @param {String} key
-        * @param {File} value
-		*/
-        public addFile(key: string, value: Kiwi.Files.File): boolean {
+        * @param {File} imageFile
+        * @public
+        */
+        public add(audioFile: Kiwi.Files.File) {
 
-            if (!this._files[key])
-            {
-                this._files[key] = value;
-                this._size++;
-                return true;
-            }
-
-            return false;
-
-        }
-
-        /**
-        * @method exists
-        * @param {Sting} key
-        * @return boolean
-		*/
-        public exists(key: string): boolean {
-
-            if (this._files[key])
-            {
-                return true;
-            }
-            else
-            {
-                return false;
+            switch (audioFile.dataType) {
+                case Kiwi.Files.File.AUDIO:
+                    this.audio[audioFile.key] = audioFile;
+                    break;
+               
+                default:
+                    //Audio file is of unknown type and was not added to audio library
+                    break;
             }
 
         }
 
-        public removeStateFiles(state: Kiwi.State) {
-            for (var file in this._files) {
-                if (this._files[file].ownerState === state) {
-                    this.removeFile(file);
-                }
-            }
-        }
-
-        /**
-        * @method remove
-        * @param {String} key
-		*/
-        public removeFile(key: string): boolean {
-
-            if (this._files[key])
-            {
-                this._files[key] = null;
-                delete this._files[key];
-                return true;
-            }
-
-            return false;
-
-        }
-
-
-
+       
     }
 
 }
+
+
     </pre>
 </div>
 

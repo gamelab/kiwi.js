@@ -9263,7 +9263,6 @@ var Kiwi;
                 configurable: true
             });
 
-
             Object.defineProperty(AudioManager.prototype, "volume", {
                 get: function () {
                     return this._volume;
@@ -9452,7 +9451,6 @@ var Kiwi;
                 });
             };
 
-
             Object.defineProperty(Audio.prototype, "volume", {
                 get: function () {
                     return this._volume;
@@ -9480,7 +9478,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Audio.prototype, "mute", {
                 get: function () {

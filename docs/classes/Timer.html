@@ -51,6 +51,8 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -166,6 +168,8 @@
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
             
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
@@ -297,105 +301,112 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addTimerEvent">addTimerEvent</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clear">clear</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_createTimerEvent">createTimerEvent</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method private">
-                                <a href="#method_dispatchEvents">dispatchEvents</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method protected">
+                            <li class="index-item method public">
                                 <a href="#method_getCurrentCount">getCurrentCount</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_pause">pause</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_paused">paused</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method private">
+                                <a href="#method_processEvents">processEvents</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_removeTimerEvent">removeTimerEvent</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_resume">resume</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_running">running</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_start">start</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_stop">stop</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_stopped">stopped</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_toString">toString</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_update">update</a>
 
                                 
@@ -412,7 +423,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
                     <ul class="index-list properties">
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property__clock">_clock</a>
 
                                 
@@ -426,28 +437,28 @@ Timer objects can run once or repeat at specified intervals to execute code on a
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property__currentCount">_currentCount</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property__isPaused">_isPaused</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property__isRunning">_isRunning</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property__isStopped">_isStopped</a>
 
                                 
@@ -468,28 +479,28 @@ Timer objects can run once or repeat at specified intervals to execute code on a
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property__timeLastCount">_timeLastCount</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_delay">delay</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_name">name</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_repeatCount">repeatCount</a>
 
                                 
@@ -510,7 +521,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_addTimerEvent" class="method item">
+                    <div id="method_addTimerEvent" class="method item public">
     <h3 class="name"><code>addTimerEvent</code></h3>
 
     
@@ -529,12 +540,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.TimerEvent</span>
+            <span class="type"><a href="..\classes\TimerEvent.html" class="crosslink">TimerEvent</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -556,7 +569,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l309"><code>src\time\Timer.ts:309</code></a>
+        <a href="../files/src_time_Timer.ts.html#l338"><code>src\time\Timer.ts:338</code></a>
         
         </p>
 
@@ -580,7 +593,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
                 <li class="param">
                     
                         <code class="param-name">A</code>
-                        <span class="type">Kiwi.Time.TimerEvent</span>
+                        <span class="type"><a href="..\classes\TimerEvent.html" class="crosslink">TimerEvent</a></span>
                     
 
                     
@@ -604,7 +617,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.TimerEvent</span>:
+                        <span class="type"><a href="..\classes\TimerEvent.html" class="crosslink">TimerEvent</a></span>:
                     
                     <p>The TimerEvent object</p>
 
@@ -617,7 +630,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_clear" class="method item">
+                    <div id="method_clear" class="method item public">
     <h3 class="name"><code>clear</code></h3>
 
     
@@ -626,7 +639,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>type</code>
                     
                 </li>
             
@@ -642,6 +655,8 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -663,7 +678,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l398"><code>src\time\Timer.ts:398</code></a>
+        <a href="../files/src_time_Timer.ts.html#l430"><code>src\time\Timer.ts:430</code></a>
         
         </p>
 
@@ -686,14 +701,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">type</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>type of TimerEvents to remove. Set to zero to remove them all.</p>
+                        <p>The type of TimerEvents to remove. Set to zero to remove them all.</p>
 
                     </div>
 
@@ -724,7 +739,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_createTimerEvent" class="method item">
+                    <div id="method_createTimerEvent" class="method item public">
     <h3 class="name"><code>createTimerEvent</code></h3>
 
     
@@ -733,19 +748,19 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>type</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>callback</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>context</code>
                     
                 </li>
             
@@ -755,12 +770,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.TimerEvent</span>
+            <span class="type"><a href="..\classes\TimerEvent.html" class="crosslink">TimerEvent</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -782,7 +799,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l334"><code>src\time\Timer.ts:334</code></a>
+        <a href="../files/src_time_Timer.ts.html#l364"><code>src\time\Timer.ts:364</code></a>
         
         </p>
 
@@ -805,14 +822,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">type</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>type of TimerEvent to create (TIMER_START, TIMER_COUNT or TIMER_STOP).</p>
+                        <p>The type of TimerEvent to create (TIMER_START, TIMER_COUNT or TIMER_STOP).</p>
 
                     </div>
 
@@ -821,14 +838,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">callback</code>
                         <span class="type">Function</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>function to call when the TimerEvent fires.</p>
+                        <p>The function to call when the TimerEvent fires.</p>
 
                     </div>
 
@@ -837,14 +854,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">context</code>
                         <span class="type">Function</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>context in which the given function will run (usually &#39;this&#39;)</p>
+                        <p>The context in which the given function will run (usually &#39;this&#39;)</p>
 
                     </div>
 
@@ -862,7 +879,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.TimerEvent</span>:
+                        <span class="type"><a href="..\classes\TimerEvent.html" class="crosslink">TimerEvent</a></span>:
                     
                     <p>The newly created TimerEvent.</p>
 
@@ -875,8 +892,302 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_dispatchEvents" class="method item private">
-    <h3 class="name"><code>dispatchEvents</code></h3>
+                    <div id="method_getCurrentCount" class="method item public">
+    <h3 class="name"><code>getCurrentCount</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l61"><code>src\time\Timer.ts:61</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the number of times the timer has repeated.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l42"><code>src\time\Timer.ts:42</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_pause" class="method item public">
+    <h3 class="name"><code>pause</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l303"><code>src\time\Timer.ts:303</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Pause the Timer. Only possible when the timer is running.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>:
+                    
+                    <p>this object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_paused" class="method item public">
+    <h3 class="name"><code>paused</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l164"><code>src\time\Timer.ts:164</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the timer is in a paused state.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_processEvents" class="method item private">
+    <h3 class="name"><code>processEvents</code></h3>
 
     
         <div class="args">
@@ -884,7 +1195,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>type</code>
                     
                 </li>
             
@@ -919,7 +1230,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l179"><code>src\time\Timer.ts:179</code></a>
+        <a href="../files/src_time_Timer.ts.html#l203"><code>src\time\Timer.ts:203</code></a>
         
         </p>
 
@@ -942,14 +1253,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">type</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>type of events to dispatch</p>
+                        <p>The type of events to dispatch</p>
 
                     </div>
 
@@ -966,222 +1277,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_getCurrentCount" class="method item protected">
-    <h3 class="name"><code>getCurrentCount</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag protected">protected</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l54"><code>src\time\Timer.ts:54</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the number of times the timer has repeated.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>(Number)</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_pause" class="method item">
-    <h3 class="name"><code>pause</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l276"><code>src\time\Timer.ts:276</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Pause the Timer. Only possible when the timer is running.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>(Object) this object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_paused" class="method item">
-    <h3 class="name"><code>paused</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l147"><code>src\time\Timer.ts:147</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Whether the timer is in a paused state.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>(boolean)</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_removeTimerEvent" class="method item">
+                    <div id="method_removeTimerEvent" class="method item public">
     <h3 class="name"><code>removeTimerEvent</code></h3>
 
     
@@ -1207,6 +1303,8 @@ Timer objects can run once or repeat at specified intervals to execute code on a
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1227,7 +1325,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l364"><code>src\time\Timer.ts:364</code></a>
+        <a href="../files/src_time_Timer.ts.html#l395"><code>src\time\Timer.ts:395</code></a>
         
         </p>
 
@@ -1251,7 +1349,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
                 <li class="param">
                     
                         <code class="param-name">The</code>
-                        <span class="type">Kiwi.Time.TimerEvent</span>
+                        <span class="type"><a href="..\classes\TimerEvent.html" class="crosslink">TimerEvent</a></span>
                     
 
                     
@@ -1288,7 +1386,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_resume" class="method item">
+                    <div id="method_resume" class="method item public">
     <h3 class="name"><code>resume</code></h3>
 
     
@@ -1297,12 +1395,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1324,7 +1424,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l292"><code>src\time\Timer.ts:292</code></a>
+        <a href="../files/src_time_Timer.ts.html#l320"><code>src\time\Timer.ts:320</code></a>
         
         </p>
 
@@ -1348,7 +1448,9 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             <div class="returns-description">
                 
                     
-                    <p>(Object) this object.</p>
+                        <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>:
+                    
+                    <p>this object.</p>
 
                 
             </div>
@@ -1359,7 +1461,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_running" class="method item">
+                    <div id="method_running" class="method item public">
     <h3 class="name"><code>running</code></h3>
 
     
@@ -1368,12 +1470,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Boolean</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1395,7 +1499,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l111"><code>src\time\Timer.ts:111</code></a>
+        <a href="../files/src_time_Timer.ts.html#l122"><code>src\time\Timer.ts:122</code></a>
         
         </p>
 
@@ -1419,8 +1523,8 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             <div class="returns-description">
                 
                     
-                    <p>(boolean)</p>
-
+                        <span class="type">Boolean</span>:
+                    
                 
             </div>
         </div>
@@ -1430,7 +1534,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_start" class="method item">
+                    <div id="method_start" class="method item public">
     <h3 class="name"><code>start</code></h3>
 
     
@@ -1439,12 +1543,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1466,7 +1572,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l234"><code>src\time\Timer.ts:234</code></a>
+        <a href="../files/src_time_Timer.ts.html#l259"><code>src\time\Timer.ts:259</code></a>
         
         </p>
 
@@ -1490,7 +1596,9 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             <div class="returns-description">
                 
                     
-                    <p>(Object) this object.</p>
+                        <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>:
+                    
+                    <p>this object.</p>
 
                 
             </div>
@@ -1501,7 +1609,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_stop" class="method item">
+                    <div id="method_stop" class="method item public">
     <h3 class="name"><code>stop</code></h3>
 
     
@@ -1510,12 +1618,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1537,7 +1647,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l256"><code>src\time\Timer.ts:256</code></a>
+        <a href="../files/src_time_Timer.ts.html#l282"><code>src\time\Timer.ts:282</code></a>
         
         </p>
 
@@ -1561,7 +1671,9 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             <div class="returns-description">
                 
                     
-                    <p>(Object) this object.</p>
+                        <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>:
+                    
+                    <p>this object.</p>
 
                 
             </div>
@@ -1572,7 +1684,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_stopped" class="method item">
+                    <div id="method_stopped" class="method item public">
     <h3 class="name"><code>stopped</code></h3>
 
     
@@ -1581,12 +1693,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Boolean</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1608,7 +1722,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l129"><code>src\time\Timer.ts:129</code></a>
+        <a href="../files/src_time_Timer.ts.html#l143"><code>src\time\Timer.ts:143</code></a>
         
         </p>
 
@@ -1632,8 +1746,8 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             <div class="returns-description">
                 
                     
-                    <p>(boolean)</p>
-
+                        <span class="type">Boolean</span>:
+                    
                 
             </div>
         </div>
@@ -1643,7 +1757,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_toString" class="method item">
+                    <div id="method_toString" class="method item public">
     <h3 class="name"><code>toString</code></h3>
 
     
@@ -1658,6 +1772,8 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1679,7 +1795,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l427"><code>src\time\Timer.ts:427</code></a>
+        <a href="../files/src_time_Timer.ts.html#l460"><code>src\time\Timer.ts:460</code></a>
         
         </p>
 
@@ -1716,7 +1832,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="method_update" class="method item">
+                    <div id="method_update" class="method item public">
     <h3 class="name"><code>update</code></h3>
 
     
@@ -1727,6 +1843,8 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1748,7 +1866,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l211"><code>src\time\Timer.ts:211</code></a>
+        <a href="../files/src_time_Timer.ts.html#l235"><code>src\time\Timer.ts:235</code></a>
         
         </p>
 
@@ -1759,7 +1877,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
     </div>
 
     <div class="description">
-        <p>Internal update loop called by the CLock that this Timer belongs to.</p>
+        <p>Internal update loop called by the Clock that this Timer belongs to.</p>
 
     </div>
 
@@ -1779,378 +1897,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__clock" class="property item">
+                    <div id="property__clock" class="property item private">
     <h3 class="name"><code>_clock</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l90"><code>src\time\Timer.ts:90</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The clock which this timer bases its timing on.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__countEvents" class="property item private">
-    <h3 class="name"><code>_countEvents</code></h3>
-    <span class="type">Array</span>
+    <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
 
     
 
     
         <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l74"><code>src\time\Timer.ts:74</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A collection of the TimerEvents associated with TimerEvent.TIMER_COUNT</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__currentCount" class="property item">
-    <h3 class="name"><code>_currentCount</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l47"><code>src\time\Timer.ts:47</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The number of times the timer has repeated so far.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__isPaused" class="property item">
-    <h3 class="name"><code>_isPaused</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l140"><code>src\time\Timer.ts:140</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Whether the timer is in a paused state.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__isRunning" class="property item">
-    <h3 class="name"><code>_isRunning</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l104"><code>src\time\Timer.ts:104</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Whether the timer is in a running state.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__isStopped" class="property item">
-    <h3 class="name"><code>_isStopped</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l122"><code>src\time\Timer.ts:122</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Whether the timer is in a stopped state.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__startEvents" class="property item private">
-    <h3 class="name"><code>_startEvents</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l66"><code>src\time\Timer.ts:66</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A collection of the TimerEvents associated with TimerEvent.TIMER_START</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__stopEvents" class="property item private">
-    <h3 class="name"><code>_stopEvents</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Timer.ts.html#l82"><code>src\time\Timer.ts:82</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A collection of the TimerEvents associated with TimerEvent.TIMER_STOP</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__timeLastCount" class="property item">
-    <h3 class="name"><code>_timeLastCount</code></h3>
-    <span class="type">Number</span>
-
-    
-
     
 
     
@@ -2178,7 +1932,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
     </div>
 
     <div class="description">
-        <p>The time the last repeat occurred in clock units.</p>
+        <p>The clock which this timer bases its timing on.</p>
 
     </div>
 
@@ -2190,12 +1944,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="property_delay" class="property item">
-    <h3 class="name"><code>delay</code></h3>
-    <span class="type">Number</span>
+                    <div id="property__countEvents" class="property item private">
+    <h3 class="name"><code>_countEvents</code></h3>
+    <span class="type"><a href="..\classes\TimerEvent.html" class="crosslink">TimerEvent[]</a></span>
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -2213,7 +1969,391 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l165"><code>src\time\Timer.ts:165</code></a>
+        <a href="../files/src_time_Timer.ts.html#l81"><code>src\time\Timer.ts:81</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A collection of the TimerEvents associated with TimerEvent.TIMER_COUNT</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__currentCount" class="property item private">
+    <h3 class="name"><code>_currentCount</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l52"><code>src\time\Timer.ts:52</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The number of times the timer has repeated so far.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__isPaused" class="property item private">
+    <h3 class="name"><code>_isPaused</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l155"><code>src\time\Timer.ts:155</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the timer is in a paused state.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__isRunning" class="property item private">
+    <h3 class="name"><code>_isRunning</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l113"><code>src\time\Timer.ts:113</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the timer is in a running state.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__isStopped" class="property item private">
+    <h3 class="name"><code>_isStopped</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l134"><code>src\time\Timer.ts:134</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the timer is in a stopped state.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__startEvents" class="property item private">
+    <h3 class="name"><code>_startEvents</code></h3>
+    <span class="type"><a href="..\classes\TimerEvent.html" class="crosslink">TimerEvent[]</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l73"><code>src\time\Timer.ts:73</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A collection of the TimerEvents associated with TimerEvent.TIMER_START</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__stopEvents" class="property item private">
+    <h3 class="name"><code>_stopEvents</code></h3>
+    <span class="type"><a href="..\classes\TimerEvent.html" class="crosslink">TimerEvent[]</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l89"><code>src\time\Timer.ts:89</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A collection of the TimerEvents associated with TimerEvent.TIMER_STOP</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__timeLastCount" class="property item private">
+    <h3 class="name"><code>_timeLastCount</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l105"><code>src\time\Timer.ts:105</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The time the last repeat occurred in clock units.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_delay" class="property item public">
+    <h3 class="name"><code>delay</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Timer.ts.html#l185"><code>src\time\Timer.ts:185</code></a>
         
         </p>
 
@@ -2228,6 +2368,8 @@ Timer objects can run once or repeat at specified intervals to execute code on a
     </div>
 
     
+        <p><strong>Default:</strong> 0</p>
+    
 
     
 
@@ -2235,12 +2377,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="property_name" class="property item">
+                    <div id="property_name" class="property item public">
     <h3 class="name"><code>name</code></h3>
-    <span class="type">Number</span>
+    <span class="type">String</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2258,7 +2402,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l158"><code>src\time\Timer.ts:158</code></a>
+        <a href="../files/src_time_Timer.ts.html#l176"><code>src\time\Timer.ts:176</code></a>
         
         </p>
 
@@ -2273,6 +2417,8 @@ Timer objects can run once or repeat at specified intervals to execute code on a
     </div>
 
     
+        <p><strong>Default:</strong> null</p>
+    
 
     
 
@@ -2280,12 +2426,14 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 </div>
 
                 
-                    <div id="property_repeatCount" class="property item">
+                    <div id="property_repeatCount" class="property item public">
     <h3 class="name"><code>repeatCount</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2303,7 +2451,7 @@ Timer objects can run once or repeat at specified intervals to execute code on a
             
         
         
-        <a href="../files/src_time_Timer.ts.html#l172"><code>src\time\Timer.ts:172</code></a>
+        <a href="../files/src_time_Timer.ts.html#l194"><code>src\time\Timer.ts:194</code></a>
         
         </p>
 
@@ -2317,6 +2465,8 @@ Timer objects can run once or repeat at specified intervals to execute code on a
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     

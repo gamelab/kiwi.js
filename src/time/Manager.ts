@@ -18,8 +18,8 @@ module Kiwi.Time {
         /**
         * 
         * @constructor
-        * @param {Kiwi.Game} game.
-        * @return {Kiwi.Time.Manager} This Object.
+        * @param {Game} game.
+        * @return {Manager} This Object.
         */
         constructor(game: Kiwi.Game) {
 
@@ -27,43 +27,52 @@ module Kiwi.Time {
 
         }
 
+        /**
+        * The type of object this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Manager";
         }
 
         /**
-        * 
+        * The game that this belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
         */
         private _game: Kiwi.Game;
 
         /**
-        * 
+        * An array containing all of the clocks that exist on this manager.
         * @property _clocks
-        * @type Array
+        * @type Clock[]
         * @private
         */
         private _clocks: Clock[] = [];
 
         /**
-        * 
+        * The MasterClock for this manager.
         * @property master
-        * @type Kiwi.Time.MasterClock
+        * @type MasterClock
+        * @private
         */
         private master: Kiwi.Time.MasterClock;
 
         /**
         * The default Game Clock - you can use this via this.game.time.clock. Uses a 1000 millisecond time unit.
         * @property clock
-        * @type Kiwi.Time.Clock
+        * @type Clock
+        * @public
         */
         public clock: Kiwi.Time.Clock;
 
         /**
-        * The DOM is ready, so let's start the clocks running
+        * When all of the DOM elements that the game requires have loaded successfully then this object will 'boot'.
         * @method boot
+        * @public
         */
         public boot() {
 
@@ -75,12 +84,13 @@ module Kiwi.Time {
         }
 
         /**
-        * Creates a Kiwi.Time.Clock class for keeping time relative to the MasterClock.
+        * Creates a Clock class for keeping time relative to the MasterClock.
         * @method addClock
-        * @param {string} name. The name of the Clock.
-        * @param {Number} units. The number of milliseconds that make up one unit of time on this clock. Default 1000.
-        * @return {Kiwi.Time.Clock} A reference to the newly created Clock object.
-        **/
+        * @param name {string} The name of the Clock.
+        * @param [units=1000] {Number} The number of milliseconds that make up one unit of time on this clock. Default 1000.
+        * @return {Clock} A reference to the newly created Clock object.
+        * @public
+        */
         public addClock(name: string, units: number = 1000): Clock {
 
             this._clocks.push(new Clock(this, this.master, name, units));
@@ -92,9 +102,10 @@ module Kiwi.Time {
         /**
         * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
         * @method getClock
-        * @param {string} name. The name of the Clock to be returned.
-        * @return {Kiwi.Time.Clock} The clock which matches the name given.
-        **/
+        * @param name {string} The name of the Clock to be returned.
+        * @return {Clock} The clock which matches the name given.
+        * @public
+        */
         public getClock(name: string): Clock {
 
             for (var i = 0; i < this._clocks.length; i++)
@@ -108,8 +119,9 @@ module Kiwi.Time {
         }
 
         /**
-        * 
+        * Is executed every frame and updates all of the clocks that exist on this manager, times.
         * @method update
+        * @public
         */
         public update() {
 
@@ -124,9 +136,10 @@ module Kiwi.Time {
         }
 
         /**
-        * 
+        * Returns the current time. Based on the master clock.
         * @method now
         * @return {Number}
+        * @public
         */
         public now(): number {
 
@@ -135,9 +148,10 @@ module Kiwi.Time {
         }
 
         /**
-        * 
+        * Returns the delta of the master clock.
         * @method delta
         * @return {Number}
+        * @public
         */
         public delta(): number {
 

@@ -51,6 +51,8 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -166,6 +168,8 @@
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
             
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
@@ -296,42 +300,49 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_elapsed">elapsed</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_elapsedSecondsSince">elapsedSecondsSince</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_elapsedSince">elapsedSince</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_reset">reset</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_totalElapsedSeconds">totalElapsedSeconds</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_update">update</a>
 
                                 
@@ -355,21 +366,21 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_delta">delta</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_now">now</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_time">time</a>
 
                                 
@@ -390,7 +401,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_elapsed" class="method item">
+                    <div id="method_elapsed" class="method item public">
     <h3 class="name"><code>elapsed</code></h3>
 
     
@@ -405,6 +416,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -426,7 +439,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
             
         
         
-        <a href="../files/src_time_MasterClock.ts.html#l64"><code>src\time\MasterClock.ts:64</code></a>
+        <a href="../files/src_time_MasterClock.ts.html#l73"><code>src\time\MasterClock.ts:73</code></a>
         
         </p>
 
@@ -437,7 +450,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     </div>
 
     <div class="description">
-        
+        <p>The time that has elapsed since the game started. In milliseconds.</p>
+
     </div>
 
     
@@ -460,7 +474,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 </div>
 
                 
-                    <div id="method_elapsedSecondsSince" class="method item">
+                    <div id="method_elapsedSecondsSince" class="method item public">
     <h3 class="name"><code>elapsedSecondsSince</code></h3>
 
     
@@ -485,6 +499,115 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 
     
 
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_MasterClock.ts.html#l133"><code>src\time\MasterClock.ts:133</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Used to calculate the elapsed time from a point that is specified BUT this is in seconds.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">since</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The point in time in which you would like to see how many seconds have passed. In milliseconds.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_elapsedSince" class="method item public">
+    <h3 class="name"><code>elapsedSince</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>since</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
     
 
     
@@ -517,7 +640,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     </div>
 
     <div class="description">
-        
+        <p>Used to calculate the elapsed time from a point that is specified. This is returned in Milliseconds.</p>
+
     </div>
 
     
@@ -535,7 +659,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>The point in time in which you would like to see how many milliseconds have passed. In milliseconds.</p>
+
                     </div>
 
                     
@@ -563,31 +688,23 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 </div>
 
                 
-                    <div id="method_elapsedSince" class="method item">
-    <h3 class="name"><code>elapsedSince</code></h3>
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>since</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type">String</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -609,7 +726,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
             
         
         
-        <a href="../files/src_time_MasterClock.ts.html#l108"><code>src\time\MasterClock.ts:108</code></a>
+        <a href="../files/src_time_MasterClock.ts.html#l31"><code>src\time\MasterClock.ts:31</code></a>
         
         </p>
 
@@ -620,32 +737,10 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     </div>
 
     <div class="description">
-        
+        <p>The type of object that this is.</p>
+
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">since</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -655,7 +750,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Number</span>:
+                        <span class="type">String</span>:
                     
                 
             </div>
@@ -666,7 +761,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 </div>
 
                 
-                    <div id="method_reset" class="method item">
+                    <div id="method_reset" class="method item public">
     <h3 class="name"><code>reset</code></h3>
 
     
@@ -678,6 +773,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -698,7 +795,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
             
         
         
-        <a href="../files/src_time_MasterClock.ts.html#l132"><code>src\time\MasterClock.ts:132</code></a>
+        <a href="../files/src_time_MasterClock.ts.html#l146"><code>src\time\MasterClock.ts:146</code></a>
         
         </p>
 
@@ -709,7 +806,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     </div>
 
     <div class="description">
-        
+        <p>Resets the MasterClocks time.</p>
+
     </div>
 
     
@@ -720,7 +818,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 </div>
 
                 
-                    <div id="method_totalElapsedSeconds" class="method item">
+                    <div id="method_totalElapsedSeconds" class="method item public">
     <h3 class="name"><code>totalElapsedSeconds</code></h3>
 
     
@@ -736,6 +834,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -756,7 +856,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
             
         
         
-        <a href="../files/src_time_MasterClock.ts.html#l75"><code>src\time\MasterClock.ts:75</code></a>
+        <a href="../files/src_time_MasterClock.ts.html#l85"><code>src\time\MasterClock.ts:85</code></a>
         
         </p>
 
@@ -767,7 +867,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     </div>
 
     <div class="description">
-        
+        <p>The time that has elapsed since the game started but in seconds.</p>
+
     </div>
 
     
@@ -790,7 +891,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 </div>
 
                 
-                    <div id="method_update" class="method item">
+                    <div id="method_update" class="method item public">
     <h3 class="name"><code>update</code></h3>
 
     
@@ -801,6 +902,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -822,7 +925,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
             
         
         
-        <a href="../files/src_time_MasterClock.ts.html#l86"><code>src\time\MasterClock.ts:86</code></a>
+        <a href="../files/src_time_MasterClock.ts.html#l97"><code>src\time\MasterClock.ts:97</code></a>
         
         </p>
 
@@ -833,7 +936,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     </div>
 
     <div class="description">
-        
+        <p>The update loop that should be executed every frame. Used to update the time.</p>
+
     </div>
 
     
@@ -877,7 +981,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
             
         
         
-        <a href="../files/src_time_MasterClock.ts.html#l35"><code>src\time\MasterClock.ts:35</code></a>
+        <a href="../files/src_time_MasterClock.ts.html#l41"><code>src\time\MasterClock.ts:41</code></a>
         
         </p>
 
@@ -887,7 +991,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     </div>
 
     <div class="description">
-        
+        <p>The time when the MasterClock was started.</p>
+
     </div>
 
     
@@ -898,12 +1003,61 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 </div>
 
                 
-                    <div id="property_delta" class="property item">
+                    <div id="property_delta" class="property item public">
     <h3 class="name"><code>delta</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_MasterClock.ts.html#l65"><code>src\time\MasterClock.ts:65</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The time it takes for the time to update. Using this you can calculate the fps.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_now" class="property item public">
+    <h3 class="name"><code>now</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
     
 
     
@@ -931,7 +1085,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     </div>
 
     <div class="description">
-        
+        <p>The current time, this is straight from the Date.now() method and is updated every frame BEFORE the delta.</p>
+
     </div>
 
     
@@ -942,57 +1097,15 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
 </div>
 
                 
-                    <div id="property_now" class="property item">
-    <h3 class="name"><code>now</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_MasterClock.ts.html#l50"><code>src\time\MasterClock.ts:50</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_time" class="property item">
+                    <div id="property_time" class="property item public">
     <h3 class="name"><code>time</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1009,7 +1122,7 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
             
         
         
-        <a href="../files/src_time_MasterClock.ts.html#l43"><code>src\time\MasterClock.ts:43</code></a>
+        <a href="../files/src_time_MasterClock.ts.html#l49"><code>src\time\MasterClock.ts:49</code></a>
         
         </p>
 
@@ -1019,7 +1132,8 @@ You should not access it directly, use the Clock and Timer classes instead.</p>
     </div>
 
     <div class="description">
-        
+        <p>The current time. This is updated every frame but AFTER the delta is calculated.</p>
+
     </div>
 
     

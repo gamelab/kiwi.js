@@ -51,6 +51,8 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -166,6 +168,8 @@
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
             
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
@@ -316,14 +320,14 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addClock">addClock</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_boot">boot</a>
 
                                 
@@ -344,7 +348,7 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_delta">delta</a>
 
                                 
@@ -358,7 +362,7 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_getClock">getClock</a>
 
                                 
@@ -563,8 +567,15 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_now">now</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
 
                                 
                                 
@@ -686,7 +697,7 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_update">update</a>
 
                                 
@@ -745,7 +756,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_clock">clock</a>
 
                                 
@@ -773,7 +784,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property_master">master</a>
 
                                 
@@ -1350,7 +1361,7 @@
 </div>
 
                 
-                    <div id="method_addClock" class="method item">
+                    <div id="method_addClock" class="method item public">
     <h3 class="name"><code>addClock</code></h3>
 
     
@@ -1359,13 +1370,13 @@
             
                 <li class="arg">
                     
-                        <code>name.</code>
+                        <code>name</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>units.</code>
+                        <code class="optional">[units=1000]</code>
                     
                 </li>
             
@@ -1375,12 +1386,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.Clock</span>
+            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1402,7 +1415,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l77"><code>src\time\Manager.ts:77</code></a>
+        <a href="../files/src_time_Manager.ts.html#l86"><code>src\time\Manager.ts:86</code></a>
         
         </p>
 
@@ -1413,7 +1426,7 @@
     </div>
 
     <div class="description">
-        <p>Creates a Kiwi.Time.Clock class for keeping time relative to the MasterClock.</p>
+        <p>Creates a Clock class for keeping time relative to the MasterClock.</p>
 
     </div>
 
@@ -1425,7 +1438,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">name.</code>
+                        <code class="param-name">name</code>
                         <span class="type">String</span>
                     
 
@@ -1441,8 +1454,9 @@
             
                 <li class="param">
                     
-                        <code class="param-name">units.</code>
+                        <code class="param-name optional">[units=1000]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1466,7 +1480,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.Clock</span>:
+                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
                     
                     <p>A reference to the newly created Clock object.</p>
 
@@ -1479,7 +1493,7 @@
 </div>
 
                 
-                    <div id="method_boot" class="method item">
+                    <div id="method_boot" class="method item public">
     <h3 class="name"><code>boot</code></h3>
 
     
@@ -1490,6 +1504,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1511,7 +1527,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l64"><code>src\time\Manager.ts:64</code></a>
+        <a href="../files/src_time_Manager.ts.html#l72"><code>src\time\Manager.ts:72</code></a>
         
         </p>
 
@@ -1522,7 +1538,7 @@
     </div>
 
     <div class="description">
-        <p>The DOM is ready, so let&#39;s start the clocks running</p>
+        <p>When all of the DOM elements that the game requires have loaded successfully then this object will &#39;boot&#39;.</p>
 
     </div>
 
@@ -1698,7 +1714,7 @@
 </div>
 
                 
-                    <div id="method_delta" class="method item">
+                    <div id="method_delta" class="method item public">
     <h3 class="name"><code>delta</code></h3>
 
     
@@ -1713,6 +1729,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1734,7 +1752,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l137"><code>src\time\Manager.ts:137</code></a>
+        <a href="../files/src_time_Manager.ts.html#l150"><code>src\time\Manager.ts:150</code></a>
         
         </p>
 
@@ -1745,7 +1763,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the delta of the master clock.</p>
+
     </div>
 
     
@@ -1824,7 +1843,7 @@
 </div>
 
                 
-                    <div id="method_getClock" class="method item">
+                    <div id="method_getClock" class="method item public">
     <h3 class="name"><code>getClock</code></h3>
 
     
@@ -1833,7 +1852,7 @@
             
                 <li class="arg">
                     
-                        <code>name.</code>
+                        <code>name</code>
                     
                 </li>
             
@@ -1843,12 +1862,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.Clock</span>
+            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1870,7 +1891,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l92"><code>src\time\Manager.ts:92</code></a>
+        <a href="../files/src_time_Manager.ts.html#l102"><code>src\time\Manager.ts:102</code></a>
         
         </p>
 
@@ -1893,7 +1914,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">name.</code>
+                        <code class="param-name">name</code>
                         <span class="type">String</span>
                     
 
@@ -1918,7 +1939,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.Clock</span>:
+                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
                     
                     <p>The clock which matches the name given.</p>
 
@@ -2957,7 +2978,7 @@
             
         
         
-        <a href="../files/src_animation_tweens_easing_Quintic.ts.html#l25"><code>src\animation\tweens\easing\Quintic.ts:25</code></a>
+        <a href="../files/src_animation_tweens_easing_Quartic.ts.html#l25"><code>src\animation\tweens\easing\Quartic.ts:25</code></a>
         
         </p>
 
@@ -3046,7 +3067,96 @@
             
         
         
-        <a href="../files/src_animation_tweens_easing_Quartic.ts.html#l25"><code>src\animation\tweens\easing\Quartic.ts:25</code></a>
+        <a href="../files/src_animation_tweens_easing_Quintic.ts.html#l25"><code>src\animation\tweens\easing\Quintic.ts:25</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">k</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_InOut" class="method item">
+    <h3 class="name"><code>InOut</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>k</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_animation_tweens_easing_Quadratic.ts.html#l49"><code>src\animation\tweens\easing\Quadratic.ts:49</code></a>
         
         </p>
 
@@ -3313,184 +3423,6 @@
             
         
         
-        <a href="../files/src_animation_tweens_easing_Quintic.ts.html#l49"><code>src\animation\tweens\easing\Quintic.ts:49</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_InOut" class="method item">
-    <h3 class="name"><code>InOut</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>k</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_easing_Sinusoidal.ts.html#l49"><code>src\animation\tweens\easing\Sinusoidal.ts:49</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_InOut" class="method item">
-    <h3 class="name"><code>InOut</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>k</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
         <a href="../files/src_animation_tweens_easing_Cubic.ts.html#l49"><code>src\animation\tweens\easing\Cubic.ts:49</code></a>
         
         </p>
@@ -3580,7 +3512,96 @@
             
         
         
-        <a href="../files/src_animation_tweens_easing_Quadratic.ts.html#l49"><code>src\animation\tweens\easing\Quadratic.ts:49</code></a>
+        <a href="../files/src_animation_tweens_easing_Quintic.ts.html#l49"><code>src\animation\tweens\easing\Quintic.ts:49</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">k</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_InOut" class="method item">
+    <h3 class="name"><code>InOut</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>k</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_animation_tweens_easing_Elastic.ts.html#l59"><code>src\animation\tweens\easing\Elastic.ts:59</code></a>
         
         </p>
 
@@ -3758,7 +3779,7 @@
             
         
         
-        <a href="../files/src_animation_tweens_easing_Elastic.ts.html#l59"><code>src\animation\tweens\easing\Elastic.ts:59</code></a>
+        <a href="../files/src_animation_tweens_easing_Sinusoidal.ts.html#l49"><code>src\animation\tweens\easing\Sinusoidal.ts:49</code></a>
         
         </p>
 
@@ -3892,7 +3913,7 @@
 </div>
 
                 
-                    <div id="method_now" class="method item">
+                    <div id="method_now" class="method item public">
     <h3 class="name"><code>now</code></h3>
 
     
@@ -3907,6 +3928,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3928,7 +3951,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l126"><code>src\time\Manager.ts:126</code></a>
+        <a href="../files/src_time_Manager.ts.html#l138"><code>src\time\Manager.ts:138</code></a>
         
         </p>
 
@@ -3939,7 +3962,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the current time. Based on the master clock.</p>
+
     </div>
 
     
@@ -4037,6 +4061,79 @@
 </div>
 
                 
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Manager.ts.html#l30"><code>src\time\Manager.ts:30</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_Out" class="method item">
     <h3 class="name"><code>Out</code></h3>
 
@@ -4081,7 +4178,363 @@
             
         
         
-        <a href="../files/src_animation_tweens_easing_Exponential.ts.html#l37"><code>src\animation\tweens\easing\Exponential.ts:37</code></a>
+        <a href="../files/src_animation_tweens_easing_Quintic.ts.html#l37"><code>src\animation\tweens\easing\Quintic.ts:37</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">k</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_Out" class="method item">
+    <h3 class="name"><code>Out</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>k</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_animation_tweens_easing_Quartic.ts.html#l37"><code>src\animation\tweens\easing\Quartic.ts:37</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">k</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_Out" class="method item">
+    <h3 class="name"><code>Out</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>k</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_animation_tweens_easing_Sinusoidal.ts.html#l37"><code>src\animation\tweens\easing\Sinusoidal.ts:37</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">k</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_Out" class="method item">
+    <h3 class="name"><code>Out</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>k</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_animation_tweens_easing_Quadratic.ts.html#l37"><code>src\animation\tweens\easing\Quadratic.ts:37</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">k</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_Out" class="method item">
+    <h3 class="name"><code>Out</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>k</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_animation_tweens_easing_Elastic.ts.html#l42"><code>src\animation\tweens\easing\Elastic.ts:42</code></a>
         
         </p>
 
@@ -4348,452 +4801,96 @@
             
         
         
-        <a href="../files/src_animation_tweens_easing_Quintic.ts.html#l37"><code>src\animation\tweens\easing\Quintic.ts:37</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_Out" class="method item">
-    <h3 class="name"><code>Out</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>k</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_easing_Quartic.ts.html#l37"><code>src\animation\tweens\easing\Quartic.ts:37</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_Out" class="method item">
-    <h3 class="name"><code>Out</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>k</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_easing_Elastic.ts.html#l42"><code>src\animation\tweens\easing\Elastic.ts:42</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_Out" class="method item">
-    <h3 class="name"><code>Out</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>k</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_easing_Quadratic.ts.html#l37"><code>src\animation\tweens\easing\Quadratic.ts:37</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_Out" class="method item">
-    <h3 class="name"><code>Out</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>k</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_easing_Sinusoidal.ts.html#l37"><code>src\animation\tweens\easing\Sinusoidal.ts:37</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">k</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_Out" class="method item">
-    <h3 class="name"><code>Out</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>k</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
         <a href="../files/src_animation_tweens_easing_Cubic.ts.html#l37"><code>src\animation\tweens\easing\Cubic.ts:37</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">k</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_Out" class="method item">
+    <h3 class="name"><code>Out</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>k</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_animation_tweens_easing_Exponential.ts.html#l37"><code>src\animation\tweens\easing\Exponential.ts:37</code></a>
         
         </p>
 
@@ -5099,7 +5196,7 @@
 </div>
 
                 
-                    <div id="method_update" class="method item">
+                    <div id="method_update" class="method item public">
     <h3 class="name"><code>update</code></h3>
 
     
@@ -5110,6 +5207,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -5131,7 +5230,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l110"><code>src\time\Manager.ts:110</code></a>
+        <a href="../files/src_time_Manager.ts.html#l121"><code>src\time\Manager.ts:121</code></a>
         
         </p>
 
@@ -5142,7 +5241,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Is executed every frame and updates all of the clocks that exist on this manager, times.</p>
+
     </div>
 
     
@@ -5219,7 +5319,7 @@
                 
                     <div id="property__clocks" class="property item private">
     <h3 class="name"><code>_clocks</code></h3>
-    <span class="type">Array</span>
+    <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock[]</a></span>
 
     
 
@@ -5242,7 +5342,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l42"><code>src\time\Manager.ts:42</code></a>
+        <a href="../files/src_time_Manager.ts.html#l48"><code>src\time\Manager.ts:48</code></a>
         
         </p>
 
@@ -5252,7 +5352,8 @@
     </div>
 
     <div class="description">
-        
+        <p>An array containing all of the clocks that exist on this manager.</p>
+
     </div>
 
     
@@ -5313,7 +5414,7 @@
                 
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
-    <span class="type">Kiwi.Game</span>
+    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
 
     
 
@@ -5336,7 +5437,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l34"><code>src\time\Manager.ts:34</code></a>
+        <a href="../files/src_time_Manager.ts.html#l40"><code>src\time\Manager.ts:40</code></a>
         
         </p>
 
@@ -5346,7 +5447,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The game that this belongs to.</p>
+
     </div>
 
     
@@ -5454,12 +5556,14 @@
 </div>
 
                 
-                    <div id="property_clock" class="property item">
+                    <div id="property_clock" class="property item public">
     <h3 class="name"><code>clock</code></h3>
-    <span class="type">Kiwi.Time.Clock</span>
+    <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -5477,7 +5581,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l57"><code>src\time\Manager.ts:57</code></a>
+        <a href="../files/src_time_Manager.ts.html#l64"><code>src\time\Manager.ts:64</code></a>
         
         </p>
 
@@ -5646,12 +5750,14 @@
 </div>
 
                 
-                    <div id="property_master" class="property item">
+                    <div id="property_master" class="property item private">
     <h3 class="name"><code>master</code></h3>
-    <span class="type">Kiwi.Time.MasterClock</span>
+    <span class="type"><a href="..\classes\MasterClock.html" class="crosslink">MasterClock</a></span>
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -5669,7 +5775,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l50"><code>src\time\Manager.ts:50</code></a>
+        <a href="../files/src_time_Manager.ts.html#l56"><code>src\time\Manager.ts:56</code></a>
         
         </p>
 
@@ -5679,7 +5785,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The MasterClock for this manager.</p>
+
     </div>
 
     
