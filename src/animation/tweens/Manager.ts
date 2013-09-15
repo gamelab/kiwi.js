@@ -29,9 +29,9 @@ module Kiwi.Animation.Tweens {
         /** 
         * 
         * @constructor
-        * @param {Kiwi.Game} game
-        * @return {Kiwi.Tweens.Manager}
-        **/
+        * @param game {Game}
+        * @return {Manager}
+        */
         constructor(game: Kiwi.Game) {
              
             this._game = game;
@@ -39,30 +39,38 @@ module Kiwi.Animation.Tweens {
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Manager";
         }
 
         /** 
-        * 
+        * The game that this manager belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
-        **/
+        */
         private _game: Kiwi.Game;
 
         /** 
-        * 
+        * An array of all of the tweens on the manager.
         * @property _tweens
-        * @type Array
+        * @type Tween[]
         * @private
-        **/
+        */
         private _tweens: Kiwi.Animation.Tween[];
 
         /** 
-        * 
+        * Returns all of tweens that are on the manager.
         * @method getAll
-        **/
+        * @return Tween[]
+        * @public
+        */
         public getAll() {
 
             return this._tweens;
@@ -70,9 +78,10 @@ module Kiwi.Animation.Tweens {
         }
 
         /** 
-        * 
+        * Removes all of the tweens on the manager.
         * @method removeAll
-        **/
+        * @public
+        */
         public removeAll() {
 
             this._tweens.length = 0;
@@ -80,23 +89,26 @@ module Kiwi.Animation.Tweens {
         }
 
         /** 
-        * 
+        * Creates a new Tween. 
         * @method create
-        * @param {Any} object
-        * @return {Kiwi.Tween}
-        **/
-        public create(object): Kiwi.Animation.Tween {
+        * @param object {Any} The object that this tween is to apply.
+        * @return {Tween} The tween that was created.
+        * @public
+        */
+        public create(object:any): Kiwi.Animation.Tween {
 
             return new Kiwi.Animation.Tween(object, this._game);
 
         }
 
         /** 
-        * 
-        * @method add
-        * @param {Kiwi.Tween} tween
-        **/
-        public add(tween: Kiwi.Animation.Tween) {
+        * Adds a tween to the manager. 
+        * @method add 
+        * @param tween {Tween} The tween that you want to add to the manager.
+        * @return {Tween} 
+        * @public
+        */
+        public add(tween: Kiwi.Animation.Tween): Kiwi.Animation.Tween {
 
             tween.setParent(this._game);
 
@@ -107,10 +119,12 @@ module Kiwi.Animation.Tweens {
         }
 
         /** 
-        * 
+        * Removes a tween from this manager.
         * @method remove
-        * @param {Kiwi.Tween} tween
-        **/
+        * @param tween {Tween} The tween that you would like to remove.
+        * @return {Tween}
+        * @public
+        */
         public remove(tween: Kiwi.Animation.Tween) {
 
             var i = this._tweens.indexOf(tween);
@@ -123,9 +137,10 @@ module Kiwi.Animation.Tweens {
         }
 
         /** 
-        * 
+        * The update loop.
         * @method update
-        **/
+        * @public
+        */
         public update() {
 
             if (this._tweens.length === 0)

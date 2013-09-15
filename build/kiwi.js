@@ -508,6 +508,7 @@ var Kiwi;
                 this._onUpdateContext = null;
                 this._onCompleteCallback = null;
                 this._onCompleteCalled = false;
+                this._onCompleteContext = null;
                 this.isRunning = false;
                 this._object = object;
 
@@ -4041,6 +4042,7 @@ var Kiwi;
                 if (typeof name === "undefined") { name = ''; }
                 if (typeof saveToFileStore === "undefined") { saveToFileStore = true; }
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                this._xhr = null;
                 this._saveToFileStore = true;
                 this._useTagLoader = true;
                 this.fileSize = 0;
@@ -4048,7 +4050,6 @@ var Kiwi;
                 this.statusText = '';
                 this.ETag = '';
                 this.lastModified = '';
-                this.totalSize = 0;
                 this.bytesLoaded = 0;
                 this.bytesTotal = 0;
                 this.readyState = 0;
@@ -4231,7 +4232,7 @@ var Kiwi;
                         return _this.tagLoaderOnError(event);
                     };
                     this.data.addEventListener('canplaythrough', function () {
-                        return _this.tagLoaderOnLoad(null);
+                        return _this.tagLoaderProgressThrough(null);
                     }, false);
                     this.data.onload = function (event) {
                         return _this.tagLoaderOnLoad(event);
@@ -4255,34 +4256,30 @@ var Kiwi;
             };
 
             File.prototype.tagLoaderProgressThrough = function (event) {
-                this.stop();
-
-                if (this.onCompleteCallback) {
-                    this.onCompleteCallback(this);
-                }
-            };
-
-            File.prototype.tagLoaderOnLoad = function (event) {
                 var _this = this;
                 if (this.percentLoaded !== 100) {
-                    this.stop();
-
                     if (this.dataType === Kiwi.Files.File.AUDIO) {
                         this.data.removeEventListener('canplaythrough', function () {
-                            return _this.tagLoaderOnLoad(null);
+                            return _this.tagLoaderProgressThrough(null);
                         });
                         this.data.pause();
                         this.data.currentTime = 0;
                         this.data.volume = 1;
                     }
 
-                    if (this._saveToFileStore === true) {
-                        this._fileStore.addFile(this.key, this);
-                    }
+                    this.tagLoaderOnLoad(null);
+                }
+            };
 
-                    if (this.onCompleteCallback) {
-                        this.onCompleteCallback(this);
-                    }
+            File.prototype.tagLoaderOnLoad = function (event) {
+                this.stop();
+
+                if (this._saveToFileStore === true) {
+                    this._fileStore.addFile(this.key, this);
+                }
+
+                if (this.onCompleteCallback) {
+                    this.onCompleteCallback(this);
                 }
             };
 
@@ -4574,13 +4571,14 @@ var Kiwi;
             };
 
             FileStore.prototype.removeFilesByTag = function (tag) {
-                var obj = {};
+                var numberFiles = 0;
                 for (var file in this._files) {
                     if (this._files[file].hasTag(tag)) {
                         this.removeFile(file);
+                        numberFiles++;
                     }
                 }
-                return obj;
+                return numberFiles;
             };
 
             Object.defineProperty(FileStore.prototype, "keys", {

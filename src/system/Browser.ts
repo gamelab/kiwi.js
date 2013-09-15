@@ -19,7 +19,7 @@ module Kiwi.System {
         /**
         * 
         * @constructor
-        * @param {Kiwi.Game} game
+        * @param {Game} game
         * @return {StateMananger} This Object
         */
         constructor(game: Kiwi.Game) {
@@ -28,6 +28,12 @@ module Kiwi.System {
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Browser";
         }
@@ -35,9 +41,9 @@ module Kiwi.System {
         /**
         * 
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
-        **/
+        */
         private _game: Kiwi.Game;
 
         /**
@@ -45,18 +51,17 @@ module Kiwi.System {
         * @method boot
         */
         public boot() {
-
             //this._game.stage.offset = this.getOffsetPoint(this._game.stage.container);
-
         }
 
         /**
         * 
         * @method getOffsetPoint
         * @param {Any} element
-        * @param {Kiwi.Geom.Point} output
-        * @return {Kiwi.Geom.Point}
-        **/
+        * @param {Point} output
+        * @return {Point}
+        * @public
+        */
         public getOffsetPoint(element, output: Kiwi.Geom.Point = new Kiwi.Geom.Point): Kiwi.Geom.Point {
 
             var box = element.getBoundingClientRect();

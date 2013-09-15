@@ -2850,12 +2850,12 @@
                 {
                     "name": "game",
                     "description": "",
-                    "type": "Kiwi.Game"
+                    "type": "Game"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Tweens.Manager"
+                "type": "Manager"
             },
             "class": "Manager",
             "module": "Animation",
@@ -2863,10 +2863,27 @@
         },
         {
             "file": "src\\animation\\tweens\\Manager.ts",
-            "line": 46,
+            "line": 42,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Manager",
+            "module": "Animation",
+            "submodule": "Tweens"
+        },
+        {
+            "file": "src\\animation\\tweens\\Manager.ts",
+            "line": 52,
+            "description": "The game that this manager belongs to.",
             "itemtype": "property",
             "name": "_game",
-            "type": "Kiwi.Game",
+            "type": "Game",
             "access": "private",
             "tagname": "",
             "class": "Manager",
@@ -2875,10 +2892,11 @@
         },
         {
             "file": "src\\animation\\tweens\\Manager.ts",
-            "line": 54,
+            "line": 60,
+            "description": "An array of all of the tweens on the manager.",
             "itemtype": "property",
             "name": "_tweens",
-            "type": "Array",
+            "type": "Tween[]",
             "access": "private",
             "tagname": "",
             "class": "Manager",
@@ -2887,102 +2905,131 @@
         },
         {
             "file": "src\\animation\\tweens\\Manager.ts",
-            "line": 62,
+            "line": 68,
+            "description": "Returns all of tweens that are on the manager.",
             "itemtype": "method",
             "name": "getAll",
+            "return": {
+                "description": "Tween[]"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Manager.ts",
-            "line": 72,
+            "line": 80,
+            "description": "Removes all of the tweens on the manager.",
             "itemtype": "method",
             "name": "removeAll",
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Manager.ts",
-            "line": 82,
+            "line": 91,
+            "description": "Creates a new Tween.",
             "itemtype": "method",
             "name": "create",
             "params": [
                 {
                     "name": "object",
-                    "description": "",
+                    "description": "The object that this tween is to apply.",
                     "type": "Any"
                 }
             ],
             "return": {
-                "description": "",
-                "type": "Kiwi.Tween"
+                "description": "The tween that was created.",
+                "type": "Tween"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Manager.ts",
-            "line": 94,
+            "line": 104,
+            "description": "Adds a tween to the manager.",
             "itemtype": "method",
             "name": "add",
             "params": [
                 {
                     "name": "tween",
-                    "description": "",
-                    "type": "Kiwi.Tween"
+                    "description": "The tween that you want to add to the manager.",
+                    "type": "Tween"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Tween"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Manager.ts",
-            "line": 109,
+            "line": 121,
+            "description": "Removes a tween from this manager.",
             "itemtype": "method",
             "name": "remove",
             "params": [
                 {
                     "name": "tween",
-                    "description": "",
-                    "type": "Kiwi.Tween"
+                    "description": "The tween that you would like to remove.",
+                    "type": "Tween"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Tween"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Manager.ts",
-            "line": 125,
+            "line": 139,
+            "description": "The update loop.",
             "itemtype": "method",
             "name": "update",
+            "access": "public",
+            "tagname": "",
             "class": "Manager",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 30,
+            "line": 29,
             "is_constructor": 1,
             "params": [
                 {
                     "name": "object",
-                    "description": "",
+                    "description": "The object that this tween is taking affect on.",
                     "type": "Any"
                 },
                 {
                     "name": "game",
-                    "description": "",
-                    "type": "Kiwi.Game"
+                    "description": "The game that this tween is for.",
+                    "type": "Game"
                 }
             ],
             "return": {
-                "description": "",
-                "type": "Kiwi.Tween"
+                "description": "This tween.",
+                "type": "Tween"
             },
             "class": "Tween",
             "module": "Animation",
@@ -2990,11 +3037,27 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 55,
+            "line": 50,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Tween",
+            "module": "Animation",
+            "submodule": "Tweens"
+        },
+        {
+            "file": "src\\animation\\tweens\\Tween.ts",
+            "line": 60,
             "description": "The game that this tween belongs to.",
             "itemtype": "property",
             "name": "_game",
-            "type": "Kiwi.Game",
+            "type": "Game",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3003,10 +3066,11 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 63,
+            "line": 68,
+            "description": "The manager that this tween belongs to.",
             "itemtype": "property",
             "name": "_manager",
-            "type": "Kiwi.Tweens.Manager",
+            "type": "Manager",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3015,7 +3079,8 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 71,
+            "line": 76,
+            "description": "The object that this tween is affecting.",
             "itemtype": "property",
             "name": "_object",
             "type": "Any",
@@ -3027,10 +3092,11 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 79,
+            "line": 84,
+            "description": "The starting values of the properties that the tween is animating.",
             "itemtype": "property",
             "name": "_valuesStart",
-            "type": "",
+            "type": "Object",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3039,10 +3105,11 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 87,
+            "line": 92,
+            "description": "The end values of the properties that the tween is animating.",
             "itemtype": "property",
             "name": "_valuesEnd",
-            "type": "",
+            "type": "Object",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3051,7 +3118,8 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 95,
+            "line": 100,
+            "description": "The duration of the tween, in milliseconds.",
             "itemtype": "property",
             "name": "_duration",
             "type": "Number",
@@ -3063,7 +3131,8 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 103,
+            "line": 108,
+            "description": "The amount of time to delay the tween by. In Milliseconds.",
             "itemtype": "property",
             "name": "_delayTime",
             "type": "Number",
@@ -3075,10 +3144,11 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 111,
+            "line": 116,
+            "description": "The time at which the tween started.",
             "itemtype": "property",
             "name": "_startTime",
-            "type": "",
+            "type": "Number",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3087,10 +3157,12 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 119,
+            "line": 124,
+            "description": "The easing function that is to be used while tweening.",
             "itemtype": "property",
             "name": "_easingFunction",
-            "type": "Kiwi.Tweens.Easing.Linear.None",
+            "type": "Function",
+            "default": "Kiwi.Tweens.Easing.Linear.None",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3099,10 +3171,12 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 127,
+            "line": 133,
+            "description": "[NEEDS DESCRIPTION]",
             "itemtype": "property",
             "name": "_interpolationFunction",
-            "type": "Kiwi.Utils.Interpolation.Linear",
+            "type": "Function",
+            "default": "Kiwi.Utils.Interpolation.Linear",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3111,10 +3185,11 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 135,
+            "line": 142,
+            "description": "An array containing all of the tweens that are to be played when this one finishes.",
             "itemtype": "property",
             "name": "_chainedTweens",
-            "type": "Array",
+            "type": "Tween[]",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3123,10 +3198,12 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 143,
+            "line": 150,
+            "description": "The method that is to be called when the tween starts playing.",
             "itemtype": "property",
             "name": "_onStartCallback",
-            "type": "",
+            "type": "Function",
+            "default": "null",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3135,10 +3212,26 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 153,
+            "line": 159,
+            "description": "The context that the _onStartCallback method is to be called in.",
+            "itemtype": "property",
+            "name": "_onStartContext",
+            "type": "Any",
+            "default": "null",
+            "access": "private",
+            "tagname": "",
+            "class": "Tween",
+            "module": "Animation",
+            "submodule": "Tweens"
+        },
+        {
+            "file": "src\\animation\\tweens\\Tween.ts",
+            "line": 168,
+            "description": "A boolean indicating if the starting callback has been called or not.",
             "itemtype": "property",
             "name": "_onStartCallbackFired",
-            "type": "",
+            "type": "boolean",
+            "default": "false",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3147,10 +3240,12 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 161,
+            "line": 177,
+            "description": "A callback method that will be called each time the tween updates.",
             "itemtype": "property",
             "name": "_onUpdateCallback",
-            "type": "",
+            "type": "Function",
+            "default": "null",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3159,10 +3254,26 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 171,
+            "line": 186,
+            "description": "The context that the update callback has when called.",
+            "itemtype": "property",
+            "name": "_onUpdateContext",
+            "type": "any",
+            "default": "null",
+            "access": "private",
+            "tagname": "",
+            "class": "Tween",
+            "module": "Animation",
+            "submodule": "Tweens"
+        },
+        {
+            "file": "src\\animation\\tweens\\Tween.ts",
+            "line": 195,
+            "description": "A method to be called when the tween finish's tweening.",
             "itemtype": "property",
             "name": "_onCompleteCallback",
-            "type": "",
+            "type": "function",
+            "default": "null",
             "access": "private",
             "tagname": "",
             "class": "Tween",
@@ -3171,43 +3282,14 @@
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 181,
+            "line": 213,
+            "description": "The context that the onCompleteCallback should have when called.",
             "itemtype": "property",
             "name": "_onCompleteContext",
-            "type": "",
+            "type": "any",
+            "default": "null",
             "access": "private",
             "tagname": "",
-            "class": "Tween",
-            "module": "Animation",
-            "submodule": "Tweens"
-        },
-        {
-            "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 191,
-            "itemtype": "method",
-            "name": "to",
-            "params": [
-                {
-                    "name": "properties",
-                    "description": "",
-                    "type": "Any"
-                },
-                {
-                    "name": "duration",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "ease",
-                    "description": "",
-                    "type": "Any"
-                },
-                {
-                    "name": "autoStart",
-                    "description": "",
-                    "type": "Boolean"
-                }
-            ],
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
@@ -3215,72 +3297,154 @@
         {
             "file": "src\\animation\\tweens\\Tween.ts",
             "line": 222,
+            "description": "An indication of whether or not this tween is currently running.",
+            "itemtype": "property",
+            "name": "isRunning.",
+            "type": "boolean",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
+            "class": "Tween",
+            "module": "Animation",
+            "submodule": "Tweens"
+        },
+        {
+            "file": "src\\animation\\tweens\\Tween.ts",
+            "line": 231,
+            "description": "Sets up the various properties that define this tween.\nThe ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.",
+            "itemtype": "method",
+            "name": "to",
+            "params": [
+                {
+                    "name": "properties",
+                    "description": "The ending location of the properties that you want to tween.",
+                    "type": "Object"
+                },
+                {
+                    "name": "duration",
+                    "description": "The duration of the tween.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "1000"
+                },
+                {
+                    "name": "ease",
+                    "description": "The easing method to be used. If not specifed then this will default to LINEAR.",
+                    "type": "Any",
+                    "optional": true,
+                    "optdefault": "null"
+                },
+                {
+                    "name": "autoStart",
+                    "description": "If the tween should start right away.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Tween"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Tween",
+            "module": "Animation",
+            "submodule": "Tweens"
+        },
+        {
+            "file": "src\\animation\\tweens\\Tween.ts",
+            "line": 263,
+            "description": "Gets the initial values for the properties that it is to animate and starts the tween process.",
             "itemtype": "method",
             "name": "start",
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 278,
+            "line": 320,
+            "description": "Stops the Tween from running and removes it from the manager.",
             "itemtype": "method",
             "name": "stop",
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 295,
+            "line": 338,
+            "description": "Sets the game and the manager of this tween.",
             "itemtype": "method",
             "name": "setParent",
             "params": [
                 {
                     "name": "value",
                     "description": "",
-                    "type": "Kiwi.Game"
+                    "type": "Game"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 307,
+            "line": 351,
+            "description": "Sets the amount of delay that the tween is to have before it starts playing.",
             "itemtype": "method",
             "name": "delay",
             "params": [
                 {
                     "name": "amount",
-                    "description": "",
-                    "type": "Any"
+                    "description": "The amount of time to delay the tween by.",
+                    "type": "Number"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Tween"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 319,
+            "line": 365,
+            "description": "Sets the easing method that is to be used when animating this tween.",
             "itemtype": "method",
             "name": "easing",
             "params": [
                 {
                     "name": "easing",
-                    "description": "",
-                    "type": "Any"
+                    "description": "The easing function to use.",
+                    "type": "Function"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Tween"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 331,
+            "line": 379,
+            "description": "[REQUIRES DESCRIPTION]",
             "itemtype": "method",
             "name": "interpolation",
             "params": [
@@ -3290,96 +3454,130 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Tween"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 344,
+            "line": 394,
+            "description": "Adds another tween that should start playing once tween has completed.",
             "itemtype": "method",
             "name": "chain",
             "params": [
                 {
                     "name": "tween",
                     "description": "",
-                    "type": "Kiwi.Tween"
+                    "type": "Tween"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Tween"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 356,
+            "line": 408,
+            "description": "Adds a function that is to be executed when the tween start playing.",
             "itemtype": "method",
             "name": "onStart",
             "params": [
                 {
                     "name": "callback",
-                    "description": "",
+                    "description": "The function that is to be executed on tween start.",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context that function is to have when called.",
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Tween"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 369,
+            "line": 424,
+            "description": "Adds a function that is to be executed when this tween updates while it is playing.",
             "itemtype": "method",
             "name": "onUpdate",
             "params": [
                 {
                     "name": "callback",
-                    "description": "",
+                    "description": "The method that is to be executed.",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context the method is to have when called.",
                     "type": "Any"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 382,
+            "line": 439,
+            "description": "Defines a method that is to be called when this tween is finished.",
             "itemtype": "method",
             "name": "onComplete",
             "params": [
                 {
                     "name": "callback",
-                    "description": "",
+                    "description": "The method that is to be executed.",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context the method is to have when called.",
                     "type": "Any"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
         },
         {
             "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 396,
-            "itemtype": "property",
-            "name": "debugValue",
-            "type": "Any",
-            "class": "Tween",
-            "module": "Animation",
-            "submodule": "Tweens"
-        },
-        {
-            "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 403,
+            "line": 455,
+            "description": "The update loop is executed every frame whilst the tween is running.",
             "itemtype": "method",
             "name": "update",
             "params": [
                 {
                     "name": "time",
                     "description": "",
-                    "type": "Any"
+                    "type": "Number"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Tween",
             "module": "Animation",
             "submodule": "Tweens"
@@ -11151,99 +11349,184 @@
             "module": "Kiwi"
         },
         {
-            "file": "src\\file\\File.ts",
-            "line": 88,
-            "description": "Returns the type of this object",
-            "class": "File",
+            "file": "src\\file\\DataLibrary.ts",
+            "line": 18,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "game",
+                    "description": "The game that this DataLibrary belongs to.",
+                    "type": "Game"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DataLibrary"
+            },
+            "class": "DataLibrary",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
-            "file": "src\\file\\File.ts",
-            "line": 122,
-            "itemtype": "property",
-            "name": "IMAGE",
-            "type": "number",
-            "class": "File",
+            "file": "src\\file\\DataLibrary.ts",
+            "line": 30,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "DataLibrary",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
-            "file": "src\\file\\File.ts",
-            "line": 128,
-            "itemtype": "property",
-            "name": "SPRITE_SHEET",
-            "type": "number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 134,
-            "itemtype": "property",
-            "name": "TEXTUREATLAS",
-            "type": "number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 140,
-            "itemtype": "property",
-            "name": "AUDIO",
-            "type": "number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 146,
-            "itemtype": "property",
-            "name": "JSON",
-            "type": "number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 152,
-            "itemtype": "property",
-            "name": "XML",
-            "type": "number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 158,
-            "itemtype": "property",
-            "name": "BINARY_DATA",
-            "type": "number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 164,
-            "itemtype": "property",
-            "name": "TEXT_DATA",
-            "type": "number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 170,
+            "file": "src\\file\\DataLibrary.ts",
+            "line": 40,
+            "description": "The game that this DataLibrary belongs to.",
             "itemtype": "property",
             "name": "_game",
-            "type": "Kiwi.Game",
+            "type": "Game",
+            "access": "private",
+            "tagname": "",
+            "class": "DataLibrary",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\DataLibrary.ts",
+            "line": 48,
+            "description": "Contains all of the data that this available.",
+            "itemtype": "property",
+            "name": "textures",
+            "type": "Object",
+            "access": "public",
+            "tagname": "",
+            "class": "DataLibrary",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\DataLibrary.ts",
+            "line": 56,
+            "description": "Resets the Data Library and makes it ready for the next state.",
+            "itemtype": "method",
+            "name": "clear",
+            "access": "public",
+            "tagname": "",
+            "class": "DataLibrary",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\DataLibrary.ts",
+            "line": 67,
+            "description": "Adds a new data file to the DataLibrary.",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "dataFile",
+                    "description": "",
+                    "type": "File"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "DataLibrary",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 18,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "game",
+                    "description": "The game that this file belongs to.",
+                    "type": "Game"
+                },
+                {
+                    "name": "dataType",
+                    "description": "The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.",
+                    "type": "Number"
+                },
+                {
+                    "name": "path",
+                    "description": "The location of the file that is to be loaded.",
+                    "type": "String"
+                },
+                {
+                    "name": "name",
+                    "description": "A name for the file. If no name is specified then the files name will be used.",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "''"
+                },
+                {
+                    "name": "saveToFileStore",
+                    "description": "If the file should be saved on the file store or not.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "File"
+            },
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 91,
+            "description": "Returns the type of this object",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 101,
+            "description": "The state that added the entity - or null if it was added as global",
+            "itemtype": "property",
+            "name": "ownerState",
+            "type": "Kiwi.State",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 109,
+            "description": "Any tags that are on this file. This can be used to grab files/objects on the whole game that have these particular tag.",
+            "itemtype": "property",
+            "name": "_tags",
+            "type": "String[]",
+            "default": "[]",
             "access": "private",
             "tagname": "",
             "class": "File",
@@ -11252,7 +11535,210 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 177,
+            "line": 118,
+            "description": "Adds a new tag to this file.",
+            "itemtype": "method",
+            "name": "addTag",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "The tag that you would like to add",
+                    "type": "String"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 130,
+            "description": "Removes a tag from this file.",
+            "itemtype": "method",
+            "name": "removeTag",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "The tag that is to be removed.",
+                    "type": "String"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 143,
+            "description": "Checks to see if a tag that is passed exists on this file and returns a boolean that is used as a indication of the results. True means that the tag exists on this file.",
+            "itemtype": "method",
+            "name": "hasTag",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "The tag you are checking to see exists.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "If the tag does exist on this file or not.",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 158,
+            "description": "A STATIC property that has the number associated with the IMAGE Datatype.",
+            "itemtype": "property",
+            "name": "IMAGE",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "0",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 169,
+            "description": "A STATIC property that has the number associated with the SPRITE_SHEET Datatype.",
+            "itemtype": "property",
+            "name": "SPRITE_SHEET",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "1",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 180,
+            "description": "A STATIC property that has the number associated with the TEXTURE_ATLAS Datatype.",
+            "itemtype": "property",
+            "name": "TEXTUREATLAS",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "2",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 191,
+            "description": "A STATIC property that has the number associated with the AUDIO Datatype.",
+            "itemtype": "property",
+            "name": "AUDIO",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "3",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 202,
+            "description": "A STATIC property that has the number associated with the JSON Datatype.",
+            "itemtype": "property",
+            "name": "JSON",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "4",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 213,
+            "description": "A STATIC property that has the number associated with the XML Datatype.",
+            "itemtype": "property",
+            "name": "XML",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "5",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 224,
+            "description": "A STATIC property that has the number associated with the BINARY_DATA Datatype.",
+            "itemtype": "property",
+            "name": "BINARY_DATA",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "6",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 235,
+            "description": "A STATIC property that has the number associated with the TEXT_DATA Datatype.",
+            "itemtype": "property",
+            "name": "TEXT_DATA",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "7",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 246,
+            "description": "The game that this file belongs to.",
+            "itemtype": "property",
+            "name": "_game",
+            "type": "Game",
+            "access": "private",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 254,
+            "description": "The XMLHttpRequest object. This only has a value if the xhr method of load is being used, otherwise this is null.",
             "itemtype": "property",
             "name": "_xhr",
             "type": "XMLHttpRequest",
@@ -11264,7 +11750,8 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 184,
+            "line": 262,
+            "description": "The file store that this file is a part of.",
             "itemtype": "property",
             "name": "_fileStore",
             "type": "FileStore",
@@ -11276,10 +11763,12 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 191,
+            "line": 270,
+            "description": "Used to determine if this file should be saved to the file store or not. Also if it was saved to the file store.",
             "itemtype": "property",
             "name": "_saveToFileStore",
             "type": "boolean",
+            "default": "true",
             "access": "private",
             "tagname": "",
             "class": "File",
@@ -11288,10 +11777,12 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 198,
+            "line": 279,
+            "description": "If when loading the file in we have loaded the file in using a tag loader (older browsers) or we are using the an XHR loader + array buffer.\nBy default we use the tag loader and only used the second method if the browser supports it.",
             "itemtype": "property",
             "name": "_useTagLoader",
             "type": "boolean",
+            "default": "true",
             "access": "private",
             "tagname": "",
             "class": "File",
@@ -11300,67 +11791,86 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 205,
+            "line": 289,
+            "description": "Holds the type of data that is being loaded. This should be used with the STATIC properties that hold the various datatypes that can be loaded.",
             "itemtype": "property",
             "name": "dataType",
             "type": "String",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 211,
+            "line": 297,
+            "description": "The 'key' is the user defined name and the users way of accessing this file once loaded.",
             "itemtype": "property",
             "name": "key",
             "type": "String",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 217,
+            "line": 305,
+            "description": "The name of the file being loaded.",
             "itemtype": "property",
             "name": "fileName",
             "type": "String",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 223,
+            "line": 313,
+            "description": "The location of where the file is placed without the file itself.",
             "itemtype": "property",
             "name": "filePath",
             "type": "String",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 229,
+            "line": 321,
+            "description": "The type of file that is being loaded. This is only ever used with the XHR method of loading and is the 'Content-Type' that the XHR's response header returns.",
             "itemtype": "property",
             "name": "fileType",
             "type": "String",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 235,
+            "line": 329,
+            "description": "The file extension. Based upon what the file path that the user specifies.",
             "itemtype": "property",
             "name": "fileExtension",
             "type": "String",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 241,
+            "line": 337,
+            "description": "The full filepath including the file itself.",
             "itemtype": "property",
             "name": "fileURL",
             "type": "String",
@@ -11370,271 +11880,139 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 247,
+            "line": 344,
+            "description": "The size of the file that was/is being loaded. Only has a value when the file was loaded by the XHR method.",
             "itemtype": "property",
             "name": "fileSize",
             "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 253,
+            "line": 353,
+            "description": "The status of the file that is being loaded. Only used/has a value when the file was/is being loaded by the XHR method.",
             "itemtype": "property",
             "name": "status",
             "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 259,
+            "line": 362,
+            "description": "The status piece of text that the XHR returns.",
             "itemtype": "property",
             "name": "statusText",
             "type": "String",
+            "default": "''",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 265,
+            "line": 371,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "property",
             "name": "ETag",
             "type": "String",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 271,
+            "line": 379,
+            "description": "The last date/time that this file was last modified. Only has a value when using the XHR method of loading.",
             "itemtype": "property",
             "name": "lastModified",
             "type": "String",
+            "default": "''",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 277,
-            "itemtype": "property",
-            "name": "totalSize",
-            "type": "Number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 283,
+            "line": 388,
+            "description": "The number of bytes that have currently been loaded. This can used to create progress bars but only has a value when using the XHR method of loading.",
             "itemtype": "property",
             "name": "bytesLoaded",
             "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 289,
+            "line": 397,
+            "description": "The total number of bytes that the file consists off. Only has a value when using the XHR method of loading.",
             "itemtype": "property",
             "name": "bytesTotal",
             "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 295,
+            "line": 406,
+            "description": "The ready state of the XHR loader whilst loading.",
             "itemtype": "property",
             "name": "readyState",
             "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 301,
+            "line": 415,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "property",
             "name": "timeOutDelay",
             "type": "Number",
+            "default": "2000",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 307,
+            "line": 424,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "property",
             "name": "hasTimedOut",
             "type": "boolean",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 313,
-            "itemtype": "property",
-            "name": "timedOut",
-            "type": "Number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 320,
-            "itemtype": "property",
-            "name": "timeStarted",
-            "type": "Number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 327,
-            "itemtype": "property",
-            "name": "timeFinished",
-            "type": "Number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 334,
-            "itemtype": "property",
-            "name": "duration",
-            "type": "Number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 340,
-            "itemtype": "property",
-            "name": "hasError",
-            "type": "boolean",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 345,
-            "itemtype": "property",
-            "name": "success",
-            "type": "boolean",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 351,
-            "itemtype": "property",
-            "name": "attemptCounter",
-            "type": "Number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 357,
-            "itemtype": "property",
-            "name": "maxLoadAttempts",
-            "type": "Number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 363,
-            "itemtype": "property",
-            "name": "error",
-            "type": "Any",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 369,
-            "itemtype": "property",
-            "name": "onCompleteCallback",
-            "type": "Any",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 375,
-            "itemtype": "property",
-            "name": "onProgressCallback",
-            "type": "Any",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 381,
-            "itemtype": "property",
-            "name": "lastProgress",
-            "type": "Number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 387,
-            "itemtype": "property",
-            "name": "percentLoaded",
-            "type": "Number",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 393,
-            "itemtype": "property",
-            "name": "buffer",
-            "type": "Any",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 399,
-            "itemtype": "property",
-            "name": "data",
-            "type": "Any",
-            "class": "File",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\File.ts",
-            "line": 405,
-            "description": "A dictionary, stores info needed for interpreting specific file types eg SPRITE_SHEET,",
-            "itemtype": "property",
-            "name": "data",
-            "type": "Any",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
@@ -11642,66 +12020,345 @@
         {
             "file": "src\\file\\File.ts",
             "line": 433,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "timedOut",
+            "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 442,
+            "description": "The time at which the loading started. Only has a value when the XHR method of loading is in use.",
+            "itemtype": "property",
+            "name": "timeStarted",
+            "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 452,
+            "description": "The time at which the load finished. Only has a value if loading the file was successful and when the XHR method of loading is in use.",
+            "itemtype": "property",
+            "name": "timeFinished",
+            "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 461,
+            "description": "How the loading took in milliseconds.",
+            "itemtype": "property",
+            "name": "duration",
+            "type": "Number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 470,
+            "description": "If when loading the file encountered an error.",
+            "itemtype": "property",
+            "name": "hasError",
+            "type": "boolean",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 479,
+            "description": "If the loading was successful or not.",
+            "itemtype": "property",
+            "name": "success",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 487,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "attemptCounter",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 495,
+            "description": "The maximum attempts at loading the file.",
+            "itemtype": "property",
+            "name": "maxLoadAttempts",
+            "type": "Number",
+            "default": "2",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 504,
+            "description": "Holds the error (if there was one) when loading the file.",
+            "itemtype": "property",
+            "name": "error",
+            "type": "Any",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 512,
+            "description": "A method that is to be executed when this file has finished loading.",
+            "itemtype": "property",
+            "name": "onCompleteCallback",
+            "type": "Any",
+            "default": "null",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 521,
+            "description": "A method that is to be executed while this file is loading.",
+            "itemtype": "property",
+            "name": "onProgressCallback",
+            "type": "Any",
+            "default": "null",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 530,
+            "description": "The time at which progress in loading the file was last  occurred.",
+            "itemtype": "property",
+            "name": "lastProgress",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 538,
+            "description": "The amount of percent loaded the file is. This is out of 100.",
+            "itemtype": "property",
+            "name": "percentLoaded",
+            "type": "Number",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 546,
+            "description": "The response that is given by the XHR loader when loading is complete.",
+            "itemtype": "property",
+            "name": "buffer",
+            "type": "Any",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 554,
+            "description": "The particular piece of data that the developer wanted loaded. This is in a format that is based upon the datatype passed.",
+            "itemtype": "property",
+            "name": "data",
+            "type": "Any",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 561,
+            "description": "A dictionary, stores info needed for interpreting specific file types eg SPRITE_SHEET,",
+            "itemtype": "property",
+            "name": "data",
+            "type": "Any",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 569,
+            "description": "An indication of if this file is texture. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "isTexture",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 582,
+            "description": "An indication of if this file is a piece of audio. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "isAudio",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 595,
+            "description": "An indication of if this file is data. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "isData",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 608,
+            "description": "Sets up the various parameters and starts loading the file.",
             "itemtype": "method",
             "name": "load",
             "params": [
                 {
                     "name": "onCompleteCallback",
-                    "description": "",
+                    "description": "The callback method to execute when this file has loaded.",
                     "type": "Any",
-                    "optional": true
+                    "optional": true,
+                    "optdefault": "null"
                 },
                 {
                     "name": "onProgressCallback",
-                    "description": "",
+                    "description": "The callback method to execute while this file is loading.",
                     "type": "Any",
-                    "optional": true
+                    "optional": true,
+                    "optdefault": "null"
+                },
+                {
+                    "name": "customFileStore",
+                    "description": "A custom filestore that is file should be added to.",
+                    "type": "Any",
+                    "optional": true,
+                    "optdefault": "null"
                 },
                 {
                     "name": "maxLoadAttempts",
-                    "description": "",
-                    "type": "Number"
+                    "description": "The maximum amount of times to try and load the files.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "1"
                 },
                 {
                     "name": "timeout",
-                    "description": "",
-                    "type": "Number"
+                    "description": "The timeout to use when loading the file.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "2000"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 466,
+            "line": 644,
+            "description": "Is executed when this file starts loading. Gets the time and initalised properties that are used across both loading methods.",
             "itemtype": "method",
             "name": "start",
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 477,
+            "line": 657,
+            "description": "Is executed when this file stops loading. Used across loading methods to give values to properties.",
             "itemtype": "method",
             "name": "stop",
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 488,
+            "line": 670,
+            "description": "Handles the loading of the file when using the tag loader method. \nCurrently only supports the IMAGES and AUDIO files.",
             "itemtype": "method",
             "name": "tagLoader",
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 519,
+            "line": 704,
+            "description": "Is executed when the tag loader changes its ready state.",
             "itemtype": "method",
             "name": "tagLoaderOnReadyStateChange",
             "params": [
@@ -11711,150 +12368,198 @@
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 527,
+            "line": 714,
+            "description": "Is executed when the tag loader encounters a error that stops it from loading.",
             "itemtype": "method",
             "name": "tagLoaderOnError",
             "params": [
                 {
-                    "name": "UNKNOWN",
+                    "name": "event",
                     "description": "",
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 552,
+            "line": 732,
+            "description": "Is executed when the file can play perfectly fine and loading will not affect it.",
+            "itemtype": "method",
+            "name": "tagLoaderProgressThrough",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 754,
+            "description": "Is executed when the file has successfully loaded.",
             "itemtype": "method",
             "name": "tagLoaderOnLoad",
             "params": [
                 {
-                    "name": "UNKNOWN",
+                    "name": "event",
                     "description": "",
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 582,
+            "line": 776,
+            "description": "Sets up a XHR loader based on the properties of this file.",
             "itemtype": "method",
             "name": "xhrLoader",
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 603,
+            "line": 799,
+            "description": "Is executed when the XHR loader has changed its ready state.",
             "itemtype": "method",
             "name": "xhrOnReadyStateChange",
             "params": [
                 {
-                    "name": "UNKNOWN",
+                    "name": "event",
                     "description": "",
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 618,
+            "line": 816,
+            "description": "Is executed when the XHR loader starts to load the file.",
             "itemtype": "method",
             "name": "xhrOnLoadStart",
             "params": [
                 {
-                    "name": "UNKNOWN",
+                    "name": "event",
                     "description": "",
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 629,
+            "line": 829,
+            "description": "Runs when the XHR loader aborts the load for some reason. [NEEDS IMPLEMENTATION]",
             "itemtype": "method",
             "name": "xhrOnAbort",
             "params": [
                 {
-                    "name": "UNKNOWN",
+                    "name": "event",
                     "description": "",
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 637,
+            "line": 839,
+            "description": "Runs when the XHR loader encounters a error. [NEEDS IMPLEMENTATION]",
             "itemtype": "method",
             "name": "xhrOnError",
             "params": [
                 {
-                    "name": "UNKNOWN",
+                    "name": "event",
                     "description": "",
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 645,
+            "line": 849,
+            "description": "[DESCRIPTION AND IMPLEMENTATION REQUIRED]",
             "itemtype": "method",
             "name": "xhrOnTimeout",
             "params": [
                 {
-                    "name": "UNKNOWN",
+                    "name": "event",
                     "description": "",
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 653,
+            "line": 859,
+            "description": "Is execute whilst loading of the file is occuring. Updates the number of bytes that have been loaded and percentage loaded.",
             "itemtype": "method",
             "name": "xhrOnProgress",
             "params": [
                 {
-                    "name": "UNKNOWN",
+                    "name": "event",
                     "description": "",
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 670,
+            "line": 878,
             "description": "Once the file has finished downloading (or pulled from the browser cache) this onload event fires.",
             "itemtype": "method",
             "name": "xhrOnLoad",
@@ -11865,75 +12570,117 @@
                     "type": "Event"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 743,
+            "line": 952,
+            "description": "Creates a new Binary Large Object for the data that was loaded through the XHR.",
             "itemtype": "method",
             "name": "createBlob",
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 804,
+            "line": 1015,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "revoke",
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 822,
+            "line": 1035,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "parseComplete",
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 839,
+            "line": 1054,
             "description": "Get information about the given file",
             "itemtype": "method",
             "name": "getFileDetails",
             "params": [
                 {
-                    "name": "The",
-                    "description": "callback to send this FileInfo object to",
-                    "type": "Function"
+                    "name": "callback",
+                    "description": "The callback to send this FileInfo object to.",
+                    "type": "Function",
+                    "optional": true,
+                    "optdefault": "null"
+                },
+                {
+                    "name": "maxLoadAttempts",
+                    "description": "The maximum amount of load attempts.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "1"
+                },
+                {
+                    "name": "timeout",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "2000"
                 }
             ],
+            "pricate": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 854,
+            "line": 1072,
+            "description": "Sends a request for the files header information.",
             "itemtype": "method",
             "name": "sendXHRHeadRequest",
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 872,
+            "line": 1091,
+            "description": "Is executed when the XHR head request timesout.",
             "itemtype": "method",
             "name": "xhrHeadOnTimeout",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 898,
+            "line": 1119,
+            "description": "Is exeuted when this XHR head request has a error.",
             "itemtype": "method",
             "name": "xhrHeadOnError",
             "params": [
@@ -11943,14 +12690,16 @@
                     "type": "Any"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 917,
-            "description": "Process the response headers received",
+            "line": 1139,
+            "description": "Process the response headers received.",
             "itemtype": "method",
             "name": "getResponseHeaders",
             "params": [
@@ -11958,24 +12707,17 @@
                     "name": "The",
                     "description": "XHR event",
                     "type": "Event"
-                },
-                {
-                    "name": "The",
-                    "description": "callback to send this FileInfo object to",
-                    "type": "Function"
                 }
             ],
-            "return": {
-                "description": "This FileInfo object containing the results of the response",
-                "type": "Kiwi.Loaders.FileInfo"
-            },
+            "access": "private",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 947,
+            "line": 1165,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -11983,6 +12725,8 @@
                 "description": "a string representation of the instance.",
                 "type": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "File",
             "module": "Kiwi",
             "submodule": "Files"
@@ -11991,9 +12735,16 @@
             "file": "src\\file\\FileStore.ts",
             "line": 18,
             "is_constructor": 1,
+            "params": [
+                {
+                    "name": "game",
+                    "description": "The game that this FileStore belongs to.",
+                    "type": "Game"
+                }
+            ],
             "return": {
                 "description": "",
-                "type": "Kiwi.FilesStore"
+                "type": "FilesStore"
             },
             "class": "FileStore",
             "module": "Kiwi",
@@ -12001,9 +12752,27 @@
         },
         {
             "file": "src\\file\\FileStore.ts",
-            "line": 35,
+            "line": 30,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "FileStore",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\FileStore.ts",
+            "line": 40,
+            "description": "The game that this FileStore belongs to.",
             "itemtype": "property",
-            "name": "_files",
+            "name": "_game",
+            "type": "Game",
             "access": "private",
             "tagname": "",
             "class": "FileStore",
@@ -12012,10 +12781,25 @@
         },
         {
             "file": "src\\file\\FileStore.ts",
-            "line": 42,
+            "line": 48,
+            "description": "The files that are on this FileStore.",
+            "itemtype": "property",
+            "name": "_files",
+            "type": "Object",
+            "access": "private",
+            "tagname": "",
+            "class": "FileStore",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\FileStore.ts",
+            "line": 56,
+            "description": "The number of files that are on the file store.",
             "itemtype": "property",
             "name": "_size",
             "type": "Number",
+            "default": "0",
             "access": "private",
             "tagname": "",
             "class": "FileStore",
@@ -12024,90 +12808,202 @@
         },
         {
             "file": "src\\file\\FileStore.ts",
-            "line": 54,
+            "line": 65,
+            "description": "The boot method is executed when the DOM elements needed for this game are ready and thus the game can 'boot'.",
+            "itemtype": "method",
+            "name": "boot",
+            "access": "public",
+            "tagname": "",
+            "class": "FileStore",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\FileStore.ts",
+            "line": 74,
+            "description": "Returns a particular file by the key that you specify.",
             "itemtype": "method",
             "name": "getFile",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
-                    "type": "Sting"
+                    "description": "The key of the file that you to get.",
+                    "type": "String"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Files"
+                "type": "File"
             },
+            "access": "public",
+            "tagname": "",
             "class": "FileStore",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\FileStore.ts",
-            "line": 97,
-            "description": "Gets",
+            "line": 87,
+            "description": "Returns an object full of files that have a Tag that is associated with it.",
+            "itemtype": "method",
+            "name": "getFilesByTag",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "All of the files with that tag.",
+                "type": "Object"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "FileStore",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\FileStore.ts",
+            "line": 105,
+            "description": "Removes all of the files by a tag that is specified.",
+            "itemtype": "method",
+            "name": "removeFilesByTag",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The number of files that were removed.",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "FileStore",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\FileStore.ts",
+            "line": 124,
+            "description": "Returns all of the keys for every file that exist on this FileStore as an array.",
+            "itemtype": "property",
+            "name": "keys",
+            "type": "String[]",
+            "access": "public",
+            "tagname": "",
+            "class": "FileStore",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\FileStore.ts",
+            "line": 139,
+            "description": "Returns the number of files that are on this FileStore.",
             "itemtype": "method",
             "name": "size",
             "return": {
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "FileStore",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\FileStore.ts",
-            "line": 110,
+            "line": 153,
+            "description": "Adds a File with a key to the FileStore. If the key that you specify already exists then this method will return false otherwise it should return true if it was added.",
             "itemtype": "method",
-            "name": "add",
+            "name": "addFile",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
+                    "description": "A unique key that this file should be accessed by.",
                     "type": "String"
                 },
                 {
                     "name": "value",
-                    "description": "",
+                    "description": "The file that you would like to save on the FileStore.",
                     "type": "File"
                 }
             ],
+            "return": {
+                "description": "If the file was added or not",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "FileStore",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\FileStore.ts",
-            "line": 128,
+            "line": 174,
+            "description": "Checks to see if a key that you pass is already being used for another file. Returns true if that key is already in used, false if it isn't.",
             "itemtype": "method",
             "name": "exists",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
-                    "type": "Sting"
+                    "description": "The key that you are checking.",
+                    "type": "String"
                 }
             ],
             "return": {
                 "description": "boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "FileStore",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\FileStore.ts",
-            "line": 154,
+            "line": 194,
+            "description": "Removes files on the FileStore that are associated with a particular state.",
             "itemtype": "method",
-            "name": "remove",
+            "name": "removeStateFiles",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "",
+                    "type": "State"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "FileStore",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\FileStore.ts",
+            "line": 208,
+            "description": "Removes a file by the key that is passed. Returns a boolean indicating if a file was removed or not.\nNote: Only returns false if that file did not exist in the first place.",
+            "itemtype": "method",
+            "name": "removeFile",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
+                    "description": "The key of the file you want to remove.",
                     "type": "String"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "FileStore",
             "module": "Kiwi",
             "submodule": "Files"
@@ -12119,8 +13015,8 @@
             "params": [
                 {
                     "name": "game",
-                    "description": "",
-                    "type": "Kiwi.Game"
+                    "description": "The game that this loader belongs to.",
+                    "type": "Game"
                 }
             ],
             "return": {
@@ -12133,10 +13029,27 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 33,
+            "line": 29,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Loader",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\Loader.ts",
+            "line": 39,
+            "description": "The game that this loader belongs to.",
             "itemtype": "property",
             "name": "_game",
-            "type": "Kiwi.Game",
+            "type": "Game",
             "access": "private",
             "tagname": "",
             "class": "Loader",
@@ -12145,10 +13058,11 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 41,
+            "line": 47,
+            "description": "A list of all of the files that need to be loaded.",
             "itemtype": "property",
             "name": "_fileList",
-            "type": "Kiwi.Structs.Queue",
+            "type": "File[]",
             "access": "private",
             "tagname": "",
             "class": "Loader",
@@ -12157,10 +13071,11 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 49,
+            "line": 55,
+            "description": "A list of all of the files that have been loaded.",
             "itemtype": "property",
             "name": "_loadList",
-            "type": "Kiwi.Structs.Queue",
+            "type": "File[]",
             "access": "private",
             "tagname": "",
             "class": "Loader",
@@ -12169,20 +13084,11 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 57,
+            "line": 63,
+            "description": "A callback that is to be called while the loader is in the process of loading files.",
             "itemtype": "property",
             "name": "_onProgressCallback",
-            "access": "private",
-            "tagname": "",
-            "class": "Loader",
-            "module": "Kiwi",
-            "submodule": "Files"
-        },
-        {
-            "file": "src\\file\\Loader.ts",
-            "line": 64,
-            "itemtype": "property",
-            "name": "_onCompleteCallback",
+            "type": "Function",
             "access": "private",
             "tagname": "",
             "class": "Loader",
@@ -12192,10 +13098,10 @@
         {
             "file": "src\\file\\Loader.ts",
             "line": 71,
-            "description": "If a real byte value calculation will be made prior to the load (much smoother progress bar but costs HEAD calls x total file count)",
+            "description": "A callback that is to be called when the loader has finished loading files.",
             "itemtype": "property",
-            "name": "_calculateBytes",
-            "type": "boolean",
+            "name": "_onCompleteCallback",
+            "type": "Function",
             "access": "private",
             "tagname": "",
             "class": "Loader",
@@ -12205,6 +13111,20 @@
         {
             "file": "src\\file\\Loader.ts",
             "line": 79,
+            "description": "If a real byte value calculation will be made prior to the load (much smoother progress bar but costs HEAD calls x total file count)",
+            "itemtype": "property",
+            "name": "_calculateBytes",
+            "type": "boolean",
+            "default": "true",
+            "access": "private",
+            "tagname": "",
+            "class": "Loader",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\Loader.ts",
+            "line": 88,
             "description": "Total number of files to be loaded",
             "itemtype": "property",
             "name": "_fileTotal",
@@ -12217,7 +13137,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 87,
+            "line": 96,
             "description": "The most recently loaded file (out of the total)",
             "itemtype": "property",
             "name": "_currentFile",
@@ -12230,7 +13150,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 95,
+            "line": 104,
             "description": "Total file size (in bytes) of all files to be loaded - only set if calculateBytes is true",
             "itemtype": "property",
             "name": "_bytesTotal",
@@ -12243,7 +13163,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 103,
+            "line": 112,
             "description": "Total number of bytes loaded so far (out of _bytesTotal)",
             "itemtype": "property",
             "name": "_bytesLoaded",
@@ -12256,7 +13176,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 111,
+            "line": 120,
             "description": "Total number of bytes loaded from last completed file",
             "itemtype": "property",
             "name": "_bytesCurrent",
@@ -12269,7 +13189,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 119,
+            "line": 128,
             "description": "When using the tag loader we don't have a byte total, just a X of files total - this holds the percentage each file from that total is worth",
             "itemtype": "property",
             "name": "_fileChunk",
@@ -12282,7 +13202,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 127,
+            "line": 136,
             "description": "The total % of the current queue that has been loaded",
             "itemtype": "property",
             "name": "_percentLoaded",
@@ -12295,7 +13215,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 135,
+            "line": 144,
             "description": "Everything in the queue loaded?",
             "itemtype": "property",
             "name": "_complete",
@@ -12308,302 +13228,513 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 145,
+            "line": 152,
+            "description": "The boot method is executed when the DOM has successfully loaded and we can now start the game.",
             "itemtype": "method",
             "name": "boot",
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 156,
+            "line": 164,
+            "description": "Initialise the properities that are needed on this loader.",
             "itemtype": "method",
             "name": "init",
             "params": [
                 {
                     "name": "progress",
-                    "description": "",
+                    "description": "Progress callback method.",
                     "type": "Any",
-                    "optional": true
+                    "optional": true,
+                    "optdefault": "null"
                 },
                 {
                     "name": "complete",
-                    "description": "",
+                    "description": "Complete callback method.",
                     "type": "Any",
-                    "optional": true
+                    "optional": true,
+                    "optdefault": "null"
                 },
                 {
                     "name": "calculateBytes",
                     "description": "",
-                    "type": "Boolean"
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 183,
+            "line": 192,
+            "description": "Creates a new file for an image and adds a the file to loading queue.",
             "itemtype": "method",
             "name": "addImage",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
+                    "description": "The key for the file.",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "",
+                    "description": "The url of the image to load.",
                     "type": "String"
+                },
+                {
+                    "name": "width",
+                    "description": "The width of the cell on the image to use once the image is loaded.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "height",
+                    "description": "The height of the cell on the image to use once the image is loaded.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "offsetX",
+                    "description": "An offset on the x axis of the cell.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "offsetY",
+                    "description": "An offset of the y axis of the cell.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "If the image should be stored globally or not.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 198,
+            "line": 213,
+            "description": "Creates a new file for a spritesheet and adds the file to the loading queue.",
             "itemtype": "method",
             "name": "addSpriteSheet",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
+                    "description": "The key for the file.",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "",
+                    "description": "The url of the image to load.",
                     "type": "String"
                 },
                 {
                     "name": "frameWidth",
-                    "description": "",
+                    "description": "The width of a single cell in the spritesheet.",
                     "type": "Number"
                 },
                 {
                     "name": "frameHeight",
-                    "description": "",
+                    "description": "The height of a single cell in the spritesheet.",
                     "type": "Number"
+                },
+                {
+                    "name": "numCells",
+                    "description": "The number of cells that are in this spritesheet.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "rows",
+                    "description": "The number of cells that are in a row.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "cols",
+                    "description": "The number of cells that are in a column.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "sheetOffsetX",
+                    "description": "The offset of the whole spritesheet on the x axis.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "sheetOffsetY",
+                    "description": "The offset of the whole spritesheet on the y axis.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "cellOffsetX",
+                    "description": "The spacing between each cell on the x axis.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "cellOffsetY",
+                    "description": "The spacing between each cell on the y axis.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 232,
+            "line": 241,
+            "description": "Creates new file's for loading a texture atlas and adds those files to the loading queue.",
+            "itemtype": "method",
+            "name": "addTextureAtlas",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "The key for the image file.",
+                    "type": "String"
+                },
+                {
+                    "name": "imageUrl",
+                    "description": "The url of the image to load.",
+                    "type": "String"
+                },
+                {
+                    "name": "jsonID",
+                    "description": "A key for the JSON file.",
+                    "type": "String"
+                },
+                {
+                    "name": "jsonURL",
+                    "description": "The url of the json file to load.",
+                    "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "If hte files should be stored globally or not.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Loader",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\Loader.ts",
+            "line": 265,
+            "description": "Creates a new File to store a audio piece and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addAudio",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
+                    "description": "The key for the audio file.",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "",
+                    "description": "The url of the audio to load.",
                     "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "If the file should be stored globally.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 245,
+            "line": 279,
+            "description": "Creates a new File to store JSON and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addJSON",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
+                    "description": "The key for the file.",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "",
+                    "description": "The url to the json file.",
                     "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "If the file should be stored globally.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 258,
+            "line": 293,
+            "description": "Creates a new File to store XML and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addXML",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
+                    "description": "The key for the file.",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "",
+                    "description": "The url to the xml file.",
                     "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "If the file should be stored globally.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 270,
+            "line": 307,
+            "description": "Creates a new File for a Binary file and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addBinaryFile",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
+                    "description": "The key for the file.",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "",
+                    "description": "The url to the Binary file.",
                     "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "If the file should be stored globally.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 282,
+            "line": 321,
+            "description": "Creates a new File to store a text file and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addTextFile",
             "params": [
                 {
                     "name": "key",
-                    "description": "",
+                    "description": "The key for the file.",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "",
+                    "description": "The url to the text file.",
                     "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "If the file should be stored globally.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 296,
+            "line": 335,
+            "description": "Loops through all of the files that need to be loaded and start the load event on them.",
             "itemtype": "method",
             "name": "startLoad",
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 334,
+            "line": 374,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "getNextFileSize",
+            "access": "private",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 353,
+            "line": 394,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "addToBytesTotal",
             "params": [
                 {
                     "name": "file",
                     "description": "",
-                    "type": "Kiwi.Files"
+                    "type": "File"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 368,
+            "line": 410,
+            "description": "Starts the loading of the next file in the list.",
             "itemtype": "method",
             "name": "nextFile",
+            "access": "private",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 382,
+            "line": 425,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "fileLoadProgress",
             "params": [
                 {
                     "name": "file",
                     "description": "",
-                    "type": "Kiwi.Files"
+                    "type": "File"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 402,
+            "line": 446,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "fileLoadComplete",
             "params": [
                 {
                     "name": "file",
                     "description": "",
-                    "type": "Kiwi.Files"
+                    "type": "File"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 450,
+            "line": 495,
+            "description": "Returns the total number of bytes that have been loaded so far.",
             "itemtype": "method",
             "name": "getBytesLoaded",
             "return": {
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 461,
+            "line": 507,
+            "description": "Returns a percentage of the amount that has been loaded so far.",
             "itemtype": "method",
             "name": "getPercentLoaded",
             "return": {
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 479,
+            "line": 526,
             "description": "If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load\n         If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)",
             "itemtype": "method",
             "name": "calculateBytes",
@@ -12611,26 +13742,32 @@
                 {
                     "name": "value",
                     "description": "",
-                    "type": "Boolean"
+                    "type": "Boolean",
+                    "optional": true
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 497,
+            "line": 545,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "complete",
             "return": {
                 "description": "",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Loader",
             "module": "Kiwi",
             "submodule": "Files"
@@ -23486,35 +24623,57 @@
             "itemtype": "property",
             "name": "isReady",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Bootstrap",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Bootstrap.ts",
-            "line": 49,
+            "line": 50,
             "description": "The parent div in which the layers and input live",
             "itemtype": "property",
             "name": "container",
             "type": "HTMLDivElement",
+            "access": "public",
+            "tagname": "",
             "class": "Bootstrap",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Bootstrap.ts",
-            "line": 60,
+            "line": 58,
             "description": "This div sits on-top of all layers and captures user input",
             "itemtype": "property",
             "name": "input",
             "type": "HTMLDivElement",
+            "access": "public",
+            "tagname": "",
             "class": "Bootstrap",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Bootstrap.ts",
-            "line": 72,
+            "line": 67,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Bootstrap",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Bootstrap.ts",
+            "line": 77,
             "description": "Called at the start of the game to check to see if the DOM is ready before we do anything requiring it",
             "itemtype": "method",
             "name": "boot",
@@ -23528,32 +24687,38 @@
                     "name": "callback",
                     "description": "",
                     "type": "Any",
-                    "optional": true
+                    "optional": true,
+                    "optdefault": "null"
                 },
                 {
                     "name": "createContainer",
                     "description": "",
                     "type": "Boolean",
-                    "optional": true
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "Bootstrap",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Bootstrap.ts",
-            "line": 99,
+            "line": 105,
             "description": "If the DOM is ready it fires our callback, otherwise sets a short timeout to try again",
             "itemtype": "method",
             "name": "ready",
+            "access": "public",
+            "tagname": "",
             "class": "Bootstrap",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Bootstrap.ts",
-            "line": 160,
+            "line": 167,
             "itemtype": "method",
             "name": "_setupContainer",
             "params": [
@@ -23577,7 +24742,7 @@
                 {
                     "name": "game",
                     "description": "",
-                    "type": "Kiwi.Game"
+                    "type": "Game"
                 }
             ],
             "return": {
@@ -23590,10 +24755,26 @@
         },
         {
             "file": "src\\system\\Browser.ts",
-            "line": 35,
+            "line": 31,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Browser",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Browser.ts",
+            "line": 41,
             "itemtype": "property",
             "name": "_game",
-            "type": "Kiwi.Game",
+            "type": "Game",
             "access": "private",
             "tagname": "",
             "class": "Browser",
@@ -23602,7 +24783,7 @@
         },
         {
             "file": "src\\system\\Browser.ts",
-            "line": 43,
+            "line": 49,
             "description": "The DOM is ready, so if we have a current state pending we can init it now",
             "itemtype": "method",
             "name": "boot",
@@ -23612,7 +24793,7 @@
         },
         {
             "file": "src\\system\\Browser.ts",
-            "line": 53,
+            "line": 57,
             "itemtype": "method",
             "name": "getOffsetPoint",
             "params": [
@@ -23624,13 +24805,15 @@
                 {
                     "name": "output",
                     "description": "",
-                    "type": "Kiwi.Geom.Point"
+                    "type": "Point"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Geom.Point"
+                "type": "Point"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Browser",
             "module": "Kiwi",
             "submodule": "System"
@@ -23649,20 +24832,28 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 43,
-            "itemtype": "property",
-            "name": "iOS",
-            "type": "boolean",
+            "line": 37,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 50,
+            "line": 49,
             "itemtype": "property",
-            "name": "android",
+            "name": "iOS",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
@@ -23671,78 +24862,82 @@
             "file": "src\\system\\Device.ts",
             "line": 57,
             "itemtype": "property",
-            "name": "chromeOS",
+            "name": "android",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 64,
+            "line": 65,
+            "itemtype": "property",
+            "name": "chromeOS",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 73,
             "itemtype": "property",
             "name": "linux",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 71,
+            "line": 81,
             "itemtype": "property",
             "name": "maxOS",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 78,
+            "line": 89,
             "itemtype": "property",
             "name": "windows",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 87,
+            "line": 99,
             "itemtype": "property",
             "name": "canvas",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 94,
+            "line": 107,
             "itemtype": "property",
             "name": "file",
             "type": "boolean",
-            "class": "Device",
-            "module": "Kiwi",
-            "submodule": "System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 101,
-            "itemtype": "property",
-            "name": "fileSystem",
-            "type": "boolean",
-            "class": "Device",
-            "module": "Kiwi",
-            "submodule": "System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 108,
-            "itemtype": "property",
-            "name": "localStorage",
-            "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
@@ -23751,78 +24946,82 @@
             "file": "src\\system\\Device.ts",
             "line": 115,
             "itemtype": "property",
-            "name": "webGL",
+            "name": "fileSystem",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 122,
+            "line": 123,
+            "itemtype": "property",
+            "name": "localStorage",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 131,
+            "itemtype": "property",
+            "name": "webGL",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 139,
             "itemtype": "property",
             "name": "worker",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 129,
+            "line": 147,
             "itemtype": "property",
             "name": "blob",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 137,
+            "line": 156,
             "itemtype": "property",
             "name": "touch",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 144,
+            "line": 164,
             "itemtype": "property",
             "name": "css3D",
             "type": "boolean",
-            "class": "Device",
-            "module": "Kiwi",
-            "submodule": "System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 153,
-            "itemtype": "property",
-            "name": "arora",
-            "type": "boolean",
-            "class": "Device",
-            "module": "Kiwi",
-            "submodule": "System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 160,
-            "itemtype": "property",
-            "name": "chrome",
-            "type": "boolean",
-            "class": "Device",
-            "module": "Kiwi",
-            "submodule": "System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 167,
-            "itemtype": "property",
-            "name": "epiphany",
-            "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
@@ -23831,108 +25030,118 @@
             "file": "src\\system\\Device.ts",
             "line": 174,
             "itemtype": "property",
-            "name": "firefox",
+            "name": "arora",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 181,
+            "line": 182,
+            "itemtype": "property",
+            "name": "chrome",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 190,
+            "itemtype": "property",
+            "name": "epiphany",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 198,
+            "itemtype": "property",
+            "name": "firefox",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 206,
             "itemtype": "property",
             "name": "ie",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 188,
+            "line": 214,
             "itemtype": "property",
             "name": "ieVersion",
             "type": "Number",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 195,
+            "line": 222,
             "itemtype": "property",
             "name": "mobileSafari",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 202,
+            "line": 230,
             "itemtype": "property",
             "name": "midori",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 209,
+            "line": 238,
             "itemtype": "property",
             "name": "opera",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 216,
+            "line": 246,
             "itemtype": "property",
             "name": "safari",
             "type": "boolean",
-            "class": "Device",
-            "module": "Kiwi",
-            "submodule": "System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 226,
-            "itemtype": "property",
-            "name": "audioData",
-            "type": "boolean",
-            "class": "Device",
-            "module": "Kiwi",
-            "submodule": "System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 233,
-            "itemtype": "property",
-            "name": "webaudio",
-            "type": "boolean",
-            "class": "Device",
-            "module": "Kiwi",
-            "submodule": "System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 240,
-            "itemtype": "property",
-            "name": "ogg",
-            "type": "boolean",
-            "class": "Device",
-            "module": "Kiwi",
-            "submodule": "System"
-        },
-        {
-            "file": "src\\system\\Device.ts",
-            "line": 247,
-            "itemtype": "property",
-            "name": "mp3",
-            "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
@@ -23941,65 +25150,137 @@
             "file": "src\\system\\Device.ts",
             "line": 254,
             "itemtype": "property",
-            "name": "wav",
+            "name": "webApp",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 261,
+            "line": 264,
+            "itemtype": "property",
+            "name": "audioData",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 272,
+            "itemtype": "property",
+            "name": "webaudio",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 280,
+            "itemtype": "property",
+            "name": "ogg",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 288,
+            "itemtype": "property",
+            "name": "mp3",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 296,
+            "itemtype": "property",
+            "name": "wav",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Device",
+            "module": "Kiwi",
+            "submodule": "System"
+        },
+        {
+            "file": "src\\system\\Device.ts",
+            "line": 304,
             "itemtype": "property",
             "name": "m4a",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 270,
+            "line": 314,
             "itemtype": "property",
             "name": "iPhone",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 277,
+            "line": 322,
             "itemtype": "property",
             "name": "iPhone4",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 284,
+            "line": 330,
             "itemtype": "property",
             "name": "iPad",
             "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 291,
+            "line": 338,
             "itemtype": "property",
             "name": "pixelRatio",
             "type": "Number",
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 298,
+            "line": 346,
             "itemtype": "method",
             "name": "_checkOS",
             "access": "private",
@@ -24010,7 +25291,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 334,
+            "line": 382,
             "itemtype": "method",
             "name": "_checkFeatures",
             "access": "private",
@@ -24021,7 +25302,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 366,
+            "line": 414,
             "itemtype": "method",
             "name": "_checkBrowser",
             "access": "private",
@@ -24032,7 +25313,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 421,
+            "line": 469,
             "itemtype": "method",
             "name": "_checkAudio",
             "access": "private",
@@ -24043,7 +25324,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 465,
+            "line": 513,
             "itemtype": "method",
             "name": "_checkDevice",
             "access": "private",
@@ -24054,7 +25335,7 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 479,
+            "line": 527,
             "itemtype": "method",
             "name": "_checkCSS3D",
             "access": "private",
@@ -24065,13 +25346,15 @@
         },
         {
             "file": "src\\system\\Device.ts",
-            "line": 512,
+            "line": 560,
             "itemtype": "method",
             "name": "getAll",
             "return": {
                 "description": "",
                 "type": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Device",
             "module": "Kiwi",
             "submodule": "System"
@@ -28250,40 +29533,8 @@
             "line": " src\\core\\SignalBinding.ts:21"
         },
         {
-            "message": "param name missing: {Any}",
-            "line": " src\\file\\File.ts:527"
-        },
-        {
-            "message": "param name missing: {Any}",
-            "line": " src\\file\\File.ts:552"
-        },
-        {
-            "message": "param name missing: {Any}",
-            "line": " src\\file\\File.ts:603"
-        },
-        {
-            "message": "param name missing: {Any}",
-            "line": " src\\file\\File.ts:618"
-        },
-        {
-            "message": "param name missing: {Any}",
-            "line": " src\\file\\File.ts:629"
-        },
-        {
-            "message": "param name missing: {Any}",
-            "line": " src\\file\\File.ts:637"
-        },
-        {
-            "message": "param name missing: {Any}",
-            "line": " src\\file\\File.ts:645"
-        },
-        {
-            "message": "param name missing: {Any}",
-            "line": " src\\file\\File.ts:653"
-        },
-        {
-            "message": "replacing incorrect tag: parm with param",
-            "line": " src\\file\\File.ts:898"
+            "message": "unknown tag: pricate",
+            "line": " src\\file\\File.ts:1054"
         },
         {
             "message": "param name missing: {Camera}",
@@ -28355,7 +29606,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src\\animation\\tweens\\Tween.ts:30"
+            "line": " src\\animation\\tweens\\Tween.ts:29"
         },
         {
             "message": "Missing item type",
@@ -28670,8 +29921,12 @@
             "line": " src\\core\\StateManager.ts:17"
         },
         {
-            "message": "Missing item type\nReturns the type of this object",
-            "line": " src\\file\\File.ts:88"
+            "message": "Missing item type",
+            "line": " src\\file\\DataLibrary.ts:18"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src\\file\\File.ts:18"
         },
         {
             "message": "Missing item type",

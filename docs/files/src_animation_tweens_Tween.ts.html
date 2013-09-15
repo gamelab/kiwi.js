@@ -274,15 +274,14 @@ module Kiwi.Animation {
     * @author     egraether / http://egraether.com/
     *
     */
-
     export class Tween {
 
         /** 
         * 
         * @constructor
-        * @param {Any} object
-        * @param {Kiwi.Game} game
-        * @return {Kiwi.Tween}
+        * @param object {Any} The object that this tween is taking affect on.
+        * @param game {Game} The game that this tween is for.
+        * @return {Tween} This tween.
         */
         constructor(object, game:Kiwi.Game = null) {
 
@@ -298,6 +297,12 @@ module Kiwi.Animation {
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return &quot;Tween&quot;;
         }
@@ -305,21 +310,21 @@ module Kiwi.Animation {
         /** 
         * The game that this tween belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
         */
         private _game: Kiwi.Game = null;
 
         /** 
-        * 
+        * The manager that this tween belongs to. 
         * @property _manager
-        * @type Kiwi.Tweens.Manager
+        * @type Manager
         * @private
         */
         private _manager: Kiwi.Animation.Tweens.Manager = null;
 
         /** 
-        * 
+        * The object that this tween is affecting.
         * @property _object
         * @type Any
         * @private
@@ -327,23 +332,23 @@ module Kiwi.Animation {
 	    private _object = null;
 
         /** 
-        * 
+        * The starting values of the properties that the tween is animating.
         * @property _valuesStart
-        * @type 
+        * @type Object
         * @private
         */
 	    private _valuesStart = {};
 
         /** 
-        * 
+        * The end values of the properties that the tween is animating.
         * @property _valuesEnd
-        * @type
+        * @type Object
         * @private
         */
 	    private _valuesEnd = {};
 
         /** 
-        * 
+        * The duration of the tween, in milliseconds.
         * @property _duration
         * @type Number
         * @private
@@ -351,127 +356,164 @@ module Kiwi.Animation {
 	    private _duration = 1000;
 
         /** 
-        * 
+        * The amount of time to delay the tween by. In Milliseconds.
         * @property _delayTime
         * @type Number
         * @private
         */
-	    private _delayTime = 0;
+	    private _delayTime:number = 0;
 
         /** 
-        * 
+        * The time at which the tween started.
         * @property _startTime
-        * @type
+        * @type Number
         * @private
         */
-	    private _startTime = null;
+	    private _startTime:number = null;
 
         /** 
-        * 
+        * The easing function that is to be used while tweening.
         * @property _easingFunction
-        * @type Kiwi.Tweens.Easing.Linear.None
+        * @type Function
+        * @default Kiwi.Tweens.Easing.Linear.None
         * @private
         */
         private _easingFunction = Kiwi.Animation.Tweens.Easing.Linear.None;
 
         /** 
-        * 
+        * [NEEDS DESCRIPTION]
         * @property _interpolationFunction
-        * @type Kiwi.Utils.Interpolation.Linear
+        * @type Function
+        * @default Kiwi.Utils.Interpolation.Linear
         * @private
         */
 	    private _interpolationFunction = Kiwi.Utils.GameMath.linearInterpolation;
 
         /** 
-        * 
+        * An array containing all of the tweens that are to be played when this one finishes.
         * @property _chainedTweens
-        * @type Array
+        * @type Tween[]
         * @private
         */
 	    private _chainedTweens = [];
 
         /** 
-        * 
+        * The method that is to be called when the tween starts playing.
         * @property _onStartCallback
-        * @type
+        * @type Function
+        * @default null
         * @private
         */
 	    private _onStartCallback = null;
-        private _onStartContext = null;
-
-
-        /** 
-        * 
-        * @property _onStartCallbackFired
-        * @type
+        
+        /**
+        * The context that the _onStartCallback method is to be called in. 
+        * @property _onStartContext
+        * @type Any
+        * @default null
         * @private
         */
-	    private _onStartCallbackFired = false;
+        private _onStartContext:any = null;
 
         /** 
-        * 
+        * A boolean indicating if the starting callback has been called or not.
+        * @property _onStartCallbackFired
+        * @type boolean
+        * @default false
+        * @private
+        */
+	    private _onStartCallbackFired:boolean = false;
+
+        /** 
+        * A callback method that will be called each time the tween updates.
         * @property _onUpdateCallback
-        * @type
+        * @type Function
+        * @default null
         * @private
         */
 	    private _onUpdateCallback = null;
-
-        private _onUpdateContext = null;
+        
+        /**
+        * The context that the update callback has when called.
+        * @property _onUpdateContext
+        * @type any
+        * @default null
+        * @private
+        */
+        private _onUpdateContext:any = null;
 
         /** 
-        * 
+        * A method to be called when the tween finish&#x27;s tweening.
         * @property _onCompleteCallback
-        * @type
+        * @type function
+        * @default null
         * @private
         */
 	    private _onCompleteCallback = null;
 
+        /*
+        * A boolean indicating whether or not the _onCompleteCallback has been called.
+        * @property _onCompleteCalled
+        * @type boolean
+        * @default false
+        * @private
+        */
 	    private _onCompleteCalled: boolean = false;
 
         /** 
-        * 
+        * The context that the onCompleteCallback should have when called.
         * @property _onCompleteContext
-        * @type
+        * @type any
+        * @default null
         * @private
         */
-	    private _onCompleteContext;
+	    private _onCompleteContext: any = null;
 
+        /**
+        * An indication of whether or not this tween is currently running.
+        * @property isRunning.
+        * @type boolean
+        * @default false
+        * @public
+        */
         public isRunning: boolean = false;
 
         /** 
-        * 
+        * Sets up the various properties that define this tween.
+        * The ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.
+        *
         * @method to
-        * @param {Any} properties
-        * @param {Number} duration
-        * @param {Any} ease
-        * @param {boolean} autoStart
+        * @param properties {Object} The ending location of the properties that you want to tween. 
+        * @param [duration=1000] {Number} The duration of the tween.
+        * @param [ease=null] {Any} The easing method to be used. If not specifed then this will default to LINEAR.
+        * @param [autoStart=false] {boolean} If the tween should start right away.
+        * @return {Tween}
+        * @public
         */
-        public to(properties, duration: number = 1000, ease: any = null, autoStart: boolean = false) {
+        public to(properties, duration: number = 1000, ease: any = null, autoStart: boolean = false):Tween {
 
 	        this._duration = duration;
 
 	        //  If properties isn&#x27;t an object this will fail, sanity check it here somehow?
 	        this._valuesEnd = properties;
 
-	        if (ease !== null)
-	        {
+	        if (ease !== null) {
 	            this._easingFunction = ease;
 	        }
 
-	        if (autoStart === true)
-	        {
-	            return this.start();
-	        }
-	        else
-	        {
+	        if (autoStart === true) {
+                return this.start();
+
+	        } else {
 	            return this;
 	        }
 
 	    }
 
         /** 
-        * 
+        * Gets the initial values for the properties that it is to animate and starts the tween process.
         * @method start
+        * @public
         */
 	    public start() {
 
@@ -526,8 +568,9 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
+        * Stops the Tween from running and removes it from the manager.
         * @method stop
+        * @public
         */
 	    public stop() {
 
@@ -543,9 +586,10 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
+        * Sets the game and the manager of this tween.
         * @method setParent
-        * @param {Kiwi.Game} value
+        * @param {Game} value
+        * @public
         */
 	    public setParent(value:Kiwi.Game) {
 
@@ -555,11 +599,13 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
+        * Sets the amount of delay that the tween is to have before it starts playing.
         * @method delay
-        * @param {Any} amount
+        * @param amount {Number} The amount of time to delay the tween by.
+        * @return {Tween}
+        * @public
         */
-	    public delay(amount) {
+	    public delay(amount:number):Tween {
 
 	        this._delayTime = amount;
 	        return this;
@@ -567,11 +613,13 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
+        * Sets the easing method that is to be used when animating this tween.
         * @method easing
-        * @param {Any} easing
+        * @param easing {Function} The easing function to use.
+        * @return {Tween} 
+        * @public
         */
-	    public easing(easing) {
+	    public easing(easing):Tween {
 
 	        this._easingFunction = easing;
 	        return this;
@@ -579,11 +627,13 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
+        * [REQUIRES DESCRIPTION]
         * @method interpolation
         * @param {Any} interpolation
+        * @return {Tween}
+        * @public
         */
-	    public interpolation(interpolation) {
+	    public interpolation(interpolation):Tween {
 
 	        this._interpolationFunction = interpolation;
 
@@ -592,11 +642,13 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
+        * Adds another tween that should start playing once tween has completed.
         * @method chain
-        * @param {Kiwi.Tween} tween
+        * @param tween {Tween}
+        * @return {Tween}
+        * @public
         */
-	    public chain(tween:Kiwi.Animation.Tween) {
+	    public chain(tween:Kiwi.Animation.Tween):Tween {
 
 	        this._chainedTweens.push(tween);
 	        return this;
@@ -604,11 +656,14 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
+        * Adds a function that is to be executed when the tween start playing.
         * @method onStart
-        * @param {Any} callback
+        * @param callback {Function} The function that is to be executed on tween start.
+        * @param context {any} The context that function is to have when called.
+        * @return {Tween}
+        * @public
         */
-	    public onStart(callback, context) {
+	    public onStart(callback, context):Tween {
 
 	        this._onStartCallback = callback;
             this._onStartContext = context;
@@ -617,9 +672,11 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
+        * Adds a function that is to be executed when this tween updates while it is playing.
         * @method onUpdate
-        * @param {Any} callback
+        * @param callback {Function} The method that is to be executed.
+        * @param context {Any} The context the method is to have when called.
+        * @public
         */
 	    public onUpdate(callback, context) {
 
@@ -630,9 +687,11 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
+        * Defines a method that is to be called when this tween is finished.
         * @method onComplete
-        * @param {Any} callback
+        * @param callback {Function} The method that is to be executed.
+        * @param context {Any} The context the method is to have when called.
+        * @public
         */
 	    public onComplete(callback, context) {
 
@@ -644,16 +703,10 @@ module Kiwi.Animation {
 	    }
 
         /** 
-        * 
-        * @property debugValue
-        * @type Any
-        */
-	    public debugValue;
-
-        /** 
-        * 
+        * The update loop is executed every frame whilst the tween is running.
         * @method update
-        * @param {Any} time
+        * @param time {Number}
+        * @public
         */
 	    public update(time) {
 

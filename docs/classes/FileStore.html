@@ -298,35 +298,70 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
-                                <a href="#method_add">add</a>
+                            <li class="index-item method public">
+                                <a href="#method_addFile">addFile</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_boot">boot</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_exists">exists</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_getFile">getFile</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_remove">remove</a>
+                            <li class="index-item method public">
+                                <a href="#method_getFilesByTag">getFilesByTag</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_removeFile">removeFile</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_removeFilesByTag">removeFilesByTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_removeStateFiles">removeStateFiles</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_size">size</a>
 
                                 
@@ -351,7 +386,21 @@
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__game">_game</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__size">_size</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_keys">keys</a>
 
                                 
                                 
@@ -371,8 +420,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_add" class="method item">
-    <h3 class="name"><code>add</code></h3>
+                    <div id="method_addFile" class="method item public">
+    <h3 class="name"><code>addFile</code></h3>
 
     
         <div class="args">
@@ -395,9 +444,15 @@
     
 
     
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -419,7 +474,7 @@
             
         
         
-        <a href="../files/src_file_FileStore.ts.html#l110"><code>src\file\FileStore.ts:110</code></a>
+        <a href="../files/src_file_FileStore.ts.html#l153"><code>src\file\FileStore.ts:153</code></a>
         
         </p>
 
@@ -430,7 +485,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Adds a File with a key to the FileStore. If the key that you specify already exists then this method will return false otherwise it should return true if it was added.</p>
+
     </div>
 
     
@@ -448,7 +504,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>A unique key that this file should be accessed by.</p>
+
                     </div>
 
                     
@@ -463,7 +520,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The file that you would like to save on the FileStore.</p>
+
                     </div>
 
                     
@@ -474,12 +532,83 @@
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If the file was added or not</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
 
                 
-                    <div id="method_exists" class="method item">
+                    <div id="method_boot" class="method item public">
+    <h3 class="name"><code>boot</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_FileStore.ts.html#l65"><code>src\file\FileStore.ts:65</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The boot method is executed when the DOM elements needed for this game are ready and thus the game can &#39;boot&#39;.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_exists" class="method item public">
     <h3 class="name"><code>exists</code></h3>
 
     
@@ -505,6 +634,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -525,7 +656,7 @@
             
         
         
-        <a href="../files/src_file_FileStore.ts.html#l128"><code>src\file\FileStore.ts:128</code></a>
+        <a href="../files/src_file_FileStore.ts.html#l174"><code>src\file\FileStore.ts:174</code></a>
         
         </p>
 
@@ -536,7 +667,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Checks to see if a key that you pass is already being used for another file. Returns true if that key is already in used, false if it isn&#39;t.</p>
+
     </div>
 
     
@@ -548,13 +680,14 @@
                 <li class="param">
                     
                         <code class="param-name">key</code>
-                        <span class="type">Sting</span>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The key that you are checking.</p>
+
                     </div>
 
                     
@@ -582,7 +715,7 @@
 </div>
 
                 
-                    <div id="method_getFile" class="method item">
+                    <div id="method_getFile" class="method item public">
     <h3 class="name"><code>getFile</code></h3>
 
     
@@ -601,12 +734,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Files</span>
+            <span class="type"><a href="..\classes\File.html" class="crosslink">File</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -628,7 +763,7 @@
             
         
         
-        <a href="../files/src_file_FileStore.ts.html#l54"><code>src\file\FileStore.ts:54</code></a>
+        <a href="../files/src_file_FileStore.ts.html#l74"><code>src\file\FileStore.ts:74</code></a>
         
         </p>
 
@@ -639,7 +774,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a particular file by the key that you specify.</p>
+
     </div>
 
     
@@ -651,7 +787,114 @@
                 <li class="param">
                     
                         <code class="param-name">key</code>
-                        <span class="type">Sting</span>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The key of the file that you to get.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\File.html" class="crosslink">File</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getFilesByTag" class="method item public">
+    <h3 class="name"><code>getFilesByTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_FileStore.ts.html#l87"><code>src\file\FileStore.ts:87</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns an object full of files that have a Tag that is associated with it.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
                     
 
                     
@@ -674,8 +917,10 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Files</span>:
+                        <span class="type">Object</span>:
                     
+                    <p>All of the files with that tag.</p>
+
                 
             </div>
         </div>
@@ -685,27 +930,23 @@
 </div>
 
                 
-                    <div id="method_remove" class="method item">
-    <h3 class="name"><code>remove</code></h3>
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>key</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
     
 
     
 
     
-
+        <span class="flag public">public</span>
     
 
     
@@ -727,7 +968,7 @@
             
         
         
-        <a href="../files/src_file_FileStore.ts.html#l154"><code>src\file\FileStore.ts:154</code></a>
+        <a href="../files/src_file_FileStore.ts.html#l30"><code>src\file\FileStore.ts:30</code></a>
         
         </p>
 
@@ -738,7 +979,92 @@
     </div>
 
     <div class="description">
+        <p>The type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeFile" class="method item public">
+    <h3 class="name"><code>removeFile</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>key</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_FileStore.ts.html#l208"><code>src\file\FileStore.ts:208</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Removes a file by the key that is passed. Returns a boolean indicating if a file was removed or not.
+Note: Only returns false if that file did not exist in the first place.</p>
+
     </div>
 
     
@@ -751,6 +1077,217 @@
                     
                         <code class="param-name">key</code>
                         <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The key of the file you want to remove.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeFilesByTag" class="method item public">
+    <h3 class="name"><code>removeFilesByTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_FileStore.ts.html#l105"><code>src\file\FileStore.ts:105</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Removes all of the files by a tag that is specified.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>The number of files that were removed.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeStateFiles" class="method item public">
+    <h3 class="name"><code>removeStateFiles</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>state</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_FileStore.ts.html#l194"><code>src\file\FileStore.ts:194</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Removes files on the FileStore that are associated with a particular state.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">state</code>
+                        <span class="type"><a href="..\classes\State.html" class="crosslink">State</a></span>
                     
 
                     
@@ -772,7 +1309,7 @@
 </div>
 
                 
-                    <div id="method_size" class="method item">
+                    <div id="method_size" class="method item public">
     <h3 class="name"><code>size</code></h3>
 
     
@@ -787,6 +1324,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -808,7 +1347,7 @@
             
         
         
-        <a href="../files/src_file_FileStore.ts.html#l97"><code>src\file\FileStore.ts:97</code></a>
+        <a href="../files/src_file_FileStore.ts.html#l139"><code>src\file\FileStore.ts:139</code></a>
         
         </p>
 
@@ -819,7 +1358,7 @@
     </div>
 
     <div class="description">
-        <p>Gets</p>
+        <p>Returns the number of files that are on this FileStore.</p>
 
     </div>
 
@@ -853,7 +1392,7 @@
                 
                     <div id="property__files" class="property item private">
     <h3 class="name"><code>_files</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Object</span>
 
     
 
@@ -876,7 +1415,7 @@
             
         
         
-        <a href="../files/src_file_FileStore.ts.html#l35"><code>src\file\FileStore.ts:35</code></a>
+        <a href="../files/src_file_FileStore.ts.html#l48"><code>src\file\FileStore.ts:48</code></a>
         
         </p>
 
@@ -886,7 +1425,55 @@
     </div>
 
     <div class="description">
+        <p>The files that are on this FileStore.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__game" class="property item private">
+    <h3 class="name"><code>_game</code></h3>
+    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_FileStore.ts.html#l40"><code>src\file\FileStore.ts:40</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game that this FileStore belongs to.</p>
+
     </div>
 
     
@@ -922,7 +1509,7 @@
             
         
         
-        <a href="../files/src_file_FileStore.ts.html#l42"><code>src\file\FileStore.ts:42</code></a>
+        <a href="../files/src_file_FileStore.ts.html#l56"><code>src\file\FileStore.ts:56</code></a>
         
         </p>
 
@@ -932,7 +1519,57 @@
     </div>
 
     <div class="description">
+        <p>The number of files that are on the file store.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_keys" class="property item public">
+    <h3 class="name"><code>keys</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_FileStore.ts.html#l124"><code>src\file\FileStore.ts:124</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns all of the keys for every file that exist on this FileStore as an array.</p>
+
     </div>
 
     

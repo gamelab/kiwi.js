@@ -298,133 +298,147 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addAudio">addAudio</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addBinaryFile">addBinaryFile</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addImage">addImage</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addJSON">addJSON</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addSpriteSheet">addSpriteSheet</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addTextFile">addTextFile</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_addTextureAtlas">addTextureAtlas</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method_addToBytesTotal">addToBytesTotal</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addXML">addXML</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_boot">boot</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_calculateBytes">calculateBytes</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_complete">complete</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method private">
                                 <a href="#method_fileLoadComplete">fileLoadComplete</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method private">
                                 <a href="#method_fileLoadProgress">fileLoadProgress</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_getBytesLoaded">getBytesLoaded</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method private">
                                 <a href="#method_getNextFileSize">getNextFileSize</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_getPercentLoaded">getPercentLoaded</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_init">init</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method private">
                                 <a href="#method_nextFile">nextFile</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_startLoad">startLoad</a>
 
                                 
@@ -553,7 +567,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_addAudio" class="method item">
+                    <div id="method_addAudio" class="method item public">
     <h3 class="name"><code>addAudio</code></h3>
 
     
@@ -572,6 +586,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -580,6 +600,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -601,7 +623,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l232"><code>src\file\Loader.ts:232</code></a>
+        <a href="../files/src_file_Loader.ts.html#l265"><code>src\file\Loader.ts:265</code></a>
         
         </p>
 
@@ -612,7 +634,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates a new File to store a audio piece and adds it to the loading queue.</p>
+
     </div>
 
     
@@ -630,7 +653,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The key for the audio file.</p>
+
                     </div>
 
                     
@@ -645,7 +669,25 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The url of the audio to load.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[storeAsGlobal=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the file should be stored globally.</p>
+
                     </div>
 
                     
@@ -661,7 +703,7 @@
 </div>
 
                 
-                    <div id="method_addBinaryFile" class="method item">
+                    <div id="method_addBinaryFile" class="method item public">
     <h3 class="name"><code>addBinaryFile</code></h3>
 
     
@@ -680,6 +722,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -688,6 +736,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -709,7 +759,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l270"><code>src\file\Loader.ts:270</code></a>
+        <a href="../files/src_file_Loader.ts.html#l307"><code>src\file\Loader.ts:307</code></a>
         
         </p>
 
@@ -720,7 +770,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates a new File for a Binary file and adds it to the loading queue.</p>
+
     </div>
 
     
@@ -738,7 +789,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The key for the file.</p>
+
                     </div>
 
                     
@@ -753,7 +805,25 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The url to the Binary file.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[storeAsGlobal=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the file should be stored globally.</p>
+
                     </div>
 
                     
@@ -769,7 +839,7 @@
 </div>
 
                 
-                    <div id="method_addImage" class="method item">
+                    <div id="method_addImage" class="method item public">
     <h3 class="name"><code>addImage</code></h3>
 
     
@@ -788,6 +858,36 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[width]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[height]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[offsetX]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[offsetY]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -796,6 +896,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -817,7 +919,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l183"><code>src\file\Loader.ts:183</code></a>
+        <a href="../files/src_file_Loader.ts.html#l192"><code>src\file\Loader.ts:192</code></a>
         
         </p>
 
@@ -828,7 +930,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates a new file for an image and adds a the file to loading queue.</p>
+
     </div>
 
     
@@ -846,7 +949,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The key for the file.</p>
+
                     </div>
 
                     
@@ -861,7 +965,93 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The url of the image to load.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[width]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The width of the cell on the image to use once the image is loaded.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[height]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The height of the cell on the image to use once the image is loaded.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[offsetX]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>An offset on the x axis of the cell.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[offsetY]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>An offset of the y axis of the cell.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[storeAsGlobal=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the image should be stored globally or not.</p>
+
                     </div>
 
                     
@@ -877,7 +1067,7 @@
 </div>
 
                 
-                    <div id="method_addJSON" class="method item">
+                    <div id="method_addJSON" class="method item public">
     <h3 class="name"><code>addJSON</code></h3>
 
     
@@ -896,6 +1086,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -904,6 +1100,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -925,7 +1123,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l245"><code>src\file\Loader.ts:245</code></a>
+        <a href="../files/src_file_Loader.ts.html#l279"><code>src\file\Loader.ts:279</code></a>
         
         </p>
 
@@ -936,7 +1134,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates a new File to store JSON and adds it to the loading queue.</p>
+
     </div>
 
     
@@ -954,7 +1153,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The key for the file.</p>
+
                     </div>
 
                     
@@ -969,7 +1169,25 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The url to the json file.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[storeAsGlobal=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the file should be stored globally.</p>
+
                     </div>
 
                     
@@ -985,7 +1203,7 @@
 </div>
 
                 
-                    <div id="method_addSpriteSheet" class="method item">
+                    <div id="method_addSpriteSheet" class="method item public">
     <h3 class="name"><code>addSpriteSheet</code></h3>
 
     
@@ -1016,6 +1234,54 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[numCells]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[rows]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[cols]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[sheetOffsetX]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[sheetOffsetY]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[cellOffsetX]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[cellOffsetY]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -1024,6 +1290,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1045,7 +1313,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l198"><code>src\file\Loader.ts:198</code></a>
+        <a href="../files/src_file_Loader.ts.html#l213"><code>src\file\Loader.ts:213</code></a>
         
         </p>
 
@@ -1056,7 +1324,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates a new file for a spritesheet and adds the file to the loading queue.</p>
+
     </div>
 
     
@@ -1074,7 +1343,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The key for the file.</p>
+
                     </div>
 
                     
@@ -1089,7 +1359,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The url of the image to load.</p>
+
                     </div>
 
                     
@@ -1104,7 +1375,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The width of a single cell in the spritesheet.</p>
+
                     </div>
 
                     
@@ -1114,6 +1386,142 @@
                     
                         <code class="param-name">frameHeight</code>
                         <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The height of a single cell in the spritesheet.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[numCells]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The number of cells that are in this spritesheet.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[rows]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The number of cells that are in a row.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[cols]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The number of cells that are in a column.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[sheetOffsetX]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The offset of the whole spritesheet on the x axis.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[sheetOffsetY]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The offset of the whole spritesheet on the y axis.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[cellOffsetX]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The spacing between each cell on the x axis.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[cellOffsetY]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The spacing between each cell on the y axis.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[storeAsGlobal=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1135,7 +1543,7 @@
 </div>
 
                 
-                    <div id="method_addTextFile" class="method item">
+                    <div id="method_addTextFile" class="method item public">
     <h3 class="name"><code>addTextFile</code></h3>
 
     
@@ -1154,6 +1562,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -1162,6 +1576,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1183,7 +1599,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l282"><code>src\file\Loader.ts:282</code></a>
+        <a href="../files/src_file_Loader.ts.html#l321"><code>src\file\Loader.ts:321</code></a>
         
         </p>
 
@@ -1194,7 +1610,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates a new File to store a text file and adds it to the loading queue.</p>
+
     </div>
 
     
@@ -1212,7 +1629,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The key for the file.</p>
+
                     </div>
 
                     
@@ -1227,7 +1645,25 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The url to the text file.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[storeAsGlobal=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the file should be stored globally.</p>
+
                     </div>
 
                     
@@ -1243,7 +1679,187 @@
 </div>
 
                 
-                    <div id="method_addToBytesTotal" class="method item">
+                    <div id="method_addTextureAtlas" class="method item public">
+    <h3 class="name"><code>addTextureAtlas</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>key</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>imageUrl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>jsonID</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>jsonURL</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l241"><code>src\file\Loader.ts:241</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates new file&#39;s for loading a texture atlas and adds those files to the loading queue.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">key</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The key for the image file.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">imageUrl</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The url of the image to load.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">jsonID</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A key for the JSON file.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">jsonURL</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The url of the json file to load.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[storeAsGlobal=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If hte files should be stored globally or not.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_addToBytesTotal" class="method item private">
     <h3 class="name"><code>addToBytesTotal</code></h3>
 
     
@@ -1265,6 +1881,8 @@
     
 
     
+        <span class="flag private">private</span>
+    
 
     
 
@@ -1285,7 +1903,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l353"><code>src\file\Loader.ts:353</code></a>
+        <a href="../files/src_file_Loader.ts.html#l394"><code>src\file\Loader.ts:394</code></a>
         
         </p>
 
@@ -1296,7 +1914,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[DESCRIPTION REQUIRED]</p>
+
     </div>
 
     
@@ -1308,7 +1927,7 @@
                 <li class="param">
                     
                         <code class="param-name">file</code>
-                        <span class="type">Kiwi.Files</span>
+                        <span class="type"><a href="..\classes\File.html" class="crosslink">File</a></span>
                     
 
                     
@@ -1330,7 +1949,7 @@
 </div>
 
                 
-                    <div id="method_addXML" class="method item">
+                    <div id="method_addXML" class="method item public">
     <h3 class="name"><code>addXML</code></h3>
 
     
@@ -1349,6 +1968,12 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[storeAsGlobal=true]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -1357,6 +1982,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1378,7 +2005,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l258"><code>src\file\Loader.ts:258</code></a>
+        <a href="../files/src_file_Loader.ts.html#l293"><code>src\file\Loader.ts:293</code></a>
         
         </p>
 
@@ -1389,7 +2016,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates a new File to store XML and adds it to the loading queue.</p>
+
     </div>
 
     
@@ -1407,7 +2035,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The key for the file.</p>
+
                     </div>
 
                     
@@ -1422,7 +2051,25 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The url to the xml file.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[storeAsGlobal=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the file should be stored globally.</p>
+
                     </div>
 
                     
@@ -1438,7 +2085,7 @@
 </div>
 
                 
-                    <div id="method_boot" class="method item">
+                    <div id="method_boot" class="method item public">
     <h3 class="name"><code>boot</code></h3>
 
     
@@ -1449,6 +2096,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1470,7 +2119,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l145"><code>src\file\Loader.ts:145</code></a>
+        <a href="../files/src_file_Loader.ts.html#l152"><code>src\file\Loader.ts:152</code></a>
         
         </p>
 
@@ -1481,7 +2130,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The boot method is executed when the DOM has successfully loaded and we can now start the game.</p>
+
     </div>
 
     
@@ -1492,7 +2142,7 @@
 </div>
 
                 
-                    <div id="method_calculateBytes" class="method item">
+                    <div id="method_calculateBytes" class="method item public">
     <h3 class="name"><code>calculateBytes</code></h3>
 
     
@@ -1501,7 +2151,7 @@
             
                 <li class="arg">
                     
-                        <code>value</code>
+                        <code class="optional">[value]</code>
                     
                 </li>
             
@@ -1518,6 +2168,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1538,7 +2190,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l479"><code>src\file\Loader.ts:479</code></a>
+        <a href="../files/src_file_Loader.ts.html#l526"><code>src\file\Loader.ts:526</code></a>
         
         </p>
 
@@ -1562,8 +2214,9 @@
             
                 <li class="param">
                     
-                        <code class="param-name">value</code>
+                        <code class="param-name optional">[value]</code>
                         <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1597,7 +2250,7 @@
 </div>
 
                 
-                    <div id="method_complete" class="method item">
+                    <div id="method_complete" class="method item public">
     <h3 class="name"><code>complete</code></h3>
 
     
@@ -1612,6 +2265,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1633,7 +2288,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l497"><code>src\file\Loader.ts:497</code></a>
+        <a href="../files/src_file_Loader.ts.html#l545"><code>src\file\Loader.ts:545</code></a>
         
         </p>
 
@@ -1644,7 +2299,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[DESCRIPTION REQUIRED]</p>
+
     </div>
 
     
@@ -1667,7 +2323,7 @@
 </div>
 
                 
-                    <div id="method_fileLoadComplete" class="method item">
+                    <div id="method_fileLoadComplete" class="method item private">
     <h3 class="name"><code>fileLoadComplete</code></h3>
 
     
@@ -1689,6 +2345,8 @@
     
 
     
+        <span class="flag private">private</span>
+    
 
     
 
@@ -1709,7 +2367,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l402"><code>src\file\Loader.ts:402</code></a>
+        <a href="../files/src_file_Loader.ts.html#l446"><code>src\file\Loader.ts:446</code></a>
         
         </p>
 
@@ -1720,7 +2378,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[DESCRIPTION REQUIRED]</p>
+
     </div>
 
     
@@ -1732,7 +2391,7 @@
                 <li class="param">
                     
                         <code class="param-name">file</code>
-                        <span class="type">Kiwi.Files</span>
+                        <span class="type"><a href="..\classes\File.html" class="crosslink">File</a></span>
                     
 
                     
@@ -1754,7 +2413,7 @@
 </div>
 
                 
-                    <div id="method_fileLoadProgress" class="method item">
+                    <div id="method_fileLoadProgress" class="method item private">
     <h3 class="name"><code>fileLoadProgress</code></h3>
 
     
@@ -1776,6 +2435,8 @@
     
 
     
+        <span class="flag private">private</span>
+    
 
     
 
@@ -1796,7 +2457,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l382"><code>src\file\Loader.ts:382</code></a>
+        <a href="../files/src_file_Loader.ts.html#l425"><code>src\file\Loader.ts:425</code></a>
         
         </p>
 
@@ -1807,7 +2468,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[DESCRIPTION REQUIRED]</p>
+
     </div>
 
     
@@ -1819,7 +2481,7 @@
                 <li class="param">
                     
                         <code class="param-name">file</code>
-                        <span class="type">Kiwi.Files</span>
+                        <span class="type"><a href="..\classes\File.html" class="crosslink">File</a></span>
                     
 
                     
@@ -1841,7 +2503,7 @@
 </div>
 
                 
-                    <div id="method_getBytesLoaded" class="method item">
+                    <div id="method_getBytesLoaded" class="method item public">
     <h3 class="name"><code>getBytesLoaded</code></h3>
 
     
@@ -1857,6 +2519,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1877,7 +2541,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l450"><code>src\file\Loader.ts:450</code></a>
+        <a href="../files/src_file_Loader.ts.html#l495"><code>src\file\Loader.ts:495</code></a>
         
         </p>
 
@@ -1888,7 +2552,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the total number of bytes that have been loaded so far.</p>
+
     </div>
 
     
@@ -1911,7 +2576,7 @@
 </div>
 
                 
-                    <div id="method_getNextFileSize" class="method item">
+                    <div id="method_getNextFileSize" class="method item private">
     <h3 class="name"><code>getNextFileSize</code></h3>
 
     
@@ -1922,6 +2587,8 @@
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -1943,7 +2610,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l334"><code>src\file\Loader.ts:334</code></a>
+        <a href="../files/src_file_Loader.ts.html#l374"><code>src\file\Loader.ts:374</code></a>
         
         </p>
 
@@ -1954,7 +2621,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[DESCRIPTION REQUIRED]</p>
+
     </div>
 
     
@@ -1965,7 +2633,7 @@
 </div>
 
                 
-                    <div id="method_getPercentLoaded" class="method item">
+                    <div id="method_getPercentLoaded" class="method item public">
     <h3 class="name"><code>getPercentLoaded</code></h3>
 
     
@@ -1981,6 +2649,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -2001,7 +2671,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l461"><code>src\file\Loader.ts:461</code></a>
+        <a href="../files/src_file_Loader.ts.html#l507"><code>src\file\Loader.ts:507</code></a>
         
         </p>
 
@@ -2012,7 +2682,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a percentage of the amount that has been loaded so far.</p>
+
     </div>
 
     
@@ -2035,7 +2706,7 @@
 </div>
 
                 
-                    <div id="method_init" class="method item">
+                    <div id="method_init" class="method item public">
     <h3 class="name"><code>init</code></h3>
 
     
@@ -2044,19 +2715,19 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[progress]</code>
+                        <code class="optional">[progress=null]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[complete]</code>
+                        <code class="optional">[complete=null]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>calculateBytes</code>
+                        <code class="optional">[calculateBytes=false]</code>
                     
                 </li>
             
@@ -2068,6 +2739,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2089,7 +2762,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l156"><code>src\file\Loader.ts:156</code></a>
+        <a href="../files/src_file_Loader.ts.html#l164"><code>src\file\Loader.ts:164</code></a>
         
         </p>
 
@@ -2100,7 +2773,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Initialise the properities that are needed on this loader.</p>
+
     </div>
 
     
@@ -2111,7 +2785,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[progress]</code>
+                        <code class="param-name optional">[progress=null]</code>
                         <span class="type">Any</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -2119,7 +2793,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>Progress callback method.</p>
+
                     </div>
 
                     
@@ -2127,7 +2802,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[complete]</code>
+                        <code class="param-name optional">[complete=null]</code>
                         <span class="type">Any</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -2135,7 +2810,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>Complete callback method.</p>
+
                     </div>
 
                     
@@ -2143,8 +2819,9 @@
             
                 <li class="param">
                     
-                        <code class="param-name">calculateBytes</code>
+                        <code class="param-name optional">[calculateBytes=false]</code>
                         <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -2166,7 +2843,7 @@
 </div>
 
                 
-                    <div id="method_nextFile" class="method item">
+                    <div id="method_nextFile" class="method item private">
     <h3 class="name"><code>nextFile</code></h3>
 
     
@@ -2178,6 +2855,8 @@
     
 
     
+        <span class="flag private">private</span>
+    
 
     
 
@@ -2198,7 +2877,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l368"><code>src\file\Loader.ts:368</code></a>
+        <a href="../files/src_file_Loader.ts.html#l410"><code>src\file\Loader.ts:410</code></a>
         
         </p>
 
@@ -2209,7 +2888,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Starts the loading of the next file in the list.</p>
+
     </div>
 
     
@@ -2220,7 +2900,80 @@
 </div>
 
                 
-                    <div id="method_startLoad" class="method item">
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l29"><code>src\file\Loader.ts:29</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_startLoad" class="method item public">
     <h3 class="name"><code>startLoad</code></h3>
 
     
@@ -2232,6 +2985,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -2252,7 +3007,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l296"><code>src\file\Loader.ts:296</code></a>
+        <a href="../files/src_file_Loader.ts.html#l335"><code>src\file\Loader.ts:335</code></a>
         
         </p>
 
@@ -2263,7 +3018,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Loops through all of the files that need to be loaded and start the load event on them.</p>
+
     </div>
 
     
@@ -2307,7 +3063,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l111"><code>src\file\Loader.ts:111</code></a>
+        <a href="../files/src_file_Loader.ts.html#l120"><code>src\file\Loader.ts:120</code></a>
         
         </p>
 
@@ -2354,7 +3110,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l103"><code>src\file\Loader.ts:103</code></a>
+        <a href="../files/src_file_Loader.ts.html#l112"><code>src\file\Loader.ts:112</code></a>
         
         </p>
 
@@ -2401,7 +3157,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l95"><code>src\file\Loader.ts:95</code></a>
+        <a href="../files/src_file_Loader.ts.html#l104"><code>src\file\Loader.ts:104</code></a>
         
         </p>
 
@@ -2448,7 +3204,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l71"><code>src\file\Loader.ts:71</code></a>
+        <a href="../files/src_file_Loader.ts.html#l79"><code>src\file\Loader.ts:79</code></a>
         
         </p>
 
@@ -2462,6 +3218,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -2495,7 +3253,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l135"><code>src\file\Loader.ts:135</code></a>
+        <a href="../files/src_file_Loader.ts.html#l144"><code>src\file\Loader.ts:144</code></a>
         
         </p>
 
@@ -2542,7 +3300,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l87"><code>src\file\Loader.ts:87</code></a>
+        <a href="../files/src_file_Loader.ts.html#l96"><code>src\file\Loader.ts:96</code></a>
         
         </p>
 
@@ -2589,7 +3347,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l119"><code>src\file\Loader.ts:119</code></a>
+        <a href="../files/src_file_Loader.ts.html#l128"><code>src\file\Loader.ts:128</code></a>
         
         </p>
 
@@ -2613,7 +3371,7 @@
                 
                     <div id="property__fileList" class="property item private">
     <h3 class="name"><code>_fileList</code></h3>
-    <span class="type">Kiwi.Structs.Queue</span>
+    <span class="type"><a href="..\classes\File.html" class="crosslink">File[]</a></span>
 
     
 
@@ -2636,7 +3394,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l41"><code>src\file\Loader.ts:41</code></a>
+        <a href="../files/src_file_Loader.ts.html#l47"><code>src\file\Loader.ts:47</code></a>
         
         </p>
 
@@ -2646,7 +3404,8 @@
     </div>
 
     <div class="description">
-        
+        <p>A list of all of the files that need to be loaded.</p>
+
     </div>
 
     
@@ -2682,7 +3441,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l79"><code>src\file\Loader.ts:79</code></a>
+        <a href="../files/src_file_Loader.ts.html#l88"><code>src\file\Loader.ts:88</code></a>
         
         </p>
 
@@ -2706,7 +3465,7 @@
                 
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
-    <span class="type">Kiwi.Game</span>
+    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
 
     
 
@@ -2729,7 +3488,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l33"><code>src\file\Loader.ts:33</code></a>
+        <a href="../files/src_file_Loader.ts.html#l39"><code>src\file\Loader.ts:39</code></a>
         
         </p>
 
@@ -2739,7 +3498,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The game that this loader belongs to.</p>
+
     </div>
 
     
@@ -2752,7 +3512,7 @@
                 
                     <div id="property__loadList" class="property item private">
     <h3 class="name"><code>_loadList</code></h3>
-    <span class="type">Kiwi.Structs.Queue</span>
+    <span class="type"><a href="..\classes\File.html" class="crosslink">File[]</a></span>
 
     
 
@@ -2775,7 +3535,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l49"><code>src\file\Loader.ts:49</code></a>
+        <a href="../files/src_file_Loader.ts.html#l55"><code>src\file\Loader.ts:55</code></a>
         
         </p>
 
@@ -2785,7 +3545,8 @@
     </div>
 
     <div class="description">
-        
+        <p>A list of all of the files that have been loaded.</p>
+
     </div>
 
     
@@ -2798,7 +3559,7 @@
                 
                     <div id="property__onCompleteCallback" class="property item private">
     <h3 class="name"><code>_onCompleteCallback</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Function</span>
 
     
 
@@ -2821,7 +3582,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l64"><code>src\file\Loader.ts:64</code></a>
+        <a href="../files/src_file_Loader.ts.html#l71"><code>src\file\Loader.ts:71</code></a>
         
         </p>
 
@@ -2831,7 +3592,8 @@
     </div>
 
     <div class="description">
-        
+        <p>A callback that is to be called when the loader has finished loading files.</p>
+
     </div>
 
     
@@ -2844,7 +3606,7 @@
                 
                     <div id="property__onProgressCallback" class="property item private">
     <h3 class="name"><code>_onProgressCallback</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Function</span>
 
     
 
@@ -2867,7 +3629,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l57"><code>src\file\Loader.ts:57</code></a>
+        <a href="../files/src_file_Loader.ts.html#l63"><code>src\file\Loader.ts:63</code></a>
         
         </p>
 
@@ -2877,7 +3639,8 @@
     </div>
 
     <div class="description">
-        
+        <p>A callback that is to be called while the loader is in the process of loading files.</p>
+
     </div>
 
     
@@ -2913,7 +3676,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l127"><code>src\file\Loader.ts:127</code></a>
+        <a href="../files/src_file_Loader.ts.html#l136"><code>src\file\Loader.ts:136</code></a>
         
         </p>
 

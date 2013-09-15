@@ -15,11 +15,11 @@ module Kiwi.Files {
     */
     export class DataLibrary {
 
-        /*
+        /**
         * 
         * @constructor
-        * @param {Kiwi.Game} game
-        * @return {Kiwi.Files.DataLibrary}
+        * @param game {Game} The game that this DataLibrary belongs to.
+        * @return {DataLibrary}
         */
         constructor(game: Kiwi.Game) {
 
@@ -27,26 +27,36 @@ module Kiwi.Files {
             this.data = {};
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType(): string {
             return "DataLibrary";
         }
 
-        /*
-        *
+        /**
+        * The game that this DataLibrary belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
+        * @private
         */
         private _game: Kiwi.Game;
 
-        /*
-        * Contains all of the textures that are available.
+        /**
+        * Contains all of the data that this available.
         * @property textures
+        * @type Object
+        * @public
         */
         public data;
 
-        /*
-        * Resets the Data Library 
+        /**
+        * Resets the Data Library and makes it ready for the next state.
         * @method clear
+        * @public
         */
         public clear() {
             for (var prop in this.data) {
@@ -54,10 +64,11 @@ module Kiwi.Files {
             }
         }
 
-        /*
-        * Adds a new audio file to the audio library.
+        /**
+        * Adds a new data file to the DataLibrary.
         * @method add
-        * @param {Kiwi.File} imageFile
+        * @param dataFile {File} 
+        * @public
         */
         public add(dataFile: Kiwi.Files.File) {
 
