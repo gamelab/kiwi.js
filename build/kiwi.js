@@ -12979,7 +12979,6 @@ var Kiwi;
                     this.domElement.style.display = 'none';
                 }
             }
-
             Object.defineProperty(Canvas.prototype, "width", {
                 get: function () {
                     return this._width;
@@ -12991,7 +12990,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Canvas.prototype, "height", {
                 get: function () {
@@ -13020,7 +13018,6 @@ var Kiwi;
                 }
             };
 
-
             Object.defineProperty(Canvas.prototype, "visible", {
                 get: function () {
                     return this._visible;
@@ -13039,7 +13036,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Canvas.prototype, "clearMode", {
                 get: function () {
@@ -13645,44 +13641,71 @@ var Kiwi;
                 return Math.abs(a - b);
             };
             GameMath.PI = 3.141592653589793;
+
             GameMath.PI_2 = 1.5707963267948965;
+
             GameMath.PI_4 = 0.7853981633974483;
+
             GameMath.PI_8 = 0.39269908169872413;
+
             GameMath.PI_16 = 0.19634954084936206;
+
             GameMath.TWO_PI = 6.283185307179586;
+
             GameMath.THREE_PI_2 = 4.7123889803846895;
+
             GameMath.E = 2.71828182845905;
+
             GameMath.LN10 = 2.302585092994046;
+
             GameMath.LN2 = 0.6931471805599453;
+
             GameMath.LOG10E = 0.4342944819032518;
+
             GameMath.LOG2E = 1.442695040888963387;
+
             GameMath.SQRT1_2 = 0.7071067811865476;
+
             GameMath.SQRT2 = 1.4142135623730951;
+
             GameMath.DEG_TO_RAD = 0.017453292519943294444444444444444;
+
             GameMath.RAD_TO_DEG = 57.295779513082325225835265587527;
 
             GameMath.B_16 = 65536;
+
             GameMath.B_31 = 2147483648;
+
             GameMath.B_32 = 4294967296;
+
             GameMath.B_48 = 281474976710656;
+
             GameMath.B_53 = 9007199254740992;
+
             GameMath.B_64 = 18446744073709551616;
 
             GameMath.ONE_THIRD = 0.333333333333333333333333333333333;
+
             GameMath.TWO_THIRDS = 0.666666666666666666666666666666666;
+
             GameMath.ONE_SIXTH = 0.166666666666666666666666666666666;
 
             GameMath.COS_PI_3 = 0.86602540378443864676372317075294;
+
             GameMath.SIN_2PI_3 = 0.03654595;
 
             GameMath.CIRCLE_ALPHA = 0.5522847498307933984022516322796;
 
             GameMath.ON = true;
+
             GameMath.OFF = false;
 
             GameMath.SHORT_EPSILON = 0.1;
+
             GameMath.PERC_EPSILON = 0.001;
+
             GameMath.EPSILON = 0.0001;
+
             GameMath.LONG_EPSILON = 0.00000001;
             return GameMath;
         })();

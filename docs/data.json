@@ -2128,7 +2128,7 @@
             "namespace": "",
             "file": "src\\utils\\Canvas.ts",
             "line": 8,
-            "description": "Creates a canvas DOM element and adds it to a layer."
+            "description": "Creates a canvas DOM element."
         },
         "Common": {
             "name": "Common",
@@ -27812,34 +27812,33 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "layer",
-                    "description": "",
-                    "type": "Kiwi.Layer"
-                },
-                {
                     "name": "width",
-                    "description": "",
+                    "description": "The width of the canvas.",
                     "type": "Number"
                 },
                 {
                     "name": "height",
-                    "description": "",
+                    "description": "The height of the canvas.",
                     "type": "Number"
                 },
                 {
                     "name": "visible",
-                    "description": "",
-                    "type": "Boolean"
+                    "description": "If the canvas is visible or not.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 },
                 {
                     "name": "offScreen",
-                    "description": "",
-                    "type": "Boolean"
+                    "description": "If the canvas is designed to be offscreen or not.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Utils.Canvas"
+                "type": "Canvas"
             },
             "class": "Canvas",
             "module": "Kiwi",
@@ -27847,27 +27846,102 @@
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 76,
+            "line": 48,
+            "description": "The width of this canvas.",
+            "itemtype": "property",
+            "name": "_width",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Canvas",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\Canvas.ts",
+            "line": 56,
+            "description": "The width of this canvas.",
+            "itemtype": "property",
+            "name": "width",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Canvas",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\Canvas.ts",
+            "line": 70,
+            "description": "The height of this canvas.",
+            "itemtype": "property",
+            "name": "_height",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Canvas",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\Canvas.ts",
+            "line": 78,
+            "description": "The height of this canvas.",
+            "itemtype": "property",
+            "name": "height",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Canvas",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\Canvas.ts",
+            "line": 92,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Canvas",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\Canvas.ts",
+            "line": 102,
+            "description": "The canvas DOM element.",
             "itemtype": "property",
             "name": "domElement",
             "type": "HTMLCanvasElement",
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 82,
+            "line": 110,
+            "description": "The 2D rendering context that is used to render anything to this canvas.",
             "itemtype": "property",
             "name": "_context",
             "type": "CanvasRenderingContext2D",
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 88,
+            "line": 118,
+            "description": "If the canvas element is visible or not.",
             "itemtype": "property",
             "name": "_visible",
             "type": "boolean",
@@ -27879,7 +27953,8 @@
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 95,
+            "line": 126,
+            "description": "If the canvas is offscreen or not.",
             "itemtype": "property",
             "name": "_offScreen",
             "type": "boolean",
@@ -27891,7 +27966,8 @@
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 102,
+            "line": 134,
+            "description": "The method to use when clearing the canvas.",
             "itemtype": "property",
             "name": "_clearMode",
             "type": "Number",
@@ -27903,75 +27979,88 @@
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 109,
+            "line": 142,
+            "description": "A STATIC property that holds the number associated with no clear mode.",
             "itemtype": "property",
             "name": "CLEARMODE_NONE",
             "type": "Number",
             "static": 1,
+            "final": 1,
+            "default": "0",
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 116,
+            "line": 153,
+            "description": "A STATIC property that holds the number associated with the clear mode that uses the clearRect method to clear the canvas.",
             "itemtype": "property",
             "name": "CLEARMODE_CLEARRECT",
             "type": "Number",
             "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "default": "1",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 123,
+            "line": 164,
+            "description": "A STATIC property that holds the number associated with the clear mode that uses a filled rectangle to clear the canvas.",
             "itemtype": "property",
             "name": "CLEARMODE_FILLRECT",
             "type": "Number",
             "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "default": "2",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 130,
+            "line": 175,
+            "description": "A STATIC property that holds the number associated with the clear mode that uses the filled alpha rectangle method.",
             "itemtype": "property",
             "name": "CLEARMODE_FILLRECT_ALPHA",
             "type": "Number",
             "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "default": "3",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 137,
+            "line": 186,
+            "description": "The background color to use clearing the canvas using a filled rectangle approach.",
             "itemtype": "property",
             "name": "bgColor",
             "type": "String",
+            "default": "'rgb(0,0,0)'",
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 144,
+            "line": 195,
+            "description": "Updates the width/height on the canvas DOM element when either one of its sizes are updated.",
             "itemtype": "method",
             "name": "_updatedSize",
-            "params": [
-                {
-                    "name": "width",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "height",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
             "access": "private",
             "tagname": "",
             "class": "Canvas",
@@ -27980,71 +28069,74 @@
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 157,
+            "line": 207,
+            "description": "Used to remove the canvas element completely along with this class. [NEEDS IMPLEMENTATION]",
             "itemtype": "method",
             "name": "destroy",
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 170,
-            "itemtype": "method",
+            "line": 222,
+            "description": "If the canvas element is visible or not.",
+            "itemtype": "property",
             "name": "visible",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Boolean"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
+            "type": "boolean",
+            "default": "true",
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 200,
-            "description": "Gets",
-            "itemtype": "method",
+            "line": 253,
+            "description": "The clearmode the is to be used when clearing the canvas.",
+            "itemtype": "property",
             "name": "clearMode",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
+            "type": "Number",
+            "default": "1",
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 220,
+            "line": 274,
+            "description": "Clears the canvas using the method specified by the clearMode property.",
             "itemtype": "method",
             "name": "clear",
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 252,
+            "line": 308,
+            "description": "Returns the canvas current image data as PNG.",
             "itemtype": "method",
             "name": "saveAsPNG",
             "return": {
                 "description": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Canvas.ts",
-            "line": 262,
+            "line": 320,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -28052,6 +28144,8 @@
                 "description": "a string representation of the instance.",
                 "type": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Canvas",
             "module": "Kiwi",
             "submodule": "Utils"
@@ -28085,18 +28179,34 @@
         },
         {
             "file": "src\\utils\\Common.ts",
-            "line": 50,
+            "line": 46,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Common",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\Common.ts",
+            "line": 56,
             "description": "Default function to test equality.",
             "itemtype": "method",
             "name": "defaultEquals",
             "params": [
                 {
-                    "name": "a.",
+                    "name": "a",
                     "description": "",
                     "type": "Any"
                 },
                 {
-                    "name": "b.",
+                    "name": "b",
                     "description": "",
                     "type": "Any"
                 }
@@ -28106,19 +28216,21 @@
                 "type": "Boolean"
             },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "Common",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Common.ts",
-            "line": 64,
+            "line": 71,
             "description": "Default function to convert an object to a string.",
             "itemtype": "method",
             "name": "defaultTostring",
             "params": [
                 {
-                    "name": "item.",
+                    "name": "item",
                     "description": "",
                     "type": "Any"
                 }
@@ -28128,13 +28240,15 @@
                 "type": "Any"
             },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "Common",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Common.ts",
-            "line": 92,
+            "line": 100,
             "description": "Checks if the given argument is a function.",
             "itemtype": "method",
             "name": "isFunction",
@@ -28150,14 +28264,8 @@
                 "type": "Boolean"
             },
             "static": 1,
-            "class": "Common",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\Common.ts",
-            "line": 105,
-            "description": "Checks if the given value is numeric.",
+            "access": "public",
+            "tagname": "",
             "class": "Common",
             "module": "Kiwi",
             "submodule": "Utils"
@@ -28165,12 +28273,36 @@
         {
             "file": "src\\utils\\Common.ts",
             "line": 114,
+            "description": "Checks if the given value is numeric.",
+            "itemtype": "method",
+            "name": "isNumeric",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Common",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\Common.ts",
+            "line": 128,
             "description": "Checks if the given argument is undefined.",
             "itemtype": "method",
             "name": "isUndefined",
             "params": [
                 {
-                    "name": "obj.",
+                    "name": "obj",
                     "description": "",
                     "type": "Any"
                 }
@@ -28180,19 +28312,21 @@
                 "type": "Boolean"
             },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "Common",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Common.ts",
-            "line": 127,
+            "line": 142,
             "description": "Checks if the given argument is a string.",
             "itemtype": "method",
             "name": "isString",
             "params": [
                 {
-                    "name": "obj.",
+                    "name": "obj",
                     "description": "",
                     "type": "Any"
                 }
@@ -28202,19 +28336,21 @@
                 "type": "Boolean"
             },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "Common",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Common.ts",
-            "line": 140,
+            "line": 156,
             "description": "Reverses a compare function.",
             "itemtype": "method",
             "name": "reverseCompareFunction",
             "params": [
                 {
-                    "name": "compareFunction.",
+                    "name": "compareFunction",
                     "description": "",
                     "type": "Any"
                 }
@@ -28224,19 +28360,21 @@
                 "type": "Number"
             },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "Common",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\Common.ts",
-            "line": 175,
+            "line": 192,
             "description": "Returns an equal function given a compare function.",
             "itemtype": "method",
             "name": "compareToEquals",
             "params": [
                 {
-                    "name": "compareFunction.",
+                    "name": "compareFunction",
                     "description": "",
                     "type": "Any"
                 }
@@ -28246,30 +28384,224 @@
                 "type": "Boolean"
             },
             "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Common",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\Common.ts",
+            "line": 208,
+            "description": "Shuffles the contents of an array given into a random order.",
+            "itemtype": "method",
+            "name": "shuffleArray",
+            "params": [
+                {
+                    "name": "array",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "What you passed but the with the contents in a new order.",
+                "type": "Any"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "Common",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 107,
-            "description": "ratio of value to a range",
+            "line": 19,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 118,
-            "description": "a value representing the sign of the value.\n-1 for negative, +1 for positive, 0 if value is 0",
+            "line": 29,
+            "description": "Holds the value for PI. Only up to 15 decimal places.",
+            "itemtype": "property",
+            "name": "PI",
+            "type": "number",
+            "default": "3.141592653589793",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 135,
-            "description": "wrap a value around a range, similar to modulus with a floating minimum",
+            "line": 40,
+            "description": "Holds the value for PI / 2 OR 90 degrees. Only up to 16 decimal places.",
+            "itemtype": "property",
+            "name": "PI_2",
+            "type": "number",
+            "default": "1.5707963267948965",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 51,
+            "description": "Holds the value for PI / 4 OR 45 degrees. Only up to 16 decimal places.",
+            "itemtype": "property",
+            "name": "PI_4",
+            "type": "number",
+            "default": "0.7853981633974483",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 62,
+            "description": "Holds the value for PI / 8 OR 22.5 degrees. Only up to 17 decimal places",
+            "itemtype": "property",
+            "name": "PI_8",
+            "type": "number",
+            "default": "0.39269908169872413",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 73,
+            "description": "Holds the value for PI / 16 OR 11.25 degrees. Only up to 17 decimal places",
+            "itemtype": "property",
+            "name": "PI_16",
+            "type": "number",
+            "default": "0.19634954084936206",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 84,
+            "description": "Holds the value for 2 * PI OR 180 degrees. Only up to 15 decimal places",
+            "itemtype": "property",
+            "name": "TWO_PI",
+            "type": "number",
+            "default": "6.283185307179586",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 95,
+            "description": "Holds the value for 3 * PI_2 OR 270 degrees. Only up to 17 decimal places.",
+            "itemtype": "property",
+            "name": "THREE_PI_2",
+            "type": "number",
+            "default": "4.7123889803846895",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 106,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "E",
+            "type": "number",
+            "default": "2.71828182845905",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 117,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "LN10",
+            "type": "number",
+            "default": "2.302585092994046",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 128,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "LN2",
+            "type": "number",
+            "default": "0.6931471805599453",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 139,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "LOG10E",
+            "type": "number",
+            "default": "0.4342944819032518",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
@@ -28277,442 +28609,976 @@
         {
             "file": "src\\utils\\GameMath.ts",
             "line": 150,
-            "description": "arithmetic version of wrap... need to decide which is more efficient",
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "LOG2E",
+            "type": "number",
+            "default": "1.442695040888963387",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 159,
-            "description": "force a value within the boundaries of two values\n\nif max < min, min is returned",
+            "line": 161,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "SQRT1_2",
+            "type": "number",
+            "default": "0.7071067811865476",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 168,
-            "description": "Snap a value to nearest grid slice, using rounding.\n\nexample if you have an interval gap of 5 and a position of 12... you will snap to 10. Where as 14 will snap to 15",
+            "line": 172,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "SQRT2",
+            "type": "number",
+            "default": "1.4142135623730951",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 183,
+            "description": "Holds the value for PI / 180 which is used to convert degrees to radians.",
+            "itemtype": "property",
+            "name": "DEG_TO_RAD",
+            "type": "number",
+            "default": "0.017453292519943294444444444444444",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 194,
+            "description": "Holds the value for 180 / PI which is used to convert radians to degrees.",
+            "itemtype": "property",
+            "name": "RAD_TO_DEG",
+            "type": "number",
+            "default": "57.295779513082325225835265587527",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 206,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "B_16",
+            "type": "number",
+            "default": "65536",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 217,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "B_31",
+            "type": "number",
+            "default": "2147483648",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 228,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "B_32",
+            "type": "number",
+            "default": "4294967296",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 239,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "B_48",
+            "type": "number",
+            "default": "281474976710656",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 250,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "B_53",
+            "type": "number",
+            "default": "9007199254740992",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 261,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "B_64",
+            "type": "number",
+            "default": "18446744073709551616",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 273,
+            "description": "Holds the value for the fraction 1 / 3 as a number.",
+            "itemtype": "property",
+            "name": "ONE_THIRD",
+            "type": "number",
+            "default": "0.333333333333333333333333333333333",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 284,
+            "description": "Holds the value for the fraction 2 / 3 as a number.",
+            "itemtype": "property",
+            "name": "TWO_THIRDS",
+            "type": "number",
+            "default": "0.666666666666666666666666666666666",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 295,
+            "description": "Holds the value for the fraction 1 / 6 as a number",
+            "itemtype": "property",
+            "name": "ONE_SIXTH",
+            "type": "number",
+            "default": "0.166666666666666666666666666666666",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 306,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "COS_PI_3",
+            "type": "number",
+            "default": "0.86602540378443864676372317075294",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 317,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "SIN_2PI_3",
+            "type": "number",
+            "default": "0.03654595",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 328,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "CIRCLE_ALPHA",
+            "type": "number",
+            "default": "0.5522847498307933984022516322796",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 339,
+            "description": "A boolean that is true.",
+            "itemtype": "property",
+            "name": "ON",
+            "type": "boolean",
+            "default": "true",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 350,
+            "description": "A boolean that is false.",
+            "itemtype": "property",
+            "name": "OFF",
+            "type": "boolean",
+            "default": "false",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 362,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "SHORT_EPSILON",
+            "type": "number",
+            "default": "0.1",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 373,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "PERC_EPSILON",
+            "type": "number",
+            "default": "0.001",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 384,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "EPSILON",
+            "type": "number",
+            "default": "0.0001",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 395,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "property",
+            "name": "LONG_EPSILON",
+            "type": "number",
+            "default": "0.00000001",
+            "static": 1,
+            "final": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 406,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "computeMachineEpsilon",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 421,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "fuzzyEqual",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "epsilon",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0.0001"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 435,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "fuzzyLessThan",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "epsilon",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0.0001"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 449,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "fuzzyGreaterThan",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "epsilon",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0.0001"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 463,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "fuzzyCeil",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "epsilon",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0.0001"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 476,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "fuzzyFloor",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "epsilion",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0.0001"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 489,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "average",
+            "params": [
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Any[]",
+                    "optional": true,
+                    "multiple": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 508,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "slam",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "target",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "epsilon",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0.0001"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 522,
+            "description": "Ratio of value to a range.",
+            "itemtype": "method",
+            "name": "percentageMinMax",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 540,
+            "description": "A value representing the sign of the value.\n-1 for negative, +1 for positive, 0 if value is 0",
+            "itemtype": "method",
+            "name": "sign",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 554,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "truncate",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 566,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "shear",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 578,
+            "description": "Wrap a value around a range, similar to modulus with a floating minimum",
+            "itemtype": "method",
+            "name": "wrap",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 600,
+            "description": "Arithmetic version of wrap.",
+            "itemtype": "method",
+            "name": "arithWrap",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 616,
+            "description": "Force a value within the boundaries of two values\nIf max < min, min is returned.",
+            "itemtype": "method",
+            "name": "clamp",
             "params": [
                 {
                     "name": "input",
-                    "description": "- the value to snap"
+                    "description": "",
+                    "type": "Number"
                 },
                 {
-                    "name": "gap",
-                    "description": "- the interval gap of the grid"
+                    "name": "max",
+                    "description": "",
+                    "type": "Number"
                 },
                 {
-                    "name": "start",
-                    "description": "- optional starting offset for gap"
+                    "name": "min",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 185,
-            "description": "Snap a value to nearest grid slice, using floor.\n\nexample if you have an interval gap of 5 and a position of 12... you will snap to 10. As will 14 snap to 10... but 16 will snap to 15",
+            "line": 631,
+            "description": "Snap a value to nearest grid slice, using rounding.\nExample if you have an interval gap of 5 and a position of 12... you will snap to 10. Where as 14 will snap to 15",
+            "itemtype": "method",
+            "name": "snapTo",
             "params": [
                 {
                     "name": "input",
-                    "description": "- the value to snap"
+                    "description": "The value to snap",
+                    "type": "Number"
                 },
                 {
                     "name": "gap",
-                    "description": "- the interval gap of the grid"
+                    "description": "The interval gap of the grid",
+                    "type": "Number"
                 },
                 {
                     "name": "start",
-                    "description": "- optional starting offset for gap"
+                    "description": "Optional starting offset for gap",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 202,
-            "description": "Snap a value to nearest grid slice, using ceil.\n\nexample if you have an interval gap of 5 and a position of 12... you will snap to 15. As will 14 will snap to 15... but 16 will snap to 20",
+            "line": 651,
+            "description": "Snap a value to nearest grid slice, using floor.\nExample if you have an interval gap of 5 and a position of 12... you will snap to 10. As will 14 snap to 10... but 16 will snap to 15",
+            "itemtype": "method",
+            "name": "snapToFloor",
             "params": [
                 {
                     "name": "input",
-                    "description": "- the value to snap"
+                    "description": "The value to snap",
+                    "type": "Number"
                 },
                 {
                     "name": "gap",
-                    "description": "- the interval gap of the grid"
+                    "description": "The interval gap of the grid",
+                    "type": "Number"
                 },
                 {
                     "name": "start",
-                    "description": "- optional starting offset for gap"
+                    "description": "Optional starting offset for gap",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 219,
+            "line": 671,
+            "description": "Snap a value to nearest grid slice, using ceil.\nExample if you have an interval gap of 5 and a position of 12... you will snap to 15. As will 14 will snap to 15... but 16 will snap to 20",
+            "itemtype": "method",
+            "name": "snapToCeil",
+            "params": [
+                {
+                    "name": "input",
+                    "description": "The value to snap",
+                    "type": "Number"
+                },
+                {
+                    "name": "gap",
+                    "description": "The interval gap of the grid",
+                    "type": "Number"
+                },
+                {
+                    "name": "start",
+                    "description": "optional starting offset for gap",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 691,
             "description": "Snaps a value to the nearest value in an array.",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 238,
-            "description": "roundTo some place comparative to a 'base', default is 10 for decimal place\n\n'place' is represented by the power applied to 'base' to get that place",
+            "itemtype": "method",
+            "name": "snapToInArray",
             "params": [
                 {
-                    "name": "value",
-                    "description": "- the value to round"
+                    "name": "input",
+                    "description": "",
+                    "type": "Number"
                 },
                 {
-                    "name": "place",
-                    "description": "- the place to round to"
+                    "name": "arr",
+                    "description": "",
+                    "type": "Number[]"
                 },
                 {
-                    "name": "base",
-                    "description": "- the base to round in... default is 10 for decimal\n\ne.g.\n\n2000/7 ~= 285.714285714285714285714 ~= (bin)100011101.1011011011011011\n\nroundTo(2000/7,3) == 0\nroundTo(2000/7,2) == 300\nroundTo(2000/7,1) == 290\nroundTo(2000/7,0) == 286\nroundTo(2000/7,-1) == 285.7\nroundTo(2000/7,-2) == 285.71\nroundTo(2000/7,-3) == 285.714\nroundTo(2000/7,-4) == 285.7143\nroundTo(2000/7,-5) == 285.71429\n\nroundTo(2000/7,3,2)  == 288       -- 100100000\nroundTo(2000/7,2,2)  == 284       -- 100011100\nroundTo(2000/7,1,2)  == 286       -- 100011110\nroundTo(2000/7,0,2)  == 286       -- 100011110\nroundTo(2000/7,-1,2) == 285.5     -- 100011101.1\nroundTo(2000/7,-2,2) == 285.75    -- 100011101.11\nroundTo(2000/7,-3,2) == 285.75    -- 100011101.11\nroundTo(2000/7,-4,2) == 285.6875  -- 100011101.1011\nroundTo(2000/7,-5,2) == 285.71875 -- 100011101.10111\n\nnote what occurs when we round to the 3rd space (8ths place), 100100000, this is to be assumed \nbecause we are rounding 100011.1011011011011011 which rounds up."
-                }
-            ],
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 289,
-            "description": "a one dimensional linear interpolation of a value.",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 296,
-            "description": "convert radians to degrees",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 303,
-            "description": "convert degrees to radians",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 310,
-            "description": "Find the angle of a segment from (x1, y1) -> (x2, y2 )",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 318,
-            "description": "set an angle with in the bounds of -PI to PI",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 326,
-            "description": "closest angle between two angles from a1 to a2\nabsolute value the return for exact angle",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 343,
-            "description": "normalizes independent and then sets dep to the nearest value respective to independent\n\nfor instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 352,
-            "description": "normalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent\n\nfor instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 363,
-            "description": "normalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent\n\nfor instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 374,
-            "description": "interpolate across the shortest arc between two angles",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 385,
-            "description": "Compute the logarithm of any value of any base\n\na logarithm is the exponent that some constant (base) would have to be raised to \nto be equal to value.\n\ni.e.\n4 ^ x = 16\ncan be rewritten as to solve for x\nlogB4(16) = x\nwhich with this function would be \nLoDMath.logBaseOf(16,4)\n\nwhich would return 2, because 4^2 = 16",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 404,
-            "description": "Greatest Common Denominator using Euclid's algorithm",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 434,
-            "description": "Lowest Common Multiple",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 441,
-            "description": "Factorial - N!\n\nsimple product series\n\nby definition:\n0! == 1",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 462,
-            "description": "gamma function\n\ndefined: gamma(N) == (N - 1)!",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 471,
-            "description": "falling factorial\n\ndefined: (N)! / (N - x)!\n\nwritten subscript: (N)x OR (base)exp",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 482,
-            "description": "rising factorial\n\ndefined: (N + x - 1)! / (N - 1)!\n\nwritten superscript N^(x) OR base^(exp)",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 494,
-            "description": "binomial coefficient\n\ndefined: N! / (k!(N-k)!)\nreduced: N! / (N-k)! == (N)k (fallingfactorial)\nreduced: (N)k / k!",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 505,
-            "description": "rising binomial coefficient\n\nas one can notice in the analysis of binCoef(...) that \nbinCoef is the (N)k divided by k!. Similarly rising binCoef \nis merely N^(k) / k!",
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 516,
-            "description": "Generate a random boolean result based on the chance value\n<p>\nReturns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance\nof getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.\n</p>",
-            "params": [
-                {
-                    "name": "chance",
-                    "description": "The chance of receiving the value. A number between 0 and 100 (effectively 0% to 100%)"
+                    "name": "sort",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
                 }
             ],
             "return": {
-                "description": "true if the roll passed, or false"
+                "description": "",
+                "type": "Number"
             },
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 549,
-            "description": "Adds the given amount to the value, but never lets the value go over the specified maximum",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "The value to add the amount to"
-                },
-                {
-                    "name": "amount",
-                    "description": "The amount to add to the value"
-                },
-                {
-                    "name": "max",
-                    "description": "The maximum the value is allowed to be"
-                }
-            ],
-            "return": {
-                "description": "The new value"
-            },
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 570,
-            "description": "Subtracts the given amount from the value, but never lets the value go below the specified minimum",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "The base value"
-                },
-                {
-                    "name": "amount",
-                    "description": "The amount to subtract from the base value"
-                },
-                {
-                    "name": "min",
-                    "description": "The minimum the value is allowed to be"
-                }
-            ],
-            "return": {
-                "description": "The new value"
-            },
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 590,
-            "description": "Adds value to amount and ensures that the result always stays between 0 and max, by wrapping the value around.\n<p>Values must be positive integers, and are passed through Math.abs</p>",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "The value to add the amount to"
-                },
-                {
-                    "name": "amount",
-                    "description": "The amount to add to the value"
-                },
-                {
-                    "name": "max",
-                    "description": "The maximum the value is allowed to be"
-                }
-            ],
-            "return": {
-                "description": "The wrapped value"
-            },
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 613,
-            "description": "Randomly returns either a 1 or -1",
-            "return": {
-                "description": "1 or -1"
-            },
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 622,
-            "description": "Returns true if the number given is odd.",
-            "params": [
-                {
-                    "name": "n",
-                    "description": "The number to check"
-                }
-            ],
-            "return": {
-                "description": "True if the given number is odd. False if the given number is even."
-            },
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 642,
-            "description": "Returns true if the number given is even.",
-            "params": [
-                {
-                    "name": "n",
-                    "description": "The number to check"
-                }
-            ],
-            "return": {
-                "description": "True if the given number is even. False if the given number is odd."
-            },
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 662,
-            "description": "Keeps an angle value between -180 and +180<br>\nShould be called whenever the angle is updated on the Sprite to stop it from going insane.",
-            "params": [
-                {
-                    "name": "angle",
-                    "description": "The angle value to check"
-                }
-            ],
-            "return": {
-                "description": "The new angle value, returns the same as the input angle if it was within bounds"
-            },
-            "class": "GameMath",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\GameMath.ts",
-            "line": 692,
-            "description": "Keeps an angle value between the given min and max values",
-            "params": [
-                {
-                    "name": "angle",
-                    "description": "The angle value to check. Must be between -180 and +180"
-                },
-                {
-                    "name": "min",
-                    "description": "The minimum angle that is allowed (must be -180 or greater)"
-                },
-                {
-                    "name": "max",
-                    "description": "The maximum angle that is allowed (must be 180 or less)"
-                }
-            ],
-            "return": {
-                "description": "The new angle value, returns the same as the input angle if it was within bounds"
-            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
@@ -28720,6 +29586,967 @@
         {
             "file": "src\\utils\\GameMath.ts",
             "line": 717,
+            "description": "Round to some place comparative to a 'base', default is 10 for decimal place.\n'place' is represented by the power applied to 'base' to get that place",
+            "itemtype": "method",
+            "name": "roundTo",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The value to round",
+                    "type": "Number"
+                },
+                {
+                    "name": "place",
+                    "description": "The place to round to",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "base",
+                    "description": "The base to round in... default is 10 for decimal",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "10"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 763,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "floorTo",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "place",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "base",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "10"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 778,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "ceilTo",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "place",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "base",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "10"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 793,
+            "description": "A one dimensional linear interpolation of a value.",
+            "itemtype": "method",
+            "name": "interpolateFloat",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "weight",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 807,
+            "description": "Convert radians to degrees",
+            "itemtype": "method",
+            "name": "radiansToDegrees",
+            "params": [
+                {
+                    "name": "angle",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 819,
+            "description": "Convert degrees to radians",
+            "itemtype": "method",
+            "name": "degreesToRadians",
+            "params": [
+                {
+                    "name": "angle",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 831,
+            "description": "Find the angle of a segment from (x1, y1) -> (x2, y2 )",
+            "itemtype": "method",
+            "name": "angleBetween",
+            "params": [
+                {
+                    "name": "x1",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y1",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "x2",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y2",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 847,
+            "description": "Set an angle with in the bounds of -PI to PI",
+            "itemtype": "method",
+            "name": "normalizeAngle",
+            "params": [
+                {
+                    "name": "angle",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "radians",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 861,
+            "description": "Closest angle between two angles from a1 to a2\nabsolute value the return for exact angle.",
+            "itemtype": "method",
+            "name": "nearestAngleBetween",
+            "params": [
+                {
+                    "name": "a1",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "a2",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "radians",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 885,
+            "description": "Normalizes independent and then sets dep to the nearest value respective to independent.\nFor instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170",
+            "itemtype": "method",
+            "name": "normalizeAngleToAnother",
+            "params": [
+                {
+                    "name": "dep",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "ind",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "radians",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 900,
+            "description": "Normalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent.\nFor instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170",
+            "itemtype": "method",
+            "name": "normalizeAngleAfterAnother",
+            "params": [
+                {
+                    "name": "dep",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "ind",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "radians",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 917,
+            "description": "Normalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent.\nFor instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190",
+            "itemtype": "method",
+            "name": "normalizeAngleBeforeAnother",
+            "params": [
+                {
+                    "name": "dep",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "ind",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "radians",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 934,
+            "description": "Interpolate across the shortest arc between two angles.",
+            "itemtype": "method",
+            "name": "interpolateAngles",
+            "params": [
+                {
+                    "name": "a1",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "a2",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "weight",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "radians",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                },
+                {
+                    "name": "ease",
+                    "description": "",
+                    "type": "Any",
+                    "optional": true,
+                    "optdefault": "null"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 954,
+            "description": "Compute the logarithm of any value of any base.\nA logarithm is the exponent that some constant (base) would have to be raised to \nto be equal to value.",
+            "itemtype": "method",
+            "name": "logBaseOf",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "base",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 979,
+            "description": "Greatest Common Denominator using Euclid's algorithm.",
+            "itemtype": "method",
+            "name": "GCD",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1015,
+            "description": "Lowest Common Multiple",
+            "itemtype": "method",
+            "name": "LCM",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1028,
+            "description": "Factorial - N! Simple product series. By definition:\n0! == 1",
+            "itemtype": "method",
+            "name": "factorial",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1050,
+            "description": "Gamma function. Defined: gamma(N) == (N - 1)!",
+            "itemtype": "method",
+            "name": "gammaFunction",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1062,
+            "description": "Falling factorial. Defined: (N)! / (N - x)!\nWritten subscript: (N)x OR (base)exp",
+            "itemtype": "method",
+            "name": "fallingFactorial",
+            "params": [
+                {
+                    "name": "base",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "exp",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1076,
+            "description": "Rising factorial. Defined: (N + x - 1)! / (N - 1)!\nWritten superscript N^(x) OR base^(exp)",
+            "itemtype": "method",
+            "name": "risingFactorial",
+            "params": [
+                {
+                    "name": "base",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "exp",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1091,
+            "description": "Binomial coefficient.",
+            "itemtype": "method",
+            "name": "binCoef",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1109,
+            "description": "Rising binomial coefficient.\nAs one can notice in the analysis of binCoef(...) that \nbinCoef is the (N)k divided by k!. Similarly rising binCoef \nis merely N^(k) / k!",
+            "itemtype": "method",
+            "name": "risingBinCoef",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1125,
+            "description": "Generate a random boolean result based on the chance value.\nReturns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance\nof getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.",
+            "itemtype": "method",
+            "name": "changeRoll",
+            "params": [
+                {
+                    "name": "chance",
+                    "description": "The chance of receiving the value. A number between 0 and 100 (effectively 0% to 100%)",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "50"
+                }
+            ],
+            "return": {
+                "description": "true if the roll passed, or false",
+                "type": "Boolean"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1160,
+            "description": "Adds the given amount to the value, but never lets the value go over the specified maximum.",
+            "itemtype": "method",
+            "name": "maxAdd",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The value to add the amount to",
+                    "type": "Number"
+                },
+                {
+                    "name": "amount",
+                    "description": "The amount to add to the value",
+                    "type": "Number"
+                },
+                {
+                    "name": "max",
+                    "description": "The maximum the value is allowed to be",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1184,
+            "description": "Subtracts the given amount from the value, but never lets the value go below the specified minimum.",
+            "itemtype": "method",
+            "name": "minSub",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The base value",
+                    "type": "Number"
+                },
+                {
+                    "name": "amount",
+                    "description": "The amount to subtract from the base value",
+                    "type": "Number"
+                },
+                {
+                    "name": "min",
+                    "description": "The minimum the value is allowed to be",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1207,
+            "description": "Adds value to amount and ensures that the result always stays between 0 and max, by wrapping the value around.\nValues must be positive integers, and are passed through Math.abs",
+            "itemtype": "method",
+            "name": "wrapValue",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The value to add the amount to",
+                    "type": "Number"
+                },
+                {
+                    "name": "amount",
+                    "description": "The amount to add to the value",
+                    "type": "Number"
+                },
+                {
+                    "name": "max",
+                    "description": "The maximum the value is allowed to be",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The wrapped value",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1233,
+            "description": "Randomly returns either a 1 or -1",
+            "itemtype": "method",
+            "name": "randomSign",
+            "return": {
+                "description": "Either 1 or -1.",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1244,
+            "description": "Returns true if the number given is odd.",
+            "itemtype": "method",
+            "name": "isOff",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "The number to check",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "True if the given number is odd. False if the given number is even.",
+                "type": "Boolean"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1265,
+            "description": "Returns true if the number given is even.",
+            "itemtype": "method",
+            "name": "isEvent",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "The number to check",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "True if the given number is even. False if the given number is odd.",
+                "type": "Boolean"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1286,
+            "description": "Keeps an angle value between -180 and +180.\nShould be called whenever the angle is updated on the Sprite to stop it from going insane.",
+            "itemtype": "method",
+            "name": "wrapAngle",
+            "params": [
+                {
+                    "name": "angle",
+                    "description": "The angle value to check",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The new angle value, returns the same as the input angle if it was within bounds",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1317,
+            "description": "Keeps an angle value between the given min and max values.",
+            "itemtype": "method",
+            "name": "angleLimit",
+            "params": [
+                {
+                    "name": "angle",
+                    "description": "The angle value to check. Must be between -180 and +180",
+                    "type": "Number"
+                },
+                {
+                    "name": "min",
+                    "description": "The minimum angle that is allowed (must be -180 or greater)",
+                    "type": "Number"
+                },
+                {
+                    "name": "max",
+                    "description": "The maximum angle that is allowed (must be 180 or less)",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The new angle value, returns the same as the input angle if it was within bounds",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1343,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "linear",
             "params": [
@@ -28734,14 +30561,21 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 736,
+            "line": 1365,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "Bezier",
             "params": [
@@ -28756,14 +30590,21 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 756,
+            "line": 1388,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "CatmullRom",
             "params": [
@@ -28778,14 +30619,21 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 786,
+            "line": 1421,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "Linear",
             "params": [
@@ -28805,14 +30653,21 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 799,
+            "line": 1437,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "Bernstein",
             "params": [
@@ -28827,14 +30682,21 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\GameMath.ts",
-            "line": 811,
+            "line": 1452,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "CatmullRom",
             "params": [
@@ -28864,7 +30726,42 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "GameMath",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\GameMath.ts",
+            "line": 1471,
+            "description": "[DESCRIPTION REQUIRED]",
+            "itemtype": "method",
+            "name": "difference",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
             "class": "GameMath",
             "module": "Kiwi",
             "submodule": "Utils"
@@ -28877,12 +30774,14 @@
                 {
                     "name": "seeds",
                     "description": "",
-                    "type": "Array"
+                    "type": "String[]",
+                    "optional": true,
+                    "optdefault": "["
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Utils.RandomDataGenerator"
+                "type": "RandomDataGenerator"
             },
             "class": "RandomDataGenerator",
             "module": "Kiwi",
@@ -28890,7 +30789,24 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 35,
+            "line": 31,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "RandomDataGenerator",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\RandomDataGenerator.ts",
+            "line": 41,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "property",
             "name": "s0",
             "type": "Any",
@@ -28902,7 +30818,8 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 42,
+            "line": 49,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "property",
             "name": "s1",
             "type": "Any",
@@ -28914,7 +30831,8 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 49,
+            "line": 57,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "property",
             "name": "s2",
             "type": "Any",
@@ -28926,10 +30844,12 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 56,
+            "line": 65,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "property",
             "name": "c",
             "type": "Number",
+            "default": "1",
             "access": "private",
             "tagname": "",
             "class": "RandomDataGenerator",
@@ -28938,9 +30858,11 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 63,
+            "line": 74,
+            "description": "Used to contain various arrays of data that can be used when randomly generating blocks of text.",
             "itemtype": "property",
             "name": "_data",
+            "type": "Object",
             "access": "private",
             "tagname": "",
             "class": "RandomDataGenerator",
@@ -28949,9 +30871,14 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 88,
+            "line": 101,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "uint32",
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
             "access": "private",
             "tagname": "",
             "class": "RandomDataGenerator",
@@ -28960,9 +30887,14 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 98,
+            "line": 113,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "fract32",
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
             "access": "private",
             "tagname": "",
             "class": "RandomDataGenerator",
@@ -28971,9 +30903,14 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 109,
+            "line": 126,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "rnd",
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
             "access": "private",
             "tagname": "",
             "class": "RandomDataGenerator",
@@ -28982,7 +30919,8 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 125,
+            "line": 144,
+            "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "hash",
             "params": [
@@ -29000,7 +30938,7 @@
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 154,
+            "line": 174,
             "description": "Reset the seed of the random data generator",
             "itemtype": "method",
             "name": "sow",
@@ -29008,51 +30946,29 @@
                 {
                     "name": "seeds",
                     "description": "",
-                    "type": "Array"
+                    "type": "String[]",
+                    "optional": true,
+                    "optdefault": "["
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 181,
-            "description": "returns a random integer between 0 and 2^32",
+            "line": 202,
+            "description": "Returns a random integer between 0 and 2^32",
             "itemtype": "method",
             "name": "integer",
             "return": {
                 "description": "",
                 "type": "Number"
             },
-            "class": "RandomDataGenerator",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 192,
-            "description": "returns a random real number between 0 and 1",
-            "itemtype": "method",
-            "name": "frac",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "RandomDataGenerator",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 203,
-            "description": "returns a random real number between 0 and 2^32",
-            "itemtype": "method",
-            "name": "real",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
@@ -29060,7 +30976,39 @@
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
             "line": 214,
-            "description": "returns a random integer between min and max",
+            "description": "Returns a random real number between 0 and 1",
+            "itemtype": "method",
+            "name": "frac",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "RandomDataGenerator",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\RandomDataGenerator.ts",
+            "line": 226,
+            "description": "Returns a random real number between 0 and 2^32",
+            "itemtype": "method",
+            "name": "real",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "RandomDataGenerator",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\RandomDataGenerator.ts",
+            "line": 238,
+            "description": "Returns a random integer between min and max",
             "itemtype": "method",
             "name": "integerInRange",
             "params": [
@@ -29079,14 +31027,16 @@
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 227,
-            "description": "returns a random real number between min and max",
+            "line": 252,
+            "description": "Returns a random real number between min and max",
             "itemtype": "method",
             "name": "realInRange",
             "params": [
@@ -29105,42 +31055,48 @@
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 243,
-            "description": "returns a random real number between -1 and 1",
+            "line": 269,
+            "description": "Returns a random real number between -1 and 1",
             "itemtype": "method",
             "name": "normal",
             "return": {
                 "description": "",
                 "type": "Number"
             },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 254,
-            "description": "returns a valid v4 UUID hex string (from https://gist.github.com/1308368)",
+            "line": 281,
+            "description": "Returns a valid v4 UUID hex string (from https://gist.github.com/1308368)",
             "itemtype": "method",
             "name": "uuid",
             "return": {
                 "description": "",
                 "type": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 272,
-            "description": "returns a random member of `array`",
+            "line": 300,
+            "description": "Returns a random member of `array`",
             "itemtype": "method",
             "name": "pick",
             "params": [
@@ -29150,14 +31106,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 283,
-            "description": "returns a random member of `array`, favoring the earlier entries",
+            "line": 313,
+            "description": "Returns a random member of `array`, favoring the earlier entries",
             "itemtype": "method",
             "name": "weightedPick",
             "params": [
@@ -29167,43 +31129,28 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 294,
-            "description": "returns a random word of lipsum",
+            "line": 326,
+            "description": "Returns a random word of lipsum",
             "itemtype": "method",
             "name": "word",
-            "class": "RandomDataGenerator",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 304,
-            "description": "returns `n` random words of lipsum, 3 if not specified",
-            "itemtype": "method",
-            "name": "words",
-            "params": [
-                {
-                    "name": "quantity",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "RandomDataGenerator",
-            "module": "Kiwi",
-            "submodule": "Utils"
-        },
-        {
-            "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 322,
-            "description": "returns a random lipsum sentence",
-            "itemtype": "method",
-            "name": "sentence",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
@@ -29211,48 +31158,113 @@
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
             "line": 338,
-            "description": "returns `n` random lipsum sentences, 3 if not specified",
+            "description": "Returns `n` random words of lipsum, 3 if not specified",
+            "itemtype": "method",
+            "name": "words",
+            "params": [
+                {
+                    "name": "quantity",
+                    "description": "Amount of random words to get.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "RandomDataGenerator",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\RandomDataGenerator.ts",
+            "line": 358,
+            "description": "Returns a random lipsum sentence",
+            "itemtype": "method",
+            "name": "sentence",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "RandomDataGenerator",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\RandomDataGenerator.ts",
+            "line": 376,
+            "description": "Returns `n` random lipsum sentences, 3 if not specified",
             "itemtype": "method",
             "name": "sentences",
             "params": [
                 {
                     "name": "quantity",
-                    "description": "",
-                    "type": "Number"
+                    "description": "The number of sentences to grab.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "3"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 356,
-            "description": "`returns a random timestamp between min and max, or between the beginning of 2000 and the end of 2020 if min and max aren't specified",
+            "line": 396,
+            "description": "Returns a random timestamp between min and max, or between the beginning of 2000 and the end of 2020 if min and max aren't specified",
             "itemtype": "method",
             "name": "timestamp",
             "params": [
                 {
                     "name": "min",
-                    "description": "",
-                    "type": "Number"
+                    "description": "The lowest timestamp.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "946684800000"
                 },
                 {
                     "name": "max",
-                    "description": "",
-                    "type": "Number"
+                    "description": "The highest timestamp.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "1577862000000"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RandomDataGenerator.ts",
-            "line": 368,
-            "description": "returns a random angle between -180 and 180",
+            "line": 410,
+            "description": "Returns a random angle between -180 and 180",
             "itemtype": "method",
             "name": "angle",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
             "class": "RandomDataGenerator",
             "module": "Kiwi",
             "submodule": "Utils"
@@ -29260,7 +31272,7 @@
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
             "line": 17,
-            "description": "Constructor",
+            "is_constructor": 1,
             "params": [
                 {
                     "name": "callback",
@@ -29270,7 +31282,7 @@
             ],
             "return": {
                 "description": "This object.",
-                "type": "Kiwi.Utils.RequestAnimationFrame"
+                "type": "RequestAnimationFrame"
             },
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
@@ -29278,7 +31290,24 @@
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 40,
+            "line": 37,
+            "description": "The type of obect that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "RequestAnimationFrame",
+            "module": "Kiwi",
+            "submodule": "Utils"
+        },
+        {
+            "file": "src\\utils\\RequestAnimationFrame.ts",
+            "line": 47,
+            "description": "The callback method that gets executed every time the RAF is executed.",
             "itemtype": "property",
             "name": "_callback",
             "type": "Any",
@@ -29290,9 +31319,10 @@
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 48,
+            "line": 55,
+            "description": "Sets the callback method that is to be executed each time the RAF is.",
             "itemtype": "method",
-            "name": "callback",
+            "name": "setCallback",
             "params": [
                 {
                     "name": "callback",
@@ -29300,13 +31330,16 @@
                     "type": "Any"
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 59,
+            "line": 67,
+            "description": "If the RAF is not supported, then this is the ID of the timeout that will be set.",
             "itemtype": "property",
             "name": "_timeOutID",
             "type": "Any",
@@ -29318,10 +31351,12 @@
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 67,
+            "line": 75,
+            "description": "A boolean indicating whether or not we are using setTimeout for the RequestAnimationFrame or not.",
             "itemtype": "property",
             "name": "_isSetTimeOut",
             "type": "boolean",
+            "default": "false",
             "access": "private",
             "tagname": "",
             "class": "RequestAnimationFrame",
@@ -29330,98 +31365,128 @@
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 75,
+            "line": 84,
+            "description": "Returns a boolean indicating whether or not setTimeout is being used instead of RAF.",
             "itemtype": "method",
             "name": "usingSetTimeOut",
             "return": {
-                "description": "boolean"
+                "description": "",
+                "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 86,
+            "line": 96,
+            "description": "Returns a boolean indicating wheather or not we are using the RAF. If false it means we are using setTimeout for our update loop.",
             "itemtype": "method",
             "name": "usingRAF",
             "return": {
-                "description": "boolean"
+                "description": "",
+                "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 103,
+            "line": 113,
+            "description": "The last time at which the RAF was called. This is given a value at the end of the RAF loop.",
             "itemtype": "property",
             "name": "lastTime",
             "type": "Number",
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 110,
+            "line": 121,
+            "description": "A timestamp that has the current time. This is updated each time the RAF loop is executed. Is updated before the last time in the loop.",
             "itemtype": "property",
             "name": "currentTime",
             "type": "Number",
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 117,
+            "line": 129,
+            "description": "A boolean indicating whether or not the RAF is running.",
             "itemtype": "property",
             "name": "isRunning",
             "type": "boolean",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 124,
+            "line": 138,
+            "description": "Starts the RequestAnimationFrame (or setTimeout if RAF not supported).",
             "itemtype": "method",
             "name": "start",
             "params": [
                 {
                     "name": "callback",
-                    "description": "",
+                    "description": "A callback to be executed everyframe. Overrides the callback set at instantiation if passed.",
                     "type": "Any",
                     "optional": true
                 }
             ],
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 151,
+            "line": 166,
+            "description": "Stops the RAF from running.",
             "itemtype": "method",
             "name": "stop",
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 170,
+            "line": 186,
+            "description": "The update loop that the RAF will continuously call.",
             "itemtype": "method",
             "name": "RAFUpdate",
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
         },
         {
             "file": "src\\utils\\RequestAnimationFrame.ts",
-            "line": 192,
+            "line": 209,
+            "description": "The update loop that the setTimeout method will continuously call.",
             "itemtype": "method",
             "name": "SetTimeoutUpdate",
+            "access": "public",
+            "tagname": "",
             "class": "RequestAnimationFrame",
             "module": "Kiwi",
             "submodule": "Utils"
@@ -30125,167 +32190,11 @@
             "line": " src\\utils\\Canvas.ts:16"
         },
         {
-            "message": "Missing item type\nChecks if the given value is numeric.",
-            "line": " src\\utils\\Common.ts:105"
-        },
-        {
-            "message": "Missing item type\nratio of value to a range",
-            "line": " src\\utils\\GameMath.ts:107"
-        },
-        {
-            "message": "Missing item type\na value representing the sign of the value.\n-1 for negative, +1 for positive, 0 if value is 0",
-            "line": " src\\utils\\GameMath.ts:118"
-        },
-        {
-            "message": "Missing item type\nwrap a value around a range, similar to modulus with a floating minimum",
-            "line": " src\\utils\\GameMath.ts:135"
-        },
-        {
-            "message": "Missing item type\narithmetic version of wrap... need to decide which is more efficient",
-            "line": " src\\utils\\GameMath.ts:150"
-        },
-        {
-            "message": "Missing item type\nforce a value within the boundaries of two values\n\nif max < min, min is returned",
-            "line": " src\\utils\\GameMath.ts:159"
-        },
-        {
-            "message": "Missing item type\nSnap a value to nearest grid slice, using rounding.\n\nexample if you have an interval gap of 5 and a position of 12... you will snap to 10. Where as 14 will snap to 15",
-            "line": " src\\utils\\GameMath.ts:168"
-        },
-        {
-            "message": "Missing item type\nSnap a value to nearest grid slice, using floor.\n\nexample if you have an interval gap of 5 and a position of 12... you will snap to 10. As will 14 snap to 10... but 16 will snap to 15",
-            "line": " src\\utils\\GameMath.ts:185"
-        },
-        {
-            "message": "Missing item type\nSnap a value to nearest grid slice, using ceil.\n\nexample if you have an interval gap of 5 and a position of 12... you will snap to 15. As will 14 will snap to 15... but 16 will snap to 20",
-            "line": " src\\utils\\GameMath.ts:202"
-        },
-        {
-            "message": "Missing item type\nSnaps a value to the nearest value in an array.",
-            "line": " src\\utils\\GameMath.ts:219"
-        },
-        {
-            "message": "Missing item type\nroundTo some place comparative to a 'base', default is 10 for decimal place\n\n'place' is represented by the power applied to 'base' to get that place",
-            "line": " src\\utils\\GameMath.ts:238"
-        },
-        {
-            "message": "Missing item type\na one dimensional linear interpolation of a value.",
-            "line": " src\\utils\\GameMath.ts:289"
-        },
-        {
-            "message": "Missing item type\nconvert radians to degrees",
-            "line": " src\\utils\\GameMath.ts:296"
-        },
-        {
-            "message": "Missing item type\nconvert degrees to radians",
-            "line": " src\\utils\\GameMath.ts:303"
-        },
-        {
-            "message": "Missing item type\nFind the angle of a segment from (x1, y1) -> (x2, y2 )",
-            "line": " src\\utils\\GameMath.ts:310"
-        },
-        {
-            "message": "Missing item type\nset an angle with in the bounds of -PI to PI",
-            "line": " src\\utils\\GameMath.ts:318"
-        },
-        {
-            "message": "Missing item type\nclosest angle between two angles from a1 to a2\nabsolute value the return for exact angle",
-            "line": " src\\utils\\GameMath.ts:326"
-        },
-        {
-            "message": "Missing item type\nnormalizes independent and then sets dep to the nearest value respective to independent\n\nfor instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170",
-            "line": " src\\utils\\GameMath.ts:343"
-        },
-        {
-            "message": "Missing item type\nnormalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent\n\nfor instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170",
-            "line": " src\\utils\\GameMath.ts:352"
-        },
-        {
-            "message": "Missing item type\nnormalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent\n\nfor instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190",
-            "line": " src\\utils\\GameMath.ts:363"
-        },
-        {
-            "message": "Missing item type\ninterpolate across the shortest arc between two angles",
-            "line": " src\\utils\\GameMath.ts:374"
-        },
-        {
-            "message": "Missing item type\nCompute the logarithm of any value of any base\n\na logarithm is the exponent that some constant (base) would have to be raised to \nto be equal to value.\n\ni.e.\n4 ^ x = 16\ncan be rewritten as to solve for x\nlogB4(16) = x\nwhich with this function would be \nLoDMath.logBaseOf(16,4)\n\nwhich would return 2, because 4^2 = 16",
-            "line": " src\\utils\\GameMath.ts:385"
-        },
-        {
-            "message": "Missing item type\nGreatest Common Denominator using Euclid's algorithm",
-            "line": " src\\utils\\GameMath.ts:404"
-        },
-        {
-            "message": "Missing item type\nLowest Common Multiple",
-            "line": " src\\utils\\GameMath.ts:434"
-        },
-        {
-            "message": "Missing item type\nFactorial - N!\n\nsimple product series\n\nby definition:\n0! == 1",
-            "line": " src\\utils\\GameMath.ts:441"
-        },
-        {
-            "message": "Missing item type\ngamma function\n\ndefined: gamma(N) == (N - 1)!",
-            "line": " src\\utils\\GameMath.ts:462"
-        },
-        {
-            "message": "Missing item type\nfalling factorial\n\ndefined: (N)! / (N - x)!\n\nwritten subscript: (N)x OR (base)exp",
-            "line": " src\\utils\\GameMath.ts:471"
-        },
-        {
-            "message": "Missing item type\nrising factorial\n\ndefined: (N + x - 1)! / (N - 1)!\n\nwritten superscript N^(x) OR base^(exp)",
-            "line": " src\\utils\\GameMath.ts:482"
-        },
-        {
-            "message": "Missing item type\nbinomial coefficient\n\ndefined: N! / (k!(N-k)!)\nreduced: N! / (N-k)! == (N)k (fallingfactorial)\nreduced: (N)k / k!",
-            "line": " src\\utils\\GameMath.ts:494"
-        },
-        {
-            "message": "Missing item type\nrising binomial coefficient\n\nas one can notice in the analysis of binCoef(...) that \nbinCoef is the (N)k divided by k!. Similarly rising binCoef \nis merely N^(k) / k!",
-            "line": " src\\utils\\GameMath.ts:505"
-        },
-        {
-            "message": "Missing item type\nGenerate a random boolean result based on the chance value\n<p>\nReturns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance\nof getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.\n</p>",
-            "line": " src\\utils\\GameMath.ts:516"
-        },
-        {
-            "message": "Missing item type\nAdds the given amount to the value, but never lets the value go over the specified maximum",
-            "line": " src\\utils\\GameMath.ts:549"
-        },
-        {
-            "message": "Missing item type\nSubtracts the given amount from the value, but never lets the value go below the specified minimum",
-            "line": " src\\utils\\GameMath.ts:570"
-        },
-        {
-            "message": "Missing item type\nAdds value to amount and ensures that the result always stays between 0 and max, by wrapping the value around.\n<p>Values must be positive integers, and are passed through Math.abs</p>",
-            "line": " src\\utils\\GameMath.ts:590"
-        },
-        {
-            "message": "Missing item type\nRandomly returns either a 1 or -1",
-            "line": " src\\utils\\GameMath.ts:613"
-        },
-        {
-            "message": "Missing item type\nReturns true if the number given is odd.",
-            "line": " src\\utils\\GameMath.ts:622"
-        },
-        {
-            "message": "Missing item type\nReturns true if the number given is even.",
-            "line": " src\\utils\\GameMath.ts:642"
-        },
-        {
-            "message": "Missing item type\nKeeps an angle value between -180 and +180<br>\nShould be called whenever the angle is updated on the Sprite to stop it from going insane.",
-            "line": " src\\utils\\GameMath.ts:662"
-        },
-        {
-            "message": "Missing item type\nKeeps an angle value between the given min and max values",
-            "line": " src\\utils\\GameMath.ts:692"
-        },
-        {
             "message": "Missing item type",
             "line": " src\\utils\\RandomDataGenerator.ts:20"
         },
         {
-            "message": "Missing item type\nConstructor",
+            "message": "Missing item type",
             "line": " src\\utils\\RequestAnimationFrame.ts:17"
         }
     ]

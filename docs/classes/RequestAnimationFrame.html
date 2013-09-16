@@ -299,49 +299,56 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
-                                <a href="#method_callback">callback</a>
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_RAFUpdate">RAFUpdate</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_setCallback">setCallback</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_SetTimeoutUpdate">SetTimeoutUpdate</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_start">start</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_stop">stop</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_usingRAF">usingRAF</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_usingSetTimeOut">usingSetTimeOut</a>
 
                                 
@@ -379,21 +386,21 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_currentTime">currentTime</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_isRunning">isRunning</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_lastTime">lastTime</a>
 
                                 
@@ -414,27 +421,23 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_callback" class="method item">
-    <h3 class="name"><code>callback</code></h3>
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>callback</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
     
 
     
 
     
-
+        <span class="flag public">public</span>
     
 
     
@@ -456,7 +459,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l48"><code>src\utils\RequestAnimationFrame.ts:48</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l37"><code>src\utils\RequestAnimationFrame.ts:37</code></a>
         
         </p>
 
@@ -467,7 +470,144 @@
     </div>
 
     <div class="description">
+        <p>The type of obect that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_RAFUpdate" class="method item public">
+    <h3 class="name"><code>RAFUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l186"><code>src\utils\RequestAnimationFrame.ts:186</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The update loop that the RAF will continuously call.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_setCallback" class="method item public">
+    <h3 class="name"><code>setCallback</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l55"><code>src\utils\RequestAnimationFrame.ts:55</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets the callback method that is to be executed each time the RAF is.</p>
+
     </div>
 
     
@@ -501,61 +641,7 @@
 </div>
 
                 
-                    <div id="method_RAFUpdate" class="method item">
-    <h3 class="name"><code>RAFUpdate</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l170"><code>src\utils\RequestAnimationFrame.ts:170</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_SetTimeoutUpdate" class="method item">
+                    <div id="method_SetTimeoutUpdate" class="method item public">
     <h3 class="name"><code>SetTimeoutUpdate</code></h3>
 
     
@@ -567,6 +653,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -587,7 +675,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l192"><code>src\utils\RequestAnimationFrame.ts:192</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l209"><code>src\utils\RequestAnimationFrame.ts:209</code></a>
         
         </p>
 
@@ -598,7 +686,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The update loop that the setTimeout method will continuously call.</p>
+
     </div>
 
     
@@ -609,7 +698,7 @@
 </div>
 
                 
-                    <div id="method_start" class="method item">
+                    <div id="method_start" class="method item public">
     <h3 class="name"><code>start</code></h3>
 
     
@@ -631,6 +720,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -651,7 +742,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l124"><code>src\utils\RequestAnimationFrame.ts:124</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l138"><code>src\utils\RequestAnimationFrame.ts:138</code></a>
         
         </p>
 
@@ -662,7 +753,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Starts the RequestAnimationFrame (or setTimeout if RAF not supported).</p>
+
     </div>
 
     
@@ -681,7 +773,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>A callback to be executed everyframe. Overrides the callback set at instantiation if passed.</p>
+
                     </div>
 
                     
@@ -697,7 +790,7 @@
 </div>
 
                 
-                    <div id="method_stop" class="method item">
+                    <div id="method_stop" class="method item public">
     <h3 class="name"><code>stop</code></h3>
 
     
@@ -709,6 +802,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -729,7 +824,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l151"><code>src\utils\RequestAnimationFrame.ts:151</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l166"><code>src\utils\RequestAnimationFrame.ts:166</code></a>
         
         </p>
 
@@ -740,7 +835,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Stops the RAF from running.</p>
+
     </div>
 
     
@@ -751,7 +847,7 @@
 </div>
 
                 
-                    <div id="method_usingRAF" class="method item">
+                    <div id="method_usingRAF" class="method item public">
     <h3 class="name"><code>usingRAF</code></h3>
 
     
@@ -760,12 +856,14 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Boolean</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -787,7 +885,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l86"><code>src\utils\RequestAnimationFrame.ts:86</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l96"><code>src\utils\RequestAnimationFrame.ts:96</code></a>
         
         </p>
 
@@ -798,7 +896,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a boolean indicating wheather or not we are using the RAF. If false it means we are using setTimeout for our update loop.</p>
+
     </div>
 
     
@@ -810,8 +909,8 @@
             <div class="returns-description">
                 
                     
-                    <p>boolean</p>
-
+                        <span class="type">Boolean</span>:
+                    
                 
             </div>
         </div>
@@ -821,7 +920,7 @@
 </div>
 
                 
-                    <div id="method_usingSetTimeOut" class="method item">
+                    <div id="method_usingSetTimeOut" class="method item public">
     <h3 class="name"><code>usingSetTimeOut</code></h3>
 
     
@@ -830,12 +929,14 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Boolean</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -857,7 +958,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l75"><code>src\utils\RequestAnimationFrame.ts:75</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l84"><code>src\utils\RequestAnimationFrame.ts:84</code></a>
         
         </p>
 
@@ -868,7 +969,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns a boolean indicating whether or not setTimeout is being used instead of RAF.</p>
+
     </div>
 
     
@@ -880,8 +982,8 @@
             <div class="returns-description">
                 
                     
-                    <p>boolean</p>
-
+                        <span class="type">Boolean</span>:
+                    
                 
             </div>
         </div>
@@ -924,7 +1026,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l40"><code>src\utils\RequestAnimationFrame.ts:40</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l47"><code>src\utils\RequestAnimationFrame.ts:47</code></a>
         
         </p>
 
@@ -934,7 +1036,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The callback method that gets executed every time the RAF is executed.</p>
+
     </div>
 
     
@@ -970,7 +1073,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l67"><code>src\utils\RequestAnimationFrame.ts:67</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l75"><code>src\utils\RequestAnimationFrame.ts:75</code></a>
         
         </p>
 
@@ -980,9 +1083,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A boolean indicating whether or not we are using setTimeout for the RequestAnimationFrame or not.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -1016,7 +1122,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l59"><code>src\utils\RequestAnimationFrame.ts:59</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l67"><code>src\utils\RequestAnimationFrame.ts:67</code></a>
         
         </p>
 
@@ -1026,7 +1132,8 @@
     </div>
 
     <div class="description">
-        
+        <p>If the RAF is not supported, then this is the ID of the timeout that will be set.</p>
+
     </div>
 
     
@@ -1037,13 +1144,15 @@
 </div>
 
                 
-                    <div id="property_currentTime" class="property item">
+                    <div id="property_currentTime" class="property item public">
     <h3 class="name"><code>currentTime</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1060,7 +1169,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l110"><code>src\utils\RequestAnimationFrame.ts:110</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l121"><code>src\utils\RequestAnimationFrame.ts:121</code></a>
         
         </p>
 
@@ -1070,7 +1179,8 @@
     </div>
 
     <div class="description">
-        
+        <p>A timestamp that has the current time. This is updated each time the RAF loop is executed. Is updated before the last time in the loop.</p>
+
     </div>
 
     
@@ -1081,13 +1191,15 @@
 </div>
 
                 
-                    <div id="property_isRunning" class="property item">
+                    <div id="property_isRunning" class="property item public">
     <h3 class="name"><code>isRunning</code></h3>
     <span class="type">Boolean</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1104,7 +1216,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l117"><code>src\utils\RequestAnimationFrame.ts:117</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l129"><code>src\utils\RequestAnimationFrame.ts:129</code></a>
         
         </p>
 
@@ -1114,9 +1226,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A boolean indicating whether or not the RAF is running.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -1125,12 +1240,14 @@
 </div>
 
                 
-                    <div id="property_lastTime" class="property item">
+                    <div id="property_lastTime" class="property item public">
     <h3 class="name"><code>lastTime</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1148,7 +1265,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l103"><code>src\utils\RequestAnimationFrame.ts:103</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l113"><code>src\utils\RequestAnimationFrame.ts:113</code></a>
         
         </p>
 
@@ -1158,7 +1275,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The last time at which the RAF was called. This is given a value at the end of the RAF loop.</p>
+
     </div>
 
     

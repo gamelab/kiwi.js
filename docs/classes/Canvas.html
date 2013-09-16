@@ -269,7 +269,7 @@
 
 
 <div class="box intro">
-    <p>Creates a canvas DOM element and adds it to a layer.</p>
+    <p>Creates a canvas DOM element.</p>
 
 </div>
 
@@ -306,43 +306,36 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clear">clear</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_clearMode">clearMode</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_destroy">destroy</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_saveAsPNG">saveAsPNG</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_toString">toString</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_visible">visible</a>
 
                                 
                                 
@@ -365,8 +358,15 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property__context">_context</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__height">_height</a>
 
                                 
                                 
@@ -386,14 +386,28 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
+                                <a href="#property__width">_width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_bgColor">bgColor</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
+                                <a href="#property_clearMode">clearMode</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_CLEARMODE_CLEARRECT">CLEARMODE_CLEARRECT</a>
 
                                 
@@ -402,7 +416,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_CLEARMODE_FILLRECT">CLEARMODE_FILLRECT</a>
 
                                 
@@ -411,7 +425,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_CLEARMODE_FILLRECT_ALPHA">CLEARMODE_FILLRECT_ALPHA</a>
 
                                 
@@ -420,7 +434,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_CLEARMODE_NONE">CLEARMODE_NONE</a>
 
                                 
@@ -429,8 +443,29 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_domElement">domElement</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property_height">height</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_visible">visible</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_width">width</a>
 
                                 
                                 
@@ -454,23 +489,7 @@
     <h3 class="name"><code>_updatedSize</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>width</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>height</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -500,7 +519,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l144"><code>src\utils\Canvas.ts:144</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l195"><code>src\utils\Canvas.ts:195</code></a>
         
         </p>
 
@@ -511,47 +530,10 @@
     </div>
 
     <div class="description">
-        
+        <p>Updates the width/height on the canvas DOM element when either one of its sizes are updated.</p>
+
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">width</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">height</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -560,7 +542,7 @@
 </div>
 
                 
-                    <div id="method_clear" class="method item">
+                    <div id="method_clear" class="method item public">
     <h3 class="name"><code>clear</code></h3>
 
     
@@ -572,6 +554,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -592,7 +576,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l220"><code>src\utils\Canvas.ts:220</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l274"><code>src\utils\Canvas.ts:274</code></a>
         
         </p>
 
@@ -603,7 +587,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Clears the canvas using the method specified by the clearMode property.</p>
+
     </div>
 
     
@@ -614,21 +599,19 @@
 </div>
 
                 
-                    <div id="method_clearMode" class="method item">
-    <h3 class="name"><code>clearMode</code></h3>
+                    <div id="method_destroy" class="method item public">
+    <h3 class="name"><code>destroy</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -650,7 +633,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l200"><code>src\utils\Canvas.ts:200</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l207"><code>src\utils\Canvas.ts:207</code></a>
         
         </p>
 
@@ -661,7 +644,68 @@
     </div>
 
     <div class="description">
-        <p>Gets</p>
+        <p>Used to remove the canvas element completely along with this class. [NEEDS IMPLEMENTATION]</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l92"><code>src\utils\Canvas.ts:92</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object that this is.</p>
 
     </div>
 
@@ -674,7 +718,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Number</span>:
+                        <span class="type">String</span>:
                     
                 
             </div>
@@ -685,61 +729,7 @@
 </div>
 
                 
-                    <div id="method_destroy" class="method item">
-    <h3 class="name"><code>destroy</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_utils_Canvas.ts.html#l157"><code>src\utils\Canvas.ts:157</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_saveAsPNG" class="method item">
+                    <div id="method_saveAsPNG" class="method item public">
     <h3 class="name"><code>saveAsPNG</code></h3>
 
     
@@ -755,6 +745,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -775,7 +767,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l252"><code>src\utils\Canvas.ts:252</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l308"><code>src\utils\Canvas.ts:308</code></a>
         
         </p>
 
@@ -786,7 +778,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the canvas current image data as PNG.</p>
+
     </div>
 
     
@@ -809,7 +802,7 @@
 </div>
 
                 
-                    <div id="method_toString" class="method item">
+                    <div id="method_toString" class="method item public">
     <h3 class="name"><code>toString</code></h3>
 
     
@@ -824,6 +817,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -845,7 +840,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l262"><code>src\utils\Canvas.ts:262</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l320"><code>src\utils\Canvas.ts:320</code></a>
         
         </p>
 
@@ -873,109 +868,6 @@
                     
                     <p>a string representation of the instance.</p>
 
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_visible" class="method item">
-    <h3 class="name"><code>visible</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_utils_Canvas.ts.html#l170"><code>src\utils\Canvas.ts:170</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
                 
             </div>
         </div>
@@ -1018,7 +910,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l102"><code>src\utils\Canvas.ts:102</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l134"><code>src\utils\Canvas.ts:134</code></a>
         
         </p>
 
@@ -1028,7 +920,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The method to use when clearing the canvas.</p>
+
     </div>
 
     
@@ -1039,12 +932,14 @@
 </div>
 
                 
-                    <div id="property__context" class="property item">
+                    <div id="property__context" class="property item public">
     <h3 class="name"><code>_context</code></h3>
     <span class="type">CanvasRenderingContext2D</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1062,7 +957,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l82"><code>src\utils\Canvas.ts:82</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l110"><code>src\utils\Canvas.ts:110</code></a>
         
         </p>
 
@@ -1072,7 +967,55 @@
     </div>
 
     <div class="description">
+        <p>The 2D rendering context that is used to render anything to this canvas.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__height" class="property item private">
+    <h3 class="name"><code>_height</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l70"><code>src\utils\Canvas.ts:70</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The height of this canvas.</p>
+
     </div>
 
     
@@ -1108,7 +1051,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l95"><code>src\utils\Canvas.ts:95</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l126"><code>src\utils\Canvas.ts:126</code></a>
         
         </p>
 
@@ -1118,7 +1061,8 @@
     </div>
 
     <div class="description">
-        
+        <p>If the canvas is offscreen or not.</p>
+
     </div>
 
     
@@ -1154,7 +1098,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l88"><code>src\utils\Canvas.ts:88</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l118"><code>src\utils\Canvas.ts:118</code></a>
         
         </p>
 
@@ -1164,7 +1108,8 @@
     </div>
 
     <div class="description">
-        
+        <p>If the canvas element is visible or not.</p>
+
     </div>
 
     
@@ -1175,13 +1120,62 @@
 </div>
 
                 
-                    <div id="property_bgColor" class="property item">
+                    <div id="property__width" class="property item private">
+    <h3 class="name"><code>_width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l48"><code>src\utils\Canvas.ts:48</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The width of this canvas.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_bgColor" class="property item public">
     <h3 class="name"><code>bgColor</code></h3>
     <span class="type">String</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1198,7 +1192,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l137"><code>src\utils\Canvas.ts:137</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l186"><code>src\utils\Canvas.ts:186</code></a>
         
         </p>
 
@@ -1208,9 +1202,12 @@
     </div>
 
     <div class="description">
-        
+        <p>The background color to use clearing the canvas using a filled rectangle approach.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> &#x27;rgb(0,0,0)&#x27;</p>
     
 
     
@@ -1219,14 +1216,67 @@
 </div>
 
                 
-                    <div id="property_CLEARMODE_CLEARRECT" class="property item">
+                    <div id="property_clearMode" class="property item public">
+    <h3 class="name"><code>clearMode</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l253"><code>src\utils\Canvas.ts:253</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The clearmode the is to be used when clearing the canvas.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_CLEARMODE_CLEARRECT" class="property item public">
     <h3 class="name"><code>CLEARMODE_CLEARRECT</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -1244,7 +1294,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l116"><code>src\utils\Canvas.ts:116</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l153"><code>src\utils\Canvas.ts:153</code></a>
         
         </p>
 
@@ -1254,9 +1304,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A STATIC property that holds the number associated with the clear mode that uses the clearRect method to clear the canvas.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -1265,14 +1318,18 @@
 </div>
 
                 
-                    <div id="property_CLEARMODE_FILLRECT" class="property item">
+                    <div id="property_CLEARMODE_FILLRECT" class="property item public">
     <h3 class="name"><code>CLEARMODE_FILLRECT</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -1290,7 +1347,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l123"><code>src\utils\Canvas.ts:123</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l164"><code>src\utils\Canvas.ts:164</code></a>
         
         </p>
 
@@ -1300,9 +1357,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A STATIC property that holds the number associated with the clear mode that uses a filled rectangle to clear the canvas.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 2</p>
     
 
     
@@ -1311,14 +1371,18 @@
 </div>
 
                 
-                    <div id="property_CLEARMODE_FILLRECT_ALPHA" class="property item">
+                    <div id="property_CLEARMODE_FILLRECT_ALPHA" class="property item public">
     <h3 class="name"><code>CLEARMODE_FILLRECT_ALPHA</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -1336,7 +1400,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l130"><code>src\utils\Canvas.ts:130</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l175"><code>src\utils\Canvas.ts:175</code></a>
         
         </p>
 
@@ -1346,9 +1410,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A STATIC property that holds the number associated with the clear mode that uses the filled alpha rectangle method.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 3</p>
     
 
     
@@ -1357,14 +1424,18 @@
 </div>
 
                 
-                    <div id="property_CLEARMODE_NONE" class="property item">
+                    <div id="property_CLEARMODE_NONE" class="property item public">
     <h3 class="name"><code>CLEARMODE_NONE</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -1382,7 +1453,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l109"><code>src\utils\Canvas.ts:109</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l142"><code>src\utils\Canvas.ts:142</code></a>
         
         </p>
 
@@ -1392,9 +1463,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A STATIC property that holds the number associated with no clear mode.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -1403,12 +1477,14 @@
 </div>
 
                 
-                    <div id="property_domElement" class="property item">
+                    <div id="property_domElement" class="property item public">
     <h3 class="name"><code>domElement</code></h3>
     <span class="type">HTMLCanvasElement</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1426,7 +1502,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l76"><code>src\utils\Canvas.ts:76</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l102"><code>src\utils\Canvas.ts:102</code></a>
         
         </p>
 
@@ -1436,7 +1512,151 @@
     </div>
 
     <div class="description">
+        <p>The canvas DOM element.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_height" class="property item private">
+    <h3 class="name"><code>height</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l78"><code>src\utils\Canvas.ts:78</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The height of this canvas.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_visible" class="property item public">
+    <h3 class="name"><code>visible</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l222"><code>src\utils\Canvas.ts:222</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the canvas element is visible or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width" class="property item public">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l56"><code>src\utils\Canvas.ts:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The width of this canvas.</p>
+
     </div>
 
     

@@ -43,6 +43,12 @@ module Kiwi.Utils {
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Common";
         }
@@ -50,10 +56,11 @@ module Kiwi.Utils {
         /**
         * Default function to test equality.
         * @method defaultEquals
-        * @param {Any} a.
-        * @param {Any} b.
+        * @param {Any} a
+        * @param {Any} b
         * @return {boolean}
         * @static
+        * @public
         */
         public static defaultEquals(a, b) {
 
@@ -64,9 +71,10 @@ module Kiwi.Utils {
         /**
         * Default function to convert an object to a string.
         * @method defaultTostring
-        * @param {Any} item.
+        * @param item {Any}
         * @return {Any}
         * @static
+        * @public
         */
         public static defaultTostring(item) {
 
@@ -95,6 +103,7 @@ module Kiwi.Utils {
         * @param {Any} func.
         * @return {boolean}
         * @static
+        * @public
         */
         public static isFunction(func) {
 
@@ -103,8 +112,13 @@ module Kiwi.Utils {
         }
 
         /**
-         * Checks if the given value is numeric.
-         */
+        * Checks if the given value is numeric.
+        * @method isNumeric
+        * @param value {Any}
+        * @return {Boolean}
+        * @static
+        * @public
+        */
         public static isNumeric(value) {
 
             return !isNaN(value);
@@ -114,9 +128,10 @@ module Kiwi.Utils {
         /**
         * Checks if the given argument is undefined.
         * @method isUndefined
-        * @param {Any} obj.
+        * @param {Any} obj
         * @return {boolean}
         * @static
+        * @public
         */
         public static isUndefined(obj) {
 
@@ -127,9 +142,10 @@ module Kiwi.Utils {
         /**
         * Checks if the given argument is a string.
         * @method isString
-        * @param {Any} obj.
+        * @param {Any} obj
         * @return {boolean}
         * @static
+        * @public
         */
         public static isString(obj) {
 
@@ -140,9 +156,10 @@ module Kiwi.Utils {
         /**
         * Reverses a compare function.
         * @method reverseCompareFunction
-        * @param {Any} compareFunction.
+        * @param {Any} compareFunction
         * @return {Number}
         * @static
+        * @public
         */
         public static reverseCompareFunction(compareFunction) {
 
@@ -175,9 +192,10 @@ module Kiwi.Utils {
         /**
         * Returns an equal function given a compare function.
         * @method compareToEquals
-        * @param {Any} compareFunction.
+        * @param {Any} compareFunction
         * @return {boolean}
         * @static
+        * @public
         */
         public static compareToEquals(compareFunction) {
 
@@ -187,6 +205,14 @@ module Kiwi.Utils {
 
         }
 
+        /**
+        * Shuffles the contents of an array given into a random order.
+        * @method shuffleArray
+        * @param array {Any}
+        * @return {Any} What you passed but the with the contents in a new order.
+        * @static
+        * @public
+        */
         public static shuffleArray(array) {
 
             for (var i = array.length - 1; i > 0; i--)
