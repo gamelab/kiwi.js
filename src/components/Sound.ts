@@ -11,15 +11,15 @@ module Kiwi.Components {
     * 
     * 
     * @class Sound
-    *
+    * @extends Component
     */
     export class Sound extends Component {
 
-        /*
+        /**
         *
         * @constructor
-        * @param {Kiwi.Game} game
-        * @return Kiwi.Components.Sound
+        * @param parent {Any} Who the sound component belongs to.
+        * @return {Sound}
         */
         constructor(parent) {
 
@@ -28,23 +28,36 @@ module Kiwi.Components {
             this._audio = [];
         }
 
-        /*
-        * An array of all of the sound components that are on this component.
+        /**
+        * Returns the type of object that this is.
+        * @method objType 
+        * @return {String}
+        * @public
+        */
+        public objType():string {
+            return 'Sound';
+        }
+
+        /**
+        * Contains a list of all of the Audio objects that are on this component.
+        * @private
+        * @type Audio[]
         * @private
         */
         private _audio: Kiwi.Sound.Audio[];
 
-        /*
-        * Creates a new audio segment with the name given.
+        /**
+        * Creates a new audio segment on this component.
         *
         * @method addSound
-        * @param {string} name
-        * @param {string} key
-        * @param {number} volume
-        * @param {boolean} loop
-        * @return {Kiwi.Sound.Audio} 
+        * @param name {string} The name for this audio file. This is how you will access the audio from this component and so it should be unique.
+        * @param key {string} The piece of audio that you want to use. 
+        * @param [volume=1] {number} The volume that the audio should be set to.
+        * @param [loop=false] {boolean} If the audio should keep play again when it finishes playing.
+        * @return {Audio}
+        * @public 
         */
-        public addSound(name: string, key: string, volume: number, loop: boolean): Kiwi.Sound.Audio {
+        public addSound(name: string, key: string, volume: number=1, loop: boolean=false): Kiwi.Sound.Audio {
 
             if (this._validate(name) == true) return;
 
@@ -54,11 +67,12 @@ module Kiwi.Components {
             return audio;
         }
 
-        /*
+        /**
         * Removes the audio sementment with the name you have given.
         *
         * @method removeSound
-        * @param {string} name
+        * @param name {string} The piece of audio you would like to remove.
+        * @public
         */
         public removeSound(name: string) {
 
@@ -70,12 +84,13 @@ module Kiwi.Components {
 
         }
 
-        /*
-        * Returns the audio for the sound that you pass...
+        /**
+        * Returns the Audio object for the sound that you pass. 
         *
         * @method getSound
-        * @param {string} name
-        * @return {Kiwi.Sound.Audio}
+        * @param name {string} The piece of audio you would like to grab.
+        * @return {Audio}
+        * @public
         */
         public getSound(name: string): Kiwi.Sound.Audio {
             if (this._validate(name) == false) return;
@@ -84,11 +99,12 @@ module Kiwi.Components {
         }
 
         /*
-        * This method is used to check to see if an audio segment with the name you specify is on this component.
+        * This method is used to check to see if an audio segment with the name that is specified is on this component.
         * 
         * @method _validate
-        * @param {string} name
+        * @param name {string} The name of the audio segment you want to check exists.
         * @return {boolean}
+        * @private
         */
         
         private _validate(name:string) {
@@ -99,11 +115,12 @@ module Kiwi.Components {
             }
         }
 
-        /*
+        /**
         * Plays the audio that you specify.
         * 
         * @method play
-        * @param {string} name
+        * @param name {string} The name of the audio file you would like to play.
+        * @public
         */
         public play(name:string) {
 
@@ -113,11 +130,12 @@ module Kiwi.Components {
 
         }
 
-        /*
-        * Stops the audio that you specify.
+        /**
+        * Stops the audio that you specify from playing.
         * 
         * @method play
-        * @param {string} name
+        * @param name {string} Name of the audio file you would like to stop.
+        * @public
         */
         public stop(name:string) {
             
@@ -127,11 +145,12 @@ module Kiwi.Components {
 
         }
         
-        /*
-        * Pauses the audio that you specify.
+        /**
+        * Pauses the audio that you specify. 
         * 
         * @method play
-        * @param {string} name
+        * @param name {string} The name of the audio you would like to pause.
+        * @public
         */
         public pause(name: string) {
             if (this._validate(name) == false) return;
@@ -139,11 +158,12 @@ module Kiwi.Components {
             this._audio[name].pause();
         }
 
-        /*
-        * Resumes the audio that you specify. Used after you pause.
+        /**
+        * Resumes the audio that you specify. Note: Audio can only resume if it was paused initially.
         * 
         * @method play
-        * @param {string} name
+        * @param name {string} The name of the audio you would like to resume.
+        * @public
         */
         public resume(name: string) {
             
@@ -152,6 +172,11 @@ module Kiwi.Components {
             this._audio[name].resume();
         }
 
+        /**
+        * Destroys this AudioComponent and all of the Audio objects it has.
+        * @method destroy
+        * @public
+        */
         public destroy() {
             super.destroy();
             for (var key in this._audio) {

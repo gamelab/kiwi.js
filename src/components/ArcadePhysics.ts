@@ -15,6 +15,7 @@ module Kiwi.Components {
     * http://www.adamatomic.com/
     *
     * @class ArcadePhysics
+    * @extends Component
     *
     * @author Adam 'Atomic' Saltsman, Flixel
     *

@@ -1,9 +1,18 @@
-
-
+/**
+* Kiwi - Renderers
+* @module Kiwi
+* @submodule Renderers
+* 
+*/
 
 module Kiwi.Renderers {
-
-   
+     
+    /**
+    *
+    * @class GLTexture
+    *
+    *
+    */
     export class GLTexture {
 
         constructor(gl: WebGLRenderingContext, _image?: HTMLImageElement) {

@@ -36,6 +36,10 @@
     <TypeScriptCompile Include="Timer\SetNumber.ts" />
     <TypeScriptCompile Include="Introduction\Textarea.ts" />
     <TypeScriptCompile Include="MultiTouch\TouchManager.ts" />
+    <TypeScriptCompile Include="States\SwitchingBetween.ts" />
+    <Content Include="States\SwitchingBetween.js">
+      <DependentUpon>SwitchingBetween.ts</DependentUpon>
+    </Content>
     <Content Include="Timer\SetNumber.js">
       <DependentUpon>SetNumber.ts</DependentUpon>
     </Content>

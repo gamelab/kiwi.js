@@ -300,6 +300,7 @@ module Kiwi.Sound {
         * The current marker that is being used.
         * @property _currentMarker
         * @type String
+        * @default 'default'
         * @private
         */
         private _currentMarker: string = 'default';

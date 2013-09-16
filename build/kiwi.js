@@ -1191,7 +1191,8 @@ var Kiwi;
         };
 
         Entity.prototype.destroy = function () {
-            this.state.removeFromTrackingList(this);
+            if (this.state)
+                this.state.removeFromTrackingList(this);
             this._exists = false;
             this._active = false;
             this._willRender = false;
@@ -1922,7 +1923,8 @@ var Kiwi;
                 this.removeChildren();
             }
 
-            this.state.removeFromTrackingList(this);
+            if (this.state)
+                this.state.removeFromTrackingList(this);
             this._exists = false;
             this._active = false;
             this._willRender = false;
@@ -2088,13 +2090,17 @@ var Kiwi;
 
         State.prototype.destroy = function (deleteAll) {
             if (typeof deleteAll === "undefined") { deleteAll = true; }
-            for (var i = 0; i < this._trackingList.length; i++) {
-                this._trackingList[i].destroy();
-            }
-            this._trackingList = [];
+            if (deleteAll == true) {
+                for (var i = 0; i < this._trackingList.length; i++) {
+                    this._trackingList[i].destroy();
+                }
+                this._trackingList = [];
 
-            for (var i = 0; i < this.members.length; i++) {
-                this._destroyChildren(this.members[i]);
+                for (var i = 0; i < this.members.length; i++) {
+                    this._destroyChildren(this.members[i]);
+                    delete this.members[i];
+                }
+                this.members = [];
             }
         };
 
@@ -3322,7 +3328,13 @@ var Kiwi;
 
                 this._audio = [];
             }
+            Sound.prototype.objType = function () {
+                return 'Sound';
+            };
+
             Sound.prototype.addSound = function (name, key, volume, loop) {
+                if (typeof volume === "undefined") { volume = 1; }
+                if (typeof loop === "undefined") { loop = false; }
                 if (this._validate(name) == true)
                     return;
 

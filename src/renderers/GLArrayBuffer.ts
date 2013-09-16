@@ -1,8 +1,17 @@
-
+/**
+* Kiwi - Renderers
+* @module Kiwi
+* @submodule Renderers
+* 
+*/
 
 module Kiwi.Renderers {
 
-   
+    /**
+    *
+    * @class GLArrayBuffer
+    * 
+    */
     export class GLArrayBuffer {
 
         constructor(gl: WebGLRenderingContext, _itemSize?: number, items?: number[], init: boolean = true) {
