@@ -62,25 +62,21 @@ module Kiwi.Animation {
         private _loop: boolean;
 
         /**
-        * Get if this animation is to loop or not.
+        * If once the animation reaches the end, it should start again from the first cell in the sequence or not.
+        * @property loop
         * @type boolean
         * @public
         */
         public get loop(): boolean {
             return this._loop;
         }
-
-        /**
-        * Set if this animation should loop or not
-        * @type boolean
-        * @public
-        */
         public set loop(value: boolean) {
             this._loop = value;
         }
 
         /**
-        * The current frame index that the animation is upto. 
+        * The current frame index that the animation is currently upto.
+        * Note: A frame index is the index of a particular cell in the Sequence.
         * @property _frameIndex
         * @type number
         * @private
@@ -88,19 +84,15 @@ module Kiwi.Animation {
         private _frameIndex: number = 0;
 
         /**
-        * Returns the current frame index that the animation is up to.
+        * The current frame index that the animation is currently upto.
+        * Note: A frame index is the index of a particular cell in the Sequence.
+        * @property frameIndex
         * @type number
         * @public
         */
         public get frameIndex(): number {
             return this._frameIndex;
         }
-
-        /**
-        * Sets the current frame index that the animation is sitting at.
-        * @type number
-        * @public
-        */
         public set frameIndex(val: number) {
             if (this._validateFrame(val)) {
                 this._frameIndex = val;
@@ -108,7 +100,8 @@ module Kiwi.Animation {
         }
 
         /**
-        * Returns the current cell that the animation is up to.
+        * Returns the current cell that the animation is up to. This is READ ONLY.
+        * @property currentCell
         * @type number
         * @public
         */
@@ -125,19 +118,14 @@ module Kiwi.Animation {
         private _speed: number;
 
         /**
-        * Get how fast the transition is between cells. 
+        * How long the each cell should stay on screen for. In seconds.
+        * @property speed
         * @type number
         * @public
         */
         public get speed(): number {
             return this._speed;
         }
-
-        /**
-        * Set how fast the transition is between cells. 
-        * @type number
-        * @public
-        */
         public set speed(value: number) {
             this._speed = value;
         }
@@ -167,19 +155,14 @@ module Kiwi.Animation {
         private _reverse: boolean = false;
 
         /**
-        * Set's whether or not the animation is playing in reverse or not.
+        * Whether the animation is to be played in reverse.
+        * @property reverse
         * @type boolean
         * @public
         */
         public set reverse(value: boolean) {
             this._reverse = value;
         }
-        
-        /**
-        * Returns a boolean indicating if the animation is playing in reverse or not 
-        * @type boolean
-        * @public
-        */
         public get reverse(): boolean {
             return this._reverse;
         }
@@ -372,7 +355,8 @@ module Kiwi.Animation {
         }
         
         /**
-        * Returns the number of frames that in the animation. Thus the animations 'length'.
+        * Returns the number of frames that in the animation. Thus the animations 'length'. Note this is READ ONLY.
+        * @property length
         * @type number
         * @public
         */

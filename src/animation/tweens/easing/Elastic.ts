@@ -1,23 +1,26 @@
-/// <reference path="../Manager.ts" />
-
 /**
- *	Kiwi - Tween - Easing - Elastic
- *
- *	@desc 		Based heavily on tween.js by sole (https://github.com/sole/tween.js)
- *
- *	@version 	1.0 - 11th January 2013
- *
- *	@author 	Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list
- *
- *	@url 		http://www.kiwijs.org
- *
- *	@todo       
- */
+* Kiwi - Animation - Tweens - Easing 
+* @module Tweens
+* @submodule Easing 
+* 
+*/
 
 module Kiwi.Animation.Tweens.Easing {
-
+    
+    /**
+    *
+    *
+    * @class Elastic
+    *
+    */
     export class Elastic {
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Elastic";
         }
@@ -25,9 +28,11 @@ module Kiwi.Animation.Tweens.Easing {
         /** 
         * 
         * @method In
-        * @param {Any} k
+        * @param k {Any}
+        * @return {Number}
         * @static
-        **/
+        * @public
+        */
         public static In(k) {
 
             var s, a = 0.1, p = 0.4;
@@ -44,7 +49,8 @@ module Kiwi.Animation.Tweens.Easing {
         * @method Out
         * @param {Any} k
         * @static
-        **/
+        * @public
+        */
         public static Out(k) {
 
             var s, a = 0.1, p = 0.4;
@@ -59,9 +65,10 @@ module Kiwi.Animation.Tweens.Easing {
         /** 
         * 
         * @method InOut
-        * @param {Any} k
+        * @param k {Any}
         * @static
-        **/
+        * @public
+        */
         public static InOut(k) {
 
             var s, a = 0.1, p = 0.4;

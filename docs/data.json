@@ -3,83 +3,107 @@
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
         "version": "0.4.9",
-        "url": "http://kwiwjs.org/"
+        "url": "http://kiwijs.org/"
     },
     "files": {
         "src\\animation\\tweens\\easing\\Back.ts": {
             "name": "src\\animation\\tweens\\easing\\Back.ts",
-            "modules": {},
-            "classes": {},
+            "modules": {
+                "Easing": 1
+            },
+            "classes": {
+                "Back": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Bounce.ts": {
             "name": "src\\animation\\tweens\\easing\\Bounce.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Bounce": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Circular.ts": {
             "name": "src\\animation\\tweens\\easing\\Circular.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Circular": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Cubic.ts": {
             "name": "src\\animation\\tweens\\easing\\Cubic.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Cubic": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Elastic.ts": {
             "name": "src\\animation\\tweens\\easing\\Elastic.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Elastic": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Exponential.ts": {
             "name": "src\\animation\\tweens\\easing\\Exponential.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Exponential": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Linear.ts": {
             "name": "src\\animation\\tweens\\easing\\Linear.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Linear": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Quadratic.ts": {
             "name": "src\\animation\\tweens\\easing\\Quadratic.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Quadratic": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Quartic.ts": {
             "name": "src\\animation\\tweens\\easing\\Quartic.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Quartic": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Quintic.ts": {
             "name": "src\\animation\\tweens\\easing\\Quintic.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Quintic": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src\\animation\\tweens\\easing\\Sinusoidal.ts": {
             "name": "src\\animation\\tweens\\easing\\Sinusoidal.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Sinusoidal": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -753,11 +777,64 @@
         }
     },
     "modules": {
+        "Tweens": {
+            "name": "Tweens",
+            "submodules": {
+                "Easing": 1
+            },
+            "classes": {
+                "Back": 1,
+                "Bounce": 1,
+                "Circular": 1,
+                "Cubic": 1,
+                "Elastic": 1,
+                "Exponential": 1,
+                "Linear": 1,
+                "Quadratic": 1,
+                "Quartic": 1,
+                "Quintic": 1,
+                "Sinusoidal": 1,
+                "Tween": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "module": "Animation",
+            "file": "src\\animation\\tweens\\Tween.ts",
+            "line": 10,
+            "description": "Kiwi - Animation - Tweens",
+            "tag": "main",
+            "itemtype": "main"
+        },
+        "Easing": {
+            "name": "Easing",
+            "submodules": {},
+            "classes": {
+                "Back": 1,
+                "Bounce": 1,
+                "Circular": 1,
+                "Cubic": 1,
+                "Elastic": 1,
+                "Exponential": 1,
+                "Linear": 1,
+                "Quadratic": 1,
+                "Quartic": 1,
+                "Quintic": 1,
+                "Sinusoidal": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "Tweens",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Sinusoidal.ts",
+            "line": 10,
+            "description": "Kiwi - Animation - Tweens - Easing",
+            "tag": "main",
+            "itemtype": "main"
+        },
         "Animation": {
             "name": "Animation",
-            "submodules": {
-                "Tweens": 1
-            },
+            "submodules": {},
             "classes": {
                 "Tween": 1,
                 "Anim": 1,
@@ -769,23 +846,6 @@
             "file": "src\\animation\\Sequence.ts",
             "line": 10,
             "description": "Kiwi - Animation",
-            "tag": "main",
-            "itemtype": "main"
-        },
-        "Tweens": {
-            "name": "Tweens",
-            "submodules": {},
-            "classes": {
-                "Tween": 1
-            },
-            "fors": {},
-            "is_submodule": 1,
-            "namespaces": {},
-            "module": "Animation",
-            "namespace": "",
-            "file": "src\\animation\\tweens\\Tween.ts",
-            "line": 10,
-            "description": "Kiwi - Animation - Tweens",
             "tag": "main",
             "itemtype": "main"
         },
@@ -1090,6 +1150,160 @@
         }
     },
     "classes": {
+        "Back": {
+            "name": "Back",
+            "shortname": "Back",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Back.ts",
+            "line": 10
+        },
+        "Bounce": {
+            "name": "Bounce",
+            "shortname": "Bounce",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Bounce.ts",
+            "line": 10
+        },
+        "Circular": {
+            "name": "Circular",
+            "shortname": "Circular",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Circular.ts",
+            "line": 9
+        },
+        "Cubic": {
+            "name": "Cubic",
+            "shortname": "Cubic",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Cubic.ts",
+            "line": 10
+        },
+        "Elastic": {
+            "name": "Elastic",
+            "shortname": "Elastic",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Elastic.ts",
+            "line": 10
+        },
+        "Exponential": {
+            "name": "Exponential",
+            "shortname": "Exponential",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Exponential.ts",
+            "line": 10
+        },
+        "Linear": {
+            "name": "Linear",
+            "shortname": "Linear",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Linear.ts",
+            "line": 10
+        },
+        "Quadratic": {
+            "name": "Quadratic",
+            "shortname": "Quadratic",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Quadratic.ts",
+            "line": 11
+        },
+        "Quartic": {
+            "name": "Quartic",
+            "shortname": "Quartic",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Quartic.ts",
+            "line": 11
+        },
+        "Quintic": {
+            "name": "Quintic",
+            "shortname": "Quintic",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Quintic.ts",
+            "line": 10
+        },
+        "Sinusoidal": {
+            "name": "Sinusoidal",
+            "shortname": "Sinusoidal",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Tweens",
+            "submodule": "Easing",
+            "namespace": "",
+            "file": "src\\animation\\tweens\\easing\\Sinusoidal.ts",
+            "line": 10
+        },
         "Manager": {
             "name": "Manager",
             "shortname": "Manager",
@@ -2211,22 +2425,23 @@
     "classitems": [
         {
             "file": "src\\animation\\tweens\\easing\\Back.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Back",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
+            "line": 17,
+            "description": "The type of object this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Back",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Back.ts",
-            "line": 25,
+            "line": 27,
             "itemtype": "method",
             "name": "In",
             "params": [
@@ -2236,254 +2451,19 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Back",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Back.ts",
-            "line": 38,
-            "itemtype": "method",
-            "name": "Out",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Back.ts",
-            "line": 51,
-            "description": "InOut",
-            "itemtype": "method",
-            "name": "",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Bounce.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Bounce",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Bounce.ts",
-            "line": 25,
-            "itemtype": "method",
-            "name": "In",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Bounce.ts",
-            "line": 37,
-            "itemtype": "method",
-            "name": "Out",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Bounce.ts",
-            "line": 64,
-            "itemtype": "method",
-            "name": "InOut",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Circular.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Circular",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Circular.ts",
-            "line": 25,
-            "itemtype": "method",
-            "name": "In",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Circular.ts",
-            "line": 37,
-            "description": "Out",
-            "itemtype": "method",
-            "name": "",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Circular.ts",
-            "line": 49,
-            "description": "InOut",
-            "itemtype": "method",
-            "name": "",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Cubic.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Cubic",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Cubic.ts",
-            "line": 25,
-            "itemtype": "method",
-            "name": "In",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Cubic.ts",
-            "line": 37,
-            "itemtype": "method",
-            "name": "Out",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Cubic.ts",
-            "line": 49,
-            "itemtype": "method",
-            "name": "InOut",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Elastic.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Elastic",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Elastic.ts",
-            "line": 25,
-            "itemtype": "method",
-            "name": "In",
-            "params": [
-                {
-                    "name": "k",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "static": 1,
-            "class": "Manager"
-        },
-        {
-            "file": "src\\animation\\tweens\\easing\\Elastic.ts",
             "line": 42,
             "itemtype": "method",
             "name": "Out",
@@ -2494,12 +2474,269 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Back",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
-            "file": "src\\animation\\tweens\\easing\\Elastic.ts",
-            "line": 59,
+            "file": "src\\animation\\tweens\\easing\\Back.ts",
+            "line": 57,
+            "itemtype": "method",
+            "name": "InOut",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Back",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Bounce.ts",
+            "line": 17,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Bounce",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Bounce.ts",
+            "line": 27,
+            "itemtype": "method",
+            "name": "In",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Bounce",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Bounce.ts",
+            "line": 41,
+            "itemtype": "method",
+            "name": "Out",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Bounce",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Bounce.ts",
+            "line": 70,
+            "itemtype": "method",
+            "name": "InOut",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Bounce",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Circular.ts",
+            "line": 17,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Circular",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Circular.ts",
+            "line": 27,
+            "itemtype": "method",
+            "name": "In",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "class": "Circular",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Circular.ts",
+            "line": 40,
+            "itemtype": "method",
+            "name": "Out",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "class": "Circular",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Circular.ts",
+            "line": 53,
+            "itemtype": "method",
+            "name": "InOut",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "class": "Circular",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Cubic.ts",
+            "line": 17,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Cubic",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Cubic.ts",
+            "line": 27,
+            "itemtype": "method",
+            "name": "In",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Cubic",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Cubic.ts",
+            "line": 41,
+            "itemtype": "method",
+            "name": "Out",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Cubic",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Cubic.ts",
+            "line": 55,
             "itemtype": "method",
             "name": "InOut",
             "params": [
@@ -2510,26 +2747,31 @@
                 }
             ],
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Cubic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
-            "file": "src\\animation\\tweens\\easing\\Exponential.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Exponential",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
+            "file": "src\\animation\\tweens\\easing\\Elastic.ts",
+            "line": 18,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Elastic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
-            "file": "src\\animation\\tweens\\easing\\Exponential.ts",
-            "line": 25,
+            "file": "src\\animation\\tweens\\easing\\Elastic.ts",
+            "line": 28,
             "itemtype": "method",
             "name": "In",
             "params": [
@@ -2539,12 +2781,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Elastic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
-            "file": "src\\animation\\tweens\\easing\\Exponential.ts",
-            "line": 37,
+            "file": "src\\animation\\tweens\\easing\\Elastic.ts",
+            "line": 47,
             "itemtype": "method",
             "name": "Out",
             "params": [
@@ -2555,11 +2805,15 @@
                 }
             ],
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Elastic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
-            "file": "src\\animation\\tweens\\easing\\Exponential.ts",
-            "line": 49,
+            "file": "src\\animation\\tweens\\easing\\Elastic.ts",
+            "line": 65,
             "itemtype": "method",
             "name": "InOut",
             "params": [
@@ -2570,26 +2824,116 @@
                 }
             ],
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Elastic",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Exponential.ts",
+            "line": 18,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Exponential",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Exponential.ts",
+            "line": 28,
+            "itemtype": "method",
+            "name": "In",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Exponential",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Exponential.ts",
+            "line": 42,
+            "itemtype": "method",
+            "name": "Out",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Exponential",
+            "module": "Tweens",
+            "submodule": "Easing"
+        },
+        {
+            "file": "src\\animation\\tweens\\easing\\Exponential.ts",
+            "line": 56,
+            "itemtype": "method",
+            "name": "InOut",
+            "params": [
+                {
+                    "name": "k",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Exponential",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Linear.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Linear",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
+            "line": 17,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Linear",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Linear.ts",
-            "line": 25,
+            "line": 27,
             "itemtype": "method",
             "name": "None",
             "params": [
@@ -2599,27 +2943,34 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "class": "Linear",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quadratic.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Quadratic",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
+            "line": 19,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Quadratic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quadratic.ts",
-            "line": 25,
+            "line": 29,
             "itemtype": "method",
             "name": "In",
             "params": [
@@ -2629,12 +2980,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Quadratic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quadratic.ts",
-            "line": 37,
+            "line": 43,
             "itemtype": "method",
             "name": "Out",
             "params": [
@@ -2644,12 +3003,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Quadratic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quadratic.ts",
-            "line": 49,
+            "line": 57,
             "itemtype": "method",
             "name": "InOut",
             "params": [
@@ -2659,27 +3026,36 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Quadratic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quartic.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Quartic",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
+            "line": 18,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Quartic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quartic.ts",
-            "line": 25,
+            "line": 28,
             "itemtype": "method",
             "name": "In",
             "params": [
@@ -2689,12 +3065,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Quartic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quartic.ts",
-            "line": 37,
+            "line": 42,
             "itemtype": "method",
             "name": "Out",
             "params": [
@@ -2704,12 +3088,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Quartic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quartic.ts",
-            "line": 49,
+            "line": 56,
             "itemtype": "method",
             "name": "InOut",
             "params": [
@@ -2719,27 +3111,36 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Quartic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quintic.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Quintic",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
+            "line": 17,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Quintic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quintic.ts",
-            "line": 25,
+            "line": 27,
             "itemtype": "method",
             "name": "In",
             "params": [
@@ -2749,12 +3150,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Quintic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quintic.ts",
-            "line": 37,
+            "line": 41,
             "itemtype": "method",
             "name": "Out",
             "params": [
@@ -2764,12 +3173,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Quintic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Quintic.ts",
-            "line": 49,
+            "line": 55,
             "itemtype": "method",
             "name": "InOut",
             "params": [
@@ -2779,27 +3196,36 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Quintic",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Sinusoidal.ts",
-            "line": 3,
-            "description": "Kiwi - Tween - Easing - Sinusoidal",
-            "desc": "Based heavily on tween.js by sole (https://github.com/sole/tween.js)",
-            "version": "1.0 - 11th January 2013",
-            "author": "Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list",
-            "url": [
-                "http://www.kiwijs.org"
-            ],
-            "todo": [
-                ""
-            ],
-            "class": "Manager"
+            "line": 17,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Sinusoidal",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Sinusoidal.ts",
-            "line": 25,
+            "line": 27,
             "itemtype": "method",
             "name": "In",
             "params": [
@@ -2809,12 +3235,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Sinusoidal",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Sinusoidal.ts",
-            "line": 37,
+            "line": 41,
             "itemtype": "method",
             "name": "Out",
             "params": [
@@ -2824,12 +3258,20 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Sinusoidal",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\easing\\Sinusoidal.ts",
-            "line": 49,
+            "line": 55,
             "itemtype": "method",
             "name": "InOut",
             "params": [
@@ -2839,8 +3281,16 @@
                     "type": "Any"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "static": 1,
-            "class": "Manager"
+            "access": "public",
+            "tagname": "",
+            "class": "Sinusoidal",
+            "module": "Tweens",
+            "submodule": "Easing"
         },
         {
             "file": "src\\animation\\tweens\\Manager.ts",
@@ -3653,7 +4103,9 @@
         {
             "file": "src\\animation\\Anim.ts",
             "line": 64,
-            "description": "Get if this animation is to loop or not.",
+            "description": "If once the animation reaches the end, it should start again from the first cell in the sequence or not.",
+            "itemtype": "property",
+            "name": "loop",
             "type": "boolean",
             "access": "public",
             "tagname": "",
@@ -3663,19 +4115,8 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 73,
-            "description": "Set if this animation should loop or not",
-            "type": "boolean",
-            "access": "public",
-            "tagname": "",
-            "class": "Anim",
-            "module": "Kiwi",
-            "submodule": "Animation"
-        },
-        {
-            "file": "src\\animation\\Anim.ts",
-            "line": 82,
-            "description": "The current frame index that the animation is upto.",
+            "line": 77,
+            "description": "The current frame index that the animation is currently upto.\nNote: A frame index is the index of a particular cell in the Sequence.",
             "itemtype": "property",
             "name": "_frameIndex",
             "type": "number",
@@ -3687,8 +4128,10 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 90,
-            "description": "Returns the current frame index that the animation is up to.",
+            "line": 86,
+            "description": "The current frame index that the animation is currently upto.\nNote: A frame index is the index of a particular cell in the Sequence.",
+            "itemtype": "property",
+            "name": "frameIndex",
             "type": "number",
             "access": "public",
             "tagname": "",
@@ -3698,8 +4141,10 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 99,
-            "description": "Sets the current frame index that the animation is sitting at.",
+            "line": 102,
+            "description": "Returns the current cell that the animation is up to. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "currentCell",
             "type": "number",
             "access": "public",
             "tagname": "",
@@ -3709,18 +4154,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 110,
-            "description": "Returns the current cell that the animation is up to.",
-            "type": "number",
-            "access": "public",
-            "tagname": "",
-            "class": "Anim",
-            "module": "Kiwi",
-            "submodule": "Animation"
-        },
-        {
-            "file": "src\\animation\\Anim.ts",
-            "line": 119,
+            "line": 112,
             "description": "How fast the transition is between cells. Perhaps change to frames per second to reflect actual game speed?",
             "itemtype": "property",
             "name": "_speed",
@@ -3733,8 +4167,10 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 127,
-            "description": "Get how fast the transition is between cells.",
+            "line": 120,
+            "description": "How long the each cell should stay on screen for. In seconds.",
+            "itemtype": "property",
+            "name": "speed",
             "type": "number",
             "access": "public",
             "tagname": "",
@@ -3744,18 +4180,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 136,
-            "description": "Set how fast the transition is between cells.",
-            "type": "number",
-            "access": "public",
-            "tagname": "",
-            "class": "Anim",
-            "module": "Kiwi",
-            "submodule": "Animation"
-        },
-        {
-            "file": "src\\animation\\Anim.ts",
-            "line": 145,
+            "line": 133,
             "description": "The clock that is to be used to calculate the animations.",
             "itemtype": "property",
             "name": "_clock",
@@ -3768,7 +4193,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 153,
+            "line": 141,
             "description": "The starting time of the animation from when it was played. Internal use only.",
             "itemtype": "property",
             "name": "_startTime",
@@ -3781,7 +4206,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 161,
+            "line": 149,
             "description": "Indicates whether the animation is playing in reverse or not.",
             "itemtype": "property",
             "name": "_reverse",
@@ -3794,8 +4219,10 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 169,
-            "description": "Set's whether or not the animation is playing in reverse or not.",
+            "line": 157,
+            "description": "Whether the animation is to be played in reverse.",
+            "itemtype": "property",
+            "name": "reverse",
             "type": "boolean",
             "access": "public",
             "tagname": "",
@@ -3805,18 +4232,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 178,
-            "description": "Returns a boolean indicating if the animation is playing in reverse or not",
-            "type": "boolean",
-            "access": "public",
-            "tagname": "",
-            "class": "Anim",
-            "module": "Kiwi",
-            "submodule": "Animation"
-        },
-        {
-            "file": "src\\animation\\Anim.ts",
-            "line": 187,
+            "line": 170,
             "description": "The time at which the animation should change to the next cell",
             "itemtype": "property",
             "name": "_tick",
@@ -3829,7 +4245,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 195,
+            "line": 178,
             "description": "If the animation is currently playing or not.",
             "itemtype": "property",
             "name": "_isPlaying",
@@ -3843,7 +4259,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 204,
+            "line": 187,
             "description": "A Kiwi.Signal that dispatches an event when the animation has stopped playing.",
             "itemtype": "property",
             "name": "onStop",
@@ -3856,7 +4272,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 212,
+            "line": 195,
             "description": "A Kiwi.Signal that dispatches an event when the animation has started playing.",
             "itemtype": "property",
             "name": "onPlay",
@@ -3869,7 +4285,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 220,
+            "line": 203,
             "description": "A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.",
             "itemtype": "property",
             "name": "onUpdate",
@@ -3882,7 +4298,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 228,
+            "line": 211,
             "description": "A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.",
             "itemtype": "property",
             "name": "onLoop",
@@ -3895,7 +4311,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 236,
+            "line": 219,
             "description": "An Internal method used to start the animation.",
             "itemtype": "method",
             "name": "_start",
@@ -3916,7 +4332,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 252,
+            "line": 235,
             "description": "Plays the animation.",
             "itemtype": "method",
             "name": "play",
@@ -3928,7 +4344,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 264,
+            "line": 247,
             "description": "Plays the animation at a particular frame",
             "itemtype": "method",
             "name": "playAt",
@@ -3947,7 +4363,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 274,
+            "line": 257,
             "description": "Pauses the current animation.",
             "itemtype": "method",
             "name": "pause",
@@ -3959,7 +4375,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 283,
+            "line": 266,
             "description": "Resumes the current animation after stopping.",
             "itemtype": "method",
             "name": "resume",
@@ -3971,7 +4387,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 294,
+            "line": 277,
             "description": "Stops the current animation from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -3983,7 +4399,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 306,
+            "line": 289,
             "description": "Makes the animation go to the next frame. If the animation is at the end it goes back to the start.",
             "itemtype": "method",
             "name": "nextFrame",
@@ -3995,7 +4411,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 316,
+            "line": 299,
             "description": "Makes the animation go to the previous frame. If the animation is at the first frame it goes to the end.",
             "itemtype": "method",
             "name": "prevFrame",
@@ -4007,7 +4423,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 326,
+            "line": 309,
             "description": "The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.",
             "itemtype": "method",
             "name": "update",
@@ -4023,7 +4439,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 364,
+            "line": 347,
             "description": "An internal method used to check to see if frame passed is valid or not",
             "itemtype": "method",
             "name": "_validateFrame",
@@ -4042,8 +4458,10 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 374,
-            "description": "Returns the number of frames that in the animation. Thus the animations 'length'.",
+            "line": 357,
+            "description": "Returns the number of frames that in the animation. Thus the animations 'length'. Note this is READ ONLY.",
+            "itemtype": "property",
+            "name": "length",
             "type": "number",
             "access": "public",
             "tagname": "",
@@ -4053,7 +4471,7 @@
         },
         {
             "file": "src\\animation\\Anim.ts",
-            "line": 383,
+            "line": 367,
             "description": "Destroys the anim and all of the properties that exist on it.",
             "itemtype": "method",
             "name": "destroy",
@@ -4242,7 +4660,9 @@
         {
             "file": "src\\components\\Animation.ts",
             "line": 91,
-            "description": "Returns a boolean indicating whether or not the current animation is playing.",
+            "description": "Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "isPlaying",
             "type": "boolean",
             "access": "public",
             "tagname": "",
@@ -4252,7 +4672,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 100,
+            "line": 101,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -4265,7 +4685,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 110,
+            "line": 111,
             "description": "Creates a new sequence and then adds that sequence as a new animation on this component. Returns that animation that was created.",
             "itemtype": "method",
             "name": "add",
@@ -4312,7 +4732,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 129,
+            "line": 130,
             "description": "Creates a new animation based on a sequence that is passed.",
             "itemtype": "method",
             "name": "createFromSequence",
@@ -4342,7 +4762,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 146,
+            "line": 147,
             "description": "Plays either the current animation or the name of the animation that you pass.",
             "itemtype": "method",
             "name": "play",
@@ -4362,7 +4782,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 158,
+            "line": 159,
             "description": "Play an animation at a particular frameIndex.",
             "itemtype": "method",
             "name": "playAt",
@@ -4387,7 +4807,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 171,
+            "line": 172,
             "description": "An internal method used to actually play the animation.",
             "itemtype": "method",
             "name": "_play",
@@ -4417,7 +4837,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 195,
+            "line": 196,
             "description": "Stops the current animation from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -4429,7 +4849,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 207,
+            "line": 208,
             "description": "Pauses the current animation.",
             "itemtype": "method",
             "name": "pause",
@@ -4441,7 +4861,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 217,
+            "line": 218,
             "description": "Resumes the current animation. The animation should have already been paused.",
             "itemtype": "method",
             "name": "resume",
@@ -4453,7 +4873,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 227,
+            "line": 228,
             "description": "Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number. \nYou can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.\nSo if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.",
             "itemtype": "method",
             "name": "switchTo",
@@ -4479,7 +4899,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 255,
+            "line": 256,
             "description": "Makes the current animation go to the next frame. If the animation is at the end of the sequence it then goes back to the start.",
             "itemtype": "method",
             "name": "nextFrame",
@@ -4491,7 +4911,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 265,
+            "line": 266,
             "description": "Makes the current animation go to the prev frame. If the animation is at the start, the animation will go the end of the sequence.",
             "itemtype": "method",
             "name": "prevFrame",
@@ -4503,7 +4923,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 275,
+            "line": 276,
             "description": "Internal method that sets the current animation to the animation passed.",
             "itemtype": "method",
             "name": "_setCurrentAnimation",
@@ -4522,7 +4942,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 290,
+            "line": 291,
             "description": "The update loop, it only updates the currentAnimation and only if it is playing.",
             "itemtype": "method",
             "name": "update",
@@ -4534,8 +4954,10 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 303,
-            "description": "Gets the current cell that the current animation is up to.",
+            "line": 304,
+            "description": "Gets the cell that the current animation is current at. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "currentCell",
             "type": "number",
             "access": "public",
             "tagname": "",
@@ -4545,8 +4967,10 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 312,
-            "description": "Gets the current frame index that the current animation is up to.",
+            "line": 314,
+            "description": "Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "frameIndex",
             "type": "number",
             "access": "public",
             "tagname": "",
@@ -4556,8 +4980,10 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 321,
-            "description": "Returns the length of the current animation that is playing.",
+            "line": 324,
+            "description": "Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.",
+            "itemtype": "property",
+            "name": "length",
             "type": "number",
             "access": "public",
             "tagname": "",
@@ -4567,7 +4993,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 330,
+            "line": 334,
             "description": "Get a animation that is on the animation component.",
             "itemtype": "method",
             "name": "getAnimation",
@@ -4590,7 +5016,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 342,
+            "line": 346,
             "description": "An internal method that is used to set the cell index of the entity. This is how the animation changes.",
             "itemtype": "method",
             "name": "_setCellIndex",
@@ -4602,7 +5028,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 351,
+            "line": 355,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -4618,7 +5044,7 @@
         },
         {
             "file": "src\\components\\Animation.ts",
-            "line": 363,
+            "line": 367,
             "description": "Destroys the animation component and runs the destroy on all of the anims that it has.",
             "itemtype": "method",
             "name": "destroy",
@@ -5305,7 +5731,9 @@
         {
             "file": "src\\components\\Box.ts",
             "line": 88,
-            "description": "Returns the raw hitbox rectangle for the developer to use. \n'Raw' means where it would be without rotation or scaling.",
+            "description": "Returns the raw hitbox rectangle for the developer to use. \n'Raw' means where it would be without rotation or scaling.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "rawHitbox",
             "type": "Rectangle",
             "access": "public",
             "tagname": "",
@@ -5315,7 +5743,7 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 104,
+            "line": 106,
             "description": "The transformed or 'normal' hitbox for the entity. This is its box after rotation/e.t.c.",
             "itemtype": "property",
             "name": "_transformedHitbox",
@@ -5328,8 +5756,10 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 112,
-            "description": "Returns the 'normal' or transformed hitbox for the entity. This is its box after rotation/e.t.c.",
+            "line": 114,
+            "description": "The 'normal' or transformed hitbox for the entity. This is its box after rotation/e.t.c.",
+            "itemtype": "property",
+            "name": "hitbox",
             "type": "Rectangle",
             "access": "public",
             "tagname": "",
@@ -5339,18 +5769,7 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 125,
-            "description": "Sets the hitbox based of a rectangle that you specify.",
-            "type": "Rectangle",
-            "access": "public",
-            "tagname": "",
-            "class": "Box",
-            "module": "Kiwi",
-            "submodule": "Components"
-        },
-        {
-            "file": "src\\components\\Box.ts",
-            "line": 142,
+            "line": 139,
             "description": "The 'raw' bounds of entity. This is its bounds before rotation/scale.",
             "itemtype": "property",
             "name": "_rawBounds",
@@ -5363,8 +5782,10 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 150,
-            "description": "Returns the 'raw' bounds for this entity.",
+            "line": 147,
+            "description": "Returns the 'raw' bounds for this entity.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "rawBounds",
             "type": "Rectangle",
             "access": "public",
             "tagname": "",
@@ -5374,7 +5795,7 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 165,
+            "line": 164,
             "description": "Contains the 'raw' center point for the bounds.",
             "itemtype": "property",
             "name": "Kiwi.Geom.Point",
@@ -5387,8 +5808,10 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 173,
-            "description": "Returns the raw center point of the box.",
+            "line": 172,
+            "description": "Returns the raw center point of the box.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "rawCenter",
             "type": "Point",
             "access": "public",
             "tagname": "",
@@ -5398,7 +5821,7 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 186,
+            "line": 187,
             "description": "Contains the center point after the box has been transformed.",
             "itemtype": "property",
             "name": "_transformedCenter",
@@ -5411,8 +5834,10 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 194,
-            "description": "Returns the center point for the box after it has been transformed.",
+            "line": 195,
+            "description": "Returns the center point for the box after it has been transformed.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "center",
             "type": "Point",
             "access": "public",
             "tagname": "",
@@ -5422,7 +5847,7 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 210,
+            "line": 213,
             "description": "Contains the transformed or 'normal' bounds for this entity.",
             "itemtype": "property",
             "name": "_transformedBounds",
@@ -5435,8 +5860,10 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 218,
-            "description": "Returns the 'transformed' or 'normal' bounds for this box.",
+            "line": 221,
+            "description": "Returns the 'transformed' or 'normal' bounds for this box. \nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "bounds",
             "type": "Rectangle",
             "access": "public",
             "tagname": "",
@@ -5446,7 +5873,7 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 231,
+            "line": 236,
             "description": "Private internal method only. Used to rotate a rectangle but a set about.",
             "itemtype": "method",
             "name": "_rotateRect",
@@ -5469,7 +5896,7 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 254,
+            "line": 259,
             "description": "Rotates the hitbox by an set amount.",
             "itemtype": "method",
             "name": "_rotateHitbox",
@@ -5492,7 +5919,7 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 277,
+            "line": 282,
             "description": "Draws the various bounds on a context that is passed. Useful for debugging.",
             "itemtype": "method",
             "name": "draw",
@@ -5511,7 +5938,7 @@
         },
         {
             "file": "src\\components\\Box.ts",
-            "line": 314,
+            "line": 319,
             "description": "Destroys this component and all of the links it may have to other objects.",
             "itemtype": "method",
             "name": "destroy",
@@ -5539,7 +5966,9 @@
                 {
                     "name": "enabled",
                     "description": "If this input component should be enabled or not.",
-                    "type": "Boolean"
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
                 }
             ],
             "return": {
@@ -5659,7 +6088,9 @@
         {
             "file": "src\\components\\Input.ts",
             "line": 121,
-            "description": "Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.\nNote: Accessing this signal enables the input.",
+            "description": "Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.\nNote: Accessing this signal enables the input.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "onEntered",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -5669,8 +6100,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 132,
-            "description": "Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.\nNote: Accessing this signal enables the input.",
+            "line": 134,
+            "description": "Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.\nNote: Accessing this signal enables the input.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "onLeft",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -5680,8 +6113,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 143,
-            "description": "Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.\nNote: Accessing this signal enables the input.",
+            "line": 147,
+            "description": "Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.\nNote: Accessing this signal enables the input.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "onDown",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -5691,8 +6126,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 154,
-            "description": "Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..\nNote: Accessing this signal enables the input.",
+            "line": 160,
+            "description": "Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..\nNote: Accessing this signal enables the input.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "onUp",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -5702,8 +6139,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 165,
-            "description": "Returns the onDragStarted Signal.",
+            "line": 173,
+            "description": "Returns the onDragStarted Signal.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "onDragStarted",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -5713,8 +6152,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 172,
-            "description": "Returns the onDragStopped Signal.",
+            "line": 182,
+            "description": "Returns the onDragStopped Signal.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "onDragStopped",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -5724,8 +6165,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 179,
-            "description": "A alias for the on release signal.",
+            "line": 191,
+            "description": "A alias for the on release signal.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "onRelease",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -5735,8 +6178,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 188,
-            "description": "A alias for the on press signal.",
+            "line": 202,
+            "description": "A alias for the on press signal.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "onPress",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -5746,7 +6191,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 197,
+            "line": 213,
             "description": "If this input is enabled or not.",
             "itemtype": "property",
             "name": "_enabled",
@@ -5760,8 +6205,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 206,
-            "description": "Get if the input is enabled or not.",
+            "line": 222,
+            "description": "Get if the input is enabled or not. Note: Inputs should only be enabled when needed, otherwise unnecessary processing does occur which can result in a slower game.",
+            "itemtype": "property",
+            "name": "enabled",
             "type": "boolean",
             "access": "public",
             "tagname": "",
@@ -5771,18 +6218,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 215,
-            "description": "Set if the input should be enabled or not.",
-            "type": "boolean",
-            "access": "public",
-            "tagname": "",
-            "class": "Input",
-            "module": "Kiwi",
-            "submodule": "Components"
-        },
-        {
-            "file": "src\\components\\Input.ts",
-            "line": 224,
+            "line": 235,
             "description": "If a pointer is current pressing down on the input, this will be a reference to that pointer. Otherwise it will be null.",
             "itemtype": "property",
             "name": "_isDown",
@@ -5795,7 +6231,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 232,
+            "line": 243,
             "description": "A boolean that indicates if no pointer is currently on the pointer",
             "itemtype": "property",
             "name": "_isUp",
@@ -5809,7 +6245,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 241,
+            "line": 252,
             "description": "Indicates if a pointer is within the bounds or not. If one is then it referers to the pointer that is. Other it will be null.",
             "itemtype": "property",
             "name": "_withinBounds",
@@ -5822,7 +6258,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 249,
+            "line": 260,
             "description": "boolean indicating if every pointer is currently outside of the bounds.",
             "itemtype": "property",
             "name": "_outsideBounds",
@@ -5836,7 +6272,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 258,
+            "line": 269,
             "description": "If a pointer just entered the input. Used for mouse's to indicate when to appropriately fire the down event.\nNote: Could be removed once mouse version of update gets updated.",
             "itemtype": "property",
             "name": "_justEntered",
@@ -5850,8 +6286,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 268,
-            "description": "Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false",
+            "line": 279,
+            "description": "Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "isDown",
             "type": "boolean",
             "access": "public",
             "tagname": "",
@@ -5861,8 +6299,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 277,
-            "description": "Used to see if no pointer is on this input (so it is up).",
+            "line": 290,
+            "description": "Used to see if no pointer is on this input (so it is up).\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "isUp",
             "type": "boolean",
             "access": "public",
             "tagname": "",
@@ -5872,8 +6312,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 286,
-            "description": "Check to see if any pointer is within the bounds of this input.",
+            "line": 301,
+            "description": "Check to see if any pointer is within the bounds of this input.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "withinBounds",
             "type": "boolean",
             "access": "public",
             "tagname": "",
@@ -5883,8 +6325,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 295,
-            "description": "See if no pointers are within the bounds of this entity.",
+            "line": 312,
+            "description": "See if no pointers are within the bounds of this entity.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "outsideBounds",
             "type": "boolean",
             "access": "public",
             "tagname": "",
@@ -5894,7 +6338,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 304,
+            "line": 323,
             "description": "A reference to the pointer that is currently 'dragging' this IChild. \nIf not dragging then this is null.",
             "itemtype": "property",
             "name": "_isDragging",
@@ -5908,7 +6352,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 314,
+            "line": 333,
             "description": "The distance between the top left corner of this IChild and the coordinates of a Pointer.",
             "itemtype": "property",
             "name": "_distance",
@@ -5921,7 +6365,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 322,
+            "line": 341,
             "description": "A boolean indicating if dragging is temporarly disabled. Internal use only to stop events from misfiring.",
             "itemtype": "property",
             "name": "_tempDragDisabled",
@@ -5934,7 +6378,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 330,
+            "line": 349,
             "description": "Indicates if dragging is currently enabled.",
             "itemtype": "property",
             "name": "_dragEnabled",
@@ -5948,7 +6392,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 339,
+            "line": 358,
             "description": "This is used while dragging so that you can make the IChild 'snap' to specific numbers to give a 'grid like' effect. \nE.g. If you had a 32 by 32 grid down and you wanted to make an element draggable but snap to the grid you can set this to 32. \nDefault value is one.",
             "itemtype": "property",
             "name": "_dragDistance",
@@ -5962,7 +6406,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 350,
+            "line": 369,
             "description": "If when dragging, the IChild should snap to the center of the pointer it is being dragged by.",
             "itemtype": "property",
             "name": "_dragSnapToCenter",
@@ -5976,8 +6420,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 359,
-            "description": "Returns a boolean indicating if this is currently dragging something.",
+            "line": 378,
+            "description": "Returns a boolean indicating if this is currently dragging something.\nThis is READ ONLY.",
+            "itemtype": "property",
+            "name": "isDragging",
             "type": "boolean",
             "access": "public",
             "tagname": "",
@@ -5987,8 +6433,10 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 366,
-            "description": "Returns the drag distance. See _dragDistance for more information.",
+            "line": 387,
+            "description": "The drag distance that is used when dragging this object. See _dragDistance for more information.",
+            "itemtype": "property",
+            "name": "dragDistance",
             "type": "number",
             "access": "public",
             "tagname": "",
@@ -5998,18 +6446,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 373,
-            "description": "Sets the drag distance. See _dragDistance for more information.",
-            "type": "number",
-            "access": "public",
-            "tagname": "",
-            "class": "Input",
-            "module": "Kiwi",
-            "submodule": "Components"
-        },
-        {
-            "file": "src\\components\\Input.ts",
-            "line": 380,
+            "line": 400,
             "description": "Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.",
             "itemtype": "property",
             "name": "_nowDown",
@@ -6023,7 +6460,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 389,
+            "line": 409,
             "description": "Temporary property that gets updated everyframe with the pointer that was just 'released' from being down on this entity",
             "itemtype": "property",
             "name": "_nowUp",
@@ -6037,7 +6474,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 398,
+            "line": 418,
             "description": "Temporary property of the pointer that is now within the bounds of the entity",
             "itemtype": "property",
             "name": "_nowEntered",
@@ -6051,7 +6488,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 407,
+            "line": 427,
             "description": "Temporary property of the pointer that just left the bounds of the entity.",
             "itemtype": "property",
             "name": "_nowLeft",
@@ -6065,7 +6502,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 416,
+            "line": 436,
             "description": "Temporary property of the pointer that just started draggging the entity.",
             "itemtype": "property",
             "name": "_nowDragging",
@@ -6079,7 +6516,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 425,
+            "line": 445,
             "description": "Enables the dragging of this entity.",
             "itemtype": "method",
             "name": "enableDrag",
@@ -6107,7 +6544,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 442,
+            "line": 462,
             "description": "Disables the dragging of this entity.",
             "itemtype": "method",
             "name": "disableDrag",
@@ -6119,7 +6556,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 452,
+            "line": 472,
             "description": "The update loop for the input.",
             "itemtype": "method",
             "name": "update",
@@ -6131,7 +6568,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 489,
+            "line": 509,
             "description": "The update loop that gets executed when the game is using the touch manager.",
             "itemtype": "method",
             "name": "_updateTouch",
@@ -6143,7 +6580,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 555,
+            "line": 575,
             "description": "A private method for checking to see if a touch pointer should activate any events.",
             "itemtype": "method",
             "name": "_evaluateTouchPointer",
@@ -6162,7 +6599,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 592,
+            "line": 612,
             "description": "The update loop that runs when the mouse manager is the method for interacting with the screen.",
             "itemtype": "method",
             "name": "_updateMouse",
@@ -6174,7 +6611,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 636,
+            "line": 656,
             "description": "Evaluates where and what the mouse cursor is doing in relation to this box. Needs a little bit more love.",
             "itemtype": "method",
             "name": "_evaluateMousePointer",
@@ -6193,7 +6630,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 706,
+            "line": 726,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -6208,7 +6645,7 @@
         },
         {
             "file": "src\\components\\Input.ts",
-            "line": 718,
+            "line": 738,
             "description": "Destroys the input.",
             "itemtype": "method",
             "name": "destory",
@@ -31494,96 +31931,8 @@
     ],
     "warnings": [
         {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Back.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Back.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Bounce.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Bounce.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Circular.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Circular.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Cubic.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Cubic.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Elastic.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Elastic.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Exponential.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Exponential.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Linear.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Linear.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Quadratic.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Quadratic.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Quartic.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Quartic.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Quintic.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Quintic.ts:3"
-        },
-        {
-            "message": "unknown tag: desc",
-            "line": " src\\animation\\tweens\\easing\\Sinusoidal.ts:3"
-        },
-        {
-            "message": "unknown tag: version",
-            "line": " src\\animation\\tweens\\easing\\Sinusoidal.ts:3"
-        },
-        {
             "message": "unknown tag: publics",
-            "line": " src\\components\\Input.ts:706"
+            "line": " src\\components\\Input.ts:726"
         },
         {
             "message": "param name missing: {IChild}",
@@ -31622,50 +31971,6 @@
             "line": " src\\time\\Clock.ts:301"
         },
         {
-            "message": "Missing item type\nKiwi - Tween - Easing - Back",
-            "line": " src\\animation\\tweens\\easing\\Back.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Bounce",
-            "line": " src\\animation\\tweens\\easing\\Bounce.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Circular",
-            "line": " src\\animation\\tweens\\easing\\Circular.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Cubic",
-            "line": " src\\animation\\tweens\\easing\\Cubic.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Elastic",
-            "line": " src\\animation\\tweens\\easing\\Elastic.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Exponential",
-            "line": " src\\animation\\tweens\\easing\\Exponential.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Linear",
-            "line": " src\\animation\\tweens\\easing\\Linear.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Quadratic",
-            "line": " src\\animation\\tweens\\easing\\Quadratic.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Quartic",
-            "line": " src\\animation\\tweens\\easing\\Quartic.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Quintic",
-            "line": " src\\animation\\tweens\\easing\\Quintic.ts:3"
-        },
-        {
-            "message": "Missing item type\nKiwi - Tween - Easing - Sinusoidal",
-            "line": " src\\animation\\tweens\\easing\\Sinusoidal.ts:3"
-        },
-        {
             "message": "Missing item type",
             "line": " src\\animation\\tweens\\Manager.ts:29"
         },
@@ -31678,68 +31983,12 @@
             "line": " src\\animation\\Anim.ts:17"
         },
         {
-            "message": "Missing item type\nGet if this animation is to loop or not.",
-            "line": " src\\animation\\Anim.ts:64"
-        },
-        {
-            "message": "Missing item type\nSet if this animation should loop or not",
-            "line": " src\\animation\\Anim.ts:73"
-        },
-        {
-            "message": "Missing item type\nReturns the current frame index that the animation is up to.",
-            "line": " src\\animation\\Anim.ts:90"
-        },
-        {
-            "message": "Missing item type\nSets the current frame index that the animation is sitting at.",
-            "line": " src\\animation\\Anim.ts:99"
-        },
-        {
-            "message": "Missing item type\nReturns the current cell that the animation is up to.",
-            "line": " src\\animation\\Anim.ts:110"
-        },
-        {
-            "message": "Missing item type\nGet how fast the transition is between cells.",
-            "line": " src\\animation\\Anim.ts:127"
-        },
-        {
-            "message": "Missing item type\nSet how fast the transition is between cells.",
-            "line": " src\\animation\\Anim.ts:136"
-        },
-        {
-            "message": "Missing item type\nSet's whether or not the animation is playing in reverse or not.",
-            "line": " src\\animation\\Anim.ts:169"
-        },
-        {
-            "message": "Missing item type\nReturns a boolean indicating if the animation is playing in reverse or not",
-            "line": " src\\animation\\Anim.ts:178"
-        },
-        {
-            "message": "Missing item type\nReturns the number of frames that in the animation. Thus the animations 'length'.",
-            "line": " src\\animation\\Anim.ts:374"
-        },
-        {
             "message": "Missing item type",
             "line": " src\\animation\\Sequence.ts:18"
         },
         {
             "message": "Missing item type",
             "line": " src\\components\\Animation.ts:17"
-        },
-        {
-            "message": "Missing item type\nReturns a boolean indicating whether or not the current animation is playing.",
-            "line": " src\\components\\Animation.ts:91"
-        },
-        {
-            "message": "Missing item type\nGets the current cell that the current animation is up to.",
-            "line": " src\\components\\Animation.ts:303"
-        },
-        {
-            "message": "Missing item type\nGets the current frame index that the current animation is up to.",
-            "line": " src\\components\\Animation.ts:312"
-        },
-        {
-            "message": "Missing item type\nReturns the length of the current animation that is playing.",
-            "line": " src\\components\\Animation.ts:321"
         },
         {
             "message": "Missing item type",
@@ -31798,104 +32047,8 @@
             "line": " src\\components\\Box.ts:19"
         },
         {
-            "message": "Missing item type\nReturns the raw hitbox rectangle for the developer to use. \n'Raw' means where it would be without rotation or scaling.",
-            "line": " src\\components\\Box.ts:88"
-        },
-        {
-            "message": "Missing item type\nReturns the 'normal' or transformed hitbox for the entity. This is its box after rotation/e.t.c.",
-            "line": " src\\components\\Box.ts:112"
-        },
-        {
-            "message": "Missing item type\nSets the hitbox based of a rectangle that you specify.",
-            "line": " src\\components\\Box.ts:125"
-        },
-        {
-            "message": "Missing item type\nReturns the 'raw' bounds for this entity.",
-            "line": " src\\components\\Box.ts:150"
-        },
-        {
-            "message": "Missing item type\nReturns the raw center point of the box.",
-            "line": " src\\components\\Box.ts:173"
-        },
-        {
-            "message": "Missing item type\nReturns the center point for the box after it has been transformed.",
-            "line": " src\\components\\Box.ts:194"
-        },
-        {
-            "message": "Missing item type\nReturns the 'transformed' or 'normal' bounds for this box.",
-            "line": " src\\components\\Box.ts:218"
-        },
-        {
             "message": "Missing item type",
             "line": " src\\components\\Input.ts:19"
-        },
-        {
-            "message": "Missing item type\nReturns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.\nNote: Accessing this signal enables the input.",
-            "line": " src\\components\\Input.ts:121"
-        },
-        {
-            "message": "Missing item type\nReturns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.\nNote: Accessing this signal enables the input.",
-            "line": " src\\components\\Input.ts:132"
-        },
-        {
-            "message": "Missing item type\nReturns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.\nNote: Accessing this signal enables the input.",
-            "line": " src\\components\\Input.ts:143"
-        },
-        {
-            "message": "Missing item type\nReturns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..\nNote: Accessing this signal enables the input.",
-            "line": " src\\components\\Input.ts:154"
-        },
-        {
-            "message": "Missing item type\nReturns the onDragStarted Signal.",
-            "line": " src\\components\\Input.ts:165"
-        },
-        {
-            "message": "Missing item type\nReturns the onDragStopped Signal.",
-            "line": " src\\components\\Input.ts:172"
-        },
-        {
-            "message": "Missing item type\nA alias for the on release signal.",
-            "line": " src\\components\\Input.ts:179"
-        },
-        {
-            "message": "Missing item type\nA alias for the on press signal.",
-            "line": " src\\components\\Input.ts:188"
-        },
-        {
-            "message": "Missing item type\nGet if the input is enabled or not.",
-            "line": " src\\components\\Input.ts:206"
-        },
-        {
-            "message": "Missing item type\nSet if the input should be enabled or not.",
-            "line": " src\\components\\Input.ts:215"
-        },
-        {
-            "message": "Missing item type\nUsed to see if a pointer is currently on this input. Returns a boolean indicating either true or false",
-            "line": " src\\components\\Input.ts:268"
-        },
-        {
-            "message": "Missing item type\nUsed to see if no pointer is on this input (so it is up).",
-            "line": " src\\components\\Input.ts:277"
-        },
-        {
-            "message": "Missing item type\nCheck to see if any pointer is within the bounds of this input.",
-            "line": " src\\components\\Input.ts:286"
-        },
-        {
-            "message": "Missing item type\nSee if no pointers are within the bounds of this entity.",
-            "line": " src\\components\\Input.ts:295"
-        },
-        {
-            "message": "Missing item type\nReturns a boolean indicating if this is currently dragging something.",
-            "line": " src\\components\\Input.ts:359"
-        },
-        {
-            "message": "Missing item type\nReturns the drag distance. See _dragDistance for more information.",
-            "line": " src\\components\\Input.ts:366"
-        },
-        {
-            "message": "Missing item type\nSets the drag distance. See _dragDistance for more information.",
-            "line": " src\\components\\Input.ts:373"
         },
         {
             "message": "Missing item type",

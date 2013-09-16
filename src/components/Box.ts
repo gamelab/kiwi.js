@@ -78,7 +78,7 @@ module Kiwi.Components {
         private _hitboxOffset: Kiwi.Geom.Point;
         
         /**
-        * Contains the offset rectangle for the raw hitbox.
+        * Contains the offset rectangle for the raw hitbox. 
         * @property _rawHitbox
         * @type Rectangle
         * @private
@@ -88,6 +88,8 @@ module Kiwi.Components {
         /**
         * Returns the raw hitbox rectangle for the developer to use. 
         * 'Raw' means where it would be without rotation or scaling.
+        * This is READ ONLY.
+        * @property rawHitbox
         * @type Rectangle
         * @public
         */
@@ -110,7 +112,8 @@ module Kiwi.Components {
         private _transformedHitbox: Kiwi.Geom.Rectangle;
         
         /**
-        * Returns the 'normal' or transformed hitbox for the entity. This is its box after rotation/e.t.c. 
+        * The 'normal' or transformed hitbox for the entity. This is its box after rotation/e.t.c. 
+        * @property hitbox
         * @type Rectangle
         * @public
         */
@@ -121,12 +124,6 @@ module Kiwi.Components {
 
             return this._transformedHitbox;
         }
-        
-        /**
-        * Sets the hitbox based of a rectangle that you specify.
-        * @type Rectangle
-        * @public
-        */
         public set hitbox(value: Kiwi.Geom.Rectangle) {
             
             this._hitboxOffset.x = value.x;
@@ -149,6 +146,8 @@ module Kiwi.Components {
 
         /**
         * Returns the 'raw' bounds for this entity.
+        * This is READ ONLY.
+        * @property rawBounds
         * @type Rectangle
         * @public
         */
@@ -172,6 +171,8 @@ module Kiwi.Components {
         
         /**
         * Returns the raw center point of the box.
+        * This is READ ONLY.
+        * @property rawCenter
         * @type Point
         * @public
         */
@@ -193,6 +194,8 @@ module Kiwi.Components {
             
         /**
         * Returns the center point for the box after it has been transformed.
+        * This is READ ONLY.
+        * @property center
         * @type Point
         * @public
         */
@@ -217,6 +220,8 @@ module Kiwi.Components {
         
         /**
         * Returns the 'transformed' or 'normal' bounds for this box. 
+        * This is READ ONLY.
+        * @property bounds
         * @type Rectangle
         * @public
         */

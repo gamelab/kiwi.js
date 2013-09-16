@@ -2,74 +2,6 @@
 (function (Kiwi) {
     (function (Animation) {
         (function (Tweens) {
-            var Manager = (function () {
-                function Manager(game) {
-                    this._game = game;
-                    this._tweens = [];
-                }
-                Manager.prototype.objType = function () {
-                    return "Manager";
-                };
-
-                Manager.prototype.getAll = function () {
-                    return this._tweens;
-                };
-
-                Manager.prototype.removeAll = function () {
-                    this._tweens.length = 0;
-                };
-
-                Manager.prototype.create = function (object) {
-                    return new Kiwi.Animation.Tween(object, this._game);
-                };
-
-                Manager.prototype.add = function (tween) {
-                    tween.setParent(this._game);
-
-                    this._tweens.push(tween);
-
-                    return tween;
-                };
-
-                Manager.prototype.remove = function (tween) {
-                    var i = this._tweens.indexOf(tween);
-
-                    if (i !== -1) {
-                        this._tweens.splice(i, 1);
-                    }
-                };
-
-                Manager.prototype.update = function () {
-                    if (this._tweens.length === 0) {
-                        return false;
-                    }
-
-                    var i = 0;
-                    var numTweens = this._tweens.length;
-
-                    while (i < numTweens) {
-                        if (this._tweens[i].update(this._game.time.now())) {
-                            i++;
-                        } else {
-                            this._tweens.splice(i, 1);
-                            numTweens--;
-                        }
-                    }
-
-                    return true;
-                };
-                return Manager;
-            })();
-            Tweens.Manager = Manager;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
             (function (Easing) {
                 var Back = (function () {
                     function Back() {
@@ -479,6 +411,74 @@ var Kiwi;
                 Easing.Sinusoidal = Sinusoidal;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
+        (function (Tweens) {
+            var Manager = (function () {
+                function Manager(game) {
+                    this._game = game;
+                    this._tweens = [];
+                }
+                Manager.prototype.objType = function () {
+                    return "Manager";
+                };
+
+                Manager.prototype.getAll = function () {
+                    return this._tweens;
+                };
+
+                Manager.prototype.removeAll = function () {
+                    this._tweens.length = 0;
+                };
+
+                Manager.prototype.create = function (object) {
+                    return new Kiwi.Animation.Tween(object, this._game);
+                };
+
+                Manager.prototype.add = function (tween) {
+                    tween.setParent(this._game);
+
+                    this._tweens.push(tween);
+
+                    return tween;
+                };
+
+                Manager.prototype.remove = function (tween) {
+                    var i = this._tweens.indexOf(tween);
+
+                    if (i !== -1) {
+                        this._tweens.splice(i, 1);
+                    }
+                };
+
+                Manager.prototype.update = function () {
+                    if (this._tweens.length === 0) {
+                        return false;
+                    }
+
+                    var i = 0;
+                    var numTweens = this._tweens.length;
+
+                    while (i < numTweens) {
+                        if (this._tweens[i].update(this._game.time.now())) {
+                            i++;
+                        } else {
+                            this._tweens.splice(i, 1);
+                            numTweens--;
+                        }
+                    }
+
+                    return true;
+                };
+                return Manager;
+            })();
+            Tweens.Manager = Manager;
         })(Animation.Tweens || (Animation.Tweens = {}));
         var Tweens = Animation.Tweens;
     })(Kiwi.Animation || (Kiwi.Animation = {}));
@@ -2703,13 +2703,9 @@ var Kiwi;
                 this.entity.cellIndex = this.currentCell;
             };
 
-            Object.defineProperty(Animation.prototype, "toString", {
-                get: function () {
-                    return '[{Animation (x=' + this.active + ')}]';
-                },
-                enumerable: true,
-                configurable: true
-            });
+            Animation.prototype.toString = function () {
+                return '[{Animation (x=' + this.active + ')}]';
+            };
 
             Animation.prototype.destroy = function () {
                 this._isPlaying = false;
@@ -2789,7 +2785,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Box.prototype, "rawBounds", {
                 get: function () {
@@ -2903,6 +2898,7 @@ var Kiwi;
         var Input = (function (_super) {
             __extends(Input, _super);
             function Input(owner, box, enabled) {
+                if (typeof enabled === "undefined") { enabled = false; }
                 _super.call(this, owner, 'Input');
                 this._isDragging = null;
                 this._dragEnabled = false;
@@ -3021,7 +3017,6 @@ var Kiwi;
                 configurable: true
             });
 
-
             Object.defineProperty(Input.prototype, "isDown", {
                 get: function () {
                     return (this._isDown !== null);
@@ -3072,7 +3067,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Input.prototype.enableDrag = function (snapToCenter, distance) {
                 if (typeof snapToCenter === "undefined") { snapToCenter = false; }
@@ -9774,7 +9768,6 @@ var Kiwi;
                 configurable: true
             });
 
-
             Object.defineProperty(Anim.prototype, "frameIndex", {
                 get: function () {
                     return this._frameIndex;
@@ -9787,7 +9780,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Anim.prototype, "currentCell", {
                 get: function () {
@@ -9807,8 +9799,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
 
             Object.defineProperty(Anim.prototype, "reverse", {
                 get: function () {

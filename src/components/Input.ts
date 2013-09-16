@@ -21,10 +21,10 @@ module Kiwi.Components {
         * @constructor
         * @param owner {IChild} The IChild that owns this Input.
         * @param box {Box} The box that is to be used for the event firing.
-        * @param enabled {boolean} If this input component should be enabled or not.
+        * @param [enabled=false] {boolean} If this input component should be enabled or not.
         * @return {Input}
         */
-        constructor(owner: Kiwi.IChild, box:Kiwi.Components.Box, enabled:boolean) {
+        constructor(owner: Kiwi.IChild, box:Kiwi.Components.Box, enabled:boolean=false) {
 
             super(owner,'Input');
             
@@ -121,6 +121,8 @@ module Kiwi.Components {
         /**
         * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
         * Note: Accessing this signal enables the input.
+        * This is READ ONLY.
+        * @property onEntered
         * @type Signal
         * @public
         */
@@ -132,6 +134,8 @@ module Kiwi.Components {
         /**
         * Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
         * Note: Accessing this signal enables the input.
+        * This is READ ONLY.
+        * @property onLeft
         * @type Signal
         * @public
         */
@@ -143,6 +147,8 @@ module Kiwi.Components {
         /**
         * Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
         * Note: Accessing this signal enables the input.
+        * This is READ ONLY.
+        * @property onDown
         * @type Signal
         * @public
         */
@@ -154,6 +160,8 @@ module Kiwi.Components {
         /**
         * Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
         * Note: Accessing this signal enables the input.
+        * This is READ ONLY.
+        * @property onUp
         * @type Signal
         * @public
         */
@@ -164,6 +172,8 @@ module Kiwi.Components {
     
         /**
         * Returns the onDragStarted Signal.
+        * This is READ ONLY.
+        * @property onDragStarted
         * @type Signal
         * @public
         */
@@ -171,6 +181,8 @@ module Kiwi.Components {
 
         /**
         * Returns the onDragStopped Signal.
+        * This is READ ONLY.
+        * @property onDragStopped
         * @type Signal
         * @public
         */
@@ -178,6 +190,8 @@ module Kiwi.Components {
 
         /**
         * A alias for the on release signal.
+        * This is READ ONLY.
+        * @property onRelease
         * @type Signal
         * @public
         */
@@ -187,6 +201,8 @@ module Kiwi.Components {
         
         /**
         * A alias for the on press signal.
+        * This is READ ONLY.
+        * @property onPress
         * @type Signal
         * @public
         */
@@ -204,19 +220,14 @@ module Kiwi.Components {
         private _enabled: boolean;
 
         /**
-        * Get if the input is enabled or not.
+        * Get if the input is enabled or not. Note: Inputs should only be enabled when needed, otherwise unnecessary processing does occur which can result in a slower game.
+        * @property enabled
         * @type boolean
         * @public
         */
         public get enabled(): boolean {
             return this._enabled;
         }
-
-        /**
-        * Set if the input should be enabled or not. 
-        * @type boolean
-        * @public
-        */
         public set enabled(val: boolean) {//perhaps later the signals should only be set if the input is enabled.
             this._enabled = val; 
         }
@@ -266,7 +277,9 @@ module Kiwi.Components {
         private _justEntered: boolean;
         
         /**
-        * Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false
+        * Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false.
+        * This is READ ONLY.
+        * @property isDown
         * @type boolean
         * @public
         */
@@ -276,6 +289,8 @@ module Kiwi.Components {
         
         /**
         * Used to see if no pointer is on this input (so it is up).
+        * This is READ ONLY.
+        * @property isUp
         * @type boolean
         * @public
         */
@@ -285,6 +300,8 @@ module Kiwi.Components {
         
         /**
         * Check to see if any pointer is within the bounds of this input.
+        * This is READ ONLY.
+        * @property withinBounds
         * @type boolean
         * @public
         */
@@ -294,6 +311,8 @@ module Kiwi.Components {
         
         /**
         * See if no pointers are within the bounds of this entity.
+        * This is READ ONLY.
+        * @property outsideBounds
         * @type boolean
         * @public
         */
@@ -358,25 +377,26 @@ module Kiwi.Components {
 
         /**
         * Returns a boolean indicating if this is currently dragging something.
+        * This is READ ONLY.
+        * @property isDragging
         * @type boolean
         * @public
         */
         public get isDragging(): boolean { return (this._isDragging !== null); }
 
         /**
-        * Returns the drag distance. See _dragDistance for more information.
+        * The drag distance that is used when dragging this object. See _dragDistance for more information.
+        * @property dragDistance
         * @type number
         * @public
         */
-        public get dragDistance(): number { return this._dragDistance; }
+        public get dragDistance(): number {
+            return this._dragDistance; 
+        }
+        public set dragDistance(val: number) { 
+            this._dragDistance = val;
+        }
 
-        /**
-        * Sets the drag distance. See _dragDistance for more information.
-        * @type number
-        * @public
-        */
-        public set dragDistance(val: number) { this._dragDistance = val; }
-        
         /**
         * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
         * @property _nowDown

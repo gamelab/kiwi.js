@@ -55,7 +55,11 @@
             
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
+                <li><a href="../classes/Back.html">Back</a></li>
+            
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
             
                 <li><a href="../classes/Box.html">Box</a></li>
             
@@ -69,6 +73,8 @@
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
                 <li><a href="../classes/Common.html">Common</a></li>
@@ -77,11 +83,17 @@
             
                 <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
             
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
                 <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
             
                 <li><a href="../classes/Device.html">Device</a></li>
             
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
                 <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
@@ -113,6 +125,8 @@
             
                 <li><a href="../classes/Line.html">Line</a></li>
             
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
                 <li><a href="../classes/Manager.html">Manager</a></li>
@@ -129,6 +143,12 @@
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
             
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
                 <li><a href="../classes/Ray.html">Ray</a></li>
@@ -144,6 +164,8 @@
                 <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
             
                 <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
             
                 <li><a href="../classes/Sound.html">Sound</a></li>
             
@@ -186,6 +208,8 @@
                 <li><a href="../modules/Animation.html">Animation</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
             
                 <li><a href="../modules/Files.html">Files</a></li>
             
@@ -312,25 +336,21 @@ module Kiwi.Animation {
         private _loop: boolean;
 
         /**
-        * Get if this animation is to loop or not.
+        * If once the animation reaches the end, it should start again from the first cell in the sequence or not.
+        * @property loop
         * @type boolean
         * @public
         */
         public get loop(): boolean {
             return this._loop;
         }
-
-        /**
-        * Set if this animation should loop or not
-        * @type boolean
-        * @public
-        */
         public set loop(value: boolean) {
             this._loop = value;
         }
 
         /**
-        * The current frame index that the animation is upto. 
+        * The current frame index that the animation is currently upto.
+        * Note: A frame index is the index of a particular cell in the Sequence.
         * @property _frameIndex
         * @type number
         * @private
@@ -338,19 +358,15 @@ module Kiwi.Animation {
         private _frameIndex: number = 0;
 
         /**
-        * Returns the current frame index that the animation is up to.
+        * The current frame index that the animation is currently upto.
+        * Note: A frame index is the index of a particular cell in the Sequence.
+        * @property frameIndex
         * @type number
         * @public
         */
         public get frameIndex(): number {
             return this._frameIndex;
         }
-
-        /**
-        * Sets the current frame index that the animation is sitting at.
-        * @type number
-        * @public
-        */
         public set frameIndex(val: number) {
             if (this._validateFrame(val)) {
                 this._frameIndex = val;
@@ -358,7 +374,8 @@ module Kiwi.Animation {
         }
 
         /**
-        * Returns the current cell that the animation is up to.
+        * Returns the current cell that the animation is up to. This is READ ONLY.
+        * @property currentCell
         * @type number
         * @public
         */
@@ -375,19 +392,14 @@ module Kiwi.Animation {
         private _speed: number;
 
         /**
-        * Get how fast the transition is between cells. 
+        * How long the each cell should stay on screen for. In seconds.
+        * @property speed
         * @type number
         * @public
         */
         public get speed(): number {
             return this._speed;
         }
-
-        /**
-        * Set how fast the transition is between cells. 
-        * @type number
-        * @public
-        */
         public set speed(value: number) {
             this._speed = value;
         }
@@ -417,19 +429,14 @@ module Kiwi.Animation {
         private _reverse: boolean = false;
 
         /**
-        * Set&#x27;s whether or not the animation is playing in reverse or not.
+        * Whether the animation is to be played in reverse.
+        * @property reverse
         * @type boolean
         * @public
         */
         public set reverse(value: boolean) {
             this._reverse = value;
         }
-        
-        /**
-        * Returns a boolean indicating if the animation is playing in reverse or not 
-        * @type boolean
-        * @public
-        */
         public get reverse(): boolean {
             return this._reverse;
         }
@@ -622,7 +629,8 @@ module Kiwi.Animation {
         }
         
         /**
-        * Returns the number of frames that in the animation. Thus the animations &#x27;length&#x27;.
+        * Returns the number of frames that in the animation. Thus the animations &#x27;length&#x27;. Note this is READ ONLY.
+        * @property length
         * @type number
         * @public
         */

@@ -1,23 +1,25 @@
-/// <reference path="../Manager.ts" />
-
 /**
- *	Kiwi - Tween - Easing - Circular
- *
- *	@desc 		Based heavily on tween.js by sole (https://github.com/sole/tween.js)
- *
- *	@version 	1.0 - 11th January 2013
- *
- *	@author 	Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list
- *
- *	@url 		http://www.kiwijs.org
- *
- *	@todo       
- */
-
+* Kiwi - Animation - Tweens - Easing 
+* @module Tweens
+* @submodule Easing 
+* 
+*/
 module Kiwi.Animation.Tweens.Easing {
 
+    /**
+    *
+    *
+    * @class Circular
+    *
+    */
     export class Circular {
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Circular";
         }
@@ -25,9 +27,10 @@ module Kiwi.Animation.Tweens.Easing {
         /** 
         * 
         * @method In
-        * @param {Any} k
+        * @param k {Any}
+        * @return {Number}
         * @static
-        **/
+        */
         public static In(k) {
 
             return 1 - Math.sqrt(1 - k * k);
@@ -35,11 +38,12 @@ module Kiwi.Animation.Tweens.Easing {
         }
 
         /** 
-        * Out
-        * @method 
-        * @param {Any} k
+        * 
+        * @method Out
+        * @param k {Any}
+        * @return {Number}
         * @static
-        **/
+        */
         public static Out(k) {
 
             return Math.sqrt(1 - (--k * k));
@@ -47,11 +51,12 @@ module Kiwi.Animation.Tweens.Easing {
         }
 
         /** 
-        * InOut
-        * @method 
-        * @param {Any} k
+        * 
+        * @method InOut
+        * @param k {Any}
+        * @return {Number}
         * @static
-        **/
+        */
         public static InOut(k) {
 
             if ((k *= 2) < 1) return -0.5 * (Math.sqrt(1 - k * k) - 1);
