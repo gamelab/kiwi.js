@@ -709,7 +709,6 @@ var Kiwi;
             this.transform.rotPointY = y + height / 2;
 
             this._game.stage.onResize.add(this._updatedStageSize, this);
-            this._game.stage.onResize.add(this._updatedSize, this);
         }
         Camera.prototype.objType = function () {
             return "Camera";
@@ -720,22 +719,27 @@ var Kiwi;
             this.height = height;
         };
 
-        Camera.prototype._updatedSize = function (width, height) {
-        };
+        Object.defineProperty(Camera.prototype, "visible", {
+            get: function () {
+                return this._visible;
+            },
+            set: function (val) {
+                this._visible = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
 
-        Camera.prototype.visible = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            return this._visible;
-        };
-
-        Camera.prototype.dirty = function (value) {
-            if (typeof value === "undefined") { value = null; }
-            if (value !== null) {
-                this._dirty = value;
-            }
-
-            return this._dirty;
-        };
+        Object.defineProperty(Camera.prototype, "dirty", {
+            get: function () {
+                return this._dirty;
+            },
+            set: function (val) {
+                this._dirty = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
 
         Camera.prototype.update = function () {
         };
@@ -5336,7 +5340,8 @@ var Kiwi;
                     this.immovable = true;
                 }
                 TileType.prototype.destroy = function () {
-                    this.tilemap = null;
+                    delete this.tilemap;
+                    delete this._game;
                 };
 
                 TileType.prototype.toString = function () {
@@ -5360,14 +5365,12 @@ var Kiwi;
                     _super.call(this, state, 0, 0);
                     this._collisionCallback = null;
                 }
-                TileMap.prototype.createFromData = function (tileMapData, atlas, game, format) {
+                TileMap.prototype.createFromData = function (tileMapData, atlas, format) {
                     var data;
 
                     this._atlas = atlas;
                     this.tiles = [];
                     this.layers = [];
-
-                    this._game = game;
 
                     this.mapFormat = format;
 
@@ -5380,8 +5383,8 @@ var Kiwi;
                     }
                 };
 
-                TileMap.prototype.createFromFileStore = function (tileMapDataKey, atlas, game, format) {
-                    if (this._game.fileStore.exists(tileMapDataKey) == false) {
+                TileMap.prototype.createFromFileStore = function (tileMapDataKey, atlas, format) {
+                    if (this.game.fileStore.exists(tileMapDataKey) == false) {
                         return;
                     }
 
@@ -5391,13 +5394,11 @@ var Kiwi;
                     this.tiles = [];
                     this.layers = [];
 
-                    this._game = game;
-
                     this.mapFormat = format;
 
                     switch (format) {
                         case TileMap.FORMAT_TILED_JSON:
-                            var obj = JSON.parse(this._game.fileStore.getFile(tileMapDataKey).data);
+                            var obj = JSON.parse(this.game.fileStore.getFile(tileMapDataKey).data);
                             this.parseTiledJSON(obj);
                             break;
                     }
@@ -5417,7 +5418,7 @@ var Kiwi;
                     var mapObj = data;
 
                     for (var i = 0; i < mapObj.layers.length; i++) {
-                        var layer = new Tilemap.TileMapLayer(this.state, this._game, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
+                        var layer = new Tilemap.TileMapLayer(this.state, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
 
                         layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                         layer.alpha = parseInt(mapObj.layers[i].opacity);
@@ -5455,13 +5456,17 @@ var Kiwi;
 
                 TileMap.prototype.generateTiles = function (layer, qty) {
                     for (var i = 0; i < qty; i++) {
-                        this.tiles.push(new Tilemap.TileType(this._game, this, i, layer.tileWidth, layer.tileHeight));
+                        this.tiles.push(new Tilemap.TileType(this.game, this, i, layer.tileWidth, layer.tileHeight));
                     }
                 };
 
-                TileMap.prototype.widthInPixels = function () {
-                    return this.currentLayer.widthInPixels;
-                };
+                Object.defineProperty(TileMap.prototype, "widthInPixels", {
+                    get: function () {
+                        return this.currentLayer.widthInPixels;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
 
                 TileMap.prototype.heightInPixels = function () {
                     return this.currentLayer.heightInPixels;
@@ -5503,9 +5508,9 @@ var Kiwi;
 
                 TileMap.prototype.getTileFromInputXY = function (layer) {
                     if (layer === undefined) {
-                        return this.currentLayer.getTileFromWorldXY(this._game.input.mouse.x - this.currentLayer.x, this._game.input.mouse.y - this.currentLayer.y);
+                        return this.currentLayer.getTileFromWorldXY(this.game.input.mouse.x - this.currentLayer.x, this.game.input.mouse.y - this.currentLayer.y);
                     } else {
-                        return this.layers[layer].getTileFromWorldXY(this._game.input.mouse.x - this.layers[layer].x, this._game.input.mouse.y - this.layers[layer].transform.y);
+                        return this.layers[layer].getTileFromWorldXY(this.game.input.mouse.x - this.layers[layer].x, this.game.input.mouse.y - this.layers[layer].transform.y);
                     }
                 };
 
@@ -5543,6 +5548,7 @@ var Kiwi;
                     this.tiles[index].allowCollisions = collision;
 
                     var tiles = this.currentLayer.getTilesByIndex(index);
+
                     for (var t = 0; t < tiles.length; t++) {
                         tiles[t].physics.seperate = seperate;
                         tiles[t].physics.allowCollisions = collision;
@@ -5574,16 +5580,27 @@ var Kiwi;
                 };
 
                 TileMap.prototype.destroy = function () {
-                    this.tiles = null;
-                    for (var i = 0; i < this.layers.length; i++) {
-                        this.layers[i].destroy();
+                    _super.prototype.destroy.call(this);
+                    delete this.tiles;
+                    if (this.layers) {
+                        for (var i = 0; i < this.layers.length; i++) {
+                            this.layers[i].destroy();
+                            delete this.layers[i];
+                        }
                     }
-                    this.layers = null;
-                    this._tileMapDataKey = null;
-
-                    this._atlas = null;
+                    if (this.tiles) {
+                        for (var i = 0; i < this.tiles.length; i++) {
+                            this.tiles[i].destroy();
+                            delete this.tiles[i];
+                        }
+                    }
+                    delete this.tiles;
+                    delete this.layers;
+                    delete this._tileMapDataKey;
+                    delete this._atlas;
                 };
                 TileMap.FORMAT_CSV = 0;
+
                 TileMap.FORMAT_TILED_JSON = 1;
                 return TileMap;
             })(Kiwi.Entity);
@@ -5599,7 +5616,7 @@ var Kiwi;
         (function (Tilemap) {
             var TileMapLayer = (function (_super) {
                 __extends(TileMapLayer, _super);
-                function TileMapLayer(state, game, parent, atlas, name, tileWidth, tileHeight) {
+                function TileMapLayer(state, parent, atlas, name, tileWidth, tileHeight) {
                     _super.call(this, state, 0, 0);
                     this._startX = 0;
                     this._startY = 0;
@@ -5616,7 +5633,6 @@ var Kiwi;
                     this.tileMargin = 0;
                     this.tileSpacing = 0;
 
-                    this._game = game;
                     this.tileParent = parent;
 
                     this.name = name;
@@ -5626,8 +5642,6 @@ var Kiwi;
                     this.mapData = [];
                     this._tempTileBlock = [];
                     this._atlas = atlas;
-
-                    this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
                 }
                 TileMapLayer.prototype.putTile = function (x, y, tileType) {
                     x = Kiwi.Utils.GameMath.snapToFloor(x, this.tileWidth) / this.tileWidth;
@@ -5660,7 +5674,7 @@ var Kiwi;
                     this.getTempBlock(x, y, width, height);
 
                     for (var r = 0; r < this._tempTileBlock.length; r++) {
-                        this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[this._game.rnd.pick(tiles)]);
+                        this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[this.game.rnd.pick(tiles)]);
                     }
                 };
 
@@ -6680,7 +6694,9 @@ var Kiwi;
             });
 
             Line.prototype.getY = function (x) {
-                return this.slope * x + this.yIntercept;
+                if (this.x1 == this.x2)
+                    return null; else
+                    return this.slope * x + this.yIntercept;
             };
 
             Object.defineProperty(Line.prototype, "angle", {
@@ -8146,7 +8162,6 @@ var Kiwi;
                 configurable: true
             });
 
-
             Object.defineProperty(HUDWidget.prototype, "y", {
                 get: function () {
                     return this._y;
@@ -8159,7 +8174,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             HUDWidget.prototype.setTemplate = function (main, element) {
                 var paramsArr = [];

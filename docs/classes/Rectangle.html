@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/Canvas.html">Canvas</a></li>
             
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Circular.html">Circular</a></li>
@@ -107,7 +109,23 @@
             
                 <li><a href="../classes/GameMath.html">GameMath</a></li>
             
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
                 <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
             
                 <li><a href="../classes/IChild.html">IChild</a></li>
             
@@ -189,6 +207,14 @@
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
             
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
@@ -217,15 +243,21 @@
             
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
                 <li><a href="../modules/Input.html">Input</a></li>
             
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
                 <li><a href="../modules/System.html">System</a></li>
             
                 <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
             
                 <li><a href="../modules/Time.html">Time</a></li>
             
@@ -393,7 +425,7 @@
                     
 
                     <div class="param-description">
-                        <p>The x coordinate of the top-left corner of the rectangle.</p>
+                        <p>x The x coordinate of the top-left corner of the rectangle.</p>
 
                     </div>
 
@@ -409,7 +441,7 @@
                     
 
                     <div class="param-description">
-                        <p>The y coordinate of the top-left corner of the rectangle.</p>
+                        <p>y The y coordinate of the top-left corner of the rectangle.</p>
 
                     </div>
 
@@ -425,7 +457,7 @@
                     
 
                     <div class="param-description">
-                        <p>The width of the rectangle in pixels.</p>
+                        <p>width The width of the rectangle in pixels.</p>
 
                     </div>
 
@@ -441,7 +473,7 @@
                     
 
                     <div class="param-description">
-                        <p>The height of the rectangle in pixels.</p>
+                        <p>height The height of the rectangle in pixels.</p>
 
                     </div>
 
@@ -498,28 +530,7 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
-                                <a href="#method_bottom">bottom</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_bottomRight">bottomRight</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_center">center</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clone">clone</a>
 
                                 
@@ -540,42 +551,42 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_containsRect">containsRect</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_copyFrom">copyFrom</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_copyTo">copyTo</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_equals">equals</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_inflate">inflate</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_inflatePoint">inflatePoint</a>
 
                                 
@@ -589,28 +600,28 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_intersects">intersects</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_isEmpty">isEmpty</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_left">left</a>
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_offset">offset</a>
 
                                 
@@ -624,22 +635,8 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_overlap">overlap</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_perimeter">perimeter</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_right">right</a>
 
                                 
                                 
@@ -659,22 +656,8 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_size">size</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_top">top</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_topLeft">topLeft</a>
 
                                 
                                 
@@ -694,13 +677,6 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_volume">volume</a>
-
-                                
-                                
-                            </li>
-                        
                     </ul>
                 </div>
             
@@ -711,28 +687,91 @@
 
                     <ul class="index-list properties">
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
+                                <a href="#property_bottom">bottom</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_bottomRight">bottomRight</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_center">center</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_height">height</a>
 
                                 
                                 
                             </li>
                         
+                            <li class="index-item property public">
+                                <a href="#property_left">left</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_perimeter">perimeter</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_right">right</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_size">size</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_topLeft">topLeft</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property">
+                                <a href="#property_volume">volume</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_width">width</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_x">x</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_y">y</a>
 
                                 
@@ -753,220 +792,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_bottom" class="method item">
-    <h3 class="name"><code>bottom</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Rectangle.ts.html#l65"><code>src\geom\Rectangle.ts:65</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The sum of the y and height properties. Changing the bottom property of a Rectangle object has no effect on the x, y and width properties, but does change the height property.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_bottomRight" class="method item">
-    <h3 class="name"><code>bottomRight</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Rectangle.ts.html#l104"><code>src\geom\Rectangle.ts:104</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns a Point containing the location of the Rectangle&#39;s bottom-right corner, determined by the values of the right and bottom properties.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_center" class="method item">
-    <h3 class="name"><code>center</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Rectangle.ts.html#l92"><code>src\geom\Rectangle.ts:92</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns a Point containing the location of the center of the Rectangle, relative to the top left edge</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clone" class="method item">
+                    <div id="method_clone" class="method item public">
     <h3 class="name"><code>clone</code></h3>
 
     
@@ -975,7 +801,7 @@
             
                 <li class="arg">
                     
-                        <code>output</code>
+                        <code>[output</code>
                     
                 </li>
             
@@ -985,12 +811,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Rectangle</span>
+            <span class="type"><a href="..\classes\Rectangle.html" class="crosslink">Rectangle</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1012,7 +840,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l277"><code>src\geom\Rectangle.ts:277</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l294"><code>src\geom\Rectangle.ts:294</code></a>
         
         </p>
 
@@ -1035,14 +863,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">output</code>
+                        <code class="param-name">[output</code>
                         <span class="type"><a href="..\classes\Rectangle.html" class="crosslink">Rectangle</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Optional Rectangle object. If given the values will be set into the object, otherwise a brand new Rectangle object will be created and returned.</p>
+                        <p>= Rectangle]  Optional Rectangle object. If given the values will be set into the object, otherwise a brand new Rectangle object will be created and returned.</p>
 
                     </div>
 
@@ -1060,7 +888,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Rectangle</span>:
+                        <span class="type"><a href="..\classes\Rectangle.html" class="crosslink">Rectangle</a></span>:
                     
                 
             </div>
@@ -1123,7 +951,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l289"><code>src\geom\Rectangle.ts:289</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l307"><code>src\geom\Rectangle.ts:307</code></a>
         
         </p>
 
@@ -1246,7 +1074,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l307"><code>src\geom\Rectangle.ts:307</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l325"><code>src\geom\Rectangle.ts:325</code></a>
         
         </p>
 
@@ -1307,7 +1135,7 @@
 </div>
 
                 
-                    <div id="method_containsRect" class="method item">
+                    <div id="method_containsRect" class="method item public">
     <h3 class="name"><code>containsRect</code></h3>
 
     
@@ -1333,6 +1161,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1353,7 +1183,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l319"><code>src\geom\Rectangle.ts:319</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l337"><code>src\geom\Rectangle.ts:337</code></a>
         
         </p>
 
@@ -1414,7 +1244,7 @@
 </div>
 
                 
-                    <div id="method_copyFrom" class="method item">
+                    <div id="method_copyFrom" class="method item public">
     <h3 class="name"><code>copyFrom</code></h3>
 
     
@@ -1423,7 +1253,7 @@
             
                 <li class="arg">
                     
-                        <code>rect</code>
+                        <code>source</code>
                     
                 </li>
             
@@ -1439,6 +1269,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1460,7 +1292,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l342"><code>src\geom\Rectangle.ts:342</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l361"><code>src\geom\Rectangle.ts:361</code></a>
         
         </p>
 
@@ -1483,7 +1315,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">rect</code>
+                        <code class="param-name">source</code>
                         <span class="type"><a href="..\classes\Rectangle.html" class="crosslink">Rectangle</a></span>
                     
 
@@ -1521,7 +1353,7 @@
 </div>
 
                 
-                    <div id="method_copyTo" class="method item">
+                    <div id="method_copyTo" class="method item public">
     <h3 class="name"><code>copyTo</code></h3>
 
     
@@ -1530,7 +1362,7 @@
             
                 <li class="arg">
                     
-                        <code>rect</code>
+                        <code>target</code>
                     
                 </li>
             
@@ -1546,6 +1378,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1567,7 +1401,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l354"><code>src\geom\Rectangle.ts:354</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l374"><code>src\geom\Rectangle.ts:374</code></a>
         
         </p>
 
@@ -1590,7 +1424,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">rect</code>
+                        <code class="param-name">target</code>
                         <span class="type"><a href="..\classes\Rectangle.html" class="crosslink">Rectangle</a></span>
                     
 
@@ -1628,7 +1462,7 @@
 </div>
 
                 
-                    <div id="method_equals" class="method item">
+                    <div id="method_equals" class="method item public">
     <h3 class="name"><code>equals</code></h3>
 
     
@@ -1654,6 +1488,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1674,7 +1510,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l366"><code>src\geom\Rectangle.ts:366</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l387"><code>src\geom\Rectangle.ts:387</code></a>
         
         </p>
 
@@ -1704,7 +1540,7 @@
                     
 
                     <div class="param-description">
-                        <p>The rectangle to compare to this Rectangle object.</p>
+                        <p>toCompare The rectangle to compare to this Rectangle object.</p>
 
                     </div>
 
@@ -1735,7 +1571,7 @@
 </div>
 
                 
-                    <div id="method_inflate" class="method item">
+                    <div id="method_inflate" class="method item public">
     <h3 class="name"><code>inflate</code></h3>
 
     
@@ -1767,6 +1603,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1787,7 +1625,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l383"><code>src\geom\Rectangle.ts:383</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l405"><code>src\geom\Rectangle.ts:405</code></a>
         
         </p>
 
@@ -1817,7 +1655,7 @@
                     
 
                     <div class="param-description">
-                        <p>The amount to be added to the left side of this Rectangle.</p>
+                        <p>dx The amount to be added to the left side of this Rectangle.</p>
 
                     </div>
 
@@ -1833,7 +1671,7 @@
                     
 
                     <div class="param-description">
-                        <p>The amount to be added to the bottom side of this Rectangle.</p>
+                        <p>dy The amount to be added to the bottom side of this Rectangle.</p>
 
                     </div>
 
@@ -1864,7 +1702,7 @@
 </div>
 
                 
-                    <div id="method_inflatePoint" class="method item">
+                    <div id="method_inflatePoint" class="method item public">
     <h3 class="name"><code>inflatePoint</code></h3>
 
     
@@ -1890,6 +1728,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1910,7 +1750,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l405"><code>src\geom\Rectangle.ts:405</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l428"><code>src\geom\Rectangle.ts:428</code></a>
         
         </p>
 
@@ -2023,7 +1863,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l417"><code>src\geom\Rectangle.ts:417</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l441"><code>src\geom\Rectangle.ts:441</code></a>
         
         </p>
 
@@ -2100,7 +1940,7 @@
 </div>
 
                 
-                    <div id="method_intersects" class="method item">
+                    <div id="method_intersects" class="method item public">
     <h3 class="name"><code>intersects</code></h3>
 
     
@@ -2126,6 +1966,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -2146,7 +1988,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l438"><code>src\geom\Rectangle.ts:438</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l462"><code>src\geom\Rectangle.ts:462</code></a>
         
         </p>
 
@@ -2207,7 +2049,7 @@
 </div>
 
                 
-                    <div id="method_isEmpty" class="method item">
+                    <div id="method_isEmpty" class="method item public">
     <h3 class="name"><code>isEmpty</code></h3>
 
     
@@ -2222,6 +2064,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2243,7 +2087,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l489"><code>src\geom\Rectangle.ts:489</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l516"><code>src\geom\Rectangle.ts:516</code></a>
         
         </p>
 
@@ -2280,27 +2124,23 @@
 </div>
 
                 
-                    <div id="method_left" class="method item">
-    <h3 class="name"><code>left</code></h3>
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
     
 
     
 
     
-
+        <span class="flag public">public</span>
     
 
     
@@ -2322,7 +2162,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l126"><code>src\geom\Rectangle.ts:126</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l33"><code>src\geom\Rectangle.ts:33</code></a>
         
         </p>
 
@@ -2333,42 +2173,31 @@
     </div>
 
     <div class="description">
-        <p>The x coordinate of the top-left corner of the rectangle. Changing the left property of a Rectangle object has no effect on the y and height properties. However it does affect the width property, whereas changing the x value does not affect the width property.</p>
+        <p>The type of this object.</p>
 
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
+        <div class="returns">
+            <h4>Returns:</h4>
 
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
     
 
     
 </div>
 
                 
-                    <div id="method_offset" class="method item">
+                    <div id="method_offset" class="method item public">
     <h3 class="name"><code>offset</code></h3>
 
     
@@ -2400,6 +2229,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -2420,7 +2251,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l505"><code>src\geom\Rectangle.ts:505</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l533"><code>src\geom\Rectangle.ts:533</code></a>
         
         </p>
 
@@ -2543,7 +2374,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l524"><code>src\geom\Rectangle.ts:524</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l553"><code>src\geom\Rectangle.ts:553</code></a>
         
         </p>
 
@@ -2604,11 +2435,21 @@
 </div>
 
                 
-                    <div id="method_overlap" class="method item">
+                    <div id="method_overlap" class="method item public">
     <h3 class="name"><code>overlap</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>rect</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -2619,6 +2460,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2640,7 +2483,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l466"><code>src\geom\Rectangle.ts:466</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l491"><code>src\geom\Rectangle.ts:491</code></a>
         
         </p>
 
@@ -2656,6 +2499,29 @@
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">rect</code>
+                        <span class="type"><a href="..\classes\Rectangle.html" class="crosslink">Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
 
     
         <div class="returns">
@@ -2668,148 +2534,6 @@
                     
                     <p>An object containing the overlapping details between the two Rectangles</p>
 
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_perimeter" class="method item">
-    <h3 class="name"><code>perimeter</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Rectangle.ts.html#l211"><code>src\geom\Rectangle.ts:211</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The perimeter size of the Rectangle object in pixels. This is the sum of all 4 sides.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_right" class="method item">
-    <h3 class="name"><code>right</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Rectangle.ts.html#l160"><code>src\geom\Rectangle.ts:160</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The sum of the x and width properties. Changing the right property of a Rectangle object has no effect on the x, y and height properties. However it does affect the width property.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
                 
             </div>
         </div>
@@ -2855,7 +2579,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l536"><code>src\geom\Rectangle.ts:536</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l565"><code>src\geom\Rectangle.ts:565</code></a>
         
         </p>
 
@@ -2956,7 +2680,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l547"><code>src\geom\Rectangle.ts:547</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l576"><code>src\geom\Rectangle.ts:576</code></a>
         
         </p>
 
@@ -2986,7 +2710,7 @@
                     
 
                     <div class="param-description">
-                        <p>The x coordinate of the top-left corner of the rectangle.</p>
+                        <p>x The x coordinate of the top-left corner of the rectangle.</p>
 
                     </div>
 
@@ -3002,7 +2726,7 @@
                     
 
                     <div class="param-description">
-                        <p>The y coordinate of the top-left corner of the rectangle.</p>
+                        <p>y The y coordinate of the top-left corner of the rectangle.</p>
 
                     </div>
 
@@ -3018,7 +2742,7 @@
                     
 
                     <div class="param-description">
-                        <p>The width of the rectangle in pixels.</p>
+                        <p>width The width of the rectangle in pixels.</p>
 
                     </div>
 
@@ -3034,7 +2758,7 @@
                     
 
                     <div class="param-description">
-                        <p>The height of the rectangle in pixels.</p>
+                        <p>height The height of the rectangle in pixels.</p>
 
                     </div>
 
@@ -3065,114 +2789,7 @@
 </div>
 
                 
-                    <div id="method_size" class="method item">
-    <h3 class="name"><code>size</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>output</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Point</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Rectangle.ts.html#l187"><code>src\geom\Rectangle.ts:187</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The size of the Rectangle object, expressed as a Point object with the values of the width and height properties.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">output</code>
-                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Optional Point object. If given the values will be set into the object, otherwise a brand new Point object will be created and returned.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Kiwi.Geom.Point</span>:
-                    
-                    <p>The size of the Rectangle object</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_top" class="method item">
+                    <div id="method_top" class="method item public">
     <h3 class="name"><code>top</code></h3>
 
     
@@ -3188,6 +2805,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -3208,7 +2827,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l222"><code>src\geom\Rectangle.ts:222</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l238"><code>src\geom\Rectangle.ts:238</code></a>
         
         </p>
 
@@ -3233,110 +2852,6 @@
                 
                     
                         <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_topLeft" class="method item">
-    <h3 class="name"><code>topLeft</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Rectangle.ts.html#l254"><code>src\geom\Rectangle.ts:254</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The location of the Rectangle object&#39;s top-left corner, determined by the x and y coordinates of the point.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>:
                     
                 
             </div>
@@ -3383,7 +2898,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l614"><code>src\geom\Rectangle.ts:614</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l653"><code>src\geom\Rectangle.ts:653</code></a>
         
         </p>
 
@@ -3435,7 +2950,7 @@
             
                 <li class="arg">
                     
-                        <code>output</code>
+                        <code>[output</code>
                     
                 </li>
             
@@ -3472,7 +2987,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l578"><code>src\geom\Rectangle.ts:578</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l607"><code>src\geom\Rectangle.ts:607</code></a>
         
         </p>
 
@@ -3502,7 +3017,7 @@
                     
 
                     <div class="param-description">
-                        <p>A Rectangle object to add to this Rectangle object.</p>
+                        <p>toUnion A Rectangle object to add to this Rectangle object.</p>
 
                     </div>
 
@@ -3511,14 +3026,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">output</code>
+                        <code class="param-name">[output</code>
                         <span class="type"><a href="..\classes\Rectangle.html" class="crosslink">Rectangle</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Optional Rectangle object. If given the new values will be set into this object, otherwise a brand new Rectangle object will be created and returned.</p>
+                        <p>= Rectangle]  output Optional Rectangle object. If given the new values will be set into this object, otherwise a brand new Rectangle object will be created and returned.</p>
 
                     </div>
 
@@ -3549,77 +3064,6 @@
 </div>
 
                 
-                    <div id="method_volume" class="method item">
-    <h3 class="name"><code>volume</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Rectangle.ts.html#l200"><code>src\geom\Rectangle.ts:200</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The volume of the Rectangle object in pixels, derived from width * height</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
             </div>
         
 
@@ -3628,12 +3072,14 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_height" class="property item">
-    <h3 class="name"><code>height</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_bottom" class="property item public">
+    <h3 class="name"><code>bottom</code></h3>
+    <span class="type">Unknown</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3651,7 +3097,148 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l58"><code>src\geom\Rectangle.ts:58</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l75"><code>src\geom\Rectangle.ts:75</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The sum of the y and height properties. Changing the bottom property of a Rectangle object has no effect on the x, y and width properties, but does change the height property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_bottomRight" class="property item public">
+    <h3 class="name"><code>bottomRight</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l116"><code>src\geom\Rectangle.ts:116</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns a Point containing the location of the Rectangle&#39;s bottom-right corner, determined by the values of the right and bottom properties.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_center" class="property item public">
+    <h3 class="name"><code>center</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l103"><code>src\geom\Rectangle.ts:103</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns a Point containing the location of the center of the Rectangle, relative to the top left edge</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_height" class="property item public">
+    <h3 class="name"><code>height</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l67"><code>src\geom\Rectangle.ts:67</code></a>
         
         </p>
 
@@ -3673,9 +3260,244 @@
 </div>
 
                 
-                    <div id="property_width" class="property item">
-    <h3 class="name"><code>width</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_left" class="property item public">
+    <h3 class="name"><code>left</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l139"><code>src\geom\Rectangle.ts:139</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The x coordinate of the top-left corner of the rectangle. Changing the left property of a Rectangle object has no effect on the y and height properties. However it does affect the width property, whereas changing the x value does not affect the width property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_perimeter" class="property item public">
+    <h3 class="name"><code>perimeter</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l226"><code>src\geom\Rectangle.ts:226</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The perimeter size of the Rectangle object in pixels. This is the sum of all 4 sides.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_right" class="property item public">
+    <h3 class="name"><code>right</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l173"><code>src\geom\Rectangle.ts:173</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The sum of the x and width properties. Changing the right property of a Rectangle object has no effect on the x, y and height properties. However it does affect the width property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_size" class="property item public">
+    <h3 class="name"><code>size</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l201"><code>src\geom\Rectangle.ts:201</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The size of the Rectangle object, expressed as a Point object with the values of the width and height properties.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_topLeft" class="property item public">
+    <h3 class="name"><code>topLeft</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l271"><code>src\geom\Rectangle.ts:271</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The location of the Rectangle object&#39;s top-left corner, determined by the x and y coordinates of the point.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_volume" class="property item">
+    <h3 class="name"><code>volume</code></h3>
+    <span class="type">Unknown</span>
 
     
 
@@ -3696,7 +3518,54 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l51"><code>src\geom\Rectangle.ts:51</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l214"><code>src\geom\Rectangle.ts:214</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The volume of the Rectangle object in pixels, derived from width * height</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width" class="property item public">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Rectangle.ts.html#l59"><code>src\geom\Rectangle.ts:59</code></a>
         
         </p>
 
@@ -3718,12 +3587,14 @@
 </div>
 
                 
-                    <div id="property_x" class="property item">
+                    <div id="property_x" class="property item public">
     <h3 class="name"><code>x</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3741,7 +3612,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l37"><code>src\geom\Rectangle.ts:37</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l43"><code>src\geom\Rectangle.ts:43</code></a>
         
         </p>
 
@@ -3763,12 +3634,14 @@
 </div>
 
                 
-                    <div id="property_y" class="property item">
+                    <div id="property_y" class="property item public">
     <h3 class="name"><code>y</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3786,7 +3659,7 @@
             
         
         
-        <a href="../files/src_geom_Rectangle.ts.html#l44"><code>src\geom\Rectangle.ts:44</code></a>
+        <a href="../files/src_geom_Rectangle.ts.html#l51"><code>src\geom\Rectangle.ts:51</code></a>
         
         </p>
 

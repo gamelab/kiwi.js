@@ -261,6 +261,13 @@ module Kiwi.Components {
         public moves: boolean;
 
         /**
+        * If the object should be seperated.
+        * @property seperate
+        * @type boolean
+        */
+        public seperate: boolean;
+
+        /**
          * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
          * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
          * You can even use them broadly as boolean values if you're feeling saucy!

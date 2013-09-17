@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/Canvas.html">Canvas</a></li>
             
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Circular.html">Circular</a></li>
@@ -107,7 +109,23 @@
             
                 <li><a href="../classes/GameMath.html">GameMath</a></li>
             
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
                 <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
             
                 <li><a href="../classes/IChild.html">IChild</a></li>
             
@@ -189,6 +207,14 @@
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
             
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
@@ -217,15 +243,21 @@
             
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
                 <li><a href="../modules/Input.html">Input</a></li>
             
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
                 <li><a href="../modules/System.html">System</a></li>
             
                 <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
             
                 <li><a href="../modules/Time.html">Time</a></li>
             
@@ -290,8 +322,8 @@ module Kiwi {
         /**
 		* [REQUIRES DESCRIPTION]
         * @constructor
-        * @param {Kiwi.Game} game
-        * @return {Kiwi.CameraManager} 
+        * @param {Game} game
+        * @return {CameraManager} 
     	*/
         constructor(game: Kiwi.Game) {
              
@@ -305,6 +337,7 @@ module Kiwi {
         * Returns the type of this object
         * @method objType
         * @return {String} The type of this object
+        * @public
         */
         public objType():string {
             return &quot;CameraManager&quot;;
@@ -313,7 +346,7 @@ module Kiwi {
         /**
 		* The game this object belongs to
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
     	*/
         private _game: Kiwi.Game;
@@ -321,7 +354,7 @@ module Kiwi {
         /**
 		* A collection of cameras
         * @property _cameras
-        * @type Array
+        * @type Camara[]
         * @private
     	*/
         private _cameras: Kiwi.Camera[];
@@ -335,15 +368,17 @@ module Kiwi {
         private _nextCameraID: number;
 
         /**
-		* The default camera of this camera manager.
+		* The default camera that is on this manager.
         * @property defaultCamera
-        * @type Kiwi.Layer
+        * @type Camara
+        * @public
     	*/
         public defaultCamera: Kiwi.Camera;
 
         /**
 		* Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
         * @method boot
+        * @public
     	*/
         public boot() {
 
@@ -359,7 +394,8 @@ module Kiwi {
         * @param {Number} y. The y position of the new camera.
         * @param {Number} width. The width of the new camera.
         * @param {Number} height. The height of the new camera.
-        * @return {Kiwi.Camera} The new camera object.
+        * @return {Camera} The new camera object.
+        * @public
         */
         public create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera {
             
@@ -376,8 +412,9 @@ module Kiwi {
         /**
 		* Removes the given camera, if it is present in the camera managers camera collection.
         * @method remove
-        * @param {Kiwi.Camera} camera
+        * @param camera {Camera}
         * @return {boolean} True if the camera was removed, false otherwise.
+        * @public
     	*/
         public remove(camera: Kiwi.Camera):boolean {
              
@@ -395,6 +432,7 @@ module Kiwi {
         /**
 		* Calls update on all the cameras.
         * @method update
+        * @public
     	*/
         public update() {
 
@@ -411,6 +449,7 @@ module Kiwi {
         /**
 		* Calls the render method on all the cameras
         * @method render
+        * @public
     	*/
         public render() {
 
@@ -432,6 +471,7 @@ module Kiwi {
         /**
 		* Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
         * @method removeAll - note should not remove default
+        * @public
     	*/
         public removeAll() {
             this._cameras.length = 0; 

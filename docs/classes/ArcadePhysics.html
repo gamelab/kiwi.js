@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/Canvas.html">Canvas</a></li>
             
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Circular.html">Circular</a></li>
@@ -107,7 +109,23 @@
             
                 <li><a href="../classes/GameMath.html">GameMath</a></li>
             
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
                 <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
             
                 <li><a href="../classes/IChild.html">IChild</a></li>
             
@@ -189,6 +207,14 @@
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
             
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
@@ -217,15 +243,21 @@
             
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
                 <li><a href="../modules/Input.html">Input</a></li>
             
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
                 <li><a href="../modules/System.html">System</a></li>
             
                 <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
             
                 <li><a href="../modules/Time.html">Time</a></li>
             
@@ -272,6 +304,10 @@
 <div class="box meta">
     
 
+    
+        <div class="extends">
+            Extends <a href="..\classes\Component.html" class="crosslink">Component</a>
+        </div>
     
 
     
@@ -325,9 +361,16 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                         
-                            <li class="index-item method">
+                            <li class="index-item method public inherited">
+                                <a href="#method_destroy">destroy</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
@@ -355,6 +398,20 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item method public inherited">
+                                <a href="#method_postUpdate">postUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_preUpdate">preUpdate</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method">
                                 <a href="#method_setCallback">setCallback</a>
 
@@ -369,6 +426,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item method public inherited">
+                                <a href="#method_update">update</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -377,7 +441,7 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
                             <li class="index-item property">
                                 <a href="#property__parent">_parent</a>
@@ -388,6 +452,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                         
                             <li class="index-item property">
                                 <a href="#property_acceleration">acceleration</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_active">active</a>
 
                                 
                                 
@@ -435,6 +506,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_dirty">dirty</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property">
                                 <a href="#property_DOWN">DOWN</a>
 
@@ -458,6 +536,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                         
                             <li class="index-item property">
                                 <a href="#property_FLOOR">FLOOR</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_game">game</a>
 
                                 
                                 
@@ -505,6 +590,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_name">name</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property">
                                 <a href="#property_NONE">NONE</a>
 
@@ -519,8 +611,22 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item property public inherited">
+                                <a href="#property_owner">owner</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property">
                                 <a href="#property_RIGHT">RIGHT</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_seperate">seperate</a>
 
                                 
                                 
@@ -575,6 +681,60 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method_destroy" class="method item public inherited">
+    <h3 class="name"><code>destroy</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Component.html#method_destroy">Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l105"><code>src\core\Component.ts:105</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Destroys this component and all of the properties that exist on it.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_objType" class="method item">
     <h3 class="name"><code>objType</code></h3>
 
@@ -602,16 +762,16 @@ either groups or gameobjects within the same argument, the ported functions one 
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Component.html#method_objType">
+                Component
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l89"><code>src\components\ArcadePhysics.ts:89</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l90"><code>src\components\ArcadePhysics.ts:90</code></a>
         
         </p>
 
@@ -698,7 +858,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l676"><code>src\components\ArcadePhysics.ts:676</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l684"><code>src\components\ArcadePhysics.ts:684</code></a>
         
         </p>
 
@@ -823,7 +983,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l703"><code>src\components\ArcadePhysics.ts:703</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l711"><code>src\components\ArcadePhysics.ts:711</code></a>
         
         </p>
 
@@ -932,7 +1092,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l796"><code>src\components\ArcadePhysics.ts:796</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l804"><code>src\components\ArcadePhysics.ts:804</code></a>
         
         </p>
 
@@ -961,6 +1121,114 @@ either groups or gameobjects within the same argument, the ported functions one 
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_postUpdate" class="method item public inherited">
+    <h3 class="name"><code>postUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Component.html#method_postUpdate">Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l98"><code>src\core\Component.ts:98</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_preUpdate" class="method item public inherited">
+    <h3 class="name"><code>preUpdate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Component.html#method_preUpdate">Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l84"><code>src\core\Component.ts:84</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.</p>
+
+    </div>
+
+    
+
     
 
     
@@ -1015,7 +1283,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l782"><code>src\components\ArcadePhysics.ts:782</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l790"><code>src\components\ArcadePhysics.ts:790</code></a>
         
         </p>
 
@@ -1122,7 +1390,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l308"><code>src\components\ArcadePhysics.ts:308</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l316"><code>src\components\ArcadePhysics.ts:316</code></a>
         
         </p>
 
@@ -1182,6 +1450,60 @@ to set the value of allowCollisions directly.</p>
 </div>
 
                 
+                    <div id="method_update" class="method item public inherited">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Component.html#method_update">Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l91"><code>src\core\Component.ts:91</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
             </div>
         
 
@@ -1213,7 +1535,7 @@ to set the value of allowCollisions directly.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l24"><code>src\components\ArcadePhysics.ts:24</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l25"><code>src\components\ArcadePhysics.ts:25</code></a>
         
         </p>
 
@@ -1258,7 +1580,7 @@ to set the value of allowCollisions directly.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l199"><code>src\components\ArcadePhysics.ts:199</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l200"><code>src\components\ArcadePhysics.ts:200</code></a>
         
         </p>
 
@@ -1273,6 +1595,52 @@ Useful for smooth movement and gravity.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_active" class="property item public inherited">
+    <h3 class="name"><code>active</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Component.html#property_active">Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l66"><code>src\core\Component.ts:66</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An active Component is one that has its update method called by its parent.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -1304,7 +1672,7 @@ Useful for smooth movement and gravity.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l223"><code>src\components\ArcadePhysics.ts:223</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l224"><code>src\components\ArcadePhysics.ts:224</code></a>
         
         </p>
 
@@ -1351,7 +1719,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l239"><code>src\components\ArcadePhysics.ts:239</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l240"><code>src\components\ArcadePhysics.ts:240</code></a>
         
         </p>
 
@@ -1396,7 +1764,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l246"><code>src\components\ArcadePhysics.ts:246</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l247"><code>src\components\ArcadePhysics.ts:247</code></a>
         
         </p>
 
@@ -1441,7 +1809,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l232"><code>src\components\ArcadePhysics.ts:232</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l233"><code>src\components\ArcadePhysics.ts:233</code></a>
         
         </p>
 
@@ -1486,7 +1854,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l155"><code>src\components\ArcadePhysics.ts:155</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l156"><code>src\components\ArcadePhysics.ts:156</code></a>
         
         </p>
 
@@ -1531,7 +1899,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l134"><code>src\components\ArcadePhysics.ts:134</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l135"><code>src\components\ArcadePhysics.ts:135</code></a>
         
         </p>
 
@@ -1545,6 +1913,52 @@ performance for this sprite by a factor of 10x!</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_dirty" class="property item public inherited">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Component.html#property_dirty">Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l75"><code>src\core\Component.ts:75</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The state of this component. DEPRECATED so we can use signals instead, but left in case is needed elsewhere</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -1576,7 +1990,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l120"><code>src\components\ArcadePhysics.ts:120</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l121"><code>src\components\ArcadePhysics.ts:121</code></a>
         
         </p>
 
@@ -1621,7 +2035,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l207"><code>src\components\ArcadePhysics.ts:207</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l208"><code>src\components\ArcadePhysics.ts:208</code></a>
         
         </p>
 
@@ -1667,7 +2081,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l192"><code>src\components\ArcadePhysics.ts:192</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l193"><code>src\components\ArcadePhysics.ts:193</code></a>
         
         </p>
 
@@ -1712,7 +2126,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l141"><code>src\components\ArcadePhysics.ts:141</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l142"><code>src\components\ArcadePhysics.ts:142</code></a>
         
         </p>
 
@@ -1723,6 +2137,50 @@ when acceleration is not affecting the sprite.</p>
 
     <div class="description">
         <p>Special-case constant meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public inherited">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Component.html#property_game">Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l50"><code>src\core\Component.ts:50</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game this Component belongs to</p>
 
     </div>
 
@@ -1757,7 +2215,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l45"><code>src\components\ArcadePhysics.ts:45</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l46"><code>src\components\ArcadePhysics.ts:46</code></a>
         
         </p>
 
@@ -1802,7 +2260,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l169"><code>src\components\ArcadePhysics.ts:169</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l170"><code>src\components\ArcadePhysics.ts:170</code></a>
         
         </p>
 
@@ -1847,7 +2305,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l99"><code>src\components\ArcadePhysics.ts:99</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l100"><code>src\components\ArcadePhysics.ts:100</code></a>
         
         </p>
 
@@ -1892,7 +2350,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l183"><code>src\components\ArcadePhysics.ts:183</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l184"><code>src\components\ArcadePhysics.ts:184</code></a>
         
         </p>
 
@@ -1939,7 +2397,7 @@ Change at your own risk; effects seem crazy unpredictable so far!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l253"><code>src\components\ArcadePhysics.ts:253</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l254"><code>src\components\ArcadePhysics.ts:254</code></a>
         
         </p>
 
@@ -1984,7 +2442,7 @@ Change at your own risk; effects seem crazy unpredictable so far!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l215"><code>src\components\ArcadePhysics.ts:215</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l216"><code>src\components\ArcadePhysics.ts:216</code></a>
         
         </p>
 
@@ -1996,6 +2454,50 @@ Change at your own risk; effects seem crazy unpredictable so far!</p>
     <div class="description">
         <p>If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it
 to cap the speed automatically (very useful!).</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_name" class="property item public inherited">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Component.html#property_name">Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l58"><code>src\core\Component.ts:58</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The name of this component.</p>
 
     </div>
 
@@ -2030,7 +2532,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l127"><code>src\components\ArcadePhysics.ts:127</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l128"><code>src\components\ArcadePhysics.ts:128</code></a>
         
         </p>
 
@@ -2075,7 +2577,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l162"><code>src\components\ArcadePhysics.ts:162</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l163"><code>src\components\ArcadePhysics.ts:163</code></a>
         
         </p>
 
@@ -2086,6 +2588,50 @@ to cap the speed automatically (very useful!).</p>
 
     <div class="description">
         <p>Handy constant used during collision resolution (see <code>separateX()</code> and <code>separateY()</code>).</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_owner" class="property item public inherited">
+    <h3 class="name"><code>owner</code></h3>
+    <span class="type"><a href="..\classes\IChild.html" class="crosslink">IChild</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Component.html#property_owner">Component</a>:
+            
+        
+        
+        <a href="../files/src_core_Component.ts.html#l42"><code>src\core\Component.ts:42</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The IChild that owns this entity</p>
 
     </div>
 
@@ -2120,7 +2666,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l106"><code>src\components\ArcadePhysics.ts:106</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l107"><code>src\components\ArcadePhysics.ts:107</code></a>
         
         </p>
 
@@ -2131,6 +2677,51 @@ to cap the speed automatically (very useful!).</p>
 
     <div class="description">
         <p>Generic value for &quot;right&quot; Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_seperate" class="property item">
+    <h3 class="name"><code>seperate</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l263"><code>src\components\ArcadePhysics.ts:263</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the object should be seperated.</p>
 
     </div>
 
@@ -2165,7 +2756,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l31"><code>src\components\ArcadePhysics.ts:31</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l32"><code>src\components\ArcadePhysics.ts:32</code></a>
         
         </p>
 
@@ -2210,7 +2801,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l113"><code>src\components\ArcadePhysics.ts:113</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l114"><code>src\components\ArcadePhysics.ts:114</code></a>
         
         </p>
 
@@ -2255,7 +2846,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l176"><code>src\components\ArcadePhysics.ts:176</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l177"><code>src\components\ArcadePhysics.ts:177</code></a>
         
         </p>
 
@@ -2300,7 +2891,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l148"><code>src\components\ArcadePhysics.ts:148</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l149"><code>src\components\ArcadePhysics.ts:149</code></a>
         
         </p>
 
@@ -2345,7 +2936,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l38"><code>src\components\ArcadePhysics.ts:38</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l39"><code>src\components\ArcadePhysics.ts:39</code></a>
         
         </p>
 

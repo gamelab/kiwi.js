@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/Canvas.html">Canvas</a></li>
             
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Circular.html">Circular</a></li>
@@ -107,7 +109,23 @@
             
                 <li><a href="../classes/GameMath.html">GameMath</a></li>
             
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
                 <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
             
                 <li><a href="../classes/IChild.html">IChild</a></li>
             
@@ -189,6 +207,14 @@
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
             
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
@@ -217,15 +243,21 @@
             
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
                 <li><a href="../modules/Input.html">Input</a></li>
             
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
                 <li><a href="../modules/System.html">System</a></li>
             
                 <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
             
                 <li><a href="../modules/Time.html">Time</a></li>
             
@@ -323,28 +355,21 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
-                                <a href="#method_angle">angle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clone">clone</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_copyFrom">copyFrom</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_copyTo">copyTo</a>
 
                                 
@@ -358,7 +383,14 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_setTo">setTo</a>
 
                                 
@@ -366,21 +398,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_slope">slope</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
                                 <a href="#method_toString">toString</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_yIntercept">yIntercept</a>
 
                                 
                                 
@@ -396,29 +414,50 @@
 
                     <ul class="index-list properties">
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
+                                <a href="#property_angle">angle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_slope">slope</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_x1">x1</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_x2">x2</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_y1">y1</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_y2">y2</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_yIntercept">yIntercept</a>
 
                                 
                                 
@@ -438,78 +477,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_angle" class="method item">
-    <h3 class="name"><code>angle</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Ray.ts.html#l120"><code>src\geom\Ray.ts:120</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the angle of the ray.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clone" class="method item">
+                    <div id="method_clone" class="method item public">
     <h3 class="name"><code>clone</code></h3>
 
     
@@ -518,7 +486,7 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[output]</code>
+                        <code>[output</code>
                     
                 </li>
             
@@ -528,12 +496,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Ray</span>
+            <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -555,7 +525,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l64"><code>src\geom\Ray.ts:64</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l73"><code>src\geom\Ray.ts:73</code></a>
         
         </p>
 
@@ -577,15 +547,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output]</code>
-                        <span class="type">Kiwi.Geom.Ray</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">[output</code>
+                        <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>= Ray]</p>
+
                     </div>
 
                     
@@ -602,7 +572,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Ray</span>:
+                        <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>:
                     
                 
             </div>
@@ -613,7 +583,7 @@
 </div>
 
                 
-                    <div id="method_copyFrom" class="method item">
+                    <div id="method_copyFrom" class="method item public">
     <h3 class="name"><code>copyFrom</code></h3>
 
     
@@ -632,12 +602,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Line</span>
+            <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -659,7 +631,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l76"><code>src\geom\Ray.ts:76</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l86"><code>src\geom\Ray.ts:86</code></a>
         
         </p>
 
@@ -682,7 +654,7 @@
                 <li class="param">
                     
                         <code class="param-name">source</code>
-                        <span class="type">Kiwi.Geom.Line</span>
+                        <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>
                     
 
                     
@@ -705,7 +677,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Line</span>:
+                        <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>:
                     
                 
             </div>
@@ -716,7 +688,7 @@
 </div>
 
                 
-                    <div id="method_copyTo" class="method item">
+                    <div id="method_copyTo" class="method item public">
     <h3 class="name"><code>copyTo</code></h3>
 
     
@@ -735,12 +707,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Line</span>
+            <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -762,7 +736,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l88"><code>src\geom\Ray.ts:88</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l99"><code>src\geom\Ray.ts:99</code></a>
         
         </p>
 
@@ -785,7 +759,7 @@
                 <li class="param">
                     
                         <code class="param-name">target</code>
-                        <span class="type">Kiwi.Geom.Line</span>
+                        <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>
                     
 
                     
@@ -808,7 +782,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Line</span>:
+                        <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>:
                     
                 
             </div>
@@ -871,7 +845,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l153"><code>src\geom\Ray.ts:153</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l170"><code>src\geom\Ray.ts:170</code></a>
         
         </p>
 
@@ -944,7 +918,80 @@
 </div>
 
                 
-                    <div id="method_setTo" class="method item">
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Ray.ts.html#l31"><code>src\geom\Ray.ts:31</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of this object.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setTo" class="method item public">
     <h3 class="name"><code>setTo</code></h3>
 
     
@@ -981,12 +1028,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Line</span>
+            <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1008,7 +1057,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l100"><code>src\geom\Ray.ts:100</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l112"><code>src\geom\Ray.ts:112</code></a>
         
         </p>
 
@@ -1099,78 +1148,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Line</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_slope" class="method item">
-    <h3 class="name"><code>slope</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Ray.ts.html#l131"><code>src\geom\Ray.ts:131</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the slope of the ray.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="..\classes\Ray.html" class="crosslink">Ray</a></span>:
                     
                 
             </div>
@@ -1217,7 +1195,7 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l177"><code>src\geom\Ray.ts:177</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l194"><code>src\geom\Ray.ts:194</code></a>
         
         </p>
 
@@ -1252,76 +1230,6 @@
 </div>
 
                 
-                    <div id="method_yIntercept" class="method item">
-    <h3 class="name"><code>yIntercept</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Ray.ts.html#l142"><code>src\geom\Ray.ts:142</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
             </div>
         
 
@@ -1330,12 +1238,14 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_x1" class="property item">
-    <h3 class="name"><code>x1</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_angle" class="property item public">
+    <h3 class="name"><code>angle</code></h3>
+    <span class="type">Unknown</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1353,7 +1263,101 @@
             
         
         
-        <a href="../files/src_geom_Ray.ts.html#l36"><code>src\geom\Ray.ts:36</code></a>
+        <a href="../files/src_geom_Ray.ts.html#l133"><code>src\geom\Ray.ts:133</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the angle of the ray.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_slope" class="property item public">
+    <h3 class="name"><code>slope</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Ray.ts.html#l145"><code>src\geom\Ray.ts:145</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the slope of the ray.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x1" class="property item public">
+    <h3 class="name"><code>x1</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Ray.ts.html#l41"><code>src\geom\Ray.ts:41</code></a>
         
         </p>
 
@@ -1375,102 +1379,14 @@
 </div>
 
                 
-                    <div id="property_x2" class="property item">
+                    <div id="property_x2" class="property item public">
     <h3 class="name"><code>x2</code></h3>
     <span class="type">Number</span>
 
     
 
     
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Ray.ts.html#l50"><code>src\geom\Ray.ts:50</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The x component of the direction point of the ray</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_y1" class="property item">
-    <h3 class="name"><code>y1</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Ray.ts.html#l43"><code>src\geom\Ray.ts:43</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The y component of the initial point of the ray</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_y2" class="property item">
-    <h3 class="name"><code>y2</code></h3>
-    <span class="type">Number</span>
-
-    
-
+        <span class="flag public">public</span>
     
 
     
@@ -1498,8 +1414,148 @@
     </div>
 
     <div class="description">
+        <p>The x component of the direction point of the ray</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y1" class="property item public">
+    <h3 class="name"><code>y1</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Ray.ts.html#l49"><code>src\geom\Ray.ts:49</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The y component of the initial point of the ray</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y2" class="property item public">
+    <h3 class="name"><code>y2</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Ray.ts.html#l65"><code>src\geom\Ray.ts:65</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
         <p>The y component of the direction point of the ray</p>
 
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_yIntercept" class="property item public">
+    <h3 class="name"><code>yIntercept</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Ray.ts.html#l157"><code>src\geom\Ray.ts:157</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
     </div>
 
     

@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/Canvas.html">Canvas</a></li>
             
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Circular.html">Circular</a></li>
@@ -107,7 +109,23 @@
             
                 <li><a href="../classes/GameMath.html">GameMath</a></li>
             
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
                 <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
             
                 <li><a href="../classes/IChild.html">IChild</a></li>
             
@@ -189,6 +207,14 @@
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
             
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
@@ -217,15 +243,21 @@
             
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
                 <li><a href="../modules/Input.html">Input</a></li>
             
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
                 <li><a href="../modules/System.html">System</a></li>
             
                 <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
             
                 <li><a href="../modules/Time.html">Time</a></li>
             
@@ -377,7 +409,7 @@
                     
 
                     <div class="param-description">
-                        <p>One-liner. Default is ?.</p>
+                        <p>x One-liner. Default is ?.</p>
 
                     </div>
 
@@ -393,7 +425,7 @@
                     
 
                     <div class="param-description">
-                        <p>One-liner. Default is ?.</p>
+                        <p>y One-liner. Default is ?.</p>
 
                     </div>
 
@@ -436,49 +468,42 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_add">add</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addTo">addTo</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_addTo">addTo</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clamp">clamp</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clampX">clampX</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clampY">clampY</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clone">clone</a>
 
                                 
@@ -506,49 +531,56 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_distanceCompare">distanceCompare</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_distanceFrom">distanceFrom</a>
+                            <li class="index-item method public">
+                                <a href="#method_distanceTo">distanceTo</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_distanceToXY">distanceToXY</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_equals">equals</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_interpolate">interpolate</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_invert">invert</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_offset">offset</a>
 
                                 
@@ -562,28 +594,35 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_polar">polar</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_set">set</a>
+                            <li class="index-item method public">
+                                <a href="#method_setTo">setTo</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_subtract">subtract</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_subtractFrom">subtractFrom</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_toString">toString</a>
 
                                 
@@ -600,14 +639,14 @@
 
                     <ul class="index-list properties">
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_x">x</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_y">y</a>
 
                                 
@@ -628,7 +667,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_add" class="method item">
+                    <div id="method_add" class="method item public">
     <h3 class="name"><code>add</code></h3>
 
     
@@ -637,7 +676,13 @@
             
                 <li class="arg">
                     
-                        <code>point</code>
+                        <code>toAdd</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>output</code>
                     
                 </li>
             
@@ -653,6 +698,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -674,7 +721,7 @@
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l62"><code>src\geom\Point.ts:62</code></a>
+        <a href="../files/src_geom_Point.ts.html#l72"><code>src\geom\Point.ts:72</code></a>
         
         </p>
 
@@ -697,7 +744,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">point</code>
+                        <code class="param-name">toAdd</code>
                         <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
                     
 
@@ -708,6 +755,21 @@
 <li>The point to be added.</li>
 </ul>
 
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">output</code>
+                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
                     </div>
 
                     
@@ -737,7 +799,7 @@
 </div>
 
                 
-                    <div id="method_addTo" class="method item">
+                    <div id="method_addTo" class="method item public">
     <h3 class="name"><code>addTo</code></h3>
 
     
@@ -769,6 +831,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -789,7 +853,7 @@
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l87"><code>src\geom\Point.ts:87</code></a>
+        <a href="../files/src_geom_Point.ts.html#l86"><code>src\geom\Point.ts:86</code></a>
         
         </p>
 
@@ -870,140 +934,7 @@
 </div>
 
                 
-                    <div id="method_addTo" class="method item">
-    <h3 class="name"><code>addTo</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>y</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l74"><code>src\geom\Point.ts:74</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Adds the given values to the coordinates of this point and returns it</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The amount to add to the x value of the point</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The amount to add to the x value of the point</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>:
-                    
-                    <p>This Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clamp" class="method item">
+                    <div id="method_clamp" class="method item public">
     <h3 class="name"><code>clamp</code></h3>
 
     
@@ -1012,13 +943,13 @@
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>min</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>max</code>
                     
                 </li>
             
@@ -1035,134 +966,7 @@
     
 
     
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l111"><code>src\geom\Point.ts:111</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Clamps this Point object to be between the given min and max</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">The</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>minimum value to clamp this Point to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">The</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>maximum value to clamp this Point to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>:
-                    
-                    <p>This Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clampX" class="method item">
-    <h3 class="name"><code>clampX</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>The</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>The</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
-        </span>
-    
-
-    
-
+        <span class="flag public">public</span>
     
 
     
@@ -1195,7 +999,7 @@
     </div>
 
     <div class="description">
-        <p>Clamps the x value of this Point object to be between the given min and max</p>
+        <p>Clamps this Point object to be between the given min and max</p>
 
     </div>
 
@@ -1207,14 +1011,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">min</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>minimum value to clamp this Point to</p>
+                        <p>The minimum value to clamp this Point to</p>
 
                     </div>
 
@@ -1223,14 +1027,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">max</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>maximum value to clamp this Point to</p>
+                        <p>The maximum value to clamp this Point to</p>
 
                     </div>
 
@@ -1261,8 +1065,8 @@
 </div>
 
                 
-                    <div id="method_clampY" class="method item">
-    <h3 class="name"><code>clampY</code></h3>
+                    <div id="method_clampX" class="method item public">
+    <h3 class="name"><code>clampX</code></h3>
 
     
         <div class="args">
@@ -1270,13 +1074,13 @@
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>min</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>max</code>
                     
                 </li>
             
@@ -1292,6 +1096,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1313,7 +1119,138 @@
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l141"><code>src\geom\Point.ts:141</code></a>
+        <a href="../files/src_geom_Point.ts.html#l142"><code>src\geom\Point.ts:142</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Clamps the x value of this Point object to be between the given min and max</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">min</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The minimum value to clamp this Point to</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">max</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The maximum value to clamp this Point to</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>:
+                    
+                    <p>This Point object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_clampY" class="method item public">
+    <h3 class="name"><code>clampY</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>min</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>max</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Point.ts.html#l158"><code>src\geom\Point.ts:158</code></a>
         
         </p>
 
@@ -1336,14 +1273,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">min</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>minimum value to clamp this Point to</p>
+                        <p>The minimum value to clamp this Point to</p>
 
                     </div>
 
@@ -1352,14 +1289,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name">max</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>maximum value to clamp this Point to</p>
+                        <p>The maximum value to clamp this Point to</p>
 
                     </div>
 
@@ -1390,7 +1327,7 @@
 </div>
 
                 
-                    <div id="method_clone" class="method item">
+                    <div id="method_clone" class="method item public">
     <h3 class="name"><code>clone</code></h3>
 
     
@@ -1399,7 +1336,7 @@
             
                 <li class="arg">
                     
-                        <code>output</code>
+                        <code>[output</code>
                     
                 </li>
             
@@ -1415,6 +1352,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1436,7 +1375,7 @@
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l157"><code>src\geom\Point.ts:157</code></a>
+        <a href="../files/src_geom_Point.ts.html#l175"><code>src\geom\Point.ts:175</code></a>
         
         </p>
 
@@ -1459,14 +1398,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">output</code>
+                        <code class="param-name">[output</code>
                         <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.</p>
+                        <p>= Point] Optional Point object. If given the values will be set into this object, otherwise a brand new Point object will be created and returned.</p>
 
                     </div>
 
@@ -1543,7 +1482,7 @@
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l169"><code>src\geom\Point.ts:169</code></a>
+        <a href="../files/src_geom_Point.ts.html#l188"><code>src\geom\Point.ts:188</code></a>
         
         </p>
 
@@ -1573,9 +1512,7 @@
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The point to copy from.</li>
-</ul>
+                        <p>The point to copy from.</p>
 
                     </div>
 
@@ -1652,7 +1589,7 @@
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l181"><code>src\geom\Point.ts:181</code></a>
+        <a href="../files/src_geom_Point.ts.html#l200"><code>src\geom\Point.ts:200</code></a>
         
         </p>
 
@@ -1682,9 +1619,7 @@
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The point to copy to.</li>
-</ul>
+                        <p>target - The point to copy to.</p>
 
                     </div>
 
@@ -1736,7 +1671,7 @@
             
                 <li class="arg">
                     
-                        <code>round</code>
+                        <code>[round</code>
                     
                 </li>
             
@@ -1773,7 +1708,7 @@
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l240"><code>src\geom\Point.ts:240</code></a>
+        <a href="../files/src_geom_Point.ts.html#l261"><code>src\geom\Point.ts:261</code></a>
         
         </p>
 
@@ -1803,9 +1738,7 @@
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The first Point object.</li>
-</ul>
+                        <p>pointA - The first Point object.</p>
 
                     </div>
 
@@ -1821,9 +1754,7 @@
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The second Point object.</li>
-</ul>
+                        <p>pointB - The second Point object.</p>
 
                     </div>
 
@@ -1832,16 +1763,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">round</code>
+                        <code class="param-name">[round</code>
                         <span class="type">Boolean</span>
                     
 
                     
 
                     <div class="param-description">
-                        <ul>
-<li>Round the distance to the nearest integer (default false)</li>
-</ul>
+                        <p>= Boolean]  round - Round the distance to the nearest integer (default false)</p>
 
                     </div>
 
@@ -1872,7 +1801,7 @@
 </div>
 
                 
-                    <div id="method_distanceCompare" class="method item">
+                    <div id="method_distanceCompare" class="method item public">
     <h3 class="name"><code>distanceCompare</code></h3>
 
     
@@ -1897,430 +1826,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Booleanena</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l276"><code>src\geom\Point.ts:276</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns true if the distance between this point and a target point is greater than or equal a specified distance.
-This avoids using a costly square root operation</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">target</code>
-                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The Point object to use for comparison.</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">distance</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The distance to use for comparison.</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Booleanena</span>:
-                    
-                    <p>True if distance is &gt;= specified distance.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_distanceFrom" class="method item">
-    <h3 class="name"><code>distanceFrom</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>target</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>round</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l193"><code>src\geom\Point.ts:193</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the distance from this Point object to the given Point object.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">target</code>
-                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The destination Point object.</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">round</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>Round the distance to the nearest integer (default false)</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                    <p>The distance between this Point object and the destination Point object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_distanceToXY" class="method item">
-    <h3 class="name"><code>distanceToXY</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>y</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>round</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Point.ts.html#l216"><code>src\geom\Point.ts:216</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the distance from this Point object to the given Point object.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The x value.</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The y value.</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">round</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>Round the distance to the nearest integer (default false)</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                    <p>The distance between this Point object and the x/y values.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_equals" class="method item">
-    <h3 class="name"><code>equals</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>point</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
             <span class="type">Boolean</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2353,6 +1866,416 @@ This avoids using a costly square root operation</p>
     </div>
 
     <div class="description">
+        <p>Returns true if the distance between this point and a target point is greater than or equal a specified distance.
+This avoids using a costly square root operation</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">target</code>
+                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The Point object to use for comparison.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">distance</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The distance to use for comparison.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>True if distance is &gt;= specified distance.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_distanceTo" class="method item public">
+    <h3 class="name"><code>distanceTo</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>target</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>round</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Point.ts.html#l212"><code>src\geom\Point.ts:212</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the distance from this Point object to the given Point object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">target</code>
+                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The destination Point object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">round</code>
+                        <span class="type">Boolean</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Round the distance to the nearest integer (default false)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>The distance between this Point object and the destination Point object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_distanceToXY" class="method item public">
+    <h3 class="name"><code>distanceToXY</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>[round</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Point.ts.html#l236"><code>src\geom\Point.ts:236</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the distance from this Point object to the given Point object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>x - The x value.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>y - The y value.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">[round</code>
+                        <span class="type">Boolean</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>= Boolean]  round - Round the distance to the nearest integer (default false)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>The distance between this Point object and the x/y values.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_equals" class="method item public">
+    <h3 class="name"><code>equals</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>point</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Point.ts.html#l319"><code>src\geom\Point.ts:319</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
         <p>Determines whether this Point object and the given point object are equal. They are equal if they have the same x and y values.</p>
 
     </div>
@@ -2372,9 +2295,7 @@ This avoids using a costly square root operation</p>
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The point to compare against.</li>
-</ul>
+                        <p>The point to compare against.</p>
 
                     </div>
 
@@ -2405,7 +2326,7 @@ This avoids using a costly square root operation</p>
 </div>
 
                 
-                    <div id="method_interpolate" class="method item">
+                    <div id="method_interpolate" class="method item public">
     <h3 class="name"><code>interpolate</code></h3>
 
     
@@ -2443,6 +2364,8 @@ This avoids using a costly square root operation</p>
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -2463,7 +2386,7 @@ This avoids using a costly square root operation</p>
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l316"><code>src\geom\Point.ts:316</code></a>
+        <a href="../files/src_geom_Point.ts.html#l339"><code>src\geom\Point.ts:339</code></a>
         
         </p>
 
@@ -2494,9 +2417,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The first Point object.</li>
-</ul>
+                        <p>The first Point object.</p>
 
                     </div>
 
@@ -2512,9 +2433,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The second Point object.</li>
-</ul>
+                        <p>The second Point object.</p>
 
                     </div>
 
@@ -2530,9 +2449,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The level of interpolation between the two points. Indicates where the new point will be, along the line between pt1 and pt2. If f=1, pt1 is returned; if f=0, pt2 is returned.</li>
-</ul>
+                        <p>The level of interpolation between the two points. Indicates where the new point will be, along the line between pt1 and pt2. If f=1, pt1 is returned; if f=0, pt2 is returned.</p>
 
                     </div>
 
@@ -2563,7 +2480,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
 </div>
 
                 
-                    <div id="method_invert" class="method item">
+                    <div id="method_invert" class="method item public">
     <h3 class="name"><code>invert</code></h3>
 
     
@@ -2578,6 +2495,8 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2599,7 +2518,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l100"><code>src\geom\Point.ts:100</code></a>
+        <a href="../files/src_geom_Point.ts.html#l114"><code>src\geom\Point.ts:114</code></a>
         
         </p>
 
@@ -2636,7 +2555,80 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
 </div>
 
                 
-                    <div id="method_offset" class="method item">
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Point.ts.html#l31"><code>src\geom\Point.ts:31</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of this object.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_offset" class="method item public">
     <h3 class="name"><code>offset</code></h3>
 
     
@@ -2668,6 +2660,8 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -2688,7 +2682,7 @@ The closer the value of the parameter f is to 1.0, the closer the interpolated p
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l333"><code>src\geom\Point.ts:333</code></a>
+        <a href="../files/src_geom_Point.ts.html#l357"><code>src\geom\Point.ts:357</code></a>
         
         </p>
 
@@ -2719,9 +2713,7 @@ The value of dy is added to the original value of y to create the new y value.</
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The amount by which to offset the horizontal coordinate, x.</li>
-</ul>
+                        <p>The amount by which to offset the horizontal coordinate, x.</p>
 
                     </div>
 
@@ -2737,9 +2729,7 @@ The value of dy is added to the original value of y to create the new y value.</
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The amount by which to offset the vertical coordinate, y.</li>
-</ul>
+                        <p>The amount by which to offset the vertical coordinate, y.</p>
 
                     </div>
 
@@ -2822,7 +2812,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l49"><code>src\geom\Point.ts:49</code></a>
+        <a href="../files/src_geom_Point.ts.html#l285"><code>src\geom\Point.ts:285</code></a>
         
         </p>
 
@@ -2833,7 +2823,7 @@ The value of dy is added to the original value of y to create the new y value.</
     </div>
 
     <div class="description">
-        <p>Converts a pair of polar coordinates to a Cartesian point coordinate and sets them on the point instance.</p>
+        <p>Creates a new point with cartesian coordinates from a pair of polar coordinates</p>
 
     </div>
 
@@ -2852,9 +2842,7 @@ The value of dy is added to the original value of y to create the new y value.</
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The length coordinate of the polar pair.</li>
-</ul>
+                        <p>The length coordinate of the polar pair.</p>
 
                     </div>
 
@@ -2870,9 +2858,7 @@ The value of dy is added to the original value of y to create the new y value.</
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The angle, in radians, of the polar pair.</li>
-</ul>
+                        <p>The angle, in radians, of the polar pair.</p>
 
                     </div>
 
@@ -2903,7 +2889,7 @@ The value of dy is added to the original value of y to create the new y value.</
 </div>
 
                 
-                    <div id="method_polar" class="method item">
+                    <div id="method_polar" class="method item public">
     <h3 class="name"><code>polar</code></h3>
 
     
@@ -2935,6 +2921,8 @@ The value of dy is added to the original value of y to create the new y value.</
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -2955,7 +2943,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l264"><code>src\geom\Point.ts:264</code></a>
+        <a href="../files/src_geom_Point.ts.html#l58"><code>src\geom\Point.ts:58</code></a>
         
         </p>
 
@@ -2966,7 +2954,7 @@ The value of dy is added to the original value of y to create the new y value.</
     </div>
 
     <div class="description">
-        <p>Creates a new point with cartesian coordinates from a pair of polar coordinates</p>
+        <p>Converts a pair of polar coordinates to a Cartesian point coordinate and sets them on the point instance.</p>
 
     </div>
 
@@ -2985,9 +2973,7 @@ The value of dy is added to the original value of y to create the new y value.</
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The length coordinate of the polar pair.</li>
-</ul>
+                        <p>The length coordinate of the polar pair.</p>
 
                     </div>
 
@@ -3003,9 +2989,7 @@ The value of dy is added to the original value of y to create the new y value.</
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The angle, in radians, of the polar pair.</li>
-</ul>
+                        <p>The angle, in radians, of the polar pair.</p>
 
                     </div>
 
@@ -3036,8 +3020,8 @@ The value of dy is added to the original value of y to create the new y value.</
 </div>
 
                 
-                    <div id="method_set" class="method item">
-    <h3 class="name"><code>set</code></h3>
+                    <div id="method_setTo" class="method item public">
+    <h3 class="name"><code>setTo</code></h3>
 
     
         <div class="args">
@@ -3068,6 +3052,8 @@ The value of dy is added to the original value of y to create the new y value.</
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -3088,7 +3074,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l352"><code>src\geom\Point.ts:352</code></a>
+        <a href="../files/src_geom_Point.ts.html#l377"><code>src\geom\Point.ts:377</code></a>
         
         </p>
 
@@ -3118,9 +3104,7 @@ The value of dy is added to the original value of y to create the new y value.</
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The horizontal position of this point.</li>
-</ul>
+                        <p>The horizontal position of this point.</p>
 
                     </div>
 
@@ -3136,9 +3120,7 @@ The value of dy is added to the original value of y to create the new y value.</
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The vertical position of this point.</li>
-</ul>
+                        <p>The vertical position of this point.</p>
 
                     </div>
 
@@ -3169,7 +3151,7 @@ The value of dy is added to the original value of y to create the new y value.</
 </div>
 
                 
-                    <div id="method_subtract" class="method item">
+                    <div id="method_subtract" class="method item public">
     <h3 class="name"><code>subtract</code></h3>
 
     
@@ -3201,6 +3183,8 @@ The value of dy is added to the original value of y to create the new y value.</
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -3221,7 +3205,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l368"><code>src\geom\Point.ts:368</code></a>
+        <a href="../files/src_geom_Point.ts.html#l394"><code>src\geom\Point.ts:394</code></a>
         
         </p>
 
@@ -3251,9 +3235,7 @@ The value of dy is added to the original value of y to create the new y value.</
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The point to be subtracted.</li>
-</ul>
+                        <p>The point to be subtracted.</p>
 
                     </div>
 
@@ -3300,21 +3282,39 @@ The value of dy is added to the original value of y to create the new y value.</
 </div>
 
                 
-                    <div id="method_toString" class="method item">
-    <h3 class="name"><code>toString</code></h3>
+                    <div id="method_subtractFrom" class="method item public">
+    <h3 class="name"><code>subtractFrom</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
         <span class="returns-inline">
-            <span class="type">String</span>
+            <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3336,7 +3336,126 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l387"><code>src\geom\Point.ts:387</code></a>
+        <a href="../files/src_geom_Point.ts.html#l100"><code>src\geom\Point.ts:100</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds the given values to the coordinates of this point and returns it</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <ul>
+<li>The amount to subtract from the x value of the point</li>
+</ul>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <ul>
+<li>The amount to subtract from the x value of the point</li>
+</ul>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>:
+                    
+                    <p>This Point object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_toString" class="method item public">
+    <h3 class="name"><code>toString</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Point.ts.html#l414"><code>src\geom\Point.ts:414</code></a>
         
         </p>
 
@@ -3381,12 +3500,14 @@ The value of dy is added to the original value of y to create the new y value.</
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_x" class="property item">
+                    <div id="property_x" class="property item public">
     <h3 class="name"><code>x</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3404,7 +3525,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l34"><code>src\geom\Point.ts:34</code></a>
+        <a href="../files/src_geom_Point.ts.html#l41"><code>src\geom\Point.ts:41</code></a>
         
         </p>
 
@@ -3426,12 +3547,14 @@ The value of dy is added to the original value of y to create the new y value.</
 </div>
 
                 
-                    <div id="property_y" class="property item">
+                    <div id="property_y" class="property item public">
     <h3 class="name"><code>y</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3449,7 +3572,7 @@ The value of dy is added to the original value of y to create the new y value.</
             
         
         
-        <a href="../files/src_geom_Point.ts.html#l41"><code>src\geom\Point.ts:41</code></a>
+        <a href="../files/src_geom_Point.ts.html#l49"><code>src\geom\Point.ts:49</code></a>
         
         </p>
 

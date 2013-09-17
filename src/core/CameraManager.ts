@@ -16,8 +16,8 @@ module Kiwi {
         /**
 		* [REQUIRES DESCRIPTION]
         * @constructor
-        * @param {Kiwi.Game} game
-        * @return {Kiwi.CameraManager} 
+        * @param {Game} game
+        * @return {CameraManager} 
     	*/
         constructor(game: Kiwi.Game) {
              
@@ -31,6 +31,7 @@ module Kiwi {
         * Returns the type of this object
         * @method objType
         * @return {String} The type of this object
+        * @public
         */
         public objType():string {
             return "CameraManager";
@@ -39,7 +40,7 @@ module Kiwi {
         /**
 		* The game this object belongs to
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
     	*/
         private _game: Kiwi.Game;
@@ -47,7 +48,7 @@ module Kiwi {
         /**
 		* A collection of cameras
         * @property _cameras
-        * @type Array
+        * @type Camara[]
         * @private
     	*/
         private _cameras: Kiwi.Camera[];
@@ -61,15 +62,17 @@ module Kiwi {
         private _nextCameraID: number;
 
         /**
-		* The default camera of this camera manager.
+		* The default camera that is on this manager.
         * @property defaultCamera
-        * @type Kiwi.Layer
+        * @type Camara
+        * @public
     	*/
         public defaultCamera: Kiwi.Camera;
 
         /**
 		* Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
         * @method boot
+        * @public
     	*/
         public boot() {
 
@@ -85,7 +88,8 @@ module Kiwi {
         * @param {Number} y. The y position of the new camera.
         * @param {Number} width. The width of the new camera.
         * @param {Number} height. The height of the new camera.
-        * @return {Kiwi.Camera} The new camera object.
+        * @return {Camera} The new camera object.
+        * @public
         */
         public create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera {
             
@@ -102,8 +106,9 @@ module Kiwi {
         /**
 		* Removes the given camera, if it is present in the camera managers camera collection.
         * @method remove
-        * @param {Kiwi.Camera} camera
+        * @param camera {Camera}
         * @return {boolean} True if the camera was removed, false otherwise.
+        * @public
     	*/
         public remove(camera: Kiwi.Camera):boolean {
              
@@ -121,6 +126,7 @@ module Kiwi {
         /**
 		* Calls update on all the cameras.
         * @method update
+        * @public
     	*/
         public update() {
 
@@ -137,6 +143,7 @@ module Kiwi {
         /**
 		* Calls the render method on all the cameras
         * @method render
+        * @public
     	*/
         public render() {
 
@@ -158,6 +165,7 @@ module Kiwi {
         /**
 		* Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
         * @method removeAll - note should not remove default
+        * @public
     	*/
         public removeAll() {
             this._cameras.length = 0; 

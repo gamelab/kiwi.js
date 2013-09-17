@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/Canvas.html">Canvas</a></li>
             
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Circular.html">Circular</a></li>
@@ -107,7 +109,23 @@
             
                 <li><a href="../classes/GameMath.html">GameMath</a></li>
             
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
                 <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
             
                 <li><a href="../classes/IChild.html">IChild</a></li>
             
@@ -189,6 +207,14 @@
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
             
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
                 <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
@@ -217,15 +243,21 @@
             
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
                 <li><a href="../modules/Input.html">Input</a></li>
             
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
                 <li><a href="../modules/System.html">System</a></li>
             
                 <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
             
                 <li><a href="../modules/Time.html">Time</a></li>
             
@@ -323,36 +355,29 @@ this can span multiple lines.</p>
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method private">
                                 <a href="#method__updatedStageSize">_updatedStageSize</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method__updatedStageSize">_updatedStageSize</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_dirty">dirty</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_visible">visible</a>
+                            <li class="index-item method public">
+                                <a href="#method_render">render</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_update">update</a>
 
                                 
                                 
@@ -375,49 +400,70 @@ this can span multiple lines.</p>
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property__visible">_visible</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
+                                <a href="#property_dirty">dirty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_fitToStage">fitToStage</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_game">game</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_height">height</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_id">id</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_name">name</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_position">position</a>
+                            <li class="index-item property public">
+                                <a href="#property_transform">transform</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
+                                <a href="#property_visible">visible</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_width">width</a>
 
                                 
@@ -438,7 +484,7 @@ this can span multiple lines.</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__updatedStageSize" class="method item">
+                    <div id="method__updatedStageSize" class="method item private">
     <h3 class="name"><code>_updatedStageSize</code></h3>
 
     
@@ -466,113 +512,7 @@ this can span multiple lines.</p>
     
 
     
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Camera.ts.html#l84"><code>src\core\Camera.ts:84</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">width</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">height</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__updatedStageSize" class="method item">
-    <h3 class="name"><code>_updatedStageSize</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>width</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>height</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
+        <span class="flag private">private</span>
     
 
     
@@ -594,7 +534,7 @@ this can span multiple lines.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l99"><code>src\core\Camera.ts:99</code></a>
+        <a href="../files/src_core_Camera.ts.html#l91"><code>src\core\Camera.ts:91</code></a>
         
         </p>
 
@@ -605,7 +545,8 @@ this can span multiple lines.</p>
     </div>
 
     <div class="description">
-        
+        <p>Updates the width/height of this camera. Is used when the stage resizes.</p>
+
     </div>
 
     
@@ -623,7 +564,8 @@ this can span multiple lines.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>The new width of the camera.</p>
+
                     </div>
 
                     
@@ -638,7 +580,8 @@ this can span multiple lines.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>The new height of the camera.</p>
+
                     </div>
 
                     
@@ -654,31 +597,149 @@ this can span multiple lines.</p>
 </div>
 
                 
-                    <div id="method_dirty" class="method item">
-    <h3 class="name"><code>dirty</code></h3>
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">Boolean</span>
+            <span class="type">String</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Camera.ts.html#l64"><code>src\core\Camera.ts:64</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of Object this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_render" class="method item public">
+    <h3 class="name"><code>render</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Camera.ts.html#l182"><code>src\core\Camera.ts:182</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The render loop that is executed whilst the game is playing.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item public">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
     
 
     
@@ -711,222 +772,12 @@ this can span multiple lines.</p>
     </div>
 
     <div class="description">
-        <p>A value used by components to control if the camera needs re-rendering</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_objType" class="method item">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Camera.ts.html#l63"><code>src\core\Camera.ts:63</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The type of Kiwi.Object this is.</p>
+        <p>The update loop that is executed every frame.</p>
 
     </div>
 
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_visible" class="method item">
-    <h3 class="name"><code>visible</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Camera.ts.html#l152"><code>src\core\Camera.ts:152</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Toggles the visible state of this Camera</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
     
 
     
@@ -966,7 +817,7 @@ this can span multiple lines.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l165"><code>src\core\Camera.ts:165</code></a>
+        <a href="../files/src_core_Camera.ts.html#l152"><code>src\core\Camera.ts:152</code></a>
         
         </p>
 
@@ -976,7 +827,8 @@ this can span multiple lines.</p>
     </div>
 
     <div class="description">
-        
+        <p>A flag that indicates whether this camera needs to be rendered again at the next update loop, or if it nothing has changed so it doesn&#39;t.</p>
+
     </div>
 
     
@@ -987,13 +839,15 @@ this can span multiple lines.</p>
 </div>
 
                 
-                    <div id="property__visible" class="property item">
+                    <div id="property__visible" class="property item private">
     <h3 class="name"><code>_visible</code></h3>
     <span class="type">Boolean</span>
 
     
 
     
+        <span class="flag private">private</span>
+    
 
     
 
@@ -1010,7 +864,7 @@ this can span multiple lines.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l145"><code>src\core\Camera.ts:145</code></a>
+        <a href="../files/src_core_Camera.ts.html#l131"><code>src\core\Camera.ts:131</code></a>
         
         </p>
 
@@ -1020,7 +874,7 @@ this can span multiple lines.</p>
     </div>
 
     <div class="description">
-        <p>Controls whether this Camera is rendered</p>
+        <p>Actually controls whether this Camera is rendered</p>
 
     </div>
 
@@ -1032,12 +886,14 @@ this can span multiple lines.</p>
 </div>
 
                 
-                    <div id="property_game" class="property item">
-    <h3 class="name"><code>game</code></h3>
-    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
+                    <div id="property_dirty" class="property item public">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1055,7 +911,103 @@ this can span multiple lines.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l121"><code>src\core\Camera.ts:121</code></a>
+        <a href="../files/src_core_Camera.ts.html#l160"><code>src\core\Camera.ts:160</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A value used by components to control if the camera needs re-rendering.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_fitToStage" class="property item public">
+    <h3 class="name"><code>fitToStage</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Camera.ts.html#l74"><code>src\core\Camera.ts:74</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If true then the camera will be resized to fit the stage when the stage is resized</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Camera.ts.html#l107"><code>src\core\Camera.ts:107</code></a>
         
         </p>
 
@@ -1077,12 +1029,14 @@ this can span multiple lines.</p>
 </div>
 
                 
-                    <div id="property_height" class="property item">
+                    <div id="property_height" class="property item public">
     <h3 class="name"><code>height</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1122,12 +1076,14 @@ this can span multiple lines.</p>
 </div>
 
                 
-                    <div id="property_id" class="property item">
+                    <div id="property_id" class="property item public">
     <h3 class="name"><code>id</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1145,7 +1101,7 @@ this can span multiple lines.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l129"><code>src\core\Camera.ts:129</code></a>
+        <a href="../files/src_core_Camera.ts.html#l115"><code>src\core\Camera.ts:115</code></a>
         
         </p>
 
@@ -1167,12 +1123,14 @@ this can span multiple lines.</p>
 </div>
 
                 
-                    <div id="property_name" class="property item">
+                    <div id="property_name" class="property item public">
     <h3 class="name"><code>name</code></h3>
     <span class="type">String</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1190,7 +1148,7 @@ this can span multiple lines.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l136"><code>src\core\Camera.ts:136</code></a>
+        <a href="../files/src_core_Camera.ts.html#l123"><code>src\core\Camera.ts:123</code></a>
         
         </p>
 
@@ -1212,12 +1170,14 @@ this can span multiple lines.</p>
 </div>
 
                 
-                    <div id="property_position" class="property item">
-    <h3 class="name"><code>position</code></h3>
-    <span class="type">Kiwi.Components.Position</span>
+                    <div id="property_transform" class="property item public">
+    <h3 class="name"><code>transform</code></h3>
+    <span class="type"><a href="..\classes\Transform.html" class="crosslink">Transform</a></span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1235,7 +1195,7 @@ this can span multiple lines.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l77"><code>src\core\Camera.ts:77</code></a>
+        <a href="../files/src_core_Camera.ts.html#l83"><code>src\core\Camera.ts:83</code></a>
         
         </p>
 
@@ -1245,7 +1205,7 @@ this can span multiple lines.</p>
     </div>
 
     <div class="description">
-        <p>The Position component that controls the location of this Game Object within the game world</p>
+        <p>The Transform controls the location of this Game Object within the game world. Also controls the cameras scale and rotation.</p>
 
     </div>
 
@@ -1257,12 +1217,14 @@ this can span multiple lines.</p>
 </div>
 
                 
-                    <div id="property_width" class="property item">
-    <h3 class="name"><code>width</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_visible" class="property item public">
+    <h3 class="name"><code>visible</code></h3>
+    <span class="type">Boolean</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1280,7 +1242,54 @@ this can span multiple lines.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l49"><code>src\core\Camera.ts:49</code></a>
+        <a href="../files/src_core_Camera.ts.html#l139"><code>src\core\Camera.ts:139</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Controls whether this Camera is rendered.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width" class="property item public">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Camera.ts.html#l48"><code>src\core\Camera.ts:48</code></a>
         
         </p>
 
