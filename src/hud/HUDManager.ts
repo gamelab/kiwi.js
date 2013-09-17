@@ -1,28 +1,37 @@
+/**
+* Kiwi - HUD
+* @module Kiwi
+* @submodule HUD
+*/
 
 
 
 module Kiwi.HUD {
 
+    /**
+    * @class HUDManager
+    **/
+
     export class HUDManager {
         
-        /* 
+        /**
         * 
         * @constructor
-        * @param {Kiwi.Game} game
+        * @param game {Game} game
         */
         constructor(game: Kiwi.Game) {
             this._game = game;
         }
 
-        /*
+        /**
         * 
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
         */
         private _game: Kiwi.Game;
 
-        /*
+        /**
         *
         * @property _hudContainer
         * @type HTMLDivElement
@@ -30,9 +39,10 @@ module Kiwi.HUD {
         */
         private _hudContainer: HTMLDivElement;
 
-        /*
+        /**
         * The DOM is ready, so if the current state is pending we can boot up the HUD now.
         * @method boot
+        * @public
         */
         public boot() {
 
@@ -54,7 +64,7 @@ module Kiwi.HUD {
             
         }
 
-        /*
+        /**
         * Returns the type of object this is.
         * @method objType
         */
@@ -62,14 +72,14 @@ module Kiwi.HUD {
             return "HUDManager";
         }
 
-        /*
+        /**
         * @property _huds
         * @type Kiwi.Structs.Dictionary
         * @private
         */
         private _huds: Array<Kiwi.HUD.HUDDisplay>;
 
-        /*
+        /**
         * The defaultHUD to be displayed onscreen.
         * @property _defaultHUD
         * @type Kiwi.HUD.HUDDisplay
@@ -77,7 +87,7 @@ module Kiwi.HUD {
         */
         private _defaultHUD: Kiwi.HUD.HUDDisplay;
 
-        /*
+        /**
         * The currentHUD that is in use.
         * @property _currentHUD
         * @type Kiwi.HUD.HUDDisplay
@@ -85,7 +95,7 @@ module Kiwi.HUD {
         */
         private _currentHUD: Kiwi.HUD.HUDDisplay;
 
-        /*
+        /**
         * Allows you get the defaultHUD that is being used, or set the defaultHUD.
         *
         * @method defaultHUD
@@ -104,11 +114,12 @@ module Kiwi.HUD {
             return this._defaultHUD;
         }
 
-        /*
+        /**
         * Swaps to the current displayed HUD.
         * 
         * @method setHUD
-        * @param {Kiwi.HUD.HUDDisplay} hud - Reference to the HUD you want to display. 
+        * @param hud {HUDDisplay} hud - Reference to the HUD you want to display. 
+        * @public
         */
         public setHUD(hud: Kiwi.HUD.HUDDisplay) {
             this.hideHUD();
@@ -119,26 +130,29 @@ module Kiwi.HUD {
         /*
         * Displays the currently active HUD.
         * @method showHUD
+        * @public
         */
         public showHUD() {
             this._currentHUD.container.style.display = 'block';
         }
 
-        /*
+        /**
         * Hides the active HUDDisplay
         * @method hideHUD
+        * @public
         */
         public hideHUD() {
             this._currentHUD.container.style.display = 'none';
         }
 
        
-        /*
+        /**
         * Creates a new HUDDisplay.
         * 
         * @method createHUD
-        * @param {string} name - Name of the new HUD.
-        * @return {Kiwi.HUD.HUDDisplay}
+        * @param name {string} Name of the new HUD.
+        * @return {HUDDisplay}
+        * @public
         */
         public createHUD(name: string): Kiwi.HUD.HUDDisplay{
             
@@ -149,12 +163,13 @@ module Kiwi.HUD {
             return hud;
         }
 
-        /*
+        /**
         * Removes a HUD from the game.
         *
         * @method removeHUD
-        * @param {Kiwi.HUD.HUDDisplay} hud - The hud you want to remove.
+        * @param hud {HUDDisplay} The hud you want to remove.
         * @returns {boolean} 
+        * @public
         */
         public removeHUD(hud: Kiwi.HUD.HUDDisplay) {
             
@@ -177,11 +192,12 @@ module Kiwi.HUD {
             return true;
         }
 
-        /*
+        /**
         * Removes the HUD from the screen
         *
         * @method destroyHUD
-        * @param {Kiwi.HUD.HUDDisplay} hud - The hud to be removed
+        * @param hud {HUDDisplay} The hud to be removed
+        * @public
         */
         private destroyHUD(hud: Kiwi.HUD.HUDDisplay) {
 
@@ -192,8 +208,10 @@ module Kiwi.HUD {
             hud = null;
         }
 
-        /*
+        /**
         * Game loop
+        * @method update
+        * @public
         */
         public update() {
             for (var i = 0; i < this._huds.length; i++) {
@@ -203,6 +221,8 @@ module Kiwi.HUD {
 
         /*
         * Render
+        * @method render
+        * @public
         */
         public render() {
             this._currentHUD.render();

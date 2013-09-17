@@ -1,15 +1,22 @@
-
+/**
+* Kiwi - HUD
+* @module Kiwi
+* @submodule HUD
+*/
 
 
 module Kiwi.HUD {
+        /**
+        * @class HUDDisplay
+        **/
 
     export class HUDDisplay {
         
-        /*
+        /**
         * 
         * @constructor
-        * @param {Kiwi.Game} game 
-        * @param {string} name 
+        * @param game {Game} game 
+        * @param name {string} name 
         */
         constructor(game: Kiwi.Game,name:string) {
             this._game = game;
@@ -23,33 +30,44 @@ module Kiwi.HUD {
             this._widgets = new Array();
         }
 
-        /*
+        /**
         * Contains the container element.
+        * @property container
+        * @type HTMLDivElement
         * @public
         */
         public container: HTMLDivElement;
 
-        /*
+        /**
+        * [Requires Description]
+        * @property name
+        * @type String
         * @public
         */
         public name: string;
-
-        /*
+        
+        /**
+        * [Requires Description]
+        * @property _game
+        * @type Game
         * @private
         */
         private _game: Kiwi.Game;
 
-        /*
+        /**
         * Contains all of the widgets that are contained in this HUDDisplay.
+        * @property _widgets
+        * @type HUDWidget
         * @private
         */
         private _widgets: Kiwi.HUD.HUDWidget[];
 
-        /*
+        /**
         * Adds a widget to the HUDDisplay.
         *
         * @method addWidget
-        * @param {Kiwi.HUD.HUDWidget} widget - The widget to be added to the Display
+        * @param widget {HUDWidget}  - The widget to be added to the Display
+        * @public
         */
         public addWidget(widget: Kiwi.HUD.HUDWidget) {
             widget.container.id = 'HUD-widget-' + this._game.rnd.uuid();
@@ -58,11 +76,11 @@ module Kiwi.HUD {
             
         }
 
-        /* 
+        /**
         * Removes a singular widget from the display
         * 
         * @method removeWidget
-        * @param {Kiwi.HUD.HUDWidget} widget - The widget to be removed.
+        * @param widget {HUDWidget} The widget to be removed.
         * @return {boolean}
         */
         public removeWidget(widget: Kiwi.HUD.HUDWidget):boolean {
@@ -79,10 +97,11 @@ module Kiwi.HUD {
             return false;
         }
 
-        /*
+        /**
         * Removes all of the widgets on this display.
         *
         * @method removeAllWidgets
+        * @public
         */
         public removeAllWidgets() {
             for (var i = 0; i < this._widgets.length; i++) {
@@ -92,11 +111,11 @@ module Kiwi.HUD {
             this._widgets = [];
         }
 
-        /*
+        /**
         * Removes a widget from being on the HUDDisplay.
         *
         * @method destroyWidget
-        * @param {Kiwi.HUD.HUDWidget} widget - The Widget to be removed.
+        * @param widget {HUDWidget} The Widget to be removed.
         * @returns {boolean}
         */
         private destroyWidget(widget:Kiwi.HUD.HUDWidget):boolean {
@@ -107,8 +126,10 @@ module Kiwi.HUD {
             return false;
         }
 
-        /*
+        /**
         * Update loop
+        * @method update
+        * @public
         */
         public update() {
             for (var i = 0; i < this._widgets.length; i++) {
@@ -116,8 +137,10 @@ module Kiwi.HUD {
             }
         }
 
-        /*
+        /**
         * Render
+        * @method render
+        * @public
         */
         public render() {
 

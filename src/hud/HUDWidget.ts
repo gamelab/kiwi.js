@@ -15,16 +15,19 @@
 */
 
 module Kiwi.HUD {
+    /**
+    * @class HUDWidget
+    */
 
     export class HUDWidget {
         
         /*
         *
         * @constructor
-        * @param {string} name - Name of the type of HUDWidget.
-        * @param {number} x 
-        * @param {number} y
-        * @return {Kiwi.HUD.HUDWidget}
+        * @param name {string} name - Name of the type of HUDWidget.
+        * @param x {number} x 
+        * @param y {number} y
+        * @return {HUDWidget}
         */
         constructor(name: string,x:number,y:number) {
             this.name = name;
@@ -39,7 +42,8 @@ module Kiwi.HUD {
         /*
         * Called when the cooridnates of the HUD Widget updates.
         * @property onCoordsUpdate
-        * @type Kiwi.Signal
+        * @type Signal
+        * @public
         */
         public onCoordsUpdate: Kiwi.Signal;
 
@@ -47,21 +51,19 @@ module Kiwi.HUD {
         * The x coordinate of the widget
         * @property _x
         * @type number
+        * @private
         */
         private _x: number;
         
         /*
         * Get the x coordinate of the widget
+        * @property x
         * @type number
+        * @public
         */
         public get x():number {
             return this._x;
         }
-        
-        /*
-        * Set the x coordinate of the widget
-        * @type number
-        */
         public set x(value: number) {
             this._x = value;
             this.container.style.left = this.x + "px";
@@ -72,21 +74,19 @@ module Kiwi.HUD {
         * The y coordinate of the widget
         * @property _y
         * @type number
+        * @private
         */
         private _y: number;
         
         /*
         * Get the y coordinate of the widget
+        * @property y
         * @type number
+        * @public
         */
         public get y(): number {
             return this._y;
         }
-        
-        /*
-        * Set the y coordinate of the widget
-        * @type number
-        */
         public set y(value: number) {
             this._y = value;
             this.container.style.top = this.y + "px";
@@ -95,36 +95,48 @@ module Kiwi.HUD {
         
         /*
         * The list of components that the HUDWidget use's.
+        * @property components
+        * @type ComponentManager
         * @public
         */
         public components: Kiwi.ComponentManager;
         
         /*
         * The HTMLElement of the widget.
+        * @property
+        * @type HTMLDivElement
         * @public
         */
         public container: HTMLDivElement;
 
         /*
         * The name of the widget. Also used to identify the type of widget.
+        * @property
+        * @type string
         * @public
         */
         public name: string;
 
         /*
         * When a template has been set, this property will have a reference to the HTMLElement we can place the HUDWidget information into.
+        * @property tempElement
+        * @type HTMLElement
         * @public
         */
         public tempElement: HTMLElement;
 
         /*
         * The parent of the template container. So that when removing a template we can place it in the right spot
+        * @property _tempParent
+        * @type HTMLElement
         * @private
         */
         private _tempParent: HTMLElement;
 
         /*
         * The container element for the template
+        * @property _tempContainer
+        * @type HTMLElement
         * @private
         */
         private _tempContainer: HTMLElement; 
@@ -136,8 +148,9 @@ module Kiwi.HUD {
         * Can be used by itself but maybe more useful if you customise it to suit your own needs. 
         *
         * @method setTemplate
-        * @param {string} main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
-        * @param {string} element - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
+        * @param main {string} main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
+        * @param [element] {string} element - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
+        * @public
         */
         public setTemplate(main: string, element?: string, ...paramsArr: any[]) {
 
@@ -166,6 +179,7 @@ module Kiwi.HUD {
         * Used to remove any the template HTML from this HUDWidget.
         * 
         * @method removeTemplate
+        * @public
         */
         public removeTemplate() {
             if (this.tempElement !== undefined) {
@@ -181,7 +195,8 @@ module Kiwi.HUD {
         * Give the container element a class so that you can make it look beautiful using CSS.
         *
         * @method setStyle
-        * @param {String} cssClass
+        * @param cssClass {String} cssClass
+        * @public
         */
         public setStyle(cssClass: string) {
             this.container.className = cssClass;
@@ -190,6 +205,7 @@ module Kiwi.HUD {
         /*
         *
         * @method update
+        * @public
         */
         public update() {
             this.components.update();
