@@ -282,7 +282,7 @@ module Kiwi.Geom {
 	    /**
 	    * Returns a new Circle object with the same values for the x, y, width, and height properties as the original Circle object.
 	    * @method clone
-	    * @param [output=Circle] {Circle} If given the values will be set into the object, otherwise a brand new Circle object will be created and returned.
+	    * @param [output = Circle] {Circle} If given the values will be set into the object, otherwise a brand new Circle object will be created and returned.
 	    * @return {Circle}
         * @public
 	    */
