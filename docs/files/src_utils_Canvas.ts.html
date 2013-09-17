@@ -51,9 +51,15 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
+                <li><a href="../classes/Back.html">Back</a></li>
+            
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
             
                 <li><a href="../classes/Box.html">Box</a></li>
             
@@ -67,6 +73,8 @@
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
                 <li><a href="../classes/Common.html">Common</a></li>
@@ -75,11 +83,17 @@
             
                 <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
             
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
                 <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
             
                 <li><a href="../classes/Device.html">Device</a></li>
             
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
                 <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
@@ -111,6 +125,8 @@
             
                 <li><a href="../classes/Line.html">Line</a></li>
             
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
                 <li><a href="../classes/Manager.html">Manager</a></li>
@@ -127,6 +143,12 @@
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
             
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
                 <li><a href="../classes/Ray.html">Ray</a></li>
@@ -142,6 +164,8 @@
                 <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
             
                 <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
             
                 <li><a href="../classes/Sound.html">Sound</a></li>
             
@@ -167,6 +191,8 @@
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -182,6 +208,8 @@
                 <li><a href="../modules/Animation.html">Animation</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
             
                 <li><a href="../modules/Files.html">Files</a></li>
             
@@ -252,7 +280,7 @@
 module Kiwi.Utils {
 
     /**
-    * Creates a canvas DOM element and adds it to a layer.
+    * Creates a canvas DOM element.
     * 
     * @class Canvas
     *
@@ -262,13 +290,12 @@ module Kiwi.Utils {
         /** 
         * 
         * @constructor
-        * @param {Kiwi.Layer} layer 
-        * @param {Number} width
-        * @param {Number} height
-        * @param {boolean} visible
-        * @param {boolean} offScreen
-        * @return {Kiwi.Utils.Canvas}
-        **/
+        * @param width {Number} The width of the canvas.
+        * @param height {Number} The height of the canvas.
+        * @param [visible=true] {boolean} If the canvas is visible or not.
+        * @param [offScreen=false] {boolean} If the canvas is designed to be offscreen or not.
+        * @return {Canvas} 
+        */
         constructor (width: number, height: number, visible: boolean = true, offScreen: boolean = false) {
 
           
@@ -292,46 +319,78 @@ module Kiwi.Utils {
 
         }
 
+        /**
+        * The width of this canvas.
+        * @property _width
+        * @type number
+        * @private
+        */
         private _width: number;
 
+        /**
+        * The width of this canvas.
+        * @property width
+        * @type number
+        * @public
+        */
         public set width(value: number) {
             this._width = value;
             this._updatedSize();
         }
-
         public get width(): number {
             return this._width;
         }
 
+        /**
+        * The height of this canvas.
+        * @property _height
+        * @type number
+        * @private
+        */
         private _height: number;
 
+        /**
+        * The height of this canvas.
+        * @property height
+        * @type number
+        * @private
+        */
         public set height(value: number) {
             this._height = value;
             this._updatedSize();
         }
-
         public get height(): number {
             return this._height;
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return &quot;Canvas&quot;;
         }
 
-       
         /**
+        * The canvas DOM element.
         * @property domElement
         * @type HTMLCanvasElement
+        * @public
 	    */
         public domElement = &lt;HTMLCanvasElement&gt; null;
 
         /**
+        * The 2D rendering context that is used to render anything to this canvas.
         * @property _context
         * @type CanvasRenderingContext2D
-	    */
+	    * @public
+        */
         public context = &lt;CanvasRenderingContext2D&gt; null;
 
         /**
+        * If the canvas element is visible or not.
         * @property _visible
         * @type boolean
         * @private
@@ -339,6 +398,7 @@ module Kiwi.Utils {
         private _visible = true;
 
         /**
+        * If the canvas is offscreen or not.
         * @property _offScreen
         * @type boolean
         * @private
@@ -346,6 +406,7 @@ module Kiwi.Utils {
         private _offScreen = false;
 
         /**
+        * The method to use when clearing the canvas.
         * @property _clearMode
         * @type Number
         * @private
@@ -353,44 +414,61 @@ module Kiwi.Utils {
         private _clearMode: number = 1;
 
         /**
+        * A STATIC property that holds the number associated with no clear mode.
         * @property CLEARMODE_NONE
         * @type Number
         * @static
+        * @final
+        * @default 0
+        * @public
 		*/
         public static CLEARMODE_NONE: number = 0;
 
         /**
+        * A STATIC property that holds the number associated with the clear mode that uses the clearRect method to clear the canvas.
         * @property CLEARMODE_CLEARRECT
         * @type Number
         * @static
+        * @final
+        * @public
+        * @default 1
 		*/
         public static CLEARMODE_CLEARRECT: number = 1;
 
         /**
+        * A STATIC property that holds the number associated with the clear mode that uses a filled rectangle to clear the canvas.
         * @property CLEARMODE_FILLRECT 
         * @type Number
         * @static
+        * @final
+        * @public
+        * @default 2
 		*/
         public static CLEARMODE_FILLRECT: number = 2;
 
         /**
+        * A STATIC property that holds the number associated with the clear mode that uses the filled alpha rectangle method.
         * @property CLEARMODE_FILLRECT_ALPHA
         * @type Number
         * @static
+        * @final
+        * @public
+        * @default 3
 		*/
         public static CLEARMODE_FILLRECT_ALPHA: number = 3;
 
         /**
+        * The background color to use clearing the canvas using a filled rectangle approach.
         * @property bgColor
         * @type String
+        * @default &#x27;rgb(0,0,0)&#x27;
+        * @public
         */
-        //  swap for color component?
         public bgColor = &#x27;rgb(0, 0, 0)&#x27;;
 
         /**
+        * Updates the width/height on the canvas DOM element when either one of its sizes are updated.
         * @method _updatedSize
-        * @param {Number} width
-        * @param {Number} height
         * @private
         */
         private _updatedSize() {
@@ -401,7 +479,9 @@ module Kiwi.Utils {
         }
 
         /**
+        * Used to remove the canvas element completely along with this class. [NEEDS IMPLEMENTATION]
         * @method destroy
+        * @public
 		*/
         public destroy() {
 
@@ -414,9 +494,11 @@ module Kiwi.Utils {
         }
 
         /**
-        * @method visible
-        * @param {boolean} value
-        * @return {boolean}
+        * If the canvas element is visible or not.
+        * @property visible
+        * @type boolean
+        * @default true
+        * @public
         */
         public set visible(value: boolean) {
 
@@ -436,7 +518,6 @@ module Kiwi.Utils {
             }
 
         }
-
         public get visible(): boolean {
 
             return this._visible;
@@ -444,9 +525,11 @@ module Kiwi.Utils {
         }
 
         /** 
-        * Gets 
-        * @method clearMode
-        * @return {Number} 
+        * The clearmode the is to be used when clearing the canvas.
+        * @property clearMode
+        * @type Number
+        * @default 1
+        * @public 
         */
         public set clearMode(value: number) {
 
@@ -456,7 +539,6 @@ module Kiwi.Utils {
             }
 
         }
-
         public get clearMode(): number {
 
             return this._clearMode;
@@ -464,7 +546,9 @@ module Kiwi.Utils {
         }
 
         /**
+        * Clears the canvas using the method specified by the clearMode property.
         * @method clear
+        * @public
 		*/
         public clear() {
             
@@ -496,8 +580,10 @@ module Kiwi.Utils {
         }
 
         /**
+        * Returns the canvas current image data as PNG.
         * @method saveAsPNG
         * @return String
+        * @public
 		*/
         public saveAsPNG() {
 
@@ -506,11 +592,12 @@ module Kiwi.Utils {
         }
 
 	    /**
-	     * Returns a string representation of this object.
-	     * @method toString
-	     * @return {string} a string representation of the instance.
-	     **/
-	    toString():string {
+	    * Returns a string representation of this object.
+	    * @method toString
+	    * @return {string} a string representation of the instance.
+        * @public
+	    */
+	    public toString():string {
 		
 		    return &#x27;[{Canvas (width=&#x27; + this.width + &#x27; height=&#x27; + this.height + &#x27; visible=&#x27; + this.visible + &#x27; offScreen=&#x27; + this._offScreen + &#x27; clearMode=&#x27; + this.clearMode + &#x27;)}]&#x27;;
 

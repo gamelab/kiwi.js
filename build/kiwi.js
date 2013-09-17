@@ -2,74 +2,6 @@
 (function (Kiwi) {
     (function (Animation) {
         (function (Tweens) {
-            var Manager = (function () {
-                function Manager(game) {
-                    this._game = game;
-                    this._tweens = [];
-                }
-                Manager.prototype.objType = function () {
-                    return "Manager";
-                };
-
-                Manager.prototype.getAll = function () {
-                    return this._tweens;
-                };
-
-                Manager.prototype.removeAll = function () {
-                    this._tweens.length = 0;
-                };
-
-                Manager.prototype.create = function (object) {
-                    return new Kiwi.Animation.Tween(object, this._game);
-                };
-
-                Manager.prototype.add = function (tween) {
-                    tween.setParent(this._game);
-
-                    this._tweens.push(tween);
-
-                    return tween;
-                };
-
-                Manager.prototype.remove = function (tween) {
-                    var i = this._tweens.indexOf(tween);
-
-                    if (i !== -1) {
-                        this._tweens.splice(i, 1);
-                    }
-                };
-
-                Manager.prototype.update = function () {
-                    if (this._tweens.length === 0) {
-                        return false;
-                    }
-
-                    var i = 0;
-                    var numTweens = this._tweens.length;
-
-                    while (i < numTweens) {
-                        if (this._tweens[i].update(this._game.time.now())) {
-                            i++;
-                        } else {
-                            this._tweens.splice(i, 1);
-                            numTweens--;
-                        }
-                    }
-
-                    return true;
-                };
-                return Manager;
-            })();
-            Tweens.Manager = Manager;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
-})(Kiwi || (Kiwi = {}));
-var Kiwi;
-(function (Kiwi) {
-    (function (Animation) {
-        (function (Tweens) {
             (function (Easing) {
                 var Back = (function () {
                     function Back() {
@@ -487,6 +419,74 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Animation) {
+        (function (Tweens) {
+            var Manager = (function () {
+                function Manager(game) {
+                    this._game = game;
+                    this._tweens = [];
+                }
+                Manager.prototype.objType = function () {
+                    return "Manager";
+                };
+
+                Manager.prototype.getAll = function () {
+                    return this._tweens;
+                };
+
+                Manager.prototype.removeAll = function () {
+                    this._tweens.length = 0;
+                };
+
+                Manager.prototype.create = function (object) {
+                    return new Kiwi.Animation.Tween(object, this._game);
+                };
+
+                Manager.prototype.add = function (tween) {
+                    tween.setParent(this._game);
+
+                    this._tweens.push(tween);
+
+                    return tween;
+                };
+
+                Manager.prototype.remove = function (tween) {
+                    var i = this._tweens.indexOf(tween);
+
+                    if (i !== -1) {
+                        this._tweens.splice(i, 1);
+                    }
+                };
+
+                Manager.prototype.update = function () {
+                    if (this._tweens.length === 0) {
+                        return false;
+                    }
+
+                    var i = 0;
+                    var numTweens = this._tweens.length;
+
+                    while (i < numTweens) {
+                        if (this._tweens[i].update(this._game.time.now())) {
+                            i++;
+                        } else {
+                            this._tweens.splice(i, 1);
+                            numTweens--;
+                        }
+                    }
+
+                    return true;
+                };
+                return Manager;
+            })();
+            Tweens.Manager = Manager;
+        })(Animation.Tweens || (Animation.Tweens = {}));
+        var Tweens = Animation.Tweens;
+    })(Kiwi.Animation || (Kiwi.Animation = {}));
+    var Animation = Kiwi.Animation;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Animation) {
         var Tween = (function () {
             function Tween(object, game) {
                 if (typeof game === "undefined") { game = null; }
@@ -508,6 +508,7 @@ var Kiwi;
                 this._onUpdateContext = null;
                 this._onCompleteCallback = null;
                 this._onCompleteCalled = false;
+                this._onCompleteContext = null;
                 this.isRunning = false;
                 this._object = object;
 
@@ -1190,7 +1191,8 @@ var Kiwi;
         };
 
         Entity.prototype.destroy = function () {
-            this.state.removeFromTrackingList(this);
+            if (this.state)
+                this.state.removeFromTrackingList(this);
             this._exists = false;
             this._active = false;
             this._willRender = false;
@@ -1921,7 +1923,8 @@ var Kiwi;
                 this.removeChildren();
             }
 
-            this.state.removeFromTrackingList(this);
+            if (this.state)
+                this.state.removeFromTrackingList(this);
             this._exists = false;
             this._active = false;
             this._willRender = false;
@@ -2087,13 +2090,17 @@ var Kiwi;
 
         State.prototype.destroy = function (deleteAll) {
             if (typeof deleteAll === "undefined") { deleteAll = true; }
-            for (var i = 0; i < this._trackingList.length; i++) {
-                this._trackingList[i].destroy();
-            }
-            this._trackingList = [];
+            if (deleteAll == true) {
+                for (var i = 0; i < this._trackingList.length; i++) {
+                    this._trackingList[i].destroy();
+                }
+                this._trackingList = [];
 
-            for (var i = 0; i < this.members.length; i++) {
-                this._destroyChildren(this.members[i]);
+                for (var i = 0; i < this.members.length; i++) {
+                    this._destroyChildren(this.members[i]);
+                    delete this.members[i];
+                }
+                this.members = [];
             }
         };
 
@@ -2702,13 +2709,9 @@ var Kiwi;
                 this.entity.cellIndex = this.currentCell;
             };
 
-            Object.defineProperty(Animation.prototype, "toString", {
-                get: function () {
-                    return '[{Animation (x=' + this.active + ')}]';
-                },
-                enumerable: true,
-                configurable: true
-            });
+            Animation.prototype.toString = function () {
+                return '[{Animation (x=' + this.active + ')}]';
+            };
 
             Animation.prototype.destroy = function () {
                 this._isPlaying = false;
@@ -2788,7 +2791,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Box.prototype, "rawBounds", {
                 get: function () {
@@ -2902,6 +2904,7 @@ var Kiwi;
         var Input = (function (_super) {
             __extends(Input, _super);
             function Input(owner, box, enabled) {
+                if (typeof enabled === "undefined") { enabled = false; }
                 _super.call(this, owner, 'Input');
                 this._isDragging = null;
                 this._dragEnabled = false;
@@ -3020,7 +3023,6 @@ var Kiwi;
                 configurable: true
             });
 
-
             Object.defineProperty(Input.prototype, "isDown", {
                 get: function () {
                     return (this._isDown !== null);
@@ -3071,7 +3073,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Input.prototype.enableDrag = function (snapToCenter, distance) {
                 if (typeof snapToCenter === "undefined") { snapToCenter = false; }
@@ -3327,7 +3328,13 @@ var Kiwi;
 
                 this._audio = [];
             }
+            Sound.prototype.objType = function () {
+                return 'Sound';
+            };
+
             Sound.prototype.addSound = function (name, key, volume, loop) {
+                if (typeof volume === "undefined") { volume = 1; }
+                if (typeof loop === "undefined") { loop = false; }
                 if (this._validate(name) == true)
                     return;
 
@@ -4041,6 +4048,7 @@ var Kiwi;
                 if (typeof name === "undefined") { name = ''; }
                 if (typeof saveToFileStore === "undefined") { saveToFileStore = true; }
                 if (typeof storeAsGlobal === "undefined") { storeAsGlobal = true; }
+                this._xhr = null;
                 this._saveToFileStore = true;
                 this._useTagLoader = true;
                 this.fileSize = 0;
@@ -4048,7 +4056,6 @@ var Kiwi;
                 this.statusText = '';
                 this.ETag = '';
                 this.lastModified = '';
-                this.totalSize = 0;
                 this.bytesLoaded = 0;
                 this.bytesTotal = 0;
                 this.readyState = 0;
@@ -4231,7 +4238,7 @@ var Kiwi;
                         return _this.tagLoaderOnError(event);
                     };
                     this.data.addEventListener('canplaythrough', function () {
-                        return _this.tagLoaderOnLoad(null);
+                        return _this.tagLoaderProgressThrough(null);
                     }, false);
                     this.data.onload = function (event) {
                         return _this.tagLoaderOnLoad(event);
@@ -4255,34 +4262,30 @@ var Kiwi;
             };
 
             File.prototype.tagLoaderProgressThrough = function (event) {
-                this.stop();
-
-                if (this.onCompleteCallback) {
-                    this.onCompleteCallback(this);
-                }
-            };
-
-            File.prototype.tagLoaderOnLoad = function (event) {
                 var _this = this;
                 if (this.percentLoaded !== 100) {
-                    this.stop();
-
                     if (this.dataType === Kiwi.Files.File.AUDIO) {
                         this.data.removeEventListener('canplaythrough', function () {
-                            return _this.tagLoaderOnLoad(null);
+                            return _this.tagLoaderProgressThrough(null);
                         });
                         this.data.pause();
                         this.data.currentTime = 0;
                         this.data.volume = 1;
                     }
 
-                    if (this._saveToFileStore === true) {
-                        this._fileStore.addFile(this.key, this);
-                    }
+                    this.tagLoaderOnLoad(null);
+                }
+            };
 
-                    if (this.onCompleteCallback) {
-                        this.onCompleteCallback(this);
-                    }
+            File.prototype.tagLoaderOnLoad = function (event) {
+                this.stop();
+
+                if (this._saveToFileStore === true) {
+                    this._fileStore.addFile(this.key, this);
+                }
+
+                if (this.onCompleteCallback) {
+                    this.onCompleteCallback(this);
                 }
             };
 
@@ -4574,13 +4577,14 @@ var Kiwi;
             };
 
             FileStore.prototype.removeFilesByTag = function (tag) {
-                var obj = {};
+                var numberFiles = 0;
                 for (var file in this._files) {
                     if (this._files[file].hasTag(tag)) {
                         this.removeFile(file);
+                        numberFiles++;
                     }
                 }
-                return obj;
+                return numberFiles;
             };
 
             Object.defineProperty(FileStore.prototype, "keys", {
@@ -9263,7 +9267,6 @@ var Kiwi;
                 configurable: true
             });
 
-
             Object.defineProperty(AudioManager.prototype, "volume", {
                 get: function () {
                     return this._volume;
@@ -9452,7 +9455,6 @@ var Kiwi;
                 });
             };
 
-
             Object.defineProperty(Audio.prototype, "volume", {
                 get: function () {
                     return this._volume;
@@ -9480,7 +9482,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Audio.prototype, "mute", {
                 get: function () {
@@ -9779,7 +9780,6 @@ var Kiwi;
                 configurable: true
             });
 
-
             Object.defineProperty(Anim.prototype, "frameIndex", {
                 get: function () {
                     return this._frameIndex;
@@ -9792,7 +9792,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Anim.prototype, "currentCell", {
                 get: function () {
@@ -9812,8 +9811,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
-
 
             Object.defineProperty(Anim.prototype, "reverse", {
                 get: function () {
@@ -12984,7 +12981,6 @@ var Kiwi;
                     this.domElement.style.display = 'none';
                 }
             }
-
             Object.defineProperty(Canvas.prototype, "width", {
                 get: function () {
                     return this._width;
@@ -12996,7 +12992,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Canvas.prototype, "height", {
                 get: function () {
@@ -13025,7 +13020,6 @@ var Kiwi;
                 }
             };
 
-
             Object.defineProperty(Canvas.prototype, "visible", {
                 get: function () {
                     return this._visible;
@@ -13044,7 +13038,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Canvas.prototype, "clearMode", {
                 get: function () {
@@ -13650,44 +13643,71 @@ var Kiwi;
                 return Math.abs(a - b);
             };
             GameMath.PI = 3.141592653589793;
+
             GameMath.PI_2 = 1.5707963267948965;
+
             GameMath.PI_4 = 0.7853981633974483;
+
             GameMath.PI_8 = 0.39269908169872413;
+
             GameMath.PI_16 = 0.19634954084936206;
+
             GameMath.TWO_PI = 6.283185307179586;
+
             GameMath.THREE_PI_2 = 4.7123889803846895;
+
             GameMath.E = 2.71828182845905;
+
             GameMath.LN10 = 2.302585092994046;
+
             GameMath.LN2 = 0.6931471805599453;
+
             GameMath.LOG10E = 0.4342944819032518;
+
             GameMath.LOG2E = 1.442695040888963387;
+
             GameMath.SQRT1_2 = 0.7071067811865476;
+
             GameMath.SQRT2 = 1.4142135623730951;
+
             GameMath.DEG_TO_RAD = 0.017453292519943294444444444444444;
+
             GameMath.RAD_TO_DEG = 57.295779513082325225835265587527;
 
             GameMath.B_16 = 65536;
+
             GameMath.B_31 = 2147483648;
+
             GameMath.B_32 = 4294967296;
+
             GameMath.B_48 = 281474976710656;
+
             GameMath.B_53 = 9007199254740992;
+
             GameMath.B_64 = 18446744073709551616;
 
             GameMath.ONE_THIRD = 0.333333333333333333333333333333333;
+
             GameMath.TWO_THIRDS = 0.666666666666666666666666666666666;
+
             GameMath.ONE_SIXTH = 0.166666666666666666666666666666666;
 
             GameMath.COS_PI_3 = 0.86602540378443864676372317075294;
+
             GameMath.SIN_2PI_3 = 0.03654595;
 
             GameMath.CIRCLE_ALPHA = 0.5522847498307933984022516322796;
 
             GameMath.ON = true;
+
             GameMath.OFF = false;
 
             GameMath.SHORT_EPSILON = 0.1;
+
             GameMath.PERC_EPSILON = 0.001;
+
             GameMath.EPSILON = 0.0001;
+
             GameMath.LONG_EPSILON = 0.00000001;
             return GameMath;
         })();

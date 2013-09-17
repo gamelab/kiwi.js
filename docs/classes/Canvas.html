@@ -51,9 +51,15 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
+                <li><a href="../classes/Back.html">Back</a></li>
+            
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
             
                 <li><a href="../classes/Box.html">Box</a></li>
             
@@ -67,6 +73,8 @@
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
                 <li><a href="../classes/Common.html">Common</a></li>
@@ -75,11 +83,17 @@
             
                 <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
             
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
                 <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
             
                 <li><a href="../classes/Device.html">Device</a></li>
             
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
                 <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
@@ -111,6 +125,8 @@
             
                 <li><a href="../classes/Line.html">Line</a></li>
             
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
                 <li><a href="../classes/Manager.html">Manager</a></li>
@@ -127,6 +143,12 @@
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
             
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
                 <li><a href="../classes/Ray.html">Ray</a></li>
@@ -142,6 +164,8 @@
                 <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
             
                 <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
             
                 <li><a href="../classes/Sound.html">Sound</a></li>
             
@@ -167,6 +191,8 @@
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -182,6 +208,8 @@
                 <li><a href="../modules/Animation.html">Animation</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
             
                 <li><a href="../modules/Files.html">Files</a></li>
             
@@ -265,7 +293,7 @@
 
 
 <div class="box intro">
-    <p>Creates a canvas DOM element and adds it to a layer.</p>
+    <p>Creates a canvas DOM element.</p>
 
 </div>
 
@@ -302,50 +330,36 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clear">clear</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_clearMode">clearMode</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_destroy">destroy</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_run">run</a>
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_saveAsPNG">saveAsPNG</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_toString">toString</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_visible">visible</a>
 
                                 
                                 
@@ -362,28 +376,21 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property private">
-                                <a href="#property__callback">_callback</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__callbackContext">_callbackContext</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
                                 <a href="#property__clearMode">_clearMode</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property__context">_context</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__height">_height</a>
 
                                 
                                 
@@ -403,14 +410,28 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
+                                <a href="#property__width">_width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_bgColor">bgColor</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
+                                <a href="#property_clearMode">clearMode</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_CLEARMODE_CLEARRECT">CLEARMODE_CLEARRECT</a>
 
                                 
@@ -419,7 +440,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_CLEARMODE_FILLRECT">CLEARMODE_FILLRECT</a>
 
                                 
@@ -428,7 +449,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_CLEARMODE_FILLRECT_ALPHA">CLEARMODE_FILLRECT_ALPHA</a>
 
                                 
@@ -437,7 +458,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_CLEARMODE_NONE">CLEARMODE_NONE</a>
 
                                 
@@ -446,36 +467,29 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_domElement">domElement</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_TIMER_COUNT">TIMER_COUNT</a>
+                            <li class="index-item property private">
+                                <a href="#property_height">height</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_TIMER_START">TIMER_START</a>
+                            <li class="index-item property public">
+                                <a href="#property_visible">visible</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_TIMER_STOP">TIMER_STOP</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_type">type</a>
+                            <li class="index-item property public">
+                                <a href="#property_width">width</a>
 
                                 
                                 
@@ -499,23 +513,7 @@
     <h3 class="name"><code>_updatedSize</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>width</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>height</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -545,7 +543,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l144"><code>src\utils\Canvas.ts:144</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l195"><code>src\utils\Canvas.ts:195</code></a>
         
         </p>
 
@@ -556,47 +554,10 @@
     </div>
 
     <div class="description">
-        
+        <p>Updates the width/height on the canvas DOM element when either one of its sizes are updated.</p>
+
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">width</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">height</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -605,7 +566,7 @@
 </div>
 
                 
-                    <div id="method_clear" class="method item">
+                    <div id="method_clear" class="method item public">
     <h3 class="name"><code>clear</code></h3>
 
     
@@ -617,6 +578,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -637,7 +600,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l220"><code>src\utils\Canvas.ts:220</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l274"><code>src\utils\Canvas.ts:274</code></a>
         
         </p>
 
@@ -648,7 +611,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Clears the canvas using the method specified by the clearMode property.</p>
+
     </div>
 
     
@@ -659,21 +623,19 @@
 </div>
 
                 
-                    <div id="method_clearMode" class="method item">
-    <h3 class="name"><code>clearMode</code></h3>
+                    <div id="method_destroy" class="method item public">
+    <h3 class="name"><code>destroy</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -695,7 +657,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l200"><code>src\utils\Canvas.ts:200</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l207"><code>src\utils\Canvas.ts:207</code></a>
         
         </p>
 
@@ -706,7 +668,68 @@
     </div>
 
     <div class="description">
-        <p>Gets</p>
+        <p>Used to remove the canvas element completely along with this class. [NEEDS IMPLEMENTATION]</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l92"><code>src\utils\Canvas.ts:92</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object that this is.</p>
 
     </div>
 
@@ -719,7 +742,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Number</span>:
+                        <span class="type">String</span>:
                     
                 
             </div>
@@ -730,118 +753,7 @@
 </div>
 
                 
-                    <div id="method_destroy" class="method item">
-    <h3 class="name"><code>destroy</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_utils_Canvas.ts.html#l157"><code>src\utils\Canvas.ts:157</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_run" class="method item">
-    <h3 class="name"><code>run</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Time.html">Time</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_TimerEvent.ts.html#l83"><code>src\time\TimerEvent.ts:83</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Fires the callback associated with this TimerEvent</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_saveAsPNG" class="method item">
+                    <div id="method_saveAsPNG" class="method item public">
     <h3 class="name"><code>saveAsPNG</code></h3>
 
     
@@ -857,6 +769,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -877,7 +791,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l252"><code>src\utils\Canvas.ts:252</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l308"><code>src\utils\Canvas.ts:308</code></a>
         
         </p>
 
@@ -888,7 +802,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Returns the canvas current image data as PNG.</p>
+
     </div>
 
     
@@ -911,7 +826,7 @@
 </div>
 
                 
-                    <div id="method_toString" class="method item">
+                    <div id="method_toString" class="method item public">
     <h3 class="name"><code>toString</code></h3>
 
     
@@ -926,6 +841,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -947,7 +864,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l262"><code>src\utils\Canvas.ts:262</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l320"><code>src\utils\Canvas.ts:320</code></a>
         
         </p>
 
@@ -984,213 +901,12 @@
 </div>
 
                 
-                    <div id="method_visible" class="method item">
-    <h3 class="name"><code>visible</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_utils_Canvas.ts.html#l170"><code>src\utils\Canvas.ts:170</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
             </div>
         
 
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property__callback" class="property item private">
-    <h3 class="name"><code>_callback</code></h3>
-    <span class="type">Function</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Time.html">Time</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_TimerEvent.ts.html#l60"><code>src\time\TimerEvent.ts:60</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The callback to be called when this TimerEvent triggers</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__callbackContext" class="property item private">
-    <h3 class="name"><code>_callbackContext</code></h3>
-    <span class="type">Function</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Time.html">Time</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_TimerEvent.ts.html#l68"><code>src\time\TimerEvent.ts:68</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The context in which the callback will be fired</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
 
                 
                     <div id="property__clearMode" class="property item private">
@@ -1218,7 +934,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l102"><code>src\utils\Canvas.ts:102</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l134"><code>src\utils\Canvas.ts:134</code></a>
         
         </p>
 
@@ -1228,7 +944,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The method to use when clearing the canvas.</p>
+
     </div>
 
     
@@ -1239,12 +956,14 @@
 </div>
 
                 
-                    <div id="property__context" class="property item">
+                    <div id="property__context" class="property item public">
     <h3 class="name"><code>_context</code></h3>
     <span class="type">CanvasRenderingContext2D</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1262,7 +981,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l82"><code>src\utils\Canvas.ts:82</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l110"><code>src\utils\Canvas.ts:110</code></a>
         
         </p>
 
@@ -1272,7 +991,55 @@
     </div>
 
     <div class="description">
+        <p>The 2D rendering context that is used to render anything to this canvas.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__height" class="property item private">
+    <h3 class="name"><code>_height</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l70"><code>src\utils\Canvas.ts:70</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The height of this canvas.</p>
+
     </div>
 
     
@@ -1308,7 +1075,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l95"><code>src\utils\Canvas.ts:95</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l126"><code>src\utils\Canvas.ts:126</code></a>
         
         </p>
 
@@ -1318,7 +1085,8 @@
     </div>
 
     <div class="description">
-        
+        <p>If the canvas is offscreen or not.</p>
+
     </div>
 
     
@@ -1354,7 +1122,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l88"><code>src\utils\Canvas.ts:88</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l118"><code>src\utils\Canvas.ts:118</code></a>
         
         </p>
 
@@ -1364,7 +1132,8 @@
     </div>
 
     <div class="description">
-        
+        <p>If the canvas element is visible or not.</p>
+
     </div>
 
     
@@ -1375,13 +1144,62 @@
 </div>
 
                 
-                    <div id="property_bgColor" class="property item">
+                    <div id="property__width" class="property item private">
+    <h3 class="name"><code>_width</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l48"><code>src\utils\Canvas.ts:48</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The width of this canvas.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_bgColor" class="property item public">
     <h3 class="name"><code>bgColor</code></h3>
     <span class="type">String</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1398,7 +1216,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l137"><code>src\utils\Canvas.ts:137</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l186"><code>src\utils\Canvas.ts:186</code></a>
         
         </p>
 
@@ -1408,9 +1226,12 @@
     </div>
 
     <div class="description">
-        
+        <p>The background color to use clearing the canvas using a filled rectangle approach.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> &#x27;rgb(0,0,0)&#x27;</p>
     
 
     
@@ -1419,14 +1240,67 @@
 </div>
 
                 
-                    <div id="property_CLEARMODE_CLEARRECT" class="property item">
+                    <div id="property_clearMode" class="property item public">
+    <h3 class="name"><code>clearMode</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Canvas.ts.html#l253"><code>src\utils\Canvas.ts:253</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The clearmode the is to be used when clearing the canvas.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_CLEARMODE_CLEARRECT" class="property item public">
     <h3 class="name"><code>CLEARMODE_CLEARRECT</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -1444,7 +1318,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l116"><code>src\utils\Canvas.ts:116</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l153"><code>src\utils\Canvas.ts:153</code></a>
         
         </p>
 
@@ -1454,9 +1328,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A STATIC property that holds the number associated with the clear mode that uses the clearRect method to clear the canvas.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 1</p>
     
 
     
@@ -1465,14 +1342,18 @@
 </div>
 
                 
-                    <div id="property_CLEARMODE_FILLRECT" class="property item">
+                    <div id="property_CLEARMODE_FILLRECT" class="property item public">
     <h3 class="name"><code>CLEARMODE_FILLRECT</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -1490,7 +1371,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l123"><code>src\utils\Canvas.ts:123</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l164"><code>src\utils\Canvas.ts:164</code></a>
         
         </p>
 
@@ -1500,9 +1381,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A STATIC property that holds the number associated with the clear mode that uses a filled rectangle to clear the canvas.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 2</p>
     
 
     
@@ -1511,14 +1395,18 @@
 </div>
 
                 
-                    <div id="property_CLEARMODE_FILLRECT_ALPHA" class="property item">
+                    <div id="property_CLEARMODE_FILLRECT_ALPHA" class="property item public">
     <h3 class="name"><code>CLEARMODE_FILLRECT_ALPHA</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -1536,7 +1424,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l130"><code>src\utils\Canvas.ts:130</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l175"><code>src\utils\Canvas.ts:175</code></a>
         
         </p>
 
@@ -1546,9 +1434,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A STATIC property that holds the number associated with the clear mode that uses the filled alpha rectangle method.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 3</p>
     
 
     
@@ -1557,14 +1448,18 @@
 </div>
 
                 
-                    <div id="property_CLEARMODE_NONE" class="property item">
+                    <div id="property_CLEARMODE_NONE" class="property item public">
     <h3 class="name"><code>CLEARMODE_NONE</code></h3>
     <span class="type">Number</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
+    
+        <span class="flag final">final</span>
     
 
     
@@ -1582,7 +1477,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l109"><code>src\utils\Canvas.ts:109</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l142"><code>src\utils\Canvas.ts:142</code></a>
         
         </p>
 
@@ -1592,9 +1487,12 @@
     </div>
 
     <div class="description">
-        
+        <p>A STATIC property that holds the number associated with no clear mode.</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -1603,13 +1501,15 @@
 </div>
 
                 
-                    <div id="property_domElement" class="property item">
+                    <div id="property_domElement" class="property item public">
     <h3 class="name"><code>domElement</code></h3>
     <span class="type">HTMLCanvasElement</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1626,7 +1526,7 @@
             
         
         
-        <a href="../files/src_utils_Canvas.ts.html#l76"><code>src\utils\Canvas.ts:76</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l102"><code>src\utils\Canvas.ts:102</code></a>
         
         </p>
 
@@ -1636,53 +1536,7 @@
     </div>
 
     <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_TIMER_COUNT" class="property item">
-    <h3 class="name"><code>TIMER_COUNT</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Time.html">Time</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_TimerEvent.ts.html#l44"><code>src\time\TimerEvent.ts:44</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Name for the event fired when a timer repeats.</p>
+        <p>The canvas DOM element.</p>
 
     </div>
 
@@ -1694,12 +1548,14 @@
 </div>
 
                 
-                    <div id="property_TIMER_START" class="property item">
-    <h3 class="name"><code>TIMER_START</code></h3>
-    <span class="type">String</span>
+                    <div id="property_height" class="property item private">
+    <h3 class="name"><code>height</code></h3>
+    <span class="type">Number</span>
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -1710,8 +1566,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Time.html">Time</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -1719,7 +1573,7 @@
             
         
         
-        <a href="../files/src_time_TimerEvent.ts.html#l36"><code>src\time\TimerEvent.ts:36</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l78"><code>src\utils\Canvas.ts:78</code></a>
         
         </p>
 
@@ -1729,7 +1583,7 @@
     </div>
 
     <div class="description">
-        <p>Name for the event fired when a timer starts.</p>
+        <p>The height of this canvas.</p>
 
     </div>
 
@@ -1741,12 +1595,14 @@
 </div>
 
                 
-                    <div id="property_TIMER_STOP" class="property item">
-    <h3 class="name"><code>TIMER_STOP</code></h3>
-    <span class="type">String</span>
+                    <div id="property_visible" class="property item public">
+    <h3 class="name"><code>visible</code></h3>
+    <span class="type">Boolean</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1757,8 +1613,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Time.html">Time</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -1766,7 +1620,7 @@
             
         
         
-        <a href="../files/src_time_TimerEvent.ts.html#l52"><code>src\time\TimerEvent.ts:52</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l222"><code>src\utils\Canvas.ts:222</code></a>
         
         </p>
 
@@ -1776,10 +1630,12 @@
     </div>
 
     <div class="description">
-        <p>Name for the event fired when a timer stops.</p>
+        <p>If the canvas element is visible or not.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -1788,12 +1644,14 @@
 </div>
 
                 
-                    <div id="property_type" class="property item">
-    <h3 class="name"><code>type</code></h3>
-    <span class="type">Funcation</span>
+                    <div id="property_width" class="property item public">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1804,8 +1662,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Time.html">Time</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -1813,7 +1669,7 @@
             
         
         
-        <a href="../files/src_time_TimerEvent.ts.html#l76"><code>src\time\TimerEvent.ts:76</code></a>
+        <a href="../files/src_utils_Canvas.ts.html#l56"><code>src\utils\Canvas.ts:56</code></a>
         
         </p>
 
@@ -1823,7 +1679,7 @@
     </div>
 
     <div class="description">
-        <p>The type of TimerEvent</p>
+        <p>The width of this canvas.</p>
 
     </div>
 

@@ -51,9 +51,15 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
+                <li><a href="../classes/Back.html">Back</a></li>
+            
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
             
                 <li><a href="../classes/Box.html">Box</a></li>
             
@@ -67,6 +73,8 @@
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
                 <li><a href="../classes/Common.html">Common</a></li>
@@ -75,11 +83,17 @@
             
                 <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
             
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
                 <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
             
                 <li><a href="../classes/Device.html">Device</a></li>
             
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
                 <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
@@ -111,6 +125,8 @@
             
                 <li><a href="../classes/Line.html">Line</a></li>
             
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
                 <li><a href="../classes/Manager.html">Manager</a></li>
@@ -127,6 +143,12 @@
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
             
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
                 <li><a href="../classes/Ray.html">Ray</a></li>
@@ -142,6 +164,8 @@
                 <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
             
                 <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
             
                 <li><a href="../classes/Sound.html">Sound</a></li>
             
@@ -167,6 +191,8 @@
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -182,6 +208,8 @@
                 <li><a href="../modules/Animation.html">Animation</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
             
                 <li><a href="../modules/Files.html">Files</a></li>
             
@@ -244,26 +272,28 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/// &lt;reference path=&quot;../Manager.ts&quot; /&gt;
-
 /**
- *	Kiwi - Tween - Easing - Circular
- *
- *	@desc 		Based heavily on tween.js by sole (https://github.com/sole/tween.js)
- *
- *	@version 	1.0 - 11th January 2013
- *
- *	@author 	Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list
- *
- *	@url 		http://www.kiwijs.org
- *
- *	@todo       
- */
-
+* Kiwi - Animation - Tweens - Easing 
+* @module Tweens
+* @submodule Easing 
+* 
+*/
 module Kiwi.Animation.Tweens.Easing {
 
+    /**
+    *
+    *
+    * @class Circular
+    *
+    */
     export class Circular {
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return &quot;Circular&quot;;
         }
@@ -271,9 +301,10 @@ module Kiwi.Animation.Tweens.Easing {
         /** 
         * 
         * @method In
-        * @param {Any} k
+        * @param k {Any}
+        * @return {Number}
         * @static
-        **/
+        */
         public static In(k) {
 
             return 1 - Math.sqrt(1 - k * k);
@@ -281,11 +312,12 @@ module Kiwi.Animation.Tweens.Easing {
         }
 
         /** 
-        * Out
-        * @method 
-        * @param {Any} k
+        * 
+        * @method Out
+        * @param k {Any}
+        * @return {Number}
         * @static
-        **/
+        */
         public static Out(k) {
 
             return Math.sqrt(1 - (--k * k));
@@ -293,11 +325,12 @@ module Kiwi.Animation.Tweens.Easing {
         }
 
         /** 
-        * InOut
-        * @method 
-        * @param {Any} k
+        * 
+        * @method InOut
+        * @param k {Any}
+        * @return {Number}
         * @static
-        **/
+        */
         public static InOut(k) {
 
             if ((k *= 2) &lt; 1) return -0.5 * (Math.sqrt(1 - k * k) - 1);

@@ -89,7 +89,8 @@ module Kiwi.Components {
         private _isPlaying: boolean = false;
         
         /**
-        * Returns a boolean indicating whether or not the current animation is playing.
+        * Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.
+        * @property isPlaying
         * @type boolean
         * @public
         */
@@ -301,7 +302,8 @@ module Kiwi.Components {
         }
         
         /**
-        * Gets the current cell that the current animation is up to.
+        * Gets the cell that the current animation is current at. This is READ ONLY.
+        * @property currentCell
         * @type number
         * @public
         */
@@ -310,7 +312,8 @@ module Kiwi.Components {
         }
 
         /**
-        * Gets the current frame index that the current animation is up to.
+        * Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.
+        * @property frameIndex 
         * @type number
         * @public
         */
@@ -319,7 +322,8 @@ module Kiwi.Components {
         }
 
         /**
-        * Returns the length of the current animation that is playing.
+        * Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.
+        * @property length
         * @type number
         * @public
         */
@@ -342,7 +346,7 @@ module Kiwi.Components {
         /**
         * An internal method that is used to set the cell index of the entity. This is how the animation changes.
         * @method _setCellIndex
-        * @public
+        * @private
         */
         private _setCellIndex() {
             this.entity.cellIndex = this.currentCell;
@@ -354,7 +358,7 @@ module Kiwi.Components {
 	    * @return {string} A string representation of this object.
         * @public
 	    */
-        public get toString(): string {
+        public toString(): string {
 
             return '[{Animation (x=' + this.active + ')}]';
 

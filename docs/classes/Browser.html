@@ -51,9 +51,15 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
+                <li><a href="../classes/Back.html">Back</a></li>
+            
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
             
                 <li><a href="../classes/Box.html">Box</a></li>
             
@@ -67,6 +73,8 @@
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
                 <li><a href="../classes/Common.html">Common</a></li>
@@ -75,11 +83,17 @@
             
                 <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
             
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
                 <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
             
                 <li><a href="../classes/Device.html">Device</a></li>
             
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
                 <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
@@ -111,6 +125,8 @@
             
                 <li><a href="../classes/Line.html">Line</a></li>
             
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
                 <li><a href="../classes/Manager.html">Manager</a></li>
@@ -127,6 +143,12 @@
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
             
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
                 <li><a href="../classes/Ray.html">Ray</a></li>
@@ -142,6 +164,8 @@
                 <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
             
                 <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
             
                 <li><a href="../classes/Sound.html">Sound</a></li>
             
@@ -167,6 +191,8 @@
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -182,6 +208,8 @@
                 <li><a href="../modules/Animation.html">Animation</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
             
                 <li><a href="../modules/Files.html">Files</a></li>
             
@@ -303,8 +331,15 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_getOffsetPoint">getOffsetPoint</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
 
                                 
                                 
@@ -373,7 +408,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l43"><code>src\system\Browser.ts:43</code></a>
+        <a href="../files/src_system_Browser.ts.html#l49"><code>src\system\Browser.ts:49</code></a>
         
         </p>
 
@@ -396,7 +431,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 </div>
 
                 
-                    <div id="method_getOffsetPoint" class="method item">
+                    <div id="method_getOffsetPoint" class="method item public">
     <h3 class="name"><code>getOffsetPoint</code></h3>
 
     
@@ -421,12 +456,14 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Point</span>
+            <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -448,7 +485,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l53"><code>src\system\Browser.ts:53</code></a>
+        <a href="../files/src_system_Browser.ts.html#l57"><code>src\system\Browser.ts:57</code></a>
         
         </p>
 
@@ -486,7 +523,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                 <li class="param">
                     
                         <code class="param-name">output</code>
-                        <span class="type">Kiwi.Geom.Point</span>
+                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>
                     
 
                     
@@ -509,7 +546,80 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Point</span>:
+                        <span class="type"><a href="..\classes\Point.html" class="crosslink">Point</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_system_Browser.ts.html#l31"><code>src\system\Browser.ts:31</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
                     
                 
             </div>
@@ -530,7 +640,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
                 
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
-    <span class="type">Kiwi.Game</span>
+    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
 
     
 
@@ -553,7 +663,7 @@ Based on jQuery offset <a href="https://github.com/jquery/jquery/blob/master/src
             
         
         
-        <a href="../files/src_system_Browser.ts.html#l35"><code>src\system\Browser.ts:35</code></a>
+        <a href="../files/src_system_Browser.ts.html#l41"><code>src\system\Browser.ts:41</code></a>
         
         </p>
 

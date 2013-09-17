@@ -17,13 +17,13 @@ module Kiwi.Textures  {
         /**
         *
         * @constructor
-        * @param {string} name - The name of the single image
-        * @param {HTMLImageElement} image - the image that is being used.
-        * @param {number} width - the width of the image
-        * @param {number} height - the height of the image
-        * @param {number} offsetX - the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
-        * @param {number} offsetY - the offset of the image of the y axis. Useful if the image has a border that you don't want to show.
-        * @return {Kiwi.Textures.SingleImage}
+        * @param name {string} The name of the single image
+        * @param image {HTMLImageElement} the image that is being used.
+        * @param [width] {number} the width of the image
+        * @param [height] {number} the height of the image
+        * @param [offsetX] {number} the offset of the image on the x axis. Useful if the image has a border that you don't want to show.
+        * @param [offsetY] {number} the offset of the image of the y axis. Useful if the image has a border that you don't want to show.
+        * @return {SingleImage}
         */
         constructor(name: string, image: HTMLImageElement, width?: number, height?: number, offsetX?: number, offsetY?: number) {
             this.width = width || image.width;

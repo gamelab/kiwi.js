@@ -51,9 +51,15 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
+                <li><a href="../classes/Back.html">Back</a></li>
+            
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
             
                 <li><a href="../classes/Box.html">Box</a></li>
             
@@ -67,6 +73,8 @@
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
                 <li><a href="../classes/Common.html">Common</a></li>
@@ -75,11 +83,17 @@
             
                 <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
             
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
                 <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
             
                 <li><a href="../classes/Device.html">Device</a></li>
             
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
                 <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
@@ -111,6 +125,8 @@
             
                 <li><a href="../classes/Line.html">Line</a></li>
             
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
                 <li><a href="../classes/Manager.html">Manager</a></li>
@@ -127,6 +143,12 @@
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
             
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
                 <li><a href="../classes/Ray.html">Ray</a></li>
@@ -142,6 +164,8 @@
                 <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
             
                 <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
             
                 <li><a href="../classes/Sound.html">Sound</a></li>
             
@@ -167,6 +191,8 @@
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -182,6 +208,8 @@
                 <li><a href="../modules/Animation.html">Animation</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
             
                 <li><a href="../modules/Files.html">Files</a></li>
             
@@ -264,18 +292,18 @@ module Kiwi.Textures  {
         /**
         *
         * @constructor
-        * @param {string} name - The name of the spritesheet.
-        * @param {HTMLImageElement} texture - The image that is being used for the spritesheet.
-        * @param {number} cellWidth - The width of a single cell.
-        * @param {number} cellHeight - The height of a single cell.
-        * @param {number} numCells - The number of cells in total. 
-        * @param {number} rows - The number of cells that make up a row.
-        * @param {number} cols - The number of cells that make up a column.
-        * @param {number} sheetOffsetX - The offset of the whole sheet on the x axis. Useful if the image has a border you don&#x27;t want to show.
-        * @param {number} sheetOffsetY - The offset of the whole sheet on the y axis. Useful if the image has a border you don&#x27;t want to show.
-        * @param {number} cellOffsetX - An offset between cells on the x axis. Useful if there is a border between cells which is not to be shown.
-        * @param {number} cellOffsetY - An offset between cells on the y axis. Useful if there is a border between cells which is not to be shown.
-        * @return {Kiwi.Textures.SpriteSheet} 
+        * @param name {string} The name of the spritesheet.
+        * @param texture {HTMLImageElement} The image that is being used for the spritesheet.
+        * @param cellWidth {number} The width of a single cell.
+        * @param cellHeight {number} The height of a single cell.
+        * @param [numCells] {number} The number of cells in total. 
+        * @param [rows] {number} The number of cells that make up a row.
+        * @param [cols] {number} The number of cells that make up a column.
+        * @param [sheetOffsetX] {number} The offset of the whole sheet on the x axis. Useful if the image has a border you don&#x27;t want to show.
+        * @param [sheetOffsetY] {number} The offset of the whole sheet on the y axis. Useful if the image has a border you don&#x27;t want to show.
+        * @param [cellOffsetX] {number} An offset between cells on the x axis. Useful if there is a border between cells which is not to be shown.
+        * @param [cellOffsetY] {number} An offset between cells on the y axis. Useful if there is a border between cells which is not to be shown.
+        * @return {SpriteSheet} 
         */
         constructor(name: string, texture:HTMLImageElement, cellWidth: number, cellHeight: number, numCells?:number,rows?:number,cols?:number,sheetOffsetX?: number, sheetOffsetY?:number,cellOffsetX?:number,cellOffsetY?:number) {
             

@@ -51,9 +51,15 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
+                <li><a href="../classes/Back.html">Back</a></li>
+            
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
             
                 <li><a href="../classes/Box.html">Box</a></li>
             
@@ -67,6 +73,8 @@
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
                 <li><a href="../classes/Common.html">Common</a></li>
@@ -75,11 +83,17 @@
             
                 <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
             
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
                 <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
             
                 <li><a href="../classes/Device.html">Device</a></li>
             
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
                 <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
@@ -111,6 +125,8 @@
             
                 <li><a href="../classes/Line.html">Line</a></li>
             
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
                 <li><a href="../classes/Manager.html">Manager</a></li>
@@ -127,6 +143,12 @@
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
             
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
                 <li><a href="../classes/Ray.html">Ray</a></li>
@@ -142,6 +164,8 @@
                 <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
             
                 <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
             
                 <li><a href="../classes/Sound.html">Sound</a></li>
             
@@ -167,6 +191,8 @@
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -182,6 +208,8 @@
                 <li><a href="../modules/Animation.html">Animation</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
             
                 <li><a href="../modules/Files.html">Files</a></li>
             
@@ -280,6 +308,12 @@ module Kiwi.System {
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return &quot;Device&quot;;
         }
@@ -290,6 +324,7 @@ module Kiwi.System {
         * 
         * @property iOS 
         * @type boolean
+        * @public
         */
         public iOS: boolean = false;
 
@@ -297,6 +332,7 @@ module Kiwi.System {
         * 
         * @property android
         * @type boolean
+        * @public
         */
         public android: boolean = false;
 
@@ -304,6 +340,7 @@ module Kiwi.System {
         * 
         * @property chromeOS
         * @type boolean
+        * @public
         */
         public chromeOS: boolean = false;
 
@@ -311,6 +348,7 @@ module Kiwi.System {
         * 
         * @property linux
         * @type boolean
+        * @public
         */
         public linux: boolean = false;
 
@@ -318,6 +356,7 @@ module Kiwi.System {
         * 
         * @property maxOS
         * @type boolean
+        * @public
         */
         public macOS: boolean = false;
 
@@ -325,6 +364,7 @@ module Kiwi.System {
         * 
         * @property windows
         * @type boolean
+        * @public
         */
         public windows: boolean = false;
 
@@ -334,6 +374,7 @@ module Kiwi.System {
         * 
         * @property canvas
         * @type boolean
+        * @public
         */
         public canvas: boolean = false;
 
@@ -341,6 +382,7 @@ module Kiwi.System {
         * 
         * @property file
         * @type boolean
+        * @public
         */
         public file: boolean = false;
 
@@ -348,6 +390,7 @@ module Kiwi.System {
         * 
         * @property fileSystem
         * @type boolean
+        * @public
         */
         public fileSystem: boolean = false;
 
@@ -355,6 +398,7 @@ module Kiwi.System {
         * 
         * @property localStorage
         * @type boolean
+        * @public
         */
         public localStorage: boolean = false;
 
@@ -362,6 +406,7 @@ module Kiwi.System {
         * 
         * @property webGL
         * @type boolean
+        * @public
         */
         public webGL: boolean = false;
 
@@ -369,6 +414,7 @@ module Kiwi.System {
         * 
         * @property worker
         * @type boolean
+        * @public
         */
         public worker: boolean = false;
 
@@ -376,6 +422,7 @@ module Kiwi.System {
         * 
         * @property blob
         * @type boolean
+        * @public
         */
         public blob: boolean = false;
 
@@ -384,6 +431,7 @@ module Kiwi.System {
         * 
         * @property touch
         * @type boolean
+        * @public
         */
         public touch: boolean = false;
 
@@ -391,6 +439,7 @@ module Kiwi.System {
         * 
         * @property css3D
         * @type boolean
+        * @public
         */
         public css3D: boolean = false;
 
@@ -400,6 +449,7 @@ module Kiwi.System {
         * 
         * @property arora
         * @type boolean
+        * @public
         */
         public arora: boolean = false;
 
@@ -407,6 +457,7 @@ module Kiwi.System {
         * 
         * @property chrome
         * @type boolean
+        * @public
         */
         public chrome: boolean = false;
 
@@ -414,6 +465,7 @@ module Kiwi.System {
         * 
         * @property epiphany
         * @type boolean
+        * @public
         */
         public epiphany: boolean = false;
 
@@ -421,6 +473,7 @@ module Kiwi.System {
         * 
         * @property firefox
         * @type boolean
+        * @public
         */
         public firefox: boolean = false;
 
@@ -428,6 +481,7 @@ module Kiwi.System {
         * 
         * @property ie
         * @type boolean
+        * @public
         */
         public ie: boolean = false;
 
@@ -435,6 +489,7 @@ module Kiwi.System {
         * 
         * @property ieVersion
         * @type Number
+        * @public
         */
         public ieVersion: number = 0;
 
@@ -442,6 +497,7 @@ module Kiwi.System {
         * 
         * @property mobileSafari
         * @type boolean
+        * @public
         */
         public mobileSafari: boolean = false;
 
@@ -449,6 +505,7 @@ module Kiwi.System {
         * 
         * @property midori
         * @type boolean
+        * @public
         */
         public midori: boolean = false;
 
@@ -456,6 +513,7 @@ module Kiwi.System {
         * 
         * @property opera
         * @type boolean
+        * @public
         */
         public opera: boolean = false;
 
@@ -463,8 +521,16 @@ module Kiwi.System {
         * 
         * @property safari
         * @type boolean 
+        * @public
         */
         public safari: boolean = false;
+
+        /**
+        *
+        * @property webApp
+        * @type boolean
+        * @public
+        */
         public webApp: boolean = false;
 
         //  Audio
@@ -473,6 +539,7 @@ module Kiwi.System {
         * 
         * @property audioData
         * @type boolean
+        * @public
         */
         public audioData: boolean = false;
 
@@ -480,6 +547,7 @@ module Kiwi.System {
         * 
         * @property webaudio
         * @type boolean
+        * @public
         */
         public webaudio: boolean = false;
 
@@ -487,6 +555,7 @@ module Kiwi.System {
         * 
         * @property ogg
         * @type boolean
+        * @public
         */
         public ogg: boolean = false;
 
@@ -494,6 +563,7 @@ module Kiwi.System {
         * 
         * @property mp3
         * @type boolean
+        * @public
         */
         public mp3: boolean = false;
 
@@ -501,6 +571,7 @@ module Kiwi.System {
         * 
         * @property wav
         * @type boolean
+        * @public
         */
         public wav: boolean = false;
 
@@ -508,6 +579,7 @@ module Kiwi.System {
         * 
         * @property m4a
         * @type boolean
+        * @public
         */
         public m4a: boolean = false;
 
@@ -517,6 +589,7 @@ module Kiwi.System {
         * 
         * @property iPhone
         * @type boolean
+        * @public
         */
         public iPhone: boolean = false;
 
@@ -524,6 +597,7 @@ module Kiwi.System {
         * 
         * @property iPhone4
         * @type boolean
+        * @public
         */
         public iPhone4: boolean = false;
 
@@ -531,6 +605,7 @@ module Kiwi.System {
         * 
         * @property iPad
         * @type boolean
+        * @public
         */
         public iPad: boolean = false;
 
@@ -538,6 +613,7 @@ module Kiwi.System {
         * 
         * @property pixelRatio
         * @type Number
+        * @public
         */
         public pixelRatio: number = 0;
 
@@ -759,6 +835,7 @@ module Kiwi.System {
         * 
         * @method getAll
         * @return {String}
+        * @public
         */
         public getAll(): string {
 

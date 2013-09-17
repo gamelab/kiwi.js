@@ -18,18 +18,18 @@ module Kiwi.Textures  {
         /**
         *
         * @constructor
-        * @param {string} name - The name of the spritesheet.
-        * @param {HTMLImageElement} texture - The image that is being used for the spritesheet.
-        * @param {number} cellWidth - The width of a single cell.
-        * @param {number} cellHeight - The height of a single cell.
-        * @param {number} numCells - The number of cells in total. 
-        * @param {number} rows - The number of cells that make up a row.
-        * @param {number} cols - The number of cells that make up a column.
-        * @param {number} sheetOffsetX - The offset of the whole sheet on the x axis. Useful if the image has a border you don't want to show.
-        * @param {number} sheetOffsetY - The offset of the whole sheet on the y axis. Useful if the image has a border you don't want to show.
-        * @param {number} cellOffsetX - An offset between cells on the x axis. Useful if there is a border between cells which is not to be shown.
-        * @param {number} cellOffsetY - An offset between cells on the y axis. Useful if there is a border between cells which is not to be shown.
-        * @return {Kiwi.Textures.SpriteSheet} 
+        * @param name {string} The name of the spritesheet.
+        * @param texture {HTMLImageElement} The image that is being used for the spritesheet.
+        * @param cellWidth {number} The width of a single cell.
+        * @param cellHeight {number} The height of a single cell.
+        * @param [numCells] {number} The number of cells in total. 
+        * @param [rows] {number} The number of cells that make up a row.
+        * @param [cols] {number} The number of cells that make up a column.
+        * @param [sheetOffsetX] {number} The offset of the whole sheet on the x axis. Useful if the image has a border you don't want to show.
+        * @param [sheetOffsetY] {number} The offset of the whole sheet on the y axis. Useful if the image has a border you don't want to show.
+        * @param [cellOffsetX] {number} An offset between cells on the x axis. Useful if there is a border between cells which is not to be shown.
+        * @param [cellOffsetY] {number} An offset between cells on the y axis. Useful if there is a border between cells which is not to be shown.
+        * @return {SpriteSheet} 
         */
         constructor(name: string, texture:HTMLImageElement, cellWidth: number, cellHeight: number, numCells?:number,rows?:number,cols?:number,sheetOffsetX?: number, sheetOffsetY?:number,cellOffsetX?:number,cellOffsetY?:number) {
             

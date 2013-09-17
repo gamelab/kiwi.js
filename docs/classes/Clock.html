@@ -51,9 +51,15 @@
             
                 <li><a href="../classes/Audio.html">Audio</a></li>
             
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
                 <li><a href="../classes/AudioManager.html">AudioManager</a></li>
             
+                <li><a href="../classes/Back.html">Back</a></li>
+            
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
             
                 <li><a href="../classes/Box.html">Box</a></li>
             
@@ -67,6 +73,8 @@
             
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
                 <li><a href="../classes/Common.html">Common</a></li>
@@ -75,11 +83,17 @@
             
                 <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
             
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
                 <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
             
                 <li><a href="../classes/Device.html">Device</a></li>
             
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
                 <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
             
                 <li><a href="../classes/File.html">File</a></li>
             
@@ -111,6 +125,8 @@
             
                 <li><a href="../classes/Line.html">Line</a></li>
             
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
                 <li><a href="../classes/Loader.html">Loader</a></li>
             
                 <li><a href="../classes/Manager.html">Manager</a></li>
@@ -127,6 +143,12 @@
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
             
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
                 <li><a href="../classes/Ray.html">Ray</a></li>
@@ -142,6 +164,8 @@
                 <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
             
                 <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
             
                 <li><a href="../classes/Sound.html">Sound</a></li>
             
@@ -167,6 +191,8 @@
             
                 <li><a href="../classes/Timer.html">Timer</a></li>
             
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
                 <li><a href="../classes/Touch.html">Touch</a></li>
             
                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -182,6 +208,8 @@
                 <li><a href="../modules/Animation.html">Animation</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
             
                 <li><a href="../modules/Files.html">Files</a></li>
             
@@ -248,7 +276,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_time_Clock.ts.html#l25"><code>src\time\Clock.ts:25</code></a>
+            Defined in: <a href="../files/src_time_Clock.ts.html#l10"><code>src\time\Clock.ts:10</code></a>
         </div>
     
 
@@ -265,141 +293,17 @@
 
 
 <div class="box intro">
-    <p>A clock class for keeping time.</p>
+    <p>The Clock class offers a way of tracking time within a game.
+- The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started.
+This happens automatically and there is no need to do anything to set this up.
+- An instance of a clock is used to track time in arbitrary units (milliseconds by default)
+- A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
+- Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
+- If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
+(Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)</p>
 
 </div>
 
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-        <div id="method_Clock" class="method item">
-    <h3 class="name"><code>Clock</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>name.</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>units.</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Kiwi.Time.Clock</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Clock.ts.html#l25"><code>src\time\Clock.ts:25</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">name.</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The name of the clock.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">units.</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The number of milliseconds that make up one unit of time on this clock.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Kiwi.Time.Clock</span>:
-                    
-                    <p>This Clock object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-    </div>
 
 
 <div id="classdocs" class="tabview">
@@ -426,147 +330,154 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_addTimer">addTimer</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_checkExists">checkExists</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_createTimer">createTimer</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_elapsed">elapsed</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_elapsedSinceFirstStarted.">elapsedSinceFirstStarted.</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_elapsedSinceLastPaused.">elapsedSinceLastPaused.</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_elapsedSinceLastStopped.">elapsedSinceLastStopped.</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_elapsedSinceLastUnpaused.">elapsedSinceLastUnpaused.</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_isPaused">isPaused</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_isRunning">isRunning</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_isStopped">isStopped</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_pause">pause</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_removeTimer">removeTimer</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_resume">resume</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_start">start</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_started">started</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_stop">stop</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_stopAllTimers">stopAllTimers</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_toMilliseconds.">toMilliseconds.</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_toString">toString</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_update">update</a>
 
                                 
@@ -653,14 +564,14 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_manager">manager</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_master">master</a>
 
                                 
@@ -674,14 +585,14 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property_timers">timers</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_units">units</a>
 
                                 
@@ -702,7 +613,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_addTimer" class="method item">
+                    <div id="method_addTimer" class="method item public">
     <h3 class="name"><code>addTimer</code></h3>
 
     
@@ -711,7 +622,7 @@
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code>timer</code>
                     
                 </li>
             
@@ -721,12 +632,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.Clock</span>
+            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -748,7 +661,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l282"><code>src\time\Clock.ts:282</code></a>
+        <a href="../files/src_time_Clock.ts.html#l318"><code>src\time\Clock.ts:318</code></a>
         
         </p>
 
@@ -771,14 +684,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
-                        <span class="type">Kiwi.Time.Timer</span>
+                        <code class="param-name">timer</code>
+                        <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Timer object instance to be added to ths Clock.</p>
+                        <p>The Timer object instance to be added to ths Clock.</p>
 
                     </div>
 
@@ -796,7 +709,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.Clock</span>:
+                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
                     
                     <p>This Clock object.</p>
 
@@ -809,7 +722,7 @@
 </div>
 
                 
-                    <div id="method_checkExists" class="method item">
+                    <div id="method_checkExists" class="method item public">
     <h3 class="name"><code>checkExists</code></h3>
 
     
@@ -818,7 +731,7 @@
             
                 <li class="arg">
                     
-                        <code>name.</code>
+                        <code>name</code>
                     
                 </li>
             
@@ -834,6 +747,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -855,7 +770,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l357"><code>src\time\Clock.ts:357</code></a>
+        <a href="../files/src_time_Clock.ts.html#l397"><code>src\time\Clock.ts:397</code></a>
         
         </p>
 
@@ -878,7 +793,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">name.</code>
+                        <code class="param-name">name</code>
                         <span class="type">String</span>
                     
 
@@ -916,7 +831,7 @@
 </div>
 
                 
-                    <div id="method_createTimer" class="method item">
+                    <div id="method_createTimer" class="method item public">
     <h3 class="name"><code>createTimer</code></h3>
 
     
@@ -925,19 +840,25 @@
             
                 <li class="arg">
                     
-                        <code>name.</code>
+                        <code>name</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>delay.</code>
+                        <code class="optional">[delay=1]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>repeatCount.</code>
+                        <code class="optional">[repeatCount=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[start=true]</code>
                     
                 </li>
             
@@ -947,12 +868,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.Timer</span>
+            <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -974,7 +897,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l295"><code>src\time\Clock.ts:295</code></a>
+        <a href="../files/src_time_Clock.ts.html#l332"><code>src\time\Clock.ts:332</code></a>
         
         </p>
 
@@ -997,7 +920,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">name.</code>
+                        <code class="param-name">name</code>
                         <span class="type">String</span>
                     
 
@@ -1013,8 +936,9 @@
             
                 <li class="param">
                     
-                        <code class="param-name">delay.</code>
+                        <code class="param-name optional">[delay=1]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1029,14 +953,32 @@
             
                 <li class="param">
                     
-                        <code class="param-name">repeatCount.</code>
+                        <code class="param-name optional">[repeatCount=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
                         <p>The number of times to repeat this Timer (default 0)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[start=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the timer should start.</p>
 
                     </div>
 
@@ -1054,7 +996,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.Timer</span>:
+                        <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>:
                     
                     <p>The newly created Timer.</p>
 
@@ -1067,7 +1009,7 @@
 </div>
 
                 
-                    <div id="method_elapsed" class="method item">
+                    <div id="method_elapsed" class="method item public">
     <h3 class="name"><code>elapsed</code></h3>
 
     
@@ -1082,6 +1024,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1103,7 +1047,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l97"><code>src\time\Clock.ts:97</code></a>
+        <a href="../files/src_time_Clock.ts.html#l110"><code>src\time\Clock.ts:110</code></a>
         
         </p>
 
@@ -1140,7 +1084,7 @@
 </div>
 
                 
-                    <div id="method_elapsedSinceFirstStarted." class="method item">
+                    <div id="method_elapsedSinceFirstStarted." class="method item public">
     <h3 class="name"><code>elapsedSinceFirstStarted.</code></h3>
 
     
@@ -1155,6 +1099,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1176,7 +1122,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l67"><code>src\time\Clock.ts:67</code></a>
+        <a href="../files/src_time_Clock.ts.html#l77"><code>src\time\Clock.ts:77</code></a>
         
         </p>
 
@@ -1213,7 +1159,7 @@
 </div>
 
                 
-                    <div id="method_elapsedSinceLastPaused." class="method item">
+                    <div id="method_elapsedSinceLastPaused." class="method item public">
     <h3 class="name"><code>elapsedSinceLastPaused.</code></h3>
 
     
@@ -1228,6 +1174,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1249,7 +1197,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l151"><code>src\time\Clock.ts:151</code></a>
+        <a href="../files/src_time_Clock.ts.html#l169"><code>src\time\Clock.ts:169</code></a>
         
         </p>
 
@@ -1286,7 +1234,7 @@
 </div>
 
                 
-                    <div id="method_elapsedSinceLastStopped." class="method item">
+                    <div id="method_elapsedSinceLastStopped." class="method item public">
     <h3 class="name"><code>elapsedSinceLastStopped.</code></h3>
 
     
@@ -1301,6 +1249,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1322,7 +1272,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l132"><code>src\time\Clock.ts:132</code></a>
+        <a href="../files/src_time_Clock.ts.html#l147"><code>src\time\Clock.ts:147</code></a>
         
         </p>
 
@@ -1359,7 +1309,7 @@
 </div>
 
                 
-                    <div id="method_elapsedSinceLastUnpaused." class="method item">
+                    <div id="method_elapsedSinceLastUnpaused." class="method item public">
     <h3 class="name"><code>elapsedSinceLastUnpaused.</code></h3>
 
     
@@ -1374,6 +1324,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1395,7 +1347,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l170"><code>src\time\Clock.ts:170</code></a>
+        <a href="../files/src_time_Clock.ts.html#l191"><code>src\time\Clock.ts:191</code></a>
         
         </p>
 
@@ -1432,7 +1384,7 @@
 </div>
 
                 
-                    <div id="method_isPaused" class="method item">
+                    <div id="method_isPaused" class="method item public">
     <h3 class="name"><code>isPaused</code></h3>
 
     
@@ -1447,6 +1399,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1468,7 +1422,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l235"><code>src\time\Clock.ts:235</code></a>
+        <a href="../files/src_time_Clock.ts.html#l264"><code>src\time\Clock.ts:264</code></a>
         
         </p>
 
@@ -1505,7 +1459,7 @@
 </div>
 
                 
-                    <div id="method_isRunning" class="method item">
+                    <div id="method_isRunning" class="method item public">
     <h3 class="name"><code>isRunning</code></h3>
 
     
@@ -1520,6 +1474,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1541,7 +1497,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l197"><code>src\time\Clock.ts:197</code></a>
+        <a href="../files/src_time_Clock.ts.html#l222"><code>src\time\Clock.ts:222</code></a>
         
         </p>
 
@@ -1552,7 +1508,7 @@
     </div>
 
     <div class="description">
-        <p>Check if the clock is in the running state.</p>
+        <p>Check if the clock is currently running.</p>
 
     </div>
 
@@ -1578,7 +1534,7 @@
 </div>
 
                 
-                    <div id="method_isStopped" class="method item">
+                    <div id="method_isStopped" class="method item public">
     <h3 class="name"><code>isStopped</code></h3>
 
     
@@ -1593,6 +1549,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1614,7 +1572,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l216"><code>src\time\Clock.ts:216</code></a>
+        <a href="../files/src_time_Clock.ts.html#l243"><code>src\time\Clock.ts:243</code></a>
         
         </p>
 
@@ -1651,8 +1609,8 @@
 </div>
 
                 
-                    <div id="method_pause" class="method item">
-    <h3 class="name"><code>pause</code></h3>
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
 
     
         <span class="paren">()</span>
@@ -1660,12 +1618,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.Clock</span>
+            <span class="type">String</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1687,7 +1647,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l441"><code>src\time\Clock.ts:441</code></a>
+        <a href="../files/src_time_Clock.ts.html#l50"><code>src\time\Clock.ts:50</code></a>
         
         </p>
 
@@ -1698,7 +1658,7 @@
     </div>
 
     <div class="description">
-        <p>Pause the clock. THe clock can only be paused if it is already running.</p>
+        <p>The type of object that this is.</p>
 
     </div>
 
@@ -1711,7 +1671,80 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.Clock</span>:
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_pause" class="method item public">
+    <h3 class="name"><code>pause</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_time_Clock.ts.html#l486"><code>src\time\Clock.ts:486</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Pause the clock. The clock can only be paused if it is already running.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
                     
                     <p>This Clock object.</p>
 
@@ -1724,7 +1757,7 @@
 </div>
 
                 
-                    <div id="method_removeTimer" class="method item">
+                    <div id="method_removeTimer" class="method item public">
     <h3 class="name"><code>removeTimer</code></h3>
 
     
@@ -1733,13 +1766,13 @@
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code class="optional">[timer=null]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>The</code>
+                        <code class="optional">[timerName=&#x27;&#x27;]</code>
                     
                 </li>
             
@@ -1756,6 +1789,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1776,7 +1811,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l315"><code>src\time\Clock.ts:315</code></a>
+        <a href="../files/src_time_Clock.ts.html#l354"><code>src\time\Clock.ts:354</code></a>
         
         </p>
 
@@ -1799,14 +1834,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
-                        <span class="type">Kiwi.Time.Timer</span>
+                        <code class="param-name optional">[timer=null]</code>
+                        <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Timer object you wish to remove. If you wish to delete by Timer Name set this to null.</p>
+                        <p>The Timer object you wish to remove. If you wish to delete by Timer Name set this to null.</p>
 
                     </div>
 
@@ -1815,14 +1851,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">The</code>
+                        <code class="param-name optional">[timerName=&#x27;&#x27;]</code>
                         <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>name of the Timer object to remove.</p>
+                        <p>The name of the Timer object to remove.</p>
 
                     </div>
 
@@ -1853,7 +1890,7 @@
 </div>
 
                 
-                    <div id="method_resume" class="method item">
+                    <div id="method_resume" class="method item public">
     <h3 class="name"><code>resume</code></h3>
 
     
@@ -1862,12 +1899,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.Clock</span>
+            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1889,7 +1928,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l461"><code>src\time\Clock.ts:461</code></a>
+        <a href="../files/src_time_Clock.ts.html#l507"><code>src\time\Clock.ts:507</code></a>
         
         </p>
 
@@ -1913,7 +1952,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.Clock</span>:
+                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
                     
                     <p>This Clock object.</p>
 
@@ -1926,7 +1965,7 @@
 </div>
 
                 
-                    <div id="method_start" class="method item">
+                    <div id="method_start" class="method item public">
     <h3 class="name"><code>start</code></h3>
 
     
@@ -1935,12 +1974,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.Clock</span>
+            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1962,7 +2003,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l416"><code>src\time\Clock.ts:416</code></a>
+        <a href="../files/src_time_Clock.ts.html#l460"><code>src\time\Clock.ts:460</code></a>
         
         </p>
 
@@ -1986,7 +2027,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.Clock</span>:
+                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
                     
                     <p>This Clock object.</p>
 
@@ -1999,7 +2040,7 @@
 </div>
 
                 
-                    <div id="method_started" class="method item">
+                    <div id="method_started" class="method item public">
     <h3 class="name"><code>started</code></h3>
 
     
@@ -2014,6 +2055,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2035,7 +2078,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l86"><code>src\time\Clock.ts:86</code></a>
+        <a href="../files/src_time_Clock.ts.html#l98"><code>src\time\Clock.ts:98</code></a>
         
         </p>
 
@@ -2072,7 +2115,7 @@
 </div>
 
                 
-                    <div id="method_stop" class="method item">
+                    <div id="method_stop" class="method item public">
     <h3 class="name"><code>stop</code></h3>
 
     
@@ -2081,12 +2124,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.Clock</span>
+            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2108,7 +2153,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l483"><code>src\time\Clock.ts:483</code></a>
+        <a href="../files/src_time_Clock.ts.html#l530"><code>src\time\Clock.ts:530</code></a>
         
         </p>
 
@@ -2132,7 +2177,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.Clock</span>:
+                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
                     
                     <p>This Clock object.</p>
 
@@ -2145,7 +2190,7 @@
 </div>
 
                 
-                    <div id="method_stopAllTimers" class="method item">
+                    <div id="method_stopAllTimers" class="method item public">
     <h3 class="name"><code>stopAllTimers</code></h3>
 
     
@@ -2154,12 +2199,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Time.Clock</span>
+            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2181,7 +2228,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l376"><code>src\time\Clock.ts:376</code></a>
+        <a href="../files/src_time_Clock.ts.html#l417"><code>src\time\Clock.ts:417</code></a>
         
         </p>
 
@@ -2205,7 +2252,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Time.Clock</span>:
+                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
                     
                     <p>This Clock object.</p>
 
@@ -2218,7 +2265,7 @@
 </div>
 
                 
-                    <div id="method_toMilliseconds." class="method item">
+                    <div id="method_toMilliseconds." class="method item public">
     <h3 class="name"><code>toMilliseconds.</code></h3>
 
     
@@ -2233,6 +2280,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2254,7 +2303,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l392"><code>src\time\Clock.ts:392</code></a>
+        <a href="../files/src_time_Clock.ts.html#l434"><code>src\time\Clock.ts:434</code></a>
         
         </p>
 
@@ -2291,7 +2340,7 @@
 </div>
 
                 
-                    <div id="method_toString" class="method item">
+                    <div id="method_toString" class="method item public">
     <h3 class="name"><code>toString</code></h3>
 
     
@@ -2306,6 +2355,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2327,7 +2378,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l510"><code>src\time\Clock.ts:510</code></a>
+        <a href="../files/src_time_Clock.ts.html#l558"><code>src\time\Clock.ts:558</code></a>
         
         </p>
 
@@ -2364,7 +2415,7 @@
 </div>
 
                 
-                    <div id="method_update" class="method item">
+                    <div id="method_update" class="method item public">
     <h3 class="name"><code>update</code></h3>
 
     
@@ -2375,6 +2426,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2396,7 +2449,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l403"><code>src\time\Clock.ts:403</code></a>
+        <a href="../files/src_time_Clock.ts.html#l446"><code>src\time\Clock.ts:446</code></a>
         
         </p>
 
@@ -2452,7 +2505,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l246"><code>src\time\Clock.ts:246</code></a>
+        <a href="../files/src_time_Clock.ts.html#l276"><code>src\time\Clock.ts:276</code></a>
         
         </p>
 
@@ -2466,6 +2519,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -2499,7 +2554,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l227"><code>src\time\Clock.ts:227</code></a>
+        <a href="../files/src_time_Clock.ts.html#l255"><code>src\time\Clock.ts:255</code></a>
         
         </p>
 
@@ -2513,6 +2568,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -2546,7 +2603,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l189"><code>src\time\Clock.ts:189</code></a>
+        <a href="../files/src_time_Clock.ts.html#l213"><code>src\time\Clock.ts:213</code></a>
         
         </p>
 
@@ -2560,6 +2617,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -2593,7 +2652,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l208"><code>src\time\Clock.ts:208</code></a>
+        <a href="../files/src_time_Clock.ts.html#l234"><code>src\time\Clock.ts:234</code></a>
         
         </p>
 
@@ -2607,6 +2666,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -2640,7 +2701,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l59"><code>src\time\Clock.ts:59</code></a>
+        <a href="../files/src_time_Clock.ts.html#l68"><code>src\time\Clock.ts:68</code></a>
         
         </p>
 
@@ -2654,6 +2715,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -2687,7 +2750,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l143"><code>src\time\Clock.ts:143</code></a>
+        <a href="../files/src_time_Clock.ts.html#l159"><code>src\time\Clock.ts:159</code></a>
         
         </p>
 
@@ -2701,6 +2764,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -2734,7 +2799,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l78"><code>src\time\Clock.ts:78</code></a>
+        <a href="../files/src_time_Clock.ts.html#l89"><code>src\time\Clock.ts:89</code></a>
         
         </p>
 
@@ -2748,6 +2813,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -2781,7 +2848,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l124"><code>src\time\Clock.ts:124</code></a>
+        <a href="../files/src_time_Clock.ts.html#l138"><code>src\time\Clock.ts:138</code></a>
         
         </p>
 
@@ -2795,6 +2862,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -2828,7 +2897,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l162"><code>src\time\Clock.ts:162</code></a>
+        <a href="../files/src_time_Clock.ts.html#l181"><code>src\time\Clock.ts:181</code></a>
         
         </p>
 
@@ -2842,6 +2911,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -2875,7 +2946,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l181"><code>src\time\Clock.ts:181</code></a>
+        <a href="../files/src_time_Clock.ts.html#l203"><code>src\time\Clock.ts:203</code></a>
         
         </p>
 
@@ -2885,10 +2956,12 @@
     </div>
 
     <div class="description">
-        <p>THe total number of milliseconds the clock has been paused since it was last started.</p>
+        <p>The total number of milliseconds the clock has been paused since it was last started.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -2897,12 +2970,14 @@
 </div>
 
                 
-                    <div id="property_manager" class="property item">
+                    <div id="property_manager" class="property item public">
     <h3 class="name"><code>manager</code></h3>
-    <span class="type">Kiwi.Time.Manager</span>
+    <span class="type"><a href="..\classes\Manager.html" class="crosslink">Manager</a></span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2920,7 +2995,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l254"><code>src\time\Clock.ts:254</code></a>
+        <a href="../files/src_time_Clock.ts.html#l285"><code>src\time\Clock.ts:285</code></a>
         
         </p>
 
@@ -2930,7 +3005,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The time manager that this clock belongs to.</p>
+
     </div>
 
     
@@ -2941,12 +3017,14 @@
 </div>
 
                 
-                    <div id="property_master" class="property item">
+                    <div id="property_master" class="property item public">
     <h3 class="name"><code>master</code></h3>
-    <span class="type">Kiwi.Time.MasterClock</span>
+    <span class="type"><a href="..\classes\MasterClock.html" class="crosslink">MasterClock</a></span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2964,7 +3042,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l261"><code>src\time\Clock.ts:261</code></a>
+        <a href="../files/src_time_Clock.ts.html#l293"><code>src\time\Clock.ts:293</code></a>
         
         </p>
 
@@ -2974,7 +3052,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The master clock.</p>
+
     </div>
 
     
@@ -3008,7 +3087,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l268"><code>src\time\Clock.ts:268</code></a>
+        <a href="../files/src_time_Clock.ts.html#l301"><code>src\time\Clock.ts:301</code></a>
         
         </p>
 
@@ -3030,12 +3109,14 @@
 </div>
 
                 
-                    <div id="property_timers" class="property item">
+                    <div id="property_timers" class="property item private">
     <h3 class="name"><code>timers</code></h3>
-    <span class="type">Array</span>
+    <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -3053,7 +3134,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l52"><code>src\time\Clock.ts:52</code></a>
+        <a href="../files/src_time_Clock.ts.html#l60"><code>src\time\Clock.ts:60</code></a>
         
         </p>
 
@@ -3075,12 +3156,14 @@
 </div>
 
                 
-                    <div id="property_units" class="property item">
+                    <div id="property_units" class="property item public">
     <h3 class="name"><code>units</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3098,7 +3181,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l275"><code>src\time\Clock.ts:275</code></a>
+        <a href="../files/src_time_Clock.ts.html#l309"><code>src\time\Clock.ts:309</code></a>
         
         </p>
 
@@ -3112,6 +3195,8 @@
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     

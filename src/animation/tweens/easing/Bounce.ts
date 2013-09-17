@@ -1,23 +1,25 @@
-/// <reference path="../Manager.ts" />
-
 /**
-*	Kiwi - Tween - Easing - Bounce
- *
- *	@desc 		Based heavily on tween.js by sole (https://github.com/sole/tween.js)
- *
- *	@version 	1.0 - 11th January 2013
- *
- *	@author 	Richard Davey, TypeScript conversion and Kiwi integration. See Kiwi.Tweens for the full tween.js author list
- *
- *	@url 		http://www.kiwijs.org
- *
- *	@todo       
- */
+* Kiwi - Animation - Tweens - Easing 
+* @module Tweens
+* @submodule Easing 
+* 
+*/
 
 module Kiwi.Animation.Tweens.Easing {
 
+    /**
+    *
+    * @class Bounce
+    *
+    */
     export class Bounce {
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Bounce";
         }
@@ -25,9 +27,11 @@ module Kiwi.Animation.Tweens.Easing {
         /** 
         * 
         * @method In
-        * @param {Any} k
+        * @param k {Any}
+        * @return {Number} 
         * @static
-        **/
+        * @public
+        */
         public static In(k) {
 
             return 1 - Kiwi.Animation.Tweens.Easing.Bounce.Out(1 - k);
@@ -37,9 +41,11 @@ module Kiwi.Animation.Tweens.Easing {
         /** 
         * 
         * @method Out
-        * @param {Any} k
+        * @param k {Any}
+        * @return {Number}
         * @static
-        **/
+        * @public
+        */
         public static Out(k) {
 
             if (k < (1 / 2.75))
@@ -65,8 +71,10 @@ module Kiwi.Animation.Tweens.Easing {
         * 
         * @method InOut
         * @param {Any} k
+        * @return {Number}
         * @static
-        **/
+        * @public
+        */
         public static InOut(k) {
 
             if (k < 0.5) return Kiwi.Animation.Tweens.Easing.Bounce.In(k * 2) * 0.5;

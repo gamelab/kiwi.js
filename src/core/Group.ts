@@ -967,7 +967,7 @@ module Kiwi {
                 this.removeChildren();
             }
              
-            this.state.removeFromTrackingList(this); 
+            if(this.state) this.state.removeFromTrackingList(this); 
             this._exists = false;
             this._active = false
             this._willRender = false;

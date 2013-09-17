@@ -34,6 +34,12 @@ module Kiwi.System {
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Device";
         }
@@ -44,6 +50,7 @@ module Kiwi.System {
         * 
         * @property iOS 
         * @type boolean
+        * @public
         */
         public iOS: boolean = false;
 
@@ -51,6 +58,7 @@ module Kiwi.System {
         * 
         * @property android
         * @type boolean
+        * @public
         */
         public android: boolean = false;
 
@@ -58,6 +66,7 @@ module Kiwi.System {
         * 
         * @property chromeOS
         * @type boolean
+        * @public
         */
         public chromeOS: boolean = false;
 
@@ -65,6 +74,7 @@ module Kiwi.System {
         * 
         * @property linux
         * @type boolean
+        * @public
         */
         public linux: boolean = false;
 
@@ -72,6 +82,7 @@ module Kiwi.System {
         * 
         * @property maxOS
         * @type boolean
+        * @public
         */
         public macOS: boolean = false;
 
@@ -79,6 +90,7 @@ module Kiwi.System {
         * 
         * @property windows
         * @type boolean
+        * @public
         */
         public windows: boolean = false;
 
@@ -88,6 +100,7 @@ module Kiwi.System {
         * 
         * @property canvas
         * @type boolean
+        * @public
         */
         public canvas: boolean = false;
 
@@ -95,6 +108,7 @@ module Kiwi.System {
         * 
         * @property file
         * @type boolean
+        * @public
         */
         public file: boolean = false;
 
@@ -102,6 +116,7 @@ module Kiwi.System {
         * 
         * @property fileSystem
         * @type boolean
+        * @public
         */
         public fileSystem: boolean = false;
 
@@ -109,6 +124,7 @@ module Kiwi.System {
         * 
         * @property localStorage
         * @type boolean
+        * @public
         */
         public localStorage: boolean = false;
 
@@ -116,6 +132,7 @@ module Kiwi.System {
         * 
         * @property webGL
         * @type boolean
+        * @public
         */
         public webGL: boolean = false;
 
@@ -123,6 +140,7 @@ module Kiwi.System {
         * 
         * @property worker
         * @type boolean
+        * @public
         */
         public worker: boolean = false;
 
@@ -130,6 +148,7 @@ module Kiwi.System {
         * 
         * @property blob
         * @type boolean
+        * @public
         */
         public blob: boolean = false;
 
@@ -138,6 +157,7 @@ module Kiwi.System {
         * 
         * @property touch
         * @type boolean
+        * @public
         */
         public touch: boolean = false;
 
@@ -145,6 +165,7 @@ module Kiwi.System {
         * 
         * @property css3D
         * @type boolean
+        * @public
         */
         public css3D: boolean = false;
 
@@ -154,6 +175,7 @@ module Kiwi.System {
         * 
         * @property arora
         * @type boolean
+        * @public
         */
         public arora: boolean = false;
 
@@ -161,6 +183,7 @@ module Kiwi.System {
         * 
         * @property chrome
         * @type boolean
+        * @public
         */
         public chrome: boolean = false;
 
@@ -168,6 +191,7 @@ module Kiwi.System {
         * 
         * @property epiphany
         * @type boolean
+        * @public
         */
         public epiphany: boolean = false;
 
@@ -175,6 +199,7 @@ module Kiwi.System {
         * 
         * @property firefox
         * @type boolean
+        * @public
         */
         public firefox: boolean = false;
 
@@ -182,6 +207,7 @@ module Kiwi.System {
         * 
         * @property ie
         * @type boolean
+        * @public
         */
         public ie: boolean = false;
 
@@ -189,6 +215,7 @@ module Kiwi.System {
         * 
         * @property ieVersion
         * @type Number
+        * @public
         */
         public ieVersion: number = 0;
 
@@ -196,6 +223,7 @@ module Kiwi.System {
         * 
         * @property mobileSafari
         * @type boolean
+        * @public
         */
         public mobileSafari: boolean = false;
 
@@ -203,6 +231,7 @@ module Kiwi.System {
         * 
         * @property midori
         * @type boolean
+        * @public
         */
         public midori: boolean = false;
 
@@ -210,6 +239,7 @@ module Kiwi.System {
         * 
         * @property opera
         * @type boolean
+        * @public
         */
         public opera: boolean = false;
 
@@ -217,8 +247,16 @@ module Kiwi.System {
         * 
         * @property safari
         * @type boolean 
+        * @public
         */
         public safari: boolean = false;
+
+        /**
+        *
+        * @property webApp
+        * @type boolean
+        * @public
+        */
         public webApp: boolean = false;
 
         //  Audio
@@ -227,6 +265,7 @@ module Kiwi.System {
         * 
         * @property audioData
         * @type boolean
+        * @public
         */
         public audioData: boolean = false;
 
@@ -234,6 +273,7 @@ module Kiwi.System {
         * 
         * @property webaudio
         * @type boolean
+        * @public
         */
         public webaudio: boolean = false;
 
@@ -241,6 +281,7 @@ module Kiwi.System {
         * 
         * @property ogg
         * @type boolean
+        * @public
         */
         public ogg: boolean = false;
 
@@ -248,6 +289,7 @@ module Kiwi.System {
         * 
         * @property mp3
         * @type boolean
+        * @public
         */
         public mp3: boolean = false;
 
@@ -255,6 +297,7 @@ module Kiwi.System {
         * 
         * @property wav
         * @type boolean
+        * @public
         */
         public wav: boolean = false;
 
@@ -262,6 +305,7 @@ module Kiwi.System {
         * 
         * @property m4a
         * @type boolean
+        * @public
         */
         public m4a: boolean = false;
 
@@ -271,6 +315,7 @@ module Kiwi.System {
         * 
         * @property iPhone
         * @type boolean
+        * @public
         */
         public iPhone: boolean = false;
 
@@ -278,6 +323,7 @@ module Kiwi.System {
         * 
         * @property iPhone4
         * @type boolean
+        * @public
         */
         public iPhone4: boolean = false;
 
@@ -285,6 +331,7 @@ module Kiwi.System {
         * 
         * @property iPad
         * @type boolean
+        * @public
         */
         public iPad: boolean = false;
 
@@ -292,6 +339,7 @@ module Kiwi.System {
         * 
         * @property pixelRatio
         * @type Number
+        * @public
         */
         public pixelRatio: number = 0;
 
@@ -513,6 +561,7 @@ module Kiwi.System {
         * 
         * @method getAll
         * @return {String}
+        * @public
         */
         public getAll(): string {
 

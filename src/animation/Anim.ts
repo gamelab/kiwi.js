@@ -17,10 +17,10 @@ module Kiwi.Animation {
         /**
         *
         * @constructor
-        * @param {string} name - The name of this anim.
-        * @param {Sequences} sequences - The sequence that this anim will be using to animate.
-        * @param {Kiwi.Time.Clock} clock - A game clock that this anim will be using to keep record of the time between frames.
-        * @return {Kiwi.Animation.Anim} 
+        * @param name {string} The name of this anim.
+        * @param sequences {Sequences} The sequence that this anim will be using to animate.
+        * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+        * @return {Anim} 
         */
         constructor(name: string, sequence: Kiwi.Animation.Sequence, clock: Kiwi.Time.Clock) {
             
@@ -48,7 +48,7 @@ module Kiwi.Animation {
         /**
         * The sequence on the texture atlas that this animation is based off.
         * @property _sequence
-        * @type Kiwi.Sequence
+        * @type Sequence
         * @private
         */
         private _sequence: Kiwi.Animation.Sequence;
@@ -62,25 +62,21 @@ module Kiwi.Animation {
         private _loop: boolean;
 
         /**
-        * Get if this animation is to loop or not.
+        * If once the animation reaches the end, it should start again from the first cell in the sequence or not.
+        * @property loop
         * @type boolean
         * @public
         */
         public get loop(): boolean {
             return this._loop;
         }
-
-        /**
-        * Set if this animation should loop or not
-        * @type boolean
-        * @public
-        */
         public set loop(value: boolean) {
             this._loop = value;
         }
 
         /**
-        * The current frame index that the animation is upto. 
+        * The current frame index that the animation is currently upto.
+        * Note: A frame index is the index of a particular cell in the Sequence.
         * @property _frameIndex
         * @type number
         * @private
@@ -88,19 +84,15 @@ module Kiwi.Animation {
         private _frameIndex: number = 0;
 
         /**
-        * Returns the current frame index that the animation is up to.
+        * The current frame index that the animation is currently upto.
+        * Note: A frame index is the index of a particular cell in the Sequence.
+        * @property frameIndex
         * @type number
         * @public
         */
         public get frameIndex(): number {
             return this._frameIndex;
         }
-
-        /**
-        * Sets the current frame index that the animation is sitting at.
-        * @type number
-        * @public
-        */
         public set frameIndex(val: number) {
             if (this._validateFrame(val)) {
                 this._frameIndex = val;
@@ -108,7 +100,8 @@ module Kiwi.Animation {
         }
 
         /**
-        * Returns the current cell that the animation is up to.
+        * Returns the current cell that the animation is up to. This is READ ONLY.
+        * @property currentCell
         * @type number
         * @public
         */
@@ -125,19 +118,14 @@ module Kiwi.Animation {
         private _speed: number;
 
         /**
-        * Get how fast the transition is between cells. 
+        * How long the each cell should stay on screen for. In seconds.
+        * @property speed
         * @type number
         * @public
         */
         public get speed(): number {
             return this._speed;
         }
-
-        /**
-        * Set how fast the transition is between cells. 
-        * @type number
-        * @public
-        */
         public set speed(value: number) {
             this._speed = value;
         }
@@ -145,7 +133,7 @@ module Kiwi.Animation {
         /**
         * The clock that is to be used to calculate the animations.
         * @property _clock
-        * @type Kiwi.Time.Clock
+        * @type Clock
         * @private
         */
         private _clock: Kiwi.Time.Clock;
@@ -167,19 +155,14 @@ module Kiwi.Animation {
         private _reverse: boolean = false;
 
         /**
-        * Set's whether or not the animation is playing in reverse or not.
+        * Whether the animation is to be played in reverse.
+        * @property reverse
         * @type boolean
         * @public
         */
         public set reverse(value: boolean) {
             this._reverse = value;
         }
-        
-        /**
-        * Returns a boolean indicating if the animation is playing in reverse or not 
-        * @type boolean
-        * @public
-        */
         public get reverse(): boolean {
             return this._reverse;
         }
@@ -196,6 +179,7 @@ module Kiwi.Animation {
         * If the animation is currently playing or not.
         * @property _isPlaying
         * @type boolean
+        * @default false
         * @private
         */
         private _isPlaying: boolean;
@@ -203,7 +187,7 @@ module Kiwi.Animation {
         /**
         * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
         * @property onStop
-        * @type Kiwi.Signal
+        * @type Signal
         * @public
         */
         public onStop: Kiwi.Signal;
@@ -235,7 +219,7 @@ module Kiwi.Animation {
         /**
         * An Internal method used to start the animation.
         * @method _start
-        * @param {number} index
+        * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
         * @private
         */
         private _start(index: number = null) {
@@ -263,7 +247,7 @@ module Kiwi.Animation {
         /**
         * Plays the animation at a particular frame
         * @method playAt
-        * @param {number} index
+        * @param index {number} The index of the cell in the sequence that the animation is to start at.
         * @public
         */
         public playAt(index: number) {  
@@ -363,7 +347,7 @@ module Kiwi.Animation {
         /**
         * An internal method used to check to see if frame passed is valid or not
         * @method _validateFrame
-        * @param {number} frame
+        * @param frame {number} The index of the frame that is to be validated.
         * @private
         */
         private _validateFrame(frame: number) {
@@ -371,7 +355,8 @@ module Kiwi.Animation {
         }
         
         /**
-        * Returns the number of frames that in the animation. Thus the animations 'length'.
+        * Returns the number of frames that in the animation. Thus the animations 'length'. Note this is READ ONLY.
+        * @property length
         * @type number
         * @public
         */
@@ -380,7 +365,7 @@ module Kiwi.Animation {
         }
 
         /**
-        * Destroys the anim.
+        * Destroys the anim and all of the properties that exist on it.
         * @method destroy
         * @public
         */

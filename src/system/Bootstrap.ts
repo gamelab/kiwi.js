@@ -43,6 +43,7 @@ module Kiwi.System {
         *
         * @property isReady
         * @type boolean
+        * @public
         */
         public isReady: boolean = false;
         
@@ -50,21 +51,25 @@ module Kiwi.System {
         * The parent div in which the layers and input live
         * @property container
         * @type HTMLDivElement
+        * @public
         */
         public container:HTMLDivElement = null;
-
-    
-
-       
 
         /**
         * This div sits on-top of all layers and captures user input
         * @property input
         * @type HTMLDivElement
+        * @public
         */
 
         public input: HTMLDivElement = null;
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Bootstrap";
         }
@@ -73,8 +78,9 @@ module Kiwi.System {
         * Called at the start of the game to check to see if the DOM is ready before we do anything requiring it
         * @method boot
         * @param {String} domParent 
-        * @param {Any} [callback]
-        * @param {boolean} [createContainer]
+        * @param {Any} [callback=null]
+        * @param {boolean} [createContainer=true]
+        * @public
         */
         public boot(domParent: string, callback: any = null, createContainer: boolean = true) {
 
@@ -97,8 +103,9 @@ module Kiwi.System {
         }
 
         /**
-        *  If the DOM is ready it fires our callback, otherwise sets a short timeout to try again
+        * If the DOM is ready it fires our callback, otherwise sets a short timeout to try again
         * @method ready
+        * @public
         */
         public ready() {
 
@@ -162,7 +169,7 @@ module Kiwi.System {
         * @method _setupContainer
         * @param {String} id
         * @private
-        **/
+        */
         private _setupContainer(id: string = '') {
 
             if (id)

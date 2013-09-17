@@ -409,17 +409,21 @@ module Kiwi {
         */
         public destroy(deleteAll: boolean=true) {
             
-            //destroy all of the tracking list
-            for (var i = 0; i < this._trackingList.length; i++) {
-                this._trackingList[i].destroy();
+            if (deleteAll == true) {
+                //destroy all of the tracking list
+                for (var i = 0; i < this._trackingList.length; i++) {
+                    this._trackingList[i].destroy();
+                }
+                this._trackingList = [];
+                
+                //destroy all of the members
+                for (var i = 0; i < this.members.length; i++) {
+                    this._destroyChildren(this.members[i]);
+                    delete this.members[i];
+                }
+                this.members = [];    
             }
-            this._trackingList = [];
 
-            //destroy all of the members
-            for (var i = 0; i < this.members.length; i++) {
-                this._destroyChildren(this.members[i]);
-            }
-            
         }
 
         /**
