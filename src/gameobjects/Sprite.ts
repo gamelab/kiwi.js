@@ -7,7 +7,7 @@
 module Kiwi.GameObjects {
 
     /**
-    *
+    * A general purpose game object that interactive game object can use. Sprites can animate when using a SpriteSheet 
     *
     * @class Sprite
     * @extends Entity

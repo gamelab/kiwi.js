@@ -66,7 +66,7 @@ module Kiwi.Components {
         * @private
         */
         private _animations: {};
-    
+
         /**
         * A reference to the animation that is currently being played.
         * @property _currentAnimation

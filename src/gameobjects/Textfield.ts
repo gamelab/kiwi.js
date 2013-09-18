@@ -8,7 +8,7 @@
 module Kiwi.GameObjects {
     
     /**
-    *
+    * A game object that is used to display pieces of text on a state.
     *
     * @class Textfield
     * @extends Entity
