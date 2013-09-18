@@ -11,20 +11,21 @@ module Kiwi.GameObjects.Tilemap {
     *
     * @class TileMapLayer
     * @extends Entity
+    * @constructor
+    * @param state {State} The state that this tilemap belongs to. 
+    * @param parent {TileMap} The TileMap on which this TileMapLayer is a part of.
+    * @param atlas {SpriteSheet} The spritesheet that is being used to render the tiles.
+    * @param name {string} The name of this tilemap.
+    * @param tileWidth {number} The width of a single tile.
+    * @param tileHeight {number} The height of a single tile
+    * @return {TileMapLayer} 
     * 
     */
     export class TileMapLayer extends Kiwi.Entity {
 
         /**
         *
-        * @constructor
-        * @param state {State} The state that this tilemap belongs to. 
-        * @param parent {TileMap} The TileMap on which this TileMapLayer is a part of.
-        * @param atlas {SpriteSheet} The spritesheet that is being used to render the tiles.
-        * @param name {string} The name of this tilemap.
-        * @param tileWidth {number} The width of a single tile.
-        * @param tileHeight {number} The height of a single tile
-        * @return {TileMapLayer} 
+        
         */
         constructor(state:Kiwi.State, parent: Kiwi.GameObjects.Tilemap.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
             

@@ -11,18 +11,19 @@ module Kiwi.GameObjects {
     *
     * @class Sprite
     * @extends Entity
+    * @constructor
+    * @param state {State} The state that this sprite belongs to
+    * @param atlas {TextureAtlas} The texture you want to apply to this entity 
+    * @param [x=0] {Number} The sprites initial coordinates on the x axis.
+    * @param [y=0] {Number} The sprites initial coordinates on the y axis.
+    * @param [enableInput=false] {boolean} If the input component should be enabled or not.
+    * @return {Sprite}
     */
     export class Sprite extends Kiwi.Entity {
 
         /**
         * 
-        * @constructor
-        * @param state {State} The state that this sprite belongs to
-        * @param atlas {TextureAtlas} The texture you want to apply to this entity 
-        * @param [x=0] {Number} The sprites initial coordinates on the x axis.
-        * @param [y=0] {Number} The sprites initial coordinates on the y axis.
-        * @param [enableInput=false] {boolean} If the input component should be enabled or not.
-        * @return {Sprite}
+        
         */
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: boolean = false) {
 

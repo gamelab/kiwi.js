@@ -11,14 +11,15 @@ module Kiwi.GameObjects.Tilemap {
     *
     * @class TileMap
     * @extends Entity
+    * @constructor 
+    * @param state {State} The state that this Tilemap is on.
+    * @return {TileMap}
     */
     export class TileMap extends Kiwi.Entity {
 
         /**
         *
-        * @constructor 
-        * @param state {State} The state that this Tilemap is on.
-        * @return {TileMap}
+        
         */
         constructor(state: Kiwi.State) {
             super(state,0,0);

@@ -12,21 +12,22 @@ module Kiwi.GameObjects {
     *
     * @class Textfield
     * @extends Entity
+    * @constructor
+    * @param state {State} The state that this Textfield belongs to
+    * @param text {String} The text that is contained within this textfield.
+    * @param [x=0] {Number} The new x coordinate from the Position component
+    * @param [y=0] {Number} The new y coordinate from the Position component
+    * @param [color='#000000'] {String} The color of the text. 
+    * @param [size=32] {Number} The size of the text in pixels.
+    * @param [weight='normal'] {String} The weight of the text.
+    * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
+    * @return {Textfield} This Game Object.
     */
     export class Textfield extends Kiwi.Entity {
 
         /**
         * 
-        * @constructor
-        * @param state {State} The state that this Textfield belongs to
-        * @param text {String} The text that is contained within this textfield.
-        * @param [x=0] {Number} The new x coordinate from the Position component
-        * @param [y=0] {Number} The new y coordinate from the Position component
-        * @param [color='#000000'] {String} The color of the text. 
-        * @param [size=32] {Number} The size of the text in pixels.
-        * @param [weight='normal'] {String} The weight of the text.
-        * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
-        * @return {Textfield} This Game Object.
+        
         */
         constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#000000', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif') {
 

@@ -10,19 +10,20 @@ module Kiwi.GameObjects.Tilemap {
     /**
     *
     * @class TileType
+    * @constructor
+    * @param gmae {Game} The game that this type of tile belongs to.
+    * @param tilemap {TileMap} The TileMap that this type of tile is on.
+    * @param index {number} The unique index that this tile has associated with it.
+    * @param width {number} The width of this tile. Only used for collision detection.
+    * @param height {number} The height of this tile. Only used for collision detection.
+    * @return {TileType}
     * 
     */
     export class TileType {
 
         /**
         * 
-        * @constructor
-        * @param gmae {Game} The game that this type of tile belongs to.
-        * @param tilemap {TileMap} The TileMap that this type of tile is on.
-        * @param index {number} The unique index that this tile has associated with it.
-        * @param width {number} The width of this tile. Only used for collision detection.
-        * @param height {number} The height of this tile. Only used for collision detection.
-        * @return {TileType}
+        
         */
         constructor(game: Game, tilemap: Kiwi.GameObjects.Tilemap.TileMap, index: number, width: number, height: number) {
 

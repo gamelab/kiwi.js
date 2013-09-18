@@ -11,21 +11,22 @@ module Kiwi.GameObjects.Tilemap {
     *
     * @class Tile
     * @extends Entity
+    * @constructor
+    * @param state {State} The state that this Tile is on.
+    * @param tileLayer {TileMapLayer} The TileMapLayer that this Tile is a part of.
+    * @param tileTypes {TileType} The type of tile that this is.
+    * @param width {number} The width of this tile.
+    * @param height {number} The height of this tile.
+    * @param x {number} The tiles x coordinate.
+    * @param y {number} The tiles y coordinate.
+    * @return {Tile} 
     *
     */
     export class Tile extends Kiwi.Entity {
 
         /**
         *
-        * @constructor
-        * @param state {State} The state that this Tile is on.
-        * @param tileLayer {TileMapLayer} The TileMapLayer that this Tile is a part of.
-        * @param tileTypes {TileType} The type of tile that this is.
-        * @param width {number} The width of this tile.
-        * @param height {number} The height of this tile.
-        * @param x {number} The tiles x coordinate.
-        * @param y {number} The tiles y coordinate.
-        * @return {Tile} 
+        
         */
         constructor(state:Kiwi.State, tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer, tileType: Kiwi.GameObjects.Tilemap.TileType, width: number, height: number, x: number, y: number) {
             super(state,x,y);
