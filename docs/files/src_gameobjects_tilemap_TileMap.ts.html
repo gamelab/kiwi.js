@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\gameobjects\tilemap\TileMap.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.4.9</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AABB.html">AABB</a></li>
+            
+                <li><a href="../classes/Anim.html">Anim</a></li>
+            
+                <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Audio.html">Audio</a></li>
+            
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
+                <li><a href="../classes/AudioManager.html">AudioManager</a></li>
+            
+                <li><a href="../classes/Back.html">Back</a></li>
+            
+                <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
+            
+                <li><a href="../classes/Box.html">Box</a></li>
+            
+                <li><a href="../classes/Browser.html">Browser</a></li>
+            
+                <li><a href="../classes/Camera.html">Camera</a></li>
+            
+                <li><a href="../classes/CameraManager.html">CameraManager</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
+                <li><a href="../classes/Clock.html">Clock</a></li>
+            
+                <li><a href="../classes/Common.html">Common</a></li>
+            
+                <li><a href="../classes/Component.html">Component</a></li>
+            
+                <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
+            
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
+                <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
+            
+                <li><a href="../classes/Device.html">Device</a></li>
+            
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
+                <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
+            
+                <li><a href="../classes/File.html">File</a></li>
+            
+                <li><a href="../classes/FileStore.html">FileStore</a></li>
+            
+                <li><a href="../classes/Finger.html">Finger</a></li>
+            
+                <li><a href="../classes/Game.html">Game</a></li>
+            
+                <li><a href="../classes/GameManager.html">GameManager</a></li>
+            
+                <li><a href="../classes/GameMath.html">GameMath</a></li>
+            
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
+            
+                <li><a href="../classes/IChild.html">IChild</a></li>
+            
+                <li><a href="../classes/Input.html">Input</a></li>
+            
+                <li><a href="../classes/Intersect.html">Intersect</a></li>
+            
+                <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
+            
+                <li><a href="../classes/Key.html">Key</a></li>
+            
+                <li><a href="../classes/Keyboard.html">Keyboard</a></li>
+            
+                <li><a href="../classes/Keycodes.html">Keycodes</a></li>
+            
+                <li><a href="../classes/Line.html">Line</a></li>
+            
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
+                <li><a href="../classes/Loader.html">Loader</a></li>
+            
+                <li><a href="../classes/Manager.html">Manager</a></li>
+            
+                <li><a href="../classes/MasterClock.html">MasterClock</a></li>
+            
+                <li><a href="../classes/Matrix.html">Matrix</a></li>
+            
+                <li><a href="../classes/Mouse.html">Mouse</a></li>
+            
+                <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
+            
+                <li><a href="../classes/Point.html">Point</a></li>
+            
+                <li><a href="../classes/Pointer.html">Pointer</a></li>
+            
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
+                <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Ray.html">Ray</a></li>
+            
+                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+            
+                <li><a href="../classes/RequestAnimationFrame.html">RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Sequence.html">Sequence</a></li>
+            
+                <li><a href="../classes/Signal.html">Signal</a></li>
+            
+                <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
+            
+                <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
+            
+                <li><a href="../classes/Sound.html">Sound</a></li>
+            
+                <li><a href="../classes/Sprite.html">Sprite</a></li>
+            
+                <li><a href="../classes/SpriteSheet.html">SpriteSheet</a></li>
+            
+                <li><a href="../classes/Stage.html">Stage</a></li>
+            
+                <li><a href="../classes/State.html">State</a></li>
+            
+                <li><a href="../classes/StateConfig.html">StateConfig</a></li>
+            
+                <li><a href="../classes/StateManager.html">StateManager</a></li>
+            
+                <li><a href="../classes/StaticImage.html">StaticImage</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
+            
+                <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
+            
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
+                <li><a href="../classes/Touch.html">Touch</a></li>
+            
+                <li><a href="../classes/Transform.html">Transform</a></li>
+            
+                <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/Vector2.html">Vector2</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animation.html">Animation</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\gameobjects\tilemap\TileMap.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* Kiwi - GameObjects - Tilemap
+* @module GameObjects
+* @submodule Tilemap
+* 
+*/
+
+module Kiwi.GameObjects.Tilemap {
+    
+    /**
+    *
+    * @class TileMap
+    * @extends Entity
+    */
+    export class TileMap extends Kiwi.Entity {
+
+        /**
+        *
+        * @constructor 
+        * @param state {State} The state that this Tilemap is on.
+        * @return {TileMap}
+        */
+        constructor(state: Kiwi.State) {
+            super(state,0,0);
+        }
+
+        /**
+        * Creates a tile map from some data you already have.
+        * 
+        * @method createFromData
+        * @param tileMapData {any} The map information. 
+        * @param atlas {SpriteSheet} The image that is being used. 
+        * @param game {Game} The game that this tilemap belongs to.
+        * @param format {number} The format that this information was saved as.
+        * @public
+        */
+        public createFromData(tileMapData: any, atlas: Kiwi.Textures.SpriteSheet, format: number) {
+            var data;
+
+            this._atlas = atlas;
+            this.tiles = [];
+            this.layers = [];
+             
+            this.mapFormat = format;
+
+            if (typeof tileMapData === &quot;string&quot;) {
+                data = data.trim();
+                data = JSON.parse(tileMapData);
+                this.parseTiledJSON(data);
+            } else {
+                this.parseTiledJSON(tileMapData);
+            }
+        }
+
+        /**
+        * Creates the tilemap from the file store. This tilemap is based on a data file and texture atlas that is in the main fileStore.
+        * 
+        * @method createFromFileStore
+        * @param tileMapDataKey {string} The key of the data file.
+        * @param atlas {SpriteSheet} The texture atlas that is to be used.
+        * @param format {Number} The format that the data was saved in.
+        * @public
+        */
+        public createFromFileStore(tileMapDataKey: string, atlas: Kiwi.Textures.SpriteSheet, format: number) {
+            //get the json
+            if (this.game.fileStore.exists(tileMapDataKey) == false) {
+                return;
+            }
+            
+
+            //save the data information
+            this._tileMapDataKey = tileMapDataKey;
+            this._atlas = atlas;
+
+            //create the tiles
+            this.tiles = [];
+            this.layers = [];
+
+            //save the format
+            this.mapFormat = format;
+
+            switch (format) {
+                
+                //load the json map
+                case TileMap.FORMAT_TILED_JSON:
+                    var obj = JSON.parse(this.game.fileStore.getFile(tileMapDataKey).data);
+                    this.parseTiledJSON(obj);
+                    break;
+            }
+
+        }
+
+        /**
+        * The type of object that it is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType() {
+            return &quot;TileMap&quot;;
+        }
+
+        /**
+        * The tilemap data information.
+        * @property _tileMapDataKey
+        * @type string
+        * @private
+        */
+        private _tileMapDataKey: string;
+    
+
+        /**
+        * The SpriteSheet that this tilemap is using for the tiles.
+        * @property _atlas
+        * @type SpriteSheet
+        * @private
+        */
+        private _atlas: Kiwi.Textures.SpriteSheet;
+
+        /**
+        * A STATIC property containing the number associated with CSV format.
+        * @property FORMAT_CSV
+        * @type number
+        * @static
+        * @final
+        * @default 0
+        */
+        public static FORMAT_CSV: number = 0;
+        
+        /**
+        * A STATIC property containing the number associated with the JSON format.
+        * @property FORMAT_TILED_JSON
+        * @type number
+        * @static
+        * @final
+        * @default 1
+        */
+        public static FORMAT_TILED_JSON: number = 1;
+
+        /**
+        * Contains an array of all of the tile types that are avaiable.
+        * @property tiles
+        * @type TileType[]
+        * @public
+        */
+        public tiles: Kiwi.GameObjects.Tilemap.TileType[];
+        
+        /**
+        * An array holding all of the tile map layers that exist on this tilemap.
+        * @property layers
+        * @type TileMapLayer[]
+        * @public
+        */
+        public layers: Kiwi.GameObjects.Tilemap.TileMapLayer[];
+
+        /**
+        * A reference to the current TileMapLayer that is being used.
+        * @property currentLayer
+        * @type TileMapLayer
+        * @public
+        */
+        public currentLayer: Kiwi.GameObjects.Tilemap.TileMapLayer;
+
+        /**
+        * The format that the tilemap was loaded with.
+        * @property mapFormat
+        * @type number
+        * @public
+        */
+        public mapFormat: number;
+
+        /**
+        * Tilemap collision callback method.
+        * @property _collisionCallback
+        * @type Function
+        * @default null
+        * @private
+        */
+        private _collisionCallback = null;
+        
+        /**
+        * Context for the collision callback.
+        * @property _collisionCallbackContext
+        * @type Any
+        * @default null
+        * @private
+        */
+        private _collisionCallbackContext;
+
+        /**
+        * The render loop. 
+        * @method render
+        * @param camera {Camera}
+        * @public
+        */
+        public render(camera: Kiwi.Camera) {
+            
+            for (var i = 0; i &lt; this.layers.length; i++) {
+                this.layers[i].render(camera);
+            }
+            
+        }
+
+        /**
+        * Creates the tilemap based of some json data that gets parsed.
+        *
+        * @method parseTiledJSON
+        * @param data {any} The JSON data to create the map based off.
+        * @private
+        */
+        private parseTiledJSON(data:any) {
+
+            var mapObj = data;
+
+            for (var i = 0; i &lt; mapObj.layers.length; i++) {
+                var layer: TileMapLayer = new TileMapLayer(this.state, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
+                
+                layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
+                layer.alpha = parseInt(mapObj.layers[i].opacity);
+                layer.visiblity = mapObj.layers[i].visible;
+                layer.tileMargin = mapObj.tilesets[0].margin;
+                layer.tileSpacing = mapObj.tilesets[0].spacing;
+                layer.name = mapObj.tilesets[0].name;
+                layer.game = this.game;
+
+                var c = 0;
+                var row;
+
+                var tileQuantity = layer.parseTileOffsets();
+                this.generateTiles(layer, tileQuantity);
+
+                for (var t = 0; t &lt; mapObj.layers[i].data.length; t++) {
+                    if (c == 0) {
+                        row = [];
+                    }
+
+                    row.push(this.tiles[parseInt(mapObj.layers[i].data[t])]);
+                    c++;
+
+                    if (c == mapObj.layers[i].width) { 
+                        layer.addRow(row);
+                        c = 0;
+                    }
+                }
+
+                this.currentLayer = layer;
+
+                this.layers.push(layer);
+            }
+
+
+        }
+
+        /**
+        * This method generates a number of TileType objects based on the quantity passed. These tiles are based of the current layer.
+        *
+        * @method generateTiles
+        * @param layer {TileMapLayer} The TileMapLayer that these TileTypes are based on.
+        * @param qty {Number} THe number of TileTypes to create.
+        * @private
+        */
+        private generateTiles(layer: Kiwi.GameObjects.Tilemap.TileMapLayer, qty: number) {
+            for (var i = 0; i &lt; qty; i++) {
+                this.tiles.push(new TileType(this.game, this, i, layer.tileWidth, layer.tileHeight));
+            }
+        }
+        
+        /**
+        * Gets the current TileMapLayer&#x27;s width in pixels.
+        * @property widthInPixels
+        * @type number
+        * @public
+        */
+        public get widthInPixels(): number {
+            return this.currentLayer.widthInPixels;
+        }
+
+        /**
+        * Gets the current TileMapLayers height in pixels.
+        * @property heightInPixels
+        * @type number
+        * @public
+        */
+        public heightInPixels(): number {
+            return this.currentLayer.heightInPixels;
+        }
+         
+        /**
+        * Gets a tiletype by a index provided.
+        * 
+        * @method getTileTypeByIndex
+        * @param value {number} The index of the tile type you are getting
+        * @return {TileType}
+        * @public
+        */
+        public getTileTypeByIndex(value: number): TileType {
+
+            if (this.tiles[value]) {
+                return this.tiles[value];
+            }
+
+            return null;
+        }
+
+        /**
+        * Gets a single tile either off the tile layer passed otherwise off the currentLayer if no layer is specified.
+        *
+        * @method getTile
+        * @param x {number} The x coordinate of the tile you would like to get.
+        * @param y {number} The y cooridnate of the tile you would like to get.
+        * @param [layer] {number} The layer that you want to get the tile on. If not passed then it uses the current layer.
+        * @return {Tile}
+        * @public
+        */
+        public getTile(x: number, y: number, layer?: number): Tile {   
+
+            if (layer === undefined) {
+                return this.currentLayer.getTile(x, y);;
+            } else {
+                return this.layers[layer].getTile(x, y);;
+            }
+
+        }
+
+        /**
+        * Gets an array of tiles based on a TileType index.
+        *
+        * @method getTilesByType
+        * @param index {number} The index of the TileType you would like to get.
+        * @param layer {number} The layer that you would like to get them on. If not passed then this is based on the current layer.
+        * @return {Tile }
+        * @public
+        */
+        public getTilesByType(index: number, layer?: number):Tile[] {
+
+            if (layer === undefined) {
+                return this.currentLayer.getTilesByIndex(index);
+            } else {
+                return this.layers[layer].getTilesByIndex(index);
+            }
+
+        }
+
+        /**
+        * Gets a tile based on the passed X and Y. 
+        * Caution! If the tilemap has moved make sure you put that into account.
+        * 
+        * @method getTileFromWorldXY
+        * @param {number} x
+        * @param {number} y
+        * @param {number} layer
+        * @return {Tile}
+        * @public
+        */
+        public getTileFromWorldXY(x: number, y: number, layer?: number): Tile {
+            if (layer === undefined) {
+                return this.currentLayer.getTileFromWorldXY(x, y);
+            } else {
+                return this.layers[layer].getTileFromWorldXY(x, y);
+            }
+
+        }
+
+        /**
+        * Gets a tile based on the mouse&#x27;s current X and Y coordinates.
+        * 
+        * @method getTileFromInputXY
+        * @param layer {number}
+        * @return {Tile}
+        * @public
+        */
+        public getTileFromInputXY(layer?: number): Tile {
+            if (layer === undefined) {
+                return this.currentLayer.getTileFromWorldXY(this.game.input.mouse.x - this.currentLayer.x, this.game.input.mouse.y - this.currentLayer.y);
+            } else {
+                return this.layers[layer].getTileFromWorldXY(this.game.input.mouse.x - this.layers[layer].x, this.game.input.mouse.y - this.layers[layer].transform.y);
+            }
+
+        }
+        
+        /**
+        * Checks to see if an entity overlaps with any colliable tiles on the current layer. Returns the tiles that it overlaps with.
+        *
+        * @method getTileOverlaps
+        * @param object {Entity}
+        * @returns {Array}
+        * @public
+        */
+        public getTileOverlaps(object: Kiwi.Entity) {
+
+            return this.currentLayer.getTileOverlaps(object);
+
+        }
+
+        /**
+        * Adds/Reassign&#x27;s a tile on the point in the map you specify.
+        *
+        * @method putTile
+        * @param {number} x
+        * @param {number} y
+        * @param {number} index
+        * @param {number} layer
+        * @public
+        */
+        public putTile(x: number, y: number, index: number, layer?: number) {
+            if (layer === undefined) {
+                var usedLayer: TileMapLayer = this.currentLayer;
+            } else {
+                var usedLayer: TileMapLayer = this.layers[layer];
+            }
+
+            usedLayer.putTile(x, y, this.tiles[index]);
+        }
+
+        //collision stuff
+
+        /**
+        * Set the callback to be called when the tilemap collides.
+        *
+        * @method setCollisionCallback
+        * @param {function} Callback function
+        * @param {any} Callback will be called with this context
+        * @public
+        */
+        public setCollisionCallback(callback, context) {
+
+            this._collisionCallback = callback;
+            this._collisionCallbackContext = context;
+
+        }
+
+        /**
+        * Sets the collision of a range of tiletypes.
+        *
+        * @method setCollisionRange
+        * @param {number} start
+        * @param {number} end
+        * @param {number} [collision=ArcadePhysics.ANY]
+        * @param {boolean} [seperate=true]
+        * @public
+        */
+        public setCollisionRange(start: number, end: number, collision: number = Kiwi.Components.ArcadePhysics.ANY, seperate: boolean = true) {
+
+            for (var i = start; i &lt;= end; i++) {
+                this.setCollisionByIndex(i, collision, seperate);
+            }
+
+        }
+
+        /**
+        * Sets the collision of a single tiletype by the index.
+        *
+        * @method setCollisionIndex
+        * @param {number} index
+        * @param {number} [collision=ArcadePhysics.ANY]
+        * @param {boolean} [seperate=true]
+        * @public
+        */
+        public setCollisionByIndex(index: number, collision: number = Kiwi.Components.ArcadePhysics.ANY, seperate: boolean = true) {
+            this.tiles[index].seperate = seperate;
+            this.tiles[index].allowCollisions = collision;
+
+            var tiles = this.currentLayer.getTilesByIndex(index);
+
+            for (var t = 0; t &lt; tiles.length; t++) {
+                tiles[t].physics.seperate = seperate;
+                tiles[t].physics.allowCollisions = collision;
+            }
+        }
+
+        /**
+        * Checks to see if a single object is colliding with any colliable tiles.
+        *
+        * @method collideSingle
+        * @param {Entity} object
+        * @return {boolean}
+        * @public
+        */
+        public collideSingle(object: Kiwi.Entity):boolean {
+            
+            if (object.exists === false || !object.components.hasComponent(&#x27;ArcadePhysics&#x27;)) return false;
+
+            var tiles = this.currentLayer.getTileOverlaps(object);
+
+            if (tiles !== undefined) {
+                for (var i = 0; i &lt; tiles.length; i++) {
+                    if (object.components.getComponent(&#x27;ArcadePhysics&#x27;).overlaps(tiles[i], tiles[i].tileType.seperate)) {
+                        
+                        if (this._collisionCallback !== null) {
+                            this._collisionCallback.call(this._collisionCallbackContext, object, tiles[i]);
+                        }
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        /**
+        * Tests to see if a group of entities are colliding with any tiles. 
+        * 
+        * @method collideGroup
+        * @param group {Group}
+        * @public
+        */
+        public collideGroup(group: Kiwi.Group) {
+
+            for (var i = 0; i &lt; group.members.length; i++) {
+                //this.collideSingle(group.members[i]);
+            }
+
+        }
+
+        /**
+        * Destroys everything.
+        * 
+        * @method destroy
+        * @public
+        */
+        public destroy() {
+            super.destroy();
+            delete this.tiles;
+            if (this.layers) {
+                for (var i = 0; i &lt; this.layers.length; i++) {
+                    this.layers[i].destroy();
+                    delete this.layers[i];
+                }
+            }
+            if (this.tiles) {
+                for (var i = 0; i &lt; this.tiles.length; i++) {
+                    this.tiles[i].destroy();
+                    delete this.tiles[i];
+                }
+            }
+            delete this.tiles;
+            delete this.layers;
+            delete this._tileMapDataKey;
+            delete this._atlas;
+        }
+
+    }
+
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

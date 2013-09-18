@@ -418,7 +418,7 @@ module Kiwi {
                 
                 //destroy all of the members
                 for (var i = 0; i < this.members.length; i++) {
-                    this._destroyChildren(this.members[i]);
+                    this._destroyChildren(this.members[i]);     //shouldnt need this as they should already be dead
                     delete this.members[i];
                 }
                 this.members = [];    

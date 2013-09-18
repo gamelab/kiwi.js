@@ -84,6 +84,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "Textfield",
         "TextureAtlas",
         "TextureLibrary",
+        "Tile",
+        "TileMap",
+        "TileMapLayer",
+        "TileType",
         "Timer",
         "TimerEvent",
         "Touch",
@@ -105,6 +109,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Sound",
         "System",
         "Textures",
+        "Tilemap",
         "Time",
         "Tweens",
         "Utils"
@@ -174,6 +179,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "Textures",
             "name": "Textures",
             "description": "Kiwi - Textures"
+        },
+        {
+            "displayName": "Tilemap",
+            "name": "Tilemap",
+            "description": "Kiwi - GameObjects - TileMapLayer"
         },
         {
             "displayName": "Time",

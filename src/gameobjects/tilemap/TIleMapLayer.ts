@@ -1,23 +1,35 @@
+/**
+* Kiwi - GameObjects - TileMapLayer
+* @module GameObjects
+* @submodule Tilemap
+* 
+*/
+
 module Kiwi.GameObjects.Tilemap {
 
+    /**
+    *
+    * @class TileMapLayer
+    * @extends Entity
+    * 
+    */
     export class TileMapLayer extends Kiwi.Entity {
 
-        /*
+        /**
         *
         * @constructor
-        * @param {Kiwi.Game} game
-        * @param {Kiwi.GameObjects.TileMap} parent
-        * @param {Kiwi.Textures.TextureAtlas} atlas
-        * @param {number} mapFormat
-        * @param {string} name
-        * @param {number} tileWidth
-        * @param {number} tileHeight
+        * @param state {State} The state that this tilemap belongs to. 
+        * @param parent {TileMap} The TileMap on which this TileMapLayer is a part of.
+        * @param atlas {SpriteSheet} The spritesheet that is being used to render the tiles.
+        * @param name {string} The name of this tilemap.
+        * @param tileWidth {number} The width of a single tile.
+        * @param tileHeight {number} The height of a single tile
+        * @return {TileMapLayer} 
         */
-        constructor(state:Kiwi.State, game: Kiwi.Game, parent: Kiwi.GameObjects.Tilemap.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
+        constructor(state:Kiwi.State, parent: Kiwi.GameObjects.Tilemap.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
             
             super(state,0,0);
 
-            this._game = game;
             this.tileParent = parent;
 
             this.name = name;
@@ -28,119 +40,242 @@ module Kiwi.GameObjects.Tilemap {
             this._tempTileBlock = [];
             this._atlas = atlas;
            
-            this.components = new Kiwi.ComponentManager(Kiwi.TILE_LAYER, this);
-            
         }
 
+        /**
+        * The TileMap that this TileMapLayer is a child of.
+        * @property tileParent
+        * @type TileMap
+        * @public
+        */
         public tileParent: Kiwi.GameObjects.Tilemap.TileMap;
 
-        /*
-        * The game
-        */
-        private _game: Game;
-
-        /*
-        * Holds all of the components for the layer
-        */
-        public components: Kiwi.ComponentManager;
-
-        /*
-        * The texture/image data for this tileLayer
+        /**
+        * The spritesheet that is being used to render information on.
+        * @property _atlas
+        * @type SpriteSheet
+        * @private
         */
         private _atlas: Kiwi.Textures.SpriteSheet;
 
-        /*
-        * Holds the coordinates for each tile on the sprite sheet.
-        * @type {Array}
+        /**
+        * Holds the coordinates for each tile on the sprite sheet. [NOTE SHOULD BE REPLACE WITH CELLS]
+        * @property _tileOffsets
+        * @type Array
+        * @private
         */
         private _tileOffsets;
 
-        /*
-        * The starting tile that needs to be rendered
+        /**
+        * The starting tile on the x axis (the row) that needs to rendered. 
+        * This is calculated based upon where the tiles are in relation to the camera.
+        * This is updated each frame.
+        * @property _startX
+        * @type number
+        * @private
         */
         private _startX: number = 0;
+        
+        /**
+        * The starting tile on the y axis (the column) that needs to rendered. 
+        * This is calculated based upon where the tiles are in relation to the camera.
+        * This is updated each frame.
+        * @property _startY
+        * @type number
+        * @private
+        */
         private _startY: number = 0;
 
-        /*
-        * Number of tiles that needs to be rendered
+        /**
+        * The maximum number of tiles that can fit on the camera. On the x axis. From this we can calculate the last tile we need to render.
+        * @property _maxX
+        * @type number
+        * @private
         */
         private _maxX: number = 0;
+
+        /**
+        * The maximum number of tiles that can fit on the camera. On the y axis. From this we can calculate the last tile we need to render.
+        * @property _maxY
+        * @type number
+        * @private
+        */
         private _maxY: number = 0;
 
-        /*
-        * Used while rendering as a reference to the coordinates the current tiles.
+        /**
+        * Used while rendering as a reference the current tile that is being rendereds, x position. [CAN BE REMOVED WHEN UPDATED].
+        * @property _tx
+        * @type number
+        * @private
         */
         private _tx: number = 0;
+
+        /**
+        * Used while rendering as a reference the current tile that is being rendereds, y position. [CAN BE REMOVED WHEN UPDATED].
+        * @property _tx
+        * @type number
+        * @private
+        */
         private _ty: number = 0;
 
-        /*
-        * The starting position in pixels
+        /**
+        * The starting position in pixels on the x axis. [COULD BE REMOVED WHEN UPDATED]
+        * @property _dx
+        * @type number
+        * @private
         */
         private _dx: number = 0;
+        
+        /**
+        * The starting position in pixels on the y axis. [COULD BE REMOVED WHEN UPDATED]
+        * @property _dy
+        * @type number
+        * @private
+        */
         private _dy: number = 0;
 
-        /*
+        /**
         * Temporarily holds the information for a single column on tiles.
+        * @property _columnData
+        * @type Object
+        * @private
         */
         private _columnData;
 
-        /*
-        * Holds a set of tile information that is used when manipulating tiles. 
+        /**
+        * Holds a set of tile information that is temporarily used when manipulating tiles. 
+        * @property _tempTileBlock
+        * @type Any
         * @private
         */
         private _tempTileBlock;
+
+        /**
+        * Holds the starting index of a tile on the x-axis that are to be retrieved. 
+        * Use with the other _tempTile properties.
+        * @property _tempTileX
+        * @type number
+        * @private
+        */
         private _tempTileX: number;
+
+        /**
+        * Holds the starting index of a tile on the y-axis that are to be retrieved.
+        * Use with the other _tempTile properties.
+        * @property _tempTileY
+        * @type number
+        * @private
+        */
         private _tempTileY: number;
+
+        /**
+        * Holds the number of tiles in the x-axis that are to be retrieved.
+        * Use with the other _tempTile properties.
+        * @property _tempTileW
+        * @type number
+        * @private
+        */
         private _tempTileW: number;
+
+        /**
+        * Holds the number of tiles in the y-axis that are to be retrieved.
+        * Use with the other _tempTile properties.
+        * @property _tempTileH
+        * @type number
+        * @private
+        */
         private _tempTileH: number;
 
-        /*
-        * The name of the layer. This is never used so it can just be for niceties 
+        /**
+        * The name of the layer. This is never used so it can just be for niceties.
+        * @property name
+        * @type string
+        * @public
         */
         public name: string;
 
-        /*
-        * Holds all of the map's tile information.
+        /**
+        * Holds all of the information about the tile map data.
+        * @property mapData
+        * @type Array
+        * @public
         */
         public mapData;
 
-        /*
-        * The format that the m
-        */
-        public mapFormat: number;
-
-        /*
-        * The width/height of a single tile.
+        /**
+        * The width of a single tile. This is the same across tiles.
+        * @property tileWidth
+        * @type number
+        * @public
         */
         public tileWidth: number;
+        
+        /**
+        * The height of a single tile. This is the same across tiles.
+        * @property tileHeight
+        * @type number
+        * @public
+        */
         public tileHeight: number;
 
-        /*
-        * The width and height of map in tiles.
+        /**
+        * The number of tiles on the x-axis for this TileMapLayer.
+        * @property widthInTiles
+        * @type number
+        * @public
         */
         public widthInTiles: number = 0;
+        
+        /**
+        * The number of tile on the y-axis for the TileMapLayer.
+        * @property heightInTiles
+        * @type number
+        * @public
+        */
         public heightInTiles: number = 0;
 
-        /*
-        * The width and height of the map in pixels.
+        /**
+        * The width of the whole TileMapLayer in pixels.
+        * @property widthInPixels
+        * @type number
+        * @public
         */
         public widthInPixels: number = 0;
+        
+        /**
+        * The height of the while TileMapLayer in pixels.
+        * @property heightInPixels
+        * @type number
+        * @public
+        */
         public heightInPixels: number = 0;
 
-        /*
-        * The spacing around the edges of the image.
-        * The spacing in between each sprite.
+        /**
+        * The spacing around the edges of the image. [CAN BE REMOVED WHEN UPDATED]
+        * @property tileMargin
+        * @type number
+        * @default 0
+        * @public
         */
         public tileMargin: number = 0;
+        
+        /**
+        * The spacing in between each sprite. [CAN BE REMOVED WHEN UPDATED]
+        * @property tileSpacing
+        * @type number
+        * @default 0
+        * @public
+        */
         public tileSpacing: number = 0;
 
-        /*
-        * Adds a single tile to the map within the given boundaries. This could be used to override a currently existing map tile.
+        /**
+        * Adds a single tile to the map at the given boundaries. This could be used to override a currently existing map tile.
         *
         * @method putTile
-        * @param {number} x
-        * @param {number} y
-        * @param {number} tileType
+        * @param x {number} The x coordinate of the tile.
+        * @param y {number} The y coordinate of the tile.
+        * @param tileType {TileType} The type of tile that you are adding.
+        * @public
         */
         public putTile(x: number, y: number, tileType: Kiwi.GameObjects.Tilemap.TileType) {
 
@@ -155,15 +290,16 @@ module Kiwi.GameObjects.Tilemap {
 
         }
 
-        /*
-        * Replaces a section of tiles on the map with a particular tile.
+        /**
+        * Replaces a section of tiles on the map with a particular tile. [NEEDS UPDATING]
         * 
         * @method fillTile
-        * @param {number} index
-        * @param {number} x
-        * @param {number} y
-        * @param {number} width - In tiles
-        * @param {number} height - In tiles
+        * @param index {number} The type of tile that you are using.
+        * @param [x=0] {number} The starting coordinate of the tile on the x-axis. 
+        * @param [y=0] {number} The starting coordinate of the tile on the y-axis.
+        * @param [width] {number} The width of the area you want to replace. Defaults to the whole maps width.
+        * @param [height] {number} The height of the area you want to replace. Defaults to the whole maps height.
+        * @public
         */
         public fillTiles(index: number, x: number = 0, y: number = 0, width: number = this.widthInTiles, height: number = this.heightInTiles) {
 
@@ -175,35 +311,37 @@ module Kiwi.GameObjects.Tilemap {
 
         }
 
-        /*
-        * Randomises a section of tiles on the map bsaed on the tiles you want there.
+        /**
+        * Randomises a section of tiles on the map based on the tiles you want there.
         *
         * @method randomiseTiles
-        * @param {number[]} tiles
-        * @param {number} x
-        * @param {number} y
-        * @param {number} width
-        * @param {number} height
+        * @param tiles {number[]} An array consisting of the TileTypes that you want.
+        * @param [x=0] {number} The starting coordinate of the tile on the x-axis. 
+        * @param [y=0] {number} The starting coordinate of the tile on the y-axis.
+        * @param [width] {number} The width of the area you want to replace. Defaults to the whole maps width.
+        * @param [height] {number} The height of the area you want to replace. Defaults to the whole maps height.
+        * @public
         */
         public randomiseTiles(tiles: number[], x: number= 0, y: number = 0, width: number= this.widthInTiles, height: number= this.heightInTiles) {
             
             this.getTempBlock(x, y, width, height);
 
             for (var r = 0; r < this._tempTileBlock.length; r++) {
-                this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[this._game.rnd.pick(tiles)]);
+                this.mapData[this._tempTileBlock[r].ty][this._tempTileBlock[r].tx].tileUpdate(this.tileParent.tiles[this.game.rnd.pick(tiles)]);
             }
         } 
 
-        /*
+        /**
         * Swaps all of the tiles of indexA with tiles of indexB and the same alternatively.
         * 
         * @method swapTiles
-        * @param {number} indexA
-        * @param {number} indexB
-        * @param {number} x
-        * @param {number} y
-        * @param {number} width
-        * @param {number} height
+        * @param indexA {number} The first type of tile you want to swapped with indexB.
+        * @param indexB {number} The second type of tile that is to be swapped with indexA.
+        * @param [x=0] {number} The starting coordinate of the tile on the x-axis. 
+        * @param [y=0] {number} The starting coordinate of the tile on the y-axis.
+        * @param [width] {number} The width of the area you want to replace. Defaults to the whole maps width.
+        * @param [height] {number} The height of the area you want to replace. Defaults to the whole maps height.
+        * @public
         */
         public swapTiles(indexA: number, indexB: number, x: number = 0, y: number = 0, width: number= this.widthInTiles, height: number= this.heightInTiles) {
 
@@ -222,16 +360,17 @@ module Kiwi.GameObjects.Tilemap {
 
         }
 
-        /*
-        * Replaces all of the tiles of indexA with the tiles of indexB.
+        /**
+        * Replaces all of the tiles of indexA with the tiles of indexB. This only happen's one way.
         *
         * @method replaceTiles
-        * @param {number} indexA
-        * @param {number} indexB
-        * @param {number} x
-        * @param {number} y
-        * @param {number} width
-        * @param {number} height
+        * @param indexA {number} The tile type that you want to be replaced.
+        * @param indexB {number} The tile type that you want to replace it with. 
+        * @param [x=0] {number} The starting coordinate of the tile on the x-axis. 
+        * @param [y=0] {number} The starting coordinate of the tile on the y-axis.
+        * @param [width] {number} The width of the area you want to replace. Defaults to the whole maps width.
+        * @param [height] {number} The height of the area you want to replace. Defaults to the whole maps height.
+        * @public
         */ 
         public replaceTiles(indexA: number, indexB: number, x: number = 0, y: number = 0, width: number = this.widthInTiles, height: number= this.heightInTiles) {
             this.getTempBlock(x, y, width, height);
@@ -245,13 +384,14 @@ module Kiwi.GameObjects.Tilemap {
             }
         }
 
-        /*
+        /**
         * Gets a single tile from the x and y provided.
         * 
         * @method getTileFromWorldXY
-        * @param {number} x
-        * @param {number} y
-        * @return {number}
+        * @param x {number} The coordinate of the tile on the x axis.
+        * @param y {number} The coordinate of the tile on the y axis.
+        * @return {Tile} The tile that is at the coordinates if there was one.
+        * @public
         */
         public getTileFromWorldXY(x: number, y: number): Kiwi.GameObjects.Tilemap.Tile {
 
@@ -262,14 +402,15 @@ module Kiwi.GameObjects.Tilemap {
 
         }
 
-        /*
+        /**
         * Gets all of the tiles by the index number you pass. 
         *
         * @method getTilesByIndex
-        * @param {number} index
-        * @returns {Array}
+        * @param {number} The index of the types of tiles you want to retrieve.
+        * @return {Tile[]}
+        * @public
         */
-        public getTilesByIndex(index: number) {
+        public getTilesByIndex(index: number):Tile[] {
             var tiles = [];
             for (var ty = 0; ty < this.mapData.length; ty++) {
                 for (var tx = 0; tx < this.mapData[ty].length; tx++) {
@@ -283,16 +424,17 @@ module Kiwi.GameObjects.Tilemap {
             return tiles;
         }
 
-        /*
+        /**
         * Creates a set of temporary tile blocks based on the current map data.
         * Perhaps add another param which is by a certain tile index?
         * 
         * @method getTempBlock
-        * @param {number} x
-        * @param {number} y
-        * @param {number} width - In Tiles.
-        * @param {number} height - In Tiles.
-        * @param {boolean} collisionOnly - Get only the tiles that can have collisions.
+        * @param x {number} The x first tile in the row you want to use. (In tiles).
+        * @param y {number} The y first tile in the column you want to use. (In tiles).
+        * @param width {number} The number of tiles wide.
+        * @param height {number} The number of tiles high.
+        * @param [collisionOnly=false] {boolean} Get only the tiles that can have collisions.
+        * @private
         */ 
         private getTempBlock(x: number, y: number, width: number, height: number, collisionOnly: boolean = false) {
 
@@ -321,15 +463,16 @@ module Kiwi.GameObjects.Tilemap {
 
         }
 
-        /*
+        /**
         * Returns all of the tiles that overlap a given entity. 
         * Returns an array with each index containing the tiles
         *
         * @method getTileOverlaps
-        * @param {Kiwi.Entity} object
+        * @param object {Entity} The entity that you are checking.
         * @return {Array}
+        * @public
         */
-        public getTileOverlaps(object: Kiwi.Entity) {
+        public getTileOverlaps(object: Kiwi.Entity):Array {
             
             //if the object is within the bounds at all.?
             
@@ -351,13 +494,14 @@ module Kiwi.GameObjects.Tilemap {
 
         }
 
-        /*
-        * Gets a tile's index based on the indexs provided
+        /**
+        * Gets a tile's index based on the indexs provided.
         * 
         * @method getTileIndex
-        * @param {number} x
-        * @param {number} y
+        * @param x {number}
+        * @param y {number}
         * @return {number}
+        * @public
         */
         public getTileIndex(x: number, y: number): number {
 
@@ -367,17 +511,17 @@ module Kiwi.GameObjects.Tilemap {
                 }
             }
 
-            return null;
-
+            return null; 
         }
 
-        /*
+        /**
         * Gets a tile based on the given positions.
         * 
         * @method getTileIndex
-        * @param {number} x
-        * @param {number} y
-        * @return {number}
+        * @param x {number}
+        * @param y {number}
+        * @return {Tile}
+        * @public
         */
         public getTile(x: number, y: number): Kiwi.GameObjects.Tilemap.Tile {
             if (y >= 0 && y < this.mapData.length) {        //if it is with the bounds
@@ -389,11 +533,12 @@ module Kiwi.GameObjects.Tilemap {
             return null;
         }
 
-        /*
+        /**
         * Adds a row of tiles to the tilemap
         *
         * @method addRow
-        * @param {Array} row
+        * @param row {Array} 
+        * @public
         */
         public addRow(row:Array) {
 
@@ -416,11 +561,12 @@ module Kiwi.GameObjects.Tilemap {
             this.heightInPixels += this.tileHeight;
         }
 
-        /*
-        * Loops through the texture that was given and assign's each sprite inside of it to the _tileOffset, with its coordinates.
+        /**
+        * Loops through the texture that was given and assign's each sprite inside of it to the _tileOffset, with its coordinates. Internal use by Kiwi only.
         * 
         * @method parseTileOffsets
         * @return {number}
+        * @public
         */
         public parseTileOffsets(): number {
 
@@ -450,11 +596,12 @@ module Kiwi.GameObjects.Tilemap {
 
         }
 
-        /*
-        * Renders the tileMap to the stage. It also updates the position component of all of the tiles that appear.
+        /**
+        * Renders the tileMap to the stage. It also updates the position component of all of the tiles that appear. [NEED TO UPDATE]
         *
         * @method render
-        * @param {Kiwi.Camera}
+        * @param camera {Camera}
+        * @public
         */ 
         public render(camera: Kiwi.Camera) { 
             
