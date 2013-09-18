@@ -11,16 +11,13 @@ module Kiwi.Input {
     *
     *
     * @class Pointer
+    * @constructor
+    * @param {Game} game
+    * @return Pointer
     *
     */
     export class Pointer {
-
-        /**
-        *
-        * @constructor
-        * @param {Game} game
-        * @return Pointer
-        */
+         
         constructor(game:Kiwi.Game) {
             this._game = game;
             this.point = new Kiwi.Geom.Point();

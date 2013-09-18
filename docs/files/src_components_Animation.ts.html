@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -337,15 +341,12 @@ module Kiwi.Components {
     *  
     * @class Animation
     * @extends Component
+    * @constructor
+    * @param entity {Entity} The entity that this animation component belongs to.
+    * @return {Animation}
     */
     export class Animation extends Component {
-
-        /**
-        *
-        * @constructor
-        * @param entity {Entity} The entity that this animation component belongs to.
-        * @return {Animation}
-        */
+         
         constructor(entity: Kiwi.Entity) {
             super(entity, &#x27;Animation&#x27;);
 

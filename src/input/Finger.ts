@@ -11,15 +11,12 @@ module Kiwi.Input {
     *
     * @class Finger
     * @extends Pointer
+    * @constructor
+    * @param game {Game} The game that this finger belongs to.
+    * @return Finger
     */
     export class Finger extends Pointer {
         
-        /**
-        *
-        * @method constructor
-        * @param game {Game} The game that this finger belongs to.
-        * @return Finger
-        */
         constructor(game: Kiwi.Game) {
             super(game);
             this.circle.diameter = 44; //The diameter of your average finger!

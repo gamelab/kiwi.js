@@ -22,7 +22,6 @@ module Kiwi.Geom {
 
         /**
         * Creates a new Rectangle object with the top-left corner specified by the x and y parameters and with the specified width and height parameters. If you call this function without parameters, a rectangle with x, y, width, and height properties set to 0 is created.
-        
         **/
         constructor (x: number = 0, y: number = 0, width: number = 0, height: number = 0) {
 

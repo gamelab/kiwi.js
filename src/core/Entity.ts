@@ -20,11 +20,7 @@ module Kiwi {
     */
 
     export class Entity implements Kiwi.IChild {
-
-        /**
-        * 
-        
-        */
+         
         constructor(state: Kiwi.State, x:number, y: number) {
             
             //  Properties

@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -337,19 +341,16 @@ module Kiwi.GameObjects {
     *
     * @class Sprite
     * @extends Entity
+    * @constructor
+    * @param state {State} The state that this sprite belongs to
+    * @param atlas {TextureAtlas} The texture you want to apply to this entity 
+    * @param [x=0] {Number} The sprites initial coordinates on the x axis.
+    * @param [y=0] {Number} The sprites initial coordinates on the y axis.
+    * @param [enableInput=false] {boolean} If the input component should be enabled or not.
+    * @return {Sprite}
     */
     export class Sprite extends Kiwi.Entity {
-
-        /**
-        * 
-        * @constructor
-        * @param state {State} The state that this sprite belongs to
-        * @param atlas {TextureAtlas} The texture you want to apply to this entity 
-        * @param [x=0] {Number} The sprites initial coordinates on the x axis.
-        * @param [y=0] {Number} The sprites initial coordinates on the y axis.
-        * @param [enableInput=false] {boolean} If the input component should be enabled or not.
-        * @return {Sprite}
-        */
+         
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: boolean = false) {
 
             super(state, x, y);

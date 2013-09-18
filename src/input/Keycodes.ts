@@ -11,7 +11,7 @@ module Kiwi.Input {
     * 
     *
     * @class Keycodes
-    *
+    * @static
     */
     export class Keycodes {
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\input\Manager.ts - Kiwi.js</title>
+    <title>src\hud\widgets\TextField.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -324,277 +324,107 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\input\Manager.ts</h1>
+                        <h1 class="file-heading">File: src\hud\widgets\TextField.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Input
-* @module Kiwi
-* @submodule Input
-* 
-*/ 
+* @module HUD
+* @submodule Widget
+*
+*/
 
-module Kiwi.Input {
+module Kiwi.HUD.Widget {
 
     /**
-    *
-    * @class Manager
+    * @class TextField
+    * @extends HUDWidget
     * @constructor
-    * @param game {Game} The game that this object belongs to.
-    * @return {Manager} This object.
-    *
+    * @param {string} text
+    * @param {number} x
+    * @param {number} y
     */
-    export class Manager {
-         
-        constructor (game: Kiwi.Game) {
-
-            this.game = game;
-
-        }
-
-        /**
-        * The type of object this is.
-        * @method objType
-        * @return String
-        * @public
-        */
-        public objType() {
-            return &quot;Manager&quot;;
-        }
-
-        /**
-        * A Signal that dispatches a event when any Pointer is pressed from the game.
-        * @property onDown
-        * @type Signal
-        * @public
-        */
-        public onDown: Kiwi.Signal;
+    export class TextField extends Kiwi.HUD.HUDWidget {
         
-        /**
-        * A Signal that dispatches a event when any Pointer is released from the game.
-        * @property onUp
-        * @type Signal
-        * @public
-        */
-        public onUp: Kiwi.Signal;
+        constructor(text:string,x:number,y:number) {
+            super(&quot;textField&quot;,x,y);
+            
+            this._text = text;
 
-        /** 
-        * The game that this manager belongs to.
-        * @property game
-        * @type Game
-        * @public
-        */
-        public game: Kiwi.Game;
+            this._textField = this.container;
+            this._textField.innerText = text;
 
-        /** 
-        * A reference to the mouse manager.
-        * @property mouse
-        * @type Mouse
-        * @public
-        */
-        public mouse:Kiwi.Input.Mouse;
-
-        /** 
-        * The keyboard manager
-        * @property keyboard
-        * @type Keyboard
-        * @public
-        */
-        public keyboard:Kiwi.Input.Keyboard;
-
-        /** 
-        * The touch manager.
-        * @property touch
-        * @type Touch
-        * @public
-        */
-        public touch:Kiwi.Input.Touch;
-        
-        /**
-        * An array containing all of the pointers that are active on the stage.
-        * @property _pointers
-        * @type Pointer[]
-        * @private
-        */
-        private _pointers: Kiwi.Input.Pointer[];
-
-        /**
-        * Returns all of the pointers that can be used on the Input Manager. This is READ only.
-        * @property pointer
-        * @type Pointer[]
-        * @public
-        */
-        public get pointers(): Kiwi.Input.Pointers {
-            return this._pointers;
-        }
-
-        /** 
-        * This method is executed when the DOM has loaded and the manager is ready to load.
-        * @method boot 
-        * @public
-        */
-        public boot() {
-
-            if (Kiwi.DEVICE.touch === true)
-            {
-                this.touch = new Kiwi.Input.Touch(this.game);
-                this.touch.boot();
-                this.touch.touchDown.add(this._onDownEvent, this);
-                this.touch.touchUp.add(this._onUpEvent, this);
-                this._pointers = this.touch.fingers;
-            } else {
-                this.mouse = new Kiwi.Input.Mouse(this.game);
-                this.mouse.boot();
-                this.mouse.mouseDown.add(this._onDownEvent, this);
-                this.mouse.mouseUp.add(this._onUpEvent, this);
-                this._pointers = [this.mouse.cursor];
-                this.keyboard = new Kiwi.Input.Keyboard(this.game);
-                this.keyboard.boot();
-            }
-
-            this.isDown = false;
-            this.position = new Kiwi.Geom.Point();
-             
-            this.onDown = new Kiwi.Signal();
-            this.onUp = new Kiwi.Signal();
-        }
-        
-        /**
-        * A private method that gets dispatched when either the mouse or touch manager dispatches a down event
-        * @method _onDownEvent
-        * @param x {Number} The x coordinate of the pointer
-        * @param y {Number} The y coordinate of the pointer
-        * @param timeDown {Number} The time that the pointer has been down for.
-        * @param timeUp {Number} The Time that the pointer has been up form
-        * @param duration {Number} 
-        * @param pointer {Pointer} The pointer that was used.
-        * @private
-        */
-        private _onDownEvent(x, y, timeDown, timeUp, duration, pointer) {
-            this.onDown.dispatch(x, y, timeDown, timeUp, duration, pointer);
-        }
-
-        
-        /**
-        * A private method that gets dispatched when either the mouse or touch manager dispatches a up event
-        * @method _onUpEvent
-        * @param x {Number} The x coordinate of the pointer
-        * @param y {Number} The y coordinate of the pointer
-        * @param timeDown {Number} The time that the pointer has been down for.
-        * @param timeUp {Number} The Time that the pointer has been up form
-        * @param duration {Number} 
-        * @param pointer {Pointer} The pointer that was used.
-        * @private
-        */
-        private _onUpEvent(x, y, timeDown, timeUp, duration, pointer) {
-            this.onUp.dispatch(x, y, timeDown, timeUp, duration, pointer);
         }
 
         /*
-        * An alias for the onPress signal that goes straight to the onDown.
-        * @property onPressed
-        * @type Signal
-        * @public
+        * The text current being displayed
+        * @property _text
+        * @type string
+        * @private
         */
-        public get onPressed(): Kiwi.Signal {
-            return this.onDown;
-        }
+        private _text: string;
+
+        /*
+        * The htmlelement that is being used as the textfield.
+        * @property _textField
+        * @type HTMLElement
+        * @private
+        */
+        private _textField: HTMLElement;
         
-        /**
-        * An alias for the onRelease signal that goes straight to the onUp
-        * @property onReleased
-        * @type Signal
+        /*
+        * This method is used to remove existing DOM elements and place them inside a HUDWidget&#x27;s container element.
+        * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
+        * 
+        * @method setTemplate
+        * @param main {string} ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
+        * @param icon {string} ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
         * @public
         */
-        public get onReleased(): Kiwi.Signal {
-            return this.onUp;
-        }
+        public setTemplate(main: string, field?: string) {
 
-        /** 
-        * The update loop that gets executed every frame.
-        * @method update 
-        * @public
-        */
-        public update() {
+            this._textField.innerText = &#x27;&#x27;;
+            super.setTemplate(main, field);
 
-            if (Kiwi.DEVICE.touch === true)
-            {
-                this.touch.update();
-                this.position.setTo(this.touch.x, this.touch.y);
-                this.isDown = this.touch.isDown;
+            if (this.tempElement !== undefined) {
+                this._textField = this.tempElement;
             }
-            else
-            {
-                this.keyboard.update();
-                this.mouse.update();
-                this.position.setTo(this.mouse.x, this.mouse.y);
-                this.isDown = this.mouse.isDown;
-            }
+            this._textField.innerText = this._text;
 
         }
 
-        /** 
-        * Runs the reset method on the managers.
-        * @method reset
-        */
-        public reset() {
-
-            if (Kiwi.DEVICE.touch === true)
-            {
-                this.touch.reset();
-            }
-            else
-            {
-                this.mouse.reset();
-                this.keyboard.reset();
-            }
-
-        }
-        
-        /**
-        * The position of the last pointer that was/is active on the stage.
-        * @property position
-        * @type Point
+        /*
+        * Used to remove any the template HTML from this HUDWidget.
+        * 
+        * @method removeTemplate
         * @public
         */
-        public position: Kiwi.Geom.Point;
+        public removeTemplate() {
+            
+            super.removeTemplate();
 
-        /**
-        * If an input is currently down. Not an accurate representation, should use the individual managers.
-        * @property isDown
-        * @type boolean
-        * @public
-        */
-        public isDown: boolean;
- 
-        /**
-        * Populated x coordinate based on the most recent click/touch event
-        * @property x
-        * @type Number
-        * @public
-        */
-        public get x(): number {
-
-            return this.position.x;
-
+            this._textField = this.container;
+            this._textField.innerText = this._text;
         }
 
-        /**
-        * Populated y coordinate based on the most recent click/touch event
-        * @property y
-        * @type Number
+        /*
+        * Change the text that is currently being displayed.
+        * @param val {string} val
+        * @return {string}
         * @public
         */
-        public get y(): number {
-
-            return this.position.y;
-
+        public text(val?: string):string {
+            if (val !== undefined) {
+                this._text = val;
+                this._textField.innerText = this._text;
+            }
+            return this._text;
         }
 
     }
 
 }
+
     </pre>
 </div>
 

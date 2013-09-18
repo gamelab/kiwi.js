@@ -1,40 +1,21 @@
-/*
- *	Kiwi - Components - Time
- *
- *	@desc		Contains methods for control time individual.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
- *
- *  TO DO:      Add/Remove time methods.
- *              Have the hours/minutes methods control only themselves.
- *              Create a signal.
-*
-*
+/**
 * @module HUD
 * @submodule Components
- * 
+* 
 */
 
 module Kiwi.HUD.Components {
     /**
     * @class Time
+    * @constructor
+    * @param milliseconds {number} milliseconds
+    * @param seconds {number} seconds
+    * @param minutes {number} minutes
+    * @param hours {number} hours
     */
 
     export class Time extends Kiwi.Component {
 
-        /*
-        *
-        * @constructor
-        * @param milliseconds {number} milliseconds
-        * @param seconds {number} seconds
-        * @param minutes {number} minutes
-        * @param hours {number} hours
-        */
         constructor(milliseconds: number, seconds?: number, minutes?: number, hours?: number) {
             super(null, "time");
 

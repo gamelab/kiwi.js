@@ -22,11 +22,7 @@ module Kiwi.GameObjects.Tilemap {
     * 
     */
     export class TileMapLayer extends Kiwi.Entity {
-
-        /**
-        *
-        
-        */
+         
         constructor(state:Kiwi.State, parent: Kiwi.GameObjects.Tilemap.TileMap, atlas: Kiwi.Textures.SpriteSheet, name: string, tileWidth: number, tileHeight: number) {
             
             super(state,0,0);

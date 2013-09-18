@@ -18,11 +18,7 @@ module Kiwi.Animation {
     * 
     */
     export class Anim {
-
-        /**
-        *
-        
-        */
+         
         constructor(name: string, sequence: Kiwi.Animation.Sequence, clock: Kiwi.Time.Clock) {
             
             this.name = name;

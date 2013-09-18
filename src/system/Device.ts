@@ -11,18 +11,14 @@ module Kiwi.System {
     * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/audio.js
     *
     * @class Device
+    * @constructor 
     *
     * @author mrdoob
     * @author Modernizr team
     * 
     */
     export class Device {
-
-        /**
-        *
-        * @constructor
-        * @return {Device} This Object
-        */
+         
         constructor() {
 
             this._checkAudio();

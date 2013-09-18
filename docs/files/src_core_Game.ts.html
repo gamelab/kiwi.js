@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -337,20 +341,17 @@ module Kiwi {
     * this can span multiple lines.
     *
     * @class Game
+    * @constructor
+    * @param [domParent=&#x27;&#x27;] {String} The dom element that the game should use as its &#x27;container&#x27; 
+    * @param [name=&#x27;KiwiGame&#x27;] {String} The name of the game that is being created.
+    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, or the state object itself.
+    * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
+    * @return {Game}
     * 
     */
 
     export class Game {
-
-        /**
-        * 
-        * @constructor
-        * @param [domParent=&#x27;&#x27;] {String} The dom element that the game should use as its &#x27;container&#x27; 
-        * @param [name=&#x27;KiwiGame&#x27;] {String} The name of the game that is being created.
-        * @param [state=null] {Any} The state to load initially. This can either be the name of a state, or the state object itself.
-        * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
-        * @return {Kiwi.Game}
-        */
+         
         constructor (domParent: string = &#x27;&#x27;, name: string = &#x27;KiwiGame&#x27;, state: any = null, options?) {
 
             //set options

@@ -1,6 +1,3 @@
-/// <reference path="TextField.ts" />
-/// <reference path="../../core/game.ts" />
-
 /**
 *
 * @module HUD
@@ -9,22 +6,19 @@
 */
 
 module Kiwi.HUD.Widget {
+    
     /**
     * @class Button
+    * @extends TextField
+    * @constructor
+    * @param game {game}
+    * @param width {number}
+    * @param height {number}
+    * @param x {number}
+    * @param y {number}
+    * @return {Button}
     */
-
     export class Button extends Kiwi.HUD.Widget.TextField {
-
-        /*
-        * 
-        * @constructor
-        * @param game {game}
-        * @param width {number}
-        * @param height {number}
-        * @param x {number}
-        * @param y {number}
-        * @return {Button}
-        */
 
         constructor(game: Kiwi.Game, width: number, height: number, x: number, y: number) {
 

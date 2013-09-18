@@ -26,9 +26,6 @@ module Kiwi.Geom {
     */
     export class Transform {
 
-        /** 
-        
-        */
         constructor(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0) {
 
             this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);

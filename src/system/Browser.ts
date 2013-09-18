@@ -12,16 +12,13 @@ module Kiwi.System {
     * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
     * 
     * @class Browser
+    * @constructor
+    * @param {Game} game
+    * @return {StateMananger} This Object
     *
     */
     export class Browser {
-
-        /**
-        * 
-        * @constructor
-        * @param {Game} game
-        * @return {StateMananger} This Object
-        */
+         
         constructor(game: Kiwi.Game) {
 
             this._game = game;

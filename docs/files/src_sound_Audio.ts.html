@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -337,19 +341,16 @@ module Kiwi.Sound {
     *
     *
     * @class Audio
+    * @constructor
+    * @param game {Game} The game that this piece of audio belongs to.
+    * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
+    * @param volume {number} A number between 0 (silence) and 1 (loud).
+    * @param loop {boolean} If the audio should loop when it is finished or just stop.
+    * @return {Audio} This object
     *
     */
     export class Audio {
-
-        /*
-        *
-        * @constructor
-        * @param game {Game} The game that this piece of audio belongs to.
-        * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
-        * @param volume {number} A number between 0 (silence) and 1 (loud).
-        * @param loop {boolean} If the audio should loop when it is finished or just stop.
-        * @return {Audio} This object
-        */
+         
         constructor(game: Kiwi.Game, key: string, volume: number, loop: boolean) {
             
             this._game = game;

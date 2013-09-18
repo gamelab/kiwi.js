@@ -11,16 +11,13 @@ module Kiwi.Sound {
     *
     *
     * @class AudioManager
+    * @constructor
+    * @param game {Game} The game that this audio manager belongs to.
+    * @return {AudioManager}
     *
     */
     export class AudioManager {
-
-        /**
-        *
-        * @constructor
-        * @param game {Game} The game that this audio manager belongs to.
-        * @return {AudioManager}
-        */
+         
         constructor(game: Kiwi.Game) {
             
             this._game = game;

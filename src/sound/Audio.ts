@@ -11,19 +11,16 @@ module Kiwi.Sound {
     *
     *
     * @class Audio
+    * @constructor
+    * @param game {Game} The game that this piece of audio belongs to.
+    * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
+    * @param volume {number} A number between 0 (silence) and 1 (loud).
+    * @param loop {boolean} If the audio should loop when it is finished or just stop.
+    * @return {Audio} This object
     *
     */
     export class Audio {
-
-        /*
-        *
-        * @constructor
-        * @param game {Game} The game that this piece of audio belongs to.
-        * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
-        * @param volume {number} A number between 0 (silence) and 1 (loud).
-        * @param loop {boolean} If the audio should loop when it is finished or just stop.
-        * @return {Audio} This object
-        */
+         
         constructor(game: Kiwi.Game, key: string, volume: number, loop: boolean) {
             
             this._game = game;

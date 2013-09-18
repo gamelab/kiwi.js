@@ -16,11 +16,7 @@ module Kiwi {
     * 
     */ 
     export class StateConfig {
-
-        /**
-        * 
-        
-        */
+ 
         constructor(parent: Kiwi.State, name: string) {
 
             this._state = parent;

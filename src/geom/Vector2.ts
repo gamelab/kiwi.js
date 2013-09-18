@@ -18,9 +18,6 @@ module Kiwi.Geom {
     */
     export class Vector2 {
 
-        /**
-        
-        **/
         constructor (x: number = 0, y: number = 0) {
             this.setTo(x, y);
         }

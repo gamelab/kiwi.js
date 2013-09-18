@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -325,38 +329,25 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /// &lt;reference path=&quot;..\..\Kiwi.ts&quot; /&gt;
-
-/*
- *	Kiwi - HUD - Bar
- *
- *	@desc		An abstract class that contains all of the fundametals for the control of a bar widget.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
-*
+/**
+* An abstract class that contains all of the fundametals for the control of a bar widget.
 * @module HUD
 * @submodule Widget
 */
 
 module Kiwi.HUD.Widget {
     /**
-    *Bar
+    * @class Bar
+    * @extends HUDWidget
+    * @constructor 
+    * @param current {number}  - The current value.
+    * @param max {number}  - The maximum value.
+    * @param x {number}         
+    * @param y {number} 
     */
 
     export class Bar extends Kiwi.HUD.HUDWidget {
         
-        /*
-        *
-        * @constructor 
-        * @param current {number}  - The current value.
-        * @param max {number}  - The maximum value.
-        * @param x {number}         
-        * @param y {number} 
-        */
         constructor(current: number, max:number, x:number,y:number, width:number=120, height:number=20) {
             super(&quot;bar&quot;, x, y);
 

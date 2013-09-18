@@ -1,15 +1,5 @@
-
 /**
- *	Kiwi - Components - Counter
- *
- *	@desc		Contains way's to control the counting of a singular number.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *  @author     Ross Kettle
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
+ *	Contains way's to control the counting of a singular number.
  *
  * @module HUD
  * @submodule Components
@@ -20,17 +10,14 @@ module Kiwi.HUD.Components {
 
     /**
     * @class Counter
+    * @extends Component
+    * @constructor
+    * @param initial {number} Counters initial value
+    * @param step {number} How much the counter should increment/decrement by
+    * @return {Counter}
     */
-
     export class Counter extends Kiwi.Component {
         
-        /*
-        * 
-        * @constructor
-        * @param initial {number} Counters initial value
-        * @param step {number} How much the counter should increment/decrement by
-        * @return {Counter}
-        */
         constructor(initial:number,step:number=1) {
             super(null, "counter");
             this._value = initial;

@@ -1,24 +1,22 @@
-/// <reference path="../../Kiwi.ts" />
 /**
 * @module HUD
 * @submodule Widget 
 */
 
 module Kiwi.HUD.Widget {
+    
     /**
     * @class MenuItem
+    * @extends HUDWidget
+    *
+    * @contructor
+    * @param name {string}
+    * @param width {number}
+    * @param height {number}
+    * @param x {number}
+    * @param y {number}
     */
-
     export class MenuItem extends Kiwi.HUD.HUDWidget {
-
-        /**
-        * @contructor
-        * @param name {string}
-        * @param width {number}
-        * @param height {number}
-        * @param x {number}
-        * @param y {number}
-        */
 
         constructor(name:string, width:number, height:number, x: number, y: number) {
 

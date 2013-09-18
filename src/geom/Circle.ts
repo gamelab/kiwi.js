@@ -10,19 +10,15 @@ module Kiwi.Geom {
      * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
      *	
      * @class Circle
-    * @constructor
-    * @param x {Number} The x coordinate of the center of the circle.
-    * @param y {Number} The y coordinate of the center of the circle.
-    * @return {Circle} This circle object
+     * @constructor
+     * @param x {Number} The x coordinate of the center of the circle.
+     * @param y {Number} The y coordinate of the center of the circle.
+     * @return {Circle} This circle object
      *
      */
 
     export class Circle {
-
-        /**
-        * Creates a new Circle object with the center coordinate specified by the x and y parameters and the diameter specified by the diameter parameter. If you call this function without parameters, a circle with x, y, diameter and radius properties set to 0 is created.
         
-        */
         constructor (x: number = 0, y: number = 0, diameter: number = 0) {
 
             this.setTo(x, y, diameter);

@@ -21,11 +21,7 @@ module Kiwi {
     */
 
     export class Game {
-
-        /**
-        * 
-        
-        */
+         
         constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null, options?) {
 
             //set options

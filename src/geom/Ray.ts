@@ -20,10 +20,6 @@ module Kiwi.Geom {
     */
     export class Ray {
 
-        /**
-        * 
-        
-        */
         constructor(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0) {
 
             this.setTo(x1, y1, x2, y2);

@@ -9,6 +9,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "AudioLibrary",
         "AudioManager",
         "Back",
+        "Bar",
         "BasicScore",
         "Bootstrap",
         "Bounce",
@@ -89,6 +90,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "StateConfig",
         "StateManager",
         "StaticImage",
+        "TextField",
         "Textfield",
         "TextureAtlas",
         "TextureLibrary",
@@ -212,7 +214,8 @@ YUI.add("yuidoc-meta", function(Y) {
         },
         {
             "displayName": "Widget",
-            "name": "Widget"
+            "name": "Widget",
+            "description": "An abstract class that contains all of the fundametals for the control of a bar widget."
         }
     ]
 } };

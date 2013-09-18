@@ -20,11 +20,7 @@ module Kiwi.GameObjects.Tilemap {
     * 
     */
     export class TileType {
-
-        /**
-        * 
-        
-        */
+ 
         constructor(game: Game, tilemap: Kiwi.GameObjects.Tilemap.TileMap, index: number, width: number, height: number) {
 
             this._game = game;

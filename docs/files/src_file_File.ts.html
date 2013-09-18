@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -337,21 +341,18 @@ module Kiwi.Files {
     * Handles the loading of external data files via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
     *
     * @class File
+    * @constructor
+    * @param game {Game} The game that this file belongs to.
+    * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
+    * @param path {String} The location of the file that is to be loaded.
+    * @param [name=&#x27;&#x27;] {String} A name for the file. If no name is specified then the files name will be used.
+    * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
+    * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
+    * @return {File} 
     *
     */
     export class File {
-
-        /**
-        * 
-        * @constructor
-        * @param game {Game} The game that this file belongs to.
-        * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
-        * @param path {String} The location of the file that is to be loaded.
-        * @param [name=&#x27;&#x27;] {String} A name for the file. If no name is specified then the files name will be used.
-        * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
-        * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
-        * @return {File} 
-        */
+         
         constructor(game: Kiwi.Game, dataType: number, path: string, name: string = &#x27;&#x27;, saveToFileStore: boolean = true, storeAsGlobal:boolean = true) {
 
             this._game = game;

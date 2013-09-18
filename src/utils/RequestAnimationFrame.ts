@@ -10,16 +10,13 @@ module Kiwi.Utils {
     * Abstracts away the use of RAF or setTimeout for the core game update loop. The callback can be re-mapped on the fly.
     *
     * @class RequestAnimationFrame
+    * @constructor
+    * @param callback {Any}
+    * @return {RequestAnimationFrame} This object.
     *
     */
     export class RequestAnimationFrame {
-
-        /** 
-        * 
-        * @constructor
-        * @param callback {Any}
-        * @return {RequestAnimationFrame} This object.
-        */
+ 
         constructor (callback) {
 
             this._callback = callback;

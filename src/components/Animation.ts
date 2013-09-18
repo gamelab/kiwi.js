@@ -16,11 +16,7 @@ module Kiwi.Components {
     * @return {Animation}
     */
     export class Animation extends Component {
-
-        /**
-        *
-        
-        */
+         
         constructor(entity: Kiwi.Entity) {
             super(entity, 'Animation');
 

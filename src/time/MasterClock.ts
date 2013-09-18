@@ -12,15 +12,12 @@ module Kiwi.Time {
     * You should not access it directly, use the Clock and Timer classes instead.
     *
     * @class MasterClock
+    * @constructor
+    * @return {MasterClock} This Object.
     *
     */
     export class MasterClock {
-
-        /**
-        *
-        * @constructor
-        * @return {MasterClock} This Object.
-        */
+         
         constructor () {
 
             this._started = Date.now();

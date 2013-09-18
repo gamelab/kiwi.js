@@ -11,16 +11,13 @@ module Kiwi.Input {
     *
     *
     * @class Keyboard
+    * @constructor
+    * @param game {Game}
+    * @return {Keyboard} This object.
     *
     */
     export class Keyboard {
-
-        /** 
-        * 
-        * @constructor
-        * @param game {Game}
-        * @return {Keyboard} This object.
-        */
+         
         constructor (game: Kiwi.Game) {
 
             this.game = game;

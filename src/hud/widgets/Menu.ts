@@ -1,21 +1,20 @@
-/// <reference path="../../Kiwi.ts" />
 /**
 * @module HUD
 * @submodule Widget
 */
 
 module Kiwi.HUD.Widget {
+    
     /**
     * @class Menu
+    * @extends HUDWidget
+    * @constructor
+    * @param game {Game}
+    * @param x {number}
+    * @param y {number}
     */
-
     export class Menu extends Kiwi.HUD.HUDWidget {
         /**
-        * @constructor
-        * @param game {Game}
-        * @param x {number}
-        * @param y {number}
-
         */
         constructor(game: Kiwi.Game, x: number, y: number) {
 

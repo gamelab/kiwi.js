@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -340,6 +344,14 @@ module Kiwi {
     * @class SignalBinding
     * 
     * @author Miller Medeiros, JS Signals
+    * @constructor
+    * @internal
+    * @name SignalBinding
+    * @param {Signal} signal Reference to Signal object that listener is currently bound to.
+    * @param {Function} listener Handler function bound to the signal.
+    * @param {boolean} isOnce If binding should be executed just once.
+    * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the &#x60;this&#x60; variable inside listener function).
+    * @param {Number} [priority=0] The priority level of the event listener. (default = 0).
     *
     */
     export class SignalBinding {
@@ -349,14 +361,7 @@ module Kiwi {
          * &lt;br /&gt;- &lt;strong&gt;This is an internal constructor and shouldn&#x27;t be called by regular users.&lt;/strong&gt;
          * &lt;br /&gt;- inspired by Joa Ebert AS3 SignalBinding and Robert Penner&#x27;s Slot classes.
          * @author Miller Medeiros
-         * @constructor
-         * @internal
-         * @name SignalBinding
-         * @param {Signal} signal Reference to Signal object that listener is currently bound to.
-         * @param {Function} listener Handler function bound to the signal.
-         * @param {boolean} isOnce If binding should be executed just once.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the &#x60;this&#x60; variable inside listener function).
-         * @param {Number} [priority=0] The priority level of the event listener. (default = 0).
+         
          */
         constructor(signal: Signal, listener, isOnce: boolean, listenerContext, priority: number = 0) {
 

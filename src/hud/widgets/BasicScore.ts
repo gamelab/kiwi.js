@@ -1,33 +1,23 @@
-/// <reference path="Textfield.ts" />
-
-/*
- *	Kiwi - HUD - BasicScore
- *
- *	@desc		A HUDWidget that controls and displays a score.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *  @author     Ross Kettle
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
+/** 
+* A HUDWidget that controls and displays a score.
 * @module HUD
 * @submodule Widget
 */
 
 module Kiwi.HUD.Widget {
+
     /**
     * @class BasicScore
+    * @extends TextField
+    * @constructor
+    * @param x {number} x
+    * @param y {number} y
     */
     
     export class BasicScore extends Kiwi.HUD.Widget.TextField {
        
         /*
         *
-        * @constructor
-        * @param x {number} x
-        * @param y {number} y
         */
         constructor(x: number, y: number) {
             super("basicScore", x, y);

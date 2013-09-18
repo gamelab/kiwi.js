@@ -20,11 +20,7 @@ module Kiwi.Components {
     */
 
     export class Input extends Component {
-
-        /**
-        *
-        
-        */
+ 
         constructor(owner: Kiwi.IChild, box:Kiwi.Components.Box, enabled:boolean=false) {
 
             super(owner,'Input');

@@ -17,11 +17,7 @@ module Kiwi.Components {
     * @return {Sound}
     */
     export class Sound extends Component {
-
-        /**
-        *
-        
-        */
+ 
         constructor(parent) {
 
             super(parent, 'Sound');

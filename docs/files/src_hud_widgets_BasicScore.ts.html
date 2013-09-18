@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -324,36 +328,26 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/// &lt;reference path=&quot;Textfield.ts&quot; /&gt;
-
-/*
- *	Kiwi - HUD - BasicScore
- *
- *	@desc		A HUDWidget that controls and displays a score.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *  @author     Ross Kettle
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
+/** 
+* A HUDWidget that controls and displays a score.
 * @module HUD
 * @submodule Widget
 */
 
 module Kiwi.HUD.Widget {
+
     /**
     * @class BasicScore
+    * @extends TextField
+    * @constructor
+    * @param x {number} x
+    * @param y {number} y
     */
     
     export class BasicScore extends Kiwi.HUD.Widget.TextField {
        
         /*
         *
-        * @constructor
-        * @param x {number} x
-        * @param y {number} y
         */
         constructor(x: number, y: number) {
             super(&quot;basicScore&quot;, x, y);

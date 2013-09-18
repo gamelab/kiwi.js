@@ -13,18 +13,16 @@ module Kiwi.Time {
     * Timer objects can run once or repeat at specified intervals to execute code on a schedule.
     *
     * @class Timer
+    * @constructor
+    * @param name {string} The name of the timer.
+    * @param clock {Clock} The game clock instance this Timer is based on.
+    * @param delay {Number} The number of clock units to wait between firing events.
+    * @param [repeatCount=0] {Number} The number of times to repeat the timer before it is expired. If you don't want it to ever expire, set a value of -1.
+    * @return {Timer} This object.
     *
     */
     export class Timer {
-
-        /**
-        * Constructor
-        * @param name {string} The name of the timer.
-        * @param clock {Clock} The game clock instance this Timer is based on.
-        * @param delay {Number} The number of clock units to wait between firing events.
-        * @param [repeatCount=0] {Number} The number of times to repeat the timer before it is expired. If you don't want it to ever expire, set a value of -1.
-        * @return {Timer} This object.
-        */
+         
         constructor (name: string, clock: Clock, delay: number, repeatCount: number = 0) {
 
             this._clock = clock;

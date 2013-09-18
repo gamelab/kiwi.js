@@ -14,16 +14,13 @@ module Kiwi.Renderers {
     /**
     *
     * @class CanvasRenderer
+    * @constructor 
+    * @param game {Game} The game that this canvas renderer belongs to.
+    * @return {CanvasRenderer}
     *
     */
     export class CanvasRenderer implements IRenderer {
-
-        /**
-        * 
-        * @constructor 
-        * @param game {Game} The game that this canvas renderer belongs to.
-        * @return {CanvasRenderer}
-        */
+         
         constructor(game: Kiwi.Game) {
             this._game = game;
         }

@@ -1,14 +1,6 @@
 
-/*
- *	Kiwi - Components - Range
- *
- *	@desc		Contains methods for making a singular value stay between a minimun/maximum boundaries.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
+/**
+*	Contains methods for making a singular value stay between a minimun/maximum boundaries.
 *
 * @module HUD
 * @submodule Components
@@ -16,20 +8,17 @@
 */
 
 module Kiwi.HUD.Components {
+
     /**
     * @class Range
+    * @constructor
+    * @param current {number} The current value.
+    * @param max {number} The maximum value it can be.
+    * @param min {number} The minimum value that the current can be.
+    * @return {number}
     */
-
     export class Range extends Kiwi.Component {
-
-        /*
-        *
-        * @constructor
-        * @param current {number} The current value.
-        * @param max {number} The maximum value it can be.
-        * @param min {number} The minimum value that the current can be.
-        * @return {number}
-        */
+         
         constructor(current: number, max: number, min: number) {
             super(null, "counter");
             

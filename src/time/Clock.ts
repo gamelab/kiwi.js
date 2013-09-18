@@ -18,20 +18,16 @@ module Kiwi.Time {
     * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
     *
     * @class Clock
+    * @constructor
+    * @param manager {Manager} The time manager that this clock belongs to.
+    * @param master {MasterClock} The master clock.
+    * @param name {String} The name of the clock.
+    * @param [units=1000] {Number} The units that this clock is to operate in.
+    * @return {Clock} This Clock object.
     *
     */
     export class Clock {
-
-        /**
-        * A clock class for keeping time.
-        * 
-        * @constructor
-        * @param manager {Manager} The time manager that this clock belongs to.
-        * @param master {MasterClock} The master clock.
-        * @param name {String} The name of the clock.
-        * @param [units=1000] {Number} The units that this clock is to operate in.
-        * @return {Clock} This Clock object.
-        */
+         
         constructor (manager:Kiwi.Time.Manager, master: Kiwi.Time.MasterClock, name: string, units: number = 1000) {
 
             this.manager = manager;

@@ -1,34 +1,22 @@
-/*
- *	Kiwi - HUD - Icon
- *
- *	@desc		A HUDWidget for displaying a image, such as a portrait of you character in the HUD. 
- *
- *	@version	1.0 - 26th July 2013
- *				
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- * @module HUD
- * @submodule Widget
- *
+/**
+*
+* @module HUD
+* @submodule Widget
+*
 */
 
 module Kiwi.HUD.Widget {
+    
     /**
     * @class Icon
+    * @extends HUDWidget
+    * @constructor
+    * @param x {number} x
+    * @param y {number y
+    * @return {Icon}
     */
-
     export class Icon extends Kiwi.HUD.HUDWidget {
 
-        /*
-        * 
-        * @constructor
-    
-    
-        * @param x {number} x
-        * @param y {number y
-        * @return {Icon}
-        */
         constructor(atlas: Kiwi.Textures.TextureAtlas, x:number, y:number) {
 
             super('Icon', x, y);

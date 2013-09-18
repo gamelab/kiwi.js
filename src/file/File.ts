@@ -22,11 +22,7 @@ module Kiwi.Files {
     *
     */
     export class File {
-
-        /**
-        * 
-        
-        */
+         
         constructor(game: Kiwi.Game, dataType: number, path: string, name: string = '', saveToFileStore: boolean = true, storeAsGlobal:boolean = true) {
 
             this._game = game;

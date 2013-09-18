@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -336,18 +340,15 @@ module Kiwi.Animation {
     /**
     * 
     * @class Anim
+    * @constructor
+    * @param name {string} The name of this anim.
+    * @param sequences {Sequences} The sequence that this anim will be using to animate.
+    * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @return {Anim} 
     * 
     */
     export class Anim {
-
-        /**
-        *
-        * @constructor
-        * @param name {string} The name of this anim.
-        * @param sequences {Sequences} The sequence that this anim will be using to animate.
-        * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
-        * @return {Anim} 
-        */
+         
         constructor(name: string, sequence: Kiwi.Animation.Sequence, clock: Kiwi.Time.Clock) {
             
             this.name = name;

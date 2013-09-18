@@ -10,15 +10,13 @@ module Kiwi.Input {
     /**
     *
     * @class Touch
+    * @constructor
+    * @param game {Game} the game that this touch manager belongs to.
+    * @return {Touch} This object.
     *
     */
     export class Touch {
-
-        /** 
-        * Constructor
-        * @param game {Game} the game that this touch manager belongs to.
-        * @return {Touch} This object.
-        */
+         
         constructor(game: Kiwi.Game) {
             this._game = game;
         }

@@ -20,10 +20,6 @@ module Kiwi.Geom {
     */
     export class AABB {
 
-        /** 
-	     * 
-	     
-	     */
         constructor(cx: number, cy: number, width: number, height: number) {
             this.cx = cx || 0;
             this.cy = cy || 0;

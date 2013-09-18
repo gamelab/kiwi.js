@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -338,15 +342,12 @@ module Kiwi.Components {
     * 
     * @class Sound
     * @extends Component
+    * @constructor
+    * @param parent {Any} Who the sound component belongs to.
+    * @return {Sound}
     */
     export class Sound extends Component {
-
-        /**
-        *
-        * @constructor
-        * @param parent {Any} Who the sound component belongs to.
-        * @return {Sound}
-        */
+ 
         constructor(parent) {
 
             super(parent, &#x27;Sound&#x27;);

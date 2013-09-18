@@ -10,15 +10,13 @@ module Kiwi.Input {
     /**
     *
     * @class Manager
+    * @constructor
+    * @param game {Game} The game that this object belongs to.
+    * @return {Manager} This object.
     *
     */
     export class Manager {
-
-        /** 
-        * Constructor
-        * @param game {Game} The game that this object belongs to.
-        * @return {Manager} This object.
-        */
+         
         constructor (game: Kiwi.Game) {
 
             this.game = game;

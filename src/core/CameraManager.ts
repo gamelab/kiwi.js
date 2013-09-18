@@ -15,11 +15,7 @@ module Kiwi {
     */
 
     export class CameraManager {
-
-        /**
-		* [REQUIRES DESCRIPTION]
-        
-    	*/
+         
         constructor(game: Kiwi.Game) {
              
             this._game = game;

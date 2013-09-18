@@ -9,19 +9,16 @@ module Kiwi.Utils {
     * Creates a canvas DOM element.
     * 
     * @class Canvas
+    * @constructor
+    * @param width {Number} The width of the canvas.
+    * @param height {Number} The height of the canvas.
+    * @param [visible=true] {boolean} If the canvas is visible or not.
+    * @param [offScreen=false] {boolean} If the canvas is designed to be offscreen or not.
+    * @return {Canvas} 
     *
     */
     export class Canvas {
-
-        /** 
-        * 
-        * @constructor
-        * @param width {Number} The width of the canvas.
-        * @param height {Number} The height of the canvas.
-        * @param [visible=true] {boolean} If the canvas is visible or not.
-        * @param [offScreen=false] {boolean} If the canvas is designed to be offscreen or not.
-        * @return {Canvas} 
-        */
+         
         constructor (width: number, height: number, visible: boolean = true, offScreen: boolean = false) {
 
           

@@ -11,16 +11,13 @@ module Kiwi.Time {
     * A Proxy to the Clock and Time related classes. Access this via Kiwi.Game.Clock
     *
     * @class Manager
+    * @constructor
+    * @param {Game} game.
+    * @return {Manager} This Object.
     *
     */
     export class Manager {
-
-        /**
-        * 
-        * @constructor
-        * @param {Game} game.
-        * @return {Manager} This Object.
-        */
+         
         constructor(game: Kiwi.Game) {
 
             this._game = game;

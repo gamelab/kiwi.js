@@ -12,16 +12,14 @@ module Kiwi.Utils {
     * Random number generator from http://baagoe.org/en/wiki/Better_random_numbers_for_javascript
     *
     * @class RandomDataGenerator
+    * @constructor
+    * @param [seeds=[]] {String[]}
+    * @return {RandomDataGenerator}
     *
     * @author Josh Faul
     */
     export class RandomDataGenerator {
-
-        /**
-        * @constructor
-        * @param [seeds=[]] {String[]}
-        * @return {RandomDataGenerator}
-        */
+         
         constructor(seeds: string[] = []) {
 
             this.sow(seeds);

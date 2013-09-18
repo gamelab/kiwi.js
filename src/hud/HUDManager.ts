@@ -10,15 +10,11 @@ module Kiwi.HUD {
 
     /**
     * @class HUDManager
-    **/
-
+    * @constructor
+    * @param game {Game} game
+    */
     export class HUDManager {
         
-        /**
-        * 
-        * @constructor
-        * @param game {Game} game
-        */
         constructor(game: Kiwi.Game) {
             this._game = game;
         }

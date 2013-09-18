@@ -16,11 +16,7 @@ module Kiwi {
     * @return {Component}
     */ 
     export class Component {
-        
-        /** 
-        * 
-        
-        */
+         
         constructor (owner:Kiwi.IChild, name:string) {
 
             this.owner = owner; 

@@ -1,32 +1,21 @@
-/*
- *	Kiwi - HUD - Textfield
- *
- *	@desc		Used for the display of simple text.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *  @author     Ross Kettle
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
- * @module HUD
- * @submodule Widget
- *
+/**
+* @module HUD
+* @submodule Widget
+*
 */
 
 module Kiwi.HUD.Widget {
 
-    // Class
+    /**
+    * @class TextField
+    * @extends HUDWidget
+    * @constructor
+    * @param {string} text
+    * @param {number} x
+    * @param {number} y
+    */
     export class TextField extends Kiwi.HUD.HUDWidget {
         
-        /*
-        *
-        * @constructor
-        * @param {string} text
-        * @param {number} x
-        * @param {number} y
-        */
         constructor(text:string,x:number,y:number) {
             super("textField",x,y);
             

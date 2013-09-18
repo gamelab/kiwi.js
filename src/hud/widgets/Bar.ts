@@ -1,36 +1,23 @@
 /// <reference path="..\..\Kiwi.ts" />
-
-/*
- *	Kiwi - HUD - Bar
- *
- *	@desc		An abstract class that contains all of the fundametals for the control of a bar widget.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
-*
+/**
+* An abstract class that contains all of the fundametals for the control of a bar widget.
 * @module HUD
 * @submodule Widget
 */
 
 module Kiwi.HUD.Widget {
     /**
-    *Bar
+    * @class Bar
+    * @extends HUDWidget
+    * @constructor 
+    * @param current {number}  - The current value.
+    * @param max {number}  - The maximum value.
+    * @param x {number}         
+    * @param y {number} 
     */
 
     export class Bar extends Kiwi.HUD.HUDWidget {
         
-        /*
-        *
-        * @constructor 
-        * @param current {number}  - The current value.
-        * @param max {number}  - The maximum value.
-        * @param x {number}         
-        * @param y {number} 
-        */
         constructor(current: number, max:number, x:number,y:number, width:number=120, height:number=20) {
             super("bar", x, y);
 

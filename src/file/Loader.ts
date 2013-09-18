@@ -16,11 +16,7 @@ module Kiwi.Files {
     *
     */
     export class Loader {
-
-        /**
-        * 
-        
-        */
+ 
         constructor(game: Kiwi.Game) {
 
             this._game = game;

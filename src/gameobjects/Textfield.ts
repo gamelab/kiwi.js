@@ -25,10 +25,6 @@ module Kiwi.GameObjects {
     */
     export class Textfield extends Kiwi.Entity {
 
-        /**
-        * 
-        
-        */
         constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#000000', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif') {
 
             super(state, x,y);

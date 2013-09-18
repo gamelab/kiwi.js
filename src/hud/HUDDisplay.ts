@@ -6,17 +6,17 @@
 
 
 module Kiwi.HUD {
-        /**
-        * @class HUDDisplay
-        **/
 
+    /**
+    * @class HUDDisplay
+    * @constructor
+    * @param game {Game} game 
+    * @param name {string} name 
+    */
     export class HUDDisplay {
         
         /**
         * 
-        * @constructor
-        * @param game {Game} game 
-        * @param name {string} name 
         */
         constructor(game: Kiwi.Game,name:string) {
             this._game = game;

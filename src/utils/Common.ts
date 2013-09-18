@@ -13,6 +13,7 @@ module Kiwi.Utils {
     * His work is licensed under the Apache License, Version 2.0 (the "License")
     *
     * @class Common
+    * @static
     *
     * @author Mauricio Santos
     */

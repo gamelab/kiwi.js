@@ -1,36 +1,24 @@
-/// <reference path="../../Kiwi.ts" />
-
-/*
- *	Kiwi - HUD - Time
- *
- *	@desc		A widget for the management / displaying of a time in the HUD.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
- * @module HUD
- * @submodule Widget
- *
- *  @todo       Replace with the time / clock manager
+/**
+* A widget for the management / displaying of a time in the HUD.
+*
+* @module HUD
+* @submodule Widget
+*
+*  @todo       Replace with the time / clock manager
 */
 
 module Kiwi.HUD.Widget {
+    
     /**
     * @class Time
+    * @extends TextField
+    * @constructor
+    * @param format {string} The format that you want the time to be in.
+    * @param x {number} x
+    * @param y {number} y
     */
-
     export class Time extends Kiwi.HUD.Widget.TextField {
-
-        /*
-        *
-        * @constructor
-        * @param format {string} The format that you want the time to be in.
-        * @param x {number} x
-        * @param y {number} y
-        */
+        
         constructor(format:string,x:number,y:number) {
             super('time', x, y);
 

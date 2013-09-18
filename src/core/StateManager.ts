@@ -16,11 +16,7 @@ module Kiwi {
     *
     */
     export class StateManager {
-
-        /**
-        * 
-        
-        */
+         
         constructor(game: Kiwi.Game) {
 
             this._game = game;

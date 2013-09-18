@@ -11,18 +11,15 @@ module Kiwi.Input {
     * A compact object that holds the most important details about a Keyboard Event response
     *
     * @class Key
+    * @constructor
+    * @param manager {Keyboard} The keyboard manager that this key belongs to. 
+    * @param keycode {Number} The keycode that this key is. 
+    * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.
+    * @return {Key} This object.
     *
     */
     export class Key {
 
-        /** 
-        * 
-        * @constructor
-        * @param manager {Keyboard} The keyboard manager that this key belongs to. 
-        * @param keycode {Number} The keycode that this key is. 
-        * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.
-        * @return {Key} This object.
-        */
         constructor (manager: Kiwi.Input.Keyboard, keycode: number, event?: KeyboardEvent) {
 
             this._manager = manager;

@@ -17,10 +17,6 @@ module Kiwi.Geom {
     */
     export class Point {
 
-        /**
-        * Creates a new point. If you pass no parameters to this method, a point is created at (0,0).
-        
-        **/
         constructor (x: number = 0, y: number = 0) {
 
             this.setTo(x, y);

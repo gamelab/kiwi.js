@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -336,19 +340,16 @@ module Kiwi.Geom {
     * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
     *
     * @class Ray
+    * @constructor
+    * @param x1 {Number} x1
+    * @param y1 {Number} y1
+    * @param x2 {Number} x2
+    * @param y2 {Number} y2
+    * @return {Kiwi.Geom.Ray} This Object
     *
     */
     export class Ray {
 
-        /**
-        * 
-        * @constructor
-        * @param x1 {Number} x1
-        * @param y1 {Number} y1
-        * @param x2 {Number} x2
-        * @param y2 {Number} y2
-        * @return {Kiwi.Geom.Ray} This Object
-        */
         constructor(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0) {
 
             this.setTo(x1, y1, x2, y2);

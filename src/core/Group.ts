@@ -18,11 +18,7 @@ module Kiwi {
     */
 
     export class Group implements Kiwi.IChild {
-
-        /**
-        * 
-        
-        */
+         
         constructor(state: Kiwi.State, name: string = '') {
 
             //prevents the state going AHHH...since the state extends group.

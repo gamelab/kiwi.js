@@ -23,11 +23,7 @@ module Kiwi {
     * 
     */
     export class Camera {
-
-        /**
-		* 
-        
-		*/
+         
         constructor(game: Kiwi.Game, id: number, name: string,x:number,y:number,width:number,height:number) {
 
             this._game = game;

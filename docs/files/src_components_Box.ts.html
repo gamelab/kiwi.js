@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -338,20 +342,17 @@ module Kiwi.Components {
     *
     * @class Box
     * @extends Component
+    * @constructor
+    * @param parent {Entity} The entity that this box belongs to.
+    * @param [x=0] {Number} Its position on the x axis
+    * @param [y=0] {Number} Its position on the y axis
+    * @param [width=0] {Number} The width of the box.
+    * @param [height=0] {Number} The height of the box.
+    * @return {Box}
     */
 
     export class Box extends Component {
-
-        /**
-        * 
-        * @constructor
-        * @param parent {Entity} The entity that this box belongs to.
-        * @param [x=0] {Number} Its position on the x axis
-        * @param [y=0] {Number} Its position on the y axis
-        * @param [width=0] {Number} The width of the box.
-        * @param [height=0] {Number} The height of the box.
-        * @return {Box}
-        */
+ 
         constructor(parent: Entity, x: number = 0, y: number = 0, width: number = 0, height: number = 0) {
             
             super(parent, &#x27;Box&#x27;);

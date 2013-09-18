@@ -1,37 +1,26 @@
-
-/*
- *	Kiwi - HUD - IconCounter
- *
- *	@desc		A HUDWidget used for displaying a sigular image multiple times. 
- *              The amount is based of a range components current value, so you can set a maximum and minimum number of images to be dispalyed.
- *              Mainly used for Health Bars, where each 'life' would have its own image.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
- * @module HUD
- * @submodule Widget
+/**
+* A HUDWidget used for displaying a sigular image multiple times. 
+* The amount is based of a range components current value, so you can set a maximum and minimum number of images to be dispalyed.
+*  Mainly used for Health Bars, where each 'life' would have its own image.
+*
+* @module HUD
+* @submodule Widget
 */
 
 module Kiwi.HUD.Widget {
+
     /**
     * @class IconCounter
+    * @extends Icon
+    * @constructor
+    * @param {TextureAtlas} key
+    * @param current {number} current
+    * @param max {number} max
+    * @param x {number} x
+    * @param y {number} y
     */
     export class IconCounter extends Kiwi.HUD.Widget.Icon {
 
-        /*
-        * 
-        * @constructor
-        * @param {string} key
-    
-        * @param current {number} current
-        * @param max {number} max
-        * @param x {number} x
-        * @param y {number} y
-        */
         constructor(atlas: Kiwi.Textures.TextureAtlas, current: number, max: number, x: number, y: number) {
             
             super(atlas, x, y);

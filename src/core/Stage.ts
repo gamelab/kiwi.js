@@ -18,11 +18,7 @@ module Kiwi {
     */
 
     export class Stage {
-
-        /**
-        *
-        
-        */
+         
         constructor(game: Kiwi.Game, name: string) {
 
             this._game = game;

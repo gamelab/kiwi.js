@@ -17,11 +17,7 @@ module Kiwi.Files {
     *
     */
     export class DataLibrary {
-
-        /**
-        * 
-        
-        */
+ 
         constructor(game: Kiwi.Game) {
 
             this._game = game;

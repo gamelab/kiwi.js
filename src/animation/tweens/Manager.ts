@@ -28,11 +28,7 @@ module Kiwi.Animation.Tweens {
     * 
     */
     export class Manager {
-
-        /** 
-        * 
-        
-        */
+         
         constructor(game: Kiwi.Game) {
              
             this._game = game;

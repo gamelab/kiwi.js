@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -341,6 +345,9 @@ module Kiwi.Components {
     * http://www.adamatomic.com/
     *
     * @class ArcadePhysics
+    * @constructor
+    * @param {Entity} entity 
+    * @return {ArcadePhysics}
     * @extends Component
     *
     * @author Adam &#x27;Atomic&#x27; Saltsman, Flixel
@@ -378,9 +385,7 @@ module Kiwi.Components {
 
         /**
         *
-        * @constructor
-        * @param {Kiwi.Entity} entity 
-        * @return {Kiwi.Components.ArcadePhysics}
+        
         */
         constructor(entity:Kiwi.Entity) {
             super(entity,&#x27;ArcadePhysics&#x27;);

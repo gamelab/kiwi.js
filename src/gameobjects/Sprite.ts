@@ -20,11 +20,7 @@ module Kiwi.GameObjects {
     * @return {Sprite}
     */
     export class Sprite extends Kiwi.Entity {
-
-        /**
-        * 
-        
-        */
+         
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: boolean = false) {
 
             super(state, x, y);

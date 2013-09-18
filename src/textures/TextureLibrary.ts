@@ -12,16 +12,13 @@ module Kiwi.Textures {
     *
     *
     * @class TextureLibrary
+    * @constructor
+    * @param game {Game} The game that this texture library belongs to.
+    * @return {TextureLibrary}
     *
     */
     export class TextureLibrary {
-
-        /**
-        * 
-        * @constructor
-        * @param game {Game} The game that this texture library belongs to.
-        * @return {TextureLibrary}
-        */
+         
         constructor(game: Kiwi.Game) {
 
             this._game = game;

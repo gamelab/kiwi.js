@@ -17,11 +17,7 @@ module Kiwi.Files {
     *
     */
     export class FileStore {
-
-        /**
-        * 
-        
-        */
+ 
         constructor(game: Kiwi.Game) {
             this._game = game;
             this._files = {};

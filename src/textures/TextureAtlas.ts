@@ -11,20 +11,17 @@ module Kiwi.Textures {
     *
     *
     * @class TextureAtlas
+    * @constructor
+    * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
+    * @param type {number} The type of texture atlas that this is. There are currently only three types.
+    * @param cells {any} The cells that are within this image..
+    * @param image {HTMLImageElement} The image that the texture atlas is using.
+    * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
+    * @return {TextureAtlas}
     *
     */
     export class TextureAtlas {
-
-        /**
-        * 
-        * @constructor
-        * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
-        * @param type {number} The type of texture atlas that this is. There are currently only three types.
-        * @param cells {any} The cells that are within this image..
-        * @param image {HTMLImageElement} The image that the texture atlas is using.
-        * @param [sequences] {Sequence[]} Any sequences of cells for this texture atlas. Used for animation.
-        * @return {TextureAtlas}
-        */
+         
         constructor(name: string, type:number, cells, image: HTMLImageElement, sequences?: Kiwi.Animation.Sequence[]) {
             this.name = name;
             this.cells = cells || new Array();

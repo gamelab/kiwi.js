@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -325,16 +329,8 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 
-/*
- *	Kiwi - Components - Range
- *
- *	@desc		Contains methods for making a singular value stay between a minimun/maximum boundaries.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
+/**
+*	Contains methods for making a singular value stay between a minimun/maximum boundaries.
 *
 * @module HUD
 * @submodule Components
@@ -342,20 +338,17 @@
 */
 
 module Kiwi.HUD.Components {
+
     /**
     * @class Range
+    * @constructor
+    * @param current {number} The current value.
+    * @param max {number} The maximum value it can be.
+    * @param min {number} The minimum value that the current can be.
+    * @return {number}
     */
-
     export class Range extends Kiwi.Component {
-
-        /*
-        *
-        * @constructor
-        * @param current {number} The current value.
-        * @param max {number} The maximum value it can be.
-        * @param min {number} The minimum value that the current can be.
-        * @return {number}
-        */
+         
         constructor(current: number, max: number, min: number) {
             super(null, &quot;counter&quot;);
             

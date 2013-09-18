@@ -1,36 +1,24 @@
-///<reference path="../kiwi.ts" />
-
-/*
- *	Kiwi - HUD - HUDWidget
- *
- *	@desc		The HUDWidget is an abstract class containing all of the fundamentals that every HUDWidget will need to have.
- *
- *	@version	1.0 - 26th July 2013
- *				
- *  @author     Ross Kettle
- *	@author 	Ben Harding
- *				
- *	@url		http://www.kiwijs.org
- *
- * @module Kiwi
- * @submodule HUD
+/**
+*	Kiwi - HUD - HUDWidget
+* The HUDWidget is an abstract class containing all of the fundamentals that every HUDWidget will need to have.
+*
+* @module Kiwi
+* @submodule HUD
 */
 
 module Kiwi.HUD {
+
     /**
     * @class HUDWidget
+    * @constructor
+    * @param name {string} name - Name of the type of HUDWidget.
+    * @param x {number} x 
+    * @param y {number} y
+    * @return {HUDWidget}
     */
 
     export class HUDWidget {
         
-        /*
-        *
-        * @constructor
-        * @param name {string} name - Name of the type of HUDWidget.
-        * @param x {number} x 
-        * @param y {number} y
-        * @return {HUDWidget}
-        */
         constructor(name: string,x:number,y:number) {
             this.name = name;
             this.container = <HTMLDivElement>document.createElement("div");

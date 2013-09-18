@@ -16,11 +16,7 @@ module Kiwi.GameObjects.Tilemap {
     * @return {TileMap}
     */
     export class TileMap extends Kiwi.Entity {
-
-        /**
-        *
-        
-        */
+ 
         constructor(state: Kiwi.State) {
             super(state,0,0);
         }

@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Back.html">Back</a></li>
             
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
                 <li><a href="../classes/BasicScore.html">BasicScore</a></li>
             
                 <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
@@ -219,6 +221,8 @@
             
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
             
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
                 <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
@@ -339,21 +343,19 @@ module Kiwi.Geom {
     * - A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
     *
     * @class Transform
+    * @constructor
+    * @param x {Number} x. X position of the transform.
+    * @param y {Number} y. Y position of the transform.
+    * @param scaleX {Number} scaleX. X scaling of the transform.
+    * @param scaleY {Number} scaleY. Y scaling of the transform.
+    * @param rotation {Number} rotation. Rotation of the transform in radians.
+    * @param rotX {Number} rotX. rotationPoint offset on X axis.
+    * @param rotY {Number} rotY. rotationPoint offset on Y axis.
+    * @return {Transform} This object.
     *
     */
     export class Transform {
 
-        /** 
-        * Constructor
-        * @param x {Number} x. X position of the transform.
-        * @param y {Number} y. Y position of the transform.
-        * @param scaleX {Number} scaleX. X scaling of the transform.
-        * @param scaleY {Number} scaleY. Y scaling of the transform.
-        * @param rotation {Number} rotation. Rotation of the transform in radians.
-        * @param rotX {Number} rotX. rotationPoint offset on X axis.
-        * @param rotY {Number} rotY. rotationPoint offset on Y axis.
-        * @return {Transform} This object.
-        */
         constructor(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0) {
 
             this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);

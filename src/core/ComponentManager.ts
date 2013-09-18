@@ -20,11 +20,7 @@ module Kiwi {
     */
 
     export class ComponentManager {
-
-        /**
-        * [REQUIRES DESCRIPTION]
-        
-        */
+         
         constructor(type: number, owner:Kiwi.IChild) {
 
             this._components = {};

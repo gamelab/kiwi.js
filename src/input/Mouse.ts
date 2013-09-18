@@ -11,16 +11,13 @@ module Kiwi.Input {
     *
     *
     * @class Mouse
+    * @constructor
+    * @param game {Game} The game that this mouse manager belongs to.
+    * @return {Mouse} 
     *
     */
     export class Mouse {
-         
-        /**
-        *
-        * @constructor
-        * @param game {Game} The game that this mouse manager belongs to.
-        * @return {Mouse} 
-        */
+          
         constructor (game: Kiwi.Game) {
             this._game = game;
         }

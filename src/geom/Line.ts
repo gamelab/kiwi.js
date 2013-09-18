@@ -19,11 +19,7 @@ module Kiwi.Geom {
     *
     */
     export class Line {
-
-        /**
-        * Creates an line defined by two points. Can be treated as either a Line or Line Segment depending on context.
-        
-        */
+         
         constructor(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0) {
 
             this.setTo(x1, y1, x2, y2);

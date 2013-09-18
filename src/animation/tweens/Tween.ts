@@ -29,11 +29,7 @@ module Kiwi.Animation {
     *
     */
     export class Tween {
-
-        /** 
-        * 
-        
-        */
+ 
         constructor(object, game:Kiwi.Game = null) {
 
             this._object = object;

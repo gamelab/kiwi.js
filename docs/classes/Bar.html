@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\input\Manager.ts - Kiwi.js</title>
+    <title>Bar - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -324,278 +324,230 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\input\Manager.ts</h1>
+                        <h1>Bar Class</h1>
+<div class="box meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
-* Kiwi - Input
-* @module Kiwi
-* @submodule Input
-* 
-*/ 
+    
+        <div class="extends">
+            Extends <a href="..\classes\HUDWidget.html" class="crosslink">HUDWidget</a>
+        </div>
+    
 
-module Kiwi.Input {
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_hud_widgets_Bar.ts.html#l9"><code>src\hud\widgets\Bar.ts:9</code></a>
+        </div>
+    
 
-    /**
-    *
-    * @class Manager
-    * @constructor
-    * @param game {Game} The game that this object belongs to.
-    * @return {Manager} This object.
-    *
-    */
-    export class Manager {
-         
-        constructor (game: Kiwi.Game) {
-
-            this.game = game;
-
-        }
-
-        /**
-        * The type of object this is.
-        * @method objType
-        * @return String
-        * @public
-        */
-        public objType() {
-            return &quot;Manager&quot;;
-        }
-
-        /**
-        * A Signal that dispatches a event when any Pointer is pressed from the game.
-        * @property onDown
-        * @type Signal
-        * @public
-        */
-        public onDown: Kiwi.Signal;
+    
         
-        /**
-        * A Signal that dispatches a event when any Pointer is released from the game.
-        * @property onUp
-        * @type Signal
-        * @public
-        */
-        public onUp: Kiwi.Signal;
-
-        /** 
-        * The game that this manager belongs to.
-        * @property game
-        * @type Game
-        * @public
-        */
-        public game: Kiwi.Game;
-
-        /** 
-        * A reference to the mouse manager.
-        * @property mouse
-        * @type Mouse
-        * @public
-        */
-        public mouse:Kiwi.Input.Mouse;
-
-        /** 
-        * The keyboard manager
-        * @property keyboard
-        * @type Keyboard
-        * @public
-        */
-        public keyboard:Kiwi.Input.Keyboard;
-
-        /** 
-        * The touch manager.
-        * @property touch
-        * @type Touch
-        * @public
-        */
-        public touch:Kiwi.Input.Touch;
+            Module: <a href="../modules/Widget.html">Widget</a><br>
+            Parent Module: <a href="../modules/HUD.html">HUD</a>
         
-        /**
-        * An array containing all of the pointers that are active on the stage.
-        * @property _pointers
-        * @type Pointer[]
-        * @private
-        */
-        private _pointers: Kiwi.Input.Pointer[];
+    
 
-        /**
-        * Returns all of the pointers that can be used on the Input Manager. This is READ only.
-        * @property pointer
-        * @type Pointer[]
-        * @public
-        */
-        public get pointers(): Kiwi.Input.Pointers {
-            return this._pointers;
-        }
+    
+</div>
 
-        /** 
-        * This method is executed when the DOM has loaded and the manager is ready to load.
-        * @method boot 
-        * @public
-        */
-        public boot() {
 
-            if (Kiwi.DEVICE.touch === true)
-            {
-                this.touch = new Kiwi.Input.Touch(this.game);
-                this.touch.boot();
-                this.touch.touchDown.add(this._onDownEvent, this);
-                this.touch.touchUp.add(this._onUpEvent, this);
-                this._pointers = this.touch.fingers;
-            } else {
-                this.mouse = new Kiwi.Input.Mouse(this.game);
-                this.mouse.boot();
-                this.mouse.mouseDown.add(this._onDownEvent, this);
-                this.mouse.mouseUp.add(this._onUpEvent, this);
-                this._pointers = [this.mouse.cursor];
-                this.keyboard = new Kiwi.Input.Keyboard(this.game);
-                this.keyboard.boot();
-            }
 
-            this.isDown = false;
-            this.position = new Kiwi.Geom.Point();
-             
-            this.onDown = new Kiwi.Signal();
-            this.onUp = new Kiwi.Signal();
-        }
+<div class="box intro">
+    
+</div>
+
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_Bar" class="method item">
+    <h3 class="name"><code>Bar</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>current</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>max</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
         
-        /**
-        * A private method that gets dispatched when either the mouse or touch manager dispatches a down event
-        * @method _onDownEvent
-        * @param x {Number} The x coordinate of the pointer
-        * @param y {Number} The y coordinate of the pointer
-        * @param timeDown {Number} The time that the pointer has been down for.
-        * @param timeUp {Number} The Time that the pointer has been up form
-        * @param duration {Number} 
-        * @param pointer {Pointer} The pointer that was used.
-        * @private
-        */
-        private _onDownEvent(x, y, timeDown, timeUp, duration, pointer) {
-            this.onDown.dispatch(x, y, timeDown, timeUp, duration, pointer);
-        }
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_widgets_Bar.ts.html#l9"><code>src\hud\widgets\Bar.ts:9</code></a>
+        
+        </p>
+
 
         
-        /**
-        * A private method that gets dispatched when either the mouse or touch manager dispatches a up event
-        * @method _onUpEvent
-        * @param x {Number} The x coordinate of the pointer
-        * @param y {Number} The y coordinate of the pointer
-        * @param timeDown {Number} The time that the pointer has been down for.
-        * @param timeUp {Number} The Time that the pointer has been up form
-        * @param duration {Number} 
-        * @param pointer {Pointer} The pointer that was used.
-        * @private
-        */
-        private _onUpEvent(x, y, timeDown, timeUp, duration, pointer) {
-            this.onUp.dispatch(x, y, timeDown, timeUp, duration, pointer);
-        }
 
-        /*
-        * An alias for the onPress signal that goes straight to the onDown.
-        * @property onPressed
-        * @type Signal
-        * @public
-        */
-        public get onPressed(): Kiwi.Signal {
-            return this.onDown;
-        }
         
-        /**
-        * An alias for the onRelease signal that goes straight to the onUp
-        * @property onReleased
-        * @type Signal
-        * @public
-        */
-        public get onReleased(): Kiwi.Signal {
-            return this.onUp;
-        }
+    </div>
 
-        /** 
-        * The update loop that gets executed every frame.
-        * @method update 
-        * @public
-        */
-        public update() {
-
-            if (Kiwi.DEVICE.touch === true)
-            {
-                this.touch.update();
-                this.position.setTo(this.touch.x, this.touch.y);
-                this.isDown = this.touch.isDown;
-            }
-            else
-            {
-                this.keyboard.update();
-                this.mouse.update();
-                this.position.setTo(this.mouse.x, this.mouse.y);
-                this.isDown = this.mouse.isDown;
-            }
-
-        }
-
-        /** 
-        * Runs the reset method on the managers.
-        * @method reset
-        */
-        public reset() {
-
-            if (Kiwi.DEVICE.touch === true)
-            {
-                this.touch.reset();
-            }
-            else
-            {
-                this.mouse.reset();
-                this.keyboard.reset();
-            }
-
-        }
+    <div class="description">
         
-        /**
-        * The position of the last pointer that was/is active on the stage.
-        * @property position
-        * @type Point
-        * @public
-        */
-        public position: Kiwi.Geom.Point;
+    </div>
 
-        /**
-        * If an input is currently down. Not an accurate representation, should use the individual managers.
-        * @property isDown
-        * @type boolean
-        * @public
-        */
-        public isDown: boolean;
- 
-        /**
-        * Populated x coordinate based on the most recent click/touch event
-        * @property x
-        * @type Number
-        * @public
-        */
-        public get x(): number {
+    
+        <div class="params">
+            <h4>Parameters:</h4>
 
-            return this.position.x;
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">current</code>
+                        <span class="type">Number</span>
+                    
 
-        }
+                    
 
-        /**
-        * Populated y coordinate based on the most recent click/touch event
-        * @property y
-        * @type Number
-        * @public
-        */
-        public get y(): number {
+                    <div class="param-description">
+                        <ul>
+<li>The current value.</li>
+</ul>
 
-            return this.position.y;
+                    </div>
 
-        }
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">max</code>
+                        <span class="type">Number</span>
+                    
 
-    }
+                    
 
-}
-    </pre>
+                    <div class="param-description">
+                        <ul>
+<li>The maximum value.</li>
+</ul>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+    </div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>

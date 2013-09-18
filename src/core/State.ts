@@ -16,11 +16,7 @@ module Kiwi {
     * @return {State} 
     */ 
     export class State extends Group {
-
-        /**
-        *  
-        
-        */
+         
         constructor(name: string) {
             super(null, name);
             
