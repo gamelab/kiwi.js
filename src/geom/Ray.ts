@@ -10,18 +10,19 @@ module Kiwi.Geom {
     * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
     *
     * @class Ray
+    * @constructor
+    * @param x1 {Number} x1
+    * @param y1 {Number} y1
+    * @param x2 {Number} x2
+    * @param y2 {Number} y2
+    * @return {Kiwi.Geom.Ray} This Object
     *
     */
     export class Ray {
 
         /**
         * 
-        * @constructor
-        * @param x1 {Number} x1
-        * @param y1 {Number} y1
-        * @param x2 {Number} x2
-        * @param y2 {Number} y2
-        * @return {Kiwi.Geom.Ray} This Object
+        
         */
         constructor(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0) {
 

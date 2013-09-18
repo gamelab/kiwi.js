@@ -11,17 +11,18 @@ module Kiwi.Geom {
     *
     * @class AABB
     *
+    * @constructor
+    * @param cx {Number}
+    * @param cy {Number}
+    * @param width {Number}
+    * @param height {Number}
+    * @return {AABB}
     */
     export class AABB {
 
         /** 
 	     * 
-	     * @constructor
-         * @param cx {Number}
-         * @param cy {Number}
-         * @param width {Number}
-         * @param height {Number}
-         * @return {AABB}
+	     
 	     */
         constructor(cx: number, cy: number, width: number, height: number) {
             this.cx = cx || 0;

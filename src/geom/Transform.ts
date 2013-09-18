@@ -13,20 +13,21 @@ module Kiwi.Geom {
     * - A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
     *
     * @class Transform
+    * @constructor
+    * @param x {Number} x. X position of the transform.
+    * @param y {Number} y. Y position of the transform.
+    * @param scaleX {Number} scaleX. X scaling of the transform.
+    * @param scaleY {Number} scaleY. Y scaling of the transform.
+    * @param rotation {Number} rotation. Rotation of the transform in radians.
+    * @param rotX {Number} rotX. rotationPoint offset on X axis.
+    * @param rotY {Number} rotY. rotationPoint offset on Y axis.
+    * @return {Transform} This object.
     *
     */
     export class Transform {
 
         /** 
-        * Constructor
-        * @param x {Number} x. X position of the transform.
-        * @param y {Number} y. Y position of the transform.
-        * @param scaleX {Number} scaleX. X scaling of the transform.
-        * @param scaleY {Number} scaleY. Y scaling of the transform.
-        * @param rotation {Number} rotation. Rotation of the transform in radians.
-        * @param rotX {Number} rotX. rotationPoint offset on X axis.
-        * @param rotY {Number} rotY. rotationPoint offset on Y axis.
-        * @return {Transform} This object.
+        
         */
         constructor(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0) {
 

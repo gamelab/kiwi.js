@@ -15,21 +15,21 @@ module Kiwi.Geom {
     * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
     * 
     * @class Matrix
+    * @constructor
+    * @param [a = 1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
+    * @param [b = 0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
+    * @param [c = 0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
+    * @param [d = 1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
+    * @param [tx = 0] {Number}  position 2,0 of the matrix, affects translation on x axis.
+    * @param [ty = 0] {Number}  position 2,1 of the matrix, affects translation on y axis.
+    * @return (Object) This object.
     * 
     */
     export class Matrix {
 
         /**
         * Matrix class used for mapping points between coordinate spaces.
-        * @class Matrix
-        * @constructor
-        * @param [a = 1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
-        * @param [b = 0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
-        * @param [c = 0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
-        * @param [d = 1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
-        * @param [tx = 0] {Number}  position 2,0 of the matrix, affects translation on x axis.
-        * @param [ty = 0] {Number}  position 2,1 of the matrix, affects translation on y axis.
-        * @return (Object) This object.
+        
         **/
         constructor(a: number = 1, b: number = 0, c: number = 0, d: number = 1, tx: number = 0, ty: number = 0) {
 

@@ -10,16 +10,16 @@ module Kiwi.Geom {
     * A two dimensional vector object for storing and manipulating x and y vector components.
     *
     * @class Vector2
+    * @class Vector2
+    * @constructor
+    * @param {Number} x The x component of the vector.
+    * @param {Number} y The y component of the vector.
     *
     */
     export class Vector2 {
 
         /**
-        * Creates a new Vector2 Object
-        * @class Vector2
-        * @constructor
-        * @param {Number} x The x component of the vector.
-        * @param {Number} y The y component of the vector.
+        
         **/
         constructor (x: number = 0, y: number = 0) {
             this.setTo(x, y);

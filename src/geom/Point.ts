@@ -10,16 +10,16 @@ module Kiwi.Geom {
     * Represetns a location in a two-dimensional coordinate system, where x represents the horizontal axis and y represents the vertical axis.
     *
     * @class Point
+    * @constructor
+    * @param x {Number} x One-liner. Default is ?.
+    * @param y {Number} y One-liner. Default is ?.
     *
     */
     export class Point {
 
         /**
         * Creates a new point. If you pass no parameters to this method, a point is created at (0,0).
-        * @class Point
-        * @constructor
-        * @param x {Number} x One-liner. Default is ?.
-        * @param y {Number} y One-liner. Default is ?.
+        
         **/
         constructor (x: number = 0, y: number = 0) {
 

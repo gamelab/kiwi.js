@@ -10,18 +10,19 @@ module Kiwi.Geom {
     * A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
     *
     * @class Line
+    * @constructor
+    * @param [x1 = 0] {Number} x1 x component of first point.
+    * @param [y1 = 0]{Number} y1 y component of first point.
+    * @param [x2 = 0]{Number} x2 x component of second point.
+    * @param [y2 = 0]{Number} y2 y component of second point.
+    * @return {Kiwi.Geom.Line} This Object
     *
     */
     export class Line {
 
         /**
         * Creates an line defined by two points. Can be treated as either a Line or Line Segment depending on context.
-        * @constructor
-        * @param [x1 = 0] {Number} x1 x component of first point.
-        * @param [y1 = 0]{Number} y1 y component of first point.
-        * @param [x2 = 0]{Number} x2 x component of second point.
-        * @param [y2 = 0]{Number} y2 y component of second point.
-        * @return {Kiwi.Geom.Line} This Object
+        
         */
         constructor(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0) {
 
