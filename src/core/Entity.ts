@@ -7,7 +7,7 @@
 module Kiwi {
 
     /**
-    * Serves as a container for game objects to extend from. 
+    * An Entity serves as a container for game objects to extend from and thus you should never directly instantiate this class.
     * Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
     * 
     * @class Entity

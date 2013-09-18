@@ -14,7 +14,7 @@ module Kiwi {
     * @param state {Kiwi.State} The State that this Group is a part of.
     * @param [name=''] {String} The name of this group. 
     * @return {Kiwi.Group}
-    *
+    * 
     */
 
     export class Group implements Kiwi.IChild {

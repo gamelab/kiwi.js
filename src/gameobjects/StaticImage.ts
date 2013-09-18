@@ -24,7 +24,12 @@ module Kiwi.GameObjects {
         /**
         * 
         
-        */
+    */
+
+
+    export class StaticImage extends Kiwi.Entity {
+
+        
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
 
             super(state,x,y);
