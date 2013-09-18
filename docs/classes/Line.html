@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/Canvas.html">Canvas</a></li>
             
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Circular.html">Circular</a></li>
@@ -107,7 +109,23 @@
             
                 <li><a href="../classes/GameMath.html">GameMath</a></li>
             
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
                 <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
             
                 <li><a href="../classes/IChild.html">IChild</a></li>
             
@@ -217,9 +235,13 @@
             
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
                 <li><a href="../modules/Input.html">Input</a></li>
             
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -323,106 +345,85 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
-                                <a href="#method_angle">angle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_clone">clone</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_copyFrom">copyFrom</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_copyTo">copyTo</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_getY">getY</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_intersectLineLine">intersectLineLine</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_isPointOnLine">isPointOnLine</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_isPointOnLineSegment">isPointOnLineSegment</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_length">length</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_perp">perp</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_perpSlope">perpSlope</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_setTo">setTo</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_slope">slope</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_toString">toString</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_yIntercept">yIntercept</a>
 
                                 
                                 
@@ -439,28 +440,56 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
+                                <a href="#property_angle">angle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_perpSlope">perpSlope</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_slope">slope</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_x1">x1</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_x2">x2</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_y1">y1</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_y2">y2</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_"></a>
 
                                 
                                 
@@ -480,78 +509,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_angle" class="method item">
-    <h3 class="name"><code>angle</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Line.ts.html#l143"><code>src\geom\Line.ts:143</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the angle of the line.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_clone" class="method item">
+                    <div id="method_clone" class="method item public">
     <h3 class="name"><code>clone</code></h3>
 
     
@@ -560,7 +518,7 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[output]</code>
+                        <code>[output</code>
                     
                 </li>
             
@@ -570,12 +528,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Line</span>
+            <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -597,7 +557,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l64"><code>src\geom\Line.ts:64</code></a>
+        <a href="../files/src_geom_Line.ts.html#l74"><code>src\geom\Line.ts:74</code></a>
         
         </p>
 
@@ -620,15 +580,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output]</code>
-                        <span class="type">Kiwi.Geom.Line</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">[output</code>
+                        <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>= Line]</p>
+
                     </div>
 
                     
@@ -645,7 +605,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Line</span>:
+                        <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>:
                     
                 
             </div>
@@ -656,7 +616,7 @@
 </div>
 
                 
-                    <div id="method_copyFrom" class="method item">
+                    <div id="method_copyFrom" class="method item public">
     <h3 class="name"><code>copyFrom</code></h3>
 
     
@@ -675,12 +635,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Line</span>
+            <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -702,7 +664,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l76"><code>src\geom\Line.ts:76</code></a>
+        <a href="../files/src_geom_Line.ts.html#l87"><code>src\geom\Line.ts:87</code></a>
         
         </p>
 
@@ -726,13 +688,14 @@
                 <li class="param">
                     
                         <code class="param-name">source</code>
-                        <span class="type">Kiwi.Geom.Line</span>
+                        <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>source</p>
+
                     </div>
 
                     
@@ -749,7 +712,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Line</span>:
+                        <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>:
                     
                 
             </div>
@@ -760,7 +723,7 @@
 </div>
 
                 
-                    <div id="method_copyTo" class="method item">
+                    <div id="method_copyTo" class="method item public">
     <h3 class="name"><code>copyTo</code></h3>
 
     
@@ -779,12 +742,14 @@
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Line</span>
+            <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -806,7 +771,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l88"><code>src\geom\Line.ts:88</code></a>
+        <a href="../files/src_geom_Line.ts.html#l100"><code>src\geom\Line.ts:100</code></a>
         
         </p>
 
@@ -830,13 +795,14 @@
                 <li class="param">
                     
                         <code class="param-name">target</code>
-                        <span class="type">Kiwi.Geom.Line</span>
+                        <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>target</p>
+
                     </div>
 
                     
@@ -853,7 +819,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Line</span>:
+                        <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>:
                     
                 
             </div>
@@ -864,7 +830,7 @@
 </div>
 
                 
-                    <div id="method_getY" class="method item">
+                    <div id="method_getY" class="method item public">
     <h3 class="name"><code>getY</code></h3>
 
     
@@ -890,6 +856,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -910,7 +878,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l131"><code>src\geom\Line.ts:131</code></a>
+        <a href="../files/src_geom_Line.ts.html#l146"><code>src\geom\Line.ts:146</code></a>
         
         </p>
 
@@ -968,7 +936,7 @@
 </div>
 
                 
-                    <div id="method_intersectLineLine" class="method item">
+                    <div id="method_intersectLineLine" class="method item public">
     <h3 class="name"><code>intersectLineLine</code></h3>
 
     
@@ -994,6 +962,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1014,7 +984,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l232"><code>src\geom\Line.ts:232</code></a>
+        <a href="../files/src_geom_Line.ts.html#l255"><code>src\geom\Line.ts:255</code></a>
         
         </p>
 
@@ -1025,7 +995,8 @@
     </div>
 
     <div class="description">
-        
+        <p>[REQUIRES DESCRIPTION]</p>
+
     </div>
 
     
@@ -1043,7 +1014,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>line</p>
+
                     </div>
 
                     
@@ -1071,7 +1043,7 @@
 </div>
 
                 
-                    <div id="method_isPointOnLine" class="method item">
+                    <div id="method_isPointOnLine" class="method item public">
     <h3 class="name"><code>isPointOnLine</code></h3>
 
     
@@ -1103,6 +1075,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1123,7 +1097,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l187"><code>src\geom\Line.ts:187</code></a>
+        <a href="../files/src_geom_Line.ts.html#l208"><code>src\geom\Line.ts:208</code></a>
         
         </p>
 
@@ -1196,7 +1170,7 @@
 </div>
 
                 
-                    <div id="method_isPointOnLineSegment" class="method item">
+                    <div id="method_isPointOnLineSegment" class="method item public">
     <h3 class="name"><code>isPointOnLineSegment</code></h3>
 
     
@@ -1228,6 +1202,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1248,7 +1224,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l207"><code>src\geom\Line.ts:207</code></a>
+        <a href="../files/src_geom_Line.ts.html#l229"><code>src\geom\Line.ts:229</code></a>
         
         </p>
 
@@ -1321,7 +1297,7 @@
 </div>
 
                 
-                    <div id="method_length" class="method item">
+                    <div id="method_length" class="method item public">
     <h3 class="name"><code>length</code></h3>
 
     
@@ -1336,6 +1312,8 @@
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1357,7 +1335,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l120"><code>src\geom\Line.ts:120</code></a>
+        <a href="../files/src_geom_Line.ts.html#l134"><code>src\geom\Line.ts:134</code></a>
         
         </p>
 
@@ -1392,43 +1370,23 @@
 </div>
 
                 
-                    <div id="method_perp" class="method item">
-    <h3 class="name"><code>perp</code></h3>
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>y</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[output]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Geom.Line</span>
+            <span class="type">String</span>
         </span>
     
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1450,7 +1408,104 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l242"><code>src\geom\Line.ts:242</code></a>
+        <a href="../files/src_geom_Line.ts.html#l32"><code>src\geom\Line.ts:32</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the type of this object</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>The type of this object</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_perp" class="method item public">
+    <h3 class="name"><code>perp</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>[output</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Line.ts.html#l266"><code>src\geom\Line.ts:266</code></a>
         
         </p>
 
@@ -1503,15 +1558,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[output]</code>
-                        <span class="type">Kiwi.Geom.Line</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">[output</code>
+                        <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>= Line]</p>
+
                     </div>
 
                     
@@ -1528,7 +1583,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Kiwi.Geom.Line</span>:
+                        <span class="type"><a href="..\classes\Line.html" class="crosslink">Line</a></span>:
                     
                 
             </div>
@@ -1539,78 +1594,7 @@
 </div>
 
                 
-                    <div id="method_perpSlope" class="method item">
-    <h3 class="name"><code>perpSlope</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Line.ts.html#l165"><code>src\geom\Line.ts:165</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the perpendicular slope of the line (x/y).</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_setTo" class="method item">
+                    <div id="method_setTo" class="method item public">
     <h3 class="name"><code>setTo</code></h3>
 
     
@@ -1619,25 +1603,25 @@
             
                 <li class="arg">
                     
-                        <code>x1</code>
+                        <code>[x1</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y1</code>
+                        <code>[y1</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>x2</code>
+                        <code>[x2</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y2</code>
+                        <code>[y2</code>
                     
                 </li>
             
@@ -1654,6 +1638,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1674,7 +1660,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l100"><code>src\geom\Line.ts:100</code></a>
+        <a href="../files/src_geom_Line.ts.html#l113"><code>src\geom\Line.ts:113</code></a>
         
         </p>
 
@@ -1697,14 +1683,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">x1</code>
+                        <code class="param-name">[x1</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>x component of first point.</p>
+                        <p>= 0] x1 x component of first point.</p>
 
                     </div>
 
@@ -1713,14 +1699,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">y1</code>
+                        <code class="param-name">[y1</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>y component of first point.</p>
+                        <p>= 0] y1 y component of first point.</p>
 
                     </div>
 
@@ -1729,14 +1715,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">x2</code>
+                        <code class="param-name">[x2</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>x component of second point.</p>
+                        <p>= 0] x2 x component of second point.</p>
 
                     </div>
 
@@ -1745,14 +1731,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">y2</code>
+                        <code class="param-name">[y2</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>y component of second point.</p>
+                        <p>= 0] y2 y component of second point.</p>
 
                     </div>
 
@@ -1781,78 +1767,7 @@
 </div>
 
                 
-                    <div id="method_slope" class="method item">
-    <h3 class="name"><code>slope</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Line.ts.html#l154"><code>src\geom\Line.ts:154</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the slope of the line (y/x).</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_toString" class="method item">
+                    <div id="method_toString" class="method item public">
     <h3 class="name"><code>toString</code></h3>
 
     
@@ -1868,6 +1783,8 @@
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -1888,7 +1805,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l279"><code>src\geom\Line.ts:279</code></a>
+        <a href="../files/src_geom_Line.ts.html#l304"><code>src\geom\Line.ts:304</code></a>
         
         </p>
 
@@ -1923,77 +1840,6 @@
 </div>
 
                 
-                    <div id="method_yIntercept" class="method item">
-    <h3 class="name"><code>yIntercept</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Line.ts.html#l176"><code>src\geom\Line.ts:176</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Get the y intercept for the line.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
             </div>
         
 
@@ -2002,9 +1848,9 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_x1" class="property item">
-    <h3 class="name"><code>x1</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_angle" class="property item">
+    <h3 class="name"><code>angle</code></h3>
+    <span class="type">Unknown</span>
 
     
 
@@ -2025,7 +1871,148 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l36"><code>src\geom\Line.ts:36</code></a>
+        <a href="../files/src_geom_Line.ts.html#l161"><code>src\geom\Line.ts:161</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the angle of the line.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_perpSlope" class="property item public">
+    <h3 class="name"><code>perpSlope</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Line.ts.html#l184"><code>src\geom\Line.ts:184</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the perpendicular slope of the line (x/y).</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_slope" class="property item public">
+    <h3 class="name"><code>slope</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Line.ts.html#l172"><code>src\geom\Line.ts:172</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the slope of the line (y/x).</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x1" class="property item public">
+    <h3 class="name"><code>x1</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Line.ts.html#l42"><code>src\geom\Line.ts:42</code></a>
         
         </p>
 
@@ -2047,12 +2034,61 @@
 </div>
 
                 
-                    <div id="property_x2" class="property item">
+                    <div id="property_x2" class="property item public">
     <h3 class="name"><code>x2</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Line.ts.html#l58"><code>src\geom\Line.ts:58</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>x component of second point.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y1" class="property item public">
+    <h3 class="name"><code>y1</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2080,51 +2116,6 @@
     </div>
 
     <div class="description">
-        <p>x component of second point.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_y1" class="property item">
-    <h3 class="name"><code>y1</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Line.ts.html#l43"><code>src\geom\Line.ts:43</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
         <p>y component of first point.</p>
 
     </div>
@@ -2137,9 +2128,56 @@
 </div>
 
                 
-                    <div id="property_y2" class="property item">
+                    <div id="property_y2" class="property item public">
     <h3 class="name"><code>y2</code></h3>
     <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Line.ts.html#l66"><code>src\geom\Line.ts:66</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>y component of second point.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_" class="property item">
+    <h3 class="name"><code></code></h3>
+    <span class="type">Unknown</span>
 
     
 
@@ -2160,7 +2198,7 @@
             
         
         
-        <a href="../files/src_geom_Line.ts.html#l57"><code>src\geom\Line.ts:57</code></a>
+        <a href="../files/src_geom_Line.ts.html#l196"><code>src\geom\Line.ts:196</code></a>
         
         </p>
 
@@ -2170,7 +2208,7 @@
     </div>
 
     <div class="description">
-        <p>y component of second point.</p>
+        <p>Get the y intercept for the line.</p>
 
     </div>
 

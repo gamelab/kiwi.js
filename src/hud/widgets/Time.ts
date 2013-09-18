@@ -11,19 +11,25 @@
  *				
  *	@url		http://www.kiwijs.org
  *
+ * @module HUD
+ * @submodule Widget
+ *
  *  @todo       Replace with the time / clock manager
 */
 
 module Kiwi.HUD.Widget {
+    /**
+    * @class Time
+    */
 
     export class Time extends Kiwi.HUD.Widget.TextField {
 
         /*
         *
         * @constructor
-        * @param {string} format - The format that you want the time to be in.
-        * @param {number} x
-        * @param {number} y
+        * @param format {string} The format that you want the time to be in.
+        * @param x {number} x
+        * @param y {number} y
         */
         constructor(format:string,x:number,y:number) {
             super('time', x, y);
@@ -37,12 +43,16 @@ module Kiwi.HUD.Widget {
         
         /*
         * The format that they want the time to be displayed.
+        * @property _format
+        * @type string
         * @private
         */
         private _format: string;
 
         /*
         * Holds the time component.
+        * @property time
+        * @type Time
         * @public
         */
         public time: Kiwi.HUD.Components.Time;
@@ -51,11 +61,12 @@ module Kiwi.HUD.Widget {
         * Allows you to set the time based on the parameter's passed.
         *
         * @method setTime
-        * @param {number} milliseconds
-        * @param {number} seconds
-        * @param {number} minutes
-        * @param {number} hours
+        * @param milliseconds {number} milliseconds
+        * @param seconds {number} seconds
+        * @param minutes {number} minutes
+        * @param hours {number} hours
         * @return {number} 
+        * @public
         */
         public setTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number) {
             this.time.setTime(milliseconds, seconds, minutes, hours);
@@ -67,8 +78,9 @@ module Kiwi.HUD.Widget {
         /*
         * The format that you want the text to be in.
         * @method format
-        * @param {string} val
+        * @param val {string} val
         * @return {string}
+        * @public
         */
         public format(val?: string):string {
             if (val !== undefined) {
@@ -83,6 +95,7 @@ module Kiwi.HUD.Widget {
         * To Do: remove the use of regexp. RegExp are slow.
         *
         * @method updateTime
+        * @public
         */
         public updateTime() {
             var ms = String(this.time.milliseconds);

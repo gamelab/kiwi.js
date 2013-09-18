@@ -1,5 +1,5 @@
 
-/*
+/**
  *	Kiwi - Components - Counter
  *
  *	@desc		Contains way's to control the counting of a singular number.
@@ -11,18 +11,25 @@
  *				
  *	@url		http://www.kiwijs.org
  *
+ * @module HUD
+ * @submodule Components
+ *
 */
 
 module Kiwi.HUD.Components {
+
+    /**
+    * @class Counter
+    */
 
     export class Counter extends Kiwi.Component {
         
         /*
         * 
         * @constructor
-        * @param {number} initial - Counters initial value
-        * @param {number} step - How much the counter should increment/decrement by
-        * @return {Kiwi.Components.Counter}
+        * @param initial {number} Counters initial value
+        * @param step {number} How much the counter should increment/decrement by
+        * @return {Counter}
         */
         constructor(initial:number,step:number=1) {
             super(null, "counter");
@@ -34,18 +41,24 @@ module Kiwi.HUD.Components {
 
         /*
         * The current value of the counter
+        * @property _value
+        * @type number
         * @private
         */
         private _value:number = 0;
 
         /*
         * How much the counter should increment/decrement by.
+        * @property step
+        * @type number
         * @public 
         */
         public step:number;
 
         /*
         * A Kiwi.Signal that dispatches an event when the changes.
+        * @property updated
+        * @type Signal
         * @public
         */
         public updated: Kiwi.Signal;
@@ -54,9 +67,9 @@ module Kiwi.HUD.Components {
         * Set allows you to get the current value of the counter
         * Get allows you to change the current value if you pass a value.
         *
-        * @method value
-        * @param {number} val
-        * @return {number}
+        * @property value
+        * @type number
+        * @public
         */
         public set value(val: number) {
             if (val !== undefined) {
@@ -77,8 +90,9 @@ module Kiwi.HUD.Components {
         * Returns the new value.
         * 
         * @method increment
-        * @param {number} val
+        * @param val {number} val
         * @return {number} 
+        * @public
         */
         public increment(val?: number) {
             if (val !== undefined) {
@@ -95,9 +109,10 @@ module Kiwi.HUD.Components {
         * If no value was passed decrements it by the step property.
         * Returns the new value.
         * 
-        * @method increment
+        * @method decrement
         * @param {number} val
         * @return {number} 
+        * @public
         */
         public decrement(val?: number) {
             if (val !== undefined) {

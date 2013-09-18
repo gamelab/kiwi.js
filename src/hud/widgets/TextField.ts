@@ -36,12 +36,16 @@ module Kiwi.HUD.Widget {
 
         /*
         * The text current being displayed
+        * @property _text
+        * @type string
         * @private
         */
         private _text: string;
 
         /*
         * The htmlelement that is being used as the textfield.
+        * @property _textField
+        * @type HTMLElement
         * @private
         */
         private _textField: HTMLElement;
@@ -51,8 +55,9 @@ module Kiwi.HUD.Widget {
         * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
         * 
         * @method setTemplate
-        * @param {string} main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
-        * @param {string} icon - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
+        * @param main {string} ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
+        * @param icon {string} ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
+        * @public
         */
         public setTemplate(main: string, field?: string) {
 
@@ -70,6 +75,7 @@ module Kiwi.HUD.Widget {
         * Used to remove any the template HTML from this HUDWidget.
         * 
         * @method removeTemplate
+        * @public
         */
         public removeTemplate() {
             
@@ -81,8 +87,9 @@ module Kiwi.HUD.Widget {
 
         /*
         * Change the text that is currently being displayed.
-        * @param {string} val
+        * @param val {string} val
         * @return {string}
+        * @public
         */
         public text(val?: string):string {
             if (val !== undefined) {

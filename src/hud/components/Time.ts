@@ -13,20 +13,27 @@
  *  TO DO:      Add/Remove time methods.
  *              Have the hours/minutes methods control only themselves.
  *              Create a signal.
+*
+*
+* @module HUD
+* @submodule Components
  * 
 */
 
 module Kiwi.HUD.Components {
+    /**
+    * @class Time
+    */
 
     export class Time extends Kiwi.Component {
 
         /*
         *
         * @constructor
-        * @param {number} milliseconds
-        * @param {number} seconds
-        * @param {number} minutes
-        * @param {number} hours
+        * @param milliseconds {number} milliseconds
+        * @param seconds {number} seconds
+        * @param minutes {number} minutes
+        * @param hours {number} hours
         */
         constructor(milliseconds: number, seconds?: number, minutes?: number, hours?: number) {
             super(null, "time");
@@ -41,30 +48,40 @@ module Kiwi.HUD.Components {
 
         /*
         * The current amount of milliseconds
+        * @property _milliseconds
+        * @type number
         * @private
         */
         private _milliseconds: number;
 
         /*
         * If the timer is paused or not.
+        * @property paused
+        * @type boolean
         * @public
         */
         public paused: boolean;
 
         /*
         * What the last time that it updated was. In milliseconds
+        * @property _lastTime
+        * @type number
         * @private
         */
         private _lastTime: number;
 
         /*
         * If it is counting down or up. 
+        * @property _countDown
+        * @type boolean
         * @private
         */
         private _countDown: boolean;
 
         /*
         * A Kiwi.Signal dispatch a event when the time changes.
+        * @property updated
+        * @type Signal
         * @public
         */
         public updated: Kiwi.Signal;
@@ -72,9 +89,9 @@ module Kiwi.HUD.Components {
         /*
         * Used to set/tell if the timer should count down or not
         * 
-        * @method countingDown
-        * @param {boolean} val
-        * @return {boolean}
+        * @property countingDown
+        * @type boolean
+        * @public
         */
         public set countingDown(val: boolean) {
 
@@ -95,9 +112,9 @@ module Kiwi.HUD.Components {
         /*
         * Used to set/tell if the timer should count up or not
         * 
-        * @method countingDown
-        * @param {boolean} val
-        * @return {boolean}
+        * @property countingDown
+        * @type boolean
+        * @public
         */
         public set countingUp(val: boolean) {
 
@@ -119,11 +136,12 @@ module Kiwi.HUD.Components {
         * Sets the time to be at a certain point.
         *
         * @method setTime
-        * @param {number} milliseconds
-        * @param {number} seconds
-        * @param {number} minutes
-        * @param {number} hours
+        * @param milliseconds {number} milliseconds
+        * @param seconds {number} seconds
+        * @param minutes {number} minutes
+        * @param hours {number} hours
         * @return {number} 
+        * @public
         */
         public setTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number): number {
 
@@ -140,12 +158,13 @@ module Kiwi.HUD.Components {
         /*
         * Add's more time to the component.
         *
-        * @method addTime
-        * @param {number} milliseconds
-        * @param {number} seconds
-        * @param {number} minutes
-        * @param {number} hours
+        * @method increaseTime
+        * @param milliseconds {number} milliseconds
+        * @param seconds {number} seconds
+        * @param minutes {number} minutes
+        * @param hours {number} hours
         * @return {number} 
+        * @public
         */
         public increaseTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number): number {
             
@@ -162,12 +181,13 @@ module Kiwi.HUD.Components {
         /*
         * Removes some time from the component.
         *
-        * @method removeTime
-        * @param {number} milliseconds
-        * @param {number} seconds
-        * @param {number} minutes
-        * @param {number} hours
+        * @method decreaseTime
+        * @param milliseconds {number} milliseconds
+        * @param seconds {number} seconds
+        * @param minutes {number} minutes
+        * @param hours {number} hours
         * @return {number} 
+        * @public
         */
         public decreaseTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number): number {
         
@@ -185,9 +205,10 @@ module Kiwi.HUD.Components {
         * A method to convert a number / unit into milliseconds. 
         *
         * @method convertToMilli
-        * @param {number} val - The number that you want converted.
-        * @param {number} unit - Units that the number is in. 's' => seconds, 'm' => minutes, 'h' => hours
+        * @param val {number} The number that you want converted.
+        * @param unit {number} Units that the number is in. 's' => seconds, 'm' => minutes, 'h' => hours
         * @return {number}
+        * @public
         */
         public convertToMilli(val: number, unit: string):number {
 
@@ -209,8 +230,9 @@ module Kiwi.HUD.Components {
         * Gives you the number of milliseconds. Alternatively can also set the number of milliseconds
         *
         * @method milliseconds
-        * @param {number} val
+        * @param val {number} val
         * @return {number}
+        * @public
         */
         public set milliseconds(val: number) {
 
@@ -231,8 +253,9 @@ module Kiwi.HUD.Components {
         * Gives you the number of seconds. Alternatively can also set the time.
         *
         * @method seconds
-        * @param {number} val
+        * @param val {number} val
         * @return {number}
+        * @public
         */
         public set seconds(val: number) {
             if (val !== undefined) {
@@ -251,8 +274,9 @@ module Kiwi.HUD.Components {
         * Gives you the number of minutes. Alternatively can also set the number of minutes
         *
         * @method minutes
-        * @param {number} val
+        * @param val {number} val
         * @return {number}
+        * @public
         */
         public set minutes(val: number) {
             if (val !== undefined) {
@@ -271,8 +295,9 @@ module Kiwi.HUD.Components {
         * Gives you the number of hours Alternatively can also set the number of hours
         * 
         * @method hours
-        * @param {number} val
+        * @param val {number} val
         * @return {number}
+        * @public
         */
         public set hours(val: number) {
 
@@ -291,6 +316,7 @@ module Kiwi.HUD.Components {
         
         /*
         * Update loop.
+        * @method update
         * @public
         */
         public update() {

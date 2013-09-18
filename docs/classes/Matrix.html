@@ -71,6 +71,8 @@
             
                 <li><a href="../classes/Canvas.html">Canvas</a></li>
             
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
                 <li><a href="../classes/Circle.html">Circle</a></li>
             
                 <li><a href="../classes/Circular.html">Circular</a></li>
@@ -107,7 +109,23 @@
             
                 <li><a href="../classes/GameMath.html">GameMath</a></li>
             
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
                 <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
             
                 <li><a href="../classes/IChild.html">IChild</a></li>
             
@@ -217,9 +235,13 @@
             
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
                 <li><a href="../modules/Input.html">Input</a></li>
             
                 <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
             
                 <li><a href="../modules/Sound.html">Sound</a></li>
             
@@ -309,37 +331,37 @@
             
                 <li class="arg">
                     
-                        <code>a</code>
+                        <code>[a</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>b</code>
+                        <code>[b</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>c</code>
+                        <code>[c</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>d</code>
+                        <code>[d</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>tx</code>
+                        <code>[tx</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>ty</code>
+                        <code>[ty</code>
                     
                 </li>
             
@@ -398,14 +420,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">a</code>
+                        <code class="param-name">[a</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 0,0 of the matrix, affects scaling and rotation.</p>
+                        <p>= 1]   position 0,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -414,14 +436,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">b</code>
+                        <code class="param-name">[b</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 0,1 of the matrix, affects scaling and rotation.</p>
+                        <p>= 0]   position 0,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -430,14 +452,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">c</code>
+                        <code class="param-name">[c</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 1,0 of the matrix, affects scaling and rotation.</p>
+                        <p>= 0]   position 1,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -446,14 +468,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">d</code>
+                        <code class="param-name">[d</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 1,1 of the matrix, affects scaling and rotation.</p>
+                        <p>= 1]   position 1,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -462,14 +484,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">tx</code>
+                        <code class="param-name">[tx</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 2,0 of the matrix, affects translation on x axis.</p>
+                        <p>= 0]   position 2,0 of the matrix, affects translation on x axis.</p>
 
                     </div>
 
@@ -478,14 +500,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">ty</code>
+                        <code class="param-name">[ty</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 2,1 of the matrix, affects translation on y axis.</p>
+                        <p>= 0]   position 2,1 of the matrix, affects translation on y axis.</p>
 
                     </div>
 
@@ -696,37 +718,37 @@
             
                 <li class="arg">
                     
-                        <code>a</code>
+                        <code>[a</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>b</code>
+                        <code>[b</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>c</code>
+                        <code>[c</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>d</code>
+                        <code>[d</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>tx</code>
+                        <code>[tx</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>ty</code>
+                        <code>[ty</code>
                     
                 </li>
             
@@ -736,7 +758,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -786,14 +808,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">a</code>
+                        <code class="param-name">[a</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 0,0 of the matrix, affects scaling and rotation.</p>
+                        <p>= 1] position 0,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -802,14 +824,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">b</code>
+                        <code class="param-name">[b</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 0,1 of the matrix, affects scaling and rotation.</p>
+                        <p>= 0] position 0,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -818,14 +840,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">c</code>
+                        <code class="param-name">[c</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 1,0 of the matrix, affects scaling and rotation.</p>
+                        <p>= 0] position 1,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -834,14 +856,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">d</code>
+                        <code class="param-name">[d</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 1,1 of the matrix, affects scaling and rotation.</p>
+                        <p>= 1] position 1,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -850,14 +872,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">tx</code>
+                        <code class="param-name">[tx</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 2,0 of the matrix, affects translation on x axis.</p>
+                        <p>= 0] position 2,0 of the matrix, affects translation on x axis.</p>
 
                     </div>
 
@@ -866,14 +888,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">ty</code>
+                        <code class="param-name">[ty</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 2,1 of the matrix, affects translation on y axis.</p>
+                        <p>= 0] position 2,1 of the matrix, affects translation on y axis.</p>
 
                     </div>
 
@@ -891,7 +913,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -911,7 +935,7 @@
             
                 <li class="arg">
                     
-                        <code>m.</code>
+                        <code>m</code>
                     
                 </li>
             
@@ -921,7 +945,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -971,7 +995,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">m.</code>
+                        <code class="param-name">m</code>
                         <span class="type">Object</span>
                     
 
@@ -996,7 +1020,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -1016,7 +1042,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1067,7 +1093,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) The new clone of this matrix.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>The new clone of this matrix.</p>
 
                 
             </div>
@@ -1087,7 +1115,7 @@
             
                 <li class="arg">
                     
-                        <code>m.</code>
+                        <code>m</code>
                     
                 </li>
             
@@ -1097,7 +1125,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1147,7 +1175,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">m.</code>
+                        <code class="param-name">m</code>
                         <span class="type">Object</span>
                     
 
@@ -1172,7 +1200,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -1192,7 +1222,7 @@
             
                 <li class="arg">
                     
-                        <code>m.</code>
+                        <code>m</code>
                     
                 </li>
             
@@ -1202,7 +1232,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1252,7 +1282,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">m.</code>
+                        <code class="param-name">m</code>
                         <span class="type">Object</span>
                     
 
@@ -1277,7 +1307,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -1297,7 +1329,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1348,7 +1380,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -1368,37 +1402,37 @@
             
                 <li class="arg">
                     
-                        <code>a</code>
+                        <code>[a</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>b</code>
+                        <code>[b</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>c</code>
+                        <code>[c</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>d</code>
+                        <code>[d</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>tx</code>
+                        <code>[tx</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>ty</code>
+                        <code>[ty</code>
                     
                 </li>
             
@@ -1408,7 +1442,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1458,14 +1492,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">a</code>
+                        <code class="param-name">[a</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 0,0 of the matrix, affects scaling and rotation.</p>
+                        <p>= 1] position 0,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -1474,14 +1508,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">b</code>
+                        <code class="param-name">[b</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 0,1 of the matrix, affects scaling and rotation.</p>
+                        <p>= 0] position 0,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -1490,14 +1524,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">c</code>
+                        <code class="param-name">[c</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 1,0 of the matrix, affects scaling and rotation.</p>
+                        <p>= 0] position 1,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -1506,14 +1540,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">d</code>
+                        <code class="param-name">[d</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 1,1 of the matrix, affects scaling and rotation.</p>
+                        <p>= 0] position 1,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -1522,14 +1556,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">tx</code>
+                        <code class="param-name">[tx</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 2,0 of the matrix, affects translation on x axis.</p>
+                        <p>= 0] position 2,0 of the matrix, affects translation on x axis.</p>
 
                     </div>
 
@@ -1538,14 +1572,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">ty</code>
+                        <code class="param-name">[ty</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 2,1 of the matrix, affects translation on y axis.</p>
+                        <p>= 0] position 2,1 of the matrix, affects translation on y axis.</p>
 
                     </div>
 
@@ -1563,7 +1597,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -1593,7 +1629,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1668,7 +1704,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -1688,7 +1726,7 @@
             
                 <li class="arg">
                     
-                        <code>radians.</code>
+                        <code>radians</code>
                     
                 </li>
             
@@ -1698,7 +1736,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1748,14 +1786,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">radians.</code>
+                        <code class="param-name">radians</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>radians.</p>
+
                     </div>
 
                     
@@ -1772,7 +1811,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -1808,7 +1849,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -1899,7 +1940,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -1919,31 +1962,31 @@
             
                 <li class="arg">
                     
-                        <code>tx.</code>
+                        <code>tx</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>ty.</code>
+                        <code>ty</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>scaleX.</code>
+                        <code>scaleX</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>scaleY.</code>
+                        <code>scaleY</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>rotation.</code>
+                        <code>rotation</code>
                     
                 </li>
             
@@ -1953,7 +1996,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2003,14 +2046,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">tx.</code>
+                        <code class="param-name">tx</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Translation on x axis.</p>
+                        <p>tx. Translation on x axis.</p>
 
                     </div>
 
@@ -2019,14 +2062,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">ty.</code>
+                        <code class="param-name">ty</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Translation on y axis.</p>
+                        <p>ty. Translation on y axis.</p>
 
                     </div>
 
@@ -2035,14 +2078,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">scaleX.</code>
+                        <code class="param-name">scaleX</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Scale on x axis.</p>
+                        <p>scaleX. Scale on x axis.</p>
 
                     </div>
 
@@ -2051,14 +2094,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">scaleY.</code>
+                        <code class="param-name">scaleY</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Scale on y axis.</p>
+                        <p>scaleY. Scale on y axis.</p>
 
                     </div>
 
@@ -2067,14 +2110,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">rotation.</code>
+                        <code class="param-name">rotation</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>rotation.</p>
+
                     </div>
 
                     
@@ -2091,7 +2135,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -2111,13 +2157,13 @@
             
                 <li class="arg">
                     
-                        <code>x.</code>
+                        <code>x</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>y.</code>
+                        <code>y</code>
                     
                 </li>
             
@@ -2127,7 +2173,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2177,7 +2223,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">x.</code>
+                        <code class="param-name">x</code>
                         <span class="type">Number</span>
                     
 
@@ -2193,7 +2239,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">y.</code>
+                        <code class="param-name">y</code>
                         <span class="type">Number</span>
                     
 
@@ -2218,7 +2264,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -2238,7 +2286,7 @@
             
                 <li class="arg">
                     
-                        <code>v.</code>
+                        <code>p</code>
                     
                 </li>
             
@@ -2248,7 +2296,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2298,7 +2346,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">v.</code>
+                        <code class="param-name">p</code>
                         <span class="type">Number</span>
                     
 
@@ -2323,7 +2371,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -2343,7 +2393,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2394,7 +2444,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) An object constructed from a literal with x and y properties.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>An object constructed from a literal with x and y properties.</p>
 
                 
             </div>
@@ -2414,37 +2466,37 @@
             
                 <li class="arg">
                     
-                        <code>a</code>
+                        <code>[a</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>b</code>
+                        <code>[b</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>c</code>
+                        <code>[c</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>d</code>
+                        <code>[d</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>tx</code>
+                        <code>[tx</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>ty</code>
+                        <code>[ty</code>
                     
                 </li>
             
@@ -2504,14 +2556,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">a</code>
+                        <code class="param-name">[a</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 0,0 of the matrix, affects scaling and rotation.</p>
+                        <p>= 1]  position 0,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -2520,14 +2572,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">b</code>
+                        <code class="param-name">[b</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 0,1 of the matrix, affects scaling and rotation.</p>
+                        <p>= 0]  position 0,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -2536,14 +2588,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">c</code>
+                        <code class="param-name">[c</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 1,0 of the matrix, affects scaling and rotation.</p>
+                        <p>= 0]  position 1,0 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -2552,14 +2604,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">d</code>
+                        <code class="param-name">[d</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 1,1 of the matrix, affects scaling and rotation.</p>
+                        <p>= 1]  position 1,1 of the matrix, affects scaling and rotation.</p>
 
                     </div>
 
@@ -2568,14 +2620,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">tx</code>
+                        <code class="param-name">[tx</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 2,0 of the matrix, affects translation on x axis.</p>
+                        <p>= 0]  position 2,0 of the matrix, affects translation on x axis.</p>
 
                     </div>
 
@@ -2584,14 +2636,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">ty</code>
+                        <code class="param-name">[ty</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>position 2,1 of the matrix, affects translation on y axis.</p>
+                        <p>= 0]  position 2,1 of the matrix, affects translation on y axis.</p>
 
                     </div>
 
@@ -2702,13 +2754,13 @@
             
                 <li class="arg">
                     
-                        <code>tx.</code>
+                        <code>tx</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>ty.</code>
+                        <code>ty</code>
                     
                 </li>
             
@@ -2718,7 +2770,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2768,14 +2820,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">tx.</code>
+                        <code class="param-name">tx</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The amount to translate on the x axis.</p>
+                        <p>tx. The amount to translate on the x axis.</p>
 
                     </div>
 
@@ -2784,14 +2836,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">ty.</code>
+                        <code class="param-name">ty</code>
                         <span class="type">Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The amount to translate on the y axis.</p>
+                        <p>ty. The amount to translate on the y axis.</p>
 
                     </div>
 
@@ -2809,7 +2861,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -2829,7 +2883,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2880,7 +2934,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) This object.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>This object.</p>
 
                 
             </div>
@@ -2900,7 +2956,7 @@
             
                 <li class="arg">
                     
-                        <code>pt.</code>
+                        <code>pt</code>
                     
                 </li>
             
@@ -2910,7 +2966,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Object</span>
         </span>
     
 
@@ -2960,7 +3016,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">pt.</code>
+                        <code class="param-name">pt</code>
                         <span class="type">Object</span>
                     
 
@@ -2985,7 +3041,9 @@
             <div class="returns-description">
                 
                     
-                    <p>(Object) The translated point.</p>
+                        <span class="type">Object</span>:
+                    
+                    <p>The translated point.</p>
 
                 
             </div>

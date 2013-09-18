@@ -1,9 +1,30 @@
 /// <reference path="TextField.ts" />
 /// <reference path="../../core/game.ts" />
 
+/**
+*
+* @module HUD
+* @submodule Widget
+*
+*/
+
 module Kiwi.HUD.Widget {
+    /**
+    * @class Button
+    */
 
     export class Button extends Kiwi.HUD.Widget.TextField {
+
+        /*
+        * 
+        * @constructor
+        * @param game {game}
+        * @param width {number}
+        * @param height {number}
+        * @param x {number}
+        * @param y {number}
+        * @return {Button}
+        */
 
         constructor(game: Kiwi.Game, width: number, height: number, x: number, y: number) {
 
@@ -25,21 +46,19 @@ module Kiwi.HUD.Widget {
         * The width of the container
         * @property _width
         * @type number
+        * @private
         */
         private _width: number;
         
         /*
         * The width of the container
+        * @property width
         * @type number
+        * @public
         */
         public get width(): number {
             return this._width;
         }
-        
-        /*
-        * Set the width of the container
-        * @type number
-        */
         public set width(value: number) {
             this.container.style.width = value + "px";
             this._width = value;
@@ -50,32 +69,45 @@ module Kiwi.HUD.Widget {
         * The height of the container
         * @property _height
         * @type number
+        * @private
         */
         private _height: number;
         
         /*
         * The height of the container
+        * @property height
         * @type number
+        * @public
         */
         public get height(): number {
             return this._height;
         }
-        
-        /*
-        * Set the height of the container
-        * @type number
-        */
         public set height(value: number) {
             this.container.style.height = value + "px";
             this._height = value;
             this._changed();
         }
-
+        /**
+        * @property game
+        * @type Game
+        * @public
+        */
         public game: Kiwi.Game;
         
+
+        /**
+        * @property input
+        * @type WidgetInput
+        * @public
+        */
         public input: Kiwi.HUD.Components.WidgetInput;
 
         //public bounds: Kiwi.Components.Bounds;
+
+        /**
+        * @method _changed
+        * @private
+        */
 
         private _changed() {
             //this.bounds.setTo(this.position.x(), this.position.y(), this.size.width(), this.size.height());

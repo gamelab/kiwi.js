@@ -16,6 +16,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Camera",
         "CameraManager",
         "Canvas",
+        "CanvasRenderer",
         "Circle",
         "Circular",
         "Clock",
@@ -31,10 +32,18 @@ YUI.add("yuidoc-meta", function(Y) {
         "File",
         "FileStore",
         "Finger",
+        "GLArrayBuffer",
+        "GLElementArrayBuffer",
+        "GLRenderer",
+        "GLShaders",
+        "GLTexture",
         "Game",
         "GameManager",
         "GameMath",
         "Group",
+        "HUDDisplay",
+        "HUDManager",
+        "HUDWidget",
         "IChild",
         "Input",
         "Intersect",
@@ -89,8 +98,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "Files",
         "GameObjects",
         "Geom",
+        "HUD",
         "Input",
         "Kiwi",
+        "Renderers",
         "Sound",
         "System",
         "Textures",
@@ -130,6 +141,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "description": "Kiwi - Geom"
         },
         {
+            "displayName": "HUD",
+            "name": "HUD",
+            "description": "Kiwi - HUD"
+        },
+        {
             "displayName": "Input",
             "name": "Input",
             "description": "Kiwi - Input"
@@ -138,6 +154,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "Kiwi",
             "name": "Kiwi",
             "description": "Module - Kiwi (Core)\nThe top level namespace in which all core classes and modules are defined."
+        },
+        {
+            "displayName": "Renderers",
+            "name": "Renderers",
+            "description": "Kiwi - Renderers"
         },
         {
             "displayName": "Sound",

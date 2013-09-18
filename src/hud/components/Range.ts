@@ -9,19 +9,25 @@
  *	@author 	Ben Harding
  *				
  *	@url		http://www.kiwijs.org
+*
+* @module HUD
+* @submodule Components
  *
 */
 
 module Kiwi.HUD.Components {
+    /**
+    * @class Range
+    */
 
     export class Range extends Kiwi.Component {
 
         /*
         *
         * @constructor
-        * @param {number} current - The current value.
-        * @param {number} max - The maximum value it can be.
-        * @param {number} min - The minimum value that the current can be.
+        * @param current {number} The current value.
+        * @param max {number} The maximum value it can be.
+        * @param min {number} The minimum value that the current can be.
         * @return {number}
         */
         constructor(current: number, max: number, min: number) {
@@ -38,24 +44,32 @@ module Kiwi.HUD.Components {
 
         /*
         * The current value of the range.
+        * @property _current
+        * @type number
         * @private
         */
         private _current: number;
 
         /*
         * The maximum value that of the range.
+        * @property _max
+        * @type number
         * @private
         */
         private _max: number;
 
         /*
         * The minimum value that of the range.
+        * @property _min
+        * @type number
         * @private
         */
         private _min: number;
 
         /*
         * A Kiwi.Signal that dispatches an event when a value has changed.
+        * @property updated
+        * @type Signal
         * @public
         */
         public updated: Kiwi.Signal; 
@@ -65,8 +79,9 @@ module Kiwi.HUD.Components {
         * Get returns the maximum value.
         *
         * @method max
-        * @param {number} val
+        * @param val {number} val
         * @return {number}
+        * @public
         */
         public set max(val: number) {
 
@@ -87,9 +102,9 @@ module Kiwi.HUD.Components {
         * Set allows setting of the minimum value that the range can be in. 
         * Get returns the minimum value.
         *
-        * @method min
-        * @param {number} val
-        * @return {number}
+        * @property min
+        * @type number
+        * @public
         */
         public set min(val: number) {
 
@@ -111,9 +126,9 @@ module Kiwi.HUD.Components {
         * The current value will only change if it is within the maximum/minimum values.
         * Get returns the current value.
         *
-        * @method current
-        * @param {number } val
-        * @return {number}
+        * @property current
+        * @type number
+        * @public
         */
         public set current(val: number) {
             if (val !== undefined) {
@@ -139,8 +154,9 @@ module Kiwi.HUD.Components {
         * If the new amount would be less than the minimun it goes to the min instead.
         *
         * @method decrease
-        * @param {number} val
+        * @param val {number} val
         * @return {number}
+        * @public
         */
         public decrease(val: number= 1):number {
             if (this._current > this._min) {
@@ -159,8 +175,9 @@ module Kiwi.HUD.Components {
         * If the new amount would be greater than the maximum it goes to the max instead.
         *
         * @method increase
-        * @param {number} val
+        * @param val {number}
         * @return {number}
+        * @public
         */
         public increase(val: number= 1): number {
             if (this._current < this._max) {
@@ -179,6 +196,7 @@ module Kiwi.HUD.Components {
         * 
         * @method currentPercent
         * @return {number}
+        * @public
         */
         public currentPercent(): number {
             return ((this.current) / (this.max)) * 100;

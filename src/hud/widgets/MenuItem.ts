@@ -1,8 +1,24 @@
 /// <reference path="../../Kiwi.ts" />
+/**
+* @module HUD
+* @submodule Widget 
+*/
 
 module Kiwi.HUD.Widget {
+    /**
+    * MenuItem
+    */
 
     export class MenuItem extends Kiwi.HUD.HUDWidget {
+
+        /**
+        * @contructor
+        * @param name {string}
+        * @param width {number}
+        * @param height {number}
+        * @param x {number}
+        * @param y {number}
+        */
 
         constructor(name:string, width:number, height:number, x: number, y: number) {
 
@@ -18,20 +34,43 @@ module Kiwi.HUD.Widget {
         }
 
         //the game
+        /**
+        * @property game
+        * @type Game
+        * @public
+        */
         public game: Kiwi.Game;
 
         //the size
         //public size: Kiwi.Components.Size;
 
         //the input
+        /**
+        * @property input
+        * @type WidgetInput
+        * @public
+        */
         public input: Kiwi.HUD.Components.WidgetInput;
 
         //the bounds
         //public bounds: Kiwi.Components.Bounds;
 
+        /**
+        * @property menu
+        * @type Menu
+        * @private
+        */
+
         private menu: Kiwi.HUD.Widget.Menu;
 
         //when the menu item is added to the stag
+
+        /**
+        * @method addedToStage
+        * @param game {Game}
+        * @param menu {Menu}
+        * @public
+        */
         public addedToStage(game:Kiwi.Game, menu:Kiwi.HUD.Widget.Menu) {
             this.game = game;
             this.menu = menu;
@@ -40,6 +79,10 @@ module Kiwi.HUD.Widget {
         }
 
         //apply the css
+        /**
+        * @method _applyCSS
+        * @private
+        */
         private _applyCSS() {
            // this.size.setCSS(this.container);
             var addX = 0;

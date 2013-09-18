@@ -12,18 +12,22 @@
  *				
  *	@url		http://www.kiwijs.org
  *
+* @module HUD
+* @submodule Widget
 */
 
 module Kiwi.HUD.Widget {
-
+    /**
+    * @class BasicScore
+    */
     
     export class BasicScore extends Kiwi.HUD.Widget.TextField {
        
         /*
         *
         * @constructor
-        * @param {number} x
-        * @param {number} y
+        * @param x {number} x
+        * @param y {number} y
         */
         constructor(x: number, y: number) {
             super("basicScore", x, y);
@@ -33,12 +37,15 @@ module Kiwi.HUD.Widget {
 
         /*
         * Holds the reference to the counter component.
+        * @property counter
+        * @type Counter
         * @public
         */
         public counter: Kiwi.HUD.Components.Counter;
         
         /*
         * Updates the text when someone modifies the counter.
+        * @method _updateText
         * @private
         */
         private _updateText() {

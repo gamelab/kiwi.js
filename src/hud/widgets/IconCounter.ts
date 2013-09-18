@@ -12,10 +12,14 @@
  *				
  *	@url		http://www.kiwijs.org
  *
+ * @module HUD
+ * @submodule Widget
 */
 
 module Kiwi.HUD.Widget {
-
+    /**
+    * @class IconCounter
+    */
     export class IconCounter extends Kiwi.HUD.Widget.Icon {
 
         /*
@@ -23,10 +27,10 @@ module Kiwi.HUD.Widget {
         * @constructor
         * @param {string} key
     
-        * @param {number} current
-        * @param {number} max
-        * @param {number} x
-        * @param {number} y
+        * @param current {number} current
+        * @param max {number} max
+        * @param x {number} x
+        * @param y {number} y
         */
         constructor(atlas: Kiwi.Textures.TextureAtlas, current: number, max: number, x: number, y: number) {
             
@@ -43,17 +47,33 @@ module Kiwi.HUD.Widget {
 
         /*
         * Knowledge of whether the icons should be horizontal or vertical
+        * @property _horizontal
+        * @type boolean
         * @private
         */
         private _horizontal: boolean;
 
         /*
         * Holds the range component.
+        * @property range
+        * @type Range
         * @public
         */
         public range: Kiwi.HUD.Components.Range;
 
+        /**
+        * @property _repeat
+        * @type string
+        * @public
+        */
+
         public _repeat: string;
+
+        /**
+        * @property repeat
+        * @type string
+        * @public
+        */
 
         public get repeat():string {
             return this._repeat;
@@ -61,6 +81,7 @@ module Kiwi.HUD.Widget {
 
         /*
         * Gets called when the range has updated and then it updates the size of the bar.
+        * @method _changeSize
         * @private
         */
         private _changeSize() {
@@ -79,6 +100,7 @@ module Kiwi.HUD.Widget {
         
         /*
         * Applys the background image CSS.
+        * @method _applyCSS
         * @public
         */
         public _applyCSS() {
@@ -88,7 +110,8 @@ module Kiwi.HUD.Widget {
         
         /*
         * Used to set the bar to be horizontal or vertical by passing a boolean.
-        * @param {boolean} val
+        * @property horizontal
+        * @type boolean
         * @public
         */
         public get horizontal(): boolean {
@@ -102,7 +125,8 @@ module Kiwi.HUD.Widget {
 
         /*
         * Used to set the bar to be horizontal or vertical by passing a boolean.
-        * @param {boolean} val
+        * @property vertical
+        * @type boolean
         * @public
         */
         public get vertical(): boolean {
