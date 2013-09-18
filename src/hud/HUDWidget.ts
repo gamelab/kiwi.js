@@ -12,6 +12,8 @@
  *				
  *	@url		http://www.kiwijs.org
  *
+ * @module Kiwi
+ * @submodule HUD
 */
 
 module Kiwi.HUD {

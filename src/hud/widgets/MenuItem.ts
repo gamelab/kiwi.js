@@ -6,7 +6,7 @@
 
 module Kiwi.HUD.Widget {
     /**
-    * MenuItem
+    * @class MenuItem
     */
 
     export class MenuItem extends Kiwi.HUD.HUDWidget {

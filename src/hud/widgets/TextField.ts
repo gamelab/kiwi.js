@@ -10,6 +10,9 @@
  *				
  *	@url		http://www.kiwijs.org
  *
+ * @module HUD
+ * @submodule Widget
+ *
 */
 
 module Kiwi.HUD.Widget {
