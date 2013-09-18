@@ -442,6 +442,7 @@ module Kiwi {
         */
         public destroy() {
             
+            if (this.parent !== null) this.parent.removeChild(this);
             if(this.state) this.state.removeFromTrackingList(this); 
             this._exists = false;
             this._active = false;

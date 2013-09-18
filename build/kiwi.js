@@ -1195,6 +1195,8 @@ var Kiwi;
         };
 
         Entity.prototype.destroy = function () {
+            if (this.parent !== null)
+                this.parent.removeChild(this);
             if (this.state)
                 this.state.removeFromTrackingList(this);
             this._exists = false;
@@ -1927,6 +1929,8 @@ var Kiwi;
                 this.removeChildren();
             }
 
+            if (this.parent !== null)
+                this.parent.removeChild(this);
             if (this.state)
                 this.state.removeFromTrackingList(this);
             this._exists = false;
