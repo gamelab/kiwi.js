@@ -9,10 +9,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "AudioLibrary",
         "AudioManager",
         "Back",
+        "BasicScore",
         "Bootstrap",
         "Bounce",
         "Box",
         "Browser",
+        "Button",
         "Camera",
         "CameraManager",
         "Canvas",
@@ -23,6 +25,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Common",
         "Component",
         "ComponentManager",
+        "Counter",
         "Cubic",
         "DataLibrary",
         "Device",
@@ -45,6 +48,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "HUDManager",
         "HUDWidget",
         "IChild",
+        "Icon",
+        "IconCounter",
         "Input",
         "Intersect",
         "IntersectResult",
@@ -57,6 +62,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "Manager",
         "MasterClock",
         "Matrix",
+        "Menu",
+        "MenuItem",
         "Mouse",
         "MouseCursor",
         "Point",
@@ -65,6 +72,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Quartic",
         "Quintic",
         "RandomDataGenerator",
+        "Range",
         "Ray",
         "Rectangle",
         "RequestAnimationFrame",
@@ -88,6 +96,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "TileMap",
         "TileMapLayer",
         "TileType",
+        "Time",
         "Timer",
         "TimerEvent",
         "Touch",
@@ -112,7 +121,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "Tilemap",
         "Time",
         "Tweens",
-        "Utils"
+        "Utils",
+        "Widget"
     ],
     "allModules": [
         {
@@ -199,6 +209,10 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "Utils",
             "name": "Utils",
             "description": "Kiwi - Utils"
+        },
+        {
+            "displayName": "Widget",
+            "name": "Widget"
         }
     ]
 } };

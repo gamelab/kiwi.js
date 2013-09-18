@@ -12,18 +12,18 @@ module Kiwi.GameObjects {
     *
     * @class StaticImage
     * @extends Entity
-    */
-    export class StaticImage extends Kiwi.Entity {
-
-        /**
-        * 
         * @constructor
         * @param state {State} The state that this static image belongs to 
         * @param atlas {TextureAtlas} The texture atlas to use as the image.
         * @param [x=0] {Number} Its coordinates on the x axis
         * @param [y=0] {Number} The coordinates on the y axis
         * @return {StaticImage}
-        */
+    */
+
+
+    export class StaticImage extends Kiwi.Entity {
+
+        
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
 
             super(state,x,y);

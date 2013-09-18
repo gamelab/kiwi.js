@@ -232,18 +232,28 @@ module Kiwi.Input {
         * @public
         */
         public start() {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) { 
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+
                 this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
                 this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
                 this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
                 this._domElement.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
                 this._domElement.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
                 this._domElement.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
-                
+
                 document.addEventListener('touchmove', (event) => this.consumeTouchMove(event), false);
+
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) { 
+
+                this._game.stage.canvas.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                this._game.stage.canvas.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                this._game.stage.canvas.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                this._game.stage.canvas.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                this._game.stage.canvas.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                this._game.stage.canvas.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
             }
 
-            //cocoon events need to be added here... These should hopefully just be through the window
         }
 
         /** 

@@ -356,10 +356,41 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\gameobjects\\tilemap\\TIleMapLayer.ts": {
+            "name": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "modules": {
+                "Tilemap": 1
+            },
+            "classes": {
+                "TileMapLayer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\gameobjects\\tilemap\\Tile.ts": {
+            "name": "src\\gameobjects\\tilemap\\Tile.ts",
+            "modules": {},
+            "classes": {
+                "Tile": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\gameobjects\\tilemap\\TileMap.ts": {
+            "name": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "modules": {},
+            "classes": {
+                "TileMap": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\gameobjects\\tilemap\\TileType.ts": {
             "name": "src\\gameobjects\\tilemap\\TileType.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "TileType": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -489,6 +520,103 @@
             "modules": {},
             "classes": {
                 "Vector2": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\components\\Counter.ts": {
+            "name": "src\\hud\\components\\Counter.ts",
+            "modules": {},
+            "classes": {
+                "Counter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\components\\Range.ts": {
+            "name": "src\\hud\\components\\Range.ts",
+            "modules": {},
+            "classes": {
+                "Range": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\components\\Time.ts": {
+            "name": "src\\hud\\components\\Time.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\widgets\\Bar.ts": {
+            "name": "src\\hud\\widgets\\Bar.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\widgets\\BasicScore.ts": {
+            "name": "src\\hud\\widgets\\BasicScore.ts",
+            "modules": {},
+            "classes": {
+                "BasicScore": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\widgets\\Button.ts": {
+            "name": "src\\hud\\widgets\\Button.ts",
+            "modules": {
+                "Widget": 1
+            },
+            "classes": {
+                "Button": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\widgets\\Icon.ts": {
+            "name": "src\\hud\\widgets\\Icon.ts",
+            "modules": {},
+            "classes": {
+                "Icon": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\widgets\\IconCounter.ts": {
+            "name": "src\\hud\\widgets\\IconCounter.ts",
+            "modules": {},
+            "classes": {
+                "IconCounter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\widgets\\Menu.ts": {
+            "name": "src\\hud\\widgets\\Menu.ts",
+            "modules": {},
+            "classes": {
+                "Menu": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\widgets\\MenuItem.ts": {
+            "name": "src\\hud\\widgets\\MenuItem.ts",
+            "modules": {},
+            "classes": {
+                "MenuItem": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\hud\\widgets\\Time.ts": {
+            "name": "src\\hud\\widgets\\Time.ts",
+            "modules": {},
+            "classes": {
+                "Time": 1
             },
             "fors": {},
             "namespaces": {}
@@ -937,11 +1065,8 @@
         "Kiwi": {
             "name": "Kiwi",
             "submodules": {
-                "Components": 1,
                 "Files": 1,
-                "GameObjects": 1,
                 "Geom": 1,
-                "HUD": 1,
                 "Input": 1,
                 "Renderers": 1,
                 "Sound": 1,
@@ -1045,18 +1170,25 @@
                 "ArcadePhysics": 1,
                 "Box": 1,
                 "Input": 1,
-                "Sound": 1
+                "Sound": 1,
+                "Counter": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
-            "module": "Kiwi",
+            "module": "HUD",
             "namespace": "",
-            "file": "src\\components\\Sound.ts",
-            "line": 10,
+            "file": "src\\hud\\components\\Counter.ts",
+            "line": 21,
             "description": "Kiwi - Components",
             "tag": "main",
-            "itemtype": "main"
+            "itemtype": "main",
+            "desc": "Contains way's to control the counting of a singular number.",
+            "version": "1.0 - 26th July 2013",
+            "author": "Ben Harding",
+            "url": [
+                "http://www.kiwijs.org"
+            ]
         },
         "Files": {
             "name": "Files",
@@ -1080,22 +1212,44 @@
         },
         "GameObjects": {
             "name": "GameObjects",
-            "submodules": {},
+            "submodules": {
+                "Tilemap": 1
+            },
             "classes": {
+                "TileMapLayer": 1,
+                "Tile": 1,
+                "TileMap": 1,
+                "TileType": 1,
                 "Sprite": 1,
                 "StaticImage": 1,
                 "Textfield": 1
             },
             "fors": {},
-            "is_submodule": 1,
             "namespaces": {},
             "module": "Kiwi",
-            "namespace": "",
             "file": "src\\gameobjects\\Textfield.ts",
             "line": 10,
             "description": "Kiwi - GameObjects",
             "tag": "main",
             "itemtype": "main"
+        },
+        "Tilemap": {
+            "name": "Tilemap",
+            "submodules": {},
+            "classes": {
+                "TileMapLayer": 1,
+                "Tile": 1,
+                "TileMap": 1,
+                "TileType": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "GameObjects",
+            "namespace": "",
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 10,
+            "description": "Kiwi - GameObjects - TileMapLayer"
         },
         "Geom": {
             "name": "Geom",
@@ -1124,19 +1278,45 @@
         },
         "HUD": {
             "name": "HUD",
-            "submodules": {},
+            "submodules": {
+                "Components": 1,
+                "Widget": 1
+            },
             "classes": {
+                "Counter": 1,
+                "Range": 1,
+                "Time": 1,
+                "BasicScore": 1,
+                "Button": 1,
+                "Icon": 1,
+                "IconCounter": 1,
+                "Menu": 1,
+                "MenuItem": 1,
                 "HUDDisplay": 1,
                 "HUDManager": 1
             },
             "fors": {},
-            "is_submodule": 1,
             "namespaces": {},
             "module": "Kiwi",
-            "namespace": "",
             "file": "src\\hud\\HUDManager.ts",
             "line": 11,
             "description": "Kiwi - HUD"
+        },
+        "Widget": {
+            "name": "Widget",
+            "submodules": {},
+            "classes": {
+                "Button": 1,
+                "Menu": 1,
+                "MenuItem": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "HUD",
+            "namespace": "",
+            "file": "src\\hud\\widgets\\MenuItem.ts",
+            "line": 8
         },
         "Input": {
             "name": "Input",
@@ -1641,7 +1821,7 @@
             "namespace": "",
             "file": "src\\core\\Entity.ts",
             "line": 9,
-            "description": "Serves as a container for game objects to extend from. \nEach Entity has a unique ID (UID) which is automatically generated upon instantiation."
+            "description": "An Entity serves as a container for game objects to extend from and thus you should never directly instantiate this class.\nEach Entity has a unique ID (UID) which is automatically generated upon instantiation."
         },
         "Game": {
             "name": "Game",
@@ -1668,8 +1848,7 @@
             "module": "Kiwi",
             "namespace": "",
             "file": "src\\core\\Group.ts",
-            "line": 9,
-            "description": "[REQUIRES DESCRIPTION]"
+            "line": 9
         },
         "IChild": {
             "name": "IChild",
@@ -1682,7 +1861,8 @@
             "module": "Kiwi",
             "namespace": "",
             "file": "src\\core\\IChild.ts",
-            "line": 9
+            "line": 9,
+            "description": "A IChild is an Interface (defined as a class as the documentation does not support Interfaces just yet),\nwhich outlining the methods/properties that objects which are intended to be added as a child of a Stage or Group must have in order to work."
         },
         "Signal": {
             "name": "Signal",
@@ -1827,6 +2007,65 @@
             "file": "src\\file\\Loader.ts",
             "line": 10
         },
+        "TileMapLayer": {
+            "name": "TileMapLayer",
+            "shortname": "TileMapLayer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "",
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 10,
+            "extends": "Entity"
+        },
+        "Tile": {
+            "name": "Tile",
+            "shortname": "Tile",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "",
+            "file": "src\\gameobjects\\tilemap\\Tile.ts",
+            "line": 10,
+            "extends": "Entity"
+        },
+        "TileMap": {
+            "name": "TileMap",
+            "shortname": "TileMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "",
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 10,
+            "extends": "Entity"
+        },
+        "TileType": {
+            "name": "TileType",
+            "shortname": "TileType",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "",
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 10
+        },
         "Sprite": {
             "name": "Sprite",
             "shortname": "Sprite",
@@ -1856,7 +2095,38 @@
             "file": "src\\gameobjects\\StaticImage.ts",
             "line": 10,
             "description": "A light weight game object for displaying static images (such as backgrounds) that would have little or no interaction with other game objects.",
-            "extends": "Entity"
+            "extends": "Entity",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "state",
+                    "description": "The state that this static image belongs to",
+                    "type": "State"
+                },
+                {
+                    "name": "atlas",
+                    "description": "The texture atlas to use as the image.",
+                    "type": "TextureAtlas"
+                },
+                {
+                    "name": "x",
+                    "description": "Its coordinates on the x axis",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The coordinates on the y axis",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "StaticImage"
+            }
         },
         "Textfield": {
             "name": "Textfield",
@@ -2143,6 +2413,127 @@
                 }
             ]
         },
+        "Counter": {
+            "name": "Counter",
+            "shortname": "Counter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HUD",
+            "submodule": "Components",
+            "namespace": "",
+            "file": "src\\hud\\components\\Counter.ts",
+            "line": 21
+        },
+        "Range": {
+            "name": "Range",
+            "shortname": "Range",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HUD",
+            "namespace": "",
+            "file": "src\\hud\\components\\Range.ts",
+            "line": 19
+        },
+        "Time": {
+            "name": "Time",
+            "shortname": "Time",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HUD",
+            "namespace": "",
+            "file": "src\\hud\\widgets\\Time.ts",
+            "line": 21
+        },
+        "BasicScore": {
+            "name": "BasicScore",
+            "shortname": "BasicScore",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HUD",
+            "namespace": "",
+            "file": "src\\hud\\widgets\\BasicScore.ts",
+            "line": 20
+        },
+        "Button": {
+            "name": "Button",
+            "shortname": "Button",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HUD",
+            "submodule": "Widget",
+            "namespace": "",
+            "file": "src\\hud\\widgets\\Button.ts",
+            "line": 12
+        },
+        "Icon": {
+            "name": "Icon",
+            "shortname": "Icon",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HUD",
+            "namespace": "",
+            "file": "src\\hud\\widgets\\Icon.ts",
+            "line": 17
+        },
+        "IconCounter": {
+            "name": "IconCounter",
+            "shortname": "IconCounter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HUD",
+            "namespace": "",
+            "file": "src\\hud\\widgets\\IconCounter.ts",
+            "line": 20
+        },
+        "Menu": {
+            "name": "Menu",
+            "shortname": "Menu",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HUD",
+            "submodule": "Widget",
+            "namespace": "",
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 8
+        },
+        "MenuItem": {
+            "name": "MenuItem",
+            "shortname": "MenuItem",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HUD",
+            "submodule": "Widget",
+            "namespace": "",
+            "file": "src\\hud\\widgets\\MenuItem.ts",
+            "line": 8
+        },
         "HUDDisplay": {
             "name": "HUDDisplay",
             "shortname": "HUDDisplay",
@@ -2182,7 +2573,7 @@
             "module": "Kiwi",
             "namespace": "",
             "file": "src\\hud\\HUDWidget.ts",
-            "line": 18
+            "line": 20
         },
         "Finger": {
             "name": "Finger",
@@ -5635,7 +6026,10 @@
         {
             "file": "src\\components\\ArcadePhysics.ts",
             "line": 263,
-            "description": "Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
+            "description": "If the object should be seperated.",
+            "itemtype": "property",
+            "name": "seperate",
+            "type": "boolean",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
@@ -5643,7 +6037,7 @@
         {
             "file": "src\\components\\ArcadePhysics.ts",
             "line": 270,
-            "description": "Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
+            "description": "Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
@@ -5651,6 +6045,14 @@
         {
             "file": "src\\components\\ArcadePhysics.ts",
             "line": 277,
+            "description": "Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 284,
             "description": "Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.\nUse bitwise operators to check the values stored here.\nUseful for things like one-way platforms (e.g. allowCollisions = UP;)\nThe accessor \"solid\" just flips this variable between NONE and ANY.",
             "class": "ArcadePhysics",
             "module": "Kiwi",
@@ -5658,7 +6060,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 285,
+            "line": 292,
             "description": "Important variable for collision processing.\nBy default this value is set automatically during <code>preUpdate()</code>.",
             "class": "ArcadePhysics",
             "module": "Kiwi",
@@ -5666,7 +6068,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 291,
+            "line": 298,
             "description": "A boolean to indicate if this object is solid or not.",
             "access": "private",
             "tagname": "",
@@ -5676,7 +6078,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 297,
+            "line": 304,
             "description": "A function that is to execute when this object overlaps with another.",
             "access": "private",
             "tagname": "",
@@ -5686,7 +6088,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 303,
+            "line": 310,
             "description": "The context that the callback method should have when it executes.",
             "access": "private",
             "tagname": "",
@@ -5696,7 +6098,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 309,
+            "line": 316,
             "description": "Whether the object collides or not.  For more control over what directions\nthe object will collide from, use collision constants (like LEFT, FLOOR, etc)\nto set the value of allowCollisions directly.",
             "itemtype": "method",
             "name": "solid",
@@ -5716,7 +6118,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 462,
+            "line": 469,
             "description": "The X-axis component of the object separation process.",
             "params": [
                 {
@@ -5739,7 +6141,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 553,
+            "line": 560,
             "description": "The Y-axis component of the object separation process.",
             "params": [
                 {
@@ -5762,7 +6164,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 649,
+            "line": 656,
             "description": "CURRENTLY UNTESTED...",
             "class": "ArcadePhysics",
             "module": "Kiwi",
@@ -5770,7 +6172,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 677,
+            "line": 684,
             "description": "A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.",
             "itemtype": "method",
             "name": "overlaps",
@@ -5796,7 +6198,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 704,
+            "line": 711,
             "description": "A method to check to see if the parent of this physics component overlaps with another group of objects",
             "itemtype": "method",
             "name": "overlaps",
@@ -5822,7 +6224,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 754,
+            "line": 761,
             "description": "Updates the motion...\nUNTESTED.",
             "class": "ArcadePhysics",
             "module": "Kiwi",
@@ -5830,7 +6232,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 783,
+            "line": 790,
             "description": "Sets up a callback function that will run when this object overlaps with another.",
             "itemtype": "method",
             "name": "setCallback",
@@ -5852,7 +6254,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 797,
+            "line": 804,
             "description": "Returns the parent of this entity. Mainly used for executing callbacks.",
             "itemtype": "method",
             "name": "parent",
@@ -5866,7 +6268,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 807,
+            "line": 814,
             "description": "The Update loop of the physics component",
             "class": "ArcadePhysics",
             "module": "Kiwi",
@@ -7139,54 +7541,56 @@
             "params": [
                 {
                     "name": "game",
-                    "description": "",
-                    "type": "Kiwi.Game"
+                    "description": "The game that this camera belongs to.",
+                    "type": "Game"
                 },
                 {
                     "name": "id",
-                    "description": "",
+                    "description": "A unique ID for this camera",
                     "type": "Number"
                 },
                 {
                     "name": "name",
-                    "description": "",
+                    "description": "The name this camera goes by",
                     "type": "String"
                 },
                 {
                     "name": "x",
-                    "description": "",
+                    "description": "The x coordinate of the camera",
                     "type": "Number"
                 },
                 {
                     "name": "y",
-                    "description": "",
+                    "description": "The y coordinate of the camera",
                     "type": "Number"
                 },
                 {
                     "name": "width",
-                    "description": "",
+                    "description": "The width of the camera",
                     "type": "Number"
                 },
                 {
                     "name": "height",
-                    "description": "",
+                    "description": "The cameras height",
                     "type": "Number"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.Camera"
+                "type": "Camera"
             },
             "class": "Camera",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\Camera.ts",
-            "line": 49,
+            "line": 48,
             "description": "The width of this camara.",
             "itemtype": "property",
             "name": "width",
             "type": "Number",
+            "access": "public",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
@@ -7197,142 +7601,138 @@
             "itemtype": "property",
             "name": "height",
             "type": "Number",
+            "access": "public",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\Camera.ts",
-            "line": 63,
-            "description": "The type of Kiwi.Object this is.",
+            "line": 64,
+            "description": "The type of Object this is.",
             "itemtype": "method",
             "name": "objType",
             "return": {
                 "description": "",
                 "type": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\Camera.ts",
-            "line": 72,
-            "description": "if true then the camera will be resized to fit the stage when the stage is resized",
-            "class": "Camera",
-            "module": "Kiwi"
-        },
-        {
-            "file": "src\\core\\Camera.ts",
-            "line": 77,
-            "description": "The Position component that controls the location of this Game Object within the game world",
+            "line": 74,
+            "description": "If true then the camera will be resized to fit the stage when the stage is resized",
             "itemtype": "property",
-            "name": "position",
-            "type": "Kiwi.Components.Position",
+            "name": "fitToStage",
+            "type": "boolean",
+            "default": "true",
+            "access": "public",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\Camera.ts",
-            "line": 84,
+            "line": 83,
+            "description": "The Transform controls the location of this Game Object within the game world. Also controls the cameras scale and rotation.",
+            "itemtype": "property",
+            "name": "transform",
+            "type": "Transform",
+            "access": "public",
+            "tagname": "",
+            "class": "Camera",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\Camera.ts",
+            "line": 91,
+            "description": "Updates the width/height of this camera. Is used when the stage resizes.",
             "itemtype": "method",
             "name": "_updatedStageSize",
             "params": [
                 {
                     "name": "width",
-                    "description": "",
+                    "description": "The new width of the camera.",
                     "type": "Number"
                 },
                 {
                     "name": "height",
-                    "description": "",
+                    "description": "The new height of the camera.",
                     "type": "Number"
                 }
             ],
+            "access": "private",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\Camera.ts",
-            "line": 99,
-            "itemtype": "method",
-            "name": "_updatedStageSize",
-            "params": [
-                {
-                    "name": "width",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "height",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "Camera",
-            "module": "Kiwi"
-        },
-        {
-            "file": "src\\core\\Camera.ts",
-            "line": 121,
+            "line": 107,
             "description": "The game this Group belongs to",
             "itemtype": "property",
             "name": "game",
             "type": "Game",
+            "access": "public",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\Camera.ts",
-            "line": 129,
+            "line": 115,
             "description": "A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.",
             "itemtype": "property",
             "name": "id",
             "type": "number",
+            "access": "public",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\Camera.ts",
-            "line": 136,
+            "line": 123,
             "description": "A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.",
             "itemtype": "property",
             "name": "name",
             "type": "string",
+            "access": "public",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\Camera.ts",
-            "line": 145,
-            "description": "Controls whether this Camera is rendered",
+            "line": 131,
+            "description": "Actually controls whether this Camera is rendered",
             "itemtype": "property",
             "name": "_visible",
             "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "Camera",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\Camera.ts",
+            "line": 139,
+            "description": "Controls whether this Camera is rendered.",
+            "itemtype": "property",
+            "name": "visible",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\Camera.ts",
             "line": 152,
-            "description": "Toggles the visible state of this Camera",
-            "itemtype": "method",
-            "name": "visible",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Boolean"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
-            "class": "Camera",
-            "module": "Kiwi"
-        },
-        {
-            "file": "src\\core\\Camera.ts",
-            "line": 165,
+            "description": "A flag that indicates whether this camera needs to be rendered again at the next update loop, or if it nothing has changed so it doesn't.",
             "itemtype": "property",
             "name": "_dirty",
             "type": "boolean",
@@ -7343,21 +7743,35 @@
         },
         {
             "file": "src\\core\\Camera.ts",
-            "line": 173,
-            "description": "A value used by components to control if the camera needs re-rendering",
-            "itemtype": "method",
+            "line": 160,
+            "description": "A value used by components to control if the camera needs re-rendering.",
+            "itemtype": "property",
             "name": "dirty",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Boolean"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "Camera",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\Camera.ts",
+            "line": 173,
+            "description": "The update loop that is executed every frame.",
+            "itemtype": "method",
+            "name": "update",
+            "access": "public",
+            "tagname": "",
+            "class": "Camera",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\Camera.ts",
+            "line": 182,
+            "description": "The render loop that is executed whilst the game is playing.",
+            "itemtype": "method",
+            "name": "render",
+            "access": "public",
+            "tagname": "",
             "class": "Camera",
             "module": "Kiwi"
         },
@@ -7370,12 +7784,12 @@
                 {
                     "name": "game",
                     "description": "",
-                    "type": "Kiwi.Game"
+                    "type": "Game"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Kiwi.CameraManager"
+                "type": "CameraManager"
             },
             "class": "CameraManager",
             "module": "Kiwi"
@@ -7390,16 +7804,18 @@
                 "description": "The type of this object",
                 "type": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "CameraManager",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 39,
+            "line": 40,
             "description": "The game this object belongs to",
             "itemtype": "property",
             "name": "_game",
-            "type": "Kiwi.Game",
+            "type": "Game",
             "access": "private",
             "tagname": "",
             "class": "CameraManager",
@@ -7407,11 +7823,11 @@
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 47,
+            "line": 48,
             "description": "A collection of cameras",
             "itemtype": "property",
             "name": "_cameras",
-            "type": "Array",
+            "type": "Camara[]",
             "access": "private",
             "tagname": "",
             "class": "CameraManager",
@@ -7419,7 +7835,7 @@
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 55,
+            "line": 56,
             "description": "The id which will be used when next creating a camera",
             "itemtype": "property",
             "name": "_nextCameraID",
@@ -7431,26 +7847,30 @@
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 63,
-            "description": "The default camera of this camera manager.",
+            "line": 64,
+            "description": "The default camera that is on this manager.",
             "itemtype": "property",
             "name": "defaultCamera",
-            "type": "Kiwi.Layer",
+            "type": "Camara",
+            "access": "public",
+            "tagname": "",
             "class": "CameraManager",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 70,
+            "line": 72,
             "description": "Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera",
             "itemtype": "method",
             "name": "boot",
+            "access": "public",
+            "tagname": "",
             "class": "CameraManager",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 81,
+            "line": 84,
             "description": "Creates a new Camera and adds it to the collection of cameras.",
             "params": [
                 {
@@ -7481,14 +7901,16 @@
             ],
             "return": {
                 "description": "The new camera object.",
-                "type": "Kiwi.Camera"
+                "type": "Camera"
             },
+            "access": "public",
+            "tagname": "",
             "class": "CameraManager",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 102,
+            "line": 106,
             "description": "Removes the given camera, if it is present in the camera managers camera collection.",
             "itemtype": "method",
             "name": "remove",
@@ -7496,40 +7918,48 @@
                 {
                     "name": "camera",
                     "description": "",
-                    "type": "Kiwi.Camera"
+                    "type": "Camera"
                 }
             ],
             "return": {
                 "description": "True if the camera was removed, false otherwise.",
                 "type": "Boolean"
             },
+            "access": "public",
+            "tagname": "",
             "class": "CameraManager",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 121,
+            "line": 126,
             "description": "Calls update on all the cameras.",
             "itemtype": "method",
             "name": "update",
+            "access": "public",
+            "tagname": "",
             "class": "CameraManager",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 137,
+            "line": 143,
             "description": "Calls the render method on all the cameras",
             "itemtype": "method",
             "name": "render",
+            "access": "public",
+            "tagname": "",
             "class": "CameraManager",
             "module": "Kiwi"
         },
         {
             "file": "src\\core\\CameraManager.ts",
-            "line": 158,
+            "line": 165,
             "description": "Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.",
             "itemtype": "method",
             "name": "removeAll - note should not remove default",
+            "access": "public",
+            "tagname": "",
             "class": "CameraManager",
             "module": "Kiwi"
         },
@@ -14687,29 +15117,1848 @@
             "submodule": "Files"
         },
         {
-            "file": "src\\gameobjects\\tilemap\\TileType.ts",
-            "line": 67,
-            "description": "A reference to the tilemap this tile object belongs to.",
-            "class": "Sprite",
-            "module": "Kiwi"
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 18,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "state",
+                    "description": "The state that this tilemap belongs to.",
+                    "type": "State"
+                },
+                {
+                    "name": "parent",
+                    "description": "The TileMap on which this TileMapLayer is a part of.",
+                    "type": "TileMap"
+                },
+                {
+                    "name": "atlas",
+                    "description": "The spritesheet that is being used to render the tiles.",
+                    "type": "SpriteSheet"
+                },
+                {
+                    "name": "name",
+                    "description": "The name of this tilemap.",
+                    "type": "String"
+                },
+                {
+                    "name": "tileWidth",
+                    "description": "The width of a single tile.",
+                    "type": "Number"
+                },
+                {
+                    "name": "tileHeight",
+                    "description": "The height of a single tile",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "TileMapLayer"
+            },
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
         },
         {
-            "file": "src\\gameobjects\\tilemap\\TileType.ts",
-            "line": 72,
-            "description": "The index of this tile type in the core map data.\nFor example, if your map only has 16 tiles in it,\nthis number is usually between 0 and 15.",
-            "class": "Sprite",
-            "module": "Kiwi"
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 45,
+            "description": "The TileMap that this TileMapLayer is a child of.",
+            "itemtype": "property",
+            "name": "tileParent",
+            "type": "TileMap",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
         },
         {
-            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 53,
+            "description": "The spritesheet that is being used to render information on.",
+            "itemtype": "property",
+            "name": "_atlas",
+            "type": "SpriteSheet",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 61,
+            "description": "Holds the coordinates for each tile on the sprite sheet. [NOTE SHOULD BE REPLACE WITH CELLS]",
+            "itemtype": "property",
+            "name": "_tileOffsets",
+            "type": "Array",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 69,
+            "description": "The starting tile on the x axis (the row) that needs to rendered. \nThis is calculated based upon where the tiles are in relation to the camera.\nThis is updated each frame.",
+            "itemtype": "property",
+            "name": "_startX",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
             "line": 79,
-            "description": "Clean up memory.",
-            "class": "Sprite",
-            "module": "Kiwi"
+            "description": "The starting tile on the y axis (the column) that needs to rendered. \nThis is calculated based upon where the tiles are in relation to the camera.\nThis is updated each frame.",
+            "itemtype": "property",
+            "name": "_startY",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 89,
+            "description": "The maximum number of tiles that can fit on the camera. On the x axis. From this we can calculate the last tile we need to render.",
+            "itemtype": "property",
+            "name": "_maxX",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 97,
+            "description": "The maximum number of tiles that can fit on the camera. On the y axis. From this we can calculate the last tile we need to render.",
+            "itemtype": "property",
+            "name": "_maxY",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 105,
+            "description": "Used while rendering as a reference the current tile that is being rendereds, x position. [CAN BE REMOVED WHEN UPDATED].",
+            "itemtype": "property",
+            "name": "_tx",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 113,
+            "description": "Used while rendering as a reference the current tile that is being rendereds, y position. [CAN BE REMOVED WHEN UPDATED].",
+            "itemtype": "property",
+            "name": "_tx",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 121,
+            "description": "The starting position in pixels on the x axis. [COULD BE REMOVED WHEN UPDATED]",
+            "itemtype": "property",
+            "name": "_dx",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 129,
+            "description": "The starting position in pixels on the y axis. [COULD BE REMOVED WHEN UPDATED]",
+            "itemtype": "property",
+            "name": "_dy",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 137,
+            "description": "Temporarily holds the information for a single column on tiles.",
+            "itemtype": "property",
+            "name": "_columnData",
+            "type": "Object",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 145,
+            "description": "Holds a set of tile information that is temporarily used when manipulating tiles.",
+            "itemtype": "property",
+            "name": "_tempTileBlock",
+            "type": "Any",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 153,
+            "description": "Holds the starting index of a tile on the x-axis that are to be retrieved. \nUse with the other _tempTile properties.",
+            "itemtype": "property",
+            "name": "_tempTileX",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 162,
+            "description": "Holds the starting index of a tile on the y-axis that are to be retrieved.\nUse with the other _tempTile properties.",
+            "itemtype": "property",
+            "name": "_tempTileY",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 171,
+            "description": "Holds the number of tiles in the x-axis that are to be retrieved.\nUse with the other _tempTile properties.",
+            "itemtype": "property",
+            "name": "_tempTileW",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 180,
+            "description": "Holds the number of tiles in the y-axis that are to be retrieved.\nUse with the other _tempTile properties.",
+            "itemtype": "property",
+            "name": "_tempTileH",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 189,
+            "description": "The name of the layer. This is never used so it can just be for niceties.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "string",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 197,
+            "description": "Holds all of the information about the tile map data.",
+            "itemtype": "property",
+            "name": "mapData",
+            "type": "Array",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 205,
+            "description": "The width of a single tile. This is the same across tiles.",
+            "itemtype": "property",
+            "name": "tileWidth",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 213,
+            "description": "The height of a single tile. This is the same across tiles.",
+            "itemtype": "property",
+            "name": "tileHeight",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 221,
+            "description": "The number of tiles on the x-axis for this TileMapLayer.",
+            "itemtype": "property",
+            "name": "widthInTiles",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 229,
+            "description": "The number of tile on the y-axis for the TileMapLayer.",
+            "itemtype": "property",
+            "name": "heightInTiles",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 237,
+            "description": "The width of the whole TileMapLayer in pixels.",
+            "itemtype": "property",
+            "name": "widthInPixels",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 245,
+            "description": "The height of the while TileMapLayer in pixels.",
+            "itemtype": "property",
+            "name": "heightInPixels",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 253,
+            "description": "The spacing around the edges of the image. [CAN BE REMOVED WHEN UPDATED]",
+            "itemtype": "property",
+            "name": "tileMargin",
+            "type": "number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 262,
+            "description": "The spacing in between each sprite. [CAN BE REMOVED WHEN UPDATED]",
+            "itemtype": "property",
+            "name": "tileSpacing",
+            "type": "number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 271,
+            "description": "Adds a single tile to the map at the given boundaries. This could be used to override a currently existing map tile.",
+            "itemtype": "method",
+            "name": "putTile",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x coordinate of the tile.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The y coordinate of the tile.",
+                    "type": "Number"
+                },
+                {
+                    "name": "tileType",
+                    "description": "The type of tile that you are adding.",
+                    "type": "TileType"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 293,
+            "description": "Replaces a section of tiles on the map with a particular tile. [NEEDS UPDATING]",
+            "itemtype": "method",
+            "name": "fillTile",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "The type of tile that you are using.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting coordinate of the tile on the x-axis.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting coordinate of the tile on the y-axis.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "The width of the area you want to replace. Defaults to the whole maps width.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "height",
+                    "description": "The height of the area you want to replace. Defaults to the whole maps height.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 314,
+            "description": "Randomises a section of tiles on the map based on the tiles you want there.",
+            "itemtype": "method",
+            "name": "randomiseTiles",
+            "params": [
+                {
+                    "name": "tiles",
+                    "description": "An array consisting of the TileTypes that you want.",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting coordinate of the tile on the x-axis.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting coordinate of the tile on the y-axis.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "The width of the area you want to replace. Defaults to the whole maps width.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "height",
+                    "description": "The height of the area you want to replace. Defaults to the whole maps height.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 334,
+            "description": "Swaps all of the tiles of indexA with tiles of indexB and the same alternatively.",
+            "itemtype": "method",
+            "name": "swapTiles",
+            "params": [
+                {
+                    "name": "indexA",
+                    "description": "The first type of tile you want to swapped with indexB.",
+                    "type": "Number"
+                },
+                {
+                    "name": "indexB",
+                    "description": "The second type of tile that is to be swapped with indexA.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting coordinate of the tile on the x-axis.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting coordinate of the tile on the y-axis.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "The width of the area you want to replace. Defaults to the whole maps width.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "height",
+                    "description": "The height of the area you want to replace. Defaults to the whole maps height.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 363,
+            "description": "Replaces all of the tiles of indexA with the tiles of indexB. This only happen's one way.",
+            "itemtype": "method",
+            "name": "replaceTiles",
+            "params": [
+                {
+                    "name": "indexA",
+                    "description": "The tile type that you want to be replaced.",
+                    "type": "Number"
+                },
+                {
+                    "name": "indexB",
+                    "description": "The tile type that you want to replace it with.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The starting coordinate of the tile on the x-axis.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "The starting coordinate of the tile on the y-axis.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "width",
+                    "description": "The width of the area you want to replace. Defaults to the whole maps width.",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "height",
+                    "description": "The height of the area you want to replace. Defaults to the whole maps height.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 387,
+            "description": "Gets a single tile from the x and y provided.",
+            "itemtype": "method",
+            "name": "getTileFromWorldXY",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The coordinate of the tile on the x axis.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The coordinate of the tile on the y axis.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The tile that is at the coordinates if there was one.",
+                "type": "Tile"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 405,
+            "description": "Gets all of the tiles by the index number you pass.",
+            "itemtype": "method",
+            "name": "getTilesByIndex",
+            "params": [
+                {
+                    "name": "The",
+                    "description": "index of the types of tiles you want to retrieve.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Tile[]"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 427,
+            "description": "Creates a set of temporary tile blocks based on the current map data.\nPerhaps add another param which is by a certain tile index?",
+            "itemtype": "method",
+            "name": "getTempBlock",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x first tile in the row you want to use. (In tiles).",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The y first tile in the column you want to use. (In tiles).",
+                    "type": "Number"
+                },
+                {
+                    "name": "width",
+                    "description": "The number of tiles wide.",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "The number of tiles high.",
+                    "type": "Number"
+                },
+                {
+                    "name": "collisionOnly",
+                    "description": "Get only the tiles that can have collisions.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 466,
+            "description": "Returns all of the tiles that overlap a given entity. \nReturns an array with each index containing the tiles",
+            "itemtype": "method",
+            "name": "getTileOverlaps",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "The entity that you are checking.",
+                    "type": "Entity"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 497,
+            "description": "Gets a tile's index based on the indexs provided.",
+            "itemtype": "method",
+            "name": "getTileIndex",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 517,
+            "description": "Gets a tile based on the given positions.",
+            "itemtype": "method",
+            "name": "getTileIndex",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Tile"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 536,
+            "description": "Adds a row of tiles to the tilemap",
+            "itemtype": "method",
+            "name": "addRow",
+            "params": [
+                {
+                    "name": "row",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 564,
+            "description": "Loops through the texture that was given and assign's each sprite inside of it to the _tileOffset, with its coordinates. Internal use by Kiwi only.",
+            "itemtype": "method",
+            "name": "parseTileOffsets",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TIleMapLayer.ts",
+            "line": 599,
+            "description": "Renders the tileMap to the stage. It also updates the position component of all of the tiles that appear. [NEED TO UPDATE]",
+            "itemtype": "method",
+            "name": "render",
+            "params": [
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\Tile.ts",
+            "line": 18,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "state",
+                    "description": "The state that this Tile is on.",
+                    "type": "State"
+                },
+                {
+                    "name": "tileLayer",
+                    "description": "The TileMapLayer that this Tile is a part of.",
+                    "type": "TileMapLayer"
+                },
+                {
+                    "name": "tileTypes",
+                    "description": "The type of tile that this is.",
+                    "type": "TileType"
+                },
+                {
+                    "name": "width",
+                    "description": "The width of this tile.",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "The height of this tile.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The tiles x coordinate.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The tiles y coordinate.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Tile"
+            },
+            "class": "Tile",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\Tile.ts",
+            "line": 39,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Tile",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\Tile.ts",
+            "line": 49,
+            "description": "This method handles the updating of the type of tile this tile is. Internal use by Kiwi only.",
+            "itemtype": "method",
+            "name": "tileUpdate",
+            "params": [
+                {
+                    "name": "tileType",
+                    "description": "",
+                    "type": "TileType"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Tile",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\Tile.ts",
+            "line": 63,
+            "description": "What tile map layer it is currently on.",
+            "itemtype": "property",
+            "name": "tileLayer",
+            "type": "TileMapLayer",
+            "access": "public",
+            "tagname": "",
+            "class": "Tile",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\Tile.ts",
+            "line": 71,
+            "description": "Reference to the type of tile that this tile is.",
+            "itemtype": "property",
+            "name": "tileType",
+            "type": "TileType",
+            "access": "public",
+            "tagname": "",
+            "class": "Tile",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\Tile.ts",
+            "line": 79,
+            "description": "The physics component that is used of collision detection.",
+            "itemtype": "property",
+            "name": "physics",
+            "type": "ArcadePhysics",
+            "access": "public",
+            "tagname": "",
+            "class": "Tile",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\Tile.ts",
+            "line": 87,
+            "description": "Position in the mapData object on the x axis in the TileMap that this tile is.",
+            "itemtype": "property",
+            "name": "tx",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Tile",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\Tile.ts",
+            "line": 95,
+            "description": "Position in the mapData object on the y axis in the TileMap that this tile is.",
+            "itemtype": "property",
+            "name": "ty",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Tile",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 17,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "state",
+                    "description": "The state that this Tilemap is on.",
+                    "type": "State"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "TileMap"
+            },
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 27,
+            "description": "Creates a tile map from some data you already have.",
+            "itemtype": "method",
+            "name": "createFromData",
+            "params": [
+                {
+                    "name": "tileMapData",
+                    "description": "The map information.",
+                    "type": "Any"
+                },
+                {
+                    "name": "atlas",
+                    "description": "The image that is being used.",
+                    "type": "SpriteSheet"
+                },
+                {
+                    "name": "game",
+                    "description": "The game that this tilemap belongs to.",
+                    "type": "Game"
+                },
+                {
+                    "name": "format",
+                    "description": "The format that this information was saved as.",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 55,
+            "description": "Creates the tilemap from the file store. This tilemap is based on a data file and texture atlas that is in the main fileStore.",
+            "itemtype": "method",
+            "name": "createFromFileStore",
+            "params": [
+                {
+                    "name": "tileMapDataKey",
+                    "description": "The key of the data file.",
+                    "type": "String"
+                },
+                {
+                    "name": "atlas",
+                    "description": "The texture atlas that is to be used.",
+                    "type": "SpriteSheet"
+                },
+                {
+                    "name": "format",
+                    "description": "The format that the data was saved in.",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 93,
+            "description": "The type of object that it is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 103,
+            "description": "The tilemap data information.",
+            "itemtype": "property",
+            "name": "_tileMapDataKey",
+            "type": "string",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 112,
+            "description": "The SpriteSheet that this tilemap is using for the tiles.",
+            "itemtype": "property",
+            "name": "_atlas",
+            "type": "SpriteSheet",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 120,
+            "description": "A STATIC property containing the number associated with CSV format.",
+            "itemtype": "property",
+            "name": "FORMAT_CSV",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "0",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 130,
+            "description": "A STATIC property containing the number associated with the JSON format.",
+            "itemtype": "property",
+            "name": "FORMAT_TILED_JSON",
+            "type": "number",
+            "static": 1,
+            "final": 1,
+            "default": "1",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 140,
+            "description": "Contains an array of all of the tile types that are avaiable.",
+            "itemtype": "property",
+            "name": "tiles",
+            "type": "TileType[]",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 148,
+            "description": "An array holding all of the tile map layers that exist on this tilemap.",
+            "itemtype": "property",
+            "name": "layers",
+            "type": "TileMapLayer[]",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 156,
+            "description": "A reference to the current TileMapLayer that is being used.",
+            "itemtype": "property",
+            "name": "currentLayer",
+            "type": "TileMapLayer",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 164,
+            "description": "The format that the tilemap was loaded with.",
+            "itemtype": "property",
+            "name": "mapFormat",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 172,
+            "description": "Tilemap collision callback method.",
+            "itemtype": "property",
+            "name": "_collisionCallback",
+            "type": "Function",
+            "default": "null",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 181,
+            "description": "Context for the collision callback.",
+            "itemtype": "property",
+            "name": "_collisionCallbackContext",
+            "type": "Any",
+            "default": "null",
+            "access": "private",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 190,
+            "description": "The render loop.",
+            "itemtype": "method",
+            "name": "render",
+            "params": [
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 204,
+            "description": "Creates the tilemap based of some json data that gets parsed.",
+            "itemtype": "method",
+            "name": "parseTiledJSON",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "The JSON data to create the map based off.",
+                    "type": "Any"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 254,
+            "description": "This method generates a number of TileType objects based on the quantity passed. These tiles are based of the current layer.",
+            "itemtype": "method",
+            "name": "generateTiles",
+            "params": [
+                {
+                    "name": "layer",
+                    "description": "The TileMapLayer that these TileTypes are based on.",
+                    "type": "TileMapLayer"
+                },
+                {
+                    "name": "qty",
+                    "description": "THe number of TileTypes to create.",
+                    "type": "Number"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 268,
+            "description": "Gets the current TileMapLayer's width in pixels.",
+            "itemtype": "property",
+            "name": "widthInPixels",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 278,
+            "description": "Gets the current TileMapLayers height in pixels.",
+            "itemtype": "property",
+            "name": "heightInPixels",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 288,
+            "description": "Gets a tiletype by a index provided.",
+            "itemtype": "method",
+            "name": "getTileTypeByIndex",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The index of the tile type you are getting",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "TileType"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 305,
+            "description": "Gets a single tile either off the tile layer passed otherwise off the currentLayer if no layer is specified.",
+            "itemtype": "method",
+            "name": "getTile",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x coordinate of the tile you would like to get.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The y cooridnate of the tile you would like to get.",
+                    "type": "Number"
+                },
+                {
+                    "name": "layer",
+                    "description": "The layer that you want to get the tile on. If not passed then it uses the current layer.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Tile"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 325,
+            "description": "Gets an array of tiles based on a TileType index.",
+            "itemtype": "method",
+            "name": "getTilesByType",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "The index of the TileType you would like to get.",
+                    "type": "Number"
+                },
+                {
+                    "name": "layer",
+                    "description": "The layer that you would like to get them on. If not passed then this is based on the current layer.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Tile"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 344,
+            "description": "Gets a tile based on the passed X and Y. \nCaution! If the tilemap has moved make sure you put that into account.",
+            "itemtype": "method",
+            "name": "getTileFromWorldXY",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "layer",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Tile"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 364,
+            "description": "Gets a tile based on the mouse's current X and Y coordinates.",
+            "itemtype": "method",
+            "name": "getTileFromInputXY",
+            "params": [
+                {
+                    "name": "layer",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Tile"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 381,
+            "description": "Checks to see if an entity overlaps with any colliable tiles on the current layer. Returns the tiles that it overlaps with.",
+            "itemtype": "method",
+            "name": "getTileOverlaps",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "",
+                    "type": "Entity"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 395,
+            "description": "Adds/Reassign's a tile on the point in the map you specify.",
+            "itemtype": "method",
+            "name": "putTile",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "layer",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 417,
+            "description": "Set the callback to be called when the tilemap collides.",
+            "itemtype": "method",
+            "name": "setCollisionCallback",
+            "params": [
+                {
+                    "name": "Callback",
+                    "description": "function",
+                    "type": "Function"
+                },
+                {
+                    "name": "Callback",
+                    "description": "will be called with this context",
+                    "type": "Any"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 432,
+            "description": "Sets the collision of a range of tiletypes.",
+            "itemtype": "method",
+            "name": "setCollisionRange",
+            "params": [
+                {
+                    "name": "start",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "end",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "collision",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "ArcadePhysics.ANY"
+                },
+                {
+                    "name": "seperate",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 450,
+            "description": "Sets the collision of a single tiletype by the index.",
+            "itemtype": "method",
+            "name": "setCollisionIndex",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "collision",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "ArcadePhysics.ANY"
+                },
+                {
+                    "name": "seperate",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 471,
+            "description": "Checks to see if a single object is colliding with any colliable tiles.",
+            "itemtype": "method",
+            "name": "collideSingle",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "",
+                    "type": "Entity"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 499,
+            "description": "Tests to see if a group of entities are colliding with any tiles.",
+            "itemtype": "method",
+            "name": "collideGroup",
+            "params": [
+                {
+                    "name": "group",
+                    "description": "",
+                    "type": "Group"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileMap.ts",
+            "line": 514,
+            "description": "Destroys everything.",
+            "itemtype": "method",
+            "name": "destroy",
+            "access": "public",
+            "tagname": "",
+            "class": "TileMap",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
         },
         {
             "file": "src\\gameobjects\\tilemap\\TileType.ts",
-            "line": 86,
+            "line": 17,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "gmae",
+                    "description": "The game that this type of tile belongs to.",
+                    "type": "Game"
+                },
+                {
+                    "name": "tilemap",
+                    "description": "The TileMap that this type of tile is on.",
+                    "type": "TileMap"
+                },
+                {
+                    "name": "index",
+                    "description": "The unique index that this tile has associated with it.",
+                    "type": "Number"
+                },
+                {
+                    "name": "width",
+                    "description": "The width of this tile. Only used for collision detection.",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "The height of this tile. Only used for collision detection.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "TileType"
+            },
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 41,
+            "description": "The game that this tiletype belongs to.",
+            "itemtype": "property",
+            "name": "_game",
+            "type": "Game",
+            "access": "private",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 49,
+            "description": "You can give this Tile a friendly name to help with debugging. Never used internally.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "string",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 57,
+            "description": "The mass of the tile. Intended to be used in future with ArcadePhysics. Currently not used.",
+            "itemtype": "property",
+            "name": "mass",
+            "type": "number",
+            "default": "1.0",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 66,
+            "description": "The width of this tile in pixels. Used only for collision detection, not for rendering.",
+            "itemtype": "property",
+            "name": "width",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 74,
+            "description": "The height of this tile in pixels. Used only for collision detection, not for rendering.",
+            "itemtype": "property",
+            "name": "height",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 82,
+            "description": "If this tile type is immovable or not.",
+            "itemtype": "property",
+            "name": "immovable",
+            "type": "boolean",
+            "default": "true",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 91,
+            "description": "Which side/s at which objects can collide with this type of tile.",
+            "itemtype": "property",
+            "name": "allowCollisions",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 99,
+            "description": "If when a object collides with this type of tile, they should both seperate.",
+            "itemtype": "property",
+            "name": "seperate",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 107,
+            "description": "A reference to the tilemap this tile object belongs to.",
+            "itemtype": "property",
+            "name": "tilemap",
+            "type": "TileMap",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 115,
+            "description": "The index of this tile type in the core map data.\nFor example, if your map only has 16 different types of tiles in it, this will be one of those tiles and thus a number between 0 and 15.",
+            "itemtype": "property",
+            "name": "index",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 124,
+            "description": "Clean up memory by destroying the references to other objects that this class maintains.",
+            "itemtype": "method",
+            "name": "destroy",
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
+        },
+        {
+            "file": "src\\gameobjects\\tilemap\\TileType.ts",
+            "line": 134,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -14717,8 +16966,11 @@
                 "description": "a string representation of the object.",
                 "type": "String"
             },
-            "class": "Sprite",
-            "module": "Kiwi"
+            "access": "public",
+            "tagname": "",
+            "class": "TileType",
+            "module": "GameObjects",
+            "submodule": "Tilemap"
         },
         {
             "file": "src\\gameobjects\\Sprite.ts",
@@ -14861,44 +17113,6 @@
             "access": "public",
             "tagname": "",
             "class": "Sprite",
-            "module": "Kiwi",
-            "submodule": "GameObjects"
-        },
-        {
-            "file": "src\\gameobjects\\StaticImage.ts",
-            "line": 18,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "state",
-                    "description": "The state that this static image belongs to",
-                    "type": "State"
-                },
-                {
-                    "name": "atlas",
-                    "description": "The texture atlas to use as the image.",
-                    "type": "TextureAtlas"
-                },
-                {
-                    "name": "x",
-                    "description": "Its coordinates on the x axis",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y",
-                    "description": "The coordinates on the y axis",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "StaticImage"
-            },
-            "class": "StaticImage",
             "module": "Kiwi",
             "submodule": "GameObjects"
         },
@@ -20679,6 +22893,332 @@
             "submodule": "Geom"
         },
         {
+            "file": "src\\hud\\widgets\\Bar.ts",
+            "line": 20,
+            "description": "Bar",
+            "class": "BasicScore",
+            "module": "HUD"
+        },
+        {
+            "file": "src\\hud\\widgets\\Button.ts",
+            "line": 90,
+            "itemtype": "property",
+            "name": "game",
+            "type": "Game",
+            "access": "public",
+            "tagname": "",
+            "class": "Button",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Button.ts",
+            "line": 98,
+            "itemtype": "property",
+            "name": "input",
+            "type": "WidgetInput",
+            "access": "public",
+            "tagname": "",
+            "class": "Button",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Button.ts",
+            "line": 107,
+            "itemtype": "method",
+            "name": "_changed",
+            "access": "private",
+            "tagname": "",
+            "class": "Button",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\IconCounter.ts",
+            "line": 64,
+            "itemtype": "property",
+            "name": "_repeat",
+            "type": "string",
+            "access": "public",
+            "tagname": "",
+            "class": "IconCounter",
+            "module": "HUD"
+        },
+        {
+            "file": "src\\hud\\widgets\\IconCounter.ts",
+            "line": 72,
+            "itemtype": "property",
+            "name": "repeat",
+            "type": "string",
+            "access": "public",
+            "tagname": "",
+            "class": "IconCounter",
+            "module": "HUD"
+        },
+        {
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 13,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "game",
+                    "description": "",
+                    "type": "Game"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "Menu",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 28,
+            "itemtype": "property",
+            "name": "game",
+            "type": "Game",
+            "access": "public",
+            "tagname": "",
+            "class": "Menu",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 35,
+            "itemtype": "property",
+            "name": "_menuItems",
+            "type": "MenuItem",
+            "access": "private",
+            "tagname": "",
+            "class": "Menu",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 43,
+            "itemtype": "method",
+            "name": "addMenuItem",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "MenuItem"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "MenuItem"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Menu",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 60,
+            "itemtype": "method",
+            "name": "addMenuItems",
+            "params": [
+                {
+                    "name": "items",
+                    "description": "",
+                    "type": "MenuItem[]"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Menu",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 72,
+            "itemtype": "method",
+            "name": "getMenuItem",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "MenuItem"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Menu",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 94,
+            "itemtype": "method",
+            "name": "setTemplate",
+            "params": [
+                {
+                    "name": "main",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "sub",
+                    "description": "",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Menu",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 117,
+            "itemtype": "method",
+            "name": "removeTemplate",
+            "access": "public",
+            "tagname": "",
+            "class": "Menu",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\Menu.ts",
+            "line": 124,
+            "itemtype": "method",
+            "name": "update",
+            "access": "public",
+            "tagname": "",
+            "class": "Menu",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\MenuItem.ts",
+            "line": 14,
+            "contructor": "",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "MenuItem",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\MenuItem.ts",
+            "line": 37,
+            "itemtype": "property",
+            "name": "game",
+            "type": "Game",
+            "access": "public",
+            "tagname": "",
+            "class": "MenuItem",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\MenuItem.ts",
+            "line": 48,
+            "itemtype": "property",
+            "name": "input",
+            "type": "WidgetInput",
+            "access": "public",
+            "tagname": "",
+            "class": "MenuItem",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\MenuItem.ts",
+            "line": 58,
+            "itemtype": "property",
+            "name": "menu",
+            "type": "Menu",
+            "access": "private",
+            "tagname": "",
+            "class": "MenuItem",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\MenuItem.ts",
+            "line": 68,
+            "itemtype": "method",
+            "name": "addedToStage",
+            "params": [
+                {
+                    "name": "game",
+                    "description": "",
+                    "type": "Game"
+                },
+                {
+                    "name": "menu",
+                    "description": "",
+                    "type": "Menu"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "MenuItem",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
+            "file": "src\\hud\\widgets\\MenuItem.ts",
+            "line": 82,
+            "itemtype": "method",
+            "name": "_applyCSS",
+            "access": "private",
+            "tagname": "",
+            "class": "MenuItem",
+            "module": "HUD",
+            "submodule": "Widget"
+        },
+        {
             "file": "src\\hud\\HUDDisplay.ts",
             "line": 15,
             "is_constructor": 1,
@@ -24990,7 +27530,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 249,
+            "line": 259,
             "description": "Prevent iOS bounce-back (doesn't work?)",
             "itemtype": "method",
             "name": "consumeTouchMove",
@@ -25009,7 +27549,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 259,
+            "line": 269,
             "description": "Gets the position of the latest finger on the x axis.",
             "type": "number",
             "access": "public",
@@ -25020,7 +27560,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 268,
+            "line": 278,
             "description": "Gets the position of the latest finger on the y axis.",
             "type": "number",
             "access": "public",
@@ -25031,7 +27571,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 277,
+            "line": 287,
             "description": "The developer defined maximum number of touch events. By default this is set to 10 but this can be set to be lower.",
             "itemtype": "property",
             "name": "_maxTouchEvents",
@@ -25045,7 +27585,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 286,
+            "line": 296,
             "description": "Sets the maximum number of point of contact that are allowed on the game stage at one point.\nThe maximum number of points that are allowed is 10, and the minimum is 0.",
             "type": "number",
             "access": "public",
@@ -25056,7 +27596,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 300,
+            "line": 310,
             "description": "Gets the maximum number of points of contact that are allowed on the game stage at one point.",
             "type": "number",
             "access": "public",
@@ -25067,7 +27607,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 309,
+            "line": 319,
             "description": "This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.",
             "itemtype": "method",
             "name": "onTouchStart",
@@ -25086,7 +27626,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 346,
+            "line": 356,
             "description": "Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.",
             "itemtype": "method",
             "name": "onTouchCancel",
@@ -25105,7 +27645,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 373,
+            "line": 383,
             "description": "Doesn't appear to be supported by most browsers yet. But if it was would fire events when touch events enter an element.",
             "itemtype": "method",
             "name": "onTouchEnter",
@@ -25124,7 +27664,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 396,
+            "line": 406,
             "description": "Doesn't appear to be supported by most browsers yet. Would fire events when a 'finger' leaves an element.     \nWould be handly for when an finger 'leaves' the stage.",
             "itemtype": "method",
             "name": "onTouchLeave",
@@ -25143,7 +27683,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 421,
+            "line": 431,
             "description": "When a touch pointer moves. This method updates the appropriate pointer.",
             "itemtype": "method",
             "name": "onTouchMove",
@@ -25162,7 +27702,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 448,
+            "line": 458,
             "description": "When a touch event gets released.",
             "itemtype": "method",
             "name": "onTouchEnd",
@@ -25181,7 +27721,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 490,
+            "line": 500,
             "description": "The update loop fro the touch manager.",
             "itemtype": "method",
             "name": "update",
@@ -25193,7 +27733,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 506,
+            "line": 516,
             "description": "This method removes all of the event listeners and thus 'stops' the touch manager.",
             "itemtype": "method",
             "name": "stop",
@@ -25205,7 +27745,7 @@
         },
         {
             "file": "src\\input\\Touch.ts",
-            "line": 522,
+            "line": 532,
             "description": "Resets all of the fingers/pointers to their default states.",
             "itemtype": "method",
             "name": "reset",
@@ -33315,12 +35855,28 @@
             "line": " src\\file\\File.ts:1054"
         },
         {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src\\gameobjects\\tilemap\\TileMap.ts:381"
+        },
+        {
             "message": "param name missing: {Camera}",
             "line": " src\\gameobjects\\Textfield.ts:287"
         },
         {
             "message": "replacing incorrect tag: propery with property",
             "line": " src\\geom\\Line.ts:184"
+        },
+        {
+            "message": "unknown tag: desc",
+            "line": " src\\hud\\components\\Counter.ts:2"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " src\\hud\\components\\Counter.ts:2"
+        },
+        {
+            "message": "unknown tag: contructor",
+            "line": " src\\hud\\widgets\\MenuItem.ts:14"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -33372,51 +35928,51 @@
         },
         {
             "message": "Missing item type\nBit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
-            "line": " src\\components\\ArcadePhysics.ts:263"
-        },
-        {
-            "message": "Missing item type\nBit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
             "line": " src\\components\\ArcadePhysics.ts:270"
         },
         {
-            "message": "Missing item type\nBit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.\nUse bitwise operators to check the values stored here.\nUseful for things like one-way platforms (e.g. allowCollisions = UP;)\nThe accessor \"solid\" just flips this variable between NONE and ANY.",
+            "message": "Missing item type\nBit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
             "line": " src\\components\\ArcadePhysics.ts:277"
         },
         {
+            "message": "Missing item type\nBit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.\nUse bitwise operators to check the values stored here.\nUseful for things like one-way platforms (e.g. allowCollisions = UP;)\nThe accessor \"solid\" just flips this variable between NONE and ANY.",
+            "line": " src\\components\\ArcadePhysics.ts:284"
+        },
+        {
             "message": "Missing item type\nImportant variable for collision processing.\nBy default this value is set automatically during <code>preUpdate()</code>.",
-            "line": " src\\components\\ArcadePhysics.ts:285"
+            "line": " src\\components\\ArcadePhysics.ts:292"
         },
         {
             "message": "Missing item type\nA boolean to indicate if this object is solid or not.",
-            "line": " src\\components\\ArcadePhysics.ts:291"
+            "line": " src\\components\\ArcadePhysics.ts:298"
         },
         {
             "message": "Missing item type\nA function that is to execute when this object overlaps with another.",
-            "line": " src\\components\\ArcadePhysics.ts:297"
+            "line": " src\\components\\ArcadePhysics.ts:304"
         },
         {
             "message": "Missing item type\nThe context that the callback method should have when it executes.",
-            "line": " src\\components\\ArcadePhysics.ts:303"
+            "line": " src\\components\\ArcadePhysics.ts:310"
         },
         {
             "message": "Missing item type\nThe X-axis component of the object separation process.",
-            "line": " src\\components\\ArcadePhysics.ts:462"
+            "line": " src\\components\\ArcadePhysics.ts:469"
         },
         {
             "message": "Missing item type\nThe Y-axis component of the object separation process.",
-            "line": " src\\components\\ArcadePhysics.ts:553"
+            "line": " src\\components\\ArcadePhysics.ts:560"
         },
         {
             "message": "Missing item type\nCURRENTLY UNTESTED...",
-            "line": " src\\components\\ArcadePhysics.ts:649"
+            "line": " src\\components\\ArcadePhysics.ts:656"
         },
         {
             "message": "Missing item type\nUpdates the motion...\nUNTESTED.",
-            "line": " src\\components\\ArcadePhysics.ts:754"
+            "line": " src\\components\\ArcadePhysics.ts:761"
         },
         {
             "message": "Missing item type\nThe Update loop of the physics component",
-            "line": " src\\components\\ArcadePhysics.ts:807"
+            "line": " src\\components\\ArcadePhysics.ts:814"
         },
         {
             "message": "Missing item type",
@@ -33439,16 +35995,12 @@
             "line": " src\\core\\Camera.ts:18"
         },
         {
-            "message": "Missing item type\nif true then the camera will be resized to fit the stage when the stage is resized",
-            "line": " src\\core\\Camera.ts:72"
-        },
-        {
             "message": "Missing item type\n[REQUIRES DESCRIPTION]",
             "line": " src\\core\\CameraManager.ts:16"
         },
         {
             "message": "Missing item type\nCreates a new Camera and adds it to the collection of cameras.",
-            "line": " src\\core\\CameraManager.ts:81"
+            "line": " src\\core\\CameraManager.ts:84"
         },
         {
             "message": "Missing item type",
@@ -33539,24 +36091,24 @@
             "line": " src\\file\\Loader.ts:17"
         },
         {
-            "message": "Missing item type\nA reference to the tilemap this tile object belongs to.",
-            "line": " src\\gameobjects\\tilemap\\TileType.ts:67"
+            "message": "Missing item type",
+            "line": " src\\gameobjects\\tilemap\\TIleMapLayer.ts:18"
         },
         {
-            "message": "Missing item type\nThe index of this tile type in the core map data.\nFor example, if your map only has 16 tiles in it,\nthis number is usually between 0 and 15.",
-            "line": " src\\gameobjects\\tilemap\\TileType.ts:72"
+            "message": "Missing item type",
+            "line": " src\\gameobjects\\tilemap\\Tile.ts:18"
         },
         {
-            "message": "Missing item type\nClean up memory.",
-            "line": " src\\gameobjects\\tilemap\\TileType.ts:79"
+            "message": "Missing item type",
+            "line": " src\\gameobjects\\tilemap\\TileMap.ts:17"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src\\gameobjects\\tilemap\\TileType.ts:17"
         },
         {
             "message": "Missing item type",
             "line": " src\\gameobjects\\Sprite.ts:17"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src\\gameobjects\\StaticImage.ts:18"
         },
         {
             "message": "Missing item type",
@@ -33619,6 +36171,18 @@
             "line": " src\\geom\\Transform.ts:195"
         },
         {
+            "message": "Missing item type\nBar",
+            "line": " src\\hud\\widgets\\Bar.ts:20"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src\\hud\\widgets\\Menu.ts:13"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src\\hud\\widgets\\MenuItem.ts:14"
+        },
+        {
             "message": "Missing item type",
             "line": " src\\hud\\HUDDisplay.ts:15"
         },
@@ -33660,19 +36224,19 @@
         },
         {
             "message": "Missing item type\nGets the position of the latest finger on the x axis.",
-            "line": " src\\input\\Touch.ts:259"
+            "line": " src\\input\\Touch.ts:269"
         },
         {
             "message": "Missing item type\nGets the position of the latest finger on the y axis.",
-            "line": " src\\input\\Touch.ts:268"
+            "line": " src\\input\\Touch.ts:278"
         },
         {
             "message": "Missing item type\nSets the maximum number of point of contact that are allowed on the game stage at one point.\nThe maximum number of points that are allowed is 10, and the minimum is 0.",
-            "line": " src\\input\\Touch.ts:286"
+            "line": " src\\input\\Touch.ts:296"
         },
         {
             "message": "Missing item type\nGets the maximum number of points of contact that are allowed on the game stage at one point.",
-            "line": " src\\input\\Touch.ts:300"
+            "line": " src\\input\\Touch.ts:310"
         },
         {
             "message": "Missing item type",

@@ -7,10 +7,10 @@
 module Kiwi {
 
     /**
-    *[REQUIRES DESCRIPTION]
+    * 
     * 
     * @class Group
-    *
+    * 
     */
 
     export class Group implements Kiwi.IChild {

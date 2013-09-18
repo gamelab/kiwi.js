@@ -7,6 +7,8 @@
 module Kiwi {
     
     /**
+    * A IChild is an Interface (defined as a class as the documentation does not support Interfaces just yet),
+    * which outlining the methods/properties that objects which are intended to be added as a child of a Stage or Group must have in order to work.
     * 
     * @class IChild
     */
