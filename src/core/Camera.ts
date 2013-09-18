@@ -11,21 +11,22 @@ module Kiwi {
     * this can span multiple lines.
     *
     * @class Camera
+    * @constructor
+    * @param game {Game} The game that this camera belongs to.
+    * @param id {Number} A unique ID for this camera 
+    * @param name {String} The name this camera goes by
+    * @param x {Number} The x coordinate of the camera
+    * @param y {Number} The y coordinate of the camera
+    * @param width {Number} The width of the camera
+    * @param height {Number} The cameras height
+    * @return {Camera}
     * 
     */
     export class Camera {
 
         /**
 		* 
-        * @constructor
-        * @param game {Game} The game that this camera belongs to.
-        * @param id {Number} A unique ID for this camera 
-        * @param name {String} The name this camera goes by
-        * @param x {Number} The x coordinate of the camera
-        * @param y {Number} The y coordinate of the camera
-        * @param width {Number} The width of the camera
-        * @param height {Number} The cameras height
-        * @return {Camera}
+        
 		*/
         constructor(game: Kiwi.Game, id: number, name: string,x:number,y:number,width:number,height:number) {
 

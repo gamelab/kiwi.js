@@ -9,15 +9,16 @@ module Kiwi {
     /**
     * [REQUIRES DESCRIPTION]
     * @class CameraManager
+    * @constructor
+    * @param {Game} game
+    * @return {CameraManager} 
     */
 
     export class CameraManager {
 
         /**
 		* [REQUIRES DESCRIPTION]
-        * @constructor
-        * @param {Game} game
-        * @return {CameraManager} 
+        
     	*/
         constructor(game: Kiwi.Game) {
              

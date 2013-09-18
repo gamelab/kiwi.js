@@ -15,6 +15,9 @@ module Kiwi.Components {
     * http://www.adamatomic.com/
     *
     * @class ArcadePhysics
+    * @constructor
+    * @param {Entity} entity 
+    * @return {ArcadePhysics}
     * @extends Component
     *
     * @author Adam 'Atomic' Saltsman, Flixel
@@ -52,9 +55,7 @@ module Kiwi.Components {
 
         /**
         *
-        * @constructor
-        * @param {Kiwi.Entity} entity 
-        * @return {Kiwi.Components.ArcadePhysics}
+        
         */
         constructor(entity:Kiwi.Entity) {
             super(entity,'ArcadePhysics');

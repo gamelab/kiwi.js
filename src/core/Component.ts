@@ -10,15 +10,16 @@ module Kiwi {
     * The base class that all components extend from.  
     *
     * @class Component
+    * @constructor
+    * @param owner {IChild} The IChild that this component belongs to.
+    * @param componentName {String} The name of this component.
+    * @return {Component}
     */ 
     export class Component {
         
         /** 
         * 
-        * @constructor
-        * @param owner {IChild} The IChild that this component belongs to.
-        * @param componentName {String} The name of this component.
-        * @return {Component}
+        
         */
         constructor (owner:Kiwi.IChild, name:string) {
 

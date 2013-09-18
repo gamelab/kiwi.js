@@ -12,6 +12,10 @@ module Kiwi.Animation {
     * https://github.com/sole/tween.js
     *
     * @class Tween
+    * @constructor
+    * @param object {Any} The object that this tween is taking affect on.
+    * @param game {Game} The game that this tween is for.
+    * @return {Tween} This tween.
     *
     * @author     sole / http://soledadpenades.com
     * @author     mrdoob / http://mrdoob.com
@@ -28,10 +32,7 @@ module Kiwi.Animation {
 
         /** 
         * 
-        * @constructor
-        * @param object {Any} The object that this tween is taking affect on.
-        * @param game {Game} The game that this tween is for.
-        * @return {Tween} This tween.
+        
         */
         constructor(object, game:Kiwi.Game = null) {
 

@@ -12,19 +12,20 @@ module Kiwi.Components {
     *
     * @class Box
     * @extends Component
+    * @constructor
+    * @param parent {Entity} The entity that this box belongs to.
+    * @param [x=0] {Number} Its position on the x axis
+    * @param [y=0] {Number} Its position on the y axis
+    * @param [width=0] {Number} The width of the box.
+    * @param [height=0] {Number} The height of the box.
+    * @return {Box}
     */
 
     export class Box extends Component {
 
         /**
         * 
-        * @constructor
-        * @param parent {Entity} The entity that this box belongs to.
-        * @param [x=0] {Number} Its position on the x axis
-        * @param [y=0] {Number} Its position on the y axis
-        * @param [width=0] {Number} The width of the box.
-        * @param [height=0] {Number} The height of the box.
-        * @return {Box}
+        
         */
         constructor(parent: Entity, x: number = 0, y: number = 0, width: number = 0, height: number = 0) {
             

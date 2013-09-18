@@ -10,17 +10,18 @@ module Kiwi.Animation {
     /**
     * 
     * @class Anim
+    * @constructor
+    * @param name {string} The name of this anim.
+    * @param sequences {Sequences} The sequence that this anim will be using to animate.
+    * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @return {Anim} 
     * 
     */
     export class Anim {
 
         /**
         *
-        * @constructor
-        * @param name {string} The name of this anim.
-        * @param sequences {Sequences} The sequence that this anim will be using to animate.
-        * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
-        * @return {Anim} 
+        
         */
         constructor(name: string, sequence: Kiwi.Animation.Sequence, clock: Kiwi.Time.Clock) {
             

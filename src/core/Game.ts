@@ -11,6 +11,12 @@ module Kiwi {
     * this can span multiple lines.
     *
     * @class Game
+    * @constructor
+    * @param [domParent=''] {String} The dom element that the game should use as its 'container' 
+    * @param [name='KiwiGame'] {String} The name of the game that is being created.
+    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, or the state object itself.
+    * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
+    * @return {Game}
     * 
     */
 
@@ -18,12 +24,7 @@ module Kiwi {
 
         /**
         * 
-        * @constructor
-        * @param [domParent=''] {String} The dom element that the game should use as its 'container' 
-        * @param [name='KiwiGame'] {String} The name of the game that is being created.
-        * @param [state=null] {Any} The state to load initially. This can either be the name of a state, or the state object itself.
-        * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
-        * @return {Kiwi.Game}
+        
         */
         constructor (domParent: string = '', name: string = 'KiwiGame', state: any = null, options?) {
 

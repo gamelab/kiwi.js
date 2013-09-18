@@ -11,6 +11,11 @@ module Kiwi {
     * Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
     * 
     * @class Entity
+    * @constructor
+    * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
+    * @param x {Number} The entities position on the x axis.
+    * @param y {Number} The entities position on the y axis.
+    * @return {Entity} This entity.
     *
     */
 
@@ -18,11 +23,7 @@ module Kiwi {
 
         /**
         * 
-        * @constructor
-        * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
-        * @param x {Number} The entities position on the x axis.
-        * @param y {Number} The entities position on the y axis.
-        * @return {Entity} This entity.
+        
         */
         constructor(state: Kiwi.State, x:number, y: number) {
             

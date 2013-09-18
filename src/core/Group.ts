@@ -10,6 +10,10 @@ module Kiwi {
     *[REQUIRES DESCRIPTION]
     * 
     * @class Group
+    * @constructor
+    * @param state {Kiwi.State} The State that this Group is a part of.
+    * @param [name=''] {String} The name of this group. 
+    * @return {Kiwi.Group}
     *
     */
 
@@ -17,10 +21,7 @@ module Kiwi {
 
         /**
         * 
-        * @constructor
-        * @param state {Kiwi.State} The State that this Group is a part of.
-        * @param [name=''] {String} The name of this group. 
-        * @return {Kiwi.Group}
+        
         */
         constructor(state: Kiwi.State, name: string = '') {
 

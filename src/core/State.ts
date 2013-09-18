@@ -11,14 +11,15 @@ module Kiwi {
     * 
     * @class State
     * @extends Group
+    * @constructor
+    * @param name {String}
+    * @return {State} 
     */ 
     export class State extends Group {
 
         /**
         *  
-        * @constructor
-        * @param name {String}
-        * @return {State} 
+        
         */
         constructor(name: string) {
             super(null, name);

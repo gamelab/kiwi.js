@@ -12,6 +12,9 @@ module Kiwi.Animation.Tweens {
     * https://github.com/sole/tween.js
     *
     * @class Manager
+    * @constructor
+    * @param game {Game}
+    * @return {Manager}
     * 
     * @author     sole / http://soledadpenades.com
     * @author     mrdoob / http://mrdoob.com
@@ -28,9 +31,7 @@ module Kiwi.Animation.Tweens {
 
         /** 
         * 
-        * @constructor
-        * @param game {Game}
-        * @return {Manager}
+        
         */
         constructor(game: Kiwi.Game) {
              

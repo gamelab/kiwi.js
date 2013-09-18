@@ -9,16 +9,17 @@ module Kiwi {
     /**
     * [WHOLE THING REQUIRES DESCRIPTION]
     * @class StateConfig
+    * @constructor
+    * @param {State} parent
+    * @param {String} name
+    * @return {StateConfig} This Object
     * 
     */ 
     export class StateConfig {
 
         /**
         * 
-        * @constructor
-        * @param {State} parent
-        * @param {String} name
-        * @return {StateConfig} This Object
+        
         */
         constructor(parent: Kiwi.State, name: string) {
 

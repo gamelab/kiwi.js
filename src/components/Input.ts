@@ -12,17 +12,18 @@ module Kiwi.Components {
     *
     * @class Input
     * @extends Component
+    * @constructor
+    * @param owner {IChild} The IChild that owns this Input.
+    * @param box {Box} The box that is to be used for the event firing.
+    * @param [enabled=false] {boolean} If this input component should be enabled or not.
+    * @return {Input}
     */
 
     export class Input extends Component {
 
         /**
         *
-        * @constructor
-        * @param owner {IChild} The IChild that owns this Input.
-        * @param box {Box} The box that is to be used for the event firing.
-        * @param [enabled=false] {boolean} If this input component should be enabled or not.
-        * @return {Input}
+        
         */
         constructor(owner: Kiwi.IChild, box:Kiwi.Components.Box, enabled:boolean=false) {
 

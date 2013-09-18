@@ -11,14 +11,15 @@ module Kiwi.Components {
     *  
     * @class Animation
     * @extends Component
+    * @constructor
+    * @param entity {Entity} The entity that this animation component belongs to.
+    * @return {Animation}
     */
     export class Animation extends Component {
 
         /**
         *
-        * @constructor
-        * @param entity {Entity} The entity that this animation component belongs to.
-        * @return {Animation}
+        
         */
         constructor(entity: Kiwi.Entity) {
             super(entity, 'Animation');

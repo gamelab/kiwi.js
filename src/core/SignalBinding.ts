@@ -14,6 +14,14 @@ module Kiwi {
     * @class SignalBinding
     * 
     * @author Miller Medeiros, JS Signals
+    * @constructor
+    * @internal
+    * @name SignalBinding
+    * @param {Signal} signal Reference to Signal object that listener is currently bound to.
+    * @param {Function} listener Handler function bound to the signal.
+    * @param {boolean} isOnce If binding should be executed just once.
+    * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+    * @param {Number} [priority=0] The priority level of the event listener. (default = 0).
     *
     */
     export class SignalBinding {
@@ -23,14 +31,7 @@ module Kiwi {
          * <br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
          * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
          * @author Miller Medeiros
-         * @constructor
-         * @internal
-         * @name SignalBinding
-         * @param {Signal} signal Reference to Signal object that listener is currently bound to.
-         * @param {Function} listener Handler function bound to the signal.
-         * @param {boolean} isOnce If binding should be executed just once.
-         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority=0] The priority level of the event listener. (default = 0).
+         
          */
         constructor(signal: Signal, listener, isOnce: boolean, listenerContext, priority: number = 0) {
 

@@ -10,6 +10,10 @@ module Kiwi {
     * A game contains one single Stage which controls the size of the game, frame rate, position, e.t.c.
     *
     * @class Stage
+    * @constructor
+    * @param game {Kiwi.Game}
+    * @param name {String}
+    * @return {Stage} Kiwi.Stage
     *
     */
 
@@ -17,10 +21,7 @@ module Kiwi {
 
         /**
         *
-        * @constructor
-        * @param game {Kiwi.Game}
-        * @param name {String}
-        * @return {Stage} Kiwi.Stage
+        
         */
         constructor(game: Kiwi.Game, name: string) {
 
