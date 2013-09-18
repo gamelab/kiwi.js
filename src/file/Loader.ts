@@ -10,15 +10,16 @@ module Kiwi.Files {
     /**
     *
     * @class Loader
+    * @constructor
+    * @param game {Game} The game that this loader belongs to.
+    * @return {Loader} This Object
     *
     */
     export class Loader {
 
         /**
         * 
-        * @constructor
-        * @param game {Game} The game that this loader belongs to.
-        * @return {Loader} This Object
+        
         */
         constructor(game: Kiwi.Game) {
 

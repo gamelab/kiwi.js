@@ -11,15 +11,16 @@ module Kiwi.Files {
     *
     *
     * @class DataLibrary
+    * @constructor
+    * @param game {Game} The game that this DataLibrary belongs to.
+    * @return {DataLibrary}
     *
     */
     export class DataLibrary {
 
         /**
         * 
-        * @constructor
-        * @param game {Game} The game that this DataLibrary belongs to.
-        * @return {DataLibrary}
+        
         */
         constructor(game: Kiwi.Game) {
 

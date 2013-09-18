@@ -11,20 +11,21 @@ module Kiwi.Files {
     * Handles the loading of external data files via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
     *
     * @class File
+    * @constructor
+    * @param game {Game} The game that this file belongs to.
+    * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
+    * @param path {String} The location of the file that is to be loaded.
+    * @param [name=''] {String} A name for the file. If no name is specified then the files name will be used.
+    * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
+    * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
+    * @return {File} 
     *
     */
     export class File {
 
         /**
         * 
-        * @constructor
-        * @param game {Game} The game that this file belongs to.
-        * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
-        * @param path {String} The location of the file that is to be loaded.
-        * @param [name=''] {String} A name for the file. If no name is specified then the files name will be used.
-        * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
-        * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
-        * @return {File} 
+        
         */
         constructor(game: Kiwi.Game, dataType: number, path: string, name: string = '', saveToFileStore: boolean = true, storeAsGlobal:boolean = true) {
 

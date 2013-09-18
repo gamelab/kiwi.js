@@ -11,15 +11,16 @@ module Kiwi.Files {
     *
     *
     * @class FileStore
+    * @constructor
+    * @param game {Game} The game that this FileStore belongs to.
+    * @return {FilesStore}
     *
     */
     export class FileStore {
 
         /**
         * 
-        * @constructor
-        * @param game {Game} The game that this FileStore belongs to.
-        * @return {FilesStore}
+        
         */
         constructor(game: Kiwi.Game) {
             this._game = game;
