@@ -56,14 +56,6 @@ module Kiwi.GameObjects.Tilemap {
         private _atlas: Kiwi.Textures.SpriteSheet;
 
         /**
-        * Holds the coordinates for each tile on the sprite sheet. [NOTE SHOULD BE REPLACE WITH CELLS]
-        * @property _tileOffsets
-        * @type Array
-        * @private
-        */
-        private _tileOffsets;
-
-        /**
         * The starting tile on the x axis (the row) that needs to rendered. 
         * This is calculated based upon where the tiles are in relation to the camera.
         * This is updated each frame.
@@ -98,38 +90,6 @@ module Kiwi.GameObjects.Tilemap {
         * @private
         */
         private _maxY: number = 0;
-
-        /**
-        * Used while rendering as a reference the current tile that is being rendereds, x position. [CAN BE REMOVED WHEN UPDATED].
-        * @property _tx
-        * @type number
-        * @private
-        */
-        private _tx: number = 0;
-
-        /**
-        * Used while rendering as a reference the current tile that is being rendereds, y position. [CAN BE REMOVED WHEN UPDATED].
-        * @property _tx
-        * @type number
-        * @private
-        */
-        private _ty: number = 0;
-
-        /**
-        * The starting position in pixels on the x axis. [COULD BE REMOVED WHEN UPDATED]
-        * @property _dx
-        * @type number
-        * @private
-        */
-        private _dx: number = 0;
-        
-        /**
-        * The starting position in pixels on the y axis. [COULD BE REMOVED WHEN UPDATED]
-        * @property _dy
-        * @type number
-        * @private
-        */
-        private _dy: number = 0;
 
         /**
         * Temporarily holds the information for a single column on tiles.
@@ -246,24 +206,6 @@ module Kiwi.GameObjects.Tilemap {
         * @public
         */
         public heightInPixels: number = 0;
-
-        /**
-        * The spacing around the edges of the image. [CAN BE REMOVED WHEN UPDATED]
-        * @property tileMargin
-        * @type number
-        * @default 0
-        * @public
-        */
-        public tileMargin: number = 0;
-        
-        /**
-        * The spacing in between each sprite. [CAN BE REMOVED WHEN UPDATED]
-        * @property tileSpacing
-        * @type number
-        * @default 0
-        * @public
-        */
-        public tileSpacing: number = 0;
 
         /**
         * Adds a single tile to the map at the given boundaries. This could be used to override a currently existing map tile.
@@ -390,10 +332,10 @@ module Kiwi.GameObjects.Tilemap {
         * @return {Tile} The tile that is at the coordinates if there was one.
         * @public
         */
-        public getTileFromWorldXY(x: number, y: number): Kiwi.GameObjects.Tilemap.Tile {
+        public getTileFromXY(x: number, y: number): Kiwi.GameObjects.Tilemap.Tile {
 
-            x = Kiwi.Utils.GameMath.snapToFloor(x, this.tileWidth) / this.tileWidth;
-            y = Kiwi.Utils.GameMath.snapToFloor(y, this.tileHeight) / this.tileHeight;
+            x = Kiwi.Utils.GameMath.snapToFloor(((x - this.transform.worldX )), this.tileWidth) / this.tileWidth;
+            y = Kiwi.Utils.GameMath.snapToFloor(((y - this.transform.worldY )), this.tileHeight) / this.tileHeight;
 
             return this.getTile(x, y);
 
@@ -445,14 +387,16 @@ module Kiwi.GameObjects.Tilemap {
 
             for (var ty = y; ty < y + height; ty++) {
                 for (var tx = x; tx < x + width; tx++) {
-                    if (collisionOnly) {
-                        //  We only want to consider the tile for checking if you can actually collide with it
-                        if (this.mapData[ty] && this.mapData[ty][tx] && this.mapData[ty][tx].tileType.allowCollisions != Kiwi.Components.ArcadePhysics.NONE) {
-                            this._tempTileBlock.push( this.mapData[ty][tx] );
-                        }
-                    } else {
-                        if (this.mapData[ty] && this.mapData[ty][tx]) {
-                            this._tempTileBlock.push(this.mapData[ty][tx] );
+                    if (this.mapData[ty] && this.mapData[ty][tx] && this.mapData[ty][tx].cellIndex !== -1) {
+                        if (collisionOnly) {
+                            //  We only want to consider the tile for checking if you can actually collide with it
+                            if (this.mapData[ty][tx].tileType.allowCollisions != Kiwi.Components.ArcadePhysics.NONE) {
+                                this._tempTileBlock.push(this.mapData[ty][tx]);
+                            }
+                        } else {
+                            
+                            this._tempTileBlock.push(this.mapData[ty][tx]);
+                            
                         }
                     }
                 }
@@ -475,12 +419,12 @@ module Kiwi.GameObjects.Tilemap {
             
             var objPos = object.transform;
 
-            if (objPos.x > this.transform.x + this.widthInPixels || objPos.x + object.width < this.transform.x || objPos.y > this.transform.y + this.heightInPixels || objPos.y + object.height < this.transform.y) {
+            if (objPos.worldX > this.transform.worldX + this.widthInPixels || objPos.worldX + object.width < this.transform.worldX || objPos.worldY > this.transform.worldY + this.heightInPixels || objPos.worldY + object.height < this.transform.worldY) {
                 return;
             }
 
-            this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x - this.transform.x, this.tileWidth) / this.tileWidth;
-            this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y - this.transform.y, this.tileHeight) / this.tileHeight;
+            this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.worldX - this.transform.worldX, this.tileWidth) / this.tileWidth;
+            this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.worldY - this.transform.worldY, this.tileHeight) / this.tileHeight;
             
             this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(object.width, this.tileWidth) / this.tileWidth;
             this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(object.height, this.tileHeight) / this.tileHeight;
@@ -512,7 +456,7 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
-        * Gets a tile based on the given positions.
+        * Gets a tile based on the given position it would be in the tile map.
         * 
         * @method getTileIndex
         * @param x {number}
@@ -531,7 +475,7 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
-        * Adds a row of tiles to the tilemap
+        * Adds a row of tiles to the tilemap.
         *
         * @method addRow
         * @param row {Array} 
@@ -542,7 +486,8 @@ module Kiwi.GameObjects.Tilemap {
             var data = [];
             
             for (var c = 0; c < row.length; c++) {
-                data[c] = new Kiwi.GameObjects.Tilemap.Tile(this.state, this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
+                data[c] = new Kiwi.GameObjects.Tilemap.Tile(this.state, this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth, this.heightInPixels);
+                data[c].transform.parent = this.transform;
                 data[c].ty = this.heightInTiles;
                 data[c].tx = c;
             }
@@ -556,40 +501,6 @@ module Kiwi.GameObjects.Tilemap {
 
             this.heightInTiles++;
             this.heightInPixels += this.tileHeight;
-        }
-
-        /**
-        * Loops through the texture that was given and assign's each sprite inside of it to the _tileOffset, with its coordinates. Internal use by Kiwi only.
-        * 
-        * @method parseTileOffsets
-        * @return {number}
-        * @public
-        */
-        public parseTileOffsets(): number {
-
-            this._tileOffsets = [];
-
-            var i = 0;
-
-            if (this.tileParent.mapFormat == TileMap.FORMAT_TILED_JSON) {
-                //  For some reason Tiled counts from 1 not 0 - perhaps 0 means no tile but exists?
-                this._tileOffsets[0] = null;
-                i = 1;
-            }
-
-            var height = this._atlas.rows * (this.tileHeight + this.tileSpacing) + this.tileMargin;
-            var width = this._atlas.cols * (this.tileWidth + this.tileSpacing) + this.tileMargin;
-
-            for (var ty = this.tileMargin; ty < height; ty += (this.tileHeight + this.tileSpacing)) {
-
-                for (var tx = this.tileMargin; tx < width; tx += (this.tileWidth + this.tileSpacing)) {
-                    this._tileOffsets[i] = { x: tx, y: ty };
-                    i++;
-                }
-              
-            }
-
-            return this._tileOffsets.length;
 
         }
 
@@ -613,21 +524,24 @@ module Kiwi.GameObjects.Tilemap {
                 ctx.globalAlpha = this.alpha;
             }
 
+            var t: Kiwi.Geom.Transform = this.transform;
+            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+            
+            ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+
             //  Work out how many tiles we can fit into our camera and round it up for the edges
             this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1,this.widthInTiles);
             this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1,this.heightInTiles);
             
             //  And now work out where in the tilemap the camera actually is
-            this._startX = Math.floor((camera.transform.x - this.transform.x) / this.tileWidth);
-            this._startY = Math.floor((camera.transform.y - this.transform.y) / this.tileHeight);
+            this._startX = Math.floor((camera.transform.x - t.x) / this.tileWidth);
+            this._startY = Math.floor((camera.transform.y - t.y) / this.tileHeight);
             
             //boundaries check 
             if (this._startX < 0) {
-                this._maxX = this._maxX + this._startX;
                 this._startX = 0;    
             }    
             if (this._startY < 0) {
-                this._maxY = this._maxY + this._startX;
                 this._startY = 0;
             }
 
@@ -640,44 +554,32 @@ module Kiwi.GameObjects.Tilemap {
             if (this._startY + this._maxY > this.heightInTiles) {
                 this._maxY = this.heightInTiles - this._startY;
             }
-
-            this._dx = 0;
-            this._dy = 0;
-
-            this._dx += -(camera.transform.x - (this._startX * this.tileWidth)) + this.transform.x;
-            this._dy += -(camera.transform.y - (this._startY * this.tileHeight)) + this.transform.y;
-
-            this._tx = this._dx;
-            this._ty = this._dy;
-
+            
             for (var column = this._startY; column < this._startY + this._maxY; column++) {
                 this._columnData = this.mapData[column]; //get the column data
                 //careful here.
                 for (var tile = this._startX; tile < this._startX + this._maxX; tile++) {
                     
-                    if (this._tileOffsets[this._columnData[tile].tileType.index]) {        //if the tile exists
+                    if (this._columnData[tile].tileType.cellIndex !== -1) {
+                        
                         ctx.drawImage(
-                            this._atlas.image,	                                           //  Source Image
-                            this._tileOffsets[this._columnData[tile].tileType.index].x,    //  Source X (location within the source image)
-                            this._tileOffsets[this._columnData[tile].tileType.index].y,    //  Source Y
-                            this.tileWidth, 	                                           //	Source Width
-                            this.tileHeight, 	                                           //	Source Height
-                            this._tx, 	                                                   //	Destination X (where on the canvas it'll be drawn)
-                            this._ty,	                                                   //	Destination Y
-                            this.tileWidth, 	                                           //	Destination Width (always same as Source Width unless scaled)
-                            this.tileHeight	                                               //	Destination Height (always same as Source Height unless scaled)
+                            this._atlas.image,
+                            this._columnData[tile].tileType.cellIndex.x,
+                            this._columnData[tile].tileType.cellIndex.y,
+                            this._columnData[tile].tileType.cellIndex.w,
+                            this._columnData[tile].tileType.cellIndex.h,
+                            this._columnData[tile].x,
+                            this._columnData[tile].y,
+                            this.tileWidth,
+                            this.tileHeight
                             );
-
+                        
+                        this._columnData[tile].physics.update();
                     }
 
-                    this._columnData[tile].physics.update();
-                    this._columnData[tile].transform.x = this._tx;
-                    this._columnData[tile].transform.y = this._ty;
-                    this._tx += this.tileWidth;
-                }
 
-                this._tx = this._dx;
-                this._ty += this.tileHeight;
+                }
+                
             }
 
             ctx.restore();

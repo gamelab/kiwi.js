@@ -24,6 +24,10 @@
     <TypeScriptCompile Include="Tweening\Chaining.ts" />
     <TypeScriptCompile Include="Transform\Alpha.ts" />
     <TypeScriptCompile Include="Input\General.ts" />
+    <TypeScriptCompile Include="Tilemaps\Generation.ts" />
+    <Content Include="Tilemaps\Generation.js">
+      <DependentUpon>Generation.ts</DependentUpon>
+    </Content>
     <Content Include="Input\General.js">
       <DependentUpon>General.ts</DependentUpon>
     </Content>
@@ -39,6 +43,14 @@
     <TypeScriptCompile Include="States\SwitchingBetween.ts" />
     <Content Include="States\SwitchingBetween.js">
       <DependentUpon>SwitchingBetween.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Tilemaps\Paralax.ts" />
+    <Content Include="Tilemaps\Paralax.js">
+      <DependentUpon>Paralax.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Tilemaps\Physics.ts" />
+    <Content Include="Tilemaps\Physics.js">
+      <DependentUpon>Physics.ts</DependentUpon>
     </Content>
     <Content Include="Timer\SetNumber.js">
       <DependentUpon>SetNumber.ts</DependentUpon>

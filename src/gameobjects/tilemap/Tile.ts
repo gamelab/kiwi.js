@@ -27,9 +27,12 @@ module Kiwi.GameObjects.Tilemap {
         constructor(state:Kiwi.State, tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer, tileType: Kiwi.GameObjects.Tilemap.TileType, width: number, height: number, x: number, y: number) {
             super(state,x,y);
 
+            this.width = width;
+            this.height = height;
             this.tileLayer = tileLayer;
 
             this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
+
             this.tileUpdate(tileType);
         }
 
@@ -52,9 +55,9 @@ module Kiwi.GameObjects.Tilemap {
         */
         public tileUpdate(tileType: Kiwi.GameObjects.Tilemap.TileType) {
             this.tileType = tileType;
-            this.physics.mass = this.tileType.mass;
             this.physics.allowCollisions = this.tileType.allowCollisions;
             this.physics.immovable = this.tileType.immovable;
+                
         }
 
         /**
@@ -81,6 +84,22 @@ module Kiwi.GameObjects.Tilemap {
         */
         public physics: Kiwi.Components.ArcadePhysics;
         
+        /**
+        * The width of this tile.
+        * @property width
+        * @type number
+        * @public
+        */
+        public width: number;
+
+        /**
+        * The height of this tile.
+        * @property height
+        * @type number
+        * @public
+        */
+        public height: number;
+
         /**
         * Position in the mapData object on the x axis in the TileMap that this tile is.
         * @property tx

@@ -21,14 +21,12 @@ module Kiwi.GameObjects.Tilemap {
     */
     export class TileType {
  
-        constructor(game: Game, tilemap: Kiwi.GameObjects.Tilemap.TileMap, index: number, width: number, height: number) {
+        constructor(game: Game, tilemap: Kiwi.GameObjects.Tilemap.TileMap, cellIndex:number, index: number) {
 
             this._game = game;
             this.tilemap = tilemap;
             this.index = index;
-
-            this.width = width;
-            this.height = height;
+            this.cellIndex = cellIndex;
 
             this.allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
             this.seperate = false;
@@ -60,22 +58,6 @@ module Kiwi.GameObjects.Tilemap {
         */
         public mass: number = 1.0;
         
-        /**
-        * The width of this tile in pixels. Used only for collision detection, not for rendering.
-        * @property width
-        * @type number
-        * @public
-        */
-        public width: number;
-        
-        /**
-        * The height of this tile in pixels. Used only for collision detection, not for rendering.
-        * @property height
-        * @type number
-        * @public
-        */
-        public height: number;
-
         /**
         * If this tile type is immovable or not.
         * @property immovable
@@ -118,6 +100,8 @@ module Kiwi.GameObjects.Tilemap {
         */
         public index: number;
 
+        public cellIndex: number;
+
         /**
         * Clean up memory by destroying the references to other objects that this class maintains.
         * @method destroy
@@ -126,18 +110,6 @@ module Kiwi.GameObjects.Tilemap {
         public destroy() {
             delete this.tilemap;
             delete this._game;
-        }
-
-        /**
-        * Returns a string representation of this object.
-        * @method toString
-        * @return {string} a string representation of the object.
-        * @public
-        */
-        public toString(): string {
-
-            return "[{TileType (index=" + this.index + " collisions=" + this.allowCollisions + " width=" + this.width + " height=" + this.height + ")}]";
-
         }
 
     }

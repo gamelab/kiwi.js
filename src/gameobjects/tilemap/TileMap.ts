@@ -64,7 +64,6 @@ module Kiwi.GameObjects.Tilemap {
                 return;
             }
             
-
             //save the data information
             this._tileMapDataKey = tileMapDataKey;
             this._atlas = atlas;
@@ -208,30 +207,29 @@ module Kiwi.GameObjects.Tilemap {
         private parseTiledJSON(data:any) {
 
             var mapObj = data;
+            this.generateTiles();
 
-            for (var i = 0; i < mapObj.layers.length; i++) {
+            for (var i = 0; i < mapObj.layers.length; i++)
+            {
+                //perhaps should change width/height to spritesheet width/height
                 var layer: TileMapLayer = new TileMapLayer(this.state, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
                 
+                layer.transform.parent = this.transform;
                 layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                 layer.alpha = parseInt(mapObj.layers[i].opacity);
                 layer.visiblity = mapObj.layers[i].visible;
-                layer.tileMargin = mapObj.tilesets[0].margin;
-                layer.tileSpacing = mapObj.tilesets[0].spacing;
-                layer.name = mapObj.tilesets[0].name;
-                layer.game = this.game;
 
                 var c = 0;
                 var row;
 
-                var tileQuantity = layer.parseTileOffsets();
-                this.generateTiles(layer, tileQuantity);
+                //var tileQuantity = layer.parseTileOffsets(layer);
 
                 for (var t = 0; t < mapObj.layers[i].data.length; t++) {
                     if (c == 0) {
                         row = [];
                     }
 
-                    row.push(this.tiles[parseInt(mapObj.layers[i].data[t])]);
+                    row.push( this.tiles[parseInt(mapObj.layers[i].data[t])] );
                     c++;
 
                     if (c == mapObj.layers[i].width) { 
@@ -249,17 +247,22 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
-        * This method generates a number of TileType objects based on the quantity passed. These tiles are based of the current layer.
+        * 
         *
         * @method generateTiles
         * @param layer {TileMapLayer} The TileMapLayer that these TileTypes are based on.
         * @param qty {Number} THe number of TileTypes to create.
         * @private
         */
-        private generateTiles(layer: Kiwi.GameObjects.Tilemap.TileMapLayer, qty: number) {
-            for (var i = 0; i < qty; i++) {
-                this.tiles.push(new TileType(this.game, this, i, layer.tileWidth, layer.tileHeight));
+        private generateTiles() {
+
+            this.tiles[-1] = new TileType(this.game, this, -1, -1); //perhaps create a custom class.
+            this.tiles[-1].allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
+            
+            for (var i = 0; i < this._atlas.cells.length; i++) {
+                this.tiles.push(new TileType(this.game, this, this._atlas.cells[i], i));
             }
+            
         }
         
         /**
@@ -349,32 +352,15 @@ module Kiwi.GameObjects.Tilemap {
         * @return {Tile}
         * @public
         */
-        public getTileFromWorldXY(x: number, y: number, layer?: number): Tile {
+        public getTileFromXY(x: number, y: number, layer?: number): Tile {
             if (layer === undefined) {
-                return this.currentLayer.getTileFromWorldXY(x, y);
+                return this.currentLayer.getTileFromXY(x, y);
             } else {
-                return this.layers[layer].getTileFromWorldXY(x, y);
+                return this.layers[layer].getTileFromXY(x, y);
             }
 
         }
 
-        /**
-        * Gets a tile based on the mouse's current X and Y coordinates.
-        * 
-        * @method getTileFromInputXY
-        * @param layer {number}
-        * @return {Tile}
-        * @public
-        */
-        public getTileFromInputXY(layer?: number): Tile {
-            if (layer === undefined) {
-                return this.currentLayer.getTileFromWorldXY(this.game.input.mouse.x - this.currentLayer.x, this.game.input.mouse.y - this.currentLayer.y);
-            } else {
-                return this.layers[layer].getTileFromWorldXY(this.game.input.mouse.x - this.layers[layer].x, this.game.input.mouse.y - this.layers[layer].transform.y);
-            }
-
-        }
-        
         /**
         * Checks to see if an entity overlaps with any colliable tiles on the current layer. Returns the tiles that it overlaps with.
         *
@@ -482,7 +468,7 @@ module Kiwi.GameObjects.Tilemap {
             if (tiles !== undefined) {
                 for (var i = 0; i < tiles.length; i++) {
                     if (object.components.getComponent('ArcadePhysics').overlaps(tiles[i], tiles[i].tileType.seperate)) {
-                        
+
                         if (this._collisionCallback !== null) {
                             this._collisionCallback.call(this._collisionCallbackContext, object, tiles[i]);
                         }

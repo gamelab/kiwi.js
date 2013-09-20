@@ -73,7 +73,7 @@
     <Content Include="gameobjects\tilemap\Tile.ts" />
     <Content Include="gameobjects\tilemap\TileType.ts" />
     <Content Include="gameobjects\tilemap\TileMap.ts" />
-    <Content Include="gameobjects\tilemap\TIleMapLayer.ts" />
+    <Content Include="gameobjects\tilemap\TileMapLayer.ts" />
     <Content Include="geom\Line.ts" />
     <Content Include="geom\IntersectResult.ts" />
     <Content Include="geom\Intersect.ts" />

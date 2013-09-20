@@ -3434,7 +3434,7 @@ var Kiwi;
                 this.width = this._parent.width;
                 this.height = this._parent.height;
 
-                this.last = new Kiwi.Geom.Point(this.transform.x, this.transform.y);
+                this.last = new Kiwi.Geom.Point(this.transform.worldX, this.transform.worldY);
                 this.mass = 1.0;
                 this.elasticity = 0.0;
 
@@ -3550,13 +3550,13 @@ var Kiwi;
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.height);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.height);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.worldX - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.height);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.height);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.x + phys1.width - phys2.transform.x;
+                            overlap = phys1.transform.worldX + phys1.width - phys2.transform.worldX;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
                                 overlap = 0;
                             } else {
@@ -3564,7 +3564,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.LEFT;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.x - phys2.width - phys2.transform.x;
+                            overlap = phys1.transform.worldX - phys2.width - phys2.transform.worldX;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
                                 overlap = 0;
                             } else {
@@ -3620,13 +3620,13 @@ var Kiwi;
                 if (obj1delta != obj2delta) {
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.x, phys1.transform.y - ((obj1delta > 0) ? obj1delta : 0), phys1.width, phys1.height + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.x, phys2.transform.y - ((obj2delta > 0) ? obj2delta : 0), phys2.width, phys2.height + obj2deltaAbs);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.worldX, phys1.transform.worldY - ((obj1delta > 0) ? obj1delta : 0), phys1.width, phys1.height + obj1deltaAbs);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX, phys2.transform.worldY - ((obj2delta > 0) ? obj2delta : 0), phys2.width, phys2.height + obj2deltaAbs);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.y + phys1.height - phys2.transform.y;
+                            overlap = phys1.transform.worldY + phys1.height - phys2.transform.worldY;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
                                 overlap = 0;
                             } else {
@@ -3634,7 +3634,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.UP;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.y - phys2.height - phys2.transform.y;
+                            overlap = phys1.transform.worldY - phys2.height - phys2.transform.worldY;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
                                 overlap = 0;
                             } else {
@@ -3666,13 +3666,13 @@ var Kiwi;
                         phys1.velocity.y = obj2v - obj1v * phys1.elasticity;
 
                         if (object2.active && phys2.moves && (obj1delta > obj2delta))
-                            phys1.transform.x = phys1.transform.x + object2.transform.x - phys2.last.x;
+                            phys1.transform.x = phys1.transform.worldX + object2.transform.worldX - phys2.last.x;
                     } else if (!obj2immovable) {
                         phys2.transform.y = phys2.transform.y + overlap;
                         phys2.velocity.y = obj1v - obj2v * phys2.elasticity;
 
                         if (object1.active && phys1.moves && (obj1delta < obj2delta))
-                            phys2.transform.x = phys2.transform.x + object1.transform.x - phys1.last.x;
+                            phys2.transform.x = phys2.transform.worldX + object1.transform.worldX - phys1.last.x;
                     }
                     return true;
                 } else
@@ -3745,8 +3745,8 @@ var Kiwi;
             };
 
             ArcadePhysics.prototype.update = function () {
-                this.last.x = this.transform.x;
-                this.last.y = this.transform.y;
+                this.last.x = this.transform.worldX;
+                this.last.y = this.transform.worldY;
 
                 this.width = this._parent.width;
                 this.height = this._parent.height;
@@ -5302,9 +5302,12 @@ var Kiwi;
                 function Tile(state, tileLayer, tileType, width, height, x, y) {
                     _super.call(this, state, x, y);
 
+                    this.width = width;
+                    this.height = height;
                     this.tileLayer = tileLayer;
 
                     this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
+
                     this.tileUpdate(tileType);
                 }
                 Tile.prototype.objType = function () {
@@ -5313,7 +5316,6 @@ var Kiwi;
 
                 Tile.prototype.tileUpdate = function (tileType) {
                     this.tileType = tileType;
-                    this.physics.mass = this.tileType.mass;
                     this.physics.allowCollisions = this.tileType.allowCollisions;
                     this.physics.immovable = this.tileType.immovable;
                 };
@@ -5330,14 +5332,12 @@ var Kiwi;
     (function (GameObjects) {
         (function (Tilemap) {
             var TileType = (function () {
-                function TileType(game, tilemap, index, width, height) {
+                function TileType(game, tilemap, cellIndex, index) {
                     this.mass = 1.0;
                     this._game = game;
                     this.tilemap = tilemap;
                     this.index = index;
-
-                    this.width = width;
-                    this.height = height;
+                    this.cellIndex = cellIndex;
 
                     this.allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
                     this.seperate = false;
@@ -5346,10 +5346,6 @@ var Kiwi;
                 TileType.prototype.destroy = function () {
                     delete this.tilemap;
                     delete this._game;
-                };
-
-                TileType.prototype.toString = function () {
-                    return "[{TileType (index=" + this.index + " collisions=" + this.allowCollisions + " width=" + this.width + " height=" + this.height + ")}]";
                 };
                 return TileType;
             })();
@@ -5420,23 +5416,18 @@ var Kiwi;
 
                 TileMap.prototype.parseTiledJSON = function (data) {
                     var mapObj = data;
+                    this.generateTiles();
 
                     for (var i = 0; i < mapObj.layers.length; i++) {
                         var layer = new Tilemap.TileMapLayer(this.state, this, this._atlas, mapObj.layers[i].name, mapObj.tilewidth, mapObj.tileheight);
 
+                        layer.transform.parent = this.transform;
                         layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                         layer.alpha = parseInt(mapObj.layers[i].opacity);
                         layer.visiblity = mapObj.layers[i].visible;
-                        layer.tileMargin = mapObj.tilesets[0].margin;
-                        layer.tileSpacing = mapObj.tilesets[0].spacing;
-                        layer.name = mapObj.tilesets[0].name;
-                        layer.game = this.game;
 
                         var c = 0;
                         var row;
-
-                        var tileQuantity = layer.parseTileOffsets();
-                        this.generateTiles(layer, tileQuantity);
 
                         for (var t = 0; t < mapObj.layers[i].data.length; t++) {
                             if (c == 0) {
@@ -5458,9 +5449,12 @@ var Kiwi;
                     }
                 };
 
-                TileMap.prototype.generateTiles = function (layer, qty) {
-                    for (var i = 0; i < qty; i++) {
-                        this.tiles.push(new Tilemap.TileType(this.game, this, i, layer.tileWidth, layer.tileHeight));
+                TileMap.prototype.generateTiles = function () {
+                    this.tiles[-1] = new Tilemap.TileType(this.game, this, -1, -1);
+                    this.tiles[-1].allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
+
+                    for (var i = 0; i < this._atlas.cells.length; i++) {
+                        this.tiles.push(new Tilemap.TileType(this.game, this, this._atlas.cells[i], i));
                     }
                 };
 
@@ -5502,19 +5496,11 @@ var Kiwi;
                     }
                 };
 
-                TileMap.prototype.getTileFromWorldXY = function (x, y, layer) {
+                TileMap.prototype.getTileFromXY = function (x, y, layer) {
                     if (layer === undefined) {
-                        return this.currentLayer.getTileFromWorldXY(x, y);
+                        return this.currentLayer.getTileFromXY(x, y);
                     } else {
-                        return this.layers[layer].getTileFromWorldXY(x, y);
-                    }
-                };
-
-                TileMap.prototype.getTileFromInputXY = function (layer) {
-                    if (layer === undefined) {
-                        return this.currentLayer.getTileFromWorldXY(this.game.input.mouse.x - this.currentLayer.x, this.game.input.mouse.y - this.currentLayer.y);
-                    } else {
-                        return this.layers[layer].getTileFromWorldXY(this.game.input.mouse.x - this.layers[layer].x, this.game.input.mouse.y - this.layers[layer].transform.y);
+                        return this.layers[layer].getTileFromXY(x, y);
                     }
                 };
 
@@ -5626,16 +5612,10 @@ var Kiwi;
                     this._startY = 0;
                     this._maxX = 0;
                     this._maxY = 0;
-                    this._tx = 0;
-                    this._ty = 0;
-                    this._dx = 0;
-                    this._dy = 0;
                     this.widthInTiles = 0;
                     this.heightInTiles = 0;
                     this.widthInPixels = 0;
                     this.heightInPixels = 0;
-                    this.tileMargin = 0;
-                    this.tileSpacing = 0;
 
                     this.tileParent = parent;
 
@@ -5712,9 +5692,9 @@ var Kiwi;
                     }
                 };
 
-                TileMapLayer.prototype.getTileFromWorldXY = function (x, y) {
-                    x = Kiwi.Utils.GameMath.snapToFloor(x, this.tileWidth) / this.tileWidth;
-                    y = Kiwi.Utils.GameMath.snapToFloor(y, this.tileHeight) / this.tileHeight;
+                TileMapLayer.prototype.getTileFromXY = function (x, y) {
+                    x = Kiwi.Utils.GameMath.snapToFloor(((x - this.transform.worldX)), this.tileWidth) / this.tileWidth;
+                    y = Kiwi.Utils.GameMath.snapToFloor(((y - this.transform.worldY)), this.tileHeight) / this.tileHeight;
 
                     return this.getTile(x, y);
                 };
@@ -5747,12 +5727,12 @@ var Kiwi;
 
                     for (var ty = y; ty < y + height; ty++) {
                         for (var tx = x; tx < x + width; tx++) {
-                            if (collisionOnly) {
-                                if (this.mapData[ty] && this.mapData[ty][tx] && this.mapData[ty][tx].tileType.allowCollisions != Kiwi.Components.ArcadePhysics.NONE) {
-                                    this._tempTileBlock.push(this.mapData[ty][tx]);
-                                }
-                            } else {
-                                if (this.mapData[ty] && this.mapData[ty][tx]) {
+                            if (this.mapData[ty] && this.mapData[ty][tx] && this.mapData[ty][tx].cellIndex !== -1) {
+                                if (collisionOnly) {
+                                    if (this.mapData[ty][tx].tileType.allowCollisions != Kiwi.Components.ArcadePhysics.NONE) {
+                                        this._tempTileBlock.push(this.mapData[ty][tx]);
+                                    }
+                                } else {
                                     this._tempTileBlock.push(this.mapData[ty][tx]);
                                 }
                             }
@@ -5763,12 +5743,12 @@ var Kiwi;
                 TileMapLayer.prototype.getTileOverlaps = function (object) {
                     var objPos = object.transform;
 
-                    if (objPos.x > this.transform.x + this.widthInPixels || objPos.x + object.width < this.transform.x || objPos.y > this.transform.y + this.heightInPixels || objPos.y + object.height < this.transform.y) {
+                    if (objPos.worldX > this.transform.worldX + this.widthInPixels || objPos.worldX + object.width < this.transform.worldX || objPos.worldY > this.transform.worldY + this.heightInPixels || objPos.worldY + object.height < this.transform.worldY) {
                         return;
                     }
 
-                    this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.x - this.transform.x, this.tileWidth) / this.tileWidth;
-                    this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.y - this.transform.y, this.tileHeight) / this.tileHeight;
+                    this._tempTileX = Kiwi.Utils.GameMath.snapToFloor(objPos.worldX - this.transform.worldX, this.tileWidth) / this.tileWidth;
+                    this._tempTileY = Kiwi.Utils.GameMath.snapToFloor(objPos.worldY - this.transform.worldY, this.tileHeight) / this.tileHeight;
 
                     this._tempTileW = Kiwi.Utils.GameMath.snapToCeil(object.width, this.tileWidth) / this.tileWidth;
                     this._tempTileH = Kiwi.Utils.GameMath.snapToCeil(object.height, this.tileHeight) / this.tileHeight;
@@ -5802,7 +5782,8 @@ var Kiwi;
                     var data = [];
 
                     for (var c = 0; c < row.length; c++) {
-                        data[c] = new Kiwi.GameObjects.Tilemap.Tile(this.state, this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth + this.transform.x, this.heightInPixels + this.transform.y);
+                        data[c] = new Kiwi.GameObjects.Tilemap.Tile(this.state, this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth, this.heightInPixels);
+                        data[c].transform.parent = this.transform;
                         data[c].ty = this.heightInTiles;
                         data[c].tx = c;
                     }
@@ -5818,29 +5799,6 @@ var Kiwi;
                     this.heightInPixels += this.tileHeight;
                 };
 
-                TileMapLayer.prototype.parseTileOffsets = function () {
-                    this._tileOffsets = [];
-
-                    var i = 0;
-
-                    if (this.tileParent.mapFormat == Tilemap.TileMap.FORMAT_TILED_JSON) {
-                        this._tileOffsets[0] = null;
-                        i = 1;
-                    }
-
-                    var height = this._atlas.rows * (this.tileHeight + this.tileSpacing) + this.tileMargin;
-                    var width = this._atlas.cols * (this.tileWidth + this.tileSpacing) + this.tileMargin;
-
-                    for (var ty = this.tileMargin; ty < height; ty += (this.tileHeight + this.tileSpacing)) {
-                        for (var tx = this.tileMargin; tx < width; tx += (this.tileWidth + this.tileSpacing)) {
-                            this._tileOffsets[i] = { x: tx, y: ty };
-                            i++;
-                        }
-                    }
-
-                    return this._tileOffsets.length;
-                };
-
                 TileMapLayer.prototype.render = function (camera) {
                     if (this.visiblity === false || this.alpha < 0.1 || this.exists === false) {
                         return;
@@ -5853,18 +5811,21 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
+
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+
                     this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1, this.widthInTiles);
                     this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1, this.heightInTiles);
 
-                    this._startX = Math.floor((camera.transform.x - this.transform.x) / this.tileWidth);
-                    this._startY = Math.floor((camera.transform.y - this.transform.y) / this.tileHeight);
+                    this._startX = Math.floor((camera.transform.x - t.x) / this.tileWidth);
+                    this._startY = Math.floor((camera.transform.y - t.y) / this.tileHeight);
 
                     if (this._startX < 0) {
-                        this._maxX = this._maxX + this._startX;
                         this._startX = 0;
                     }
                     if (this._startY < 0) {
-                        this._maxY = this._maxY + this._startX;
                         this._startY = 0;
                     }
 
@@ -5880,31 +5841,16 @@ var Kiwi;
                         this._maxY = this.heightInTiles - this._startY;
                     }
 
-                    this._dx = 0;
-                    this._dy = 0;
-
-                    this._dx += -(camera.transform.x - (this._startX * this.tileWidth)) + this.transform.x;
-                    this._dy += -(camera.transform.y - (this._startY * this.tileHeight)) + this.transform.y;
-
-                    this._tx = this._dx;
-                    this._ty = this._dy;
-
                     for (var column = this._startY; column < this._startY + this._maxY; column++) {
                         this._columnData = this.mapData[column];
 
                         for (var tile = this._startX; tile < this._startX + this._maxX; tile++) {
-                            if (this._tileOffsets[this._columnData[tile].tileType.index]) {
-                                ctx.drawImage(this._atlas.image, this._tileOffsets[this._columnData[tile].tileType.index].x, this._tileOffsets[this._columnData[tile].tileType.index].y, this.tileWidth, this.tileHeight, this._tx, this._ty, this.tileWidth, this.tileHeight);
+                            if (this._columnData[tile].tileType.cellIndex !== -1) {
+                                ctx.drawImage(this._atlas.image, this._columnData[tile].tileType.cellIndex.x, this._columnData[tile].tileType.cellIndex.y, this._columnData[tile].tileType.cellIndex.w, this._columnData[tile].tileType.cellIndex.h, this._columnData[tile].x, this._columnData[tile].y, this.tileWidth, this.tileHeight);
+
+                                this._columnData[tile].physics.update();
                             }
-
-                            this._columnData[tile].physics.update();
-                            this._columnData[tile].transform.x = this._tx;
-                            this._columnData[tile].transform.y = this._ty;
-                            this._tx += this.tileWidth;
                         }
-
-                        this._tx = this._dx;
-                        this._ty += this.tileHeight;
                     }
 
                     ctx.restore();

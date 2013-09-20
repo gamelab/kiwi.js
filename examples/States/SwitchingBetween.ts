@@ -64,26 +64,29 @@ class Player extends Kiwi.GameObjects.Sprite {
     update() {
         super.update();
 
-        if (this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.A) || this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.LEFT)) {
-            this.x -= 3;
-            this.scaleX = -1;
+        if (Kiwi.DEVICE.touch == false) {
 
-            if (this.animation.isPlaying == false) 
-                this.animation.resume();
-            
-        } else if (this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.D) || this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.RIGHT)) {
-            this.x += 3;
-            this.scaleX = 1;
+            if (this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.A) || this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.LEFT)) {
+                this.x -= 3;
+                this.scaleX = -1;
 
-            if (this.animation.isPlaying == false) 
-                this.animation.resume();
-            
-        } else {
-            if (this.animation.isPlaying == true) 
-                this.animation.pause();
-            
+                if (this.animation.isPlaying == false)
+                    this.animation.resume();
+
+            } else if (this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.D) || this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.RIGHT)) {
+                this.x += 3;
+                this.scaleX = 1;
+
+                if (this.animation.isPlaying == false)
+                    this.animation.resume();
+
+            } else {
+                if (this.animation.isPlaying == true)
+                    this.animation.pause();
+
+            }
+
         }
-
     }
 
 }
