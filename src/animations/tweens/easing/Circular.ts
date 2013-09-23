@@ -2,26 +2,26 @@
 * Kiwi - Animation - Tweens - Easing 
 * @module Tweens
 * @submodule Easing 
-* @main Easing
+* 
 */
-
-module Kiwi.Animation.Tweens.Easing {
+module Kiwi.Animations.Tweens.Easing {
 
     /**
-    * 
-    * @class Back
-    * 
+    *
+    *
+    * @class Circular
+    *
     */
-    export class Back {
+    export class Circular {
 
         /**
-        * The type of object this is.
+        * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
         public objType() {
-            return "Back";
+            return "Circular";
         }
 
         /** 
@@ -30,27 +30,23 @@ module Kiwi.Animation.Tweens.Easing {
         * @param k {Any}
         * @return {Number}
         * @static
-        * @public
         */
         public static In(k) {
 
-            var s = 1.70158;
-            return k * k * ((s + 1) * k - s);
+            return 1 - Math.sqrt(1 - k * k);
 
         }
 
         /** 
         * 
         * @method Out
-        * @param {Any} k
+        * @param k {Any}
         * @return {Number}
         * @static
-        * @public
         */
         public static Out(k) {
 
-            var s = 1.70158;
-            return --k * k * ((s + 1) * k + s) + 1;
+            return Math.sqrt(1 - (--k * k));
 
         }
 
@@ -60,13 +56,11 @@ module Kiwi.Animation.Tweens.Easing {
         * @param k {Any}
         * @return {Number}
         * @static
-        * @public
         */
         public static InOut(k) {
 
-            var s = 1.70158 * 1.525;
-            if ((k *= 2) < 1) return 0.5 * (k * k * ((s + 1) * k - s));
-            return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
+            if ((k *= 2) < 1) return -0.5 * (Math.sqrt(1 - k * k) - 1);
+            return 0.5 * (Math.sqrt(1 - (k -= 2) * k) + 1);
 
         }
 

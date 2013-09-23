@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\animation\tweens\Manager.ts - Kiwi.js</title>
+    <title>src\time\ClockManager.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -85,6 +85,8 @@
             
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
                 <li><a href="../classes/Common.html">Common</a></li>
             
                 <li><a href="../classes/Component.html">Component</a></li>
@@ -143,6 +145,8 @@
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
                 <li><a href="../classes/Intersect.html">Intersect</a></li>
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
@@ -158,8 +162,6 @@
                 <li><a href="../classes/Linear.html">Linear</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
-            
-                <li><a href="../classes/Manager.html">Manager</a></li>
             
                 <li><a href="../classes/MasterClock.html">MasterClock</a></li>
             
@@ -219,9 +221,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -246,6 +248,8 @@
                 <li><a href="../classes/Transform.html">Transform</a></li>
             
                 <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
@@ -324,181 +328,171 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\animation\tweens\Manager.ts</h1>
+                        <h1 class="file-heading">File: src\time\ClockManager.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Animation - Tweens 
-* @module Animation
-* @submodule Tweens 
-* @main Tweens
+* Kiwi - Time
+* @module Kiwi
+* @submodule Time
+* @main Time
 */
 
-module Kiwi.Animation.Tweens {
+module Kiwi.Time {
 
-    /** 
-    * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
-    * https://github.com/sole/tween.js
+    /**
+    * A Proxy to the Clock and Time related classes. Access this via Kiwi.Game.Clock
     *
-    * @class Manager
+    * @class ClockManager
     * @constructor
-    * @param game {Game}
-    * @return {Manager}
-    * 
-    * @author     sole / http://soledadpenades.com
-    * @author     mrdoob / http://mrdoob.com
-    * @author     Robert Eisele / http://www.xarg.org
-    * @author     Philippe / http://philippe.elsass.me
-    * @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
-    * @author     Paul Lewis / http://www.aerotwist.com/
-    * @author     lechecacharro
-    * @author     Josh Faul / http://jocafa.com/
-    * @author     egraether / http://egraether.com/
-    * 
+    * @param {Game} game.
+    * @return {ClockManager} This Object.
+    *
     */
-    export class Manager {
+    export class ClockManager {
          
         constructor(game: Kiwi.Game) {
-             
+
             this._game = game;
-            this._tweens = [];
 
         }
 
         /**
-        * The type of object that this is.
+        * The type of object this is.
         * @method objType
         * @return {String}
         * @public
         */
         public objType() {
-            return &quot;Manager&quot;;
+            return &quot;ClockManager&quot;;
         }
 
-        /** 
-        * The game that this manager belongs to.
+        /**
+        * The game that this belongs to.
         * @property _game
         * @type Game
         * @private
         */
         private _game: Kiwi.Game;
 
-        /** 
-        * An array of all of the tweens on the manager.
-        * @property _tweens
-        * @type Tween[]
+        /**
+        * An array containing all of the clocks that exist on this manager.
+        * @property _clocks
+        * @type Clock[]
         * @private
         */
-        private _tweens: Kiwi.Animation.Tween[];
+        private _clocks: Clock[] = [];
 
-        /** 
-        * Returns all of tweens that are on the manager.
-        * @method getAll
-        * @return Tween[]
+        /**
+        * The MasterClock for this manager.
+        * @property master
+        * @type MasterClock
+        * @private
+        */
+        private master: Kiwi.Time.MasterClock;
+
+        /**
+        * The default Game Clock - you can use this via this.game.time.clock. Uses a 1000 millisecond time unit.
+        * @property clock
+        * @type Clock
         * @public
         */
-        public getAll() {
+        public clock: Kiwi.Time.Clock;
 
-            return this._tweens;
+        /**
+        * When all of the DOM elements that the game requires have loaded successfully then this object will &#x27;boot&#x27;.
+        * @method boot
+        * @public
+        */
+        public boot() {
+
+            this.master = new Kiwi.Time.MasterClock();
+
+            this.clock = new Clock(this, this.master, &#x27;default&#x27;, 1000);
+            this.clock.start();
 
         }
 
-        /** 
-        * Removes all of the tweens on the manager.
-        * @method removeAll
+        /**
+        * Creates a Clock class for keeping time relative to the MasterClock.
+        * @method addClock
+        * @param name {string} The name of the Clock.
+        * @param [units=1000] {Number} The number of milliseconds that make up one unit of time on this clock. Default 1000.
+        * @return {Clock} A reference to the newly created Clock object.
         * @public
         */
-        public removeAll() {
+        public addClock(name: string, units: number = 1000): Clock {
 
-            this._tweens.length = 0;
+            this._clocks.push(new Clock(this, this.master, name, units));
+
+            return this._clocks[this._clocks.length - 1];
 
         }
 
-        /** 
-        * Creates a new Tween. 
-        * @method create
-        * @param object {Any} The object that this tween is to apply.
-        * @return {Tween} The tween that was created.
+        /**
+        * Returns the Clock with the matching name. Throws and error if no Clock with that name exists
+        * @method getClock
+        * @param name {string} The name of the Clock to be returned.
+        * @return {Clock} The clock which matches the name given.
         * @public
         */
-        public create(object:any): Kiwi.Animation.Tween {
+        public getClock(name: string): Clock {
 
-            return new Kiwi.Animation.Tween(object, this._game);
-
-        }
-
-        /** 
-        * Adds a tween to the manager. 
-        * @method add 
-        * @param tween {Tween} The tween that you want to add to the manager.
-        * @return {Tween} 
-        * @public
-        */
-        public add(tween: Kiwi.Animation.Tween): Kiwi.Animation.Tween {
-
-            tween.setParent(this._game);
-
-            this._tweens.push(tween);
-
-            return tween;
-
-        }
-
-        /** 
-        * Removes a tween from this manager.
-        * @method remove
-        * @param tween {Tween} The tween that you would like to remove.
-        * @return {Tween}
-        * @public
-        */
-        public remove(tween: Kiwi.Animation.Tween) {
-
-            var i = this._tweens.indexOf(tween);
-
-            if (i !== -1)
+            for (var i = 0; i &lt; this._clocks.length; i++)
             {
-                this._tweens.splice(i, 1);
+                if (this._clocks[i].name === name)
+                {
+                    return this._clocks[i];
+                }
             }
 
         }
 
-        /** 
-        * The update loop.
+        /**
+        * Is executed every frame and updates all of the clocks that exist on this manager, times.
         * @method update
         * @public
         */
         public update() {
 
-            if (this._tweens.length === 0)
+            this.master.update();
+            this.clock.update();
+
+            for (var i = 0; i &lt; this._clocks.length; i++)
             {
-                return false;
+                this._clocks[i].update();
             }
 
-            //  See if we can merge the length into the while block
-            var i = 0;
-            var numTweens = this._tweens.length;
+        }
 
-            while (i &lt; numTweens)
-            {
-                if (this._tweens[i].update(this._game.time.now()))
-                {
-                    i++;
-                }
-                else
-                {
-                    this._tweens.splice(i, 1);
-                    numTweens--;
-                }
-            }
+        /**
+        * Returns the current time. Based on the master clock.
+        * @method now
+        * @return {Number}
+        * @public
+        */
+        public now(): number {
 
-            return true;
+            return this.master.now;
+
+        }
+
+        /**
+        * Returns the delta of the master clock.
+        * @method delta
+        * @return {Number}
+        * @public
+        */
+        public delta(): number {
+
+            return this.master.delta;
 
         }
 
     }
-}
 
+}
     </pre>
 </div>
 

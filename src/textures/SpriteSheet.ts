@@ -190,7 +190,7 @@ module Kiwi.Textures  {
 
             //generate default sequence
             this.sequences = new Array();
-            this.sequences.push(new Kiwi.Animation.Sequence('default', cellNumeric)); 
+            this.sequences.push(new Kiwi.Animations.Sequence('default', cellNumeric)); 
 
             return cells;
         }

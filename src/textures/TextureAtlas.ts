@@ -22,7 +22,7 @@ module Kiwi.Textures {
     */
     export class TextureAtlas {
          
-        constructor(name: string, type:number, cells, image: HTMLImageElement, sequences?: Kiwi.Animation.Sequence[]) {
+        constructor(name: string, type:number, cells, image: HTMLImageElement, sequences?: Kiwi.Animations.Sequence[]) {
             this.name = name;
             this.cells = cells || new Array();
             this.sequences = sequences || new Array();
@@ -70,7 +70,7 @@ module Kiwi.Textures {
         * @type Sequence
         * @public
         */
-        public sequences: Kiwi.Animation.Sequence[];
+        public sequences: Kiwi.Animations.Sequence[];
         
         /**
         * The cell that is to be render at the start.
@@ -157,7 +157,7 @@ module Kiwi.Textures {
 
                 for(var i = 0; i < obj.sequences.length; i++) {
                     
-                    var seq = new Kiwi.Animation.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
+                    var seq = new Kiwi.Animations.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
                     
                     if (obj.sequences[i].speed !== undefined) seq.speed = obj.sequences[i].speed;
                     if (obj.sequences[i].loop !== undefined)  seq.loop = obj.sequences[i].loop;

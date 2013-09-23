@@ -20,7 +20,7 @@ class CreateTween extends Kiwi.State {
     }
 
     bullet: Kiwi.GameObjects.Sprite;
-    tween: Kiwi.Animation.Tween; 
+    tween: Kiwi.Animations.Tween; 
 
     create() {
 
@@ -40,7 +40,7 @@ class CreateTween extends Kiwi.State {
         * Parameter Two - Duration in milliseconds.
         * Parameter Three - OPTIONAL - Easing method to use. - Default is linear none 
         **/
-        this.tween.to({ x: 800 }, 1000, Kiwi.Animation.Tweens.Easing.Linear.None); 
+        this.tween.to({ x: 800 }, 1000, Kiwi.Animations.Tweens.Easing.Linear.None); 
         this.tween.delay(2000); //delays the tween after starting. In milliseconds.
         this.tween.start();     //start the tween
     }

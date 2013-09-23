@@ -85,6 +85,8 @@
             
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
                 <li><a href="../classes/Common.html">Common</a></li>
             
                 <li><a href="../classes/Component.html">Component</a></li>
@@ -143,6 +145,8 @@
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
                 <li><a href="../classes/Intersect.html">Intersect</a></li>
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
@@ -158,8 +162,6 @@
                 <li><a href="../classes/Linear.html">Linear</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
-            
-                <li><a href="../classes/Manager.html">Manager</a></li>
             
                 <li><a href="../classes/MasterClock.html">MasterClock</a></li>
             
@@ -219,9 +221,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -246,6 +248,8 @@
                 <li><a href="../classes/Transform.html">Transform</a></li>
             
                 <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
@@ -351,14 +355,12 @@ module Kiwi.GameObjects.Tilemap {
     */
     export class TileType {
  
-        constructor(game: Game, tilemap: Kiwi.GameObjects.Tilemap.TileMap, index: number, width: number, height: number) {
+        constructor(game: Game, tilemap: Kiwi.GameObjects.Tilemap.TileMap, cellIndex:number, index: number) {
 
             this._game = game;
             this.tilemap = tilemap;
             this.index = index;
-
-            this.width = width;
-            this.height = height;
+            this.cellIndex = cellIndex;
 
             this.allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
             this.seperate = false;
@@ -390,22 +392,6 @@ module Kiwi.GameObjects.Tilemap {
         */
         public mass: number = 1.0;
         
-        /**
-        * The width of this tile in pixels. Used only for collision detection, not for rendering.
-        * @property width
-        * @type number
-        * @public
-        */
-        public width: number;
-        
-        /**
-        * The height of this tile in pixels. Used only for collision detection, not for rendering.
-        * @property height
-        * @type number
-        * @public
-        */
-        public height: number;
-
         /**
         * If this tile type is immovable or not.
         * @property immovable
@@ -448,6 +434,8 @@ module Kiwi.GameObjects.Tilemap {
         */
         public index: number;
 
+        public cellIndex: number;
+
         /**
         * Clean up memory by destroying the references to other objects that this class maintains.
         * @method destroy
@@ -456,18 +444,6 @@ module Kiwi.GameObjects.Tilemap {
         public destroy() {
             delete this.tilemap;
             delete this._game;
-        }
-
-        /**
-        * Returns a string representation of this object.
-        * @method toString
-        * @return {string} a string representation of the object.
-        * @public
-        */
-        public toString(): string {
-
-            return &quot;[{TileType (index=&quot; + this.index + &quot; collisions=&quot; + this.allowCollisions + &quot; width=&quot; + this.width + &quot; height=&quot; + this.height + &quot;)}]&quot;;
-
         }
 
     }

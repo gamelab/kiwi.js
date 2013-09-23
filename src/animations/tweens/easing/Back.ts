@@ -2,54 +2,55 @@
 * Kiwi - Animation - Tweens - Easing 
 * @module Tweens
 * @submodule Easing 
-* 
+* @main Easing
 */
 
-
-module Kiwi.Animation.Tweens.Easing {
+module Kiwi.Animations.Tweens.Easing {
 
     /**
-    *
-    * @class Quartic
-    *
+    * 
+    * @class Back
+    * 
     */
-    export class Quartic {
+    export class Back {
 
         /**
-        * The type of object that this is.
+        * The type of object this is.
         * @method objType
         * @return {String}
         * @public
         */
         public objType() {
-            return "Quartic";
+            return "Back";
         }
 
         /** 
         * 
         * @method In
         * @param k {Any}
-        * @return {String}
+        * @return {Number}
         * @static
         * @public
         */
         public static In(k) {
 
-            return k * k * k * k;
+            var s = 1.70158;
+            return k * k * ((s + 1) * k - s);
 
         }
 
         /** 
         * 
         * @method Out
-        * @param k {Any}
-        * @return {String}
+        * @param {Any} k
+        * @return {Number}
         * @static
         * @public
         */
         public static Out(k) {
 
-            return 1 - (--k * k * k * k);
+            var s = 1.70158;
+            return --k * k * ((s + 1) * k + s) + 1;
 
         }
 
@@ -57,14 +58,15 @@ module Kiwi.Animation.Tweens.Easing {
         * 
         * @method InOut
         * @param k {Any}
-        * @return {String}
+        * @return {Number}
         * @static
         * @public
         */
         public static InOut(k) {
 
-            if ((k *= 2) < 1) return 0.5 * k * k * k * k;
-            return -0.5 * ((k -= 2) * k * k * k - 2);
+            var s = 1.70158 * 1.525;
+            if ((k *= 2) < 1) return 0.5 * (k * k * ((s + 1) * k - s));
+            return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
 
         }
 

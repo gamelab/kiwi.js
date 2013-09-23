@@ -58,6 +58,7 @@ module Kiwi.Geom {
         /** 
         * Return the X value of the transform.
         * @property x
+        * @type Number
         * @return {Number} The X value of the transform.
         */
         public set x(value: number) {
@@ -65,7 +66,6 @@ module Kiwi.Geom {
             this._x = value;
 
         }
-
         public get x():number {
             return this._x;
         }
@@ -81,14 +81,13 @@ module Kiwi.Geom {
         /** 
         * Return the Y value of the transform.
         * @property y
+        * @type Number
         * @return {Number} The Y value of the transform.
         * @public
         */
-        
         public set y(value: number) {
             this._y = value;
         }
-
         public get y(): number {
             return this._y;
         }
@@ -105,6 +104,7 @@ module Kiwi.Geom {
         /** 
         * Return the X scale value of the transform.
         * @property scaleX
+        * @type Number
         * @return {Number} The X value of the transform.
         * @public
         */
@@ -127,13 +127,13 @@ module Kiwi.Geom {
         /** 
         * Return the Y scale value of the transform.
         * @property scaleY
+        * @type Number
         * @return {Number} The Y value of the transform.
         * @public
         */
         public set scaleY(value: number) {
             this._scaleY = value;
         }
-
         public get scaleY():number {
             return this._scaleY;
         }
@@ -346,8 +346,7 @@ module Kiwi.Geom {
         /** 
 	    * Set the X and Y scale value of the transform.
 	    * @method scale
-	    * @param scaleX {Number} scaleX.
-	    * @param scaleY {Number} scaleY.
+	    * @param value {Number} 
         * @return {Transform} This object.
         * @public
 	    */
@@ -420,8 +419,7 @@ module Kiwi.Geom {
 
             var parentMatrix = this.getParentMatrix();
 
-            if (parentMatrix)
-            {
+            if (parentMatrix) {
                 var matrix = this._matrix.clone();
                 matrix.prependMatrix(parentMatrix);
                 this._cachedConcatenatedMatrix.copyFrom(matrix);

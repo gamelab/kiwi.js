@@ -38,7 +38,7 @@ module Kiwi {
             this.browser = new Kiwi.System.Browser(this);
       
             this.fileStore = new Kiwi.Files.FileStore(this);
-            this.input = new Kiwi.Input.Manager(this);
+            this.input = new Kiwi.Input.InputManager(this);
 
             this.stage = new Kiwi.Stage(this, name);
             
@@ -50,15 +50,17 @@ module Kiwi {
 
            
             this.cameras = new Kiwi.CameraManager(this);
+
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds = new Kiwi.HUD.HUDManager(this);
             }
+
             this.loader = new Kiwi.Files.Loader(this);
             
             this.states = new Kiwi.StateManager(this);
             this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
-            this.time = new Kiwi.Time.Manager(this);
-            this.tweens = new Kiwi.Animation.Tweens.Manager(this);
+            this.time = new Kiwi.Time.ClockManager(this);
+            this.tweens = new Kiwi.Animations.Tweens.TweenManager(this);
             
 
             //  If we have a state then pass it to the StateManager
@@ -203,10 +205,10 @@ module Kiwi {
         /**
         * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
         * @property input
-        * @type Manager
+        * @type InputManager
         * @public
         */
-        public input: Kiwi.Input.Manager = null;
+        public input: Kiwi.Input.InputManager = null;
          
         /**
         * Manages the cameras the are on the stage. This is still to be implemented.
@@ -251,18 +253,18 @@ module Kiwi {
         /**
         * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
-        * @type Manager
+        * @type ClockManager
         * @public
         */
-        public time: Kiwi.Time.Manager = null;
+        public time: Kiwi.Time.ClockManager = null;
 
         /**
         * The tween manager holds a reference to all of the tweens that are created and currently being used. 
         * @property tweens
-        * @type Manager
+        * @type TweenManager
         * @public
         */
-        public tweens: Kiwi.Animation.Tweens.Manager = null;
+        public tweens: Kiwi.Animations.Tweens.TweenManager = null;
 
         /**
         * A Random Data Generator. This is useful for create unique ids and random information.

@@ -1,17 +1,17 @@
 
-/// <reference path="animation/tweens/easing/Back.ts" />
-/// <reference path="animation/tweens/easing/Bounce.ts" />
-/// <reference path="animation/tweens/easing/Circular.ts" />
-/// <reference path="animation/tweens/easing/Cubic.ts" />
-/// <reference path="animation/tweens/easing/Elastic.ts" />
-/// <reference path="animation/tweens/easing/Exponential.ts" />
-/// <reference path="animation/tweens/easing/Linear.ts" />
-/// <reference path="animation/tweens/easing/Quadratic.ts" />
-/// <reference path="animation/tweens/easing/Quartic.ts" />
-/// <reference path="animation/tweens/easing/Quintic.ts" />
-/// <reference path="animation/tweens/easing/Sinusoidal.ts" />
-/// <reference path="animation/tweens/Manager.ts" />
-/// <reference path="animation/tweens/Tween.ts" />
+/// <reference path="animations/tweens/easing/Back.ts" />
+/// <reference path="animations/tweens/easing/Bounce.ts" />
+/// <reference path="animations/tweens/easing/Circular.ts" />
+/// <reference path="animations/tweens/easing/Cubic.ts" />
+/// <reference path="animations/tweens/easing/Elastic.ts" />
+/// <reference path="animations/tweens/easing/Exponential.ts" />
+/// <reference path="animations/tweens/easing/Linear.ts" />
+/// <reference path="animations/tweens/easing/Quadratic.ts" />
+/// <reference path="animations/tweens/easing/Quartic.ts" />
+/// <reference path="animations/tweens/easing/Quintic.ts" />
+/// <reference path="animations/tweens/easing/Sinusoidal.ts" />
+/// <reference path="animations/tweens/TweenManager.ts" />
+/// <reference path="animations/tweens/Tween.ts" />
 
 /// <reference path="core/Camera.ts" />
 /// <reference path="core/CameraManager.ts" />
@@ -26,7 +26,7 @@
 /// <reference path="core/SignalBinding.ts" />
 /// <reference path="core/Stage.ts" />
 
-/// <reference path="components/Animation.ts" />
+/// <reference path="components/AnimationManager.ts" />
 /// <reference path="components/Box.ts" />
 /// <reference path="components/Input.ts" />
 /// <reference path="components/Sound.ts" />
@@ -81,13 +81,13 @@
 /// <reference path="sound/Audio.ts" />
 /// <reference path="sound/AudioLibrary.ts" />
 
-/// <reference path="animation/Anim.ts" />
-/// <reference path="animation/Sequence.ts" />
+/// <reference path="animations/Animation.ts" />
+/// <reference path="animations/Sequence.ts" />
 
 /// <reference path="input/Key.ts" />
 /// <reference path="input/Keyboard.ts" />
 /// <reference path="input/Keycodes.ts" />
-/// <reference path="input/Manager.ts" />
+/// <reference path="input/InputManager.ts" />
 /// <reference path="input/Mouse.ts" />
 /// <reference path="input/Touch.ts" />
 /// <reference path="input/Pointer.ts" />
@@ -114,7 +114,7 @@
 /// <reference path="textures/SingleImage.ts" />
 
 /// <reference path="time/Clock.ts" />
-/// <reference path="time/Manager.ts" />
+/// <reference path="time/ClockManager.ts" />
 /// <reference path="time/MasterClock.ts" />
 /// <reference path="time/Timer.ts" />
 /// <reference path="time/TimerEvent.ts" />

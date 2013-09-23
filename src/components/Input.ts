@@ -8,7 +8,7 @@
 module Kiwi.Components {
 
     /**
-    *   
+    * 
     *
     * @class Input
     * @extends Component

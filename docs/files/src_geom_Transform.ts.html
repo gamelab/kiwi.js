@@ -85,6 +85,8 @@
             
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
                 <li><a href="../classes/Common.html">Common</a></li>
             
                 <li><a href="../classes/Component.html">Component</a></li>
@@ -143,6 +145,8 @@
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
                 <li><a href="../classes/Intersect.html">Intersect</a></li>
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
@@ -158,8 +162,6 @@
                 <li><a href="../classes/Linear.html">Linear</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
-            
-                <li><a href="../classes/Manager.html">Manager</a></li>
             
                 <li><a href="../classes/MasterClock.html">MasterClock</a></li>
             
@@ -219,9 +221,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -246,6 +248,8 @@
                 <li><a href="../classes/Transform.html">Transform</a></li>
             
                 <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
@@ -388,6 +392,7 @@ module Kiwi.Geom {
         /** 
         * Return the X value of the transform.
         * @property x
+        * @type Number
         * @return {Number} The X value of the transform.
         */
         public set x(value: number) {
@@ -395,7 +400,6 @@ module Kiwi.Geom {
             this._x = value;
 
         }
-
         public get x():number {
             return this._x;
         }
@@ -411,14 +415,13 @@ module Kiwi.Geom {
         /** 
         * Return the Y value of the transform.
         * @property y
+        * @type Number
         * @return {Number} The Y value of the transform.
         * @public
         */
-        
         public set y(value: number) {
             this._y = value;
         }
-
         public get y(): number {
             return this._y;
         }
@@ -435,6 +438,7 @@ module Kiwi.Geom {
         /** 
         * Return the X scale value of the transform.
         * @property scaleX
+        * @type Number
         * @return {Number} The X value of the transform.
         * @public
         */
@@ -457,13 +461,13 @@ module Kiwi.Geom {
         /** 
         * Return the Y scale value of the transform.
         * @property scaleY
+        * @type Number
         * @return {Number} The Y value of the transform.
         * @public
         */
         public set scaleY(value: number) {
             this._scaleY = value;
         }
-
         public get scaleY():number {
             return this._scaleY;
         }
@@ -676,8 +680,7 @@ module Kiwi.Geom {
         /** 
 	    * Set the X and Y scale value of the transform.
 	    * @method scale
-	    * @param scaleX {Number} scaleX.
-	    * @param scaleY {Number} scaleY.
+	    * @param value {Number} 
         * @return {Transform} This object.
         * @public
 	    */
@@ -750,8 +753,7 @@ module Kiwi.Geom {
 
             var parentMatrix = this.getParentMatrix();
 
-            if (parentMatrix)
-            {
+            if (parentMatrix) {
                 var matrix = this._matrix.clone();
                 matrix.prependMatrix(parentMatrix);
                 this._cachedConcatenatedMatrix.copyFrom(matrix);

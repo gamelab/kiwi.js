@@ -4,15 +4,16 @@
 * @submodule Easing 
 * 
 */
-module Kiwi.Animation.Tweens.Easing {
+
+
+module Kiwi.Animations.Tweens.Easing {
 
     /**
     *
-    *
-    * @class Circular
+    * @class Quartic
     *
     */
-    export class Circular {
+    export class Quartic {
 
         /**
         * The type of object that this is.
@@ -21,19 +22,20 @@ module Kiwi.Animation.Tweens.Easing {
         * @public
         */
         public objType() {
-            return "Circular";
+            return "Quartic";
         }
 
         /** 
         * 
         * @method In
         * @param k {Any}
-        * @return {Number}
+        * @return {String}
         * @static
+        * @public
         */
         public static In(k) {
 
-            return 1 - Math.sqrt(1 - k * k);
+            return k * k * k * k;
 
         }
 
@@ -41,12 +43,13 @@ module Kiwi.Animation.Tweens.Easing {
         * 
         * @method Out
         * @param k {Any}
-        * @return {Number}
+        * @return {String}
         * @static
+        * @public
         */
         public static Out(k) {
 
-            return Math.sqrt(1 - (--k * k));
+            return 1 - (--k * k * k * k);
 
         }
 
@@ -54,13 +57,14 @@ module Kiwi.Animation.Tweens.Easing {
         * 
         * @method InOut
         * @param k {Any}
-        * @return {Number}
+        * @return {String}
         * @static
+        * @public
         */
         public static InOut(k) {
 
-            if ((k *= 2) < 1) return -0.5 * (Math.sqrt(1 - k * k) - 1);
-            return 0.5 * (Math.sqrt(1 - (k -= 2) * k) + 1);
+            if ((k *= 2) < 1) return 0.5 * k * k * k * k;
+            return -0.5 * ((k -= 2) * k * k * k - 2);
 
         }
 

@@ -1,6 +1,6 @@
 ﻿var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Back = (function () {
@@ -31,14 +31,14 @@
                 Easing.Back = Back;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Bounce = (function () {
@@ -49,7 +49,7 @@ var Kiwi;
                     };
 
                     Bounce.In = function (k) {
-                        return 1 - Kiwi.Animation.Tweens.Easing.Bounce.Out(1 - k);
+                        return 1 - Kiwi.Animations.Tweens.Easing.Bounce.Out(1 - k);
                     };
 
                     Bounce.Out = function (k) {
@@ -66,22 +66,22 @@ var Kiwi;
 
                     Bounce.InOut = function (k) {
                         if (k < 0.5)
-                            return Kiwi.Animation.Tweens.Easing.Bounce.In(k * 2) * 0.5;
-                        return Kiwi.Animation.Tweens.Easing.Bounce.Out(k * 2 - 1) * 0.5 + 0.5;
+                            return Kiwi.Animations.Tweens.Easing.Bounce.In(k * 2) * 0.5;
+                        return Kiwi.Animations.Tweens.Easing.Bounce.Out(k * 2 - 1) * 0.5 + 0.5;
                     };
                     return Bounce;
                 })();
                 Easing.Bounce = Bounce;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Circular = (function () {
@@ -109,14 +109,14 @@ var Kiwi;
                 Easing.Circular = Circular;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Cubic = (function () {
@@ -144,14 +144,14 @@ var Kiwi;
                 Easing.Cubic = Cubic;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Elastic = (function () {
@@ -209,14 +209,14 @@ var Kiwi;
                 Easing.Elastic = Elastic;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Exponential = (function () {
@@ -248,14 +248,14 @@ var Kiwi;
                 Easing.Exponential = Exponential;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Linear = (function () {
@@ -273,14 +273,14 @@ var Kiwi;
                 Easing.Linear = Linear;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Quadratic = (function () {
@@ -308,14 +308,14 @@ var Kiwi;
                 Easing.Quadratic = Quadratic;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Quartic = (function () {
@@ -343,14 +343,14 @@ var Kiwi;
                 Easing.Quartic = Quartic;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Quintic = (function () {
@@ -378,14 +378,14 @@ var Kiwi;
                 Easing.Quintic = Quintic;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
             (function (Easing) {
                 var Sinusoidal = (function () {
@@ -411,37 +411,37 @@ var Kiwi;
                 Easing.Sinusoidal = Sinusoidal;
             })(Tweens.Easing || (Tweens.Easing = {}));
             var Easing = Tweens.Easing;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         (function (Tweens) {
-            var Manager = (function () {
-                function Manager(game) {
+            var TweenManager = (function () {
+                function TweenManager(game) {
                     this._game = game;
                     this._tweens = [];
                 }
-                Manager.prototype.objType = function () {
-                    return "Manager";
+                TweenManager.prototype.objType = function () {
+                    return "TweenManager";
                 };
 
-                Manager.prototype.getAll = function () {
+                TweenManager.prototype.getAll = function () {
                     return this._tweens;
                 };
 
-                Manager.prototype.removeAll = function () {
+                TweenManager.prototype.removeAll = function () {
                     this._tweens.length = 0;
                 };
 
-                Manager.prototype.create = function (object) {
-                    return new Kiwi.Animation.Tween(object, this._game);
+                TweenManager.prototype.create = function (object) {
+                    return new Kiwi.Animations.Tween(object, this._game);
                 };
 
-                Manager.prototype.add = function (tween) {
+                TweenManager.prototype.add = function (tween) {
                     tween.setParent(this._game);
 
                     this._tweens.push(tween);
@@ -449,7 +449,7 @@ var Kiwi;
                     return tween;
                 };
 
-                Manager.prototype.remove = function (tween) {
+                TweenManager.prototype.remove = function (tween) {
                     var i = this._tweens.indexOf(tween);
 
                     if (i !== -1) {
@@ -457,7 +457,7 @@ var Kiwi;
                     }
                 };
 
-                Manager.prototype.update = function () {
+                TweenManager.prototype.update = function () {
                     if (this._tweens.length === 0) {
                         return false;
                     }
@@ -476,17 +476,17 @@ var Kiwi;
 
                     return true;
                 };
-                return Manager;
+                return TweenManager;
             })();
-            Tweens.Manager = Manager;
-        })(Animation.Tweens || (Animation.Tweens = {}));
-        var Tweens = Animation.Tweens;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+            Tweens.TweenManager = TweenManager;
+        })(Animations.Tweens || (Animations.Tweens = {}));
+        var Tweens = Animations.Tweens;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         var Tween = (function () {
             function Tween(object, game) {
                 if (typeof game === "undefined") { game = null; }
@@ -498,7 +498,7 @@ var Kiwi;
                 this._duration = 1000;
                 this._delayTime = 0;
                 this._startTime = null;
-                this._easingFunction = Kiwi.Animation.Tweens.Easing.Linear.None;
+                this._easingFunction = Kiwi.Animations.Tweens.Easing.Linear.None;
                 this._interpolationFunction = Kiwi.Utils.GameMath.linearInterpolation;
                 this._chainedTweens = [];
                 this._onStartCallback = null;
@@ -689,9 +689,9 @@ var Kiwi;
             };
             return Tween;
         })();
-        Animation.Tween = Tween;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        Animations.Tween = Tween;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -1254,7 +1254,7 @@ var Kiwi;
             this.browser = new Kiwi.System.Browser(this);
 
             this.fileStore = new Kiwi.Files.FileStore(this);
-            this.input = new Kiwi.Input.Manager(this);
+            this.input = new Kiwi.Input.InputManager(this);
 
             this.stage = new Kiwi.Stage(this, name);
 
@@ -1265,15 +1265,17 @@ var Kiwi;
             }
 
             this.cameras = new Kiwi.CameraManager(this);
+
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds = new Kiwi.HUD.HUDManager(this);
             }
+
             this.loader = new Kiwi.Files.Loader(this);
 
             this.states = new Kiwi.StateManager(this);
             this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
-            this.time = new Kiwi.Time.Manager(this);
-            this.tweens = new Kiwi.Animation.Tweens.Manager(this);
+            this.time = new Kiwi.Time.ClockManager(this);
+            this.tweens = new Kiwi.Animations.Tweens.TweenManager(this);
 
             if (state !== null) {
                 if (this.states.addState(state, true) === false) {
@@ -2541,9 +2543,9 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Components) {
-        var Animation = (function (_super) {
-            __extends(Animation, _super);
-            function Animation(entity) {
+        var AnimationManager = (function (_super) {
+            __extends(AnimationManager, _super);
+            function AnimationManager(entity) {
                 _super.call(this, entity, 'Animation');
                 this.currentAnimation = null;
                 this._isPlaying = false;
@@ -2566,7 +2568,7 @@ var Kiwi;
                     this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
                 }
             }
-            Object.defineProperty(Animation.prototype, "isPlaying", {
+            Object.defineProperty(AnimationManager.prototype, "isPlaying", {
                 get: function () {
                     return this._isPlaying;
                 },
@@ -2574,22 +2576,22 @@ var Kiwi;
                 configurable: true
             });
 
-            Animation.prototype.objType = function () {
-                return "Animation";
+            AnimationManager.prototype.objType = function () {
+                return "AnimationManager";
             };
 
-            Animation.prototype.add = function (name, cells, speed, loop, play) {
+            AnimationManager.prototype.add = function (name, cells, speed, loop, play) {
                 if (typeof loop === "undefined") { loop = false; }
                 if (typeof play === "undefined") { play = false; }
-                var newSequence = new Kiwi.Animation.Sequence(name, cells, speed, loop);
+                var newSequence = new Kiwi.Animations.Sequence(name, cells, speed, loop);
                 this._atlas.sequences.push(newSequence);
 
                 return this.createFromSequence(newSequence, play);
             };
 
-            Animation.prototype.createFromSequence = function (sequence, play) {
+            AnimationManager.prototype.createFromSequence = function (sequence, play) {
                 if (typeof play === "undefined") { play = false; }
-                this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.entity.clock);
+                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock);
 
                 if (play)
                     this.play(sequence.name);
@@ -2597,17 +2599,17 @@ var Kiwi;
                 return this._animations[sequence.name];
             };
 
-            Animation.prototype.play = function (name) {
+            AnimationManager.prototype.play = function (name) {
                 if (typeof name === "undefined") { name = this.currentAnimation.name; }
                 return this._play(name);
             };
 
-            Animation.prototype.playAt = function (index, name) {
+            AnimationManager.prototype.playAt = function (index, name) {
                 if (typeof name === "undefined") { name = this.currentAnimation.name; }
                 return this._play(name, index);
             };
 
-            Animation.prototype._play = function (name, index) {
+            AnimationManager.prototype._play = function (name, index) {
                 if (typeof index === "undefined") { index = null; }
                 this._isPlaying = true;
                 this._setCurrentAnimation(name);
@@ -2621,24 +2623,24 @@ var Kiwi;
                 return this.currentAnimation;
             };
 
-            Animation.prototype.stop = function () {
+            AnimationManager.prototype.stop = function () {
                 if (this.isPlaying === true) {
                     this.currentAnimation.stop();
                 }
                 this._isPlaying = false;
             };
 
-            Animation.prototype.pause = function () {
+            AnimationManager.prototype.pause = function () {
                 this.currentAnimation.pause();
                 this._isPlaying = false;
             };
 
-            Animation.prototype.resume = function () {
+            AnimationManager.prototype.resume = function () {
                 this.currentAnimation.resume();
                 this._isPlaying = true;
             };
 
-            Animation.prototype.switchTo = function (val, play) {
+            AnimationManager.prototype.switchTo = function (val, play) {
                 if (typeof play === "undefined") { play = null; }
                 switch (typeof val) {
                     case "string":
@@ -2659,17 +2661,17 @@ var Kiwi;
                 this._setCellIndex();
             };
 
-            Animation.prototype.nextFrame = function () {
+            AnimationManager.prototype.nextFrame = function () {
                 this.currentAnimation.nextFrame();
                 this._setCellIndex();
             };
 
-            Animation.prototype.prevFrame = function () {
+            AnimationManager.prototype.prevFrame = function () {
                 this.currentAnimation.prevFrame();
                 this._setCellIndex();
             };
 
-            Animation.prototype._setCurrentAnimation = function (name) {
+            AnimationManager.prototype._setCurrentAnimation = function (name) {
                 if (this.currentAnimation !== null)
                     this.currentAnimation.stop();
                 if (this._animations[name]) {
@@ -2677,7 +2679,7 @@ var Kiwi;
                 }
             };
 
-            Animation.prototype.update = function () {
+            AnimationManager.prototype.update = function () {
                 if (this.currentAnimation && this.isPlaying) {
                     if (this.currentAnimation.update()) {
                         this._setCellIndex();
@@ -2685,7 +2687,7 @@ var Kiwi;
                 }
             };
 
-            Object.defineProperty(Animation.prototype, "currentCell", {
+            Object.defineProperty(AnimationManager.prototype, "currentCell", {
                 get: function () {
                     return this.currentAnimation.currentCell;
                 },
@@ -2693,7 +2695,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Animation.prototype, "frameIndex", {
+            Object.defineProperty(AnimationManager.prototype, "frameIndex", {
                 get: function () {
                     return this.currentAnimation.frameIndex;
                 },
@@ -2701,7 +2703,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Animation.prototype, "length", {
+            Object.defineProperty(AnimationManager.prototype, "length", {
                 get: function () {
                     return this.currentAnimation.length;
                 },
@@ -2709,19 +2711,19 @@ var Kiwi;
                 configurable: true
             });
 
-            Animation.prototype.getAnimation = function (name) {
+            AnimationManager.prototype.getAnimation = function (name) {
                 return this._animations[name];
             };
 
-            Animation.prototype._setCellIndex = function () {
+            AnimationManager.prototype._setCellIndex = function () {
                 this.entity.cellIndex = this.currentCell;
             };
 
-            Animation.prototype.toString = function () {
+            AnimationManager.prototype.toString = function () {
                 return '[{Animation (x=' + this.active + ')}]';
             };
 
-            Animation.prototype.destroy = function () {
+            AnimationManager.prototype.destroy = function () {
                 this._isPlaying = false;
                 _super.prototype.destroy.call(this);
 
@@ -2733,9 +2735,9 @@ var Kiwi;
                 delete this.currentAnimation;
                 delete this._atlas;
             };
-            return Animation;
+            return AnimationManager;
         })(Kiwi.Component);
-        Components.Animation = Animation;
+        Components.AnimationManager = AnimationManager;
     })(Kiwi.Components || (Kiwi.Components = {}));
     var Components = Kiwi.Components;
 })(Kiwi || (Kiwi = {}));
@@ -5021,7 +5023,7 @@ var Kiwi;
                     this.animation = null;
                     this._isAnimated = false;
                 } else {
-                    this.animation = this.components.add(new Kiwi.Components.Animation(this));
+                    this.animation = this.components.add(new Kiwi.Components.AnimationManager(this));
                     this._isAnimated = true;
                 }
             }
@@ -5126,14 +5128,16 @@ var Kiwi;
     (function (GameObjects) {
         var Textfield = (function (_super) {
             __extends(Textfield, _super);
-            function Textfield(state, text, x, y, color, size, weight, fontFamily) {
+            function Textfield(state, text, x, y, color, size, weight, fontFamily, optimize) {
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof color === "undefined") { color = '#000000'; }
                 if (typeof size === "undefined") { size = 32; }
                 if (typeof weight === "undefined") { weight = 'normal'; }
                 if (typeof fontFamily === "undefined") { fontFamily = 'sans-serif'; }
+                if (typeof optimize === "undefined") { optimize = true; }
                 _super.call(this, state, x, y);
+                this._tempDirty = true;
 
                 this._text = text;
                 this._fontWeight = weight;
@@ -5143,7 +5147,13 @@ var Kiwi;
                 this._textAlign = 'left';
                 this._baseline = 'top';
 
-                this.dirty = true;
+                if (this.state.game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                    this.optimize = false;
+                } else {
+                    this.optimize = optimize;
+                }
+
+                this._tempDirty = true;
             }
             Textfield.prototype.objType = function () {
                 return "Textfield";
@@ -5155,7 +5165,7 @@ var Kiwi;
                 },
                 set: function (value) {
                     this._text = value;
-                    this.dirty = true;
+                    this._tempDirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5167,7 +5177,7 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._fontColor = val;
-                    this.dirty = true;
+                    this._tempDirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5179,7 +5189,7 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._fontWeight = val;
-                    this.dirty = true;
+                    this._tempDirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5191,7 +5201,7 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._fontSize = val;
-                    this.dirty = true;
+                    this._tempDirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5203,7 +5213,7 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._fontFamily = val;
-                    this.dirty = true;
+                    this._tempDirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5216,7 +5226,7 @@ var Kiwi;
                 },
                 set: function (val) {
                     this._textAlign = val;
-                    this.dirty = true;
+                    this._tempDirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -5235,49 +5245,59 @@ var Kiwi;
                 ctxTemp.fillStyle = this._fontColor;
                 ctxTemp.textBaseline = this._baseline;
 
-                ctxTemp.fillText(this._text, 0.5, 0.5);
+                ctxTemp.fillText(this._text, 0, 0);
 
                 this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
                 this._textImage.src = this._tempCanvas.toDataURL("image/png");
 
-                this.dirty = false;
+                this._tempDirty = false;
             };
 
             Textfield.prototype.render = function (camera) {
                 if (this.alpha > 0 && this.visiblity) {
-                    if (this.dirty) {
-                        this._renderText();
-                    }
-
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
                     var t = this.transform;
-
                     if (this.alpha > 0 && this.alpha <= 1) {
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    var x = 0;
-                    switch (this._textAlign) {
-                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
-                            x = 0;
-                            break;
-                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                            x = this._textImage.width / 2;
-                            break;
-                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                            x = this._textImage.width;
-                            break;
+                    if (this.optimize) {
+                        if (this._tempDirty)
+                            this._renderText();
+
+                        var x = 0;
+                        switch (this._textAlign) {
+                            case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+                                x = 0;
+                                break;
+                            case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+                                x = this._textImage.width / 2;
+                                break;
+                            case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+                                x = this._textImage.width;
+                                break;
+                        }
+                        t.x -= x;
+
+                        var m = t.getConcatenatedMatrix();
+                        ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+
+                        ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
+
+                        t.x += x;
+                    } else {
+                        ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                        ctx.textAlign = this._textAlign;
+                        ctx.fillStyle = this._fontColor;
+                        ctx.textBaseline = this._baseline;
+
+                        var m = t.getConcatenatedMatrix();
+                        ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+
+                        ctx.fillText(this._text, 0, 0);
                     }
-
-                    t.x -= x;
-                    var m = t.getConcatenatedMatrix();
-
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                    ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
-
-                    t.x += x;
 
                     ctx.restore();
                 }
@@ -7529,7 +7549,6 @@ var Kiwi;
                 return "Transform";
             };
 
-
             Object.defineProperty(Transform.prototype, "x", {
                 get: function () {
                     return this._x;
@@ -7540,7 +7559,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Transform.prototype, "y", {
                 get: function () {
@@ -7564,7 +7582,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-
 
             Object.defineProperty(Transform.prototype, "scaleY", {
                 get: function () {
@@ -9713,9 +9730,9 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
-        var Anim = (function () {
-            function Anim(name, sequence, clock) {
+    (function (Animations) {
+        var Animation = (function () {
+            function Animation(name, sequence, clock) {
                 this._frameIndex = 0;
                 this._startTime = null;
                 this._reverse = false;
@@ -9730,7 +9747,11 @@ var Kiwi;
                 this.onStop = new Kiwi.Signal();
                 this.onLoop = new Kiwi.Signal();
             }
-            Object.defineProperty(Anim.prototype, "loop", {
+            Animation.prototype.objType = function () {
+                return 'Animation';
+            };
+
+            Object.defineProperty(Animation.prototype, "loop", {
                 get: function () {
                     return this._loop;
                 },
@@ -9741,7 +9762,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Anim.prototype, "frameIndex", {
+            Object.defineProperty(Animation.prototype, "frameIndex", {
                 get: function () {
                     return this._frameIndex;
                 },
@@ -9754,7 +9775,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Anim.prototype, "currentCell", {
+            Object.defineProperty(Animation.prototype, "currentCell", {
                 get: function () {
                     return this._sequence.cells[this.frameIndex];
                 },
@@ -9762,7 +9783,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Anim.prototype, "speed", {
+            Object.defineProperty(Animation.prototype, "speed", {
                 get: function () {
                     return this._speed;
                 },
@@ -9773,7 +9794,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Anim.prototype, "reverse", {
+            Object.defineProperty(Animation.prototype, "reverse", {
                 get: function () {
                     return this._reverse;
                 },
@@ -9784,7 +9805,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Anim.prototype._start = function (index) {
+            Animation.prototype._start = function (index) {
                 if (typeof index === "undefined") { index = null; }
                 if (index !== null) {
                     this.frameIndex = index;
@@ -9795,47 +9816,47 @@ var Kiwi;
                 this.onPlay.dispatch();
             };
 
-            Anim.prototype.play = function () {
+            Animation.prototype.play = function () {
                 if (this._frameIndex === this.length - 1)
                     this.frameIndex = 0;
 
                 this.playAt(this._frameIndex);
             };
 
-            Anim.prototype.playAt = function (index) {
+            Animation.prototype.playAt = function (index) {
                 this._start(index);
             };
 
-            Anim.prototype.pause = function () {
+            Animation.prototype.pause = function () {
                 this.stop();
             };
 
-            Anim.prototype.resume = function () {
+            Animation.prototype.resume = function () {
                 if (this._startTime !== null) {
                     this._isPlaying = true;
                 }
             };
 
-            Anim.prototype.stop = function () {
+            Animation.prototype.stop = function () {
                 if (this._isPlaying) {
                     this._isPlaying = false;
                     this.onStop.dispatch();
                 }
             };
 
-            Anim.prototype.nextFrame = function () {
+            Animation.prototype.nextFrame = function () {
                 this._frameIndex++;
                 if (this._frameIndex >= this.length)
                     this.frameIndex = 0;
             };
 
-            Anim.prototype.prevFrame = function () {
+            Animation.prototype.prevFrame = function () {
                 this._frameIndex--;
                 if (this._frameIndex < 0)
                     this.frameIndex = this.length - 1;
             };
 
-            Anim.prototype.update = function () {
+            Animation.prototype.update = function () {
                 if (this._isPlaying) {
                     if (this._clock.elapsed() >= this._tick) {
                         this._tick = this._clock.elapsed() + this._speed;
@@ -9866,11 +9887,11 @@ var Kiwi;
                 return false;
             };
 
-            Anim.prototype._validateFrame = function (frame) {
+            Animation.prototype._validateFrame = function (frame) {
                 return (frame < this.length && frame >= 0);
             };
 
-            Object.defineProperty(Anim.prototype, "length", {
+            Object.defineProperty(Animation.prototype, "length", {
                 get: function () {
                     return this._sequence.cells.length;
                 },
@@ -9878,7 +9899,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Anim.prototype.destroy = function () {
+            Animation.prototype.destroy = function () {
                 this._isPlaying = false;
                 delete this._clock;
                 delete this._sequence;
@@ -9899,15 +9920,15 @@ var Kiwi;
                 delete this._reverse;
                 delete this._tick;
             };
-            return Anim;
+            return Animation;
         })();
-        Animation.Anim = Anim;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        Animations.Animation = Animation;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
-    (function (Animation) {
+    (function (Animations) {
         var Sequence = (function () {
             function Sequence(name, cells, speed, loop) {
                 if (typeof speed === "undefined") { speed = 0.1; }
@@ -9919,9 +9940,9 @@ var Kiwi;
             }
             return Sequence;
         })();
-        Animation.Sequence = Sequence;
-    })(Kiwi.Animation || (Kiwi.Animation = {}));
-    var Animation = Kiwi.Animation;
+        Animations.Sequence = Sequence;
+    })(Kiwi.Animations || (Kiwi.Animations = {}));
+    var Animations = Kiwi.Animations;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
@@ -10331,15 +10352,15 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Input) {
-        var Manager = (function () {
-            function Manager(game) {
+        var InputManager = (function () {
+            function InputManager(game) {
                 this.game = game;
             }
-            Manager.prototype.objType = function () {
-                return "Manager";
+            InputManager.prototype.objType = function () {
+                return "InputManager";
             };
 
-            Object.defineProperty(Manager.prototype, "pointers", {
+            Object.defineProperty(InputManager.prototype, "pointers", {
                 get: function () {
                     return this._pointers;
                 },
@@ -10347,7 +10368,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Manager.prototype.boot = function () {
+            InputManager.prototype.boot = function () {
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch = new Kiwi.Input.Touch(this.game);
                     this.touch.boot();
@@ -10371,15 +10392,15 @@ var Kiwi;
                 this.onUp = new Kiwi.Signal();
             };
 
-            Manager.prototype._onDownEvent = function (x, y, timeDown, timeUp, duration, pointer) {
+            InputManager.prototype._onDownEvent = function (x, y, timeDown, timeUp, duration, pointer) {
                 this.onDown.dispatch(x, y, timeDown, timeUp, duration, pointer);
             };
 
-            Manager.prototype._onUpEvent = function (x, y, timeDown, timeUp, duration, pointer) {
+            InputManager.prototype._onUpEvent = function (x, y, timeDown, timeUp, duration, pointer) {
                 this.onUp.dispatch(x, y, timeDown, timeUp, duration, pointer);
             };
 
-            Object.defineProperty(Manager.prototype, "onPressed", {
+            Object.defineProperty(InputManager.prototype, "onPressed", {
                 get: function () {
                     return this.onDown;
                 },
@@ -10387,7 +10408,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Manager.prototype, "onReleased", {
+            Object.defineProperty(InputManager.prototype, "onReleased", {
                 get: function () {
                     return this.onUp;
                 },
@@ -10395,7 +10416,7 @@ var Kiwi;
                 configurable: true
             });
 
-            Manager.prototype.update = function () {
+            InputManager.prototype.update = function () {
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch.update();
                     this.position.setTo(this.touch.x, this.touch.y);
@@ -10408,7 +10429,7 @@ var Kiwi;
                 }
             };
 
-            Manager.prototype.reset = function () {
+            InputManager.prototype.reset = function () {
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch.reset();
                 } else {
@@ -10417,7 +10438,7 @@ var Kiwi;
                 }
             };
 
-            Object.defineProperty(Manager.prototype, "x", {
+            Object.defineProperty(InputManager.prototype, "x", {
                 get: function () {
                     return this.position.x;
                 },
@@ -10425,16 +10446,16 @@ var Kiwi;
                 configurable: true
             });
 
-            Object.defineProperty(Manager.prototype, "y", {
+            Object.defineProperty(InputManager.prototype, "y", {
                 get: function () {
                     return this.position.y;
                 },
                 enumerable: true,
                 configurable: true
             });
-            return Manager;
+            return InputManager;
         })();
-        Input.Manager = Manager;
+        Input.InputManager = InputManager;
     })(Kiwi.Input || (Kiwi.Input = {}));
     var Input = Kiwi.Input;
 })(Kiwi || (Kiwi = {}));
@@ -12136,7 +12157,7 @@ var Kiwi;
 
                 if (obj.sequences) {
                     for (var i = 0; i < obj.sequences.length; i++) {
-                        var seq = new Kiwi.Animation.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
+                        var seq = new Kiwi.Animations.Sequence(obj.sequences[i].name, obj.sequences[i].cells);
 
                         if (obj.sequences[i].speed !== undefined)
                             seq.speed = obj.sequences[i].speed;
@@ -12345,7 +12366,7 @@ var Kiwi;
                 }
 
                 this.sequences = new Array();
-                this.sequences.push(new Kiwi.Animation.Sequence('default', cellNumeric));
+                this.sequences.push(new Kiwi.Animations.Sequence('default', cellNumeric));
 
                 return cells;
             };
@@ -12604,30 +12625,30 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Time) {
-        var Manager = (function () {
-            function Manager(game) {
+        var ClockManager = (function () {
+            function ClockManager(game) {
                 this._clocks = [];
                 this._game = game;
             }
-            Manager.prototype.objType = function () {
-                return "Manager";
+            ClockManager.prototype.objType = function () {
+                return "ClockManager";
             };
 
-            Manager.prototype.boot = function () {
+            ClockManager.prototype.boot = function () {
                 this.master = new Kiwi.Time.MasterClock();
 
                 this.clock = new Time.Clock(this, this.master, 'default', 1000);
                 this.clock.start();
             };
 
-            Manager.prototype.addClock = function (name, units) {
+            ClockManager.prototype.addClock = function (name, units) {
                 if (typeof units === "undefined") { units = 1000; }
                 this._clocks.push(new Time.Clock(this, this.master, name, units));
 
                 return this._clocks[this._clocks.length - 1];
             };
 
-            Manager.prototype.getClock = function (name) {
+            ClockManager.prototype.getClock = function (name) {
                 for (var i = 0; i < this._clocks.length; i++) {
                     if (this._clocks[i].name === name) {
                         return this._clocks[i];
@@ -12635,7 +12656,7 @@ var Kiwi;
                 }
             };
 
-            Manager.prototype.update = function () {
+            ClockManager.prototype.update = function () {
                 this.master.update();
                 this.clock.update();
 
@@ -12644,16 +12665,16 @@ var Kiwi;
                 }
             };
 
-            Manager.prototype.now = function () {
+            ClockManager.prototype.now = function () {
                 return this.master.now;
             };
 
-            Manager.prototype.delta = function () {
+            ClockManager.prototype.delta = function () {
                 return this.master.delta;
             };
-            return Manager;
+            return ClockManager;
         })();
-        Time.Manager = Manager;
+        Time.ClockManager = ClockManager;
     })(Kiwi.Time || (Kiwi.Time = {}));
     var Time = Kiwi.Time;
 })(Kiwi || (Kiwi = {}));

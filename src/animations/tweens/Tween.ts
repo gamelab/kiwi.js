@@ -1,11 +1,11 @@
 /**
 * Kiwi - Animation - Tweens 
-* @module Animation
+* @module Animations
 * @submodule Tweens 
 * 
 */
  
-module Kiwi.Animation {
+module Kiwi.Animations {
 
     /**
     * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
@@ -68,7 +68,7 @@ module Kiwi.Animation {
         * @type Manager
         * @private
         */
-        private _manager: Kiwi.Animation.Tweens.Manager = null;
+        private _manager: Kiwi.Animations.Tweens.TweenManager = null;
 
         /** 
         * The object that this tween is affecting.
@@ -125,7 +125,7 @@ module Kiwi.Animation {
         * @default Kiwi.Tweens.Easing.Linear.None
         * @private
         */
-        private _easingFunction = Kiwi.Animation.Tweens.Easing.Linear.None;
+        private _easingFunction = Kiwi.Animations.Tweens.Easing.Linear.None;
 
         /** 
         * [NEEDS DESCRIPTION]
@@ -395,7 +395,7 @@ module Kiwi.Animation {
         * @return {Tween}
         * @public
         */
-	    public chain(tween:Kiwi.Animation.Tween):Tween {
+	    public chain(tween:Kiwi.Animations.Tween):Tween {
 
 	        this._chainedTweens.push(tween);
 	        return this;

@@ -15,7 +15,7 @@ class KeyboardEvents extends Kiwi.State {
     }
 
     choppa: Kiwi.GameObjects.Sprite;
-    choppaAnimation: Kiwi.Animation.Anim;
+    choppaAnimation: Kiwi.Animations.Animation;
 
     left: Kiwi.Input.Key;
     right: Kiwi.Input.Key;

@@ -21,8 +21,8 @@ class SetNumber extends Kiwi.State {
     create() {
         
         //create the animations.
-        this.textures.german.sequences.push(new Kiwi.Animation.Sequence('walk', [1, 2, 3, 4, 5, 6], 0.2, true));
-        this.textures.tank.sequences.push(new Kiwi.Animation.Sequence('move', [1, 2, 3, 4, 5, 6], 0.2, true));
+        this.textures.german.sequences.push(new Kiwi.Animations.Sequence('walk', [1, 2, 3, 4, 5, 6], 0.2, true));
+        this.textures.tank.sequences.push(new Kiwi.Animations.Sequence('move', [1, 2, 3, 4, 5, 6], 0.2, true));
 
         this.germans = [];
 

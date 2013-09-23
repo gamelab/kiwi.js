@@ -1,15 +1,16 @@
 /**
 * Kiwi - Animation
 * @module Kiwi
-* @submodule Animation 
-* @main Animation
+* @submodule Animations 
+* @main Animations
 */
 
-module Kiwi.Animation {
+module Kiwi.Animations {
 
     /**
+    * An Anim contains information about a single animation that is held on Animation Component, which is used on a Sprite GameObject.
     * 
-    * @class Anim
+    * @class Animation
     * @constructor
     * @param name {string} The name of this anim.
     * @param sequences {Sequences} The sequence that this anim will be using to animate.
@@ -17,9 +18,9 @@ module Kiwi.Animation {
     * @return {Anim} 
     * 
     */
-    export class Anim {
+    export class Animation {
          
-        constructor(name: string, sequence: Kiwi.Animation.Sequence, clock: Kiwi.Time.Clock) {
+        constructor(name: string, sequence: Kiwi.Animations.Sequence, clock: Kiwi.Time.Clock) {
             
             this.name = name;
             this._sequence = sequence;
@@ -27,11 +28,21 @@ module Kiwi.Animation {
             this._loop = sequence.loop;
             this._clock = clock;
 
-            //Signals
+            //Signals - Should be moved to animation manager.
             this.onUpdate = new Kiwi.Signal;
             this.onPlay = new Kiwi.Signal;
             this.onStop = new Kiwi.Signal;
             this.onLoop = new Kiwi.Signal;
+        }
+
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string {
+            return 'Animation';
         }
 
         /**
@@ -48,7 +59,7 @@ module Kiwi.Animation {
         * @type Sequence
         * @private
         */
-        private _sequence: Kiwi.Animation.Sequence;
+        private _sequence: Kiwi.Animations.Sequence;
 
         /**
         * If this animation should loop or not.

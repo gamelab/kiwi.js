@@ -23,6 +23,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Circle",
         "Circular",
         "Clock",
+        "ClockManager",
         "Common",
         "Component",
         "ComponentManager",
@@ -52,6 +53,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Icon",
         "IconCounter",
         "Input",
+        "InputManager",
         "Intersect",
         "IntersectResult",
         "Key",
@@ -60,7 +62,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Line",
         "Linear",
         "Loader",
-        "Manager",
         "MasterClock",
         "Matrix",
         "Menu",
@@ -104,6 +105,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Touch",
         "Transform",
         "Tween",
+        "TweenManager",
         "Vector2"
     ],
     "modules": [
@@ -195,7 +197,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Tilemap",
             "name": "Tilemap",
-            "description": "Kiwi - GameObjects - TileMapLayer"
+            "description": "Kiwi - GameObjects - Tilemap"
         },
         {
             "displayName": "Time",

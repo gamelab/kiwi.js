@@ -47,7 +47,7 @@ module Kiwi.GameObjects {
                 this.animation = null;
                 this._isAnimated = false;
             } else {
-                this.animation = this.components.add(new Kiwi.Components.Animation(this));
+                this.animation = this.components.add(new Kiwi.Components.AnimationManager(this));
                 this._isAnimated = true;
             }
 
@@ -76,10 +76,10 @@ module Kiwi.GameObjects {
 	    * The animation component that allows you to create a animation with spritesheets/texture atlas's. 
         * Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.
 	    * @property animation
-	    * @type Animation
+	    * @type AnimationManager
         * @public
 	    */
-        public animation: Kiwi.Components.Animation;
+        public animation: Kiwi.Components.AnimationManager;
         
         /** 
         * The box component that controls the bounding box around this Game Object

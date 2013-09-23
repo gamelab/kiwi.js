@@ -28,7 +28,7 @@ module Kiwi.Time {
     */
     export class Clock {
          
-        constructor (manager:Kiwi.Time.Manager, master: Kiwi.Time.MasterClock, name: string, units: number = 1000) {
+        constructor (manager:Kiwi.Time.ClockManager, master: Kiwi.Time.MasterClock, name: string, units: number = 1000) {
 
             this.manager = manager;
             this.master = master;
@@ -284,7 +284,7 @@ module Kiwi.Time {
         * @type Manager 
         * @public
         */
-        public manager: Kiwi.Time.Manager = null;
+        public manager: Kiwi.Time.ClockManager = null;
 
         /**
         * The master clock.

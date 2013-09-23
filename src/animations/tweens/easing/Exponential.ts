@@ -5,7 +5,7 @@
 * 
 */
 
-module Kiwi.Animation.Tweens.Easing {
+module Kiwi.Animations.Tweens.Easing {
 
     /**
     *

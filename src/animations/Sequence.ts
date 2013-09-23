@@ -1,14 +1,14 @@
 /**
 * Kiwi - Animation
 * @module Kiwi
-* @submodule Animation 
+* @submodule Animations
 * 
 */
  
-module Kiwi.Animation {
+module Kiwi.Animations {
 
     /**
-    * 
+    * Is a series of cells which are used with SpriteSheets and TextureAtlas's to create 'default' animations on Sprites that contain an Animation component. 
     * 
     * @class Sequence
     * @constructor

@@ -1,20 +1,20 @@
 /**
 * Kiwi - Animation - Tweens 
-* @module Animation
+* @module Animations
 * @submodule Tweens 
 * @main Tweens
 */
 
-module Kiwi.Animation.Tweens {
+module Kiwi.Animations.Tweens {
 
     /** 
     * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
     * https://github.com/sole/tween.js
     *
-    * @class Manager
+    * @class TweenManager
     * @constructor
     * @param game {Game}
-    * @return {Manager}
+    * @return {TweenManager}
     * 
     * @author     sole / http://soledadpenades.com
     * @author     mrdoob / http://mrdoob.com
@@ -27,7 +27,7 @@ module Kiwi.Animation.Tweens {
     * @author     egraether / http://egraether.com/
     * 
     */
-    export class Manager {
+    export class TweenManager {
          
         constructor(game: Kiwi.Game) {
              
@@ -43,7 +43,7 @@ module Kiwi.Animation.Tweens {
         * @public
         */
         public objType() {
-            return "Manager";
+            return "TweenManager";
         }
 
         /** 
@@ -60,7 +60,7 @@ module Kiwi.Animation.Tweens {
         * @type Tween[]
         * @private
         */
-        private _tweens: Kiwi.Animation.Tween[];
+        private _tweens: Kiwi.Animations.Tween[];
 
         /** 
         * Returns all of tweens that are on the manager.
@@ -92,9 +92,9 @@ module Kiwi.Animation.Tweens {
         * @return {Tween} The tween that was created.
         * @public
         */
-        public create(object:any): Kiwi.Animation.Tween {
+        public create(object:any): Kiwi.Animations.Tween {
 
-            return new Kiwi.Animation.Tween(object, this._game);
+            return new Kiwi.Animations.Tween(object, this._game);
 
         }
 
@@ -105,7 +105,7 @@ module Kiwi.Animation.Tweens {
         * @return {Tween} 
         * @public
         */
-        public add(tween: Kiwi.Animation.Tween): Kiwi.Animation.Tween {
+        public add(tween: Kiwi.Animations.Tween): Kiwi.Animations.Tween {
 
             tween.setParent(this._game);
 
@@ -122,7 +122,7 @@ module Kiwi.Animation.Tweens {
         * @return {Tween}
         * @public
         */
-        public remove(tween: Kiwi.Animation.Tween) {
+        public remove(tween: Kiwi.Animations.Tween) {
 
             var i = this._tweens.indexOf(tween);
 

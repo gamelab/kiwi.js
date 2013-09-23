@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\input\Manager.ts - Kiwi.js</title>
+    <title>src\input\InputManager.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -85,6 +85,8 @@
             
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
                 <li><a href="../classes/Common.html">Common</a></li>
             
                 <li><a href="../classes/Component.html">Component</a></li>
@@ -143,6 +145,8 @@
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
                 <li><a href="../classes/Intersect.html">Intersect</a></li>
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
@@ -158,8 +162,6 @@
                 <li><a href="../classes/Linear.html">Linear</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
-            
-                <li><a href="../classes/Manager.html">Manager</a></li>
             
                 <li><a href="../classes/MasterClock.html">MasterClock</a></li>
             
@@ -219,9 +221,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -246,6 +248,8 @@
                 <li><a href="../classes/Transform.html">Transform</a></li>
             
                 <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
@@ -324,7 +328,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\input\Manager.ts</h1>
+                        <h1 class="file-heading">File: src\input\InputManager.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -339,13 +343,13 @@ module Kiwi.Input {
 
     /**
     *
-    * @class Manager
+    * @class InputManager
     * @constructor
     * @param game {Game} The game that this object belongs to.
-    * @return {Manager} This object.
+    * @return {InputManager} This object.
     *
     */
-    export class Manager {
+    export class InputManager {
          
         constructor (game: Kiwi.Game) {
 
@@ -360,7 +364,7 @@ module Kiwi.Input {
         * @public
         */
         public objType() {
-            return &quot;Manager&quot;;
+            return &quot;InputManager&quot;;
         }
 
         /**

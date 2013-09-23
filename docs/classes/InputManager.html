@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Manager - Kiwi.js</title>
+    <title>InputManager - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -85,6 +85,8 @@
             
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
                 <li><a href="../classes/Common.html">Common</a></li>
             
                 <li><a href="../classes/Component.html">Component</a></li>
@@ -143,6 +145,8 @@
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
                 <li><a href="../classes/Intersect.html">Intersect</a></li>
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
@@ -158,8 +162,6 @@
                 <li><a href="../classes/Linear.html">Linear</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
-            
-                <li><a href="../classes/Manager.html">Manager</a></li>
             
                 <li><a href="../classes/MasterClock.html">MasterClock</a></li>
             
@@ -219,9 +221,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -246,6 +248,8 @@
                 <li><a href="../classes/Transform.html">Transform</a></li>
             
                 <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
@@ -324,7 +328,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Manager Class</h1>
+                        <h1>InputManager Class</h1>
 <div class="box meta">
     
 
@@ -332,13 +336,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_time_Manager.ts.html#l10"><code>src\time\Manager.ts:10</code></a>
+            Defined in: <a href="../files/src_input_InputManager.ts.html#l10"><code>src\input\InputManager.ts:10</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Time.html">Time</a><br>
+            Module: <a href="../modules/Input.html">Input</a><br>
             Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
@@ -349,15 +353,14 @@
 
 
 <div class="box intro">
-    <p>A Proxy to the Clock and Time related classes. Access this via Kiwi.Game.Clock</p>
-
+    
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Manager" class="method item">
-    <h3 class="name"><code>Manager</code></h3>
+        <div id="method_InputManager" class="method item">
+    <h3 class="name"><code>InputManager</code></h3>
 
     
         <div class="args">
@@ -375,7 +378,7 @@
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\Manager.html" class="crosslink">Manager</a></span>
+            <span class="type"><a href="..\classes\InputManager.html" class="crosslink">InputManager</a></span>
         </span>
     
 
@@ -402,7 +405,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l10"><code>src\time\Manager.ts:10</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l10"><code>src\input\InputManager.ts:10</code></a>
         
         </p>
 
@@ -431,7 +434,8 @@
                     
 
                     <div class="param-description">
-                         
+                        <p>The game that this object belongs to.</p>
+
                     </div>
 
                     
@@ -448,8 +452,10 @@
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\Manager.html" class="crosslink">Manager</a></span>:
+                        <span class="type"><a href="..\classes\InputManager.html" class="crosslink">InputManager</a></span>:
                     
+                    <p>This object.</p>
+
                 
             </div>
         </div>
@@ -500,20 +506,6 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_add">add</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_addClock">addClock</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
                                 <a href="#method_boot">boot</a>
 
                                 
@@ -521,77 +513,7 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_boot">boot</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_create">create</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_delta">delta</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_getAll">getAll</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_getClock">getClock</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_now">now</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_remove">remove</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_removeAll">removeAll</a>
 
                                 
                                 
@@ -599,20 +521,6 @@
                         
                             <li class="index-item method">
                                 <a href="#method_reset">reset</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_update">update</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_update">update</a>
 
                                 
                                 
@@ -636,42 +544,7 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property private">
-                                <a href="#property__clocks">_clocks</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__game">_game</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__game">_game</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
                                 <a href="#property__pointers">_pointers</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__tweens">_tweens</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_clock">clock</a>
 
                                 
                                 
@@ -693,13 +566,6 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_keyboard">keyboard</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property_master">master</a>
 
                                 
                                 
@@ -849,8 +715,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -858,7 +722,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l133"><code>src\input\Manager.ts:133</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l133"><code>src\input\InputManager.ts:133</code></a>
         
         </p>
 
@@ -1051,8 +915,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -1060,7 +922,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l149"><code>src\input\Manager.ts:149</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l149"><code>src\input\InputManager.ts:149</code></a>
         
         </p>
 
@@ -1186,247 +1048,6 @@
 </div>
 
                 
-                    <div id="method_add" class="method item public">
-    <h3 class="name"><code>add</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>tween</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Tween.html" class="crosslink">Tween</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Tweens.html">Tweens</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_Manager.ts.html#l101"><code>src\animation\tweens\Manager.ts:101</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Adds a tween to the manager.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">tween</code>
-                        <span class="type"><a href="..\classes\Tween.html" class="crosslink">Tween</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The tween that you want to add to the manager.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Tween.html" class="crosslink">Tween</a></span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_addClock" class="method item public">
-    <h3 class="name"><code>addClock</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>name</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[units=1000]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l83"><code>src\time\Manager.ts:83</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates a Clock class for keeping time relative to the MasterClock.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The name of the Clock.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[units=1000]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The number of milliseconds that make up one unit of time on this clock. Default 1000.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
-                    
-                    <p>A reference to the newly created Clock object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_boot" class="method item public">
     <h3 class="name"><code>boot</code></h3>
 
@@ -1461,66 +1082,7 @@
             
         
         
-        <a href="../files/src_time_Manager.ts.html#l69"><code>src\time\Manager.ts:69</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>When all of the DOM elements that the game requires have loaded successfully then this object will &#39;boot&#39;.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_boot" class="method item public">
-    <h3 class="name"><code>boot</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_input_Manager.ts.html#l102"><code>src\input\Manager.ts:102</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l102"><code>src\input\InputManager.ts:102</code></a>
         
         </p>
 
@@ -1537,447 +1099,6 @@
 
     
 
-    
-
-    
-</div>
-
-                
-                    <div id="method_create" class="method item public">
-    <h3 class="name"><code>create</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>object</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Tween.html" class="crosslink">Tween</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Tweens.html">Tweens</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_Manager.ts.html#l88"><code>src\animation\tweens\Manager.ts:88</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates a new Tween.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">object</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The object that this tween is to apply.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Tween.html" class="crosslink">Tween</a></span>:
-                    
-                    <p>The tween that was created.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_delta" class="method item public">
-    <h3 class="name"><code>delta</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l147"><code>src\time\Manager.ts:147</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the delta of the master clock.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getAll" class="method item public">
-    <h3 class="name"><code>getAll</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Tweens.html">Tweens</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_Manager.ts.html#l65"><code>src\animation\tweens\Manager.ts:65</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns all of tweens that are on the manager.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>Tween[]</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getClock" class="method item public">
-    <h3 class="name"><code>getClock</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>name</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l99"><code>src\time\Manager.ts:99</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the Clock with the matching name. Throws and error if no Clock with that name exists</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The name of the Clock to be returned.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>:
-                    
-                    <p>The clock which matches the name given.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_now" class="method item public">
-    <h3 class="name"><code>now</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l135"><code>src\time\Manager.ts:135</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the current time. Based on the master clock.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
     
 
     
@@ -2015,8 +1136,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -2024,7 +1143,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l26"><code>src\input\Manager.ts:26</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l26"><code>src\input\InputManager.ts:26</code></a>
         
         </p>
 
@@ -2059,322 +1178,6 @@
 </div>
 
                 
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Tweens.html">Tweens</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_Manager.ts.html#l39"><code>src\animation\tweens\Manager.ts:39</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The type of object that this is.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l27"><code>src\time\Manager.ts:27</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The type of object this is.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_remove" class="method item public">
-    <h3 class="name"><code>remove</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>tween</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Tween.html" class="crosslink">Tween</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Tweens.html">Tweens</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_Manager.ts.html#l118"><code>src\animation\tweens\Manager.ts:118</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Removes a tween from this manager.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">tween</code>
-                        <span class="type"><a href="..\classes\Tween.html" class="crosslink">Tween</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The tween that you would like to remove.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Tween.html" class="crosslink">Tween</a></span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_removeAll" class="method item public">
-    <h3 class="name"><code>removeAll</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Tweens.html">Tweens</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_Manager.ts.html#l77"><code>src\animation\tweens\Manager.ts:77</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Removes all of the tweens on the manager.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="method_reset" class="method item">
     <h3 class="name"><code>reset</code></h3>
 
@@ -2400,8 +1203,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -2409,7 +1210,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l207"><code>src\input\Manager.ts:207</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l207"><code>src\input\InputManager.ts:207</code></a>
         
         </p>
 
@@ -2459,8 +1260,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Tweens.html">Tweens</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -2468,123 +1267,7 @@
             
         
         
-        <a href="../files/src_animation_tweens_Manager.ts.html#l136"><code>src\animation\tweens\Manager.ts:136</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The update loop.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_update" class="method item public">
-    <h3 class="name"><code>update</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l118"><code>src\time\Manager.ts:118</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed every frame and updates all of the clocks that exist on this manager, times.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_update" class="method item public">
-    <h3 class="name"><code>update</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_input_Manager.ts.html#l184"><code>src\input\Manager.ts:184</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l184"><code>src\input\InputManager.ts:184</code></a>
         
         </p>
 
@@ -2615,149 +1298,6 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__clocks" class="property item private">
-    <h3 class="name"><code>_clocks</code></h3>
-    <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock[]</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l45"><code>src\time\Manager.ts:45</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>An array containing all of the clocks that exist on this manager.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__game" class="property item private">
-    <h3 class="name"><code>_game</code></h3>
-    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Tweens.html">Tweens</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_Manager.ts.html#l49"><code>src\animation\tweens\Manager.ts:49</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The game that this manager belongs to.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__game" class="property item private">
-    <h3 class="name"><code>_game</code></h3>
-    <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l37"><code>src\time\Manager.ts:37</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The game that this belongs to.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="property__pointers" class="property item private">
     <h3 class="name"><code>_pointers</code></h3>
     <span class="type"><a href="..\classes\Pointer.html" class="crosslink">Pointer[]</a></span>
@@ -2776,8 +1316,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -2785,7 +1323,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l84"><code>src\input\Manager.ts:84</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l84"><code>src\input\InputManager.ts:84</code></a>
         
         </p>
 
@@ -2796,102 +1334,6 @@
 
     <div class="description">
         <p>An array containing all of the pointers that are active on the stage.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__tweens" class="property item private">
-    <h3 class="name"><code>_tweens</code></h3>
-    <span class="type"><a href="..\classes\Tween.html" class="crosslink">Tween[]</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                    <p>Provided by the <a href="../modules/Tweens.html">Tweens</a> module.</p>
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_animation_tweens_Manager.ts.html#l57"><code>src\animation\tweens\Manager.ts:57</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>An array of all of the tweens on the manager.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_clock" class="property item public">
-    <h3 class="name"><code>clock</code></h3>
-    <span class="type"><a href="..\classes\Clock.html" class="crosslink">Clock</a></span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l61"><code>src\time\Manager.ts:61</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The default Game Clock - you can use this via this.game.time.clock. Uses a 1000 millisecond time unit.</p>
 
     </div>
 
@@ -2921,8 +1363,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -2930,7 +1370,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l52"><code>src\input\Manager.ts:52</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l52"><code>src\input\InputManager.ts:52</code></a>
         
         </p>
 
@@ -2970,8 +1410,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -2979,7 +1417,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l233"><code>src\input\Manager.ts:233</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l233"><code>src\input\InputManager.ts:233</code></a>
         
         </p>
 
@@ -3019,8 +1457,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3028,7 +1464,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l68"><code>src\input\Manager.ts:68</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l68"><code>src\input\InputManager.ts:68</code></a>
         
         </p>
 
@@ -3039,53 +1475,6 @@
 
     <div class="description">
         <p>The keyboard manager</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_master" class="property item private">
-    <h3 class="name"><code>master</code></h3>
-    <span class="type"><a href="..\classes\MasterClock.html" class="crosslink">MasterClock</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_time_Manager.ts.html#l53"><code>src\time\Manager.ts:53</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The MasterClock for this manager.</p>
 
     </div>
 
@@ -3115,8 +1504,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3124,7 +1511,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l60"><code>src\input\Manager.ts:60</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l60"><code>src\input\InputManager.ts:60</code></a>
         
         </p>
 
@@ -3164,8 +1551,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3173,7 +1558,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l36"><code>src\input\Manager.ts:36</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l36"><code>src\input\InputManager.ts:36</code></a>
         
         </p>
 
@@ -3213,8 +1598,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3222,7 +1605,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l174"><code>src\input\Manager.ts:174</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l174"><code>src\input\InputManager.ts:174</code></a>
         
         </p>
 
@@ -3262,8 +1645,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3271,7 +1652,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l44"><code>src\input\Manager.ts:44</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l44"><code>src\input\InputManager.ts:44</code></a>
         
         </p>
 
@@ -3311,8 +1692,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3320,7 +1699,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l92"><code>src\input\Manager.ts:92</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l92"><code>src\input\InputManager.ts:92</code></a>
         
         </p>
 
@@ -3360,8 +1739,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3369,7 +1746,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l225"><code>src\input\Manager.ts:225</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l225"><code>src\input\InputManager.ts:225</code></a>
         
         </p>
 
@@ -3409,8 +1786,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3418,7 +1793,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l76"><code>src\input\Manager.ts:76</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l76"><code>src\input\InputManager.ts:76</code></a>
         
         </p>
 
@@ -3458,8 +1833,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3467,7 +1840,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l241"><code>src\input\Manager.ts:241</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l241"><code>src\input\InputManager.ts:241</code></a>
         
         </p>
 
@@ -3507,8 +1880,6 @@
         
             
                 
-                    <p>Provided by the <a href="../modules/Input.html">Input</a> module.</p>
-                
                 <p>
                 
                 Defined in
@@ -3516,7 +1887,7 @@
             
         
         
-        <a href="../files/src_input_Manager.ts.html#l253"><code>src\input\Manager.ts:253</code></a>
+        <a href="../files/src_input_InputManager.ts.html#l253"><code>src\input\InputManager.ts:253</code></a>
         
         </p>
 

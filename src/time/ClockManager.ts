@@ -10,13 +10,13 @@ module Kiwi.Time {
     /**
     * A Proxy to the Clock and Time related classes. Access this via Kiwi.Game.Clock
     *
-    * @class Manager
+    * @class ClockManager
     * @constructor
     * @param {Game} game.
-    * @return {Manager} This Object.
+    * @return {ClockManager} This Object.
     *
     */
-    export class Manager {
+    export class ClockManager {
          
         constructor(game: Kiwi.Game) {
 
@@ -31,7 +31,7 @@ module Kiwi.Time {
         * @public
         */
         public objType() {
-            return "Manager";
+            return "ClockManager";
         }
 
         /**

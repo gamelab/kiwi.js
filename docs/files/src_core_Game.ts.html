@@ -85,6 +85,8 @@
             
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
                 <li><a href="../classes/Common.html">Common</a></li>
             
                 <li><a href="../classes/Component.html">Component</a></li>
@@ -143,6 +145,8 @@
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
                 <li><a href="../classes/Intersect.html">Intersect</a></li>
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
@@ -158,8 +162,6 @@
                 <li><a href="../classes/Linear.html">Linear</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
-            
-                <li><a href="../classes/Manager.html">Manager</a></li>
             
                 <li><a href="../classes/MasterClock.html">MasterClock</a></li>
             
@@ -219,9 +221,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -246,6 +248,8 @@
                 <li><a href="../classes/Transform.html">Transform</a></li>
             
                 <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
@@ -368,7 +372,7 @@ module Kiwi {
             this.browser = new Kiwi.System.Browser(this);
       
             this.fileStore = new Kiwi.Files.FileStore(this);
-            this.input = new Kiwi.Input.Manager(this);
+            this.input = new Kiwi.Input.InputManager(this);
 
             this.stage = new Kiwi.Stage(this, name);
             
@@ -387,8 +391,8 @@ module Kiwi {
             
             this.states = new Kiwi.StateManager(this);
             this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
-            this.time = new Kiwi.Time.Manager(this);
-            this.tweens = new Kiwi.Animation.Tweens.Manager(this);
+            this.time = new Kiwi.Time.ClockManager(this);
+            this.tweens = new Kiwi.Animation.Tweens.TweenManager(this);
             
 
             //  If we have a state then pass it to the StateManager
@@ -533,10 +537,10 @@ module Kiwi {
         /**
         * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
         * @property input
-        * @type Manager
+        * @type InputManager
         * @public
         */
-        public input: Kiwi.Input.Manager = null;
+        public input: Kiwi.Input.InputManager = null;
          
         /**
         * Manages the cameras the are on the stage. This is still to be implemented.
@@ -581,18 +585,18 @@ module Kiwi {
         /**
         * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
         * @property time
-        * @type Manager
+        * @type ClockManager
         * @public
         */
-        public time: Kiwi.Time.Manager = null;
+        public time: Kiwi.Time.ClockManager = null;
 
         /**
         * The tween manager holds a reference to all of the tweens that are created and currently being used. 
         * @property tweens
-        * @type Manager
+        * @type TweenManager
         * @public
         */
-        public tweens: Kiwi.Animation.Tweens.Manager = null;
+        public tweens: Kiwi.Animation.Tweens.TweenManager = null;
 
         /**
         * A Random Data Generator. This is useful for create unique ids and random information.

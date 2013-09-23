@@ -8,7 +8,7 @@
 module Kiwi.GameObjects {
     
     /**
-    * A game object that is used to display pieces of text on a state.
+    * A gameobject that is used to render text onto the state. 
     *
     * @class Textfield
     * @extends Entity
@@ -21,11 +21,12 @@ module Kiwi.GameObjects {
     * @param [size=32] {Number} The size of the text in pixels.
     * @param [weight='normal'] {String} The weight of the text.
     * @param [fontFamily='sans-serif'] {String} The font family that is to be used when rendering.
+    * @param [optimize=true] {Boolean} If Kiwi should optimise the rendering of the text. Disabled by default if targetting CocoonJS.
     * @return {Textfield} This Game Object.
     */
     export class Textfield extends Kiwi.Entity {
 
-        constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#000000', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif') {
+        constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = '#000000', size: number = 32, weight: string = 'normal', fontFamily: string = 'sans-serif', optimize:boolean = true) {
 
             super(state, x,y);
 
@@ -37,7 +38,13 @@ module Kiwi.GameObjects {
             this._textAlign = 'left';
             this._baseline = 'top';
             
-            this.dirty = true;
+            if (this.state.game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                this.optimize = false;
+            } else {
+                this.optimize = optimize;
+            }
+
+            this._tempDirty = true;
         }
 
         /**
@@ -119,7 +126,7 @@ module Kiwi.GameObjects {
         */
         public set text(value: string) {
             this._text = value;
-            this.dirty = true;
+            this._tempDirty = true;
         } 
         public get text(): string {
             return this._text;
@@ -133,7 +140,7 @@ module Kiwi.GameObjects {
         */
         public set color(val: string) {
             this._fontColor = val;
-            this.dirty = true;
+            this._tempDirty = true;
         } 
         public get color(): string {
             return this._fontColor;
@@ -147,7 +154,7 @@ module Kiwi.GameObjects {
         */
         public set fontWeight(val: string) {
             this._fontWeight = val;
-            this.dirty = true;
+            this._tempDirty = true;
         }
         public get fontWeight(): string {
             return this._fontWeight;
@@ -161,7 +168,7 @@ module Kiwi.GameObjects {
         */
         public set fontSize(val: number) {
             this._fontSize = val;
-            this.dirty = true;
+            this._tempDirty = true;
         } 
         public get fontSize(): number {
             return this._fontSize;
@@ -175,7 +182,7 @@ module Kiwi.GameObjects {
         */
         public set fontFamily(val: string) {
             this._fontFamily = val;
-            this.dirty = true;
+            this._tempDirty = true;
         } 
         public get fontFamily(): string {
             return this._fontFamily;
@@ -218,7 +225,7 @@ module Kiwi.GameObjects {
         */
         public set textAlign(val: string) {
             this._textAlign = val;
-            this.dirty = true;
+            this._tempDirty = true;
         }
         
         /**
@@ -239,12 +246,27 @@ module Kiwi.GameObjects {
         private _tempCanvas: HTMLCanvasElement;
 
         /**
+        * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
+        * @property _tempDirty
+        * @type boolean
+        */
+        private _tempDirty: boolean = true;
+
+        /**
         * The HTMLImageElement which has the text rendered as an image once the _tempCanvas has generated it. 
         * @property _textImage
         * @type HTMLImageElement
         * @private
         */
         private _textImage: HTMLImageElement;
+
+        /**
+        * If rendering process for the text should be optimised or not. Note: That this does not work in Cocoon and thus disabled.
+        * The optimization process involves rendering the text to an off-screen canvas, that canvas is then saved as a HTMLImageElement which is rendered instead.
+        * @property optimize
+        * @type boolean
+        */
+        public optimize: boolean;
 
         /**
         * This method is used to render the text to a off-screen canvas, which is then saved as a HTMLImageElement. 
@@ -272,13 +294,13 @@ module Kiwi.GameObjects {
             ctxTemp.textBaseline = this._baseline;
 
             //add text
-            ctxTemp.fillText(this._text, 0.5, 0.5);
+            ctxTemp.fillText(this._text, 0, 0);
 
             //create the image
             this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
             this._textImage.src = this._tempCanvas.toDataURL("image/png");
 
-            this.dirty = false;
+            this._tempDirty = false;
         }
        
         /**
@@ -291,44 +313,54 @@ module Kiwi.GameObjects {
             
             if (this.alpha > 0 && this.visiblity) {
 
-                //has the text changed at all? 
-                if (this.dirty) {
-                    this._renderText();
-                }
-                
                 //render on stage
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
 
                 var t: Kiwi.Geom.Transform = this.transform;
-
                 if (this.alpha > 0 && this.alpha <= 1) {
                     ctx.globalAlpha = this.alpha;
                 }
                 
-                //align the text
-                var x = 0;
-                switch (this._textAlign) {
-                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
-                        x = 0;
-                        break;
-                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                        x = this._textImage.width / 2;
-                        break;
-                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                        x = this._textImage.width;
-                        break;
+                if (this.optimize) { //if they are using the optmised method.
+
+                    //does the text need re-rendering
+                    if (this._tempDirty) this._renderText();
+
+                    //align the text
+                    var x = 0;
+                    switch (this._textAlign) {
+                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+                            x = 0;
+                            break;
+                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+                            x = this._textImage.width / 2;
+                            break;
+                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+                            x = this._textImage.width;
+                            break;
+                    }
+                    t.x -= x; //add the alignment to the transformation
+                    
+                    var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    
+                    ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
+                    
+                    t.x += x; //remove it again.
+
+                } else { //If they are not using the optmised technique.
+                    
+                    ctx.font = this._fontWeight + ' ' + this._fontSize + 'px ' + this._fontFamily;
+                    ctx.textAlign = this._textAlign;
+                    ctx.fillStyle = this._fontColor;
+                    ctx.textBaseline = this._baseline;
+                    
+                    var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+
+                    ctx.fillText(this._text, 0, 0);
                 }
-
-                //add the alignment to the transformation
-                t.x -= x;
-                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
-                
-                //remove it again.
-                t.x += x;
 
                 ctx.restore();
                 

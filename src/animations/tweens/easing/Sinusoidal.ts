@@ -5,14 +5,14 @@
 * 
 */
 
-module Kiwi.Animation.Tweens.Easing {
+module Kiwi.Animations.Tweens.Easing {
 
     /**
-    * 
-    * @class Quintic
-    * 
+    *
+    * @class Sinusoidal
+    *
     */
-    export class Quintic {
+    export class Sinusoidal {
 
         /**
         * The type of object that this is.
@@ -21,7 +21,7 @@ module Kiwi.Animation.Tweens.Easing {
         * @public
         */
         public objType() {
-            return "Quintic";
+            return "Sinusoidal";
         }
 
         /** 
@@ -34,7 +34,7 @@ module Kiwi.Animation.Tweens.Easing {
         */
         public static In(k) {
 
-            return k * k * k * k * k;
+            return 1 - Math.cos(k * Math.PI / 2);
 
         }
 
@@ -48,22 +48,21 @@ module Kiwi.Animation.Tweens.Easing {
         */
         public static Out(k) {
 
-            return --k * k * k * k * k + 1;
+            return Math.sin(k * Math.PI / 2);
 
         }
 
         /** 
         * 
         * @method InOut
-        * @param k {Any}
+        * @param {Any} k
         * @return {Number}
         * @static
         * @public
         */
         public static InOut(k) {
 
-            if ((k *= 2) < 1) return 0.5 * k * k * k * k * k;
-            return 0.5 * ((k -= 2) * k * k * k * k + 2);
+            return 0.5 * (1 - Math.cos(Math.PI * k));
 
         }
 

@@ -9,13 +9,13 @@ module Kiwi.Input {
 
     /**
     *
-    * @class Manager
+    * @class InputManager
     * @constructor
     * @param game {Game} The game that this object belongs to.
-    * @return {Manager} This object.
+    * @return {InputManager} This object.
     *
     */
-    export class Manager {
+    export class InputManager {
          
         constructor (game: Kiwi.Game) {
 
@@ -30,7 +30,7 @@ module Kiwi.Input {
         * @public
         */
         public objType() {
-            return "Manager";
+            return "InputManager";
         }
 
         /**

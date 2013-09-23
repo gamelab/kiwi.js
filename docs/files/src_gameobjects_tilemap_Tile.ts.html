@@ -85,6 +85,8 @@
             
                 <li><a href="../classes/Clock.html">Clock</a></li>
             
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
                 <li><a href="../classes/Common.html">Common</a></li>
             
                 <li><a href="../classes/Component.html">Component</a></li>
@@ -143,6 +145,8 @@
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
                 <li><a href="../classes/Intersect.html">Intersect</a></li>
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
@@ -158,8 +162,6 @@
                 <li><a href="../classes/Linear.html">Linear</a></li>
             
                 <li><a href="../classes/Loader.html">Loader</a></li>
-            
-                <li><a href="../classes/Manager.html">Manager</a></li>
             
                 <li><a href="../classes/MasterClock.html">MasterClock</a></li>
             
@@ -219,9 +221,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -246,6 +248,8 @@
                 <li><a href="../classes/Transform.html">Transform</a></li>
             
                 <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
@@ -357,9 +361,12 @@ module Kiwi.GameObjects.Tilemap {
         constructor(state:Kiwi.State, tileLayer: Kiwi.GameObjects.Tilemap.TileMapLayer, tileType: Kiwi.GameObjects.Tilemap.TileType, width: number, height: number, x: number, y: number) {
             super(state,x,y);
 
+            this.width = width;
+            this.height = height;
             this.tileLayer = tileLayer;
 
             this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
+
             this.tileUpdate(tileType);
         }
 
@@ -382,9 +389,9 @@ module Kiwi.GameObjects.Tilemap {
         */
         public tileUpdate(tileType: Kiwi.GameObjects.Tilemap.TileType) {
             this.tileType = tileType;
-            this.physics.mass = this.tileType.mass;
             this.physics.allowCollisions = this.tileType.allowCollisions;
             this.physics.immovable = this.tileType.immovable;
+                
         }
 
         /**
@@ -411,6 +418,22 @@ module Kiwi.GameObjects.Tilemap {
         */
         public physics: Kiwi.Components.ArcadePhysics;
         
+        /**
+        * The width of this tile.
+        * @property width
+        * @type number
+        * @public
+        */
+        public width: number;
+
+        /**
+        * The height of this tile.
+        * @property height
+        * @type number
+        * @public
+        */
+        public height: number;
+
         /**
         * Position in the mapData object on the x axis in the TileMap that this tile is.
         * @property tx
