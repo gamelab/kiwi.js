@@ -9,6 +9,7 @@ module Kiwi {
     /**
     * An Entity serves as a container for game objects to extend from and thus you should never directly instantiate this class.
     * Each Entity has a unique ID (UID) which is automatically generated upon instantiation.
+    * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
     * 
     * @class Entity
     * @constructor

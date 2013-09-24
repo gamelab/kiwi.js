@@ -1,4 +1,6 @@
 /**
+* GameObjects are items that are design to be added to a State or a Group as a child. 
+* 
 * Kiwi - GameObjects
 * @module Kiwi
 * @submodule GameObjects 

@@ -8,7 +8,9 @@
 module Kiwi.Input {
 
     /**
-    *
+    * Handles the various ways a user can interact with the Device, 
+    * whether this is through a Keyboard and Mouse or by through a Touch.  
+    * 
     * @class InputManager
     * @constructor
     * @param game {Game} The game that this object belongs to.

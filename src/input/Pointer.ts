@@ -8,7 +8,9 @@
 module Kiwi.Input {
 
     /**
-    *
+    * Is a generic class that holds the properties/methods that are common across various different methods of inputs from the user,
+    * mainly between Touch and Mouse based events. 
+    * This abstract class and such it is suppose to be extended from for individual implementations. 
     *
     * @class Pointer
     * @constructor

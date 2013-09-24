@@ -7,7 +7,8 @@
 module Kiwi {
 
     /**
-    * A game contains one single Stage which controls the size of the game, frame rate, position, e.t.c.
+    * Each game contains a single Stage which controls the creation of the elements required for a Kiwi game to work. 
+    * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
     *
     * @class Stage
     * @constructor
@@ -69,7 +70,10 @@ module Kiwi {
             return this._alpha;
         }
         public set alpha(value: number) {
-            this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
+            }
+            //doesnt work in cocoon
 
             this._alpha = value;
         }
@@ -92,7 +96,11 @@ module Kiwi {
             return this._x;
         } 
         public set x(value: number) {
-            this.container.style.left = String(value + 'px');
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.left = String(value + 'px');
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this.canvas.style.left = String(value + 'px');
+            }
             this._x = value;
         }
 
@@ -114,7 +122,11 @@ module Kiwi {
             return this._y;
         }
         public set y(value: number) {
-            this.container.style.top = String(value + 'px');
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.top = String(value + 'px');
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this.canvas.style.top = String(value + 'px');
+            }
             this._y = value;
         }
 
@@ -136,9 +148,11 @@ module Kiwi {
             return this._width;
         }
         public set width(value: number) {
-            this.container.style.width = String(value + 'px');
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.width = String(value + 'px');
+            }
+            
             this.canvas.width = value;
-
             this._width = value;
             this.onResize.dispatch(this._width, this._height);
         }
@@ -161,9 +175,11 @@ module Kiwi {
             return this._height;
         }
         public set height(value: number) {
-            this.container.style.height = String(value + 'px');
-            this.canvas.height = value;
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.height = String(value + 'px');
+            }
 
+            this.canvas.height = value;
             this._height = value;
             this.onResize.dispatch(this._width, this._height);
         }

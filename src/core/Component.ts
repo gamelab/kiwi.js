@@ -7,7 +7,7 @@
 module Kiwi {
 
     /**
-    * The base class that all components extend from.  
+    * The base class that all components extend from and thus contains all of the common functionality that is required of a Component.  
     *
     * @class Component
     * @constructor

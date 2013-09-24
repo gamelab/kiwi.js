@@ -2394,7 +2394,9 @@ var Kiwi;
                 return this._alpha;
             },
             set: function (value) {
-                this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
+                }
 
                 this._alpha = value;
             },
@@ -2407,7 +2409,11 @@ var Kiwi;
                 return this._x;
             },
             set: function (value) {
-                this.container.style.left = String(value + 'px');
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.container.style.left = String(value + 'px');
+                } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                    this.canvas.style.left = String(value + 'px');
+                }
                 this._x = value;
             },
             enumerable: true,
@@ -2419,7 +2425,11 @@ var Kiwi;
                 return this._y;
             },
             set: function (value) {
-                this.container.style.top = String(value + 'px');
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.container.style.top = String(value + 'px');
+                } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                    this.canvas.style.top = String(value + 'px');
+                }
                 this._y = value;
             },
             enumerable: true,
@@ -2431,9 +2441,11 @@ var Kiwi;
                 return this._width;
             },
             set: function (value) {
-                this.container.style.width = String(value + 'px');
-                this.canvas.width = value;
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.container.style.width = String(value + 'px');
+                }
 
+                this.canvas.width = value;
                 this._width = value;
                 this.onResize.dispatch(this._width, this._height);
             },
@@ -2446,9 +2458,11 @@ var Kiwi;
                 return this._height;
             },
             set: function (value) {
-                this.container.style.height = String(value + 'px');
-                this.canvas.height = value;
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this.container.style.height = String(value + 'px');
+                }
 
+                this.canvas.height = value;
                 this._height = value;
                 this.onResize.dispatch(this._width, this._height);
             },

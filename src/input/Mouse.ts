@@ -8,7 +8,7 @@
 module Kiwi.Input {
 
     /**
-    *
+    * Handles the dispatching/management of Mouse Events on a game. 
     *
     * @class Mouse
     * @constructor

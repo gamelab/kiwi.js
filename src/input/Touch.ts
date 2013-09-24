@@ -8,7 +8,8 @@
 module Kiwi.Input {
 
     /**
-    *
+    * Manages the dispatching and management of touch events for game.
+    * 
     * @class Touch
     * @constructor
     * @param game {Game} the game that this touch manager belongs to.
@@ -518,13 +519,24 @@ module Kiwi.Input {
         */
         public stop() {
 
-            this._domElement.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
-            this._domElement.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
-            this._domElement.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
-            this._domElement.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-            this._domElement.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-            this._domElement.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
+                this._domElement.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                this._domElement.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                this._domElement.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                this._domElement.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                this._domElement.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                this._domElement.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+
+                this._game.stage.canvas.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                this._game.stage.canvas.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                this._game.stage.canvas.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                this._game.stage.canvas.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                this._game.stage.canvas.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                this._game.stage.canvas.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+            }
         }
 
         /**  
