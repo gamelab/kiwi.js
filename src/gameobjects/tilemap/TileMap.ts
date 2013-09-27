@@ -8,7 +8,8 @@
 module Kiwi.GameObjects.Tilemap {
     
     /**
-    *
+    * 
+    * 
     * @class TileMap
     * @extends Entity
     * @constructor 

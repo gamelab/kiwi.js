@@ -18,6 +18,7 @@ class Rotation extends Kiwi.State {
     
     snakeA: Kiwi.GameObjects.Sprite;
     snakeB: Kiwi.GameObjects.StaticImage;
+    snakes: Kiwi.Group;
 
     create() {
 
@@ -43,15 +44,30 @@ class Rotation extends Kiwi.State {
         **/
         this.snakeB.transform.rotPointX = 0;
         this.snakeB.transform.rotPointY = 0;
+
+        this.snakes = new Kiwi.Group(this);
+        
+        this.snakes.x = 500;
+        this.snakes.y = 500;
+
+        var s1 = new Kiwi.GameObjects.Sprite(this, this.textures.snake, 100, 0);
+        var s2 = new Kiwi.GameObjects.Sprite(this, this.textures.snake, -100, 0);
+        
+        this.snakes.addChild(s1);
+        this.snakes.addChild(s2);
+
+        this.addChild(this.snakes);
     }
 
     update() {
+
+        this.snakes.rotation += 0.05;
 
         /**
         * Rotate the sprites by 1 degree in opposite directions.
         **/
         this.snakeA.transform.rotation += Kiwi.Utils.GameMath.degreesToRadians(1);
-        this.snakeB.rotation -= Kiwi.Utils.GameMath.degreesToRadians(1); ///shortcut/shorthand
+        this.snakeB.rotation -= Kiwi.Utils.GameMath.degreesToRadians(1); // shortcut/shorthand
     }
 
 }

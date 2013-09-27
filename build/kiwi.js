@@ -1224,6 +1224,7 @@ var Kiwi;
             if (typeof domParent === "undefined") { domParent = ''; }
             if (typeof name === "undefined") { name = 'KiwiGame'; }
             if (typeof state === "undefined") { state = null; }
+            if (typeof options === "undefined") { options = {}; }
             var _this = this;
             this._startup = null;
             this.audio = null;
@@ -1241,13 +1242,69 @@ var Kiwi;
             this._frameRate = 60;
             this._interval = 1000 / 60;
             this._delta = 0;
-            options = options || {};
-            this._debugOption = options.debug || Kiwi.DEBUG_ON;
-            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
-            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
+            console.log(name + ' is being created.');
+
+            if (options.debug !== 'undefined' && typeof options.debug === 'number') {
+                switch (options.debug) {
+                    case Kiwi.DEBUG_ON:
+                        this._debugOption = options.debug;
+                        console.log('Debugging turned ON.');
+                        break;
+                    case Kiwi.DEBUG_OFF:
+                        this._debugOption = options.debug;
+                        console.log('Debugging turned OFF.');
+                        break;
+                    default:
+                        this._debugOption = Kiwi.DEBUG_ON;
+                        console.error('Debug option passed, but is not a valid option. Turned ON by default.');
+                        break;
+                }
+            } else {
+                this._debugOption = Kiwi.DEBUG_ON;
+                console.log('Debug option not specified. Turned ON by default.');
+            }
+
+            if (options.deviceTarget !== 'undefined' && typeof options.deviceTarget === 'number') {
+                switch (options.deviceTarget) {
+                    case Kiwi.TARGET_BROWSER:
+                        this._deviceTargetOption = options.deviceTarget;
+                        console.log('Targeting BROWSERS.');
+                        break;
+                    case Kiwi.TARGET_COCOON:
+                        this._deviceTargetOption = options.deviceTarget;
+                        console.log('Targeting COCOONJS.');
+                        break;
+                    default:
+                        this._deviceTargetOption = Kiwi.TARGET_BROWSER;
+                        console.error('Target device specified, but is not a valid option. Defaulting to BROWSER.');
+                        break;
+                }
+            } else {
+                this._deviceTargetOption = Kiwi.TARGET_BROWSER;
+                console.log('Targeted device not specified. Defaulting to BROWSER');
+            }
+
+            if (options.renderer !== 'undefined' && typeof options.renderer === 'number') {
+                switch (options.renderer) {
+                    case Kiwi.RENDERER_CANVAS:
+                        this._renderOption = options.renderer;
+                        console.log('Rendering using CANVAS.');
+                        break;
+                    case Kiwi.RENDERER_WEBGL:
+                        this._renderOption = options.renderer;
+                        console.log('Rendering using WEBGL.');
+                        break;
+                    default:
+                        this._renderOption = Kiwi.RENDERER_CANVAS;
+                        console.log('Renderer specified, but is not a valid option. Defaulting to CANVAS.');
+                        break;
+                }
+            } else {
+                this._renderOption = Kiwi.RENDERER_CANVAS;
+                console.log('Renderer not specified. Defaulting to CANVAS');
+            }
 
             this.id = Kiwi.GameManager.register(this);
-
             this._startup = new Kiwi.System.Bootstrap();
 
             this.audio = new Kiwi.Sound.AudioManager(this);
@@ -1280,14 +1337,29 @@ var Kiwi;
             if (state !== null) {
                 if (this.states.addState(state, true) === false) {
                     throw Error("Invalid State passed to Kiwi.Game");
+                } else {
+                    console.log('"' + state.name + '" State successfully added.');
                 }
+            } else {
+                console.log('Default State not passed.');
             }
 
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                if (domParent !== '') {
+                    if (document.getElementById(domParent))
+                        console.log('Game being created inside ' + domParent + '.'); else
+                        console.log('The element "' + domParent + '" could not be found. Appending the game to the body.');
+                } else {
+                    console.log('No DOM parent specified. Appending the game to the body.');
+                }
+
                 this._startup.boot(domParent, function () {
                     return _this.start();
                 });
             } else {
+                if (domParent !== '')
+                    console.log('Not Targetting a BROWSER. DOM Parent parameter ignored.');
+
                 this.start();
             }
         }
@@ -9285,6 +9357,26 @@ var Kiwi;
                 configurable: true
             });
 
+            AudioManager.prototype.isRegistered = function (sound) {
+                if (this.noAudio)
+                    return;
+
+                if (this._sounds.indexOf(sound) !== -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            AudioManager.prototype.registerSound = function (sound) {
+                if (this.isRegistered(sound) === false) {
+                    sound.id = this._game.rnd.uuid();
+                    this._sounds.push(sound);
+                    return true;
+                }
+                return false;
+            };
+
             AudioManager.prototype.add = function (key, volume, loop) {
                 if (typeof volume === "undefined") { volume = 1; }
                 if (typeof loop === "undefined") { loop = false; }
@@ -9292,15 +9384,12 @@ var Kiwi;
                     return;
 
                 var sound = new Kiwi.Sound.Audio(this._game, key, volume, loop);
-                this._sounds.push(sound);
                 return sound;
-
-                return null;
             };
 
             AudioManager.prototype.remove = function (sound) {
                 for (var i = 0; i < this._sounds.length; i++) {
-                    if (sound == this._sounds[i]) {
+                    if (sound.id == this._sounds[i].id) {
                         this._sounds[i].gainNode.disconnect();
                         this._sounds.splice(i, 1, 0);
                         i--;
@@ -9365,6 +9454,7 @@ var Kiwi;
                 this._markers = [];
                 this._currentMarker = 'default';
                 this._game = game;
+                this._game.audio.registerSound(this);
 
                 this._usingAudioTag = this._game.audio.usingAudioTag;
                 this._usingWebAudio = this._game.audio.usingWebAudio;
@@ -10924,24 +11014,45 @@ var Kiwi;
 
             Touch.prototype.stop = function () {
                 var _this = this;
-                this._domElement.removeEventListener('touchstart', function (event) {
-                    return _this.onTouchStart(event);
-                }, false);
-                this._domElement.removeEventListener('touchmove', function (event) {
-                    return _this.onTouchMove(event);
-                }, false);
-                this._domElement.removeEventListener('touchend', function (event) {
-                    return _this.onTouchEnd(event);
-                }, false);
-                this._domElement.removeEventListener('touchenter', function (event) {
-                    return _this.onTouchEnter(event);
-                }, false);
-                this._domElement.removeEventListener('touchleave', function (event) {
-                    return _this.onTouchLeave(event);
-                }, false);
-                this._domElement.removeEventListener('touchcancel', function (event) {
-                    return _this.onTouchCancel(event);
-                }, false);
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    this._domElement.removeEventListener('touchstart', function (event) {
+                        return _this.onTouchStart(event);
+                    }, false);
+                    this._domElement.removeEventListener('touchmove', function (event) {
+                        return _this.onTouchMove(event);
+                    }, false);
+                    this._domElement.removeEventListener('touchend', function (event) {
+                        return _this.onTouchEnd(event);
+                    }, false);
+                    this._domElement.removeEventListener('touchenter', function (event) {
+                        return _this.onTouchEnter(event);
+                    }, false);
+                    this._domElement.removeEventListener('touchleave', function (event) {
+                        return _this.onTouchLeave(event);
+                    }, false);
+                    this._domElement.removeEventListener('touchcancel', function (event) {
+                        return _this.onTouchCancel(event);
+                    }, false);
+                } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                    this._game.stage.canvas.removeEventListener('touchstart', function (event) {
+                        return _this.onTouchStart(event);
+                    }, false);
+                    this._game.stage.canvas.removeEventListener('touchmove', function (event) {
+                        return _this.onTouchMove(event);
+                    }, false);
+                    this._game.stage.canvas.removeEventListener('touchend', function (event) {
+                        return _this.onTouchEnd(event);
+                    }, false);
+                    this._game.stage.canvas.removeEventListener('touchenter', function (event) {
+                        return _this.onTouchEnter(event);
+                    }, false);
+                    this._game.stage.canvas.removeEventListener('touchleave', function (event) {
+                        return _this.onTouchLeave(event);
+                    }, false);
+                    this._game.stage.canvas.removeEventListener('touchcancel', function (event) {
+                        return _this.onTouchCancel(event);
+                    }, false);
+                }
             };
 
             Touch.prototype.reset = function () {

@@ -105,7 +105,7 @@ module Kiwi {
         * Returns true if added successfully, otherwise false (can happen if State is already in the StateManager)
         * 
         * @method addState
-        * @param state {Any} The Kiwi.State instance to add
+        * @param state {Any} The Kiwi.State instance to add.
         * @param [switchTo=false] {boolean} If set to true automatically switch to the given state after adding it
         * @return {boolean} true if the State was added successfully, otherwise false
         * @public
@@ -121,13 +121,14 @@ module Kiwi {
             }
             else if (typeof state === 'string')
             {
-                tempState = window[state];  //make new?
+                tempState = window[state];  
             }
             else
             {
                 tempState = state;
             }
 
+            //Does it already exist?
             if (tempState.config.name && this.checkKeyExists(tempState.config.name) === true)
             {
                 return false;

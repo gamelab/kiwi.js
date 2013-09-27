@@ -151,11 +151,6 @@ module Kiwi.System {
                     }
                 }
 
-
-              
-                
-               
-
                 if (this._callback !== null)
                 {
                     this._callback();

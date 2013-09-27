@@ -8,7 +8,7 @@
 module Kiwi.Sound {
 
     /**
-    *
+    * Manages the playing of sound 
     *
     * @class Audio
     * @constructor
@@ -24,6 +24,7 @@ module Kiwi.Sound {
         constructor(game: Kiwi.Game, key: string, volume: number, loop: boolean) {
             
             this._game = game;
+            this._game.audio.registerSound(this);
 
             this._usingAudioTag = this._game.audio.usingAudioTag;
             this._usingWebAudio = this._game.audio.usingWebAudio; 
@@ -74,6 +75,13 @@ module Kiwi.Sound {
             this.onMute = new Kiwi.Signal();
 
         }
+
+        /**
+        * A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.
+        * @property id
+        * @type number
+        */
+        public id: string;
 
         /**
         * The type of object that this is.

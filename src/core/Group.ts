@@ -7,7 +7,7 @@
 module Kiwi {
 
     /**
-    * 
+    * [DESCRIPTION REQUIRED]
     * 
     * @class Group
     * @constructor

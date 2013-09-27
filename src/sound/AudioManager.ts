@@ -8,8 +8,8 @@
 module Kiwi.Sound {
 
     /**
-    *
-    *
+    * Handles the playing of sound on the game. This is either through the use of the Web Audio API (if it is supported), otherwise fallbacks to Audio Tags.
+    * 
     * @class AudioManager
     * @constructor
     * @param game {Game} The game that this audio manager belongs to.
@@ -260,6 +260,39 @@ module Kiwi.Sound {
         }
 
         /**
+        * Indicates whether or not an Audio Object is registered with this Audio Manager or not. More for Kiwi Internal use only.
+        * @method isRegistered
+        * @param sound {Audio} The Audio object you are checking for.
+        * @return {Boolean} If the piece of audio is registered or not.
+        * @public
+        */
+        public isRegistered(sound: Kiwi.Sound.Audio):boolean {
+            if (this.noAudio) return; 
+
+            if (this._sounds.indexOf(sound) !== -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        /**
+        * Registers an Audio Object with this audio manager. Also assign's the audio piece a unique ID to identify it by. Internal Kiwi use only.
+        * @method registerSound
+        * @param sound {Audio} The audio piece you are wanting to register. 
+        * @return {Boolean } Indication of if the sound was successfully added or not.
+        * @public
+        */
+        public registerSound(sound:Kiwi.Sound.Audio):boolean {
+            if (this.isRegistered(sound) === false) {
+                sound.id = this._game.rnd.uuid();
+                this._sounds.push(sound);
+                return true;
+            }
+            return false;
+        }
+
+        /**
         * Used to create a new sound on the audio manager. Returns the newly created sound.
         * 
         * @method add
@@ -269,15 +302,13 @@ module Kiwi.Sound {
         * @return {Audio}
         * @public
         */
-        public add(key: string, volume: number = 1, loop: boolean = false): Kiwi.Sound.Audio {
+        public add(key: string, volume: number = 1, loop: boolean = false): Kiwi.Sound.Audio {//rename to create
             
             if (this.noAudio) return;
 
             var sound: Kiwi.Sound.Audio = new Kiwi.Sound.Audio(this._game, key, volume, loop);
-            this._sounds.push(sound);
             return sound;
         
-            return null;
         }
 
         /**
@@ -291,7 +322,7 @@ module Kiwi.Sound {
             //needs testing
             for (var i = 0; i < this._sounds.length; i++) {
 
-                if (sound == this._sounds[i]) {
+                if (sound.id == this._sounds[i].id) {
                     this._sounds[i].gainNode.disconnect();
                     this._sounds.splice(i, 1, 0);
                     i--;

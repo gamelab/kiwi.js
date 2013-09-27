@@ -4,7 +4,7 @@ include 'functions.php';
 if(isset($_GET['f'])) {
 	$filepath = $_GET['f'];
 	$renderer = (isset($_GET['r'])) ? $_GET['r'] : 'Kiwi.RENDERER_CANVAS';
-	$debug = (isset($_GET['d'])) ? 'Kiwi.DEBUG_ON' : 'Kiwi.DEBUG_OFF';
+	$debug = (isset($_GET['d']) && $_GET['d'] == 1) ? 'Kiwi.DEBUG_ON' : 'Kiwi.DEBUG_OFF';
 	$state = substr($filepath, strpos($filepath, '/') + 1, -3);
 } else {
 	$filepath = false;
