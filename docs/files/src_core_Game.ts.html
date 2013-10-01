@@ -43,9 +43,9 @@
             
                 <li><a href="../classes/AABB.html">AABB</a></li>
             
-                <li><a href="../classes/Anim.html">Anim</a></li>
-            
                 <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
             
                 <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
             
@@ -257,7 +257,7 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/Animation.html">Animation</a></li>
+                <li><a href="../modules/Animations.html">Animations</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -341,31 +341,88 @@
 module Kiwi {
 
     /**
-    * My method description.  Like other pieces of your comment blocks, 
-    * this can span multiple lines.
+    * Here should lie the description of the game object.
+    * 
     *
     * @class Game
     * @constructor
-    * @param [domParent=&#x27;&#x27;] {String} The dom element that the game should use as its &#x27;container&#x27; 
-    * @param [name=&#x27;KiwiGame&#x27;] {String} The name of the game that is being created.
+    * @param [domParent=&#x27;&#x27;] {String} The ID of a DOM element that the game should use as its &#x27;container&#x27;. If you are targeting Cocoon then you don&#x27;t need to worry about this and can leave it blank.
+    * @param [name=&#x27;KiwiGame&#x27;] {String} The name of the game that is being created. 
     * @param [state=null] {Any} The state to load initially. This can either be the name of a state, or the state object itself.
     * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
     * @return {Game}
     * 
     */
-
     export class Game {
          
-        constructor (domParent: string = &#x27;&#x27;, name: string = &#x27;KiwiGame&#x27;, state: any = null, options?) {
+        constructor (domParent: string = &#x27;&#x27;, name: string = &#x27;KiwiGame&#x27;, state: any = null, options:any={}) {
+            
+            console.log(name + &#x27; is being created.&#x27;);
 
-            //set options
-            options = options || {};          
-            this._debugOption = options.debug || Kiwi.DEBUG_ON;
-            this._deviceTargetOption = options.deviceTarget || Kiwi.TARGET_BROWSER;
-            this._renderOption = options.renderer || Kiwi.RENDERER_CANVAS;
+            //Have they specified debugging
+            if (options.debug !== &#x27;undefined&#x27; &amp;&amp; typeof options.debug === &#x27;number&#x27;) {
+                switch (options.debug) {
+                    case Kiwi.DEBUG_ON:
+                        this._debugOption = options.debug;
+                        console.log(&#x27;Debugging turned ON.&#x27;);
+                        break;
+                    case Kiwi.DEBUG_OFF:
+                        this._debugOption = options.debug;
+                        console.log(&#x27;Debugging turned OFF.&#x27;);
+                        break;
+                    default:
+                        this._debugOption = Kiwi.DEBUG_ON;
+                        console.error(&#x27;Debug option passed, but is not a valid option. Turned ON by default.&#x27;);
+                        break;
+                }
+            } else {
+                this._debugOption = Kiwi.DEBUG_ON;
+                console.log(&#x27;Debug option not specified. Turned ON by default.&#x27;);
+            }
+
+            //Which device are they targetting
+            if (options.deviceTarget !== &#x27;undefined&#x27; &amp;&amp; typeof options.deviceTarget === &#x27;number&#x27;) {
+                switch (options.deviceTarget) {
+                    case Kiwi.TARGET_BROWSER:
+                        this._deviceTargetOption = options.deviceTarget;
+                        console.log(&#x27;Targeting BROWSERS.&#x27;);
+                        break;
+                    case Kiwi.TARGET_COCOON:
+                        this._deviceTargetOption = options.deviceTarget;
+                        console.log(&#x27;Targeting COCOONJS.&#x27;);
+                        break;
+                    default:
+                        this._deviceTargetOption = Kiwi.TARGET_BROWSER;
+                        console.error(&#x27;Target device specified, but is not a valid option. Defaulting to BROWSER.&#x27;);
+                        break;
+                }
+            } else {
+                this._deviceTargetOption = Kiwi.TARGET_BROWSER;
+                console.log(&#x27;Targeted device not specified. Defaulting to BROWSER&#x27;); 
+            }
+
+            //What renderer are they using?
+            if (options.renderer !== &#x27;undefined&#x27; &amp;&amp; typeof options.renderer === &#x27;number&#x27;) {
+                switch (options.renderer) {
+                    case Kiwi.RENDERER_CANVAS:
+                        this._renderOption = options.renderer;
+                        console.log(&#x27;Rendering using CANVAS.&#x27;);
+                        break;
+                    case Kiwi.RENDERER_WEBGL:
+                        this._renderOption = options.renderer;
+                        console.log(&#x27;Rendering using WEBGL.&#x27;);
+                        break;
+                    default:
+                        this._renderOption = Kiwi.RENDERER_CANVAS;
+                        console.log(&#x27;Renderer specified, but is not a valid option. Defaulting to CANVAS.&#x27;);
+                        break;
+                }
+            } else {
+                this._renderOption = Kiwi.RENDERER_CANVAS;
+                console.log(&#x27;Renderer not specified. Defaulting to CANVAS&#x27;);
+            }
             
             this.id = Kiwi.GameManager.register(this);
-
             this._startup = new Kiwi.System.Bootstrap();
 
             this.audio = new Kiwi.Sound.AudioManager(this);
@@ -381,33 +438,43 @@ module Kiwi {
             } else {
                 this.renderer = new Kiwi.Renderers.GLRenderer(this);
             }
-
            
             this.cameras = new Kiwi.CameraManager(this);
+
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 this.huds = new Kiwi.HUD.HUDManager(this);
             }
+
             this.loader = new Kiwi.Files.Loader(this);
             
             this.states = new Kiwi.StateManager(this);
             this.rnd = new Kiwi.Utils.RandomDataGenerator([Date.now.toString()]);
             this.time = new Kiwi.Time.ClockManager(this);
-            this.tweens = new Kiwi.Animation.Tweens.TweenManager(this);
+            this.tweens = new Kiwi.Animations.Tweens.TweenManager(this);
             
-
             //  If we have a state then pass it to the StateManager
-            if (state !== null)
-            {
-                if (this.states.addState(state, true) === false)
-                {
+            if (state !== null) {
+                if (this.states.addState(state, true) === false) {
                     throw Error(&quot;Invalid State passed to Kiwi.Game&quot;);
+                } else {
+                    console.log(&#x27;&quot;&#x27; + state.name + &#x27;&quot; State successfully added.&#x27;);
                 }
+            } else {
+                console.log(&#x27;Default State not passed.&#x27;);
             }
 
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                //  Wait for the DOM
+                if (domParent !== &#x27;&#x27;) {
+                    if (document.getElementById(domParent)) console.log(&#x27;Game being created inside &#x27; + domParent + &#x27;.&#x27;);
+                    else console.log(&#x27;The element &quot;&#x27; + domParent + &#x27;&quot; could not be found. Appending the game to the body.&#x27;);
+                } else {
+                    console.log(&#x27;No DOM parent specified. Appending the game to the body.&#x27;);
+                }
+
                 this._startup.boot(domParent, () =&gt; this.start());
             } else {
+                if (domParent !== &#x27;&#x27;) console.log(&#x27;Not Targetting a BROWSER. DOM Parent parameter ignored.&#x27;);
+                
                 this.start();
             }
 
@@ -596,7 +663,7 @@ module Kiwi {
         * @type TweenManager
         * @public
         */
-        public tweens: Kiwi.Animation.Tweens.TweenManager = null;
+        public tweens: Kiwi.Animations.Tweens.TweenManager = null;
 
         /**
         * A Random Data Generator. This is useful for create unique ids and random information.
@@ -669,8 +736,7 @@ module Kiwi {
         */
         private start() {
 
-            if (Kiwi.DEVICE === null)
-            {
+            if (Kiwi.DEVICE === null) {
                 Kiwi.DEVICE = new Kiwi.System.Device();
             }
 

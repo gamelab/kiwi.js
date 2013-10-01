@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\animation\tweens\easing\Exponential.ts - Kiwi.js</title>
+    <title>src\animations\Sequence.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -43,9 +43,9 @@
             
                 <li><a href="../classes/AABB.html">AABB</a></li>
             
-                <li><a href="../classes/Anim.html">Anim</a></li>
-            
                 <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
             
                 <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
             
@@ -257,7 +257,7 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/Animation.html">Animation</a></li>
+                <li><a href="../modules/Animations.html">Animations</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -328,86 +328,75 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\animation\tweens\easing\Exponential.ts</h1>
+                        <h1 class="file-heading">File: src\animations\Sequence.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Animation - Tweens - Easing 
-* @module Tweens
-* @submodule Easing 
+* Kiwi - Animation
+* @module Kiwi
+* @submodule Animations
 * 
 */
-
-module Kiwi.Animation.Tweens.Easing {
+ 
+module Kiwi.Animations {
 
     /**
-    *
-    *
-    * @class Exponential
-    *
+    * Is a series of cells which are used with SpriteSheets and TextureAtlas&#x27;s to create &#x27;default&#x27; animations on Sprites that contain an Animation component. 
+    * 
+    * @class Sequence
+    * @constructor
+    * @param name {String} The name of this sequence. This is not unique.
+    * @param cells {Number[]} The cells that are in this animation.
+    * @param [speed=0.1] {Number} The time an animation should spend on each frame.
+    * @param [loop=true] {boolean} If the sequence should play again if it was animating and the animation reaches the last frame.
+    * @return {Sequence}
+    * 
     */
-    export class Exponential {
+    export class Sequence {
+ 
+        constructor(name:string,cells:number[],speed:number=0.1,loop:boolean=true) {
+            this.name = name;
+            this.cells = cells;
+            this.speed = speed;
+            this.loop = loop;
+        }
 
         /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String}
+        * The name of this sequence.
+        * @property name
+        * @type string
         * @public
         */
-        public objType() {
-            return &quot;Exponential&quot;;
-        }
+        public name: string;
 
-        /** 
-        * 
-        * @method In
-        * @param k {Any}
-        * @return {String}
-        * @static
+        /**
+        * The cells that are in this animation.
+        * These are a reference to the cells that are contained in a texture atlas that this sequence should be a part of.
+        * @property cells
+        * @type number[]
         * @public
         */
-        public static In(k) {
+        public cells: number[];
 
-            return k === 0 ? 0 : Math.pow(1024, k - 1);
-
-        }
-
-        /** 
-        * 
-        * @method Out
-        * @param k {Any}
-        * @return {String}
-        * @static
+        /**
+        * The time an animation should spend on each cell.
+        * @property speed
+        * @type boolean
         * @public
         */
-        public static Out(k) {
-
-            return k === 1 ? 1 : 1 - Math.pow(2, -10 * k);
-
-        }
-
-        /** 
-        * 
-        * @method InOut
-        * @param k {Any}
-        * @return {String}
-        * @static
+        public speed: number;
+        
+        /**
+        * If the sequence should play again if it was animating and the animation reaches the last frame.
+        * @property loop
+        * @type boolean
         * @public
         */
-        public static InOut(k) {
-
-            if (k === 0) return 0;
-            if (k === 1) return 1;
-            if ((k *= 2) &lt; 1) return 0.5 * Math.pow(1024, k - 1);
-            return 0.5 * (-Math.pow(2, -10 * (k - 1)) + 2);
-
-        }
+        public loop: boolean;
 
     }
-
 }
-
     </pre>
 </div>
 

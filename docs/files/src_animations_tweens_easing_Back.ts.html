@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\animation\tweens\easing\Quartic.ts - Kiwi.js</title>
+    <title>src\animations\tweens\easing\Back.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -43,9 +43,9 @@
             
                 <li><a href="../classes/AABB.html">AABB</a></li>
             
-                <li><a href="../classes/Anim.html">Anim</a></li>
-            
                 <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
             
                 <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
             
@@ -257,7 +257,7 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/Animation.html">Animation</a></li>
+                <li><a href="../modules/Animations.html">Animations</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -328,7 +328,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\animation\tweens\easing\Quartic.ts</h1>
+                        <h1 class="file-heading">File: src\animations\tweens\easing\Back.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -336,54 +336,55 @@
 * Kiwi - Animation - Tweens - Easing 
 * @module Tweens
 * @submodule Easing 
-* 
+* @main Easing
 */
 
-
-module Kiwi.Animation.Tweens.Easing {
+module Kiwi.Animations.Tweens.Easing {
 
     /**
-    *
-    * @class Quartic
-    *
+    * 
+    * @class Back
+    * 
     */
-    export class Quartic {
+    export class Back {
 
         /**
-        * The type of object that this is.
+        * The type of object this is.
         * @method objType
         * @return {String}
         * @public
         */
         public objType() {
-            return &quot;Quartic&quot;;
+            return &quot;Back&quot;;
         }
 
         /** 
         * 
         * @method In
         * @param k {Any}
-        * @return {String}
+        * @return {Number}
         * @static
         * @public
         */
         public static In(k) {
 
-            return k * k * k * k;
+            var s = 1.70158;
+            return k * k * ((s + 1) * k - s);
 
         }
 
         /** 
         * 
         * @method Out
-        * @param k {Any}
-        * @return {String}
+        * @param {Any} k
+        * @return {Number}
         * @static
         * @public
         */
         public static Out(k) {
 
-            return 1 - (--k * k * k * k);
+            var s = 1.70158;
+            return --k * k * ((s + 1) * k + s) + 1;
 
         }
 
@@ -391,14 +392,15 @@ module Kiwi.Animation.Tweens.Easing {
         * 
         * @method InOut
         * @param k {Any}
-        * @return {String}
+        * @return {Number}
         * @static
         * @public
         */
         public static InOut(k) {
 
-            if ((k *= 2) &lt; 1) return 0.5 * k * k * k * k;
-            return -0.5 * ((k -= 2) * k * k * k - 2);
+            var s = 1.70158 * 1.525;
+            if ((k *= 2) &lt; 1) return 0.5 * (k * k * ((s + 1) * k - s));
+            return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
 
         }
 

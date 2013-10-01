@@ -43,9 +43,9 @@
             
                 <li><a href="../classes/AABB.html">AABB</a></li>
             
-                <li><a href="../classes/Anim.html">Anim</a></li>
-            
                 <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
             
                 <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
             
@@ -257,7 +257,7 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/Animation.html">Animation</a></li>
+                <li><a href="../modules/Animations.html">Animations</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -342,7 +342,9 @@
 module Kiwi.Input {
 
     /**
-    *
+    * Is a generic class that holds the properties/methods that are common across various different methods of inputs from the user,
+    * mainly between Touch and Mouse based events. 
+    * This abstract class and such it is suppose to be extended from for individual implementations. 
     *
     * @class Pointer
     * @constructor

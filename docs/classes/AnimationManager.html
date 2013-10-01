@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ArcadePhysics - Kiwi.js</title>
+    <title>AnimationManager - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -328,7 +328,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>ArcadePhysics Class</h1>
+                        <h1>AnimationManager Class</h1>
 <div class="box meta">
     
 
@@ -340,7 +340,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_components_ArcadePhysics.ts.html#l10"><code>src\components\ArcadePhysics.ts:10</code></a>
+            Defined in: <a href="../files/src_components_AnimationManager.ts.html#l10"><code>src\components\AnimationManager.ts:10</code></a>
         </div>
     
 
@@ -357,19 +357,15 @@
 
 
 <div class="box intro">
-    <p>Ported from Flixel, most functions operation identically to the original flixel functions, though some
-have been split into multiple functions. Generally where functions originally accepted
-either groups or gameobjects within the same argument, the ported functions one or the other.
-<a href="http://www.flixel.org/">http://www.flixel.org/</a>
-<a href="http://www.adamatomic.com/">http://www.adamatomic.com/</a></p>
+    <p>Manages the playing/pausing/e.t.c of animations for a single Sprite.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_ArcadePhysics" class="method item">
-    <h3 class="name"><code>ArcadePhysics</code></h3>
+        <div id="method_AnimationManager" class="method item">
+    <h3 class="name"><code>AnimationManager</code></h3>
 
     
         <div class="args">
@@ -387,7 +383,7 @@ either groups or gameobjects within the same argument, the ported functions one 
 
     
         <span class="returns-inline">
-            <span class="type"><a href="..\classes\ArcadePhysics.html" class="crosslink">ArcadePhysics</a></span>
+            <span class="type"><a href="..\classes\AnimationManager.html" class="crosslink">AnimationManager</a></span>
         </span>
     
 
@@ -414,7 +410,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l10"><code>src\components\ArcadePhysics.ts:10</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l10"><code>src\components\AnimationManager.ts:10</code></a>
         
         </p>
 
@@ -443,7 +439,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                     
 
                     <div class="param-description">
-                         
+                        <p>The entity that this animation component belongs to.</p>
+
                     </div>
 
                     
@@ -460,7 +457,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="..\classes\ArcadePhysics.html" class="crosslink">ArcadePhysics</a></span>:
+                        <span class="type"><a href="..\classes\AnimationManager.html" class="crosslink">AnimationManager</a></span>:
                     
                 
             </div>
@@ -497,6 +494,41 @@ either groups or gameobjects within the same argument, the ported functions one 
 
                     <ul class="index-list methods extends">
                         
+                            <li class="index-item method private">
+                                <a href="#method__play">_play</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__setCellIndex">_setCellIndex</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__setCurrentAnimation">_setCurrentAnimation</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_add">add</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_createFromSequence">createFromSequence</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public inherited">
                                 <a href="#method_destroy">destroy</a>
 
@@ -504,29 +536,43 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item method inherited">
+                            <li class="index-item method public">
+                                <a href="#method_getAnimation">getAnimation</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_nextFrame">nextFrame</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_overlaps">overlaps</a>
+                            <li class="index-item method public">
+                                <a href="#method_pause">pause</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_overlaps">overlaps</a>
+                            <li class="index-item method public">
+                                <a href="#method_play">play</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_parent">parent</a>
+                            <li class="index-item method public">
+                                <a href="#method_playAt">playAt</a>
 
                                 
                                 
@@ -546,15 +592,36 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_setCallback">setCallback</a>
+                            <li class="index-item method public">
+                                <a href="#method_prevFrame">prevFrame</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_solid">solid</a>
+                            <li class="index-item method public">
+                                <a href="#method_resume">resume</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_stop">stop</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_switchTo">switchTo</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_toString">toString</a>
 
                                 
                                 
@@ -577,15 +644,29 @@ either groups or gameobjects within the same argument, the ported functions one 
 
                     <ul class="index-list properties extends">
                         
-                            <li class="index-item property">
-                                <a href="#property__parent">_parent</a>
+                            <li class="index-item property private">
+                                <a href="#property__animations">_animations</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_acceleration">acceleration</a>
+                            <li class="index-item property private">
+                                <a href="#property__atlas">_atlas</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__currentAnimation">_currentAnimation</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__isPlaying">_isPlaying</a>
 
                                 
                                 
@@ -598,43 +679,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_angle">angle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_angularAcceleration">angularAcceleration</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_angularDrag">angularDrag</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_angularVelocity">angularVelocity</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_ANY">ANY</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_CEILING">CEILING</a>
+                            <li class="index-item property public">
+                                <a href="#property_currentCell">currentCell</a>
 
                                 
                                 
@@ -647,29 +693,15 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_DOWN">DOWN</a>
+                            <li class="index-item property private">
+                                <a href="#property_entity">entity</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_drag">drag</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_elasticity">elasticity</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_FLOOR">FLOOR</a>
+                            <li class="index-item property public">
+                                <a href="#property_frameIndex">frameIndex</a>
 
                                 
                                 
@@ -682,43 +714,15 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_height">height</a>
+                            <li class="index-item property public">
+                                <a href="#property_isPlaying">isPlaying</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_immovable">immovable</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_LEFT">LEFT</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_mass">mass</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_maxAngular">maxAngular</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_maxVelocity">maxVelocity</a>
+                            <li class="index-item property public">
+                                <a href="#property_length">length</a>
 
                                 
                                 
@@ -731,71 +735,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_NONE">NONE</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_OVERLAP_BIAS">OVERLAP_BIAS</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item property public inherited">
                                 <a href="#property_owner">owner</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_RIGHT">RIGHT</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_seperate">seperate</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_transform">transform</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_UP">UP</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_velocity">velocity</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_WALL">WALL</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_width">width</a>
 
                                 
                                 
@@ -815,7 +756,614 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_destroy" class="method item public inherited">
+                    <div id="method__play" class="method item private">
+    <h3 class="name"><code>_play</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[index=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Animation.html" class="crosslink">Animation</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l170"><code>src\components\AnimationManager.ts:170</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An internal method used to actually play the animation.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">name</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the animation that is to be switched to.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[index=null]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The index of the frame in the Sequence that is to play.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Animation.html" class="crosslink">Animation</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method__setCellIndex" class="method item private">
+    <h3 class="name"><code>_setCellIndex</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l344"><code>src\components\AnimationManager.ts:344</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An internal method that is used to set the cell index of the entity. This is how the animation changes.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__setCurrentAnimation" class="method item private">
+    <h3 class="name"><code>_setCurrentAnimation</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l274"><code>src\components\AnimationManager.ts:274</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Internal method that sets the current animation to the animation passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_add" class="method item public">
+    <h3 class="name"><code>add</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>cells</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>speed</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[loop=false]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[play=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Animation.html" class="crosslink">Animation</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l109"><code>src\components\AnimationManager.ts:109</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates a new sequence and then adds that sequence as a new animation on this component. Returns that animation that was created.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">cells</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>An array that contains a reference to the cells that are to be played in the animation.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">speed</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The amount of time that each frame should stay on screen for. In seconds.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[loop=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If when the animation reaches the last frame, it should go back to the start again.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[play=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If once created the animation should play right away.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Animation.html" class="crosslink">Animation</a></span>:
+                    
+                    <p>The Anim that was created.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createFromSequence" class="method item public">
+    <h3 class="name"><code>createFromSequence</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>sequence</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[play=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Animation.html" class="crosslink">Animation</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l128"><code>src\components\AnimationManager.ts:128</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates a new animation based on a sequence that is passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">sequence</code>
+                        <span class="type">Kiwi.Sequence</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The sequence that the animation is based on.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[play=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the animation should play once it has been created</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Animation.html" class="crosslink">Animation</a></span>:
+                    
+                    <p>The Anim that was created.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_destroy" class="method item public">
     <h3 class="name"><code>destroy</code></h3>
 
     
@@ -840,13 +1388,16 @@ either groups or gameobjects within the same argument, the ported functions one 
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Component.html#method_destroy">
+                Component
+            </a>
             
-                <p>Inherited from
-                <a href="..\classes\Component.html#method_destroy">Component</a>:
+            but overwritten in
             
         
         
-        <a href="../files/src_core_Component.ts.html#l102"><code>src\core\Component.ts:102</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l365"><code>src\components\AnimationManager.ts:365</code></a>
         
         </p>
 
@@ -857,7 +1408,7 @@ either groups or gameobjects within the same argument, the ported functions one 
     </div>
 
     <div class="description">
-        <p>Destroys this component and all of the properties that exist on it.</p>
+        <p>Destroys the animation component and runs the destroy on all of the anims that it has.</p>
 
     </div>
 
@@ -869,7 +1420,170 @@ either groups or gameobjects within the same argument, the ported functions one 
 </div>
 
                 
-                    <div id="method_objType" class="method item">
+                    <div id="method_getAnimation" class="method item public">
+    <h3 class="name"><code>getAnimation</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Animation.html" class="crosslink">Animation</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l332"><code>src\components\AnimationManager.ts:332</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get a animation that is on the animation component.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Animation.html" class="crosslink">Animation</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_nextFrame" class="method item public">
+    <h3 class="name"><code>nextFrame</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l254"><code>src\components\AnimationManager.ts:254</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Makes the current animation go to the next frame. If the animation is at the end of the sequence it then goes back to the start.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
     
@@ -877,13 +1591,11 @@ either groups or gameobjects within the same argument, the ported functions one 
     
 
     
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -905,7 +1617,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l91"><code>src\components\ArcadePhysics.ts:91</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l99"><code>src\components\AnimationManager.ts:99</code></a>
         
         </p>
 
@@ -923,288 +1635,24 @@ either groups or gameobjects within the same argument, the ported functions one 
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method_overlaps" class="method item">
-    <h3 class="name"><code>overlaps</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gameObject</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>seperateObjects</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l685"><code>src\components\ArcadePhysics.ts:685</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gameObject</code>
-                        <span class="type">Kiwi.Entity</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">seperateObjects</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_overlaps" class="method item">
-    <h3 class="name"><code>overlaps</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gameObject</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>seperateObjects</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l712"><code>src\components\ArcadePhysics.ts:712</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A method to check to see if the parent of this physics component overlaps with another group of objects</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gameObject</code>
-                        <span class="type">Kiwi.Group</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">seperateObjects</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_parent" class="method item">
-    <h3 class="name"><code>parent</code></h3>
+                    <div id="method_pause" class="method item public">
+    <h3 class="name"><code>pause</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
-        <span class="returns-inline">
-            <span class="type">Kiwi.Entity</span>
-        </span>
-    
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1226,7 +1674,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l805"><code>src\components\ArcadePhysics.ts:805</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l206"><code>src\components\AnimationManager.ts:206</code></a>
         
         </p>
 
@@ -1237,24 +1685,218 @@ either groups or gameobjects within the same argument, the ported functions one 
     </div>
 
     <div class="description">
-        <p>Returns the parent of this entity. Mainly used for executing callbacks.</p>
+        <p>Pauses the current animation.</p>
 
     </div>
 
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
 
-            <div class="returns-description">
+    
+</div>
+
                 
+                    <div id="method_play" class="method item public">
+    <h3 class="name"><code>play</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
                     
-                        <span class="type">Kiwi.Entity</span>:
+                        <code class="optional">[name]</code>
                     
-                
-            </div>
+                </li>
+            
+            </ul><span class="paren">)</span>
         </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l145"><code>src\components\AnimationManager.ts:145</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Plays either the current animation or the name of the animation that you pass.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[name]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the animation that you want to play. If not passed it plays the current animation.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_playAt" class="method item public">
+    <h3 class="name"><code>playAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>index</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[name]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l157"><code>src\components\AnimationManager.ts:157</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Play an animation at a particular frameIndex.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">index</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The index of the frame in the Sequence that you would like to play.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[name]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the animation that you want to play. If not passed, it plays it on the current animation.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -1369,223 +2011,8 @@ either groups or gameobjects within the same argument, the ported functions one 
 </div>
 
                 
-                    <div id="method_setCallback" class="method item">
-    <h3 class="name"><code>setCallback</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>callbackFunction</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>callbackContext</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l791"><code>src\components\ArcadePhysics.ts:791</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Sets up a callback function that will run when this object overlaps with another.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">callbackFunction</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">callbackContext</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_solid" class="method item">
-    <h3 class="name"><code>solid</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l317"><code>src\components\ArcadePhysics.ts:317</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Whether the object collides or not.  For more control over what directions
-the object will collide from, use collision constants (like LEFT, FLOOR, etc)
-to set the value of allowCollisions directly.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Boolean</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>boolean</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_update" class="method item public inherited">
-    <h3 class="name"><code>update</code></h3>
+                    <div id="method_prevFrame" class="method item public">
+    <h3 class="name"><code>prevFrame</code></h3>
 
     
         <span class="paren">()</span>
@@ -1610,12 +2037,15 @@ to set the value of allowCollisions directly.</p>
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="..\classes\Component.html#method_update">Component</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_core_Component.ts.html#l88"><code>src\core\Component.ts:88</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l264"><code>src\components\AnimationManager.ts:264</code></a>
         
         </p>
 
@@ -1626,7 +2056,368 @@ to set the value of allowCollisions directly.</p>
     </div>
 
     <div class="description">
-        <p>If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.</p>
+        <p>Makes the current animation go to the prev frame. If the animation is at the start, the animation will go the end of the sequence.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_resume" class="method item public">
+    <h3 class="name"><code>resume</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l216"><code>src\components\AnimationManager.ts:216</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Resumes the current animation. The animation should have already been paused.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_stop" class="method item public">
+    <h3 class="name"><code>stop</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l194"><code>src\components\AnimationManager.ts:194</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Stops the current animation from playing.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_switchTo" class="method item public">
+    <h3 class="name"><code>switchTo</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>val</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[play=null]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l226"><code>src\components\AnimationManager.ts:226</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number. 
+You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
+So if the animation is currently &#39;playing&#39; then once switched to the animation will play. If not currently playing it will switch to and stop.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">val</code>
+                        <span class="type">String | Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[play=null]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Force the animation to play or stop. If null the animation base&#39;s it off what is currently happening.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_toString" class="method item public">
+    <h3 class="name"><code>toString</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l353"><code>src\components\AnimationManager.ts:353</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns a string representation of this object.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>A string representation of this object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item public">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="..\classes\Component.html#method_update">
+                Component
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l289"><code>src\components\AnimationManager.ts:289</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The update loop, it only updates the currentAnimation and only if it is playing.</p>
 
     </div>
 
@@ -1646,12 +2437,14 @@ to set the value of allowCollisions directly.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__parent" class="property item">
-    <h3 class="name"><code>_parent</code></h3>
-    <span class="type">Kiwi.Entity</span>
+                    <div id="property__animations" class="property item private">
+    <h3 class="name"><code>_animations</code></h3>
+    <span class="type">Object</span>
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -1669,7 +2462,7 @@ to set the value of allowCollisions directly.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l28"><code>src\components\ArcadePhysics.ts:28</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l63"><code>src\components\AnimationManager.ts:63</code></a>
         
         </p>
 
@@ -1679,7 +2472,7 @@ to set the value of allowCollisions directly.</p>
     </div>
 
     <div class="description">
-        <p>The Entity that this physics component belongs to.</p>
+        <p>A dictionary containing all of the animations that are avaiable.</p>
 
     </div>
 
@@ -1691,12 +2484,14 @@ to set the value of allowCollisions directly.</p>
 </div>
 
                 
-                    <div id="property_acceleration" class="property item">
-    <h3 class="name"><code>acceleration</code></h3>
-    <span class="type">Kiwi.Geom.Point</span>
+                    <div id="property__atlas" class="property item private">
+    <h3 class="name"><code>_atlas</code></h3>
+    <span class="type"><a href="..\classes\TextureAtlas.html" class="crosslink">TextureAtlas</a></span>
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -1714,7 +2509,7 @@ to set the value of allowCollisions directly.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l201"><code>src\components\ArcadePhysics.ts:201</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l55"><code>src\components\AnimationManager.ts:55</code></a>
         
         </p>
 
@@ -1724,11 +2519,108 @@ to set the value of allowCollisions directly.</p>
     </div>
 
     <div class="description">
-        <p>How fast the speed of this object is changing.
-Useful for smooth movement and gravity.</p>
+        <p>The texture atlas that this animation is taking affect on.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__currentAnimation" class="property item private">
+    <h3 class="name"><code>_currentAnimation</code></h3>
+    <span class="type"><a href="..\classes\Animation.html" class="crosslink">Animation</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l71"><code>src\components\AnimationManager.ts:71</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A reference to the animation that is currently being played.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> null</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__isPlaying" class="property item private">
+    <h3 class="name"><code>_isPlaying</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l80"><code>src\components\AnimationManager.ts:80</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Indicates whether or not this animation is currently playing or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -1783,12 +2675,14 @@ Useful for smooth movement and gravity.</p>
 </div>
 
                 
-                    <div id="property_angle" class="property item">
-    <h3 class="name"><code>angle</code></h3>
+                    <div id="property_currentCell" class="property item public">
+    <h3 class="name"><code>currentCell</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1806,7 +2700,7 @@ Useful for smooth movement and gravity.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l225"><code>src\components\ArcadePhysics.ts:225</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l302"><code>src\components\AnimationManager.ts:302</code></a>
         
         </p>
 
@@ -1816,234 +2710,7 @@ Useful for smooth movement and gravity.</p>
     </div>
 
     <div class="description">
-        <p>Set the angle of a sprite to rotate it.
-WARNING: rotating sprites decreases rendering
-performance for this sprite by a factor of 10x!</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_angularAcceleration" class="property item">
-    <h3 class="name"><code>angularAcceleration</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l241"><code>src\components\ArcadePhysics.ts:241</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>How fast the spin speed should change.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_angularDrag" class="property item">
-    <h3 class="name"><code>angularDrag</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l248"><code>src\components\ArcadePhysics.ts:248</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Like <code>drag</code> but for spinning.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_angularVelocity" class="property item">
-    <h3 class="name"><code>angularVelocity</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l234"><code>src\components\ArcadePhysics.ts:234</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>This is how fast you want this sprite to spin.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_ANY" class="property item">
-    <h3 class="name"><code>ANY</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l157"><code>src\components\ArcadePhysics.ts:157</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Special-case constant meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_CEILING" class="property item">
-    <h3 class="name"><code>CEILING</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l136"><code>src\components\ArcadePhysics.ts:136</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Special-case constant meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.</p>
+        <p>Gets the cell that the current animation is current at. This is READ ONLY.</p>
 
     </div>
 
@@ -2101,12 +2768,14 @@ performance for this sprite by a factor of 10x!</p>
 </div>
 
                 
-                    <div id="property_DOWN" class="property item">
-    <h3 class="name"><code>DOWN</code></h3>
-    <span class="type">Number</span>
+                    <div id="property_entity" class="property item private">
+    <h3 class="name"><code>entity</code></h3>
+    <span class="type"><a href="..\classes\Entity.html" class="crosslink">Entity</a></span>
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -2124,7 +2793,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l122"><code>src\components\ArcadePhysics.ts:122</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l47"><code>src\components\AnimationManager.ts:47</code></a>
         
         </p>
 
@@ -2134,7 +2803,7 @@ performance for this sprite by a factor of 10x!</p>
     </div>
 
     <div class="description">
-        <p>Generic value for &quot;down&quot; Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.</p>
+        <p>The entity that this animation belongs to.</p>
 
     </div>
 
@@ -2146,103 +2815,14 @@ performance for this sprite by a factor of 10x!</p>
 </div>
 
                 
-                    <div id="property_drag" class="property item">
-    <h3 class="name"><code>drag</code></h3>
-    <span class="type">Kiwi.Geom.Point</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l209"><code>src\components\ArcadePhysics.ts:209</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>This isn&#39;t drag exactly, more like deceleration that is only applied
-when acceleration is not affecting the sprite.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_elasticity" class="property item">
-    <h3 class="name"><code>elasticity</code></h3>
+                    <div id="property_frameIndex" class="property item public">
+    <h3 class="name"><code>frameIndex</code></h3>
     <span class="type">Number</span>
 
     
 
     
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l194"><code>src\components\ArcadePhysics.ts:194</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The bounciness of this object.  Only affects collisions.  Default value is 0, or &quot;not bouncy at all.&quot;</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_FLOOR" class="property item">
-    <h3 class="name"><code>FLOOR</code></h3>
-    <span class="type">Number</span>
-
-    
-
+        <span class="flag public">public</span>
     
 
     
@@ -2260,7 +2840,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l143"><code>src\components\ArcadePhysics.ts:143</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l312"><code>src\components\AnimationManager.ts:312</code></a>
         
         </p>
 
@@ -2270,7 +2850,7 @@ when acceleration is not affecting the sprite.</p>
     </div>
 
     <div class="description">
-        <p>Special-case constant meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.</p>
+        <p>Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.</p>
 
     </div>
 
@@ -2326,58 +2906,15 @@ when acceleration is not affecting the sprite.</p>
 </div>
 
                 
-                    <div id="property_height" class="property item">
-    <h3 class="name"><code>height</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l49"><code>src\components\ArcadePhysics.ts:49</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The height that this physics component uses.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_immovable" class="property item">
-    <h3 class="name"><code>immovable</code></h3>
+                    <div id="property_isPlaying" class="property item public">
+    <h3 class="name"><code>isPlaying</code></h3>
     <span class="type">Boolean</span>
 
     
 
     
+        <span class="flag public">public</span>
+    
 
     
 
@@ -2394,7 +2931,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l171"><code>src\components\ArcadePhysics.ts:171</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l89"><code>src\components\AnimationManager.ts:89</code></a>
         
         </p>
 
@@ -2404,7 +2941,7 @@ when acceleration is not affecting the sprite.</p>
     </div>
 
     <div class="description">
-        <p>Whether an object will move/alter position after a collision.</p>
+        <p>Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.</p>
 
     </div>
 
@@ -2416,57 +2953,14 @@ when acceleration is not affecting the sprite.</p>
 </div>
 
                 
-                    <div id="property_LEFT" class="property item">
-    <h3 class="name"><code>LEFT</code></h3>
+                    <div id="property_length" class="property item public">
+    <h3 class="name"><code>length</code></h3>
     <span class="type">Number</span>
 
     
 
     
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l101"><code>src\components\ArcadePhysics.ts:101</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Generic value for &quot;left&quot; Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_mass" class="property item">
-    <h3 class="name"><code>mass</code></h3>
-    <span class="type">Number</span>
-
-    
-
+        <span class="flag public">public</span>
     
 
     
@@ -2484,7 +2978,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l185"><code>src\components\ArcadePhysics.ts:185</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l322"><code>src\components\AnimationManager.ts:322</code></a>
         
         </p>
 
@@ -2494,100 +2988,7 @@ when acceleration is not affecting the sprite.</p>
     </div>
 
     <div class="description">
-        <p>The virtual mass of the object. Default value is 1.
-Currently only used with <code>elasticity</code> during collision resolution.
-Change at your own risk; effects seem crazy unpredictable so far!</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_maxAngular" class="property item">
-    <h3 class="name"><code>maxAngular</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l255"><code>src\components\ArcadePhysics.ts:255</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Use in conjunction with <code>angularAcceleration</code> for fluid spin speed control.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_maxVelocity" class="property item">
-    <h3 class="name"><code>maxVelocity</code></h3>
-    <span class="type">Kiwi.Geom.Point</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l217"><code>src\components\ArcadePhysics.ts:217</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it
-to cap the speed automatically (very useful!).</p>
+        <p>Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.</p>
 
     </div>
 
@@ -2643,96 +3044,6 @@ to cap the speed automatically (very useful!).</p>
 </div>
 
                 
-                    <div id="property_NONE" class="property item">
-    <h3 class="name"><code>NONE</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l129"><code>src\components\ArcadePhysics.ts:129</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Special-case constant meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_OVERLAP_BIAS" class="property item">
-    <h3 class="name"><code>OVERLAP_BIAS</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l164"><code>src\components\ArcadePhysics.ts:164</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Handy constant used during collision resolution (see <code>separateX()</code> and <code>separateY()</code>).</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="property_owner" class="property item public inherited">
     <h3 class="name"><code>owner</code></h3>
     <span class="type"><a href="..\classes\IChild.html" class="crosslink">IChild</a></span>
@@ -2766,321 +3077,6 @@ to cap the speed automatically (very useful!).</p>
 
     <div class="description">
         <p>The IChild that owns this entity</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_RIGHT" class="property item">
-    <h3 class="name"><code>RIGHT</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l108"><code>src\components\ArcadePhysics.ts:108</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Generic value for &quot;right&quot; Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_seperate" class="property item">
-    <h3 class="name"><code>seperate</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l264"><code>src\components\ArcadePhysics.ts:264</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If the object should be seperated.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_transform" class="property item">
-    <h3 class="name"><code>transform</code></h3>
-    <span class="type">Kiwi.Geom.Transform</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l35"><code>src\components\ArcadePhysics.ts:35</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The transform component.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_UP" class="property item">
-    <h3 class="name"><code>UP</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l115"><code>src\components\ArcadePhysics.ts:115</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Generic value for &quot;up&quot; Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_velocity" class="property item">
-    <h3 class="name"><code>velocity</code></h3>
-    <span class="type">Kiwi.Geom.Point</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l178"><code>src\components\ArcadePhysics.ts:178</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The basic speed of this object.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_WALL" class="property item">
-    <h3 class="name"><code>WALL</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l150"><code>src\components\ArcadePhysics.ts:150</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Special-case constant meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_width" class="property item">
-    <h3 class="name"><code>width</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l42"><code>src\components\ArcadePhysics.ts:42</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The width component that this physics component uses.</p>
 
     </div>
 

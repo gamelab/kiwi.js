@@ -2,8 +2,8 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "AABB",
-        "Anim",
         "Animation",
+        "AnimationManager",
         "ArcadePhysics",
         "Audio",
         "AudioLibrary",
@@ -109,7 +109,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Vector2"
     ],
     "modules": [
-        "Animation",
+        "Animations",
         "Components",
         "Easing",
         "Files",
@@ -130,8 +130,8 @@ YUI.add("yuidoc-meta", function(Y) {
     ],
     "allModules": [
         {
-            "displayName": "Animation",
-            "name": "Animation",
+            "displayName": "Animations",
+            "name": "Animations",
             "description": "Kiwi - Animation"
         },
         {
@@ -152,7 +152,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "GameObjects",
             "name": "GameObjects",
-            "description": "Kiwi - GameObjects"
+            "description": "GameObjects are items that are design to be added to a State or a Group as a child. \n\nKiwi - GameObjects"
         },
         {
             "displayName": "Geom",
@@ -197,7 +197,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Tilemap",
             "name": "Tilemap",
-            "description": "Kiwi - GameObjects - Tilemap"
+            "description": "Kiwi - GameObjects - TileMapLayer"
         },
         {
             "displayName": "Time",

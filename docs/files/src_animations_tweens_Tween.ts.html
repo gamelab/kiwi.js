@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\StateManager.ts - Kiwi.js</title>
+    <title>src\animations\tweens\Tween.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -328,497 +328,543 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\core\StateManager.ts</h1>
+                        <h1 class="file-heading">File: src\animations\tweens\Tween.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Module - Kiwi (Core)
-* @module Kiwi
+* Kiwi - Animation - Tweens 
+* @module Animations
+* @submodule Tweens 
 * 
-*/  
-
-module Kiwi {
+*/
+ 
+module Kiwi.Animations {
 
     /**
-    * The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.
+    * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
+    * https://github.com/sole/tween.js
     *
-    * @class StateManager
+    * @class Tween
     * @constructor
-    * @param game {Game} The game that this statemanager belongs to.
-    * @return {StateMananger} This Object
+    * @param object {Any} The object that this tween is taking affect on.
+    * @param game {Game} The game that this tween is for.
+    * @return {Tween} This tween.
+    *
+    * @author     sole / http://soledadpenades.com
+    * @author     mrdoob / http://mrdoob.com
+    * @author     Robert Eisele / http://www.xarg.org
+    * @author     Philippe / http://philippe.elsass.me
+    * @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
+    * @author     Paul Lewis / http://www.aerotwist.com/
+    * @author     lechecacharro
+    * @author     Josh Faul / http://jocafa.com/
+    * @author     egraether / http://egraether.com/
     *
     */
-    export class StateManager {
-         
-        constructor(game: Kiwi.Game) {
+    export class Tween {
+ 
+        constructor(object, game:Kiwi.Game = null) {
 
-            this._game = game;
+            this._object = object;
 
-            this._states = [];
+            if (game !== null)
+            {
+                this._game = game;
+                this._manager = this._game.tweens;
+            }
+
+            this.isRunning = false;
 
         }
 
         /**
-        * The type of object this is.
+        * The type of object that this is.
         * @method objType
-        * @return string
+        * @return {String}
         * @public
         */
         public objType() {
-            return &quot;StateManager&quot;;
+            return &quot;Tween&quot;;
         }
 
-        /**
-        * The game that this manager belongs to.
+        /** 
+        * The game that this tween belongs to.
         * @property _game
         * @type Game
         * @private
         */
-        private _game: Kiwi.Game;
+        private _game: Kiwi.Game = null;
 
-        /**
-        * An array of all of the states that are contained within this manager.
-        * @property _states
-        * @type State[]
+        /** 
+        * The manager that this tween belongs to. 
+        * @property _manager
+        * @type Manager
         * @private
         */
-        private _states: Kiwi.State[];
+        private _manager: Kiwi.Animations.Tweens.TweenManager = null;
 
-        /**
-        * The current State
-        * @property current
-        * @type State
+        /** 
+        * The object that this tween is affecting.
+        * @property _object
+        * @type Any
+        * @private
+        */
+	    private _object = null;
+
+        /** 
+        * The starting values of the properties that the tween is animating.
+        * @property _valuesStart
+        * @type Object
+        * @private
+        */
+	    private _valuesStart = {};
+
+        /** 
+        * The end values of the properties that the tween is animating.
+        * @property _valuesEnd
+        * @type Object
+        * @private
+        */
+	    private _valuesEnd = {};
+
+        /** 
+        * The duration of the tween, in milliseconds.
+        * @property _duration
+        * @type Number
+        * @private
+        */
+	    private _duration = 1000;
+
+        /** 
+        * The amount of time to delay the tween by. In Milliseconds.
+        * @property _delayTime
+        * @type Number
+        * @private
+        */
+	    private _delayTime:number = 0;
+
+        /** 
+        * The time at which the tween started.
+        * @property _startTime
+        * @type Number
+        * @private
+        */
+	    private _startTime:number = null;
+
+        /** 
+        * The easing function that is to be used while tweening.
+        * @property _easingFunction
+        * @type Function
+        * @default Kiwi.Tweens.Easing.Linear.None
+        * @private
+        */
+        private _easingFunction = Kiwi.Animations.Tweens.Easing.Linear.None;
+
+        /** 
+        * [NEEDS DESCRIPTION]
+        * @property _interpolationFunction
+        * @type Function
+        * @default Kiwi.Utils.Interpolation.Linear
+        * @private
+        */
+	    private _interpolationFunction = Kiwi.Utils.GameMath.linearInterpolation;
+
+        /** 
+        * An array containing all of the tweens that are to be played when this one finishes.
+        * @property _chainedTweens
+        * @type Tween[]
+        * @private
+        */
+	    private _chainedTweens = [];
+
+        /** 
+        * The method that is to be called when the tween starts playing.
+        * @property _onStartCallback
+        * @type Function
         * @default null
-        * @public
-        */
-        public current: Kiwi.State = null;
-
-        /**
-        * Checks to see if a key exists. Internal use only.
-        * @method checkKeyExists
-        * @param key {String}
-        * @return {boolean}
         * @private
         */
-        private checkKeyExists(key: string): boolean {
-
-            for (var i = 0; i &lt; this._states.length; i++)
-            {
-                if (this._states[i].config.name === key)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-
-        }
-
+	    private _onStartCallback = null;
+        
         /**
-        * Checks to see if the state passed is valid or not.
-        * @method checkValidState
-        * @param {State} state
-        * @return {boolean}
+        * The context that the _onStartCallback method is to be called in. 
+        * @property _onStartContext
+        * @type Any
+        * @default null
         * @private
         */
-        private checkValidState(state: Kiwi.State): boolean {
+        private _onStartContext:any = null;
 
-            if (!state[&#x27;game&#x27;] || !state[&#x27;config&#x27;])
-            {
-                return false;
-            }
-
-            return true;
-
-        }
-
-        /**
-        * Adds the given State to the StateManager.
-        * The State must have a unique key set on it, or it will fail to be added to the manager.
-        * Returns true if added successfully, otherwise false (can happen if State is already in the StateManager)
-        * 
-        * @method addState
-        * @param state {Any} The Kiwi.State instance to add.
-        * @param [switchTo=false] {boolean} If set to true automatically switch to the given state after adding it
-        * @return {boolean} true if the State was added successfully, otherwise false
-        * @public
-        */
-        public addState(state: any, switchTo:boolean = false): boolean {
-
-            var tempState;
-
-            //  Is it a Prototype?
-            if (typeof state === &#x27;function&#x27;)
-            {
-                tempState = new state();
-            }
-            else if (typeof state === &#x27;string&#x27;)
-            {
-                tempState = window[state];  
-            }
-            else
-            {
-                tempState = state;
-            }
-
-            //Does it already exist?
-            if (tempState.config.name &amp;&amp; this.checkKeyExists(tempState.config.name) === true)
-            {
-                return false;
-            }
-
-            tempState.game = this._game;
-           
-
-            if (this.checkValidState(tempState) === false)
-            {
-                return false;
-            }
-            else
-            {
-
-                this._states.push(tempState);
-
-                if (switchTo === true)
-                {
-                    this.setCurrentState(tempState.config.name);
-                }
-
-                return true;
-
-            }
-
-        }
-
-        /**
-        * Is executed once the DOM has finished loading.
-        * @method boot
-        * @public
-        */
-        boot() {
-
-            if (this.current !== null)
-            {
-                this.current.boot();
-            }
-
-            if (this.current !== null &amp;&amp; this.current.config.isInitialised === false)
-            {
-                if (this.current.config.hasInit === true)
-                {
-                    this.current.init();
-                }
-
-                this.current.config.isInitialised = true;
-    
-                this.checkPreload();
-            }
-
-        }
-
-        /**
-        * Switches to the name of the state that you pass. Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
-        * @method setCurrentState
-        * @param {String} key
-        * @return {boolean}
+        /** 
+        * A boolean indicating if the starting callback has been called or not.
+        * @property _onStartCallbackFired
+        * @type boolean
+        * @default false
         * @private
         */
-        private setCurrentState(key: string): boolean {
+	    private _onStartCallbackFired:boolean = false;
 
-            //  Bail out if they are trying to switch to the already current state
-            if (this.current !== null &amp;&amp; this.current.config.name === key)
-            {
-                return false;
-            }
+        /** 
+        * A callback method that will be called each time the tween updates.
+        * @property _onUpdateCallback
+        * @type Function
+        * @default null
+        * @private
+        */
+	    private _onUpdateCallback = null;
+        
+        /**
+        * The context that the update callback has when called.
+        * @property _onUpdateContext
+        * @type any
+        * @default null
+        * @private
+        */
+        private _onUpdateContext:any = null;
 
-            //  First check if we have a current state or not
-            if (this.current !== null)
-            {
-                //  Yes, so notify it that it&#x27;s about to be shut down
-                //  If there is a shutdown function then we call it, passing it a callback.
-                //  The State is then responsible for hitting the callback when it is ready.
-                //  TODO: Transition support - both state updates need to be called at the same time.
-                this._game.input.reset();
-                this.current.destroy();
-            }
+        /** 
+        * A method to be called when the tween finish&#x27;s tweening.
+        * @property _onCompleteCallback
+        * @type function
+        * @default null
+        * @private
+        */
+	    private _onCompleteCallback = null;
 
+        /*
+        * A boolean indicating whether or not the _onCompleteCallback has been called.
+        * @property _onCompleteCalled
+        * @type boolean
+        * @default false
+        * @private
+        */
+	    private _onCompleteCalled: boolean = false;
 
-            //  Assume by this point that the current state has been destroyed (in reality we&#x27;ll move this part to a callback probably)
-
-            if (this.checkKeyExists(key) === true)
-            {
-                this.current = this.getState(key);
-
-                //  Do we need to init it?
-                if (this._game.stage.domReady === true)
-                {
-                    if (this.current.config.isInitialised === false)
-                    {
-                        this.current.boot();
-
-                        if (this.current.config.hasInit === true)
-                        {
-                            if (this.current.config.initParams)
-                            {
-                                this.current.init.apply(this.current, this.current.config.initParams);
-                            }
-                            else
-                            {
-                                this.current.init.call(this.current);
-                            }
-                        }
-
-                        this.current.config.isInitialised = true;
-                    }
-
-                    this.checkPreload();
-
-                }
-             
-                return true;
-
-            }
-            else
-            {
-                return false;
-            }
-
-        }
+        /** 
+        * The context that the onCompleteCallback should have when called.
+        * @property _onCompleteContext
+        * @type any
+        * @default null
+        * @private
+        */
+	    private _onCompleteContext: any = null;
 
         /**
-        *  Swaps the current state.
-        *  If the state has already been loaded (via addState) then you can just pass the key.
-        *  Otherwise you can pass the state object as well and it will load it then swap to it.
+        * An indication of whether or not this tween is currently running.
+        * @property isRunning.
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isRunning: boolean = false;
+
+        /** 
+        * Sets up the various properties that define this tween.
+        * The ending position/properties for this tween, how long the tween should go for, easing method to use and if should start right way.
         *
-        * @method switchState
-        * @param key {String} The name/key of the state you would like to switch to.
-        * @param [state=null] {Any} The state that you want to switch to. This is only used to create the state if it doesn&#x27;t exist already.
-        * @param [initParams=null] {Object} Any parameters that you would like to pass to the init method of that new state.
-        * @param [createParams=null] {Object} Any parameters that you would like to pass to the create method of that new state.
-        * @return {boolean}
+        * @method to
+        * @param properties {Object} The ending location of the properties that you want to tween. 
+        * @param [duration=1000] {Number} The duration of the tween.
+        * @param [ease=null] {Any} The easing method to be used. If not specifed then this will default to LINEAR.
+        * @param [autoStart=false] {boolean} If the tween should start right away.
+        * @return {Tween}
         * @public
         */
-        public switchState(key: string, state: any = null, initParams = null, createParams = null): boolean {
+        public to(properties, duration: number = 1000, ease: any = null, autoStart: boolean = false):Tween {
 
-            //  If we have a current state that isn&#x27;t yet ready (preload hasn&#x27;t finished) then abort now
-            if (this.current !== null &amp;&amp; this.current.config.isReady === false)
-            {
-                return false;
-            }
+	        this._duration = duration;
 
-            //  if state key already exists let&#x27;s try swapping to it, even if the state was passed
-            if (this.checkKeyExists(key) === false &amp;&amp; state !== null) {
-                //  Does the state already exist?
-                if (this.addState(state, false) === false) {
-                    //  Error adding the state
-                    return false;
-                }
-            }
+	        //  If properties isn&#x27;t an object this will fail, sanity check it here somehow?
+	        this._valuesEnd = properties;
 
-            //  Store the parameters (if any)
-            if (initParams !== null || createParams !== null)
-            {
-                var newState = this.getState(key);
+	        if (ease !== null) {
+	            this._easingFunction = ease;
+	        }
 
-                newState.config.initParams = [];
+	        if (autoStart === true) {
+                return this.start();
 
-                for (var initParameter in initParams)
-                {
-                    newState.config.initParams.push(initParams[initParameter]);
-                }
+	        } else {
+	            return this;
+	        }
 
-                newState.config.createParams = [];
+	    }
 
-                for (var createParameter in createParams)
-                {
-                    newState.config.createParams.push(createParams[createParameter]);
-                }
-
-            }
-            
-            return this.setCurrentState(key);
-
-        }
-
-        /**
-        * Gets a state by the key that is passed.
-        * @method getState
-        * @param {String} key
-        * @return {State}
-        * @private
+        /** 
+        * Gets the initial values for the properties that it is to animate and starts the tween process.
+        * @method start
+        * @public
         */
-        private getState(key: string): Kiwi.State {
+	    public start() {
 
-            for (var i = 0; i &lt; this._states.length; i++)
-            {
-                if (this._states[i].config.name === key)
-                {
-                    return this._states[i];
-                }
-            }
+	        if (this._game === null || this._object === null)
+	        {
+	            return;
+	        }
 
-            return null;
+	        this.isRunning = true;
 
-        }
+	        this._manager.add(this);
 
-        /**
-        * Checks to see if the state that is being switched to needs to load some files or not.
-        * If it does it loads the file, if it does not it runs the create method.
-        * @method checkPreload
-        * @private
+	        this._onStartCallbackFired = false;
+
+	        this._startTime = this._game.time.now() + this._delayTime;
+
+	        for (var property in this._valuesEnd)
+	        {
+	            // This prevents the interpolation of null values or of non-existing properties
+	            if (this._object[property] === null || !(property in this._object))
+	            { 
+	                continue;
+	            }
+
+	            // check if an Array was provided as property value
+	            if (this._valuesEnd[property] instanceof Array)
+	            {
+	                if (this._valuesEnd[property].length === 0)
+	                {
+	                    continue;
+	                }
+                     
+
+	                // create a local copy of the Array with the start value at the front
+	                this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property]);
+	            }
+
+                //  Check if property is a function
+	            if (typeof this._object[property] === &#x27;function&#x27;)
+	            { 
+	                this._valuesStart[property] = this._object[property]();
+	            }
+	            else
+	            { 
+	                this._valuesStart[property] = this._object[property];
+	            }
+
+	        }
+
+	        return this;
+
+	    }
+
+        /** 
+        * Stops the Tween from running and removes it from the manager.
+        * @method stop
+        * @public
         */
-        private checkPreload() {
+	    public stop() {
 
-            if (this.current.config.hasPreloader === true)
-            {
-                this._game.loader.init((percent, bytes, file) =&gt; this.onLoadProgress(percent, bytes, file), () =&gt; this.onLoadComplete());
-                this.current.preload();
-                this._game.loader.startLoad();
-            }
-            else
-            {
-                //  No preloader, but does have a create function
-                if (this.current.config.hasCreate === true &amp;&amp; this.current.config.isCreated === false)
-                {
-                    this.current.config.isCreated = true;
+	        if (this._manager !== null)
+	        {
+	            this._manager.remove(this);
+	        }
 
-                    if (this.current.config.createParams)
-                    {
-                        this.current.create.apply(this.current, this.current.config.createParams);
-                    }
-                    else
-                    {
-                        this.current.create.call(this.current);
-                    }
-                }
-                
-                this.current.config.isReady = true;
+	        this.isRunning = false;
 
-            }
+	        return this;
 
-        }
+	    }
 
-        /**
-        * Is execute whilst files are being loaded by the state.
-        * @method onLoadProgress
-        * @param {Number} percent
-        * @param {Number} bytesLoaded
-        * @param {File} file
-        * @private
+        /** 
+        * Sets the game and the manager of this tween.
+        * @method setParent
+        * @param {Game} value
+        * @public
         */
-        private onLoadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File) {
+	    public setParent(value:Kiwi.Game) {
 
-            if (this.current.config.hasLoadProgress === true)
-            {
-                this.current.loadProgress(percent, bytesLoaded, file);
-            }
+	        this._game = value;
+            this._manager = this._game.tweens;
 
-        }
+	    }
 
-        /**
-        * Executed when the preloading has completed. Then executes the loadComplete and create methods of the new state.
-        * @method onLoadComplete
-        * @private
+        /** 
+        * Sets the amount of delay that the tween is to have before it starts playing.
+        * @method delay
+        * @param amount {Number} The amount of time to delay the tween by.
+        * @return {Tween}
+        * @public
         */
-        private onLoadComplete() {
+	    public delay(amount:number):Tween {
 
-            if (this.current.config.hasLoadComplete === true)
-            {
-                this.current.loadComplete();
-            }
+	        this._delayTime = amount;
+	        return this;
 
-           
-            this.rebuildLibraries();
-            
-            this.current.config.isReady = true;
+	    }
 
-            if (this.current.config.hasCreate === true)
-            {
-                this.current.config.isCreated = true;
-                if (this.current.config.createParams)
-                {
-                    this.current.create.apply(this.current, this.current.config.createParams);
-                }
-                else
-                {
-                    this.current.create.call(this.current);
-                }
-            }
-
-        }
-
-        /**
-        * Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.
-        * @method rebuildLibraries
-        * @private
+        /** 
+        * Sets the easing method that is to be used when animating this tween.
+        * @method easing
+        * @param easing {Function} The easing function to use.
+        * @return {Tween} 
+        * @public
         */
-        public rebuildLibraries() {
-            
-            this.current.textureLibrary.clear();
-            this.current.audioLibrary.clear();
-            this.current.dataLibrary.clear();
-         
+	    public easing(easing):Tween {
 
-            var fileStoreKeys: Array = this._game.fileStore.keys;
-            
-            for (var i = 0; i &lt; fileStoreKeys.length; i++) {
-                var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
-                if (file.isTexture) {
-                    this.current.textureLibrary.add(file);
-                } else if (file.isAudio) {
-                    this.current.audioLibrary.add(file);
-                } else if (file.isData) {
-                    this.current.dataLibrary.add(file);
-                }
-            }            
-          
-            
-        }
+	        this._easingFunction = easing;
+	        return this;
 
-        /**
-        * The update loop that is accessable on the state manager.
+	    }
+
+        /** 
+        * [REQUIRES DESCRIPTION]
+        * @method interpolation
+        * @param {Any} interpolation
+        * @return {Tween}
+        * @public
+        */
+	    public interpolation(interpolation):Tween {
+
+	        this._interpolationFunction = interpolation;
+
+	        return this;
+
+	    }
+
+        /** 
+        * Adds another tween that should start playing once tween has completed.
+        * @method chain
+        * @param tween {Tween}
+        * @return {Tween}
+        * @public
+        */
+	    public chain(tween:Kiwi.Animations.Tween):Tween {
+
+	        this._chainedTweens.push(tween);
+	        return this;
+
+	    }
+
+        /** 
+        * Adds a function that is to be executed when the tween start playing.
+        * @method onStart
+        * @param callback {Function} The function that is to be executed on tween start.
+        * @param context {any} The context that function is to have when called.
+        * @return {Tween}
+        * @public
+        */
+	    public onStart(callback, context):Tween {
+
+	        this._onStartCallback = callback;
+            this._onStartContext = context;
+            return this;
+
+	    }
+
+        /** 
+        * Adds a function that is to be executed when this tween updates while it is playing.
+        * @method onUpdate
+        * @param callback {Function} The method that is to be executed.
+        * @param context {Any} The context the method is to have when called.
+        * @public
+        */
+	    public onUpdate(callback, context) {
+
+            this._onUpdateCallback = callback;
+            this._onUpdateContext = context;
+	        return this;
+
+	    }
+
+        /** 
+        * Defines a method that is to be called when this tween is finished.
+        * @method onComplete
+        * @param callback {Function} The method that is to be executed.
+        * @param context {Any} The context the method is to have when called.
+        * @public
+        */
+	    public onComplete(callback, context) {
+
+	        this._onCompleteCallback = callback;
+	        this._onCompleteContext = context;
+
+	        return this;
+
+	    }
+
+        /** 
+        * The update loop is executed every frame whilst the tween is running.
         * @method update
+        * @param time {Number}
         * @public
         */
-        public update() {
+	    public update(time) {
 
-            if (this.current !== null)
-            {
-                if (this.current.config.isReady === true)
-                {
-                    this.current.preUpdate();
-                    this.current.update();
-                    this.current.postUpdate();
-                }
+	        if (time &lt; this._startTime)
+	        {
+	            return true;
+	        }
+
+	        if (this._onStartCallbackFired === false)
+	        {
+	            if (this._onStartCallback !== null)
+	            {
+	                this._onStartCallback.call(this._onStartContext, this._object);
+	            }
+
+	            this._onStartCallbackFired = true;
+	        }
+
+	        var elapsed = (time - this._startTime) / this._duration;
+	        elapsed = elapsed &gt; 1 ? 1 : elapsed;
+
+	        var value = this._easingFunction(elapsed);
+
+	        for (var property in this._valuesStart)
+	        {
+	            var start = this._valuesStart[property];
+	            var end = this._valuesEnd[property];
+
+                //  Add checks for object, array, numeric up front
+	            if (end instanceof Array)
+	            {
+	                this._object[property] = this._interpolationFunction(end, value);
+	            }
                 else
-                {
-                    this.current.loadUpdate();
-                }
-            }
+	            {
+	                if (typeof this._object[property] === &#x27;function&#x27;)
+	                {
+    	                this._object[property](start + (end - start) * value); 
+	                }
+	                else
+	                {
+    	                this._object[property] = start + (end - start) * value;
+	                }
+	            }
+	        }
 
-        }
+	        if (this._onUpdateCallback !== null)
+	        {
+	            this._onUpdateCallback.call(this._onUpdateContext, this._object, value);
+	        }
 
-        /**
-        * postRender - called after all of the Layers have been rendered
-        * @method postRender
-        * @public
-        */
-        public postRender() {
+	        if (elapsed == 1)
+	        {
+    	        this.isRunning = false;
 
-            if (this.current !== null)
-            {
-                if (this.current.config.isReady === true)
-                {
-                    this.current.postRender();
-                }
-            }
+	            if (this._onCompleteCallback !== null &amp;&amp; this._onCompleteCalled == false)
+	            {
+	                this._onCompleteCalled = true;
+	                this._onCompleteCallback.call(this._onCompleteContext, this._object);
+	            }
 
-        }
+	            for (var i = 0; i &lt; this._chainedTweens.length; i++)
+	            {
+	                this._chainedTweens[i].start();
+	            }
+
+	            return false;
+
+	        }
+
+	        return true;
+
+	    }
 
     }
-
 }
+
     </pre>
 </div>
 

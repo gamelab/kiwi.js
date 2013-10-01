@@ -116,7 +116,7 @@ module Kiwi {
 
         /**
         * Adds a Component to the manager.
-        * @method addComponent
+        * @method add
         * @param component {Component} The component to add
         * @return {Component} The component that was added
         * @public

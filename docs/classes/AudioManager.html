@@ -43,9 +43,9 @@
             
                 <li><a href="../classes/AABB.html">AABB</a></li>
             
-                <li><a href="../classes/Anim.html">Anim</a></li>
-            
                 <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
             
                 <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
             
@@ -257,7 +257,7 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/Animation.html">Animation</a></li>
+                <li><a href="../modules/Animations.html">Animations</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -353,7 +353,8 @@
 
 
 <div class="box intro">
-    
+    <p>Handles the playing of sound on the game. This is either through the use of the Web Audio API (if it is supported), otherwise fallbacks to Audio Tags.</p>
+
 </div>
 
 
@@ -504,6 +505,13 @@
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_isRegistered">isRegistered</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
 
                                 
@@ -526,6 +534,13 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_playAll">playAll</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_registerSound">registerSound</a>
 
                                 
                                 
@@ -720,7 +735,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l262"><code>src\sound\AudioManager.ts:262</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l295"><code>src\sound\AudioManager.ts:295</code></a>
         
         </p>
 
@@ -870,6 +885,115 @@
 </div>
 
                 
+                    <div id="method_isRegistered" class="method item public">
+    <h3 class="name"><code>isRegistered</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>sound</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_sound_AudioManager.ts.html#l262"><code>src\sound\AudioManager.ts:262</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Indicates whether or not an Audio Object is registered with this Audio Manager or not. More for Kiwi Internal use only.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">sound</code>
+                        <span class="type"><a href="..\classes\Audio.html" class="crosslink">Audio</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The Audio object you are checking for.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If the piece of audio is registered or not.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
@@ -977,7 +1101,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l338"><code>src\sound\AudioManager.ts:338</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l369"><code>src\sound\AudioManager.ts:369</code></a>
         
         </p>
 
@@ -1034,7 +1158,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l304"><code>src\sound\AudioManager.ts:304</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l335"><code>src\sound\AudioManager.ts:335</code></a>
         
         </p>
 
@@ -1091,7 +1215,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l320"><code>src\sound\AudioManager.ts:320</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l351"><code>src\sound\AudioManager.ts:351</code></a>
         
         </p>
 
@@ -1108,6 +1232,115 @@
 
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method_registerSound" class="method item public">
+    <h3 class="name"><code>registerSound</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>sound</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_sound_AudioManager.ts.html#l279"><code>src\sound\AudioManager.ts:279</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Registers an Audio Object with this audio manager. Also assign&#39;s the audio piece a unique ID to identify it by. Internal Kiwi use only.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">sound</code>
+                        <span class="type"><a href="..\classes\Audio.html" class="crosslink">Audio</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The audio piece you are wanting to register.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Indication of if the sound was successfully added or not.</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1158,7 +1391,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l283"><code>src\sound\AudioManager.ts:283</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l314"><code>src\sound\AudioManager.ts:314</code></a>
         
         </p>
 
@@ -1239,7 +1472,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l357"><code>src\sound\AudioManager.ts:357</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l388"><code>src\sound\AudioManager.ts:388</code></a>
         
         </p>
 
@@ -1296,7 +1529,7 @@
             
         
         
-        <a href="../files/src_sound_AudioManager.ts.html#l376"><code>src\sound\AudioManager.ts:376</code></a>
+        <a href="../files/src_sound_AudioManager.ts.html#l407"><code>src\sound\AudioManager.ts:407</code></a>
         
         </p>
 

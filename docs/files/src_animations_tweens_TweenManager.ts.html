@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\components\Animation.ts - Kiwi.js</title>
+    <title>src\animations\tweens\TweenManager.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -43,9 +43,9 @@
             
                 <li><a href="../classes/AABB.html">AABB</a></li>
             
-                <li><a href="../classes/Anim.html">Anim</a></li>
-            
                 <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
             
                 <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
             
@@ -257,7 +257,7 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/Animation.html">Animation</a></li>
+                <li><a href="../modules/Animations.html">Animations</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -328,396 +328,180 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\components\Animation.ts</h1>
+                        <h1 class="file-heading">File: src\animations\tweens\TweenManager.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Components
-* @module Kiwi
-* @submodule Components 
-* @main Components
-*/ 
- 
-module Kiwi.Components {
+* Kiwi - Animation - Tweens 
+* @module Animations
+* @submodule Tweens 
+* @main Tweens
+*/
 
-    /**
-    *  
-    * @class Animation
-    * @extends Component
+module Kiwi.Animations.Tweens {
+
+    /** 
+    * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
+    * https://github.com/sole/tween.js
+    *
+    * @class TweenManager
     * @constructor
-    * @param entity {Entity} The entity that this animation component belongs to.
-    * @return {Animation}
+    * @param game {Game}
+    * @return {TweenManager}
+    * 
+    * @author     sole / http://soledadpenades.com
+    * @author     mrdoob / http://mrdoob.com
+    * @author     Robert Eisele / http://www.xarg.org
+    * @author     Philippe / http://philippe.elsass.me
+    * @author     Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
+    * @author     Paul Lewis / http://www.aerotwist.com/
+    * @author     lechecacharro
+    * @author     Josh Faul / http://jocafa.com/
+    * @author     egraether / http://egraether.com/
+    * 
     */
-    export class Animation extends Component {
+    export class TweenManager {
          
-        constructor(entity: Kiwi.Entity) {
-            super(entity, &#x27;Animation&#x27;);
+        constructor(game: Kiwi.Game) {
+             
+            this._game = game;
+            this._tweens = [];
 
-            //get the entity and the animation.
-            this.entity = entity;
-            this._atlas = this.entity.atlas; 
-            this._animations = {};
-
-            //create all of the default animations.
-            for (var i = 0; i &lt; this._atlas.sequences.length; i++) {
-                this.createFromSequence(this._atlas.sequences[i], false);
-            }
-
-            //if a default animation already exists
-            if (this._animations[&#x27;default&#x27;]) {
-                this.currentAnimation = this._animations[&#x27;default&#x27;];
-            //otherwise create one.
-            } else {
-                var defaultCells = [];
-                for (var i = 0; i &lt; this._atlas.cells.length; i++) {
-                    defaultCells.push(i);
-                }
-                this.currentAnimation = this.add(&#x27;default&#x27;, defaultCells, 0.1, true, false);
-            }
         }
 
-        /**
-        * The entity that this animation belongs to.
-        * @property entity
-        * @type Entity
-        * @private
-        */
-        private entity: Kiwi.Entity;
-
-        /**
-        * The texture atlas that this animation is taking affect on.
-        * @property _atlas
-        * @type TextureAtlas
-        * @private
-        */
-        private _atlas: Kiwi.Textures.TextureAtlas;
-        
-        /**
-        * A dictionary containing all of the animations that are avaiable.
-        * @property _animations
-        * @type Object
-        * @private
-        */
-        private _animations: {};
-
-        /**
-        * A reference to the animation that is currently being played.
-        * @property _currentAnimation
-        * @type Animation
-        * @default null
-        * @private
-        */
-        public currentAnimation: Kiwi.Animation.Anim = null;
-
-        /**
-        * Indicates whether or not this animation is currently playing or not.
-        * @property _isPlaying
-        * @type boolean
-        * @default false
-        * @private
-        */
-        private _isPlaying: boolean = false;
-        
-        /**
-        * Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.
-        * @property isPlaying
-        * @type boolean
-        * @public
-        */
-        public get isPlaying(): boolean {
-            return this._isPlaying;
-        }
-        
         /**
         * The type of object that this is.
         * @method objType
-        * @type string
+        * @return {String}
         * @public
         */
         public objType() {
-            return &quot;Animation&quot;;
+            return &quot;TweenManager&quot;;
         }
 
-        /**
-        * Creates a new sequence and then adds that sequence as a new animation on this component. Returns that animation that was created.
-        *
-        * @method add
-        * @param {string} name
-        * @param cells {number[]} An array that contains a reference to the cells that are to be played in the animation. 
-        * @param speed {number} The amount of time that each frame should stay on screen for. In seconds.
-        * @param [loop=false] {boolean} If when the animation reaches the last frame, it should go back to the start again.
-        * @param [play=false] {boolean} If once created the animation should play right away.
-        * @return {Anim} The Anim that was created.
-        * @public
-        */
-        public add(name: string, cells: number[], speed: number, loop: boolean= false, play: boolean= false): Kiwi.Animation.Anim {
-            var newSequence = new Kiwi.Animation.Sequence(name, cells, speed, loop);
-            this._atlas.sequences.push(newSequence);
-            
-            return this.createFromSequence(newSequence, play);
-        }
-
-        /**
-        * Creates a new animation based on a sequence that is passed. 
-        *
-        * @method createFromSequence
-        * @param sequence {Kiwi.Sequence} The sequence that the animation is based on.
-        * @param [play=false] {boolean} If the animation should play once it has been created
-        * @return {Anim} The Anim that was created.
-        * @public
-        */
-        public createFromSequence(sequence: Kiwi.Animation.Sequence, play: boolean= false): Kiwi.Animation.Anim {
-            this._animations[sequence.name] = new Kiwi.Animation.Anim(sequence.name, sequence, this.entity.clock);
-
-            if (play) this.play(sequence.name);
-            
-            return this._animations[sequence.name];
-        }
-
-        /**
-        * Plays either the current animation or the name of the animation that you pass.
-        * 
-        * @method play
-        * @param [name] {string} The name of the animation that you want to play. If not passed it plays the current animation.
-        * @public
-        */
-        public play(name: string = this.currentAnimation.name):Kiwi.Animation.Anim {
-
-            return this._play(name);
-        }
-        
-        /**
-        * Play an animation at a particular frameIndex. 
-        * 
-        * @method playAt
-        * @param index {Number} The index of the frame in the Sequence that you would like to play.
-        * @param [name] {String} The name of the animation that you want to play. If not passed, it plays it on the current animation.
-        * @public
-        */        
-        public playAt(index: number, name: string = this.currentAnimation.name):Kiwi.Animation.Anim {
-            
-            return this._play(name, index);
-        } 
-
-        /**
-        * An internal method used to actually play the animation.
-        * 
-        * @method _play
-        * @param name {number} The name of the animation that is to be switched to.
-        * @param [index=null] {string} The index of the frame in the Sequence that is to play.
-        * @return {Anim}
+        /** 
+        * The game that this manager belongs to.
+        * @property _game
+        * @type Game
         * @private
         */
-        private _play(name: string, index: number=null): Kiwi.Animation.Anim {
-            
-            this._isPlaying = true;
-            this._setCurrentAnimation(name); 
-            
-            if (index !== null)
-                this.currentAnimation.playAt(index);
-            else
-                this.currentAnimation.play();
-            
-            this._setCellIndex();
+        private _game: Kiwi.Game;
 
-            return this.currentAnimation;
-        }
-
-        /**
-        * Stops the current animation from playing.
-        * @method stop
-        * @public
-        */
-        public stop() {
-            if (this.isPlaying === true) {
-                this.currentAnimation.stop();
-            }
-            this._isPlaying = false;
-        }
-
-        /**
-        * Pauses the current animation.
-        * @method pause
-        * @public
-        */ 
-        public pause() {
-            this.currentAnimation.pause();
-            this._isPlaying = false;
-        }
-
-        /**
-        * Resumes the current animation. The animation should have already been paused.
-        * @method resume
-        * @public
-        */
-        public resume() {
-            this.currentAnimation.resume();
-            this._isPlaying = true;
-        }
-
-        /**
-        * Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number. 
-        * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
-        * So if the animation is currently &#x27;playing&#x27; then once switched to the animation will play. If not currently playing it will switch to and stop.
-        *
-        * @method switchTo
-        * @param val {string|number}
-        * @param [play=null] {boolean} Force the animation to play or stop. If null the animation base&#x27;s it off what is currently happening.
-        * @public
-        */
-        public switchTo(val: any, play:boolean=null) { 
-            switch (typeof val) {
-                case &quot;string&quot;:
-                    if (this.currentAnimation.name !== val) {
-                        this._setCurrentAnimation(val);
-                    }
-                    break;
-                case &quot;number&quot;:
-                    this.currentAnimation.frameIndex = val;
-                    break;
-            }
-
-            if (play || play === null &amp;&amp; this.isPlaying) this.play();
-            if (play == false &amp;&amp; this.isPlaying) this.stop();
-
-            this._setCellIndex();
-        }
-
-        /**
-        * Makes the current animation go to the next frame. If the animation is at the end of the sequence it then goes back to the start.
-        * @method nextFrame
-        * @public
-        */
-        public nextFrame() {
-            this.currentAnimation.nextFrame();
-            this._setCellIndex();
-        }
-        
-        /**
-        * Makes the current animation go to the prev frame. If the animation is at the start, the animation will go the end of the sequence.
-        * @method prevFrame
-        * @public
-        */
-        public prevFrame() {
-            this.currentAnimation.prevFrame();
-            this._setCellIndex();
-        }
-
-        /**
-        * Internal method that sets the current animation to the animation passed.
-        *
-        * @method _setCurrentAnimation
-        * @param {string} name
+        /** 
+        * An array of all of the tweens on the manager.
+        * @property _tweens
+        * @type Tween[]
         * @private
         */
-        private _setCurrentAnimation(name: string) {
+        private _tweens: Kiwi.Animations.Tween[];
 
-            if (this.currentAnimation !== null) this.currentAnimation.stop();
-            if (this._animations[name]) {
-                this.currentAnimation = this._animations[name]; 
-            }  
-        }
-
-        /**
-        * The update loop, it only updates the currentAnimation and only if it is playing.
-        * @method update 
+        /** 
+        * Returns all of tweens that are on the manager.
+        * @method getAll
+        * @return Tween[]
         * @public
         */
-        public update() { 
-            if (this.currentAnimation &amp;&amp; this.isPlaying) {
-                if (this.currentAnimation.update()) {
-                    this._setCellIndex();
+        public getAll() {
+
+            return this._tweens;
+
+        }
+
+        /** 
+        * Removes all of the tweens on the manager.
+        * @method removeAll
+        * @public
+        */
+        public removeAll() {
+
+            this._tweens.length = 0;
+
+        }
+
+        /** 
+        * Creates a new Tween. 
+        * @method create
+        * @param object {Any} The object that this tween is to apply.
+        * @return {Tween} The tween that was created.
+        * @public
+        */
+        public create(object:any): Kiwi.Animations.Tween {
+
+            return new Kiwi.Animations.Tween(object, this._game);
+
+        }
+
+        /** 
+        * Adds a tween to the manager. 
+        * @method add 
+        * @param tween {Tween} The tween that you want to add to the manager.
+        * @return {Tween} 
+        * @public
+        */
+        public add(tween: Kiwi.Animations.Tween): Kiwi.Animations.Tween {
+
+            tween.setParent(this._game);
+
+            this._tweens.push(tween);
+
+            return tween;
+
+        }
+
+        /** 
+        * Removes a tween from this manager.
+        * @method remove
+        * @param tween {Tween} The tween that you would like to remove.
+        * @return {Tween}
+        * @public
+        */
+        public remove(tween: Kiwi.Animations.Tween) {
+
+            var i = this._tweens.indexOf(tween);
+
+            if (i !== -1)
+            {
+                this._tweens.splice(i, 1);
+            }
+
+        }
+
+        /** 
+        * The update loop.
+        * @method update
+        * @public
+        */
+        public update() {
+
+            if (this._tweens.length === 0)
+            {
+                return false;
+            }
+
+            //  See if we can merge the length into the while block
+            var i = 0;
+            var numTweens = this._tweens.length;
+
+            while (i &lt; numTweens)
+            {
+                if (this._tweens[i].update(this._game.time.now()))
+                {
+                    i++;
+                }
+                else
+                {
+                    this._tweens.splice(i, 1);
+                    numTweens--;
                 }
             }
-        }
-        
-        /**
-        * Gets the cell that the current animation is current at. This is READ ONLY.
-        * @property currentCell
-        * @type number
-        * @public
-        */
-        public get currentCell():number {
-            return this.currentAnimation.currentCell;
-        }
 
-        /**
-        * Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.
-        * @property frameIndex 
-        * @type number
-        * @public
-        */
-        public get frameIndex():number {
-            return this.currentAnimation.frameIndex;
-        }
+            return true;
 
-        /**
-        * Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.
-        * @property length
-        * @type number
-        * @public
-        */
-        public get length(): number {
-            return this.currentAnimation.length;
-        }
-
-        /**
-        * Get a animation that is on the animation component. 
-        * 
-        * @method getAnimation
-        * @param {string} name
-        * @return {Anim} 
-        * @public
-        */
-        public getAnimation(name: string): Kiwi.Animation.Anim {
-            return this._animations[name];
-        }
-        
-        /**
-        * An internal method that is used to set the cell index of the entity. This is how the animation changes.
-        * @method _setCellIndex
-        * @private
-        */
-        private _setCellIndex() {
-            this.entity.cellIndex = this.currentCell;
-        }
-
-	    /**
-	    * Returns a string representation of this object.
-	    * @method toString
-	    * @return {string} A string representation of this object.
-        * @public
-	    */
-        public toString(): string {
-
-            return &#x27;[{Animation (x=&#x27; + this.active + &#x27;)}]&#x27;;
-
-        }
-
-        /**
-        * Destroys the animation component and runs the destroy on all of the anims that it has.
-        * @method destroy
-        * @public
-        */
-        public destroy() {
-            this._isPlaying = false;
-            super.destroy();
-
-            for (var key in this._animations) {
-                this._animations[key].destroy();
-                delete this._animations[key];
-            }
-            delete this._animations;
-            delete this.currentAnimation;
-            delete this._atlas;
         }
 
     }
-
 }
-
-
 
     </pre>
 </div>

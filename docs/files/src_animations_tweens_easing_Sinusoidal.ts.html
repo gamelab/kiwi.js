@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\animation\Sequence.ts - Kiwi.js</title>
+    <title>src\animations\tweens\easing\Sinusoidal.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -43,9 +43,9 @@
             
                 <li><a href="../classes/AABB.html">AABB</a></li>
             
-                <li><a href="../classes/Anim.html">Anim</a></li>
-            
                 <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
             
                 <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
             
@@ -257,7 +257,7 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/Animation.html">Animation</a></li>
+                <li><a href="../modules/Animations.html">Animations</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -328,75 +328,82 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\animation\Sequence.ts</h1>
+                        <h1 class="file-heading">File: src\animations\tweens\easing\Sinusoidal.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Animation
-* @module Kiwi
-* @submodule Animation 
+* Kiwi - Animation - Tweens - Easing 
+* @module Tweens
+* @submodule Easing 
 * 
 */
- 
-module Kiwi.Animation {
+
+module Kiwi.Animations.Tweens.Easing {
 
     /**
-    * 
-    * 
-    * @class Sequence
-    * @constructor
-    * @param name {String} The name of this sequence. This is not unique.
-    * @param cells {Number[]} The cells that are in this animation.
-    * @param [speed=0.1] {Number} The time an animation should spend on each frame.
-    * @param [loop=true] {boolean} If the sequence should play again if it was animating and the animation reaches the last frame.
-    * @return {Sequence}
-    * 
+    *
+    * @class Sinusoidal
+    *
     */
-    export class Sequence {
- 
-        constructor(name:string,cells:number[],speed:number=0.1,loop:boolean=true) {
-            this.name = name;
-            this.cells = cells;
-            this.speed = speed;
-            this.loop = loop;
+    export class Sinusoidal {
+
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType() {
+            return &quot;Sinusoidal&quot;;
         }
 
-        /**
-        * The name of this sequence.
-        * @property name
-        * @type string
+        /** 
+        * 
+        * @method In
+        * @param k {Any}
+        * @return {Number}
+        * @static
         * @public
         */
-        public name: string;
+        public static In(k) {
 
-        /**
-        * The cells that are in this animation.
-        * These are a reference to the cells that are contained in a texture atlas that this sequence should be a part of.
-        * @property cells
-        * @type number[]
-        * @public
-        */
-        public cells: number[];
+            return 1 - Math.cos(k * Math.PI / 2);
 
-        /**
-        * The time an animation should spend on each cell.
-        * @property speed
-        * @type boolean
+        }
+
+        /** 
+        * 
+        * @method Out
+        * @param k {Any}
+        * @return {Number}
+        * @static
         * @public
         */
-        public speed: number;
-        
-        /**
-        * If the sequence should play again if it was animating and the animation reaches the last frame.
-        * @property loop
-        * @type boolean
+        public static Out(k) {
+
+            return Math.sin(k * Math.PI / 2);
+
+        }
+
+        /** 
+        * 
+        * @method InOut
+        * @param {Any} k
+        * @return {Number}
+        * @static
         * @public
         */
-        public loop: boolean;
+        public static InOut(k) {
+
+            return 0.5 * (1 - Math.cos(Math.PI * k));
+
+        }
 
     }
+
 }
+
     </pre>
 </div>
 
