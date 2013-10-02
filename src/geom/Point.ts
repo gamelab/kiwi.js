@@ -205,14 +205,39 @@ module Kiwi.Geom {
 
         }
 
-	    /**
-	     * Returns the distance from this Point object to the given Point object.
-	     * @method distanceTo
-	     * @param target {Point} The destination Point object.
-	     * @param round {boolean} Round the distance to the nearest integer (default false)
-	     * @return {Number} The distance between this Point object and the destination Point object.
+        /**
+         * Returns the distance from this Point object to the given Point object.
+         * @method distanceTo
+         * @param target {Point} The destination Point object.
+         * @param round {boolean} Round the distance to the nearest integer (default false)
+         * @return {Number} The distance between this Point object and the destination Point object.
          * @public
-	     **/
+         **/
+
+        /**
+        * Get the angle from this Point object to given Point object.
+        * @method angleTo
+        * @property target {point} destination Point object.
+        * @return {Number} angle to point
+        */
+        public angleTo(target: Point): number {
+
+            return Math.atan2(target.x - this.x, target.y - this.y);
+
+        }
+
+        /**
+        * Get the angle from this Point object to given X,Y coordinates.
+        * @method angleTo
+        * @property x {number} x value.
+        * @property y {number} y value.
+        * @return {Number} angle to point.
+        */
+        public angleToXY(x: number, y: number): number {
+
+            return Math.atan2(x - this.x, y - this.y);
+
+        }
         public distanceTo(target: Point, round: boolean = false): number {
 
             var dx = this.x - target.x;
