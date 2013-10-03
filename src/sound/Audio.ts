@@ -25,9 +25,11 @@ module Kiwi.Sound {
             
             this._game = game;
             this._game.audio.registerSound(this);
-
+            
             this._usingAudioTag = this._game.audio.usingAudioTag;
             this._usingWebAudio = this._game.audio.usingWebAudio; 
+            
+            this._playable = this._game.audio.deviceTouched;
 
             if (this._game.audio.noAudio) return;
 
@@ -82,6 +84,33 @@ module Kiwi.Sound {
         * @type number
         */
         public id: string;
+
+        /**
+        * A flag that indicates whether the sound is ready to be played or not. If not then this indicates that we are awaiting a user event.
+        * @property _playable
+        * @type boolean
+        * @private
+        */
+        private _playable: boolean;
+
+        /**
+        * 
+        * @property playable
+        * @type boolean
+        * @private
+        */
+        public get playable():boolean {
+            return this._playable;
+        }
+        public set playable(val: boolean) {
+            if (val == true) {
+                this._playable = val;
+                if (this._pending == true) {
+                    console.log('I should be playing from the pending state');
+                    this.play();
+                }    
+            }
+        }
 
         /**
         * The type of object that this is.
@@ -514,11 +543,10 @@ module Kiwi.Sound {
         * @public
         */
         public play(marker: string= this._currentMarker, forceRestart: boolean = false) {
-            
+            console.log('PLAYING');
             if (this.isPlaying && forceRestart == false || this._game.audio.noAudio) return;
 
-            if (forceRestart) this.stop();
-            
+            if (forceRestart && this._pending == false) this.stop();
             this.paused = false;
 
             if (this._markers[marker] == undefined) return;
@@ -528,6 +556,11 @@ module Kiwi.Sound {
             this._currentMarker = marker;
             this.duration = this._markers[this._currentMarker].duration * 1000;
             this._loop = this._markers[this._currentMarker].loop;
+            
+            if (this._playable === false) {
+                this._pending = true;
+                return;
+            }
 
             if (this._usingWebAudio) {
                 if (this._decoded === true) {
@@ -562,7 +595,6 @@ module Kiwi.Sound {
                 }
 
             } else if(this._usingAudioTag) {
-                
                 if (this.duration == 0 || isNaN(this.duration)) this.duration = this.totalDuration * 1000;
                     
                 if (this._muted) this._sound.volume = 0;
@@ -726,6 +758,10 @@ module Kiwi.Sound {
         * @public
         */
         public destroy() {
+            if (this._game) {
+                this._game.audio.remove(this);
+            }
+            delete this._game;
             delete this._sound;
             delete this._currentTime;
             delete this._startTime;

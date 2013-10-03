@@ -302,7 +302,7 @@ module Kiwi.GameObjects {
 
             this._tempDirty = false;
         }
-       
+        
         /**
 	    * Called by the Layer to which this Game Object is attached
 	    * @method render

@@ -685,13 +685,15 @@ module Kiwi.Files {
 
                     //if device == iOS.... do awesome stuff....
 
-                this.data = new Audio();
+                this.data = document.createElement('audio');
                 this.data.src = this.fileURL;
                 this.data.preload = 'auto';
-                this.data.onerror = (event) => this.tagLoaderOnError(event);
+
                 this.data.addEventListener('canplaythrough', () => this.tagLoaderProgressThrough(null), false); 
+                
+                this.data.onerror = (event) => this.tagLoaderOnError(event);
                 this.data.onload = (event) => this.tagLoaderOnLoad(event);
-                this.data.load();
+                
                 this.data.volume = 0;
                 this.data.play(); //force the browser to load by playing the audio........ 
             }

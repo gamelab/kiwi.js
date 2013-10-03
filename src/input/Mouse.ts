@@ -278,7 +278,7 @@ module Kiwi.Input {
                     this._domElement.attachEvent('onmousedown', (event: MouseEvent) => this.onMouseDown(event));
                     this._domElement.attachEvent('onmousemove', (event: MouseEvent) => this.onMouseMove(event));
                     this._domElement.attachEvent('onmouseup', (event: MouseEvent) => this.onMouseUp(event));
-                    this._domElement.attachEvent('onmousewheel', (event: WheelEvent) => this.onMouseWheel(event)); 
+                    this._domElement.attachEvent('onmousewheel', (event: WheelEvent) => this.onMouseWheel(event));
                 } else {
                     this._domElement.addEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), true);
                     this._domElement.addEventListener('mousemove', (event: MouseEvent) => this.onMouseMove(event), true);
@@ -286,6 +286,12 @@ module Kiwi.Input {
                     this._domElement.addEventListener('mousewheel', (event: WheelEvent) => this.onMouseWheel(event), true);
                     this._domElement.addEventListener('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event), true);
                 }
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this._game.stage.canvas.addEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), true);
+                this._game.stage.canvas.addEventListener('mousemove', (event: MouseEvent) => this.onMouseMove(event), true);
+                this._game.stage.canvas.addEventListener('mouseup', (event: MouseEvent) => this.onMouseUp(event), true);
+                this._game.stage.canvas.addEventListener('mousewheel', (event: WheelEvent) => this.onMouseWheel(event), true);
+                this._game.stage.canvas.addEventListener('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event), true);
             }
         }
 
@@ -332,7 +338,7 @@ module Kiwi.Input {
         * @param {MouseEvent} event. 
         * @private
         */
-        private onMouseUp(event:MouseEvent) { 
+        private onMouseUp(event: MouseEvent) { 
             this._cursor.stop(event);
             this.mouseUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
         }

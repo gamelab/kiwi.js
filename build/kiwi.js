@@ -1422,8 +1422,8 @@ var Kiwi;
                 this.huds.boot();
             }
             this.time.boot();
-            this.audio.boot();
             this.input.boot();
+            this.audio.boot();
 
             this.fileStore.boot();
             this.loader.boot();
@@ -4327,19 +4327,21 @@ var Kiwi;
                         return _this.tagLoaderOnReadyStateChange(event);
                     };
                 } else if (this.dataType === Kiwi.Files.File.AUDIO) {
-                    this.data = new Audio();
+                    this.data = document.createElement('audio');
                     this.data.src = this.fileURL;
                     this.data.preload = 'auto';
-                    this.data.onerror = function (event) {
-                        return _this.tagLoaderOnError(event);
-                    };
+
                     this.data.addEventListener('canplaythrough', function () {
                         return _this.tagLoaderProgressThrough(null);
                     }, false);
+
+                    this.data.onerror = function (event) {
+                        return _this.tagLoaderOnError(event);
+                    };
                     this.data.onload = function (event) {
                         return _this.tagLoaderOnLoad(event);
                     };
-                    this.data.load();
+
                     this.data.volume = 0;
                     this.data.play();
                 }
@@ -9258,13 +9260,28 @@ var Kiwi;
                 return "AudioManager";
             };
 
+            Object.defineProperty(AudioManager.prototype, "deviceTouched", {
+                get: function () {
+                    return this._deviceTouched;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             AudioManager.prototype.boot = function () {
                 this._volume = 1;
+                this._deviceTouched = false;
                 this._muted = false;
                 this._sounds = [];
 
                 if (Kiwi.DEVICE.iOS && Kiwi.DEVICE.webaudio == false) {
                     this.channels = 1;
+                }
+
+                if (Kiwi.DEVICE.iOS) {
+                    this._game.input.onUp.addOnce(this._unlocked, this);
+                } else {
+                    this._deviceTouched = true;
                 }
 
                 this.usingWebAudio = true;
@@ -9291,6 +9308,15 @@ var Kiwi;
 
                     this.masterGain.gain.value = 1;
                     this.masterGain.connect(this.context.destination);
+                }
+            };
+
+            AudioManager.prototype._unlocked = function () {
+                this._deviceTouched = true;
+                console.log('I\'m unlocked now!');
+
+                for (var i = 0; i < this._sounds.length; i++) {
+                    this._sounds[i].playable = true;
                 }
             };
 
@@ -9459,6 +9485,8 @@ var Kiwi;
                 this._usingAudioTag = this._game.audio.usingAudioTag;
                 this._usingWebAudio = this._game.audio.usingWebAudio;
 
+                this._playable = this._game.audio.deviceTouched;
+
                 if (this._game.audio.noAudio)
                     return;
 
@@ -9502,6 +9530,23 @@ var Kiwi;
                 this.onLoop = new Kiwi.Signal();
                 this.onMute = new Kiwi.Signal();
             }
+            Object.defineProperty(Audio.prototype, "playable", {
+                get: function () {
+                    return this._playable;
+                },
+                set: function (val) {
+                    if (val == true) {
+                        this._playable = val;
+                        if (this._pending == true) {
+                            console.log('I should be playing from the pending state');
+                            this.play();
+                        }
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Audio.prototype.objType = function () {
                 return "Audio";
             };
@@ -9608,12 +9653,12 @@ var Kiwi;
             Audio.prototype.play = function (marker, forceRestart) {
                 if (typeof marker === "undefined") { marker = this._currentMarker; }
                 if (typeof forceRestart === "undefined") { forceRestart = false; }
+                console.log('PLAYING');
                 if (this.isPlaying && forceRestart == false || this._game.audio.noAudio)
                     return;
 
-                if (forceRestart)
+                if (forceRestart && this._pending == false)
                     this.stop();
-
                 this.paused = false;
 
                 if (this._markers[marker] == undefined)
@@ -9625,6 +9670,11 @@ var Kiwi;
                 this._currentMarker = marker;
                 this.duration = this._markers[this._currentMarker].duration * 1000;
                 this._loop = this._markers[this._currentMarker].loop;
+
+                if (this._playable === false) {
+                    this._pending = true;
+                    return;
+                }
 
                 if (this._usingWebAudio) {
                     if (this._decoded === true) {
@@ -9779,6 +9829,10 @@ var Kiwi;
             };
 
             Audio.prototype.destroy = function () {
+                if (this._game) {
+                    this._game.audio.remove(this);
+                }
+                delete this._game;
                 delete this._sound;
                 delete this._currentTime;
                 delete this._startTime;
@@ -10473,6 +10527,10 @@ var Kiwi;
             });
 
             InputManager.prototype.boot = function () {
+                this._pointers = [];
+                this.mouse = new Kiwi.Input.Mouse(this.game);
+                this.mouse.boot();
+
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch = new Kiwi.Input.Touch(this.game);
                     this.touch.boot();
@@ -10480,11 +10538,9 @@ var Kiwi;
                     this.touch.touchUp.add(this._onUpEvent, this);
                     this._pointers = this.touch.fingers;
                 } else {
-                    this.mouse = new Kiwi.Input.Mouse(this.game);
-                    this.mouse.boot();
                     this.mouse.mouseDown.add(this._onDownEvent, this);
                     this.mouse.mouseUp.add(this._onUpEvent, this);
-                    this._pointers = [this.mouse.cursor];
+                    this._pointers.push(this.mouse.cursor);
                     this.keyboard = new Kiwi.Input.Keyboard(this.game);
                     this.keyboard.boot();
                 }
@@ -10722,6 +10778,22 @@ var Kiwi;
                             return _this.onMouseWheel(event);
                         }, true);
                     }
+                } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                    this._game.stage.canvas.addEventListener('mousedown', function (event) {
+                        return _this.onMouseDown(event);
+                    }, true);
+                    this._game.stage.canvas.addEventListener('mousemove', function (event) {
+                        return _this.onMouseMove(event);
+                    }, true);
+                    this._game.stage.canvas.addEventListener('mouseup', function (event) {
+                        return _this.onMouseUp(event);
+                    }, true);
+                    this._game.stage.canvas.addEventListener('mousewheel', function (event) {
+                        return _this.onMouseWheel(event);
+                    }, true);
+                    this._game.stage.canvas.addEventListener('DOMMouseScroll', function (event) {
+                        return _this.onMouseWheel(event);
+                    }, true);
                 }
             };
 
@@ -10914,8 +10986,6 @@ var Kiwi;
             });
 
             Touch.prototype.onTouchStart = function (event) {
-                event.preventDefault();
-
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     for (var f = 0; f < this._maxPointers; f++) {
                         if (this._fingers[f].active === false) {

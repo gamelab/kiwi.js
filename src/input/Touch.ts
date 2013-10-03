@@ -323,7 +323,7 @@ module Kiwi.Input {
         */
         private onTouchStart(event) {
 
-            event.preventDefault();
+            //event.preventDefault();
 
             //  A list of all the touch points that BECAME active with the current event
             //  https://developer.mozilla.org/en-US/docs/DOM/TouchList

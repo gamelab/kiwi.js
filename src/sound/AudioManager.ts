@@ -117,14 +117,31 @@ module Kiwi.Sound {
         */
         public masterGain: any = null;
 
-        /*
+        /**
         * The volume of the audio before it was muted. This is used so that when the audio is unmuted the volume will resume at this point.
         * @property _muteVolume
         * @type number
         * @private
         */
         private _muteVolume: number;
-         
+        
+        /**
+        * Indicates if a mouse/touch event has fired from the device or not. 
+        * @property _deviceTouched
+        * @type boolean
+        * @private
+        */
+        private _deviceTouched: boolean;
+
+        /**
+        * Returns a boolean indicating whether the device has been touched or not. READ ONLY.
+        * @property deviceTouched
+        * 
+        */
+        public get deviceTouched():boolean {
+            return this._deviceTouched;
+        }
+
         /**
         * The boot method is executed when all of the DOM elements needed for the game are loaded and the game is ready to 'start' up.
         *
@@ -134,6 +151,7 @@ module Kiwi.Sound {
         public boot() {
             
             this._volume = 1;
+            this._deviceTouched = false;
             this._muted = false;
             this._sounds = [];
 
@@ -142,7 +160,12 @@ module Kiwi.Sound {
                 this.channels = 1;
             }
 
-            //check to see if the device is locked here...
+            //add mouse event here to 'unlock' the device.
+            if (Kiwi.DEVICE.iOS) { 
+                this._game.input.onUp.addOnce(this._unlocked, this);
+            } else {
+                this._deviceTouched = true;
+            }
 
             this.usingWebAudio = true;  //we hope for the best....
             this.usingAudioTag = false;
@@ -173,7 +196,21 @@ module Kiwi.Sound {
                 this.masterGain.gain.value = 1;
                 this.masterGain.connect(this.context.destination);
             }
+        
+        }
+
+        /**
+        * Is executed when a mouse event is fired on the device. This is used to enabled playback of sounds on the current device if they were awaiting for a user event.
+        * @method _unlocked
+        * @private
+        */
+        private _unlocked() {
+            this._deviceTouched = true;
+            console.log('I\'m unlocked now!');
             
+            for (var i = 0; i < this._sounds.length; i++) {
+                this._sounds[i].playable = true;
+            }
         }
 
         /**

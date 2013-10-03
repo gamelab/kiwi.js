@@ -414,8 +414,8 @@ module Kiwi {
                 this.huds.boot();
             }
             this.time.boot();
-            this.audio.boot();
             this.input.boot();
+            this.audio.boot();
           
             this.fileStore.boot();
             this.loader.boot();
