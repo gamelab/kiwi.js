@@ -1323,10 +1323,7 @@ var Kiwi;
 
             this.cameras = new Kiwi.CameraManager(this);
 
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds = new Kiwi.HUD.HUDManager(this);
-            }
-
+            this.huds = new Kiwi.HUD.HUDManager(this);
             this.loader = new Kiwi.Files.Loader(this);
 
             this.states = new Kiwi.StateManager(this);
@@ -1418,9 +1415,8 @@ var Kiwi;
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds.boot();
-            }
+            this.huds.boot();
+
             this.time.boot();
             this.input.boot();
             this.audio.boot();
@@ -1446,15 +1442,12 @@ var Kiwi;
                 this.input.update();
                 this.tweens.update();
                 this.cameras.update();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.update();
-                }
+                this.huds.update();
+
                 this.states.update();
 
                 this.cameras.render();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.render();
-                }
+
                 this.states.postRender();
 
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);
@@ -3771,6 +3764,20 @@ var Kiwi;
                 if (typeof acceleration === "undefined") { acceleration = 0; }
                 if (typeof drag === "undefined") { drag = 0; }
                 if (typeof max === "undefined") { max = 10000; }
+                if (acceleration != 0)
+                    velocity += acceleration * ArcadePhysics.updateInterval; else if (drag != 0) {
+                    drag = drag * ArcadePhysics.updateInterval;
+                    if (velocity - drag > 0)
+                        velocity = velocity - drag; else if (velocity + drag < 0)
+                        velocity += drag; else
+                        velocity = 0;
+                }
+                if ((velocity != 0) && (max != 10000)) {
+                    if (velocity > max)
+                        velocity = max; else if (velocity < -max)
+                        velocity = -max;
+                }
+                return velocity;
             };
 
             ArcadePhysics.prototype.overlaps = function (gameObject, separateObjects) {
@@ -3821,6 +3828,25 @@ var Kiwi;
             };
 
             ArcadePhysics.prototype.updateMotion = function () {
+                var delta;
+                var velocityDelta;
+
+                velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
+                this.angularVelocity += velocityDelta;
+                this.angle += this.angularVelocity * ArcadePhysics.updateInterval;
+                this.angularVelocity += velocityDelta;
+
+                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
+                this.velocity.x += velocityDelta;
+                delta = this.velocity.x * ArcadePhysics.updateInterval;
+                this.velocity.x += velocityDelta;
+                this.transform.x = this.transform.x + delta;
+
+                velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
+                this.velocity.y += velocityDelta;
+                delta = this.velocity.y * ArcadePhysics.updateInterval;
+                this.velocity.y += velocityDelta;
+                this.transform.y = this.transform.y + delta;
             };
 
             ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
@@ -3854,6 +3880,8 @@ var Kiwi;
                 delete this._callbackContext;
                 delete this._callbackFunction;
             };
+            ArcadePhysics.updateInterval = 1 / 10;
+
             ArcadePhysics.LEFT = 0x0001;
 
             ArcadePhysics.RIGHT = 0x0010;
@@ -5660,14 +5688,17 @@ var Kiwi;
                     var tiles = this.currentLayer.getTileOverlaps(object);
 
                     if (tiles !== undefined) {
+                        var col = false;
                         for (var i = 0; i < tiles.length; i++) {
                             if (object.components.getComponent('ArcadePhysics').overlaps(tiles[i], tiles[i].tileType.seperate)) {
+                                col = true;
+
                                 if (this._collisionCallback !== null) {
                                     this._collisionCallback.call(this._collisionCallbackContext, object, tiles[i]);
                                 }
                             }
                         }
-                        return true;
+                        return col;
                     }
                     return false;
                 };
@@ -7155,6 +7186,13 @@ var Kiwi;
                 return target.setTo(this.x, this.y);
             };
 
+            Point.prototype.angleTo = function (target) {
+                return Math.atan2(target.x - this.x, target.y - this.y);
+            };
+
+            Point.prototype.angleToXY = function (x, y) {
+                return Math.atan2(x - this.x, y - this.y);
+            };
             Point.prototype.distanceTo = function (target, round) {
                 if (typeof round === "undefined") { round = false; }
                 var dx = this.x - target.x;
@@ -8025,27 +8063,48 @@ var Kiwi;
             function HUDDisplay(game, name) {
                 this._game = game;
                 this.name = name;
-                this.container = document.createElement("div");
-                this.container.id = "HUD-layer-" + game.rnd.uuid();
-                this.container.style.width = "100%";
-                this.container.style.height = "100%";
-                this.container.style.position = "absolute";
+                this._manager = this._game.huds;
+                this._device = this._game.deviceTargetOption;
 
-                this._widgets = new Array();
+                if (this._manager.supported) {
+                    switch (this._device) {
+                        case Kiwi.TARGET_BROWSER:
+                            this.container = document.createElement("div");
+                            this.container.id = "HUD-layer-" + game.rnd.uuid();
+                            this.container.style.width = "100%";
+                            this.container.style.height = "100%";
+                            this.container.style.position = "absolute";
+                            this._widgets = new Array();
+
+                            break;
+                    }
+                }
             }
+            HUDDisplay.prototype.objType = function () {
+                return 'HUDDisplay';
+            };
+
             HUDDisplay.prototype.addWidget = function (widget) {
-                widget.container.id = 'HUD-widget-' + this._game.rnd.uuid();
-                this._widgets.push(widget);
-                this.container.appendChild(widget.container);
+                if (this._manager.supported) {
+                    this._widgets.push(widget);
+
+                    if (this._device == Kiwi.TARGET_BROWSER) {
+                        this.container.appendChild(widget.container);
+                        return true;
+                    }
+                }
+                return false;
             };
 
             HUDDisplay.prototype.removeWidget = function (widget) {
-                if (this.destroyWidget(widget)) {
-                    var i = this._widgets.indexOf(widget);
+                if (this._manager.supported) {
+                    if (this.removeFromContainer(widget)) {
+                        var i = this._widgets.indexOf(widget);
 
-                    if (i !== -1) {
-                        this._widgets.splice(i, 1);
-                        return true;
+                        if (i !== -1) {
+                            this._widgets.splice(i, 1);
+                            return true;
+                        }
                     }
                 }
                 return false;
@@ -8053,16 +8112,20 @@ var Kiwi;
 
             HUDDisplay.prototype.removeAllWidgets = function () {
                 for (var i = 0; i < this._widgets.length; i++) {
-                    this.destroyWidget(this._widgets[i]);
+                    this.removeFromContainer(this._widgets[i]);
                 }
 
                 this._widgets = [];
             };
 
-            HUDDisplay.prototype.destroyWidget = function (widget) {
-                if (this.container.contains(widget.container)) {
-                    this.container.removeChild(widget.container);
-                    return true;
+            HUDDisplay.prototype.removeFromContainer = function (widget) {
+                if (this._manager.supported) {
+                    if (this._device == Kiwi.TARGET_BROWSER) {
+                        if (this.container.contains(widget.container)) {
+                            this.container.removeChild(widget.container);
+                            return true;
+                        }
+                    }
                 }
                 return false;
             };
@@ -8073,7 +8136,12 @@ var Kiwi;
                 }
             };
 
-            HUDDisplay.prototype.render = function () {
+            HUDDisplay.prototype.show = function () {
+                this.container.style.display = 'block';
+            };
+
+            HUDDisplay.prototype.hide = function () {
+                this.container.style.display = 'none';
             };
             return HUDDisplay;
         })();
@@ -8087,29 +8155,40 @@ var Kiwi;
         var HUDManager = (function () {
             function HUDManager(game) {
                 this._game = game;
+                this._device = this._game.deviceTargetOption;
             }
+            Object.defineProperty(HUDManager.prototype, "supported", {
+                get: function () {
+                    return this._supported;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             HUDManager.prototype.boot = function () {
-                this._hudContainer = document.createElement("div");
-                this._hudContainer.id = "HUDContainer";
-                this._hudContainer.style.position = "absolute";
-                this._hudContainer.style.width = "100%";
-                this._hudContainer.style.height = "100%";
+                if (this._device === Kiwi.TARGET_BROWSER) {
+                    this._supported = true;
 
-                this._game.stage.container.appendChild(this._hudContainer);
+                    this._hudContainer = document.createElement("div");
+                    this._hudContainer.id = "HUDContainer";
+                    this._hudContainer.style.position = "absolute";
+                    this._hudContainer.style.width = "100%";
+                    this._hudContainer.style.height = "100%";
+                    this._game.stage.container.appendChild(this._hudContainer);
 
-                this._huds = new Array();
+                    this._huds = new Array();
 
-                this._defaultHUD = this.createHUD("defaultHUD");
-
-                this._currentHUD = this._defaultHUD;
-
-                this.setHUD(this._defaultHUD);
+                    this._defaultHUD = this.createHUD("defaultHUD");
+                    this._currentHUD = this._defaultHUD;
+                    this.setHUD(this._defaultHUD);
+                } else {
+                    this._supported = false;
+                }
             };
 
             HUDManager.prototype.objType = function () {
                 return "HUDManager";
             };
-
 
             Object.defineProperty(HUDManager.prototype, "defaultHUD", {
                 get: function () {
@@ -8127,63 +8206,80 @@ var Kiwi;
             });
 
             HUDManager.prototype.setHUD = function (hud) {
-                this.hideHUD();
-                this._currentHUD = hud;
-                this.showHUD();
+                if (this.supported) {
+                    this.hideHUD();
+                    this._currentHUD = hud;
+                    this.showHUD();
+                }
             };
 
-            HUDManager.prototype.showHUD = function () {
-                this._currentHUD.container.style.display = 'block';
+            HUDManager.prototype.showHUD = function (hud) {
+                if (typeof hud === "undefined") { hud = this._currentHUD; }
+                hud.show();
             };
 
-            HUDManager.prototype.hideHUD = function () {
-                this._currentHUD.container.style.display = 'none';
+            HUDManager.prototype.hideHUD = function (hud) {
+                if (typeof hud === "undefined") { hud = this._currentHUD; }
+                hud.hide();
             };
 
-            HUDManager.prototype.createHUD = function (name) {
-                var hud = new Kiwi.HUD.HUDDisplay(this._game, name);
-                hud.container.style.display = 'none';
-                this._huds.push(hud);
-                this._hudContainer.appendChild(hud.container);
-                return hud;
+            HUDManager.prototype.createHUD = function (name, switchTo) {
+                if (typeof switchTo === "undefined") { switchTo = false; }
+                if (this.supported) {
+                    var hud = new Kiwi.HUD.HUDDisplay(this._game, name);
+                    hud.hide();
+                    this.addToContainer(hud);
+                    this._huds.push(hud);
+
+                    if (switchTo === true)
+                        this.setHUD(hud);
+
+                    return hud;
+                }
             };
 
             HUDManager.prototype.removeHUD = function (hud) {
-                if (hud === this._defaultHUD) {
-                    return false;
+                if (this.supported) {
+                    if (hud === this._defaultHUD) {
+                        return false;
+                    }
+
+                    if (this._currentHUD === hud) {
+                        this.setHUD(this._defaultHUD);
+                    }
+
+                    this.removeFromContainer(hud);
+
+                    var i = this._huds.indexOf(hud);
+
+                    if (i !== -1) {
+                        this._huds.splice(i, 1);
+                    }
+
+                    return true;
                 }
-
-                if (this._currentHUD === hud) {
-                    this.setHUD(this._defaultHUD);
-                }
-
-                this.destroyHUD(hud);
-
-                var i = this._huds.indexOf(hud);
-
-                if (i !== -1) {
-                    this._huds.splice(i, 1);
-                }
-
-                return true;
             };
 
-            HUDManager.prototype.destroyHUD = function (hud) {
-                if (this._hudContainer.contains(hud.container)) {
-                    this._hudContainer.removeChild(hud.container);
+            HUDManager.prototype.addToContainer = function (hud) {
+                if (this._device == Kiwi.TARGET_BROWSER) {
+                    this._hudContainer.appendChild(hud.container);
                 }
+            };
 
-                hud = null;
+            HUDManager.prototype.removeFromContainer = function (hud) {
+                if (this._device == Kiwi.TARGET_BROWSER) {
+                    if (this._hudContainer.contains(hud.container)) {
+                        this._hudContainer.removeChild(hud.container);
+                    }
+                }
             };
 
             HUDManager.prototype.update = function () {
-                for (var i = 0; i < this._huds.length; i++) {
-                    this._huds[i].update();
+                if (this._supported) {
+                    for (var i = 0; i < this._huds.length; i++) {
+                        this._huds[i].update();
+                    }
                 }
-            };
-
-            HUDManager.prototype.render = function () {
-                this._currentHUD.render();
             };
             return HUDManager;
         })();
@@ -8195,23 +8291,57 @@ var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
         var HUDWidget = (function () {
-            function HUDWidget(name, x, y) {
+            function HUDWidget(game, name, x, y) {
                 this.name = name;
-                this.container = document.createElement("div");
-                this.container.style.position = "absolute";
-                this.components = new Kiwi.ComponentManager(Kiwi.HUD_WIDGET, null);
-                this.onCoordsUpdate = new Kiwi.Signal();
-                this.x = x;
-                this.y = y;
+                this.game = game;
+                this._manager = this.game.huds;
+                this._device = this.game.deviceTargetOption;
+                this.components = new Kiwi.ComponentManager(Kiwi.HUD_WIDGET, this);
+
+                if (this._manager.supported) {
+                    if (this._device === Kiwi.TARGET_BROWSER) {
+                        this.container = document.createElement("div");
+                        this.container.id = 'HUD-widget-' + this.game.rnd.uuid();
+                        this.container.className = 'HUD-widget';
+                        this.container.style.position = "absolute";
+                    }
+
+                    this.onCoordsUpdate = new Kiwi.Signal();
+                    this.x = x;
+                    this.y = y;
+                }
             }
+            HUDWidget.prototype.objType = function () {
+                return 'HUDWidget';
+            };
+
+            Object.defineProperty(HUDWidget.prototype, "style", {
+                get: function () {
+                    if (this._device === Kiwi.TARGET_BROWSER) {
+                        return this.container.style;
+                    }
+                },
+                set: function (val) {
+                    if (this._device === Kiwi.TARGET_BROWSER) {
+                        this.container.style = val;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Object.defineProperty(HUDWidget.prototype, "x", {
                 get: function () {
                     return this._x;
                 },
                 set: function (value) {
-                    this._x = value;
-                    this.container.style.left = this.x + "px";
-                    this.onCoordsUpdate.dispatch(this.x, this.y);
+                    if (this._manager.supported) {
+                        this._x = value;
+                        if (this._device == Kiwi.TARGET_BROWSER)
+                            this.container.style.left = this.x + "px";
+
+                        this.onCoordsUpdate.dispatch(this.x, this.y);
+                    }
                 },
                 enumerable: true,
                 configurable: true
@@ -8222,9 +8352,13 @@ var Kiwi;
                     return this._y;
                 },
                 set: function (value) {
-                    this._y = value;
-                    this.container.style.top = this.y + "px";
-                    this.onCoordsUpdate.dispatch(this.x, this.y);
+                    if (this._manager.supported) {
+                        this._y = value;
+                        if (this._device == Kiwi.TARGET_BROWSER)
+                            this.container.style.top = this.y + "px";
+
+                        this.onCoordsUpdate.dispatch(this.x, this.y);
+                    }
                 },
                 enumerable: true,
                 configurable: true
@@ -8235,43 +8369,65 @@ var Kiwi;
                 for (var _i = 0; _i < (arguments.length - 2); _i++) {
                     paramsArr[_i] = arguments[_i + 2];
                 }
-                var containerElement = document.getElementById(main);
-                if (containerElement === undefined) {
-                    return;
-                }
-
-                if (element === undefined) {
-                    var fieldElement = containerElement;
-                } else {
-                    var fieldElement = document.getElementById(element);
-                    if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
+                if (this._device == Kiwi.TARGET_BROWSER) {
+                    var containerElement = document.getElementById(main);
+                    if (containerElement === undefined) {
                         return;
                     }
-                }
 
-                this.tempElement = fieldElement;
-                this._tempContainer = containerElement;
-                this._tempParent = containerElement.parentElement;
-                this._tempParent.removeChild(containerElement);
-                this.container.appendChild(containerElement);
+                    if (element === undefined) {
+                        var fieldElement = containerElement;
+                    } else {
+                        var fieldElement = document.getElementById(element);
+                        if (fieldElement === undefined || containerElement.contains(fieldElement) === false) {
+                            return;
+                        }
+                    }
+
+                    this.tempElement = fieldElement;
+                    this._tempContainer = containerElement;
+                    this._tempParent = containerElement.parentElement;
+                    this._tempParent.removeChild(containerElement);
+                    this.container.appendChild(containerElement);
+                }
             };
 
             HUDWidget.prototype.removeTemplate = function () {
-                if (this.tempElement !== undefined) {
-                    this.container.removeChild(this._tempContainer);
-                    this._tempParent.appendChild(this._tempContainer);
-                    this.tempElement = null;
-                    this._tempParent = null;
-                    this._tempContainer = null;
+                if (this._device == Kiwi.TARGET_BROWSER) {
+                    if (this.tempElement !== undefined) {
+                        this.container.removeChild(this._tempContainer);
+                        this._tempParent.appendChild(this._tempContainer);
+                        this.tempElement = null;
+                        this._tempParent = null;
+                        this._tempContainer = null;
+                    }
                 }
             };
 
-            HUDWidget.prototype.setStyle = function (cssClass) {
-                this.container.className = cssClass;
-            };
+            Object.defineProperty(HUDWidget.prototype, "class", {
+                get: function () {
+                    return this.container.className;
+                },
+                set: function (cssClass) {
+                    if (this._device == Kiwi.TARGET_BROWSER) {
+                        this.container.className = cssClass;
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             HUDWidget.prototype.update = function () {
                 this.components.update();
+            };
+
+            HUDWidget.prototype.destroy = function () {
+                delete this.game;
+                delete this._manager;
+                delete this._device;
+                if (this.onCoordsUpdate)
+                    this.onCoordsUpdate.dispose();
+                delete this.onCoordsUpdate;
             };
             return HUDWidget;
         })();
@@ -8285,37 +8441,92 @@ var Kiwi;
         (function (Widget) {
             var TextField = (function (_super) {
                 __extends(TextField, _super);
-                function TextField(text, x, y) {
-                    _super.call(this, "textField", x, y);
-
+                function TextField(game, text, x, y) {
+                    _super.call(this, game, "textField", x, y);
+                    this._prefix = '';
+                    this._suffix = '';
                     this._text = text;
 
-                    this._textField = this.container;
-                    this._textField.innerText = text;
-                }
-                TextField.prototype.setTemplate = function (main, field) {
-                    this._textField.innerText = '';
-                    _super.prototype.setTemplate.call(this, main, field);
-
-                    if (this.tempElement !== undefined) {
-                        this._textField = this.tempElement;
+                    if (this._manager.supported) {
+                        if (this._device === Kiwi.TARGET_BROWSER) {
+                            this._textField = this.container;
+                            this._textField.innerText = text;
+                        }
                     }
-                    this._textField.innerText = this._text;
+                }
+                TextField.prototype.objType = function () {
+                    return 'TextFieldWidget';
+                };
+
+                TextField.prototype.setTemplate = function (main, field) {
+                    if (this._device === Kiwi.TARGET_BROWSER) {
+                        this._textField.innerText = '';
+                        _super.prototype.setTemplate.call(this, main, field);
+
+                        if (this.tempElement !== undefined) {
+                            this._textField = this.tempElement;
+                        }
+                        this._textField.innerHTML = this._text;
+                    }
                 };
 
                 TextField.prototype.removeTemplate = function () {
-                    _super.prototype.removeTemplate.call(this);
+                    if (this._device === Kiwi.TARGET_BROWSER) {
+                        _super.prototype.removeTemplate.call(this);
 
-                    this._textField = this.container;
-                    this._textField.innerText = this._text;
+                        if (this._device === Kiwi.TARGET_BROWSER) {
+                            this._textField = this.container;
+                            this._textField.innerHTML = this._text;
+                        }
+                    }
                 };
 
-                TextField.prototype.text = function (val) {
-                    if (val !== undefined) {
-                        this._text = val;
-                        this._textField.innerText = this._text;
-                    }
-                    return this._text;
+                Object.defineProperty(TextField.prototype, "text", {
+                    get: function () {
+                        return this._text;
+                    },
+                    set: function (val) {
+                        if (this._manager.supported) {
+                            if (this._device === Kiwi.TARGET_BROWSER) {
+                                if (this._prefix !== '')
+                                    val = this._prefix + val;
+                                if (this._suffix !== '')
+                                    val += this._suffix;
+
+                                this._text = val;
+                                this._textField.innerHTML = this._text;
+                            }
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(TextField.prototype, "suffix", {
+                    get: function () {
+                        return this._suffix;
+                    },
+                    set: function (val) {
+                        this._suffix = val;
+                        this._updateText();
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(TextField.prototype, "prefix", {
+                    get: function () {
+                        return this._prefix;
+                    },
+                    set: function (val) {
+                        this._prefix = val;
+                        this._updateText();
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                TextField.prototype._updateText = function () {
                 };
                 return TextField;
             })(Kiwi.HUD.HUDWidget);
@@ -8331,54 +8542,64 @@ var Kiwi;
         (function (Widget) {
             var Bar = (function (_super) {
                 __extends(Bar, _super);
-                function Bar(current, max, x, y, width, height) {
+                function Bar(game, current, max, x, y, width, height) {
                     if (typeof width === "undefined") { width = 120; }
                     if (typeof height === "undefined") { height = 20; }
-                    _super.call(this, "bar", x, y);
-
+                    _super.call(this, game, "bar", x, y);
                     this._horizontal = true;
-                    this._bar = document.createElement('div');
-                    this._bar.className = 'innerBar';
 
-                    this.range = this.components.add(new Kiwi.HUD.Components.Range(current, max, 0));
-                    this.range.updated.add(this.updateCSS, this);
+                    if (this._manager.supported) {
+                        if (this._device == Kiwi.TARGET_BROWSER) {
+                            this._bar = document.createElement('div');
+                            this._bar.className = 'innerBar';
+                            this.bar = this._bar;
+                            this.container.appendChild(this.bar);
+                        }
 
-                    this.bar = this._bar;
-                    this.container.appendChild(this.bar);
+                        this.range = this.components.add(new Kiwi.HUD.Components.Range(this, current, max, 0));
+                        this.range.updated.add(this.updateCSS, this);
 
-                    this.width = width;
-                    this.height = height;
+                        this.width = width;
+                        this.height = height;
 
-                    this._bar.style.height = '100%';
-                    this._bar.style.width = '100%';
+                        this._bar.style.height = '100%';
+                        this._bar.style.width = '100%';
 
-                    this.updateCSS();
+                        this.updateCSS();
+                    }
                 }
+                Bar.prototype.objType = function () {
+                    return 'BarWidget';
+                };
+
                 Object.defineProperty(Bar.prototype, "width", {
                     get: function () {
                         return this._width;
                     },
                     set: function (value) {
-                        this.container.style.width = value + "px";
+                        if (this._device == Kiwi.TARGET_BROWSER) {
+                            this.container.style.width = value + "px";
+                        }
+
                         this._width = value;
                     },
                     enumerable: true,
                     configurable: true
                 });
 
-
                 Object.defineProperty(Bar.prototype, "height", {
                     get: function () {
                         return this._height;
                     },
                     set: function (value) {
-                        this.container.style.height = value + "px";
+                        if (this._device == Kiwi.TARGET_BROWSER) {
+                            this.container.style.height = value + "px";
+                        }
                         this._height = value;
                     },
                     enumerable: true,
                     configurable: true
                 });
-
 
                 Object.defineProperty(Bar.prototype, "horizontal", {
                     get: function () {
@@ -8392,7 +8613,6 @@ var Kiwi;
                     configurable: true
                 });
 
-
                 Object.defineProperty(Bar.prototype, "vertical", {
                     get: function () {
                         return !this._horizontal;
@@ -8405,21 +8625,24 @@ var Kiwi;
                     configurable: true
                 });
 
-
                 Bar.prototype.setTemplate = function (main, innerbar) {
-                    _super.prototype.setTemplate.call(this, main, innerbar);
+                    if (this._device == Kiwi.TARGET_BROWSER) {
+                        _super.prototype.setTemplate.call(this, main, innerbar);
 
-                    if (this.tempElement !== undefined) {
-                        this.bar = this.tempElement;
+                        if (this.tempElement !== undefined) {
+                            this.bar = this.tempElement;
+                        }
                     }
                 };
 
                 Bar.prototype.removeTemplate = function () {
-                    _super.prototype.removeTemplate.call(this);
+                    if (this._device == Kiwi.TARGET_BROWSER) {
+                        _super.prototype.removeTemplate.call(this);
 
-                    this.bar = this._bar;
-                    this.container.appendChild(this.bar);
-                    this.updateCSS();
+                        this.bar = this._bar;
+                        this.container.appendChild(this.bar);
+                        this.updateCSS();
+                    }
                 };
 
                 Bar.prototype.updateCSS = function () {
@@ -8445,12 +8668,11 @@ var Kiwi;
         (function (Widget) {
             var Icon = (function (_super) {
                 __extends(Icon, _super);
-                function Icon(atlas, x, y) {
-                    _super.call(this, 'Icon', x, y);
+                function Icon(game, atlas, x, y) {
+                    _super.call(this, game, 'Icon', x, y);
                     this._cellIndex = 0;
 
                     this.atlas = atlas;
-
                     this.icon = this.container;
                     this._applyCSS();
                 }
@@ -8498,27 +8720,31 @@ var Kiwi;
                     this.icon.style.backgroundSize = "100%";
                     this.icon.style.backgroundPositionX = -this.atlas.cells[this.cellIndex].x + "px";
                     this.icon.style.backgroundPositionY = -this.atlas.cells[this.cellIndex].y + "px";
-                    this.icon.style.backgroundImage = this.atlas.image.src;
+                    this.icon.style.backgroundImage = 'url("' + this.atlas.image.src + '")';
                 };
 
                 Icon.prototype.setTemplate = function (main, icon) {
-                    this._removeCSS();
+                    if (this._device == Kiwi.TARGET_BROWSER) {
+                        this._removeCSS();
 
-                    _super.prototype.setTemplate.call(this, main, icon);
+                        _super.prototype.setTemplate.call(this, main, icon);
 
-                    if (this.tempElement !== undefined) {
-                        this.icon = this.tempElement;
+                        if (this.tempElement !== undefined) {
+                            this.icon = this.tempElement;
+                        }
+
+                        this._applyCSS();
                     }
-
-                    this._applyCSS();
                 };
 
                 Icon.prototype.removeTemplate = function () {
-                    _super.prototype.removeTemplate.call(this);
+                    if (this._device == Kiwi.TARGET_BROWSER) {
+                        _super.prototype.removeTemplate.call(this);
 
-                    this._removeCSS();
-                    this.icon = this.container;
-                    this._applyCSS();
+                        this._removeCSS();
+                        this.icon = this.container;
+                        this._applyCSS();
+                    }
                 };
                 return Icon;
             })(Kiwi.HUD.HUDWidget);
@@ -8532,72 +8758,97 @@ var Kiwi;
 (function (Kiwi) {
     (function (HUD) {
         (function (Widget) {
-            var IconCounter = (function (_super) {
-                __extends(IconCounter, _super);
-                function IconCounter(atlas, current, max, x, y) {
-                    _super.call(this, atlas, x, y);
+            var IconBar = (function (_super) {
+                __extends(IconBar, _super);
+                function IconBar(game, atlas, current, max, x, y) {
+                    _super.call(this, game, 'IconBar', x, y);
 
+                    this.atlas = atlas;
+                    this.width = this.atlas.cells[0].w;
+                    this.height = this.atlas.cells[0].h;
                     this._horizontal = true;
 
-                    this.range = this.components.add(new Kiwi.HUD.Components.Range(current, max, 0));
-                    this.range.updated.add(this._changeSize, this);
+                    this.range = this.components.add(new Kiwi.HUD.Components.Range(this, current, max, 0));
+                    this.range.updated.add(this._amountChanged, this);
 
-                    this._changeSize();
-                    this._applyCSS();
+                    this._icons = [];
+                    this._amountChanged();
                 }
-                Object.defineProperty(IconCounter.prototype, "repeat", {
-                    get: function () {
-                        return this._repeat;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
+                IconBar.prototype.objType = function () {
+                    return 'IconBarWidget';
+                };
 
-                IconCounter.prototype._changeSize = function () {
-                    if (this._horizontal) {
-                        this._repeat = 'repeat-x';
-                        this.width = this.atlas.cells[this.cellIndex].w * this.range.current;
-                        this.height = this.atlas.cells[this.cellIndex].h;
-                    } else {
-                        this._repeat = 'repeat-y';
-                        this.width = this.atlas.cells[this.cellIndex].w;
-                        this.height = this.atlas.cells[this.cellIndex].h * this.range.current;
+                IconBar.prototype._amountChanged = function () {
+                    if (this.range.max !== this._icons.length) {
+                        if ((this.range.max) > this._icons.length) {
+                            var amount = (this.range.max) - this._icons.length;
+                            for (var i = 0; i < amount; i++) {
+                                this._addIcon();
+                            }
+                        } else {
+                            for (var i = this.range.max; i < this._icons.length; i++) {
+                                this._removeIcon(this._icons[i]);
+                                this._icons[i].destroy();
+                                this._icons.splice(i, 1);
+                                i--;
+                            }
+                        }
+                    }
+
+                    for (var i = 0; i < this._icons.length; i++) {
+                        if (i > this.range.current) {
+                            this._icons[i].style.display = 'none';
+                        } else {
+                            this._icons[i].style.display = 'block';
+                        }
                     }
                 };
 
-                IconCounter.prototype._applyCSS = function () {
-                    _super.prototype._applyCSS.call(this);
-                    this.icon.style.backgroundRepeat = this.repeat;
+                IconBar.prototype._addIcon = function () {
+                    if (this.horizontal) {
+                        var i = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x + (this.width * (this._icons.length - 1)), this.y);
+                    } else {
+                        var i = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x, (this.height * (this._icons.length - 1)) + this.y);
+                    }
+                    this._icons.push(i);
+                    if (this._device == Kiwi.TARGET_BROWSER) {
+                        this.container.appendChild(i.container);
+                    }
                 };
 
-                Object.defineProperty(IconCounter.prototype, "horizontal", {
+                IconBar.prototype._removeIcon = function (icon) {
+                    if (this._device == Kiwi.TARGET_BROWSER) {
+                        this.container.removeChild(icon.container);
+                    }
+                };
+
+                Object.defineProperty(IconBar.prototype, "horizontal", {
                     get: function () {
                         return this._horizontal;
                     },
                     set: function (val) {
                         this._horizontal = val;
-                        this._changeSize();
+                        this._amountChanged();
                     },
                     enumerable: true,
                     configurable: true
                 });
 
 
-                Object.defineProperty(IconCounter.prototype, "vertical", {
+                Object.defineProperty(IconBar.prototype, "vertical", {
                     get: function () {
                         return !this._horizontal;
                     },
                     set: function (val) {
                         this._horizontal = !val;
-                        this._changeSize();
+                        this._amountChanged();
                     },
                     enumerable: true,
                     configurable: true
                 });
-
-                return IconCounter;
-            })(Kiwi.HUD.Widget.Icon);
-            Widget.IconCounter = IconCounter;
+                return IconBar;
+            })(Kiwi.HUD.HUDWidget);
+            Widget.IconBar = IconBar;
         })(HUD.Widget || (HUD.Widget = {}));
         var Widget = HUD.Widget;
     })(Kiwi.HUD || (Kiwi.HUD = {}));
@@ -8609,13 +8860,19 @@ var Kiwi;
         (function (Widget) {
             var BasicScore = (function (_super) {
                 __extends(BasicScore, _super);
-                function BasicScore(x, y) {
-                    _super.call(this, "basicScore", x, y);
-                    this.counter = this.components.add(new Kiwi.HUD.Components.Counter(0, 1));
+                function BasicScore(game, x, y, initial) {
+                    if (typeof initial === "undefined") { initial = 0; }
+                    _super.call(this, game, "basicScore", x, y);
+                    this.counter = this.components.add(new Kiwi.HUD.Components.Counter(this, initial, 1));
                     this.counter.updated.add(this._updateText, this);
+                    this._updateText();
                 }
+                BasicScore.prototype.objType = function () {
+                    return 'BasicScoreWidget';
+                };
+
                 BasicScore.prototype._updateText = function () {
-                    this.text(String(this.counter.value));
+                    this.text = String(this.counter.value);
                 };
                 return BasicScore;
             })(Kiwi.HUD.Widget.TextField);
@@ -8631,43 +8888,12 @@ var Kiwi;
         (function (Widget) {
             var Button = (function (_super) {
                 __extends(Button, _super);
-                function Button(game, width, height, x, y) {
-                    _super.call(this, 'button', x, y);
-
-                    this.game = game;
-
-                    this.width = width;
-                    this.height = height;
-
-                    this.onCoordsUpdate.add(this._changed, this);
+                function Button(game, x, y) {
+                    _super.call(this, game, 'button', x, y);
+                    this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this, this.container));
                 }
-                Object.defineProperty(Button.prototype, "width", {
-                    get: function () {
-                        return this._width;
-                    },
-                    set: function (value) {
-                        this.container.style.width = value + "px";
-                        this._width = value;
-                        this._changed();
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-
-                Object.defineProperty(Button.prototype, "height", {
-                    get: function () {
-                        return this._height;
-                    },
-                    set: function (value) {
-                        this.container.style.height = value + "px";
-                        this._height = value;
-                        this._changed();
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-
-                Button.prototype._changed = function () {
+                Button.prototype.objType = function () {
+                    return 'ButtonWidget';
                 };
                 return Button;
             })(Kiwi.HUD.Widget.TextField);
@@ -8683,56 +8909,37 @@ var Kiwi;
         (function (Widget) {
             var Time = (function (_super) {
                 __extends(Time, _super);
-                function Time(format, x, y) {
-                    _super.call(this, 'time', x, y);
+                function Time(game, format, x, y) {
+                    _super.call(this, game, 'time', x, y);
 
-                    this.time = this.components.add(new Kiwi.HUD.Components.Time(0));
-                    this.time.updated.add(this.updateTime, this);
-
-                    this.format(format);
-                    this.updateTime();
+                    this.time = this.components.add(new Kiwi.HUD.Components.Time(this, format));
                 }
-                Time.prototype.setTime = function (milliseconds, seconds, minutes, hours) {
-                    this.time.setTime(milliseconds, seconds, minutes, hours);
-
-                    this.updateTime();
-                    return this.time.milliseconds;
+                Time.prototype.objType = function () {
+                    return 'TimeWidget';
                 };
 
-                Time.prototype.format = function (val) {
-                    if (val !== undefined) {
-                        this._format = val;
+                Time.prototype.pause = function () {
+                    this.time.pause();
+                };
+
+                Time.prototype.stop = function () {
+                    this.time.stop();
+                };
+
+                Time.prototype.start = function () {
+                    this.time.start();
+                };
+
+                Time.prototype.resume = function () {
+                    this.time.resume();
+                };
+
+                Time.prototype.update = function () {
+                    _super.prototype.update.call(this);
+
+                    if (this.time.isRunning) {
+                        this.text = this.time.getTime();
                     }
-                    return this._format;
-                };
-
-                Time.prototype.updateTime = function () {
-                    var ms = String(this.time.milliseconds);
-                    var s = String(this.time.seconds);
-                    var m = String(this.time.minutes);
-                    var h = String(this.time.hours);
-
-                    if (s.length < 2)
-                        var ss = '0' + s; else
-                        var ss = s;
-                    if (m.length < 2)
-                        var mm = '0' + m; else
-                        var mm = m;
-                    if (h.length < 2)
-                        var hh = '0' + h; else
-                        var hh = h;
-
-                    var time = this._format;
-                    time = time.replace('ms', ms);
-
-                    time = time.replace('ss', ss);
-                    time = time.replace('mm', mm);
-                    time = time.replace('hh', hh);
-                    time = time.replace('s', s);
-                    time = time.replace('m', m);
-                    time = time.replace('h', h);
-
-                    this.text(time);
                 };
                 return Time;
             })(Kiwi.HUD.Widget.TextField);
@@ -8749,7 +8956,7 @@ var Kiwi;
             var Menu = (function (_super) {
                 __extends(Menu, _super);
                 function Menu(game, x, y) {
-                    _super.call(this, 'menu', x, y);
+                    _super.call(this, game, 'menu', x, y);
 
                     this.game = game;
                     this._menuItems = [];
@@ -8820,8 +9027,8 @@ var Kiwi;
         (function (Widget) {
             var MenuItem = (function (_super) {
                 __extends(MenuItem, _super);
-                function MenuItem(name, width, height, x, y) {
-                    _super.call(this, name, x, y);
+                function MenuItem(game, name, width, height, x, y) {
+                    _super.call(this, game, name, x, y);
 
                     this.container.innerText = name;
                     this._applyCSS();
@@ -8852,9 +9059,9 @@ var Kiwi;
         (function (Components) {
             var Counter = (function (_super) {
                 __extends(Counter, _super);
-                function Counter(initial, step) {
+                function Counter(owner, initial, step) {
                     if (typeof step === "undefined") { step = 1; }
-                    _super.call(this, null, "counter");
+                    _super.call(this, owner, "counter");
                     this._value = 0;
                     this._value = initial;
                     this.step = step;
@@ -8909,38 +9116,68 @@ var Kiwi;
         (function (Components) {
             var WidgetInput = (function (_super) {
                 __extends(WidgetInput, _super);
-                function WidgetInput(game) {
-                    _super.call(this, null, 'WidgetInput');
+                function WidgetInput(owner, container) {
+                    _super.call(this, owner, 'WidgetInput');
+                    this._active = false;
+                    this._container = container;
 
-                    this.game = game;
+                    this.onUp = new Kiwi.Signal();
+                    this.onDown = new Kiwi.Signal();
+                    this.onOver = new Kiwi.Signal();
+                    this.onOut = new Kiwi.Signal();
 
-                    this.inputEntered = new Kiwi.Signal();
-                    this.inputLeft = new Kiwi.Signal();
-                    this.inputOnDown = new Kiwi.Signal();
-                    this.inputOnRelease = new Kiwi.Signal();
-
-                    this.pointDown = new Kiwi.Geom.Point();
-
-                    this.distance = new Kiwi.Geom.Point();
-                    this.withinBounds = false;
-                    this.outsideBounds = true;
-                    this.isUp = true;
-                    this.isDown = false;
+                    this._addEvents();
                 }
                 WidgetInput.prototype.objType = function () {
-                    return "Input";
+                    return 'WidgetInputComponent';
                 };
 
-                WidgetInput.prototype.update = function () {
+                WidgetInput.prototype.setElement = function (container) {
+                    this._removeEvents();
+                    this._container = container;
+                    this._addEvents();
                 };
 
-                Object.defineProperty(WidgetInput.prototype, "toString", {
-                    get: function () {
-                        return '[{WidgetInput (x=' + this.withinBounds + ')}]';
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
+                WidgetInput.prototype._addEvents = function () {
+                    if (!this._active) {
+                        this._binds = [];
+                        this._binds.push({ 'event': 'mouseup', 'function': this._up.bind(this) });
+                        this._binds.push({ 'event': 'mousedown', 'function': this._down.bind(this) });
+                        this._binds.push({ 'event': 'mouseover', 'function': this._over.bind(this) });
+                        this._binds.push({ 'event': 'mouseout', 'function': this._out.bind(this) });
+
+                        for (var i = 0; i < this._binds.length; i++) {
+                            this._container.addEventListener(this._binds[i].event, this._binds[i].function, false);
+                        }
+                        this._active = true;
+                    }
+                };
+
+                WidgetInput.prototype._removeEvents = function () {
+                    if (this._active) {
+                        for (var i = 0; i < this._binds.length; i++) {
+                            this._container.removeEventListener(this._binds[i].event, this._binds[i].function, false);
+                        }
+                        this._binds = [];
+                        this._active = false;
+                    }
+                };
+
+                WidgetInput.prototype._up = function (evt) {
+                    this.onUp.dispatch(evt);
+                };
+
+                WidgetInput.prototype._down = function (evt) {
+                    this.onDown.dispatch(evt);
+                };
+
+                WidgetInput.prototype._over = function (evt) {
+                    this.onOver.dispatch(evt);
+                };
+
+                WidgetInput.prototype._out = function (evt) {
+                    this.onOut.dispatch(evt);
+                };
                 return WidgetInput;
             })(Kiwi.Component);
             Components.WidgetInput = WidgetInput;
@@ -8955,63 +9192,56 @@ var Kiwi;
         (function (Components) {
             var Range = (function (_super) {
                 __extends(Range, _super);
-                function Range(current, max, min) {
-                    _super.call(this, null, "counter");
+                function Range(owner, current, max, min) {
+                    _super.call(this, owner, "counter");
 
                     this._current = current;
-
                     this._max = max;
-
                     this._min = min;
 
                     this.updated = new Kiwi.Signal();
                 }
+                Range.prototype.objType = function () {
+                    return 'RangeComponent';
+                };
 
                 Object.defineProperty(Range.prototype, "max", {
                     get: function () {
                         return this._max;
                     },
                     set: function (val) {
-                        if (val !== undefined) {
-                            this._max = val;
-                            this.updated.dispatch(this._current, this._max, this._min);
-                        }
+                        this._max = val;
+                        this.updated.dispatch(this._current, this._max, this._min);
                     },
                     enumerable: true,
                     configurable: true
                 });
-
 
                 Object.defineProperty(Range.prototype, "min", {
                     get: function () {
                         return this._min;
                     },
                     set: function (val) {
-                        if (val !== undefined) {
-                            this._min = val;
-                            this.updated.dispatch(this._current, this._max, this._min);
-                        }
+                        this._min = val;
+                        this.updated.dispatch(this._current, this._max, this._min);
                     },
                     enumerable: true,
                     configurable: true
                 });
-
 
                 Object.defineProperty(Range.prototype, "current", {
                     get: function () {
                         return this._current;
                     },
                     set: function (val) {
-                        if (val !== undefined) {
-                            if (this._current > this._max) {
-                                this._current = this._max;
-                            } else if (this._current < this._min) {
-                                this._current = this._min;
-                            } else {
-                                this._current = val;
-                            }
-                            this.updated.dispatch(this._current, this._max, this._min);
+                        if (this._current > this._max) {
+                            this._current = this._max;
+                        } else if (this._current < this._min) {
+                            this._current = this._min;
+                        } else {
+                            this._current = val;
                         }
+                        this.updated.dispatch(this._current, this._max, this._min);
                     },
                     enumerable: true,
                     configurable: true
@@ -9060,181 +9290,140 @@ var Kiwi;
         (function (Components) {
             var Time = (function (_super) {
                 __extends(Time, _super);
-                function Time(milliseconds, seconds, minutes, hours) {
-                    _super.call(this, null, "time");
+                function Time(owner, format) {
+                    if (typeof format === "undefined") { format = ''; }
+                    _super.call(this, owner, "time");
+                    this.countDown = false;
+                    this._displayString = '';
+                    this._currentTime = 0;
+                    this._timeBefore = 0;
+                    this.speed = 1;
 
-                    this.paused = true;
-                    this._countDown = true;
-                    this.updated = new Kiwi.Signal();
-                    this._lastTime = Date.now();
-                    this.setTime(milliseconds, seconds, minutes, hours);
+                    this.clock = this.game.time.addClock(name + '-clock', 1000);
+                    this.format = format;
                 }
+                Time.prototype.objType = function () {
+                    return 'TimeComponent';
+                };
 
-                Object.defineProperty(Time.prototype, "countingDown", {
+                Object.defineProperty(Time.prototype, "isRunning", {
                     get: function () {
-                        return this._countDown;
-                    },
-                    set: function (val) {
-                        if (val !== undefined) {
-                            if (val == true)
-                                this.paused = false;
-
-                            this._countDown = val;
-                        }
+                        return this.clock.isRunning();
                     },
                     enumerable: true,
                     configurable: true
                 });
 
+                Time.prototype.pause = function () {
+                    this.clock.pause();
+                };
 
-                Object.defineProperty(Time.prototype, "countingUp", {
+                Time.prototype.stop = function () {
+                    this.clock.stop();
+                };
+
+                Time.prototype.start = function () {
+                    this.clock.start();
+                    this._timeBefore = this.clock.elapsed();
+                };
+
+                Time.prototype.resume = function () {
+                    this.clock.resume();
+                };
+
+                Object.defineProperty(Time.prototype, "format", {
                     get: function () {
-                        return !this._countDown;
+                        return this._format;
                     },
                     set: function (val) {
-                        if (val !== undefined) {
-                            if (val == true)
-                                this.paused = false;
-
-                            this._countDown = !val;
-                        }
+                        this._format = val;
                     },
                     enumerable: true,
                     configurable: true
                 });
 
-                Time.prototype.setTime = function (milliseconds, seconds, minutes, hours) {
-                    if (seconds !== undefined)
-                        milliseconds += this.convertToMilli(seconds, 's');
-                    if (minutes !== undefined)
-                        milliseconds += this.convertToMilli(minutes, 'm');
-                    if (hours !== undefined)
-                        milliseconds += this.convertToMilli(hours, 'h');
+                Object.defineProperty(Time.prototype, "currentTime", {
+                    get: function () {
+                        return this._currentTime;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
 
-                    this._milliseconds = milliseconds;
-                    this.updated.dispatch();
-
-                    return this._milliseconds;
+                Time.prototype.setTime = function (milli, sec, minutes) {
+                    if (typeof sec === "undefined") { sec = 0; }
+                    if (typeof minutes === "undefined") { minutes = 0; }
+                    this._currentTime = milli;
+                    if (sec != 0)
+                        this._currentTime += (sec * 1000);
+                    if (minutes != 0)
+                        this._currentTime += (minutes * 60 * 1000);
                 };
 
-                Time.prototype.increaseTime = function (milliseconds, seconds, minutes, hours) {
-                    if (seconds !== undefined)
-                        milliseconds += this.convertToMilli(seconds, 's');
-                    if (minutes !== undefined)
-                        milliseconds += this.convertToMilli(minutes, 'm');
-                    if (hours !== undefined)
-                        milliseconds += this.convertToMilli(hours, 'h');
-
-                    this._milliseconds += milliseconds;
-                    this.updated.dispatch();
-
-                    return this._milliseconds;
+                Time.prototype.addTime = function (milli, sec, minutes) {
+                    if (typeof sec === "undefined") { sec = 0; }
+                    if (typeof minutes === "undefined") { minutes = 0; }
+                    this._currentTime += milli;
+                    if (sec != 0)
+                        this._currentTime += (sec * 1000);
+                    if (minutes != 0)
+                        this._currentTime += (minutes * 60 * 1000);
                 };
 
-                Time.prototype.decreaseTime = function (milliseconds, seconds, minutes, hours) {
-                    if (seconds !== undefined)
-                        milliseconds += this.convertToMilli(seconds, 's');
-                    if (minutes !== undefined)
-                        milliseconds += this.convertToMilli(minutes, 'm');
-                    if (hours !== undefined)
-                        milliseconds += this.convertToMilli(hours, 'h');
-
-                    this._milliseconds += milliseconds;
-                    this.updated.dispatch();
-
-                    return this._milliseconds;
+                Time.prototype.removeTime = function (milli, sec, minutes) {
+                    if (typeof sec === "undefined") { sec = 0; }
+                    if (typeof minutes === "undefined") { minutes = 0; }
+                    this._currentTime -= milli;
+                    if (sec != 0)
+                        this._currentTime -= (sec * 1000);
+                    if (minutes != 0)
+                        this._currentTime -= (minutes * 60 * 1000);
                 };
 
-                Time.prototype.convertToMilli = function (val, unit) {
-                    var num = 0;
-                    if (unit === 'milli' || unit === 'milliseconds' || unit === 'ms') {
-                        num = val;
-                    } else if (unit === 'seconds' || unit === 's') {
-                        num = val * 1000;
-                    } else if (unit === 'minutes' || unit === 'm') {
-                        num = val * 1000 * 60;
-                    } else if (unit === 'hours' || unit === 'h') {
-                        num = val * 1000 * 60 * 60;
+                Time.prototype.getTime = function () {
+                    if (this.countDown) {
+                        this._currentTime -= (this.clock.elapsed() - this._timeBefore) * this.speed;
+                    } else {
+                        this._currentTime += (this.clock.elapsed() - this._timeBefore) * this.speed;
                     }
+                    this._timeBefore = this.clock.elapsed();
 
-                    return num;
-                };
+                    if (this._format !== '') {
+                        this._displayString = this._format;
 
-
-                Object.defineProperty(Time.prototype, "milliseconds", {
-                    get: function () {
-                        return this._milliseconds % 1000;
-                    },
-                    set: function (val) {
-                        if (val !== undefined) {
-                            this._milliseconds = val;
-                            this.updated.dispatch();
+                        if (this._displayString.indexOf('ms') !== -1) {
+                            var t = String(Math.floor(this._currentTime * 1000) % 1000);
+                            this._displayString = this._displayString.replace('ms', t);
                         }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
 
-
-                Object.defineProperty(Time.prototype, "seconds", {
-                    get: function () {
-                        return Math.floor(this._milliseconds / 1000) % 60;
-                    },
-                    set: function (val) {
-                        if (val !== undefined) {
-                            this._milliseconds = this.convertToMilli(val, 's');
-                            this.updated.dispatch();
+                        if (this._displayString.indexOf('ss') != -1) {
+                            var t = String(Math.floor(this._currentTime) % 60);
+                            if (t.length < 2)
+                                t = '0' + t;
+                            this._displayString = this._displayString.replace('ss', t);
                         }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
 
-
-                Object.defineProperty(Time.prototype, "minutes", {
-                    get: function () {
-                        return Math.floor(this._milliseconds / 1000 / 60) % 60;
-                    },
-                    set: function (val) {
-                        if (val !== undefined) {
-                            this._milliseconds = this.convertToMilli(val, 'm');
-                            this.updated.dispatch();
+                        if (this._displayString.indexOf('mm') !== -1) {
+                            var t = String(Math.floor(this._currentTime / 60) % 60);
+                            if (t.length < 2)
+                                t = '0' + t;
+                            this._displayString = this._displayString.replace('mm', t);
                         }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
 
-
-                Object.defineProperty(Time.prototype, "hours", {
-                    get: function () {
-                        return Math.floor(this._milliseconds / 1000 / 60 / 60);
-                    },
-                    set: function (val) {
-                        if (val !== undefined) {
-                            this._milliseconds = this.convertToMilli(val, 'h');
-                            this.updated.dispatch();
+                        if (this._displayString.indexOf('s') != -1) {
+                            var t = String(Math.floor(this._currentTime) % 60);
+                            this._displayString = this._displayString.replace('s', t);
                         }
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
 
-                Time.prototype.update = function () {
-                    if (!this.paused) {
-                        var newTime = Date.now();
-                        var difference = newTime - this._lastTime;
-                        this._lastTime = newTime;
-
-                        if (this._countDown) {
-                            this.milliseconds = this._milliseconds - difference;
-                        } else {
-                            this.milliseconds = this._milliseconds + difference;
+                        if (this._displayString.indexOf('m') !== -1) {
+                            var t = String(Math.floor(this._currentTime / 60) % 60);
+                            this._displayString = this._displayString.replace('m', t);
                         }
-                        this.updated.dispatch();
+
+                        return this._displayString;
+                    } else {
+                        return String(this._currentTime.toFixed(2));
                     }
-
-                    _super.prototype.update.call(this);
                 };
                 return Time;
             })(Kiwi.Component);

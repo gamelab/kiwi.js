@@ -29,6 +29,7 @@
     <Content Include="file\FileStore.ts" />
     <Content Include="file\Loader.ts" />
     <Content Include="gl-matrix-min.js" />
+    <Content Include="hud\components\Time.ts" />
     <Content Include="input\MouseCursor.ts" />
     <Content Include="input\Pointer.ts" />
     <Content Include="renderers\GLArrayBuffer.ts" />
@@ -87,7 +88,6 @@
     <Content Include="hud\components\Counter.ts" />
     <Content Include="hud\components\WidgetInput.ts" />
     <Content Include="hud\components\Range.ts" />
-    <Content Include="hud\components\Time.ts" />
     <Content Include="hud\HUDDisplay.ts" />
     <Content Include="hud\HUDManager.ts" />
     <Content Include="hud\HUDWidget.ts" />
@@ -95,7 +95,7 @@
     <Content Include="hud\widgets\BasicScore.ts" />
     <Content Include="hud\widgets\Icon.ts" />
     <Content Include="hud\widgets\Button.ts" />
-    <Content Include="hud\widgets\IconCounter.ts" />
+    <Content Include="hud\widgets\IconBar.ts" />
     <Content Include="hud\widgets\Menu.ts" />
     <Content Include="hud\widgets\MenuItem.ts" />
     <Content Include="hud\widgets\TextField.ts" />

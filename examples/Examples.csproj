@@ -25,6 +25,20 @@
     <TypeScriptCompile Include="Transform\Alpha.ts" />
     <TypeScriptCompile Include="Input\General.ts" />
     <TypeScriptCompile Include="Tilemaps\Generation.ts" />
+    <Content Include="Audio\Creation.js" />
+    <Content Include="Audio\Creation.ts" />
+    <TypeScriptCompile Include="Hud\SpotTheNinja.ts" />
+    <TypeScriptCompile Include="Hud\Platformer.ts" />
+    <TypeScriptCompile Include="Hud\AmmoOut.ts" />
+    <Content Include="Hud\AmmoOut.js">
+      <DependentUpon>AmmoOut.ts</DependentUpon>
+    </Content>
+    <Content Include="Hud\Platformer.js">
+      <DependentUpon>Platformer.ts</DependentUpon>
+    </Content>
+    <Content Include="Hud\ScoreWidget.js">
+      <DependentUpon>SpotTheNinja.ts</DependentUpon>
+    </Content>
     <Content Include="Tilemaps\Generation.js">
       <DependentUpon>Generation.ts</DependentUpon>
     </Content>

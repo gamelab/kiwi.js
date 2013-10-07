@@ -1,322 +1,266 @@
 /**
-* @module HUD
-* @submodule Components
-* 
+ *	Contains way's to control the counting of a singular number.
+ *
+ * @module HUD
+ * @submodule Components
+ *
 */
 
 module Kiwi.HUD.Components {
+
     /**
     * @class Time
+    * @extends Component
     * @constructor
-    * @param milliseconds {number} milliseconds
-    * @param seconds {number} seconds
-    * @param minutes {number} minutes
-    * @param hours {number} hours
+    * @param owner {any} The object that this component belongs to.
+    * @param [format=''] {string} The format that the time is to be displayed in. Leave blank for the default time.
+    * @return {Counter}
     */
-
     export class Time extends Kiwi.Component {
 
-        constructor(milliseconds: number, seconds?: number, minutes?: number, hours?: number) {
-            super(null, "time");
-
-            this.paused = true;
-            this._countDown = true;
-            this.updated = new Kiwi.Signal();
-            this._lastTime = Date.now();
-            this.setTime(milliseconds, seconds, minutes, hours);
-
-        }
-
-        /*
-        * The current amount of milliseconds
-        * @property _milliseconds
-        * @type number
-        * @private
-        */
-        private _milliseconds: number;
-
-        /*
-        * If the timer is paused or not.
-        * @property paused
-        * @type boolean
-        * @public
-        */
-        public paused: boolean;
-
-        /*
-        * What the last time that it updated was. In milliseconds
-        * @property _lastTime
-        * @type number
-        * @private
-        */
-        private _lastTime: number;
-
-        /*
-        * If it is counting down or up. 
-        * @property _countDown
-        * @type boolean
-        * @private
-        */
-        private _countDown: boolean;
-
-        /*
-        * A Kiwi.Signal dispatch a event when the time changes.
-        * @property updated
-        * @type Signal
-        * @public
-        */
-        public updated: Kiwi.Signal;
-
-        /*
-        * Used to set/tell if the timer should count down or not
-        * 
-        * @property countingDown
-        * @type boolean
-        * @public
-        */
-        public set countingDown(val: boolean) {
-
-            if (val !== undefined) {
-                if (val == true) this.paused = false;
-
-                this._countDown = val;
-            }
-
-        }
-
-        public get countingDown(): boolean {
+        constructor(owner:any, format:string='') {
+            super(owner, "time"); 
             
-            return this._countDown;
+            this.clock = this.game.time.addClock(name + '-clock', 1000);
+            this.format = format;
 
         }
 
-        /*
-        * Used to set/tell if the timer should count up or not
-        * 
-        * @property countingDown
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string {
+            return 'TimeComponent';
+        }
+
+        /**
+        * The clock that this component creates and uses to manage the current time.
+        * @property clock
+        * @type Clock
+        * @private
+        */
+        public clock: Kiwi.Time.Clock;
+
+        /**
+        * Indicates whether or not the clock is currently running or not, and thus whether or not the time is playing or not.
+        * @property isRunning
         * @type boolean
         * @public
         */
-        public set countingUp(val: boolean) {
-
-            if (val !== undefined) {
-                if (val == true) this.paused = false;
-
-                this._countDown = !val;
-            }
-
+        public get isRunning():boolean {
+            return this.clock.isRunning();
         }
 
-        public get countingUp(): boolean {
-
-            return !this._countDown;
-
+        /**
+        * Pauses the clock where is stands. Calls the pause method on the clock.
+        * @method pause
+        * @public
+        */
+        public pause() {
+            this.clock.pause();
         }
 
-        /*
-        * Sets the time to be at a certain point.
-        *
+        /**
+        * Stops the clock and thus the time. Calls the stop method of the clock.
+        * @method stop
+        * @public
+        */
+        public stop() {
+            this.clock.stop();
+        }
+
+        /**
+        * Starts the clock and thus the time. 
+        * @method start
+        * @public
+        */
+        public start() {
+            this.clock.start();
+            this._timeBefore = this.clock.elapsed();
+        }
+
+        /**
+        * Resumes the clock and thus the time.
+        * @method resume
+        * @public
+        */
+        public resume() {
+            this.clock.resume();
+        }
+
+        /**
+        * The format that they want the time to be displayed.
+        * @property _format
+        * @type string
+        * @private
+        */
+        private _format: string;
+
+        /**
+        * The format that you want the time to be displayed in.
+        * @property format
+        * @type string
+        * @public
+        */
+        public set format(val: string) {
+            this._format = val;
+        }
+        public get format(): string {
+            return this._format;
+        }
+
+        /**
+        * If the clock should 'count down' instead of up.
+        * @property countDown
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public countDown: boolean = false;
+
+        /**
+        * Used during the formatting stage of displaying the time.
+        * @property _displayString
+        * @type string
+        * @private
+        */
+        private _displayString: string = '';
+
+        /**
+        * The current time in seconds.
+        * @property _currentTime
+        * @type number
+        * @private
+        */
+        private _currentTime: number = 0;
+
+        /**
+        * The current time in seconds. This is READ ONLY.
+        * @property currentTime
+        * @type number
+        * @public
+        */
+        public get currentTime(): number {
+            return this._currentTime;
+        }
+
+        /**
+        * The last time that the timer update. Used to calculate the time delta.
+        * @property _timeBefore
+        * @type number
+        * @private
+        */
+        private _timeBefore: number = 0;
+
+        /**
+        * Sets the current time of the timer.
         * @method setTime
-        * @param milliseconds {number} milliseconds
-        * @param seconds {number} seconds
-        * @param minutes {number} minutes
-        * @param hours {number} hours
-        * @return {number} 
+        * @param milli {number} The number of milliseconds.
+        * @param [sec=0] {number} The number of seconds to add.
+        * @param [minutes=0] {number} The number of minutes to add.
         * @public
         */
-        public setTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number): number {
-
-            if (seconds !== undefined) milliseconds += this.convertToMilli(seconds, 's');
-            if (minutes !== undefined) milliseconds += this.convertToMilli(minutes, 'm');
-            if (hours !== undefined) milliseconds += this.convertToMilli(hours, 'h');
-
-            this._milliseconds = milliseconds;
-            this.updated.dispatch();
-
-            return this._milliseconds;
+        public setTime(milli: number, sec: number= 0, minutes: number= 0) {
+            this._currentTime = milli;
+            if(sec != 0) this._currentTime += (sec * 1000);
+            if(minutes != 0) this._currentTime += (minutes * 60 * 1000);
         }
 
-        /*
-        * Add's more time to the component.
-        *
-        * @method increaseTime
-        * @param milliseconds {number} milliseconds
-        * @param seconds {number} seconds
-        * @param minutes {number} minutes
-        * @param hours {number} hours
-        * @return {number} 
+        /**
+        * Increases the current time by the amount passed.
+        * @method addTime
+        * @param milli {number} The number of milliseconds.
+        * @param [sec=0] {number} The number of seconds to add.
+        * @param [minutes=0] {number} The number of minutes to add.
         * @public
         */
-        public increaseTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number): number {
-            
-            if (seconds !== undefined) milliseconds += this.convertToMilli(seconds, 's');
-            if (minutes !== undefined) milliseconds += this.convertToMilli(minutes, 'm');
-            if (hours !== undefined) milliseconds += this.convertToMilli(hours, 'h');
-            
-            this._milliseconds += milliseconds;
-            this.updated.dispatch();
-
-            return this._milliseconds;
+        public addTime(milli:number, sec:number= 0,minutes:number= 0) {
+            this._currentTime += milli;
+            if(sec != 0) this._currentTime += (sec * 1000);
+            if (minutes != 0) this._currentTime += (minutes * 60 * 1000);
         }
-
-        /*
-        * Removes some time from the component.
-        *
-        * @method decreaseTime
-        * @param milliseconds {number} milliseconds
-        * @param seconds {number} seconds
-        * @param minutes {number} minutes
-        * @param hours {number} hours
-        * @return {number} 
-        * @public
-        */
-        public decreaseTime(milliseconds: number, seconds?: number, minutes?: number, hours?: number): number {
         
-            if (seconds !== undefined) milliseconds += this.convertToMilli(seconds, 's');
-            if (minutes !== undefined) milliseconds += this.convertToMilli(minutes, 'm');
-            if (hours !== undefined) milliseconds += this.convertToMilli(hours, 'h');
-        
-            this._milliseconds += milliseconds;
-            this.updated.dispatch();
-
-            return this._milliseconds;
-        }
-
-        /*
-        * A method to convert a number / unit into milliseconds. 
-        *
-        * @method convertToMilli
-        * @param val {number} The number that you want converted.
-        * @param unit {number} Units that the number is in. 's' => seconds, 'm' => minutes, 'h' => hours
-        * @return {number}
+        /**
+        * Decreases the current time by the amount passed.
+        * @method removeTime
+        * @param milli {number} The number of milliseconds.
+        * @param [sec=0] {number} The number of seconds to add.
+        * @param [minutes=0] {number} The number of minutes to add.
         * @public
         */
-        public convertToMilli(val: number, unit: string):number {
+        public removeTime(milli: number, sec: number= 0, minutes: number= 0) {
+            this._currentTime -= milli;
+            if (sec != 0) this._currentTime -= (sec * 1000);
+            if (minutes != 0) this._currentTime -= (minutes * 60 * 1000);
+        }
 
-            var num = 0;
-            if (unit === 'milli' || unit === 'milliseconds' || unit === 'ms') {
-                num = val;
-            } else if (unit === 'seconds' || unit === 's') {
-                num = val * 1000;
-            } else if (unit === 'minutes' || unit === 'm') {
-                num = val * 1000 * 60;
-            } else if (unit === 'hours' || unit === 'h') {
-                num = val * 1000 * 60 * 60;
+        /**
+        * The speed at which the time will increase/decrease by. 
+        * Modify this property to make the time count down slower/faster.
+        * @property _speed
+        * @type number
+        * @default 1
+        * @private
+        */
+        public speed: number = 1;
+        
+        /**
+        * Returns a string with the current time that this component is upto in the format that was passed.
+        *
+        * @method updateTime
+        * @return string
+        * @public
+        */
+        public getTime():string {
+            if (this.countDown) {
+                this._currentTime -= (this.clock.elapsed() - this._timeBefore) * this.speed;
+            } else {
+                this._currentTime += (this.clock.elapsed() - this._timeBefore) * this.speed;
             }
+            this._timeBefore = this.clock.elapsed();
 
-            return num;
-        }
+            //format time
+            if (this._format !== '') {
+                this._displayString = this._format;
 
-        /*
-        * Gives you the number of milliseconds. Alternatively can also set the number of milliseconds
-        *
-        * @method milliseconds
-        * @param val {number} val
-        * @return {number}
-        * @public
-        */
-        public set milliseconds(val: number) {
-
-            if (val !== undefined) {
-                this._milliseconds = val;
-                this.updated.dispatch();
-            }
-
-        }
-
-        public get milliseconds(): number {
-
-            return this._milliseconds % 1000;
-
-        }
-        
-        /*
-        * Gives you the number of seconds. Alternatively can also set the time.
-        *
-        * @method seconds
-        * @param val {number} val
-        * @return {number}
-        * @public
-        */
-        public set seconds(val: number) {
-            if (val !== undefined) {
-                this._milliseconds = this.convertToMilli(val, 's');
-                this.updated.dispatch();
-            }
-        }
-
-        public get seconds(): number {
-            
-            return Math.floor(this._milliseconds / 1000) % 60;
-
-        }
-        
-        /*
-        * Gives you the number of minutes. Alternatively can also set the number of minutes
-        *
-        * @method minutes
-        * @param val {number} val
-        * @return {number}
-        * @public
-        */
-        public set minutes(val: number) {
-            if (val !== undefined) {
-                this._milliseconds = this.convertToMilli(val, 'm');
-                this.updated.dispatch();
-            }
-        }
-        
-        public get minutes(): number {
-            
-            return Math.floor(this._milliseconds / 1000 / 60) % 60;
-
-        }
-        
-        /*
-        * Gives you the number of hours Alternatively can also set the number of hours
-        * 
-        * @method hours
-        * @param val {number} val
-        * @return {number}
-        * @public
-        */
-        public set hours(val: number) {
-
-            if (val !== undefined) {
-                this._milliseconds = this.convertToMilli(val, 'h');
-                this.updated.dispatch();
-            }
-
-        }
-        
-        public get hours(): number {
-
-            return Math.floor(this._milliseconds / 1000 / 60 / 60);
-
-        }
-        
-        /*
-        * Update loop.
-        * @method update
-        * @public
-        */
-        public update() {
-            
-            if (!this.paused) {
-                var newTime = Date.now();
-                var difference = newTime - this._lastTime;
-                this._lastTime = newTime;
-
-                if (this._countDown) {
-                    this.milliseconds = this._milliseconds - difference;
-                } else {
-                    this.milliseconds = this._milliseconds + difference;
+                //milliseconds
+                if (this._displayString.indexOf('ms') !== -1) {
+                    var t = String(Math.floor(this._currentTime * 1000) % 1000);
+                    this._displayString = this._displayString.replace('ms', t);
                 }
-                this.updated.dispatch();
-            }
+                //seconds - leading
+                if (this._displayString.indexOf('ss') != -1) {
+                    var t = String(Math.floor(this._currentTime) % 60);
+                    if (t.length < 2) t = '0' + t;
+                    this._displayString = this._displayString.replace('ss', t);
+                }
+                //minutes - leading
+                if (this._displayString.indexOf('mm') !== -1) {
+                    var t = String(Math.floor(this._currentTime / 60) % 60);
+                    if (t.length < 2) t = '0' + t;
+                    this._displayString = this._displayString.replace('mm', t);
+                }
+                //minutes - no leading
+                if (this._displayString.indexOf('s') != -1) {
+                    var t = String(Math.floor(this._currentTime) % 60);
+                    this._displayString = this._displayString.replace('s', t);
+                }
+                //seconds - no leading
+                if (this._displayString.indexOf('m') !== -1) {
+                    var t = String(Math.floor(this._currentTime / 60) % 60);
+                    this._displayString = this._displayString.replace('m', t);
+                }
 
-            super.update();
+                return this._displayString;
+            } else {
+                return String(this._currentTime.toFixed(2));
+            }
         }
 
     }
+
 }
+

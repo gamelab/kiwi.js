@@ -18,7 +18,7 @@ module Kiwi.HUD.Widget {
         */
         constructor(game: Kiwi.Game, x: number, y: number) {
 
-            super('menu', x, y);
+            super(game,'menu', x, y);
 
             this.game = game;
             this._menuItems = [];

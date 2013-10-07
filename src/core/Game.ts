@@ -107,10 +107,7 @@ module Kiwi {
            
             this.cameras = new Kiwi.CameraManager(this);
 
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds = new Kiwi.HUD.HUDManager(this);
-            }
-
+            this.huds = new Kiwi.HUD.HUDManager(this);
             this.loader = new Kiwi.Files.Loader(this);
             
             this.states = new Kiwi.StateManager(this);
@@ -410,9 +407,8 @@ module Kiwi {
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds.boot();
-            }
+            this.huds.boot();
+            
             this.time.boot();
             this.input.boot();
             this.audio.boot();
@@ -443,15 +439,12 @@ module Kiwi {
                 this.input.update();
                 this.tweens.update();
                 this.cameras.update();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.update();
-                }
+                this.huds.update();
+                
                 this.states.update();
                 
                 this.cameras.render();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.render();
-                }
+
                 this.states.postRender();
                 
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);

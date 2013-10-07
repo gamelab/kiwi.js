@@ -467,15 +467,17 @@ module Kiwi.GameObjects.Tilemap {
             var tiles = this.currentLayer.getTileOverlaps(object);
 
             if (tiles !== undefined) {
+                var col = false;
                 for (var i = 0; i < tiles.length; i++) {
                     if (object.components.getComponent('ArcadePhysics').overlaps(tiles[i], tiles[i].tileType.seperate)) {
-
+                        col = true;
+                        
                         if (this._collisionCallback !== null) {
                             this._collisionCallback.call(this._collisionCallbackContext, object, tiles[i]);
                         }
                     }
                 }
-                return true;
+                return col;
             }
             return false;
         }

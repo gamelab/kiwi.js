@@ -27,7 +27,6 @@ class Repeating extends Kiwi.State {
         this.mujahadeen = new Kiwi.GameObjects.Sprite(this, this.textures.mujahadeen, 100, 300);
         this.addChild(this.mujahadeen);                                                               
         
-        console.log(this.game.time.clock.units);
         /**
         * set the value of a clock unit. 
         **/

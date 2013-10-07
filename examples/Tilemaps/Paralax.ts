@@ -12,7 +12,7 @@ class Paralax extends Kiwi.State {
 
     preload() {
         this.addSpriteSheet('desertImage', 'assets/war/tiles/tile-spritesheet.png', 48, 48);
-        this.addJSON('desertJson', 'assets/war/json/desert-2.json');
+        this.addJSON('desertJson', 'assets/war/json/desert-paralax.json');
     }
 
     tilemap: Kiwi.GameObjects.Tilemap.TileMap;

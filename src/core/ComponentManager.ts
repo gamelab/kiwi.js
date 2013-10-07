@@ -21,7 +21,7 @@ module Kiwi {
 
     export class ComponentManager {
          
-        constructor(type: number, owner:Kiwi.IChild) {
+        constructor(type: number, owner:any) {
 
             this._components = {};
 

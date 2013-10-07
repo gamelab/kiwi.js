@@ -18,8 +18,8 @@ module Kiwi.HUD.Components {
     */
     export class Counter extends Kiwi.Component {
         
-        constructor(initial:number,step:number=1) {
-            super(null, "counter");
+        constructor(owner, initial:number,step:number=1) {
+            super(owner, "counter");
             this._value = initial;
             this.step = step;
 

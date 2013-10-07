@@ -18,9 +18,9 @@ module Kiwi.HUD.Widget {
     */
     export class MenuItem extends Kiwi.HUD.HUDWidget {
 
-        constructor(name:string, width:number, height:number, x: number, y: number) {
-
-            super(name, x, y);
+        constructor(game:Kiwi.Game,name:string, width:number, height:number, x: number, y: number) {
+            
+            super(game,name, x, y);
             /*
             this.size = this.components.add(new Kiwi.Components.Size(width, height));
             this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height())); 
