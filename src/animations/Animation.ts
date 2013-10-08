@@ -1,14 +1,17 @@
 /**
-* Kiwi - Animation
+* Is the namespace in which all code that is used to create/provide an animation of various sorts are stored. These could range from animations that change the cell of a SpriteSheet that is displayed every few seconds (Animation/Sequence), to animations that change a numeric value on a object over a period time (Tweens).
+* 
 * @module Kiwi
 * @submodule Animations 
-* @main Animations
+* @main Animations 
 */
 
 module Kiwi.Animations {
 
     /**
-    * An Anim contains information about a single animation that is held on Animation Component, which is used on a Sprite GameObject.
+    * An Animation contains information about a single animation that is held on a AnimationManager. 
+    * The information that is held is unique to this individual animation and will initially be the same as a Sequence,
+    * but if you do ever modify the information held in this Animation the corresponding Sequence will not be updated.
     * 
     * @class Animation
     * @constructor

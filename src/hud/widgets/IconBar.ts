@@ -1,7 +1,4 @@
 /**
-* A HUDWidget used for displaying a sigular image multiple times. 
-* The amount is based of a range components current value, so you can set a maximum and minimum number of images to be dispalyed.
-*  Mainly used for Health Bars, where each 'life' would have its own image.
 *
 * @module HUD
 * @submodule Widget
@@ -10,6 +7,10 @@
 module Kiwi.HUD.Widget {
 
     /**
+    * The IconBar used to display a series of icons which represent a number of 'something' the user may have. 
+    * Example: If you had a shooter style game you might want to display the amount of 'ammo' left in the gun using a series of bullet icons. You could then use this IconBar to display that series.
+    * The amount is based of a counter components current value, so you can set a maximum and minimum number of images to be displayed.
+    *
     * @class IconBar
     * @extends HUDWidget
     * @constructor
@@ -27,28 +28,60 @@ module Kiwi.HUD.Widget {
             
             super(game, 'IconBar', x, y);
 
+            this.class = 'kiwi-iconbar-widget kiwi-widget';
             this.atlas = atlas;
             this.width = this.atlas.cells[0].w;
             this.height = this.atlas.cells[0].h;
             this._horizontal = true;
-           
-            this.range = this.components.add(new Kiwi.HUD.Components.Range(this, current, max, 0));
-            this.range.updated.add(this._amountChanged, this);
+            
+            this.counter = this.components.add(new Kiwi.HUD.HUDComponents.Counter(this, current, max, 0));
+            this.counter.updated.add(this._amountChanged, this);
 
             this._icons = [];
             this._amountChanged();
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType():string {
             return 'IconBarWidget';
         }
 
-        //spacing between each one. Someother stuff...
+        /**
+        * The amount of spacing you want between each icon in the bar. Defaults to 0.
+        * @property iconGap
+        * @type number
+        * @default 0
+        * @public
+        */
+        public iconGap: number = 0;
 
+        /**
+        * The texture atlas that each Icon inside the IconBar will use.
+        * @property atlas
+        * @type TextureAtlas
+        * @public
+        */
         public atlas: Kiwi.Textures.TextureAtlas;
 
+        /**
+        * The width of a single Icon in the bar. This is based on the width of the first cell in the atlas.
+        * @property width
+        * @type number
+        * @private
+        */
         private width: number;
 
+        /**
+        * The height of a single Icon in the bar. This is based on the height of the first cell in the atlas.
+        * @property height
+        * @type number
+        * @private
+        */
         private height: number;
 
         /**
@@ -61,12 +94,12 @@ module Kiwi.HUD.Widget {
         private _horizontal: boolean;
 
         /**
-        * Holds the range component.
-        * @property range
-        * @type Range
+        * Holds the counter component.
+        * @property counter
+        * @type Counter
         * @public
         */
-        public range: Kiwi.HUD.Components.Range;
+        public counter: Kiwi.HUD.HUDComponents.Counter;
 
         /**
         * An array of all of the icons on the screen.
@@ -84,16 +117,16 @@ module Kiwi.HUD.Widget {
         private _amountChanged() {
 
             //do we need to do something to the icons?!?
-            if (this.range.max !== this._icons.length) {
-                if ((this.range.max) > this._icons.length) {
+            if (this.counter.max !== this._icons.length) {
+                if ((this.counter.max) > this._icons.length) {
                     //add more
-                    var amount = (this.range.max) - this._icons.length;
+                    var amount = (this.counter.max) - this._icons.length;
                     for (var i = 0; i < amount; i++) {
                         this._addIcon();
                     }
                 } else {
                     //remove some
-                    for (var i = this.range.max; i < this._icons.length; i++) {
+                    for (var i = this.counter.max; i < this._icons.length; i++) {
                         this._removeIcon(this._icons[i]);
                         this._icons[i].destroy();
                         this._icons.splice(i, 1);
@@ -104,7 +137,7 @@ module Kiwi.HUD.Widget {
 
             //display them all!
             for (var i = 0; i < this._icons.length; i++) {
-                if (i > this.range.current) {
+                if (i > (this.counter.current - 1)) {
                     this._icons[i].style.display = 'none';
                 } else {
                     this._icons[i].style.display = 'block';
@@ -112,18 +145,30 @@ module Kiwi.HUD.Widget {
             }
         }
 
+        /**
+        * Creates a new Icon and adds it to this IconBar.
+        * @method _addIcon
+        * @private
+        */
         private _addIcon() {
             if (this.horizontal) {
-                var i = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x + (this.width * (this._icons.length - 1)), this.y);
+                var i: Kiwi.HUD.Widget.Icon = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x + ((this.width + this.iconGap) * (this._icons.length - 1)), this.y);
             } else {
-                var i = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x, (this.height * (this._icons.length - 1)) + this.y);
+                var i: Kiwi.HUD.Widget.Icon = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x, ((this.height + this.iconGap) * (this._icons.length - 1)) + this.y);
             }
+
             this._icons.push(i);
             if (this._device == Kiwi.TARGET_BROWSER) {
                 this.container.appendChild(i.container);
             }
         }
 
+        /**
+        * Removes a Icon from the container.
+        * @method _removeIcon
+        * @param icon {Icon} The icon that you want to remove
+        * @private
+        */
         private _removeIcon(icon:Kiwi.HUD.Widget.Icon) {
             if (this._device == Kiwi.TARGET_BROWSER) {
                 this.container.removeChild(icon.container);
@@ -140,7 +185,6 @@ module Kiwi.HUD.Widget {
         public get horizontal(): boolean {
             return this._horizontal;
         }
-
         public set horizontal(val: boolean) {
             this._horizontal = val;
             this._amountChanged();

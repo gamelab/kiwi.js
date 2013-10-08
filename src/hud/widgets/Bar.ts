@@ -6,9 +6,14 @@
 module Kiwi.HUD.Widget {
     
     /**
+    * Used for displaying of information in a bar like of format. Example: Amount of health remaining for a character.
+    * This class creates a 'innerbar' div inside of its main container which you can apply styles to.
+    * You can control the minimum/maximum and current values of the bar through the Counter widget.
+    * 
     * @class Bar
     * @extends HUDWidget
     * @constructor 
+    * @param game {Game} The game that this bar belongs to.
     * @param current {number} The current value of the bar.
     * @param max {number} The maximum value that there can be.
     * @param x {number} The coordinates of this widget on the x-axis.
@@ -22,17 +27,18 @@ module Kiwi.HUD.Widget {
         constructor(game:Kiwi.Game, current: number, max:number, x:number,y:number, width:number=120, height:number=20) {
             super(game,"bar", x, y);
             this._horizontal = true;
+            this.class = 'kiwi-bar-widget kiwi-widget';
 
             if (this._manager.supported) {
                 if (this._device == Kiwi.TARGET_BROWSER) {
                     this._bar = document.createElement('div');
-                    this._bar.className = 'innerBar';
+                    this._bar.className = 'kiwi-innerbar-widget';
                     this.bar = this._bar;
                     this.container.appendChild(this.bar);
                 }
 
-                this.range = this.components.add(new Kiwi.HUD.Components.Range(this, current, max, 0));
-                this.range.updated.add(this.updateCSS, this);
+                this.counter = this.components.add(new Kiwi.HUD.HUDComponents.Counter(this, current, max, 0));
+                this.counter.updated.add(this.updateCSS, this);
 
                 this.width = width;
                 this.height = height;
@@ -128,12 +134,12 @@ module Kiwi.HUD.Widget {
         private _bar: HTMLElement;
         
         /**
-        * The range component.
-        * @property range
-        * @type Range
+        * The counter component.
+        * @property counter
+        * @type Counter
         * @public
         */
-        public range: Kiwi.HUD.Components.Range;
+        public counter: Kiwi.HUD.HUDComponents.Counter;
         
         /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
@@ -210,10 +216,10 @@ module Kiwi.HUD.Widget {
         public updateCSS() {
             
             if (this.horizontal === true) {
-                this.bar.style.width = String(this.range.currentPercent()) + '%';
+                this.bar.style.width = String(this.counter.currentPercent()) + '%';
                 this.bar.style.height = '100%';
             } else {
-                this.bar.style.height = String(this.range.currentPercent()) + '%';
+                this.bar.style.height = String(this.counter.currentPercent()) + '%';
                 this.bar.style.width = '100%';
             }
 

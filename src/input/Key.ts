@@ -8,7 +8,7 @@
 module Kiwi.Input {
     
     /**
-    * A compact object that holds the most important details about a Keyboard Event response
+    * A compact object that holds the most important details about a Keyboard Event response.
     *
     * @class Key
     * @constructor

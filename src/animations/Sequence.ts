@@ -1,5 +1,5 @@
 /**
-* Kiwi - Animation
+* 
 * @module Kiwi
 * @submodule Animations
 * 
@@ -8,7 +8,8 @@
 module Kiwi.Animations {
 
     /**
-    * Is a series of cells which are used with SpriteSheets and TextureAtlas's to create 'default' animations on Sprites that contain an Animation component. 
+    * A Sequence is a series of cells that are held on a SpriteSheet/TextureAtlas.
+    * Sequences are generally used with the AnimationManager/Animation sections as a way to initially create Animations on GameObjects that use the same TextureAtlas.
     * 
     * @class Sequence
     * @constructor
@@ -20,7 +21,7 @@ module Kiwi.Animations {
     * 
     */
     export class Sequence {
- 
+        
         constructor(name:string,cells:number[],speed:number=0.1,loop:boolean=true) {
             this.name = name;
             this.cells = cells;

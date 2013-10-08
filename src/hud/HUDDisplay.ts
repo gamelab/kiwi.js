@@ -1,13 +1,17 @@
 /**
-* Kiwi - HUD
+* 
 * @module Kiwi
 * @submodule HUD
+*
 */
-
 
 module Kiwi.HUD {
 
     /**
+    * A HUDDisplay is a container for which you can add/removes widget on, and is more used to manage the widgets that are being displayed on it.
+    * A HUDDisplay is created through a games HUDManager and is NOT directly instantiated.
+    * Each game can contain multiple HUDDisplay's and each HUDDisplay can contain multiple HUDWidgets.
+    *
     * @class HUDDisplay
     * @constructor
     * @param game {Game} The game that this HUD Display belongs to. 
@@ -35,6 +39,8 @@ module Kiwi.HUD {
 
                         break;
                 }
+
+                this.class = 'kiwi-display';
             }
         }
 
@@ -203,6 +209,23 @@ module Kiwi.HUD {
         */
         public hide() {
             this.container.style.display = 'none';
+        }
+
+        /**
+        * The class name that the container element that this HUDWidget current has.
+        * @property class
+        * @type {String} 
+        * @public
+        */
+        public set class(cssClass: string) {
+            if (this._device == Kiwi.TARGET_BROWSER) {
+                this.container.className = cssClass;
+            }
+        }
+        public get class(): string {
+            if (this._device == Kiwi.TARGET_BROWSER) {
+                return this.container.className;
+            }
         }
 
     }

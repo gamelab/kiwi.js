@@ -118,9 +118,9 @@ class Platformer extends Kiwi.State {
                     i--;
 
                     if (this.game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
-                        this.bar.range.current--;
+                        this.bar.counter.current--;
 
-                        if (this.bar.range.current == 0) {
+                        if (this.bar.counter.current == 0) {
                             this.alive = false;
                             this.marine.animation.play('die');
                         } else {

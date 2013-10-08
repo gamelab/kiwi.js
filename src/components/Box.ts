@@ -8,7 +8,12 @@
 module Kiwi.Components {
 
     /**
-    *  
+    * The Box Component is used to handle the various 'bounds' that each GameObject has. 
+    * There are FOUR different types of bounds (each one is a rectangle) on each box depending on what you are wanting:
+    * RawBounds: The bounding box of the GameObject before rotation.
+    * RawHitbox: The hitbox of the GameObject before rotation. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+    * Bounds: The bounding box of the GameObject after rotation.
+    * Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
     *
     * @class Box
     * @extends Component
@@ -20,7 +25,6 @@ module Kiwi.Components {
     * @param [height=0] {Number} The height of the box.
     * @return {Box}
     */
-
     export class Box extends Component {
  
         constructor(parent: Entity, x: number = 0, y: number = 0, width: number = 0, height: number = 0) {

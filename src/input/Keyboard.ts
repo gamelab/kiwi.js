@@ -8,7 +8,7 @@
 module Kiwi.Input {
     
     /**
-    *
+    * Handles and Manages the dispatching of keyboard events. When the user press's a button a new Key object is created.
     *
     * @class Keyboard
     * @constructor

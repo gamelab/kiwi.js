@@ -1,5 +1,4 @@
 /** 
-* A HUDWidget that controls and displays a score.
 * @module HUD
 * @submodule Widget
 */
@@ -7,6 +6,9 @@
 module Kiwi.HUD.Widget {
 
     /**
+    * A subclass of textfield that is primarily used to keep track of a score.
+    * The score can be accessed via the counter component.
+    * 
     * @class BasicScore
     * @extends TextField
     * @constructor
@@ -16,12 +18,13 @@ module Kiwi.HUD.Widget {
     * @param [initial=0] {number} The initial score to start off at.
     * @return {BasicScore}
     */
-    
     export class BasicScore extends Kiwi.HUD.Widget.TextField {
        
         constructor(game: Kiwi.Game, x: number, y: number, initial:number=0) {
             super(game, "basicScore", x, y);
-            this.counter = this.components.add(new Kiwi.HUD.Components.Counter(this, initial, 1));
+            this.name = 'basicScore';
+            this.class = 'kiwi-basicscore-widget kiwi-widget';
+            this.counter = this.components.add(new Kiwi.HUD.HUDComponents.Counter(this, initial));
             this.counter.updated.add(this._updateText, this);
             this._updateText();
         }
@@ -42,7 +45,7 @@ module Kiwi.HUD.Widget {
         * @type Counter
         * @public
         */
-        public counter: Kiwi.HUD.Components.Counter;
+        public counter: Kiwi.HUD.HUDComponents.Counter;
         
         /**
         * Updates the text inside the textfield.
@@ -50,7 +53,7 @@ module Kiwi.HUD.Widget {
         * @private
         */
         public _updateText() {
-            this.text = String(this.counter.value);
+            this.text = String(this.counter.current);
         }
 
     }

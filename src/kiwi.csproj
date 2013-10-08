@@ -87,7 +87,6 @@
     <Content Include="geom\Ray.ts" />
     <Content Include="hud\components\Counter.ts" />
     <Content Include="hud\components\WidgetInput.ts" />
-    <Content Include="hud\components\Range.ts" />
     <Content Include="hud\HUDDisplay.ts" />
     <Content Include="hud\HUDManager.ts" />
     <Content Include="hud\HUDWidget.ts" />

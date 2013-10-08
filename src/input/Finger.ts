@@ -8,9 +8,7 @@
 module Kiwi.Input {
 
     /**
-    * Used with the Touch manager class, this object holds information about a single touch point/locaton (or you know a finger).
-    * By default a Finger has a diameter of 44 pixels (random average size of a finger) which can be used for collision/overlap detection. That value can be modified.
-    * Note: A Finger is only active whilst the user is 'pressing' down on stage. 
+    * Used with the Touch manager class, this object holds information about a single touch point/locaton (or you know a finger). By default a Finger has a diameter of 44 pixels (random average size of a finger) which can be used for collision/overlap detection. That value can be modified. Note: A Finger is only active whilst the user is 'pressing' down on stage. 
     *
     * @class Finger
     * @extends Pointer

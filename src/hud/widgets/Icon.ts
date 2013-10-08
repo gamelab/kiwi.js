@@ -8,6 +8,9 @@
 module Kiwi.HUD.Widget {
     
     /**
+    * Used to display a cell from a TextureAtlas in the HUD. This could be used for portraits of the character, e.t.c.
+    * You can change the current cell that is being used in the TextureAtlas by modifing the cellIndex property.
+    *
     * @class Icon
     * @extends HUDWidget
     * @constructor
@@ -23,6 +26,7 @@ module Kiwi.HUD.Widget {
 
             super(game, 'Icon', x, y);
 
+            this.class = 'kiwi-icon-widget kiwi-widget';
             this.atlas = atlas;
             this.icon = this.container;
             this._applyCSS();

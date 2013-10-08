@@ -1,7 +1,6 @@
 /**
-* GameObjects are items that are design to be added to a State or a Group as a child. 
+* The GameObject namespace holds classes which are designed to be added to a State (either directly, or as an ancestor of a Group) and are the Objects that are used when wanting to render anything visual onto the current State. Each GameObject is a representation of a particular item in a game and as such has information that corresponds to that item (like where they are in the 'GameWorld', the scale of the GameObject, who their parent is, e.t.c). For Example: If you wanted to have a massive background image then you can use the StaticImage GameObject, as that is a relatively light-weight object). Or if you had Player with an Animation, which user's could interactive with, then you would use a Sprite, which is more robust.
 * 
-* Kiwi - GameObjects
 * @module Kiwi
 * @submodule GameObjects 
 * @main GameObjects
@@ -9,7 +8,7 @@
 module Kiwi.GameObjects {
 
     /**
-    * A general purpose game object that interactive game object can use. Sprites can animate when using a SpriteSheet 
+    * A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn't a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.
     *
     * @class Sprite
     * @extends Entity

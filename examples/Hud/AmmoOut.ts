@@ -23,6 +23,7 @@ class AmmoOut extends Kiwi.State {
     frameDelay: number = 10;
     currentFrame: number = 0;
     bulletCount: Kiwi.HUD.Widget.IconBar;
+    menu: Kiwi.HUD.Widget.Menu;
 
     create() {
         this.game.stage.height = 512;
@@ -45,7 +46,38 @@ class AmmoOut extends Kiwi.State {
         this.bulletCount = new Kiwi.HUD.Widget.IconBar(this.game, this.textures.bulletHUD, 30, 30, 10, 10);
         this.game.huds.defaultHUD.addWidget(this.bulletCount);
 
-       
+        this.menu = new Kiwi.HUD.Widget.Menu(this.game, 648, 10);
+        this.game.huds.defaultHUD.addWidget(this.menu);
+
+        var reload = this.menu.createMenuItem('Reload', 0, 0);
+        reload.input.onUp.add(this.reload, this);
+        
+        var increase = this.menu.createMenuItem('Increase Capcity', 0, 40);
+        increase.input.onUp.add(this.increase, this);
+
+        this.menu.setIconStyle('width', '100px');
+        this.menu.setIconStyle('height', '20px');
+        this.menu.setIconStyle('padding', '5px 12px');
+        this.menu.setIconStyle('backgroundColor', 'rgba(0,0,200,0.25)');
+        this.menu.setIconStyle('fontSize', '10px');
+        this.menu.setIconStyle('textAlign', 'center');
+
+        var decrease = this.menu.createMenuItem('Decrease Capcity', 0, 80);
+        decrease.input.onUp.add(this.decrease, this);
+
+    }
+
+    decrease() {
+        this.bulletCount.counter.max -= 10;
+    }
+
+    increase() {
+        this.bulletCount.counter.max += 10;
+    }
+
+    reload() {
+        console.log('reloading');
+        this.bulletCount.counter.current = this.bulletCount.counter.max;
     }
 
     down() {
@@ -70,10 +102,6 @@ class AmmoOut extends Kiwi.State {
             if (this.currentFrame < this.frameDelay) this.currentFrame++;
         }
 
-        if (this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.SPACEBAR) && this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.SHIFT)) {
-            this.bulletCount.range.current = 30;
-        }
-
         //move the bullets 
         for (var i = 0; i < this.bullets.length; i++) {
             this.bullets[i].x += 7;
@@ -86,8 +114,8 @@ class AmmoOut extends Kiwi.State {
     }
 
     spawnBullet() {
-        if (this.bulletCount.range.current >= this.bulletCount.range.min) {
-            this.bulletCount.range.current--;
+        if (this.bulletCount.counter.current > this.bulletCount.counter.min) {
+            this.bulletCount.counter.current--;
             this.bullets.push(new Kiwi.GameObjects.StaticImage(this, this.textures.bullet, this.vc.x + this.vc.width - 20, this.vc.y + this.vc.height / 2 + 10));
             this.addChild(this.bullets[this.bullets.length - 1]);
         }

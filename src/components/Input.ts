@@ -8,17 +8,20 @@
 module Kiwi.Components {
 
     /**
-    * 
+    * The Input Component is used on GameObjects in which the user may interactive with via a Mouse or Touch 
+    * and as such this class contains useful methods and callbacks you can subscribe to. 
+    * By default the Input component is disabled (this is because when enabled the input component can be process intensive) 
+    * but you can enabled it yourself (which is recommened) BUT in case you forget the input component will automagically 
+    * be enabled once you access a Signal on this class.
     *
     * @class Input
     * @extends Component
     * @constructor
     * @param owner {IChild} The IChild that owns this Input.
     * @param box {Box} The box that is to be used for the event firing.
-    * @param [enabled=false] {boolean} If this input component should be enabled or not.
+    * @param [enabled=false] {boolean} If this input component should be enabled or not. 
     * @return {Input}
     */
-
     export class Input extends Component {
  
         constructor(owner: Kiwi.IChild, box:Kiwi.Components.Box, enabled:boolean=false) {

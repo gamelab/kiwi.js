@@ -43,8 +43,7 @@ class SpotTheNinja extends Kiwi.State {
             this.game.huds.defaultHUD.addWidget(this.time);
             this.time.start();
 
-            this.btn = new Kiwi.HUD.Widget.Button(this.game, 10, 570);
-            this.btn.text = 'Pause';
+            this.btn = new Kiwi.HUD.Widget.Button(this.game, 'Pause', 10, 550);
             this.btn.style.backgroundColor = '#09c';
             this.btn.style.padding = '8px 9px';
             this.btn.style.fontSize = '1.1em';
@@ -58,10 +57,10 @@ class SpotTheNinja extends Kiwi.State {
     timerCheck() {
         if (this.time.time.isRunning) {
             this.time.pause();
-            this.btn.text = 'Play';
+            this.btn.text = 'Resume';
         } else {
             this.time.resume();
-            this.btn.text = 'Stop';
+            this.btn.text = 'Pause';
         }
     }
 
@@ -72,7 +71,7 @@ class SpotTheNinja extends Kiwi.State {
     }
 
     scoreIncrease() {
-        if(this.game.huds.supported) this.score.counter.increment();
+        if (this.game.huds.supported) this.score.counter.increase();
         this.changeNinjaCoords();
     }
 

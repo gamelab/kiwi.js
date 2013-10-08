@@ -1,5 +1,5 @@
 /**
-* Kiwi - Animation - Tweens 
+* 
 * @module Animations
 * @submodule Tweens 
 * @main Tweens

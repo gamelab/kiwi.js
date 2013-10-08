@@ -8,7 +8,7 @@
 module Kiwi.Input {
 
     /**
-    * Handles the dispatching/management of Mouse Events on a game. 
+    * Handles the dispatching/management of Mouse Events on a game. When this class is instantiated a MouseCursor object is also created (on this object) which holds the information that is unique to the mouse cursor, although majority of that information is still accessible inside this object.
     *
     * @class Mouse
     * @constructor

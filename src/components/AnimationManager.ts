@@ -1,4 +1,6 @@
 /**
+* Component's are a snipnets of code which are designed to provide extra functionality to various objects, such as IChild's/GameObjects/HUDWidgets/e.t.c. The code that components have are not necessarily needed for an object to work, but are instead provided to make common task's that you would do with those objects easier. An Example being that at times you may like to make a GameObject draggable by the user and so you can then add Input Component and execute the enableDrag on that GameObject. That would be task that not every GameObject would need, but only specific ones. 
+* 
 * Kiwi - Components
 * @module Kiwi
 * @submodule Components 
@@ -8,7 +10,10 @@
 module Kiwi.Components {
 
     /**
-    * Manages the playing/pausing/e.t.c of animations for a single Sprite.
+    * The AnimationManager is used to handle the creation and playment of Animations on a individual GameObject based on the TextureAtlas it has. 
+    * When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
+    * Now when you create a new Animation that animation will automatically be added as a new Sequence to the corresponding Texture. 
+    * This way you don't need to create new Animations for a each Sprite that use's the same Texture.
     *
     * @class AnimationManager
     * @extends Component

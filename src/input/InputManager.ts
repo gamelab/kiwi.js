@@ -1,15 +1,15 @@
 /**
-* Kiwi - Input
+* Section that contains the code related to handling user interaction with a game. 
+*
 * @module Kiwi
 * @submodule Input
-* 
+* @main Input
 */ 
 
 module Kiwi.Input {
 
     /**
-    * Handles the various ways a user can interact with the Device, 
-    * whether this is through a Keyboard and Mouse or by through a Touch.  
+    * Handles the initialization and management of the various ways a user can interact with the device/game, whether this is through a Keyboard and Mouse or by a Touch. Also contains some of the general callbacks that are 'global' between both Desktop and Mobile based devices.
     * 
     * @class InputManager
     * @constructor

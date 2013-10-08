@@ -1,6 +1,4 @@
 /**
-* Kiwi - HUD - HUDWidget
-* The HUDWidget is an abstract class containing all of the fundamentals that every HUDWidget will need to have.
 *
 * @module Kiwi
 * @submodule HUD
@@ -9,6 +7,9 @@
 module Kiwi.HUD {
 
     /**
+    * The HUDWidget is an abstract class containing the fundamental properties and methods that every HUDWidget needs to have.
+    * This class is designed to be extended from and thus objects should not directly instantiate it.
+    *
     * @class HUDWidget
     * @constructor
     * @param game {Game}  The game that this HUDWidget belongs to.
@@ -266,7 +267,7 @@ module Kiwi.HUD {
         }
 
         /**
-        * The class name that the container element that this HUDWidget current has.
+        * The class name/s that the container element that this HUDWidget current has.
         * @property class
         * @type {String} 
         * @public
@@ -277,7 +278,9 @@ module Kiwi.HUD {
             }
         }
         public get class(): string {
-            return this.container.className;
+            if (this._device == Kiwi.TARGET_BROWSER) {
+                return this.container.className;
+            }
         }
 
         /**

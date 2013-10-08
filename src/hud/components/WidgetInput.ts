@@ -1,14 +1,16 @@
 /**
 *
 * @module HUD
-* @submodule Components
-*
+* @submodule HUDComponents
+* 
 */
 
-module Kiwi.HUD.Components {
+module Kiwi.HUD.HUDComponents {
     
     /**
-    * 
+    * The WidgetInput Component handles the input events that you may want to listen to on a widget.
+    * This Component is essentually another version of the normal Input Component but instead of for GameObjects this is for HUDWidgets.
+    *
     * @class WidgetInput
     * @extends Component
     * @constructor

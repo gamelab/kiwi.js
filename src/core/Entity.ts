@@ -19,7 +19,6 @@ module Kiwi {
     * @return {Entity} This entity.
     *
     */
-
     export class Entity implements Kiwi.IChild {
          
         constructor(state: Kiwi.State, x:number, y: number) {

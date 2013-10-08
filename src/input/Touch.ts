@@ -8,7 +8,7 @@
 module Kiwi.Input {
 
     /**
-    * Manages the dispatching and management of touch events for game.
+    * Handles the dispatching and management of touch based events for the game. When the Touch manager is created TEN finger objects are created and used when the user interacts with the screen. Those finger are what you can use to create games that make the most out of multitouch events. 
     * 
     * @class Touch
     * @constructor

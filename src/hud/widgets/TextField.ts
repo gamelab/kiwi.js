@@ -1,12 +1,19 @@
 /**
+* HUD Widgets are objects that are generally placed on to a HUD Display for displaying and managing information that the user would always need to see.
+* An example of such information would be: the Health remaining, amount of ammo left, time they have left, e.t.c.
+* And each one of those examples would have its own widget.
+*
 * @module HUD
 * @submodule Widget
-*
+* @main Widget
 */
 
 module Kiwi.HUD.Widget {
 
     /**
+    * A Widget that is used for the displaying of text on the HUD. 
+    * Foreach TextField you can add some prefix/suffix text, which is more useful on classes extending this one.
+    *
     * @class TextField
     * @extends HUDWidget
     * @constructor
@@ -19,13 +26,14 @@ module Kiwi.HUD.Widget {
     export class TextField extends Kiwi.HUD.HUDWidget {
         
         constructor(game:Kiwi.Game,text:string,x:number,y:number) {
-            super(game,"textField",x,y);
-            this._text = text;
+            super(game, "textField", x, y);
+
+            this.class = 'kiwi-textfield-widget kiwi-widget';
 
             if (this._manager.supported) {
                 if (this._device === Kiwi.TARGET_BROWSER) {
                     this._textField = this.container;
-                    this._textField.innerText = text;
+                    this._textField.innerHTML = text;
                 }
             }
         }
@@ -175,6 +183,7 @@ module Kiwi.HUD.Widget {
         */
         public _updateText() {
             //..your code here
+            this.text = this._text;
         }
 
     }

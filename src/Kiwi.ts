@@ -74,7 +74,6 @@
 /// <reference path="hud/widgets/MenuItem.ts" />
 /// <reference path="hud/components/Counter.ts" />
 /// <reference path="hud/components/WidgetInput.ts" />
-/// <reference path="hud/components/Range.ts" />
 /// <reference path="hud/components/Time.ts" />
 
 /// <reference path="sound/AudioManager.ts" />

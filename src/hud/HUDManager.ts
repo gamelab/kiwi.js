@@ -1,12 +1,22 @@
 /**
-* Kiwi - HUD
+* The HUD (Heads Up Display) is a section that handles the displayment of information that you always want visible to user. 
+* This section is managed differently to normal GameObjects, where the difference being that HUD items aren't added to a Canvas but are DOM elements instead. Since they DOM elements you can style these elements using a CSS sheet if you wish. 
+*
 * @module Kiwi
 * @submodule HUD
+* @main HUD
 */
 
 module Kiwi.HUD {
 
     /**
+    * This class manages all of the various HUDDisplays that are currently used on this Managers game.
+    * Using this class you can create/add and remove HUDDisplays from this game,
+    * change the HUDDisplay that is currently being display (also known as the currentHUD) and show/hide the currentHUD.
+    * Each HUDManager also has at least one HUDDisplay which is called the 'defaultHUD' you cannot remove,
+    * but you can reassign the defaultHUD to be a different HUDDisplay if you want. 
+    * 
+    *
     * @class HUDManager
     * @constructor
     * @param game {Game} game

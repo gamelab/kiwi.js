@@ -8,7 +8,7 @@
 module Kiwi.GameObjects {
     
     /**
-    * A gameobject that is used to render text onto the state. 
+    * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
     *
     * @class Textfield
     * @extends Entity
@@ -38,12 +38,8 @@ module Kiwi.GameObjects {
             this._textAlign = 'left';
             this._baseline = 'top';
             
-            if (this.state.game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-                this.optimize = false;
-            } else {
-                this.optimize = optimize;
-            }
-
+            this.optimize = optimize;
+            
             this._tempDirty = true;
         }
 
@@ -321,8 +317,9 @@ module Kiwi.GameObjects {
                 if (this.alpha > 0 && this.alpha <= 1) {
                     ctx.globalAlpha = this.alpha;
                 }
-                
-                if (this.optimize) { //if they are using the optmised method.
+
+                //if they are using the optmised method.
+                if (this.state.game.deviceTargetOption !== Kiwi.TARGET_COCOON && this.optimize) { 
 
                     //does the text need re-rendering
                     if (this._tempDirty) this._renderText();

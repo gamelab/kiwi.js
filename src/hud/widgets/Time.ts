@@ -1,5 +1,4 @@
 /**
-* A widget for the management / displaying of a time in the HUD.
 *
 * @module HUD
 * @submodule Widget
@@ -11,6 +10,9 @@
 module Kiwi.HUD.Widget {
     
     /**
+    * A subclass of TextField which manages the displaying of a Time/Timer by creating a new clock on the Time Manager.
+    * The time is managed by a Time Component which contains a format property that handles how the time should be formatted.
+    * 
     * @class Time
     * @extends TextField
     * @constructor
@@ -23,9 +25,10 @@ module Kiwi.HUD.Widget {
     export class Time extends Kiwi.HUD.Widget.TextField {
         
         constructor(game:Kiwi.Game,format:string,x:number,y:number) {
-            super(game,'time', x, y);
-            
-            this.time = this.components.add( new Kiwi.HUD.Components.Time(this, format) );
+            super(game, 'time', x, y);
+            this.name = 'time';
+            this.class = 'kiwi-time-widget kiwi-widget';
+            this.time = this.components.add(new Kiwi.HUD.HUDComponents.Time(this, format) );
         }
 
         /**
@@ -35,7 +38,7 @@ module Kiwi.HUD.Widget {
         * @type Time
         * @public
         */
-        public time: Kiwi.HUD.Components.Time;
+        public time: Kiwi.HUD.HUDComponents.Time;
 
         /**
         * The type of object that this is.

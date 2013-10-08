@@ -8,8 +8,7 @@
 module Kiwi.Input {
     
     /**
-    * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. 
-    * Note: A mouse cursor is always active.
+    * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
     *
     * @class MouseCursor
     * @extends Pointer

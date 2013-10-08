@@ -6,91 +6,47 @@
 module Kiwi.HUD.Widget {
     
     /**
+    * A MenuItem extends the Button Widget and is typically contained inside of a Menu Widget. 
+    * Since a MenuItem extends the Button Widget you can access the Input Component that it has to listen to mouse events.
+    *
     * @class MenuItem
     * @extends HUDWidget
     *
     * @contructor
-    * @param name {string}
-    * @param width {number}
-    * @param height {number}
-    * @param x {number}
-    * @param y {number}
+    * @param game {Game} The game that this MenuItem belongs to.
+    * @param text {string} The text that is to be inside the menuitem.
+    * @param x {number} The position of this menu item on the x-axis.
+    * @param y {number} The position of this menu item on the y-axis.
+    * @return {Button}
     */
-    export class MenuItem extends Kiwi.HUD.HUDWidget {
+    export class MenuItem extends Kiwi.HUD.Widget.Button {
 
-        constructor(game:Kiwi.Game,name:string, width:number, height:number, x: number, y: number) {
+        constructor(game:Kiwi.Game, text:string, x: number, y: number) {
             
-            super(game,name, x, y);
-            /*
-            this.size = this.components.add(new Kiwi.Components.Size(width, height));
-            this.bounds = this.components.add(new Kiwi.Components.Bounds(this.position.x(), this.position.y(), this.size.width(), this.size.height())); 
-            
-            this.size.updated.add(this._applyCSS);
-*/
-            this.container.innerText = name;
-            this._applyCSS();
+            super(game, text, x, y);
+
+            this.name = 'menuItem';
+            this.class = 'kiwi-menuitem-widget kiwi-widget';
+
         }
 
-        //the game
         /**
-        * @property game
-        * @type Game
+        * The type of object that this is.
+        * @method objType
+        * @return {string}
         * @public
         */
-        public game: Kiwi.Game;
-
-        //the size
-        //public size: Kiwi.Components.Size;
-
-        //the input
-        /**
-        * @property input
-        * @type WidgetInput
-        * @public
-        */
-        public input: Kiwi.HUD.Components.WidgetInput;
-
-        //the bounds
-        //public bounds: Kiwi.Components.Bounds;
+        public objType():string {
+            return 'MenuItem';
+        }
 
         /**
+        * The Menu that this belongs to.
         * @property menu
         * @type Menu
-        * @private
-        */
-
-        private menu: Kiwi.HUD.Widget.Menu;
-
-        //when the menu item is added to the stag
-
-        /**
-        * @method addedToStage
-        * @param game {Game}
-        * @param menu {Menu}
         * @public
         */
-        public addedToStage(game:Kiwi.Game, menu:Kiwi.HUD.Widget.Menu) {
-            this.game = game;
-            this.menu = menu;
-            this._applyCSS();
-            //this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
-        }
-
-        //apply the css
-        /**
-        * @method _applyCSS
-        * @private
-        */
-        private _applyCSS() {
-           // this.size.setCSS(this.container);
-            var addX = 0;
-            var addY = 0;
-            if (this.menu !== undefined) {
-                //addX += this.menu.position.x();
-                //addY += this.menu.position.y(); 
-            }
-            //this.bounds.setTo(this.position.x() + addX, this.position.y() + addY, this.size.width(), this.size.height());
-        }
+        public menu: Kiwi.HUD.Widget.Menu;
 
     }
 

@@ -1,14 +1,23 @@
 /**
- *	Contains way's to control the counting of a singular number.
- *
+ *	
  * @module HUD
- * @submodule Components
+ * @submodule HUDComponents
  *
 */
 
-module Kiwi.HUD.Components {
+module Kiwi.HUD.HUDComponents {
 
     /**
+    * A Component to manage and display a Time in a particular format.
+    * The Time Component creates a new clock on the Time Manager and it use's that clock to keep track of the time.
+    * When you create a new Time Component you can specify a format that you want the time to display in, which is a string based on keywords.
+    * Current supported keywords for the format are:
+    *  's' = 'seconds'
+    *  'm' = 'minutes'
+    *  'ms' = milliseconds'
+    *  'ss' = 'seconds with leading zero'
+    *  'mm' = 'minutes with leading zero'
+    *
     * @class Time
     * @extends Component
     * @constructor
