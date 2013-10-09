@@ -13,6 +13,7 @@ module Kiwi.Geom {
      * @constructor
      * @param x {Number} The x coordinate of the center of the circle.
      * @param y {Number} The y coordinate of the center of the circle.
+     * @param diameter {number} The diameter of the circle.
      * @return {Circle} This circle object
      *
      */
