@@ -25,11 +25,14 @@
     <TypeScriptCompile Include="Transform\Alpha.ts" />
     <TypeScriptCompile Include="Input\General.ts" />
     <TypeScriptCompile Include="Tilemaps\Generation.ts" />
-    <Content Include="Audio\Creation.js" />
-    <Content Include="Audio\Creation.ts" />
+    <TypeScriptCompile Include="Audio\FiringOfRockets.ts" />
     <TypeScriptCompile Include="Hud\SpotTheNinja.ts" />
     <TypeScriptCompile Include="Hud\Platformer.ts" />
     <TypeScriptCompile Include="Hud\AmmoOut.ts" />
+    <TypeScriptCompile Include="Audio\MachineGunDeath.ts" />
+    <Content Include="Audio\MachineGunDeath.js">
+      <DependentUpon>MachineGunDeath.ts</DependentUpon>
+    </Content>
     <Content Include="Hud\AmmoOut.js">
       <DependentUpon>AmmoOut.ts</DependentUpon>
     </Content>

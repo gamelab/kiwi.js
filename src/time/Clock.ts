@@ -1,5 +1,5 @@
 /**
-* Kiwi - Time
+* 
 * @module Kiwi
 * @submodule Time
 *
@@ -8,23 +8,22 @@
 module Kiwi.Time {
 
     /**
-    * The Clock class offers a way of tracking time within a game.
-    * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started.
-    * This happens automatically and there is no need to do anything to set this up.
+    * The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
+    * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
     * - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
     * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
     * - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
     * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
     * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
-    *
+    * 
     * @class Clock
     * @constructor
-    * @param manager {Manager} The time manager that this clock belongs to.
-    * @param master {MasterClock} The master clock.
+    * @param manager {ClockManager} The ClockManager that this clock belongs to. .
+    * @param master {MasterClock} The MasterClock that it is getting the time in relation to.
     * @param name {String} The name of the clock.
     * @param [units=1000] {Number} The units that this clock is to operate in.
     * @return {Clock} This Clock object.
-    *
+    * 
     */
     export class Clock {
          
@@ -56,7 +55,7 @@ module Kiwi.Time {
         /**
         * A collection of Timer objects using this clock.
         * @property timers
-        * @type Timer
+        * @type Timer[]
         * @private
         */
         private timers: Kiwi.Time.Timer[];
@@ -281,7 +280,7 @@ module Kiwi.Time {
         /**
         * The time manager that this clock belongs to.
         * @property manager
-        * @type Manager 
+        * @type ClockManager 
         * @public
         */
         public manager: Kiwi.Time.ClockManager = null;
@@ -298,7 +297,7 @@ module Kiwi.Time {
         * Name of the clock
         * @property name
         * @type string
-        * @ublic
+        * @public
         */
         public name: string = null;
 

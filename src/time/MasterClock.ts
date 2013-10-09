@@ -1,5 +1,5 @@
 /**
-* Kiwi - Time
+* 
 * @module Kiwi
 * @submodule Time
 *
@@ -8,7 +8,8 @@
 module Kiwi.Time {
 
     /**
-    * The masterclock tracks time elapsed since the application started.
+    * The MasterClock tracks time elapsed since the application started.
+    * Each ClockManager has only one MasterClock which is automatically generated when the game initially booted.
     * You should not access it directly, use the Clock and Timer classes instead.
     *
     * @class MasterClock

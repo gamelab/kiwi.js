@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Range - Kiwi.js</title>
+    <title>src\hud\components\WidgetInput.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -328,218 +330,206 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Range Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: src\hud\components\WidgetInput.ts</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+*
+* @module HUD
+* @submodule HUDComponents
+* 
+*/
 
+module Kiwi.HUD.HUDComponents {
     
-        <div class="foundat">
-            Defined in: <a href="../files/src_hud_components_Range.ts.html#l12"><code>src\hud\components\Range.ts:12</code></a>
-        </div>
-    
+    /**
+    * The WidgetInput Component handles the input events that you may want to listen to on a widget.
+    * This Component is essentually another version of the normal Input Component but instead of for GameObjects this is for HUDWidgets.
+    *
+    * @class WidgetInput
+    * @extends Component
+    * @constructor
+    * @param owner {any} The object that this WidgetInput belongs to.
+    * @param container {HTMLElement} The HTMLElement that the events will occur on/to.
+    * @return {WidgetInput} 
+    */
+    export class WidgetInput extends Component {
 
-    
+        constructor(owner:any, container:HTMLElement) {
+            super(owner, &#x27;WidgetInput&#x27;);
+            this._container = container;
+
+            //signals!!
+            this.onUp = new Kiwi.Signal;
+            this.onDown = new Kiwi.Signal;
+            this.onOver = new Kiwi.Signal;
+            this.onOut = new Kiwi.Signal;
+
+            this._addEvents();
+        }
+
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string {
+            return &#x27;WidgetInputComponent&#x27;;
+        }
+
+        /**
+        * A Signal that dispatches events when the user releases the mouse on top of the HTMLElement.
+        * @property onUp
+        * @type Signal
+        * @public
+        */
+        public onUp: Kiwi.Signal;
+
+        /**
+        * A Signal that dispatches events when the user presses the mouse on top of the HTMLElement.
+        * @property onDown
+        * @type Signal
+        * @public
+        */
+        public onDown: Kiwi.Signal;
+
+        /**
+        * A Signal that dispatches events when the user&#x27;s mouse initially goes over the top of the HTMLElement.
+        * @property onOver
+        * @type Signal
+        * @public
+        */
+        public onOver: Kiwi.Signal;
+
+        /**
+        * A Signal that dispatches events when the user&#x27;s mouse leaves the HTMLElement.
+        * @property onOut
+        * @type Signal
+        * @public
+        */
+        public onOut: Kiwi.Signal;
         
-            Module: <a href="../modules/Components.html">Components</a><br>
-            Parent Module: <a href="../modules/HUD.html">HUD</a>
+        /**
+        * The HTMLElement that the events are going to occur on.
+        * @property _container
+        * @type HTMLElement
+        * @private
+        */
+        private _container: HTMLElement;
+
+        /**
+        * Changes the HTMLElement that the events are occuring on to one passed. 
+        * Removes all of the current events from container before changing.
+        * @method setElement
+        * @param container {HTMLElement} The new element that the events are going to occur on.
+        * @public
+        */
+        public setElement(container: HTMLElement) {
+            this._removeEvents();
+            this._container = container;
+            this._addEvents();
+        }
+
+        /**
+        * Creates new bindings and adds the events to the HTMLElement.
+        * @method _addEvents
+        * @private
+        */
+        private _addEvents() {
+            if (!this._active) {
+                this._binds = [];
+                this._binds.push({ &#x27;event&#x27;: &#x27;mouseup&#x27;, &#x27;function&#x27;: this._up.bind(this) });
+                this._binds.push({ &#x27;event&#x27;: &#x27;mousedown&#x27;, &#x27;function&#x27;: this._down.bind(this) });
+                this._binds.push({ &#x27;event&#x27;: &#x27;mouseover&#x27;, &#x27;function&#x27;: this._over.bind(this) });
+                this._binds.push({ &#x27;event&#x27;: &#x27;mouseout&#x27;, &#x27;function&#x27;: this._out.bind(this) });
+
+                for (var i = 0; i &lt; this._binds.length; i++) {
+                    this._container.addEventListener(this._binds[i].event, this._binds[i].function, false);
+                }
+                this._active = true;
+            }
+        }
+
+        /**
+        * Removes the events off of the current container.
+        * @method _removeEvents
+        * @private
+        */
+        private _removeEvents() {
+            if (this._active) {
+                for (var i = 0; i &lt; this._binds.length; i++) {
+                    this._container.removeEventListener(this._binds[i].event, this._binds[i].function, false);
+                }
+                this._binds = [];
+                this._active = false;
+            }
+        }
+
+        /**
+        * An array of objects, that holds the events that are happening and the methods that are bound to the container. 
+        * @property _binds
+        * @type any
+        * @private
+        */
+        private _binds: any;
+
+        /**
+        * If the events are currently actively running or not.
+        * @property active
+        * @type boolean
+        * @private
+        */
+        private _active: boolean = false;
+
+        /**
+        * The method that is called when a mouseup event fires. The onUp Signal is called.
+        * @method _up
+        * @param evt {MouseEvent}
+        * @private
+        */
+        private _up(evt) {
+            this.onUp.dispatch(evt);
+        }
         
-    
-
-    
-</div>
-
-
-
-<div class="box intro">
-    
-</div>
-
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-        <div id="method_Range" class="method item">
-    <h3 class="name"><code>Range</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>current</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>max</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>min</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
+        /**
+        * The method that is called when a mousedown event fires. The onDown Signal is called.
+        * @method _down
+        * @param evt {MouseEvent}
+        * @private
+        */
+        private _down(evt) {
+            this.onDown.dispatch(evt);
+        }
         
-            
-                
-                <p>
-                
-                Defined in
-                
-            
+        /**
+        * The method that is called when a mouseover event fires. The onOver Signal is called.
+        * @method _over
+        * @param evt {MouseEvent}
+        * @private
+        */
+        private _over(evt) {
+            this.onOver.dispatch(evt);
+        }
         
-        
-        <a href="../files/src_hud_components_Range.ts.html#l12"><code>src\hud\components\Range.ts:12</code></a>
-        
-        </p>
+        /**
+        * The method that is called when a mouseout event fires. The onOut Signal is called.
+        * @method _out
+        * @param evt {MouseEvent}
+        * @private
+        */
+        private _out(evt) {
+            this.onOut.dispatch(evt);
+        }
+
+    }
+
+}
 
 
-        
 
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">current</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The current value.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">max</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The maximum value it can be.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">min</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The minimum value that the current can be.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-    </div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-
-        
-
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

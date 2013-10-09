@@ -1,14 +1,16 @@
 /**
-* Kiwi - Sound
+* The namespace that holds all of the assets and functionality when dealing with Audio.
+* 
 * @module Kiwi
 * @submodule Sound
 * @main Sound 
+* 
 */ 
 
 module Kiwi.Sound {
 
     /**
-    * Handles the playing of sound on the game. This is either through the use of the Web Audio API (if it is supported), otherwise fallbacks to Audio Tags.
+    * Manages the initialisation of assets necessary when dealing with audio in the game, either through Audio Tags or the Web Audio API. Also provides global sound controls that will be applyed to all Audio objects at the same time. 
     * 
     * @class AudioManager
     * @constructor

@@ -1,5 +1,5 @@
 /**
-* Kiwi - Textures
+* 
 * @module Kiwi
 * @submodule Textures
 * @main Textures
@@ -9,8 +9,8 @@
 module Kiwi.Textures {
 
     /**
-    *
-    *
+    * 
+    * 
     * @class TextureLibrary
     * @constructor
     * @param game {Game} The game that this texture library belongs to.

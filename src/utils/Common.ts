@@ -1,5 +1,6 @@
 /**
-* Kiwi - Utils
+* Utils is a space that holds a wide varity of useful methods.
+*
 * @module Kiwi
 * @submodule Utils
 * @main Utils

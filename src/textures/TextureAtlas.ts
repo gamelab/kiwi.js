@@ -1,5 +1,5 @@
 /**
-* Kiwi - Textures
+* 
 * @module Kiwi
 * @submodule Textures
 *
@@ -8,8 +8,8 @@
 module Kiwi.Textures {
 
     /**
-    *
-    *
+    * 
+    * 
     * @class TextureAtlas
     * @constructor
     * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.

@@ -1,5 +1,5 @@
 /**
-* Kiwi - Textures
+* 
 * @module Kiwi
 * @submodule Textures
 *

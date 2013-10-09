@@ -1,5 +1,6 @@
 /**
-* Kiwi - Time
+* Contains ways of tracking time within a game or application. Each game will have a ClockManager, MasterClock and a single Clock automatically generated for them upon game creation.
+* 
 * @module Kiwi
 * @submodule Time
 * @main Time
@@ -8,8 +9,8 @@
 module Kiwi.Time {
 
     /**
-    * A Proxy to the Clock and Time related classes. Access this via Kiwi.Game.Clock
-    *
+    * Handles the generation and tracking of Clocks and Time related applications for a single game. 
+    * 
     * @class ClockManager
     * @constructor
     * @param {Game} game.

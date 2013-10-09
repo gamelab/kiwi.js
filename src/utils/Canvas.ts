@@ -1,12 +1,12 @@
 /**
-* Kiwi - Utils
+* 
 * @module Kiwi
 * @submodule Utils
 */
 module Kiwi.Utils {
 
     /**
-    * Creates a canvas DOM element.
+    * Creates and the manages a Canvas DOMElement.
     * 
     * @class Canvas
     * @constructor

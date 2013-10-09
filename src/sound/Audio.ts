@@ -1,5 +1,5 @@
 /**
-* Kiwi - Sound
+* 
 * @module Kiwi
 * @submodule Sound
 * 
@@ -8,7 +8,7 @@
 module Kiwi.Sound {
 
     /**
-    * Manages the playing of sound 
+    * A Object that contains the functionality needed when wanting to play a single sound/sound file on a game.
     *
     * @class Audio
     * @constructor
@@ -543,17 +543,17 @@ module Kiwi.Sound {
         * @public
         */
         public play(marker: string= this._currentMarker, forceRestart: boolean = false) {
-            console.log('PLAYING');
+            
             if (this.isPlaying && forceRestart == false || this._game.audio.noAudio) return;
 
-            if (forceRestart && this._pending == false) this.stop();
+            if (forceRestart === true && this._pending === false) this.stop();
             this.paused = false;
 
             if (this._markers[marker] == undefined) return;
 
-            if(this._currentMarker === marker && this.isPlaying) return;
+            if(this._currentMarker === marker && this.isPlaying && forceRestart == false) return;
 
-            this._currentMarker = marker;
+            this._currentMarker = marker; 
             this.duration = this._markers[this._currentMarker].duration * 1000;
             this._loop = this._markers[this._currentMarker].loop;
             

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\hud\widgets\IconCounter.ts - Kiwi.js</title>
+    <title>src\hud\widgets\IconBar.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -328,14 +330,11 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\hud\widgets\IconCounter.ts</h1>
+                        <h1 class="file-heading">File: src\hud\widgets\IconBar.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* A HUDWidget used for displaying a sigular image multiple times. 
-* The amount is based of a range components current value, so you can set a maximum and minimum number of images to be dispalyed.
-*  Mainly used for Health Bars, where each &#x27;life&#x27; would have its own image.
 *
 * @module HUD
 * @submodule Widget
@@ -344,121 +343,202 @@
 module Kiwi.HUD.Widget {
 
     /**
-    * @class IconCounter
-    * @extends Icon
+    * The IconBar used to display a series of icons which represent a number of &#x27;something&#x27; the user may have. 
+    * Example: If you had a shooter style game you might want to display the amount of &#x27;ammo&#x27; left in the gun using a series of bullet icons. You could then use this IconBar to display that series.
+    * The amount is based of a counter components current value, so you can set a maximum and minimum number of images to be displayed.
+    *
+    * @class IconBar
+    * @extends HUDWidget
     * @constructor
-    * @param {TextureAtlas} key
-    * @param current {number} current
-    * @param max {number} max
-    * @param x {number} x
-    * @param y {number} y
+    * @param game {Game} The game that this icon bar belongs to.
+    * @param atlas {TextureAtlas} The texture atlas that the icons will have.
+    * @param current {number} The current amount of icons in the bar.
+    * @param max {number} The maximum number of icons.
+    * @param x {number} The x coordinates of the first icon.
+    * @param y {number} The y coordinates of the last icon.
+    * @return {IconBar}
     */
-    export class IconCounter extends Kiwi.HUD.Widget.Icon {
+    export class IconBar extends Kiwi.HUD.HUDWidget {
 
-        constructor(atlas: Kiwi.Textures.TextureAtlas, current: number, max: number, x: number, y: number) {
+        constructor(game:Kiwi.Game, atlas: Kiwi.Textures.TextureAtlas, current: number, max: number, x: number, y: number) {
             
-            super(atlas, x, y);
+            super(game, &#x27;IconBar&#x27;, x, y);
 
+            this.class = &#x27;kiwi-iconbar-widget kiwi-widget&#x27;;
+            this.atlas = atlas;
+            this.width = this.atlas.cells[0].w;
+            this.height = this.atlas.cells[0].h;
             this._horizontal = true;
-           
-            this.range = this.components.add(new Kiwi.HUD.Components.Range(current, max, 0));
-            this.range.updated.add(this._changeSize, this);
+            
+            this.counter = this.components.add(new Kiwi.HUD.HUDComponents.Counter(this, current, max, 0));
+            this.counter.updated.add(this._amountChanged, this);
 
-            this._changeSize();
-            this._applyCSS();
+            this._icons = [];
+            this._amountChanged();
         }
 
-        /*
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType():string {
+            return &#x27;IconBarWidget&#x27;;
+        }
+
+        /**
+        * The amount of spacing you want between each icon in the bar. Defaults to 0.
+        * @property iconGap
+        * @type number
+        * @default 0
+        * @public
+        */
+        public iconGap: number = 0;
+
+        /**
+        * The texture atlas that each Icon inside the IconBar will use.
+        * @property atlas
+        * @type TextureAtlas
+        * @public
+        */
+        public atlas: Kiwi.Textures.TextureAtlas;
+
+        /**
+        * The width of a single Icon in the bar. This is based on the width of the first cell in the atlas.
+        * @property width
+        * @type number
+        * @private
+        */
+        private width: number;
+
+        /**
+        * The height of a single Icon in the bar. This is based on the height of the first cell in the atlas.
+        * @property height
+        * @type number
+        * @private
+        */
+        private height: number;
+
+        /**
         * Knowledge of whether the icons should be horizontal or vertical
         * @property _horizontal
         * @type boolean
+        * @default true
         * @private
         */
         private _horizontal: boolean;
 
-        /*
-        * Holds the range component.
-        * @property range
-        * @type Range
+        /**
+        * Holds the counter component.
+        * @property counter
+        * @type Counter
         * @public
         */
-        public range: Kiwi.HUD.Components.Range;
+        public counter: Kiwi.HUD.HUDComponents.Counter;
 
         /**
-        * @property _repeat
-        * @type string
-        * @public
+        * An array of all of the icons on the screen.
+        * @property icons
+        * @type Icon[]
+        * @private
         */
-
-        public _repeat: string;
+        private _icons: Kiwi.HUD.Widget.Icon[];
 
         /**
-        * @property repeat
-        * @type string
-        * @public
-        */
-
-        public get repeat():string {
-            return this._repeat;
-        }
-
-        /*
         * Gets called when the range has updated and then it updates the size of the bar.
         * @method _changeSize
         * @private
         */
-        private _changeSize() {
-            
-            if (this._horizontal) {
-                this._repeat = &#x27;repeat-x&#x27;;
-                this.width = this.atlas.cells[this.cellIndex].w * this.range.current;
-                this.height = this.atlas.cells[this.cellIndex].h;
-            } else {
-                this._repeat = &#x27;repeat-y&#x27;;
-                this.width = this.atlas.cells[this.cellIndex].w;
-                this.height = this.atlas.cells[this.cellIndex].h * this.range.current;
+        private _amountChanged() {
+
+            //do we need to do something to the icons?!?
+            if (this.counter.max !== this._icons.length) {
+                if ((this.counter.max) &gt; this._icons.length) {
+                    //add more
+                    var amount = (this.counter.max) - this._icons.length;
+                    for (var i = 0; i &lt; amount; i++) {
+                        this._addIcon();
+                    }
+                } else {
+                    //remove some
+                    for (var i = this.counter.max; i &lt; this._icons.length; i++) {
+                        this._removeIcon(this._icons[i]);
+                        this._icons[i].destroy();
+                        this._icons.splice(i, 1);
+                        i--;
+                    }
+                }
             }
-        
+
+            //display them all!
+            for (var i = 0; i &lt; this._icons.length; i++) {
+                if (i &gt; (this.counter.current - 1)) {
+                    this._icons[i].style.display = &#x27;none&#x27;;
+                } else {
+                    this._icons[i].style.display = &#x27;block&#x27;;
+                }
+            }
         }
-        
-        /*
-        * Applys the background image CSS.
-        * @method _applyCSS
-        * @public
+
+        /**
+        * Creates a new Icon and adds it to this IconBar.
+        * @method _addIcon
+        * @private
         */
-        public _applyCSS() {
-            super._applyCSS();
-            this.icon.style.backgroundRepeat = this.repeat;
+        private _addIcon() {
+            if (this.horizontal) {
+                var i: Kiwi.HUD.Widget.Icon = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x + ((this.width + this.iconGap) * (this._icons.length - 1)), this.y);
+            } else {
+                var i: Kiwi.HUD.Widget.Icon = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x, ((this.height + this.iconGap) * (this._icons.length - 1)) + this.y);
+            }
+
+            this._icons.push(i);
+            if (this._device == Kiwi.TARGET_BROWSER) {
+                this.container.appendChild(i.container);
+            }
+        }
+
+        /**
+        * Removes a Icon from the container.
+        * @method _removeIcon
+        * @param icon {Icon} The icon that you want to remove
+        * @private
+        */
+        private _removeIcon(icon:Kiwi.HUD.Widget.Icon) {
+            if (this._device == Kiwi.TARGET_BROWSER) {
+                this.container.removeChild(icon.container);
+            }
         }
         
-        /*
+        /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @property horizontal
         * @type boolean
+        * @default true
         * @public
         */
         public get horizontal(): boolean {
             return this._horizontal;
         }
-
         public set horizontal(val: boolean) {
             this._horizontal = val;
-            this._changeSize();
+            this._amountChanged();
         }
 
-        /*
+        /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @property vertical
         * @type boolean
+        * @default false
         * @public
         */
         public get vertical(): boolean {
             return !this._horizontal;
         }
-
         public set vertical(val: boolean) {
             this._horizontal = !val;
-            this._changeSize();
+            this._amountChanged();
         }
 
     }

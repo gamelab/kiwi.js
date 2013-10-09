@@ -1,5 +1,5 @@
 /**
-* Kiwi - Utils
+* 
 * @module Kiwi
 * @submodule Utils
 */

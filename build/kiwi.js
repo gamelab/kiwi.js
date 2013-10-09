@@ -5263,11 +5263,7 @@ var Kiwi;
                 this._textAlign = 'left';
                 this._baseline = 'top';
 
-                if (this.state.game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-                    this.optimize = false;
-                } else {
-                    this.optimize = optimize;
-                }
+                this.optimize = optimize;
 
                 this._tempDirty = true;
             }
@@ -5379,7 +5375,7 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    if (this.optimize) {
+                    if (this.state.game.deviceTargetOption !== Kiwi.TARGET_COCOON && this.optimize) {
                         if (this._tempDirty)
                             this._renderText();
 
@@ -9834,18 +9830,17 @@ var Kiwi;
             Audio.prototype.play = function (marker, forceRestart) {
                 if (typeof marker === "undefined") { marker = this._currentMarker; }
                 if (typeof forceRestart === "undefined") { forceRestart = false; }
-                console.log('PLAYING');
                 if (this.isPlaying && forceRestart == false || this._game.audio.noAudio)
                     return;
 
-                if (forceRestart && this._pending == false)
+                if (forceRestart === true && this._pending === false)
                     this.stop();
                 this.paused = false;
 
                 if (this._markers[marker] == undefined)
                     return;
 
-                if (this._currentMarker === marker && this.isPlaying)
+                if (this._currentMarker === marker && this.isPlaying && forceRestart == false)
                     return;
 
                 this._currentMarker = marker;

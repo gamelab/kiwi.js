@@ -1,5 +1,5 @@
 /**
-* Kiwi - Time
+* 
 * @module Kiwi
 * @submodule Time
 *
@@ -8,7 +8,7 @@
 module Kiwi.Time {
 
     /**
-    * The Timer class hooks into a game clock and allows you run code at a specified point in game time.
+    * The Timer class hooks into a game Clock and allows you run code at a specified point in game time.
     * Use the start() method to start a timer. Add TimerEvents to set-up code to be run on the timer interval.
     * Timer objects can run once or repeat at specified intervals to execute code on a schedule.
     *

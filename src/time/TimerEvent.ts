@@ -1,5 +1,5 @@
 /**
-* Kiwi - Time
+* 
 * @module Kiwi
 * @submodule Time
 *
@@ -8,7 +8,7 @@
 module Kiwi.Time {
 
     /**
-    *
+    * A TimerEvent hooks into a Timer and is an object that is generated when you are wanting to executed a callback at a specific point in time. 
     *
     * @class TimerEvent
     * @constructor
