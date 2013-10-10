@@ -27,7 +27,7 @@ class MouseManager extends Kiwi.State {
 
         this.rocket.rotation -= Math.PI / 2;
 
-        this.game.input.mouse.mouseWheel.add(this.move, this);
+        this.game.input.mouse.onWheel.add(this.move, this);
         
     }
 

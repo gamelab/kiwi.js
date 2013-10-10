@@ -29,38 +29,149 @@ module Kiwi.Renderers {
         * @public
         */
         public boot() {
-             
             this._initState();
-            
         }
         
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "GLRenderer";
         }
 
-
+        /**
+        * The game that this renderer is on.
+        * @property _game
+        * @type Game
+        * @private
+        */
         private _game: Kiwi.Game;
 
+        /**
+        * The current camara that is being rendered
+        * @property _currentCamera
+        * @type Camera
+        * @private
+        */
         private _currentCamera: Kiwi.Camera;
+        
+        /**
+        *
+        * @property _stageResolution
+        * @type Float32Array
+        * @private
+        */
         private _stageResolution: Float32Array;
 
+        /**
+        *
+        * @property _shaders
+        * @type GLShaders
+        * @private
+        */
         private _shaders: GLShaders;
+        
+        /**
+        *
+        * @property _vertBuffer
+        * @type GLArrayBuffer
+        * @private
+        */
         private _vertBuffer: GLArrayBuffer;
+        
+        /**
+        *
+        * @property _indexBuffer
+        * @type GLElementArrayBuffer
+        * @private 
+        */
         private _indexBuffer: GLElementArrayBuffer;
+        
+        /**
+        *
+        * @property _uvBuffer
+        * @type GLArrayBuffer
+        * @private
+        */
         private _uvBuffer: GLArrayBuffer;
+        
+        /**
+        *
+        * @property _colorBuffer
+        * @type GLArrayBuffer
+        * @private
+        */
         private _colorBuffer: GLArrayBuffer;
         
+        /**
+        *
+        * @property _texture
+        * @type GLTexture
+        * @private
+        */
         private _texture: GLTexture;
-
+        
+        /**
+        *
+        * @property _entityCount
+        * @type number
+        * @default 0
+        * @private
+        */
         private _entityCount: number = 0;
+        
+        /**
+        *
+        * @property _maxItems
+        * @type number
+        * @default 1000
+        * @private
+        */
         private _maxItems: number = 1000;
-
+        
+        /**
+        *
+        * @property _texApplied
+        * @type boolean
+        * @default false
+        * @private
+        */
         private _texApplied: boolean = false;
+        
+        /**
+        *
+        * @property _firstPass
+        * @type boolean
+        * @default true
+        * @private
+        */
         private _firstPass: boolean = true;
-
-        public mvMatrix:Float32Array;
+        
+        /**
+        *
+        * @property mvMatrix
+        * @type Float32Array
+        * @public
+        */
+        public mvMatrix: Float32Array;
+        
+        /**
+        *
+        * @property mvMatrixStack
+        * @type Array
+        * @public
+        */
         public mvMatrixStack: Array;
         
+        /**
+        *
+        * @property _currentTextureAtlas
+        * @type TextureAtlas
+        * @private
+        */
         private _currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
         /*
         public mvPush() {
@@ -76,6 +187,11 @@ module Kiwi.Renderers {
             this.mvMatrix = this.mvMatrixStack.pop();
         } */   
 
+        /**
+        *
+        * @method _initState
+        * @private
+        */
         private _initState() {
 
             var gl: WebGLRenderingContext = this._game.stage.gl;
@@ -88,12 +204,6 @@ module Kiwi.Renderers {
             this.mvMatrix = mat4.create();
             mat2d.identity(this.mvMatrix);
             
-            
-            
-
-            
-            
-
             //create buffers
             //dynamic
             this._vertBuffer = new GLArrayBuffer(gl, 2);
@@ -123,17 +233,14 @@ module Kiwi.Renderers {
 
             gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
             
-           
-            
-          
-
-        
-
-
         }
 
-
-
+        /**
+        *
+        * @method render
+        * @param camera {Camera}
+        * @public
+        */
         public render(camera: Kiwi.Camera) {
 
             this._currentCamera = camera;
@@ -175,8 +282,14 @@ module Kiwi.Renderers {
             this._firstPass = false;
         }
 
-        
-
+        /**
+        * 
+        * @method _recurse
+        * @param gl {WebGLRenderingContext}
+        * @param child {IChild}
+        * @param camera {Camera}
+        * @private
+        */
         private _recurse(gl: WebGLRenderingContext, child: IChild, camera: Kiwi.Camera) {
             if (!child.willRender) return;
 
@@ -204,18 +317,29 @@ module Kiwi.Renderers {
                 this._entityCount++;
                 
             }
-           
-          
-
+        
         }
         
-
+        /**
+        *
+        * @method _flush
+        * @param gl {WebGLRenderingContext}
+        * @private
+        */
         private _flush(gl: WebGLRenderingContext) {
             this._vertBuffer.refresh(gl, this._vertBuffer.items);
             this._uvBuffer.refresh(gl, this._uvBuffer.items);
             this._draw(gl);
         }
 
+        /**
+        * 
+        * @method _compileVertices
+        * @param gl {WebGLRenderingContext}
+        * @param entity {Entity}
+        * @param camera {Camera}
+        * @private
+        */
         private _compileVertices(gl: WebGLRenderingContext, entity: Entity,camera:Kiwi.Camera) {
             var t: Kiwi.Geom.Transform = entity.transform;
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
@@ -252,6 +376,13 @@ module Kiwi.Renderers {
             
         }
 
+        /**
+        *
+        * @method _compileUVs
+        * @param gl {WebGLRenderingContext}
+        * @param entity {Entity}
+        * @private
+        */
         private _compileUVs(gl: WebGLRenderingContext, entity: Entity) {
             var t: Kiwi.Geom.Transform = entity.transform;
             var c = entity.atlas.cells[entity.cellIndex];
@@ -263,9 +394,13 @@ module Kiwi.Renderers {
        
         }
 
-
-       
-
+        /**
+        * 
+        * @method _applyTexture
+        * @param gl {WebGLRenderingContext}
+        * @param image {HTMLImageElement}
+        * @private
+        */
         private _applyTexture(gl: WebGLRenderingContext,image:HTMLImageElement) {
             this._texture = new GLTexture(gl, image);
             gl.activeTexture(gl.TEXTURE0);
@@ -274,6 +409,13 @@ module Kiwi.Renderers {
             gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
         }
 
+        /**
+        * 
+        * @method _changeTexture
+        * @param gl {WebGLRenderingContext}
+        * @param image {HTMLImageElement}
+        * @private
+        */
         private _changeTexture(gl: WebGLRenderingContext, image: HTMLImageElement) {
           
             this._texture.refresh(gl, image);
@@ -283,14 +425,25 @@ module Kiwi.Renderers {
             gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
         }
 
-
+        /**
+        * 
+        * @method _draw
+        * @param gl {WebGLRenderingContext}
+        * @private
+        */
         private _draw(gl: WebGLRenderingContext) {
            
             gl.drawElements(gl.TRIANGLES, this._entityCount*6, gl.UNSIGNED_SHORT, 0);
             
         }
         
-
+        /**
+        *
+        * @method _generateIndices
+        * @param numQuads {number}
+        * @return number[]
+        * @private
+        */
         private _generateIndices(numQuads: number): number[]{
        
             var quads: number[] = new Array();
@@ -301,6 +454,13 @@ module Kiwi.Renderers {
 
         }
 
+        /**
+        *
+        * @method _generateColors
+        * @param numVerts {number}
+        * @return number[]
+        * @private
+        */
         private _generateColors(numVerts: number): number[] {
             var cols: number[] = new Array();
             for (var i = 0; i < numVerts; i++) {

@@ -119,8 +119,8 @@ module Kiwi.Input {
                 this.touch.touchUp.add(this._onUpEvent, this);
                 this._pointers = this.touch.fingers;
             } else {
-                this.mouse.mouseDown.add(this._onDownEvent, this);
-                this.mouse.mouseUp.add(this._onUpEvent, this);
+                this.mouse.onDown.add(this._onDownEvent, this);
+                this.mouse.onUp.add(this._onUpEvent, this);
                 this._pointers.push(this.mouse.cursor);
                 this.keyboard = new Kiwi.Input.Keyboard(this.game);
                 this.keyboard.boot();

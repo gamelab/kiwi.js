@@ -514,7 +514,7 @@ module Kiwi.GameObjects.Tilemap {
         */ 
         public render(camera: Kiwi.Camera) { 
             
-            if (this.visiblity === false || this.alpha < 0.1 || this.exists === false) {
+            if (this.visibility === false || this.alpha < 0.1 || this.exists === false) {
                 return;
             }
             

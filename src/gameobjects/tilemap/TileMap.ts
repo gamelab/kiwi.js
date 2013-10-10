@@ -219,7 +219,7 @@ module Kiwi.GameObjects.Tilemap { //namespace needs to be changed...
                 layer.transform.parent = this.transform;
                 layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                 layer.alpha = parseInt(mapObj.layers[i].opacity);
-                layer.visiblity = mapObj.layers[i].visible;
+                layer.visibility = mapObj.layers[i].visible;
 
                 var c = 0;
                 var row;

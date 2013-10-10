@@ -307,7 +307,7 @@ module Kiwi.GameObjects {
 	    */
         public render(camera:Kiwi.Camera) {
             
-            if (this.alpha > 0 && this.visiblity) {
+            if (this.alpha > 0 && this.visibility) {
 
                 //render on stage
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;

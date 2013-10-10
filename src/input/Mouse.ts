@@ -83,19 +83,19 @@ module Kiwi.Input {
          
         /**
         * A Signal that dispatches events when the mouse is pressed down on the stage.
-        * @property mouseDown 
+        * @property onDown 
         * @type Kiwi.Signal
         * @public
         */
-        public mouseDown: Kiwi.Signal;
+        public onDown: Kiwi.Signal;
         
         /**
         * A Signal that dispatches events when the mouse is released from being down on the stage.
-        * @property mouseUp 
+        * @property onUp 
         * @type Kiwi.Signal
         * @public
         */
-        public mouseUp: Kiwi.Signal;
+        public onUp: Kiwi.Signal;
 
         /**
         * A Signal that dispatches events mouse wheel moves.
@@ -103,7 +103,7 @@ module Kiwi.Input {
         * @type Kiwi.Signal
         * @public
         */
-        public mouseWheel: Kiwi.Signal;
+        public onWheel: Kiwi.Signal;
 
         /**
         * The MouseCursor that is on the stage. This contains the coordinates and information about the cursor.
@@ -136,9 +136,9 @@ module Kiwi.Input {
             this._cursor.active = true;
             this._cursor.id = 1;
             
-            this.mouseDown = new Kiwi.Signal();
-            this.mouseUp = new Kiwi.Signal();
-            this.mouseWheel = new Kiwi.Signal();
+            this.onDown = new Kiwi.Signal();
+            this.onUp = new Kiwi.Signal();
+            this.onWheel = new Kiwi.Signal();
 
             this.start();
         }
@@ -319,7 +319,7 @@ module Kiwi.Input {
         */
         private onMouseDown(event: MouseEvent) { 
             this._cursor.start(event); 
-            this.mouseDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
+            this.onDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
         }
 
         /**  
@@ -340,7 +340,7 @@ module Kiwi.Input {
         */
         private onMouseUp(event: MouseEvent) { 
             this._cursor.stop(event);
-            this.mouseUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
+            this.onUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
         }
         
         /**  
@@ -351,7 +351,7 @@ module Kiwi.Input {
         */
         private onMouseWheel(event: WheelEvent) {
             this._cursor.wheel(event);
-            this.mouseWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
+            this.onWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
         }
 
         /**  

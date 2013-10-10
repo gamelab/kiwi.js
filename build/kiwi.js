@@ -2274,7 +2274,7 @@ var Kiwi;
             configurable: true
         });
 
-        Object.defineProperty(Entity.prototype, "visiblity", {
+        Object.defineProperty(Entity.prototype, "visibility", {
             get: function () {
                 return this._visible;
             },
@@ -9337,7 +9337,7 @@ var Kiwi;
             Sprite.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
-                if (this.alpha > 0 && this.visiblity) {
+                if (this.alpha > 0 && this.visibility) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
@@ -9421,7 +9421,7 @@ var Kiwi;
             StaticImage.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
 
-                if (this.alpha > 0 && this.visiblity) {
+                if (this.alpha > 0 && this.visibility) {
                     var ctx = this.game.stage.ctx;
                     ctx.save();
 
@@ -9667,7 +9667,7 @@ var Kiwi;
             * @public
             */
             Textfield.prototype.render = function (camera) {
-                if (this.alpha > 0 && this.visiblity) {
+                if (this.alpha > 0 && this.visibility) {
                     //render on stage
                     var ctx = this.game.stage.ctx;
                     ctx.save();
@@ -9991,7 +9991,7 @@ var Kiwi;
                         layer.transform.parent = this.transform;
                         layer.transform.setPosition(mapObj.layers[i].x, mapObj.layers[i].y);
                         layer.alpha = parseInt(mapObj.layers[i].opacity);
-                        layer.visiblity = mapObj.layers[i].visible;
+                        layer.visibility = mapObj.layers[i].visible;
 
                         var c = 0;
                         var row;
@@ -10695,7 +10695,7 @@ var Kiwi;
                 * @public
                 */
                 TileMapLayer.prototype.render = function (camera) {
-                    if (this.visiblity === false || this.alpha < 0.1 || this.exists === false) {
+                    if (this.visibility === false || this.alpha < 0.1 || this.exists === false) {
                         return;
                     }
 
@@ -19203,8 +19203,8 @@ var Kiwi;
                     this.touch.touchUp.add(this._onUpEvent, this);
                     this._pointers = this.touch.fingers;
                 } else {
-                    this.mouse.mouseDown.add(this._onDownEvent, this);
-                    this.mouse.mouseUp.add(this._onUpEvent, this);
+                    this.mouse.onDown.add(this._onDownEvent, this);
+                    this.mouse.onUp.add(this._onUpEvent, this);
                     this._pointers.push(this.mouse.cursor);
                     this.keyboard = new Kiwi.Input.Keyboard(this.game);
                     this.keyboard.boot();
@@ -19404,9 +19404,9 @@ var Kiwi;
                 this._cursor.active = true;
                 this._cursor.id = 1;
 
-                this.mouseDown = new Kiwi.Signal();
-                this.mouseUp = new Kiwi.Signal();
-                this.mouseWheel = new Kiwi.Signal();
+                this.onDown = new Kiwi.Signal();
+                this.onUp = new Kiwi.Signal();
+                this.onWheel = new Kiwi.Signal();
 
                 this.start();
             };
@@ -19663,7 +19663,7 @@ var Kiwi;
             */
             Mouse.prototype.onMouseDown = function (event) {
                 this._cursor.start(event);
-                this.mouseDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
+                this.onDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
             };
 
             /**
@@ -19684,7 +19684,7 @@ var Kiwi;
             */
             Mouse.prototype.onMouseUp = function (event) {
                 this._cursor.stop(event);
-                this.mouseUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
+                this.onUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor);
             };
 
             /**
@@ -19695,7 +19695,7 @@ var Kiwi;
             */
             Mouse.prototype.onMouseWheel = function (event) {
                 this._cursor.wheel(event);
-                this.mouseWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
+                this.onWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
             };
 
             /**
@@ -20892,10 +20892,44 @@ var Kiwi;
         */
         var GLRenderer = (function () {
             function GLRenderer(game) {
+                /**
+                *
+                * @property _entityCount
+                * @type number
+                * @default 0
+                * @private
+                */
                 this._entityCount = 0;
+                /**
+                *
+                * @property _maxItems
+                * @type number
+                * @default 1000
+                * @private
+                */
                 this._maxItems = 1000;
+                /**
+                *
+                * @property _texApplied
+                * @type boolean
+                * @default false
+                * @private
+                */
                 this._texApplied = false;
+                /**
+                *
+                * @property _firstPass
+                * @type boolean
+                * @default true
+                * @private
+                */
                 this._firstPass = true;
+                /**
+                *
+                * @property _currentTextureAtlas
+                * @type TextureAtlas
+                * @private
+                */
                 this._currentTextureAtlas = null;
                 this._game = game;
             }
@@ -20908,6 +20942,12 @@ var Kiwi;
                 this._initState();
             };
 
+            /**
+            * The type of object that this is.
+            * @method objType
+            * @return {String}
+            * @public
+            */
             GLRenderer.prototype.objType = function () {
                 return "GLRenderer";
             };
@@ -20925,6 +20965,11 @@ var Kiwi;
             }
             this.mvMatrix = this.mvMatrixStack.pop();
             } */
+            /**
+            *
+            * @method _initState
+            * @private
+            */
             GLRenderer.prototype._initState = function () {
                 var gl = this._game.stage.gl;
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -20965,6 +21010,12 @@ var Kiwi;
                 gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
             };
 
+            /**
+            *
+            * @method render
+            * @param camera {Camera}
+            * @public
+            */
             GLRenderer.prototype.render = function (camera) {
                 this._currentCamera = camera;
                 var root = this._game.states.current.members;
@@ -21014,6 +21065,14 @@ var Kiwi;
                 this._firstPass = false;
             };
 
+            /**
+            *
+            * @method _recurse
+            * @param gl {WebGLRenderingContext}
+            * @param child {IChild}
+            * @param camera {Camera}
+            * @private
+            */
             GLRenderer.prototype._recurse = function (gl, child, camera) {
                 if (!child.willRender)
                     return;
@@ -21043,12 +21102,26 @@ var Kiwi;
                 }
             };
 
+            /**
+            *
+            * @method _flush
+            * @param gl {WebGLRenderingContext}
+            * @private
+            */
             GLRenderer.prototype._flush = function (gl) {
                 this._vertBuffer.refresh(gl, this._vertBuffer.items);
                 this._uvBuffer.refresh(gl, this._uvBuffer.items);
                 this._draw(gl);
             };
 
+            /**
+            *
+            * @method _compileVertices
+            * @param gl {WebGLRenderingContext}
+            * @param entity {Entity}
+            * @param camera {Camera}
+            * @private
+            */
             GLRenderer.prototype._compileVertices = function (gl, entity, camera) {
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();
@@ -21075,6 +21148,13 @@ var Kiwi;
                 this._vertBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, pt2.x + t.rotPointX, pt2.y + t.rotPointY, pt3.x + t.rotPointX, pt3.y + t.rotPointY, pt4.x + t.rotPointX, pt4.y + t.rotPointY);
             };
 
+            /**
+            *
+            * @method _compileUVs
+            * @param gl {WebGLRenderingContext}
+            * @param entity {Entity}
+            * @private
+            */
             GLRenderer.prototype._compileUVs = function (gl, entity) {
                 var t = entity.transform;
                 var c = entity.atlas.cells[entity.cellIndex];
@@ -21082,6 +21162,13 @@ var Kiwi;
                 this._uvBuffer.items.push(c.x, c.y, c.x + c.w, c.y, c.x + c.w, c.y + c.h, c.x, c.y + c.h);
             };
 
+            /**
+            *
+            * @method _applyTexture
+            * @param gl {WebGLRenderingContext}
+            * @param image {HTMLImageElement}
+            * @private
+            */
             GLRenderer.prototype._applyTexture = function (gl, image) {
                 this._texture = new Renderers.GLTexture(gl, image);
                 gl.activeTexture(gl.TEXTURE0);
@@ -21090,6 +21177,13 @@ var Kiwi;
                 gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
             };
 
+            /**
+            *
+            * @method _changeTexture
+            * @param gl {WebGLRenderingContext}
+            * @param image {HTMLImageElement}
+            * @private
+            */
             GLRenderer.prototype._changeTexture = function (gl, image) {
                 this._texture.refresh(gl, image);
                 gl.activeTexture(gl.TEXTURE0);
@@ -21098,10 +21192,23 @@ var Kiwi;
                 gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
             };
 
+            /**
+            *
+            * @method _draw
+            * @param gl {WebGLRenderingContext}
+            * @private
+            */
             GLRenderer.prototype._draw = function (gl) {
                 gl.drawElements(gl.TRIANGLES, this._entityCount * 6, gl.UNSIGNED_SHORT, 0);
             };
 
+            /**
+            *
+            * @method _generateIndices
+            * @param numQuads {number}
+            * @return number[]
+            * @private
+            */
             GLRenderer.prototype._generateIndices = function (numQuads) {
                 var quads = new Array();
                 for (var i = 0; i < numQuads; i++) {
@@ -21110,6 +21217,13 @@ var Kiwi;
                 return quads;
             };
 
+            /**
+            *
+            * @method _generateColors
+            * @param numVerts {number}
+            * @return number[]
+            * @private
+            */
             GLRenderer.prototype._generateColors = function (numVerts) {
                 var cols = new Array();
                 for (var i = 0; i < numVerts; i++) {
@@ -21135,12 +21249,25 @@ var Kiwi;
         /**
         *
         * @class GLShaders
-        *
-        *
+        * @constructor
+        * @param gl {WebGLRenderingContext}
+        * @return {GLShaders}
         */
         var GLShaders = (function () {
             function GLShaders(gl) {
+                /**
+                *
+                * @property ready
+                * @type boolean
+                * @public
+                */
                 this.ready = false;
+                /**
+                *
+                * @property texture2DProg
+                * @type Object
+                * @public
+                */
                 this.texture2DProg = {
                     vertexPositionAttribute: null,
                     vertexTexCoordAttribute: null,
@@ -21151,6 +21278,12 @@ var Kiwi;
                     textureSizeUniform: null,
                     cameraOffsetUniform: null
                 };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
                 this.texture2DFrag = [
                     "precision mediump float;",
                     "varying vec2 vTextureCoord;",
@@ -21161,6 +21294,12 @@ var Kiwi;
                     "gl_FragColor = gl_FragColor * vColor;",
                     "}"
                 ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
                 this.texture2DVert = [
                     "attribute vec2 aVertexPosition;",
                     "attribute vec2 aTextureCoord;",
@@ -21188,6 +21327,15 @@ var Kiwi;
                 this.use(gl, this.shaderProgram);
                 this.ready = true;
             }
+            /**
+            *
+            * @method attach
+            * @param gl {WebGLRenderingContext}
+            * @param vertShader {WebGLShader}
+            * @param fragShader {WebGLShader}
+            * @return {WebGLProgram}
+            * @public
+            */
             GLShaders.prototype.attach = function (gl, vertShader, fragShader) {
                 var shaderProgram = gl.createProgram();
                 gl.attachShader(shaderProgram, fragShader);
@@ -21196,6 +21344,15 @@ var Kiwi;
                 return shaderProgram;
             };
 
+            /**
+            *
+            * @method compile
+            * @param gl {WebGLRenderingContext}
+            * @param src {string}
+            * @param shaderType {number}
+            * @return {WebGLShader}
+            * @public
+            */
             GLShaders.prototype.compile = function (gl, src, shaderType) {
                 var shader = gl.createShader(shaderType);
                 gl.shaderSource(shader, src);
@@ -21207,6 +21364,13 @@ var Kiwi;
                 return shader;
             };
 
+            /**
+            *
+            * @method use
+            * @param gl {WebGLRenderingContext}
+            * @param shaderProrgram {WebGLProgram}
+            * @public
+            */
             GLShaders.prototype.use = function (gl, shaderProgram) {
                 gl.useProgram(this.shaderProgram);
 
@@ -21243,8 +21407,10 @@ var Kiwi;
         /**
         *
         * @class GLTexture
-        *
-        *
+        * @constructor
+        * @param gl {WebGLRenderingContext}
+        * @param [_image] {HTMLImageElement}
+        * @return {GLTexture}
         */
         var GLTexture = (function () {
             function GLTexture(gl, _image) {
@@ -21258,6 +21424,13 @@ var Kiwi;
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
                 gl.bindTexture(gl.TEXTURE_2D, null);
             }
+            /**
+            *
+            * @method refresh
+            * @param gl {WebGLRenderingContext}
+            * @param image {HTMLImageElement}
+            * @public
+            */
             GLTexture.prototype.refresh = function (gl, _image) {
                 this.image = _image;
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
