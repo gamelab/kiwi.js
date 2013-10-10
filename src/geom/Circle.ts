@@ -1,5 +1,5 @@
 /**
-* Kiwi - Geom
+*  
 * @module Kiwi
 * @submodule Geom
 */
@@ -17,7 +17,6 @@ module Kiwi.Geom {
      * @return {Circle} This circle object
      *
      */
-
     export class Circle {
         
         constructor (x: number = 0, y: number = 0, diameter: number = 0) {

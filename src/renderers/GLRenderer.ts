@@ -1,6 +1,6 @@
 declare var mat2d, mat3,vec2,vec3,mat4;
 /**
-* Kiwi - Renderers
+*  
 * @module Kiwi
 * @submodule Renderers
 * 
@@ -11,8 +11,10 @@ module Kiwi.Renderers {
     /**
     *
     * @class GLRenderer
-    *
-    *
+    * @extends IRenderer
+    * @constructor
+    * @param game {Game} The game that this renderer belongs to.
+    * @return {GLRenderer}
     */
     export class GLRenderer implements IRenderer {
 
@@ -21,6 +23,11 @@ module Kiwi.Renderers {
             
         }
 
+        /**
+        * 
+        * @method boot
+        * @public
+        */
         public boot() {
              
             this._initState();

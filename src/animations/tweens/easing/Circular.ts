@@ -1,5 +1,5 @@
 /**
-* Kiwi - Animation - Tweens - Easing 
+*  
 * @module Tweens
 * @submodule Easing 
 * 

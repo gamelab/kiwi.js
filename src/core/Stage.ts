@@ -1,5 +1,5 @@
 /**
-* Module - Kiwi (Core)
+* 
 * @module Kiwi
 * 
 */ 
@@ -17,7 +17,6 @@ module Kiwi {
     * @return {Stage} Kiwi.Stage
     *
     */
-
     export class Stage {
          
         constructor(game: Kiwi.Game, name: string) {

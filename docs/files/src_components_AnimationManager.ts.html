@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,7 +335,8 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Components
+* Component&#x27;s are a snipnets of code which are designed to provide extra functionality to various objects, such as IChild&#x27;s/GameObjects/HUDWidgets/e.t.c. The code that components have are not necessarily needed for an object to work, but are instead provided to make common task&#x27;s that you would do with those objects easier. An Example being that at times you may like to make a GameObject draggable by the user and so you can then add Input Component and execute the enableDrag on that GameObject. That would be task that not every GameObject would need, but only specific ones. 
+*  
 * @module Kiwi
 * @submodule Components 
 * @main Components
@@ -342,7 +345,10 @@
 module Kiwi.Components {
 
     /**
-    * Manages the playing/pausing/e.t.c of animations for a single Sprite.
+    * The AnimationManager is used to handle the creation and playment of Animations on a individual GameObject based on the TextureAtlas it has. 
+    * When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
+    * Now when you create a new Animation that animation will automatically be added as a new Sequence to the corresponding Texture. 
+    * This way you don&#x27;t need to create new Animations for a each Sprite that use&#x27;s the same Texture.
     *
     * @class AnimationManager
     * @extends Component

@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,7 +335,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Module - Kiwi (Core)
+* 
 * @module Kiwi
 * 
 */
@@ -341,8 +343,7 @@
 module Kiwi {
 
     /**
-    * Here should lie the description of the game object.
-    * 
+    * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
     *
     * @class Game
     * @constructor
@@ -441,10 +442,7 @@ module Kiwi {
            
             this.cameras = new Kiwi.CameraManager(this);
 
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds = new Kiwi.HUD.HUDManager(this);
-            }
-
+            this.huds = new Kiwi.HUD.HUDManager(this);
             this.loader = new Kiwi.Files.Loader(this);
             
             this.states = new Kiwi.StateManager(this);
@@ -736,7 +734,7 @@ module Kiwi {
         */
         private start() {
 
-            if (Kiwi.DEVICE === null) {
+            if (Kiwi.DEVICE === null) { //dont we want to move this up into the constructor
                 Kiwi.DEVICE = new Kiwi.System.Device();
             }
 
@@ -744,12 +742,11 @@ module Kiwi {
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
-            if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.huds.boot();
-            }
+            this.huds.boot();
+            
             this.time.boot();
-            this.audio.boot();
             this.input.boot();
+            this.audio.boot();
           
             this.fileStore.boot();
             this.loader.boot();
@@ -777,15 +774,12 @@ module Kiwi {
                 this.input.update();
                 this.tweens.update();
                 this.cameras.update();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.update();
-                }
+                this.huds.update();
+                
                 this.states.update();
                 
                 this.cameras.render();
-                if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.huds.render();
-                }
+
                 this.states.postRender();
                 
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);

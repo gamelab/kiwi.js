@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,7 +335,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Files
+* 
 * @module Kiwi
 * @submodule Files 
 * 
@@ -342,8 +344,8 @@
 module Kiwi.Files {
 
     /**
-    *
-    *
+    * Holds all of the Files (regardless of the file type) that have been loaded throughout a game/are accessable at a particular point in time. Contains methods for dealing with files. Note: Each time the state is switched the file store will remove all references to files that have not been flagged as global. 
+    * 
     * @class FileStore
     * @constructor
     * @param game {Game} The game that this FileStore belongs to.
@@ -355,7 +357,6 @@ module Kiwi.Files {
         constructor(game: Kiwi.Game) {
             this._game = game;
             this._files = {};
-
         }
 
         /**
@@ -478,8 +479,6 @@ module Kiwi.Files {
             return this._size;
 
         }
-
-
 
         /**
         * Adds a File with a key to the FileStore. If the key that you specify already exists then this method will return false otherwise it should return true if it was added.

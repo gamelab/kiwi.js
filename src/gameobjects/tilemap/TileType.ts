@@ -1,5 +1,5 @@
 /**
-* Kiwi - GameObjects - Tilemap
+* 
 * @module GameObjects
 * @submodule Tilemap
 * 
@@ -8,7 +8,8 @@
 module Kiwi.GameObjects.Tilemap {
 
     /**
-    *
+    * Defines a particular type of tile that is used on a TileMap. A TileType object should never be directly instantiated by a developer, but instead referenced through the TileMap that it belongs to. A new TileType is created for each cell that exists on the SpriteSheet that is parse when creating a TileMap. Note: There is always a TileType (at index of -1) generated which you can use when no tile will be placed in that spot.
+    * 
     * @class TileType
     * @constructor
     * @param gmae {Game} The game that this type of tile belongs to.
@@ -39,7 +40,7 @@ module Kiwi.GameObjects.Tilemap {
         * @type Game
         * @private 
         */
-        private _game: Game;
+        private _game: Kiwi.Game;
 
         /**
         *  You can give this Tile a friendly name to help with debugging. Never used internally.

@@ -1,5 +1,5 @@
 /**
-* Kiwi - Files
+* 
 * @module Kiwi
 * @submodule Files 
 * 
@@ -8,7 +8,8 @@
 module Kiwi.Files {
 
     /**
-    *
+    * Used for the loading of files and game assets. This usually happens when a State is at the 'loading' stage (executing the 'preload' method).
+    * 
     * @class Loader
     * @constructor
     * @param game {Game} The game that this loader belongs to.
@@ -546,9 +547,7 @@ module Kiwi.Files {
         * @public
         */
         public complete(): boolean {
-
             return this._complete;
-
         }
 
     }

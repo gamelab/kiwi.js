@@ -1,5 +1,5 @@
 /**
-* Kiwi - Components
+* 
 * @module Kiwi
 * @submodule Components 
 * 
@@ -8,7 +8,7 @@
 module Kiwi.Components {
     
     /**
-    * 
+    * The Sound Component is a class to assist with the creation and management of multiple pieces of audio that may exist on a single Entity. This class is NOT needed when dealing with audio but is instead provided to assist in dealing with audio.
     * 
     * @class Sound
     * @extends Component

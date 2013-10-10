@@ -1,5 +1,6 @@
 /**
-* Kiwi - Animation - Tweens - Easing 
+* Contains various methods that can be used when you are wanting to ease a Tween.
+* 
 * @module Tweens
 * @submodule Easing 
 * @main Easing

@@ -357,12 +357,13 @@ module Kiwi.Sound {
         * @param sound {Audio} The audio file that you want to remove.
         * @public
         */
-        public remove(sound: Kiwi.Sound.Audio) {
+        public remove(sound: Kiwi.Sound.Audio, destroy:boolean=true) {
             //needs testing
             for (var i = 0; i < this._sounds.length; i++) {
 
                 if (sound.id == this._sounds[i].id) {
-                    this._sounds[i].gainNode.disconnect();
+                    if(this.usingWebAudio) this._sounds[i].gainNode.disconnect();
+                    if (destroy == true) this._sounds[i].destroy();
                     this._sounds.splice(i, 1, 0);
                     i--;
                 }
@@ -425,12 +426,13 @@ module Kiwi.Sound {
         }
         
         /**
-        * Resumes all of the sounds listed in the audio manager.
+        * Resumes all of the sounds listed in the audio manager. 
         *
         * @method resumeAll
+        * @param [destroy=true] {boolean} If the audio objects should be destroyed when they are removed.
         * @public
         */
-        public resumeAll() {
+        public resumeAll(destroy:boolean=true) {
             
             for (var i = 0; i < this._sounds.length; i++) {
 

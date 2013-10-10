@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -336,7 +338,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_Kiwi.ts.html#l169"><code>src\Kiwi.ts:169</code></a>
+            Defined in: <a href="../files/src_Kiwi.ts.html#l280"><code>src\Kiwi.ts:280</code></a>
         </div>
     
 
@@ -839,12 +841,22 @@ The top level namespace in which all core classes and modules are defined.</p>
             <ul class="module-submodules">
             
                 <li class="module-submodule">
+                    <a href="../modules/Components.html">
+                        Components
+                    </a>
+
+                    <div class="module-submodule-description">
+                        Component's are a snipnets of code which are designed to provide extra functionality to various objects, such as IChild's/GameObjects/HUDWidgets/e.t.c. The code that components have are not necessarily needed for an object to work, but are instead provided to make common task's that you would do with those objects easier. An Example being that at times you may like to make a GameObject draggable by the user and so you can then add Input Component and execute the enableDrag on that GameObject. That would be task that not every GameObject would need, but only specific ones.
+                    </div>
+                </li>
+            
+                <li class="module-submodule">
                     <a href="../modules/Files.html">
                         Files
                     </a>
 
                     <div class="module-submodule-description">
-                        Kiwi - Files
+                        Holds a reference to all of the data Files (json, xml, e.t.c) that are accessible on the State that this DataLibrary is on.
                     </div>
                 </li>
             
@@ -854,7 +866,7 @@ The top level namespace in which all core classes and modules are defined.</p>
                     </a>
 
                     <div class="module-submodule-description">
-                        Kiwi - Geom
+                        Contains common classes whose applications deal with geometry or the collision of geometric shapes.
                     </div>
                 </li>
             
@@ -864,7 +876,7 @@ The top level namespace in which all core classes and modules are defined.</p>
                     </a>
 
                     <div class="module-submodule-description">
-                        Kiwi - Input
+                        Section that contains the code related to handling user interaction with a game.
                     </div>
                 </li>
             
@@ -884,7 +896,7 @@ The top level namespace in which all core classes and modules are defined.</p>
                     </a>
 
                     <div class="module-submodule-description">
-                        Kiwi - Sound
+                        The namespace that holds all of the assets and functionality when dealing with Audio.
                     </div>
                 </li>
             
@@ -904,7 +916,7 @@ The top level namespace in which all core classes and modules are defined.</p>
                     </a>
 
                     <div class="module-submodule-description">
-                        Kiwi - Textures
+                        Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.
                     </div>
                 </li>
             
@@ -914,7 +926,7 @@ The top level namespace in which all core classes and modules are defined.</p>
                     </a>
 
                     <div class="module-submodule-description">
-                        Kiwi - Time
+                        Contains ways of tracking time within a game or application. Each game will have a ClockManager, MasterClock and a single Clock automatically generated for them upon game creation.
                     </div>
                 </li>
             
@@ -924,7 +936,7 @@ The top level namespace in which all core classes and modules are defined.</p>
                     </a>
 
                     <div class="module-submodule-description">
-                        Kiwi - Utils
+                        Utils is a space that holds a wide varity of useful methods.
                     </div>
                 </li>
             

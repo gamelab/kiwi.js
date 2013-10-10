@@ -8,7 +8,7 @@
 module Kiwi.Textures {
 
     /**
-    * 
+    * A TextureAtlas is the base class that is created for each image that is loaded in through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
     * 
     * @class TextureAtlas
     * @constructor

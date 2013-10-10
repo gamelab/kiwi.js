@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -357,7 +359,13 @@
 
 
 <div class="box intro">
-    
+    <p>The Box Component is used to handle the various &#39;bounds&#39; that each GameObject has. 
+There are FOUR different types of bounds (each one is a rectangle) on each box depending on what you are wanting:
+RawBounds: The bounding box of the GameObject before rotation.
+RawHitbox: The hitbox of the GameObject before rotation. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
+Bounds: The bounding box of the GameObject after rotation.
+Hitbox: The hitbox of the GameObject after rotation. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.</p>
+
 </div>
 
 
@@ -846,7 +854,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l256"><code>src\components\Box.ts:256</code></a>
+        <a href="../files/src_components_Box.ts.html#l260"><code>src\components\Box.ts:260</code></a>
         
         </p>
 
@@ -952,7 +960,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l233"><code>src\components\Box.ts:233</code></a>
+        <a href="../files/src_components_Box.ts.html#l237"><code>src\components\Box.ts:237</code></a>
         
         </p>
 
@@ -1044,7 +1052,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l316"><code>src\components\Box.ts:316</code></a>
+        <a href="../files/src_components_Box.ts.html#l320"><code>src\components\Box.ts:320</code></a>
         
         </p>
 
@@ -1111,7 +1119,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l279"><code>src\components\Box.ts:279</code></a>
+        <a href="../files/src_components_Box.ts.html#l283"><code>src\components\Box.ts:283</code></a>
         
         </p>
 
@@ -1195,7 +1203,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l51"><code>src\components\Box.ts:51</code></a>
+        <a href="../files/src_components_Box.ts.html#l55"><code>src\components\Box.ts:55</code></a>
         
         </p>
 
@@ -1425,7 +1433,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l69"><code>src\components\Box.ts:69</code></a>
+        <a href="../files/src_components_Box.ts.html#l73"><code>src\components\Box.ts:73</code></a>
         
         </p>
 
@@ -1472,7 +1480,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l136"><code>src\components\Box.ts:136</code></a>
+        <a href="../files/src_components_Box.ts.html#l140"><code>src\components\Box.ts:140</code></a>
         
         </p>
 
@@ -1519,7 +1527,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l77"><code>src\components\Box.ts:77</code></a>
+        <a href="../files/src_components_Box.ts.html#l81"><code>src\components\Box.ts:81</code></a>
         
         </p>
 
@@ -1566,7 +1574,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l210"><code>src\components\Box.ts:210</code></a>
+        <a href="../files/src_components_Box.ts.html#l214"><code>src\components\Box.ts:214</code></a>
         
         </p>
 
@@ -1613,7 +1621,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l184"><code>src\components\Box.ts:184</code></a>
+        <a href="../files/src_components_Box.ts.html#l188"><code>src\components\Box.ts:188</code></a>
         
         </p>
 
@@ -1660,7 +1668,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l103"><code>src\components\Box.ts:103</code></a>
+        <a href="../files/src_components_Box.ts.html#l107"><code>src\components\Box.ts:107</code></a>
         
         </p>
 
@@ -1753,7 +1761,7 @@
             
         
         
-        <a href="../files/src_components_Box.ts.html#l218"><code>src\components\Box.ts:218</code></a>
+        <a href="../files/src_components_Box.ts.html#l222"><code>src\components\Box.ts:222</code></a>
         
         </p>
 
@@ -1801,7 +1809,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l192"><code>src\components\Box.ts:192</code></a>
+        <a href="../files/src_components_Box.ts.html#l196"><code>src\components\Box.ts:196</code></a>
         
         </p>
 
@@ -1849,7 +1857,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l61"><code>src\components\Box.ts:61</code></a>
+        <a href="../files/src_components_Box.ts.html#l65"><code>src\components\Box.ts:65</code></a>
         
         </p>
 
@@ -1896,7 +1904,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l43"><code>src\components\Box.ts:43</code></a>
+        <a href="../files/src_components_Box.ts.html#l47"><code>src\components\Box.ts:47</code></a>
         
         </p>
 
@@ -1987,7 +1995,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l111"><code>src\components\Box.ts:111</code></a>
+        <a href="../files/src_components_Box.ts.html#l115"><code>src\components\Box.ts:115</code></a>
         
         </p>
 
@@ -2034,7 +2042,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l161"><code>src\components\Box.ts:161</code></a>
+        <a href="../files/src_components_Box.ts.html#l165"><code>src\components\Box.ts:165</code></a>
         
         </p>
 
@@ -2169,7 +2177,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l144"><code>src\components\Box.ts:144</code></a>
+        <a href="../files/src_components_Box.ts.html#l148"><code>src\components\Box.ts:148</code></a>
         
         </p>
 
@@ -2217,7 +2225,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l169"><code>src\components\Box.ts:169</code></a>
+        <a href="../files/src_components_Box.ts.html#l173"><code>src\components\Box.ts:173</code></a>
         
         </p>
 
@@ -2265,7 +2273,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l85"><code>src\components\Box.ts:85</code></a>
+        <a href="../files/src_components_Box.ts.html#l89"><code>src\components\Box.ts:89</code></a>
         
         </p>
 

@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -357,7 +359,9 @@
 
 
 <div class="box intro">
-    
+    <p>A MenuItem extends the Button Widget and is typically contained inside of a Menu Widget. 
+Since a MenuItem extends the Button Widget you can access the Input Component that it has to listen to mouse events.</p>
+
 </div>
 
 
@@ -386,15 +390,36 @@
 
                     <ul class="index-list methods extends">
                         
-                            <li class="index-item method private">
-                                <a href="#method__applyCSS">_applyCSS</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_destroy">destroy</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
-                                <a href="#method_addedToStage">addedToStage</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_removeTemplate">removeTemplate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_setTemplate">setTemplate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_update">update</a>
 
                                 
                                 
@@ -410,7 +435,70 @@
 
                     <ul class="index-list properties extends">
                         
-                            <li class="index-item property public">
+                            <li class="index-item property protected inherited">
+                                <a href="#property__device">_device</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property protected inherited">
+                                <a href="#property__manager">_manager</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__tempContainer">_tempContainer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__tempParent">_tempParent</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__x">_x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__y">_y</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_class">class</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited inherited">
+                                <a href="#property_"></a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_components">components</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
                                 <a href="#property_game">game</a>
 
                                 
@@ -418,14 +506,42 @@
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_input">input</a>
+                                <a href="#property_menu">menu</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private">
-                                <a href="#property_menu">menu</a>
+                            <li class="index-item property public inherited">
+                                <a href="#property_onCoordsUpdate">onCoordsUpdate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_style">style</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_tempElement">tempElement</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_x">x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_y">y</a>
 
                                 
                                 
@@ -445,8 +561,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__applyCSS" class="method item private">
-    <h3 class="name"><code>_applyCSS</code></h3>
+                    <div id="method_destroy" class="method item public inherited">
+    <h3 class="name"><code>destroy</code></h3>
 
     
         <span class="paren">()</span>
@@ -457,7 +573,7 @@
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -471,15 +587,12 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#method_destroy">HUDWidget</a>:
             
         
         
-        <a href="../files/src_hud_widgets_MenuItem.ts.html#l80"><code>src\hud\widgets\MenuItem.ts:80</code></a>
+        <a href="../files/src_hud_HUDWidget.ts.html#l295"><code>src\hud\HUDWidget.ts:295</code></a>
         
         </p>
 
@@ -501,8 +614,136 @@
 </div>
 
                 
-                    <div id="method_addedToStage" class="method item public">
-    <h3 class="name"><code>addedToStage</code></h3>
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="..\classes\HUDWidget.html#method_objType">
+                HUDWidget
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_hud_widgets_MenuItem.ts.html#l33"><code>src\hud\widgets\MenuItem.ts:33</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeTemplate" class="method item public inherited">
+    <h3 class="name"><code>removeTemplate</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#method_removeTemplate">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l250"><code>src\hud\HUDWidget.ts:250</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Used to remove any the template HTML from this HUDWidget.
+Currently doesn&#39;t have that great support.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_setTemplate" class="method item public inherited">
+    <h3 class="name"><code>setTemplate</code></h3>
 
     
         <div class="args">
@@ -510,13 +751,13 @@
             
                 <li class="arg">
                     
-                        <code>game</code>
+                        <code>main</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>menu</code>
+                        <code class="optional">[element]</code>
                     
                 </li>
             
@@ -543,15 +784,12 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#method_setTemplate">HUDWidget</a>:
             
         
         
-        <a href="../files/src_hud_widgets_MenuItem.ts.html#l66"><code>src\hud\widgets\MenuItem.ts:66</code></a>
+        <a href="../files/src_hud_HUDWidget.ts.html#l212"><code>src\hud\HUDWidget.ts:212</code></a>
         
         </p>
 
@@ -562,7 +800,11 @@
     </div>
 
     <div class="description">
-        
+        <p>This method is used to remove existing DOM elements and place them inside a HUDWidget&#39;s container element.
+Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.</p>
+<p>Can be used by itself but maybe more useful if you customise it to suit your own needs. 
+Currently doesn&#39;t have that great support.</p>
+
     </div>
 
     
@@ -573,14 +815,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">game</code>
-                        <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
+                        <code class="param-name">main</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget.</p>
+
                     </div>
 
                     
@@ -588,14 +831,16 @@
             
                 <li class="param">
                     
-                        <code class="param-name">menu</code>
-                        <span class="type"><a href="..\classes\Menu.html" class="crosslink">Menu</a></span>
+                        <code class="param-name optional">[element]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>element - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.</p>
+
                     </div>
 
                     
@@ -603,6 +848,60 @@
             
             </ul>
         </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item public inherited">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#method_update">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l286"><code>src\hud\HUDWidget.ts:286</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game update loop.</p>
+
+    </div>
+
     
 
     
@@ -619,7 +918,411 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_game" class="property item public">
+                    <div id="property__device" class="property item protected inherited">
+    <h3 class="name"><code>_device</code></h3>
+    <span class="type">_device</span>
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property__device">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l64"><code>src\hud\HUDWidget.ts:64</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of device that this game is being targeted at. Same as the deviceTargetOption on the game class.
+Used to detirmine how the HUD is to be managed behind the scenes.
+This is mainly indented for INTERNAL Kiwi use only and is public so that sub classes can have a reference to it.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__manager" class="property item protected inherited">
+    <h3 class="name"><code>_manager</code></h3>
+    <span class="type"><a href="..\classes\HUDManager.html" class="crosslink">HUDManager</a></span>
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property__manager">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l55"><code>src\hud\HUDWidget.ts:55</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The HUDManager that this widget &#39;belongs&#39; to.
+This is mainly indented for INTERNAL Kiwi use only and is public so that sub classes can have a reference to it.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tempContainer" class="property item private inherited">
+    <h3 class="name"><code>_tempContainer</code></h3>
+    <span class="type">HTMLElement</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property__tempContainer">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l203"><code>src\hud\HUDWidget.ts:203</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The container element for the template
+Currently doesn&#39;t have that great support.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tempParent" class="property item private inherited">
+    <h3 class="name"><code>_tempParent</code></h3>
+    <span class="type">HTMLElement</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property__tempParent">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l194"><code>src\hud\HUDWidget.ts:194</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The parent of the template container. So that when removing a template we can place it in the right spot
+Currently doesn&#39;t have that great support.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__x" class="property item private inherited">
+    <h3 class="name"><code>_x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property__x">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l107"><code>src\hud\HUDWidget.ts:107</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The x coordinate of the widget</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__y" class="property item private inherited">
+    <h3 class="name"><code>_y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property__y">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l134"><code>src\hud\HUDWidget.ts:134</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The y coordinate of the widget</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_class" class="property item public inherited">
+    <h3 class="name"><code>class</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property_class">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l269"><code>src\hud\HUDWidget.ts:269</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The class name/s that the container element that this HUDWidget current has.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_" class="property item public inherited">
+    <h3 class="name"><code></code></h3>
+    <span class="type">HTMLDivElement</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="..\classes\HUDWidget.html#property_">
+                HUDWidget
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l169"><code>src\hud\HUDWidget.ts:169</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The HTMLDivElement that this widget is using.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_components" class="property item public inherited">
+    <h3 class="name"><code>components</code></h3>
+    <span class="type"><a href="..\classes\ComponentManager.html" class="crosslink">ComponentManager</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property_components">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l161"><code>src\hud\HUDWidget.ts:161</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The list of components that the HUDWidget use&#39;s.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public inherited">
     <h3 class="name"><code>game</code></h3>
     <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
 
@@ -636,15 +1339,12 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property_game">HUDWidget</a>:
             
         
         
-        <a href="../files/src_hud_widgets_MenuItem.ts.html#l35"><code>src\hud\widgets\MenuItem.ts:35</code></a>
+        <a href="../files/src_hud_HUDWidget.ts.html#l74"><code>src\hud\HUDWidget.ts:74</code></a>
         
         </p>
 
@@ -654,7 +1354,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The game that this HUDWidget belongs to.</p>
+
     </div>
 
     
@@ -665,9 +1366,9 @@
 </div>
 
                 
-                    <div id="property_input" class="property item public">
-    <h3 class="name"><code>input</code></h3>
-    <span class="type">WidgetInput</span>
+                    <div id="property_menu" class="property item public">
+    <h3 class="name"><code>menu</code></h3>
+    <span class="type"><a href="..\classes\Menu.html" class="crosslink">Menu</a></span>
 
     
 
@@ -690,7 +1391,7 @@
             
         
         
-        <a href="../files/src_hud_widgets_MenuItem.ts.html#l46"><code>src\hud\widgets\MenuItem.ts:46</code></a>
+        <a href="../files/src_hud_widgets_MenuItem.ts.html#l43"><code>src\hud\widgets\MenuItem.ts:43</code></a>
         
         </p>
 
@@ -700,7 +1401,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The Menu that this belongs to.</p>
+
     </div>
 
     
@@ -711,14 +1413,14 @@
 </div>
 
                 
-                    <div id="property_menu" class="property item private">
-    <h3 class="name"><code>menu</code></h3>
-    <span class="type"><a href="..\classes\Menu.html" class="crosslink">Menu</a></span>
+                    <div id="property_onCoordsUpdate" class="property item public inherited">
+    <h3 class="name"><code>onCoordsUpdate</code></h3>
+    <span class="type"><a href="..\classes\Signal.html" class="crosslink">Signal</a></span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -728,15 +1430,12 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property_onCoordsUpdate">HUDWidget</a>:
             
         
         
-        <a href="../files/src_hud_widgets_MenuItem.ts.html#l56"><code>src\hud\widgets\MenuItem.ts:56</code></a>
+        <a href="../files/src_hud_HUDWidget.ts.html#l99"><code>src\hud\HUDWidget.ts:99</code></a>
         
         </p>
 
@@ -746,7 +1445,185 @@
     </div>
 
     <div class="description">
+        <p>Called when the coordinates of the HUD Widget updates.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_style" class="property item public inherited">
+    <h3 class="name"><code>style</code></h3>
+    <span class="type">Any</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property_style">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l82"><code>src\hud\HUDWidget.ts:82</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A quick way to reference the style object that exists on the container element of this widget.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tempElement" class="property item public inherited">
+    <h3 class="name"><code>tempElement</code></h3>
+    <span class="type">HTMLElement</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property_tempElement">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l185"><code>src\hud\HUDWidget.ts:185</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>When a template has been set, this property will have a reference to the HTMLElement we can place the HUDWidget information into.
+Currently doesn&#39;t have that great support.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x" class="property item public inherited">
+    <h3 class="name"><code>x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property_x">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l115"><code>src\hud\HUDWidget.ts:115</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the x coordinate of the widget</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y" class="property item public inherited">
+    <h3 class="name"><code>y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\HUDWidget.html#property_y">HUDWidget</a>:
+            
+        
+        
+        <a href="../files/src_hud_HUDWidget.ts.html#l142"><code>src\hud\HUDWidget.ts:142</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the y coordinate of the widget</p>
+
     </div>
 
     

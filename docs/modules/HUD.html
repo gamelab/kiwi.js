@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -336,7 +338,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_hud_HUDWidget.ts.html#l11"><code>src\hud\HUDWidget.ts:11</code></a>
+            Defined in: <a href="../files/src_hud_HUDWidget.ts.html#l9"><code>src\hud\HUDWidget.ts:9</code></a>
         </div>
     
 
@@ -346,7 +348,8 @@
 
 
 <div class="box intro">
-    <p>Kiwi - HUD</p>
+    <p>The HUD (Heads Up Display) is a section that handles the displayment of information that you always want visible to user. 
+This section is managed differently to normal GameObjects, where the difference being that HUD items aren&#39;t added to a Canvas but are DOM elements instead. Since they DOM elements you can style these elements using a CSS sheet if you wish.</p>
 
 </div>
 
@@ -408,8 +411,8 @@
                 </li>
             
                 <li class="module-class">
-                    <a href="../classes/IconCounter.html">
-                        IconCounter
+                    <a href="../classes/IconBar.html">
+                        IconBar
                     </a>
                 </li>
             
@@ -426,12 +429,6 @@
                 </li>
             
                 <li class="module-class">
-                    <a href="../classes/Range.html">
-                        Range
-                    </a>
-                </li>
-            
-                <li class="module-class">
                     <a href="../classes/TextField.html">
                         TextField
                     </a>
@@ -440,6 +437,12 @@
                 <li class="module-class">
                     <a href="../classes/Time.html">
                         Time
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/WidgetInput.html">
+                        WidgetInput
                     </a>
                 </li>
             
@@ -454,12 +457,12 @@
             <ul class="module-submodules">
             
                 <li class="module-submodule">
-                    <a href="../modules/Components.html">
-                        Components
+                    <a href="../modules/HUDComponents.html">
+                        HUDComponents
                     </a>
 
                     <div class="module-submodule-description">
-                        Kiwi - Components
+                        HUDComponents are a space where components that are specific to HUDWidgets are kept. This are seperated from the normal Components section as the implementation of these are unique and only make sense when implemented on HUDWidgets, otherwise the concepts behind these are the same as normal Components.
                     </div>
                 </li>
             
@@ -469,7 +472,9 @@
                     </a>
 
                     <div class="module-submodule-description">
-                        An abstract class that contains all of the fundametals for the control of a bar widget.
+                        HUD Widgets are objects that are generally placed on to a HUD Display for displaying and managing information that the user would always need to see.
+An example of such information would be: the Health remaining, amount of ammo left, time they have left, e.t.c.
+And each one of those examples would have its own widget.
                     </div>
                 </li>
             

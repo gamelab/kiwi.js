@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,7 +335,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Files
+* 
 * @module Kiwi
 * @submodule Files 
 * 
@@ -342,7 +344,7 @@
 module Kiwi.Files {
      
     /**
-    * Handles the loading of external data files via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
+    * Handles the loading of an external data file via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
     *
     * @class File
     * @constructor
@@ -1019,13 +1021,15 @@ module Kiwi.Files {
 
                     //if device == iOS.... do awesome stuff....
 
-                this.data = new Audio();
+                this.data = document.createElement(&#x27;audio&#x27;);
                 this.data.src = this.fileURL;
                 this.data.preload = &#x27;auto&#x27;;
-                this.data.onerror = (event) =&gt; this.tagLoaderOnError(event);
+
                 this.data.addEventListener(&#x27;canplaythrough&#x27;, () =&gt; this.tagLoaderProgressThrough(null), false); 
+                
+                this.data.onerror = (event) =&gt; this.tagLoaderOnError(event);
                 this.data.onload = (event) =&gt; this.tagLoaderOnLoad(event);
-                this.data.load();
+                
                 this.data.volume = 0;
                 this.data.play(); //force the browser to load by playing the audio........ 
             }

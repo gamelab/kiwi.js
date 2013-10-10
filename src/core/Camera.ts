@@ -1,5 +1,5 @@
 /**
-* Module - Kiwi (Core)
+* 
 * @module Kiwi
 * 
 */
@@ -7,8 +7,7 @@
 module Kiwi {
 
     /**
-    * My method description.  Like other pieces of your comment blocks, 
-    * this can span multiple lines.
+    * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
     *
     * @class Camera
     * @constructor
@@ -37,9 +36,7 @@ module Kiwi {
             this.transform.rotPointX = x + width / 2;
             this.transform.rotPointY = y + height / 2;
 
-            
             this._game.stage.onResize.add(this._updatedStageSize, this);
-        
         }
 
         /**
@@ -93,12 +90,10 @@ module Kiwi {
         * @private
 		*/
         private _updatedStageSize(width: number, height: number) {
-
-            
+ 
             this.width = width;
             this.height = height;
           
-
         }
 
         /**

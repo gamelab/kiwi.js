@@ -1,5 +1,5 @@
 /**
-* Kiwi - Animation - Tweens 
+*  
 * @module Animations
 * @submodule Tweens 
 * 
@@ -8,6 +8,9 @@
 module Kiwi.Animations {
 
     /**
+    * Manages the tweening of properties/values on a single object. A Tween is the animation of a number between an initially value to and final value (that you specify). 
+    * Note: When using a Tween you need to make sure that the Tween has been added to a TweenManager. You can either do this by creating the Tween via the Manager or alternatively using the 'add' method on the TweenManager. Otherwise the tween will not work.
+    *
     * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
     * https://github.com/sole/tween.js
     *

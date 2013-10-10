@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -332,49 +334,69 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/// &lt;reference path=&quot;..\..\Kiwi.ts&quot; /&gt;
 /**
-* An abstract class that contains all of the fundametals for the control of a bar widget.
 * @module HUD
 * @submodule Widget
 */
 
 module Kiwi.HUD.Widget {
+    
     /**
+    * Used for displaying of information in a bar like of format. Example: Amount of health remaining for a character.
+    * This class creates a &#x27;innerbar&#x27; div inside of its main container which you can apply styles to.
+    * You can control the minimum/maximum and current values of the bar through the Counter widget.
+    * 
     * @class Bar
     * @extends HUDWidget
     * @constructor 
-    * @param current {number}  - The current value.
-    * @param max {number}  - The maximum value.
-    * @param x {number}         
-    * @param y {number} 
+    * @param game {Game} The game that this bar belongs to.
+    * @param current {number} The current value of the bar.
+    * @param max {number} The maximum value that there can be.
+    * @param x {number} The coordinates of this widget on the x-axis.
+    * @param y {number} The cooridnates of this widget on the y-axis.
+    * @param [width=120] {number} The width of the widget. Defaults to 120.
+    * @param [height=20] {number} The height of the widget. Defaults to 20.
+    * @return {Bar}
     */
-
     export class Bar extends Kiwi.HUD.HUDWidget {
         
-        constructor(current: number, max:number, x:number,y:number, width:number=120, height:number=20) {
-            super(&quot;bar&quot;, x, y);
-
+        constructor(game:Kiwi.Game, current: number, max:number, x:number,y:number, width:number=120, height:number=20) {
+            super(game,&quot;bar&quot;, x, y);
             this._horizontal = true;
-            this._bar = document.createElement(&#x27;div&#x27;);
-            this._bar.className = &#x27;innerBar&#x27;;
+            this.class = &#x27;kiwi-bar-widget kiwi-widget&#x27;;
 
-            this.range = this.components.add(new Kiwi.HUD.Components.Range(current, max, 0));//add updated component to range
-            this.range.updated.add(this.updateCSS, this);
+            if (this._manager.supported) {
+                if (this._device == Kiwi.TARGET_BROWSER) {
+                    this._bar = document.createElement(&#x27;div&#x27;);
+                    this._bar.className = &#x27;kiwi-innerbar-widget&#x27;;
+                    this.bar = this._bar;
+                    this.container.appendChild(this.bar);
+                }
 
-            this.bar = this._bar;
-            this.container.appendChild(this.bar);
-            
-            this.width = width;
-            this.height = height;
+                this.counter = this.components.add(new Kiwi.HUD.HUDComponents.Counter(this, current, max, 0));
+                this.counter.updated.add(this.updateCSS, this);
 
-            this._bar.style.height = &#x27;100%&#x27;;
-            this._bar.style.width = &#x27;100%&#x27;;
-            
-            this.updateCSS();
+                this.width = width;
+                this.height = height;
+
+                this._bar.style.height = &#x27;100%&#x27;;
+                this._bar.style.width = &#x27;100%&#x27;;
+
+                this.updateCSS();
+            }
         }
 
-        /*
+        /**
+        * Returns the type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string {
+            return &#x27;BarWidget&#x27;;
+        }
+
+        /**
         * The width of the container
         * @property _width
         * @type number
@@ -382,7 +404,7 @@ module Kiwi.HUD.Widget {
         */
         private _width: number;
         
-        /*
+        /**
         * The width of the container
         * @property width
         * @type number
@@ -391,13 +413,15 @@ module Kiwi.HUD.Widget {
         public get width(): number {
             return this._width;
         }
-        
         public set width(value: number) {
-            this.container.style.width = value + &quot;px&quot;;
+            if(this._device == Kiwi.TARGET_BROWSER) {
+                this.container.style.width = value + &quot;px&quot;;
+            }
+
             this._width = value;
         }
         
-        /*
+        /**
         * The height of the container
         * @property _height
         * @type number
@@ -405,7 +429,7 @@ module Kiwi.HUD.Widget {
         */
         private _height: number;
         
-        /*
+        /**
         * The height of the container
         * @property height
         * @type number
@@ -414,13 +438,14 @@ module Kiwi.HUD.Widget {
         public get height(): number {
             return this._height;
         }
-        
         public set height(value: number) {
-            this.container.style.height = value + &quot;px&quot;;
+            if (this._device == Kiwi.TARGET_BROWSER) {
+                this.container.style.height = value + &quot;px&quot;;
+            }
             this._height = value;
         }
         
-        /*
+        /**
         * Knows if this bar is ment to be horizontal or veritical
         * @property _horizontal
         * @type boolean
@@ -428,7 +453,7 @@ module Kiwi.HUD.Widget {
         */
         private _horizontal: boolean;
         
-        /*
+        /**
         * The HTMLElement that is currently being used as the &#x27;bar&#x27;.
         * @property bar
         * @type HTMLElement
@@ -436,7 +461,7 @@ module Kiwi.HUD.Widget {
         */
         public bar: HTMLElement;
 
-        /*
+        /**
         * A reference to the HTMLElement that this class always generates.
         * @property _bar
         * @type HTMLElement
@@ -444,15 +469,15 @@ module Kiwi.HUD.Widget {
         */
         private _bar: HTMLElement;
         
-        /*
-        * The range component.
-        * @property range
-        * @type Range
+        /**
+        * The counter component.
+        * @property counter
+        * @type Counter
         * @public
         */
-        public range: Kiwi.HUD.Components.Range;
+        public counter: Kiwi.HUD.HUDComponents.Counter;
         
-        /*
+        /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @property horizontal
         * @type boolean
@@ -461,13 +486,12 @@ module Kiwi.HUD.Widget {
         public get horizontal(): boolean {
             return this._horizontal;
         }
-        
         public set horizontal(val: boolean) {
             this._horizontal = val;
             this.updateCSS();
         }
 
-        /*
+        /**
         * Used to set the bar to be horizontal or vertical by passing a boolean.
         * @property verticle
         * @type boolean
@@ -476,47 +500,50 @@ module Kiwi.HUD.Widget {
         public get vertical(): boolean {
             return !this._horizontal;
         }
-        
         public set vertical(val: boolean) {
             this._horizontal = !val;
             this.updateCSS();
         }
 
-
-        /*
+        /**
         * This method is used to remove existing DOM elements and place them inside a HUDWidget&#x27;s container element.
         * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
-        * 
+        * Currently not supported. 
+        *
         * @method setTemplate
-        * @param main {string} ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
+        * @param main {string} ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget.
         * @param innerbar {string} ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
         * @public
         */
         public setTemplate(main: string, innerbar?: string) {
 
-            super.setTemplate(main, innerbar);
+            if(this._device == Kiwi.TARGET_BROWSER) {
+                super.setTemplate(main, innerbar);
 
-            if (this.tempElement !== undefined) {
-                this.bar = this.tempElement;
+                if (this.tempElement !== undefined) {
+                    this.bar = this.tempElement;
+                }
             }
-
         }
 
-        /*
+        /**
         * Used to remove any the template HTML from this HUDWidget.
-        * 
+        * Current not supported. 
+        *
         * @method removeTemplate
         * @public
         */
         public removeTemplate() {
-            super.removeTemplate();
+            if (this._device == Kiwi.TARGET_BROWSER) {
+                super.removeTemplate();
 
-            this.bar = this._bar;
-            this.container.appendChild(this.bar);
-            this.updateCSS();
+                this.bar = this._bar;
+                this.container.appendChild(this.bar);
+                this.updateCSS();
+            }
         }
 
-        /*
+        /**
         * Will be called when the range has been updated and thus you will want to preform the render of the bar here.
         * This should be overriden by subclasses so that you have your own custom bars. 
         * @method updateCSS
@@ -525,12 +552,13 @@ module Kiwi.HUD.Widget {
         public updateCSS() {
             
             if (this.horizontal === true) {
-                this.bar.style.width = String(this.range.currentPercent()) + &#x27;%&#x27;;
+                this.bar.style.width = String(this.counter.currentPercent()) + &#x27;%&#x27;;
                 this.bar.style.height = &#x27;100%&#x27;;
             } else {
-                this.bar.style.height = String(this.range.currentPercent()) + &#x27;%&#x27;;
+                this.bar.style.height = String(this.counter.currentPercent()) + &#x27;%&#x27;;
                 this.bar.style.width = &#x27;100%&#x27;;
             }
+
         }
 
     }

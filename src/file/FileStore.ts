@@ -1,5 +1,5 @@
 /**
-* Kiwi - Files
+* 
 * @module Kiwi
 * @submodule Files 
 * 
@@ -8,8 +8,8 @@
 module Kiwi.Files {
 
     /**
-    *
-    *
+    * Holds all of the Files (regardless of the file type) that have been loaded throughout a game/are accessable at a particular point in time. Contains methods for dealing with files. Note: Each time the state is switched the file store will remove all references to files that have not been flagged as global. 
+    * 
     * @class FileStore
     * @constructor
     * @param game {Game} The game that this FileStore belongs to.
@@ -21,7 +21,6 @@ module Kiwi.Files {
         constructor(game: Kiwi.Game) {
             this._game = game;
             this._files = {};
-
         }
 
         /**
@@ -144,8 +143,6 @@ module Kiwi.Files {
             return this._size;
 
         }
-
-
 
         /**
         * Adds a File with a key to the FileStore. If the key that you specify already exists then this method will return false otherwise it should return true if it was added.

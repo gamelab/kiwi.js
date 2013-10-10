@@ -1,16 +1,17 @@
 /**
-* Kiwi - Geom
+* Contains common classes whose applications deal with geometry or the collision of geometric shapes. 
+* 
 * @module Kiwi
 * @submodule Geom
+* @main
 */
  
 module Kiwi.Geom {
 
     /**
-    *
-    *
+    * An object representation of an axis-aligned bounding box. 
+    * 
     * @class AABB
-    *
     * @constructor
     * @param cx {Number}
     * @param cy {Number}

@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,7 +335,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Sound
+* 
 * @module Kiwi
 * @submodule Sound
 * 
@@ -342,7 +344,7 @@
 module Kiwi.Sound {
 
     /**
-    * Manages the playing of sound 
+    * A Object that contains the functionality needed when wanting to play a single sound/sound file on a game.
     *
     * @class Audio
     * @constructor
@@ -359,9 +361,11 @@ module Kiwi.Sound {
             
             this._game = game;
             this._game.audio.registerSound(this);
-
+            
             this._usingAudioTag = this._game.audio.usingAudioTag;
             this._usingWebAudio = this._game.audio.usingWebAudio; 
+            
+            this._playable = this._game.audio.deviceTouched;
 
             if (this._game.audio.noAudio) return;
 
@@ -416,6 +420,33 @@ module Kiwi.Sound {
         * @type number
         */
         public id: string;
+
+        /**
+        * A flag that indicates whether the sound is ready to be played or not. If not then this indicates that we are awaiting a user event.
+        * @property _playable
+        * @type boolean
+        * @private
+        */
+        private _playable: boolean;
+
+        /**
+        * 
+        * @property playable
+        * @type boolean
+        * @private
+        */
+        public get playable():boolean {
+            return this._playable;
+        }
+        public set playable(val: boolean) {
+            if (val == true) {
+                this._playable = val;
+                if (this._pending == true) {
+                    console.log(&#x27;I should be playing from the pending state&#x27;);
+                    this.play();
+                }    
+            }
+        }
 
         /**
         * The type of object that this is.
@@ -851,17 +882,21 @@ module Kiwi.Sound {
             
             if (this.isPlaying &amp;&amp; forceRestart == false || this._game.audio.noAudio) return;
 
-            if (forceRestart) this.stop();
-            
+            if (forceRestart === true &amp;&amp; this._pending === false) this.stop();
             this.paused = false;
 
             if (this._markers[marker] == undefined) return;
 
-            if(this._currentMarker === marker &amp;&amp; this.isPlaying) return;
+            if(this._currentMarker === marker &amp;&amp; this.isPlaying &amp;&amp; forceRestart == false) return;
 
-            this._currentMarker = marker;
+            this._currentMarker = marker; 
             this.duration = this._markers[this._currentMarker].duration * 1000;
             this._loop = this._markers[this._currentMarker].loop;
+            
+            if (this._playable === false) {
+                this._pending = true;
+                return;
+            }
 
             if (this._usingWebAudio) {
                 if (this._decoded === true) {
@@ -896,7 +931,6 @@ module Kiwi.Sound {
                 }
 
             } else if(this._usingAudioTag) {
-                
                 if (this.duration == 0 || isNaN(this.duration)) this.duration = this.totalDuration * 1000;
                     
                 if (this._muted) this._sound.volume = 0;
@@ -1054,12 +1088,30 @@ module Kiwi.Sound {
         }
         
         /**
-        * This method handles the destruction of all of the properties when the audio is no longer needed.
-        * 
+        * This method handles the destruction of all of the properties when this audio is not longer needed. 
+        * You call this method when you want this method to be removed on the next garbage collection cycle.
+        *
         * @method destroy
         * @public
         */
         public destroy() {
+            if (this._game) {
+                this._game.audio.remove(this);
+            }
+            if (this.onLoop) this.onLoop.dispose();
+            if (this.onStop) this.onStop.dispose();
+            if (this.onPlay) this.onPlay.dispose();
+            if (this.onMute) this.onMute.dispose();
+            if (this.onPause) this.onPause.dispose();
+            if (this.onResume) this.onResume.dispose();
+            
+            delete this.onLoop;
+            delete this.onStop;
+            delete this.onPause;
+            delete this.onMute;
+            delete this.onPlay;
+            delete this.onResume;
+            delete this._game;
             delete this._sound;
             delete this._currentTime;
             delete this._startTime;

@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -342,26 +344,31 @@
 module Kiwi.HUD.Widget {
     
     /**
+    * Used to display a cell from a TextureAtlas in the HUD. This could be used for portraits of the character, e.t.c.
+    * You can change the current cell that is being used in the TextureAtlas by modifing the cellIndex property.
+    *
     * @class Icon
     * @extends HUDWidget
     * @constructor
-    * @param x {number} x
-    * @param y {number y
+    * @param game {Game} The game that this icon belongs to.
+    * @param atlas {TextureAtlas} The image that you would like displayed.
+    * @param x {number} The coordinate of the icon on the x-axis.
+    * @param y {number The coordinate of the icon on the y-axis.
     * @return {Icon}
     */
     export class Icon extends Kiwi.HUD.HUDWidget {
 
-        constructor(atlas: Kiwi.Textures.TextureAtlas, x:number, y:number) {
+        constructor(game:Kiwi.Game, atlas: Kiwi.Textures.TextureAtlas, x:number, y:number) {
 
-            super(&#x27;Icon&#x27;, x, y);
+            super(game, &#x27;Icon&#x27;, x, y);
 
+            this.class = &#x27;kiwi-icon-widget kiwi-widget&#x27;;
             this.atlas = atlas;
-
             this.icon = this.container;
             this._applyCSS();
         }
 
-        /*
+        /**
         * Holds the texture atlas that is being used
         * @property atlas
         * @type TextureAtlas
@@ -369,7 +376,7 @@ module Kiwi.HUD.Widget {
         */
         public atlas: Kiwi.Textures.TextureAtlas;
         
-        /*
+        /**
         * The cell inside the texture atlas that this icon is using
         * @property _cellIndex
         * @type number
@@ -378,10 +385,11 @@ module Kiwi.HUD.Widget {
         */
         private _cellIndex: number = 0;
         
-        /*
+        /**
         * Gets the cell index that is being used.
         * @property cellIndex
         * @type number
+        * @default 0 
         * @public
         */
         public get cellIndex(): number {
@@ -394,7 +402,7 @@ module Kiwi.HUD.Widget {
             this._applyCSS();
         }
 
-        /*
+        /**
         * Returns the width of the cell that is being used.
         * @property width
         * @type number
@@ -404,7 +412,7 @@ module Kiwi.HUD.Widget {
             return this.atlas.cells[this.cellIndex].w;
         }
         
-        /*
+        /**
         * Returns the height of the cell that is being used.
         * @property height
         * @type number
@@ -414,7 +422,7 @@ module Kiwi.HUD.Widget {
             return this.atlas.cells[this.cellIndex].h;
         }
 
-        /*
+        /**
         * Is a reference to the element that the icon CSS is being applyed to.
         * @property icon
         * @type HTMLElement
@@ -422,11 +430,11 @@ module Kiwi.HUD.Widget {
         */
         public icon: HTMLElement;
 
-        /*
-        * Removes the CSS from the Icon. 
+        /**
+        * Removes the CSS from the Icon.
         * This can happen when setting/removing a template and is public to allow for overriding from subclasses.
         * @method _removeCSS
-        * @public
+        * @protected
         */
         public _removeCSS() {
             this.icon.style.width = &#x27;&#x27;;
@@ -436,10 +444,10 @@ module Kiwi.HUD.Widget {
             this.icon.style.backgroundSize = &#x27;&#x27;;
         }
 
-        /*
-        * Updates/Applys the css that is to be applyed.
+        /**
+        * Applys the css to the HTMLElement that is to be affected. 
         * @method _applyCSS
-        * @private
+        * @protected
         */
         public _applyCSS() {
             this.icon.style.width = this.width + &quot;px&quot;;
@@ -447,45 +455,47 @@ module Kiwi.HUD.Widget {
             this.icon.style.backgroundSize = &quot;100%&quot;;
             this.icon.style.backgroundPositionX = -this.atlas.cells[this.cellIndex].x + &quot;px&quot;;
             this.icon.style.backgroundPositionY = -this.atlas.cells[this.cellIndex].y + &quot;px&quot;;
-            this.icon.style.backgroundImage = this.atlas.image.src;
+            this.icon.style.backgroundImage = &#x27;url(&quot;&#x27;+this.atlas.image.src+&#x27;&quot;)&#x27;;
         }
 
-        /*
+        /**
         * This method is used to remove existing DOM elements and place them inside a HUDWidget&#x27;s container element.
         * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
-        * 
+        * Currently not supported.
+        *
         * @method setTemplate
         * @param main {string} main - ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
         * @param icon {string} icon - ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
         * @public
         */
         public setTemplate(main: string, icon?: string) {  
+            if (this._device == Kiwi.TARGET_BROWSER) {
+                this._removeCSS();
 
-            this._removeCSS();
+                super.setTemplate(main, icon);
+                
+                if (this.tempElement !== undefined) {
+                    this.icon = this.tempElement;
+                }
 
-            super.setTemplate(main, icon);
-            
-            if (this.tempElement !== undefined) {
-                this.icon = this.tempElement;
+                this._applyCSS();
             }
-
-            this._applyCSS();
-
         }
 
-        /*
+        /**
         * Used to remove any the template HTML from this HUDWidget.
         * 
         * @method removeTemplate
         * @public
         */
         public removeTemplate() {
+            if (this._device == Kiwi.TARGET_BROWSER) {
+                super.removeTemplate();
 
-            super.removeTemplate();
-
-            this._removeCSS();
-            this.icon = this.container;
-            this._applyCSS();
+                this._removeCSS();
+                this.icon = this.container;
+                this._applyCSS();
+            }
         }
 
     }

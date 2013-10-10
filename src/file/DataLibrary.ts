@@ -1,5 +1,5 @@
 /**
-* Kiwi - Files
+* 
 * @module Kiwi
 * @submodule Files 
 * @main Files
@@ -8,7 +8,7 @@
 module Kiwi.Files {
 
     /**
-    *
+    * Holds a reference to all of the data Files (json, xml, e.t.c) that are accessible on the State that this DataLibrary is on.
     *
     * @class DataLibrary
     * @constructor

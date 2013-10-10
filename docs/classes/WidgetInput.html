@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Counter - Kiwi.js</title>
+    <title>WidgetInput - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -330,7 +330,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Counter Class</h1>
+                        <h1>WidgetInput Class</h1>
 <div class="box meta">
     
 
@@ -342,7 +342,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_hud_components_Counter.ts.html#l11"><code>src\hud\components\Counter.ts:11</code></a>
+            Defined in: <a href="../files/src_hud_components_WidgetInput.ts.html#l10"><code>src\hud\components\WidgetInput.ts:10</code></a>
         </div>
     
 
@@ -359,16 +359,16 @@
 
 
 <div class="box intro">
-    <p>The Counter component handles a incrementation/decrementation of a singular numeric value. 
-You can also specifiy maximum/minimum values that the numeric value has be within but by default there is no max/min.</p>
+    <p>The WidgetInput Component handles the input events that you may want to listen to on a widget.
+This Component is essentually another version of the normal Input Component but instead of for GameObjects this is for HUDWidgets.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Counter" class="method item">
-    <h3 class="name"><code>Counter</code></h3>
+        <div id="method_WidgetInput" class="method item">
+    <h3 class="name"><code>WidgetInput</code></h3>
 
     
         <div class="args">
@@ -382,19 +382,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
             
                 <li class="arg">
                     
-                        <code>current</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[max=null]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[min=null]</code>
+                        <code>container</code>
                     
                 </li>
             
@@ -404,7 +392,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
 
     
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="..\classes\WidgetInput.html" class="crosslink">WidgetInput</a></span>
         </span>
     
 
@@ -431,7 +419,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
             
         
         
-        <a href="../files/src_hud_components_Counter.ts.html#l11"><code>src\hud\components\Counter.ts:11</code></a>
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l10"><code>src\hud\components\WidgetInput.ts:10</code></a>
         
         </p>
 
@@ -460,7 +448,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                     
 
                     <div class="param-description">
-                        <p>The object that this Component belongs to.</p>
+                        <p>The object that this WidgetInput belongs to.</p>
 
                     </div>
 
@@ -469,48 +457,14 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
             
                 <li class="param">
                     
-                        <code class="param-name">current</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">container</code>
+                        <span class="type">HTMLElement</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The current value.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[max=null]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The maximum value it can be. Default is null which means no maximum.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[min=null]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The minimum value that the current can be. Default is null which means no minium.</p>
+                        <p>The HTMLElement that the events will occur on/to.</p>
 
                     </div>
 
@@ -528,7 +482,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
             <div class="returns-description">
                 
                     
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="..\classes\WidgetInput.html" class="crosslink">WidgetInput</a></span>:
                     
                 
             </div>
@@ -565,15 +519,43 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
 
                     <ul class="index-list methods extends">
                         
-                            <li class="index-item method public">
-                                <a href="#method_currentPercent">currentPercent</a>
+                            <li class="index-item method private">
+                                <a href="#method__addEvents">_addEvents</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public">
-                                <a href="#method_decrease">decrease</a>
+                            <li class="index-item method private">
+                                <a href="#method__down">_down</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__out">_out</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__over">_over</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__removeEvents">_removeEvents</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__up">_up</a>
 
                                 
                                 
@@ -581,13 +563,6 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                         
                             <li class="index-item method public inherited">
                                 <a href="#method_destroy">destroy</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_increase">increase</a>
 
                                 
                                 
@@ -614,6 +589,13 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                                 
                             </li>
                         
+                            <li class="index-item method public">
+                                <a href="#method_setElement">setElement</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public inherited">
                                 <a href="#method_update">update</a>
 
@@ -632,35 +614,21 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                     <ul class="index-list properties extends">
                         
                             <li class="index-item property private">
-                                <a href="#property__current">_current</a>
+                                <a href="#property__binds">_binds</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__max">_max</a>
+                                <a href="#property__container">_container</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private">
-                                <a href="#property__min">_min</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public inherited">
+                            <li class="index-item property private inherited">
                                 <a href="#property_active">active</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_current">current</a>
 
                                 
                                 
@@ -680,20 +648,6 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                                 
                             </li>
                         
-                            <li class="index-item property public">
-                                <a href="#property_max">max</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_min">min</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item property public inherited">
                                 <a href="#property_name">name</a>
 
@@ -701,15 +655,36 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                                 
                             </li>
                         
-                            <li class="index-item property public inherited">
-                                <a href="#property_owner">owner</a>
+                            <li class="index-item property public">
+                                <a href="#property_onDown">onDown</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_updated">updated</a>
+                                <a href="#property_onOut">onOut</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onOver">onOver</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onUp">onUp</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_owner">owner</a>
 
                                 
                                 
@@ -729,23 +704,19 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_currentPercent" class="method item public">
-    <h3 class="name"><code>currentPercent</code></h3>
+                    <div id="method__addEvents" class="method item private">
+    <h3 class="name"><code>_addEvents</code></h3>
 
     
         <span class="paren">()</span>
     
 
     
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -767,7 +738,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
             
         
         
-        <a href="../files/src_hud_components_Counter.ts.html#l179"><code>src\hud\components\Counter.ts:179</code></a>
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l99"><code>src\hud\components\WidgetInput.ts:99</code></a>
         
         </p>
 
@@ -778,31 +749,20 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
     </div>
 
     <div class="description">
-        
+        <p>Creates new bindings and adds the events to the HTMLElement.</p>
+
     </div>
 
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
     
 
     
 </div>
 
                 
-                    <div id="method_decrease" class="method item public">
-    <h3 class="name"><code>decrease</code></h3>
+                    <div id="method__down" class="method item private">
+    <h3 class="name"><code>_down</code></h3>
 
     
         <div class="args">
@@ -810,7 +770,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
             
                 <li class="arg">
                     
-                        <code class="optional">[val=1]</code>
+                        <code>evt</code>
                     
                 </li>
             
@@ -819,15 +779,11 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
     
 
     
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -849,7 +805,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
             
         
         
-        <a href="../files/src_hud_components_Counter.ts.html#l137"><code>src\hud\components\Counter.ts:137</code></a>
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l160"><code>src\hud\components\WidgetInput.ts:160</code></a>
         
         </p>
 
@@ -860,8 +816,7 @@ You can also specifiy maximum/minimum values that the numeric value has be withi
     </div>
 
     <div class="description">
-        <p>Decreases the current value by the amount past. 
-If the new amount would be less than the minimun it goes to the min instead.</p>
+        <p>The method that is called when a mousedown event fires. The onDown Signal is called.</p>
 
     </div>
 
@@ -873,16 +828,14 @@ If the new amount would be less than the minimun it goes to the min instead.</p>
             
                 <li class="param">
                     
-                        <code class="param-name optional">[val=1]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">evt</code>
+                        <span class="type">MouseEvent</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The amount that you want to decrease the current value by. Default is 1.</p>
-
+                         
                     </div>
 
                     
@@ -893,17 +846,332 @@ If the new amount would be less than the minimun it goes to the min instead.</p>
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
 
-            <div class="returns-description">
+    
+</div>
+
                 
+                    <div id="method__out" class="method item private">
+    <h3 class="name"><code>_out</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
                     
-                        <span class="type">Number</span>:
+                        <code>evt</code>
                     
-                
-            </div>
+                </li>
+            
+            </ul><span class="paren">)</span>
         </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l180"><code>src\hud\components\WidgetInput.ts:180</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The method that is called when a mouseout event fires. The onOut Signal is called.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">evt</code>
+                        <span class="type">MouseEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__over" class="method item private">
+    <h3 class="name"><code>_over</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>evt</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l170"><code>src\hud\components\WidgetInput.ts:170</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The method that is called when a mouseover event fires. The onOver Signal is called.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">evt</code>
+                        <span class="type">MouseEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__removeEvents" class="method item private">
+    <h3 class="name"><code>_removeEvents</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l119"><code>src\hud\components\WidgetInput.ts:119</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Removes the events off of the current container.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__up" class="method item private">
+    <h3 class="name"><code>_up</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>evt</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l150"><code>src\hud\components\WidgetInput.ts:150</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The method that is called when a mouseup event fires. The onUp Signal is called.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">evt</code>
+                        <span class="type">MouseEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -964,115 +1232,6 @@ If the new amount would be less than the minimun it goes to the min instead.</p>
 </div>
 
                 
-                    <div id="method_increase" class="method item public">
-    <h3 class="name"><code>increase</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code class="optional">[val=1]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_components_Counter.ts.html#l158"><code>src\hud\components\Counter.ts:158</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Increases the current value by the amount past. 
-If the new amount would be greater than the maximum it goes to the max instead.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[val=1]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The amount that you want to increase the current value by. Default is 1.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Number</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
@@ -1111,7 +1270,7 @@ If the new amount would be greater than the maximum it goes to the max instead.<
             
         
         
-        <a href="../files/src_hud_components_Counter.ts.html#l37"><code>src\hud\components\Counter.ts:37</code></a>
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l36"><code>src\hud\components\WidgetInput.ts:36</code></a>
         
         </p>
 
@@ -1254,6 +1413,98 @@ If the new amount would be greater than the maximum it goes to the max instead.<
 </div>
 
                 
+                    <div id="method_setElement" class="method item public">
+    <h3 class="name"><code>setElement</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>container</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l86"><code>src\hud\components\WidgetInput.ts:86</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Changes the HTMLElement that the events are occuring on to one passed. 
+Removes all of the current events from container before changing.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">container</code>
+                        <span class="type">HTMLElement</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The new element that the events are going to occur on.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_update" class="method item public inherited">
     <h3 class="name"><code>update</code></h3>
 
@@ -1316,9 +1567,9 @@ If the new amount would be greater than the maximum it goes to the max instead.<
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__current" class="property item private">
-    <h3 class="name"><code>_current</code></h3>
-    <span class="type">Number</span>
+                    <div id="property__binds" class="property item private">
+    <h3 class="name"><code>_binds</code></h3>
+    <span class="type">Any</span>
 
     
 
@@ -1341,7 +1592,7 @@ If the new amount would be greater than the maximum it goes to the max instead.<
             
         
         
-        <a href="../files/src_hud_components_Counter.ts.html#l47"><code>src\hud\components\Counter.ts:47</code></a>
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l134"><code>src\hud\components\WidgetInput.ts:134</code></a>
         
         </p>
 
@@ -1351,7 +1602,7 @@ If the new amount would be greater than the maximum it goes to the max instead.<
     </div>
 
     <div class="description">
-        <p>The current value of the range.</p>
+        <p>An array of objects, that holds the events that are happening and the methods that are bound to the container.</p>
 
     </div>
 
@@ -1363,9 +1614,9 @@ If the new amount would be greater than the maximum it goes to the max instead.<
 </div>
 
                 
-                    <div id="property__max" class="property item private">
-    <h3 class="name"><code>_max</code></h3>
-    <span class="type">Number</span>
+                    <div id="property__container" class="property item private">
+    <h3 class="name"><code>_container</code></h3>
+    <span class="type">HTMLElement</span>
 
     
 
@@ -1388,7 +1639,7 @@ If the new amount would be greater than the maximum it goes to the max instead.<
             
         
         
-        <a href="../files/src_hud_components_Counter.ts.html#l55"><code>src\hud\components\Counter.ts:55</code></a>
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l78"><code>src\hud\components\WidgetInput.ts:78</code></a>
         
         </p>
 
@@ -1398,7 +1649,7 @@ If the new amount would be greater than the maximum it goes to the max instead.<
     </div>
 
     <div class="description">
-        <p>The maximum value that of the range.</p>
+        <p>The HTMLElement that the events are going to occur on.</p>
 
     </div>
 
@@ -1410,63 +1661,14 @@ If the new amount would be greater than the maximum it goes to the max instead.<
 </div>
 
                 
-                    <div id="property__min" class="property item private">
-    <h3 class="name"><code>_min</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_components_Counter.ts.html#l63"><code>src\hud\components\Counter.ts:63</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The minimum value that of the range.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_active" class="property item public inherited">
+                    <div id="property_active" class="property item private">
     <h3 class="name"><code>active</code></h3>
     <span class="type">Boolean</span>
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -1475,13 +1677,16 @@ If the new amount would be greater than the maximum it goes to the max instead.<
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Component.html#property_active">
+                Component
+            </a>
             
-                <p>Inherited from
-                <a href="..\classes\Component.html#property_active">Component</a>:
+            but overwritten in
             
         
         
-        <a href="../files/src_core_Component.ts.html#l63"><code>src\core\Component.ts:63</code></a>
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l142"><code>src\hud\components\WidgetInput.ts:142</code></a>
         
         </p>
 
@@ -1491,58 +1696,7 @@ If the new amount would be greater than the maximum it goes to the max instead.<
     </div>
 
     <div class="description">
-        <p>An active Component is one that has its update method called by its parent.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> true</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_current" class="property item public">
-    <h3 class="name"><code>current</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_components_Counter.ts.html#l114"><code>src\hud\components\Counter.ts:114</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Set allows setting of the current value that the range can be in. 
-The current value will only change if it is within the maximum/minimum values.
-Get returns the current value.</p>
+        <p>If the events are currently actively running or not.</p>
 
     </div>
 
@@ -1644,102 +1798,6 @@ Get returns the current value.</p>
 </div>
 
                 
-                    <div id="property_max" class="property item public">
-    <h3 class="name"><code>max</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_components_Counter.ts.html#l80"><code>src\hud\components\Counter.ts:80</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Set allows setting of the maximum value that the range can be in. 
-Get returns the maximum value.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_min" class="property item public">
-    <h3 class="name"><code>min</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_components_Counter.ts.html#l96"><code>src\hud\components\Counter.ts:96</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Set allows setting of the minimum value that the range can be in. 
-Get returns the minimum value.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="property_name" class="property item public inherited">
     <h3 class="name"><code>name</code></h3>
     <span class="type">String</span>
@@ -1784,6 +1842,194 @@ Get returns the minimum value.</p>
 </div>
 
                 
+                    <div id="property_onDown" class="property item public">
+    <h3 class="name"><code>onDown</code></h3>
+    <span class="type"><a href="..\classes\Signal.html" class="crosslink">Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l54"><code>src\hud\components\WidgetInput.ts:54</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal that dispatches events when the user presses the mouse on top of the HTMLElement.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onOut" class="property item public">
+    <h3 class="name"><code>onOut</code></h3>
+    <span class="type"><a href="..\classes\Signal.html" class="crosslink">Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l70"><code>src\hud\components\WidgetInput.ts:70</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal that dispatches events when the user&#39;s mouse leaves the HTMLElement.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onOver" class="property item public">
+    <h3 class="name"><code>onOver</code></h3>
+    <span class="type"><a href="..\classes\Signal.html" class="crosslink">Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l62"><code>src\hud\components\WidgetInput.ts:62</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal that dispatches events when the user&#39;s mouse initially goes over the top of the HTMLElement.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onUp" class="property item public">
+    <h3 class="name"><code>onUp</code></h3>
+    <span class="type"><a href="..\classes\Signal.html" class="crosslink">Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_components_WidgetInput.ts.html#l46"><code>src\hud\components\WidgetInput.ts:46</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Signal that dispatches events when the user releases the mouse on top of the HTMLElement.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_owner" class="property item public inherited">
     <h3 class="name"><code>owner</code></h3>
     <span class="type"><a href="..\classes\IChild.html" class="crosslink">IChild</a></span>
@@ -1817,53 +2063,6 @@ Get returns the minimum value.</p>
 
     <div class="description">
         <p>The IChild that owns this entity</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_updated" class="property item public">
-    <h3 class="name"><code>updated</code></h3>
-    <span class="type"><a href="..\classes\Signal.html" class="crosslink">Signal</a></span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_components_Counter.ts.html#l72"><code>src\hud\components\Counter.ts:72</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A Kiwi.Signal that dispatches an event when a value has changed.</p>
 
     </div>
 

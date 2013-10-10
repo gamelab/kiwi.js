@@ -8,8 +8,8 @@
 module Kiwi.Sound {
 
     /**
+    * Holds a reference to all of the Audio Files (mp3, ogg, e.t.c) that are accessible on the State that this AudioLibrary is on.
     * 
-    *
     * @class AudioLibrary
     * @constructor
     * @param game {Game} The game that this audio library is a member of.

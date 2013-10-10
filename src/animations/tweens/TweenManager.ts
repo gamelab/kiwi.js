@@ -1,5 +1,6 @@
 /**
-* 
+* The section of Kiwi which holds the scripts that manage Tween's in Kiwi. The scripts in this section are based on Tween.js by sole and have been converted to TypeScript and integrated into Kiwi. https://github.com/sole/tween.js
+*
 * @module Animations
 * @submodule Tweens 
 * @main Tweens
@@ -8,6 +9,8 @@
 module Kiwi.Animations.Tweens {
 
     /** 
+    * The TweenManager is automatically created on every game. This class is responsible for the creation and management of tweens for the game.
+    *  
     * Based on tween.js by sole. Converted to TypeScript and integrated into Kiwi.
     * https://github.com/sole/tween.js
     *

@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -342,7 +344,7 @@
 module Kiwi.GameObjects {
     
     /**
-    * A gameobject that is used to render text onto the state. 
+    * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
     *
     * @class Textfield
     * @extends Entity
@@ -372,12 +374,8 @@ module Kiwi.GameObjects {
             this._textAlign = &#x27;left&#x27;;
             this._baseline = &#x27;top&#x27;;
             
-            if (this.state.game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-                this.optimize = false;
-            } else {
-                this.optimize = optimize;
-            }
-
+            this.optimize = optimize;
+            
             this._tempDirty = true;
         }
 
@@ -636,7 +634,7 @@ module Kiwi.GameObjects {
 
             this._tempDirty = false;
         }
-       
+        
         /**
 	    * Called by the Layer to which this Game Object is attached
 	    * @method render
@@ -655,8 +653,9 @@ module Kiwi.GameObjects {
                 if (this.alpha &gt; 0 &amp;&amp; this.alpha &lt;= 1) {
                     ctx.globalAlpha = this.alpha;
                 }
-                
-                if (this.optimize) { //if they are using the optmised method.
+
+                //if they are using the optmised method.
+                if (this.state.game.deviceTargetOption !== Kiwi.TARGET_COCOON &amp;&amp; this.optimize) { 
 
                     //does the text need re-rendering
                     if (this._tempDirty) this._renderText();

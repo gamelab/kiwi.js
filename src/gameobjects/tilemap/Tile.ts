@@ -1,5 +1,5 @@
 /**
-* Kiwi - GameObjects - Tilemap
+* 
 * @module GameObjects
 * @submodule Tilemap
 * 
@@ -8,7 +8,8 @@
 module Kiwi.GameObjects.Tilemap {
 
     /**
-    *
+    * A single Tile that exists on the mapData property inside of a TileMapLayer. A Tile should never be directly created by a user but instead reference through its TileMapLayer which would have created it. Each Tile has an ArcadePhysics component that can be used for collision detection.
+    * 
     * @class Tile
     * @extends Entity
     * @constructor
@@ -31,6 +32,7 @@ module Kiwi.GameObjects.Tilemap {
             this.height = height;
             this.tileLayer = tileLayer;
 
+            this.box = this.components.add(new Kiwi.Components.Box(this, this.x, this.y, this.width, this.height));
             this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
 
             this.tileUpdate(tileType);
@@ -84,6 +86,14 @@ module Kiwi.GameObjects.Tilemap {
         */
         public physics: Kiwi.Components.ArcadePhysics;
         
+        /**
+        * The box component containing the bounding box of this object.
+        * @property box
+        * @type Box
+        * @public
+        */
+        public box: Kiwi.Components.Box;
+
         /**
         * The width of this tile.
         * @property width

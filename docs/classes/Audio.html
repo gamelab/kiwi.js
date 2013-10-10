@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -353,7 +355,7 @@
 
 
 <div class="box intro">
-    <p>Manages the playing of sound</p>
+    <p>A Object that contains the functionality needed when wanting to play a single sound/sound file on a game.</p>
 
 </div>
 
@@ -723,6 +725,13 @@
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__playable">_playable</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__sound">_sound</a>
 
                                 
@@ -869,6 +878,13 @@
                                 
                             </li>
                         
+                            <li class="index-item property private">
+                                <a href="#property_playable">playable</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_ready">ready</a>
 
@@ -938,7 +954,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l384"><code>src\sound\Audio.ts:384</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l413"><code>src\sound\Audio.ts:413</code></a>
         
         </p>
 
@@ -1009,7 +1025,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l361"><code>src\sound\Audio.ts:361</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l390"><code>src\sound\Audio.ts:390</code></a>
         
         </p>
 
@@ -1130,7 +1146,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l476"><code>src\sound\Audio.ts:476</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l505"><code>src\sound\Audio.ts:505</code></a>
         
         </p>
 
@@ -1260,7 +1276,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l722"><code>src\sound\Audio.ts:722</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l754"><code>src\sound\Audio.ts:754</code></a>
         
         </p>
 
@@ -1271,7 +1287,8 @@
     </div>
 
     <div class="description">
-        <p>This method handles the destruction of all of the properties when the audio is no longer needed.</p>
+        <p>This method handles the destruction of all of the properties when this audio is not longer needed. 
+You call this method when you want this method to be removed on the next garbage collection cycle.</p>
 
     </div>
 
@@ -1321,7 +1338,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l86"><code>src\sound\Audio.ts:86</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l115"><code>src\sound\Audio.ts:115</code></a>
         
         </p>
 
@@ -1390,7 +1407,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l611"><code>src\sound\Audio.ts:611</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l643"><code>src\sound\Audio.ts:643</code></a>
         
         </p>
 
@@ -1463,7 +1480,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l508"><code>src\sound\Audio.ts:508</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l537"><code>src\sound\Audio.ts:537</code></a>
         
         </p>
 
@@ -1572,7 +1589,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l490"><code>src\sound\Audio.ts:490</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l519"><code>src\sound\Audio.ts:519</code></a>
         
         </p>
 
@@ -1653,7 +1670,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l625"><code>src\sound\Audio.ts:625</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l657"><code>src\sound\Audio.ts:657</code></a>
         
         </p>
 
@@ -1710,7 +1727,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l583"><code>src\sound\Audio.ts:583</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l615"><code>src\sound\Audio.ts:615</code></a>
         
         </p>
 
@@ -1767,7 +1784,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l661"><code>src\sound\Audio.ts:661</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l693"><code>src\sound\Audio.ts:693</code></a>
         
         </p>
 
@@ -1823,7 +1840,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l221"><code>src\sound\Audio.ts:221</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l250"><code>src\sound\Audio.ts:250</code></a>
         
         </p>
 
@@ -1870,7 +1887,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l304"><code>src\sound\Audio.ts:304</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l333"><code>src\sound\Audio.ts:333</code></a>
         
         </p>
 
@@ -1919,7 +1936,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l280"><code>src\sound\Audio.ts:280</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l309"><code>src\sound\Audio.ts:309</code></a>
         
         </p>
 
@@ -1966,7 +1983,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l229"><code>src\sound\Audio.ts:229</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l258"><code>src\sound\Audio.ts:258</code></a>
         
         </p>
 
@@ -2015,7 +2032,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l178"><code>src\sound\Audio.ts:178</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l207"><code>src\sound\Audio.ts:207</code></a>
         
         </p>
 
@@ -2062,7 +2079,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l96"><code>src\sound\Audio.ts:96</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l125"><code>src\sound\Audio.ts:125</code></a>
         
         </p>
 
@@ -2109,7 +2126,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l162"><code>src\sound\Audio.ts:162</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l191"><code>src\sound\Audio.ts:191</code></a>
         
         </p>
 
@@ -2156,7 +2173,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l296"><code>src\sound\Audio.ts:296</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l325"><code>src\sound\Audio.ts:325</code></a>
         
         </p>
 
@@ -2203,7 +2220,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l144"><code>src\sound\Audio.ts:144</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l173"><code>src\sound\Audio.ts:173</code></a>
         
         </p>
 
@@ -2252,7 +2269,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l238"><code>src\sound\Audio.ts:238</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l267"><code>src\sound\Audio.ts:267</code></a>
         
         </p>
 
@@ -2299,7 +2316,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l264"><code>src\sound\Audio.ts:264</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l293"><code>src\sound\Audio.ts:293</code></a>
         
         </p>
 
@@ -2310,6 +2327,53 @@
 
     <div class="description">
         <p>If the sound needs to be played but is waiting on something.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__playable" class="property item private">
+    <h3 class="name"><code>_playable</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_sound_Audio.ts.html#l88"><code>src\sound\Audio.ts:88</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A flag that indicates whether the sound is ready to be played or not. If not then this indicates that we are awaiting a user event.</p>
 
     </div>
 
@@ -2346,7 +2410,7 @@
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l186"><code>src\sound\Audio.ts:186</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l215"><code>src\sound\Audio.ts:215</code></a>
         
         </p>
 
@@ -2395,7 +2459,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l272"><code>src\sound\Audio.ts:272</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l301"><code>src\sound\Audio.ts:301</code></a>
         
         </p>
 
@@ -2442,7 +2506,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l288"><code>src\sound\Audio.ts:288</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l317"><code>src\sound\Audio.ts:317</code></a>
         
         </p>
 
@@ -2489,7 +2553,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l128"><code>src\sound\Audio.ts:128</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l157"><code>src\sound\Audio.ts:157</code></a>
         
         </p>
 
@@ -2536,7 +2600,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l136"><code>src\sound\Audio.ts:136</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l165"><code>src\sound\Audio.ts:165</code></a>
         
         </p>
 
@@ -2583,7 +2647,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l153"><code>src\sound\Audio.ts:153</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l182"><code>src\sound\Audio.ts:182</code></a>
         
         </p>
 
@@ -2632,7 +2696,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l104"><code>src\sound\Audio.ts:104</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l133"><code>src\sound\Audio.ts:133</code></a>
         
         </p>
 
@@ -2679,7 +2743,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l213"><code>src\sound\Audio.ts:213</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l242"><code>src\sound\Audio.ts:242</code></a>
         
         </p>
 
@@ -2726,7 +2790,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l120"><code>src\sound\Audio.ts:120</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l149"><code>src\sound\Audio.ts:149</code></a>
         
         </p>
 
@@ -2771,7 +2835,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l79"><code>src\sound\Audio.ts:79</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l81"><code>src\sound\Audio.ts:81</code></a>
         
         </p>
 
@@ -2818,7 +2882,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l246"><code>src\sound\Audio.ts:246</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l275"><code>src\sound\Audio.ts:275</code></a>
         
         </p>
 
@@ -2867,7 +2931,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l170"><code>src\sound\Audio.ts:170</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l199"><code>src\sound\Audio.ts:199</code></a>
         
         </p>
 
@@ -2914,7 +2978,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l112"><code>src\sound\Audio.ts:112</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l141"><code>src\sound\Audio.ts:141</code></a>
         
         </p>
 
@@ -2961,7 +3025,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l447"><code>src\sound\Audio.ts:447</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l476"><code>src\sound\Audio.ts:476</code></a>
         
         </p>
 
@@ -3008,7 +3072,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l345"><code>src\sound\Audio.ts:345</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l374"><code>src\sound\Audio.ts:374</code></a>
         
         </p>
 
@@ -3055,7 +3119,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l353"><code>src\sound\Audio.ts:353</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l382"><code>src\sound\Audio.ts:382</code></a>
         
         </p>
 
@@ -3102,7 +3166,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l329"><code>src\sound\Audio.ts:329</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l358"><code>src\sound\Audio.ts:358</code></a>
         
         </p>
 
@@ -3149,7 +3213,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l313"><code>src\sound\Audio.ts:313</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l342"><code>src\sound\Audio.ts:342</code></a>
         
         </p>
 
@@ -3196,7 +3260,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l337"><code>src\sound\Audio.ts:337</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l366"><code>src\sound\Audio.ts:366</code></a>
         
         </p>
 
@@ -3243,7 +3307,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l321"><code>src\sound\Audio.ts:321</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l350"><code>src\sound\Audio.ts:350</code></a>
         
         </p>
 
@@ -3290,7 +3354,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l255"><code>src\sound\Audio.ts:255</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l284"><code>src\sound\Audio.ts:284</code></a>
         
         </p>
 
@@ -3306,6 +3370,52 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
 
     
         <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_playable" class="property item private">
+    <h3 class="name"><code>playable</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_sound_Audio.ts.html#l96"><code>src\sound\Audio.ts:96</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
     
 
     
@@ -3339,7 +3449,7 @@ In the case of Audio Tags this is the Audio Tag itself.</p>
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l196"><code>src\sound\Audio.ts:196</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l225"><code>src\sound\Audio.ts:225</code></a>
         
         </p>
 
@@ -3387,7 +3497,7 @@ This is just an indicator of if the file has been retrieved successfully from th
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l205"><code>src\sound\Audio.ts:205</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l234"><code>src\sound\Audio.ts:234</code></a>
         
         </p>
 
@@ -3434,7 +3544,7 @@ This is just an indicator of if the file has been retrieved successfully from th
             
         
         
-        <a href="../files/src_sound_Audio.ts.html#l410"><code>src\sound\Audio.ts:410</code></a>
+        <a href="../files/src_sound_Audio.ts.html#l439"><code>src\sound\Audio.ts:439</code></a>
         
         </p>
 

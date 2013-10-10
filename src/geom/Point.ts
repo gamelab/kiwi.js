@@ -1,5 +1,5 @@
 /**
-* Kiwi - Geom
+*  
 * @module Kiwi
 * @submodule Geom
 */
@@ -7,7 +7,7 @@
 module Kiwi.Geom {
 
     /**
-    * Represetns a location in a two-dimensional coordinate system, where x represents the horizontal axis and y represents the vertical axis.
+    * Represents a location in a two-dimensional coordinate system, where x represents the horizontal axis and y represents the vertical axis.
     *
     * @class Point
     * @constructor

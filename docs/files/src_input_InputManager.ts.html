@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,17 +335,17 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Input
+* Section that contains the code related to handling user interaction with a game. 
+*
 * @module Kiwi
 * @submodule Input
-* 
+* @main Input
 */ 
 
 module Kiwi.Input {
 
     /**
-    * Handles the various ways a user can interact with the Device, 
-    * whether this is through a Keyboard and Mouse or by through a Touch.  
+    * Handles the initialization and management of the various ways a user can interact with the device/game, whether this is through a Keyboard and Mouse or by a Touch. Also contains some of the general callbacks that are &#x27;global&#x27; between both Desktop and Mobile based devices.
     * 
     * @class InputManager
     * @constructor
@@ -441,6 +443,9 @@ module Kiwi.Input {
         * @public
         */
         public boot() {
+            this._pointers = [];
+            this.mouse = new Kiwi.Input.Mouse(this.game);
+            this.mouse.boot();
 
             if (Kiwi.DEVICE.touch === true)
             {
@@ -450,11 +455,9 @@ module Kiwi.Input {
                 this.touch.touchUp.add(this._onUpEvent, this);
                 this._pointers = this.touch.fingers;
             } else {
-                this.mouse = new Kiwi.Input.Mouse(this.game);
-                this.mouse.boot();
                 this.mouse.mouseDown.add(this._onDownEvent, this);
                 this.mouse.mouseUp.add(this._onUpEvent, this);
-                this._pointers = [this.mouse.cursor];
+                this._pointers.push(this.mouse.cursor);
                 this.keyboard = new Kiwi.Input.Keyboard(this.game);
                 this.keyboard.boot();
             }

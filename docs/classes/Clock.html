@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -353,9 +355,8 @@
 
 
 <div class="box intro">
-    <p>The Clock class offers a way of tracking time within a game.
-- The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started.
-This happens automatically and there is no need to do anything to set this up.
+    <p>The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
+- The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
 - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
 - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
 - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
@@ -454,13 +455,13 @@ This happens automatically and there is no need to do anything to set this up.
                 <li class="param">
                     
                         <code class="param-name">manager</code>
-                        <span class="type">Manager</span>
+                        <span class="type"><a href="..\classes\ClockManager.html" class="crosslink">ClockManager</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The time manager that this clock belongs to.</p>
+                        <p>The ClockManager that this clock belongs to. .</p>
 
                     </div>
 
@@ -476,7 +477,7 @@ This happens automatically and there is no need to do anything to set this up.
                     
 
                     <div class="param-description">
-                        <p>The master clock.</p>
+                        <p>The MasterClock that it is getting the time in relation to.</p>
 
                     </div>
 
@@ -814,7 +815,7 @@ This happens automatically and there is no need to do anything to set this up.
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_name">name</a>
 
                                 
@@ -897,7 +898,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l314"><code>src\time\Clock.ts:314</code></a>
+        <a href="../files/src_time_Clock.ts.html#l313"><code>src\time\Clock.ts:313</code></a>
         
         </p>
 
@@ -1006,7 +1007,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l393"><code>src\time\Clock.ts:393</code></a>
+        <a href="../files/src_time_Clock.ts.html#l392"><code>src\time\Clock.ts:392</code></a>
         
         </p>
 
@@ -1133,7 +1134,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l328"><code>src\time\Clock.ts:328</code></a>
+        <a href="../files/src_time_Clock.ts.html#l327"><code>src\time\Clock.ts:327</code></a>
         
         </p>
 
@@ -1283,7 +1284,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l106"><code>src\time\Clock.ts:106</code></a>
+        <a href="../files/src_time_Clock.ts.html#l105"><code>src\time\Clock.ts:105</code></a>
         
         </p>
 
@@ -1358,7 +1359,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l73"><code>src\time\Clock.ts:73</code></a>
+        <a href="../files/src_time_Clock.ts.html#l72"><code>src\time\Clock.ts:72</code></a>
         
         </p>
 
@@ -1433,7 +1434,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l165"><code>src\time\Clock.ts:165</code></a>
+        <a href="../files/src_time_Clock.ts.html#l164"><code>src\time\Clock.ts:164</code></a>
         
         </p>
 
@@ -1508,7 +1509,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l143"><code>src\time\Clock.ts:143</code></a>
+        <a href="../files/src_time_Clock.ts.html#l142"><code>src\time\Clock.ts:142</code></a>
         
         </p>
 
@@ -1583,7 +1584,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l187"><code>src\time\Clock.ts:187</code></a>
+        <a href="../files/src_time_Clock.ts.html#l186"><code>src\time\Clock.ts:186</code></a>
         
         </p>
 
@@ -1658,7 +1659,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l260"><code>src\time\Clock.ts:260</code></a>
+        <a href="../files/src_time_Clock.ts.html#l259"><code>src\time\Clock.ts:259</code></a>
         
         </p>
 
@@ -1733,7 +1734,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l218"><code>src\time\Clock.ts:218</code></a>
+        <a href="../files/src_time_Clock.ts.html#l217"><code>src\time\Clock.ts:217</code></a>
         
         </p>
 
@@ -1808,7 +1809,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l239"><code>src\time\Clock.ts:239</code></a>
+        <a href="../files/src_time_Clock.ts.html#l238"><code>src\time\Clock.ts:238</code></a>
         
         </p>
 
@@ -1883,7 +1884,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l46"><code>src\time\Clock.ts:46</code></a>
+        <a href="../files/src_time_Clock.ts.html#l45"><code>src\time\Clock.ts:45</code></a>
         
         </p>
 
@@ -1956,7 +1957,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l482"><code>src\time\Clock.ts:482</code></a>
+        <a href="../files/src_time_Clock.ts.html#l481"><code>src\time\Clock.ts:481</code></a>
         
         </p>
 
@@ -2047,7 +2048,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l350"><code>src\time\Clock.ts:350</code></a>
+        <a href="../files/src_time_Clock.ts.html#l349"><code>src\time\Clock.ts:349</code></a>
         
         </p>
 
@@ -2164,7 +2165,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l503"><code>src\time\Clock.ts:503</code></a>
+        <a href="../files/src_time_Clock.ts.html#l502"><code>src\time\Clock.ts:502</code></a>
         
         </p>
 
@@ -2239,7 +2240,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l456"><code>src\time\Clock.ts:456</code></a>
+        <a href="../files/src_time_Clock.ts.html#l455"><code>src\time\Clock.ts:455</code></a>
         
         </p>
 
@@ -2314,7 +2315,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l94"><code>src\time\Clock.ts:94</code></a>
+        <a href="../files/src_time_Clock.ts.html#l93"><code>src\time\Clock.ts:93</code></a>
         
         </p>
 
@@ -2389,7 +2390,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l526"><code>src\time\Clock.ts:526</code></a>
+        <a href="../files/src_time_Clock.ts.html#l525"><code>src\time\Clock.ts:525</code></a>
         
         </p>
 
@@ -2464,7 +2465,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l413"><code>src\time\Clock.ts:413</code></a>
+        <a href="../files/src_time_Clock.ts.html#l412"><code>src\time\Clock.ts:412</code></a>
         
         </p>
 
@@ -2539,7 +2540,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l430"><code>src\time\Clock.ts:430</code></a>
+        <a href="../files/src_time_Clock.ts.html#l429"><code>src\time\Clock.ts:429</code></a>
         
         </p>
 
@@ -2614,7 +2615,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l554"><code>src\time\Clock.ts:554</code></a>
+        <a href="../files/src_time_Clock.ts.html#l553"><code>src\time\Clock.ts:553</code></a>
         
         </p>
 
@@ -2685,7 +2686,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l442"><code>src\time\Clock.ts:442</code></a>
+        <a href="../files/src_time_Clock.ts.html#l441"><code>src\time\Clock.ts:441</code></a>
         
         </p>
 
@@ -2741,7 +2742,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l272"><code>src\time\Clock.ts:272</code></a>
+        <a href="../files/src_time_Clock.ts.html#l271"><code>src\time\Clock.ts:271</code></a>
         
         </p>
 
@@ -2790,7 +2791,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l251"><code>src\time\Clock.ts:251</code></a>
+        <a href="../files/src_time_Clock.ts.html#l250"><code>src\time\Clock.ts:250</code></a>
         
         </p>
 
@@ -2839,7 +2840,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l209"><code>src\time\Clock.ts:209</code></a>
+        <a href="../files/src_time_Clock.ts.html#l208"><code>src\time\Clock.ts:208</code></a>
         
         </p>
 
@@ -2888,7 +2889,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l230"><code>src\time\Clock.ts:230</code></a>
+        <a href="../files/src_time_Clock.ts.html#l229"><code>src\time\Clock.ts:229</code></a>
         
         </p>
 
@@ -2937,7 +2938,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l64"><code>src\time\Clock.ts:64</code></a>
+        <a href="../files/src_time_Clock.ts.html#l63"><code>src\time\Clock.ts:63</code></a>
         
         </p>
 
@@ -2986,7 +2987,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l155"><code>src\time\Clock.ts:155</code></a>
+        <a href="../files/src_time_Clock.ts.html#l154"><code>src\time\Clock.ts:154</code></a>
         
         </p>
 
@@ -3035,7 +3036,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l85"><code>src\time\Clock.ts:85</code></a>
+        <a href="../files/src_time_Clock.ts.html#l84"><code>src\time\Clock.ts:84</code></a>
         
         </p>
 
@@ -3084,7 +3085,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l134"><code>src\time\Clock.ts:134</code></a>
+        <a href="../files/src_time_Clock.ts.html#l133"><code>src\time\Clock.ts:133</code></a>
         
         </p>
 
@@ -3133,7 +3134,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l177"><code>src\time\Clock.ts:177</code></a>
+        <a href="../files/src_time_Clock.ts.html#l176"><code>src\time\Clock.ts:176</code></a>
         
         </p>
 
@@ -3182,7 +3183,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l199"><code>src\time\Clock.ts:199</code></a>
+        <a href="../files/src_time_Clock.ts.html#l198"><code>src\time\Clock.ts:198</code></a>
         
         </p>
 
@@ -3208,7 +3209,7 @@ This happens automatically and there is no need to do anything to set this up.
                 
                     <div id="property_manager" class="property item public">
     <h3 class="name"><code>manager</code></h3>
-    <span class="type">Manager</span>
+    <span class="type"><a href="..\classes\ClockManager.html" class="crosslink">ClockManager</a></span>
 
     
 
@@ -3231,7 +3232,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l281"><code>src\time\Clock.ts:281</code></a>
+        <a href="../files/src_time_Clock.ts.html#l280"><code>src\time\Clock.ts:280</code></a>
         
         </p>
 
@@ -3278,7 +3279,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l289"><code>src\time\Clock.ts:289</code></a>
+        <a href="../files/src_time_Clock.ts.html#l288"><code>src\time\Clock.ts:288</code></a>
         
         </p>
 
@@ -3300,12 +3301,14 @@ This happens automatically and there is no need to do anything to set this up.
 </div>
 
                 
-                    <div id="property_name" class="property item">
+                    <div id="property_name" class="property item public">
     <h3 class="name"><code>name</code></h3>
     <span class="type">String</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3323,7 +3326,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l297"><code>src\time\Clock.ts:297</code></a>
+        <a href="../files/src_time_Clock.ts.html#l296"><code>src\time\Clock.ts:296</code></a>
         
         </p>
 
@@ -3347,7 +3350,7 @@ This happens automatically and there is no need to do anything to set this up.
                 
                     <div id="property_timers" class="property item private">
     <h3 class="name"><code>timers</code></h3>
-    <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer</a></span>
+    <span class="type"><a href="..\classes\Timer.html" class="crosslink">Timer[]</a></span>
 
     
 
@@ -3370,7 +3373,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l56"><code>src\time\Clock.ts:56</code></a>
+        <a href="../files/src_time_Clock.ts.html#l55"><code>src\time\Clock.ts:55</code></a>
         
         </p>
 
@@ -3417,7 +3420,7 @@ This happens automatically and there is no need to do anything to set this up.
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l305"><code>src\time\Clock.ts:305</code></a>
+        <a href="../files/src_time_Clock.ts.html#l304"><code>src\time\Clock.ts:304</code></a>
         
         </p>
 

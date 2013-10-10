@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -340,7 +342,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_components_AnimationManager.ts.html#l10"><code>src\components\AnimationManager.ts:10</code></a>
+            Defined in: <a href="../files/src_components_AnimationManager.ts.html#l11"><code>src\components\AnimationManager.ts:11</code></a>
         </div>
     
 
@@ -357,7 +359,10 @@
 
 
 <div class="box intro">
-    <p>Manages the playing/pausing/e.t.c of animations for a single Sprite.</p>
+    <p>The AnimationManager is used to handle the creation and playment of Animations on a individual GameObject based on the TextureAtlas it has. 
+When the AnimationManager is instantiated it will loop through all of the Sequences on the TextureAtlas of the GameObject being used and will create a new Animation for each one.
+Now when you create a new Animation that animation will automatically be added as a new Sequence to the corresponding Texture. 
+This way you don&#39;t need to create new Animations for a each Sprite that use&#39;s the same Texture.</p>
 
 </div>
 
@@ -410,7 +415,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l10"><code>src\components\AnimationManager.ts:10</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l11"><code>src\components\AnimationManager.ts:11</code></a>
         
         </p>
 
@@ -810,7 +815,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l170"><code>src\components\AnimationManager.ts:170</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l174"><code>src\components\AnimationManager.ts:174</code></a>
         
         </p>
 
@@ -920,7 +925,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l344"><code>src\components\AnimationManager.ts:344</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l348"><code>src\components\AnimationManager.ts:348</code></a>
         
         </p>
 
@@ -987,7 +992,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l274"><code>src\components\AnimationManager.ts:274</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l278"><code>src\components\AnimationManager.ts:278</code></a>
         
         </p>
 
@@ -1105,7 +1110,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l109"><code>src\components\AnimationManager.ts:109</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l113"><code>src\components\AnimationManager.ts:113</code></a>
         
         </p>
 
@@ -1285,7 +1290,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l128"><code>src\components\AnimationManager.ts:128</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l132"><code>src\components\AnimationManager.ts:132</code></a>
         
         </p>
 
@@ -1397,7 +1402,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l365"><code>src\components\AnimationManager.ts:365</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l369"><code>src\components\AnimationManager.ts:369</code></a>
         
         </p>
 
@@ -1468,7 +1473,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l332"><code>src\components\AnimationManager.ts:332</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l336"><code>src\components\AnimationManager.ts:336</code></a>
         
         </p>
 
@@ -1560,7 +1565,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l254"><code>src\components\AnimationManager.ts:254</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l258"><code>src\components\AnimationManager.ts:258</code></a>
         
         </p>
 
@@ -1617,7 +1622,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l99"><code>src\components\AnimationManager.ts:99</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l103"><code>src\components\AnimationManager.ts:103</code></a>
         
         </p>
 
@@ -1674,7 +1679,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l206"><code>src\components\AnimationManager.ts:206</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l210"><code>src\components\AnimationManager.ts:210</code></a>
         
         </p>
 
@@ -1741,7 +1746,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l145"><code>src\components\AnimationManager.ts:145</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l149"><code>src\components\AnimationManager.ts:149</code></a>
         
         </p>
 
@@ -1839,7 +1844,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l157"><code>src\components\AnimationManager.ts:157</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l161"><code>src\components\AnimationManager.ts:161</code></a>
         
         </p>
 
@@ -2045,7 +2050,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l264"><code>src\components\AnimationManager.ts:264</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l268"><code>src\components\AnimationManager.ts:268</code></a>
         
         </p>
 
@@ -2102,7 +2107,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l216"><code>src\components\AnimationManager.ts:216</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l220"><code>src\components\AnimationManager.ts:220</code></a>
         
         </p>
 
@@ -2159,7 +2164,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l194"><code>src\components\AnimationManager.ts:194</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l198"><code>src\components\AnimationManager.ts:198</code></a>
         
         </p>
 
@@ -2232,7 +2237,7 @@
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l226"><code>src\components\AnimationManager.ts:226</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l230"><code>src\components\AnimationManager.ts:230</code></a>
         
         </p>
 
@@ -2335,7 +2340,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l353"><code>src\components\AnimationManager.ts:353</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l357"><code>src\components\AnimationManager.ts:357</code></a>
         
         </p>
 
@@ -2406,7 +2411,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l289"><code>src\components\AnimationManager.ts:289</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l293"><code>src\components\AnimationManager.ts:293</code></a>
         
         </p>
 
@@ -2462,7 +2467,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l63"><code>src\components\AnimationManager.ts:63</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l67"><code>src\components\AnimationManager.ts:67</code></a>
         
         </p>
 
@@ -2509,7 +2514,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l55"><code>src\components\AnimationManager.ts:55</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l59"><code>src\components\AnimationManager.ts:59</code></a>
         
         </p>
 
@@ -2556,7 +2561,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l71"><code>src\components\AnimationManager.ts:71</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l75"><code>src\components\AnimationManager.ts:75</code></a>
         
         </p>
 
@@ -2605,7 +2610,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l80"><code>src\components\AnimationManager.ts:80</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l84"><code>src\components\AnimationManager.ts:84</code></a>
         
         </p>
 
@@ -2700,7 +2705,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l302"><code>src\components\AnimationManager.ts:302</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l306"><code>src\components\AnimationManager.ts:306</code></a>
         
         </p>
 
@@ -2793,7 +2798,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l47"><code>src\components\AnimationManager.ts:47</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l51"><code>src\components\AnimationManager.ts:51</code></a>
         
         </p>
 
@@ -2840,7 +2845,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l312"><code>src\components\AnimationManager.ts:312</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l316"><code>src\components\AnimationManager.ts:316</code></a>
         
         </p>
 
@@ -2931,7 +2936,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l89"><code>src\components\AnimationManager.ts:89</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l93"><code>src\components\AnimationManager.ts:93</code></a>
         
         </p>
 
@@ -2978,7 +2983,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l322"><code>src\components\AnimationManager.ts:322</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l326"><code>src\components\AnimationManager.ts:326</code></a>
         
         </p>
 

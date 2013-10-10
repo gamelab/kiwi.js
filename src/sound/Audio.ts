@@ -752,8 +752,9 @@ module Kiwi.Sound {
         }
         
         /**
-        * This method handles the destruction of all of the properties when the audio is no longer needed.
-        * 
+        * This method handles the destruction of all of the properties when this audio is not longer needed. 
+        * You call this method when you want this method to be removed on the next garbage collection cycle.
+        *
         * @method destroy
         * @public
         */
@@ -761,6 +762,19 @@ module Kiwi.Sound {
             if (this._game) {
                 this._game.audio.remove(this);
             }
+            if (this.onLoop) this.onLoop.dispose();
+            if (this.onStop) this.onStop.dispose();
+            if (this.onPlay) this.onPlay.dispose();
+            if (this.onMute) this.onMute.dispose();
+            if (this.onPause) this.onPause.dispose();
+            if (this.onResume) this.onResume.dispose();
+            
+            delete this.onLoop;
+            delete this.onStop;
+            delete this.onPause;
+            delete this.onMute;
+            delete this.onPlay;
+            delete this.onResume;
             delete this._game;
             delete this._sound;
             delete this._currentTime;

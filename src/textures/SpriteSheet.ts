@@ -8,7 +8,7 @@
 module Kiwi.Textures  {
 
     /**
-    *
+    * A special type of TextureAtlas that is created when loading in images that are design to be SpriteSheets. A SpriteSheet will generally contain multiple cells and can also contain sequences which are then automatically added as Animations when this texture is used on a Sprite. 
     *
     * @class SpriteSheet
     * @extends TextureAtlas

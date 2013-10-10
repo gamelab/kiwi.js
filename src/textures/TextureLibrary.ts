@@ -1,4 +1,5 @@
 /**
+* Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.
 * 
 * @module Kiwi
 * @submodule Textures
@@ -9,7 +10,7 @@
 module Kiwi.Textures {
 
     /**
-    * 
+    * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on. 
     * 
     * @class TextureLibrary
     * @constructor
@@ -99,7 +100,7 @@ module Kiwi.Textures {
         private _base2Sizes: number[] = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096];
 
         /**
-        * Is used to make image have base2 dimenisons. Used for webgl rendering and optimisation.
+        * Is used to resize images into base2 dimenisons. Used for webgl rendering and optimisation.
         * @method _rebuildImage
         * @param imageFile {File} The image file that is to be rebuilt.
         * @return {File} The new image file.

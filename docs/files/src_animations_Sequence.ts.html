@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,7 +335,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Animation
+* 
 * @module Kiwi
 * @submodule Animations
 * 
@@ -342,7 +344,8 @@
 module Kiwi.Animations {
 
     /**
-    * Is a series of cells which are used with SpriteSheets and TextureAtlas&#x27;s to create &#x27;default&#x27; animations on Sprites that contain an Animation component. 
+    * A Sequence is a series of cells that are held on a SpriteSheet/TextureAtlas.
+    * Sequences are generally used with the AnimationManager/Animation sections as a way to initially create Animations on GameObjects that use the same TextureAtlas.
     * 
     * @class Sequence
     * @constructor
@@ -354,7 +357,7 @@ module Kiwi.Animations {
     * 
     */
     export class Sequence {
- 
+        
         constructor(name:string,cells:number[],speed:number=0.1,loop:boolean=true) {
             this.name = name;
             this.cells = cells;

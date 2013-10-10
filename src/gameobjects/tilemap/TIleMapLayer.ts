@@ -1,5 +1,5 @@
 /**
-* Kiwi - GameObjects - TileMapLayer
+* 
 * @module GameObjects
 * @submodule Tilemap
 * 
@@ -8,7 +8,8 @@
 module Kiwi.GameObjects.Tilemap {
 
     /**
-    *
+    * Maintains information about a single two dimensional TileMap (saved in the property mapData) and is created on TileMap. This class should generally never be directly instantiated as the creation of TileMapLayers are handled through a TileMap. 
+    * 
     * @class TileMapLayer
     * @extends Entity
     * @constructor

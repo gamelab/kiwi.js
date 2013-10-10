@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,7 +335,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Time
+* 
 * @module Kiwi
 * @submodule Time
 *
@@ -342,23 +344,22 @@
 module Kiwi.Time {
 
     /**
-    * The Clock class offers a way of tracking time within a game.
-    * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started.
-    * This happens automatically and there is no need to do anything to set this up.
+    * The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
+    * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
     * - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
     * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
     * - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
     * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
     * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
-    *
+    * 
     * @class Clock
     * @constructor
-    * @param manager {Manager} The time manager that this clock belongs to.
-    * @param master {MasterClock} The master clock.
+    * @param manager {ClockManager} The ClockManager that this clock belongs to. .
+    * @param master {MasterClock} The MasterClock that it is getting the time in relation to.
     * @param name {String} The name of the clock.
     * @param [units=1000] {Number} The units that this clock is to operate in.
     * @return {Clock} This Clock object.
-    *
+    * 
     */
     export class Clock {
          
@@ -390,7 +391,7 @@ module Kiwi.Time {
         /**
         * A collection of Timer objects using this clock.
         * @property timers
-        * @type Timer
+        * @type Timer[]
         * @private
         */
         private timers: Kiwi.Time.Timer[];
@@ -615,7 +616,7 @@ module Kiwi.Time {
         /**
         * The time manager that this clock belongs to.
         * @property manager
-        * @type Manager 
+        * @type ClockManager 
         * @public
         */
         public manager: Kiwi.Time.ClockManager = null;
@@ -632,7 +633,7 @@ module Kiwi.Time {
         * Name of the clock
         * @property name
         * @type string
-        * @ublic
+        * @public
         */
         public name: string = null;
 

@@ -8,7 +8,8 @@
 module Kiwi.Textures  {
 
     /**
-    *
+    * A special type of TextureAtlas that is used when the user has loaded a single image. This type of TextureAtlas contains only one cell which is generally the whole width/height of the image and starts at the coordinates 0/0. A SingleImage has a space to store sequences but this will not be used.
+    * 
     * @class SingleImage
     * @extends TextureAtlas
     * @constructor

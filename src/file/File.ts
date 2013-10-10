@@ -1,5 +1,5 @@
 /**
-* Kiwi - Files
+* 
 * @module Kiwi
 * @submodule Files 
 * 
@@ -8,7 +8,7 @@
 module Kiwi.Files {
      
     /**
-    * Handles the loading of external data files via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
+    * Handles the loading of an external data file via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
     *
     * @class File
     * @constructor

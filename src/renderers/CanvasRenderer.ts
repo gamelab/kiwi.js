@@ -1,19 +1,26 @@
+/**
+* A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),
+* which outlines the methods/properties that are required any Renderer. 
+* @class IRenderer
+*/
 interface IRenderer {
     render(camera: Kiwi.Camera);
     boot();
 }
 
 /**
-* Kiwi - Renderers
+* Contains the classes which are related to the rendering of GameObjects.
+* 
 * @module Kiwi
 * @submodule Renderers
-* 
+* @main
 */ 
 module Kiwi.Renderers {
 
     /**
     *
     * @class CanvasRenderer
+    * @extends IRenderer
     * @constructor 
     * @param game {Game} The game that this canvas renderer belongs to.
     * @return {CanvasRenderer}

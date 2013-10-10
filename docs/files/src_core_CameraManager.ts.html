@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,7 +335,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Module - Kiwi (Core)
+* 
 * @module Kiwi
 * 
 */
@@ -341,13 +343,13 @@
 module Kiwi {
 
     /**
-    * [REQUIRES DESCRIPTION]
+    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager. 
+    * 
     * @class CameraManager
     * @constructor
     * @param {Game} game
     * @return {CameraManager} 
     */
-
     export class CameraManager {
          
         constructor(game: Kiwi.Game) {
@@ -443,7 +445,7 @@ module Kiwi {
     	*/
         public remove(camera: Kiwi.Camera):boolean {
              
-            var i = this._cameras.indexOf(camera);
+            var i = this._cameras.indexOf(camera); //what if it was the default one! :(
 
             if (i !== -1) {
                 //  Send Layer a killed call
@@ -499,7 +501,7 @@ module Kiwi {
         * @public
     	*/
         public removeAll() {
-            this._cameras.length = 0; 
+            this._cameras.length = 0; //are you sure.
         }
 
     }

@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -353,7 +355,10 @@
 
 
 <div class="box intro">
-    
+    <p>A HUDDisplay is a container for which you can add/removes widget on, and is more used to manage the widgets that are being displayed on it.
+A HUDDisplay is created through a games HUDManager and is NOT directly instantiated.
+Each game can contain multiple HUDDisplay&#39;s and each HUDDisplay can contain multiple HUDWidgets.</p>
+
 </div>
 
 
@@ -382,6 +387,10 @@
         </div>
     
 
+    
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
     
 
     
@@ -436,7 +445,7 @@
                     
 
                     <div class="param-description">
-                        <p>game</p>
+                        <p>The game that this HUD Display belongs to.</p>
 
                     </div>
 
@@ -452,7 +461,7 @@
                     
 
                     <div class="param-description">
-                        <p>name</p>
+                        <p>The name of this display.</p>
 
                     </div>
 
@@ -463,6 +472,18 @@
         </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                    <p>HUDDisplay</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -502,8 +523,15 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_destroyWidget">destroyWidget</a>
+                            <li class="index-item method public">
+                                <a href="#method_hide">hide</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
 
                                 
                                 
@@ -517,6 +545,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_removeFromContainer">removeFromContainer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_removeWidget">removeWidget</a>
 
                                 
@@ -524,7 +559,7 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_render">render</a>
+                                <a href="#method_show">show</a>
 
                                 
                                 
@@ -548,6 +583,13 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property private">
+                                <a href="#property__device">_device</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__game">_game</a>
 
                                 
@@ -555,7 +597,21 @@
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__manager">_manager</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__widgets">_widgets</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_class">class</a>
 
                                 
                                 
@@ -607,6 +663,10 @@
     
 
     
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
 
     
 
@@ -633,7 +693,7 @@
             
         
         
-        <a href="../files/src_hud_HUDDisplay.ts.html#l65"><code>src\hud\HUDDisplay.ts:65</code></a>
+        <a href="../files/src_hud_HUDDisplay.ts.html#l107"><code>src\hud\HUDDisplay.ts:107</code></a>
         
         </p>
 
@@ -644,7 +704,7 @@
     </div>
 
     <div class="description">
-        <p>Adds a widget to the HUDDisplay.</p>
+        <p>Adds a widget to the HUDDisplay. Returns a boolean as an indication of whether or not it was successful.</p>
 
     </div>
 
@@ -663,9 +723,7 @@
                     
 
                     <div class="param-description">
-                        <ul>
-<li>The widget to be added to the Display</li>
-</ul>
+                        <p>The widget to be added to the Display</p>
 
                     </div>
 
@@ -677,13 +735,214 @@
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If it was successful or not.</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
 
                 
-                    <div id="method_destroyWidget" class="method item">
-    <h3 class="name"><code>destroyWidget</code></h3>
+                    <div id="method_hide" class="method item public">
+    <h3 class="name"><code>hide</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDDisplay.ts.html#l205"><code>src\hud\HUDDisplay.ts:205</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Hides the current HUD Display from the screen.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDDisplay.ts.html#l47"><code>src\hud\HUDDisplay.ts:47</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the type of object that this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeAllWidgets" class="method item public">
+    <h3 class="name"><code>removeAllWidgets</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDDisplay.ts.html#l152"><code>src\hud\HUDDisplay.ts:152</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Removes all of the widgets on this display.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeFromContainer" class="method item">
+    <h3 class="name"><code>removeFromContainer</code></h3>
 
     
         <div class="args">
@@ -728,7 +987,7 @@
             
         
         
-        <a href="../files/src_hud_HUDDisplay.ts.html#l114"><code>src\hud\HUDDisplay.ts:114</code></a>
+        <a href="../files/src_hud_HUDDisplay.ts.html#l165"><code>src\hud\HUDDisplay.ts:165</code></a>
         
         </p>
 
@@ -739,7 +998,7 @@
     </div>
 
     <div class="description">
-        <p>Removes a widget from being on the HUDDisplay.</p>
+        <p>Removes a widget from on the HUDDisplay.</p>
 
     </div>
 
@@ -787,13 +1046,27 @@
 </div>
 
                 
-                    <div id="method_removeAllWidgets" class="method item public">
-    <h3 class="name"><code>removeAllWidgets</code></h3>
+                    <div id="method_removeWidget" class="method item public">
+    <h3 class="name"><code>removeWidget</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>widget</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
     
 
     
@@ -821,7 +1094,7 @@
             
         
         
-        <a href="../files/src_hud_HUDDisplay.ts.html#l100"><code>src\hud\HUDDisplay.ts:100</code></a>
+        <a href="../files/src_hud_HUDDisplay.ts.html#l127"><code>src\hud\HUDDisplay.ts:127</code></a>
         
         </p>
 
@@ -832,76 +1105,7 @@
     </div>
 
     <div class="description">
-        <p>Removes all of the widgets on this display.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_removeWidget" class="method item">
-    <h3 class="name"><code>removeWidget</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>widget</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_HUDDisplay.ts.html#l79"><code>src\hud\HUDDisplay.ts:79</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Removes a singular widget from the display</p>
+        <p>Removes a singular widget from the display. Returns a boolean as an indication of if anything happened or not.</p>
 
     </div>
 
@@ -940,6 +1144,8 @@
                     
                         <span class="type">Boolean</span>:
                     
+                    <p>If it was successful or not.</p>
+
                 
             </div>
         </div>
@@ -949,8 +1155,8 @@
 </div>
 
                 
-                    <div id="method_render" class="method item public">
-    <h3 class="name"><code>render</code></h3>
+                    <div id="method_show" class="method item public">
+    <h3 class="name"><code>show</code></h3>
 
     
         <span class="paren">()</span>
@@ -983,7 +1189,7 @@
             
         
         
-        <a href="../files/src_hud_HUDDisplay.ts.html#l140"><code>src\hud\HUDDisplay.ts:140</code></a>
+        <a href="../files/src_hud_HUDDisplay.ts.html#l196"><code>src\hud\HUDDisplay.ts:196</code></a>
         
         </p>
 
@@ -994,7 +1200,7 @@
     </div>
 
     <div class="description">
-        <p>Render</p>
+        <p>Shows displays the HUD Display on screen.</p>
 
     </div>
 
@@ -1040,7 +1246,7 @@
             
         
         
-        <a href="../files/src_hud_HUDDisplay.ts.html#l129"><code>src\hud\HUDDisplay.ts:129</code></a>
+        <a href="../files/src_hud_HUDDisplay.ts.html#l185"><code>src\hud\HUDDisplay.ts:185</code></a>
         
         </p>
 
@@ -1071,6 +1277,54 @@
                 <h2 class="off-left">Properties</h2>
 
                 
+                    <div id="property__device" class="property item private">
+    <h3 class="name"><code>_device</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDDisplay.ts.html#l57"><code>src\hud\HUDDisplay.ts:57</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The type of device that is being targeted for the game. This is the same as games deviceTargetOption 
+Needed as the type of device will detiremine how the items will be added to game or whether it will even work.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__game" class="property item private">
     <h3 class="name"><code>_game</code></h3>
     <span class="type"><a href="..\classes\Game.html" class="crosslink">Game</a></span>
@@ -1096,7 +1350,7 @@
             
         
         
-        <a href="../files/src_hud_HUDDisplay.ts.html#l49"><code>src\hud\HUDDisplay.ts:49</code></a>
+        <a href="../files/src_hud_HUDDisplay.ts.html#l91"><code>src\hud\HUDDisplay.ts:91</code></a>
         
         </p>
 
@@ -1106,7 +1360,54 @@
     </div>
 
     <div class="description">
-        <p>[Requires Description]</p>
+        <p>The game that this HUD Display is on.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__manager" class="property item private">
+    <h3 class="name"><code>_manager</code></h3>
+    <span class="type"><a href="..\classes\HUDManager.html" class="crosslink">HUDManager</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDDisplay.ts.html#l67"><code>src\hud\HUDDisplay.ts:67</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The HUD Manager that this Display belongs to.</p>
 
     </div>
 
@@ -1143,7 +1444,7 @@
             
         
         
-        <a href="../files/src_hud_HUDDisplay.ts.html#l57"><code>src\hud\HUDDisplay.ts:57</code></a>
+        <a href="../files/src_hud_HUDDisplay.ts.html#l99"><code>src\hud\HUDDisplay.ts:99</code></a>
         
         </p>
 
@@ -1154,6 +1455,53 @@
 
     <div class="description">
         <p>Contains all of the widgets that are contained in this HUDDisplay.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_class" class="property item public">
+    <h3 class="name"><code>class</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDDisplay.ts.html#l214"><code>src\hud\HUDDisplay.ts:214</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The class name that the container element that this HUDWidget current has.</p>
 
     </div>
 
@@ -1190,7 +1538,7 @@
             
         
         
-        <a href="../files/src_hud_HUDDisplay.ts.html#l33"><code>src\hud\HUDDisplay.ts:33</code></a>
+        <a href="../files/src_hud_HUDDisplay.ts.html#l75"><code>src\hud\HUDDisplay.ts:75</code></a>
         
         </p>
 
@@ -1200,7 +1548,7 @@
     </div>
 
     <div class="description">
-        <p>Contains the container element.</p>
+        <p>Holds the container HTMLDivElement.</p>
 
     </div>
 
@@ -1237,7 +1585,7 @@
             
         
         
-        <a href="../files/src_hud_HUDDisplay.ts.html#l41"><code>src\hud\HUDDisplay.ts:41</code></a>
+        <a href="../files/src_hud_HUDDisplay.ts.html#l83"><code>src\hud\HUDDisplay.ts:83</code></a>
         
         </p>
 
@@ -1247,7 +1595,7 @@
     </div>
 
     <div class="description">
-        <p>[Requires Description]</p>
+        <p>The name of this HUD Display.</p>
 
     </div>
 

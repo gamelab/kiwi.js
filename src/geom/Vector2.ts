@@ -1,5 +1,5 @@
 /**
-* Kiwi - Geom
+* 
 * @module Kiwi
 * @submodule Geom
 */
@@ -14,7 +14,7 @@ module Kiwi.Geom {
     * @constructor
     * @param {Number} x The x component of the vector.
     * @param {Number} y The y component of the vector.
-    *
+    * @return {Vector2}
     */
     export class Vector2 {
 

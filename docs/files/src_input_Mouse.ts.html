@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,7 +335,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Input
+* 
 * @module Kiwi
 * @submodule Input
 * 
@@ -342,7 +344,7 @@
 module Kiwi.Input {
 
     /**
-    * Handles the dispatching/management of Mouse Events on a game. 
+    * Handles the dispatching/management of Mouse Events on a game. When this class is instantiated a MouseCursor object is also created (on this object) which holds the information that is unique to the mouse cursor, although majority of that information is still accessible inside this object.
     *
     * @class Mouse
     * @constructor
@@ -612,7 +614,7 @@ module Kiwi.Input {
                     this._domElement.attachEvent(&#x27;onmousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event));
                     this._domElement.attachEvent(&#x27;onmousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event));
                     this._domElement.attachEvent(&#x27;onmouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event));
-                    this._domElement.attachEvent(&#x27;onmousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event)); 
+                    this._domElement.attachEvent(&#x27;onmousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event));
                 } else {
                     this._domElement.addEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), true);
                     this._domElement.addEventListener(&#x27;mousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event), true);
@@ -620,6 +622,12 @@ module Kiwi.Input {
                     this._domElement.addEventListener(&#x27;mousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
                     this._domElement.addEventListener(&#x27;DOMMouseScroll&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
                 }
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this._game.stage.canvas.addEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), true);
+                this._game.stage.canvas.addEventListener(&#x27;mousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event), true);
+                this._game.stage.canvas.addEventListener(&#x27;mouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event), true);
+                this._game.stage.canvas.addEventListener(&#x27;mousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
+                this._game.stage.canvas.addEventListener(&#x27;DOMMouseScroll&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
             }
         }
 
@@ -666,7 +674,7 @@ module Kiwi.Input {
         * @param {MouseEvent} event. 
         * @private
         */
-        private onMouseUp(event:MouseEvent) { 
+        private onMouseUp(event: MouseEvent) { 
             this._cursor.stop(event);
             this.mouseUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
         }

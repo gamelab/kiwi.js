@@ -1,5 +1,5 @@
 /**
-* Kiwi - Renderers
+*  
 * @module Kiwi
 * @submodule Renderers
 * 
@@ -9,8 +9,8 @@ module Kiwi.Renderers {
     /**
     *
     * @class GLShaders
-    *
-    *
+    * 
+    * 
     */
     export class GLShaders {
 

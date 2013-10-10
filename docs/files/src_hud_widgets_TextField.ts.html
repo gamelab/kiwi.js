@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,96 +335,191 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
+* HUD Widgets are objects that are generally placed on to a HUD Display for displaying and managing information that the user would always need to see.
+* An example of such information would be: the Health remaining, amount of ammo left, time they have left, e.t.c.
+* And each one of those examples would have its own widget.
+*
 * @module HUD
 * @submodule Widget
-*
+* @main Widget
 */
 
 module Kiwi.HUD.Widget {
 
     /**
+    * A Widget that is used for the displaying of text on the HUD. 
+    * Foreach TextField you can add some prefix/suffix text, which is more useful on classes extending this one.
+    *
     * @class TextField
     * @extends HUDWidget
     * @constructor
-    * @param {string} text
-    * @param {number} x
-    * @param {number} y
+    * @param game {Game} The game that this textfield belongs to.
+    * @param text {string} The text on this textfield.
+    * @param x {number} The x coordinates
+    * @param y {number} The y coordinates
+    * @return {TextField} 
     */
     export class TextField extends Kiwi.HUD.HUDWidget {
         
-        constructor(text:string,x:number,y:number) {
-            super(&quot;textField&quot;,x,y);
-            
-            this._text = text;
+        constructor(game:Kiwi.Game,text:string,x:number,y:number) {
+            super(game, &quot;textField&quot;, x, y);
 
-            this._textField = this.container;
-            this._textField.innerText = text;
+            this.class = &#x27;kiwi-textfield-widget kiwi-widget&#x27;;
 
+            if (this._manager.supported) {
+                if (this._device === Kiwi.TARGET_BROWSER) {
+                    this._textField = this.container;
+                    this._textField.innerHTML = text;
+                }
+            }
         }
 
-        /*
-        * The text current being displayed
+        /**
+        * Returns the type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string {
+            return &#x27;TextFieldWidget&#x27;;
+        }
+
+        /**
+        * The text current being displayed inside this textfield.
         * @property _text
         * @type string
         * @private
         */
         private _text: string;
 
-        /*
+        /**
         * The htmlelement that is being used as the textfield.
+        * Initially when created this is the same as the container HTMLDivElement.
         * @property _textField
         * @type HTMLElement
         * @private
         */
         private _textField: HTMLElement;
         
-        /*
+        /**
         * This method is used to remove existing DOM elements and place them inside a HUDWidget&#x27;s container element.
         * Useful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.
         * 
+        * Currently doesn&#x27;t have great support.
+        *
         * @method setTemplate
         * @param main {string} ID of an HTMLElement. This element should contain all of the elements you would like to place inside the HUDWidget. 
         * @param icon {string} ID of an HTMLElement that resides inside of the main param. This is the element that the HUDWidget can use to populate with information. E.g. Your score, health remaining, the icon, e.t.c.
         * @public
         */
         public setTemplate(main: string, field?: string) {
+            if (this._device === Kiwi.TARGET_BROWSER) {
+                this._textField.innerText = &#x27;&#x27;;
+                super.setTemplate(main, field);
 
-            this._textField.innerText = &#x27;&#x27;;
-            super.setTemplate(main, field);
-
-            if (this.tempElement !== undefined) {
-                this._textField = this.tempElement;
+                if (this.tempElement !== undefined) {
+                    this._textField = this.tempElement;
+                }
+                this._textField.innerHTML = this._text;
             }
-            this._textField.innerText = this._text;
-
         }
 
-        /*
+        /**
         * Used to remove any the template HTML from this HUDWidget.
-        * 
+        * Currently doesn&#x27;t have great support.
+        *
         * @method removeTemplate
         * @public
         */
         public removeTemplate() {
-            
-            super.removeTemplate();
+            if (this._device === Kiwi.TARGET_BROWSER) {
+                super.removeTemplate();
 
-            this._textField = this.container;
-            this._textField.innerText = this._text;
+                if (this._device === Kiwi.TARGET_BROWSER) {
+                    this._textField = this.container;
+                    this._textField.innerHTML = this._text;
+                }
+            }
         }
 
-        /*
-        * Change the text that is currently being displayed.
-        * @param val {string} val
-        * @return {string}
+        /**
+        * The text that is currently being displayed inside the textfield.
+        * @property text
+        * @type string
         * @public
         */
-        public text(val?: string):string {
-            if (val !== undefined) {
-                this._text = val;
-                this._textField.innerText = this._text;
+        public set text(val: string) {
+            if (this._manager.supported) {
+                if (this._device === Kiwi.TARGET_BROWSER) {
+
+                    if (this._prefix !== &#x27;&#x27;) val = this._prefix + val;
+                    if (this._suffix !== &#x27;&#x27;) val += this._suffix;
+
+                    this._text = val;
+                    this._textField.innerHTML = this._text;
+                }
             }
+        }
+        public get text():string {
             return this._text;
+        }
+        
+        /**
+        * A string that is to be added in-front of the score. Can contain HTMLElements.
+        * @property _prefix
+        * @type string
+        * @default &#x27;&#x27;
+        * @private
+        */
+        private _prefix: string = &#x27;&#x27;;
+
+        /**
+        * A string that is to be added after the score. Can contain HTMLElements.
+        * @property _suffix
+        * @type string
+        * @default &#x27;&#x27;
+        * @private
+        */
+        private _suffix: string = &#x27;&#x27;;
+
+        /**
+        * A string that is to be added after the score. Can contain HTMLElements.
+        * @property _suffix
+        * @type string
+        * @default &#x27;&#x27;
+        * @public
+        */
+        public set suffix(val: string) {
+            this._suffix = val;
+            this._updateText();
+        }
+        public get suffix(): string {
+            return this._suffix;
+        }
+
+        /**
+        * A string that is to be added in-front of the score. Can contain HTMLElements.
+        * @property _prefix
+        * @type string
+        * @default &#x27;&#x27;
+        * @public
+        */
+        public set prefix(val: string) {
+            this._prefix = val;
+            this._updateText();
+        }
+        public get prefix(): string {
+            return this._prefix;
+        }
+
+        /**
+        * This method is intended to be overriden by subclasses which functions update the text being displayed.
+        * @method _updateText
+        * @protected
+        */
+        public _updateText() {
+            //..your code here
+            this.text = this._text;
         }
 
     }

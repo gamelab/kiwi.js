@@ -1,5 +1,5 @@
 /**
-* Kiwi - Geom
+*  
 * @module Kiwi
 * @submodule Geom
 */
@@ -129,9 +129,9 @@ module Kiwi.Geom {
         }
 
         /**
-        * Get the length of the line as a line segement.
-        * @method length
-        * @return {Number}
+        * Get the length of the line as a line segment.
+        * @property length
+        * @type number
         * @public
         */
         public get length(): number {

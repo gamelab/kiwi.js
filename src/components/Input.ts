@@ -1,5 +1,5 @@
 /**
-* Kiwi - Components
+* 
 * @module Kiwi
 * @submodule Components 
 * 

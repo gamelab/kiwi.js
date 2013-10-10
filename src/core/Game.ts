@@ -1,5 +1,5 @@
 /**
-* Module - Kiwi (Core)
+* 
 * @module Kiwi
 * 
 */
@@ -7,8 +7,7 @@
 module Kiwi {
 
     /**
-    * Here should lie the description of the game object.
-    * 
+    * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
     *
     * @class Game
     * @constructor
@@ -399,7 +398,7 @@ module Kiwi {
         */
         private start() {
 
-            if (Kiwi.DEVICE === null) {
+            if (Kiwi.DEVICE === null) { //dont we want to move this up into the constructor
                 Kiwi.DEVICE = new Kiwi.System.Device();
             }
 

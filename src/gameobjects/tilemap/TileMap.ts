@@ -1,14 +1,15 @@
 /**
-* Kiwi - GameObjects - Tilemap
+* An area of the GameObjects section which deals specifically with the use of TileMap or items related with TileMaps.
+* 
 * @module GameObjects
 * @submodule Tilemap
-* 
+* @main Tilemap
 */
 
-module Kiwi.GameObjects.Tilemap {
+module Kiwi.GameObjects.Tilemap { //namespace needs to be changed...
     
     /**
-    * 
+    * A GameObject that can be used when wanting to generate and use TileMaps in a game and the job of it is to handle the creation and management of TileMapLayers/Tiles on the whole map. Each TileMap (once created) will contain at least one TileMapLayer, which will hold the information about the map generated, but more TileMapLayers can be generated on a single TileMap. 
     * 
     * @class TileMap
     * @extends Entity
@@ -248,8 +249,7 @@ module Kiwi.GameObjects.Tilemap {
         }
 
         /**
-        * 
-        *
+        * Generates the new TileTypes and add them to the tiles array based upon the SpriteSheet that is parsed.
         * @method generateTiles
         * @param layer {TileMapLayer} The TileMapLayer that these TileTypes are based on.
         * @param qty {Number} THe number of TileTypes to create.
@@ -257,9 +257,11 @@ module Kiwi.GameObjects.Tilemap {
         */
         private generateTiles() {
 
-            this.tiles[-1] = new TileType(this.game, this, -1, -1); //perhaps create a custom class.
-            this.tiles[-1].allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
-            
+            if (this.tiles[-1] == undefined) {
+                this.tiles[-1] = new TileType(this.game, this, -1, -1); //perhaps create a custom class.
+                this.tiles[-1].allowCollisions = Kiwi.Components.ArcadePhysics.NONE;
+            }
+
             for (var i = 0; i < this._atlas.cells.length; i++) {
                 this.tiles.push(new TileType(this.game, this, this._atlas.cells[i], i));
             }

@@ -168,7 +168,7 @@
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
+    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Debug\</IntermediateOutputPath>

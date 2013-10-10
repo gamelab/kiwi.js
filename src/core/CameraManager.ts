@@ -1,5 +1,5 @@
 /**
-* Module - Kiwi (Core)
+* 
 * @module Kiwi
 * 
 */
@@ -7,13 +7,13 @@
 module Kiwi {
 
     /**
-    * [REQUIRES DESCRIPTION]
+    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager. 
+    * 
     * @class CameraManager
     * @constructor
     * @param {Game} game
     * @return {CameraManager} 
     */
-
     export class CameraManager {
          
         constructor(game: Kiwi.Game) {
@@ -109,7 +109,7 @@ module Kiwi {
     	*/
         public remove(camera: Kiwi.Camera):boolean {
              
-            var i = this._cameras.indexOf(camera);
+            var i = this._cameras.indexOf(camera); //what if it was the default one! :(
 
             if (i !== -1) {
                 //  Send Layer a killed call
@@ -165,7 +165,7 @@ module Kiwi {
         * @public
     	*/
         public removeAll() {
-            this._cameras.length = 0; 
+            this._cameras.length = 0; //are you sure.
         }
 
     }

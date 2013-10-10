@@ -1,5 +1,5 @@
 /**
-* Module - Kiwi (Core)
+* 
 * @module Kiwi
 * 
 */
@@ -18,7 +18,6 @@ module Kiwi {
     * @return {ComponentManager} 
     * 
     */
-
     export class ComponentManager {
          
         constructor(type: number, owner:any) {

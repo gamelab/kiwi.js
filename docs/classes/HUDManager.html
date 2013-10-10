@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -336,7 +338,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_hud_HUDManager.ts.html#l11"><code>src\hud\HUDManager.ts:11</code></a>
+            Defined in: <a href="../files/src_hud_HUDManager.ts.html#l12"><code>src\hud\HUDManager.ts:12</code></a>
         </div>
     
 
@@ -353,7 +355,12 @@
 
 
 <div class="box intro">
-    
+    <p>This class manages all of the various HUDDisplays that are currently used on this Managers game.
+Using this class you can create/add and remove HUDDisplays from this game,
+change the HUDDisplay that is currently being display (also known as the currentHUD) and show/hide the currentHUD.
+Each HUDManager also has at least one HUDDisplay which is called the &#39;defaultHUD&#39; you cannot remove,
+but you can reassign the defaultHUD to be a different HUDDisplay if you want.</p>
+
 </div>
 
 
@@ -376,6 +383,10 @@
         </div>
     
 
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\HUDManager.html" class="crosslink">HUDManager</a></span>
+        </span>
     
 
     
@@ -401,7 +412,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l11"><code>src\hud\HUDManager.ts:11</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l12"><code>src\hud\HUDManager.ts:12</code></a>
         
         </p>
 
@@ -442,6 +453,18 @@
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\HUDManager.html" class="crosslink">HUDManager</a></span>:
+                    
+                
+            </div>
+        </div>
+    
 
     
 </div>
@@ -473,6 +496,13 @@
 
                     <ul class="index-list methods">
                         
+                            <li class="index-item method private">
+                                <a href="#method_addToContainer">addToContainer</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public">
                                 <a href="#method_boot">boot</a>
 
@@ -487,20 +517,6 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_defaultHUD">defaultHUD</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_destroyHUD">destroyHUD</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item method public">
                                 <a href="#method_hideHUD">hideHUD</a>
 
@@ -508,8 +524,15 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_removeFromContainer">removeFromContainer</a>
 
                                 
                                 
@@ -524,6 +547,13 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_setHUD">setHUD</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_showHUD">showHUD</a>
 
                                 
                                 
@@ -561,6 +591,13 @@
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__device">_device</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__game">_game</a>
 
                                 
@@ -581,6 +618,27 @@
                                 
                             </li>
                         
+                            <li class="index-item property private">
+                                <a href="#property__supported">_supported</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_defaultHUD">defaultHUD</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_supported">supported</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -593,6 +651,97 @@
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_addToContainer" class="method item private">
+    <h3 class="name"><code>addToContainer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>hud</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDManager.ts.html#l247"><code>src\hud\HUDManager.ts:247</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a HUDDisplays HTMLDivElement to this HUDManagers container element.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">hud</code>
+                        <span class="type"><a href="..\classes\HUDDisplay.html" class="crosslink">HUDDisplay</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The HUDDisplay that is to be added.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="method_boot" class="method item public">
@@ -629,7 +778,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l38"><code>src\hud\HUDManager.ts:38</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l75"><code>src\hud\HUDManager.ts:75</code></a>
         
         </p>
 
@@ -662,6 +811,12 @@
                 <li class="arg">
                     
                         <code>name</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[switchTo=false]</code>
                     
                 </li>
             
@@ -700,7 +855,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l145"><code>src\hud\HUDManager.ts:145</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l192"><code>src\hud\HUDManager.ts:192</code></a>
         
         </p>
 
@@ -711,7 +866,7 @@
     </div>
 
     <div class="description">
-        <p>Creates a new HUDDisplay.</p>
+        <p>Creates a new HUDDisplay on this HUDManager.</p>
 
     </div>
 
@@ -730,7 +885,24 @@
                     
 
                     <div class="param-description">
-                        <p>Name of the new HUD.</p>
+                        <p>Name of the new HUDDisplay that is being creates.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[switchTo=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Switch to the new HUD that was created. DE</p>
 
                     </div>
 
@@ -750,6 +922,8 @@
                     
                         <span class="type"><a href="..\classes\HUDDisplay.html" class="crosslink">HUDDisplay</a></span>:
                     
+                    <p>The HUDDisplay that was created.</p>
+
                 
             </div>
         </div>
@@ -759,8 +933,8 @@
 </div>
 
                 
-                    <div id="method_defaultHUD" class="method item">
-    <h3 class="name"><code>defaultHUD</code></h3>
+                    <div id="method_hideHUD" class="method item public">
+    <h3 class="name"><code>hideHUD</code></h3>
 
     
         <div class="args">
@@ -768,114 +942,7 @@
             
                 <li class="arg">
                     
-                        <code>val</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Kiwi.HUD.HUDDisplay</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_HUDManager.ts.html#l94"><code>src\hud\HUDManager.ts:94</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Allows you get the defaultHUD that is being used, or set the defaultHUD.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">val</code>
-                        <span class="type">Kiwi.HUD.HUDDisplay</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <ul>
-<li>The new defaultHUD.</li>
-</ul>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Kiwi.HUD.HUDDisplay</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_destroyHUD" class="method item public">
-    <h3 class="name"><code>destroyHUD</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>hud</code>
+                        <code class="optional">[hud=currentHUD]</code>
                     
                 </li>
             
@@ -910,7 +977,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l191"><code>src\hud\HUDManager.ts:191</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l182"><code>src\hud\HUDManager.ts:182</code></a>
         
         </p>
 
@@ -921,7 +988,172 @@
     </div>
 
     <div class="description">
-        <p>Removes the HUD from the screen</p>
+        <p>Hides the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[hud=currentHUD]</code>
+                        <span class="type"><a href="..\classes\HUDDisplay.html" class="crosslink">HUDDisplay</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The HUDDisplay you want to hude. Defaults to the currentHUD if nothing is passed.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDManager.ts.html#l104"><code>src\hud\HUDManager.ts:104</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the type of object this is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeFromContainer" class="method item private">
+    <h3 class="name"><code>removeFromContainer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>hud</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDManager.ts.html#l259"><code>src\hud\HUDManager.ts:259</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Removes the hud that is passed from this HUD Manager. Checks to see if that hud has this container as a parent first.</p>
 
     </div>
 
@@ -949,118 +1181,6 @@
             
             </ul>
         </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_hideHUD" class="method item public">
-    <h3 class="name"><code>hideHUD</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_HUDManager.ts.html#l135"><code>src\hud\HUDManager.ts:135</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Hides the active HUDDisplay</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_objType" class="method item">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_hud_HUDManager.ts.html#l63"><code>src\hud\HUDManager.ts:63</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the type of object this is.</p>
-
-    </div>
-
     
 
     
@@ -1117,7 +1237,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l162"><code>src\hud\HUDManager.ts:162</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l217"><code>src\hud\HUDManager.ts:217</code></a>
         
         </p>
 
@@ -1128,7 +1248,7 @@
     </div>
 
     <div class="description">
-        <p>Removes a HUD from the game.</p>
+        <p>Removes a HUDDisplay off this manager. Returns a boolean indicating whether or not this method was a success.</p>
 
     </div>
 
@@ -1167,6 +1287,8 @@
                     
                         <span class="type">Boolean</span>:
                     
+                    <p>If this method succeeded or not.</p>
+
                 
             </div>
         </div>
@@ -1220,7 +1342,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l113"><code>src\hud\HUDManager.ts:113</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l158"><code>src\hud\HUDManager.ts:158</code></a>
         
         </p>
 
@@ -1231,7 +1353,7 @@
     </div>
 
     <div class="description">
-        <p>Swaps to the current displayed HUD.</p>
+        <p>Changes the currentHUD that is being displayed to one that is passed.</p>
 
     </div>
 
@@ -1250,7 +1372,99 @@
                     
 
                     <div class="param-description">
-                        <p>hud - Reference to the HUD you want to display.</p>
+                        <p>The HUD you want to display.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_showHUD" class="method item public">
+    <h3 class="name"><code>showHUD</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[hud=currentHUD]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDManager.ts.html#l172"><code>src\hud\HUDManager.ts:172</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shows the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[hud=currentHUD]</code>
+                        <span class="type"><a href="..\classes\HUDDisplay.html" class="crosslink">HUDDisplay</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The HUDDisplay you want to show. Defaults to the currentHUD if nothing is passed.</p>
 
                     </div>
 
@@ -1301,7 +1515,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l207"><code>src\hud\HUDManager.ts:207</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l274"><code>src\hud\HUDManager.ts:274</code></a>
         
         </p>
 
@@ -1334,7 +1548,7 @@
                 
                     <div id="property__currentHUD" class="property item private">
     <h3 class="name"><code>_currentHUD</code></h3>
-    <span class="type">Kiwi.HUD.HUDDisplay</span>
+    <span class="type"><a href="..\classes\HUDDisplay.html" class="crosslink">HUDDisplay</a></span>
 
     
 
@@ -1357,7 +1571,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l86"><code>src\hud\HUDManager.ts:86</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l131"><code>src\hud\HUDManager.ts:131</code></a>
         
         </p>
 
@@ -1367,7 +1581,7 @@
     </div>
 
     <div class="description">
-        <p>The currentHUD that is in use.</p>
+        <p>The currentHUD that is in use. Can be the same as the defaultHUD.</p>
 
     </div>
 
@@ -1381,7 +1595,7 @@
                 
                     <div id="property__defaultHUD" class="property item private">
     <h3 class="name"><code>_defaultHUD</code></h3>
-    <span class="type">Kiwi.HUD.HUDDisplay</span>
+    <span class="type"><a href="..\classes\HUDDisplay.html" class="crosslink">HUDDisplay</a></span>
 
     
 
@@ -1404,7 +1618,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l78"><code>src\hud\HUDManager.ts:78</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l122"><code>src\hud\HUDManager.ts:122</code></a>
         
         </p>
 
@@ -1414,7 +1628,56 @@
     </div>
 
     <div class="description">
-        <p>The defaultHUD to be displayed onscreen.</p>
+        <p>The defaultHUD that is being used.
+The defaultHUD cannot be removed, but can be swapped out for another HUDDisplay.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__device" class="property item private">
+    <h3 class="name"><code>_device</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDManager.ts.html#l40"><code>src\hud\HUDManager.ts:40</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The device that this game is being target at. The same as the deviceTargetOption property on the root Game.
+This is needed as it detirmines if HUD is supported on the device or not and if so, how it is implemented.</p>
 
     </div>
 
@@ -1451,7 +1714,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l22"><code>src\hud\HUDManager.ts:22</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l32"><code>src\hud\HUDManager.ts:32</code></a>
         
         </p>
 
@@ -1461,7 +1724,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The game that this HUDManager belongs to.</p>
+
     </div>
 
     
@@ -1497,7 +1761,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l30"><code>src\hud\HUDManager.ts:30</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l67"><code>src\hud\HUDManager.ts:67</code></a>
         
         </p>
 
@@ -1507,7 +1771,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The HTMLDivElement that is being used as the container for the whole manager.</p>
+
     </div>
 
     
@@ -1520,7 +1785,7 @@
                 
                     <div id="property__huds" class="property item private">
     <h3 class="name"><code>_huds</code></h3>
-    <span class="type">Kiwi.Structs.Dictionary</span>
+    <span class="type"><a href="..\classes\HUDDisplay.html" class="crosslink">HUDDisplay[]</a></span>
 
     
 
@@ -1543,7 +1808,7 @@
             
         
         
-        <a href="../files/src_hud_HUDManager.ts.html#l71"><code>src\hud\HUDManager.ts:71</code></a>
+        <a href="../files/src_hud_HUDManager.ts.html#l114"><code>src\hud\HUDManager.ts:114</code></a>
         
         </p>
 
@@ -1553,7 +1818,150 @@
     </div>
 
     <div class="description">
+        <p>An array containing all of the HUDDisplays that are currently active on this HUDManager.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__supported" class="property item private">
+    <h3 class="name"><code>_supported</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDManager.ts.html#l49"><code>src\hud\HUDManager.ts:49</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the HUD is supported on the DEVICE that is being targeted. Gets set during the BOOT sequence.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_defaultHUD" class="property item public">
+    <h3 class="name"><code>defaultHUD</code></h3>
+    <span class="type"><a href="..\classes\HUDDisplay.html" class="crosslink">HUDDisplay</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDManager.ts.html#l139"><code>src\hud\HUDManager.ts:139</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The default HUDDisplay that is to be used.
+The defaultHUD cannot be removed, and a game (that supports HUDS) will always contain the defaultHUD.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_supported" class="property item public">
+    <h3 class="name"><code>supported</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_hud_HUDManager.ts.html#l57"><code>src\hud\HUDManager.ts:57</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the _supported property indicating whether HUD is supported or not.</p>
+
     </div>
 
     

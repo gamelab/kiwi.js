@@ -1,5 +1,5 @@
 /**
-* Kiwi - Input
+* 
 * @module Kiwi
 * @submodule Input
 * 

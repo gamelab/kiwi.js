@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -357,7 +359,12 @@
 
 
 <div class="box intro">
-    
+    <p>The Input Component is used on GameObjects in which the user may interactive with via a Mouse or Touch 
+and as such this class contains useful methods and callbacks you can subscribe to. 
+By default the Input component is disabled (this is because when enabled the input component can be process intensive) 
+but you can enabled it yourself (which is recommened) BUT in case you forget the input component will automagically 
+be enabled once you access a Signal on this class.</p>
+
 </div>
 
 
@@ -1005,7 +1012,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l653"><code>src\components\Input.ts:653</code></a>
+        <a href="../files/src_components_Input.ts.html#l656"><code>src\components\Input.ts:656</code></a>
         
         </p>
 
@@ -1095,7 +1102,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l572"><code>src\components\Input.ts:572</code></a>
+        <a href="../files/src_components_Input.ts.html#l575"><code>src\components\Input.ts:575</code></a>
         
         </p>
 
@@ -1176,7 +1183,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l609"><code>src\components\Input.ts:609</code></a>
+        <a href="../files/src_components_Input.ts.html#l612"><code>src\components\Input.ts:612</code></a>
         
         </p>
 
@@ -1233,7 +1240,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l506"><code>src\components\Input.ts:506</code></a>
+        <a href="../files/src_components_Input.ts.html#l509"><code>src\components\Input.ts:509</code></a>
         
         </p>
 
@@ -1290,7 +1297,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l735"><code>src\components\Input.ts:735</code></a>
+        <a href="../files/src_components_Input.ts.html#l738"><code>src\components\Input.ts:738</code></a>
         
         </p>
 
@@ -1401,7 +1408,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l459"><code>src\components\Input.ts:459</code></a>
+        <a href="../files/src_components_Input.ts.html#l462"><code>src\components\Input.ts:462</code></a>
         
         </p>
 
@@ -1474,7 +1481,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l442"><code>src\components\Input.ts:442</code></a>
+        <a href="../files/src_components_Input.ts.html#l445"><code>src\components\Input.ts:445</code></a>
         
         </p>
 
@@ -1577,7 +1584,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l52"><code>src\components\Input.ts:52</code></a>
+        <a href="../files/src_components_Input.ts.html#l55"><code>src\components\Input.ts:55</code></a>
         
         </p>
 
@@ -1756,7 +1763,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l723"><code>src\components\Input.ts:723</code></a>
+        <a href="../files/src_components_Input.ts.html#l726"><code>src\components\Input.ts:726</code></a>
         
         </p>
 
@@ -1827,7 +1834,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l469"><code>src\components\Input.ts:469</code></a>
+        <a href="../files/src_components_Input.ts.html#l472"><code>src\components\Input.ts:472</code></a>
         
         </p>
 
@@ -1883,7 +1890,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l62"><code>src\components\Input.ts:62</code></a>
+        <a href="../files/src_components_Input.ts.html#l65"><code>src\components\Input.ts:65</code></a>
         
         </p>
 
@@ -1930,7 +1937,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l330"><code>src\components\Input.ts:330</code></a>
+        <a href="../files/src_components_Input.ts.html#l333"><code>src\components\Input.ts:333</code></a>
         
         </p>
 
@@ -1977,7 +1984,7 @@
             
         
         
-        <a href="../files/src_components_Input.ts.html#l355"><code>src\components\Input.ts:355</code></a>
+        <a href="../files/src_components_Input.ts.html#l358"><code>src\components\Input.ts:358</code></a>
         
         </p>
 
@@ -2028,7 +2035,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l346"><code>src\components\Input.ts:346</code></a>
+        <a href="../files/src_components_Input.ts.html#l349"><code>src\components\Input.ts:349</code></a>
         
         </p>
 
@@ -2077,7 +2084,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l366"><code>src\components\Input.ts:366</code></a>
+        <a href="../files/src_components_Input.ts.html#l369"><code>src\components\Input.ts:369</code></a>
         
         </p>
 
@@ -2126,7 +2133,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l210"><code>src\components\Input.ts:210</code></a>
+        <a href="../files/src_components_Input.ts.html#l213"><code>src\components\Input.ts:213</code></a>
         
         </p>
 
@@ -2175,7 +2182,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l232"><code>src\components\Input.ts:232</code></a>
+        <a href="../files/src_components_Input.ts.html#l235"><code>src\components\Input.ts:235</code></a>
         
         </p>
 
@@ -2222,7 +2229,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l320"><code>src\components\Input.ts:320</code></a>
+        <a href="../files/src_components_Input.ts.html#l323"><code>src\components\Input.ts:323</code></a>
         
         </p>
 
@@ -2272,7 +2279,7 @@ If not dragging then this is null.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l240"><code>src\components\Input.ts:240</code></a>
+        <a href="../files/src_components_Input.ts.html#l243"><code>src\components\Input.ts:243</code></a>
         
         </p>
 
@@ -2321,7 +2328,7 @@ If not dragging then this is null.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l266"><code>src\components\Input.ts:266</code></a>
+        <a href="../files/src_components_Input.ts.html#l269"><code>src\components\Input.ts:269</code></a>
         
         </p>
 
@@ -2371,7 +2378,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l397"><code>src\components\Input.ts:397</code></a>
+        <a href="../files/src_components_Input.ts.html#l400"><code>src\components\Input.ts:400</code></a>
         
         </p>
 
@@ -2420,7 +2427,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l433"><code>src\components\Input.ts:433</code></a>
+        <a href="../files/src_components_Input.ts.html#l436"><code>src\components\Input.ts:436</code></a>
         
         </p>
 
@@ -2469,7 +2476,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l415"><code>src\components\Input.ts:415</code></a>
+        <a href="../files/src_components_Input.ts.html#l418"><code>src\components\Input.ts:418</code></a>
         
         </p>
 
@@ -2518,7 +2525,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l424"><code>src\components\Input.ts:424</code></a>
+        <a href="../files/src_components_Input.ts.html#l427"><code>src\components\Input.ts:427</code></a>
         
         </p>
 
@@ -2567,7 +2574,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l406"><code>src\components\Input.ts:406</code></a>
+        <a href="../files/src_components_Input.ts.html#l409"><code>src\components\Input.ts:409</code></a>
         
         </p>
 
@@ -2616,7 +2623,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l86"><code>src\components\Input.ts:86</code></a>
+        <a href="../files/src_components_Input.ts.html#l89"><code>src\components\Input.ts:89</code></a>
         
         </p>
 
@@ -2663,7 +2670,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l102"><code>src\components\Input.ts:102</code></a>
+        <a href="../files/src_components_Input.ts.html#l105"><code>src\components\Input.ts:105</code></a>
         
         </p>
 
@@ -2710,7 +2717,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l110"><code>src\components\Input.ts:110</code></a>
+        <a href="../files/src_components_Input.ts.html#l113"><code>src\components\Input.ts:113</code></a>
         
         </p>
 
@@ -2757,7 +2764,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l70"><code>src\components\Input.ts:70</code></a>
+        <a href="../files/src_components_Input.ts.html#l73"><code>src\components\Input.ts:73</code></a>
         
         </p>
 
@@ -2804,7 +2811,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l78"><code>src\components\Input.ts:78</code></a>
+        <a href="../files/src_components_Input.ts.html#l81"><code>src\components\Input.ts:81</code></a>
         
         </p>
 
@@ -2851,7 +2858,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l94"><code>src\components\Input.ts:94</code></a>
+        <a href="../files/src_components_Input.ts.html#l97"><code>src\components\Input.ts:97</code></a>
         
         </p>
 
@@ -2898,7 +2905,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l257"><code>src\components\Input.ts:257</code></a>
+        <a href="../files/src_components_Input.ts.html#l260"><code>src\components\Input.ts:260</code></a>
         
         </p>
 
@@ -2947,7 +2954,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l338"><code>src\components\Input.ts:338</code></a>
+        <a href="../files/src_components_Input.ts.html#l341"><code>src\components\Input.ts:341</code></a>
         
         </p>
 
@@ -2994,7 +3001,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l249"><code>src\components\Input.ts:249</code></a>
+        <a href="../files/src_components_Input.ts.html#l252"><code>src\components\Input.ts:252</code></a>
         
         </p>
 
@@ -3133,7 +3140,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l384"><code>src\components\Input.ts:384</code></a>
+        <a href="../files/src_components_Input.ts.html#l387"><code>src\components\Input.ts:387</code></a>
         
         </p>
 
@@ -3180,7 +3187,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l219"><code>src\components\Input.ts:219</code></a>
+        <a href="../files/src_components_Input.ts.html#l222"><code>src\components\Input.ts:222</code></a>
         
         </p>
 
@@ -3271,7 +3278,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l276"><code>src\components\Input.ts:276</code></a>
+        <a href="../files/src_components_Input.ts.html#l279"><code>src\components\Input.ts:279</code></a>
         
         </p>
 
@@ -3319,7 +3326,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l375"><code>src\components\Input.ts:375</code></a>
+        <a href="../files/src_components_Input.ts.html#l378"><code>src\components\Input.ts:378</code></a>
         
         </p>
 
@@ -3367,7 +3374,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l287"><code>src\components\Input.ts:287</code></a>
+        <a href="../files/src_components_Input.ts.html#l290"><code>src\components\Input.ts:290</code></a>
         
         </p>
 
@@ -3459,7 +3466,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l144"><code>src\components\Input.ts:144</code></a>
+        <a href="../files/src_components_Input.ts.html#l147"><code>src\components\Input.ts:147</code></a>
         
         </p>
 
@@ -3508,7 +3515,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l170"><code>src\components\Input.ts:170</code></a>
+        <a href="../files/src_components_Input.ts.html#l173"><code>src\components\Input.ts:173</code></a>
         
         </p>
 
@@ -3556,7 +3563,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l179"><code>src\components\Input.ts:179</code></a>
+        <a href="../files/src_components_Input.ts.html#l182"><code>src\components\Input.ts:182</code></a>
         
         </p>
 
@@ -3604,7 +3611,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l118"><code>src\components\Input.ts:118</code></a>
+        <a href="../files/src_components_Input.ts.html#l121"><code>src\components\Input.ts:121</code></a>
         
         </p>
 
@@ -3653,7 +3660,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l131"><code>src\components\Input.ts:131</code></a>
+        <a href="../files/src_components_Input.ts.html#l134"><code>src\components\Input.ts:134</code></a>
         
         </p>
 
@@ -3702,7 +3709,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l199"><code>src\components\Input.ts:199</code></a>
+        <a href="../files/src_components_Input.ts.html#l202"><code>src\components\Input.ts:202</code></a>
         
         </p>
 
@@ -3750,7 +3757,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l188"><code>src\components\Input.ts:188</code></a>
+        <a href="../files/src_components_Input.ts.html#l191"><code>src\components\Input.ts:191</code></a>
         
         </p>
 
@@ -3798,7 +3805,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l157"><code>src\components\Input.ts:157</code></a>
+        <a href="../files/src_components_Input.ts.html#l160"><code>src\components\Input.ts:160</code></a>
         
         </p>
 
@@ -3847,7 +3854,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l309"><code>src\components\Input.ts:309</code></a>
+        <a href="../files/src_components_Input.ts.html#l312"><code>src\components\Input.ts:312</code></a>
         
         </p>
 
@@ -3939,7 +3946,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l298"><code>src\components\Input.ts:298</code></a>
+        <a href="../files/src_components_Input.ts.html#l301"><code>src\components\Input.ts:301</code></a>
         
         </p>
 

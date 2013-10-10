@@ -1,5 +1,5 @@
 /**
-* Kiwi - Renderers
+*  
 * @module Kiwi
 * @submodule Renderers
 * 

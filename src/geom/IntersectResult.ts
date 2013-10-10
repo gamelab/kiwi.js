@@ -1,5 +1,5 @@
 /**
-* Kiwi - Geom
+*  
 * @module Kiwi
 * @submodule Geom
 */

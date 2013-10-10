@@ -141,7 +141,7 @@
             
                 <li><a href="../classes/Icon.html">Icon</a></li>
             
-                <li><a href="../classes/IconCounter.html">IconCounter</a></li>
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
             
                 <li><a href="../classes/Input.html">Input</a></li>
             
@@ -187,8 +187,6 @@
             
                 <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
             
-                <li><a href="../classes/Range.html">Range</a></li>
-            
                 <li><a href="../classes/Ray.html">Ray</a></li>
             
                 <li><a href="../classes/Rectangle.html">Rectangle</a></li>
@@ -221,9 +219,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/TextField.html">TextField</a></li>
-            
                 <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -253,6 +251,8 @@
             
                 <li><a href="../classes/Vector2.html">Vector2</a></li>
             
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -270,6 +270,8 @@
                 <li><a href="../modules/Geom.html">Geom</a></li>
             
                 <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
             
                 <li><a href="../modules/Input.html">Input</a></li>
             
@@ -333,16 +335,18 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* Kiwi - Sound
+* The namespace that holds all of the assets and functionality when dealing with Audio.
+* 
 * @module Kiwi
 * @submodule Sound
 * @main Sound 
+* 
 */ 
 
 module Kiwi.Sound {
 
     /**
-    * Handles the playing of sound on the game. This is either through the use of the Web Audio API (if it is supported), otherwise fallbacks to Audio Tags.
+    * Manages the initialisation of assets necessary when dealing with audio in the game, either through Audio Tags or the Web Audio API. Also provides global sound controls that will be applyed to all Audio objects at the same time. 
     * 
     * @class AudioManager
     * @constructor
@@ -451,14 +455,31 @@ module Kiwi.Sound {
         */
         public masterGain: any = null;
 
-        /*
+        /**
         * The volume of the audio before it was muted. This is used so that when the audio is unmuted the volume will resume at this point.
         * @property _muteVolume
         * @type number
         * @private
         */
         private _muteVolume: number;
-         
+        
+        /**
+        * Indicates if a mouse/touch event has fired from the device or not. 
+        * @property _deviceTouched
+        * @type boolean
+        * @private
+        */
+        private _deviceTouched: boolean;
+
+        /**
+        * Returns a boolean indicating whether the device has been touched or not. READ ONLY.
+        * @property deviceTouched
+        * 
+        */
+        public get deviceTouched():boolean {
+            return this._deviceTouched;
+        }
+
         /**
         * The boot method is executed when all of the DOM elements needed for the game are loaded and the game is ready to &#x27;start&#x27; up.
         *
@@ -468,6 +489,7 @@ module Kiwi.Sound {
         public boot() {
             
             this._volume = 1;
+            this._deviceTouched = false;
             this._muted = false;
             this._sounds = [];
 
@@ -476,7 +498,12 @@ module Kiwi.Sound {
                 this.channels = 1;
             }
 
-            //check to see if the device is locked here...
+            //add mouse event here to &#x27;unlock&#x27; the device.
+            if (Kiwi.DEVICE.iOS) { 
+                this._game.input.onUp.addOnce(this._unlocked, this);
+            } else {
+                this._deviceTouched = true;
+            }
 
             this.usingWebAudio = true;  //we hope for the best....
             this.usingAudioTag = false;
@@ -507,7 +534,21 @@ module Kiwi.Sound {
                 this.masterGain.gain.value = 1;
                 this.masterGain.connect(this.context.destination);
             }
+        
+        }
+
+        /**
+        * Is executed when a mouse event is fired on the device. This is used to enabled playback of sounds on the current device if they were awaiting for a user event.
+        * @method _unlocked
+        * @private
+        */
+        private _unlocked() {
+            this._deviceTouched = true;
+            console.log(&#x27;I\&#x27;m unlocked now!&#x27;);
             
+            for (var i = 0; i &lt; this._sounds.length; i++) {
+                this._sounds[i].playable = true;
+            }
         }
 
         /**
@@ -652,12 +693,13 @@ module Kiwi.Sound {
         * @param sound {Audio} The audio file that you want to remove.
         * @public
         */
-        public remove(sound: Kiwi.Sound.Audio) {
+        public remove(sound: Kiwi.Sound.Audio, destroy:boolean=true) {
             //needs testing
             for (var i = 0; i &lt; this._sounds.length; i++) {
 
                 if (sound.id == this._sounds[i].id) {
-                    this._sounds[i].gainNode.disconnect();
+                    if(this.usingWebAudio) this._sounds[i].gainNode.disconnect();
+                    if (destroy == true) this._sounds[i].destroy();
                     this._sounds.splice(i, 1, 0);
                     i--;
                 }
@@ -720,12 +762,13 @@ module Kiwi.Sound {
         }
         
         /**
-        * Resumes all of the sounds listed in the audio manager.
+        * Resumes all of the sounds listed in the audio manager. 
         *
         * @method resumeAll
+        * @param [destroy=true] {boolean} If the audio objects should be destroyed when they are removed.
         * @public
         */
-        public resumeAll() {
+        public resumeAll(destroy:boolean=true) {
             
             for (var i = 0; i &lt; this._sounds.length; i++) {
 
