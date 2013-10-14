@@ -50,6 +50,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "HUDManager",
         "HUDWidget",
         "IChild",
+        "IRenderer",
         "Icon",
         "IconBar",
         "Input",
@@ -183,7 +184,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Renderers",
             "name": "Renderers",
-            "description": "Kiwi - Renderers"
+            "description": "Contains the classes which are related to the rendering of GameObjects."
         },
         {
             "displayName": "Sound",

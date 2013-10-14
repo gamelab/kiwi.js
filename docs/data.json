@@ -754,6 +754,7 @@
                 "Renderers": 1
             },
             "classes": {
+                "IRenderer": 1,
                 "CanvasRenderer": 1
             },
             "fors": {},
@@ -1147,6 +1148,7 @@
                 "MouseCursor": 1,
                 "Pointer": 1,
                 "Touch": 1,
+                "IRenderer": 1,
                 "CanvasRenderer": 1,
                 "GLArrayBuffer": 1,
                 "GLElementArrayBuffer": 1,
@@ -1397,6 +1399,7 @@
             "name": "Renderers",
             "submodules": {},
             "classes": {
+                "IRenderer": 1,
                 "CanvasRenderer": 1,
                 "GLArrayBuffer": 1,
                 "GLElementArrayBuffer": 1,
@@ -1411,7 +1414,9 @@
             "namespace": "",
             "file": "src\\renderers\\GLTexture.ts",
             "line": 10,
-            "description": "Kiwi - Renderers"
+            "description": "Contains the classes which are related to the rendering of GameObjects.",
+            "tag": "main",
+            "itemtype": "main"
         },
         "Sound": {
             "name": "Sound",
@@ -1861,6 +1866,11 @@
                     "name": "entity",
                     "description": "",
                     "type": "Entity"
+                },
+                {
+                    "name": "box",
+                    "description": "",
+                    "type": "Box"
                 }
             ],
             "return": {
@@ -4154,6 +4164,21 @@
                 "type": "Touch"
             }
         },
+        "IRenderer": {
+            "name": "IRenderer",
+            "shortname": "IRenderer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Kiwi",
+            "namespace": "",
+            "file": "src\\renderers\\CanvasRenderer.ts",
+            "line": 1,
+            "description": "A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),\nwhich outlines the methods/properties that are required any Renderer.",
+            "submodule": "Renderers"
+        },
         "CanvasRenderer": {
             "name": "CanvasRenderer",
             "shortname": "CanvasRenderer",
@@ -4166,7 +4191,8 @@
             "submodule": "Renderers",
             "namespace": "",
             "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 14,
+            "line": 20,
+            "extends": "IRenderer",
             "is_constructor": 1,
             "params": [
                 {
@@ -4192,7 +4218,38 @@
             "submodule": "Renderers",
             "namespace": "",
             "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 10
+            "line": 10,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "_itemSize",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "items",
+                    "description": "",
+                    "type": "Number[]",
+                    "optional": true
+                },
+                {
+                    "name": "init",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "GLArrayBuffer"
+            }
         },
         "GLElementArrayBuffer": {
             "name": "GLElementArrayBuffer",
@@ -4206,7 +4263,38 @@
             "submodule": "Renderers",
             "namespace": "",
             "file": "src\\renderers\\GLElementArrayBuffer.ts",
-            "line": 10
+            "line": 10,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContent"
+                },
+                {
+                    "name": "_itemSize",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "_indices",
+                    "description": "",
+                    "type": "Number[]",
+                    "optional": true
+                },
+                {
+                    "name": "init",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "GLElementArrayBuffer"
+            }
         },
         "GLRenderer": {
             "name": "GLRenderer",
@@ -4220,7 +4308,20 @@
             "submodule": "Renderers",
             "namespace": "",
             "file": "src\\renderers\\GLRenderer.ts",
-            "line": 11
+            "line": 11,
+            "extends": "IRenderer",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "game",
+                    "description": "The game that this renderer belongs to.",
+                    "type": "Game"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "GLRenderer"
+            }
         },
         "GLShaders": {
             "name": "GLShaders",
@@ -4234,7 +4335,19 @@
             "submodule": "Renderers",
             "namespace": "",
             "file": "src\\renderers\\GLShaders.ts",
-            "line": 9
+            "line": 9,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "GLShaders"
+            }
         },
         "GLTexture": {
             "name": "GLTexture",
@@ -4248,7 +4361,25 @@
             "submodule": "Renderers",
             "namespace": "",
             "file": "src\\renderers\\GLTexture.ts",
-            "line": 10
+            "line": 10,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "_image",
+                    "description": "",
+                    "type": "HTMLImageElement",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "GLTexture"
+            }
         },
         "Audio": {
             "name": "Audio",
@@ -7004,7 +7135,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 51,
+            "line": 55,
             "description": "The entity that this animation belongs to.",
             "itemtype": "property",
             "name": "entity",
@@ -7017,7 +7148,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 59,
+            "line": 63,
             "description": "The texture atlas that this animation is taking affect on.",
             "itemtype": "property",
             "name": "_atlas",
@@ -7030,7 +7161,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 67,
+            "line": 71,
             "description": "A dictionary containing all of the animations that are avaiable.",
             "itemtype": "property",
             "name": "_animations",
@@ -7043,7 +7174,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 75,
+            "line": 79,
             "description": "A reference to the animation that is currently being played.",
             "itemtype": "property",
             "name": "_currentAnimation",
@@ -7057,7 +7188,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 84,
+            "line": 88,
             "description": "Indicates whether or not this animation is currently playing or not.",
             "itemtype": "property",
             "name": "_isPlaying",
@@ -7071,7 +7202,30 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 93,
+            "line": 97,
+            "description": "A Signal that dispatches events when an animation is played.",
+            "itemtype": "property",
+            "name": "onPlay",
+            "type": "Signal",
+            "access": "public",
+            "tagname": "",
+            "class": "AnimationManager",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\AnimationManager.ts",
+            "line": 105,
+            "description": "A Signal that dispatches events when an animation is stoped.",
+            "itemtype": "property",
+            "name": "onStop",
+            "class": "AnimationManager",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\AnimationManager.ts",
+            "line": 115,
             "description": "Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.",
             "itemtype": "property",
             "name": "isPlaying",
@@ -7084,7 +7238,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 103,
+            "line": 125,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -7097,7 +7251,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 113,
+            "line": 135,
             "description": "Creates a new sequence and then adds that sequence as a new animation on this component. Returns that animation that was created.",
             "itemtype": "method",
             "name": "add",
@@ -7144,7 +7298,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 132,
+            "line": 154,
             "description": "Creates a new animation based on a sequence that is passed.",
             "itemtype": "method",
             "name": "createFromSequence",
@@ -7174,7 +7328,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 149,
+            "line": 171,
             "description": "Plays either the current animation or the name of the animation that you pass.",
             "itemtype": "method",
             "name": "play",
@@ -7194,7 +7348,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 161,
+            "line": 183,
             "description": "Play an animation at a particular frameIndex.",
             "itemtype": "method",
             "name": "playAt",
@@ -7219,7 +7373,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 174,
+            "line": 196,
             "description": "An internal method used to actually play the animation.",
             "itemtype": "method",
             "name": "_play",
@@ -7249,7 +7403,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 198,
+            "line": 220,
             "description": "Stops the current animation from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -7261,7 +7415,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 210,
+            "line": 232,
             "description": "Pauses the current animation.",
             "itemtype": "method",
             "name": "pause",
@@ -7273,7 +7427,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 220,
+            "line": 242,
             "description": "Resumes the current animation. The animation should have already been paused.",
             "itemtype": "method",
             "name": "resume",
@@ -7285,7 +7439,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 230,
+            "line": 252,
             "description": "Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number. \nYou can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.\nSo if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.",
             "itemtype": "method",
             "name": "switchTo",
@@ -7311,7 +7465,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 258,
+            "line": 280,
             "description": "Makes the current animation go to the next frame. If the animation is at the end of the sequence it then goes back to the start.",
             "itemtype": "method",
             "name": "nextFrame",
@@ -7323,7 +7477,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 268,
+            "line": 290,
             "description": "Makes the current animation go to the prev frame. If the animation is at the start, the animation will go the end of the sequence.",
             "itemtype": "method",
             "name": "prevFrame",
@@ -7335,7 +7489,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 278,
+            "line": 300,
             "description": "Internal method that sets the current animation to the animation passed.",
             "itemtype": "method",
             "name": "_setCurrentAnimation",
@@ -7354,7 +7508,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 293,
+            "line": 315,
             "description": "The update loop, it only updates the currentAnimation and only if it is playing.",
             "itemtype": "method",
             "name": "update",
@@ -7366,7 +7520,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 306,
+            "line": 328,
             "description": "Gets the cell that the current animation is current at. This is READ ONLY.",
             "itemtype": "property",
             "name": "currentCell",
@@ -7379,7 +7533,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 316,
+            "line": 338,
             "description": "Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.",
             "itemtype": "property",
             "name": "frameIndex",
@@ -7392,7 +7546,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 326,
+            "line": 348,
             "description": "Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.",
             "itemtype": "property",
             "name": "length",
@@ -7405,7 +7559,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 336,
+            "line": 358,
             "description": "Get a animation that is on the animation component.",
             "itemtype": "method",
             "name": "getAnimation",
@@ -7428,7 +7582,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 348,
+            "line": 370,
             "description": "An internal method that is used to set the cell index of the entity. This is how the animation changes.",
             "itemtype": "method",
             "name": "_setCellIndex",
@@ -7440,7 +7594,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 357,
+            "line": 379,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -7456,7 +7610,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 369,
+            "line": 391,
             "description": "Destroys the animation component and runs the destroy on all of the anims that it has.",
             "itemtype": "method",
             "name": "destroy",
@@ -7468,7 +7622,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 28,
+            "line": 59,
             "description": "The Entity that this physics component belongs to.",
             "itemtype": "property",
             "name": "_parent",
@@ -7479,7 +7633,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 35,
+            "line": 66,
             "description": "The transform component.",
             "itemtype": "property",
             "name": "transform",
@@ -7490,29 +7644,20 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 42,
-            "description": "The width component that this physics component uses.",
+            "line": 73,
+            "description": "The bounding box component that the collisions are going to be based off.",
             "itemtype": "property",
-            "name": "width",
-            "type": "number",
+            "name": "box",
+            "type": "Box",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 49,
-            "description": "The height that this physics component uses.",
-            "itemtype": "property",
-            "name": "height",
-            "type": "number",
-            "class": "ArcadePhysics",
-            "module": "Kiwi",
-            "submodule": "Components"
-        },
-        {
-            "file": "src\\components\\ArcadePhysics.ts",
-            "line": 87,
+            "line": 81,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -7520,13 +7665,15 @@
                 "description": "",
                 "type": "String"
             },
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 97,
+            "line": 91,
             "description": "How often the motion should be updated.",
             "itemtype": "property",
             "name": "updateInterval",
@@ -7539,7 +7686,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 106,
+            "line": 100,
             "description": "Generic value for \"left\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "LEFT",
@@ -7550,7 +7697,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 113,
+            "line": 107,
             "description": "Generic value for \"right\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "RIGHT",
@@ -7561,7 +7708,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 120,
+            "line": 114,
             "description": "Generic value for \"up\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "UP",
@@ -7572,7 +7719,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 127,
+            "line": 121,
             "description": "Generic value for \"down\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "DOWN",
@@ -7583,7 +7730,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 134,
+            "line": 128,
             "description": "Special-case constant meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "NONE",
@@ -7594,7 +7741,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 141,
+            "line": 135,
             "description": "Special-case constant meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "CEILING",
@@ -7605,7 +7752,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 148,
+            "line": 142,
             "description": "Special-case constant meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "FLOOR",
@@ -7616,7 +7763,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 155,
+            "line": 149,
             "description": "Special-case constant meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "WALL",
@@ -7627,7 +7774,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 162,
+            "line": 156,
             "description": "Special-case constant meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "ANY",
@@ -7638,7 +7785,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 169,
+            "line": 163,
             "description": "Handy constant used during collision resolution (see <code>separateX()</code> and <code>separateY()</code>).",
             "itemtype": "property",
             "name": "OVERLAP_BIAS",
@@ -7649,7 +7796,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 176,
+            "line": 170,
             "description": "Whether an object will move/alter position after a collision.",
             "itemtype": "property",
             "name": "immovable",
@@ -7660,7 +7807,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 183,
+            "line": 177,
             "description": "The basic speed of this object.",
             "itemtype": "property",
             "name": "velocity",
@@ -7671,7 +7818,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 190,
+            "line": 184,
             "description": "The virtual mass of the object. Default value is 1.\nCurrently only used with <code>elasticity</code> during collision resolution.\nChange at your own risk; effects seem crazy unpredictable so far!",
             "itemtype": "property",
             "name": "mass",
@@ -7682,7 +7829,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 199,
+            "line": 193,
             "description": "The bounciness of this object.  Only affects collisions.  Default value is 0, or \"not bouncy at all.\"",
             "itemtype": "property",
             "name": "elasticity",
@@ -7693,7 +7840,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 206,
+            "line": 200,
             "description": "How fast the speed of this object is changing.\nUseful for smooth movement and gravity.",
             "itemtype": "property",
             "name": "acceleration",
@@ -7704,7 +7851,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 214,
+            "line": 208,
             "description": "This isn't drag exactly, more like deceleration that is only applied\nwhen acceleration is not affecting the sprite.",
             "itemtype": "property",
             "name": "drag",
@@ -7715,7 +7862,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 222,
+            "line": 216,
             "description": "If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it\nto cap the speed automatically (very useful!).",
             "itemtype": "property",
             "name": "maxVelocity",
@@ -7726,7 +7873,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 230,
+            "line": 224,
             "description": "Set the angle of a sprite to rotate it.\nWARNING: rotating sprites decreases rendering\nperformance for this sprite by a factor of 10x!",
             "itemtype": "property",
             "name": "angle",
@@ -7737,7 +7884,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 239,
+            "line": 233,
             "description": "This is how fast you want this sprite to spin.",
             "itemtype": "property",
             "name": "angularVelocity",
@@ -7748,105 +7895,118 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 246,
+            "line": 240,
             "description": "How fast the spin speed should change.",
             "itemtype": "property",
             "name": "angularAcceleration",
             "type": "number",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 253,
+            "line": 248,
             "description": "Like <code>drag</code> but for spinning.",
             "itemtype": "property",
             "name": "angularDrag",
             "type": "number",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 260,
+            "line": 256,
             "description": "Use in conjunction with <code>angularAcceleration</code> for fluid spin speed control.",
             "itemtype": "property",
             "name": "maxAngular",
             "type": "number",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 269,
-            "description": "If the object should be seperated.",
+            "line": 264,
+            "description": "If the Entity that this component is a part of 'moves' or not, and thus if the physics should update the motion should update each frame.",
+            "itemtype": "property",
+            "name": "moves",
+            "type": "boolean",
+            "default": "true",
+            "access": "public",
+            "tagname": "",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 273,
+            "description": "If the object should seperate when it 'collides' with another object.",
             "itemtype": "property",
             "name": "seperate",
             "type": "boolean",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 276,
+            "line": 282,
             "description": "Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
+            "itemtype": "property",
+            "name": "touching",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 283,
+            "line": 292,
             "description": "Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
+            "itemtype": "property",
+            "name": "wasTouching",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 290,
+            "line": 302,
             "description": "Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.\nUse bitwise operators to check the values stored here.\nUseful for things like one-way platforms (e.g. allowCollisions = UP;)\nThe accessor \"solid\" just flips this variable between NONE and ANY.",
+            "itemtype": "property",
+            "name": "allowCollisions",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 298,
+            "line": 313,
             "description": "Important variable for collision processing.\nBy default this value is set automatically during <code>preUpdate()</code>.",
-            "class": "ArcadePhysics",
-            "module": "Kiwi",
-            "submodule": "Components"
-        },
-        {
-            "file": "src\\components\\ArcadePhysics.ts",
-            "line": 304,
-            "description": "A boolean to indicate if this object is solid or not.",
-            "access": "private",
-            "tagname": "",
-            "class": "ArcadePhysics",
-            "module": "Kiwi",
-            "submodule": "Components"
-        },
-        {
-            "file": "src\\components\\ArcadePhysics.ts",
-            "line": 310,
-            "description": "A function that is to execute when this object overlaps with another.",
-            "access": "private",
-            "tagname": "",
-            "class": "ArcadePhysics",
-            "module": "Kiwi",
-            "submodule": "Components"
-        },
-        {
-            "file": "src\\components\\ArcadePhysics.ts",
-            "line": 316,
-            "description": "The context that the callback method should have when it executes.",
-            "access": "private",
+            "itemtype": "property",
+            "name": "last",
+            "type": "Kiwi.Geom.Point",
+            "access": "public",
             "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
@@ -7855,14 +8015,55 @@
         {
             "file": "src\\components\\ArcadePhysics.ts",
             "line": 322,
+            "description": "A boolean to indicate if this object is solid or not.",
+            "itemtype": "property",
+            "name": "_solid",
+            "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 330,
+            "description": "A function that is to execute when this object overlaps with another.",
+            "itemtype": "property",
+            "name": "_callbackFunction",
+            "type": "Function",
+            "default": "null",
+            "access": "private",
+            "tagname": "",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 339,
+            "description": "The context that the callback method should have when it executes.",
+            "itemtype": "property",
+            "name": "_callbackContext",
+            "type": "Any",
+            "access": "private",
+            "tagname": "",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 347,
             "description": "Whether the object collides or not.  For more control over what directions\nthe object will collide from, use collision constants (like LEFT, FLOOR, etc)\nto set the value of allowCollisions directly.",
             "itemtype": "method",
             "name": "solid",
             "params": [
                 {
                     "name": "value",
-                    "description": "",
-                    "type": "Boolean"
+                    "description": "If left empty, this will then just toggle between ANY and NONE.",
+                    "type": "Boolean",
+                    "optional": true
                 }
             ],
             "return": {
@@ -7874,8 +8075,250 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 475,
+            "line": 368,
+            "description": "A Static method to check to see if two objects collide or not. Returns a boolean indicating whether they overlaped or not.",
+            "itemtype": "method",
+            "name": "collide",
+            "static": 1,
+            "params": [
+                {
+                    "name": "gameObject1",
+                    "description": "The first game object.",
+                    "type": "Kiwi.GameObjects.Entity"
+                },
+                {
+                    "name": "gameObject2",
+                    "description": "The second game object.",
+                    "type": "Kiwi.GameObjects.Entity"
+                },
+                {
+                    "name": "seperate",
+                    "description": "If the two gameobjects should seperated when they collide.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 383,
+            "description": "A Static method to check to see if a single entity collides with a group of entities. Returns a boolean indicating whether they overlaped or not.",
+            "itemtype": "method",
+            "name": "collideGroup",
+            "static": 1,
+            "params": [
+                {
+                    "name": "gameObject",
+                    "description": "",
+                    "type": "Kiwi.GameObjects.Entity"
+                },
+                {
+                    "name": "group",
+                    "description": "This could be either an Array of GameObjects or a Group containing members.",
+                    "type": "Any"
+                },
+                {
+                    "name": "seperate",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 399,
+            "description": "A Static method to check to see if a group of entities overlap with another group of entities. Returns a boolean indicating whether they overlaped or not.",
+            "itemtype": "method",
+            "name": "collideGroupGroup",
+            "static": 1,
+            "params": [
+                {
+                    "name": "group1",
+                    "description": "This can either be an array or a Group.",
+                    "type": "Any"
+                },
+                {
+                    "name": "group2",
+                    "description": "Also could either be an array or a Group.",
+                    "type": "Any"
+                },
+                {
+                    "name": "seperate",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 414,
+            "description": "A Static method to that checks to see if two objects overlap. Returns a boolean indicating whether they did or not.",
+            "itemtype": "method",
+            "name": "overlaps",
+            "static": 1,
+            "params": [
+                {
+                    "name": "gameObject1",
+                    "description": "",
+                    "type": "Kiwi.GameObjects.Entity"
+                },
+                {
+                    "name": "gameObject2",
+                    "description": "",
+                    "type": "Kiwi.GameObjects.Entity"
+                },
+                {
+                    "name": "separateObjects",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 435,
+            "description": "A Static method to that checks to see if a single object overlaps with a group of entities. Returns a boolean indicating whether they did or not.",
+            "itemtype": "method",
+            "name": "overlapsObjectGroup",
+            "static": 1,
+            "params": [
+                {
+                    "name": "gameObject",
+                    "description": "",
+                    "type": "Kiwi.GameObjects.Entity"
+                },
+                {
+                    "name": "group",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "seperateObjects",
+                    "description": "If they overlap should the seperate or not",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 452,
+            "description": "A Static method that checks to see if any objects in a group overlap with objects in another group.",
+            "itemtype": "method",
+            "name": "overlaps",
+            "static": 1,
+            "params": [
+                {
+                    "name": "group1",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "group2",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "seperate",
+                    "description": "If they overlap should the seperate or not",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 494,
+            "description": "A static method for seperating two objects. Both objects need to have physics, position and size components in order for this to work.",
+            "itemtype": "method",
+            "name": "seperate",
+            "static": 1,
+            "params": [
+                {
+                    "name": "object1",
+                    "description": "",
+                    "type": "Kiwi.Entity"
+                },
+                {
+                    "name": "object2",
+                    "description": "",
+                    "type": "Kiwi.Entity"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 511,
             "description": "The X-axis component of the object separation process.",
+            "itemtype": "method",
+            "name": "seperateX",
+            "static": 1,
             "params": [
                 {
                     "name": "object1",
@@ -7889,7 +8332,8 @@
                 }
             ],
             "return": {
-                "description": "Whether the objects in fact touched and were separated along the X axis."
+                "description": "Whether the objects in fact touched and were separated along the X axis.",
+                "type": "Boolean"
             },
             "class": "ArcadePhysics",
             "module": "Kiwi",
@@ -7897,8 +8341,11 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 566,
+            "line": 604,
             "description": "The Y-axis component of the object separation process.",
+            "itemtype": "method",
+            "name": "seperateY",
+            "static": 1,
             "params": [
                 {
                     "name": "object1",
@@ -7912,7 +8359,8 @@
                 }
             ],
             "return": {
-                "description": "Whether the objects in fact touched and were separated along the Y axis."
+                "description": "Whether the objects in fact touched and were separated along the Y axis.",
+                "type": "Boolean"
             },
             "class": "ArcadePhysics",
             "module": "Kiwi",
@@ -7920,15 +8368,50 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 662,
-            "description": "CURRENTLY UNTESTED...",
+            "line": 701,
+            "description": "Computes the velocity based on the parameters passed.",
+            "itemtype": "method",
+            "name": "computeVelocity",
+            "static": 1,
+            "params": [
+                {
+                    "name": "velocity",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "acceleration",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "drag",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "10000"
+                }
+            ],
+            "return": {
+                "description": "The new velocity",
+                "type": "Number"
+            },
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 690,
+            "line": 736,
             "description": "A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.",
             "itemtype": "method",
             "name": "overlaps",
@@ -7941,7 +8424,9 @@
                 {
                     "name": "seperateObjects",
                     "description": "",
-                    "type": "Boolean"
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
                 }
             ],
             "return": {
@@ -7954,20 +8439,22 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 717,
+            "line": 766,
             "description": "A method to check to see if the parent of this physics component overlaps with another group of objects",
             "itemtype": "method",
-            "name": "overlaps",
+            "name": "overlapsGroup",
             "params": [
                 {
-                    "name": "gameObject",
+                    "name": "group",
                     "description": "",
                     "type": "Kiwi.Group"
                 },
                 {
                     "name": "seperateObjects",
                     "description": "",
-                    "type": "Boolean"
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
                 }
             ],
             "return": {
@@ -7980,15 +8467,19 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 767,
-            "description": "Updates the motion...\nUNTESTED.",
+            "line": 816,
+            "description": "Updates the position of this object. Automatically called if the 'moves' parameter is true.",
+            "itemtype": "method",
+            "name": "updateMotion",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 796,
+            "line": 846,
             "description": "Sets up a callback function that will run when this object overlaps with another.",
             "itemtype": "method",
             "name": "setCallback",
@@ -8010,7 +8501,7 @@
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 810,
+            "line": 858,
             "description": "Returns the parent of this entity. Mainly used for executing callbacks.",
             "itemtype": "method",
             "name": "parent",
@@ -8018,14 +8509,32 @@
                 "description": "",
                 "type": "Kiwi.Entity"
             },
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
         },
         {
             "file": "src\\components\\ArcadePhysics.ts",
-            "line": 820,
+            "line": 868,
             "description": "The Update loop of the physics component",
+            "itemtype": "method",
+            "name": "update",
+            "access": "public",
+            "tagname": "",
+            "class": "ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components"
+        },
+        {
+            "file": "src\\components\\ArcadePhysics.ts",
+            "line": 889,
+            "description": "Removes all properties that refer to other objects or outside of this class in order to flag this object for garbage collection.",
+            "itemtype": "method",
+            "name": "destroy",
+            "access": "public",
+            "tagname": "",
             "class": "ArcadePhysics",
             "module": "Kiwi",
             "submodule": "Components"
@@ -28698,7 +29207,7 @@
             "line": 84,
             "description": "A Signal that dispatches events when the mouse is pressed down on the stage.",
             "itemtype": "property",
-            "name": "mouseDown",
+            "name": "onDown",
             "type": "Kiwi.Signal",
             "access": "public",
             "tagname": "",
@@ -28711,7 +29220,7 @@
             "line": 92,
             "description": "A Signal that dispatches events when the mouse is released from being down on the stage.",
             "itemtype": "property",
-            "name": "mouseUp",
+            "name": "onUp",
             "type": "Kiwi.Signal",
             "access": "public",
             "tagname": "",
@@ -30255,7 +30764,7 @@
         },
         {
             "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 28,
+            "line": 35,
             "description": "The boot method is executed when all of the DOM elements that are needed to play the game are ready.",
             "itemtype": "method",
             "name": "boot",
@@ -30267,7 +30776,7 @@
         },
         {
             "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 37,
+            "line": 44,
             "description": "Returns the type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -30283,7 +30792,7 @@
         },
         {
             "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 47,
+            "line": 54,
             "description": "The game that this object belongs to.",
             "itemtype": "property",
             "name": "_game",
@@ -30296,7 +30805,7 @@
         },
         {
             "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 55,
+            "line": 62,
             "description": "The camera that is currently being used to render upon.",
             "itemtype": "property",
             "name": "_currentCamera",
@@ -30309,7 +30818,7 @@
         },
         {
             "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 63,
+            "line": 70,
             "description": "This method recursively goes through a State's members and runs the render method of each member that is a Entity. \nIf it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.",
             "itemtype": "method",
             "name": "_recurse",
@@ -30328,7 +30837,7 @@
         },
         {
             "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 87,
+            "line": 94,
             "description": "Renders all of the Elements that are on a particular camera.",
             "itemtype": "method",
             "name": "render",
@@ -30342,6 +30851,953 @@
             "access": "public",
             "tagname": "",
             "class": "CanvasRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 32,
+            "itemtype": "property",
+            "name": "items",
+            "type": "number[]",
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 40,
+            "itemtype": "property",
+            "name": "buffer",
+            "type": "WebGLBuffer",
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 48,
+            "itemtype": "property",
+            "name": "itemSize",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 56,
+            "itemtype": "property",
+            "name": "numItems",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 64,
+            "itemtype": "method",
+            "name": "clear",
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 73,
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingCotext"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "WebGLBuffer"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 89,
+            "itemtype": "method",
+            "name": "refresh",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "items",
+                    "description": "",
+                    "type": "Number[]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "WebGLBuffer"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 108,
+            "itemtype": "property",
+            "name": "squareVertices",
+            "type": "number[]",
+            "static": 1,
+            "default": "[0, 0, 100, 0, 100, 100, 0, 100]",
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 123,
+            "itemtype": "property",
+            "name": "squareUVx",
+            "type": "number[]",
+            "static": 1,
+            "default": "[0, 0, .1, 0, .1, .1, 0, .1]",
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "line": 138,
+            "itemtype": "property",
+            "name": "squareCols",
+            "type": "number[]",
+            "static": 1,
+            "default": "[1, 1, 1, 1]",
+            "access": "public",
+            "tagname": "",
+            "class": "GLArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "line": 32,
+            "itemtype": "property",
+            "name": "indices",
+            "type": "number[]",
+            "access": "public",
+            "tagname": "",
+            "class": "GLElementArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "line": 40,
+            "itemtype": "property",
+            "name": "buffer",
+            "type": "WebGLBuffer",
+            "access": "public",
+            "tagname": "",
+            "class": "GLElementArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "line": 48,
+            "itemtype": "property",
+            "name": "itemSize",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "GLElementArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "line": 56,
+            "itemtype": "property",
+            "name": "numItems",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "GLElementArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "line": 64,
+            "itemtype": "method",
+            "name": "clear",
+            "access": "public",
+            "tagname": "",
+            "class": "GLElementArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "line": 73,
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "WebGLBuffer"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "GLElementArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "line": 88,
+            "itemtype": "method",
+            "name": "refresh",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "indices",
+                    "description": "",
+                    "type": "Number[]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "WebGLBuffer"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "GLElementArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "line": 104,
+            "itemtype": "property",
+            "name": "square",
+            "static": 1,
+            "type": "number[]",
+            "default": "[0,1,2,0,2,3]",
+            "access": "public",
+            "tagname": "",
+            "class": "GLElementArrayBuffer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 26,
+            "itemtype": "method",
+            "name": "boot",
+            "access": "public",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 35,
+            "description": "The type of object that this is.",
+            "itemtype": "method",
+            "name": "objType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 45,
+            "description": "The game that this renderer is on.",
+            "itemtype": "property",
+            "name": "_game",
+            "type": "Game",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 53,
+            "description": "The current camara that is being rendered",
+            "itemtype": "property",
+            "name": "_currentCamera",
+            "type": "Camera",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 61,
+            "itemtype": "property",
+            "name": "_stageResolution",
+            "type": "Float32Array",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 69,
+            "itemtype": "property",
+            "name": "_shaders",
+            "type": "GLShaders",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 77,
+            "itemtype": "property",
+            "name": "_vertBuffer",
+            "type": "GLArrayBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 85,
+            "itemtype": "property",
+            "name": "_indexBuffer",
+            "type": "GLElementArrayBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 93,
+            "itemtype": "property",
+            "name": "_uvBuffer",
+            "type": "GLArrayBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 101,
+            "itemtype": "property",
+            "name": "_colorBuffer",
+            "type": "GLArrayBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 109,
+            "itemtype": "property",
+            "name": "_texture",
+            "type": "GLTexture",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 117,
+            "itemtype": "property",
+            "name": "_entityCount",
+            "type": "number",
+            "default": "0",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 126,
+            "itemtype": "property",
+            "name": "_maxItems",
+            "type": "number",
+            "default": "1000",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 135,
+            "itemtype": "property",
+            "name": "_texApplied",
+            "type": "boolean",
+            "default": "false",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 144,
+            "itemtype": "property",
+            "name": "_firstPass",
+            "type": "boolean",
+            "default": "true",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 153,
+            "itemtype": "property",
+            "name": "mvMatrix",
+            "type": "Float32Array",
+            "access": "public",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 161,
+            "itemtype": "property",
+            "name": "mvMatrixStack",
+            "type": "Array",
+            "access": "public",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 169,
+            "itemtype": "property",
+            "name": "_currentTextureAtlas",
+            "type": "TextureAtlas",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 190,
+            "itemtype": "method",
+            "name": "_initState",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 238,
+            "itemtype": "method",
+            "name": "render",
+            "params": [
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 285,
+            "itemtype": "method",
+            "name": "_recurse",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "child",
+                    "description": "",
+                    "type": "IChild"
+                },
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 323,
+            "itemtype": "method",
+            "name": "_flush",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 335,
+            "itemtype": "method",
+            "name": "_compileVertices",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "entity",
+                    "description": "",
+                    "type": "Entity"
+                },
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 379,
+            "itemtype": "method",
+            "name": "_compileUVs",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "entity",
+                    "description": "",
+                    "type": "Entity"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 397,
+            "itemtype": "method",
+            "name": "_applyTexture",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "image",
+                    "description": "",
+                    "type": "HTMLImageElement"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 412,
+            "itemtype": "method",
+            "name": "_changeTexture",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "image",
+                    "description": "",
+                    "type": "HTMLImageElement"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 428,
+            "itemtype": "method",
+            "name": "_draw",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 440,
+            "itemtype": "method",
+            "name": "_generateIndices",
+            "params": [
+                {
+                    "name": "numQuads",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "number[]"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLRenderer.ts",
+            "line": 457,
+            "itemtype": "method",
+            "name": "_generateColors",
+            "params": [
+                {
+                    "name": "numVerts",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "number[]"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 27,
+            "itemtype": "property",
+            "name": "ready",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 35,
+            "itemtype": "property",
+            "name": "vertShader",
+            "type": "WebGLShader",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 43,
+            "itemtype": "property",
+            "name": "fragShader",
+            "type": "WebGLShader",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 51,
+            "itemtype": "property",
+            "name": "shaderProgram",
+            "type": "WebGLProgram",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 59,
+            "itemtype": "method",
+            "name": "attach",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "vertShader",
+                    "description": "",
+                    "type": "WebGLShader"
+                },
+                {
+                    "name": "fragShader",
+                    "description": "",
+                    "type": "WebGLShader"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "WebGLProgram"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 76,
+            "itemtype": "method",
+            "name": "compile",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "src",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "shaderType",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "WebGLShader"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 96,
+            "itemtype": "property",
+            "name": "texture2DProg",
+            "type": "Object",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 113,
+            "itemtype": "method",
+            "name": "use",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "shaderProrgram",
+                    "description": "",
+                    "type": "WebGLProgram"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 141,
+            "itemtype": "property",
+            "name": "texture2DFrag",
+            "type": "Array",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLShaders.ts",
+            "line": 158,
+            "itemtype": "property",
+            "name": "texture2DVert",
+            "type": "Array",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLTexture.ts",
+            "line": 34,
+            "itemtype": "property",
+            "name": "texture",
+            "type": "WebGLTexture",
+            "access": "public",
+            "tagname": "",
+            "class": "GLTexture",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLTexture.ts",
+            "line": 42,
+            "itemtype": "property",
+            "name": "image",
+            "type": "HTMLImageElement",
+            "access": "public",
+            "tagname": "",
+            "class": "GLTexture",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\renderers\\GLTexture.ts",
+            "line": 50,
+            "itemtype": "method",
+            "name": "refresh",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "image",
+                    "description": "",
+                    "type": "HTMLImageElement"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "GLTexture",
             "module": "Kiwi",
             "submodule": "Renderers"
         },
@@ -38304,54 +39760,6 @@
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " src\\textures\\SingleImage.ts:77"
-        },
-        {
-            "message": "Missing item type\nBit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
-            "line": " src\\components\\ArcadePhysics.ts:276"
-        },
-        {
-            "message": "Missing item type\nBit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.\nUse bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.\nYou can even use them broadly as boolean values if you're feeling saucy!",
-            "line": " src\\components\\ArcadePhysics.ts:283"
-        },
-        {
-            "message": "Missing item type\nBit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.\nUse bitwise operators to check the values stored here.\nUseful for things like one-way platforms (e.g. allowCollisions = UP;)\nThe accessor \"solid\" just flips this variable between NONE and ANY.",
-            "line": " src\\components\\ArcadePhysics.ts:290"
-        },
-        {
-            "message": "Missing item type\nImportant variable for collision processing.\nBy default this value is set automatically during <code>preUpdate()</code>.",
-            "line": " src\\components\\ArcadePhysics.ts:298"
-        },
-        {
-            "message": "Missing item type\nA boolean to indicate if this object is solid or not.",
-            "line": " src\\components\\ArcadePhysics.ts:304"
-        },
-        {
-            "message": "Missing item type\nA function that is to execute when this object overlaps with another.",
-            "line": " src\\components\\ArcadePhysics.ts:310"
-        },
-        {
-            "message": "Missing item type\nThe context that the callback method should have when it executes.",
-            "line": " src\\components\\ArcadePhysics.ts:316"
-        },
-        {
-            "message": "Missing item type\nThe X-axis component of the object separation process.",
-            "line": " src\\components\\ArcadePhysics.ts:475"
-        },
-        {
-            "message": "Missing item type\nThe Y-axis component of the object separation process.",
-            "line": " src\\components\\ArcadePhysics.ts:566"
-        },
-        {
-            "message": "Missing item type\nCURRENTLY UNTESTED...",
-            "line": " src\\components\\ArcadePhysics.ts:662"
-        },
-        {
-            "message": "Missing item type\nUpdates the motion...\nUNTESTED.",
-            "line": " src\\components\\ArcadePhysics.ts:767"
-        },
-        {
-            "message": "Missing item type\nThe Update loop of the physics component",
-            "line": " src\\components\\ArcadePhysics.ts:820"
         },
         {
             "message": "Missing item type\nContains a list of all of the Audio objects that are on this component.",

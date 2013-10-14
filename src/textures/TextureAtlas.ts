@@ -71,7 +71,7 @@ module Kiwi.Textures {
         * @public
         */
         public sequences: Kiwi.Animations.Sequence[];
-        
+
         /**
         * The cell that is to be render at the start.
         * @property cellIndex

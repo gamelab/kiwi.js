@@ -151,6 +151,8 @@
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
             
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
                 <li><a href="../classes/Key.html">Key</a></li>
             
                 <li><a href="../classes/Keyboard.html">Keyboard</a></li>
@@ -593,7 +595,7 @@ module Kiwi.Geom {
         * @public
         */
         public intersectLineLine(line): any {
-            //return Kiwi.Geom.intersectLineLine(this,line);
+            return Kiwi.Geom.Intersect.lineToLine(this,line);
         }
 
         /**

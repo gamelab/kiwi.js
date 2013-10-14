@@ -108,7 +108,7 @@ class MujaSprite extends Kiwi.GameObjects.Sprite {
 
     constructor(state, texture, x,y,input=false) {
         super(state, texture, x, y, input);
-        this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
+        this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
     }
 
     physics: Kiwi.Components.ArcadePhysics;

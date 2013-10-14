@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\CameraManager.ts - Kiwi.js</title>
+    <title>IRenderer - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -332,184 +332,69 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\core\CameraManager.ts</h1>
+                        <h1>IRenderer Class</h1>
+<div class="box meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
-* 
-* @module Kiwi
-* 
-*/
+    
 
-module Kiwi {
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_renderers_CanvasRenderer.ts.html#l1"><code>src\renderers\CanvasRenderer.ts:1</code></a>
+        </div>
+    
 
-    /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager. 
-    * 
-    * @class CameraManager
-    * @constructor
-    * @param {Game} game
-    * @return {CameraManager} 
-    */
-    export class CameraManager {
-         
-        constructor(game: Kiwi.Game) {
-             
-            this._game = game;
-            this._cameras = [];
-            this._nextCameraID = 0;
-
-        }
-
-        /**
-        * Returns the type of this object
-        * @method objType
-        * @return {String} The type of this object
-        * @public
-        */
-        public objType():string {
-            return &quot;CameraManager&quot;;
-        }
-
-        /**
-		* The game this object belongs to
-        * @property _game
-        * @type Game
-        * @private
-    	*/
-        private _game: Kiwi.Game;
-         
-        /**
-		* A collection of cameras
-        * @property _cameras
-        * @type Camara[]
-        * @private
-    	*/
-        private _cameras: Kiwi.Camera[];
-
-        /**
-		* The id which will be used when next creating a camera
-        * @property _nextCameraID
-        * @type Number
-        * @private
-    	*/
-        private _nextCameraID: number;
-
-        /**
-		* The default camera that is on this manager.
-        * @property defaultCamera
-        * @type Camara
-        * @public
-    	*/
-        public defaultCamera: Kiwi.Camera;
-
-        /**
-		* Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
-        * @method boot
-        * @public
-    	*/
-        public boot() {
-
-            this.create(&quot;defaultCamera&quot;, 0, 0, this._game.stage.width, this._game.stage.height);
-            this.defaultCamera = this._cameras[0];
+    
         
-        }
-
-        /**
-        * Creates a new Camera and adds it to the collection of cameras.
-        * @param {String} name. The name of the new camera.
-        * @param {Number} x. The x position of the new camera.
-        * @param {Number} y. The y position of the new camera.
-        * @param {Number} width. The width of the new camera.
-        * @param {Number} height. The height of the new camera.
-        * @return {Camera} The new camera object.
-        * @public
-        */
-        public create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera {
-            
-            var newCamera: Kiwi.Camera = new Kiwi.Camera(this._game, this._nextCameraID++,name,x,y,width,height);
-            
-            //newCamera.parent = state;
-
-            this._cameras.push(newCamera);
-
-            return newCamera;
-
-        }
-
-        /**
-		* Removes the given camera, if it is present in the camera managers camera collection.
-        * @method remove
-        * @param camera {Camera}
-        * @return {boolean} True if the camera was removed, false otherwise.
-        * @public
-    	*/
-        public remove(camera: Kiwi.Camera):boolean {
-             
-            var i = this._cameras.indexOf(camera); //what if it was the default one! :(
-
-            if (i !== -1) {
-                //  Send Layer a killed call
-                this._cameras.splice(i, 1);
-                return true;
-            }
-
-            return false;
-        }
-
-        /**
-		* Calls update on all the cameras.
-        * @method update
-        * @public
-    	*/
-        public update() {
-
-            if (this._cameras.length === 0) {
-                return false;
-            }
-
-            for (var i = 0; i &lt; this._cameras.length; i++) {
-                this._cameras[i].update();
-            }
+            Module: <a href="../modules/Renderers.html">Renderers</a><br>
+            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
-        }
+    
 
-        /**
-		* Calls the render method on all the cameras
-        * @method render
-        * @public
-    	*/
-        public render() {
-
-            if (this._cameras.length === 0) {
-                return false;
-            }
+    
+</div>
 
 
-            //render each camera
-            for (var i = 0; i &lt; this._cameras.length; i++) {
-                //render each layer
-                //this._game.layers.render(this._cameras[i]);
 
-                this._cameras[i].render();
-            }
+<div class="box intro">
+    <p>A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),
+which outlines the methods/properties that are required any Renderer.</p>
 
-        }
+</div>
 
-        /**
-		* Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
-        * @method removeAll - note should not remove default
-        * @public
-    	*/
-        public removeAll() {
-            this._cameras.length = 0; //are you sure.
-        }
 
-    }
-}
 
-    </pre>
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>

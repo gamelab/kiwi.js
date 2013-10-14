@@ -128,7 +128,7 @@ class Custom extends Kiwi.GameObjects.Sprite {
     
     constructor(state, texture, x, y) {
         super(state, texture, x, y);
-        this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
+        this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
     }
 
     public physics: Kiwi.Components.ArcadePhysics;

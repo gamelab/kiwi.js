@@ -151,6 +151,8 @@
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
             
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
                 <li><a href="../classes/Key.html">Key</a></li>
             
                 <li><a href="../classes/Keyboard.html">Keyboard</a></li>
@@ -455,8 +457,8 @@ module Kiwi.Input {
                 this.touch.touchUp.add(this._onUpEvent, this);
                 this._pointers = this.touch.fingers;
             } else {
-                this.mouse.mouseDown.add(this._onDownEvent, this);
-                this.mouse.mouseUp.add(this._onUpEvent, this);
+                this.mouse.onDown.add(this._onDownEvent, this);
+                this.mouse.onUp.add(this._onUpEvent, this);
                 this._pointers.push(this.mouse.cursor);
                 this.keyboard = new Kiwi.Input.Keyboard(this.game);
                 this.keyboard.boot();

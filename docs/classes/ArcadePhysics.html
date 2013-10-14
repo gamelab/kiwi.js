@@ -151,6 +151,8 @@
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
             
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
                 <li><a href="../classes/Key.html">Key</a></li>
             
                 <li><a href="../classes/Keyboard.html">Keyboard</a></li>
@@ -383,6 +385,12 @@ either groups or gameobjects within the same argument, the ported functions one 
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code>box</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -451,6 +459,21 @@ either groups or gameobjects within the same argument, the ported functions one 
                     
                 </li>
             
+                <li class="param">
+                    
+                        <code class="param-name">box</code>
+                        <span class="type"><a href="..\classes\Box.html" class="crosslink">Box</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
             </ul>
         </div>
     
@@ -499,6 +522,42 @@ either groups or gameobjects within the same argument, the ported functions one 
 
                     <ul class="index-list methods extends">
                         
+                            <li class="index-item method">
+                                <a href="#method_collide">collide</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_collideGroup">collideGroup</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_collideGroupGroup">collideGroupGroup</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_computeVelocity">computeVelocity</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public inherited">
                                 <a href="#method_destroy">destroy</a>
 
@@ -506,7 +565,7 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item method inherited">
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
@@ -517,6 +576,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 <a href="#method_overlaps">overlaps</a>
 
                                 
+                                    <span class="flag static">static</span>
+                                
                                 
                             </li>
                         
@@ -527,7 +588,32 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item method public">
+                                <a href="#method_overlaps">overlaps</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method">
+                                <a href="#method_overlapsGroup">overlapsGroup</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_overlapsObjectGroup">overlapsObjectGroup</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_parent">parent</a>
 
                                 
@@ -544,6 +630,33 @@ either groups or gameobjects within the same argument, the ported functions one 
                             <li class="index-item method public inherited">
                                 <a href="#method_preUpdate">preUpdate</a>
 
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_seperate">seperate</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_seperateX">seperateX</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_seperateY">seperateY</a>
+
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -569,6 +682,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item method public">
+                                <a href="#method_updateMotion">updateMotion</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -579,8 +699,29 @@ either groups or gameobjects within the same argument, the ported functions one 
 
                     <ul class="index-list properties extends">
                         
+                            <li class="index-item property private">
+                                <a href="#property__callbackContext">_callbackContext</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__callbackFunction">_callbackFunction</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property">
                                 <a href="#property__parent">_parent</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__solid">_solid</a>
 
                                 
                                 
@@ -600,6 +741,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item property public">
+                                <a href="#property_allowCollisions">allowCollisions</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property">
                                 <a href="#property_angle">angle</a>
 
@@ -607,14 +755,14 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_angularAcceleration">angularAcceleration</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_angularDrag">angularDrag</a>
 
                                 
@@ -630,6 +778,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                         
                             <li class="index-item property">
                                 <a href="#property_ANY">ANY</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_box">box</a>
 
                                 
                                 
@@ -685,14 +840,14 @@ either groups or gameobjects within the same argument, the ported functions one 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_height">height</a>
+                                <a href="#property_immovable">immovable</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_immovable">immovable</a>
+                            <li class="index-item property public">
+                                <a href="#property_last">last</a>
 
                                 
                                 
@@ -712,7 +867,7 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_maxAngular">maxAngular</a>
 
                                 
@@ -721,6 +876,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                         
                             <li class="index-item property">
                                 <a href="#property_maxVelocity">maxVelocity</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_moves">moves</a>
 
                                 
                                 
@@ -761,8 +923,15 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property public">
                                 <a href="#property_seperate">seperate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_touching">touching</a>
 
                                 
                                 
@@ -805,8 +974,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_width">width</a>
+                            <li class="index-item property public">
+                                <a href="#property_wasTouching">wasTouching</a>
 
                                 
                                 
@@ -826,7 +995,636 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_destroy" class="method item public inherited">
+                    <div id="method_collide" class="method item">
+    <h3 class="name"><code>collide</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gameObject1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>gameObject2</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[seperate=true]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l368"><code>src\components\ArcadePhysics.ts:368</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static method to check to see if two objects collide or not. Returns a boolean indicating whether they overlaped or not.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gameObject1</code>
+                        <span class="type">Kiwi.GameObjects.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The first game object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">gameObject2</code>
+                        <span class="type">Kiwi.GameObjects.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The second game object.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[seperate=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the two gameobjects should seperated when they collide.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_collideGroup" class="method item public">
+    <h3 class="name"><code>collideGroup</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gameObject</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>group</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[seperate=true]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l383"><code>src\components\ArcadePhysics.ts:383</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static method to check to see if a single entity collides with a group of entities. Returns a boolean indicating whether they overlaped or not.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gameObject</code>
+                        <span class="type">Kiwi.GameObjects.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">group</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>This could be either an Array of GameObjects or a Group containing members.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[seperate=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_collideGroupGroup" class="method item">
+    <h3 class="name"><code>collideGroupGroup</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>group1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>group2</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[seperate=true]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l399"><code>src\components\ArcadePhysics.ts:399</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static method to check to see if a group of entities overlap with another group of entities. Returns a boolean indicating whether they overlaped or not.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">group1</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>This can either be an array or a Group.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">group2</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Also could either be an array or a Group.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[seperate=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_computeVelocity" class="method item">
+    <h3 class="name"><code>computeVelocity</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>velocity</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[acceleration=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[drag=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[max=10000]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l701"><code>src\components\ArcadePhysics.ts:701</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Computes the velocity based on the parameters passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">velocity</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[acceleration=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[drag=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[max=10000]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>The new velocity</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_destroy" class="method item public">
     <h3 class="name"><code>destroy</code></h3>
 
     
@@ -851,13 +1649,16 @@ either groups or gameobjects within the same argument, the ported functions one 
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Component.html#method_destroy">
+                Component
+            </a>
             
-                <p>Inherited from
-                <a href="..\classes\Component.html#method_destroy">Component</a>:
+            but overwritten in
             
         
         
-        <a href="../files/src_core_Component.ts.html#l102"><code>src\core\Component.ts:102</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l889"><code>src\components\ArcadePhysics.ts:889</code></a>
         
         </p>
 
@@ -868,7 +1669,7 @@ either groups or gameobjects within the same argument, the ported functions one 
     </div>
 
     <div class="description">
-        <p>Destroys this component and all of the properties that exist on it.</p>
+        <p>Removes all properties that refer to other objects or outside of this class in order to flag this object for garbage collection.</p>
 
     </div>
 
@@ -880,7 +1681,7 @@ either groups or gameobjects within the same argument, the ported functions one 
 </div>
 
                 
-                    <div id="method_objType" class="method item">
+                    <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
     
@@ -895,6 +1696,8 @@ either groups or gameobjects within the same argument, the ported functions one 
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -916,7 +1719,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l87"><code>src\components\ArcadePhysics.ts:87</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l81"><code>src\components\ArcadePhysics.ts:81</code></a>
         
         </p>
 
@@ -960,13 +1763,19 @@ either groups or gameobjects within the same argument, the ported functions one 
             
                 <li class="arg">
                     
-                        <code>gameObject</code>
+                        <code>gameObject1</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>seperateObjects</code>
+                        <code>gameObject2</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[separateObjects=true]</code>
                     
                 </li>
             
@@ -987,6 +1796,8 @@ either groups or gameobjects within the same argument, the ported functions one 
     
 
     
+        <span class="flag static">static</span>
+    
 
     
 
@@ -1003,7 +1814,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l690"><code>src\components\ArcadePhysics.ts:690</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l414"><code>src\components\ArcadePhysics.ts:414</code></a>
         
         </p>
 
@@ -1014,7 +1825,7 @@ either groups or gameobjects within the same argument, the ported functions one 
     </div>
 
     <div class="description">
-        <p>A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.</p>
+        <p>A Static method to that checks to see if two objects overlap. Returns a boolean indicating whether they did or not.</p>
 
     </div>
 
@@ -1026,8 +1837,8 @@ either groups or gameobjects within the same argument, the ported functions one 
             
                 <li class="param">
                     
-                        <code class="param-name">gameObject</code>
-                        <span class="type">Kiwi.Entity</span>
+                        <code class="param-name">gameObject1</code>
+                        <span class="type">Kiwi.GameObjects.Entity</span>
                     
 
                     
@@ -1041,8 +1852,24 @@ either groups or gameobjects within the same argument, the ported functions one 
             
                 <li class="param">
                     
-                        <code class="param-name">seperateObjects</code>
+                        <code class="param-name">gameObject2</code>
+                        <span class="type">Kiwi.GameObjects.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[separateObjects=true]</code>
                         <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1091,7 +1918,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
                 <li class="arg">
                     
-                        <code>seperateObjects</code>
+                        <code class="optional">[seperateObjects=false]</code>
                     
                 </li>
             
@@ -1128,7 +1955,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l717"><code>src\components\ArcadePhysics.ts:717</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l736"><code>src\components\ArcadePhysics.ts:736</code></a>
         
         </p>
 
@@ -1139,7 +1966,7 @@ either groups or gameobjects within the same argument, the ported functions one 
     </div>
 
     <div class="description">
-        <p>A method to check to see if the parent of this physics component overlaps with another group of objects</p>
+        <p>A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.</p>
 
     </div>
 
@@ -1152,7 +1979,7 @@ either groups or gameobjects within the same argument, the ported functions one 
                 <li class="param">
                     
                         <code class="param-name">gameObject</code>
-                        <span class="type">Kiwi.Group</span>
+                        <span class="type">Kiwi.Entity</span>
                     
 
                     
@@ -1166,8 +1993,9 @@ either groups or gameobjects within the same argument, the ported functions one 
             
                 <li class="param">
                     
-                        <code class="param-name">seperateObjects</code>
+                        <code class="param-name optional">[seperateObjects=false]</code>
                         <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
@@ -1201,16 +2029,184 @@ either groups or gameobjects within the same argument, the ported functions one 
 </div>
 
                 
-                    <div id="method_parent" class="method item">
-    <h3 class="name"><code>parent</code></h3>
+                    <div id="method_overlaps" class="method item public">
+    <h3 class="name"><code>overlaps</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>group1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>group2</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[seperate=true]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
         <span class="returns-inline">
-            <span class="type">Kiwi.Entity</span>
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l452"><code>src\components\ArcadePhysics.ts:452</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static method that checks to see if any objects in a group overlap with objects in another group.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">group1</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">group2</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[seperate=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If they overlap should the seperate or not</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_overlapsGroup" class="method item">
+    <h3 class="name"><code>overlapsGroup</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>group</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[seperateObjects=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
         </span>
     
 
@@ -1237,7 +2233,271 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l810"><code>src\components\ArcadePhysics.ts:810</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l766"><code>src\components\ArcadePhysics.ts:766</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A method to check to see if the parent of this physics component overlaps with another group of objects</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">group</code>
+                        <span class="type">Kiwi.Group</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[seperateObjects=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_overlapsObjectGroup" class="method item public">
+    <h3 class="name"><code>overlapsObjectGroup</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gameObject</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>group</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[seperateObjects=true]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l435"><code>src\components\ArcadePhysics.ts:435</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A Static method to that checks to see if a single object overlaps with a group of entities. Returns a boolean indicating whether they did or not.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gameObject</code>
+                        <span class="type">Kiwi.GameObjects.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">group</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[seperateObjects=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If they overlap should the seperate or not</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_parent" class="method item public">
+    <h3 class="name"><code>parent</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Kiwi.Entity</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l858"><code>src\components\ArcadePhysics.ts:858</code></a>
         
         </p>
 
@@ -1380,6 +2640,393 @@ either groups or gameobjects within the same argument, the ported functions one 
 </div>
 
                 
+                    <div id="method_seperate" class="method item public">
+    <h3 class="name"><code>seperate</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>object1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>object2</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l494"><code>src\components\ArcadePhysics.ts:494</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A static method for seperating two objects. Both objects need to have physics, position and size components in order for this to work.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">object1</code>
+                        <span class="type">Kiwi.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">object2</code>
+                        <span class="type">Kiwi.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_seperateX" class="method item">
+    <h3 class="name"><code>seperateX</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>object1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>object2</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l511"><code>src\components\ArcadePhysics.ts:511</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The X-axis component of the object separation process.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">object1</code>
+                        <span class="type">Kiwi.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">object2</code>
+                        <span class="type">Kiwi.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether the objects in fact touched and were separated along the X axis.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_seperateY" class="method item">
+    <h3 class="name"><code>seperateY</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>object1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>object2</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l604"><code>src\components\ArcadePhysics.ts:604</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The Y-axis component of the object separation process.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">object1</code>
+                        <span class="type">Kiwi.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">object2</code>
+                        <span class="type">Kiwi.Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether the objects in fact touched and were separated along the Y axis.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_setCallback" class="method item">
     <h3 class="name"><code>setCallback</code></h3>
 
@@ -1428,7 +3075,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l796"><code>src\components\ArcadePhysics.ts:796</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l846"><code>src\components\ArcadePhysics.ts:846</code></a>
         
         </p>
 
@@ -1498,7 +3145,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
                 <li class="arg">
                     
-                        <code>value</code>
+                        <code class="optional">[value]</code>
                     
                 </li>
             
@@ -1535,7 +3182,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l322"><code>src\components\ArcadePhysics.ts:322</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l347"><code>src\components\ArcadePhysics.ts:347</code></a>
         
         </p>
 
@@ -1560,14 +3207,16 @@ to set the value of allowCollisions directly.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">value</code>
+                        <code class="param-name optional">[value]</code>
                         <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>If left empty, this will then just toggle between ANY and NONE.</p>
+
                     </div>
 
                     
@@ -1595,7 +3244,7 @@ to set the value of allowCollisions directly.</p>
 </div>
 
                 
-                    <div id="method_update" class="method item public inherited">
+                    <div id="method_update" class="method item public">
     <h3 class="name"><code>update</code></h3>
 
     
@@ -1620,13 +3269,16 @@ to set the value of allowCollisions directly.</p>
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Component.html#method_update">
+                Component
+            </a>
             
-                <p>Inherited from
-                <a href="..\classes\Component.html#method_update">Component</a>:
+            but overwritten in
             
         
         
-        <a href="../files/src_core_Component.ts.html#l88"><code>src\core\Component.ts:88</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l868"><code>src\components\ArcadePhysics.ts:868</code></a>
         
         </p>
 
@@ -1637,7 +3289,64 @@ to set the value of allowCollisions directly.</p>
     </div>
 
     <div class="description">
-        <p>If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.</p>
+        <p>The Update loop of the physics component</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_updateMotion" class="method item public">
+    <h3 class="name"><code>updateMotion</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l816"><code>src\components\ArcadePhysics.ts:816</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Updates the position of this object. Automatically called if the &#39;moves&#39; parameter is true.</p>
 
     </div>
 
@@ -1655,6 +3364,102 @@ to set the value of allowCollisions directly.</p>
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property__callbackContext" class="property item private">
+    <h3 class="name"><code>_callbackContext</code></h3>
+    <span class="type">Any</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l339"><code>src\components\ArcadePhysics.ts:339</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The context that the callback method should have when it executes.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__callbackFunction" class="property item private">
+    <h3 class="name"><code>_callbackFunction</code></h3>
+    <span class="type">Function</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l330"><code>src\components\ArcadePhysics.ts:330</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A function that is to execute when this object overlaps with another.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> null</p>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="property__parent" class="property item">
@@ -1680,7 +3485,7 @@ to set the value of allowCollisions directly.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l28"><code>src\components\ArcadePhysics.ts:28</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l59"><code>src\components\ArcadePhysics.ts:59</code></a>
         
         </p>
 
@@ -1691,6 +3496,53 @@ to set the value of allowCollisions directly.</p>
 
     <div class="description">
         <p>The Entity that this physics component belongs to.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__solid" class="property item private">
+    <h3 class="name"><code>_solid</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l322"><code>src\components\ArcadePhysics.ts:322</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A boolean to indicate if this object is solid or not.</p>
 
     </div>
 
@@ -1725,7 +3577,7 @@ to set the value of allowCollisions directly.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l206"><code>src\components\ArcadePhysics.ts:206</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l200"><code>src\components\ArcadePhysics.ts:200</code></a>
         
         </p>
 
@@ -1794,6 +3646,56 @@ Useful for smooth movement and gravity.</p>
 </div>
 
                 
+                    <div id="property_allowCollisions" class="property item public">
+    <h3 class="name"><code>allowCollisions</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l302"><code>src\components\ArcadePhysics.ts:302</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.
+Use bitwise operators to check the values stored here.
+Useful for things like one-way platforms (e.g. allowCollisions = UP;)
+The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_angle" class="property item">
     <h3 class="name"><code>angle</code></h3>
     <span class="type">Number</span>
@@ -1817,7 +3719,7 @@ Useful for smooth movement and gravity.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l230"><code>src\components\ArcadePhysics.ts:230</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l224"><code>src\components\ArcadePhysics.ts:224</code></a>
         
         </p>
 
@@ -1841,12 +3743,14 @@ performance for this sprite by a factor of 10x!</p>
 </div>
 
                 
-                    <div id="property_angularAcceleration" class="property item">
+                    <div id="property_angularAcceleration" class="property item public">
     <h3 class="name"><code>angularAcceleration</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1864,7 +3768,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l246"><code>src\components\ArcadePhysics.ts:246</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l240"><code>src\components\ArcadePhysics.ts:240</code></a>
         
         </p>
 
@@ -1886,12 +3790,14 @@ performance for this sprite by a factor of 10x!</p>
 </div>
 
                 
-                    <div id="property_angularDrag" class="property item">
+                    <div id="property_angularDrag" class="property item public">
     <h3 class="name"><code>angularDrag</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -1909,7 +3815,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l253"><code>src\components\ArcadePhysics.ts:253</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l248"><code>src\components\ArcadePhysics.ts:248</code></a>
         
         </p>
 
@@ -1954,7 +3860,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l239"><code>src\components\ArcadePhysics.ts:239</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l233"><code>src\components\ArcadePhysics.ts:233</code></a>
         
         </p>
 
@@ -1999,7 +3905,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l162"><code>src\components\ArcadePhysics.ts:162</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l156"><code>src\components\ArcadePhysics.ts:156</code></a>
         
         </p>
 
@@ -2010,6 +3916,53 @@ performance for this sprite by a factor of 10x!</p>
 
     <div class="description">
         <p>Special-case constant meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_box" class="property item public">
+    <h3 class="name"><code>box</code></h3>
+    <span class="type"><a href="..\classes\Box.html" class="crosslink">Box</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l73"><code>src\components\ArcadePhysics.ts:73</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The bounding box component that the collisions are going to be based off.</p>
 
     </div>
 
@@ -2044,7 +3997,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l141"><code>src\components\ArcadePhysics.ts:141</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l135"><code>src\components\ArcadePhysics.ts:135</code></a>
         
         </p>
 
@@ -2135,7 +4088,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l127"><code>src\components\ArcadePhysics.ts:127</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l121"><code>src\components\ArcadePhysics.ts:121</code></a>
         
         </p>
 
@@ -2180,7 +4133,7 @@ performance for this sprite by a factor of 10x!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l214"><code>src\components\ArcadePhysics.ts:214</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l208"><code>src\components\ArcadePhysics.ts:208</code></a>
         
         </p>
 
@@ -2226,7 +4179,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l199"><code>src\components\ArcadePhysics.ts:199</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l193"><code>src\components\ArcadePhysics.ts:193</code></a>
         
         </p>
 
@@ -2271,7 +4224,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l148"><code>src\components\ArcadePhysics.ts:148</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l142"><code>src\components\ArcadePhysics.ts:142</code></a>
         
         </p>
 
@@ -2337,51 +4290,6 @@ when acceleration is not affecting the sprite.</p>
 </div>
 
                 
-                    <div id="property_height" class="property item">
-    <h3 class="name"><code>height</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l49"><code>src\components\ArcadePhysics.ts:49</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The height that this physics component uses.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="property_immovable" class="property item">
     <h3 class="name"><code>immovable</code></h3>
     <span class="type">Boolean</span>
@@ -2405,7 +4313,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l176"><code>src\components\ArcadePhysics.ts:176</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l170"><code>src\components\ArcadePhysics.ts:170</code></a>
         
         </p>
 
@@ -2416,6 +4324,54 @@ when acceleration is not affecting the sprite.</p>
 
     <div class="description">
         <p>Whether an object will move/alter position after a collision.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_last" class="property item public">
+    <h3 class="name"><code>last</code></h3>
+    <span class="type">Kiwi.Geom.Point</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l313"><code>src\components\ArcadePhysics.ts:313</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Important variable for collision processing.
+By default this value is set automatically during <code>preUpdate()</code>.</p>
 
     </div>
 
@@ -2450,7 +4406,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l106"><code>src\components\ArcadePhysics.ts:106</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l100"><code>src\components\ArcadePhysics.ts:100</code></a>
         
         </p>
 
@@ -2495,7 +4451,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l190"><code>src\components\ArcadePhysics.ts:190</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l184"><code>src\components\ArcadePhysics.ts:184</code></a>
         
         </p>
 
@@ -2519,12 +4475,14 @@ Change at your own risk; effects seem crazy unpredictable so far!</p>
 </div>
 
                 
-                    <div id="property_maxAngular" class="property item">
+                    <div id="property_maxAngular" class="property item public">
     <h3 class="name"><code>maxAngular</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2542,7 +4500,7 @@ Change at your own risk; effects seem crazy unpredictable so far!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l260"><code>src\components\ArcadePhysics.ts:260</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l256"><code>src\components\ArcadePhysics.ts:256</code></a>
         
         </p>
 
@@ -2587,7 +4545,7 @@ Change at your own risk; effects seem crazy unpredictable so far!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l222"><code>src\components\ArcadePhysics.ts:222</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l216"><code>src\components\ArcadePhysics.ts:216</code></a>
         
         </p>
 
@@ -2602,6 +4560,55 @@ to cap the speed automatically (very useful!).</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_moves" class="property item public">
+    <h3 class="name"><code>moves</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l264"><code>src\components\ArcadePhysics.ts:264</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the Entity that this component is a part of &#39;moves&#39; or not, and thus if the physics should update the motion should update each frame.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -2677,7 +4684,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l134"><code>src\components\ArcadePhysics.ts:134</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l128"><code>src\components\ArcadePhysics.ts:128</code></a>
         
         </p>
 
@@ -2722,7 +4729,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l169"><code>src\components\ArcadePhysics.ts:169</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l163"><code>src\components\ArcadePhysics.ts:163</code></a>
         
         </p>
 
@@ -2811,7 +4818,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l113"><code>src\components\ArcadePhysics.ts:113</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l107"><code>src\components\ArcadePhysics.ts:107</code></a>
         
         </p>
 
@@ -2833,12 +4840,14 @@ to cap the speed automatically (very useful!).</p>
 </div>
 
                 
-                    <div id="property_seperate" class="property item">
+                    <div id="property_seperate" class="property item public">
     <h3 class="name"><code>seperate</code></h3>
     <span class="type">Boolean</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -2856,7 +4865,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l269"><code>src\components\ArcadePhysics.ts:269</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l273"><code>src\components\ArcadePhysics.ts:273</code></a>
         
         </p>
 
@@ -2866,7 +4875,58 @@ to cap the speed automatically (very useful!).</p>
     </div>
 
     <div class="description">
-        <p>If the object should be seperated.</p>
+        <p>If the object should seperate when it &#39;collides&#39; with another object.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_touching" class="property item public">
+    <h3 class="name"><code>touching</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l282"><code>src\components\ArcadePhysics.ts:282</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
+Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
+You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
 
     </div>
 
@@ -2901,7 +4961,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l35"><code>src\components\ArcadePhysics.ts:35</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l66"><code>src\components\ArcadePhysics.ts:66</code></a>
         
         </p>
 
@@ -2946,7 +5006,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l120"><code>src\components\ArcadePhysics.ts:120</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l114"><code>src\components\ArcadePhysics.ts:114</code></a>
         
         </p>
 
@@ -2993,7 +5053,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l97"><code>src\components\ArcadePhysics.ts:97</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l91"><code>src\components\ArcadePhysics.ts:91</code></a>
         
         </p>
 
@@ -3040,7 +5100,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l183"><code>src\components\ArcadePhysics.ts:183</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l177"><code>src\components\ArcadePhysics.ts:177</code></a>
         
         </p>
 
@@ -3085,7 +5145,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l155"><code>src\components\ArcadePhysics.ts:155</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l149"><code>src\components\ArcadePhysics.ts:149</code></a>
         
         </p>
 
@@ -3107,12 +5167,14 @@ to cap the speed automatically (very useful!).</p>
 </div>
 
                 
-                    <div id="property_width" class="property item">
-    <h3 class="name"><code>width</code></h3>
+                    <div id="property_wasTouching" class="property item public">
+    <h3 class="name"><code>wasTouching</code></h3>
     <span class="type">Number</span>
 
     
 
+    
+        <span class="flag public">public</span>
     
 
     
@@ -3130,7 +5192,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l42"><code>src\components\ArcadePhysics.ts:42</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l292"><code>src\components\ArcadePhysics.ts:292</code></a>
         
         </p>
 
@@ -3140,7 +5202,9 @@ to cap the speed automatically (very useful!).</p>
     </div>
 
     <div class="description">
-        <p>The width component that this physics component uses.</p>
+        <p>Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.
+Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
+You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
 
     </div>
 

@@ -151,7 +151,7 @@ class SpecialStatic extends Kiwi.GameObjects.StaticImage {
 
     constructor(state, texture, x, y) {
         super(state, texture, x, y);
-        this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
+        this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
         this.physics.moves = true;
     }
 
@@ -167,7 +167,7 @@ class SpecialSprite extends Kiwi.GameObjects.Sprite {
 
     constructor(state, texture, x, y) {
         super(state, texture, x, y);
-        this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
+        this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
         this.physics.moves = true;
         this.physics.acceleration.y = 6;
     }

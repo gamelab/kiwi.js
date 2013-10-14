@@ -257,7 +257,7 @@ module Kiwi.Geom {
         * @public
         */
         public intersectLineLine(line): any {
-            //return Kiwi.Geom.intersectLineLine(this,line);
+            return Kiwi.Geom.Intersect.lineToLine(this,line);
         }
 
         /**

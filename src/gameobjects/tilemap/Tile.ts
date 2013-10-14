@@ -33,7 +33,7 @@ module Kiwi.GameObjects.Tilemap {
             this.tileLayer = tileLayer;
 
             this.box = this.components.add(new Kiwi.Components.Box(this, this.x, this.y, this.width, this.height));
-            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this));
+            this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
 
             this.tileUpdate(tileType);
         }

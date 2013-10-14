@@ -151,6 +151,8 @@
             
                 <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
             
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
                 <li><a href="../classes/Key.html">Key</a></li>
             
                 <li><a href="../classes/Keyboard.html">Keyboard</a></li>
@@ -643,7 +645,7 @@ module Kiwi.GameObjects {
 	    */
         public render(camera:Kiwi.Camera) {
             
-            if (this.alpha &gt; 0 &amp;&amp; this.visiblity) {
+            if (this.alpha &gt; 0 &amp;&amp; this.visibility) {
 
                 //render on stage
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
