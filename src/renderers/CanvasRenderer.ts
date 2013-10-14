@@ -107,6 +107,12 @@ module Kiwi.Renderers {
             
             this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
+            //apply camera transform
+            var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
+            var ct: Kiwi.Geom.Transform = camera.transform;
+
+            this._game.stage.ctx.setTransform(cm.a,cm.b,cm.c,cm.d,cm.tx,cm.ty);
+
             for (var i = 0; i < root.length; i++) {
                 this._recurse(root[i]);
             }

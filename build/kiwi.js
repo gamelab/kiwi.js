@@ -4988,10 +4988,6 @@ var Kiwi;
                     }
                     this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
                 }
-
-                this.onPlay = new Kiwi.Signal();
-                this.onStop = new Kiwi.Signal();
-                this.onUpdate = new Kiwi.Signal();
             }
             Object.defineProperty(AnimationManager.prototype, "isPlaying", {
                 get: /**
@@ -9376,7 +9372,6 @@ var Kiwi;
 
                 if (this.alpha > 0 && this.visibility) {
                     var ctx = this.game.stage.ctx;
-                    ctx.save();
 
                     if (this.alpha > 0 && this.alpha <= 1) {
                         ctx.globalAlpha = this.alpha;
@@ -9386,13 +9381,13 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
                     //ctx.fillStyle = "green";
                     //ctx.fillRect(-2, -2, 5, 5);
                     var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
-                    ctx.restore();
                 }
             };
             return Sprite;
@@ -20901,6 +20896,12 @@ var Kiwi;
 
                 this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
 
+                //apply camera transform
+                var cm = camera.transform.getConcatenatedMatrix();
+                var ct = camera.transform;
+
+                this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx, cm.ty);
+
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(root[i]);
                 }
@@ -21067,9 +21068,9 @@ var Kiwi;
                 gl.clearColor(0, 0, 0, 0);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
-                //set cam matrix uniform
                 var prog = this._shaders.texture2DProg;
 
+                //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
                 this.mvMatrix = new Float32Array([

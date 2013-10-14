@@ -33,6 +33,7 @@
     <Content Include="Audio\MachineGunDeath.js">
       <DependentUpon>MachineGunDeath.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Camera\Camera.ts" />
     <Content Include="Hud\AmmoOut.js">
       <DependentUpon>AmmoOut.ts</DependentUpon>
     </Content>

@@ -255,9 +255,9 @@ module Kiwi.Renderers {
             gl.clearColor(0, 0, 0, 0);
             gl.clear(gl.COLOR_BUFFER_BIT);
 
-            //set cam matrix uniform
+            
             var prog = this._shaders.texture2DProg;
-
+            //set cam matrix uniform
             var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
             var ct: Kiwi.Geom.Transform = camera.transform;
             this.mvMatrix = new Float32Array([
