@@ -3944,7 +3944,8 @@ var Kiwi;
         };
 
         /**
-        * The post update loop is executed every frame after the update method. When overriding make sure you include a super call.
+        * The post update loop is executed every frame after the update method.
+        * When overriding make sure you include a super call at the end of the method.
         * @method postUpdate
         * @public
         */
@@ -8934,6 +8935,14 @@ var Kiwi;
             * @public
             */
             this.current = null;
+            /**
+            * The name of the new state that is to be switched to.
+            * @property _newStateKey
+            * @type string
+            * @defualt null
+            * @private
+            */
+            this._newStateKey = null;
             this._game = game;
 
             this._states = [];
@@ -9044,17 +9053,27 @@ var Kiwi;
         };
 
         /**
-        * Switches to the name of the state that you pass. Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
+        * Switches to the name (key) of the state that you pass. Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
         * @method setCurrentState
         * @param {String} key
         * @return {boolean}
         * @private
         */
         StateManager.prototype.setCurrentState = function (key) {
-            if (this.current !== null && this.current.config.name === key) {
+            if (this.current !== null && this.current.config.name === key || this.checkKeyExists(key) === false) {
                 return false;
             }
 
+            this._newStateKey = key;
+            return true;
+        };
+
+        /**
+        * Actually switches to a state that is stored in the 'newStateKey' property. This method is executed after the update loops have been executed to help prevent developer errors.
+        * @method bootNewState
+        * @private
+        */
+        StateManager.prototype.bootNewState = function () {
             if (this.current !== null) {
                 //  Yes, so notify it that it's about to be shut down
                 //  If there is a shutdown function then we call it, passing it a callback.
@@ -9064,31 +9083,27 @@ var Kiwi;
                 this.current.destroy();
             }
 
-            if (this.checkKeyExists(key) === true) {
-                this.current = this.getState(key);
+            this.current = this.getState(this._newStateKey);
 
-                if (this._game.stage.domReady === true) {
-                    if (this.current.config.isInitialised === false) {
-                        this.current.boot();
+            if (this._game.stage.domReady === true) {
+                if (this.current.config.isInitialised === false) {
+                    this.current.boot();
 
-                        if (this.current.config.hasInit === true) {
-                            if (this.current.config.initParams) {
-                                this.current.init.apply(this.current, this.current.config.initParams);
-                            } else {
-                                this.current.init.call(this.current);
-                            }
+                    if (this.current.config.hasInit === true) {
+                        if (this.current.config.initParams) {
+                            this.current.init.apply(this.current, this.current.config.initParams);
+                        } else {
+                            this.current.init.call(this.current);
                         }
-
-                        this.current.config.isInitialised = true;
                     }
 
-                    this.checkPreload();
+                    this.current.config.isInitialised = true;
                 }
 
-                return true;
-            } else {
-                return false;
+                this.checkPreload();
             }
+
+            this._newStateKey = null;
         };
 
         /**
@@ -9262,6 +9277,10 @@ var Kiwi;
                 } else {
                     this.current.loadUpdate();
                 }
+            }
+
+            if (this._newStateKey !== null) {
+                this.bootNewState();
             }
         };
 
