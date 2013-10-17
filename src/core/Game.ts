@@ -106,7 +106,7 @@ module Kiwi {
            
             this.cameras = new Kiwi.CameraManager(this);
 
-            this.huds = new Kiwi.HUD.HUDManager(this);
+            if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds = new Kiwi.HUD.HUDManager(this);
             this.loader = new Kiwi.Files.Loader(this);
             
             this.states = new Kiwi.StateManager(this);
@@ -406,7 +406,7 @@ module Kiwi {
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
-            this.huds.boot();
+            if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds.boot();
             
             this.time.boot();
             this.input.boot();
@@ -438,7 +438,7 @@ module Kiwi {
                 this.input.update();
                 this.tweens.update();
                 this.cameras.update();
-                this.huds.update();
+                if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds.update();
                 
                 this.states.update();
                 

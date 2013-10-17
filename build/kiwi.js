@@ -2676,7 +2676,8 @@ var Kiwi;
 
             this.cameras = new Kiwi.CameraManager(this);
 
-            this.huds = new Kiwi.HUD.HUDManager(this);
+            if (this._deviceTargetOption !== Kiwi.TARGET_COCOON)
+                this.huds = new Kiwi.HUD.HUDManager(this);
             this.loader = new Kiwi.Files.Loader(this);
 
             this.states = new Kiwi.StateManager(this);
@@ -2804,7 +2805,8 @@ var Kiwi;
             this.stage.boot(this._startup);
             this.renderer.boot();
             this.cameras.boot();
-            this.huds.boot();
+            if (this._deviceTargetOption !== Kiwi.TARGET_COCOON)
+                this.huds.boot();
 
             this.time.boot();
             this.input.boot();
@@ -2836,7 +2838,8 @@ var Kiwi;
                 this.input.update();
                 this.tweens.update();
                 this.cameras.update();
-                this.huds.update();
+                if (this._deviceTargetOption !== Kiwi.TARGET_COCOON)
+                    this.huds.update();
 
                 this.states.update();
 
@@ -4858,7 +4861,12 @@ var Kiwi;
         * @private
         */
         Stage.prototype._createCompositeCanvas = function () {
-            this.canvas = document.createElement("canvas");
+            if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                this.canvas = document.createElement(navigator['isCocoonJS'] ? 'screencanvas' : 'canvas');
+            } else {
+                this.canvas = document.createElement("canvas");
+            }
+
             this.canvas.id = this._game.id + "compositeCanvas";
             this.canvas.style.position = "absolute";
             this.canvas.width = this.width;
