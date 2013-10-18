@@ -61,6 +61,15 @@ module Kiwi {
         public current: Kiwi.State = null;
 
         /**
+        * The name of the new state that is to be switched to.
+        * @property _newStateKey
+        * @type string
+        * @defualt null
+        * @private
+        */
+        private _newStateKey: string = null;
+
+        /**
         * Checks to see if a key exists. Internal use only.
         * @method checkKeyExists
         * @param key {String}
@@ -184,7 +193,7 @@ module Kiwi {
         }
 
         /**
-        * Switches to the name of the state that you pass. Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
+        * Switches to the name (key) of the state that you pass. Does not work if the state you are switching to is already the current state OR if that state does not exist yet.
         * @method setCurrentState
         * @param {String} key
         * @return {boolean}
@@ -193,63 +202,61 @@ module Kiwi {
         private setCurrentState(key: string): boolean {
 
             //  Bail out if they are trying to switch to the already current state
-            if (this.current !== null && this.current.config.name === key)
-            {
+            if (this.current !== null && this.current.config.name === key || this.checkKeyExists(key) === false) {
                 return false;
             }
+            
+            this._newStateKey = key;
+            return true;
+        }
 
-            //  First check if we have a current state or not
-            if (this.current !== null)
-            {
+        /**
+        * Actually switches to a state that is stored in the 'newStateKey' property. This method is executed after the update loops have been executed to help prevent developer errors. 
+        * @method bootNewState
+        * @private
+        */
+        private bootNewState() {
+            
+            // First check if we have a current state or not. Destroy the previous state
+            if (this.current !== null) {
                 //  Yes, so notify it that it's about to be shut down
                 //  If there is a shutdown function then we call it, passing it a callback.
                 //  The State is then responsible for hitting the callback when it is ready.
                 //  TODO: Transition support - both state updates need to be called at the same time.
                 this._game.input.reset();
                 this.current.destroy();
-            }
+                
+            } 
 
+            this.current = this.getState(this._newStateKey);
 
-            //  Assume by this point that the current state has been destroyed (in reality we'll move this part to a callback probably)
-
-            if (this.checkKeyExists(key) === true)
+            //  Do we need to init it?
+            if (this._game.stage.domReady === true)
             {
-                this.current = this.getState(key);
-
-                //  Do we need to init it?
-                if (this._game.stage.domReady === true)
+                if (this.current.config.isInitialised === false)
                 {
-                    if (this.current.config.isInitialised === false)
+                    this.current.boot();
+
+                    if (this.current.config.hasInit === true)
                     {
-                        this.current.boot();
-
-                        if (this.current.config.hasInit === true)
+                        if (this.current.config.initParams)
                         {
-                            if (this.current.config.initParams)
-                            {
-                                this.current.init.apply(this.current, this.current.config.initParams);
-                            }
-                            else
-                            {
-                                this.current.init.call(this.current);
-                            }
+                            this.current.init.apply(this.current, this.current.config.initParams);
                         }
-
-                        this.current.config.isInitialised = true;
+                        else
+                        {
+                            this.current.init.call(this.current);
+                        }
                     }
 
-                    this.checkPreload();
-
+                    this.current.config.isInitialised = true;
                 }
-             
-                return true;
+
+                this.checkPreload();
 
             }
-            else
-            {
-                return false;
-            }
-
+            
+            this._newStateKey = null;
         }
 
         /**
@@ -268,8 +275,7 @@ module Kiwi {
         public switchState(key: string, state: any = null, initParams = null, createParams = null): boolean {
 
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
-            if (this.current !== null && this.current.config.isReady === false)
-            {
+            if (this.current !== null && this.current.config.isReady === false) {
                 return false;
             }
 
@@ -461,6 +467,10 @@ module Kiwi {
                 {
                     this.current.loadUpdate();
                 }
+            }
+
+            if (this._newStateKey !== null) {
+                this.bootNewState();
             }
 
         }

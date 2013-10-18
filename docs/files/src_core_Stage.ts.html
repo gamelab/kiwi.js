@@ -662,7 +662,16 @@ module Kiwi {
         * @private
         */
         private _createCompositeCanvas() {
-            this.canvas = &lt;HTMLCanvasElement&gt;document.createElement(&quot;canvas&quot;);
+            
+            //If we are using cocoon then create a accelerated screen canvas
+            if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                this.canvas = &lt;HTMLCanvasElement&gt;document.createElement(navigator[&#x27;isCocoonJS&#x27;] ? &#x27;screencanvas&#x27; : &#x27;canvas&#x27;);
+            
+            //otherwise default to normal canvas
+            } else {
+                this.canvas = &lt;HTMLCanvasElement&gt;document.createElement(&quot;canvas&quot;);
+            }
+
             this.canvas.id = this._game.id + &quot;compositeCanvas&quot;;
             this.canvas.style.position = &quot;absolute&quot;;
             this.canvas.width = this.width;
