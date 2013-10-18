@@ -33,7 +33,6 @@
     <Content Include="Audio\MachineGunDeath.js">
       <DependentUpon>MachineGunDeath.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Camera\Camera.ts" />
     <Content Include="Hud\AmmoOut.js">
       <DependentUpon>AmmoOut.ts</DependentUpon>
     </Content>
@@ -42,6 +41,10 @@
     </Content>
     <Content Include="Hud\ScoreWidget.js">
       <DependentUpon>SpotTheNinja.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Introduction\ExtendSprite.ts" />
+    <Content Include="Introduction\ExtendSprite.js">
+      <DependentUpon>ExtendSprite.ts</DependentUpon>
     </Content>
     <Content Include="Tilemaps\Generation.js">
       <DependentUpon>Generation.ts</DependentUpon>

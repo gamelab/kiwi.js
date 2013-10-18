@@ -142,12 +142,13 @@ module Kiwi.GameObjects {
                 //get entity/view matrix
                 var t: Kiwi.Geom.Transform = this.transform;
                 var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-               
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-
-                //ctx.fillStyle = "green";
-                //ctx.fillRect(-2, -2, 5, 5);
                 
+                var ct: Kiwi.Geom.Transform = camera.transform;
+
+                //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+
+                             
                 var cell = this.atlas.cells[this.cellIndex];
                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                 ctx.restore();

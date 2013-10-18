@@ -9372,6 +9372,7 @@ var Kiwi;
 
                 if (this.alpha > 0 && this.visibility) {
                     var ctx = this.game.stage.ctx;
+                    ctx.save();
 
                     if (this.alpha > 0 && this.alpha <= 1) {
                         ctx.globalAlpha = this.alpha;
@@ -9381,13 +9382,14 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    var ct = camera.transform;
 
-                    //ctx.fillStyle = "green";
-                    //ctx.fillRect(-2, -2, 5, 5);
+                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+
                     var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
+                    ctx.restore();
                 }
             };
             return Sprite;
@@ -9465,10 +9467,11 @@ var Kiwi;
                     var t = this.transform;
                     var m = t.getConcatenatedMatrix();
 
-                    ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    var ct = camera.transform;
 
-                    //ctx.fillStyle = "green";
-                    //ctx.fillRect(-2, -2, 5, 5);
+                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+
                     var cell = this.atlas.cells[this.cellIndex];
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                     ctx.restore();
@@ -20900,11 +20903,13 @@ var Kiwi;
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
 
-                this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx, cm.ty);
+                this._game.stage.ctx.save();
+                this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx + ct.rotPointX, cm.ty + ct.rotPointY);
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(root[i]);
                 }
+                this._game.stage.ctx.restore();
             };
             return CanvasRenderer;
         })();
@@ -26624,4 +26629,15 @@ var Kiwi;
         return GameManager;
     })();
     Kiwi.GameManager = GameManager;
+
+    Kiwi.extend = function (d, b) {
+        for (var p in b)
+            if (b.hasOwnProperty(p))
+                d[p] = b[p];
+        function __() {
+            this.constructor = d;
+        }
+        __.prototype = b.prototype;
+        d.prototype = new __();
+    };
 })(Kiwi || (Kiwi = {}));
