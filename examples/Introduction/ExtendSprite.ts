@@ -9,7 +9,7 @@
 * - Scale/Rotate
 **/
 
-class Camera extends Kiwi.State {
+class ExtendSprite extends Kiwi.State {
 
     constructor() {
         super('Sprite');
@@ -21,7 +21,7 @@ class Camera extends Kiwi.State {
     }
     
     //where the pirate is saved.
-    pirate: Kiwi.GameObjects.Sprite;
+    pirate: Pirate;
 
     create() {
 
@@ -36,13 +36,20 @@ class Camera extends Kiwi.State {
         * Note: Don't worry if you have told a sprite that you don't want to use the input. It can always be created later.
         **/
 
-        this.pirate = new Kiwi.GameObjects.Sprite(this, this.textures.pirate, 100, 300);              //create the pirate
+        this.pirate = new Pirate (this, this.textures.pirate, 100, 300);              //create the pirate
         this.addChild(this.pirate);                                                                   //add it to the state                    
 
     }
 
-    update() {
-        this.game.cameras.defaultCamera.transform.x++;
+}
+
+class Pirate extends Kiwi.GameObjects.Sprite {
+
+    constructor(state:Kiwi.State,atlas:Kiwi.Textures.TextureAtlas,x:number = 0,y:number = 0,enableInput:boolean = false) {
+        super(state, atlas, x, y, enableInput);
     }
+
+
+
 
 }
