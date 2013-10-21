@@ -23,12 +23,13 @@
   <ItemGroup>
     <Content Include="components\Box.ts" />
     <Content Include="core\Game.ts" />
-    <Content Include="animation\Anim.ts" />
+    <Content Include="animations\Animation.ts" />
     <Content Include="file\DataLibrary.ts" />
     <Content Include="file\File.ts" />
     <Content Include="file\FileStore.ts" />
     <Content Include="file\Loader.ts" />
     <Content Include="gl-matrix-min.js" />
+    <Content Include="hud\components\Time.ts" />
     <Content Include="input\MouseCursor.ts" />
     <Content Include="input\Pointer.ts" />
     <Content Include="renderers\GLArrayBuffer.ts" />
@@ -39,7 +40,7 @@
     <Content Include="renderers\WebGL.d.ts" />
     <Content Include="sound\AudioLibrary.ts" />
     <Content Include="textures\TextureAtlas.ts" />
-    <Content Include="animation\Sequence.ts" />
+    <Content Include="animations\Sequence.ts" />
     <Content Include="textures\SingleImage.ts" />
     <Content Include="textures\SpriteSheet.ts" />
     <Content Include="sound\AudioManager.ts" />
@@ -47,7 +48,7 @@
     <Content Include="components\Sound.ts" />
     <Content Include="components\ArcadePhysics.ts" />
     <Content Include="textures\TextureLibrary.ts" />
-    <Content Include="components\Animation.ts" />
+    <Content Include="components\AnimationManager.ts" />
     <Content Include="components\Input.ts" />
     <Content Include="core\Component.ts" />
     <Content Include="core\CameraManager.ts" />
@@ -73,12 +74,12 @@
     <Content Include="gameobjects\tilemap\Tile.ts" />
     <Content Include="gameobjects\tilemap\TileType.ts" />
     <Content Include="gameobjects\tilemap\TileMap.ts" />
-    <Content Include="gameobjects\tilemap\TIleMapLayer.ts" />
+    <Content Include="gameobjects\tilemap\TileMapLayer.ts" />
     <Content Include="geom\Line.ts" />
     <Content Include="geom\IntersectResult.ts" />
     <Content Include="geom\Intersect.ts" />
     <Content Include="input\Mouse.ts" />
-    <Content Include="input\Manager.ts" />
+    <Content Include="input\InputManager.ts" />
     <Content Include="input\Finger.ts" />
     <Content Include="geom\Matrix.ts" />
     <Content Include="geom\Transform.ts" />
@@ -86,8 +87,6 @@
     <Content Include="geom\Ray.ts" />
     <Content Include="hud\components\Counter.ts" />
     <Content Include="hud\components\WidgetInput.ts" />
-    <Content Include="hud\components\Range.ts" />
-    <Content Include="hud\components\Time.ts" />
     <Content Include="hud\HUDDisplay.ts" />
     <Content Include="hud\HUDManager.ts" />
     <Content Include="hud\HUDWidget.ts" />
@@ -95,7 +94,7 @@
     <Content Include="hud\widgets\BasicScore.ts" />
     <Content Include="hud\widgets\Icon.ts" />
     <Content Include="hud\widgets\Button.ts" />
-    <Content Include="hud\widgets\IconCounter.ts" />
+    <Content Include="hud\widgets\IconBar.ts" />
     <Content Include="hud\widgets\Menu.ts" />
     <Content Include="hud\widgets\MenuItem.ts" />
     <Content Include="hud\widgets\TextField.ts" />
@@ -104,7 +103,6 @@
     <Content Include="input\Keyboard.ts" />
     <Content Include="input\Keycodes.ts" />
     <Content Include="input\Touch.ts" />
-    <Content Include="kiwi.d.ts" />
     <Content Include="Kiwi.js">
       <DependentUpon>Kiwi.ts</DependentUpon>
     </Content>
@@ -117,23 +115,23 @@
     <Content Include="time\Clock.ts" />
     <Content Include="plugins\gamefroot\TileMapConverter.ts" />
     <Content Include="renderers\CanvasRenderer.ts" />
-    <Content Include="time\Manager.ts" />
+    <Content Include="time\ClockManager.ts" />
     <Content Include="time\MasterClock.ts" />
     <Content Include="time\Timer.ts" />
     <Content Include="time\TimerEvent.ts" />
-    <Content Include="animation\tweens\easing\Back.ts" />
-    <Content Include="animation\tweens\easing\Bounce.ts" />
-    <Content Include="animation\tweens\easing\Circular.ts" />
-    <Content Include="animation\tweens\easing\Cubic.ts" />
-    <Content Include="animation\tweens\easing\Elastic.ts" />
-    <Content Include="animation\tweens\easing\Exponential.ts" />
-    <Content Include="animation\tweens\easing\Linear.ts" />
-    <Content Include="animation\tweens\easing\Quadratic.ts" />
-    <Content Include="animation\tweens\easing\Quartic.ts" />
-    <Content Include="animation\tweens\easing\Quintic.ts" />
-    <Content Include="animation\tweens\easing\Sinusoidal.ts" />
-    <Content Include="animation\tweens\Manager.ts" />
-    <Content Include="animation\tweens\Tween.ts" />
+    <Content Include="animations\tweens\easing\Back.ts" />
+    <Content Include="animations\tweens\easing\Bounce.ts" />
+    <Content Include="animations\tweens\easing\Circular.ts" />
+    <Content Include="animations\tweens\easing\Cubic.ts" />
+    <Content Include="animations\tweens\easing\Elastic.ts" />
+    <Content Include="animations\tweens\easing\Exponential.ts" />
+    <Content Include="animations\tweens\easing\Linear.ts" />
+    <Content Include="animations\tweens\easing\Quadratic.ts" />
+    <Content Include="animations\tweens\easing\Quartic.ts" />
+    <Content Include="animations\tweens\easing\Quintic.ts" />
+    <Content Include="animations\tweens\easing\Sinusoidal.ts" />
+    <Content Include="animations\tweens\TweenManager.ts" />
+    <Content Include="animations\tweens\Tween.ts" />
     <Content Include="utils\GameMath.ts" />
     <Content Include="utils\Canvas.ts" />
     <Content Include="utils\Common.ts" />
@@ -156,7 +154,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>51267</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:54758/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
@@ -170,17 +168,19 @@
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
+    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vs8C7C.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsBBED.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
+    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
-    <IntermediateOutputPath>C:\Users\Benjamin\AppData\Local\Temp\vs8C7C.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsBBED.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>

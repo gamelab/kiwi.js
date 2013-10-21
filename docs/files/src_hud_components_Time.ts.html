@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\hud\components\Time.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.4.9</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AABB.html">AABB</a></li>
+            
+                <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
+            
+                <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Audio.html">Audio</a></li>
+            
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
+                <li><a href="../classes/AudioManager.html">AudioManager</a></li>
+            
+                <li><a href="../classes/Back.html">Back</a></li>
+            
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
+                <li><a href="../classes/BasicScore.html">BasicScore</a></li>
+            
+                <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
+            
+                <li><a href="../classes/Box.html">Box</a></li>
+            
+                <li><a href="../classes/Browser.html">Browser</a></li>
+            
+                <li><a href="../classes/Button.html">Button</a></li>
+            
+                <li><a href="../classes/Camera.html">Camera</a></li>
+            
+                <li><a href="../classes/CameraManager.html">CameraManager</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
+                <li><a href="../classes/Clock.html">Clock</a></li>
+            
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
+                <li><a href="../classes/Common.html">Common</a></li>
+            
+                <li><a href="../classes/Component.html">Component</a></li>
+            
+                <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
+            
+                <li><a href="../classes/Counter.html">Counter</a></li>
+            
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
+                <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
+            
+                <li><a href="../classes/Device.html">Device</a></li>
+            
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
+                <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
+            
+                <li><a href="../classes/File.html">File</a></li>
+            
+                <li><a href="../classes/FileStore.html">FileStore</a></li>
+            
+                <li><a href="../classes/Finger.html">Finger</a></li>
+            
+                <li><a href="../classes/Game.html">Game</a></li>
+            
+                <li><a href="../classes/GameManager.html">GameManager</a></li>
+            
+                <li><a href="../classes/GameMath.html">GameMath</a></li>
+            
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
+            
+                <li><a href="../classes/IChild.html">IChild</a></li>
+            
+                <li><a href="../classes/Icon.html">Icon</a></li>
+            
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
+            
+                <li><a href="../classes/Input.html">Input</a></li>
+            
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
+                <li><a href="../classes/Intersect.html">Intersect</a></li>
+            
+                <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
+                <li><a href="../classes/Key.html">Key</a></li>
+            
+                <li><a href="../classes/Keyboard.html">Keyboard</a></li>
+            
+                <li><a href="../classes/Keycodes.html">Keycodes</a></li>
+            
+                <li><a href="../classes/Line.html">Line</a></li>
+            
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
+                <li><a href="../classes/Loader.html">Loader</a></li>
+            
+                <li><a href="../classes/MasterClock.html">MasterClock</a></li>
+            
+                <li><a href="../classes/Matrix.html">Matrix</a></li>
+            
+                <li><a href="../classes/Menu.html">Menu</a></li>
+            
+                <li><a href="../classes/MenuItem.html">MenuItem</a></li>
+            
+                <li><a href="../classes/Mouse.html">Mouse</a></li>
+            
+                <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
+            
+                <li><a href="../classes/Point.html">Point</a></li>
+            
+                <li><a href="../classes/Pointer.html">Pointer</a></li>
+            
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
+                <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Ray.html">Ray</a></li>
+            
+                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+            
+                <li><a href="../classes/RequestAnimationFrame.html">RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Sequence.html">Sequence</a></li>
+            
+                <li><a href="../classes/Signal.html">Signal</a></li>
+            
+                <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
+            
+                <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
+            
+                <li><a href="../classes/Sound.html">Sound</a></li>
+            
+                <li><a href="../classes/Sprite.html">Sprite</a></li>
+            
+                <li><a href="../classes/SpriteSheet.html">SpriteSheet</a></li>
+            
+                <li><a href="../classes/Stage.html">Stage</a></li>
+            
+                <li><a href="../classes/State.html">State</a></li>
+            
+                <li><a href="../classes/StateConfig.html">StateConfig</a></li>
+            
+                <li><a href="../classes/StateManager.html">StateManager</a></li>
+            
+                <li><a href="../classes/StaticImage.html">StaticImage</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
+            
+                <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
+            
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
+                <li><a href="../classes/Time.html">Time</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
+                <li><a href="../classes/Touch.html">Touch</a></li>
+            
+                <li><a href="../classes/Transform.html">Transform</a></li>
+            
+                <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
+            
+                <li><a href="../classes/Vector2.html">Vector2</a></li>
+            
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Widget.html">Widget</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\hud\components\Time.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *	
+ * @module HUD
+ * @submodule HUDComponents
+ *
+*/
+
+module Kiwi.HUD.HUDComponents {
+
+    /**
+    * A Component to manage and display a Time in a particular format.
+    * The Time Component creates a new clock on the Time Manager and it use&#x27;s that clock to keep track of the time.
+    * When you create a new Time Component you can specify a format that you want the time to display in, which is a string based on keywords.
+    * Current supported keywords for the format are:
+    *  &#x27;s&#x27; = &#x27;seconds&#x27;
+    *  &#x27;m&#x27; = &#x27;minutes&#x27;
+    *  &#x27;ms&#x27; = milliseconds&#x27;
+    *  &#x27;ss&#x27; = &#x27;seconds with leading zero&#x27;
+    *  &#x27;mm&#x27; = &#x27;minutes with leading zero&#x27;
+    *
+    * @class Time
+    * @extends Component
+    * @constructor
+    * @param owner {any} The object that this component belongs to.
+    * @param [format=&#x27;&#x27;] {string} The format that the time is to be displayed in. Leave blank for the default time.
+    * @return {Counter}
+    */
+    export class Time extends Kiwi.Component {
+
+        constructor(owner:any, format:string=&#x27;&#x27;) {
+            super(owner, &quot;time&quot;); 
+            
+            this.clock = this.game.time.addClock(name + &#x27;-clock&#x27;, 1000);
+            this.format = format;
+
+        }
+
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string {
+            return &#x27;TimeComponent&#x27;;
+        }
+
+        /**
+        * The clock that this component creates and uses to manage the current time.
+        * @property clock
+        * @type Clock
+        * @private
+        */
+        public clock: Kiwi.Time.Clock;
+
+        /**
+        * Indicates whether or not the clock is currently running or not, and thus whether or not the time is playing or not.
+        * @property isRunning
+        * @type boolean
+        * @public
+        */
+        public get isRunning():boolean {
+            return this.clock.isRunning();
+        }
+
+        /**
+        * Pauses the clock where is stands. Calls the pause method on the clock.
+        * @method pause
+        * @public
+        */
+        public pause() {
+            this.clock.pause();
+        }
+
+        /**
+        * Stops the clock and thus the time. Calls the stop method of the clock.
+        * @method stop
+        * @public
+        */
+        public stop() {
+            this.clock.stop();
+        }
+
+        /**
+        * Starts the clock and thus the time. 
+        * @method start
+        * @public
+        */
+        public start() {
+            this.clock.start();
+            this._timeBefore = this.clock.elapsed();
+        }
+
+        /**
+        * Resumes the clock and thus the time.
+        * @method resume
+        * @public
+        */
+        public resume() {
+            this.clock.resume();
+        }
+
+        /**
+        * The format that they want the time to be displayed.
+        * @property _format
+        * @type string
+        * @private
+        */
+        private _format: string;
+
+        /**
+        * The format that you want the time to be displayed in.
+        * @property format
+        * @type string
+        * @public
+        */
+        public set format(val: string) {
+            this._format = val;
+        }
+        public get format(): string {
+            return this._format;
+        }
+
+        /**
+        * If the clock should &#x27;count down&#x27; instead of up.
+        * @property countDown
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public countDown: boolean = false;
+
+        /**
+        * Used during the formatting stage of displaying the time.
+        * @property _displayString
+        * @type string
+        * @private
+        */
+        private _displayString: string = &#x27;&#x27;;
+
+        /**
+        * The current time in seconds.
+        * @property _currentTime
+        * @type number
+        * @private
+        */
+        private _currentTime: number = 0;
+
+        /**
+        * The current time in seconds. This is READ ONLY.
+        * @property currentTime
+        * @type number
+        * @public
+        */
+        public get currentTime(): number {
+            return this._currentTime;
+        }
+
+        /**
+        * The last time that the timer update. Used to calculate the time delta.
+        * @property _timeBefore
+        * @type number
+        * @private
+        */
+        private _timeBefore: number = 0;
+
+        /**
+        * Sets the current time of the timer.
+        * @method setTime
+        * @param milli {number} The number of milliseconds.
+        * @param [sec=0] {number} The number of seconds to add.
+        * @param [minutes=0] {number} The number of minutes to add.
+        * @public
+        */
+        public setTime(milli: number, sec: number= 0, minutes: number= 0) {
+            this._currentTime = milli;
+            if(sec != 0) this._currentTime += (sec * 1000);
+            if(minutes != 0) this._currentTime += (minutes * 60 * 1000);
+        }
+
+        /**
+        * Increases the current time by the amount passed.
+        * @method addTime
+        * @param milli {number} The number of milliseconds.
+        * @param [sec=0] {number} The number of seconds to add.
+        * @param [minutes=0] {number} The number of minutes to add.
+        * @public
+        */
+        public addTime(milli:number, sec:number= 0,minutes:number= 0) {
+            this._currentTime += milli;
+            if(sec != 0) this._currentTime += (sec * 1000);
+            if (minutes != 0) this._currentTime += (minutes * 60 * 1000);
+        }
+        
+        /**
+        * Decreases the current time by the amount passed.
+        * @method removeTime
+        * @param milli {number} The number of milliseconds.
+        * @param [sec=0] {number} The number of seconds to add.
+        * @param [minutes=0] {number} The number of minutes to add.
+        * @public
+        */
+        public removeTime(milli: number, sec: number= 0, minutes: number= 0) {
+            this._currentTime -= milli;
+            if (sec != 0) this._currentTime -= (sec * 1000);
+            if (minutes != 0) this._currentTime -= (minutes * 60 * 1000);
+        }
+
+        /**
+        * The speed at which the time will increase/decrease by. 
+        * Modify this property to make the time count down slower/faster.
+        * @property _speed
+        * @type number
+        * @default 1
+        * @private
+        */
+        public speed: number = 1;
+        
+        /**
+        * Returns a string with the current time that this component is upto in the format that was passed.
+        *
+        * @method updateTime
+        * @return string
+        * @public
+        */
+        public getTime():string {
+            if (this.countDown) {
+                this._currentTime -= (this.clock.elapsed() - this._timeBefore) * this.speed;
+            } else {
+                this._currentTime += (this.clock.elapsed() - this._timeBefore) * this.speed;
+            }
+            this._timeBefore = this.clock.elapsed();
+
+            //format time
+            if (this._format !== &#x27;&#x27;) {
+                this._displayString = this._format;
+
+                //milliseconds
+                if (this._displayString.indexOf(&#x27;ms&#x27;) !== -1) {
+                    var t = String(Math.floor(this._currentTime * 1000) % 1000);
+                    this._displayString = this._displayString.replace(&#x27;ms&#x27;, t);
+                }
+                //seconds - leading
+                if (this._displayString.indexOf(&#x27;ss&#x27;) != -1) {
+                    var t = String(Math.floor(this._currentTime) % 60);
+                    if (t.length &lt; 2) t = &#x27;0&#x27; + t;
+                    this._displayString = this._displayString.replace(&#x27;ss&#x27;, t);
+                }
+                //minutes - leading
+                if (this._displayString.indexOf(&#x27;mm&#x27;) !== -1) {
+                    var t = String(Math.floor(this._currentTime / 60) % 60);
+                    if (t.length &lt; 2) t = &#x27;0&#x27; + t;
+                    this._displayString = this._displayString.replace(&#x27;mm&#x27;, t);
+                }
+                //minutes - no leading
+                if (this._displayString.indexOf(&#x27;s&#x27;) != -1) {
+                    var t = String(Math.floor(this._currentTime) % 60);
+                    this._displayString = this._displayString.replace(&#x27;s&#x27;, t);
+                }
+                //seconds - no leading
+                if (this._displayString.indexOf(&#x27;m&#x27;) !== -1) {
+                    var t = String(Math.floor(this._currentTime / 60) % 60);
+                    this._displayString = this._displayString.replace(&#x27;m&#x27;, t);
+                }
+
+                return this._displayString;
+            } else {
+                return String(this._currentTime.toFixed(2));
+            }
+        }
+
+    }
+
+}
+
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

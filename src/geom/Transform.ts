@@ -1,39 +1,31 @@
-﻿/// <reference path="Matrix.ts" />
-
-/**
- *	Kiwi - Geom - Transform
- *
- *	@desc 		Represents position, scale, rotation and rotationPoint of an Entity.
- *			
- *				- Values can be transformed with a 3x3 affine transformation matrix, which each transform is assigned.
- *				- A tranform can be assigned a parent, which may in turn have it's own parent, thereby creating a tranform inheritence heirarchy
- *				- A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
- *
- *	@version 	0.2 - 18th October 2012
- *
- *	@author 	Ross Kettle
- *
- *
- *	@url 		http://www.kiwijs.org
- *
- *	@todo 		Check tranforms don't have themselves as ancestors
+﻿/**
+* 
+* @module Kiwi
+* @submodule Geom
 */
 
 module Kiwi.Geom {
 
+    /**
+    * Represents position, scale, rotation and rotationPoint of an Entity.
+    * - Values can be transformed with a 3x3 affine transformation matrix, which each transform is assigned.
+    * - A tranform can be assigned a parent, which may in turn have it's own parent, thereby creating a tranform inheritence heirarchy
+    * - A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
+    *
+    * @class Transform
+    * @constructor
+    * @param x {Number} x. X position of the transform.
+    * @param y {Number} y. Y position of the transform.
+    * @param scaleX {Number} scaleX. X scaling of the transform.
+    * @param scaleY {Number} scaleY. Y scaling of the transform.
+    * @param rotation {Number} rotation. Rotation of the transform in radians.
+    * @param rotX {Number} rotX. rotationPoint offset on X axis.
+    * @param rotY {Number} rotY. rotationPoint offset on Y axis.
+    * @return {Transform} This object.
+    *
+    */
     export class Transform {
 
-        /** 
-        * Constructor
-        * @param {Number} x. X position of the transform.
-        * @param {Number} y. Y position of the transform.
-        * @param {Number} scaleX. X scaling of the transform.
-        * @param {Number} scaleY. Y scaling of the transform.
-        * @param {Number} rotation. Rotation of the transform in radians.
-        * @param {Number} rotX. rotationPoint offset on X axis.
-        * @param {Number} rotY. rotationPoint offset on Y axis.
-        * @return {Kiwi.Geom.Transform} This object.
-        */
         constructor(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0) {
 
             this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
@@ -45,7 +37,12 @@ module Kiwi.Geom {
             this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
 
         }
-
+        /**
+        * The type of this object.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Transform";
         }
@@ -60,7 +57,8 @@ module Kiwi.Geom {
 
         /** 
         * Return the X value of the transform.
-        * @method x
+        * @property x
+        * @type Number
         * @return {Number} The X value of the transform.
         */
         public set x(value: number) {
@@ -68,7 +66,6 @@ module Kiwi.Geom {
             this._x = value;
 
         }
-
         public get x():number {
             return this._x;
         }
@@ -83,14 +80,14 @@ module Kiwi.Geom {
 
         /** 
         * Return the Y value of the transform.
-        * @method y
+        * @property y
+        * @type Number
         * @return {Number} The Y value of the transform.
+        * @public
         */
-        
         public set y(value: number) {
             this._y = value;
         }
-
         public get y(): number {
             return this._y;
         }
@@ -106,8 +103,10 @@ module Kiwi.Geom {
 
         /** 
         * Return the X scale value of the transform.
-        * @method scaleX
+        * @property scaleX
+        * @type Number
         * @return {Number} The X value of the transform.
+        * @public
         */
         public set scaleX(value: number) {
             this._scaleX = value;
@@ -127,13 +126,14 @@ module Kiwi.Geom {
 
         /** 
         * Return the Y scale value of the transform.
-        * @method scaleY
+        * @property scaleY
+        * @type Number
         * @return {Number} The Y value of the transform.
+        * @public
         */
         public set scaleY(value: number) {
             this._scaleY = value;
         }
-
         public get scaleY():number {
             return this._scaleY;
         }
@@ -148,8 +148,9 @@ module Kiwi.Geom {
 
         /** 
         * Return the rotation value of the transform in radians.
-        * @method rotation
+        * @property rotation
         * @return {Number} The rotation value of the transform.
+        * @public
         */
         public set rotation(value: number) {
             this._rotation = value;
@@ -169,8 +170,9 @@ module Kiwi.Geom {
 
         /** 
         * Return the Rotation value from the x axis.
-        * @method rotPointX
+        * @property rotPointX
         * @return {Number} The registration value from the x axis.
+        * @public
         */
         public set rotPointX(value: number) {
             this._rotPointX = value;
@@ -190,8 +192,9 @@ module Kiwi.Geom {
 
         /** 
         * Return the rotation value from the y axis.
-        * @method rotY
+        * @public rotY
         * @return {Number} The rotation value from the y axis.
+        * @public
         */
         public set rotPointY(value: number) {
             this._rotPointY = value;
@@ -211,8 +214,8 @@ module Kiwi.Geom {
 
         /** 
         * Return the Matrix being used by this Transform
-        * @method matrix
-        * @return {Kiwi.Geom.Matrix} The Matrix being used by this Transform
+        * @property matrix
+        * @return {Matrix} The Matrix being used by this Transform
         */
         public get matrix(): Matrix {
 
@@ -230,8 +233,9 @@ module Kiwi.Geom {
 
         /** 
         * Return the x of this transform translated to world space.
-        * @method worldX
+        * @property worldX
         * @return {Number} x coordinate in world space
+        * @public
         */
         public get worldX(): number {
 
@@ -241,8 +245,9 @@ module Kiwi.Geom {
 
         /** 
         * Return the y of this transform translated to world space.
-        * @method worldY
+        * @property worldY
         * @return {Number} y coordinate in world space
+        * @public
         */
         public get worldY(): number {
 
@@ -261,8 +266,9 @@ module Kiwi.Geom {
 
         /** 
         * Return the parent Transform, if any.
-        * @method parent
-        * @return {Kiwi.Geom.Transform} The parent Transform, or null.
+        * @property parent
+        * @return {Transform} The parent Transform, or null.
+        * @public
         */
         
         public set parent(value: Transform) {
@@ -278,9 +284,10 @@ module Kiwi.Geom {
         /** 
         * Set the X and Y values of the transform.
         * @method setPosition
-        * @param {Number} x.
-        * @param {Number} y.
-        * @return {Kiwi.Geom.Transform} This object.
+        * @param x {Number} x.
+        * @param y {Number} y.
+        * @return {Transform} This object.
+        * @public
         */
         public setPosition(x: number, y: number): Transform {
 
@@ -294,8 +301,9 @@ module Kiwi.Geom {
         /** 
         * Set the X and Y values of the transform from a point.
         * @method setPositionPoint
-        * @param {Kiwi.Geom.Point} point.
-        * @return {Kiwi.Geom.Transform} This object.
+        * @param point {Kiwi.Geom.Point} point.
+        * @return {Transform} This object.
+        * @public
         */
         public setPositionFromPoint(point: Point): Transform {
 
@@ -310,8 +318,8 @@ module Kiwi.Geom {
         /** 
         * Translate the X and Y value of the transform by point components.
         * @method translatePositionFromPoint
-        * @param {Kiwi.Geom.Point} point.
-        * @return {Kiwi.Geom.Transform} This object.
+        * @param point {Point} point.
+        * @return {Transform} This object.
         */
         public translatePositionFromPoint(point: Point): Transform {
 
@@ -327,6 +335,7 @@ module Kiwi.Geom {
         * Return a Point representing the X and Y values of the transform. If none is given a new Point objected will be created.
         * @method getPostionPoint
         * @return {Kiwi.Geom.Point} A point representing the X and Y values of the transform.
+        * @public
         */
         public getPositionPoint(output: Point = new Kiwi.Geom.Point): Point {
 
@@ -337,9 +346,9 @@ module Kiwi.Geom {
         /** 
 	    * Set the X and Y scale value of the transform.
 	    * @method scale
-	    * @param {Number} scaleX.
-	    * @param {Number} scaleY.
-        * @return {Kiwi.Geom.Transform} This object.
+	    * @param value {Number} 
+        * @return {Transform} This object.
+        * @public
 	    */
         public set scale(value:number) {
 
@@ -352,14 +361,15 @@ module Kiwi.Geom {
         /** 
         * Set the core properties of the transform 
         * @method setTransform
-        * @param {Number} x. X position of the transform.
-        * @param {Number} y. Y position of the transform.
-        * @param {Number} scaleX. X scaling of the transform.
-        * @param {Number} scaleY. Y scaling of the transform.
-        * @param {Number} rotation. Rotation of the transform in radians.
-        * @param {Number} rotX. Rotation offset on X axis.
-        * @param {Number} rotY. Rotation offset on Y axis.
-        * @return {Kiwi.Geom.Transform} This object.
+        * @param x {Number} x. X position of the transform.
+        * @param y {Number} y. Y position of the transform.
+        * @param scaleX {Number} scaleX. X scaling of the transform.
+        * @param scaleY {Number} scaleY. Y scaling of the transform.
+        * @param rotation {Number} rotation. Rotation of the transform in radians.
+        * @param rotX{Number} rotX. Rotation offset on X axis.
+        * @param rotY{Number} rotY. Rotation offset on Y axis.
+        * @return {Transform} This object.
+        * @public
         */
         public setTransform(x: number = 0, y: number = 0, scaleX: number = 1, scaleY: number = 1, rotation: number = 0, rotPointX: number = 0, rotPointY: number = 0): Transform {
 
@@ -383,7 +393,8 @@ module Kiwi.Geom {
         /** 
         * Return the parent matrix of the transform. If there is no parent then null is returned.
         * @method getParentMatrix
-        * @return {Kiwi.Geom.Matrix} The parent transform matrix.
+        * @return {Matrix} The parent transform matrix.
+        * @public
         */
         public getParentMatrix(): Matrix {
 
@@ -399,7 +410,8 @@ module Kiwi.Geom {
         * Return the transformation matrix that concatenates this transform with all ancestor transforms.
         * If there is no parent then this will return a matrix the same as this transforms matrix.
         * @method getConcatenatedMatrix
-        * @return {Kiwi.Geom.Matrix} The concatenated matrix.
+        * @return {Matrix} The concatenated matrix.
+        * @public
         */
         public getConcatenatedMatrix(): Matrix {
 
@@ -407,8 +419,7 @@ module Kiwi.Geom {
 
             var parentMatrix = this.getParentMatrix();
 
-            if (parentMatrix)
-            {
+            if (parentMatrix) {
                 var matrix = this._matrix.clone();
                 matrix.prependMatrix(parentMatrix);
                 this._cachedConcatenatedMatrix.copyFrom(matrix);
@@ -422,8 +433,8 @@ module Kiwi.Geom {
         /** 
         * Return the x of this transform translated to a camera space
         * @method getCameraX
-        * @param {Object} the camera 
-        * @return (Number) x coordinate in the camera space
+        * @param camera {Object} the camera 
+        * @return {Number} x coordinate in the camera space
         
 	    public getCameraX ( camera:Camera ):number
 	    {
@@ -435,8 +446,8 @@ module Kiwi.Geom {
         /** 
         * Return the y of this transform translated to a camera space
         * @method getCameraY
-        * @param {Object} the camera 
-        * @return (Number) y coordinate in the camera space
+        * @param camera {Object} the camera 
+        * @return {Number} y coordinate in the camera space
         	
 	    public getCameraY ( camera:Camera ):number
 	    {
@@ -447,10 +458,11 @@ module Kiwi.Geom {
         */
 
         /** 
-	     * 
+	     * [Requires Description]
 	     * @method transformPoint
-         * @param {Kiwi.Geom.Point} point
-         * @return {Kiwi.Geom.Point}
+         * @param point {Point} point
+         * @return {Point}
+         * @public
 	     **/
         public transformPoint(point: Point): Point {
 
@@ -463,8 +475,9 @@ module Kiwi.Geom {
         /** 
         * Copy another transforms data to this transform. A clone of the source matrix is created for the matrix property.
         * @method copyFrom
-        * @param {Kiwi.Geom.Transform} transform. The tranform to be copied from.
-        * @return {Kiwi.Geom.Transform} This object.
+        * @param transform {Transform} transform. The tranform to be copied from.
+        * @return {Transform} This object.
+        * @public
         */
         public copyFrom(source: Transform): Transform {
 
@@ -483,8 +496,9 @@ module Kiwi.Geom {
         /** 
 	     * Copy this transforms data to the destination Transform. A clone of this transforms matrix is created in the destination Transform Matrix.
 	     * @method copyTo
-	     * @param {Kiwi.Geom.Transform} transform. The tranform to copy to.
-         * @return {Kiwi.Geom.Transform} This object.
+	     * @param destination {Transform} The tranform to copy to.
+         * @return {Transform} This object.
+         * @public
 	     */
         public copyTo(destination: Transform): Transform {
 
@@ -497,8 +511,9 @@ module Kiwi.Geom {
         /** 
 	     * Return a clone of this transform.
 	     * @method clone
-	     * @param {Kiwi.Geom.Transform} A Transform to copy the clone in to. If none is given a new Transform object will be made.
-         * @return {Kiwi.Geom.Transform} A clone of this object.
+	     * @param output {Transform} A Transform to copy the clone in to. If none is given a new Transform object will be made.
+         * @return {Transform} A clone of this object.
+         * @public
 	     */
         public clone(output: Transform = new Transform()): Transform {
 
@@ -511,10 +526,11 @@ module Kiwi.Geom {
         /** 
 	     * Recursively check that a transform does not appear as its own ancestor
 	     * @method checkAncestor
-         * @param {Kiwi.Geom.Transform} The Transform to check.
-	     * @return {Boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
+         * @param transform{Transform} The Transform to check.
+	     * @return {boolean} Returns true if the given transform is the same as this or an ancestor, otherwise false.
+         * @public
 	     */
-        public checkAncestor(transform: Transform): bool {
+        public checkAncestor(transform: Transform): boolean {
             
             /*if (transform === this)
             {
@@ -533,7 +549,8 @@ module Kiwi.Geom {
         /** 
         * Return a string represention of this object.
         * @method toString
-        * @return (string) A string represention of this object.
+        * @return {string} A string represention of this object.
+        * @public
         */
         public get toString(): string {
 

@@ -1,9 +1,20 @@
-
-
+/**
+*  
+* @module Kiwi
+* @submodule Renderers
+* 
+*/
 
 module Kiwi.Renderers {
-
-   
+     
+    /**
+    *
+    * @class GLTexture
+    * @constructor
+    * @param gl {WebGLRenderingContext}
+    * @param [_image] {HTMLImageElement}
+    * @return {GLTexture}
+    */
     export class GLTexture {
 
         constructor(gl: WebGLRenderingContext, _image?: HTMLImageElement) {
@@ -20,9 +31,29 @@ module Kiwi.Renderers {
     
         }
 
+        /**
+        *
+        * @property texture
+        * @type WebGLTexture
+        * @public
+        */
         public texture: WebGLTexture;
+        
+        /**
+        *
+        * @property image
+        * @type HTMLImageElement
+        * @public
+        */
         public image: HTMLImageElement;
 
+        /**
+        * 
+        * @method refresh
+        * @param gl {WebGLRenderingContext}
+        * @param image {HTMLImageElement}
+        * @public
+        */
         public refresh(gl: WebGLRenderingContext, _image: HTMLImageElement) {
             this.image = _image;
             gl.bindTexture(gl.TEXTURE_2D, this.texture);

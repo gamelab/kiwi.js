@@ -1,17 +1,18 @@
 /**
- *  Kiwi - DOM - Bootstrap
- *
- *  @desc       DOM Boot and Ready functions (based on those used by jQuery)
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- *
- *  @update     Added readyState interactive check
- */
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+* @main System
+*/
 
 module Kiwi.System {
 
+    /**
+    * DOM Boot and Ready functions (based on those used by jQuery)
+    * 
+    * @class Bootstrap
+    *
+    */
     export class Bootstrap {
 
         /**
@@ -33,37 +34,42 @@ module Kiwi.System {
         /**
         *
         * @property _createContainer
-        * @type Boolean
+        * @type boolean
         * @private
         */
-        private _createContainer: bool;
+        private _createContainer: boolean;
 
         /**
         *
         * @property isReady
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public isReady: bool = false;
+        public isReady: boolean = false;
         
         /**
         * The parent div in which the layers and input live
         * @property container
         * @type HTMLDivElement
+        * @public
         */
         public container:HTMLDivElement = null;
-
-    
-
-       
 
         /**
         * This div sits on-top of all layers and captures user input
         * @property input
         * @type HTMLDivElement
+        * @public
         */
 
         public input: HTMLDivElement = null;
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Bootstrap";
         }
@@ -72,10 +78,11 @@ module Kiwi.System {
         * Called at the start of the game to check to see if the DOM is ready before we do anything requiring it
         * @method boot
         * @param {String} domParent 
-        * @param {Any} [callback]
-        * @param {Boolean} [createContainer]
+        * @param {Any} [callback=null]
+        * @param {boolean} [createContainer=true]
+        * @public
         */
-        public boot(domParent: string, callback: any = null, createContainer: bool = true) {
+        public boot(domParent: string, callback: any = null, createContainer: boolean = true) {
 
             this._callback = callback;
             this._domParent = domParent;
@@ -96,8 +103,9 @@ module Kiwi.System {
         }
 
         /**
-        *  If the DOM is ready it fires our callback, otherwise sets a short timeout to try again
+        * If the DOM is ready it fires our callback, otherwise sets a short timeout to try again
         * @method ready
+        * @public
         */
         public ready() {
 
@@ -143,11 +151,6 @@ module Kiwi.System {
                     }
                 }
 
-
-              
-                
-               
-
                 if (this._callback !== null)
                 {
                     this._callback();
@@ -161,7 +164,7 @@ module Kiwi.System {
         * @method _setupContainer
         * @param {String} id
         * @private
-        **/
+        */
         private _setupContainer(id: string = '') {
 
             if (id)

@@ -1,28 +1,21 @@
-/// <reference path="Game.ts" />
-
-
 /**
- *	Kiwi - Core - CameraManager
- *
- *	@desc 		
- *
- *	@version 	1.0 - 11th January 2013
- *
- *	@author 	Ross Kettle
- *
- *	@url 		http://www.kiwijs.org
- */
+* 
+* @module Kiwi
+* 
+*/
 
 module Kiwi {
 
+    /**
+    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager. 
+    * 
+    * @class CameraManager
+    * @constructor
+    * @param {Game} game
+    * @return {CameraManager} 
+    */
     export class CameraManager {
-
-        /**
-		* 
-        * @constructor
-        * @param {Kiwi.Game} game
-        * @return {Kiwi.CameraManager}
-    	*/
+         
         constructor(game: Kiwi.Game) {
              
             this._game = game;
@@ -33,7 +26,9 @@ module Kiwi {
 
         /**
         * Returns the type of this object
+        * @method objType
         * @return {String} The type of this object
+        * @public
         */
         public objType():string {
             return "CameraManager";
@@ -42,7 +37,7 @@ module Kiwi {
         /**
 		* The game this object belongs to
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
     	*/
         private _game: Kiwi.Game;
@@ -50,7 +45,7 @@ module Kiwi {
         /**
 		* A collection of cameras
         * @property _cameras
-        * @type Array
+        * @type Camara[]
         * @private
     	*/
         private _cameras: Kiwi.Camera[];
@@ -64,16 +59,17 @@ module Kiwi {
         private _nextCameraID: number;
 
         /**
-		* The default camera of this camera manager.
+		* The default camera that is on this manager.
         * @property defaultCamera
-        * @type Kiwi.Layer
+        * @type Camara
+        * @public
     	*/
         public defaultCamera: Kiwi.Camera;
 
         /**
 		* Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
         * @method boot
-        * @param {HTMLDivElement} domCamera
+        * @public
     	*/
         public boot() {
 
@@ -89,7 +85,8 @@ module Kiwi {
         * @param {Number} y. The y position of the new camera.
         * @param {Number} width. The width of the new camera.
         * @param {Number} height. The height of the new camera.
-        * @return {Kiwi.Camera} The new camera object.
+        * @return {Camera} The new camera object.
+        * @public
         */
         public create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera {
             
@@ -106,12 +103,13 @@ module Kiwi {
         /**
 		* Removes the given camera, if it is present in the camera managers camera collection.
         * @method remove
-        * @param {Kiwi.Camera} camera
-        * @return {Boolean} True if the camera was removed, false otherwise.
+        * @param camera {Camera}
+        * @return {boolean} True if the camera was removed, false otherwise.
+        * @public
     	*/
-        public remove(camera: Kiwi.Camera):bool {
+        public remove(camera: Kiwi.Camera):boolean {
              
-            var i = this._cameras.indexOf(camera);
+            var i = this._cameras.indexOf(camera); //what if it was the default one! :(
 
             if (i !== -1) {
                 //  Send Layer a killed call
@@ -125,6 +123,7 @@ module Kiwi {
         /**
 		* Calls update on all the cameras.
         * @method update
+        * @public
     	*/
         public update() {
 
@@ -141,6 +140,7 @@ module Kiwi {
         /**
 		* Calls the render method on all the cameras
         * @method render
+        * @public
     	*/
         public render() {
 
@@ -162,9 +162,10 @@ module Kiwi {
         /**
 		* Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
         * @method removeAll - note should not remove default
+        * @public
     	*/
         public removeAll() {
-            this._cameras.length = 0; 
+            this._cameras.length = 0; //are you sure.
         }
 
     }

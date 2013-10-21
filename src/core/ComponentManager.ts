@@ -1,30 +1,26 @@
-/// <reference path="Component.ts" />
-
-/*
- *	Kiwi - Core - Component Manager
- *
- *	@desc		
- *				
- *	@version    1.0 - 18th March 2013
- *				
- *	@author 	Richard Davey
- *				
- *	@url		http://www.kiwijs.org
- *				
+/**
+* 
+* @module Kiwi
+* 
 */
 
 module Kiwi {
 
+    /**
+    * The component manager is a class that is used to handle a number of components that are active on a particular object.
+    * This way if you want to check to see if a particular component is on an object you can ask the component manager, 
+    * Or when updating components you can tell the component manager to update and all of the components will update as well.
+    *
+    * @class ComponentManager
+    * @constructor
+    * @param type {number} - The type of object that this component manager's owner is.
+    * @param owner {IChild} - The owner of this component manager.
+    * @return {ComponentManager} 
+    * 
+    */
     export class ComponentManager {
-
-        /**
-        *
-        * @constructor
-        * @param {number} type
-        * @param {any} owner
-        * @return {Kiwi.ComponentManager} 
-        */
-        constructor(type: number, owner) {
+         
+        constructor(type: number, owner:any) {
 
             this._components = {};
 
@@ -35,7 +31,9 @@ module Kiwi {
 
         /**
         * Returns the type of this object
+        * @method objType
         * @return {string} The type of this object
+        * @public
         */
         public objType():string {
             return "ComponentManager";
@@ -45,30 +43,34 @@ module Kiwi {
         * The owner of this Component Manager
         * @property _owner
         * @type {any}
-        **/
+        * @private
+        */
         private _owner: any;
 
         /**
-        * The type of this object
+        * The type of this object.
         * @property _type
         * @type number
-        **/
+        * @private
+        */
         private _type: number;
 
         /**
-        * A list of all components
+        * A list of all components that are currently on the ComponentManager
         * @property _components
-        * @type Kiwi.Component {}
-        **/
+        * @type Component 
+        * @private
+        */
         public _components;
 
         /**
         * Returns true if this contains the component given, false otherwise.
         * @method hasComponent
-        * @param {String} the name of the component
-        * @return {Boolean} True if this component manager contains the given component, false otherwise.
-        **/
-        public hasComponent(value: string): bool {
+        * @param value {String} the name of the component
+        * @return {boolean} True if this component manager contains the given component, false otherwise.
+        * @public
+        */
+        public hasComponent(value: string): boolean {
 
             if (this._components[value]) {
                 return true;
@@ -80,10 +82,11 @@ module Kiwi {
         /**
         * Returns true if this contains the component given and the component is active, false otherwise.
         * @method hasActiveComponent
-        * @param {String} The name of the component.
-        * @return {Boolean} true if this manager contains the component and it is active, false otherwise.
-        **/
-        public hasActiveComponent(value: string): bool {
+        * @param value {String} The name of the component.
+        * @return {boolean} true if this manager contains the component and it is active, false otherwise.
+        * @public
+        */
+        public hasActiveComponent(value: string): boolean {
 
             if (this._components[value] && this._components[value].active === true)
             {
@@ -97,9 +100,10 @@ module Kiwi {
         /**
         * Get an existing component that has been added to the layer by its name
         * @method getComponent
-        * @param {String} name - The component name
-        * @return {Kiwi.Component} The component, if found, otherwise null
-        **/
+        * @param value {String} The component name
+        * @return {Component} The component, if found, otherwise null
+        * @public
+        */
         public getComponent(value: string): any {
 
             if (this._components[value]) {
@@ -111,10 +115,11 @@ module Kiwi {
 
         /**
         * Adds a Component to the manager.
-        * @method addComponent
-        * @param {Kiwi.Component} component - The component to add
-        * @return {Kiwi.Component} The component that was added
-        **/
+        * @method add
+        * @param component {Component} The component to add
+        * @return {Component} The component that was added
+        * @public
+        */
         public add(component: Kiwi.Component): any {
 
             this._components[component.name] = component;
@@ -122,12 +127,12 @@ module Kiwi {
             return component; 
         }
 
-        /**
-        * Adds a Component to the manager.
-        * @method addComponent
-        * @param {Kiwi.Component} component - The component to add
-        * @return {Kiwi.Component} The component that was added
-        **/
+        /** 
+        * Adds a batch of components to the manager at a single time. 
+        * @method addBatch
+        * @param value* {Component} The component/s that you would like to add.
+        * @public
+        */
         public addBatch(...paramsArr: any[]) {
 
             for (var i = 0; i < paramsArr.length; i++) {
@@ -137,13 +142,14 @@ module Kiwi {
         }
 
         /**
-        * Removes a component
+        * Removes a component from the component manager
         * @method removeComponent
-        * @param {Kiwi.Component} component - The component to be removed
-        * @param {Boolean} destroy - Set to true (default) to call destroy on the component before removing it
-        * @return {Boolean} true if the component was removed successfully
-        **/
-        public removeComponent(component: Kiwi.Component, destroy:bool = true): bool {
+        * @param component {Component} The component to be removed.
+        * @param [destroy=true] {boolean} If the destroy method is to be called on the component when it is removed.
+        * @return {boolean} true if the component was removed successfully
+        * @public
+        */
+        public removeComponent(component: Kiwi.Component, destroy: boolean = true): boolean {
 
             var name = component.name;
 
@@ -163,11 +169,12 @@ module Kiwi {
         /**
         * Removes a component based on its name
         * @method removeComponentByName
-        * @param {String} name - The name of the component to be removed
-        * @param {Boolean} destroy - Set to true (default) to call destroy on the component before removing it
-        * @return {Boolean} true if the component was removed successfully
-        **/
-        public removeComponentByName(name: string, destroy:bool = true): bool {
+        * @param name {String} The name of the component to be removed
+        * @param [destroy=true] {boolean} If the destroy method is to be called on the component when it is removed.
+        * @return {boolean} true if the component was removed successfully
+        * @public
+        */
+        public removeComponentByName(name: string, destroy: boolean = true): boolean {
 
             if (this._components[name]) {
                 if (destroy) {
@@ -182,11 +189,13 @@ module Kiwi {
             return false; 
         }
 
-        /*
+        /**
         * Removes all of the components from the component manager. 
         * @method removeAll
+        * @param [destroy=true] {boolean} If true will destroy all components
+        * @public
         */
-        public removeAll(destroy:bool = true) {
+        public removeAll(destroy: boolean = true) {
             for (var key in this._components) { 
                 this.removeComponent(this._components[key], destroy);
             }
@@ -195,6 +204,7 @@ module Kiwi {
         /**
 		* Calls preUpdate on all active Components
         * @method preUpdate
+        * @public
     	*/
         public preUpdate() {
 
@@ -209,6 +219,7 @@ module Kiwi {
         /**
 		* Calls update on all active Components
         * @method update
+        * @public
     	*/
         public update() {
         
@@ -223,6 +234,7 @@ module Kiwi {
         /**
 		* Calls postUpdate on all active Components
         * @method postUpdate
+        * @public
     	*/
         public postUpdate() {
         
@@ -237,6 +249,7 @@ module Kiwi {
         /**
 		* Calls preRender on all active Components
         * @method preRender
+        * @public
     	*/
         public preRender() {
         
@@ -251,6 +264,7 @@ module Kiwi {
         /**
 		* Renders all active Components
         * @method render
+        * @public
     	*/
         public render() {
         
@@ -265,6 +279,7 @@ module Kiwi {
         /**
 		* Calls postRender on all active Components
         * @method postRender
+        * @public
     	*/
         public postRender() {
         

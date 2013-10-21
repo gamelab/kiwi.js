@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\utils\Canvas.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.4.9</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AABB.html">AABB</a></li>
+            
+                <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
+            
+                <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Audio.html">Audio</a></li>
+            
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
+                <li><a href="../classes/AudioManager.html">AudioManager</a></li>
+            
+                <li><a href="../classes/Back.html">Back</a></li>
+            
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
+                <li><a href="../classes/BasicScore.html">BasicScore</a></li>
+            
+                <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
+            
+                <li><a href="../classes/Box.html">Box</a></li>
+            
+                <li><a href="../classes/Browser.html">Browser</a></li>
+            
+                <li><a href="../classes/Button.html">Button</a></li>
+            
+                <li><a href="../classes/Camera.html">Camera</a></li>
+            
+                <li><a href="../classes/CameraManager.html">CameraManager</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
+                <li><a href="../classes/Clock.html">Clock</a></li>
+            
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
+                <li><a href="../classes/Common.html">Common</a></li>
+            
+                <li><a href="../classes/Component.html">Component</a></li>
+            
+                <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
+            
+                <li><a href="../classes/Counter.html">Counter</a></li>
+            
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
+                <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
+            
+                <li><a href="../classes/Device.html">Device</a></li>
+            
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
+                <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
+            
+                <li><a href="../classes/File.html">File</a></li>
+            
+                <li><a href="../classes/FileStore.html">FileStore</a></li>
+            
+                <li><a href="../classes/Finger.html">Finger</a></li>
+            
+                <li><a href="../classes/Game.html">Game</a></li>
+            
+                <li><a href="../classes/GameManager.html">GameManager</a></li>
+            
+                <li><a href="../classes/GameMath.html">GameMath</a></li>
+            
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
+            
+                <li><a href="../classes/IChild.html">IChild</a></li>
+            
+                <li><a href="../classes/Icon.html">Icon</a></li>
+            
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
+            
+                <li><a href="../classes/Input.html">Input</a></li>
+            
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
+                <li><a href="../classes/Intersect.html">Intersect</a></li>
+            
+                <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
+                <li><a href="../classes/Key.html">Key</a></li>
+            
+                <li><a href="../classes/Keyboard.html">Keyboard</a></li>
+            
+                <li><a href="../classes/Keycodes.html">Keycodes</a></li>
+            
+                <li><a href="../classes/Line.html">Line</a></li>
+            
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
+                <li><a href="../classes/Loader.html">Loader</a></li>
+            
+                <li><a href="../classes/MasterClock.html">MasterClock</a></li>
+            
+                <li><a href="../classes/Matrix.html">Matrix</a></li>
+            
+                <li><a href="../classes/Menu.html">Menu</a></li>
+            
+                <li><a href="../classes/MenuItem.html">MenuItem</a></li>
+            
+                <li><a href="../classes/Mouse.html">Mouse</a></li>
+            
+                <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
+            
+                <li><a href="../classes/Point.html">Point</a></li>
+            
+                <li><a href="../classes/Pointer.html">Pointer</a></li>
+            
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
+                <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Ray.html">Ray</a></li>
+            
+                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+            
+                <li><a href="../classes/RequestAnimationFrame.html">RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Sequence.html">Sequence</a></li>
+            
+                <li><a href="../classes/Signal.html">Signal</a></li>
+            
+                <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
+            
+                <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
+            
+                <li><a href="../classes/Sound.html">Sound</a></li>
+            
+                <li><a href="../classes/Sprite.html">Sprite</a></li>
+            
+                <li><a href="../classes/SpriteSheet.html">SpriteSheet</a></li>
+            
+                <li><a href="../classes/Stage.html">Stage</a></li>
+            
+                <li><a href="../classes/State.html">State</a></li>
+            
+                <li><a href="../classes/StateConfig.html">StateConfig</a></li>
+            
+                <li><a href="../classes/StateManager.html">StateManager</a></li>
+            
+                <li><a href="../classes/StaticImage.html">StaticImage</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
+            
+                <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
+            
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
+                <li><a href="../classes/Time.html">Time</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
+                <li><a href="../classes/Touch.html">Touch</a></li>
+            
+                <li><a href="../classes/Transform.html">Transform</a></li>
+            
+                <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
+            
+                <li><a href="../classes/Vector2.html">Vector2</a></li>
+            
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Widget.html">Widget</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\utils\Canvas.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* 
+* @module Kiwi
+* @submodule Utils
+*/
+module Kiwi.Utils {
+
+    /**
+    * Creates and the manages a Canvas DOMElement.
+    * 
+    * @class Canvas
+    * @constructor
+    * @param width {Number} The width of the canvas.
+    * @param height {Number} The height of the canvas.
+    * @param [visible=true] {boolean} If the canvas is visible or not.
+    * @param [offScreen=false] {boolean} If the canvas is designed to be offscreen or not.
+    * @return {Canvas} 
+    *
+    */
+    export class Canvas {
+         
+        constructor (width: number, height: number, visible: boolean = true, offScreen: boolean = false) {
+
+          
+
+            this.domElement = &lt;HTMLCanvasElement&gt; document.createElement(&#x27;canvas&#x27;);
+            this.domElement.width = width;
+            this.domElement.height = height;
+
+            this._width = width;
+            this._height = height;
+
+            this.context = this.domElement.getContext(&#x27;2d&#x27;);
+
+            this._offScreen = offScreen;
+            this._visible = visible;
+
+            if (visible === false)
+            {
+                this.domElement.style.display = &#x27;none&#x27;;
+            }
+
+        }
+
+        /**
+        * The width of this canvas.
+        * @property _width
+        * @type number
+        * @private
+        */
+        private _width: number;
+
+        /**
+        * The width of this canvas.
+        * @property width
+        * @type number
+        * @public
+        */
+        public set width(value: number) {
+            this._width = value;
+            this._updatedSize();
+        }
+        public get width(): number {
+            return this._width;
+        }
+
+        /**
+        * The height of this canvas.
+        * @property _height
+        * @type number
+        * @private
+        */
+        private _height: number;
+
+        /**
+        * The height of this canvas.
+        * @property height
+        * @type number
+        * @private
+        */
+        public set height(value: number) {
+            this._height = value;
+            this._updatedSize();
+        }
+        public get height(): number {
+            return this._height;
+        }
+
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType() {
+            return &quot;Canvas&quot;;
+        }
+
+        /**
+        * The canvas DOM element.
+        * @property domElement
+        * @type HTMLCanvasElement
+        * @public
+	    */
+        public domElement = &lt;HTMLCanvasElement&gt; null;
+
+        /**
+        * The 2D rendering context that is used to render anything to this canvas.
+        * @property _context
+        * @type CanvasRenderingContext2D
+	    * @public
+        */
+        public context = &lt;CanvasRenderingContext2D&gt; null;
+
+        /**
+        * If the canvas element is visible or not.
+        * @property _visible
+        * @type boolean
+        * @private
+	    */
+        private _visible = true;
+
+        /**
+        * If the canvas is offscreen or not.
+        * @property _offScreen
+        * @type boolean
+        * @private
+	    */
+        private _offScreen = false;
+
+        /**
+        * The method to use when clearing the canvas.
+        * @property _clearMode
+        * @type Number
+        * @private
+	    */
+        private _clearMode: number = 1;
+
+        /**
+        * A STATIC property that holds the number associated with no clear mode.
+        * @property CLEARMODE_NONE
+        * @type Number
+        * @static
+        * @final
+        * @default 0
+        * @public
+		*/
+        public static CLEARMODE_NONE: number = 0;
+
+        /**
+        * A STATIC property that holds the number associated with the clear mode that uses the clearRect method to clear the canvas.
+        * @property CLEARMODE_CLEARRECT
+        * @type Number
+        * @static
+        * @final
+        * @public
+        * @default 1
+		*/
+        public static CLEARMODE_CLEARRECT: number = 1;
+
+        /**
+        * A STATIC property that holds the number associated with the clear mode that uses a filled rectangle to clear the canvas.
+        * @property CLEARMODE_FILLRECT 
+        * @type Number
+        * @static
+        * @final
+        * @public
+        * @default 2
+		*/
+        public static CLEARMODE_FILLRECT: number = 2;
+
+        /**
+        * A STATIC property that holds the number associated with the clear mode that uses the filled alpha rectangle method.
+        * @property CLEARMODE_FILLRECT_ALPHA
+        * @type Number
+        * @static
+        * @final
+        * @public
+        * @default 3
+		*/
+        public static CLEARMODE_FILLRECT_ALPHA: number = 3;
+
+        /**
+        * The background color to use clearing the canvas using a filled rectangle approach.
+        * @property bgColor
+        * @type String
+        * @default &#x27;rgb(0,0,0)&#x27;
+        * @public
+        */
+        public bgColor = &#x27;rgb(0, 0, 0)&#x27;;
+
+        /**
+        * Updates the width/height on the canvas DOM element when either one of its sizes are updated.
+        * @method _updatedSize
+        * @private
+        */
+        private _updatedSize() {
+
+            this.domElement.width = this._width;
+            this.domElement.height = this._height;
+
+        }
+
+        /**
+        * Used to remove the canvas element completely along with this class. [NEEDS IMPLEMENTATION]
+        * @method destroy
+        * @public
+		*/
+        public destroy() {
+
+            if (this._offScreen === false)
+            {
+                this.domElement.style.display = &#x27;none&#x27;;
+              
+            }
+
+        }
+
+        /**
+        * If the canvas element is visible or not.
+        * @property visible
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public set visible(value: boolean) {
+
+            if (value !== null &amp;&amp; value !== this._visible)
+            {
+                this._visible = value;
+
+                if (value === true)
+                {
+                    this.domElement.style.display = &#x27;block&#x27;;
+
+                }
+                else
+                {
+                    this.domElement.style.display = &#x27;none&#x27;;
+                }
+            }
+
+        }
+        public get visible(): boolean {
+
+            return this._visible;
+
+        }
+
+        /** 
+        * The clearmode the is to be used when clearing the canvas.
+        * @property clearMode
+        * @type Number
+        * @default 1
+        * @public 
+        */
+        public set clearMode(value: number) {
+
+            if (value !== null &amp;&amp; value !== this._clearMode &amp;&amp; value &gt;= Kiwi.Utils.Canvas.CLEARMODE_NONE &amp;&amp; value &lt;= Kiwi.Utils.Canvas.CLEARMODE_FILLRECT_ALPHA)
+            {
+                this._clearMode = value;
+            }
+
+        }
+        public get clearMode(): number {
+
+            return this._clearMode;
+
+        }
+
+        /**
+        * Clears the canvas using the method specified by the clearMode property.
+        * @method clear
+        * @public
+		*/
+        public clear() {
+            
+		    if (this._clearMode === Canvas.CLEARMODE_NONE)
+		    {
+                //  Do nothing
+		    }
+		    else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT)
+		    {
+                //  Clear Rect
+			    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
+			    
+		    }
+		    else if (this._clearMode === Canvas.CLEARMODE_FILLRECT)
+		    {
+                //  Fill Rect Solid
+			    this.context.fillStyle = this.bgColor;
+			    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
+                
+		    }
+		    else if (this._clearMode === Canvas.CLEARMODE_FILLRECT_ALPHA)
+		    {
+                //  Clear Rect + Fill Rect (only use if bgColor contains alpha &lt; 255)
+			    this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
+			    this.context.fillStyle = this.bgColor;
+			    this.context.fillRect(0, 0, this.domElement.width, this.domElement.height);
+		    }
+
+        }
+
+        /**
+        * Returns the canvas current image data as PNG.
+        * @method saveAsPNG
+        * @return String
+        * @public
+		*/
+        public saveAsPNG() {
+
+            return this.domElement.toDataURL();
+
+        }
+
+	    /**
+	    * Returns a string representation of this object.
+	    * @method toString
+	    * @return {string} a string representation of the instance.
+        * @public
+	    */
+	    public toString():string {
+		
+		    return &#x27;[{Canvas (width=&#x27; + this.width + &#x27; height=&#x27; + this.height + &#x27; visible=&#x27; + this.visible + &#x27; offScreen=&#x27; + this._offScreen + &#x27; clearMode=&#x27; + this.clearMode + &#x27;)}]&#x27;;
+
+	    }
+
+    }
+
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

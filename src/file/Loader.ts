@@ -1,59 +1,75 @@
-
+/**
+* 
+* @module Kiwi
+* @submodule Files 
+* 
+*/
 
 module Kiwi.Files {
 
+    /**
+    * Used for the loading of files and game assets. This usually happens when a State is at the 'loading' stage (executing the 'preload' method).
+    * 
+    * @class Loader
+    * @constructor
+    * @param game {Game} The game that this loader belongs to.
+    * @return {Loader} This Object
+    *
+    */
     export class Loader {
-
-        /**
-        * 
-        * @constructor
-        * @param {Kiwi.Game} game
-        * @return {Loader} This Object
-        */
+ 
         constructor(game: Kiwi.Game) {
 
             this._game = game;
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Loader";
         }
 
         /**
-        * 
+        * The game that this loader belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
         */
         private _game: Kiwi.Game;
 
         /**
-        * 
+        * A list of all of the files that need to be loaded.
         * @property _fileList
-        * @type Kiwi.Structs.Queue
+        * @type File[]
         * @private
         */
         private _fileList: Kiwi.Files.File [];
 
         /**
-        * 
+        * A list of all of the files that have been loaded.
         * @property _loadList
-        * @type Kiwi.Structs.Queue
+        * @type File[]
         * @private
         */
         private _loadList: Kiwi.Files.File [];
 
         /**
-        * 
+        * A callback that is to be called while the loader is in the process of loading files.
         * @property _onProgressCallback
+        * @type Function
         * @private
         */
         private _onProgressCallback;
 
         /**
-        * 
+        * A callback that is to be called when the loader has finished loading files.
         * @property _onCompleteCallback
+        * @type Function
         * @private
         */
         private _onCompleteCallback;
@@ -61,10 +77,11 @@ module Kiwi.Files {
         /**
         * If a real byte value calculation will be made prior to the load (much smoother progress bar but costs HEAD calls x total file count)
         * @property _calculateBytes
-        * @type Boolean
+        * @type boolean
+        * @default true
         * @private
         */
-        private _calculateBytes: bool = true;
+        private _calculateBytes: boolean = true;
 
         /**
         * Total number of files to be loaded
@@ -125,16 +142,15 @@ module Kiwi.Files {
         /**
         * Everything in the queue loaded?
         * @property _complete
-        * @type Boolean
+        * @type boolean
         * @private
         */
-        private _complete: bool = false;
-
-        //  DOM is ready
+        private _complete: boolean = false;
 
         /**
-        * 
+        * The boot method is executed when the DOM has successfully loaded and we can now start the game.
         * @method boot
+        * @public
         */
         public boot() {
 
@@ -144,13 +160,14 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Initialise the properities that are needed on this loader.
         * @method init
-        * @param {Any} [progress]
-        * @param {Any} [complete]
-        * @param {Boolean} calculateBytes
+        * @param [progress=null] {Any} Progress callback method.
+        * @param [complete=null] {Any} Complete callback method.
+        * @param [calculateBytes=false] {boolean} 
+        * @public
         */
-        public init(progress: any = null, complete: any = null, calculateBytes: bool = false) {
+        public init(progress: any = null, complete: any = null, calculateBytes: boolean = false) {
 
             this._fileList.length = 0;
             this._loadList.length = 0;
@@ -171,10 +188,16 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Creates a new file for an image and adds a the file to loading queue. 
         * @method addImage
-        * @param {String} key
-        * @param {String} url
+        * @param key {String} The key for the file.
+        * @param url {String} The url of the image to load.
+        * @param [width] {number} The width of the cell on the image to use once the image is loaded.
+        * @param [height] {number} The height of the cell on the image to use once the image is loaded.
+        * @param [offsetX] {number} An offset on the x axis of the cell.
+        * @param [offsetY] {number} An offset of the y axis of the cell.
+        * @param [storeAsGlobal=true] {boolean} If the image should be stored globally or not.
+        * @public
         */
         public addImage(key: string, url: string, width?: number, height?: number, offsetX?: number, offsetY?: number, storeAsGlobal: boolean = true) {
 
@@ -186,13 +209,21 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Creates a new file for a spritesheet and adds the file to the loading queue.
         * @method addSpriteSheet
-        * @param {String} key
-        * @param {String} url
-        * @param {number} frameWidth
-        * @param {number} frameHeight
-        
+        * @param key {String} The key for the file.
+        * @param url {String} The url of the image to load.
+        * @param frameWidth {number} The width of a single cell in the spritesheet.
+        * @param frameHeight {number} The height of a single cell in the spritesheet.
+        * @param [numCells] {number} The number of cells that are in this spritesheet.
+        * @param [rows] {number} The number of cells that are in a row.
+        * @param [cols] {number} The number of cells that are in a column.
+        * @param [sheetOffsetX] {number} The offset of the whole spritesheet on the x axis.
+        * @param [sheetOffsetY] {number} The offset of the whole spritesheet on the y axis.
+        * @param [cellOffsetX] {number} The spacing between each cell on the x axis.
+        * @param [cellOffsetY] {number} The spacing between each cell on the y axis.
+        * @param [storeAsGlobal=true] {boolean} 
+        * @public
         */
         public addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number, storeAsGlobal:boolean = true) {
 
@@ -204,8 +235,18 @@ module Kiwi.Files {
             this._fileList.push(file);
 
         }
-        /// ***
-        public addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal: boolean = true) {
+
+        /**
+        * Creates new file's for loading a texture atlas and adds those files to the loading queue.
+        * @method addTextureAtlas
+        * @param key {String} The key for the image file.
+        * @param imageUrl {String} The url of the image to load.
+        * @param jsonID {String} A key for the JSON file.
+        * @param jsonURL {String} The url of the json file to load.
+        * @param [storeAsGlobal=true] {Boolean} If hte files should be stored globally or not.
+        * @public
+        */
+        public addTextureAtlas(key: string, imageURL: string, jsonID: string, jsonURL: string, storeAsGlobal: boolean = true) {
             
             var imageFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.TEXTURE_ATLAS, imageURL, key, true, storeAsGlobal);
             var jsonFile = new Kiwi.Files.File(this._game, Kiwi.Files.File.JSON, jsonURL, jsonID, true, storeAsGlobal);
@@ -220,11 +261,12 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Creates a new File to store a audio piece and adds it to the loading queue.
         * @method addAudio
-        * @param {String} key
-        * @param {String} url
-  
+        * @param key {String} The key for the audio file.
+        * @param url {String} The url of the audio to load.
+        * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+        * @public
         */
         public addAudio(key: string, url: string, storeAsGlobal: boolean = true) {
 
@@ -233,11 +275,12 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Creates a new File to store JSON and adds it to the loading queue.
         * @method addJSON
-        * @param {String} key
-        * @param {String} url
-   
+        * @param key {String} The key for the file.
+        * @param url {String} The url to the json file.
+        * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+        * @public
         */
         public addJSON(key: string, url: string, storeAsGlobal: boolean = true) {
 
@@ -246,10 +289,12 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Creates a new File to store XML and adds it to the loading queue.
         * @method addXML
-        * @param {String} key
-        * @param {String} url
+        * @param key {String} The key for the file.
+        * @param url {String} The url to the xml file.
+        * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+        * @public
         */
         public addXML(key: string, url: string, storeAsGlobal: boolean = true) {
 
@@ -258,10 +303,12 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Creates a new File for a Binary file and adds it to the loading queue.
         * @method addBinaryFile
-        * @param {String} key
-        * @param {String} url
+        * @param key {String} The key for the file.
+        * @param url {String} The url to the Binary file.
+        * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+        * @public
         */
         public addBinaryFile(key: string, url: string, storeAsGlobal: boolean = true) {
 
@@ -270,10 +317,12 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Creates a new File to store a text file and adds it to the loading queue.
         * @method addTextFile
-        * @param {String} key
-        * @param {String} url
+        * @param key {String} The key for the file.
+        * @param url {String} The url to the text file.
+        * @param [storeAsGlobal=true] {Boolean} If the file should be stored globally.
+        * @public
         */
         public addTextFile(key: string, url: string, storeAsGlobal: boolean = true) {
 
@@ -281,11 +330,10 @@ module Kiwi.Files {
 
         }
 
-       
-
         /**
-        * 
+        * Loops through all of the files that need to be loaded and start the load event on them. 
         * @method startLoad
+        * @public
         */
         public startLoad() {
 
@@ -322,8 +370,9 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * [DESCRIPTION REQUIRED]
         * @method getNextFileSize
+        * @private
         */
         private getNextFileSize() {
 
@@ -341,9 +390,10 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * [DESCRIPTION REQUIRED]
         * @method addToBytesTotal
-        * @param {Kiwi.Files} file
+        * @param file {File} 
+        * @private
         */
         private addToBytesTotal(file: Kiwi.Files.File) {
 
@@ -356,8 +406,9 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Starts the loading of the next file in the list.
         * @method nextFile
+        * @private
         */
         private nextFile() {
 
@@ -370,9 +421,10 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * [DESCRIPTION REQUIRED]
         * @method fileLoadProgress
-        * @param {Kiwi.Files} file
+        * @param file {File}
+        * @private
         */
         private fileLoadProgress(file: Kiwi.Files.File) {
 
@@ -390,9 +442,10 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * [DESCRIPTION REQUIRED]
         * @method fileLoadComplete
-        * @param {Kiwi.Files} file
+        * @param file {File}
+        * @private
         */
         private fileLoadComplete(file: Kiwi.Files.File) {
 
@@ -438,9 +491,10 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Returns the total number of bytes that have been loaded so far.
         * @method getBytesLoaded
         * @return {Number}
+        * @public
         */
         public getBytesLoaded(): number {
 
@@ -449,9 +503,10 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * Returns a percentage of the amount that has been loaded so far.
         * @method getPercentLoaded
         * @return {Number}
+        * @public
         */
         public getPercentLoaded(): number {
 
@@ -470,10 +525,11 @@ module Kiwi.Files {
         * If true (and xhr/blob is available) the loader will get the bytes total of each file in the queue to give a much more accurate progress report during load
           If false the loader will use the file number as the progress value, i.e. if there are 4 files in the queue progress will get called 4 times (25, 50, 75, 100)
         * @method calculateBytes
-        * @param {Boolean} value
-        * @return {Boolean}
+        * @param [value] {boolean}
+        * @return {boolean}
+        * @public
         */
-        public calculateBytes(value?: bool): bool {
+        public calculateBytes(value?: boolean): boolean {
 
             if (value)
             {
@@ -485,14 +541,13 @@ module Kiwi.Files {
         }
 
         /**
-        * 
+        * [DESCRIPTION REQUIRED]
         * @method complete
-        * @return {Boolean}
+        * @return {boolean}
+        * @public
         */
-        public complete():bool {
-
+        public complete(): boolean {
             return this._complete;
-
         }
 
     }

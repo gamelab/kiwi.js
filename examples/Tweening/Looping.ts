@@ -20,8 +20,8 @@ class Looping extends Kiwi.State {
     }
 
     cat: Kiwi.GameObjects.Sprite;
-    tween: Kiwi.Animation.Tween;
-    playing: bool = false;
+    tween: Kiwi.Animations.Tween;
+    playing: boolean = false;
     direction: string = 'right';
 
     create() {
@@ -58,13 +58,13 @@ class Looping extends Kiwi.State {
             if (this.direction == 'left') {
                 this.direction = 'right';
                 this.cat.scaleX = -1;
-                this.tween.to({ x: 100 }, 800, Kiwi.Animation.Tweens.Easing.Linear.None, true);
+                this.tween.to({ x: 100 }, 800, Kiwi.Animations.Tweens.Easing.Linear.None, true);
 
             //move the cat to the left
             } else {
                 this.direction = 'left';
                 this.cat.scaleX = 1;
-                this.tween.to({ x: 600 }, 800, Kiwi.Animation.Tweens.Easing.Linear.None, true);
+                this.tween.to({ x: 600 }, 800, Kiwi.Animations.Tweens.Easing.Linear.None, true);
             }
 
             

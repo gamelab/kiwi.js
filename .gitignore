@@ -26,6 +26,7 @@ Thumbs.db
 /obj/debug/*
 !log4javascript.js
 !gl-matrix-min.js
+!/docs/assets/*
 *.map
 *.config
 [Bb]in
@@ -34,4 +35,5 @@ Thumbs.db
 _ReSharper*/
 [Tt]est[Rr]esult*
 !gruntfile.js
+!/build/*.js
 /node_modules

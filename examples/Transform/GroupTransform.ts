@@ -21,7 +21,7 @@ class GroupTransform extends Kiwi.State {
     create() {
           
         //to see information about animations look at the animation component section
-        this.textures.snake.sequences.push(new Kiwi.Animation.Sequence('slither', [1, 2, 3, 4, 5, 6], 0.1, true));
+        this.textures.snake.sequences.push(new Kiwi.Animations.Sequence('slither', [1, 2, 3, 4, 5, 6], 0.1, true));
         
         //create a new group and add it to the stage
         this.snakes = new Kiwi.Group(this);

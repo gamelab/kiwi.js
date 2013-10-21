@@ -15,7 +15,7 @@ class PlayingInReverse extends Kiwi.State {
     }
 
     zombie: Kiwi.GameObjects.Sprite;
-    walkAnim: Kiwi.Animation.Anim;
+    walkAnim: Kiwi.Animations.Animation;
 
     create() {
 

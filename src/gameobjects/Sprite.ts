@@ -1,25 +1,28 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="../core/Entity.ts" />
-/// <reference path="../core/State.ts" />
-/// <reference path="../components/Animation.ts" />
-/// <reference path="../components/Input.ts" />
-
-
-
+/**
+* The GameObject namespace holds classes which are designed to be added to a State (either directly, or as an ancestor of a Group) and are the Objects that are used when wanting to render anything visual onto the current State. Each GameObject is a representation of a particular item in a game and as such has information that corresponds to that item (like where they are in the 'GameWorld', the scale of the GameObject, who their parent is, e.t.c). For Example: If you wanted to have a massive background image then you can use the StaticImage GameObject, as that is a relatively light-weight object). Or if you had Player with an Animation, which user's could interactive with, then you would use a Sprite, which is more robust.
+* 
+* @module Kiwi
+* @submodule GameObjects 
+* @main GameObjects
+*/ 
 module Kiwi.GameObjects {
 
+    /**
+    * A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn't a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.
+    *
+    * @class Sprite
+    * @extends Entity
+    * @constructor
+    * @param state {State} The state that this sprite belongs to
+    * @param atlas {TextureAtlas} The texture you want to apply to this entity 
+    * @param [x=0] {Number} The sprites initial coordinates on the x axis.
+    * @param [y=0] {Number} The sprites initial coordinates on the y axis.
+    * @param [enableInput=false] {boolean} If the input component should be enabled or not.
+    * @return {Sprite}
+    */
     export class Sprite extends Kiwi.Entity {
-
-        /**
-        * 
-        * @constructor
-        * @param {Kiwi.State} state - The state that this sprite belongs to
-        * @param {Kiwi.Textures.TextureAtlas} atlas - The texture you want to apply to this entity 
-        * @param {Number} x 
-        * @param {Number} y
-        * @return {Sprite}
-        */
-        constructor(state: Kiwi.State, atlas:Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: bool = false) {
+         
+        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: boolean = false) {
 
             super(state, x, y);
 
@@ -45,54 +48,61 @@ module Kiwi.GameObjects {
                 this.animation = null;
                 this._isAnimated = false;
             } else {
-                this.animation = this.components.add(new Kiwi.Components.Animation(this));
+                this.animation = this.components.add(new Kiwi.Components.AnimationManager(this));
                 this._isAnimated = true;
             }
 
         }
 
-        /*
+        /**
         * Returns the type of object that this is.
         * @method objType
         * @return {string}
+        * @public
         */
         public objType():string {
             return "Sprite";
         }
         
-        /*
-        * Indicates weither or not this sprite is animated or not. 
+        /**
+        * Indicates whether or not this sprite is animated or not. 
+        * This sprite will not be animated if the texture used is a SINGLE_IMAGE.
         * @property _isAnimated
-        * @type bool
+        * @type boolean
+        * @private
         */
-        private _isAnimated: bool;
+        private _isAnimated: boolean;
 
         /** 
-	     * The animation component that allows you to create a animation with spritesheets/texture atlas's. 
-         * Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.
-	     * @property animation
-	     * @type Kiwi.Components.Animation
-	     **/
-        public animation: Kiwi.Components.Animation;
+	    * The animation component that allows you to create a animation with spritesheets/texture atlas's. 
+        * Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.
+	    * @property animation
+	    * @type AnimationManager
+        * @public
+	    */
+        public animation: Kiwi.Components.AnimationManager;
         
         /** 
-         * The Bounds component that controls the bounding box around this Game Object
-         * @property bounds
-         * @type Kiwi.Components.Bounds
-         **/
+        * The box component that controls the bounding box around this Game Object
+        * @property bounds
+        * @type Bounds
+        * @public
+        */
         public box: Kiwi.Components.Box;
 
         /** 
-	     * The Input component controls the user interaction with this Game Object
-	     * @property input
-	     * @type Kiwi.Components.Input
-	     **/
+	    * The Input component controls the user interaction with this Game Object
+	    * @property input
+	    * @type Input
+        * @public
+	    */
         public input: Kiwi.Components.Input;
         
         /**
-	     * Called by the State to which this Game Object is added
-	     * @method update
-	     **/
+	    * Called by parent when its update loop gets executed.
+	    * @method update
+        * @public
+	    */
         public update() {
             
             super.update();
@@ -110,15 +120,17 @@ module Kiwi.GameObjects {
         }
 
         /**
-	     * Called by the Layer to which this Game Object is attached
-	     * @method render
-	     **/
+	    * Called by the Layer to which this Game Object is attached
+	    * @method render
+        * @param {Camera} camera
+        * @public
+	    */
         public render(camera:Kiwi.Camera) {
            
             super.render(camera);
             
             //if it is would even be visible.
-            if (this.alpha > 0 && this.visiblity) {
+            if (this.alpha > 0 && this.visibility) {
                 
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
@@ -130,12 +142,13 @@ module Kiwi.GameObjects {
                 //get entity/view matrix
                 var t: Kiwi.Geom.Transform = this.transform;
                 var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-               
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-
-                //ctx.fillStyle = "green";
-                //ctx.fillRect(-2, -2, 5, 5);
                 
+                var ct: Kiwi.Geom.Transform = camera.transform;
+
+                //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+
+                             
                 var cell = this.atlas.cells[this.cellIndex];
                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                 ctx.restore();

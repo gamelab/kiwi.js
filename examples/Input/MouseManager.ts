@@ -21,18 +21,16 @@ class MouseManager extends Kiwi.State {
     rocket: Kiwi.GameObjects.Sprite;
 
     create() {
-        if (Kiwi.DEVICE.touch == false) {
-            
-            this.rocket = new Kiwi.GameObjects.Sprite(this, this.textures.rocket, 400, 200);
-            this.addChild(this.rocket);
+        
+        this.rocket = new Kiwi.GameObjects.Sprite(this, this.textures.rocket, 400, 200);
+        this.addChild(this.rocket);
 
-            this.rocket.rotation -= Math.PI / 2;
+        this.rocket.rotation -= Math.PI / 2;
 
-            this.game.input.mouse.mouseWheel.add(this.move, this);
-
-        }
+        this.game.input.mouse.onWheel.add(this.move, this);
+        
     }
-    
+
     move(deltaX, deltaY) {
 
         this.rocket.y -= deltaY / 4;

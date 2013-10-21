@@ -1,36 +1,43 @@
 /**
- *  Kiwi - Utils - Repeatable Random Data Generator
- *
- *  @desc       Manages the creation of unique internal game IDs
- *              Based on Nonsense by Josh Faul https://github.com/jocafa/Nonsense
- *              Random number generator from http://baagoe.org/en/wiki/Better_random_numbers_for_javascript
- *
- *	@version 	1.1 - 1st March 2013
- *	@author 	Josh Faul
- *	@author 	Richard Davey, TypeScript conversion and additional methods
- *  @url        http://www.kiwijs.org
- */
+* 
+* @module Kiwi
+* @submodule Utils
+*/
 
 module Kiwi.Utils {
 
+    /**
+    * Manages the creation of unique internal game IDs.
+    * Based on Nonsense by Josh Faul https://github.com/jocafa/Nonsense
+    * Random number generator from http://baagoe.org/en/wiki/Better_random_numbers_for_javascript
+    *
+    * @class RandomDataGenerator
+    * @constructor
+    * @param [seeds=[]] {String[]}
+    * @return {RandomDataGenerator}
+    *
+    * @author Josh Faul
+    */
     export class RandomDataGenerator {
-
-        /**
-        * @constructor
-        * @param {Array} seeds
-        * @return {Kiwi.Utils.RandomDataGenerator}
-        */
+         
         constructor(seeds: string[] = []) {
 
             this.sow(seeds);
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "RandomDataGenerator";
         }
 
         /**
+        * [DESCRIPTION REQUIRED]
         * @property s0
         * @type Any
         * @private
@@ -38,6 +45,7 @@ module Kiwi.Utils {
         private s0;
 
         /**
+        * [DESCRIPTION REQUIRED]
         * @property s1
         * @type Any
         * @private
@@ -45,6 +53,7 @@ module Kiwi.Utils {
         private s1;
 
         /**
+        * [DESCRIPTION REQUIRED]
         * @property s2
         * @type Any
         * @private
@@ -52,14 +61,18 @@ module Kiwi.Utils {
         private s2;
 
         /**
+        * [DESCRIPTION REQUIRED]
         * @property c
         * @type Number
+        * @default 1
         * @private
         */
         private c: number = 1;
 
         /**
+        * Used to contain various arrays of data that can be used when randomly generating blocks of text.
         * @property _data
+        * @type Object
         * @private
         */
         private _data = {
@@ -84,20 +97,24 @@ module Kiwi.Utils {
         };
 
         /**
+        * [DESCRIPTION REQUIRED]
         * @method uint32
+        * @return {Any}
         * @private
         */
-        private uint32() {
+        private uint32():any {
 
             return this.rnd.apply(this) * 0x100000000; // 2^32
 
         }
 
         /**
+        * [DESCRIPTION REQUIRED]
         * @method fract32
+        * @return {Any}
         * @private
         */
-        private fract32() {
+        private fract32():any {
 
             return this.rnd.apply(this) + (this.rnd.apply(this) * 0x200000 | 0) * 1.1102230246251565e-16; // 2^-53
 
@@ -105,10 +122,12 @@ module Kiwi.Utils {
 
         // private random helper
         /**
+        * [DESCRIPTION REQUIRED]
         * @method rnd
+        * @return {Any}
         * @private
         */
-        private rnd() {
+        private rnd():any {
 
             var t = 2091639 * this.s0 + this.c * 2.3283064365386963e-10; // 2^-32
 
@@ -121,11 +140,12 @@ module Kiwi.Utils {
         }
 
         /**
+        * [DESCRIPTION REQUIRED]
         * @method hash
-        * @param {Any} data
+        * @param data {Any}
         * @private
         */
-        private hash(data) {
+        private hash(data):any {
 
             var h, i, n;
 
@@ -152,7 +172,8 @@ module Kiwi.Utils {
         /**
         * Reset the seed of the random data generator
         * @method sow
-        * @param {Array} seeds
+        * @param [seeds=[]] {String[]}
+        * @public
         */
         public sow(seeds: string[] = []) {
 
@@ -177,9 +198,10 @@ module Kiwi.Utils {
         }
 
         /**
-        * returns a random integer between 0 and 2^32
+        * Returns a random integer between 0 and 2^32
         * @method integer
         * @return {Number}
+        * @public
         */
         public integer(): number {
 
@@ -188,9 +210,10 @@ module Kiwi.Utils {
         }
 
         /**
-        *  returns a random real number between 0 and 1
+        * Returns a random real number between 0 and 1
         * @method frac
         * @return {Number}
+        * @public
         */
         public frac(): number {
 
@@ -199,9 +222,10 @@ module Kiwi.Utils {
         }
 
         /**
-        *  returns a random real number between 0 and 2^32
+        * Returns a random real number between 0 and 2^32
         * @method real
         * @return {Number}
+        * @public
         */
         public real(): number {
 
@@ -210,11 +234,12 @@ module Kiwi.Utils {
         }
 
         /**
-        * returns a random integer between min and max
+        * Returns a random integer between min and max
         * @method integerInRange
-        * @param {Number} min
-        * @param {Number} max
+        * @param min {Number}
+        * @param max {Number}
         * @return {Number}
+        * @public
         */
         public integerInRange(min: number, max: number): number {
 
@@ -223,11 +248,12 @@ module Kiwi.Utils {
         }
  
         /**
-        * returns a random real number between min and max
+        * Returns a random real number between min and max
         * @method realInRange
-        * @param {Number} min
-        * @param {Number} max
+        * @param min {Number}
+        * @param max {Number}
         * @return {Number}
+        * @public
         */
         public realInRange(min: number, max: number): number {
 
@@ -239,9 +265,10 @@ module Kiwi.Utils {
         }
 
         /**
-        * returns a random real number between -1 and 1
+        * Returns a random real number between -1 and 1
         * @method normal
         * @return {Number}
+        * @public
         */
         public normal(): number {
 
@@ -250,9 +277,10 @@ module Kiwi.Utils {
         }
 
         /**
-        * returns a valid v4 UUID hex string (from https://gist.github.com/1308368)
+        * Returns a valid v4 UUID hex string (from https://gist.github.com/1308368)
         * @method uuid
         * @return {String}
+        * @public
         */
         public uuid(): string {
 
@@ -268,43 +296,51 @@ module Kiwi.Utils {
         }
  
         /**
-        * returns a random member of `array`
+        * Returns a random member of `array`
         * @method pick
         * @param {Any} array
+        * @return {Any}
+        * @public
         */
-        public pick(array) {
+        public pick(array):any {
 
             return array[this.integerInRange(0, array.length)];
 
         }
 
         /**
-        * returns a random member of `array`, favoring the earlier entries
+        * Returns a random member of `array`, favoring the earlier entries
         * @method weightedPick
         * @param {Any} array
+        * @return {Any}
+        * @public
         */
-        public weightedPick(array) {
+        public weightedPick(array):any {
 
             return array[~~(Math.pow(this.frac(), 2) * array.length)];
 
         }
 
         /**
-        * returns a random word of lipsum
+        * Returns a random word of lipsum
         * @method word
+        * @return {String}
+        * @public
         */
-        public word() {
+        public word():string {
 
             return this.pick(this._data.lipsum);
 
         }
 
         /**
-        * returns `n` random words of lipsum, 3 if not specified
+        * Returns `n` random words of lipsum, 3 if not specified
         * @method words
-        * @param {Number} quantity
+        * @param {Number} [quantity=3] Amount of random words to get.
+        * @return {String} 
+        * @public
         */
-        public words(quantity: number = 3) {
+        public words(quantity: number = 3):string {
 
             var ret = [];
 
@@ -318,10 +354,12 @@ module Kiwi.Utils {
         }
 
         /**
-        * returns a random lipsum sentence
+        * Returns a random lipsum sentence
         * @method sentence
+        * @return {String}
+        * @public
         */
-        public sentence() {
+        public sentence():String {
 
             var ret;
 
@@ -334,9 +372,11 @@ module Kiwi.Utils {
         }
 
         /**
-        * returns `n` random lipsum sentences, 3 if not specified
+        * Returns `n` random lipsum sentences, 3 if not specified
         * @method sentences
-        * @param {Number} quantity
+        * @param {Number} [quantity=3] The number of sentences to grab.
+        * @return {String}
+        * @public
         */
         public sentences(quantity: number = 3) {
 
@@ -352,22 +392,26 @@ module Kiwi.Utils {
         }
 
         /**
-        * `returns a random timestamp between min and max, or between the beginning of 2000 and the end of 2020 if min and max aren't specified
+        * Returns a random timestamp between min and max, or between the beginning of 2000 and the end of 2020 if min and max aren't specified
         * @method timestamp
-        * @param {Number} min
-        * @param {Number} max
+        * @param [min=946684800000] {Number} The lowest timestamp.
+        * @param [max=1577862000000] {Number} The highest timestamp.
+        * @return {Number}
+        * @public
         */
-        public timestamp(min: number = 946684800000, max: number = 1577862000000) {
+        public timestamp(min: number = 946684800000, max: number = 1577862000000):number {
 
             return this.realInRange(min, max);
 
         }
 
         /**
-        * returns a random angle between -180 and 180
+        * Returns a random angle between -180 and 180
         * @method angle
+        * @return {Number}
+        * @public
         */
-        public angle() {
+        public angle():number {
 
             return this.integerInRange(-180, 180);
 

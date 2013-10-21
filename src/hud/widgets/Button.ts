@@ -1,88 +1,53 @@
-/// <reference path="TextField.ts" />
-/// <reference path="../../core/game.ts" />
+/**
+*
+* @module HUD
+* @submodule Widget
+*
+*/
 
 module Kiwi.HUD.Widget {
-
+    
+    /**
+    * A subclass of the TextField that has its own input component so that you can listen for mouse events on this widget.
+    *
+    * @class Button
+    * @extends TextField
+    * @constructor
+    * @param game {game} The game that this belongs to.
+    * @param text {string} The text that you want to display inside the button.
+    * @param x {number} The x-coordnates of this Widget.
+    * @param y {number} The y-coordinates of this Widget.
+    * @return {Button}
+    */
     export class Button extends Kiwi.HUD.Widget.TextField {
 
-        constructor(game: Kiwi.Game, width: number, height: number, x: number, y: number) {
+        constructor(game: Kiwi.Game, text:string, x: number, y: number) {
 
-            super('button', x, y);
+            super(game, text, x, y);
 
-            this.game = game;
+            this.name = 'button';
+            this.class = 'kiwi-button-widget kiwi-widget';
             
-            this.width = width;
-            this.height = height;
-            
-            //this.bounds = this.components.add(new Kiwi.Components.Bounds(this.x, this.y, this.width, this.height)); //create custom bounds for HUD
-            
-            //this.input = this.components.add(new Kiwi.HUD.Components.WidgetInput(this.game, this.bounds));
-            this.onCoordsUpdate.add(this._changed, this);
-        }
-        
-        
-        /*
-        * The width of the container
-        * @property _width
-        * @type number
-        */
-        private _width: number;
-        
-        /*
-        * The width of the container
-        * @type number
-        */
-        public get width(): number {
-            return this._width;
-        }
-        
-        /*
-        * Set the width of the container
-        * @type number
-        */
-        public set width(value: number) {
-            this.container.style.width = value + "px";
-            this._width = value;
-            this._changed();
-        }
-        
-        /*
-        * The height of the container
-        * @property _height
-        * @type number
-        */
-        private _height: number;
-        
-        /*
-        * The height of the container
-        * @type number
-        */
-        public get height(): number {
-            return this._height;
-        }
-        
-        /*
-        * Set the height of the container
-        * @type number
-        */
-        public set height(value: number) {
-            this.container.style.height = value + "px";
-            this._height = value;
-            this._changed();
+            this.input = this.components.add(new Kiwi.HUD.HUDComponents.WidgetInput(this, this.container));
         }
 
-        public game: Kiwi.Game;
-        
-        public input: Kiwi.HUD.Components.WidgetInput;
-
-        //public bounds: Kiwi.Components.Bounds;
-
-        private _changed() {
-            //this.bounds.setTo(this.position.x(), this.position.y(), this.size.width(), this.size.height());
-          
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType(): string {
+            return 'ButtonWidget';
         }
-
         
+        /**
+        * The WidgetInput component that handles the management of events for this button.
+        * @property input
+        * @type WidgetInput
+        * @public
+        */
+        public input: Kiwi.HUD.HUDComponents.WidgetInput;
 
     }
 

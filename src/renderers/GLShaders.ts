@@ -1,6 +1,18 @@
-
+/**
+*  
+* @module Kiwi
+* @submodule Renderers
+* 
+*/
 module Kiwi.Renderers {
-
+    
+    /**
+    *
+    * @class GLShaders
+    * @constructor
+    * @param gl {WebGLRenderingContext}
+    * @return {GLShaders}
+    */
     export class GLShaders {
 
         constructor(gl:WebGLRenderingContext) {
@@ -12,12 +24,47 @@ module Kiwi.Renderers {
 
         }
 
-        
+        /**
+        *
+        * @property ready
+        * @type boolean
+        * @public
+        */
         public ready: boolean = false;
+        
+        /**
+        *
+        * @property vertShader
+        * @type WebGLShader
+        * @public
+        */
         public vertShader: WebGLShader;
+        
+        /**
+        *
+        * @property fragShader
+        * @type WebGLShader
+        * @public
+        */
         public fragShader: WebGLShader;
+        
+        /**
+        *
+        * @property shaderProgram
+        * @type WebGLProgram
+        * @public
+        */
         public shaderProgram: WebGLProgram;
-
+        
+        /**
+        *
+        * @method attach
+        * @param gl {WebGLRenderingContext}
+        * @param vertShader {WebGLShader}
+        * @param fragShader {WebGLShader}
+        * @return {WebGLProgram}
+        * @public
+        */
         public attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram {
             var shaderProgram: WebGLProgram = gl.createProgram();
             gl.attachShader(shaderProgram, fragShader);
@@ -25,7 +72,16 @@ module Kiwi.Renderers {
             gl.linkProgram(shaderProgram);
             return shaderProgram;
         }
-
+        
+        /**
+        *
+        * @method compile
+        * @param gl {WebGLRenderingContext}
+        * @param src {string}
+        * @param shaderType {number}
+        * @return {WebGLShader}
+        * @public
+        */
         public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader {
             var shader: WebGLShader = gl.createShader(shaderType);
             gl.shaderSource(shader, src);
@@ -37,6 +93,12 @@ module Kiwi.Renderers {
             return shader;
         }
 
+        /**
+        *
+        * @property texture2DProg
+        * @type Object
+        * @public
+        */
         public texture2DProg = {
             vertexPositionAttribute: null,
             vertexTexCoordAttribute: null,
@@ -48,6 +110,13 @@ module Kiwi.Renderers {
             cameraOffsetUniform: null
         };
 
+        /**
+        *
+        * @method use
+        * @param gl {WebGLRenderingContext}
+        * @param shaderProrgram {WebGLProgram}
+        * @public
+        */
         public use(gl: WebGLRenderingContext, shaderProgram: WebGLProgram) {
             gl.useProgram(this.shaderProgram);
           
@@ -69,6 +138,12 @@ module Kiwi.Renderers {
 
         }
 
+        /**
+        *
+        * @property texture2DFrag
+        * @type Array
+        * @public
+        */
         public texture2DFrag: Array = [
             "precision mediump float;",
             "varying vec2 vTextureCoord;",
@@ -80,6 +155,12 @@ module Kiwi.Renderers {
             "}"
         ];
 
+        /**
+        *
+        * @property texture2DVert
+        * @type Array
+        * @public
+        */
         public texture2DVert: Array = [
             "attribute vec2 aVertexPosition;",
             "attribute vec2 aTextureCoord;",

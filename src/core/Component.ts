@@ -1,30 +1,23 @@
-/// <reference path="Game.ts" />
-
-/*
- *	Kiwi - Core - Component
- *
- *	@desc		The component base class.
- *
- *	@version	1.0 - 8th March 2013
- *
- *	@author 	Richard Davey
- *	@author		Ross Kettle
- *				
- *	@url		http://www.kiwijs.org
- *
+/**
+* 
+* @module Kiwi
+* 
 */
 
 module Kiwi {
 
+    /**
+    * The base class that all components extend from and thus contains all of the common functionality that is required of every Component. 
+    *
+    * @class Component
+    * @constructor
+    * @param owner {IChild} The IChild that this component belongs to.
+    * @param componentName {String} The name of this component.
+    * @return {Component}
+    */ 
     export class Component {
-        
-        /** 
-        * 
-        * @constructor
-        * @param {string} componentName - The name of this component.
-        * @return Kiwi.Component
-        */
-        constructor (owner:IChild, name:string) {
+         
+        constructor (owner:Kiwi.IChild, name:string) {
 
             this.owner = owner; 
             this.game = this.owner.game;
@@ -35,7 +28,9 @@ module Kiwi {
 
         /**
         * Returns the type of this object
+        * @method objType
         * @return {String} The type of this object
+        * @public
         */
         public objType():string {
             return "Component";
@@ -45,6 +40,7 @@ module Kiwi {
         * The IChild that owns this entity
         * @property owner
         * @type IChild
+        * @public
         */
         public owner: Kiwi.IChild;
 
@@ -52,51 +48,61 @@ module Kiwi {
         * The game this Component belongs to
         * @property game
         * @type Game
+        * @public
 	    */
         public game: Kiwi.Game;
 
         /**
         * The name of this component.
-        * @property componentName
+        * @property name
         * @type string
-        **/
+        * @public 
+        */
         public name: string;
          
         /**
 		* An active Component is one that has its update method called by its parent.
         * @property active
-        * @type Boolean
-		**/
-        public active: bool = true;
+        * @type boolean
+        * @default true
+		* @public
+        */
+        public active: boolean = true;
 
         /**
         * The state of this component. DEPRECATED so we can use signals instead, but left in case is needed elsewhere
         * @property dirty
         * @type boolean
-        **/
-        public dirty: bool = false;
+        * @default false
+        * @public
+        */
+        public dirty: boolean = false;
 
         /**
-        * Components can preUpdate, that is update before the parent updates
+        * Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.
         * @method preUpdate
+        * @public
         */
         public preUpdate() { }
 
         /**
         * If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.
         * @method update
+        * @public
         */
         public update() { }
 
         /**
-        * Components can postUpdate, that is run an update after the parent has updated
+        * Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.
         * @method postUpdate
+        * @public
         */
         public postUpdate() { }
 
         /**
-        * Destroys this component
+        * Destroys this component and all of the properties that exist on it.
         * @method destroy
+        * @public
         */
         public destroy() {
 

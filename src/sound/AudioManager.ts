@@ -1,98 +1,159 @@
+/**
+* The namespace that holds all of the assets and functionality when dealing with Audio.
+* 
+* @module Kiwi
+* @submodule Sound
+* @main Sound 
+* 
+*/ 
 
 module Kiwi.Sound {
 
+    /**
+    * Manages the initialisation of assets necessary when dealing with audio in the game, either through Audio Tags or the Web Audio API. Also provides global sound controls that will be applyed to all Audio objects at the same time. 
+    * 
+    * @class AudioManager
+    * @constructor
+    * @param game {Game} The game that this audio manager belongs to.
+    * @return {AudioManager}
+    *
+    */
     export class AudioManager {
-
-        /*
-        *
-        * @constructor
-        * @param {Kiwi.Game} game
-        */
+         
         constructor(game: Kiwi.Game) {
             
             this._game = game;
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "AudioManager";
         }
 
-        /*
+        /**
         * The game that this manager belongs to.
         * @property _game
+        * @type Game
+        * @private
         */
         private _game: Kiwi.Game;
         
-        /*
+        /**
         * The global volume of all of the games audio.
         * @property _volume
+        * @type number
+        * @default 1
+        * @private
         */
         private _volume: number;
 
-        /*
-        * A boolean that controls weither the whole games audio should be muted or not.
+        /**
+        * A boolean that controls whether the whole games audio should be muted or not.
         * @property _muted
+        * @type boolean
+        * @default false
+        * @private
         */
-        private _muted: bool;
+        private _muted: boolean;
 
-        /*
+        /**
         * An array containing all of the sounds on the game.
         * @property _sounds
+        * @type Audio[]
+        * @private
         */
         private _sounds: any;
         
-        /*
+        /**
         * The number of channels that are supported.
         * Not in much use at this point in time.
         * @property channels
+        * @type number
+        * @public
         */
         public channels: number;
 
-        /*
+        /**
         * If the current game has audio support or not.
         * @property noAudio
+        * @type boolean
+        * @public
         */
-        public noAudio: bool = false;
+        public noAudio: boolean = false;
 
-        /*
+        /**
         * If the game is currently using the Web Audio API for the sound.
         * @property usingWebAudio
+        * @type boolean
+        * @public
         */
-        public usingWebAudio: bool = false;
+        public usingWebAudio: boolean = false;
 
-        /*
+        /**
         * If the game is using audio tags for the sound. This is the fallback if the web audio api is not supported. 
         * @property usingAudioTag
+        * @type boolean
+        * @public
         */
-        public usingAudioTag: bool = false;
+        public usingAudioTag: boolean = false;
 
-        /*
+        /**
         * Web Audio API ONLY - The audio context that is used for decoding audio, e.t.c. 
         * @property context
+        * @type any
+        * @public
         */
         public context: any = null;
 
-        /*
+        /**
         * Web Audio API ONLY - The master gain node through which all sounds play.
         * @property masterGain
+        * @type any
+        * @public
         */
         public masterGain: any = null;
 
-        /*
+        /**
         * The volume of the audio before it was muted. This is used so that when the audio is unmuted the volume will resume at this point.
         * @property _muteVolume
+        * @type number
+        * @private
         */
         private _muteVolume: number;
-         
-        /*
-        * The boot manager.
+        
+        /**
+        * Indicates if a mouse/touch event has fired from the device or not. 
+        * @property _deviceTouched
+        * @type boolean
+        * @private
+        */
+        private _deviceTouched: boolean;
+
+        /**
+        * Returns a boolean indicating whether the device has been touched or not. READ ONLY.
+        * @property deviceTouched
+        * 
+        */
+        public get deviceTouched():boolean {
+            return this._deviceTouched;
+        }
+
+        /**
+        * The boot method is executed when all of the DOM elements needed for the game are loaded and the game is ready to 'start' up.
         *
         * @method boot
+        * @public
         */
-        boot() {
+        public boot() {
             
             this._volume = 1;
+            this._deviceTouched = false;
             this._muted = false;
             this._sounds = [];
 
@@ -101,7 +162,12 @@ module Kiwi.Sound {
                 this.channels = 1;
             }
 
-            //check to see if the device is locked here...
+            //add mouse event here to 'unlock' the device.
+            if (Kiwi.DEVICE.iOS) { 
+                this._game.input.onUp.addOnce(this._unlocked, this);
+            } else {
+                this._deviceTouched = true;
+            }
 
             this.usingWebAudio = true;  //we hope for the best....
             this.usingAudioTag = false;
@@ -132,17 +198,32 @@ module Kiwi.Sound {
                 this.masterGain.gain.value = 1;
                 this.masterGain.connect(this.context.destination);
             }
-            
+        
         }
 
-        /*
+        /**
+        * Is executed when a mouse event is fired on the device. This is used to enabled playback of sounds on the current device if they were awaiting for a user event.
+        * @method _unlocked
+        * @private
+        */
+        private _unlocked() {
+            this._deviceTouched = true;
+            console.log('I\'m unlocked now!');
+            
+            for (var i = 0; i < this._sounds.length; i++) {
+                this._sounds[i].playable = true;
+            }
+        }
+
+        /**
         * Used to mute the audio on the device, or to check to see if the device is muted.
         *
-        * @method mute
-        * @param {bool} value
-        * @return {bool}
+        * @property mute
+        * @type boolean
+        * @default false
+        * @public
         */
-        public set mute(value: bool) {
+        public set mute(value: boolean) {
             
             if (value === true) {
                 if (this._muted) return;
@@ -175,17 +256,18 @@ module Kiwi.Sound {
         
         }
 
-        public get mute(): bool {
+        public get mute(): boolean {
             return this._muted;
             
         }
 
-        /*
+        /**
         * Global setting and getting of the volume. A number between 0 (silence) and 1 (full volume)
         *
-        * @method volume
-        * @param {number} value
-        * @return {number}
+        * @property volume
+        * @type number  
+        * @default 1
+        * @public
         */
         public set volume(value: number) {
             
@@ -210,45 +292,78 @@ module Kiwi.Sound {
 
             }
         }
-
         public get volume(): number {
 
             return this._volume;
 
         }
 
-        /*
+        /**
+        * Indicates whether or not an Audio Object is registered with this Audio Manager or not. More for Kiwi Internal use only.
+        * @method isRegistered
+        * @param sound {Audio} The Audio object you are checking for.
+        * @return {Boolean} If the piece of audio is registered or not.
+        * @public
+        */
+        public isRegistered(sound: Kiwi.Sound.Audio):boolean {
+            if (this.noAudio) return; 
+
+            if (this._sounds.indexOf(sound) !== -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        /**
+        * Registers an Audio Object with this audio manager. Also assign's the audio piece a unique ID to identify it by. Internal Kiwi use only.
+        * @method registerSound
+        * @param sound {Audio} The audio piece you are wanting to register. 
+        * @return {Boolean } Indication of if the sound was successfully added or not.
+        * @public
+        */
+        public registerSound(sound:Kiwi.Sound.Audio):boolean {
+            if (this.isRegistered(sound) === false) {
+                sound.id = this._game.rnd.uuid();
+                this._sounds.push(sound);
+                return true;
+            }
+            return false;
+        }
+
+        /**
         * Used to create a new sound on the audio manager. Returns the newly created sound.
         * 
         * @method add
-        * @param {string} key
-        * @param {number} volume
-        * @param {bool} loop
-        * @return {Kiwi.Sound.Audio}
+        * @param key {string} The key for the audio file that is to be loaded from the AudioLibrary.
+        * @param [volume=1] {number} The volume for the piece of audio.
+        * @param [loop=false] {boolean} If the audio should keep repeat when it gets to the end.
+        * @return {Audio}
+        * @public
         */
-        public add(key: string, volume: number = 1, loop: bool = false): Kiwi.Sound.Audio {
+        public add(key: string, volume: number = 1, loop: boolean = false): Kiwi.Sound.Audio {//rename to create
             
             if (this.noAudio) return;
 
             var sound: Kiwi.Sound.Audio = new Kiwi.Sound.Audio(this._game, key, volume, loop);
-            this._sounds.push(sound);
             return sound;
         
-            return null;
         }
 
-        /*
+        /**
         * Removes the passed sound from the audio manager. Needs testing.
         *
         * @method remove
-        * @param { Kiwi.Sound.Audio} sound
+        * @param sound {Audio} The audio file that you want to remove.
+        * @public
         */
-        public remove(sound: Kiwi.Sound.Audio) {
+        public remove(sound: Kiwi.Sound.Audio, destroy:boolean=true) {
             //needs testing
             for (var i = 0; i < this._sounds.length; i++) {
 
-                if (sound == this._sounds[i]) {
-                    this._sounds[i].gainNode.disconnect();
+                if (sound.id == this._sounds[i].id) {
+                    if(this.usingWebAudio) this._sounds[i].gainNode.disconnect();
+                    if (destroy == true) this._sounds[i].destroy();
                     this._sounds.splice(i, 1, 0);
                     i--;
                 }
@@ -257,10 +372,11 @@ module Kiwi.Sound {
 
         }
         
-        /*
+        /**
         * Plays all of the sounds listed in the audio manager.
         *
         * @method playAll
+        * @public
         */
         public playAll() {
             for (var i = 0; i < this._sounds.length; i++) {
@@ -272,10 +388,11 @@ module Kiwi.Sound {
             }
         }
     
-        /*
+        /**
         * Stops all of the sounds that are listed in the audio manager from playing.
         *
         * @method playAll
+        * @public
         */
         public stopAll() {
             
@@ -289,10 +406,11 @@ module Kiwi.Sound {
         
         }
     
-        /*
+        /**
         * Pauses all of the sounds listed in the audio manager.
         *
-        * @method playAll
+        * @method pauseAll
+        * @public
         */
         public pauseAll() {
             
@@ -307,12 +425,14 @@ module Kiwi.Sound {
         
         }
         
-        /*
-        * Resumes all of the sounds listed in the audio manager.
+        /**
+        * Resumes all of the sounds listed in the audio manager. 
         *
-        * @method playAll
+        * @method resumeAll
+        * @param [destroy=true] {boolean} If the audio objects should be destroyed when they are removed.
+        * @public
         */
-        public resumeAll() {
+        public resumeAll(destroy:boolean=true) {
             
             for (var i = 0; i < this._sounds.length; i++) {
 
@@ -325,11 +445,12 @@ module Kiwi.Sound {
 
         }
 
-
-        /*
-        * Update Loop
+        /**
+        * The update loop that is executed every frame.
+        * @method update
+        * @public
         */
-        update() {
+        public update() {
             
             if (!this.noAudio) {
                 for (var i = 0; i < this._sounds.length; i++) {

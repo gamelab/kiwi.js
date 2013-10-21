@@ -1,25 +1,22 @@
-/// <reference path="State.ts" />
-
 /**
- *  Kiwi - Core - StateConfig
- *
- *  @desc       A State Configuration Object
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
+* 
+* @module Kiwi
+* 
+*/  
 
 module Kiwi {
 
+    /**
+    * [WHOLE THING REQUIRES DESCRIPTION]
+    * @class StateConfig
+    * @constructor
+    * @param {State} parent
+    * @param {String} name
+    * @return {StateConfig} This Object
+    * 
+    */ 
     export class StateConfig {
-
-        /**
-        * 
-        * @constructor
-        * @param {Kiwi.State} parent
-        * @return {StateConfig} This Object
-        */
+ 
         constructor(parent: Kiwi.State, name: string) {
 
             this._state = parent;
@@ -36,187 +33,203 @@ module Kiwi {
         /**
         * 
         * @property _state
-        * @type Kiwi.State
+        * @type State
         * @private
-        **/
+        */
         private _state: Kiwi.State;
 
         /**
         * The name of the State, must be unique within your game.
         * @property name
         * @type String
-        * @private
+        * @public
         */
         public name: string = '';
 
         /**
         * 
         * @property isPersistent
-        * @type Boolean
-        * @private
-        **/
-        public isPersistent: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isPersistent: boolean = false;
 
         /**
         * 
         * @property isCreated
-        * @type Boolean
-        * @private
-        **/
-        public isCreated: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isCreated: boolean = false;
 
         /**
         * 
         * @property isInitialised
-        * @type Boolean
-        * @private
-        **/
-        public isInitialised: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isInitialised: boolean = false;
 
         /**
         * 
         * @property isReady
-        * @type Boolean
-        * @private
-        **/
-        public isReady: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isReady: boolean = false;
 
         /**
         * 
         * @property hasInit
-        * @type Boolean
-        * @private
-        **/
-        public hasInit: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasInit: boolean = false;
 
         /**
         * 
         * @property hasPreloader
-        * @type Boolean
-        * @private
-        **/
-        public hasPreloader: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasPreloader: boolean = false;
 
         /**
         * 
         * @property hasLoadProgress
-        * @type Boolean
-        * @private
-        **/
-        public hasLoadProgress: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasLoadProgress: boolean = false;
 
         /**
         * 
         * @property hasLoadComplete
-        * @type Boolean
-        * @private
-        **/
-        public hasLoadComplete: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasLoadComplete: boolean = false;
 
         /**
         * 
         * @property hasLoadUpdate
-        * @type Boolean
-        * @private
-        **/
-        public hasLoadUpdate: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasLoadUpdate: boolean = false;
 
         /**
         * 
         * @property hasCreate
-        * @type Boolean
-        * @private
-        **/
-        public hasCreate: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasCreate: boolean = false;
 
         /**
         * 
         * @property hasOnEnter
-        * @type Boolean
-        * @private
-        **/
-        public hasOnEnter: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasOnEnter: boolean = false;
 
         /**
         * 
         * @property hasUpdate
-        * @type Boolean
-        * @private
-        **/
-        public hasUpdate: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasUpdate: boolean = false;
 
         /**
         * 
         * @property hasRender
-        * @type Boolean
-        * @private
-        **/
-        public hasRender: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasRender: boolean = false;
 
         /**
         * 
         * @property hasOnExit
-        * @type Boolean
-        * @private
-        **/
-        public hasOnExit: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasOnExit: boolean = false;
 
         /**
         * 
         * @property hasShutDown
-        * @type Boolean
-        * @private
-        **/
-        public hasShutDown: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasShutDown: boolean = false;
 
         /**
         * 
         * @property hasDestroy
-        * @type Boolean
-        * @private
-        **/
-        public hasDestroy: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public hasDestroy: boolean = false;
 
         /**
         * 
         * @property runCount
         * @type Number
-        * @private
-        **/
+        * @default 0
+        * @public
+        */
         public runCount: number = 0;
 
         /**
         * 
         * @property type
         * @type Number
-        * @private
-        **/
+        * @default 0
+        * @public
+        */
         public type: number = 0;
 
         /**
         * Stores any parameters passed to the init method
         * @property initParams
         * @type array
-        **/
+        * @public
+        */
         public initParams;
 
         /**
         * Stores any parameters passed to the create method
         * @property initParams
         * @type array
-        **/
+        * @public
+        */
         public createParams;
 
         /**
-         *  Builds up a StateManager Object on the State itself (called KiwiSMData).
-         *  This is used to save time when doing function loops.
-         *  Add Persistent State support? So it's called all the time, regardless of which state is current.
-         *
-         * @method buildStateConfig
-         * @param {String} key
-         * @param {Boolean} persistent
-         */
-        populate() {
+        *
+        * @method populate
+        * @public
+        */
+        public populate() {
 
             if (typeof this._state['init'] === 'function')
             {

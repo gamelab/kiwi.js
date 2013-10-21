@@ -21,9 +21,9 @@ class Chaining extends Kiwi.State {
 
     public bullet: Kiwi.GameObjects.Sprite;
 
-    public tweenA: Kiwi.Animation.Tween;
-    public tweenB: Kiwi.Animation.Tween;
-    public tweenC: Kiwi.Animation.Tween;
+    public tweenA: Kiwi.Animations.Tween;
+    public tweenB: Kiwi.Animations.Tween;
+    public tweenC: Kiwi.Animations.Tween;
 
     create() {
 
@@ -39,9 +39,9 @@ class Chaining extends Kiwi.State {
         this.tweenC = this.game.tweens.create(this.bullet);
         
         //set the tweens up
-        this.tweenA.to({ x: 400 }, 1200, Kiwi.Animation.Tweens.Easing.Linear.None, false);
-        this.tweenB.to({ rotation: Kiwi.Utils.GameMath.degreesToRadians(45) }, 750, Kiwi.Animation.Tweens.Easing.Circular.InOut, false);
-        this.tweenC.to({ x: 600, y: 400 }, 1200, Kiwi.Animation.Tweens.Easing.Linear.None, false);
+        this.tweenA.to({ x: 400 }, 1200, Kiwi.Animations.Tweens.Easing.Linear.None, false);
+        this.tweenB.to({ rotation: Kiwi.Utils.GameMath.degreesToRadians(45) }, 750, Kiwi.Animations.Tweens.Easing.Circular.InOut, false);
+        this.tweenC.to({ x: 600, y: 400 }, 1200, Kiwi.Animations.Tweens.Easing.Linear.None, false);
 
         //set the order that they will execute one after the other in.
         this.tweenA.chain(this.tweenB);

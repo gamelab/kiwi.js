@@ -27,7 +27,7 @@ class Moving extends Kiwi.State {
         **/
 
         //to see information about animations look at the animation component section
-        this.textures.snake.sequences.push(new Kiwi.Animation.Sequence('slither', [1, 2, 3, 4, 5, 6], 0.1, true));
+        this.textures.snake.sequences.push(new Kiwi.Animations.Sequence('slither', [1, 2, 3, 4, 5, 6], 0.1, true));
 
         this.snakeA = new Kiwi.GameObjects.Sprite(this, this.textures.snake);                  //create the snake
         this.addChild(this.snakeA);

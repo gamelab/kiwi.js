@@ -29,9 +29,9 @@ class MultipleSprites extends Kiwi.State {
         * So when the sprite is created it automatically adds the sequence to the animation component. 
         * This way we dont have to recreate each animation for each one if we didnt want to.
         **/
-        this.textures.zombie.sequences.push(new Kiwi.Animation.Sequence('walkright', [1, 2, 3, 4, 5, 6], 0.1, true));
-        this.textures.zombie.sequences.push(new Kiwi.Animation.Sequence('liedown', [0, 7, 8], 0.15, false));
-        this.textures.zombie.sequences.push(new Kiwi.Animation.Sequence('explode', [11, 12, 13, 14, 15], 0.05, false));
+        this.textures.zombie.sequences.push(new Kiwi.Animations.Sequence('walkright', [1, 2, 3, 4, 5, 6], 0.1, true));
+        this.textures.zombie.sequences.push(new Kiwi.Animations.Sequence('liedown', [0, 7, 8], 0.15, false));
+        this.textures.zombie.sequences.push(new Kiwi.Animations.Sequence('explode', [11, 12, 13, 14, 15], 0.05, false));
 
         //create the zombies
         this.zombieA = new Kiwi.GameObjects.Sprite(this,this.textures.zombie, 100, 10);

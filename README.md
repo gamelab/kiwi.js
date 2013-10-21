@@ -6,15 +6,20 @@ Kiwi.js (BETA)
 ###HTML5 game library written in TypeScript/Javascript
 -----------------------------------------------------------------
 
-version 0.4.9
+version 0.5
 
 See [Kiwijs.org](http://kiwijs.org) for more information about using Kiwi.js to build games, including some getting started examples. Note: this release is a beta and is not intended as a preview only and not for building production games at this stage.
+
+[Getting Started Tutorials](http://www.kiwijs.org/documentation/getting-started/)  
+[Code Examples](http://www.kiwijs.org/examples/)  
+[API Documentation](http://api.kiwijs.org/)  
+[Contact](http://www.kiwijs.org/help/)  
 
 ###Aim
 
 * An opensource TypeScript/Javascript library for game creation
-* Targeting native mobile apps  as well as both desktop and mobile browsers
-* Future focussed
+* Targeting native mobile apps as well as both desktop and mobile browsers
+* Future focused
 * WebGL and 2D Canvas rendering
 * Support for Cocoon.js as a native mobile app deployment solution 
 
@@ -29,7 +34,8 @@ These features are either currently supported or very close to being supported. 
 * State Management
 * Extensible game objects (such as sprites)
 * Entity/Component system
-* 2D Canvas and WebGL rendering (experimental)
+* 2D Canvas 
+* 2D WebGL rendering (experimental)
 * Target Cocoon.js (experimental)
 * Full nested display list
 * HTML5 HUD
@@ -74,8 +80,8 @@ We'd love you to get involved in making the Kiwi.js library. If you'd like to co
 
 ###Main Contributors
 
-Ben Harding
-Richard Davey
-Ross Kettle
+Ben Harding  
+Richard Davey  
+Ross Kettle  
 
-Kiwi.js also uses code from a number of open source projects. Authors are clearly identified in the code comments.
+Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.

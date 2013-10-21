@@ -1,23 +1,23 @@
 /**
- *  Kiwi - Utils - Common
- *
- *  @desc       Methods to assist in working with Structs.
- *
- *	@version 	0.2 - 11th October 2012
- *	@author		Mauricio Santos
- *	@author 	Richard Davey - TypeScript conversion
- *  @url        http://www.kiwijs.org
- *
- *  A lot of the functions in this class are Copyright 2012 Mauricio Santos and used with permission.
- *  His work is licensed under the Apache License, Version 2.0 (the "License");
- *
- *  You may not use this file except in compliance with the License.
- *
- *  Some documentation is borrowed from the official Java API as it serves the same purpose.
- */
+* Utils is a space that holds a wide varity of useful methods.
+*
+* @module Kiwi
+* @submodule Utils
+* @main Utils
+*/
 
 module Kiwi.Utils {
 
+    /**
+    * Methods to assist in working with Structs.
+    * A lot of the functions in this class are Copyright 2012 Mauricio Santos and used with permission.
+    * His work is licensed under the Apache License, Version 2.0 (the "License")
+    *
+    * @class Common
+    * @static
+    *
+    * @author Mauricio Santos
+    */
     export class Common {
 
         /**
@@ -45,6 +45,12 @@ module Kiwi.Utils {
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Common";
         }
@@ -52,10 +58,11 @@ module Kiwi.Utils {
         /**
         * Default function to test equality.
         * @method defaultEquals
-        * @param {Any} a.
-        * @param {Any} b.
-        * @return {Boolean}
+        * @param {Any} a
+        * @param {Any} b
+        * @return {boolean}
         * @static
+        * @public
         */
         public static defaultEquals(a, b) {
 
@@ -66,9 +73,10 @@ module Kiwi.Utils {
         /**
         * Default function to convert an object to a string.
         * @method defaultTostring
-        * @param {Any} item.
+        * @param item {Any}
         * @return {Any}
         * @static
+        * @public
         */
         public static defaultTostring(item) {
 
@@ -95,8 +103,9 @@ module Kiwi.Utils {
         * Checks if the given argument is a function.
         * @method isFunction
         * @param {Any} func.
-        * @return {Boolean}
+        * @return {boolean}
         * @static
+        * @public
         */
         public static isFunction(func) {
 
@@ -105,8 +114,13 @@ module Kiwi.Utils {
         }
 
         /**
-         * Checks if the given value is numeric.
-         */
+        * Checks if the given value is numeric.
+        * @method isNumeric
+        * @param value {Any}
+        * @return {Boolean}
+        * @static
+        * @public
+        */
         public static isNumeric(value) {
 
             return !isNaN(value);
@@ -116,9 +130,10 @@ module Kiwi.Utils {
         /**
         * Checks if the given argument is undefined.
         * @method isUndefined
-        * @param {Any} obj.
-        * @return {Boolean}
+        * @param {Any} obj
+        * @return {boolean}
         * @static
+        * @public
         */
         public static isUndefined(obj) {
 
@@ -129,9 +144,10 @@ module Kiwi.Utils {
         /**
         * Checks if the given argument is a string.
         * @method isString
-        * @param {Any} obj.
-        * @return {Boolean}
+        * @param {Any} obj
+        * @return {boolean}
         * @static
+        * @public
         */
         public static isString(obj) {
 
@@ -142,9 +158,10 @@ module Kiwi.Utils {
         /**
         * Reverses a compare function.
         * @method reverseCompareFunction
-        * @param {Any} compareFunction.
+        * @param {Any} compareFunction
         * @return {Number}
         * @static
+        * @public
         */
         public static reverseCompareFunction(compareFunction) {
 
@@ -177,9 +194,10 @@ module Kiwi.Utils {
         /**
         * Returns an equal function given a compare function.
         * @method compareToEquals
-        * @param {Any} compareFunction.
-        * @return {Boolean}
+        * @param {Any} compareFunction
+        * @return {boolean}
         * @static
+        * @public
         */
         public static compareToEquals(compareFunction) {
 
@@ -189,6 +207,14 @@ module Kiwi.Utils {
 
         }
 
+        /**
+        * Shuffles the contents of an array given into a random order.
+        * @method shuffleArray
+        * @param array {Any}
+        * @return {Any} What you passed but the with the contents in a new order.
+        * @static
+        * @public
+        */
         public static shuffleArray(array) {
 
             for (var i = array.length - 1; i > 0; i--)

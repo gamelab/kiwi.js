@@ -1,35 +1,36 @@
 /**
- *	Kiwi - Geom - Ray
- *
- *	@desc 		A ray object is represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
- *
- *	@version 	1.2 - 27th February 2013
- *	@author 	Ross Kettle
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- *
- *  @todo       
- */
+*  
+* @module Kiwi
+* @submodule Geom
+*/
 
 module Kiwi.Geom {
 
+    /**
+    * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
+    *
+    * @class Ray
+    * @constructor
+    * @param x1 {Number} x1
+    * @param y1 {Number} y1
+    * @param x2 {Number} x2
+    * @param y2 {Number} y2
+    * @return {Kiwi.Geom.Ray} This Object
+    *
+    */
     export class Ray {
 
-        /**
-        * 
-        * @constructor
-        * @param {Number} x1
-        * @param {Number} y1
-        * @param {Number} x2
-        * @param {Number} y2
-        * @return {Kiwi.Geom.Ray} This Object
-        */
         constructor(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0) {
 
             this.setTo(x1, y1, x2, y2);
 
         }
-
+        /**
+        * The type of this object.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Ray";
         }
@@ -38,6 +39,7 @@ module Kiwi.Geom {
         * The x component of the initial point of the ray
         * @property x1
         * @type Number
+        * @public
         */
         public x1: number = 0;
 
@@ -45,6 +47,7 @@ module Kiwi.Geom {
         * The y component of the initial point of the ray
         * @property y1
         * @type Number
+        * @public
         */
         public y1: number = 0;
 
@@ -52,6 +55,7 @@ module Kiwi.Geom {
         * The x component of the direction point of the ray
         * @property x2
         * @type Number
+        * @public
         */
         public x2: number = 0;
 
@@ -59,14 +63,16 @@ module Kiwi.Geom {
         * The y component of the direction point of the ray
         * @property y2
         * @type Number
+        * @public
         */
         public y2: number = 0;
 
         /**
         * 
         * @method clone
-        * @param {Kiwi.Geom.Ray} [output]
-        * @return {Kiwi.Geom.Ray}
+        * @param [output = Ray] {Ray} 
+        * @return {Ray}
+        * @public
         */
         public clone(output: Ray = new Ray): Ray {
 
@@ -77,8 +83,9 @@ module Kiwi.Geom {
         /**
         * 
         * @method copyFrom
-        * @param {Kiwi.Geom.Line} source
-        * @return {Kiwi.Geom.Line}
+        * @param source {Ray} 
+        * @return {Ray}
+        * @public
         */
         public copyFrom(source: Ray): Ray {
 
@@ -89,8 +96,9 @@ module Kiwi.Geom {
         /**
         * 
         * @method copyTo
-        * @param {Kiwi.Geom.Line} target
-        * @return {Kiwi.Geom.Line}
+        * @param target {Ray} 
+        * @return {Ray}
+        * @public
         */
         public copyTo(target: Ray): Ray {
 
@@ -101,11 +109,12 @@ module Kiwi.Geom {
         /**
         * 
         * @method setTo
-        * @param {Number} x1
-        * @param {Number} y1
-        * @param {Number} x2
-        * @param {Number} y2
-        * @return {Kiwi.Geom.Line}
+        * @param x1{Number} 
+        * @param y1{Number} 
+        * @param x2{Number} 
+        * @param y2{Number} 
+        * @return {Ray}
+        * @public
         */
         public setTo(x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): Ray {
 
@@ -120,8 +129,9 @@ module Kiwi.Geom {
 
         /**
         * Get the angle of the ray.
-        * @method angle
+        * @property angle
         * @return {Number}
+        * @public
         */
         public get angle(): number {
 
@@ -131,8 +141,9 @@ module Kiwi.Geom {
 
         /**
         * Get the slope of the ray.
-        * @method slope
+        * @property slope
         * @return {Number}
+        * @public
         */
         public get slope(): number {
 
@@ -143,7 +154,9 @@ module Kiwi.Geom {
         /**
         * 
         * @method yIntercept
+        * @property yIntercept
         * @return {Number}
+        * @public
         */
         public get yIntercept(): number {
 
@@ -156,9 +169,9 @@ module Kiwi.Geom {
         * @method isPointOnRay
         * @param {Number} x
         * @param {Number} y
-        * @return {Boolean}
+        * @return {boolean}
         */
-        public isPointOnRay(x: number, y: number): bool {
+        public isPointOnRay(x: number, y: number): boolean {
 
             if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
                 if (Math.atan2(y-this.y1, x-this.x1) == Math.atan2(this.y2-this.y1, this.x2- this.x1)){ 

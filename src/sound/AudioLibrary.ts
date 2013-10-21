@@ -1,43 +1,58 @@
-
+/**
+* 
+* @module Kiwi
+* @submodule Sound
+* 
+*/ 
 
 module Kiwi.Sound {
 
-
-    // Class
+    /**
+    * Holds a reference to all of the Audio Files (mp3, ogg, e.t.c) that are accessible on the State that this AudioLibrary is on.
+    * 
+    * @class AudioLibrary
+    * @constructor
+    * @param game {Game} The game that this audio library is a member of.
+    * @return {AudioLibrary}
+    */
     export class AudioLibrary {
-
-        /*
-        * 
-        * @constructor
-        * @param {Kiwi.Game} game
-        * @return {Kiwi.AudioLibrary}
-        */
+         
         constructor(game: Kiwi.Game) {
 
             this._game = game;
             this.audio = {};
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType(): string {
             return "AudioLibrary";
         }
 
-        /*
-        * 
+        /**
+        * The game that the AudioLibrary belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
+        * @private
         */
         private _game: Kiwi.Game;
 
-        /*
-        * Contains all of the audios that are available.
-        * @property textures
+        /**
+        * Contains all of the audio files that are available.
+        * @property audio
+        * @type Object
+        * @public
         */
         public audio;
 
-        /*
+        /**
         * Resets the audio library.
         * @method clear
+        * @public
         */
         public clear() {
             for (var prop in this.audio) {
@@ -45,10 +60,11 @@ module Kiwi.Sound {
             }
         }
 
-        /*
+        /**
         * Adds a new audio file to the audio library.
         * @method add
-        * @param {Kiwi.File} imageFile
+        * @param {File} imageFile
+        * @public
         */
         public add(audioFile: Kiwi.Files.File) {
 

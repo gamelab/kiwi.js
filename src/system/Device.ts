@@ -1,27 +1,24 @@
-
 /**
- *  Kiwi - Static  - Device
- *
- *  @desc       Detects device support capabilities. Using some elements from System.js by MrDoob and Modernizr
- *              https://github.com/Modernizr/Modernizr/blob/master/feature-detects/audio.js
- *
- *	@version 	1.0 - March 5th 2013
- *	@author 	Richard Davey
- *	@author		mrdoob
- *	@author		Modernizr team
- *  @url        http://www.kiwijs.org
- */
-
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+*/ 
 
 module Kiwi.System {
 
+    /**
+    * Detects device support capabilities. Using some elements from System.js by MrDoob and Modernizr
+    * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/audio.js
+    *
+    * @class Device
+    * @constructor 
+    *
+    * @author mrdoob
+    * @author Modernizr team
+    * 
+    */
     export class Device {
-
-        /**
-        *
-        * @constructor
-        * @return {Device} This Object
-        */
+         
         constructor() {
 
             this._checkAudio();
@@ -33,6 +30,12 @@ module Kiwi.System {
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Device";
         }
@@ -42,255 +45,297 @@ module Kiwi.System {
         /**
         * 
         * @property iOS 
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public iOS: bool = false;
+        public iOS: boolean = false;
 
         /**
         * 
         * @property android
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public android: bool = false;
+        public android: boolean = false;
 
         /**
         * 
         * @property chromeOS
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public chromeOS: bool = false;
+        public chromeOS: boolean = false;
 
         /**
         * 
         * @property linux
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public linux: bool = false;
+        public linux: boolean = false;
 
         /**
         * 
         * @property maxOS
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public macOS: bool = false;
+        public macOS: boolean = false;
 
         /**
         * 
         * @property windows
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public windows: bool = false;
+        public windows: boolean = false;
 
         //  Features
 
         /**
         * 
         * @property canvas
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public canvas: bool = false;
+        public canvas: boolean = false;
 
         /**
         * 
         * @property file
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public file: bool = false;
+        public file: boolean = false;
 
         /**
         * 
         * @property fileSystem
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public fileSystem: bool = false;
+        public fileSystem: boolean = false;
 
         /**
         * 
         * @property localStorage
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public localStorage: bool = false;
+        public localStorage: boolean = false;
 
         /**
         * 
         * @property webGL
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public webGL: bool = false;
+        public webGL: boolean = false;
 
         /**
         * 
         * @property worker
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public worker: bool = false;
+        public worker: boolean = false;
 
         /**
         * 
         * @property blob
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public blob: bool = false;
+        public blob: boolean = false;
 
 
         /**
         * 
         * @property touch
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public touch: bool = false;
+        public touch: boolean = false;
 
         /**
         * 
         * @property css3D
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public css3D: bool = false;
+        public css3D: boolean = false;
 
         //  Browser
 
         /**
         * 
         * @property arora
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public arora: bool = false;
+        public arora: boolean = false;
 
         /**
         * 
         * @property chrome
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public chrome: bool = false;
+        public chrome: boolean = false;
 
         /**
         * 
         * @property epiphany
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public epiphany: bool = false;
+        public epiphany: boolean = false;
 
         /**
         * 
         * @property firefox
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public firefox: bool = false;
+        public firefox: boolean = false;
 
         /**
         * 
         * @property ie
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public ie: bool = false;
+        public ie: boolean = false;
 
         /**
         * 
         * @property ieVersion
         * @type Number
+        * @public
         */
         public ieVersion: number = 0;
 
         /**
         * 
         * @property mobileSafari
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public mobileSafari: bool = false;
+        public mobileSafari: boolean = false;
 
         /**
         * 
         * @property midori
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public midori: bool = false;
+        public midori: boolean = false;
 
         /**
         * 
         * @property opera
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public opera: bool = false;
+        public opera: boolean = false;
 
         /**
         * 
         * @property safari
-        * @type Boolean 
+        * @type boolean 
+        * @public
         */
-        public safari: bool = false;
-        public webApp: bool = false;
+        public safari: boolean = false;
+
+        /**
+        *
+        * @property webApp
+        * @type boolean
+        * @public
+        */
+        public webApp: boolean = false;
 
         //  Audio
 
         /**
         * 
         * @property audioData
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public audioData: bool = false;
+        public audioData: boolean = false;
 
         /**
         * 
         * @property webaudio
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public webaudio: bool = false;
+        public webaudio: boolean = false;
 
         /**
         * 
         * @property ogg
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public ogg: bool = false;
+        public ogg: boolean = false;
 
         /**
         * 
         * @property mp3
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public mp3: bool = false;
+        public mp3: boolean = false;
 
         /**
         * 
         * @property wav
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public wav: bool = false;
+        public wav: boolean = false;
 
         /**
         * 
         * @property m4a
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public m4a: bool = false;
+        public m4a: boolean = false;
 
         //  Device
 
         /**
         * 
         * @property iPhone
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public iPhone: bool = false;
+        public iPhone: boolean = false;
 
         /**
         * 
         * @property iPhone4
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public iPhone4: bool = false;
+        public iPhone4: boolean = false;
 
         /**
         * 
         * @property iPad
-        * @type Boolean
+        * @type boolean
+        * @public
         */
-        public iPad: bool = false;
+        public iPad: boolean = false;
 
         /**
         * 
         * @property pixelRatio
         * @type Number
+        * @public
         */
         public pixelRatio: number = 0;
 
@@ -512,6 +557,7 @@ module Kiwi.System {
         * 
         * @method getAll
         * @return {String}
+        * @public
         */
         public getAll(): string {
 

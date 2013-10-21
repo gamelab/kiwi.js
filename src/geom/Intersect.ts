@@ -1,27 +1,25 @@
-/// <reference path="Circle.ts" />
-/// <reference path="Line.ts" />
-/// <reference path="Point.ts" />
-/// <reference path="Rectangle.ts" />
-/// <reference path="IntersectResult.ts" />
-
 /**
- *	Kiwi - Geom - Intersect
- *
- *	@desc 		A collection of methods to help determine and return intersection between geometric objects
- *
- *	@version 	1.0 - 15th October 2012
- *	@author 	Ross Kettle
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- *
- *  @todo       Check the Ray and LineSegment methods
- */
+*  
+* @module Kiwi
+* @submodule Geom
+*/ 
 
 module Kiwi.Geom {
 
+    /**
+    * A collection of methods to help determine and return intersection between geometric objects.
+    *
+    * @class Intersect
+    *
+    */
     export class Intersect {
 
-
+        /**
+        * The type of this object.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Intersect";
         }
@@ -350,7 +348,7 @@ module Kiwi.Geom {
 	     * @param {Kiwi.Geom.Circle} The Circle object to check
 	     * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
 	     * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-	     **/
+	     **/ 
         static lineSegmentToRectangle(seg: Line, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
 
             if (rect.contains(seg.x1, seg.y1) && rect.contains(seg.x2, seg.y2))

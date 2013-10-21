@@ -1,32 +1,36 @@
-/// <reference path="../geom/Point.ts" />
-
 /**
- *  Kiwi - DOM - Browser Utilities
- *
- *  @desc       Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
- *              Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
- *
- *	@version 	1.0 - 11th March 2013
- *	@author 	Richard Davey
- *  @url        http://www.kiwijs.org
- */
+* Kiwi - System
+* @module Kiwi
+* @submodule System
+*
+*/
 
 module Kiwi.System {
 
+    /**
+    * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+    * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
+    * 
+    * @class Browser
+    * @constructor
+    * @param {Game} game
+    * @return {StateMananger} This Object
+    *
+    */
     export class Browser {
-
-        /**
-        * 
-        * @constructor
-        * @param {Kiwi.Game} game
-        * @return {StateMananger} This Object
-        */
+         
         constructor(game: Kiwi.Game) {
 
             this._game = game;
 
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Browser";
         }
@@ -34,9 +38,9 @@ module Kiwi.System {
         /**
         * 
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
-        **/
+        */
         private _game: Kiwi.Game;
 
         /**
@@ -44,18 +48,17 @@ module Kiwi.System {
         * @method boot
         */
         public boot() {
-
             //this._game.stage.offset = this.getOffsetPoint(this._game.stage.container);
-
         }
 
         /**
         * 
         * @method getOffsetPoint
         * @param {Any} element
-        * @param {Kiwi.Geom.Point} output
-        * @return {Kiwi.Geom.Point}
-        **/
+        * @param {Point} output
+        * @return {Point}
+        * @public
+        */
         public getOffsetPoint(element, output: Kiwi.Geom.Point = new Kiwi.Geom.Point): Kiwi.Geom.Point {
 
             var box = element.getBoundingClientRect();

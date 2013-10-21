@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\file\File.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.4.9</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AABB.html">AABB</a></li>
+            
+                <li><a href="../classes/Animation.html">Animation</a></li>
+            
+                <li><a href="../classes/AnimationManager.html">AnimationManager</a></li>
+            
+                <li><a href="../classes/ArcadePhysics.html">ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Audio.html">Audio</a></li>
+            
+                <li><a href="../classes/AudioLibrary.html">AudioLibrary</a></li>
+            
+                <li><a href="../classes/AudioManager.html">AudioManager</a></li>
+            
+                <li><a href="../classes/Back.html">Back</a></li>
+            
+                <li><a href="../classes/Bar.html">Bar</a></li>
+            
+                <li><a href="../classes/BasicScore.html">BasicScore</a></li>
+            
+                <li><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+            
+                <li><a href="../classes/Bounce.html">Bounce</a></li>
+            
+                <li><a href="../classes/Box.html">Box</a></li>
+            
+                <li><a href="../classes/Browser.html">Browser</a></li>
+            
+                <li><a href="../classes/Button.html">Button</a></li>
+            
+                <li><a href="../classes/Camera.html">Camera</a></li>
+            
+                <li><a href="../classes/CameraManager.html">CameraManager</a></li>
+            
+                <li><a href="../classes/Canvas.html">Canvas</a></li>
+            
+                <li><a href="../classes/CanvasRenderer.html">CanvasRenderer</a></li>
+            
+                <li><a href="../classes/Circle.html">Circle</a></li>
+            
+                <li><a href="../classes/Circular.html">Circular</a></li>
+            
+                <li><a href="../classes/Clock.html">Clock</a></li>
+            
+                <li><a href="../classes/ClockManager.html">ClockManager</a></li>
+            
+                <li><a href="../classes/Common.html">Common</a></li>
+            
+                <li><a href="../classes/Component.html">Component</a></li>
+            
+                <li><a href="../classes/ComponentManager.html">ComponentManager</a></li>
+            
+                <li><a href="../classes/Counter.html">Counter</a></li>
+            
+                <li><a href="../classes/Cubic.html">Cubic</a></li>
+            
+                <li><a href="../classes/DataLibrary.html">DataLibrary</a></li>
+            
+                <li><a href="../classes/Device.html">Device</a></li>
+            
+                <li><a href="../classes/Elastic.html">Elastic</a></li>
+            
+                <li><a href="../classes/Entity.html">Entity</a></li>
+            
+                <li><a href="../classes/Exponential.html">Exponential</a></li>
+            
+                <li><a href="../classes/File.html">File</a></li>
+            
+                <li><a href="../classes/FileStore.html">FileStore</a></li>
+            
+                <li><a href="../classes/Finger.html">Finger</a></li>
+            
+                <li><a href="../classes/Game.html">Game</a></li>
+            
+                <li><a href="../classes/GameManager.html">GameManager</a></li>
+            
+                <li><a href="../classes/GameMath.html">GameMath</a></li>
+            
+                <li><a href="../classes/GLArrayBuffer.html">GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLElementArrayBuffer.html">GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/Group.html">Group</a></li>
+            
+                <li><a href="../classes/HUDDisplay.html">HUDDisplay</a></li>
+            
+                <li><a href="../classes/HUDManager.html">HUDManager</a></li>
+            
+                <li><a href="../classes/HUDWidget.html">HUDWidget</a></li>
+            
+                <li><a href="../classes/IChild.html">IChild</a></li>
+            
+                <li><a href="../classes/Icon.html">Icon</a></li>
+            
+                <li><a href="../classes/IconBar.html">IconBar</a></li>
+            
+                <li><a href="../classes/Input.html">Input</a></li>
+            
+                <li><a href="../classes/InputManager.html">InputManager</a></li>
+            
+                <li><a href="../classes/Intersect.html">Intersect</a></li>
+            
+                <li><a href="../classes/IntersectResult.html">IntersectResult</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
+                <li><a href="../classes/Key.html">Key</a></li>
+            
+                <li><a href="../classes/Keyboard.html">Keyboard</a></li>
+            
+                <li><a href="../classes/Keycodes.html">Keycodes</a></li>
+            
+                <li><a href="../classes/Line.html">Line</a></li>
+            
+                <li><a href="../classes/Linear.html">Linear</a></li>
+            
+                <li><a href="../classes/Loader.html">Loader</a></li>
+            
+                <li><a href="../classes/MasterClock.html">MasterClock</a></li>
+            
+                <li><a href="../classes/Matrix.html">Matrix</a></li>
+            
+                <li><a href="../classes/Menu.html">Menu</a></li>
+            
+                <li><a href="../classes/MenuItem.html">MenuItem</a></li>
+            
+                <li><a href="../classes/Mouse.html">Mouse</a></li>
+            
+                <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
+            
+                <li><a href="../classes/Point.html">Point</a></li>
+            
+                <li><a href="../classes/Pointer.html">Pointer</a></li>
+            
+                <li><a href="../classes/Quadratic.html">Quadratic</a></li>
+            
+                <li><a href="../classes/Quartic.html">Quartic</a></li>
+            
+                <li><a href="../classes/Quintic.html">Quintic</a></li>
+            
+                <li><a href="../classes/RandomDataGenerator.html">RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Ray.html">Ray</a></li>
+            
+                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+            
+                <li><a href="../classes/RequestAnimationFrame.html">RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Sequence.html">Sequence</a></li>
+            
+                <li><a href="../classes/Signal.html">Signal</a></li>
+            
+                <li><a href="../classes/SignalBinding.html">SignalBinding</a></li>
+            
+                <li><a href="../classes/SingleImage.html">SingleImage</a></li>
+            
+                <li><a href="../classes/Sinusoidal.html">Sinusoidal</a></li>
+            
+                <li><a href="../classes/Sound.html">Sound</a></li>
+            
+                <li><a href="../classes/Sprite.html">Sprite</a></li>
+            
+                <li><a href="../classes/SpriteSheet.html">SpriteSheet</a></li>
+            
+                <li><a href="../classes/Stage.html">Stage</a></li>
+            
+                <li><a href="../classes/State.html">State</a></li>
+            
+                <li><a href="../classes/StateConfig.html">StateConfig</a></li>
+            
+                <li><a href="../classes/StateManager.html">StateManager</a></li>
+            
+                <li><a href="../classes/StaticImage.html">StaticImage</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
+            
+                <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
+            
+                <li><a href="../classes/TextureLibrary.html">TextureLibrary</a></li>
+            
+                <li><a href="../classes/Tile.html">Tile</a></li>
+            
+                <li><a href="../classes/TileMap.html">TileMap</a></li>
+            
+                <li><a href="../classes/TileMapLayer.html">TileMapLayer</a></li>
+            
+                <li><a href="../classes/TileType.html">TileType</a></li>
+            
+                <li><a href="../classes/Time.html">Time</a></li>
+            
+                <li><a href="../classes/Timer.html">Timer</a></li>
+            
+                <li><a href="../classes/TimerEvent.html">TimerEvent</a></li>
+            
+                <li><a href="../classes/Touch.html">Touch</a></li>
+            
+                <li><a href="../classes/Transform.html">Transform</a></li>
+            
+                <li><a href="../classes/Tween.html">Tween</a></li>
+            
+                <li><a href="../classes/TweenManager.html">TweenManager</a></li>
+            
+                <li><a href="../classes/Vector2.html">Vector2</a></li>
+            
+                <li><a href="../classes/WidgetInput.html">WidgetInput</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Widget.html">Widget</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\file\File.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* 
+* @module Kiwi
+* @submodule Files 
+* 
+*/
+ 
+module Kiwi.Files {
+     
+    /**
+    * Handles the loading of an external data file via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
+    *
+    * @class File
+    * @constructor
+    * @param game {Game} The game that this file belongs to.
+    * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
+    * @param path {String} The location of the file that is to be loaded.
+    * @param [name=&#x27;&#x27;] {String} A name for the file. If no name is specified then the files name will be used.
+    * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
+    * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
+    * @return {File} 
+    *
+    */
+    export class File {
+         
+        constructor(game: Kiwi.Game, dataType: number, path: string, name: string = &#x27;&#x27;, saveToFileStore: boolean = true, storeAsGlobal:boolean = true) {
+
+            this._game = game;
+
+            this.dataType = dataType;
+
+            this.fileURL = path;
+
+            if (path.lastIndexOf(&#x27;/&#x27;) &gt; -1)
+            {
+                this.fileName = path.substr(path.lastIndexOf(&#x27;/&#x27;) + 1);
+                this.filePath = path.substr(0, path.lastIndexOf(&#x27;/&#x27;) + 1);
+            }
+            else
+            {
+                this.filePath = &#x27;&#x27;;
+                this.fileName = path;
+            }
+
+            //  Not safe if there is a query string after the file extension
+            this.fileExtension = path.substr(path.lastIndexOf(&#x27;.&#x27;) + 1).toLowerCase();
+
+            if (Kiwi.DEVICE.blob) {
+                this._useTagLoader = true;
+            } else {                
+                this._useTagLoader = true;
+            }
+
+            if (this.dataType === Kiwi.Files.File.AUDIO) {
+                if (this._game.audio.usingAudioTag === true) {
+                    this._useTagLoader = true;
+                } else { //just dont use the tag loader...just dont....
+                    this._useTagLoader = false;
+                }
+            }
+
+            if (this.dataType === Kiwi.Files.File.JSON) {
+                this._useTagLoader = false; 
+            }
+
+            this._saveToFileStore = saveToFileStore;
+            this._fileStore = this._game.fileStore;
+
+            // null state owner indicates global storage
+            if (this._game.states.current &amp;&amp; !storeAsGlobal) {
+                this.ownerState = this._game.states.current;
+            } else {
+                this.ownerState = null;
+            }
+
+            if (this.key === &#x27;&#x27;)
+            {
+                this.key = this.fileName;
+            }
+            else
+            {
+                this.key = name;
+            }
+
+
+        }
+
+        /**
+        * Returns the type of this object
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType() {
+            return &quot;File&quot;;
+        }
+
+        /**
+        * The state that added the entity - or null if it was added as global
+        * @property ownerState
+        * @type Kiwi.State
+        * @public
+        */
+        public ownerState: Kiwi.State;
+
+        /**
+        * Any tags that are on this file. This can be used to grab files/objects on the whole game that have these particular tag.
+        * @property _tags
+        * @type String[]
+        * @default []
+        * @private
+        */
+        private _tags: string[];
+
+        /**
+        * Adds a new tag to this file. 
+        * @method addTag
+        * @param tag {String} The tag that you would like to add
+        * @public
+        */
+        public addTag(tag: string) {
+            if (this._tags.indexOf(tag) == -1) {
+                this._tags.push(tag);
+            }
+        }
+
+        /**
+        * Removes a tag from this file.
+        * @method removeTag
+        * @param tag {String} The tag that is to be removed.
+        * @public
+        */
+        public removeTag(tag: string) {
+            var index: number = this._tags.indexOf(tag);
+            if (index != -1) {
+                this._tags.splice(index, 1);
+            }
+        }
+
+        /**
+        * Checks to see if a tag that is passed exists on this file and returns a boolean that is used as a indication of the results. True means that the tag exists on this file.
+        * @method hasTag
+        * @param tag {String} The tag you are checking to see exists.
+        * @return {Boolean} If the tag does exist on this file or not.
+        * @public
+        */
+        public hasTag(tag: string) {
+            if (this._tags.indexOf(tag) == -1) {
+                return false;
+            }
+            return true;
+
+        }
+
+        /**
+        * A STATIC property that has the number associated with the IMAGE Datatype.
+        * @property IMAGE
+        * @type number
+    	* @static
+        * @final
+        * @default 0
+        * @public
+        */
+        public static IMAGE: number = 0;
+
+        /**
+        * A STATIC property that has the number associated with the SPRITE_SHEET Datatype.
+        * @property SPRITE_SHEET
+        * @type number
+    	* @static
+        * @final
+        * @default 1
+        * @public
+    	*/
+        public static SPRITE_SHEET: number = 1;
+
+        /**
+        * A STATIC property that has the number associated with the TEXTURE_ATLAS Datatype.
+        * @property TEXTUREATLAS
+        * @type number
+    	* @static
+        * @final
+        * @default 2
+        * @public
+    	*/
+        public static TEXTURE_ATLAS: number = 2;
+
+        /**
+        * A STATIC property that has the number associated with the AUDIO Datatype.
+        * @property AUDIO
+        * @type number
+    	* @static
+        * @final
+        * @default 3
+        * @public
+	    */
+        public static AUDIO: number = 3;
+
+        /**
+        * A STATIC property that has the number associated with the JSON Datatype.
+        * @property JSON
+        * @type number
+    	* @static
+        * @final
+        * @default 4
+        * @public
+	    */
+        public static JSON: number = 4;
+
+        /**
+        * A STATIC property that has the number associated with the XML Datatype.
+        * @property XML
+        * @type number
+    	* @static
+        * @final
+        * @default 5
+        * @public
+	    */
+        public static XML: number = 5;
+
+        /**
+        * A STATIC property that has the number associated with the BINARY_DATA Datatype.
+        * @property BINARY_DATA
+        * @type number
+    	* @static
+        * @final
+        * @default 6
+        * @public
+	    */
+        public static BINARY_DATA: number = 6;
+
+        /**
+        * A STATIC property that has the number associated with the TEXT_DATA Datatype.
+        * @property TEXT_DATA
+        * @type number
+    	* @static
+        * @final
+        * @default 7
+        * @public
+    	*/
+        public static TEXT_DATA: number = 7;
+
+        /**
+        * The game that this file belongs to.
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game: Kiwi.Game;
+
+        /**
+        * The XMLHttpRequest object. This only has a value if the xhr method of load is being used, otherwise this is null.
+        * @property _xhr
+        * @type XMLHttpRequest
+        * @private
+	    */
+        private _xhr: XMLHttpRequest = null;
+
+        /**
+        * The file store that this file is a part of.
+        * @property _fileStore
+        * @type FileStore
+        * @private
+        */
+        private _fileStore: Kiwi.Files.FileStore;
+
+        /**
+        * Used to determine if this file should be saved to the file store or not. Also if it was saved to the file store.
+        * @property _saveToFileStore
+        * @type boolean
+        * @default true
+        * @private
+	    */
+        private _saveToFileStore: boolean = true;
+
+        /**
+        * If when loading the file in we have loaded the file in using a tag loader (older browsers) or we are using the an XHR loader + array buffer.
+        * By default we use the tag loader and only used the second method if the browser supports it.
+        * @property _useTagLoader
+        * @type boolean
+        * @default true
+        * @private
+	    */
+        private _useTagLoader: boolean = true;
+
+        /**
+        * Holds the type of data that is being loaded. This should be used with the STATIC properties that hold the various datatypes that can be loaded.
+        * @property dataType
+        * @type String
+        * @public
+    	*/
+        public dataType: number;
+
+        /**
+        * The &#x27;key&#x27; is the user defined name and the users way of accessing this file once loaded.
+        * @property key
+        * @type String
+        * @public
+    	*/
+        public key: string;
+
+        /**
+        * The name of the file being loaded.
+        * @property fileName
+        * @type String
+    	* @public
+        */
+        public fileName: string;
+
+        /**
+        * The location of where the file is placed without the file itself.
+        * @property filePath
+        * @type String
+    	* @public
+        */
+        public filePath: string;
+
+        /**
+        * The type of file that is being loaded. This is only ever used with the XHR method of loading and is the &#x27;Content-Type&#x27; that the XHR&#x27;s response header returns.
+        * @property fileType
+        * @type String
+        * @public
+    	*/
+        public fileType: string;
+
+        /**
+        * The file extension. Based upon what the file path that the user specifies.
+        * @property fileExtension
+        * @type String
+        * @public
+    	*/
+        public fileExtension: string;
+
+        /**
+        * The full filepath including the file itself.
+        * @property fileURL
+        * @type String
+    	*/
+        public fileURL: string;
+
+        /**
+        * The size of the file that was/is being loaded. Only has a value when the file was loaded by the XHR method.
+        * @property fileSize
+        * @type Number
+        * @default 0
+        * @public
+    	*/
+        public fileSize: number = 0;
+
+        /**
+        * The status of the file that is being loaded. Only used/has a value when the file was/is being loaded by the XHR method.
+        * @property status
+        * @type Number
+        * @default 0
+        * @public
+    	*/
+        public status: number = 0;
+
+        /**
+        * The status piece of text that the XHR returns.
+        * @property statusText
+        * @type String
+        * @default &#x27;&#x27;
+        * @public
+    	*/
+        public statusText: string = &#x27;&#x27;;
+
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @property ETag
+        * @type String
+        * @public
+    	*/
+        public ETag: string = &#x27;&#x27;;
+
+        /**
+        * The last date/time that this file was last modified. Only has a value when using the XHR method of loading.
+        * @property lastModified
+        * @type String
+        * @default &#x27;&#x27;
+        * @public
+    	*/
+        public lastModified: string = &#x27;&#x27;;
+
+        /**
+        * The number of bytes that have currently been loaded. This can used to create progress bars but only has a value when using the XHR method of loading.
+        * @property bytesLoaded
+        * @type Number
+        * @default 0
+        * @public
+    	*/
+        public bytesLoaded: number = 0;
+
+        /**
+        * The total number of bytes that the file consists off. Only has a value when using the XHR method of loading.
+        * @property bytesTotal
+        * @type Number
+        * @default 0
+        * @public
+    	*/
+        public bytesTotal: number = 0;
+
+        /**
+        * The ready state of the XHR loader whilst loading.
+        * @property readyState
+        * @type Number
+        * @default 0
+        * @public
+    	*/
+        public readyState: number = 0;
+
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @property timeOutDelay
+        * @type Number
+        * @default 2000
+        * @public
+    	*/
+        public timeOutDelay: number = 2000;
+
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @property hasTimedOut
+        * @type boolean
+        * @default false
+        * @public
+    	*/
+        public hasTimedOut: boolean = false;
+
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @property timedOut
+        * @type Number
+        * @default 0
+        * @public
+    	*/
+        public timedOut: number = 0;
+
+        /**
+        * The time at which the loading started. Only has a value when the XHR method of loading is in use.
+        * @property timeStarted
+        * @type Number
+        * @default 0
+        * @public
+    	*/
+        public timeStarted: number = 0;
+
+        //  Time the load finished (if successful)
+        /**
+        * The time at which the load finished. Only has a value if loading the file was successful and when the XHR method of loading is in use.
+        * @property timeFinished
+        * @type Number
+        * @default 0
+        * @public
+    	*/
+        public timeFinished: number = 0;
+
+        /**
+        * How the loading took in milliseconds. 
+        * @property duration
+        * @type Number
+    	* @default 0
+        * @public
+        */
+        public duration: number = 0;
+
+        /**
+        * If when loading the file encountered an error.
+        * @property hasError
+        * @type boolean
+        * @default false
+        * @public
+    	*/
+        public hasError: boolean = false;
+
+        /**
+        * If the loading was successful or not.
+        * @property success
+        * @type boolean
+        * @public
+    	*/
+        public success: boolean = false;
+
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @property attemptCounter
+        * @type Number
+        * @public
+    	*/
+        public attemptCounter: number = 0;
+
+        /**
+        * The maximum attempts at loading the file. 
+        * @property maxLoadAttempts
+        * @type Number
+        * @default 2
+        * @public
+    	*/
+        public maxLoadAttempts: number = 2;
+
+        /**
+        * Holds the error (if there was one) when loading the file.
+        * @property error
+        * @type Any
+        * @public
+    	*/
+        public error: any;
+
+        /**
+        * A method that is to be executed when this file has finished loading. 
+        * @property onCompleteCallback
+        * @type Any
+        * @default null
+        * @public
+    	*/
+        public onCompleteCallback: any = null;
+
+        /**
+        * A method that is to be executed while this file is loading.
+        * @property onProgressCallback
+        * @type Any
+        * @default null
+        * @public
+    	*/
+        public onProgressCallback: any = null;
+
+        /**
+        * The time at which progress in loading the file was last  occurred.
+        * @property lastProgress
+        * @type Number
+        * @public
+    	*/
+        public lastProgress: number = 0;
+
+        /**
+        * The amount of percent loaded the file is. This is out of 100.
+        * @property percentLoaded
+        * @type Number
+        * @public
+    	*/
+        public percentLoaded: number = 0;
+
+        /**
+        * The response that is given by the XHR loader when loading is complete.
+        * @property buffer
+        * @type Any
+        * @public
+    	*/
+        public buffer: any;
+
+        /**
+        * The particular piece of data that the developer wanted loaded. This is in a format that is based upon the datatype passed.
+        * @property data
+        * @type Any
+    	*/
+        public data: any;
+
+        /**
+        * A dictionary, stores info needed for interpreting specific file types eg SPRITE_SHEET,
+        * @property data
+        * @type Any
+        * @public
+    	*/
+        public metadata: any;
+
+        /**
+        * An indication of if this file is texture. This is READ ONLY.
+        * @property isTexture
+        * @type boolean
+        * @public
+        */
+        public get isTexture(): boolean {
+            if (this.dataType === File.IMAGE || this.dataType === File.SPRITE_SHEET || this.dataType === File.TEXTURE_ATLAS) {
+                return true;
+            }
+            return false;
+        }
+        
+        /**
+        * An indication of if this file is a piece of audio. This is READ ONLY.
+        * @property isAudio
+        * @type boolean
+        * @public
+        */
+        public get isAudio(): boolean {
+            if (this.dataType === File.AUDIO) {
+                return true;
+            }
+            return false;
+        }
+            
+        /**
+        * An indication of if this file is data. This is READ ONLY.
+        * @property isData
+        * @type boolean
+        * @public
+        */
+        public get isData(): boolean {
+            if (this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+        * Sets up the various parameters and starts loading the file.
+        * @method load
+        * @param [onCompleteCallback=null] {Any} The callback method to execute when this file has loaded.
+        * @param [onProgressCallback=null] {Any} The callback method to execute while this file is loading.
+        * @param [customFileStore=null] {Any} A custom filestore that is file should be added to. 
+        * @param [maxLoadAttempts=1] {Number} The maximum amount of times to try and load the files.
+        * @param [timeout=2000] {Number} The timeout to use when loading the file. 
+        * @public
+        */
+        public load(onCompleteCallback: any = null, onProgressCallback: any = null, customFileStore: Kiwi.Files.FileStore = null, maxLoadAttempts: number = 1, timeout: number = 2000) {
+
+            this.onCompleteCallback = onCompleteCallback;
+            this.onProgressCallback = onProgressCallback;
+            this.maxLoadAttempts = maxLoadAttempts;
+            this.timeOutDelay = timeout;
+
+            if (customFileStore !== null)
+            {
+                this._fileStore = customFileStore;
+                this._saveToFileStore = true;
+            }
+
+            this.start();
+
+            if (this._useTagLoader === true)
+            {
+                this.tagLoader();
+            }
+            else
+            {
+                this.xhrLoader();
+            }
+
+        }
+
+        /**
+        * Is executed when this file starts loading. Gets the time and initalised properties that are used across both loading methods.
+        * @method start
+		* @private
+        */
+        private start() {
+
+            this.timeStarted = Date.now();
+            this.lastProgress = Date.now();
+            this.percentLoaded = 0;
+
+        }
+
+        /**
+        * Is executed when this file stops loading. Used across loading methods to give values to properties.
+        * @method stop
+        * @private
+		*/
+        private stop() {
+
+            this.percentLoaded = 100;
+            this.timeFinished = Date.now();
+            this.duration = this.timeFinished - this.timeStarted;
+
+        }
+
+        /**
+        * Handles the loading of the file when using the tag loader method. 
+        * Currently only supports the IMAGES and AUDIO files.
+        * @method tagLoader
+		* @private
+        */
+        private tagLoader() {
+
+            if (this.dataType === Kiwi.Files.File.IMAGE || this.dataType === Kiwi.Files.File.SPRITE_SHEET || this.dataType === Kiwi.Files.File.TEXTURE_ATLAS)
+            {
+                this.data = new Image();
+                this.data.src = this.fileURL;
+                this.data.onload = (event) =&gt; this.tagLoaderOnLoad(event);
+                this.data.onerror = (event) =&gt; this.tagLoaderOnError(event);        //To be remade
+                this.data.onreadystatechange = (event) =&gt; this.tagLoaderOnReadyStateChange(event);
+            
+
+            } else if (this.dataType === Kiwi.Files.File.AUDIO) {
+
+                    //if device == iOS.... do awesome stuff....
+
+                this.data = document.createElement(&#x27;audio&#x27;);
+                this.data.src = this.fileURL;
+                this.data.preload = &#x27;auto&#x27;;
+
+                this.data.addEventListener(&#x27;canplaythrough&#x27;, () =&gt; this.tagLoaderProgressThrough(null), false); 
+                
+                this.data.onerror = (event) =&gt; this.tagLoaderOnError(event);
+                this.data.onload = (event) =&gt; this.tagLoaderOnLoad(event);
+                
+                this.data.volume = 0;
+                this.data.play(); //force the browser to load by playing the audio........ 
+            }
+            
+        }
+
+        /**
+        * Is executed when the tag loader changes its ready state. 
+        * @method tagLoaderOnReadyStateChange
+        * @param {Any} event
+        * @private
+		*/
+        private tagLoaderOnReadyStateChange(event) {
+
+        }
+
+        /**
+        * Is executed when the tag loader encounters a error that stops it from loading.
+        * @method tagLoaderOnError
+        * @param {Any} event
+        * @private
+		*/
+        private tagLoaderOnError(event) {
+
+            this.hasError = true;
+            this.error = event;
+
+            if (this.onCompleteCallback)
+            {
+                this.onCompleteCallback(this);
+            }
+
+        }
+        
+        /**
+        * Is executed when the file can play perfectly fine and loading will not affect it.
+        * @method tagLoaderProgressThrough
+        * @param {Any} event
+        * @private
+        */
+        private tagLoaderProgressThrough(event) {
+            
+            if (this.percentLoaded !== 100) { // a work around for the audio, otherwise the canplaythrough will continue to fire.
+
+                if (this.dataType === Kiwi.Files.File.AUDIO) { //makes me sad
+                    this.data.removeEventListener(&#x27;canplaythrough&#x27;, () =&gt; this.tagLoaderProgressThrough(null)); // the remove event that won&#x27;t work :(
+                    this.data.pause();
+                    this.data.currentTime = 0;
+                    this.data.volume = 1;
+                }
+                
+                this.tagLoaderOnLoad(null);
+                
+            }
+        }
+
+        /**
+        * Is executed when the file has successfully loaded.
+        * @method tagLoaderOnLoad
+        * @param {Any} event
+        * @private
+        */
+        private tagLoaderOnLoad(event) {
+                 
+            this.stop();
+
+            if (this._saveToFileStore === true)
+            {
+                this._fileStore.addFile(this.key, this);
+            }
+                
+            if (this.onCompleteCallback)
+            {
+                this.onCompleteCallback(this);
+            }
+
+        }
+
+        /**
+        * Sets up a XHR loader based on the properties of this file.
+        * @method xhrLoader
+        * @private
+		*/
+        private xhrLoader() {
+
+            this._xhr = new XMLHttpRequest();
+            this._xhr.open(&#x27;GET&#x27;, this.fileURL, true);
+            this._xhr.timeout = this.timeOutDelay;
+            this._xhr.responseType = &#x27;arraybuffer&#x27;;
+
+            this._xhr.onloadstart = (event) =&gt; this.xhrOnLoadStart(event);
+            this._xhr.onload = (event) =&gt; this.xhrOnLoad(event);
+            this._xhr.onprogress = (event) =&gt; this.xhrOnProgress(event);
+            this._xhr.ontimeout = (event) =&gt; this.xhrOnTimeout(event);
+            this._xhr.onabort = (event) =&gt; this.xhrOnAbort(event);
+            this._xhr.onreadystatechange = (event) =&gt; this.xhrOnReadyStateChange(event);
+
+            this._xhr.send();
+
+        }
+
+        /**
+        * Is executed when the XHR loader has changed its ready state.
+        * @method xhrOnReadyStateChange
+        * @param {Any} event
+        * @private
+		*/
+        private xhrOnReadyStateChange(event) {
+
+            this.readyState = event.target.readyState;
+
+            if (this.readyState === 4)
+            {
+                this.xhrOnLoad(event);
+            }
+
+        }
+
+        /**
+        * Is executed when the XHR loader starts to load the file.
+        * @method xhrOnLoadStart
+        * @param {Any} event
+        * @private
+		*/
+        private xhrOnLoadStart(event) {
+
+            this.timeStarted = event.timeStamp;
+            this.lastProgress = event.timeStamp;
+
+        }
+
+        /**
+        * Runs when the XHR loader aborts the load for some reason. [NEEDS IMPLEMENTATION]
+        * @method xhrOnAbort
+        * @param {Any} event
+        * @private
+		*/
+        private xhrOnAbort(event) {
+
+        }
+
+        /**
+        * Runs when the XHR loader encounters a error. [NEEDS IMPLEMENTATION]
+        * @method xhrOnError
+        * @param {Any} event
+        * @private
+		*/
+        private xhrOnError(event) {
+
+        }
+
+        /**
+        * [DESCRIPTION AND IMPLEMENTATION REQUIRED]
+        * @method xhrOnTimeout
+        * @param {Any} event
+        * @private
+		*/
+        private xhrOnTimeout(event) {
+
+        }
+
+        /**
+        * Is execute whilst loading of the file is occuring. Updates the number of bytes that have been loaded and percentage loaded.
+        * @method xhrOnProgress
+        * @param {Any} event
+        * @private
+		*/
+        private xhrOnProgress(event) {
+
+            this.bytesLoaded = parseInt(event.loaded);
+            this.bytesTotal = parseInt(event.totalSize);
+            this.percentLoaded = Math.round((this.bytesLoaded / this.bytesTotal) * 100);
+
+            if (this.onProgressCallback)
+            {
+                this.onProgressCallback(this);
+            }
+
+        }
+
+        /**
+        * Once the file has finished downloading (or pulled from the browser cache) this onload event fires.
+        * @method xhrOnLoad
+        * @param {event} The XHR event
+        * @private
+        */
+        private xhrOnLoad(event) {
+
+            //  Probably hitting from the readyState as well
+            if (this.timeFinished &gt; 0)
+            {
+                return;
+            }
+
+            this.stop();
+
+            this.status = this._xhr.status;
+            this.statusText = this._xhr.statusText;
+
+            if (this._xhr.status === 200)
+            {
+                this.success = true;
+                this.hasError = false;
+                this.fileType = this._xhr.getResponseHeader(&#x27;Content-Type&#x27;);
+                this.bytesTotal = parseInt(this._xhr.getResponseHeader(&#x27;Content-Length&#x27;));
+                this.lastModified = this._xhr.getResponseHeader(&#x27;Last-Modified&#x27;);
+                this.ETag = this._xhr.getResponseHeader(&#x27;ETag&#x27;);
+                this.buffer = this._xhr.response;
+
+                if (this.dataType === Kiwi.Files.File.IMAGE || this.dataType === Kiwi.Files.File.SPRITE_SHEET || this.dataType === Kiwi.Files.File.TEXTURE_ATLAS)
+                {
+                    this.createBlob();
+                }
+                else
+                {
+                    if (this.dataType === Kiwi.Files.File.JSON) {
+                        this.data = String.fromCharCode.apply(null, new Uint8Array(this._xhr.response));
+                        this.parseComplete();
+                    }
+                    
+                    if (this.dataType === Kiwi.Files.File.AUDIO) {
+
+                        if (this._game.audio.usingWebAudio) {
+                            this.data = {
+                                raw: this._xhr.response,
+                                decoded: false,
+                                buffer: null
+                            }
+
+                            //decode that audio
+                            var that = this;
+                            this._game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+                                if (buffer) {
+                                    that.data.buffer = buffer;
+                                    that.data.decoded = true;
+                                    that.parseComplete();
+                                }
+                            });
+
+                        }
+                    }
+                    
+                   
+                }
+            }
+            else
+            {
+                this.success = false;
+                this.hasError = true;
+                this.parseComplete();
+            }
+
+        }
+
+        /**
+        * Creates a new Binary Large Object for the data that was loaded through the XHR.
+        * @method createBlob
+        * @private
+		*/
+        private createBlob() {
+
+            this.data = document.createElement(&#x27;img&#x27;);
+            this.data.onload = () =&gt; this.revoke();
+
+            var imageType = &#x27;&#x27;;
+
+            if (this.fileExtension === &#x27;jpg&#x27; || this.fileExtension === &#x27;jpeg&#x27;)
+            {
+                imageType = &#x27;image/jpeg&#x27;;
+            }
+            else if (this.fileExtension === &#x27;png&#x27;)
+            {
+                imageType = &#x27;image/png&#x27;;
+            }
+            else if (this.fileExtension === &#x27;gif&#x27;)
+            {
+                imageType = &#x27;image/gif&#x27;;
+            }
+
+            //  Until they fix the TypeScript lib.d we have to use window array access
+
+            //  Need to find a way to tell if this suports constuctor values like below, otherwise it just errors Chrome &lt; 20 etc
+            //if (typeof window[&#x27;Blob&#x27;] !== &#x27;undefined&#x27;)
+            //{
+                var blob = new window[&#x27;Blob&#x27;]([this.buffer], { type: imageType });
+            //}
+            //else
+            //{
+                //var BlobBuilder = window[&#x27;BlobBuilder&#x27;] || window[&#x27;WebKitBlobBuilder&#x27;] || window[&#x27;MozBlobBuilder&#x27;] || window[&#x27;MSBlobBuilder&#x27;];
+                //var builder = new BlobBuilder;
+                //builder.append([this.buffer]); // needs appendABV check
+                //var blob = builder.getBlob(imageType);
+            //}
+
+            if (window[&#x27;URL&#x27;])
+            {
+                this.data.src = window[&#x27;URL&#x27;].createObjectURL(blob);
+            }
+            else if (window[&#x27;webkitURL&#x27;])
+            {
+                this.data.src = window[&#x27;webkitURL&#x27;].createObjectURL(blob);
+            }
+
+        }
+
+//var appendABViewSupported;
+
+//	    private isAppendABViewSupported() {
+//		if (typeof appendABViewSupported == &quot;undefined&quot;) {
+//			var blobBuilder;
+//			blobBuilder = new BlobBuilder();
+//			blobBuilder.append(getDataHelper(0).view);
+//			appendABViewSupported = blobBuilder.getBlob().size == 0;
+//		}
+//		return appendABViewSupported;
+//	}
+
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @method revoke
+        * @private
+		*/
+        private revoke() {
+
+            if (window[&#x27;URL&#x27;])
+            {
+                window[&#x27;URL&#x27;].revokeObjectURL(this.data.src);
+            }
+            else if (window[&#x27;webkitURL&#x27;])
+            {
+                window[&#x27;webkitURL&#x27;].revokeObjectURL(this.data.src);
+            }
+
+            this.parseComplete();
+
+        }
+
+        /**
+        * [DESCRIPTION REQUIRED]
+        * @method parseComplete
+        * @private
+		*/
+        private parseComplete() {
+
+            if (this._saveToFileStore === true)
+            {
+                this._fileStore.addFile(this.key, this);
+            }
+
+            if (this.onCompleteCallback)
+            {
+                this.onCompleteCallback(this);
+            }
+
+        }
+
+        /**
+        * Get information about the given file
+        * @method getFileDetails
+        * @param [callback=null] {function} The callback to send this FileInfo object to.
+        * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts.
+        * @param [timeout=2000] {number} 
+        * @pricate
+        */
+        getFileDetails(callback: any = null, maxLoadAttempts:number = 1, timeout: number = 2000) {
+
+            this.onCompleteCallback = callback;
+            this.maxLoadAttempts = maxLoadAttempts;
+            this.timeOutDelay = timeout;
+
+            this.sendXHRHeadRequest();
+
+        }
+
+        /**
+        * Sends a request for the files header information.
+        * @method sendXHRHeadRequest
+        * @private
+        */
+        private sendXHRHeadRequest() {
+
+            this.attemptCounter++;
+
+            this._xhr = new XMLHttpRequest();
+            this._xhr.open(&#x27;HEAD&#x27;, this.fileURL, false);
+            this._xhr.onload = (event) =&gt; this.getXHRResponseHeaders(event);
+            this._xhr.ontimeout = (event) =&gt; this.xhrHeadOnTimeout(event);
+            this._xhr.onerror = (event) =&gt; this.xhrHeadOnError(event);
+            this._xhr.timeout = this.timeOutDelay;
+            this._xhr.send();
+
+        }
+
+        /**
+        * Is executed when the XHR head request timesout.
+        * @method xhrHeadOnTimeout
+        * @param event {Any}
+        * @private
+        */
+        private xhrHeadOnTimeout(event) {
+
+            this.hasTimedOut = true;
+            this.timedOut = Date.now();
+
+            if (this.attemptCounter &gt;= this.maxLoadAttempts)
+            {
+                this.hasError = true;
+                this.error = event;
+
+                if (this.onCompleteCallback)
+                {
+                    this.onCompleteCallback.call(this);
+                }
+            }
+            else
+            {
+                this.sendXHRHeadRequest();
+            }
+
+        }
+
+        /**
+        * Is exeuted when this XHR head request has a error.
+        * @method xhrHeadOnError
+        * @param {Any} event
+        * @private
+        */
+        private xhrHeadOnError(event) {
+
+            this.hasError = true;
+            this.error = event;
+            this.status = this._xhr.status;
+            this.statusText = this._xhr.statusText;
+
+            if (this.onCompleteCallback)
+            {
+                this.onCompleteCallback(this);
+            }
+
+        }
+
+        /**
+        * Process the response headers received.
+        * @method getResponseHeaders
+        * @param {event} The XHR event
+        * @private
+        */
+        private getXHRResponseHeaders(event:any) {
+
+            this.status = this._xhr.status;
+            this.statusText = this._xhr.statusText;
+
+            if (this._xhr.status === 200)
+            {
+                this.fileType = this._xhr.getResponseHeader(&#x27;Content-Type&#x27;);
+                this.fileSize = parseInt(this._xhr.getResponseHeader(&#x27;Content-Length&#x27;));
+                this.lastModified = this._xhr.getResponseHeader(&#x27;Last-Modified&#x27;);
+                this.ETag = this._xhr.getResponseHeader(&#x27;ETag&#x27;);
+            }
+                
+            if (this.onCompleteCallback)
+            {
+                this.onCompleteCallback(this);
+            }
+
+        }
+
+	    /**
+	    * Returns a string representation of this object.
+	    * @method toString
+	    * @return {string} a string representation of the instance.
+	    * @public
+        */
+        public toString(): string {
+
+            return &quot;[{File (fileURL=&quot; + this.fileURL + &quot; fileName=&quot; + this.fileName + &quot; dataType=&quot; + this.dataType + &quot; fileSize=&quot; + this.fileSize + &quot; success=&quot; + this.success + &quot; status=&quot; + this.status + &quot;)}]&quot;;
+
+        }
+
+    }
+
+}
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,33 +1,26 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="../core/Entity.ts" />
-/// <reference path="../core/State.ts" />
-
-/*
- *	Kiwi - GameObjects - StaticImage
- *				
- *	@desc		An extremely light-weight entity consisting of just a single image with position
- *
- *	@version	1.1 - 5th March 2013
- *
- *	@author 	Richard Davey
- *
- *	@url		http://www.kiwijs.org
- *
-*/
+/**
+* 
+* @module Kiwi
+* @submodule GameObjects 
+* 
+*/ 
 
 module Kiwi.GameObjects {
 
+    /**
+    * A light weight game object for displaying static images that would have little or no interaction with other GameObjects. An Example of this would be a background image. Note: Since a StaticImage is lightweight it doesn't have any AnimationManager to handle the switching of cells (If you were using a SpriteSheet/TextureAtlas). In order to switch cells you can change the value of the cellIndex property.
+    *
+    * @class StaticImage
+    * @extends Entity
+    * @constructor
+    * @param state {State} The state that this static image belongs to 
+    * @param atlas {TextureAtlas} The texture atlas to use as the image.
+    * @param [x=0] {Number} Its coordinates on the x axis
+    * @param [y=0] {Number} The coordinates on the y axis
+    * @return {StaticImage}
+    */
     export class StaticImage extends Kiwi.Entity {
 
-        /**
-        * 
-        * @constructor
-        * @param {Kiwi.State} state
-        * @param {Kiwi.Textures.TextureAtlas} atlas
-        * @param {Number} x
-        * @param {Number} y
-        * @return {StaticImage}
-        */
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
 
             super(state,x,y);
@@ -44,32 +37,36 @@ module Kiwi.GameObjects {
            
         }
 
-        /*
+        /**
         * Returns the type of object that this is.
         * @method objType
         * @return {string}
+        * @public
         */
         public objType(): string {
             return "Sprite";
         }
 
         /** 
-         * The Bounds component that controls the bounding box around this Game Object
-         * @property bounds
-         * @type Kiwi.Components.Bounds
-         **/
+        * The Bounds component that controls the bounding box around this Game Object
+        * @property bounds
+        * @type Bounds
+        * @public
+        */
         public box: Kiwi.Components.Box;
 
         /**
-	     * Called by the Layer to which this Game Object is attached
-	     * @method render
-	     **/
+	    * Called by the Layer to which this Game Object is attached
+	    * @method render
+        * @param {Camara} camera
+        * @public
+	    */
         public render(camera: Kiwi.Camera) {
             
             super.render(camera);
 
             //if it is would even be visible.
-            if (this.alpha > 0 && this.visiblity) {
+            if (this.alpha > 0 && this.visibility) {
 
                 var ctx: CanvasRenderingContext2D = this.game.stage.ctx;
                 ctx.save();
@@ -81,12 +78,13 @@ module Kiwi.GameObjects {
                 //get entity/view matrix
                 var t: Kiwi.Geom.Transform = this.transform;
                 var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+
+                var ct: Kiwi.Geom.Transform = camera.transform;
+
+                //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+
                 
-                ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-
-                //ctx.fillStyle = "green";
-                //ctx.fillRect(-2, -2, 5, 5);
-
                 var cell = this.atlas.cells[this.cellIndex];
                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                 ctx.restore();

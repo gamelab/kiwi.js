@@ -1,22 +1,35 @@
+/**
+* 
+* @module Kiwi
+* @submodule Sound
+* 
+*/ 
 
 module Kiwi.Sound {
 
+    /**
+    * A Object that contains the functionality needed when wanting to play a single sound/sound file on a game.
+    *
+    * @class Audio
+    * @constructor
+    * @param game {Game} The game that this piece of audio belongs to.
+    * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
+    * @param volume {number} A number between 0 (silence) and 1 (loud).
+    * @param loop {boolean} If the audio should loop when it is finished or just stop.
+    * @return {Audio} This object
+    *
+    */
     export class Audio {
-
-        /*
-        *
-        * @constructor
-        * @param {Kiwi.Game}
-        * @param {string} key
-        * @param {number} volume - A number between 0 (silence) and 1 (loud).
-        * @param {bool} loop 
-        */
-        constructor(game: Kiwi.Game, key: string, volume:number, loop:bool) {
+         
+        constructor(game: Kiwi.Game, key: string, volume: number, loop: boolean) {
             
             this._game = game;
-
+            this._game.audio.registerSound(this);
+            
             this._usingAudioTag = this._game.audio.usingAudioTag;
             this._usingWebAudio = this._game.audio.usingWebAudio; 
+            
+            this._playable = this._game.audio.deviceTouched;
 
             if (this._game.audio.noAudio) return;
 
@@ -65,179 +78,322 @@ module Kiwi.Sound {
 
         }
 
+        /**
+        * A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.
+        * @property id
+        * @type number
+        */
+        public id: string;
+
+        /**
+        * A flag that indicates whether the sound is ready to be played or not. If not then this indicates that we are awaiting a user event.
+        * @property _playable
+        * @type boolean
+        * @private
+        */
+        private _playable: boolean;
+
+        /**
+        * 
+        * @property playable
+        * @type boolean
+        * @private
+        */
+        public get playable():boolean {
+            return this._playable;
+        }
+        public set playable(val: boolean) {
+            if (val == true) {
+                this._playable = val;
+                if (this._pending == true) {
+                    console.log('I should be playing from the pending state');
+                    this.play();
+                }    
+            }
+        }
+
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
         public objType() {
             return "Audio";
         }
 
-        /*
+        /**
         * The game that this sound belongs to.
+        * @property _game
+        * @type Game
         * @private
         */
         private _game: Kiwi.Game;
 
-        /*
+        /**
         * Web Audio API ONLY - A reference to the audio context that the game's audio manager has.
+        * @property context
+        * @type Any
         * @public
         */
         public context: any;
         
-        /*
+        /**
         * Web Audio API ONLY - A reference to the master gain node on the audio manager.
+        * @property masterGainNode
+        * @type Any
         * @public
         */
         public masterGainNode: any;
 
-        /*
+        /**
         * Web Audio API ONLY - This sounds local gainNode that it uses.
+        * @property gainNode
+        * @type Any
         * @public
         */
         public gainNode: any;
 
-        /*
-        * A boolean indicating weither or not that audio tags are being used to generate sounds.
+        /**
+        * A boolean indicating whether or not that audio tags are being used to generate sounds.
+        * @property _usingAudioTag
+        * @type boolean
         * @private
         */
-        private _usingAudioTag: bool;
+        private _usingAudioTag: boolean;
 
-        /*
-        * A boolean indicating weither or not the webAuduio api is being used. 
+        /**
+        * A boolean indicating whether or not the webAuduio api is being used. 
+        * @property _usingWebAudio
+        * @type boolean
         * @private
         */
-        private _usingWebAudio: bool;
+        private _usingWebAudio: boolean;
 
-        /*
-        * A private indicator of weither this audio is currently muted or not.
+        /**
+        * A private indicator of whether this audio is currently muted or not.
+        * @property _muted
+        * @type boolean
+        * @default false
         * @private
         */
-        private _muted: bool = false;  
+        private _muted: boolean = false;  
         
-        /*
+        /**
         * A number between 0 and 1 representing the current volume of this audio piece. 
+        * @property _volume
+        * @type number
+        * @default 1
         * @private
         */
         private _volume: number;  
         
-        /*
-        * A boolean indicating weither this piece of audio should loop or not.
+        /**
+        * A boolean indicating whether this piece of audio should loop or not.
+        * @property _loop
+        * @type boolean
         * @private
         */
-        private _loop: bool;
+        private _loop: boolean;
 
-        /*
-        * The key that was used to get th  audio i formation.
+        /**
+        * The key that was used to get the audio from the AudioLibrary.
+        * @property key
+        * @type string
         * @public
         */
         public key: string;
         
-        /*
+        /**
         * The property containing the file information about the audio.
+        * @property _file
+        * @type File
         * @private
         */
         private _file: Kiwi.Files.File;
+        
+        /**
+        * This is the piece of audio that either method will use to play audio. E.g.
+        * In the case of the Web Audio API this is the sound buffer source, in which the audio plays from. 
+        * In the case of Audio Tags this is the Audio Tag itself.
+        * @property _sound
+        * @type Any
+        * @private
+        */
         private _sound: any;
 
-        /*
+        /**
         * A boolean that controls/knows if the audio is ready to be played or not.
         * This is just an indicator of if the file has been retrieved successfully from the file store or not.
+        * @property ready
+        * @type boolean
         * @public
         */
-        public ready: bool;
+        public ready: boolean;
 
-        /*
-        * The total duration of the audio in seconds
+        /**
+        * The total duration of the audio in seconds.
+        * @property totalDuration
+        * @type number
         * @public
         */
         public totalDuration: number = 0;
         
-        /*
-        * The current duration of the section of audio that is being played. In milliseconds
+        /**
+        * The current duration of the section of audio that is being played. In milliseconds.
+        * @property duration
+        * @type number
         * @public
         */
         public duration: number;
         
-        /*
+        /**
         * Web Audio API ONLY - The audio buffer that is to be used when playing audio segments.
+        * @property _buffer
+        * @type any
         * @private
         */
-        private _buffer = null;
+        private _buffer:any = null;
 
-        /*
+        /**
         * Web Audio API ONLY - A boolean to indicate if the audio has been decoded or not yet. If not you will need to run the decode() method.
+        * @property _decoded
+        * @type boolean
+        * @default false
         * @private
         */
-        private _decoded: bool = false;
+        private _decoded: boolean = false;
 
-        /*
+        /**
         * A private property that holds the volume before the sound was muted. Used so that when unmuted the sound will resume at its old spot.
+        * @property _muteVolume
+        * @type number
         * @private
         */
         private _muteVolume: number;
 
-        /*
-        * Indicates weither or not the sound is currently playing.
+        /**
+        * Indicates whether or not the sound is currently playing.
+        * @property isPlaying
+        * @type boolean
+        * @default false
         * @public
         */
-        public isPlaying: bool;
+        public isPlaying: boolean;
 
-        /*
+        /**
         * A indicator of if the sound is currently paused.
+        * @property paused
+        * @type boolean
+        * @default false
         * @public
         */
-        public paused: bool;
+        public paused: boolean;
 
-        /*
+        /**
         * If the sound needs to be played but is waiting on something.
+        * @property _pending
+        * @type boolean
         * @private 
         */
-        private _pending: bool;
+        private _pending: boolean;
 
-        /*
+        /**
         * When the audio started playing. In milliseconds
+        * @property _startTime
+        * @type number
         * @private 
         */
         private _startTime: number;
 
-        /*
+        /**
         * When the audio is playing, this is the current time we are at with it playing. In milliseconds
+        * @property _currentTime
+        * @type number
         * @private.
         */
         private _currentTime: number;
 
-        /*
+        /**
         * The time at which the audio should stop playing. In milliseconds. This is assuming that the audio is not on loop.
+        * @property _stopTime
+        * @type number
         * @private
         */
         private _stopTime: number;
 
-        /*
+        /**
         * An array of all of the markers that are on this piece of audio. 
+        * @property _markers
+        * @type Array
         * @private
         */
         private _markers: any = [];
 
-        /*
+        /**
         * The current marker that is being used.
+        * @property _currentMarker
+        * @type String
+        * @default 'default'
         * @private
         */
         private _currentMarker: string = 'default';
 
-
-        /*
-        * Tonnes of signals
+        /**
+        * A Kiwi Signal that dispatches a event when the audio starts playing.
+        * @property onPlay
+        * @type Signal
+        * @public
         */
         public onPlay: Kiwi.Signal;
+
+        /**
+        * A Kiwi Signal that dispatches a event when the audio stops playing.
+        * @property onStop
+        * @type Signal
+        * @public
+        */
         public onStop: Kiwi.Signal;
+        
+        /**
+        * A Kiwi Signal that dispatches a event when the audio gets paused.
+        * @property onPause
+        * @type Signal
+        * @public
+        */
         public onPause: Kiwi.Signal;
+        
+        /**
+        * A Kiwi Signal that dispatches a event when the audio resumes.
+        * @property onResume
+        * @type Signal
+        * @public
+        */
         public onResume: Kiwi.Signal;
+        
+        /**
+        * A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.
+        * @property onLoop
+        * @type Signal
+        * @public
+        */
         public onLoop: Kiwi.Signal;
+        
+        /**
+        * A Kiwi Signal that dispatches a event when the audio gets muted.
+        * @property onMute
+        * @type Signal
+        * @public
+        */
         public onMute: Kiwi.Signal;
 
-        /*
+        /**
         * Retrieves the audio data from the file store.
         * 
         * @method _setAudio
-        * @param {string} key
+        * @param key {string} The key of the file that you are wanting to get.
         * @return {boolean}
+        * @private
         */
         private _setAudio(key: string): boolean {
             if (key == '' || this._game.fileStore.exists(key) === false)
@@ -254,10 +410,11 @@ module Kiwi.Sound {
             return true;
         } 
 
-        /*
+        /**
         * Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.
         * 
         * @method _decode
+        * @private
         */
         private _decode() {
             
@@ -279,12 +436,12 @@ module Kiwi.Sound {
 
         }
         
-        /*
-        * Used to set the current volume for this sound if a parameter has been passed. Otherwise returns the volume.
+        /**
+        * Used to control the current volume for this sound.
         *
-        * @method volume
-        * @param {number} val
-        * @return {number}
+        * @property volume
+        * @type number
+        * @public
         */
         public set volume(val: number) {
 
@@ -310,21 +467,20 @@ module Kiwi.Sound {
 
             }
         }
-
         public get volume(): number {
 
             return this._volume;
 
         }
 
-        /*
+        /**
         * Allows you to mute the sound.
         *
-        * @method muted
-        * @param {bool} val
-        * @return {bool}
+        * @property mute
+        * @type boolean
+        * @public
         */
-        public set mute(val: bool) {
+        public set mute(val: boolean) {
 
             if (this._game.audio.noAudio) return;
 
@@ -340,30 +496,32 @@ module Kiwi.Sound {
                 this.onMute.dispatch(this._muted);
             }
         }
-
-        public get mute(): bool {
+        public get mute(): boolean {
 
             return this._muted;
 
         }
 
-        /*
+        /**
         * Adds a new marker to the audio which will then allow for that section of audio to be played.
         * 
         * @method addMarker
-        * @param {string} name
-        * @param {number} start - The starting point of the audio. In seconds.
-        * @param {number} stop - The stopping point of the audio. In seconds.
-        * @param {bool} loop
+        * @param name {string} The name of the marker that you are adding.
+        * @param start {number} The starting point of the audio. In seconds.
+        * @param stop {number} The stopping point of the audio. In seconds.
+        * @param [loop=false] {boolean} If the marker's pieve of audio should loop or not.
+        * @public 
         */
-        public addMarker(name:string, start:number, stop: number, loop:bool = false) {
+        public addMarker(name: string, start: number, stop: number, loop: boolean = false) {
             this._markers[name] = { start: start, stop: stop, duration: stop - start, loop: loop };
         }
 
-        /*
+        /**
         * Removes a currently existing marker from this audio.
         *
         * @method removeMarker
+        * @param name {String} name of the audio that you want to remove.
+        * @public
         */
         public removeMarker(name: string) {
             if (name === 'default') return; //cannot delete the default
@@ -376,28 +534,33 @@ module Kiwi.Sound {
         }
 
 
-        /*
+        /**
         * Plays the current sound/audio from the start.
         *
         * @method play
-        * @param {string} marker - the marker that is to be played.
-        * @param {bool} forceRestart - force the audio to stop and start again.
+        * @param [marker] {string} The marker that is to be played. If no marker is specified then it will play the current marker (which would be the whole audio piece if no marker was ever added).
+        * @param [forceRestart=false] {boolean} Force the audio to stop and start again. Otherwise if the audio was already playing it would ignore the play.
+        * @public
         */
-        public play(marker:string=this._currentMarker, forceRestart:bool = false) {
+        public play(marker: string= this._currentMarker, forceRestart: boolean = false) {
             
             if (this.isPlaying && forceRestart == false || this._game.audio.noAudio) return;
 
-            if (forceRestart) this.stop();
-            
+            if (forceRestart === true && this._pending === false) this.stop();
             this.paused = false;
 
             if (this._markers[marker] == undefined) return;
 
-            if(this._currentMarker === marker && this.isPlaying) return;
+            if(this._currentMarker === marker && this.isPlaying && forceRestart == false) return;
 
-            this._currentMarker = marker;
+            this._currentMarker = marker; 
             this.duration = this._markers[this._currentMarker].duration * 1000;
             this._loop = this._markers[this._currentMarker].loop;
+            
+            if (this._playable === false) {
+                this._pending = true;
+                return;
+            }
 
             if (this._usingWebAudio) {
                 if (this._decoded === true) {
@@ -432,7 +595,6 @@ module Kiwi.Sound {
                 }
 
             } else if(this._usingAudioTag) {
-                
                 if (this.duration == 0 || isNaN(this.duration)) this.duration = this.totalDuration * 1000;
                     
                 if (this._muted) this._sound.volume = 0;
@@ -450,10 +612,11 @@ module Kiwi.Sound {
             }
         }
 
-        /*
+        /**
         * Stop the sound from playing.
         *
         * @method stop
+        * @public
         */
         public stop() {
 
@@ -477,10 +640,11 @@ module Kiwi.Sound {
             this.isPlaying = false;
         }
         
-        /*
+        /**
         * Pauses the sound so that you can resume it from at point to paused it at.
         *
         * @method pause
+        * @public
         */
         public pause() {
             if (this.isPlaying) {
@@ -490,10 +654,11 @@ module Kiwi.Sound {
             }
         }
         
-        /*
+        /**
         * Plays the sound from when you paused the sound.
         *
         * @method resume
+        * @public
         */
         public resume() {
 
@@ -525,13 +690,14 @@ module Kiwi.Sound {
 
         }
         
-        /*
-        * Le Update Loop
+        /**
+        * The update loop that gets executed every frame. 
+        * @method update
+        * @public
         */
         public update() {
             //Check to see that the audio is ready
             if (!this.ready) return;
-
 
             //Is the audio ready to be played and was waiting?
             if (this._pending) {
@@ -585,12 +751,31 @@ module Kiwi.Sound {
 
         }
         
-        /*
-        * This method handles the destruction of all of the properties when the audio is no longer needed.
-        * 
+        /**
+        * This method handles the destruction of all of the properties when this audio is not longer needed. 
+        * You call this method when you want this method to be removed on the next garbage collection cycle.
+        *
         * @method destroy
+        * @public
         */
         public destroy() {
+            if (this._game) {
+                this._game.audio.remove(this);
+            }
+            if (this.onLoop) this.onLoop.dispose();
+            if (this.onStop) this.onStop.dispose();
+            if (this.onPlay) this.onPlay.dispose();
+            if (this.onMute) this.onMute.dispose();
+            if (this.onPause) this.onPause.dispose();
+            if (this.onResume) this.onResume.dispose();
+            
+            delete this.onLoop;
+            delete this.onStop;
+            delete this.onPause;
+            delete this.onMute;
+            delete this.onPlay;
+            delete this.onResume;
+            delete this._game;
             delete this._sound;
             delete this._currentTime;
             delete this._startTime;

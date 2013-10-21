@@ -1,157 +1,205 @@
-/// <reference path="../core/Game.ts" />
-/// <reference path="Finger.ts" />
-/// <reference path="../core/Signal.ts" />
-
 /**
- *	Kiwi - Input - Touch
- *
- *	@desc 		http://www.w3.org/TR/touch-events/
- *              https://developer.mozilla.org/en-US/docs/DOM/TouchList
- *              Android 2.x only supports 1 touch event at once, no multi-touch
- *
- *	@version 	1.1 - 27th February 2013
- *	@author 	Richard Davey
- *	@url 		http://www.kiwijs.org
- *
- *  @todo       Try and resolve update lag in Chrome/Android
- *              Gestures (pinch, zoom, swipe)
- *              Entity Touch
- *              Touch point within entity
- *              Input Zones (mouse and touch) - lock entities within them + axis aligned drags
- */
+* 
+* @module Kiwi
+* @submodule Input
+* 
+*/ 
 
 module Kiwi.Input {
 
+    /**
+    * Handles the dispatching and management of touch based events for the game. When the Touch manager is created TEN finger objects are created and used when the user interacts with the screen. Those finger are what you can use to create games that make the most out of multitouch events. 
+    * 
+    * @class Touch
+    * @constructor
+    * @param game {Game} the game that this touch manager belongs to.
+    * @return {Touch} This object.
+    *
+    */
     export class Touch {
-
-        /** 
-        * Constructor
-        * @param {Kiwi.Game} game.
-        * @return {Kiwi.Input.Touch} This object.
-        */
+         
         constructor(game: Kiwi.Game) {
             this._game = game;
         }
 
+        /**
+        * The type of object that this is.
+        * @method objType
+        * @return String
+        * @public
+        */
+        public objType():string {
+            return 'TouchManager';
+        }
+
         /** 
+        * The game that this touch manager belongs to.
         * @property _game
-        * @type Kiwi.Game
+        * @type Game
         * @private
         **/
         private _game: Kiwi.Game;
 
         /** 
+        * The dom element that these touch events are to take place on. This is usally set to be the stage/game container.
         * @property _domElement
         * @type HTMLElement
+        * @default null
         * @private
         **/
         private _domElement: HTMLElement = null;
          
         /** 
+        * Contains a list of all of the fingers that are used for the touch events.
         * @property _fingers
         * @type Array
         * @private
-        **/
+        */
         private _fingers: Finger[];
         
         /**
         * Get the fingers that are being used.
-        * @type Kiiw.Input.Finger[]
+        * @type Finger[]
+        * @public
         */
         public get fingers(): Kiwi.Input.Finger[] {
             return this._fingers;
         }
 
         /** 
+        * The first finger that is used for touch events.
         * @property finger1
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger1: Kiwi.Input.Finger;
 
         /** 
+        * The second finger that is used for touch events.
         * @property finger2
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger2: Kiwi.Input.Finger;
 
         /** 
+        * The third finger that is used for touch events.
         * @property finger3
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger3: Kiwi.Input.Finger;
 
         /** 
+        * The fourth finger that is used for touch events.
         * @property finger4
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger4: Kiwi.Input.Finger;
 
         /** 
+        * Finger number five that is used for touch events.
         * @property finger5
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger5: Kiwi.Input.Finger;
 
         /** 
+        * Finger number six, that is used for touch events.
         * @property finger6
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger6: Kiwi.Input.Finger;
 
         /** 
+        * The seventh finger used for touch events.
         * @property finger7
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger7: Kiwi.Input.Finger;
 
         /** 
+        * Finger number eight
         * @property finger8
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger8: Kiwi.Input.Finger;
 
         /** 
+        * The ninth finger that is used for touch events.
         * @property finger9
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger9: Kiwi.Input.Finger;
 
         /** 
+        * The tenth finger that is used for touch events.
         * @property finger10
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public finger10: Kiwi.Input.Finger;
 
         /** 
+        * The latest finger that was used for any task.
         * @property latestFinger
-        * @type Kiwi.Input.Finger
-        **/
+        * @type Finger
+        * @public
+        */
         public latestFinger: Kiwi.Input.Finger;
 
         /** 
-        * If any finger is down.
+        * A boolean that will roughly indicate if any finger is currently down.
         * @property isDown
-        * @type Boolean
-        **/
-        public isDown: bool = false;
+        * @type boolean
+        * @default false
+        * @public
+        */
+        public isDown: boolean = false;
 
         /** 
         * If all the fingers are up.
         * @property isUp
-        * @type Boolean
-        **/
-        public isUp: bool = true;
+        * @type boolean
+        * @default true
+        * @public
+        */
+        public isUp: boolean = true;
 
-        /*
-        * Event listeners that are for touch events in general
+        /**
+        * A Kiwi Signal that dispatches an event when a user presses down on the stage.
+        * @property touchDown
+        * @type Signal
+        * @public
         */
         public touchDown: Kiwi.Signal;
+        
+        /**
+        * A Kiwi Signal that dispatches an event when a user releases a finger off of the stage.
+        * @property touchUp
+        * @type Signal
+        * @public
+        */
         public touchUp: Kiwi.Signal;
+
+        /**
+        * A Kiwi Signal that dispatches an event when a touch event is cancelled for the some reason.
+        * @property touchCancel
+        * @tpye Signal
+        * @public
+        */
         public touchCancel: Kiwi.Signal;
 
         /** 
-        * The DOM is ready, so we can start listening now
+        * An internal Kiwi method that runs when the DOM is loaded and the touch manager can now 'boot' up.
         * @method boot
+        * @public
         */
         public boot() {
             this._domElement = this._game.stage.container;
@@ -177,63 +225,78 @@ module Kiwi.Input {
             this.start();
         }
 
-
         /** 
         * Starts up the event listeners that are being used on the touch manager.
-        * @method start 
+        * @method start
+        * @public
         */
         public start() {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) { 
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+
                 this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
                 this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
                 this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
                 this._domElement.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
                 this._domElement.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
                 this._domElement.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
-                
+
                 document.addEventListener('touchmove', (event) => this.consumeTouchMove(event), false);
+
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) { 
+
+                this._game.stage.canvas.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                this._game.stage.canvas.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                this._game.stage.canvas.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                this._game.stage.canvas.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                this._game.stage.canvas.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                this._game.stage.canvas.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
             }
 
-            //cocoon events need to be added here... These should hopefully just be through the window
         }
 
         /** 
         * Prevent iOS bounce-back (doesn't work?)
         * @method consumeTouchMove
         * @param {Any} event
-        **/
+        * @public
+        */
         private consumeTouchMove(event) {
             event.preventDefault();
         }
 
         /** 
         * Gets the position of the latest finger on the x axis.
-        * @method x
-        * @return {Number}
-        **/
+        * @type number
+        * @public
+        */
         public get x(): number {
             return this.latestFinger.x;
         }
 
         /**  
         * Gets the position of the latest finger on the y axis.
-        * @method y
-        * @return {Number}
-        **/
+        * @type number
+        * @public
+        */
         public get y(): number {
             return this.latestFinger.y;
         }
 
-        /*
-        * The developer defined maximum number of touch events.
+        /**
+        * The developer defined maximum number of touch events. By default this is set to 10 but this can be set to be lower.
         * @property _maxTouchEvents
         * @type number
+        * @default 10
+        * @private
         */
         private _maxPointers: number = 10;
 
-        /*
+        /**
         * Sets the maximum number of point of contact that are allowed on the game stage at one point.
+        * The maximum number of points that are allowed is 10, and the minimum is 0.
         * @type number
+        * @public
         */
         public set maximumPointers(val:number) {
             if (val < 0)
@@ -243,21 +306,24 @@ module Kiwi.Input {
             this._maxPointers = val; 
         }
 
-        /*
+        /**
         * Gets the maximum number of points of contact that are allowed on the game stage at one point.
         * @type number
+        * @public
         */
         public get maximumPointers(): number {
             return this._maxPointers;
         }
 
         /** 
+        * This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.
         * @method onTouchStart
         * @param {Any} event
-        **/
+        * @private
+        */
         private onTouchStart(event) {
 
-            event.preventDefault();
+            //event.preventDefault();
 
             //  A list of all the touch points that BECAME active with the current event
             //  https://developer.mozilla.org/en-US/docs/DOM/TouchList
@@ -287,10 +353,11 @@ module Kiwi.Input {
         }
 
         /** 
-        * Doesn't appear to be supported by most browsers yet
+        * Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.
         * @method onTouchCancel
         * @param {Any} event
-        **/
+        * @private
+        */
         private onTouchCancel(event) {
 
             //event.preventDefault();
@@ -313,10 +380,11 @@ module Kiwi.Input {
         }
 
         /** 
-        * Doesn't appear to be supported by most browsers yet
+        * Doesn't appear to be supported by most browsers yet. But if it was would fire events when touch events enter an element. 
         * @method onTouchEnter
         * @param {Any} event
-        **/
+        * @private
+        */
         private onTouchEnter(event) {
 
             //event.preventDefault();
@@ -335,10 +403,12 @@ module Kiwi.Input {
         }
 
         /** 
-        * Doesn't appear to be supported by most browsers yet
+        * Doesn't appear to be supported by most browsers yet. Would fire events when a 'finger' leaves an element.     
+        * Would be handly for when an finger 'leaves' the stage.
         * @method onTouchLeave
         * @param {Any} event
-        **/
+        * @private
+        */
         private onTouchLeave(event) {
 
             //event.preventDefault();
@@ -358,10 +428,11 @@ module Kiwi.Input {
         }
 
         /** 
-        * When a touch pointer moves.
+        * When a touch pointer moves. This method updates the appropriate pointer.
         * @method onTouchMove
         * @param {Any} event
-        **/
+        * @private
+        */
         private onTouchMove(event) {
 
             //event.preventDefault();
@@ -387,7 +458,8 @@ module Kiwi.Input {
         * When a touch event gets released.
         * @method onTouchEnd
         * @param {Any} event
-        **/
+        * @private
+        */
         private onTouchEnd(event) {
 
             //event.preventDefault();
@@ -425,7 +497,9 @@ module Kiwi.Input {
         }
 
         /** 
+        * The update loop fro the touch manager.
         * @method update 
+        * @public
         */
         public update() {
             if (this.isDown) {
@@ -439,23 +513,37 @@ module Kiwi.Input {
 
 
         /** 
+        * This method removes all of the event listeners and thus 'stops' the touch manager.
         * @method stop 
+        * @public
         */
         public stop() {
 
-            this._domElement.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
-            this._domElement.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
-            this._domElement.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
-            this._domElement.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-            this._domElement.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-            this._domElement.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
+                this._domElement.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                this._domElement.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                this._domElement.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                this._domElement.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                this._domElement.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                this._domElement.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+
+                this._game.stage.canvas.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
+                this._game.stage.canvas.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
+                this._game.stage.canvas.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
+                this._game.stage.canvas.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
+                this._game.stage.canvas.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
+                this._game.stage.canvas.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+            }
         }
 
         /**  
-        * Resets the fingers
+        * Resets all of the fingers/pointers to their default states.
         * @method reset
-        **/
+        * @public
+        */
         public reset() {
             for (var i = 0; i < this._fingers.length; i++) {
                 this._fingers[i].reset();
