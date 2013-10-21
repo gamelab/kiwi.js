@@ -35,4 +35,5 @@ Thumbs.db
 _ReSharper*/
 [Tt]est[Rr]esult*
 !gruntfile.js
+!/build/*.js
 /node_modules
