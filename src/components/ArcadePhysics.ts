@@ -734,7 +734,7 @@ module Kiwi.Components {
         ////////Instance Functions/////////
 
         /**
-        * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
+        * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity. If seperateObjects is true it will seperate the two entities based on their bounding box.
         * 
         * @method overlaps
         * @param gameObject {Kiwi.Entity}
