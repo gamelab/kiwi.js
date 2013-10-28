@@ -11,7 +11,7 @@ module Kiwi {
 
         constructor(game: Kiwi.Game,plugins:string[]) {
             this._game = game;
-            this._plugins = plugins;
+            this._plugins = plugins || new Array();
             this._bootFunctions = new Array();
             console.log("creating PluginManager");
             this.validatePlugins();

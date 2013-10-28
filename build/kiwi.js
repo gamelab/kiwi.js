@@ -3802,7 +3802,7 @@ var Kiwi;
     var PluginManager = (function () {
         function PluginManager(game, plugins) {
             this._game = game;
-            this._plugins = plugins;
+            this._plugins = plugins || new Array();
             this._bootFunctions = new Array();
             console.log("creating PluginManager");
             this.validatePlugins();
