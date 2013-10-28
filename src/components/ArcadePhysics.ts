@@ -748,8 +748,8 @@ module Kiwi.Components {
             var objTransform: Kiwi.Geom.Transform = gameObject.transform;
             var box: Kiwi.Components.Box = gameObject.components.getComponent('Box');
 
-            var result: boolean = (objTransform.x + box.hitbox.width > this.transform.x) && (objTransform.x < this.transform.x + this.box.hitbox.width) &&
-                (objTransform.y + box.hitbox.height > this.transform.y) && (objTransform.y < this.transform.y + this.box.hitbox.height);
+            var result: boolean = (objTransform.x + box.hitbox.width > this.box.x) && (objTransform.x < this.box.x + this.box.hitbox.width) &&
+                (objTransform.y + box.hitbox.height > this.box.y) && (objTransform.y < this.box.y + this.box.hitbox.height);
 
             if (result && separateObjects) {
                 ArcadePhysics.separate(this._parent, gameObject);
