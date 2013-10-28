@@ -125,6 +125,8 @@ module Kiwi {
                 console.log('Default State not passed.');
             }
 
+            this.pluginManager = new Kiwi.PluginManager(this, options.plugins);
+
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (domParent !== '') {
                     if (document.getElementById(domParent)) console.log('Game being created inside ' + domParent + '.');
@@ -272,12 +274,20 @@ module Kiwi {
         public input: Kiwi.Input.InputManager = null;
          
         /**
-        * Manages the cameras the are on the stage. This is still to be implemented.
+        * Manages the cameras the are on the stage. Single default Camera only in this version.
         * @property cameras
         * @type CameraManager
         * @public
         */
         public cameras: Kiwi.CameraManager = null;
+
+        /**
+        * Manages plugins registration and initialisation for the game instance.
+        * @property pluginManager
+        * @type PluginManager
+        * @public
+        */
+        public pluginManager: Kiwi.PluginManager = null;
 
         /**
         * Loads files from outside sources and checks to see that they have loaded correctly or not.
@@ -416,8 +426,10 @@ module Kiwi {
             this.loader.boot();
             this.states.boot();
 
-            this._lastTime = Date.now();
+            this.pluginManager.boot();
 
+            this._lastTime = Date.now();
+            
             this.raf = new Kiwi.Utils.RequestAnimationFrame(() => this.loop());
             this.raf.start();
             

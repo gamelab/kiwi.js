@@ -24,6 +24,7 @@
     <Content Include="components\Box.ts" />
     <Content Include="core\Game.ts" />
     <Content Include="animations\Animation.ts" />
+    <Content Include="core\PluginManager.ts" />
     <Content Include="file\DataLibrary.ts" />
     <Content Include="file\File.ts" />
     <Content Include="file\FileStore.ts" />
@@ -32,6 +33,10 @@
     <Content Include="hud\components\Time.ts" />
     <Content Include="input\MouseCursor.ts" />
     <Content Include="input\Pointer.ts" />
+    <TypeScriptCompile Include="plugins\Plugins.ts" />
+    <Content Include="plugins\Plugins.js">
+      <DependentUpon>Plugins.ts</DependentUpon>
+    </Content>
     <Content Include="renderers\GLArrayBuffer.ts" />
     <Content Include="renderers\GLElementArrayBuffer.ts" />
     <Content Include="renderers\GLRenderer.ts" />
@@ -113,7 +118,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="time\Clock.ts" />
-    <Content Include="plugins\gamefroot\TileMapConverter.ts" />
     <Content Include="renderers\CanvasRenderer.ts" />
     <Content Include="time\ClockManager.ts" />
     <Content Include="time\MasterClock.ts" />
