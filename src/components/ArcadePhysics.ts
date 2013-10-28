@@ -734,7 +734,7 @@ module Kiwi.Components {
         ////////Instance Functions/////////
 
         /**
-        * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
+        * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity. If seperateObjects is true it will seperate the two entities based on their bounding box.
         * 
         * @method overlaps
         * @param gameObject {Kiwi.Entity}
@@ -748,8 +748,8 @@ module Kiwi.Components {
             var objTransform: Kiwi.Geom.Transform = gameObject.transform;
             var box: Kiwi.Components.Box = gameObject.components.getComponent('Box');
 
-            var result: boolean = (objTransform.x + box.hitbox.width > this.transform.x) && (objTransform.x < this.transform.x + this.box.hitbox.width) &&
-                (objTransform.y + box.hitbox.height > this.transform.y) && (objTransform.y < this.transform.y + this.box.hitbox.height);
+            var result: boolean = (objTransform.x + box.hitbox.width > this.box.hitbox.x) && (objTransform.x < this.box.hitbox.x + this.box.hitbox.width) &&
+                (objTransform.y + box.hitbox.height > this.box.hitbox.y) && (objTransform.y < this.box.hitbox.y + this.box.hitbox.height);
 
             if (result && separateObjects) {
                 ArcadePhysics.separate(this._parent, gameObject);
