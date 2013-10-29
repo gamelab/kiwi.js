@@ -3799,28 +3799,74 @@ var Kiwi;
 */
 var Kiwi;
 (function (Kiwi) {
+    /**
+    *
+    * @class PluginManager
+    * @constructor
+    * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
+    * @param plugins {string[]} The entities position on the x axis.
+    * @return {PluginManager} This PluginManager.
+    *
+    */
     var PluginManager = (function () {
         function PluginManager(game, plugins) {
+            console.log("creating PluginManager");
             this._game = game;
             this._plugins = plugins || new Array();
-            this._bootFunctions = new Array();
-            console.log("creating PluginManager");
+            this._bootObjects = new Array();
             this.validatePlugins();
             this._createPlugins();
         }
-        PluginManager.register = function (plugin) {
+        PluginManager.register = /**
+        * Registers a plugin object as available. Any game instance can choose to use the plugin.
+        * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
+        * Two plugins with the same names cannot be reigstered simultaneously, even if different versions.
+        * @method register
+        * @param {object} plugin
+        * @public
+        * @static
+        */
+        function (plugin) {
+            console.log("Attempting to register plugin :" + plugin.name);
             if (this._availablePlugins.indexOf(plugin) == -1) {
-                this._availablePlugins.push(plugin);
-                console.log("Registered plugin " + plugin.name + ": version " + plugin.version);
+                for (var i = 0; i < this._availablePlugins.length; i++) {
+                    var uniqueName = true;
+                    if (plugin.name !== this._availablePlugins[i].name) {
+                        uniqueName = false;
+                    }
+                }
+                if (uniqueName) {
+                    this._availablePlugins.push(plugin);
+                    console.log("Registered plugin " + plugin.name + ": version " + plugin.version);
+                } else {
+                    console.log("A plugin with the same name has already been registered. Ignoring this plugin.");
+                }
             } else {
                 console.log("This plugin has already been registered. Ignoring second registration.");
             }
         };
 
-        PluginManager.prototype.objType = function () {
-            return "PluginManager";
-        };
+        Object.defineProperty(PluginManager.prototype, "objType", {
+            get: /**
+            * Identifies the object as a PluginManager.
+            * @property objType
+            * @type string
+            * @public
+            */
+            function () {
+                return "PluginManager";
+            },
+            enumerable: true,
+            configurable: true
+        });
 
+        /**
+        * Builds a list of valid plugins used by the game instance. Each plugin name that is supplied in the Kiwi.Game constructor configuration object
+        * is checked against the Kiwi.Plugins namespace to ensure that a property of the same name exists.
+        * This will ignore plugin that are registered but not used by the game instance.
+        * @method validatePlugins
+        * @public
+        */
         PluginManager.prototype.validatePlugins = function () {
             var validPlugins = new Array();
 
@@ -3830,6 +3876,8 @@ var Kiwi;
                     if (Kiwi.Plugins.hasOwnProperty(plugin)) {
                         validPlugins.push(plugin);
                         console.log("Plugin '" + plugin + "' appears to be valid.");
+                        console.log("Name:" + Kiwi.Plugins[plugin].name);
+                        console.log("Version:" + Kiwi.Plugins[plugin].version);
                     } else {
                         console.log("Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object. Check that the js file containing the plugin has been included. This plugin will be ignored");
                     }
@@ -3840,27 +3888,41 @@ var Kiwi;
             this._plugins = validPlugins;
         };
 
+        /**
+        * Called after all other core objects and services created by the Kiwi.Game constructor are created.
+        * Attempts to find a "create" function on each plugin and calls it if it exists.
+        * The create function may return an object on which a boot function exists - to be called during boot process.
+        * @method _createPlugins
+        * @private
+        */
         PluginManager.prototype._createPlugins = function () {
             for (var i = 0; i < this._plugins.length; i++) {
                 var plugin = this._plugins[i];
                 if (Kiwi.Plugins[plugin].hasOwnProperty("create")) {
                     console.log("'Create' function found on plugin '" + plugin + "'");
-                    var bootFunction = Kiwi.Plugins[plugin].create(this._game);
-                    if (bootFunction)
-                        this._bootFunctions.push(bootFunction);
+                    var bootObject = Kiwi.Plugins[plugin].create(this._game);
+                    if (bootObject)
+                        this._bootObjects.push(bootObject);
                 } else {
                     console.log("No 'Create' function found on plugin '" + plugin + "'");
                 }
             }
         };
 
+        /**
+        * Calls the boot functions on any objects that plugins used by the game instance have designated during creation.
+        * @method boot
+        * @public
+        */
         PluginManager.prototype.boot = function () {
             console.log("boot pluginmanager");
-            for (var i = 0; i < this._bootFunctions.length; i++) {
+            for (var i = 0; i < this._bootObjects.length; i++) {
                 console.log("Booting plugin " + i);
-
-                //this._bootFunctions[i].call(this,this._game);
-                this._bootFunctions[i](this._game);
+                if ("boot" in this._bootObjects[i]) {
+                    this._bootObjects[i].boot.call(this._game);
+                } else {
+                    console.log("Warning! No boot function found on boot object");
+                }
             }
         };
         PluginManager._availablePlugins = new Array();
@@ -6961,7 +7023,7 @@ var Kiwi;
 
             ////////Instance Functions/////////
             /**
-            * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
+            * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity. If seperateObjects is true it will seperate the two entities based on their bounding box.
             *
             * @method overlaps
             * @param gameObject {Kiwi.Entity}
@@ -6976,7 +7038,7 @@ var Kiwi;
                 var objTransform = gameObject.transform;
                 var box = gameObject.components.getComponent('Box');
 
-                var result = (objTransform.x + box.hitbox.width > this.transform.x) && (objTransform.x < this.transform.x + this.box.hitbox.width) && (objTransform.y + box.hitbox.height > this.transform.y) && (objTransform.y < this.transform.y + this.box.hitbox.height);
+                var result = (objTransform.x + box.hitbox.width > this.box.hitbox.x) && (objTransform.x < this.box.hitbox.x + this.box.hitbox.width) && (objTransform.y + box.hitbox.height > this.box.hitbox.y) && (objTransform.y < this.box.hitbox.y + this.box.hitbox.height);
 
                 if (result && separateObjects) {
                     ArcadePhysics.separate(this._parent, gameObject);
