@@ -161,7 +161,7 @@ module Kiwi {
             for (var i = 0; i < this._bootObjects.length; i++) {
                 console.log("Booting plugin " + i);
                 if ("boot" in this._bootObjects[i]) {
-                    this._bootObjects[i].boot.call(this._game);
+                    this._bootObjects[i].boot.call(this._bootObjects[i]);
                 } else {
                     console.log("Warning! No boot function found on boot object");
                 }
