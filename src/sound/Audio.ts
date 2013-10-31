@@ -20,17 +20,18 @@ module Kiwi.Sound {
     *
     */
     export class Audio {
-         
+        
         constructor(game: Kiwi.Game, key: string, volume: number, loop: boolean) {
-            
+
             this.ready = false;
             this._game = game;
             this._game.audio.registerSound(this);
-            
+
             this._usingAudioTag = this._game.audio.usingAudioTag;
-            this._usingWebAudio = this._game.audio.usingWebAudio; 
-            
-            this._playable = !this._game.audio.locked;
+            this._usingWebAudio = this._game.audio.usingWebAudio;
+
+            this._playable = (this._game.audio.locked == true) ? false : true;
+
             this.duration = 0;
             this._volume = volume;
             this._muteVolume = volume;
@@ -46,17 +47,18 @@ module Kiwi.Sound {
                 this.masterGainNode = this._game.audio.masterGain;
 
                 //create our gain node
-                if (this.context.createGain === 'undefined') {
+                if (typeof this.context.createGain === 'undefined') {
                     this.gainNode = this.context.createGainNode();
                 } else {
                     this.gainNode = this.context.createGain();
                 }
-                
+
                 //make sure the audio is decoded.
                 this._decode();
 
-                this.gainNode.gain.value = volume * this._game.audio.volume;      //this may need to change.....
-                this.gainNode.connect(this.masterGainNode); 
+                this.gainNode.gain.value = this.volume * this._game.audio.volume;      //this may need to change.....
+                this.gainNode.connect(this.masterGainNode);
+                
 
             } else if (this._usingAudioTag) {
 
@@ -67,7 +69,7 @@ module Kiwi.Sound {
                     this._sound.volume = this.volume * this._game.audio.volume;
 
                     if (isNaN(this.totalDuration)) this._pending = true;
-                } 
+                }
 
             }
 
@@ -83,7 +85,7 @@ module Kiwi.Sound {
             this.onMute = new Kiwi.Signal();
 
         }
-
+        
         /**
         * A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.
         * @property id
@@ -118,6 +120,7 @@ module Kiwi.Sound {
                 if (this._usingAudioTag) {
                     this.totalDuration = this._sound.duration;
                     this._sound.volume = this.volume * this._game.audio.volume;
+
                 }
             }
         }
@@ -424,7 +427,6 @@ module Kiwi.Sound {
         * @private
         */
         private _decode() {
-            
             //you only decode when using the web audio api
             if (this._usingAudioTag || this._file.data.decode == false) return;
 

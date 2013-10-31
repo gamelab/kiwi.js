@@ -135,7 +135,8 @@ module Kiwi.Sound {
         * @private
         */
         private _locked: boolean;
-
+        private _unlockedSource: any = null;
+        
         /**
         * Returns a boolean indicating whether the device has been touched or not. READ ONLY.
         * @property locked
@@ -167,6 +168,7 @@ module Kiwi.Sound {
             if (Kiwi.DEVICE.iOS) {
                 this._locked = true;
                 this._game.input.onUp.addOnce(this._unlocked, this);
+                
                 console.log('Audio is currently Locked until at touch event.');
             } else {
                 this._locked = false;
@@ -210,10 +212,20 @@ module Kiwi.Sound {
         * @private
         */
         private _unlocked() {
-            this._locked = false;
-            console.log('Unlocked');
-            for (var i = 0; i < this._sounds.length; i++) {
-                this._sounds[i].playable = true;
+            console.log('Audio now Unlocked');
+
+            if (this.usingAudioTag) {
+                this._locked = false;
+                for (var i = 0; i < this._sounds.length; i++) {
+                    this._sounds[i].playable = true;
+                }
+            } else {
+                // Create empty buffer and play it
+                var buffer = this.context.createBuffer(1, 1, 22050);
+                this._unlockedSource = this.context.createBufferSource();
+                this._unlockedSource.buffer = buffer;
+                this._unlockedSource.connect(this.context.destination);
+                this._unlockedSource.noteOn(0);
             }
         }
 
@@ -454,11 +466,28 @@ module Kiwi.Sound {
         */
         public update() {
             
+            if (this._locked) {
+
+                if (this.usingWebAudio && this._unlockedSource !== null) {
+                    if ((this._unlockedSource.playbackState === this._unlockedSource.PLAYING_STATE || this._unlockedSource.playbackState === this._unlockedSource.FINISHED_STATE))
+                    {
+                        this._locked = false;
+                        this._unlockedSource = null;
+                        for (var i = 0; i < this._sounds.length; i++) {
+                            this._sounds[i].playable = true;
+                        }
+                    }
+                }
+
+            }
+            
             if (!this.noAudio) {
                 for (var i = 0; i < this._sounds.length; i++) {
                     this._sounds[i].update();
                 }
             }
+
+            
         
         }
 
