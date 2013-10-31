@@ -3851,12 +3851,14 @@ var Kiwi;
         function (plugin) {
             console.log("Attempting to register plugin :" + plugin.name);
             if (this._availablePlugins.indexOf(plugin) == -1) {
+                //check if plugin with same name is registered
+                var uniqueName = true;
                 for (var i = 0; i < this._availablePlugins.length; i++) {
-                    var uniqueName = true;
-                    if (plugin.name !== this._availablePlugins[i].name) {
+                    if (plugin.name === this._availablePlugins[i].name) {
                         uniqueName = false;
                     }
                 }
+
                 if (uniqueName) {
                     this._availablePlugins.push(plugin);
                     console.log("Registered plugin " + plugin.name + ": version " + plugin.version);
@@ -3895,19 +3897,35 @@ var Kiwi;
             for (var i = 0; i < this._plugins.length; i++) {
                 var plugin = this._plugins[i];
                 if (typeof plugin == 'string' || plugin instanceof String) {
-                    if (Kiwi.Plugins.hasOwnProperty(plugin)) {
+                    if (Kiwi.Plugins.hasOwnProperty(plugin) && this.pluginIsRegistered(plugin)) {
                         validPlugins.push(plugin);
                         console.log("Plugin '" + plugin + "' appears to be valid.");
                         console.log("Name:" + Kiwi.Plugins[plugin].name);
                         console.log("Version:" + Kiwi.Plugins[plugin].version);
                     } else {
-                        console.log("Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object. Check that the js file containing the plugin has been included. This plugin will be ignored");
+                        console.log("Plugin '" + plugin + "' appears to be invalid. No property with that name exists on the Kiwi.Plugins object or the Plugin is not registered. Check that the js file containing the plugin has been included. This plugin will be ignored");
                     }
                 } else {
                     console.log("The supplied plugin name at index " + i + "is not a string and will be ignored");
                 }
             }
             this._plugins = validPlugins;
+        };
+
+        /**
+        * Returns true if a plugin identified by the supplied pluginName is registered.
+        * @method pluginIsRegistered
+        * @param {string} pluginName
+        * @public
+        */
+        PluginManager.prototype.pluginIsRegistered = function (pluginName) {
+            var isRegistered = false;
+            for (var i = 0; i < Kiwi.PluginManager._availablePlugins.length; i++) {
+                if (Kiwi.PluginManager._availablePlugins[i].name === pluginName) {
+                    isRegistered = true;
+                }
+            }
+            return isRegistered;
         };
 
         /**
@@ -9565,9 +9583,6 @@ var Kiwi;
                     this.animation.update();
                     this.width = this.atlas.cells[this.cellIndex].w;
                     this.height = this.atlas.cells[this.cellIndex].h;
-
-                    this.box.rawHitbox.width = this.width;
-                    this.box.rawHitbox.height = this.height;
                 }
 
                 this.input.update();
@@ -17421,7 +17436,7 @@ var Kiwi;
             Object.defineProperty(AudioManager.prototype, "locked", {
                 get: /**
                 * Returns a boolean indicating whether the device has been touched or not. READ ONLY.
-                * @property deviceTouched
+                * @property locked
                 * @type boolean
                 * @public
                 */
