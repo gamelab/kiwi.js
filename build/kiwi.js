@@ -3919,7 +3919,7 @@ var Kiwi;
             for (var i = 0; i < this._bootObjects.length; i++) {
                 console.log("Booting plugin " + i);
                 if ("boot" in this._bootObjects[i]) {
-                    this._bootObjects[i].boot.call(this._game);
+                    this._bootObjects[i].boot.call(this._bootObjects[i]);
                 } else {
                     console.log("Warning! No boot function found on boot object");
                 }
@@ -5430,7 +5430,8 @@ var Kiwi;
             * @private
             */
             AnimationManager.prototype._setCellIndex = function () {
-                this.entity.cellIndex = this.currentCell;
+                if (typeof this.currentAnimation !== "undefined")
+                    this.entity.cellIndex = this.currentAnimation.currentCell;
             };
 
             /**
@@ -7038,7 +7039,7 @@ var Kiwi;
                 var objTransform = gameObject.transform;
                 var box = gameObject.components.getComponent('Box');
 
-                var result = (objTransform.x + box.hitbox.width > this.box.hitbox.x) && (objTransform.x < this.box.hitbox.x + this.box.hitbox.width) && (objTransform.y + box.hitbox.height > this.box.hitbox.y) && (objTransform.y < this.box.hitbox.y + this.box.hitbox.height);
+                var result = (box.hitbox.x + box.hitbox.width > this.box.hitbox.x) && (box.hitbox.x < this.box.hitbox.x + this.box.hitbox.width) && (box.hitbox.y + box.hitbox.height > this.box.hitbox.y) && (box.hitbox.y < this.box.hitbox.y + this.box.hitbox.height);
 
                 if (result && separateObjects) {
                     ArcadePhysics.separate(this._parent, gameObject);
@@ -8169,24 +8170,27 @@ var Kiwi;
                         return _this.tagLoaderOnReadyStateChange(event);
                     };
                 } else if (this.dataType === Kiwi.Files.File.AUDIO) {
-                    //if device == iOS.... do awesome stuff....
                     this.data = document.createElement('audio');
                     this.data.src = this.fileURL;
                     this.data.preload = 'auto';
 
-                    this.data.addEventListener('canplaythrough', function () {
-                        return _this.tagLoaderProgressThrough(null);
-                    }, false);
+                    if (this._game.audio.locked) {
+                        this.tagLoaderAudioLocked();
+                    } else {
+                        this.data.addEventListener('canplaythrough', function () {
+                            return _this.tagLoaderProgressThrough(null);
+                        }, false);
 
-                    this.data.onerror = function (event) {
-                        return _this.tagLoaderOnError(event);
-                    };
-                    this.data.onload = function (event) {
-                        return _this.tagLoaderOnLoad(event);
-                    };
+                        this.data.onerror = function (event) {
+                            return _this.tagLoaderOnError(event);
+                        };
+                        this.data.onload = function (event) {
+                            return _this.tagLoaderOnLoad(event);
+                        };
 
-                    this.data.volume = 0;
-                    this.data.play();
+                        this.data.volume = 0;
+                        this.data.play();
+                    }
                 }
             };
 
@@ -8234,6 +8238,16 @@ var Kiwi;
 
                     this.tagLoaderOnLoad(null);
                 }
+            };
+
+            /**
+            * Is executed when iOS (or another device) is being used and the audio is 'locked'.
+            * @method tagLoaderIOSLoad
+            * @private
+            */
+            File.prototype.tagLoaderAudioLocked = function () {
+                this.percentLoaded = 100;
+                this.tagLoaderOnLoad(null);
             };
 
             /**
@@ -17382,14 +17396,15 @@ var Kiwi;
                 return "AudioManager";
             };
 
-            Object.defineProperty(AudioManager.prototype, "deviceTouched", {
+            Object.defineProperty(AudioManager.prototype, "locked", {
                 get: /**
                 * Returns a boolean indicating whether the device has been touched or not. READ ONLY.
                 * @property deviceTouched
-                *
+                * @type boolean
+                * @public
                 */
                 function () {
-                    return this._deviceTouched;
+                    return this._locked;
                 },
                 enumerable: true,
                 configurable: true
@@ -17403,7 +17418,6 @@ var Kiwi;
             */
             AudioManager.prototype.boot = function () {
                 this._volume = 1;
-                this._deviceTouched = false;
                 this._muted = false;
                 this._sounds = [];
 
@@ -17412,9 +17426,11 @@ var Kiwi;
                 }
 
                 if (Kiwi.DEVICE.iOS) {
+                    this._locked = true;
                     this._game.input.onUp.addOnce(this._unlocked, this);
+                    console.log('Audio is currently Locked until at touch event.');
                 } else {
-                    this._deviceTouched = true;
+                    this._locked = false;
                 }
 
                 this.usingWebAudio = true;
@@ -17450,9 +17466,8 @@ var Kiwi;
             * @private
             */
             AudioManager.prototype._unlocked = function () {
-                this._deviceTouched = true;
-                console.log('I\'m unlocked now!');
-
+                this._locked = false;
+                console.log('Unlocked');
                 for (var i = 0; i < this._sounds.length; i++) {
                     this._sounds[i].playable = true;
                 }
@@ -17757,21 +17772,26 @@ var Kiwi;
                 * @private
                 */
                 this._currentMarker = 'default';
+                this.ready = false;
                 this._game = game;
                 this._game.audio.registerSound(this);
 
                 this._usingAudioTag = this._game.audio.usingAudioTag;
                 this._usingWebAudio = this._game.audio.usingWebAudio;
 
-                this._playable = this._game.audio.deviceTouched;
+                this._playable = !this._game.audio.locked;
+                this.duration = 0;
+                this._volume = volume;
+                this._muteVolume = volume;
+                this._loop = loop;
+                this.key = key;
 
-                if (this._game.audio.noAudio)
-                    return;
-
-                if (!this._setAudio(key))
+                if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false)
                     return;
 
                 if (this._usingWebAudio) {
+                    this._setAudio();
+
                     this.context = this._game.audio.context;
                     this.masterGainNode = this._game.audio.masterGain;
 
@@ -17787,19 +17807,17 @@ var Kiwi;
                     this.gainNode.gain.value = volume * this._game.audio.volume;
                     this.gainNode.connect(this.masterGainNode);
                 } else if (this._usingAudioTag) {
-                    this.totalDuration = this._sound.duration;
-                    this._sound.volume = volume * this._game.audio.volume;
+                    if (this._playable === true) {
+                        this._setAudio();
 
-                    if (isNaN(this.totalDuration))
-                        this._pending = true;
+                        this.totalDuration = this._sound.duration;
+                        this._sound.volume = this.volume * this._game.audio.volume;
+
+                        if (isNaN(this.totalDuration))
+                            this._pending = true;
+                    }
                 }
 
-                this.duration = 0;
-                this.volume = volume;
-                this._muteVolume = volume;
-                this._loop = loop;
-
-                //add the default marker
                 this.addMarker('default', 0, this.totalDuration, this._loop);
                 this._currentMarker = 'default';
 
@@ -17822,11 +17840,13 @@ var Kiwi;
                     return this._playable;
                 },
                 set: function (val) {
-                    if (val == true) {
+                    if (this._playable !== true && val == true) {
                         this._playable = val;
-                        if (this._pending == true) {
-                            console.log('I should be playing from the pending state');
-                            this.play();
+                        this._setAudio();
+
+                        if (this._usingAudioTag) {
+                            this.totalDuration = this._sound.duration;
+                            this._sound.volume = this.volume * this._game.audio.volume;
                         }
                     }
                 },
@@ -17846,24 +17866,19 @@ var Kiwi;
 
             /**
             * Retrieves the audio data from the file store.
-            *
             * @method _setAudio
-            * @param key {string} The key of the file that you are wanting to get.
-            * @return {boolean}
             * @private
             */
-            Audio.prototype._setAudio = function (key) {
-                if (key == '' || this._game.fileStore.exists(key) === false) {
-                    this.ready = false;
-                    return;
+            Audio.prototype._setAudio = function () {
+                this._file = this._game.fileStore.getFile(this.key);
+                this._sound = this._file.data;
+
+                if (this._usingAudioTag) {
+                    this._sound.play();
+                    this._sound.pause();
                 }
 
-                this.key = key;
-                this._file = this._game.fileStore.getFile(key);
-                this._sound = this._file.data;
                 this.ready = true;
-
-                return true;
             };
 
             /**
@@ -17901,18 +17916,18 @@ var Kiwi;
                 * @public
                 */
                 function (val) {
-                    if (this._game.audio.noAudio)
+                    if (this._game.audio.noAudio || this.ready === false)
                         return;
 
-                    if (val !== undefined) {
-                        val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
+                    val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
 
-                        this._volume = val;
+                    this._volume = val;
 
-                        if (this._muted) {
-                            this._muteVolume = this._volume;
-                        }
+                    if (this._muted) {
+                        this._muteVolume = this._volume;
+                    }
 
+                    if (this._playable) {
                         if (this._usingWebAudio) {
                             this.gainNode.gain.value = this._volume * this._game.audio.volume;
                         } else if (this._usingAudioTag) {
@@ -18053,22 +18068,26 @@ var Kiwi;
                         this._decode();
                     }
                 } else if (this._usingAudioTag) {
-                    if (this.duration == 0 || isNaN(this.duration))
-                        this.duration = this.totalDuration * 1000;
+                    if (this._sound && this._sound.readyState == 4) {
+                        if (this.duration == 0 || isNaN(this.duration))
+                            this.duration = this.totalDuration * 1000;
 
-                    if (this._muted)
-                        this._sound.volume = 0; else
-                        this._sound.volume = this._volume;
+                        if (this._muted)
+                            this._sound.volume = 0; else
+                            this._sound.volume = this._volume;
 
-                    this._sound.currentTime = this._markers[this._currentMarker].start;
-                    this._sound.play();
-                    this.isPlaying = true;
-                    this._startTime = this._game.time.now();
-                    this._currentTime = 0;
-                    this._stopTime = this._startTime + this.duration;
+                        this._sound.currentTime = this._markers[this._currentMarker].start;
+                        this._sound.play();
+                        this.isPlaying = true;
+                        this._startTime = this._game.time.now();
+                        this._currentTime = 0;
+                        this._stopTime = this._startTime + this.duration;
 
-                    if (!this.paused)
-                        this.onPlay.dispatch();
+                        if (!this.paused)
+                            this.onPlay.dispatch();
+                    } else {
+                        this._pending = true;
+                    }
                 }
             };
 
@@ -18153,7 +18172,7 @@ var Kiwi;
                 if (!this.ready)
                     return;
 
-                if (this._pending) {
+                if (this._playable && this._pending) {
                     if (this._decoded === true || this._file.data.decoded) {
                         this._pending = false;
                         this.play();

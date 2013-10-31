@@ -679,23 +679,26 @@ module Kiwi.Files {
                 this.data.onload = (event) => this.tagLoaderOnLoad(event);
                 this.data.onerror = (event) => this.tagLoaderOnError(event);        //To be remade
                 this.data.onreadystatechange = (event) => this.tagLoaderOnReadyStateChange(event);
-            
+
 
             } else if (this.dataType === Kiwi.Files.File.AUDIO) {
-
-                    //if device == iOS.... do awesome stuff....
 
                 this.data = document.createElement('audio');
                 this.data.src = this.fileURL;
                 this.data.preload = 'auto';
 
-                this.data.addEventListener('canplaythrough', () => this.tagLoaderProgressThrough(null), false); 
-                
-                this.data.onerror = (event) => this.tagLoaderOnError(event);
-                this.data.onload = (event) => this.tagLoaderOnLoad(event);
-                
-                this.data.volume = 0;
-                this.data.play(); //force the browser to load by playing the audio........ 
+                //If the audio is locked.... then we can't do anything else... sadface
+                if (this._game.audio.locked) {
+                    this.tagLoaderAudioLocked();
+                } else {
+                    this.data.addEventListener('canplaythrough', () => this.tagLoaderProgressThrough(null), false);
+
+                    this.data.onerror = (event) => this.tagLoaderOnError(event);
+                    this.data.onload = (event) => this.tagLoaderOnLoad(event);
+
+                    this.data.volume = 0;
+                    this.data.play(); //force the browser to load by playing the audio........ 
+                }
             }
             
         }
@@ -748,6 +751,16 @@ module Kiwi.Files {
                 this.tagLoaderOnLoad(null);
                 
             }
+        }
+
+        /**
+        * Is executed when iOS (or another device) is being used and the audio is 'locked'.
+        * @method tagLoaderIOSLoad
+        * @private
+        */
+        private tagLoaderAudioLocked() {
+            this.percentLoaded = 100;
+            this.tagLoaderOnLoad(null);
         }
 
         /**
