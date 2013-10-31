@@ -23,19 +23,25 @@ module Kiwi.Sound {
          
         constructor(game: Kiwi.Game, key: string, volume: number, loop: boolean) {
             
+            this.ready = false;
             this._game = game;
             this._game.audio.registerSound(this);
             
             this._usingAudioTag = this._game.audio.usingAudioTag;
             this._usingWebAudio = this._game.audio.usingWebAudio; 
             
-            this._playable = this._game.audio.deviceTouched;
+            this._playable = !this._game.audio.locked;
+            this.duration = 0;
+            this._volume = volume;
+            this._muteVolume = volume;
+            this._loop = loop;
+            this.key = key;
 
-            if (this._game.audio.noAudio) return;
-
-            if (!this._setAudio(key)) return;
+            if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) return;
 
             if (this._usingWebAudio) {
+                this._setAudio();
+
                 this.context = this._game.audio.context;
                 this.masterGainNode = this._game.audio.masterGain;
 
@@ -51,20 +57,20 @@ module Kiwi.Sound {
 
                 this.gainNode.gain.value = volume * this._game.audio.volume;      //this may need to change.....
                 this.gainNode.connect(this.masterGainNode); 
+
             } else if (this._usingAudioTag) {
 
-                this.totalDuration = this._sound.duration;
-                this._sound.volume = volume * this._game.audio.volume;
+                if (this._playable === true) {
+                    this._setAudio();
 
-                if (isNaN(this.totalDuration)) this._pending = true;    //this should never need to happen once we get the loading clear.
+                    this.totalDuration = this._sound.duration;
+                    this._sound.volume = this.volume * this._game.audio.volume;
+
+                    if (isNaN(this.totalDuration)) this._pending = true;
+                } 
+
             }
 
-            this.duration = 0;
-            this.volume = volume;
-            this._muteVolume = volume;
-            this._loop = loop;
-
-            //add the default marker
             this.addMarker('default', 0, this.totalDuration, this._loop);
             this._currentMarker = 'default';
 
@@ -103,12 +109,16 @@ module Kiwi.Sound {
             return this._playable;
         }
         public set playable(val: boolean) {
-            if (val == true) {
+
+            if (this._playable !== true && val == true) {
+
                 this._playable = val;
-                if (this._pending == true) {
-                    console.log('I should be playing from the pending state');
-                    this.play();
-                }    
+                this._setAudio();
+
+                if (this._usingAudioTag) {
+                    this.totalDuration = this._sound.duration;
+                    this._sound.volume = this.volume * this._game.audio.volume;
+                }
             }
         }
 
@@ -389,25 +399,22 @@ module Kiwi.Sound {
 
         /**
         * Retrieves the audio data from the file store.
-        * 
         * @method _setAudio
-        * @param key {string} The key of the file that you are wanting to get.
-        * @return {boolean}
         * @private
         */
-        private _setAudio(key: string): boolean {
-            if (key == '' || this._game.fileStore.exists(key) === false)
-            {
-                this.ready = false;
-                return;
-            }
-
-            this.key = key;
-            this._file = this._game.fileStore.getFile(key);
+        private _setAudio() {
+            
+            this._file = this._game.fileStore.getFile(this.key);
             this._sound = this._file.data;
+            
+            //force the browser to play it at least for a little bit
+            if (this._usingAudioTag) {
+                this._sound.play();
+                this._sound.pause();
+            }
+            
             this.ready = true;
 
-            return true;
         } 
 
         /**
@@ -445,26 +452,24 @@ module Kiwi.Sound {
         */
         public set volume(val: number) {
 
-            if (this._game.audio.noAudio) return;
+            if (this._game.audio.noAudio || this.ready === false) return;
 
-            if (val !== undefined) {
+            val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
 
-                val = Kiwi.Utils.GameMath.clamp(val, 1, 0);
+            this._volume = val;
 
-                this._volume = val;
+            if (this._muted) {
+                this._muteVolume = this._volume;
+            }
 
-                if (this._muted) {
-                    this._muteVolume = this._volume;
-                }
-
+            if (this._playable) {
                 if (this._usingWebAudio) {
                     this.gainNode.gain.value = this._volume * this._game.audio.volume;            //this may need to change....
 
                 } else if (this._usingAudioTag) {
                     this._sound.volume = this._volume * this._game.audio.volume;
-
+                    
                 }
-
             }
         }
         public get volume(): number {
@@ -543,7 +548,7 @@ module Kiwi.Sound {
         * @public
         */
         public play(marker: string= this._currentMarker, forceRestart: boolean = false) {
-            
+
             if (this.isPlaying && forceRestart == false || this._game.audio.noAudio) return;
 
             if (forceRestart === true && this._pending === false) this.stop();
@@ -594,21 +599,26 @@ module Kiwi.Sound {
                     this._decode();
                 }
 
-            } else if(this._usingAudioTag) {
-                if (this.duration == 0 || isNaN(this.duration)) this.duration = this.totalDuration * 1000;
-                    
-                if (this._muted) this._sound.volume = 0;
-                else this._sound.volume = this._volume;
-                
-                this._sound.currentTime = this._markers[this._currentMarker].start;
-                this._sound.play();
-                this.isPlaying = true;
-                this._startTime = this._game.time.now();
-                this._currentTime = 0;
-                this._stopTime = this._startTime + this.duration;
+            } else if (this._usingAudioTag) {
 
-                if (!this.paused) this.onPlay.dispatch();
- 
+                if (this._sound && this._sound.readyState == 4) {
+
+                    if (this.duration == 0 || isNaN(this.duration)) this.duration = this.totalDuration * 1000;
+
+                    if (this._muted) this._sound.volume = 0;
+                    else this._sound.volume = this._volume;
+
+                    this._sound.currentTime = this._markers[this._currentMarker].start;
+                    this._sound.play();
+                    this.isPlaying = true;
+                    this._startTime = this._game.time.now();
+                    this._currentTime = 0;
+                    this._stopTime = this._startTime + this.duration;
+
+                    if (!this.paused) this.onPlay.dispatch();
+                } else {
+                    this._pending = true;
+                }
             }
         }
 
@@ -700,10 +710,12 @@ module Kiwi.Sound {
             if (!this.ready) return;
 
             //Is the audio ready to be played and was waiting?
-            if (this._pending) {
+            if (this._playable && this._pending) {
+
                 if (this._decoded === true || this._file.data.decoded) {
                     this._pending = false;
                     this.play();
+
                 } else if (this._usingAudioTag && !isNaN(this._sound.duration)) {
                     this.totalDuration = this._sound.duration;
                     this._markers['default'].duration = this.totalDuration;
