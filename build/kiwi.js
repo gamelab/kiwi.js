@@ -3817,6 +3817,28 @@ var Kiwi;
             this.validatePlugins();
             this._createPlugins();
         }
+        Object.defineProperty(PluginManager, "availablePlugins", {
+            get: /**
+            * An array of objects represetning all available plugins, each containing the name and version number of an available plugin
+            * @property getAvailablePlugins
+            * @type Array
+            * @static
+            * @private
+            */
+            function () {
+                var plugins = [];
+                for (var i = 0; i < PluginManager._availablePlugins.length; i++) {
+                    plugins.push({
+                        name: PluginManager._availablePlugins[i].name,
+                        version: PluginManager._availablePlugins[i].version
+                    });
+                }
+                return plugins;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         PluginManager.register = /**
         * Registers a plugin object as available. Any game instance can choose to use the plugin.
         * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
