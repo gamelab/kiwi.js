@@ -128,20 +128,22 @@ module Kiwi.Sound {
         private _muteVolume: number;
         
         /**
-        * Indicates if a mouse/touch event has fired from the device or not. 
-        * @property _deviceTouched
+        * Indicates if the sounds is currently 'locked' or not. 
+        * If it is 'locked' then no audio can play until a user touch's the device.  
+        * @property _locked
         * @type boolean
         * @private
         */
-        private _deviceTouched: boolean;
+        private _locked: boolean;
 
         /**
         * Returns a boolean indicating whether the device has been touched or not. READ ONLY.
-        * @property deviceTouched
-        * 
+        * @property locked
+        * @type boolean
+        * @public
         */
-        public get deviceTouched():boolean {
-            return this._deviceTouched;
+        public get locked():boolean {
+            return this._locked;
         }
 
         /**
@@ -153,7 +155,6 @@ module Kiwi.Sound {
         public boot() {
             
             this._volume = 1;
-            this._deviceTouched = false;
             this._muted = false;
             this._sounds = [];
 
@@ -163,10 +164,12 @@ module Kiwi.Sound {
             }
 
             //add mouse event here to 'unlock' the device.
-            if (Kiwi.DEVICE.iOS) { 
+            if (Kiwi.DEVICE.iOS) {
+                this._locked = true;
                 this._game.input.onUp.addOnce(this._unlocked, this);
+                console.log('Audio is currently Locked until at touch event.');
             } else {
-                this._deviceTouched = true;
+                this._locked = false;
             }
 
             this.usingWebAudio = true;  //we hope for the best....
@@ -207,9 +210,8 @@ module Kiwi.Sound {
         * @private
         */
         private _unlocked() {
-            this._deviceTouched = true;
-            console.log('I\'m unlocked now!');
-            
+            this._locked = false;
+            console.log('Unlocked');
             for (var i = 0; i < this._sounds.length; i++) {
                 this._sounds[i].playable = true;
             }
