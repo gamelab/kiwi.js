@@ -3817,6 +3817,28 @@ var Kiwi;
             this.validatePlugins();
             this._createPlugins();
         }
+        Object.defineProperty(PluginManager, "availablePlugins", {
+            get: /**
+            * An array of objects represetning all available plugins, each containing the name and version number of an available plugin
+            * @property getAvailablePlugins
+            * @type Array
+            * @static
+            * @private
+            */
+            function () {
+                var plugins = [];
+                for (var i = 0; i < PluginManager._availablePlugins.length; i++) {
+                    plugins.push({
+                        name: PluginManager._availablePlugins[i].name,
+                        version: PluginManager._availablePlugins[i].version
+                    });
+                }
+                return plugins;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         PluginManager.register = /**
         * Registers a plugin object as available. Any game instance can choose to use the plugin.
         * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
@@ -3919,7 +3941,7 @@ var Kiwi;
             for (var i = 0; i < this._bootObjects.length; i++) {
                 console.log("Booting plugin " + i);
                 if ("boot" in this._bootObjects[i]) {
-                    this._bootObjects[i].boot.call(this._game);
+                    this._bootObjects[i].boot.call(this._bootObjects[i]);
                 } else {
                     console.log("Warning! No boot function found on boot object");
                 }
@@ -7038,7 +7060,7 @@ var Kiwi;
                 var objTransform = gameObject.transform;
                 var box = gameObject.components.getComponent('Box');
 
-                var result = (objTransform.x + box.hitbox.width > this.box.hitbox.x) && (objTransform.x < this.box.hitbox.x + this.box.hitbox.width) && (objTransform.y + box.hitbox.height > this.box.hitbox.y) && (objTransform.y < this.box.hitbox.y + this.box.hitbox.height);
+                var result = (box.hitbox.x + box.hitbox.width > this.box.hitbox.x) && (box.hitbox.x < this.box.hitbox.x + this.box.hitbox.width) && (box.hitbox.y + box.hitbox.height > this.box.hitbox.y) && (box.hitbox.y < this.box.hitbox.y + this.box.hitbox.height);
 
                 if (result && separateObjects) {
                     ArcadePhysics.separate(this._parent, gameObject);

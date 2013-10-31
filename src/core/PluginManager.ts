@@ -35,6 +35,23 @@ module Kiwi {
         */
         private static _availablePlugins: any[] = new Array();
         
+
+        /**
+        * An array of objects represetning all available plugins, each containing the name and version number of an available plugin
+        * @property getAvailablePlugins
+        * @type Array
+        * @static
+        * @private
+        */
+        public static get availablePlugins():Array {
+            var plugins = [];
+            for (var i = 0; i < PluginManager._availablePlugins.length; i++) {
+                plugins.push({
+                    name: PluginManager._availablePlugins[i].name, version: PluginManager._availablePlugins[i].version});
+            }
+            return plugins;
+        }
+
         /**
         * Registers a plugin object as available. Any game instance can choose to use the plugin.
         * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
