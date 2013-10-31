@@ -8221,15 +8221,12 @@ var Kiwi;
                             return _this.tagLoaderProgressThrough(null);
                         }, false);
 
-                        this.data.onerror = function (event) {
-                            return _this.tagLoaderOnError(event);
-                        };
-                        this.data.onload = function (event) {
-                            return _this.tagLoaderOnLoad(event);
-                        };
-
-                        this.data.volume = 0;
-                        this.data.play();
+                        if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                            this.data.load();
+                        } else {
+                            this.data.volume = 0;
+                            this.data.play();
+                        }
                     }
                 }
             };
@@ -17421,6 +17418,7 @@ var Kiwi;
                 * @public
                 */
                 this.masterGain = null;
+                this._unlockedSource = null;
                 this._game = game;
             }
             /**
@@ -17462,9 +17460,10 @@ var Kiwi;
                     this.channels = 1;
                 }
 
-                if (Kiwi.DEVICE.iOS) {
+                if (Kiwi.DEVICE.iOS && this._game.deviceTargetOption !== Kiwi.TARGET_COCOON) {
                     this._locked = true;
                     this._game.input.onUp.addOnce(this._unlocked, this);
+
                     console.log('Audio is currently Locked until at touch event.');
                 } else {
                     this._locked = false;
@@ -17503,10 +17502,20 @@ var Kiwi;
             * @private
             */
             AudioManager.prototype._unlocked = function () {
-                this._locked = false;
-                console.log('Unlocked');
-                for (var i = 0; i < this._sounds.length; i++) {
-                    this._sounds[i].playable = true;
+                console.log('Audio now Unlocked');
+
+                if (this.usingAudioTag) {
+                    this._locked = false;
+                    for (var i = 0; i < this._sounds.length; i++) {
+                        this._sounds[i].playable = true;
+                    }
+                } else {
+                    // Create empty buffer and play it
+                    var buffer = this.context.createBuffer(1, 1, 22050);
+                    this._unlockedSource = this.context.createBufferSource();
+                    this._unlockedSource.buffer = buffer;
+                    this._unlockedSource.connect(this.context.destination);
+                    this._unlockedSource.noteOn(0);
                 }
             };
 
@@ -17729,6 +17738,18 @@ var Kiwi;
             * @public
             */
             AudioManager.prototype.update = function () {
+                if (this._locked) {
+                    if (this.usingWebAudio && this._unlockedSource !== null) {
+                        if ((this._unlockedSource.playbackState === this._unlockedSource.PLAYING_STATE || this._unlockedSource.playbackState === this._unlockedSource.FINISHED_STATE)) {
+                            this._locked = false;
+                            this._unlockedSource = null;
+                            for (var i = 0; i < this._sounds.length; i++) {
+                                this._sounds[i].playable = true;
+                            }
+                        }
+                    }
+                }
+
                 if (!this.noAudio) {
                     for (var i = 0; i < this._sounds.length; i++) {
                         this._sounds[i].update();
@@ -17816,7 +17837,8 @@ var Kiwi;
                 this._usingAudioTag = this._game.audio.usingAudioTag;
                 this._usingWebAudio = this._game.audio.usingWebAudio;
 
-                this._playable = !this._game.audio.locked;
+                this._playable = (this._game.audio.locked == true) ? false : true;
+
                 this.duration = 0;
                 this._volume = volume;
                 this._muteVolume = volume;
@@ -17832,7 +17854,7 @@ var Kiwi;
                     this.context = this._game.audio.context;
                     this.masterGainNode = this._game.audio.masterGain;
 
-                    if (this.context.createGain === 'undefined') {
+                    if (typeof this.context.createGain === 'undefined') {
                         this.gainNode = this.context.createGainNode();
                     } else {
                         this.gainNode = this.context.createGain();
@@ -17841,9 +17863,10 @@ var Kiwi;
                     //make sure the audio is decoded.
                     this._decode();
 
-                    this.gainNode.gain.value = volume * this._game.audio.volume;
+                    this.gainNode.gain.value = this.volume * this._game.audio.volume;
                     this.gainNode.connect(this.masterGainNode);
                 } else if (this._usingAudioTag) {
+                    console.log('Using Audio Tag');
                     if (this._playable === true) {
                         this._setAudio();
 
@@ -18051,6 +18074,7 @@ var Kiwi;
             Audio.prototype.play = function (marker, forceRestart) {
                 if (typeof marker === "undefined") { marker = this._currentMarker; }
                 if (typeof forceRestart === "undefined") { forceRestart = false; }
+                console.log('Playing');
                 if (this.isPlaying && forceRestart == false || this._game.audio.noAudio)
                     return;
 
@@ -18105,7 +18129,10 @@ var Kiwi;
                         this._decode();
                     }
                 } else if (this._usingAudioTag) {
-                    if (this._sound && this._sound.readyState == 4) {
+                    console.log('Using Audio Tag and Playing');
+                    console.log('Ready State ' + this._sound.readyState);
+
+                    if (this._sound && this._sound.readyState == 4 || this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                         if (this.duration == 0 || isNaN(this.duration))
                             this.duration = this.totalDuration * 1000;
 

@@ -690,14 +690,19 @@ module Kiwi.Files {
                 //If the audio is locked.... then we can't do anything else... sadface
                 if (this._game.audio.locked) {
                     this.tagLoaderAudioLocked();
+
                 } else {
                     this.data.addEventListener('canplaythrough', () => this.tagLoaderProgressThrough(null), false);
+                     
 
-                    this.data.onerror = (event) => this.tagLoaderOnError(event);
-                    this.data.onload = (event) => this.tagLoaderOnLoad(event);
+                    if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                        this.data.load();
 
-                    this.data.volume = 0;
-                    this.data.play(); //force the browser to load by playing the audio........ 
+                    } else {
+                        this.data.volume = 0;
+                        this.data.play(); //force the browser to load by playing the audio........ 
+                    
+                    }
                 }
             }
             
