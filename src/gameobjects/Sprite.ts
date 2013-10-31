@@ -112,8 +112,6 @@ module Kiwi.GameObjects {
                 this.width = this.atlas.cells[this.cellIndex].w;
                 this.height = this.atlas.cells[this.cellIndex].h;
 
-                this.box.rawHitbox.width = this.width;
-                this.box.rawHitbox.height = this.height;
             }    
 
             this.input.update();
