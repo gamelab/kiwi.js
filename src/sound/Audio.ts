@@ -58,7 +58,7 @@ module Kiwi.Sound {
 
                 this.gainNode.gain.value = this.volume * this._game.audio.volume;      //this may need to change.....
                 this.gainNode.connect(this.masterGainNode);
-                
+            
 
             } else if (this._usingAudioTag) {
 
@@ -603,7 +603,7 @@ module Kiwi.Sound {
 
             } else if (this._usingAudioTag) {
 
-                if (this._sound && this._sound.readyState == 4) {
+                if (this._sound && this._sound.readyState == 4 || this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
 
                     if (this.duration == 0 || isNaN(this.duration)) this.duration = this.totalDuration * 1000;
 

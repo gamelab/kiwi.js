@@ -165,7 +165,7 @@ module Kiwi.Sound {
             }
 
             //add mouse event here to 'unlock' the device.
-            if (Kiwi.DEVICE.iOS) {
+            if (Kiwi.DEVICE.iOS && this._game.deviceTargetOption !== Kiwi.TARGET_COCOON) {
                 this._locked = true;
                 this._game.input.onUp.addOnce(this._unlocked, this);
                 
