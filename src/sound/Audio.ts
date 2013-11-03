@@ -408,12 +408,15 @@ module Kiwi.Sound {
         private _setAudio() {
             
             this._file = this._game.fileStore.getFile(this.key);
-            this._sound = this._file.data;
             
             //force the browser to play it at least for a little bit
             if (this._usingAudioTag) {
+                //clone the audio node
+                this._sound = this._file.data.cloneNode(true);
                 this._sound.play();
                 this._sound.pause();
+            } else {
+                this._sound = this._file.data;
             }
             
             this.ready = true;
