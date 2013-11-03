@@ -432,7 +432,7 @@ module Kiwi {
             this.current.dataLibrary.clear();
          
 
-            var fileStoreKeys: Array = this._game.fileStore.keys;
+            var fileStoreKeys = this._game.fileStore.keys;
             
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);

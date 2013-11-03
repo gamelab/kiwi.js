@@ -177,6 +177,8 @@
             
                 <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
             
+                <li><a href="../classes/PluginManager.html">PluginManager</a></li>
+            
                 <li><a href="../classes/Point.html">Point</a></li>
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
@@ -221,9 +223,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -820,9 +822,9 @@ module Kiwi.GameObjects.Tilemap {
         * @param row {Array} 
         * @public
         */
-        public addRow(row:Array) {
+        public addRow(row:any[]) {
 
-            var data = [];
+            var data:any = [];
             
             for (var c = 0; c &lt; row.length; c++) {
                 data[c] = new Kiwi.GameObjects.Tilemap.Tile(this.state, this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth, this.heightInPixels);

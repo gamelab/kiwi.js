@@ -69,6 +69,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "MenuItem",
         "Mouse",
         "MouseCursor",
+        "PluginManager",
         "Point",
         "Pointer",
         "Quadratic",

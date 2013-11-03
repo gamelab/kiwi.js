@@ -177,6 +177,8 @@
             
                 <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
             
+                <li><a href="../classes/PluginManager.html">PluginManager</a></li>
+            
                 <li><a href="../classes/Point.html">Point</a></li>
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
@@ -221,9 +223,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -463,6 +465,8 @@ module Kiwi {
                 console.log(&#x27;Default State not passed.&#x27;);
             }
 
+            this.pluginManager = new Kiwi.PluginManager(this, options.plugins);
+
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (domParent !== &#x27;&#x27;) {
                     if (document.getElementById(domParent)) console.log(&#x27;Game being created inside &#x27; + domParent + &#x27;.&#x27;);
@@ -610,12 +614,20 @@ module Kiwi {
         public input: Kiwi.Input.InputManager = null;
          
         /**
-        * Manages the cameras the are on the stage. This is still to be implemented.
+        * Manages the cameras the are on the stage. Single default Camera only in this version.
         * @property cameras
         * @type CameraManager
         * @public
         */
         public cameras: Kiwi.CameraManager = null;
+
+        /**
+        * Manages plugins registration and initialisation for the game instance.
+        * @property pluginManager
+        * @type PluginManager
+        * @public
+        */
+        public pluginManager: Kiwi.PluginManager = null;
 
         /**
         * Loads files from outside sources and checks to see that they have loaded correctly or not.
@@ -754,8 +766,10 @@ module Kiwi {
             this.loader.boot();
             this.states.boot();
 
-            this._lastTime = Date.now();
+            this.pluginManager.boot();
 
+            this._lastTime = Date.now();
+            
             this.raf = new Kiwi.Utils.RequestAnimationFrame(() =&gt; this.loop());
             this.raf.start();
             

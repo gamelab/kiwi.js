@@ -116,7 +116,7 @@ module Kiwi {
         * @type Array
         * @private
         */
-        private _bootObjects: Array;
+        private _bootObjects: any[];
 
         /**
         * Builds a list of valid plugins used by the game instance. Each plugin name that is supplied in the Kiwi.Game constructor configuration object  

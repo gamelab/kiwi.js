@@ -97,7 +97,7 @@ module Kiwi.Input {
         * @type Pointer[]
         * @public
         */
-        public get pointers(): Kiwi.Input.Pointers {
+        public get pointers(): Kiwi.Input.Pointer[] {
             return this._pointers;
         }
 

@@ -62,7 +62,7 @@ module Kiwi.Textures {
         * @type Array
         * @public
         */
-        public cells: Array;
+        public cells;
         
         /**
         * Sequences that are for this texture.

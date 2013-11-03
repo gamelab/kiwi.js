@@ -266,6 +266,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\core\\PluginManager.ts": {
+            "name": "src\\core\\PluginManager.ts",
+            "modules": {},
+            "classes": {
+                "PluginManager": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\core\\Signal.ts": {
             "name": "src\\core\\Signal.ts",
             "modules": {},
@@ -1112,6 +1121,7 @@
                 "Game": 1,
                 "Group": 1,
                 "IChild": 1,
+                "PluginManager": 1,
                 "Signal": 1,
                 "SignalBinding": 1,
                 "Stage": 1,
@@ -1181,7 +1191,7 @@
             "namespaces": {},
             "tag": "main",
             "file": "src\\Kiwi.ts",
-            "line": 280,
+            "line": 281,
             "description": "Module - Kiwi (Core)\nThe top level namespace in which all core classes and modules are defined.",
             "itemtype": "main"
         },
@@ -2278,6 +2288,36 @@
             "file": "src\\core\\IChild.ts",
             "line": 9,
             "description": "A IChild is an Interface (defined as a class as the documentation does not support Interfaces just yet),\nwhich outlines the methods/properties that objects which are intended to be added as a child of a Stage or Group must have in order to work."
+        },
+        "PluginManager": {
+            "name": "PluginManager",
+            "shortname": "PluginManager",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Kiwi",
+            "namespace": "",
+            "file": "src\\core\\PluginManager.ts",
+            "line": 9,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "game",
+                    "description": "The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.",
+                    "type": "Game"
+                },
+                {
+                    "name": "plugins",
+                    "description": "The entities position on the x axis.",
+                    "type": "String[]"
+                }
+            ],
+            "return": {
+                "description": "This PluginManager.",
+                "type": "PluginManager"
+            }
         },
         "Signal": {
             "name": "Signal",
@@ -5073,7 +5113,7 @@
             "module": "Kiwi",
             "namespace": "",
             "file": "src\\Kiwi.ts",
-            "line": 280,
+            "line": 281,
             "description": "The GameManager is used to maintain mulitple instances of Kiwi games within a single document.",
             "static": 1
         }
@@ -7135,7 +7175,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 55,
+            "line": 51,
             "description": "The entity that this animation belongs to.",
             "itemtype": "property",
             "name": "entity",
@@ -7148,7 +7188,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 63,
+            "line": 59,
             "description": "The texture atlas that this animation is taking affect on.",
             "itemtype": "property",
             "name": "_atlas",
@@ -7161,7 +7201,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 71,
+            "line": 67,
             "description": "A dictionary containing all of the animations that are avaiable.",
             "itemtype": "property",
             "name": "_animations",
@@ -7174,7 +7214,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 79,
+            "line": 75,
             "description": "A reference to the animation that is currently being played.",
             "itemtype": "property",
             "name": "_currentAnimation",
@@ -7188,7 +7228,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 88,
+            "line": 84,
             "description": "Indicates whether or not this animation is currently playing or not.",
             "itemtype": "property",
             "name": "_isPlaying",
@@ -7202,30 +7242,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 97,
-            "description": "A Signal that dispatches events when an animation is played.",
-            "itemtype": "property",
-            "name": "onPlay",
-            "type": "Signal",
-            "access": "public",
-            "tagname": "",
-            "class": "AnimationManager",
-            "module": "Kiwi",
-            "submodule": "Components"
-        },
-        {
-            "file": "src\\components\\AnimationManager.ts",
-            "line": 105,
-            "description": "A Signal that dispatches events when an animation is stoped.",
-            "itemtype": "property",
-            "name": "onStop",
-            "class": "AnimationManager",
-            "module": "Kiwi",
-            "submodule": "Components"
-        },
-        {
-            "file": "src\\components\\AnimationManager.ts",
-            "line": 115,
+            "line": 93,
             "description": "Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.",
             "itemtype": "property",
             "name": "isPlaying",
@@ -7238,7 +7255,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 125,
+            "line": 103,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -7251,7 +7268,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 135,
+            "line": 113,
             "description": "Creates a new sequence and then adds that sequence as a new animation on this component. Returns that animation that was created.",
             "itemtype": "method",
             "name": "add",
@@ -7298,7 +7315,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 154,
+            "line": 132,
             "description": "Creates a new animation based on a sequence that is passed.",
             "itemtype": "method",
             "name": "createFromSequence",
@@ -7328,7 +7345,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 171,
+            "line": 149,
             "description": "Plays either the current animation or the name of the animation that you pass.",
             "itemtype": "method",
             "name": "play",
@@ -7348,7 +7365,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 183,
+            "line": 161,
             "description": "Play an animation at a particular frameIndex.",
             "itemtype": "method",
             "name": "playAt",
@@ -7373,7 +7390,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 196,
+            "line": 174,
             "description": "An internal method used to actually play the animation.",
             "itemtype": "method",
             "name": "_play",
@@ -7403,7 +7420,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 220,
+            "line": 198,
             "description": "Stops the current animation from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -7415,7 +7432,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 232,
+            "line": 210,
             "description": "Pauses the current animation.",
             "itemtype": "method",
             "name": "pause",
@@ -7427,7 +7444,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 242,
+            "line": 220,
             "description": "Resumes the current animation. The animation should have already been paused.",
             "itemtype": "method",
             "name": "resume",
@@ -7439,7 +7456,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 252,
+            "line": 230,
             "description": "Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number. \nYou can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.\nSo if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.",
             "itemtype": "method",
             "name": "switchTo",
@@ -7465,7 +7482,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 280,
+            "line": 258,
             "description": "Makes the current animation go to the next frame. If the animation is at the end of the sequence it then goes back to the start.",
             "itemtype": "method",
             "name": "nextFrame",
@@ -7477,7 +7494,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 290,
+            "line": 268,
             "description": "Makes the current animation go to the prev frame. If the animation is at the start, the animation will go the end of the sequence.",
             "itemtype": "method",
             "name": "prevFrame",
@@ -7489,7 +7506,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 300,
+            "line": 278,
             "description": "Internal method that sets the current animation to the animation passed.",
             "itemtype": "method",
             "name": "_setCurrentAnimation",
@@ -7508,7 +7525,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 315,
+            "line": 293,
             "description": "The update loop, it only updates the currentAnimation and only if it is playing.",
             "itemtype": "method",
             "name": "update",
@@ -7520,7 +7537,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 328,
+            "line": 307,
             "description": "Gets the cell that the current animation is current at. This is READ ONLY.",
             "itemtype": "property",
             "name": "currentCell",
@@ -7533,7 +7550,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 338,
+            "line": 317,
             "description": "Gets the current frame index of the cell in the sequence that is currently playing. This is READ ONLY.",
             "itemtype": "property",
             "name": "frameIndex",
@@ -7546,7 +7563,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 348,
+            "line": 327,
             "description": "Returns the length (Number of cells) of the current animation that is playing. This is READ ONLY.",
             "itemtype": "property",
             "name": "length",
@@ -7559,7 +7576,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 358,
+            "line": 337,
             "description": "Get a animation that is on the animation component.",
             "itemtype": "method",
             "name": "getAnimation",
@@ -7582,7 +7599,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 370,
+            "line": 349,
             "description": "An internal method that is used to set the cell index of the entity. This is how the animation changes.",
             "itemtype": "method",
             "name": "_setCellIndex",
@@ -7594,7 +7611,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 379,
+            "line": 359,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -7610,7 +7627,7 @@
         },
         {
             "file": "src\\components\\AnimationManager.ts",
-            "line": 391,
+            "line": 371,
             "description": "Destroys the animation component and runs the destroy on all of the anims that it has.",
             "itemtype": "method",
             "name": "destroy",
@@ -8412,7 +8429,7 @@
         {
             "file": "src\\components\\ArcadePhysics.ts",
             "line": 736,
-            "description": "A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.",
+            "description": "A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity. If seperateObjects is true it will seperate the two entities based on their bounding box.",
             "itemtype": "method",
             "name": "overlaps",
             "params": [
@@ -10970,7 +10987,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 145,
+            "line": 147,
             "description": "The render mode of the game. This will be either set to CANVAS or WEBGL.",
             "itemtype": "property",
             "name": "_renderOption",
@@ -10982,7 +10999,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 153,
+            "line": 155,
             "description": "Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.",
             "itemtype": "property",
             "name": "renderOption",
@@ -10994,7 +11011,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 163,
+            "line": 165,
             "description": "The type of device that you are targeting. This is either set to COCOON or BROWSER",
             "itemtype": "property",
             "name": "_deviceTargetOption",
@@ -11006,7 +11023,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 171,
+            "line": 173,
             "description": "Returns the device target option for the game. This is READ ONLY and is decided once the game gets initialised.",
             "itemtype": "property",
             "name": "deviceTargetOption",
@@ -11018,7 +11035,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 181,
+            "line": 183,
             "description": "If when rendering, the game should render a new CANVAS which is above everything. This new canvas is for debugging purposes only.\nThis gets set to either DEBUG_ON or DEBUG_OFF",
             "itemtype": "property",
             "name": "_debugOption",
@@ -11030,7 +11047,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 190,
+            "line": 192,
             "description": "Returns the debug option. This is READ ONLY and is decided once the game gets initialised.",
             "itemtype": "property",
             "name": "debugOption",
@@ -11042,7 +11059,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 200,
+            "line": 202,
             "description": "Holds the renderer that is being used. This is detiremended based of the _renderMode",
             "itemtype": "property",
             "name": "renderer",
@@ -11054,7 +11071,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 208,
+            "line": 210,
             "description": "Holds the hud manager.",
             "itemtype": "property",
             "name": "huds",
@@ -11066,7 +11083,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 216,
+            "line": 218,
             "description": "The type of object that the game is.",
             "itemtype": "method",
             "name": "objType",
@@ -11081,7 +11098,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 226,
+            "line": 228,
             "description": "[REQUIRES DESCRIPTION]",
             "itemtype": "property",
             "name": "_dom",
@@ -11093,7 +11110,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 242,
+            "line": 244,
             "description": "The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.",
             "itemtype": "property",
             "name": "audio",
@@ -11105,7 +11122,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 250,
+            "line": 252,
             "description": "Used to get the coordinates of any DOM element on the game.",
             "itemtype": "property",
             "name": "browser",
@@ -11117,7 +11134,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 258,
+            "line": 260,
             "description": "The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.",
             "itemtype": "property",
             "name": "fileStore",
@@ -11129,7 +11146,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 266,
+            "line": 268,
             "description": "Handles any user input with the game. These could via the users keyboard, mouse or touch events.",
             "itemtype": "property",
             "name": "input",
@@ -11141,8 +11158,8 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 274,
-            "description": "Manages the cameras the are on the stage. This is still to be implemented.",
+            "line": 276,
+            "description": "Manages the cameras the are on the stage. Single default Camera only in this version.",
             "itemtype": "property",
             "name": "cameras",
             "type": "CameraManager",
@@ -11153,7 +11170,19 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 282,
+            "line": 284,
+            "description": "Manages plugins registration and initialisation for the game instance.",
+            "itemtype": "property",
+            "name": "pluginManager",
+            "type": "PluginManager",
+            "access": "public",
+            "tagname": "",
+            "class": "Game",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\Game.ts",
+            "line": 292,
             "description": "Loads files from outside sources and checks to see that they have loaded correctly or not.",
             "itemtype": "property",
             "name": "loader",
@@ -11165,7 +11194,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 290,
+            "line": 300,
             "description": "The Request Animation Frame that is being used for the update and render loops.",
             "itemtype": "property",
             "name": "raf",
@@ -11177,7 +11206,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 298,
+            "line": 308,
             "description": "The ONLY stage that is being used for this game.",
             "itemtype": "property",
             "name": "stage",
@@ -11189,7 +11218,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 306,
+            "line": 316,
             "description": "Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.",
             "itemtype": "property",
             "name": "states",
@@ -11201,7 +11230,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 314,
+            "line": 324,
             "description": "Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.",
             "itemtype": "property",
             "name": "time",
@@ -11213,7 +11242,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 322,
+            "line": 332,
             "description": "The tween manager holds a reference to all of the tweens that are created and currently being used.",
             "itemtype": "property",
             "name": "tweens",
@@ -11225,7 +11254,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 330,
+            "line": 340,
             "description": "A Random Data Generator. This is useful for create unique ids and random information.",
             "itemtype": "property",
             "name": "rnd",
@@ -11237,7 +11266,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 338,
+            "line": 348,
             "description": "The framerate at which the game will update at.",
             "itemtype": "property",
             "name": "_framerate",
@@ -11250,7 +11279,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 347,
+            "line": 357,
             "description": "The interval between frames.",
             "itemtype": "property",
             "name": "_interval",
@@ -11263,7 +11292,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 356,
+            "line": 366,
             "description": "The current interval between frames.",
             "itemtype": "property",
             "name": "_delta",
@@ -11275,7 +11304,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 364,
+            "line": 374,
             "description": "The last time the game was updated",
             "itemtype": "property",
             "name": "_lastTime",
@@ -11287,7 +11316,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 372,
+            "line": 382,
             "description": "The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.",
             "itemtype": "property",
             "name": "frameRate",
@@ -11301,7 +11330,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 393,
+            "line": 403,
             "description": "The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.\nOnce the managers have started up the start loop will then begin to create the game loop.",
             "itemtype": "method",
             "name": "start",
@@ -11312,7 +11341,7 @@
         },
         {
             "file": "src\\core\\Game.ts",
-            "line": 426,
+            "line": 438,
             "description": "The loop that the whole game is using.",
             "itemtype": "method",
             "name": "loop",
@@ -12338,6 +12367,150 @@
             "access": "public",
             "tagname": "",
             "class": "Group",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 29,
+            "description": "An array of plugins which have been included in the webpage and registered successfully.",
+            "itemtype": "property",
+            "name": "_availablePlugins",
+            "type": "Array",
+            "static": 1,
+            "access": "private",
+            "tagname": "",
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 39,
+            "description": "An array of objects represetning all available plugins, each containing the name and version number of an available plugin",
+            "itemtype": "property",
+            "name": "getAvailablePlugins",
+            "type": "Array",
+            "static": 1,
+            "access": "private",
+            "tagname": "",
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 55,
+            "description": "Registers a plugin object as available. Any game instance can choose to use the plugin.\nPlugins need only be registered once per webpage. If registered a second time it will be ignored.\nTwo plugins with the same names cannot be reigstered simultaneously, even if different versions.",
+            "itemtype": "method",
+            "name": "register",
+            "params": [
+                {
+                    "name": "plugin",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "static": 1,
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 87,
+            "description": "Identifies the object as a PluginManager.",
+            "itemtype": "property",
+            "name": "objType",
+            "type": "string",
+            "access": "public",
+            "tagname": "",
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 97,
+            "description": "A reference to the game instance that owns the PluginManager.",
+            "itemtype": "property",
+            "name": "objType",
+            "type": "Kiwi.Game",
+            "access": "private",
+            "tagname": "",
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 105,
+            "description": "An array of plugin names which the game instance has been configured to use. Each name must match the constructor function for the plugin.",
+            "itemtype": "property",
+            "name": "_plugins",
+            "type": "string[]",
+            "access": "private",
+            "tagname": "",
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 113,
+            "description": "An array of objects that contain a boot function, each of which will be called when PluginManager.boot is invoked.",
+            "itemtype": "property",
+            "name": "_bootObjects",
+            "type": "Array",
+            "access": "private",
+            "tagname": "",
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 121,
+            "description": "Builds a list of valid plugins used by the game instance. Each plugin name that is supplied in the Kiwi.Game constructor configuration object  \nis checked against the Kiwi.Plugins namespace to ensure that a property of the same name exists.\nThis will ignore plugin that are registered but not used by the game instance.",
+            "itemtype": "method",
+            "name": "validatePlugins",
+            "access": "public",
+            "tagname": "",
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 149,
+            "description": "Returns true if a plugin identified by the supplied pluginName is registered.",
+            "itemtype": "method",
+            "name": "pluginIsRegistered",
+            "params": [
+                {
+                    "name": "pluginName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 166,
+            "description": "Called after all other core objects and services created by the Kiwi.Game constructor are created.\nAttempts to find a \"create\" function on each plugin and calls it if it exists.\nThe create function may return an object on which a boot function exists - to be called during boot process.",
+            "itemtype": "method",
+            "name": "_createPlugins",
+            "access": "private",
+            "tagname": "",
+            "class": "PluginManager",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\core\\PluginManager.ts",
+            "line": 189,
+            "description": "Calls the boot functions on any objects that plugins used by the game instance have designated during creation.",
+            "itemtype": "method",
+            "name": "boot",
+            "access": "public",
+            "tagname": "",
+            "class": "PluginManager",
             "module": "Kiwi"
         },
         {
@@ -15502,7 +15675,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 703,
+            "line": 711,
             "description": "Is executed when the tag loader changes its ready state.",
             "itemtype": "method",
             "name": "tagLoaderOnReadyStateChange",
@@ -15521,7 +15694,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 713,
+            "line": 721,
             "description": "Is executed when the tag loader encounters a error that stops it from loading.",
             "itemtype": "method",
             "name": "tagLoaderOnError",
@@ -15540,7 +15713,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 731,
+            "line": 739,
             "description": "Is executed when the file can play perfectly fine and loading will not affect it.",
             "itemtype": "method",
             "name": "tagLoaderProgressThrough",
@@ -15559,7 +15732,19 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 753,
+            "line": 761,
+            "description": "Is executed when iOS (or another device) is being used and the audio is 'locked'.",
+            "itemtype": "method",
+            "name": "tagLoaderIOSLoad",
+            "access": "private",
+            "tagname": "",
+            "class": "File",
+            "module": "Kiwi",
+            "submodule": "Files"
+        },
+        {
+            "file": "src\\file\\File.ts",
+            "line": 771,
             "description": "Is executed when the file has successfully loaded.",
             "itemtype": "method",
             "name": "tagLoaderOnLoad",
@@ -15578,7 +15763,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 775,
+            "line": 793,
             "description": "Sets up a XHR loader based on the properties of this file.",
             "itemtype": "method",
             "name": "xhrLoader",
@@ -15590,7 +15775,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 798,
+            "line": 816,
             "description": "Is executed when the XHR loader has changed its ready state.",
             "itemtype": "method",
             "name": "xhrOnReadyStateChange",
@@ -15609,7 +15794,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 815,
+            "line": 833,
             "description": "Is executed when the XHR loader starts to load the file.",
             "itemtype": "method",
             "name": "xhrOnLoadStart",
@@ -15628,7 +15813,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 828,
+            "line": 846,
             "description": "Runs when the XHR loader aborts the load for some reason. [NEEDS IMPLEMENTATION]",
             "itemtype": "method",
             "name": "xhrOnAbort",
@@ -15647,7 +15832,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 838,
+            "line": 856,
             "description": "Runs when the XHR loader encounters a error. [NEEDS IMPLEMENTATION]",
             "itemtype": "method",
             "name": "xhrOnError",
@@ -15666,7 +15851,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 848,
+            "line": 866,
             "description": "[DESCRIPTION AND IMPLEMENTATION REQUIRED]",
             "itemtype": "method",
             "name": "xhrOnTimeout",
@@ -15685,7 +15870,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 858,
+            "line": 876,
             "description": "Is execute whilst loading of the file is occuring. Updates the number of bytes that have been loaded and percentage loaded.",
             "itemtype": "method",
             "name": "xhrOnProgress",
@@ -15704,7 +15889,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 877,
+            "line": 895,
             "description": "Once the file has finished downloading (or pulled from the browser cache) this onload event fires.",
             "itemtype": "method",
             "name": "xhrOnLoad",
@@ -15723,7 +15908,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 951,
+            "line": 969,
             "description": "Creates a new Binary Large Object for the data that was loaded through the XHR.",
             "itemtype": "method",
             "name": "createBlob",
@@ -15735,7 +15920,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1014,
+            "line": 1032,
             "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "revoke",
@@ -15747,7 +15932,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1034,
+            "line": 1052,
             "description": "[DESCRIPTION REQUIRED]",
             "itemtype": "method",
             "name": "parseComplete",
@@ -15759,7 +15944,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1053,
+            "line": 1071,
             "description": "Get information about the given file",
             "itemtype": "method",
             "name": "getFileDetails",
@@ -15793,7 +15978,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1071,
+            "line": 1089,
             "description": "Sends a request for the files header information.",
             "itemtype": "method",
             "name": "sendXHRHeadRequest",
@@ -15805,7 +15990,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1090,
+            "line": 1108,
             "description": "Is executed when the XHR head request timesout.",
             "itemtype": "method",
             "name": "xhrHeadOnTimeout",
@@ -15824,7 +16009,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1118,
+            "line": 1136,
             "description": "Is exeuted when this XHR head request has a error.",
             "itemtype": "method",
             "name": "xhrHeadOnError",
@@ -15843,7 +16028,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1138,
+            "line": 1156,
             "description": "Process the response headers received.",
             "itemtype": "method",
             "name": "getResponseHeaders",
@@ -15862,7 +16047,7 @@
         },
         {
             "file": "src\\file\\File.ts",
-            "line": 1164,
+            "line": 1182,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -18531,7 +18716,7 @@
         },
         {
             "file": "src\\gameobjects\\Sprite.ts",
-            "line": 122,
+            "line": 120,
             "description": "Called by the Layer to which this Game Object is attached",
             "itemtype": "method",
             "name": "render",
@@ -31827,7 +32012,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 81,
+            "line": 89,
             "description": "A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.",
             "itemtype": "property",
             "name": "id",
@@ -31838,7 +32023,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 88,
+            "line": 96,
             "description": "A flag that indicates whether the sound is ready to be played or not. If not then this indicates that we are awaiting a user event.",
             "itemtype": "property",
             "name": "_playable",
@@ -31851,7 +32036,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 96,
+            "line": 104,
             "itemtype": "property",
             "name": "playable",
             "type": "boolean",
@@ -31863,7 +32048,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 115,
+            "line": 128,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -31879,7 +32064,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 125,
+            "line": 138,
             "description": "The game that this sound belongs to.",
             "itemtype": "property",
             "name": "_game",
@@ -31892,7 +32077,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 133,
+            "line": 146,
             "description": "Web Audio API ONLY - A reference to the audio context that the game's audio manager has.",
             "itemtype": "property",
             "name": "context",
@@ -31905,7 +32090,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 141,
+            "line": 154,
             "description": "Web Audio API ONLY - A reference to the master gain node on the audio manager.",
             "itemtype": "property",
             "name": "masterGainNode",
@@ -31918,7 +32103,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 149,
+            "line": 162,
             "description": "Web Audio API ONLY - This sounds local gainNode that it uses.",
             "itemtype": "property",
             "name": "gainNode",
@@ -31931,7 +32116,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 157,
+            "line": 170,
             "description": "A boolean indicating whether or not that audio tags are being used to generate sounds.",
             "itemtype": "property",
             "name": "_usingAudioTag",
@@ -31944,7 +32129,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 165,
+            "line": 178,
             "description": "A boolean indicating whether or not the webAuduio api is being used.",
             "itemtype": "property",
             "name": "_usingWebAudio",
@@ -31957,7 +32142,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 173,
+            "line": 186,
             "description": "A private indicator of whether this audio is currently muted or not.",
             "itemtype": "property",
             "name": "_muted",
@@ -31971,7 +32156,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 182,
+            "line": 195,
             "description": "A number between 0 and 1 representing the current volume of this audio piece.",
             "itemtype": "property",
             "name": "_volume",
@@ -31985,7 +32170,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 191,
+            "line": 204,
             "description": "A boolean indicating whether this piece of audio should loop or not.",
             "itemtype": "property",
             "name": "_loop",
@@ -31998,7 +32183,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 199,
+            "line": 212,
             "description": "The key that was used to get the audio from the AudioLibrary.",
             "itemtype": "property",
             "name": "key",
@@ -32011,7 +32196,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 207,
+            "line": 220,
             "description": "The property containing the file information about the audio.",
             "itemtype": "property",
             "name": "_file",
@@ -32024,7 +32209,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 215,
+            "line": 228,
             "description": "This is the piece of audio that either method will use to play audio. E.g.\nIn the case of the Web Audio API this is the sound buffer source, in which the audio plays from. \nIn the case of Audio Tags this is the Audio Tag itself.",
             "itemtype": "property",
             "name": "_sound",
@@ -32037,7 +32222,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 225,
+            "line": 238,
             "description": "A boolean that controls/knows if the audio is ready to be played or not.\nThis is just an indicator of if the file has been retrieved successfully from the file store or not.",
             "itemtype": "property",
             "name": "ready",
@@ -32050,7 +32235,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 234,
+            "line": 247,
             "description": "The total duration of the audio in seconds.",
             "itemtype": "property",
             "name": "totalDuration",
@@ -32063,7 +32248,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 242,
+            "line": 255,
             "description": "The current duration of the section of audio that is being played. In milliseconds.",
             "itemtype": "property",
             "name": "duration",
@@ -32076,7 +32261,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 250,
+            "line": 263,
             "description": "Web Audio API ONLY - The audio buffer that is to be used when playing audio segments.",
             "itemtype": "property",
             "name": "_buffer",
@@ -32089,7 +32274,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 258,
+            "line": 271,
             "description": "Web Audio API ONLY - A boolean to indicate if the audio has been decoded or not yet. If not you will need to run the decode() method.",
             "itemtype": "property",
             "name": "_decoded",
@@ -32103,7 +32288,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 267,
+            "line": 280,
             "description": "A private property that holds the volume before the sound was muted. Used so that when unmuted the sound will resume at its old spot.",
             "itemtype": "property",
             "name": "_muteVolume",
@@ -32116,7 +32301,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 275,
+            "line": 288,
             "description": "Indicates whether or not the sound is currently playing.",
             "itemtype": "property",
             "name": "isPlaying",
@@ -32130,7 +32315,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 284,
+            "line": 297,
             "description": "A indicator of if the sound is currently paused.",
             "itemtype": "property",
             "name": "paused",
@@ -32144,7 +32329,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 293,
+            "line": 306,
             "description": "If the sound needs to be played but is waiting on something.",
             "itemtype": "property",
             "name": "_pending",
@@ -32157,7 +32342,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 301,
+            "line": 314,
             "description": "When the audio started playing. In milliseconds",
             "itemtype": "property",
             "name": "_startTime",
@@ -32170,7 +32355,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 309,
+            "line": 322,
             "description": "When the audio is playing, this is the current time we are at with it playing. In milliseconds",
             "itemtype": "property",
             "name": "_currentTime",
@@ -32183,7 +32368,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 317,
+            "line": 330,
             "description": "The time at which the audio should stop playing. In milliseconds. This is assuming that the audio is not on loop.",
             "itemtype": "property",
             "name": "_stopTime",
@@ -32196,7 +32381,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 325,
+            "line": 338,
             "description": "An array of all of the markers that are on this piece of audio.",
             "itemtype": "property",
             "name": "_markers",
@@ -32209,7 +32394,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 333,
+            "line": 346,
             "description": "The current marker that is being used.",
             "itemtype": "property",
             "name": "_currentMarker",
@@ -32223,7 +32408,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 342,
+            "line": 355,
             "description": "A Kiwi Signal that dispatches a event when the audio starts playing.",
             "itemtype": "property",
             "name": "onPlay",
@@ -32236,7 +32421,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 350,
+            "line": 363,
             "description": "A Kiwi Signal that dispatches a event when the audio stops playing.",
             "itemtype": "property",
             "name": "onStop",
@@ -32249,7 +32434,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 358,
+            "line": 371,
             "description": "A Kiwi Signal that dispatches a event when the audio gets paused.",
             "itemtype": "property",
             "name": "onPause",
@@ -32262,7 +32447,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 366,
+            "line": 379,
             "description": "A Kiwi Signal that dispatches a event when the audio resumes.",
             "itemtype": "property",
             "name": "onResume",
@@ -32275,7 +32460,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 374,
+            "line": 387,
             "description": "A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.",
             "itemtype": "property",
             "name": "onLoop",
@@ -32288,7 +32473,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 382,
+            "line": 395,
             "description": "A Kiwi Signal that dispatches a event when the audio gets muted.",
             "itemtype": "property",
             "name": "onMute",
@@ -32301,21 +32486,10 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 390,
+            "line": 403,
             "description": "Retrieves the audio data from the file store.",
             "itemtype": "method",
             "name": "_setAudio",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "The key of the file that you are wanting to get.",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
             "access": "private",
             "tagname": "",
             "class": "Audio",
@@ -32324,7 +32498,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 413,
+            "line": 423,
             "description": "Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.",
             "itemtype": "method",
             "name": "_decode",
@@ -32336,7 +32510,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 439,
+            "line": 448,
             "description": "Used to control the current volume for this sound.",
             "itemtype": "property",
             "name": "volume",
@@ -32349,7 +32523,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 476,
+            "line": 483,
             "description": "Allows you to mute the sound.",
             "itemtype": "property",
             "name": "mute",
@@ -32362,7 +32536,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 505,
+            "line": 512,
             "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
             "itemtype": "method",
             "name": "addMarker",
@@ -32398,7 +32572,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 519,
+            "line": 526,
             "description": "Removes a currently existing marker from this audio.",
             "itemtype": "method",
             "name": "removeMarker",
@@ -32417,7 +32591,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 537,
+            "line": 544,
             "description": "Plays the current sound/audio from the start.",
             "itemtype": "method",
             "name": "play",
@@ -32444,7 +32618,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 615,
+            "line": 627,
             "description": "Stop the sound from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -32456,7 +32630,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 643,
+            "line": 655,
             "description": "Pauses the sound so that you can resume it from at point to paused it at.",
             "itemtype": "method",
             "name": "pause",
@@ -32468,7 +32642,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 657,
+            "line": 669,
             "description": "Plays the sound from when you paused the sound.",
             "itemtype": "method",
             "name": "resume",
@@ -32480,7 +32654,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 693,
+            "line": 705,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -32492,7 +32666,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 754,
+            "line": 768,
             "description": "This method handles the destruction of all of the properties when this audio is not longer needed. \nYou call this method when you want this method to be removed on the next garbage collection cycle.",
             "itemtype": "method",
             "name": "destroy",
@@ -32739,9 +32913,9 @@
         {
             "file": "src\\sound\\AudioManager.ts",
             "line": 130,
-            "description": "Indicates if a mouse/touch event has fired from the device or not.",
+            "description": "Indicates if the sounds is currently 'locked' or not. \nIf it is 'locked' then no audio can play until a user touch's the device.",
             "itemtype": "property",
-            "name": "_deviceTouched",
+            "name": "_locked",
             "type": "boolean",
             "access": "private",
             "tagname": "",
@@ -32751,17 +32925,20 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 138,
+            "line": 140,
             "description": "Returns a boolean indicating whether the device has been touched or not. READ ONLY.",
             "itemtype": "property",
-            "name": "deviceTouched",
+            "name": "locked",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
             "class": "AudioManager",
             "module": "Kiwi",
             "submodule": "Sound"
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 147,
+            "line": 150,
             "description": "The boot method is executed when all of the DOM elements needed for the game are loaded and the game is ready to 'start' up.",
             "itemtype": "method",
             "name": "boot",
@@ -32773,7 +32950,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 204,
+            "line": 209,
             "description": "Is executed when a mouse event is fired on the device. This is used to enabled playback of sounds on the current device if they were awaiting for a user event.",
             "itemtype": "method",
             "name": "_unlocked",
@@ -32785,7 +32962,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 218,
+            "line": 232,
             "description": "Used to mute the audio on the device, or to check to see if the device is muted.",
             "itemtype": "property",
             "name": "mute",
@@ -32799,7 +32976,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 264,
+            "line": 278,
             "description": "Global setting and getting of the volume. A number between 0 (silence) and 1 (full volume)",
             "itemtype": "property",
             "name": "volume",
@@ -32813,7 +32990,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 301,
+            "line": 315,
             "description": "Indicates whether or not an Audio Object is registered with this Audio Manager or not. More for Kiwi Internal use only.",
             "itemtype": "method",
             "name": "isRegistered",
@@ -32836,7 +33013,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 318,
+            "line": 332,
             "description": "Registers an Audio Object with this audio manager. Also assign's the audio piece a unique ID to identify it by. Internal Kiwi use only.",
             "itemtype": "method",
             "name": "registerSound",
@@ -32859,7 +33036,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 334,
+            "line": 348,
             "description": "Used to create a new sound on the audio manager. Returns the newly created sound.",
             "itemtype": "method",
             "name": "add",
@@ -32896,7 +33073,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 353,
+            "line": 367,
             "description": "Removes the passed sound from the audio manager. Needs testing.",
             "itemtype": "method",
             "name": "remove",
@@ -32915,7 +33092,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 375,
+            "line": 389,
             "description": "Plays all of the sounds listed in the audio manager.",
             "itemtype": "method",
             "name": "playAll",
@@ -32927,7 +33104,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 391,
+            "line": 405,
             "description": "Stops all of the sounds that are listed in the audio manager from playing.",
             "itemtype": "method",
             "name": "playAll",
@@ -32939,7 +33116,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 409,
+            "line": 423,
             "description": "Pauses all of the sounds listed in the audio manager.",
             "itemtype": "method",
             "name": "pauseAll",
@@ -32951,7 +33128,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 428,
+            "line": 442,
             "description": "Resumes all of the sounds listed in the audio manager.",
             "itemtype": "method",
             "name": "resumeAll",
@@ -32972,7 +33149,7 @@
         },
         {
             "file": "src\\sound\\AudioManager.ts",
-            "line": 448,
+            "line": 462,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -39470,7 +39647,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 136,
+            "line": 137,
             "description": "The version of Kiwi that is currently being used.",
             "itemtype": "property",
             "name": "VERSION",
@@ -39484,7 +39661,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 147,
+            "line": 148,
             "description": "A Static property that contains the number associated with the CANVAS RENDERER.",
             "itemtype": "property",
             "name": "RENDERER_CANVAS",
@@ -39498,7 +39675,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 157,
+            "line": 158,
             "description": "A Static property that contains the number associated with the WEBGL RENDERER.",
             "itemtype": "property",
             "name": "RENDERER_WEBGL",
@@ -39512,7 +39689,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 168,
+            "line": 169,
             "description": "Contains the number associated with the targetting of browsers.",
             "itemtype": "property",
             "name": "TARGET_BROWSER",
@@ -39526,7 +39703,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 178,
+            "line": 179,
             "description": "Contains the number associated with the targetting of CocoonJS.",
             "itemtype": "property",
             "name": "TARGET_COCOON",
@@ -39540,7 +39717,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 189,
+            "line": 190,
             "description": "Contains the number that is used to turn the Debug options on.",
             "itemtype": "property",
             "name": "DEBUG_ON",
@@ -39554,7 +39731,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 199,
+            "line": 200,
             "description": "Contains the number that is used to turn the Debug options off.",
             "itemtype": "property",
             "name": "DEBUG_OFF",
@@ -39568,7 +39745,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 209,
+            "line": 210,
             "description": "Contains the Device class that is used to detirmine which features are supported by the users browser.",
             "itemtype": "property",
             "name": "DEVICE",
@@ -39581,7 +39758,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 219,
+            "line": 220,
             "description": "Contains a number that is used to identify objects that are a State.",
             "itemtype": "property",
             "name": "STATE",
@@ -39595,7 +39772,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 229,
+            "line": 230,
             "description": "Contains a number that is used to identify objects that are a Group.",
             "itemtype": "property",
             "name": "GROUP",
@@ -39609,7 +39786,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 239,
+            "line": 240,
             "description": "Contains a number that is used to identify objects that are a Entity.",
             "itemtype": "property",
             "name": "ENTITY",
@@ -39623,7 +39800,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 249,
+            "line": 250,
             "description": "Contains a number that is used to identify objects that are a Camera.",
             "itemtype": "property",
             "name": "CAMERA",
@@ -39637,7 +39814,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 259,
+            "line": 260,
             "description": "Contains a number that is used to identify objects that are a HUD Widget.",
             "itemtype": "property",
             "name": "HUD_WIDGET",
@@ -39651,7 +39828,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 269,
+            "line": 270,
             "description": "Contains a number that is used to identify objects that are a TILE_LAYER.",
             "itemtype": "property",
             "name": "TILE_LAYER",
@@ -39665,7 +39842,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 288,
+            "line": 289,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -39680,7 +39857,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 298,
+            "line": 299,
             "description": "A list of all of the games that are currently on this document.",
             "itemtype": "property",
             "name": "_games",
@@ -39693,7 +39870,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 307,
+            "line": 308,
             "description": "Used to register a new Game with this manager. Returns the new number of games that have been registered.",
             "itemtype": "method",
             "name": "register",
@@ -39714,7 +39891,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 320,
+            "line": 321,
             "description": "Returns the total number of game that are currently registered with this GameManager.",
             "itemtype": "method",
             "name": "total",
@@ -39751,7 +39928,7 @@
         },
         {
             "message": "unknown tag: pricate",
-            "line": " src\\file\\File.ts:1053"
+            "line": " src\\file\\File.ts:1071"
         },
         {
             "message": "replacing incorrect tag: returns with return",

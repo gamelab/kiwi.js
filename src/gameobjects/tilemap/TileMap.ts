@@ -466,7 +466,7 @@ module Kiwi.GameObjects.Tilemap { //namespace needs to be changed...
             
             if (object.exists === false || !object.components.hasComponent('ArcadePhysics')) return false;
 
-            var tiles = this.currentLayer.getTileOverlaps(object);
+            var tiles:any[] = this.currentLayer.getTileOverlaps(object);
 
             if (tiles !== undefined) {
                 var col = false;
