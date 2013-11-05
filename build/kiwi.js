@@ -17950,7 +17950,7 @@ var Kiwi;
             * @private
             */
             Audio.prototype._decode = function () {
-                if (this._usingAudioTag || this._file.data.decode == false)
+                if (this.ready == false || this._usingAudioTag)
                     return;
 
                 if (this._file.data.decoded === true && this._file.data.buffer !== null) {

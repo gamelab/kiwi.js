@@ -43,32 +43,34 @@ module Kiwi.Sound {
             if (this._usingWebAudio) {
                 this._setAudio();
 
-                this.context = this._game.audio.context;
-                this.masterGainNode = this._game.audio.masterGain;
+                if (this.ready) {
+                    this.context = this._game.audio.context;
+                    this.masterGainNode = this._game.audio.masterGain;
 
-                //create our gain node
-                if (typeof this.context.createGain === 'undefined') {
-                    this.gainNode = this.context.createGainNode();
-                } else {
-                    this.gainNode = this.context.createGain();
+                    //create our gain node
+                    if (typeof this.context.createGain === 'undefined') {
+                        this.gainNode = this.context.createGainNode();
+                    } else {
+                        this.gainNode = this.context.createGain();
+                    }
+
+                    //make sure the audio is decoded.
+                    this._decode();
+
+                    this.gainNode.gain.value = this.volume * this._game.audio.volume;      //this may need to change.....
+                    this.gainNode.connect(this.masterGainNode);
                 }
-
-                //make sure the audio is decoded.
-                this._decode();
-
-                this.gainNode.gain.value = this.volume * this._game.audio.volume;      //this may need to change.....
-                this.gainNode.connect(this.masterGainNode);
-            
-
             } else if (this._usingAudioTag) {
 
                 if (this._playable === true) {
                     this._setAudio();
 
-                    this.totalDuration = this._sound.duration;
-                    this._sound.volume = this.volume * this._game.audio.volume;
+                    if (this.ready) {
+                        this.totalDuration = this._sound.duration;
+                        this._sound.volume = this.volume * this._game.audio.volume;
 
-                    if (isNaN(this.totalDuration)) this._pending = true;
+                        if (isNaN(this.totalDuration)) this._pending = true;
+                    }    
                 }
 
             }
@@ -117,7 +119,7 @@ module Kiwi.Sound {
                 this._playable = val;
                 this._setAudio();
 
-                if (this._usingAudioTag) {
+                if (this.ready && this._usingAudioTag) {
                     this.totalDuration = this._sound.duration;
                     this._sound.volume = this.volume * this._game.audio.volume;
 
@@ -409,12 +411,16 @@ module Kiwi.Sound {
             
             this._file = this._game.fileStore.getFile(this.key);
             
+            //Does the data actually exist?
+            if (typeof this._file.data == "undefined") return;
+
             //force the browser to play it at least for a little bit
             if (this._usingAudioTag) {
                 //clone the audio node
                 this._sound = this._file.data.cloneNode(true);
                 this._sound.play();
                 this._sound.pause();
+
             } else {
                 this._sound = this._file.data;
             }
@@ -430,8 +436,8 @@ module Kiwi.Sound {
         * @private
         */
         private _decode() {
-            //you only decode when using the web audio api
-            if (this._usingAudioTag || this._file.data.decode == false) return;
+            //You only decode when using the web audio api, when the audio has loaded and if it hasn't been decoded already
+            if (this.ready == false || this._usingAudioTag) return;
 
             //has the 
             if (this._file.data.decoded === true && this._file.data.buffer !== null) {
@@ -717,7 +723,7 @@ module Kiwi.Sound {
             //Is the audio ready to be played and was waiting?
             if (this._playable && this._pending) {
 
-                if (this._decoded === true || this._file.data.decoded) {
+                if (this._decoded === true || this._file.data && this._file.data.decoded) {
                     this._pending = false;
                     this.play();
 
