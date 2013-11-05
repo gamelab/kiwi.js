@@ -1,12 +1,46 @@
+Release Notes 0.5.1
+
 Kiwi.js (BETA)
 =====
-
-
 
 ###HTML5 game library written in TypeScript/Javascript
 -----------------------------------------------------------------
 
-version 0.5
+version 0.5.1
+
+###Release notes for this version
+
+####New Features
+
+* Plugin Infrastructure  
+See plugin documentation for details.
+
+* Build Scripts  
+Gruntfile now has three options:  
+*grunt dev* - compiles typescript and minifies js.  
+*grunt docs* - compiles documentation and copies kiwi logo and css over the top of compiled files.  
+*grunt full* - does both of the above
+	
+####Bug Fixes
+Audio 
+  
+* Audio now works in Cocoon (Audio tags only), also works on IPad 2 (Audio Tags) & Ipad 3 (WebAudio) API.
+    
+* On Ipad2 switching between sounds held in multiple audio tags can cause the removal of some audio from memory.
+	
+* ArcadePhysics
+Fixed code inconsistencies
+
+Build Scripts  
+A number of typescript files were updated to allow compilation using the node based Typescript compiler 0.9.0.1.
+
+####Changes to API pre-exisiting API in this release
+None - this release contains only bug fixes and new features, games that ran under 0.5.0 should run identically on 0.5.2  
+Note: To run the new grunt build script you'll need to update your node packages by doing npm install 	
+
+
+
+-------------------------------------------------------------------
 
 See [Kiwijs.org](http://kiwijs.org) for more information about using Kiwi.js to build games, including some getting started examples. Note: this release is a beta and is not intended as a preview only and not for building production games at this stage.
 
