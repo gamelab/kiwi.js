@@ -563,12 +563,13 @@ module Kiwi.Sound {
             if (this.isPlaying && forceRestart == false || this._game.audio.noAudio) return;
 
             if (forceRestart === true && this._pending === false) this.stop();
-            this.paused = false;
 
-            if (this._markers[marker] == undefined) return;
+            if (typeof this._markers[marker] == "undefined") return;
 
+            //If its the current marker that is playing and shouldn't force restart then stop
             if(this._currentMarker === marker && this.isPlaying && forceRestart == false) return;
-
+            
+            this.paused = false;
             this._currentMarker = marker; 
             this.duration = this._markers[this._currentMarker].duration * 1000;
             this._loop = this._markers[this._currentMarker].loop;
@@ -655,10 +656,11 @@ module Kiwi.Sound {
                     this._sound.currentTime = 0;
                 }
                 
+                this.isPlaying = false;
+
                 if(this.paused == false) this.onStop.dispatch();
             }
 
-            this.isPlaying = false;
         }
         
         /**

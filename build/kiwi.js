@@ -17851,29 +17851,33 @@ var Kiwi;
                 if (this._usingWebAudio) {
                     this._setAudio();
 
-                    this.context = this._game.audio.context;
-                    this.masterGainNode = this._game.audio.masterGain;
+                    if (this.ready) {
+                        this.context = this._game.audio.context;
+                        this.masterGainNode = this._game.audio.masterGain;
 
-                    if (typeof this.context.createGain === 'undefined') {
-                        this.gainNode = this.context.createGainNode();
-                    } else {
-                        this.gainNode = this.context.createGain();
+                        if (typeof this.context.createGain === 'undefined') {
+                            this.gainNode = this.context.createGainNode();
+                        } else {
+                            this.gainNode = this.context.createGain();
+                        }
+
+                        //make sure the audio is decoded.
+                        this._decode();
+
+                        this.gainNode.gain.value = this.volume * this._game.audio.volume;
+                        this.gainNode.connect(this.masterGainNode);
                     }
-
-                    //make sure the audio is decoded.
-                    this._decode();
-
-                    this.gainNode.gain.value = this.volume * this._game.audio.volume;
-                    this.gainNode.connect(this.masterGainNode);
                 } else if (this._usingAudioTag) {
                     if (this._playable === true) {
                         this._setAudio();
 
-                        this.totalDuration = this._sound.duration;
-                        this._sound.volume = this.volume * this._game.audio.volume;
+                        if (this.ready) {
+                            this.totalDuration = this._sound.duration;
+                            this._sound.volume = this.volume * this._game.audio.volume;
 
-                        if (isNaN(this.totalDuration))
-                            this._pending = true;
+                            if (isNaN(this.totalDuration))
+                                this._pending = true;
+                        }
                     }
                 }
 
@@ -17903,7 +17907,7 @@ var Kiwi;
                         this._playable = val;
                         this._setAudio();
 
-                        if (this._usingAudioTag) {
+                        if (this.ready && this._usingAudioTag) {
                             this.totalDuration = this._sound.duration;
                             this._sound.volume = this.volume * this._game.audio.volume;
                         }
@@ -17930,6 +17934,9 @@ var Kiwi;
             */
             Audio.prototype._setAudio = function () {
                 this._file = this._game.fileStore.getFile(this.key);
+
+                if (typeof this._file.data == "undefined")
+                    return;
 
                 if (this._usingAudioTag) {
                     //clone the audio node
@@ -18076,19 +18083,21 @@ var Kiwi;
             Audio.prototype.play = function (marker, forceRestart) {
                 if (typeof marker === "undefined") { marker = this._currentMarker; }
                 if (typeof forceRestart === "undefined") { forceRestart = false; }
+                console.log('Am I Playing?' + this.isPlaying);
+
                 if (this.isPlaying && forceRestart == false || this._game.audio.noAudio)
                     return;
 
                 if (forceRestart === true && this._pending === false)
                     this.stop();
-                this.paused = false;
 
-                if (this._markers[marker] == undefined)
+                if (typeof this._markers[marker] == "undefined")
                     return;
 
                 if (this._currentMarker === marker && this.isPlaying && forceRestart == false)
                     return;
 
+                this.paused = false;
                 this._currentMarker = marker;
                 this.duration = this._markers[this._currentMarker].duration * 1000;
                 this._loop = this._markers[this._currentMarker].loop;
@@ -18097,6 +18106,8 @@ var Kiwi;
                     this._pending = true;
                     return;
                 }
+
+                console.log("Playing Audio");
 
                 if (this._usingWebAudio) {
                     if (this._decoded === true) {
@@ -18172,11 +18183,11 @@ var Kiwi;
                         this._sound.currentTime = 0;
                     }
 
+                    this.isPlaying = false;
+                    console.log("Stopped");
                     if (this.paused == false)
                         this.onStop.dispatch();
                 }
-
-                this.isPlaying = false;
             };
 
             /**
@@ -18235,7 +18246,7 @@ var Kiwi;
                     return;
 
                 if (this._playable && this._pending) {
-                    if (this._decoded === true || this._file.data.decoded) {
+                    if (this._decoded === true || this._file.data && this._file.data.decoded) {
                         this._pending = false;
                         this.play();
                     } else if (this._usingAudioTag && !isNaN(this._sound.duration)) {
