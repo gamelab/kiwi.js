@@ -11,7 +11,8 @@ class FiringOfRockets extends Kiwi.State {
     }
 
     preload() {
-        this.addAudio('explode', 'assets/audio/rocket_explode.mp3');
+
+        this.addAudio('explode', 'assets/audio/death.mp3');
         this.addSpriteSheet('rpg', 'assets/war/characters/vietcong-sheet-rpg.png', 150, 117);
         this.addImage('rocket', 'assets/static/bullet-rocket.png');
     }

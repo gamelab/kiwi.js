@@ -177,6 +177,8 @@
             
                 <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
             
+                <li><a href="../classes/PluginManager.html">PluginManager</a></li>
+            
                 <li><a href="../classes/Point.html">Point</a></li>
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
@@ -221,9 +223,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -1017,23 +1019,31 @@ module Kiwi.Files {
                 this.data.onload = (event) =&gt; this.tagLoaderOnLoad(event);
                 this.data.onerror = (event) =&gt; this.tagLoaderOnError(event);        //To be remade
                 this.data.onreadystatechange = (event) =&gt; this.tagLoaderOnReadyStateChange(event);
-            
+
 
             } else if (this.dataType === Kiwi.Files.File.AUDIO) {
-
-                    //if device == iOS.... do awesome stuff....
 
                 this.data = document.createElement(&#x27;audio&#x27;);
                 this.data.src = this.fileURL;
                 this.data.preload = &#x27;auto&#x27;;
 
-                this.data.addEventListener(&#x27;canplaythrough&#x27;, () =&gt; this.tagLoaderProgressThrough(null), false); 
-                
-                this.data.onerror = (event) =&gt; this.tagLoaderOnError(event);
-                this.data.onload = (event) =&gt; this.tagLoaderOnLoad(event);
-                
-                this.data.volume = 0;
-                this.data.play(); //force the browser to load by playing the audio........ 
+                //If the audio is locked.... then we can&#x27;t do anything else... sadface
+                if (this._game.audio.locked) {
+                    this.tagLoaderAudioLocked();
+
+                } else {
+                    this.data.addEventListener(&#x27;canplaythrough&#x27;, () =&gt; this.tagLoaderProgressThrough(null), false);
+                     
+
+                    if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                        this.data.load();
+
+                    } else {
+                        this.data.volume = 0;
+                        this.data.play(); //force the browser to load by playing the audio........ 
+                    
+                    }
+                }
             }
             
         }
@@ -1086,6 +1096,16 @@ module Kiwi.Files {
                 this.tagLoaderOnLoad(null);
                 
             }
+        }
+
+        /**
+        * Is executed when iOS (or another device) is being used and the audio is &#x27;locked&#x27;.
+        * @method tagLoaderIOSLoad
+        * @private
+        */
+        private tagLoaderAudioLocked() {
+            this.percentLoaded = 100;
+            this.tagLoaderOnLoad(null);
         }
 
         /**

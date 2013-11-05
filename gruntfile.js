@@ -42,8 +42,22 @@ module.exports = function(grunt) {
                 'build/kiwi.min.js': ['build/kiwi.js']
             }
         }
+    },
+ 
+    copy: {
+            doclogo: {
+		 src: 'docstyles/logo.png',
+    		dest: 'docs/assets/css/logo.png'
+	  },
+   	    docstyles: {
+		 src: 'docstyles/main.css',
+    		dest: 'docs/assets/css/main.css'
+	  }
+
     }
-  });
+
+
+ });
 
   grunt.loadNpmTasks("grunt-ts");
 
@@ -51,12 +65,14 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
 
+  grunt.loadNpmTasks('grunt-contrib-copy');
+
   
   
   
-  // Default task(s).
-  //grunt.registerTask("default", ["ts:build",'uglify:build',"yuidoc"]);
-  grunt.registerTask("default", ["ts:build",'uglify:build']);
+  grunt.registerTask("default", ["ts:build","uglify:build"]);
+  grunt.registerTask("full", ["ts:build","uglify:build","yuidoc:compile","copy:doclogo","copy:docstyles"]);
+  grunt.registerTask("docs", ["yuidoc:compile","copy:doclogo","copy:docstyles"]);
   
   
 

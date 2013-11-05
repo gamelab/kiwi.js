@@ -20,6 +20,7 @@
 /// <reference path="core/Entity.ts" />
 /// <reference path="core/Game.ts" />
 /// <reference path="core/Group.ts" />
+/// <reference path="core/PluginManager.ts" />
 /// <reference path="core/State.ts" /> //must be initialised AFTER group - typescript issue #599
 /// <reference path="core/IChild.ts" />
 /// <reference path="core/Signal.ts" />
@@ -93,7 +94,7 @@
 /// <reference path="input/MouseCursor.ts" />
 /// <reference path="input/Finger.ts" />
 
-/// <reference path="plugins/gamefroot/TileMapConverter.ts" />
+/// <reference path="plugins/Plugins.ts" />
 
 /// <reference path="renderers/CanvasRenderer.ts" />
 /// <reference path="renderers/GLRenderer.ts" />
@@ -328,6 +329,8 @@ module Kiwi {
         }
 
     }
+
+    export var Plugins = {};
 
     export var extend:Function = function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];

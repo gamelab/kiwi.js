@@ -482,9 +482,9 @@ module Kiwi.GameObjects.Tilemap {
         * @param row {Array} 
         * @public
         */
-        public addRow(row:Array) {
+        public addRow(row:any[]) {
 
-            var data = [];
+            var data:any = [];
             
             for (var c = 0; c < row.length; c++) {
                 data[c] = new Kiwi.GameObjects.Tilemap.Tile(this.state, this, row[c], this.tileWidth, this.tileHeight, c * this.tileWidth, this.heightInPixels);

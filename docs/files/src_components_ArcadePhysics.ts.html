@@ -177,6 +177,8 @@
             
                 <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
             
+                <li><a href="../classes/PluginManager.html">PluginManager</a></li>
+            
                 <li><a href="../classes/Point.html">Point</a></li>
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
@@ -221,9 +223,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -1072,7 +1074,7 @@ module Kiwi.Components {
         ////////Instance Functions/////////
 
         /**
-        * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
+        * A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity. If seperateObjects is true it will seperate the two entities based on their bounding box.
         * 
         * @method overlaps
         * @param gameObject {Kiwi.Entity}
@@ -1086,8 +1088,8 @@ module Kiwi.Components {
             var objTransform: Kiwi.Geom.Transform = gameObject.transform;
             var box: Kiwi.Components.Box = gameObject.components.getComponent(&#x27;Box&#x27;);
 
-            var result: boolean = (objTransform.x + box.hitbox.width &gt; this.transform.x) &amp;&amp; (objTransform.x &lt; this.transform.x + this.box.hitbox.width) &amp;&amp;
-                (objTransform.y + box.hitbox.height &gt; this.transform.y) &amp;&amp; (objTransform.y &lt; this.transform.y + this.box.hitbox.height);
+            var result: boolean = (box.hitbox.x + box.hitbox.width &gt; this.box.hitbox.x) &amp;&amp; (box.hitbox.x &lt; this.box.hitbox.x + this.box.hitbox.width) &amp;&amp;
+                (box.hitbox.y + box.hitbox.height &gt; this.box.hitbox.y) &amp;&amp; (box.hitbox.y &lt; this.box.hitbox.y + this.box.hitbox.height);
 
             if (result &amp;&amp; separateObjects) {
                 ArcadePhysics.separate(this._parent, gameObject);

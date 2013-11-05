@@ -67,7 +67,7 @@ module Kiwi.HUD.Widget {
         * @type Array
         * @private
         */
-        private _styles: Array;
+        private _styles: any[];
 
         /**
         * Returns a list that contains all of the menu items (buttons) that are currently on this menu.

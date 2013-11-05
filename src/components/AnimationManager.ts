@@ -298,6 +298,7 @@ module Kiwi.Components {
         public update() { 
             if (this.currentAnimation && this.isPlaying) {
                 if (this.currentAnimation.update()) {
+
                     this._setCellIndex();
                 }
             }
@@ -351,7 +352,8 @@ module Kiwi.Components {
         * @private
         */
         private _setCellIndex() {
-            this.entity.cellIndex = this.currentCell;
+            if(typeof this.currentAnimation !== "undefined") 
+                this.entity.cellIndex = this.currentAnimation.currentCell;
         }
 
 	    /**

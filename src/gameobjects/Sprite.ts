@@ -112,8 +112,6 @@ module Kiwi.GameObjects {
                 this.width = this.atlas.cells[this.cellIndex].w;
                 this.height = this.atlas.cells[this.cellIndex].h;
 
-                this.box.rawHitbox.width = this.width;
-                this.box.rawHitbox.height = this.height;
             }    
 
             this.input.update();
@@ -152,7 +150,7 @@ module Kiwi.GameObjects {
                 var cell = this.atlas.cells[this.cellIndex];
                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                 ctx.restore();
-                
+                    
             }
 
     

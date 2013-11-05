@@ -177,6 +177,8 @@
             
                 <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
             
+                <li><a href="../classes/PluginManager.html">PluginManager</a></li>
+            
                 <li><a href="../classes/Point.html">Point</a></li>
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
@@ -221,9 +223,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -384,10 +386,6 @@ module Kiwi.Components {
                 }
                 this.currentAnimation = this.add(&#x27;default&#x27;, defaultCells, 0.1, true, false);
             }
-
-            this.onPlay = new Kiwi.Signal;
-            this.onStop = new Kiwi.Signal;
-            this.onUpdate = new Kiwi.Signal;
         }
 
         /**
@@ -433,24 +431,6 @@ module Kiwi.Components {
         private _isPlaying: boolean = false;
         
         /**
-        * A Signal that dispatches events when an animation is played.
-        * @property onPlay
-        * @type Signal
-        * @public
-        */
-        public onPlay: Kiwi.Signal;
-
-        /**
-        * A Signal that dispatches events when an animation is stoped. 
-        * @property onStop
-        *
-        *
-        */
-        public onStop: Kiwi.Signal;
-
-        public onUpdate: Kiwi.Signal;
-
-        /**
         * Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.
         * @property isPlaying
         * @type boolean
@@ -484,7 +464,7 @@ module Kiwi.Components {
         */
         public add(name: string, cells: number[], speed: number, loop: boolean= false, play: boolean= false): Kiwi.Animations.Animation {
             var newSequence = new Kiwi.Animations.Sequence(name, cells, speed, loop);
-            this._atlas.sequences.push(newSequence); //check to see if the sequence already exists.
+            this._atlas.sequences.push(newSequence);
             
             return this.createFromSequence(newSequence, play);
         }
@@ -658,6 +638,7 @@ module Kiwi.Components {
         public update() { 
             if (this.currentAnimation &amp;&amp; this.isPlaying) {
                 if (this.currentAnimation.update()) {
+
                     this._setCellIndex();
                 }
             }
@@ -711,7 +692,8 @@ module Kiwi.Components {
         * @private
         */
         private _setCellIndex() {
-            this.entity.cellIndex = this.currentCell;
+            if(typeof this.currentAnimation !== &quot;undefined&quot;) 
+                this.entity.cellIndex = this.currentAnimation.currentCell;
         }
 
 	    /**

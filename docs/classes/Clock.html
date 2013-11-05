@@ -177,6 +177,8 @@
             
                 <li><a href="../classes/MouseCursor.html">MouseCursor</a></li>
             
+                <li><a href="../classes/PluginManager.html">PluginManager</a></li>
+            
                 <li><a href="../classes/Point.html">Point</a></li>
             
                 <li><a href="../classes/Pointer.html">Pointer</a></li>
@@ -221,9 +223,9 @@
             
                 <li><a href="../classes/StaticImage.html">StaticImage</a></li>
             
-                <li><a href="../classes/Textfield.html">Textfield</a></li>
-            
                 <li><a href="../classes/TextField.html">TextField</a></li>
+            
+                <li><a href="../classes/Textfield.html">Textfield</a></li>
             
                 <li><a href="../classes/TextureAtlas.html">TextureAtlas</a></li>
             
@@ -357,13 +359,15 @@
 
 
 <div class="box intro">
-    <p>The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
-- The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
-- An instance of a clock is used to track time in arbitrary units (milliseconds by default)
-- A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
-- Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
-- If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
-(Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)</p>
+    <p>The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.</p>
+<ul>
+<li>The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.</li>
+<li>An instance of a clock is used to track time in arbitrary units (milliseconds by default)</li>
+<li>A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.</li>
+<li>Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.</li>
+<li>If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
+(Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)</li>
+</ul>
 
 </div>
 

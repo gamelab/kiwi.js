@@ -128,20 +128,23 @@ module Kiwi.Sound {
         private _muteVolume: number;
         
         /**
-        * Indicates if a mouse/touch event has fired from the device or not. 
-        * @property _deviceTouched
+        * Indicates if the sounds is currently 'locked' or not. 
+        * If it is 'locked' then no audio can play until a user touch's the device.  
+        * @property _locked
         * @type boolean
         * @private
         */
-        private _deviceTouched: boolean;
-
+        private _locked: boolean;
+        private _unlockedSource: any = null;
+        
         /**
         * Returns a boolean indicating whether the device has been touched or not. READ ONLY.
-        * @property deviceTouched
-        * 
+        * @property locked
+        * @type boolean
+        * @public
         */
-        public get deviceTouched():boolean {
-            return this._deviceTouched;
+        public get locked():boolean {
+            return this._locked;
         }
 
         /**
@@ -153,7 +156,6 @@ module Kiwi.Sound {
         public boot() {
             
             this._volume = 1;
-            this._deviceTouched = false;
             this._muted = false;
             this._sounds = [];
 
@@ -163,10 +165,13 @@ module Kiwi.Sound {
             }
 
             //add mouse event here to 'unlock' the device.
-            if (Kiwi.DEVICE.iOS) { 
+            if (Kiwi.DEVICE.iOS && this._game.deviceTargetOption !== Kiwi.TARGET_COCOON) {
+                this._locked = true;
                 this._game.input.onUp.addOnce(this._unlocked, this);
+                
+                console.log('Audio is currently Locked until at touch event.');
             } else {
-                this._deviceTouched = true;
+                this._locked = false;
             }
 
             this.usingWebAudio = true;  //we hope for the best....
@@ -207,11 +212,20 @@ module Kiwi.Sound {
         * @private
         */
         private _unlocked() {
-            this._deviceTouched = true;
-            console.log('I\'m unlocked now!');
-            
-            for (var i = 0; i < this._sounds.length; i++) {
-                this._sounds[i].playable = true;
+            console.log('Audio now Unlocked');
+
+            if (this.usingAudioTag) {
+                this._locked = false;
+                for (var i = 0; i < this._sounds.length; i++) {
+                    this._sounds[i].playable = true;
+                }
+            } else {
+                // Create empty buffer and play it
+                var buffer = this.context.createBuffer(1, 1, 22050);
+                this._unlockedSource = this.context.createBufferSource();
+                this._unlockedSource.buffer = buffer;
+                this._unlockedSource.connect(this.context.destination);
+                this._unlockedSource.noteOn(0);
             }
         }
 
@@ -452,11 +466,28 @@ module Kiwi.Sound {
         */
         public update() {
             
+            if (this._locked) {
+
+                if (this.usingWebAudio && this._unlockedSource !== null) {
+                    if ((this._unlockedSource.playbackState === this._unlockedSource.PLAYING_STATE || this._unlockedSource.playbackState === this._unlockedSource.FINISHED_STATE))
+                    {
+                        this._locked = false;
+                        this._unlockedSource = null;
+                        for (var i = 0; i < this._sounds.length; i++) {
+                            this._sounds[i].playable = true;
+                        }
+                    }
+                }
+
+            }
+            
             if (!this.noAudio) {
                 for (var i = 0; i < this._sounds.length; i++) {
                     this._sounds[i].update();
                 }
             }
+
+            
         
         }
 
