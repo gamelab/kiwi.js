@@ -9912,10 +9912,6 @@ var Kiwi;
                 //add text
                 ctxTemp.fillText(this._text, 0, 0);
 
-                //create the image
-                this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
-                this._textImage.src = this._tempCanvas.toDataURL("image/png");
-
                 this._tempDirty = false;
             };
 
@@ -9936,7 +9932,7 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    if (this.state.game.deviceTargetOption !== Kiwi.TARGET_COCOON && this.optimize) {
+                    if (this.optimize) {
                         if (this._tempDirty)
                             this._renderText();
 
@@ -9947,10 +9943,10 @@ var Kiwi;
                                 x = 0;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                                x = this._textImage.width / 2;
+                                x = this._tempCanvas.width / 2;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                                x = this._textImage.width;
+                                x = this._tempCanvas.width;
                                 break;
                         }
                         t.x -= x;
@@ -9958,7 +9954,7 @@ var Kiwi;
                         var m = t.getConcatenatedMatrix();
                         ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
-                        ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
+                        ctx.drawImage(this._tempCanvas, 0, 0, this._tempCanvas.width, this._tempCanvas.height, -t.rotPointX, -t.rotPointY, this._tempCanvas.width, this._tempCanvas.height);
 
                         t.x += x;
                     } else {
@@ -15816,13 +15812,15 @@ var Kiwi;
             * @param y {number} The cooridnates of this widget on the y-axis.
             * @param [width=120] {number} The width of the widget. Defaults to 120.
             * @param [height=20] {number} The height of the widget. Defaults to 20.
+            * @param [color='#000'] {string} The default color of the inner bar. Defaults to #000 (black).
             * @return {Bar}
             */
             var Bar = (function (_super) {
                 __extends(Bar, _super);
-                function Bar(game, current, max, x, y, width, height) {
+                function Bar(game, current, max, x, y, width, height, color) {
                     if (typeof width === "undefined") { width = 120; }
                     if (typeof height === "undefined") { height = 20; }
+                    if (typeof color === "undefined") { color = '#000'; }
                     _super.call(this, game, "bar", x, y);
                     this._horizontal = true;
                     this.class = 'kiwi-bar-widget kiwi-widget';
@@ -15831,6 +15829,7 @@ var Kiwi;
                         if (this._device == Kiwi.TARGET_BROWSER) {
                             this._bar = document.createElement('div');
                             this._bar.className = 'kiwi-innerbar-widget';
+                            this._bar.style.backgroundColor = color;
                             this.bar = this._bar;
                             this.container.appendChild(this.bar);
                         }
@@ -18083,8 +18082,6 @@ var Kiwi;
             Audio.prototype.play = function (marker, forceRestart) {
                 if (typeof marker === "undefined") { marker = this._currentMarker; }
                 if (typeof forceRestart === "undefined") { forceRestart = false; }
-                console.log('Am I Playing?' + this.isPlaying);
-
                 if (this.isPlaying && forceRestart == false || this._game.audio.noAudio)
                     return;
 
@@ -18106,8 +18103,6 @@ var Kiwi;
                     this._pending = true;
                     return;
                 }
-
-                console.log("Playing Audio");
 
                 if (this._usingWebAudio) {
                     if (this._decoded === true) {
@@ -18184,7 +18179,7 @@ var Kiwi;
                     }
 
                     this.isPlaying = false;
-                    console.log("Stopped");
+
                     if (this.paused == false)
                         this.onStop.dispatch();
                 }

@@ -20,11 +20,12 @@ module Kiwi.HUD.Widget {
     * @param y {number} The cooridnates of this widget on the y-axis.
     * @param [width=120] {number} The width of the widget. Defaults to 120.
     * @param [height=20] {number} The height of the widget. Defaults to 20.
+    * @param [color='#000'] {string} The default color of the inner bar. Defaults to #000 (black).
     * @return {Bar}
     */
     export class Bar extends Kiwi.HUD.HUDWidget {
         
-        constructor(game:Kiwi.Game, current: number, max:number, x:number,y:number, width:number=120, height:number=20) {
+        constructor(game:Kiwi.Game, current: number, max:number, x:number,y:number, width:number=120, height:number=20, color='#000') {
             super(game,"bar", x, y);
             this._horizontal = true;
             this.class = 'kiwi-bar-widget kiwi-widget';
@@ -33,6 +34,7 @@ module Kiwi.HUD.Widget {
                 if (this._device == Kiwi.TARGET_BROWSER) {
                     this._bar = document.createElement('div');
                     this._bar.className = 'kiwi-innerbar-widget';
+                    this._bar.style.backgroundColor = color;
                     this.bar = this._bar;
                     this.container.appendChild(this.bar);
                 }
