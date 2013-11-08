@@ -217,8 +217,9 @@ module Kiwi.Geom {
         /**
         * Get the angle from this Point object to given Point object.
         * @method angleTo
-        * @property target {point} destination Point object.
+        * @param target {point} destination Point object.
         * @return {Number} angle to point
+        * @public
         */
         public angleTo(target: Point): number {
 
@@ -229,8 +230,8 @@ module Kiwi.Geom {
         /**
         * Get the angle from this Point object to given X,Y coordinates.
         * @method angleTo
-        * @property x {number} x value.
-        * @property y {number} y value.
+        * @param x {number} x value.
+        * @param y {number} y value.
         * @return {Number} angle to point.
         */
         public angleToXY(x: number, y: number): number {
