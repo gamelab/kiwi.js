@@ -342,6 +342,9 @@ module Kiwi {
         */
         private checkPreload() {
 
+            //Rebuild the Libraries before the preload is executed
+            this.rebuildLibraries();
+
             if (this.current.config.hasPreloader === true)
             {
                 this._game.loader.init((percent, bytes, file) => this.onLoadProgress(percent, bytes, file), () => this.onLoadComplete());

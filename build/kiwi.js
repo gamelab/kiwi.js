@@ -9382,6 +9382,9 @@ var Kiwi;
         */
         StateManager.prototype.checkPreload = function () {
             var _this = this;
+            //Rebuild the Libraries
+            this.rebuildLibraries();
+
             if (this.current.config.hasPreloader === true) {
                 this._game.loader.init(function (percent, bytes, file) {
                     return _this.onLoadProgress(percent, bytes, file);
@@ -13262,8 +13265,9 @@ var Kiwi;
             /**
             * Get the angle from this Point object to given Point object.
             * @method angleTo
-            * @property target {point} destination Point object.
+            * @param target {point} destination Point object.
             * @return {Number} angle to point
+            * @public
             */
             Point.prototype.angleTo = function (target) {
                 return Math.atan2(target.x - this.x, target.y - this.y);
@@ -13272,8 +13276,8 @@ var Kiwi;
             /**
             * Get the angle from this Point object to given X,Y coordinates.
             * @method angleTo
-            * @property x {number} x value.
-            * @property y {number} y value.
+            * @param x {number} x value.
+            * @param y {number} y value.
             * @return {Number} angle to point.
             */
             Point.prototype.angleToXY = function (x, y) {
