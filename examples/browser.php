@@ -5,10 +5,8 @@ if(isset($_GET['f'])) {
 	$filepath = $_GET['f'];
 	$renderer = (isset($_GET['r'])) ? $_GET['r'] : 'Kiwi.RENDERER_CANVAS';
 	$debug = (isset($_GET['d']) && $_GET['d'] == 1) ? 'Kiwi.DEBUG_ON' : 'Kiwi.DEBUG_OFF';
-	$state = substr($filepath, strpos($filepath, '/') + 1, -3);
 } else {
 	$filepath = false;
-	$state = 'Does not exist.';
 }
 
 ?><!DOCTYPE html>
@@ -16,7 +14,7 @@ if(isset($_GET['f'])) {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0" />
-    <title>Kiwi Example : <?php echo $state ?></title>
+    <title>Kiwi Example</title>
     <link rel="stylesheet" href="assets/webpage/css/examples.css" type="text/css" />
     <!-- All of the scripts -->
     <?php if(file_exists($filepath)) { ?>
@@ -24,7 +22,6 @@ if(isset($_GET['f'])) {
     <script src="assets/webpage/js/gl-matrix-min.js"></script>
     <script src="assets/webpage/js/ECMA262-5.js"></script>
     <script src="Kiwi.js"></script>
-    <script src="<?php echo $filepath?>"></script>
     <?php } ?>
 </head>
 <body>
@@ -58,13 +55,13 @@ if(isset($_GET['f'])) {
     <div id="game"></div>
     
     <script>
-        var game;
-        window.onload = start;
-
-        function start() {
-            game = new Kiwi.Game('game', 'KiwiTests', <?php echo $state?>, {debug: <?php echo $debug ?>, deviceTarget: Kiwi.TARGET_BROWSER, renderer: <?php echo $renderer ?> });
+        var options = {
+        	debug: <?php echo $debug ?>,
+        	deviceTarget: Kiwi.TARGET_BROWSER,
+        	renderer: <?php echo $renderer ?>
         }
     </script>
+    <script src="<?php echo $filepath?>"></script>
 
 <?php } else { ?>
     

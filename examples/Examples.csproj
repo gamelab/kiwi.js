@@ -21,15 +21,15 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Tweening\Chaining.ts" />
-    <TypeScriptCompile Include="Transform\Alpha.ts" />
-    <TypeScriptCompile Include="Input\General.ts" />
-    <TypeScriptCompile Include="Tilemaps\Generation.ts" />
-    <TypeScriptCompile Include="Audio\FiringOfRockets.ts" />
-    <TypeScriptCompile Include="Hud\SpotTheNinja.ts" />
-    <TypeScriptCompile Include="Hud\Platformer.ts" />
-    <TypeScriptCompile Include="Hud\AmmoOut.ts" />
-    <TypeScriptCompile Include="Audio\MachineGunDeath.ts" />
+    <None Include="Tweening\Chaining.ts" />
+    <None Include="Transform\Alpha.ts" />
+    <None Include="Input\General.ts" />
+    <None Include="Tilemaps\Generation.ts" />
+    <None Include="Audio\FiringOfRockets.ts" />
+    <None Include="Hud\SpotTheNinja.ts" />
+    <None Include="Hud\Platformer.ts" />
+    <None Include="Hud\AmmoOut.ts" />
+    <None Include="Audio\MachineGunDeath.ts" />
     <Content Include="Audio\MachineGunDeath.js">
       <DependentUpon>MachineGunDeath.ts</DependentUpon>
     </Content>
@@ -42,7 +42,7 @@
     <Content Include="Hud\ScoreWidget.js">
       <DependentUpon>SpotTheNinja.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Introduction\ExtendSprite.ts" />
+    <None Include="Introduction\ExtendSprite.ts" />
     <Content Include="Introduction\ExtendSprite.js">
       <DependentUpon>ExtendSprite.ts</DependentUpon>
     </Content>
@@ -52,26 +52,22 @@
     <Content Include="Input\General.js">
       <DependentUpon>General.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Input\MouseManager.ts" />
-    <TypeScriptCompile Include="Input\KeyboardEvents.ts" />
+    <None Include="Input\MouseManager.ts" />
+    <None Include="Input\KeyboardEvents.ts" />
     <Content Include="Input\MouseManager.js">
       <DependentUpon>MouseManager.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Timer\Repeating.ts" />
-    <TypeScriptCompile Include="Timer\SetNumber.ts" />
-    <TypeScriptCompile Include="Introduction\Textarea.ts" />
-    <TypeScriptCompile Include="MultiTouch\TouchManager.ts" />
-    <TypeScriptCompile Include="States\SwitchingBetween.ts" />
-    <Content Include="States\SwitchingBetween.js">
-      <DependentUpon>SwitchingBetween.ts</DependentUpon>
+    <None Include="Timer\Repeating.ts" />
+    <None Include="Timer\SetNumber.ts" />
+    <None Include="Introduction\Textarea.ts" />
+    <None Include="Input\TouchManager.ts" />
+    <None Include="Introduction\SwitchingStates.ts" />
+    <Content Include="Introduction\SwitchingBetween.js">
+      <DependentUpon>SwitchingStates.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Tilemaps\Paralax.ts" />
+    <None Include="Tilemaps\Paralax.ts" />
     <Content Include="Tilemaps\Paralax.js">
       <DependentUpon>Paralax.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Tilemaps\Physics.ts" />
-    <Content Include="Tilemaps\Physics.js">
-      <DependentUpon>Physics.ts</DependentUpon>
     </Content>
     <Content Include="Timer\SetNumber.js">
       <DependentUpon>SetNumber.ts</DependentUpon>
@@ -82,47 +78,47 @@
     <Content Include="Transform\Alpha.js">
       <DependentUpon>Alpha.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Transform\GroupTransform.ts" />
+    <None Include="Transform\GroupTransform.ts" />
     <Content Include="Transform\Group.js">
       <DependentUpon>GroupTransform.ts</DependentUpon>
     </Content>
     <Content Include="Tweening\CreateTween.js">
       <DependentUpon>CreateTween.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Tweening\CreateTween.ts" />
-    <TypeScriptCompile Include="Tweening\Looping.ts" />
-    <TypeScriptCompile Include="Tweening\EasingMethods.ts" />
-    <TypeScriptCompile Include="Transform\Moving.ts" />
+    <None Include="Tweening\CreateTween.ts" />
+    <None Include="Tweening\Looping.ts" />
+    <None Include="Tweening\EasingMethods.ts" />
+    <None Include="Transform\Moving.ts" />
     <Content Include="Transform\Moving.js">
       <DependentUpon>Moving.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Transform\Rotation.ts" />
+    <None Include="Transform\Rotation.ts" />
     <Content Include="Transform\Rotation.js">
       <DependentUpon>Rotation.ts</DependentUpon>
     </Content>
     <Content Include="Transform\Scaling.js">
       <DependentUpon>Scaling.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Transform\Scaling.ts" />
-    <TypeScriptCompile Include="Introduction\Spritesheets.ts" />
-    <TypeScriptCompile Include="AnimationComponent\Creation.ts" />
-    <TypeScriptCompile Include="AnimationComponent\AddingCallbacks.ts" />
+    <None Include="Transform\Scaling.ts" />
+    <None Include="Introduction\Spritesheets.ts" />
+    <None Include="AnimationComponent\Creation.ts" />
+    <None Include="AnimationComponent\AddingCallbacks.ts" />
     <Content Include="AnimationComponent\Animation.js">
       <DependentUpon>Creation.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Introduction\Sprite.ts" />
-    <TypeScriptCompile Include="AnimationComponent\MultipleSprites.ts" />
-    <TypeScriptCompile Include="AnimationComponent\NextAndPrevFrames.ts" />
-    <TypeScriptCompile Include="AnimationComponent\PausingAndResuming.ts" />
-    <TypeScriptCompile Include="Input\Dragging.ts" />
-    <TypeScriptCompile Include="AnimationComponent\PlayingInReverse.ts" />
+    <None Include="Introduction\Sprite.ts" />
+    <None Include="AnimationComponent\MultipleSprites.ts" />
+    <None Include="AnimationComponent\NextAndPrevFrames.ts" />
+    <None Include="AnimationComponent\PausingAndResuming.ts" />
+    <None Include="Input\Dragging.ts" />
+    <None Include="AnimationComponent\PlayingInReverse.ts" />
     <Content Include="AnimationComponent\PlayingInReverse.js">
       <DependentUpon>PlayingInReverse.ts</DependentUpon>
     </Content>
     <Content Include="Input\Dragging.js">
       <DependentUpon>Dragging.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Input\InputComponent.ts" />
+    <None Include="Input\InputComponent.ts" />
     <Content Include="Input\OnDownEvent.js">
       <DependentUpon>InputComponent.ts</DependentUpon>
     </Content>
@@ -132,8 +128,8 @@
     <Content Include="Introduction\Introduction.js">
       <DependentUpon>StateIntroduction.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Introduction\StateIntroduction.ts" />
-    <TypeScriptCompile Include="Introduction\StaticImage.ts" />
+    <None Include="Introduction\StateIntroduction.ts" />
+    <None Include="Introduction\StaticImage.ts" />
     <Content Include="Introduction\1- Creation.js">
       <DependentUpon>StaticImage.ts</DependentUpon>
     </Content>
