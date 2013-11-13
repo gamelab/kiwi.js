@@ -9382,7 +9382,7 @@ var Kiwi;
         */
         StateManager.prototype.checkPreload = function () {
             var _this = this;
-            //Rebuild the Libraries
+            //Rebuild the Libraries before the preload is executed
             this.rebuildLibraries();
 
             if (this.current.config.hasPreloader === true) {

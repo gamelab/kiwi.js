@@ -62,6 +62,6 @@ class Pirate extends Kiwi.GameObjects.Sprite {
 * Param Three - State - Object - The state that is to be loaded by default.
 * Param Four - Options - Object - Optional options that the game will use whilst playing. Currently this is used to to choose the renderer/debugmode/device to target
 */
-if (typeof options == "undefined") var options = {};
+if (typeof gameOptions == "undefined") var gameOptions  = {};
 
-var game = new Kiwi.Game('game', 'KiwiExample', ExtendSprite, options);
+var game = new Kiwi.Game('game', 'KiwiExample', ExtendSprite, gameOptions );

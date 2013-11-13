@@ -36,4 +36,5 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 !gruntfile.js
 !/build/*.js
+!/examples/*/.js
 /node_modules

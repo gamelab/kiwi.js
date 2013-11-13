@@ -5,7 +5,7 @@
 */
 function dirToArray($dir) { 
 
-    $ignore = array('.', '..', 'Examples.csproj', 'Examples.csproj.user', 'bin', 'index.php', 'obj', 'assets');
+    $ignore = array('.', '..', 'Examples.csproj', 'Examples.csproj.user', 'bin', 'index.php', 'obj', 'assets', 'DummyScript.js');
     $result = array(); 
     $root = scandir($dir); 
     $dirs = array_diff($root, $ignore);

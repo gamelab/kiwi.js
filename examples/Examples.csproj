@@ -21,6 +21,8 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Input\TouchManager.ts" />
+    <None Include="Introduction\SwitchingStates.ts" />
     <None Include="Tweening\Chaining.ts" />
     <None Include="Transform\Alpha.ts" />
     <None Include="Input\General.ts" />
@@ -30,110 +32,37 @@
     <None Include="Hud\Platformer.ts" />
     <None Include="Hud\AmmoOut.ts" />
     <None Include="Audio\MachineGunDeath.ts" />
-    <Content Include="Audio\MachineGunDeath.js">
-      <DependentUpon>MachineGunDeath.ts</DependentUpon>
-    </Content>
-    <Content Include="Hud\AmmoOut.js">
-      <DependentUpon>AmmoOut.ts</DependentUpon>
-    </Content>
-    <Content Include="Hud\Platformer.js">
-      <DependentUpon>Platformer.ts</DependentUpon>
-    </Content>
-    <Content Include="Hud\ScoreWidget.js">
-      <DependentUpon>SpotTheNinja.ts</DependentUpon>
-    </Content>
     <None Include="Introduction\ExtendSprite.ts" />
-    <Content Include="Introduction\ExtendSprite.js">
-      <DependentUpon>ExtendSprite.ts</DependentUpon>
-    </Content>
-    <Content Include="Tilemaps\Generation.js">
-      <DependentUpon>Generation.ts</DependentUpon>
-    </Content>
-    <Content Include="Input\General.js">
-      <DependentUpon>General.ts</DependentUpon>
-    </Content>
     <None Include="Input\MouseManager.ts" />
     <None Include="Input\KeyboardEvents.ts" />
-    <Content Include="Input\MouseManager.js">
-      <DependentUpon>MouseManager.ts</DependentUpon>
-    </Content>
     <None Include="Timer\Repeating.ts" />
     <None Include="Timer\SetNumber.ts" />
     <None Include="Introduction\Textarea.ts" />
-    <None Include="Input\TouchManager.ts" />
-    <None Include="Introduction\SwitchingStates.ts" />
-    <Content Include="Introduction\SwitchingBetween.js">
-      <DependentUpon>SwitchingStates.ts</DependentUpon>
-    </Content>
     <None Include="Tilemaps\Paralax.ts" />
-    <Content Include="Tilemaps\Paralax.js">
-      <DependentUpon>Paralax.ts</DependentUpon>
-    </Content>
-    <Content Include="Timer\SetNumber.js">
-      <DependentUpon>SetNumber.ts</DependentUpon>
-    </Content>
-    <Content Include="Timer\TimerEvent.js">
-      <DependentUpon>Repeating.ts</DependentUpon>
-    </Content>
-    <Content Include="Transform\Alpha.js">
-      <DependentUpon>Alpha.ts</DependentUpon>
-    </Content>
     <None Include="Transform\GroupTransform.ts" />
-    <Content Include="Transform\Group.js">
-      <DependentUpon>GroupTransform.ts</DependentUpon>
-    </Content>
-    <Content Include="Tweening\CreateTween.js">
-      <DependentUpon>CreateTween.ts</DependentUpon>
-    </Content>
     <None Include="Tweening\CreateTween.ts" />
     <None Include="Tweening\Looping.ts" />
     <None Include="Tweening\EasingMethods.ts" />
     <None Include="Transform\Moving.ts" />
-    <Content Include="Transform\Moving.js">
-      <DependentUpon>Moving.ts</DependentUpon>
-    </Content>
     <None Include="Transform\Rotation.ts" />
-    <Content Include="Transform\Rotation.js">
-      <DependentUpon>Rotation.ts</DependentUpon>
-    </Content>
-    <Content Include="Transform\Scaling.js">
-      <DependentUpon>Scaling.ts</DependentUpon>
-    </Content>
     <None Include="Transform\Scaling.ts" />
     <None Include="Introduction\Spritesheets.ts" />
     <None Include="AnimationComponent\Creation.ts" />
     <None Include="AnimationComponent\AddingCallbacks.ts" />
-    <Content Include="AnimationComponent\Animation.js">
-      <DependentUpon>Creation.ts</DependentUpon>
-    </Content>
     <None Include="Introduction\Sprite.ts" />
     <None Include="AnimationComponent\MultipleSprites.ts" />
     <None Include="AnimationComponent\NextAndPrevFrames.ts" />
     <None Include="AnimationComponent\PausingAndResuming.ts" />
     <None Include="Input\Dragging.ts" />
     <None Include="AnimationComponent\PlayingInReverse.ts" />
-    <Content Include="AnimationComponent\PlayingInReverse.js">
-      <DependentUpon>PlayingInReverse.ts</DependentUpon>
-    </Content>
-    <Content Include="Input\Dragging.js">
-      <DependentUpon>Dragging.ts</DependentUpon>
-    </Content>
     <None Include="Input\InputComponent.ts" />
-    <Content Include="Input\OnDownEvent.js">
-      <DependentUpon>InputComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Introduction\Sprite.js">
-      <DependentUpon>Sprite.ts</DependentUpon>
-    </Content>
-    <Content Include="Introduction\Introduction.js">
-      <DependentUpon>StateIntroduction.ts</DependentUpon>
-    </Content>
     <None Include="Introduction\StateIntroduction.ts" />
     <None Include="Introduction\StaticImage.ts" />
-    <Content Include="Introduction\1- Creation.js">
-      <DependentUpon>StaticImage.ts</DependentUpon>
-    </Content>
     <Content Include="cocoon.php" />
+    <TypeScriptCompile Include="Dummy\DummyScript.ts" />
+    <Content Include="Dummy\DummyScript.js">
+      <DependentUpon>DummyScript.ts</DependentUpon>
+    </Content>
     <Content Include="how to setup tests.txt" />
   </ItemGroup>
   <ItemGroup />
@@ -176,7 +105,7 @@
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
+    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
