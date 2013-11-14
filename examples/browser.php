@@ -55,7 +55,7 @@ if(isset($_GET['f'])) {
     <div id="game"></div>
     
     <script>
-        var options = {
+        var gameOptions = {
         	debug: <?php echo $debug ?>,
         	deviceTarget: Kiwi.TARGET_BROWSER,
         	renderer: <?php echo $renderer ?>

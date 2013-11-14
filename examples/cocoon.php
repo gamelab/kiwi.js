@@ -15,7 +15,7 @@ if(isset($_GET['f'])) {
 <?php  if(file_exists($filepath)) { ?>
 
     <script>
-        var option = {
+        var gameOptions = {
             debug: <?php echo $debug ?>,
             deviceTarget: Kiwi.TARGET_COCOON, 
             renderer: <?php echo $renderer ?> 

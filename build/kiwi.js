@@ -5343,18 +5343,21 @@ var Kiwi;
             */
             AnimationManager.prototype.switchTo = function (val, play) {
                 if (typeof play === "undefined") { play = null; }
+                var switched = false;
                 switch (typeof val) {
                     case "string":
                         if (this.currentAnimation.name !== val) {
                             this._setCurrentAnimation(val);
+                            switched = true;
                         }
                         break;
                     case "number":
                         this.currentAnimation.frameIndex = val;
+                        switched = true;
                         break;
                 }
 
-                if (play || play === null && this.isPlaying)
+                if (play || play === null && this.isPlaying && switched)
                     this.play();
                 if (play == false && this.isPlaying)
                     this.stop();
