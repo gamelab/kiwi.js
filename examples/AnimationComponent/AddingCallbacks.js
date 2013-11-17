@@ -60,4 +60,4 @@ AddingCallbacks.switchAnim = function () {
 */
 if(typeof  gameOptions == "undefined")  gameOptions = {};
 
-var game = new Kiwi.Game('game', 'KiwiExample', AddingCallbacks,  gameOptions);
+var game = new Kiwi.Game('game', 'KiwiExample', AddingCallbacks, gameOptions);

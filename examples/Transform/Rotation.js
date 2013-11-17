@@ -10,6 +10,8 @@ Rotation.preload = function () {
 }
 
 Rotation.create = function () {
+    this.game.stage.height = 250;
+
     /**
     * When you want to scale an entity down you can access the transform property that is located on every entity.
     * Note: Some entities have the scaleX/scaleY aliased for ease of use.

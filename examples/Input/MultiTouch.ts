@@ -19,6 +19,10 @@ class TouchManager extends Kiwi.State {
 
     create() {
         if (Kiwi.DEVICE.touch) {
+            
+            var text = new Kiwi.GameObjects.Textfield(this, 'Touch the device to create a new Character!', this.game.stage.width / 2, 10, '#000', 12);
+            text.textAlign = 'center';
+            this.addChild(text);
 
             /**
             * Add the callbacks to the touch manager.

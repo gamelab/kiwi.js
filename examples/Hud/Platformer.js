@@ -41,7 +41,9 @@ Platformer.create = function () {
     this.marine.animation.add('down', [10], 0.1, false, false);
     this.marine.animation.add('idle', [0], 0.1, false, false);
 
-    this.marine.box.hitbox = new Kiwi.Geom.Rectange(40,30,50,90);
+    this.marine.box.hitbox = new Kiwi.Geom.Rectangle(40,27,50,90);
+
+    console.log(this.marine.box.rawHitbox);
 
     this.marine.scaleX = -1;
     this.addChild(this.marine);
