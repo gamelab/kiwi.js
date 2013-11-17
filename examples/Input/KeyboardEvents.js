@@ -10,26 +10,26 @@ KeyboardEvents.preload = function () {
 
 KeyboardEvents.create = function () {
     //Text
-    var text = new Kiwi.GameObjects.Textfield(this, 'Use the ARROW keys to move the Choppa.', this.game.stage.width / 2, 10, '#000', 12);
+    var text = new Kiwi.GameObjects.Textfield(this, 'Use the WASD keys to move the Choppa.', this.game.stage.width / 2, 10, '#000', 12);
     text.textAlign = 'center';
     this.addChild(text);
+  
+    this.left = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
+    this.right = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
+    this.up = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
+    this.down = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
+
+    this.choppa = new Kiwi.GameObjects.Sprite(this, this.textures.choppa, 200, 200);
+    this.addChild(this.choppa);
+
+    this.choppaAnimation = this.choppa.animation.add('moving', [1, 2, 3, 4, 5, 6], 0.05, true, true);
 
     if (Kiwi.DEVICE.touch) {
-        var text = new Kiwi.GameObjects.Textfield(this, 'In order to view this example you have a keyboard :(', this.game.stage.width / 2, this.game.stage.height / 3, '#000', 16);
+        var text = new Kiwi.GameObjects.Textfield(this, 'In order to properly use this example you need a keyboard :(', this.game.stage.width / 2, this.game.stage.height / 3, '#000', 16);
         text.textAlign = 'center';
         this.addChild(text);
- 
-    } else {
-        this.left = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.A);
-        this.right = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.D);
-        this.up = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.W);
-        this.down = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.S);
-
-        this.choppa = new Kiwi.GameObjects.Sprite(this, this.textures.choppa, 200, 200);
-        this.addChild(this.choppa);
-
-        this.choppaAnimation = this.choppa.animation.add('moving', [1, 2, 3, 4, 5, 6], 0.05, true, true);
-    }
+    } 
+    
 }
 
 //Update loop

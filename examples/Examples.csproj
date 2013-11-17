@@ -21,7 +21,7 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Input\TouchManager.ts" />
+    <None Include="Input\MultiTouch.ts" />
     <None Include="Introduction\SwitchingStates.ts" />
     <None Include="Tweening\Chaining.ts" />
     <None Include="Transform\Alpha.ts" />
@@ -32,8 +32,6 @@
     <None Include="Hud\Platformer.ts" />
     <None Include="Hud\AmmoOut.ts" />
     <None Include="Audio\MachineGunDeath.ts" />
-    <None Include="Introduction\ExtendSprite.ts" />
-    <None Include="Input\MouseManager.ts" />
     <None Include="Input\KeyboardEvents.ts" />
     <None Include="Timer\Repeating.ts" />
     <None Include="Timer\SetNumber.ts" />
@@ -63,7 +61,6 @@
     <Content Include="Dummy\DummyScript.js">
       <DependentUpon>DummyScript.ts</DependentUpon>
     </Content>
-    <Content Include="how to setup tests.txt" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

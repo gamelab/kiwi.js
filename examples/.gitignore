@@ -27,6 +27,7 @@ Thumbs.db
 !jquery-1.9.1.js
 !gl-matrix-min.js
 !/*/*.js
+!kiwi.js
 *.map
 *.config
 [Bb]in
