@@ -4877,7 +4877,7 @@ var Kiwi;
 
             this._width = 800;
             this._height = 600;
-            this.color = 'white';
+            this.color = 'ffffff';
 
             this.onResize = new Kiwi.Signal();
         }
@@ -5005,7 +5005,7 @@ var Kiwi;
 
         Object.defineProperty(Stage.prototype, "color", {
             get: /**
-            * Get the background color of the stage.
+            * Get the background color of the stage. This returns a hex style color string such as "#ffffff"
             * @property color
             * @type string
             * @public
@@ -5014,7 +5014,26 @@ var Kiwi;
                 return this._color;
             },
             set: function (val) {
-                this._color = val;
+                this._color = "#" + val;
+                var bigint = parseInt(val, 16);
+                var r = (bigint >> 16) & 255;
+                var g = (bigint >> 8) & 255;
+                var b = bigint & 255;
+                this._normalizedColor = { r: r, g: g, b: b, a: 1 };
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Stage.prototype, "normalizedColor", {
+            get: /**
+            * Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.
+            * @property color
+            * @type string
+            * @public
+            */
+            function () {
+                return this._normalizedColor;
             },
             enumerable: true,
             configurable: true
@@ -21198,7 +21217,8 @@ var Kiwi;
                 this._uvBuffer.clear();
 
                 //clear
-                gl.clearColor(0, 0, 0, 0);
+                var col = this._game.stage.normalizedColor;
+                gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 var prog = this._shaders.texture2DProg;

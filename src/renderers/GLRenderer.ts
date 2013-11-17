@@ -250,9 +250,10 @@ module Kiwi.Renderers {
             this._entityCount = 0;
             this._vertBuffer.clear();
             this._uvBuffer.clear();
-                     
+            
             //clear 
-            gl.clearColor(0, 0, 0, 0);
+            var col = this._game.stage.normalizedColor;
+            gl.clearColor(col.r, col.g, col.b, col.a);
             gl.clear(gl.COLOR_BUFFER_BIT);
 
             

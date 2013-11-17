@@ -36,7 +36,7 @@ module Kiwi {
 
             this._width = 800;
             this._height = 600;
-            this.color = 'white';
+            this.color = 'ffffff';
 
             this.onResize = new Kiwi.Signal();
         }
@@ -224,7 +224,7 @@ module Kiwi {
         public domReady: boolean;
 
         /**
-        * The background color of the stage.
+        * The background color of the stage. This must be a valid 6 character hex color string such as "ffffff". 
         * @property _color
         * @type string
         * @default '#ffffff'
@@ -233,7 +233,7 @@ module Kiwi {
         public _color: string;
         
         /**
-        * Get the background color of the stage.
+        * Get the background color of the stage. This returns a hex style color string such as "#ffffff" 
         * @property color
         * @type string
         * @public
@@ -242,7 +242,31 @@ module Kiwi {
             return this._color;
         }
         public set color(val: string) {
-            this._color = val;
+            this._color = "#" + val;
+            var bigint = parseInt(val, 16);
+            var r = (bigint >> 16) & 255;
+            var g = (bigint >> 8) & 255;
+            var b = bigint & 255;
+            this._normalizedColor = { r: r, g: g, b: b, a: 1 };
+        }
+
+        /**
+        * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
+        * @property _normalizedColor
+        * @type object
+        * @public
+        */
+        private _normalizedColor: any;
+        
+        /**
+        * Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.
+        * @property color
+        * @type string
+        * @public
+        */
+
+        public get normalizedColor(): any {
+           return this._normalizedColor;
         }
 
         /**
