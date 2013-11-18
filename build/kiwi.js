@@ -2297,8 +2297,7 @@ var Kiwi;
                 return this._exists;
             },
             set: /**
-            * Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-            * This method should be over-ridden to handle specific canvas/webgl implementations.
+            * Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.
             * @property exists
             * @type boolean
             * @public
@@ -2430,26 +2429,31 @@ var Kiwi;
         /**
         * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public
         */
-        Entity.prototype.destroy = function () {
-            if (this.parent !== null)
-                this.parent.removeChild(this);
-            if (this.state)
-                this.state.removeFromTrackingList(this);
+        Entity.prototype.destroy = function (immediate) {
+            if (typeof immediate === "undefined") { immediate = false; }
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            delete this._parent;
-            delete this.transform;
-            delete this._clock;
-            delete this.state;
-            delete this.game;
-            delete this.atlas;
 
-            if (this.components)
-                this.components.removeAll(true);
-            delete this.components;
+            if (immediate === true) {
+                if (this.parent !== null)
+                    this.parent.removeChild(this);
+                if (this.state)
+                    this.state.removeFromTrackingList(this);
+                delete this._parent;
+                delete this.transform;
+                delete this._clock;
+                delete this.state;
+                delete this.game;
+                delete this.atlas;
+
+                if (this.components)
+                    this.components.removeAll(true);
+                delete this.components;
+            }
         };
         return Entity;
     })();
@@ -2921,6 +2925,13 @@ var Kiwi;
             * @private
             */
             this._dirty = true;
+            /**
+            * A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.
+            * @property _destroyRemoveChildren
+            * @type boolean
+            * @private
+            */
+            this._tempRemoveChildren = null;
             if (state !== null) {
                 this.state = state;
                 this.game = this.state.game;
@@ -3542,29 +3553,22 @@ var Kiwi;
         * @public
         */
         Group.prototype.update = function () {
-            var _this = this;
             this.components.preUpdate();
 
             this.components.update();
             if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return _this.processUpdate(child);
-                });
+                for (var i = 0; i < this.members.length; i++) {
+                    if (this.members[i].active === true) {
+                        this.members[i].update();
+                    }
+
+                    if (this.members[i].exists === false) {
+                        this.members[i].destroy(true);
+                    }
+                }
             }
 
             this.components.postUpdate();
-        };
-
-        /**
-        * Calls the update method on an alive child
-        * @method processUpdate
-        * @param {IChild}
-        * @public
-        */
-        Group.prototype.processUpdate = function (child) {
-            if (child.active === true) {
-                child.update();
-            }
         };
 
 
@@ -3757,36 +3761,47 @@ var Kiwi;
         });
 
         /**
-        * Removes all children and destroys the Group
+        * Removes all children and destroys the Group.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
         * @public
         */
-        Group.prototype.destroy = function (destroyChildren) {
+        Group.prototype.destroy = function (immediate, destroyChildren) {
+            if (typeof immediate === "undefined") { immediate = false; }
             if (typeof destroyChildren === "undefined") { destroyChildren = true; }
-            if (destroyChildren == true) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i].destroy();
-                }
-            } else {
-                this.removeChildren();
-            }
-
-            if (this.parent !== null)
-                this.parent.removeChild(this);
-            if (this.state)
-                this.state.removeFromTrackingList(this);
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            delete this.transform;
-            if (this.components)
-                this.components.removeAll();
-            delete this.components;
-            delete this.name;
-            delete this.members;
-            delete this.game;
-            delete this.state;
+
+            if (immediate === true) {
+                if (this._tempRemoveChildren !== null)
+                    destroyChildren = this._tempRemoveChildren;
+
+                if (destroyChildren == true) {
+                    for (var i = 0; i < this.members.length; i++) {
+                        this.members[i].destroy(true);
+                    }
+                } else {
+                    this.removeChildren();
+                }
+
+                if (this.parent !== null)
+                    this.parent.removeChild(this);
+                if (this.state)
+                    this.state.removeFromTrackingList(this);
+                delete this.transform;
+                if (this.components)
+                    this.components.removeAll();
+                delete this.components;
+                delete this.name;
+                delete this.members;
+                delete this.game;
+                delete this.state;
+                delete this._tempRemoveChildren;
+            } else {
+                this._tempRemoveChildren = destroyChildren;
+            }
         };
         return Group;
     })();
@@ -4132,6 +4147,10 @@ var Kiwi;
                 if (this.members[i].active === true) {
                     this.members[i].update();
                 }
+
+                if (this.members[i].exists === false) {
+                    this.members[i].destroy(true);
+                }
             }
         };
 
@@ -4308,7 +4327,7 @@ var Kiwi;
             if (typeof deleteAll === "undefined") { deleteAll = true; }
             if (deleteAll == true) {
                 for (var i = 0; i < this._trackingList.length; i++) {
-                    this._trackingList[i].destroy();
+                    this._trackingList[i].destroy(true);
                 }
                 this._trackingList = [];
 
@@ -4332,7 +4351,7 @@ var Kiwi;
                     this._destroyChildren(child.members[i]);
                 }
             }
-            child.destroy();
+            child.destroy(true);
         };
         return State;
     })(Kiwi.Group);
@@ -5369,18 +5388,21 @@ var Kiwi;
             */
             AnimationManager.prototype.switchTo = function (val, play) {
                 if (typeof play === "undefined") { play = null; }
+                var switched = false;
                 switch (typeof val) {
                     case "string":
                         if (this.currentAnimation.name !== val) {
                             this._setCurrentAnimation(val);
+                            switched = true;
                         }
                         break;
                     case "number":
                         this.currentAnimation.frameIndex = val;
+                        switched = true;
                         break;
                 }
 
-                if (play || play === null && this.isPlaying)
+                if (play || play === null && this.isPlaying && switched)
                     this.play();
                 if (play == false && this.isPlaying)
                     this.stop();
@@ -6916,13 +6938,13 @@ var Kiwi;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
                     //where they were before
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.worldX - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.box.hitbox.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.box.hitbox.height);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.box.hitbox.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.box.hitbox.height);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.hitbox.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.box.hitbox.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.box.hitbox.height);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.hitbox.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.box.hitbox.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.box.hitbox.height);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.worldX + phys1.box.hitbox.width - phys2.transform.worldX;
+                            overlap = phys1.box.hitbox.x + phys1.box.hitbox.width - phys2.box.hitbox.x;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
                                 overlap = 0;
                             } else {
@@ -6930,7 +6952,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.LEFT;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.worldX - phys2.box.hitbox.width - phys2.transform.worldX;
+                            overlap = phys1.box.hitbox.x - phys2.box.hitbox.width - phys2.box.hitbox.x;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
                                 overlap = 0;
                             } else {
@@ -6999,13 +7021,14 @@ var Kiwi;
                     //Check if the Y hulls actually overlap
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.worldX, phys1.transform.worldY - ((obj1delta > 0) ? obj1delta : 0), phys1.box.hitbox.width, phys1.box.hitbox.height + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX, phys2.transform.worldY - ((obj2delta > 0) ? obj2delta : 0), phys2.box.hitbox.width, phys2.box.hitbox.height + obj2deltaAbs);
+
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.hitbox.x, phys1.box.hitbox.y - ((obj1delta > 0) ? obj1delta : 0), phys1.box.hitbox.width, phys1.box.hitbox.height + obj1deltaAbs);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.hitbox.x, phys2.box.hitbox.y - ((obj2delta > 0) ? obj2delta : 0), phys2.box.hitbox.width, phys2.box.hitbox.height + obj2deltaAbs);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.worldY + phys1.box.hitbox.height - phys2.transform.worldY;
+                            overlap = phys1.box.hitbox.y + phys1.box.hitbox.height - phys2.box.hitbox.y;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
                                 overlap = 0;
                             } else {
@@ -7013,7 +7036,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.UP;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.worldY - phys2.box.hitbox.height - phys2.transform.worldY;
+                            overlap = phys1.box.hitbox.y - phys2.box.hitbox.height - phys2.box.hitbox.y;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
                                 overlap = 0;
                             } else {
@@ -7214,8 +7237,8 @@ var Kiwi;
             */
             ArcadePhysics.prototype.update = function () {
                 //Flixel preupdate
-                this.last.x = this.transform.worldX;
-                this.last.y = this.transform.worldY;
+                this.last.x = this.box.hitbox.x;
+                this.last.y = this.box.hitbox.y;
 
                 if (this.moves)
                     this.updateMotion();
@@ -9408,6 +9431,9 @@ var Kiwi;
         */
         StateManager.prototype.checkPreload = function () {
             var _this = this;
+            //Rebuild the Libraries before the preload is executed
+            this.rebuildLibraries();
+
             if (this.current.config.hasPreloader === true) {
                 this._game.loader.init(function (percent, bytes, file) {
                     return _this.onLoadProgress(percent, bytes, file);
@@ -9938,10 +9964,6 @@ var Kiwi;
                 //add text
                 ctxTemp.fillText(this._text, 0, 0);
 
-                //create the image
-                this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
-                this._textImage.src = this._tempCanvas.toDataURL("image/png");
-
                 this._tempDirty = false;
             };
 
@@ -9962,7 +9984,7 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    if (this.state.game.deviceTargetOption !== Kiwi.TARGET_COCOON && this.optimize) {
+                    if (this.optimize) {
                         if (this._tempDirty)
                             this._renderText();
 
@@ -9973,10 +9995,10 @@ var Kiwi;
                                 x = 0;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                                x = this._textImage.width / 2;
+                                x = this._tempCanvas.width / 2;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                                x = this._textImage.width;
+                                x = this._tempCanvas.width;
                                 break;
                         }
                         t.x -= x;
@@ -9984,7 +10006,7 @@ var Kiwi;
                         var m = t.getConcatenatedMatrix();
                         ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
-                        ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
+                        ctx.drawImage(this._tempCanvas, 0, 0, this._tempCanvas.width, this._tempCanvas.height, -t.rotPointX, -t.rotPointY, this._tempCanvas.width, this._tempCanvas.height);
 
                         t.x += x;
                     } else {
@@ -10546,29 +10568,33 @@ var Kiwi;
 
                 /**
                 * Destroys everything.
-                *
                 * @method destroy
+                * @param [immediate=false] {Boolean} If the tilemap should be removed right away or if it should be removed next time the update loop executes?
                 * @public
                 */
-                TileMap.prototype.destroy = function () {
-                    _super.prototype.destroy.call(this);
-                    delete this.tiles;
-                    if (this.layers) {
-                        for (var i = 0; i < this.layers.length; i++) {
-                            this.layers[i].destroy();
-                            delete this.layers[i];
+                TileMap.prototype.destroy = function (immediate) {
+                    if (typeof immediate === "undefined") { immediate = false; }
+                    _super.prototype.destroy.call(this, immediate);
+
+                    if (immediate === true) {
+                        delete this.tiles;
+                        if (this.layers) {
+                            for (var i = 0; i < this.layers.length; i++) {
+                                this.layers[i].destroy();
+                                delete this.layers[i];
+                            }
                         }
-                    }
-                    if (this.tiles) {
-                        for (var i = 0; i < this.tiles.length; i++) {
-                            this.tiles[i].destroy();
-                            delete this.tiles[i];
+                        if (this.tiles) {
+                            for (var i = 0; i < this.tiles.length; i++) {
+                                this.tiles[i].destroy();
+                                delete this.tiles[i];
+                            }
                         }
+                        delete this.tiles;
+                        delete this.layers;
+                        delete this._tileMapDataKey;
+                        delete this._atlas;
                     }
-                    delete this.tiles;
-                    delete this.layers;
-                    delete this._tileMapDataKey;
-                    delete this._atlas;
                 };
                 TileMap.FORMAT_CSV = 0;
 
@@ -13292,8 +13318,9 @@ var Kiwi;
             /**
             * Get the angle from this Point object to given Point object.
             * @method angleTo
-            * @property target {point} destination Point object.
+            * @param target {point} destination Point object.
             * @return {Number} angle to point
+            * @public
             */
             Point.prototype.angleTo = function (target) {
                 return Math.atan2(target.x - this.x, target.y - this.y);
@@ -13302,8 +13329,8 @@ var Kiwi;
             /**
             * Get the angle from this Point object to given X,Y coordinates.
             * @method angleTo
-            * @property x {number} x value.
-            * @property y {number} y value.
+            * @param x {number} x value.
+            * @param y {number} y value.
             * @return {Number} angle to point.
             */
             Point.prototype.angleToXY = function (x, y) {
@@ -15842,13 +15869,15 @@ var Kiwi;
             * @param y {number} The cooridnates of this widget on the y-axis.
             * @param [width=120] {number} The width of the widget. Defaults to 120.
             * @param [height=20] {number} The height of the widget. Defaults to 20.
+            * @param [color='#000'] {string} The default color of the inner bar. Defaults to #000 (black).
             * @return {Bar}
             */
             var Bar = (function (_super) {
                 __extends(Bar, _super);
-                function Bar(game, current, max, x, y, width, height) {
+                function Bar(game, current, max, x, y, width, height, color) {
                     if (typeof width === "undefined") { width = 120; }
                     if (typeof height === "undefined") { height = 20; }
+                    if (typeof color === "undefined") { color = '#000'; }
                     _super.call(this, game, "bar", x, y);
                     this._horizontal = true;
                     this.class = 'kiwi-bar-widget kiwi-widget';
@@ -15857,6 +15886,7 @@ var Kiwi;
                         if (this._device == Kiwi.TARGET_BROWSER) {
                             this._bar = document.createElement('div');
                             this._bar.className = 'kiwi-innerbar-widget';
+                            this._bar.style.backgroundColor = color;
                             this.bar = this._bar;
                             this.container.appendChild(this.bar);
                         }
@@ -17877,29 +17907,33 @@ var Kiwi;
                 if (this._usingWebAudio) {
                     this._setAudio();
 
-                    this.context = this._game.audio.context;
-                    this.masterGainNode = this._game.audio.masterGain;
+                    if (this.ready) {
+                        this.context = this._game.audio.context;
+                        this.masterGainNode = this._game.audio.masterGain;
 
-                    if (typeof this.context.createGain === 'undefined') {
-                        this.gainNode = this.context.createGainNode();
-                    } else {
-                        this.gainNode = this.context.createGain();
+                        if (typeof this.context.createGain === 'undefined') {
+                            this.gainNode = this.context.createGainNode();
+                        } else {
+                            this.gainNode = this.context.createGain();
+                        }
+
+                        //make sure the audio is decoded.
+                        this._decode();
+
+                        this.gainNode.gain.value = this.volume * this._game.audio.volume;
+                        this.gainNode.connect(this.masterGainNode);
                     }
-
-                    //make sure the audio is decoded.
-                    this._decode();
-
-                    this.gainNode.gain.value = this.volume * this._game.audio.volume;
-                    this.gainNode.connect(this.masterGainNode);
                 } else if (this._usingAudioTag) {
                     if (this._playable === true) {
                         this._setAudio();
 
-                        this.totalDuration = this._sound.duration;
-                        this._sound.volume = this.volume * this._game.audio.volume;
+                        if (this.ready) {
+                            this.totalDuration = this._sound.duration;
+                            this._sound.volume = this.volume * this._game.audio.volume;
 
-                        if (isNaN(this.totalDuration))
-                            this._pending = true;
+                            if (isNaN(this.totalDuration))
+                                this._pending = true;
+                        }
                     }
                 }
 
@@ -17929,7 +17963,7 @@ var Kiwi;
                         this._playable = val;
                         this._setAudio();
 
-                        if (this._usingAudioTag) {
+                        if (this.ready && this._usingAudioTag) {
                             this.totalDuration = this._sound.duration;
                             this._sound.volume = this.volume * this._game.audio.volume;
                         }
@@ -17957,6 +17991,9 @@ var Kiwi;
             Audio.prototype._setAudio = function () {
                 this._file = this._game.fileStore.getFile(this.key);
 
+                if (typeof this._file.data == "undefined")
+                    return;
+
                 if (this._usingAudioTag) {
                     //clone the audio node
                     this._sound = this._file.data.cloneNode(true);
@@ -17976,7 +18013,7 @@ var Kiwi;
             * @private
             */
             Audio.prototype._decode = function () {
-                if (this._usingAudioTag || this._file.data.decode == false)
+                if (this.ready == false || this._usingAudioTag)
                     return;
 
                 if (this._file.data.decoded === true && this._file.data.buffer !== null) {
@@ -18107,14 +18144,14 @@ var Kiwi;
 
                 if (forceRestart === true && this._pending === false)
                     this.stop();
-                this.paused = false;
 
-                if (this._markers[marker] == undefined)
+                if (typeof this._markers[marker] == "undefined")
                     return;
 
                 if (this._currentMarker === marker && this.isPlaying && forceRestart == false)
                     return;
 
+                this.paused = false;
                 this._currentMarker = marker;
                 this.duration = this._markers[this._currentMarker].duration * 1000;
                 this._loop = this._markers[this._currentMarker].loop;
@@ -18198,11 +18235,11 @@ var Kiwi;
                         this._sound.currentTime = 0;
                     }
 
+                    this.isPlaying = false;
+
                     if (this.paused == false)
                         this.onStop.dispatch();
                 }
-
-                this.isPlaying = false;
             };
 
             /**
@@ -18261,7 +18298,7 @@ var Kiwi;
                     return;
 
                 if (this._playable && this._pending) {
-                    if (this._decoded === true || this._file.data.decoded) {
+                    if (this._decoded === true || this._file.data && this._file.data.decoded) {
                         this._pending = false;
                         this.play();
                     } else if (this._usingAudioTag && !isNaN(this._sound.duration)) {
@@ -19512,8 +19549,12 @@ var Kiwi;
             */
             InputManager.prototype.boot = function () {
                 this._pointers = [];
+
                 this.mouse = new Kiwi.Input.Mouse(this.game);
                 this.mouse.boot();
+
+                this.keyboard = new Kiwi.Input.Keyboard(this.game);
+                this.keyboard.boot();
 
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch = new Kiwi.Input.Touch(this.game);
@@ -19525,8 +19566,6 @@ var Kiwi;
                     this.mouse.onDown.add(this._onDownEvent, this);
                     this.mouse.onUp.add(this._onUpEvent, this);
                     this._pointers.push(this.mouse.cursor);
-                    this.keyboard = new Kiwi.Input.Keyboard(this.game);
-                    this.keyboard.boot();
                 }
 
                 this.isDown = false;
@@ -19600,13 +19639,14 @@ var Kiwi;
             * @public
             */
             InputManager.prototype.update = function () {
+                this.mouse.update();
+                this.keyboard.update();
+
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch.update();
                     this.position.setTo(this.touch.x, this.touch.y);
                     this.isDown = this.touch.isDown;
                 } else {
-                    this.keyboard.update();
-                    this.mouse.update();
                     this.position.setTo(this.mouse.x, this.mouse.y);
                     this.isDown = this.mouse.isDown;
                 }
@@ -19617,11 +19657,11 @@ var Kiwi;
             * @method reset
             */
             InputManager.prototype.reset = function () {
+                this.mouse.reset();
+                this.keyboard.reset();
+
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch.reset();
-                } else {
-                    this.mouse.reset();
-                    this.keyboard.reset();
                 }
             };
 

@@ -19,6 +19,8 @@ class Textarea extends Kiwi.State {
 
     create() {
 
+        this.game.stage.height = 250;
+
         /**  
         * Kiwi.GameObjects.Textfield.
         * - Parameter One - State that this gameobject belongs to.  
@@ -29,12 +31,12 @@ class Textarea extends Kiwi.State {
         this.text1 = new Kiwi.GameObjects.Textfield(this, 'Hello World', 10, 10, '#000');
         this.addChild(this.text1);
         
-        this.text2 = new Kiwi.GameObjects.Textfield(this, 'This text is right aligned', this.game.stage.width, 20, 'red', 16);
+        this.text2 = new Kiwi.GameObjects.Textfield(this, 'Loren ipsum dolor set.', this.game.stage.width - 10, 20, 'red', 16);
         this.text2.textAlign = Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT;
         this.text2.alpha = 0.5;
         this.addChild(this.text2);
 
-        this.text3 = new Kiwi.GameObjects.Textfield(this, 'I am on a angle!', this.game.stage.width / 2, 200, 'green', 32, 'bold', 'serif');
+        this.text3 = new Kiwi.GameObjects.Textfield(this, 'Rotation!', 500, 100, 'green', 22, 'bold', 'serif');
         this.text3.rotation += Math.PI / 5;
         this.text3.textAlign = Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER;
         this.addChild(this.text3);
@@ -42,3 +44,15 @@ class Textarea extends Kiwi.State {
     }
 
 }
+
+
+//Create's a new Kiwi.Game.
+/*
+* Param One - DOMID - String - ID of a DOMElement that the game will reside in.
+* Param Two - GameName - String - Name that the game will be given.
+* Param Three - State - Object - The state that is to be loaded by default.
+* Param Four - Options - Object - Optional options that the game will use whilst playing. Currently this is used to to choose the renderer/debugmode/device to target
+*/
+if (typeof gameOptions  == "undefined") var gameOptions  = {};
+
+var game = new Kiwi.Game('game', 'KiwiExample', Textarea, gameOptions );

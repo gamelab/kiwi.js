@@ -3559,6 +3559,13 @@
                     "type": "Number",
                     "optional": true,
                     "optdefault": "20"
+                },
+                {
+                    "name": "color",
+                    "description": "The default color of the inner bar. Defaults to #000 (black).",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "'#000'"
                 }
             ],
             "return": {
@@ -25074,7 +25081,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 53,
+            "line": 55,
             "description": "Returns the type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -25090,7 +25097,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 63,
+            "line": 65,
             "description": "The width of the container",
             "itemtype": "property",
             "name": "_width",
@@ -25103,7 +25110,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 71,
+            "line": 73,
             "description": "The width of the container",
             "itemtype": "property",
             "name": "width",
@@ -25116,7 +25123,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 88,
+            "line": 90,
             "description": "The height of the container",
             "itemtype": "property",
             "name": "_height",
@@ -25129,7 +25136,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 96,
+            "line": 98,
             "description": "The height of the container",
             "itemtype": "property",
             "name": "height",
@@ -25142,7 +25149,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 112,
+            "line": 114,
             "description": "Knows if this bar is ment to be horizontal or veritical",
             "itemtype": "property",
             "name": "_horizontal",
@@ -25155,7 +25162,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 120,
+            "line": 122,
             "description": "The HTMLElement that is currently being used as the 'bar'.",
             "itemtype": "property",
             "name": "bar",
@@ -25168,7 +25175,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 128,
+            "line": 130,
             "description": "A reference to the HTMLElement that this class always generates.",
             "itemtype": "property",
             "name": "_bar",
@@ -25181,7 +25188,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 136,
+            "line": 138,
             "description": "The counter component.",
             "itemtype": "property",
             "name": "counter",
@@ -25194,7 +25201,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 144,
+            "line": 146,
             "description": "Used to set the bar to be horizontal or vertical by passing a boolean.",
             "itemtype": "property",
             "name": "horizontal",
@@ -25207,7 +25214,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 158,
+            "line": 160,
             "description": "Used to set the bar to be horizontal or vertical by passing a boolean.",
             "itemtype": "property",
             "name": "verticle",
@@ -25220,7 +25227,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 172,
+            "line": 174,
             "description": "This method is used to remove existing DOM elements and place them inside a HUDWidget's container element.\nUseful so that when making HUD Widgets the developer can style HUDWidgets without having to create/write to much javascript.\nCurrently not supported.",
             "itemtype": "method",
             "name": "setTemplate",
@@ -25244,7 +25251,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 193,
+            "line": 195,
             "description": "Used to remove any the template HTML from this HUDWidget.\nCurrent not supported.",
             "itemtype": "method",
             "name": "removeTemplate",
@@ -25256,7 +25263,7 @@
         },
         {
             "file": "src\\hud\\widgets\\Bar.ts",
-            "line": 210,
+            "line": 212,
             "description": "Will be called when the range has been updated and thus you will want to preform the render of the bar here.\nThis should be overriden by subclasses so that you have your own custom bars.",
             "itemtype": "method",
             "name": "updateCSS",
@@ -32012,7 +32019,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 89,
+            "line": 91,
             "description": "A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.",
             "itemtype": "property",
             "name": "id",
@@ -32023,7 +32030,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 96,
+            "line": 98,
             "description": "A flag that indicates whether the sound is ready to be played or not. If not then this indicates that we are awaiting a user event.",
             "itemtype": "property",
             "name": "_playable",
@@ -32036,7 +32043,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 104,
+            "line": 106,
             "itemtype": "property",
             "name": "playable",
             "type": "boolean",
@@ -32048,7 +32055,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 128,
+            "line": 130,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -32064,7 +32071,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 138,
+            "line": 140,
             "description": "The game that this sound belongs to.",
             "itemtype": "property",
             "name": "_game",
@@ -32077,7 +32084,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 146,
+            "line": 148,
             "description": "Web Audio API ONLY - A reference to the audio context that the game's audio manager has.",
             "itemtype": "property",
             "name": "context",
@@ -32090,7 +32097,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 154,
+            "line": 156,
             "description": "Web Audio API ONLY - A reference to the master gain node on the audio manager.",
             "itemtype": "property",
             "name": "masterGainNode",
@@ -32103,7 +32110,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 162,
+            "line": 164,
             "description": "Web Audio API ONLY - This sounds local gainNode that it uses.",
             "itemtype": "property",
             "name": "gainNode",
@@ -32116,7 +32123,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 170,
+            "line": 172,
             "description": "A boolean indicating whether or not that audio tags are being used to generate sounds.",
             "itemtype": "property",
             "name": "_usingAudioTag",
@@ -32129,7 +32136,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 178,
+            "line": 180,
             "description": "A boolean indicating whether or not the webAuduio api is being used.",
             "itemtype": "property",
             "name": "_usingWebAudio",
@@ -32142,7 +32149,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 186,
+            "line": 188,
             "description": "A private indicator of whether this audio is currently muted or not.",
             "itemtype": "property",
             "name": "_muted",
@@ -32156,7 +32163,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 195,
+            "line": 197,
             "description": "A number between 0 and 1 representing the current volume of this audio piece.",
             "itemtype": "property",
             "name": "_volume",
@@ -32170,7 +32177,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 204,
+            "line": 206,
             "description": "A boolean indicating whether this piece of audio should loop or not.",
             "itemtype": "property",
             "name": "_loop",
@@ -32183,7 +32190,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 212,
+            "line": 214,
             "description": "The key that was used to get the audio from the AudioLibrary.",
             "itemtype": "property",
             "name": "key",
@@ -32196,7 +32203,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 220,
+            "line": 222,
             "description": "The property containing the file information about the audio.",
             "itemtype": "property",
             "name": "_file",
@@ -32209,7 +32216,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 228,
+            "line": 230,
             "description": "This is the piece of audio that either method will use to play audio. E.g.\nIn the case of the Web Audio API this is the sound buffer source, in which the audio plays from. \nIn the case of Audio Tags this is the Audio Tag itself.",
             "itemtype": "property",
             "name": "_sound",
@@ -32222,7 +32229,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 238,
+            "line": 240,
             "description": "A boolean that controls/knows if the audio is ready to be played or not.\nThis is just an indicator of if the file has been retrieved successfully from the file store or not.",
             "itemtype": "property",
             "name": "ready",
@@ -32235,7 +32242,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 247,
+            "line": 249,
             "description": "The total duration of the audio in seconds.",
             "itemtype": "property",
             "name": "totalDuration",
@@ -32248,7 +32255,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 255,
+            "line": 257,
             "description": "The current duration of the section of audio that is being played. In milliseconds.",
             "itemtype": "property",
             "name": "duration",
@@ -32261,7 +32268,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 263,
+            "line": 265,
             "description": "Web Audio API ONLY - The audio buffer that is to be used when playing audio segments.",
             "itemtype": "property",
             "name": "_buffer",
@@ -32274,7 +32281,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 271,
+            "line": 273,
             "description": "Web Audio API ONLY - A boolean to indicate if the audio has been decoded or not yet. If not you will need to run the decode() method.",
             "itemtype": "property",
             "name": "_decoded",
@@ -32288,7 +32295,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 280,
+            "line": 282,
             "description": "A private property that holds the volume before the sound was muted. Used so that when unmuted the sound will resume at its old spot.",
             "itemtype": "property",
             "name": "_muteVolume",
@@ -32301,7 +32308,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 288,
+            "line": 290,
             "description": "Indicates whether or not the sound is currently playing.",
             "itemtype": "property",
             "name": "isPlaying",
@@ -32315,7 +32322,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 297,
+            "line": 299,
             "description": "A indicator of if the sound is currently paused.",
             "itemtype": "property",
             "name": "paused",
@@ -32329,7 +32336,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 306,
+            "line": 308,
             "description": "If the sound needs to be played but is waiting on something.",
             "itemtype": "property",
             "name": "_pending",
@@ -32342,7 +32349,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 314,
+            "line": 316,
             "description": "When the audio started playing. In milliseconds",
             "itemtype": "property",
             "name": "_startTime",
@@ -32355,7 +32362,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 322,
+            "line": 324,
             "description": "When the audio is playing, this is the current time we are at with it playing. In milliseconds",
             "itemtype": "property",
             "name": "_currentTime",
@@ -32368,7 +32375,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 330,
+            "line": 332,
             "description": "The time at which the audio should stop playing. In milliseconds. This is assuming that the audio is not on loop.",
             "itemtype": "property",
             "name": "_stopTime",
@@ -32381,7 +32388,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 338,
+            "line": 340,
             "description": "An array of all of the markers that are on this piece of audio.",
             "itemtype": "property",
             "name": "_markers",
@@ -32394,7 +32401,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 346,
+            "line": 348,
             "description": "The current marker that is being used.",
             "itemtype": "property",
             "name": "_currentMarker",
@@ -32408,7 +32415,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 355,
+            "line": 357,
             "description": "A Kiwi Signal that dispatches a event when the audio starts playing.",
             "itemtype": "property",
             "name": "onPlay",
@@ -32421,7 +32428,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 363,
+            "line": 365,
             "description": "A Kiwi Signal that dispatches a event when the audio stops playing.",
             "itemtype": "property",
             "name": "onStop",
@@ -32434,7 +32441,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 371,
+            "line": 373,
             "description": "A Kiwi Signal that dispatches a event when the audio gets paused.",
             "itemtype": "property",
             "name": "onPause",
@@ -32447,7 +32454,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 379,
+            "line": 381,
             "description": "A Kiwi Signal that dispatches a event when the audio resumes.",
             "itemtype": "property",
             "name": "onResume",
@@ -32460,7 +32467,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 387,
+            "line": 389,
             "description": "A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.",
             "itemtype": "property",
             "name": "onLoop",
@@ -32473,7 +32480,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 395,
+            "line": 397,
             "description": "A Kiwi Signal that dispatches a event when the audio gets muted.",
             "itemtype": "property",
             "name": "onMute",
@@ -32486,7 +32493,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 403,
+            "line": 405,
             "description": "Retrieves the audio data from the file store.",
             "itemtype": "method",
             "name": "_setAudio",
@@ -32498,7 +32505,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 423,
+            "line": 432,
             "description": "Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.",
             "itemtype": "method",
             "name": "_decode",
@@ -32510,7 +32517,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 448,
+            "line": 457,
             "description": "Used to control the current volume for this sound.",
             "itemtype": "property",
             "name": "volume",
@@ -32523,7 +32530,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 483,
+            "line": 492,
             "description": "Allows you to mute the sound.",
             "itemtype": "property",
             "name": "mute",
@@ -32536,7 +32543,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 512,
+            "line": 521,
             "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
             "itemtype": "method",
             "name": "addMarker",
@@ -32572,7 +32579,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 526,
+            "line": 535,
             "description": "Removes a currently existing marker from this audio.",
             "itemtype": "method",
             "name": "removeMarker",
@@ -32591,7 +32598,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 544,
+            "line": 553,
             "description": "Plays the current sound/audio from the start.",
             "itemtype": "method",
             "name": "play",
@@ -32618,7 +32625,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 627,
+            "line": 637,
             "description": "Stop the sound from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -32630,7 +32637,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 655,
+            "line": 666,
             "description": "Pauses the sound so that you can resume it from at point to paused it at.",
             "itemtype": "method",
             "name": "pause",
@@ -32642,7 +32649,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 669,
+            "line": 680,
             "description": "Plays the sound from when you paused the sound.",
             "itemtype": "method",
             "name": "resume",
@@ -32654,7 +32661,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 705,
+            "line": 716,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -32666,7 +32673,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 768,
+            "line": 779,
             "description": "This method handles the destruction of all of the properties when this audio is not longer needed. \nYou call this method when you want this method to be removed on the next garbage collection cycle.",
             "itemtype": "method",
             "name": "destroy",

@@ -712,24 +712,20 @@ module Kiwi {
 
             this.components.update();
             if (this.members.length > 0) {
-                this.members.forEach((child) => this.processUpdate(child));
+
+                for (var i = 0; i < this.members.length; i++) {
+                    if (this.members[i].active === true) {
+                        this.members[i].update();
+                    } 
+
+                    if(this.members[i].exists === false) {
+                        this.members[i].destroy( true );
+                    }
+                }
+                
             }
 
             this.components.postUpdate();
-
-        }
-
-        /**
-        * Calls the update method on an alive child
-        * @method processUpdate
-        * @param {IChild} 
-        * @public
-        */
-        public processUpdate(child: Kiwi.IChild) {
-
-            if (child.active === true) {
-                child.update();
-            }
 
         }
 
@@ -948,34 +944,58 @@ module Kiwi {
         }
 
         /**
-		* Removes all children and destroys the Group
+		* Removes all children and destroys the Group. 
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
         * @public
 		*/
-        public destroy(destroyChildren:boolean = true) {
-
-            if (destroyChildren == true) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i].destroy();
-                }
-            } else {
-                this.removeChildren();
-            }
+        public destroy(immediate:boolean = false, destroyChildren:boolean = true) {
             
-            if (this.parent !== null) this.parent.removeChild(this);
-            if(this.state) this.state.removeFromTrackingList(this); 
             this._exists = false;
             this._active = false
             this._willRender = false;
-            delete this.transform;
-            if(this.components) this.components.removeAll();
-            delete this.components;
-            delete this.name;
-            delete this.members;
-            delete this.game;
-            delete this.state;
+
+            if (immediate === true) {
+
+                if (this._tempRemoveChildren !== null) destroyChildren = this._tempRemoveChildren;
+
+                if (destroyChildren == true) {
+
+                    //Remove all of the children.
+                    for (var i = 0; i < this.members.length; i++) {
+                        this.members[i].destroy(true);
+                    }
+
+                } else {
+                    this.removeChildren();
+                
+                }
+
+                if (this.parent !== null) this.parent.removeChild(this);
+                if (this.state) this.state.removeFromTrackingList(this);
+                delete this.transform;
+                if (this.components) this.components.removeAll();
+                delete this.components;
+                delete this.name;
+                delete this.members;
+                delete this.game;
+                delete this.state;
+                delete this._tempRemoveChildren;
+
+            } else {
+                this._tempRemoveChildren = destroyChildren;
+            }
+
         }
+        
+        /**
+        * A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.
+        * @property _destroyRemoveChildren
+        * @type boolean
+        * @private
+        */
+        private _tempRemoveChildren: boolean = null;
 
     }
 

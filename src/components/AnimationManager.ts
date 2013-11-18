@@ -238,18 +238,22 @@ module Kiwi.Components {
         * @public
         */
         public switchTo(val: any, play:boolean=null) { 
+            var switched = false;
             switch (typeof val) {
                 case "string":
                     if (this.currentAnimation.name !== val) {
                         this._setCurrentAnimation(val);
+                        switched = true;
                     }
                     break;
                 case "number":
                     this.currentAnimation.frameIndex = val;
+                    switched = true;
                     break;
             }
-
-            if (play || play === null && this.isPlaying) this.play();
+            
+            //Play if the dev forced it to.
+            if (play || play === null && this.isPlaying && switched) this.play();
             if (play == false && this.isPlaying) this.stop();
 
             this._setCellIndex();

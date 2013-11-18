@@ -280,8 +280,7 @@ module Kiwi {
         private _exists: boolean;
 
         /**
-		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-        * This method should be over-ridden to handle specific canvas/webgl implementations.
+		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.
         * @property exists
         * @type boolean
         * @public
@@ -421,7 +420,7 @@ module Kiwi {
         * @public
         */
         public update() {
-        
+            
         }
 
         /**
@@ -438,24 +437,30 @@ module Kiwi {
         /**
         * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public
         */
-        public destroy() {
+        public destroy(immediate: boolean = false) {
             
-            if (this.parent !== null) this.parent.removeChild(this);
-            if(this.state) this.state.removeFromTrackingList(this); 
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            delete this._parent; 
-            delete this.transform;
-            delete this._clock;
-            delete this.state;
-            delete this.game;
-            delete this.atlas;
 
-            if (this.components) this.components.removeAll(true);
-            delete this.components; 
+            if (immediate === true) {
+                
+                if (this.parent !== null) this.parent.removeChild(this);
+                if (this.state) this.state.removeFromTrackingList(this);
+                delete this._parent;
+                delete this.transform;
+                delete this._clock;
+                delete this.state;
+                delete this.game;
+                delete this.atlas;
+
+                if (this.components) this.components.removeAll(true);
+                delete this.components;
+
+            }
         }
 
     }

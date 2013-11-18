@@ -19,6 +19,10 @@ class TouchManager extends Kiwi.State {
 
     create() {
         if (Kiwi.DEVICE.touch) {
+            
+            var text = new Kiwi.GameObjects.Textfield(this, 'Touch the device to create a new Character!', this.game.stage.width / 2, 10, '#000', 12);
+            text.textAlign = 'center';
+            this.addChild(text);
 
             /**
             * Add the callbacks to the touch manager.
@@ -92,3 +96,15 @@ class TouchManager extends Kiwi.State {
     }
 
 }
+
+
+//Create's a new Kiwi.Game.
+/*
+* Param One - DOMID - String - ID of a DOMElement that the game will reside in.
+* Param Two - GameName - String - Name that the game will be given.
+* Param Three - State - Object - The state that is to be loaded by default.
+* Param Four - Options - Object - Optional options that the game will use whilst playing. Currently this is used to to choose the renderer/debugmode/device to target
+*/
+if (typeof options == "undefined") var options = {};
+
+var game = new Kiwi.Game('game', 'KiwiExample', TouchManager, options);
