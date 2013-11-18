@@ -501,29 +501,33 @@ module Kiwi.GameObjects.Tilemap { //namespace needs to be changed...
 
         /**
         * Destroys everything.
-        * 
         * @method destroy
+        * @param [immediate=false] {Boolean} If the tilemap should be removed right away or if it should be removed next time the update loop executes?
         * @public
         */
-        public destroy() {
-            super.destroy();
-            delete this.tiles;
-            if (this.layers) {
-                for (var i = 0; i < this.layers.length; i++) {
-                    this.layers[i].destroy();
-                    delete this.layers[i];
+        public destroy(immediate:boolean =false) {
+            
+            super.destroy(immediate);
+
+            if (immediate === true) {
+                delete this.tiles;
+                if (this.layers) {
+                    for (var i = 0; i < this.layers.length; i++) {
+                        this.layers[i].destroy();
+                        delete this.layers[i];
+                    }
                 }
-            }
-            if (this.tiles) {
-                for (var i = 0; i < this.tiles.length; i++) {
-                    this.tiles[i].destroy();
-                    delete this.tiles[i];
+                if (this.tiles) {
+                    for (var i = 0; i < this.tiles.length; i++) {
+                        this.tiles[i].destroy();
+                        delete this.tiles[i];
+                    }
                 }
+                delete this.tiles;
+                delete this.layers;
+                delete this._tileMapDataKey;
+                delete this._atlas;
             }
-            delete this.tiles;
-            delete this.layers;
-            delete this._tileMapDataKey;
-            delete this._atlas;
         }
 
     }

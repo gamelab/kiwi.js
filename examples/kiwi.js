@@ -2297,8 +2297,7 @@ var Kiwi;
                 return this._exists;
             },
             set: /**
-            * Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-            * This method should be over-ridden to handle specific canvas/webgl implementations.
+            * Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.
             * @property exists
             * @type boolean
             * @public
@@ -2430,26 +2429,31 @@ var Kiwi;
         /**
         * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public
         */
-        Entity.prototype.destroy = function () {
-            if (this.parent !== null)
-                this.parent.removeChild(this);
-            if (this.state)
-                this.state.removeFromTrackingList(this);
+        Entity.prototype.destroy = function (immediate) {
+            if (typeof immediate === "undefined") { immediate = false; }
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            delete this._parent;
-            delete this.transform;
-            delete this._clock;
-            delete this.state;
-            delete this.game;
-            delete this.atlas;
 
-            if (this.components)
-                this.components.removeAll(true);
-            delete this.components;
+            if (immediate === true) {
+                if (this.parent !== null)
+                    this.parent.removeChild(this);
+                if (this.state)
+                    this.state.removeFromTrackingList(this);
+                delete this._parent;
+                delete this.transform;
+                delete this._clock;
+                delete this.state;
+                delete this.game;
+                delete this.atlas;
+
+                if (this.components)
+                    this.components.removeAll(true);
+                delete this.components;
+            }
         };
         return Entity;
     })();
@@ -2921,6 +2925,13 @@ var Kiwi;
             * @private
             */
             this._dirty = true;
+            /**
+            * A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.
+            * @property _destroyRemoveChildren
+            * @type boolean
+            * @private
+            */
+            this._tempRemoveChildren = null;
             if (state !== null) {
                 this.state = state;
                 this.game = this.state.game;
@@ -3542,29 +3553,22 @@ var Kiwi;
         * @public
         */
         Group.prototype.update = function () {
-            var _this = this;
             this.components.preUpdate();
 
             this.components.update();
             if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return _this.processUpdate(child);
-                });
+                for (var i = 0; i < this.members.length; i++) {
+                    if (this.members[i].active === true) {
+                        this.members[i].update();
+                    }
+
+                    if (this.members[i].exists === false) {
+                        this.members[i].destroy(true);
+                    }
+                }
             }
 
             this.components.postUpdate();
-        };
-
-        /**
-        * Calls the update method on an alive child
-        * @method processUpdate
-        * @param {IChild}
-        * @public
-        */
-        Group.prototype.processUpdate = function (child) {
-            if (child.active === true) {
-                child.update();
-            }
         };
 
 
@@ -3757,36 +3761,47 @@ var Kiwi;
         });
 
         /**
-        * Removes all children and destroys the Group
+        * Removes all children and destroys the Group.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
         * @public
         */
-        Group.prototype.destroy = function (destroyChildren) {
+        Group.prototype.destroy = function (immediate, destroyChildren) {
+            if (typeof immediate === "undefined") { immediate = false; }
             if (typeof destroyChildren === "undefined") { destroyChildren = true; }
-            if (destroyChildren == true) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i].destroy();
-                }
-            } else {
-                this.removeChildren();
-            }
-
-            if (this.parent !== null)
-                this.parent.removeChild(this);
-            if (this.state)
-                this.state.removeFromTrackingList(this);
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            delete this.transform;
-            if (this.components)
-                this.components.removeAll();
-            delete this.components;
-            delete this.name;
-            delete this.members;
-            delete this.game;
-            delete this.state;
+
+            if (immediate === true) {
+                if (this._tempRemoveChildren !== null)
+                    destroyChildren = this._tempRemoveChildren;
+
+                if (destroyChildren == true) {
+                    for (var i = 0; i < this.members.length; i++) {
+                        this.members[i].destroy(true);
+                    }
+                } else {
+                    this.removeChildren();
+                }
+
+                if (this.parent !== null)
+                    this.parent.removeChild(this);
+                if (this.state)
+                    this.state.removeFromTrackingList(this);
+                delete this.transform;
+                if (this.components)
+                    this.components.removeAll();
+                delete this.components;
+                delete this.name;
+                delete this.members;
+                delete this.game;
+                delete this.state;
+                delete this._tempRemoveChildren;
+            } else {
+                this._tempRemoveChildren = destroyChildren;
+            }
         };
         return Group;
     })();
@@ -4132,6 +4147,10 @@ var Kiwi;
                 if (this.members[i].active === true) {
                     this.members[i].update();
                 }
+
+                if (this.members[i].exists === false) {
+                    this.members[i].destroy(true);
+                }
             }
         };
 
@@ -4308,7 +4327,7 @@ var Kiwi;
             if (typeof deleteAll === "undefined") { deleteAll = true; }
             if (deleteAll == true) {
                 for (var i = 0; i < this._trackingList.length; i++) {
-                    this._trackingList[i].destroy();
+                    this._trackingList[i].destroy(true);
                 }
                 this._trackingList = [];
 
@@ -4332,7 +4351,7 @@ var Kiwi;
                     this._destroyChildren(child.members[i]);
                 }
             }
-            child.destroy();
+            child.destroy(true);
         };
         return State;
     })(Kiwi.Group);
@@ -10523,29 +10542,33 @@ var Kiwi;
 
                 /**
                 * Destroys everything.
-                *
                 * @method destroy
+                * @param [immediate=false] {Boolean} If the tilemap should be removed right away or if it should be removed next time the update loop executes?
                 * @public
                 */
-                TileMap.prototype.destroy = function () {
-                    _super.prototype.destroy.call(this);
-                    delete this.tiles;
-                    if (this.layers) {
-                        for (var i = 0; i < this.layers.length; i++) {
-                            this.layers[i].destroy();
-                            delete this.layers[i];
+                TileMap.prototype.destroy = function (immediate) {
+                    if (typeof immediate === "undefined") { immediate = false; }
+                    _super.prototype.destroy.call(this, immediate);
+
+                    if (immediate === true) {
+                        delete this.tiles;
+                        if (this.layers) {
+                            for (var i = 0; i < this.layers.length; i++) {
+                                this.layers[i].destroy();
+                                delete this.layers[i];
+                            }
                         }
-                    }
-                    if (this.tiles) {
-                        for (var i = 0; i < this.tiles.length; i++) {
-                            this.tiles[i].destroy();
-                            delete this.tiles[i];
+                        if (this.tiles) {
+                            for (var i = 0; i < this.tiles.length; i++) {
+                                this.tiles[i].destroy();
+                                delete this.tiles[i];
+                            }
                         }
+                        delete this.tiles;
+                        delete this.layers;
+                        delete this._tileMapDataKey;
+                        delete this._atlas;
                     }
-                    delete this.tiles;
-                    delete this.layers;
-                    delete this._tileMapDataKey;
-                    delete this._atlas;
                 };
                 TileMap.FORMAT_CSV = 0;
 
@@ -19591,13 +19614,13 @@ var Kiwi;
             */
             InputManager.prototype.update = function () {
                 this.mouse.update();
+                this.keyboard.update();
 
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch.update();
                     this.position.setTo(this.touch.x, this.touch.y);
                     this.isDown = this.touch.isDown;
                 } else {
-                    this.keyboard.update();
                     this.position.setTo(this.mouse.x, this.mouse.y);
                     this.isDown = this.mouse.isDown;
                 }
@@ -19609,11 +19632,10 @@ var Kiwi;
             */
             InputManager.prototype.reset = function () {
                 this.mouse.reset();
+                this.keyboard.reset();
 
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch.reset();
-                } else {
-                    this.keyboard.reset();
                 }
             };
 
