@@ -13,6 +13,7 @@ class StageSize extends Kiwi.State {
 
     constructor() {
         super('Sprite');
+        
     }
     
     preload() {
@@ -24,7 +25,9 @@ class StageSize extends Kiwi.State {
     pirate: Kiwi.GameObjects.Sprite;
 
     create() {
-
+        this.game.stage.color = "ff0000";
+      
+        this.game.stage.resize(1000, 1000);
         /**  
         * Kiwi.GameObjects.Sprite.
         * - Parameter One - State that this gameobject belongs to.
@@ -36,7 +39,7 @@ class StageSize extends Kiwi.State {
         * Note: Don't worry if you have told a sprite that you don't want to use the input. It can always be created later.
         **/
 
-        this.pirate = new Kiwi.GameObjects.Sprite(this, this.textures.pirate, 100, 300);              //create the pirate
+        this.pirate = new Kiwi.GameObjects.Sprite(this, this.textures.pirate, 790, 300);              //create the pirate
         this.addChild(this.pirate);                                                                   //add it to the state                    
 
     }

@@ -34,9 +34,9 @@ module Kiwi {
             this._x = 0;
             this._y = 0;
 
-            this._width = 800;
-            this._height = 600;
-            this.color = 'white';
+            this._width = Stage.DEFAULT_WIDTH;
+            this._height = Stage.DEFAULT_HEIGHT;
+            this.color = 'ffffff';
 
             this.onResize = new Kiwi.Signal();
         }
@@ -50,6 +50,25 @@ module Kiwi {
         public objType():string {
             return "Stage";
         }
+
+        /**
+        * The default width of the stage.
+        * @property DEFAULT_WIDTH
+        * @type number
+        * @public
+        * @static
+        */
+        public static DEFAULT_WIDTH: number = 800;
+
+        /**
+        * The default height of the stage.
+        * @property DEFAULT_HEIGHT
+        * @type number
+        * @public
+        * @static
+        */
+        public static DEFAULT_HEIGHT: number = 600;
+
 
         /**
         * The alpha of the stage.
@@ -142,20 +161,12 @@ module Kiwi {
         * @property width
         * @type number
         * @public 
+        * @readonly
         */
         public get width(): number {
             return this._width;
         }
-        public set width(value: number) {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.style.width = String(value + 'px');
-            }
-            
-            this.canvas.width = value;
-            this._width = value;
-            this.onResize.dispatch(this._width, this._height);
-        }
-
+      
         /**
         * The height of the stage
         * @property _height
@@ -168,21 +179,13 @@ module Kiwi {
         * The height of the stage
         * @property height
         * @type number
-        * @private
+        * @public
+        * @readonly
         */
         public get height(): number {
             return this._height;
         }
-        public set height(value: number) {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this.container.style.height = String(value + 'px');
-            }
-
-            this.canvas.height = value;
-            this._height = value;
-            this.onResize.dispatch(this._width, this._height);
-        }
-
+       
         /*
         * A kiwi signal that dispatches an event when the stage gets resized.
         * @property onResize
@@ -224,7 +227,7 @@ module Kiwi {
         public domReady: boolean;
 
         /**
-        * The background color of the stage.
+        * The background color of the stage. This must be a valid 6 character hex color string such as "ffffff". 
         * @property _color
         * @type string
         * @default '#ffffff'
@@ -233,7 +236,7 @@ module Kiwi {
         public _color: string;
         
         /**
-        * Get the background color of the stage.
+        * Get the background color of the stage. This returns a hex style color string such as "#ffffff" 
         * @property color
         * @type string
         * @public
@@ -242,7 +245,31 @@ module Kiwi {
             return this._color;
         }
         public set color(val: string) {
-            this._color = val;
+            this._color = "#" + val;
+            var bigint = parseInt(val, 16);
+            var r = (bigint >> 16) & 255;
+            var g = (bigint >> 8) & 255;
+            var b = bigint & 255;
+            this._normalizedColor = { r: r, g: g, b: b, a: 1 };
+        }
+
+        /**
+        * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
+        * @property _normalizedColor
+        * @type object
+        * @public
+        */
+        private _normalizedColor: any;
+        
+        /**
+        * Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.
+        * @property color
+        * @type string
+        * @public
+        */
+
+        public get normalizedColor(): any {
+           return this._normalizedColor;
         }
 
         /**
@@ -308,8 +335,8 @@ module Kiwi {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = parseInt(this.container.style.width);
-                this._height = parseInt(this.container.style.height);
+                this._width = 1000;//parseInt(this.container.style.width);
+                this._height = 1000;//parseInt(this.container.style.height);
             }
             
             this._createCompositeCanvas();
@@ -361,6 +388,27 @@ module Kiwi {
         
         }
         
+        /**
+        * Set the stage width and height
+        * @method resize
+        * @param width {number} new stage width
+        * @param height {number} new stage height
+        * @public
+        */
+
+        public resize(width: number, height: number) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.height = String(height + 'px');
+                this.container.style.width = String(width + 'px');
+            }
+
+            this.canvas.height = height;
+            this.canvas.width = width;
+            this._height = height;
+            this._width = width;
+            this.onResize.dispatch(this._width, this._height);
+        }
+
         /**
         * [DESCRIPTION REQUIRED]
         * @method _createDebugCanvas

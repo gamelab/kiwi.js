@@ -3126,6 +3126,22 @@ declare module Kiwi {
         */
         public objType(): string;
         /**
+        * The default width of the stage.
+        * @property DEFAULT_WIDTH
+        * @type number
+        * @public
+        * @static
+        */
+        static DEFAULT_WIDTH: number;
+        /**
+        * The default height of the stage.
+        * @property DEFAULT_HEIGHT
+        * @type number
+        * @public
+        * @static
+        */
+        static DEFAULT_HEIGHT: number;
+        /**
         * The alpha of the stage.
         * @property _alpha
         * @type number
@@ -3225,7 +3241,7 @@ declare module Kiwi {
         */
         public domReady: boolean;
         /**
-        * The background color of the stage.
+        * The background color of the stage. This must be a valid 6 character hex color string such as "ffffff".
         * @property _color
         * @type string
         * @default '#ffffff'
@@ -3233,12 +3249,26 @@ declare module Kiwi {
         */
         public _color: string;
         /**
-        * Get the background color of the stage.
+        * Get the background color of the stage. This returns a hex style color string such as "#ffffff"
         * @property color
         * @type string
         * @public
         */
         public color : string;
+        /**
+        * Stores the normalized background color of the stage as a RGBA values between 0 and 1.
+        * @property _normalizedColor
+        * @type object
+        * @public
+        */
+        private _normalizedColor;
+        /**
+        * Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.
+        * @property color
+        * @type string
+        * @public
+        */
+        public normalizedColor : any;
         /**
         * The webgl rendering context.
         * @property gl

@@ -46,6 +46,8 @@
     <Content Include="Introduction\ExtendSprite.js">
       <DependentUpon>ExtendSprite.ts</DependentUpon>
     </Content>
+    <Content Include="Stage\StageSize.js" />
+    <TypeScriptCompile Include="Stage\StageSize.ts" />
     <Content Include="Tilemaps\Generation.js">
       <DependentUpon>Generation.ts</DependentUpon>
     </Content>

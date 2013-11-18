@@ -172,8 +172,8 @@ module Kiwi.System {
                 this.container.id = id;
             }
 
-            this.container.style.width = '800px';
-            this.container.style.height = '600px';
+            this.container.style.width = Kiwi.Stage.DEFAULT_WIDTH + 'px';
+            this.container.style.height = Kiwi.Stage.DEFAULT_HEIGHT + 'px';
             this.container.style.position = 'relative';
             this.container.style.overflow = 'hidden';
 
