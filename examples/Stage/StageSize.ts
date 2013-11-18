@@ -26,7 +26,8 @@ class StageSize extends Kiwi.State {
 
     create() {
         this.game.stage.color = "ff0000";
-        this.game.stage.width = 1000;
+      
+        this.game.stage.resize(1000, 1000);
         /**  
         * Kiwi.GameObjects.Sprite.
         * - Parameter One - State that this gameobject belongs to.

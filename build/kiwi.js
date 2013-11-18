@@ -4875,8 +4875,8 @@ var Kiwi;
             this._x = 0;
             this._y = 0;
 
-            this._width = 800;
-            this._height = 600;
+            this._width = Stage.DEFAULT_WIDTH;
+            this._height = Stage.DEFAULT_HEIGHT;
             this.color = 'ffffff';
 
             this.onResize = new Kiwi.Signal();
@@ -4963,18 +4963,10 @@ var Kiwi;
             * @property width
             * @type number
             * @public
+            * @readonly
             */
             function () {
                 return this._width;
-            },
-            set: function (value) {
-                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.container.style.width = String(value + 'px');
-                }
-
-                this.canvas.width = value;
-                this._width = value;
-                this.onResize.dispatch(this._width, this._height);
             },
             enumerable: true,
             configurable: true
@@ -4985,19 +4977,11 @@ var Kiwi;
             * The height of the stage
             * @property height
             * @type number
-            * @private
+            * @public
+            * @readonly
             */
             function () {
                 return this._height;
-            },
-            set: function (value) {
-                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.container.style.height = String(value + 'px');
-                }
-
-                this.canvas.height = value;
-                this._height = value;
-                this.onResize.dispatch(this._width, this._height);
             },
             enumerable: true,
             configurable: true
@@ -5053,8 +5037,8 @@ var Kiwi;
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = parseInt(this.container.style.width);
-                this._height = parseInt(this.container.style.height);
+                this._width = 1000;
+                this._height = 1000;
             }
 
             this._createCompositeCanvas();
@@ -5099,6 +5083,26 @@ var Kiwi;
         };
 
         /**
+        * Set the stage width and height
+        * @method resize
+        * @param width {number} new stage width
+        * @param height {number} new stage height
+        * @public
+        */
+        Stage.prototype.resize = function (width, height) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.height = String(height + 'px');
+                this.container.style.width = String(width + 'px');
+            }
+
+            this.canvas.height = height;
+            this.canvas.width = width;
+            this._height = height;
+            this._width = width;
+            this.onResize.dispatch(this._width, this._height);
+        };
+
+        /**
         * [DESCRIPTION REQUIRED]
         * @method _createDebugCanvas
         * @private
@@ -5140,6 +5144,9 @@ var Kiwi;
         Stage.prototype.toggleDebugCanvas = function () {
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         };
+        Stage.DEFAULT_WIDTH = 800;
+
+        Stage.DEFAULT_HEIGHT = 600;
         return Stage;
     })();
     Kiwi.Stage = Stage;
@@ -21165,6 +21172,13 @@ var Kiwi;
                 var gl = this._game.stage.gl;
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
 
+                this._game.stage.onResize.add(function () {
+                    this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                    console.log(this._stageResolution[0], this._stageResolution[1]);
+                }, this);
+
+                //console.log(this._stageResolution[0], this._stageResolution[1]);
                 this._shaders = new Renderers.GLShaders(gl);
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -21960,8 +21974,8 @@ var Kiwi;
                     this.container.id = id;
                 }
 
-                this.container.style.width = '800px';
-                this.container.style.height = '600px';
+                this.container.style.width = Kiwi.Stage.DEFAULT_WIDTH + 'px';
+                this.container.style.height = Kiwi.Stage.DEFAULT_HEIGHT + 'px';
                 this.container.style.position = 'relative';
                 this.container.style.overflow = 'hidden';
             };
