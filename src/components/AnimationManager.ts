@@ -342,21 +342,9 @@ module Kiwi.Components {
                 this.entity.cellIndex = this.currentAnimation.currentCell;
             }
         }
-
-	    /**
-	    * Returns a string representation of this object.
-	    * @method toString
-	    * @return {string} A string representation of this object.
-        * @public
-	    */
-        public toString(): string {
-
-            return '[{Animation (x=' + this.active + ')}]';
-
-        }
-
+        
         /**
-        * Destroys the animation component and runs the destroy on all of the anims that it has.
+        * Destroys the animation component and runs the destroy method on all of the anims that it has.
         * @method destroy
         * @public
         */
