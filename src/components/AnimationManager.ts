@@ -46,7 +46,53 @@ module Kiwi.Components {
                 }
                 this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
             }
+
+            //Signals
+            this.onChange = new Kiwi.Signal;
+            this.onPlay = new Kiwi.Signal;
+            this.onStop = new Kiwi.Signal;
+            this.onUpdate = new Kiwi.Signal;
         }
+
+        /**
+        * Dispatches callbacks each time an animation is told to play through this AnimationManager.
+        * Functions dispatched from this signal have ONE parameter.
+        * One - The Animation object of that is now playing.
+        * @property onPlay
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onPlay: Kiwi.Signal;
+        
+        /**
+        * Dispatches callbacks each time an animation stops. 
+        * Functions dispatched from this signal have ONE parameter.
+        * One - The current animation.
+        * @property onStop
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onStop: Kiwi.Signal;
+
+        /**
+        * Dispatches callbacks each time the cell of the Sprite this AnimationManager belongs to updates/changes.
+        * Note: This method will be dispatching events EVERY time the cell changes, so this will include when changing/switching animations.
+        * @property onUpdate
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onUpdate: Kiwi.Signal
+
+        /**
+        * Dispatches callbacks each time the current animation is switched NOT when the cells of a animation change.
+        * Function's dispatched from this event have TWO parameters, 
+        * One - Name of the animation switched to.
+        * Two - The Animation object that is now the current.
+        * @property onChange
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onChange: Kiwi.Signal;
 
         /**
         * The entity that this animation belongs to.
@@ -179,6 +225,7 @@ module Kiwi.Components {
             else
                 this.currentAnimation.play();
             
+            this.onPlay.dispatch(this.currentAnimation);
             this.updateCellIndex();
             return this.currentAnimation;
         }
@@ -191,6 +238,7 @@ module Kiwi.Components {
         public stop() {
             if (this.isPlaying === true) {
                 this.currentAnimation.stop();
+                this.onStop.dispatch(this.currentAnimation);
             }
         }
 
@@ -213,7 +261,8 @@ module Kiwi.Components {
         }
 
         /**
-        * Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number. 
+        * Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation. 
+        * When you switch to a particular animation then 
         * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
         * So if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.
         *
@@ -237,7 +286,7 @@ module Kiwi.Components {
                     break;
             }
             
-            //Play if the dev forced it to.
+            //Play if the dev forced it to OR if the animation was already playing
             if (play || play === null && this.isPlaying && switched) this.play();
             if (play == false && this.isPlaying) this.stop();
 
@@ -272,11 +321,14 @@ module Kiwi.Components {
         * @private
         */
         private _setCurrentAnimation(name: string) {
-            if (this.currentAnimation !== null) this.currentAnimation.stop();
+            if (this.currentAnimation.name !== name) {
+                if (this.currentAnimation !== null) this.currentAnimation.stop();
 
-            if (this._animations[name]) {
-                this.currentAnimation = this._animations[name]; 
-            }  
+                if (this._animations[name]) {
+                    this.currentAnimation = this._animations[name];
+                    this.onChange.dispatch(name, this.currentAnimation);
+                }
+            }
         }
 
         /**
@@ -339,6 +391,7 @@ module Kiwi.Components {
         */
         public updateCellIndex() {
             if (typeof this.currentAnimation !== "undefined") {
+                this.onUpdate.dispatch(this.currentAnimation);
                 this.entity.cellIndex = this.currentAnimation.currentCell;
             }
         }
