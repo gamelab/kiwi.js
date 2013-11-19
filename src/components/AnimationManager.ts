@@ -80,15 +80,6 @@ module Kiwi.Components {
         * @private
         */
         public currentAnimation: Kiwi.Animations.Animation = null;
-
-        /**
-        * Indicates whether or not this animation is currently playing or not.
-        * @property _isPlaying
-        * @type boolean
-        * @default false
-        * @private
-        */
-        private _isPlaying: boolean = false;
         
         /**
         * Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.
@@ -97,7 +88,7 @@ module Kiwi.Components {
         * @public
         */
         public get isPlaying(): boolean {
-            return this._isPlaying;
+            return this.currentAnimation.isPlaying;
         }
         
         /**
@@ -139,7 +130,7 @@ module Kiwi.Components {
         * @public
         */
         public createFromSequence(sequence: Kiwi.Animations.Sequence, play: boolean= false): Kiwi.Animations.Animation {
-            this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock);
+            this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock, this);
 
             if (play) this.play(sequence.name);
             
@@ -154,7 +145,6 @@ module Kiwi.Components {
         * @public
         */
         public play(name: string = this.currentAnimation.name): Kiwi.Animations.Animation {
-
             return this._play(name);
         }
         
@@ -182,7 +172,6 @@ module Kiwi.Components {
         */
         private _play(name: string, index: number=null): Kiwi.Animations.Animation {
             
-            this._isPlaying = true;
             this._setCurrentAnimation(name); 
             
             if (index !== null)
@@ -190,8 +179,7 @@ module Kiwi.Components {
             else
                 this.currentAnimation.play();
             
-            this._setCellIndex();
-
+            this.updateCellIndex();
             return this.currentAnimation;
         }
 
@@ -204,7 +192,6 @@ module Kiwi.Components {
             if (this.isPlaying === true) {
                 this.currentAnimation.stop();
             }
-            this._isPlaying = false;
         }
 
         /**
@@ -214,7 +201,6 @@ module Kiwi.Components {
         */ 
         public pause() {
             this.currentAnimation.pause();
-            this._isPlaying = false;
         }
 
         /**
@@ -224,7 +210,6 @@ module Kiwi.Components {
         */
         public resume() {
             this.currentAnimation.resume();
-            this._isPlaying = true;
         }
 
         /**
@@ -256,7 +241,7 @@ module Kiwi.Components {
             if (play || play === null && this.isPlaying && switched) this.play();
             if (play == false && this.isPlaying) this.stop();
 
-            this._setCellIndex();
+            this.updateCellIndex();
         }
 
         /**
@@ -266,7 +251,7 @@ module Kiwi.Components {
         */
         public nextFrame() {
             this.currentAnimation.nextFrame();
-            this._setCellIndex();
+            this.updateCellIndex();
         }
         
         /**
@@ -276,7 +261,7 @@ module Kiwi.Components {
         */
         public prevFrame() {
             this.currentAnimation.prevFrame();
-            this._setCellIndex();
+            this.updateCellIndex();
         }
 
         /**
@@ -287,8 +272,8 @@ module Kiwi.Components {
         * @private
         */
         private _setCurrentAnimation(name: string) {
-
             if (this.currentAnimation !== null) this.currentAnimation.stop();
+
             if (this._animations[name]) {
                 this.currentAnimation = this._animations[name]; 
             }  
@@ -300,11 +285,8 @@ module Kiwi.Components {
         * @public
         */
         public update() { 
-            if (this.currentAnimation && this.isPlaying) {
-                if (this.currentAnimation.update()) {
-
-                    this._setCellIndex();
-                }
+            if (this.currentAnimation) {
+                this.currentAnimation.update();
             }
         }
         
@@ -351,13 +333,14 @@ module Kiwi.Components {
         }
         
         /**
-        * An internal method that is used to set the cell index of the entity. This is how the animation changes.
-        * @method _setCellIndex
-        * @private
+        * An internal method that is used to update the cell index of an entity when an animation says it needs to update.
+        * @method updateCellIndex
+        * @protected
         */
-        private _setCellIndex() {
-            if(typeof this.currentAnimation !== "undefined") 
+        public updateCellIndex() {
+            if (typeof this.currentAnimation !== "undefined") {
                 this.entity.cellIndex = this.currentAnimation.currentCell;
+            }
         }
 
 	    /**
@@ -378,7 +361,6 @@ module Kiwi.Components {
         * @public
         */
         public destroy() {
-            this._isPlaying = false;
             super.destroy();
 
             for (var key in this._animations) {

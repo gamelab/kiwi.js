@@ -5204,14 +5204,6 @@ var Kiwi;
                 * @private
                 */
                 this.currentAnimation = null;
-                /**
-                * Indicates whether or not this animation is currently playing or not.
-                * @property _isPlaying
-                * @type boolean
-                * @default false
-                * @private
-                */
-                this._isPlaying = false;
 
                 //get the entity and the animation.
                 this.entity = entity;
@@ -5240,7 +5232,7 @@ var Kiwi;
                 * @public
                 */
                 function () {
-                    return this._isPlaying;
+                    return this.currentAnimation.isPlaying;
                 },
                 enumerable: true,
                 configurable: true
@@ -5288,7 +5280,7 @@ var Kiwi;
             */
             AnimationManager.prototype.createFromSequence = function (sequence, play) {
                 if (typeof play === "undefined") { play = false; }
-                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock);
+                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock, this);
 
                 if (play)
                     this.play(sequence.name);
@@ -5332,15 +5324,13 @@ var Kiwi;
             */
             AnimationManager.prototype._play = function (name, index) {
                 if (typeof index === "undefined") { index = null; }
-                this._isPlaying = true;
                 this._setCurrentAnimation(name);
 
                 if (index !== null)
                     this.currentAnimation.playAt(index); else
                     this.currentAnimation.play();
 
-                this._setCellIndex();
-
+                this.updateCellIndex();
                 return this.currentAnimation;
             };
 
@@ -5353,7 +5343,6 @@ var Kiwi;
                 if (this.isPlaying === true) {
                     this.currentAnimation.stop();
                 }
-                this._isPlaying = false;
             };
 
             /**
@@ -5363,7 +5352,6 @@ var Kiwi;
             */
             AnimationManager.prototype.pause = function () {
                 this.currentAnimation.pause();
-                this._isPlaying = false;
             };
 
             /**
@@ -5373,7 +5361,6 @@ var Kiwi;
             */
             AnimationManager.prototype.resume = function () {
                 this.currentAnimation.resume();
-                this._isPlaying = true;
             };
 
             /**
@@ -5407,7 +5394,7 @@ var Kiwi;
                 if (play == false && this.isPlaying)
                     this.stop();
 
-                this._setCellIndex();
+                this.updateCellIndex();
             };
 
             /**
@@ -5417,7 +5404,7 @@ var Kiwi;
             */
             AnimationManager.prototype.nextFrame = function () {
                 this.currentAnimation.nextFrame();
-                this._setCellIndex();
+                this.updateCellIndex();
             };
 
             /**
@@ -5427,7 +5414,7 @@ var Kiwi;
             */
             AnimationManager.prototype.prevFrame = function () {
                 this.currentAnimation.prevFrame();
-                this._setCellIndex();
+                this.updateCellIndex();
             };
 
             /**
@@ -5440,6 +5427,7 @@ var Kiwi;
             AnimationManager.prototype._setCurrentAnimation = function (name) {
                 if (this.currentAnimation !== null)
                     this.currentAnimation.stop();
+
                 if (this._animations[name]) {
                     this.currentAnimation = this._animations[name];
                 }
@@ -5451,10 +5439,8 @@ var Kiwi;
             * @public
             */
             AnimationManager.prototype.update = function () {
-                if (this.currentAnimation && this.isPlaying) {
-                    if (this.currentAnimation.update()) {
-                        this._setCellIndex();
-                    }
+                if (this.currentAnimation) {
+                    this.currentAnimation.update();
                 }
             };
 
@@ -5513,13 +5499,14 @@ var Kiwi;
             };
 
             /**
-            * An internal method that is used to set the cell index of the entity. This is how the animation changes.
-            * @method _setCellIndex
-            * @private
+            * An internal method that is used to update the cell index of an entity when an animation says it needs to update.
+            * @method updateCellIndex
+            * @protected
             */
-            AnimationManager.prototype._setCellIndex = function () {
-                if (typeof this.currentAnimation !== "undefined")
+            AnimationManager.prototype.updateCellIndex = function () {
+                if (typeof this.currentAnimation !== "undefined") {
                     this.entity.cellIndex = this.currentAnimation.currentCell;
+                }
             };
 
             /**
@@ -5538,7 +5525,6 @@ var Kiwi;
             * @public
             */
             AnimationManager.prototype.destroy = function () {
-                this._isPlaying = false;
                 _super.prototype.destroy.call(this);
 
                 for (var key in this._animations) {
@@ -18475,11 +18461,12 @@ var Kiwi;
         * @param name {string} The name of this anim.
         * @param sequences {Sequences} The sequence that this anim will be using to animate.
         * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+        * @param parent {AnimationManager} The animation manager that this animation belongs to.
         * @return {Anim}
         *
         */
         var Animation = (function () {
-            function Animation(name, sequence, clock) {
+            function Animation(name, sequence, clock, parent) {
                 /**
                 * The current frame index that the animation is currently upto.
                 * Note: A frame index is the index of a particular cell in the Sequence.
@@ -18507,6 +18494,7 @@ var Kiwi;
                 this._speed = sequence.speed;
                 this._loop = sequence.loop;
                 this._clock = clock;
+                this._parent = parent;
 
                 //Signals - Should be moved to animation manager.
                 this.onUpdate = new Kiwi.Signal();
@@ -18609,6 +18597,20 @@ var Kiwi;
                 configurable: true
             });
 
+            Object.defineProperty(Animation.prototype, "isPlaying", {
+                get: /**
+                * If the animation is currently playing or not.
+                * @property isPlaying
+                * @type boolean
+                * @private
+                */
+                function () {
+                    return this._isPlaying;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             * An Internal method used to start the animation.
             * @method _start
@@ -18620,6 +18622,7 @@ var Kiwi;
                 if (index !== null) {
                     this.frameIndex = index;
                 }
+
                 this._isPlaying = true;
                 this._startTime = this._clock.elapsed();
                 this._tick = this._startTime + this._speed;
@@ -18705,7 +18708,6 @@ var Kiwi;
             /**
             * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
             * @method update
-            * @return {boolean}
             * @public
             */
             Animation.prototype.update = function () {
@@ -18713,30 +18715,26 @@ var Kiwi;
                     if (this._clock.elapsed() >= this._tick) {
                         this._tick = this._clock.elapsed() + this._speed;
 
-                        if (this._reverse)
-                            this._frameIndex--; else
-                            this._frameIndex++;
-
-                        this.onUpdate.dispatch();
-                        if (!this._validateFrame(this._frameIndex)) {
+                        if (this._validateFrame(this._frameIndex + ((this._reverse == true) ? -1 : 1))) {
+                            this._frameIndex += (this._reverse == true) ? -1 : 1;
+                            this._parent.updateCellIndex();
+                            this.onUpdate.dispatch();
+                        } else {
                             if (this._loop) {
                                 if (this._reverse) {
                                     this._frameIndex = this.length - 1;
-                                    this.onLoop.dispatch();
                                 } else {
                                     this._frameIndex = 0;
-                                    this.onLoop.dispatch();
                                 }
+                                this._parent.updateCellIndex();
+                                this.onLoop.dispatch();
                             } else {
-                                this._frameIndex--;
-                                this.stop();
+                                //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
+                                this._parent.stop();
                             }
                         }
-
-                        return true;
                     }
                 }
-                return false;
             };
 
             /**
@@ -18772,6 +18770,7 @@ var Kiwi;
                 this._isPlaying = false;
                 delete this._clock;
                 delete this._sequence;
+                delete this._parent;
                 if (this.onLoop)
                     this.onLoop.dispose();
                 if (this.onStop)

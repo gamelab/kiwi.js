@@ -40,6 +40,7 @@ AddingCallbacks.create = function () {
 * This is the method that should be called When one of the animations stops. All it does is switch to the next one.
 **/
 AddingCallbacks.switchAnim = function () {
+	
     if (this.currentAnimation == 'rebuild') {
         this.currentAnimation = 'explode';
         this.zombie.animation.play('explode');
