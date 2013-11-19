@@ -18,8 +18,7 @@ Platformer.preload = function () {
 }
 
 Platformer.create = function () {
-    this.game.stage.width = 768;
-    this.game.stage.height = 512;
+    this.game.stage.resize(768, 512);
 
     var background = new Kiwi.GameObjects.StaticImage(this, this.textures.desertBackdrop, 0, 0);
     this.addChild(background);

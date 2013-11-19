@@ -6,7 +6,7 @@
 var Scaling = new Kiwi.State('Scaling');
 
 Scaling.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addSpriteSheet('snake', 'assets/spritesheets/snake.png', 150, 117);
 }
 

@@ -4,7 +4,7 @@
 var SetNumber = new Kiwi.State('SetNumber');
 
 SetNumber.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addSpriteSheet('german', 'assets/war/characters/german-bayonet.png', 150, 117);
     this.addSpriteSheet('tank', 'assets/war/characters/wwII-german-tank.png', 150, 117);
 }

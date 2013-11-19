@@ -4,7 +4,7 @@
 var MachineGunDeath = new Kiwi.State('MachineGunDeath');
 
 MachineGunDeath.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addAudio('death', 'assets/audio/death.mp3');
     this.addAudio('damage', 'assets/audio/enemy_damage2.mp3');
     this.addAudio('pistol', 'assets/audio/pistol.mp3');

@@ -11,6 +11,7 @@ class Repeating extends Kiwi.State {
     }
     
     preload() { 
+        this.game.stage.resize(800, 250);
         this.addSpriteSheet('mujahadeen', 'assets/war/characters/mujahadeen-ak47.png', 150, 117);
         this.addImage('bullet', 'assets/static/bullet-normal.png');
     }

@@ -8,8 +8,7 @@
 var StaticImage = new Kiwi.State('StaticImage');
 
 StaticImage.init = function () {
-    this.game.stage.width = 768;
-    this.game.stage.height = 512;
+    this.game.stage.resize(768, 512);
 }
 
 StaticImage.preload = function () {

@@ -5,8 +5,7 @@ var SwitchingBetween = new Kiwi.State('SwitchingBetween');
 
 SwitchingBetween.init = function () {
     this.game.states.addState(NightTime, false);
-    this.game.stage.width = 768;
-    this.game.stage.height = 512;
+    this.game.stage.resize(768, 512);
 }
 
 SwitchingBetween.preload = function () {

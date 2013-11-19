@@ -8,7 +8,7 @@
 var General = new Kiwi.State('General');
 
 General.preload = function () {
-    this.game.stage.height = 350;
+    this.game.stage.resize(800, 350);
     this.addImage('ninja', 'assets/static/ninja.png');
 }
 

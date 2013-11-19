@@ -11,6 +11,7 @@ class GroupTransform extends Kiwi.State {
     }
 
     preload() {
+        this.game.stage.resize(800, 250);
         this.addSpriteSheet('snake', 'assets/spritesheets/snake.png', 150, 117);
     }
     

@@ -6,7 +6,7 @@
 var Textarea = new Kiwi.State('Textarea');
 
 Textarea.create = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
 
     /**
     * Kiwi.GameObjects.Textfield.

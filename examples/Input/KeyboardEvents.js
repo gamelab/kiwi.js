@@ -4,7 +4,7 @@
 var KeyboardEvents = new Kiwi.State('KeyboardEvents');
 
 KeyboardEvents.preload = function () {
-    this.game.stage.height = 350;
+    this.game.stage.resize(800, 350);
     this.addSpriteSheet('choppa', 'assets/war/characters/choppa.png', 150, 117);
 }
 

@@ -4,7 +4,7 @@
 var Repeating = new Kiwi.State('Repeating');
 
 Repeating.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addSpriteSheet('mujahadeen', 'assets/war/characters/mujahadeen-ak47.png', 150, 117);
     this.addImage('bullet', 'assets/static/bullet-normal.png');
 }

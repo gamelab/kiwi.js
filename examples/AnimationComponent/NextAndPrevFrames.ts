@@ -11,6 +11,7 @@ class NextAndPrevFrames extends Kiwi.State {
     }
 
     preload() {
+        this.game.stage.resize(800, 250);
         this.addSpriteSheet('characters', 'assets/spritesheets/characters.png', 150, 117);
     }
 

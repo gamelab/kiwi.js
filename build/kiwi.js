@@ -17599,7 +17599,7 @@ var Kiwi;
                             this.masterGain.gain.value = 0;
                         } else if (this.usingAudioTag) {
                             for (var i = 0; i < this._sounds.length; i++) {
-                                this._sounds[i].mute(true);
+                                this._sounds[i].mute = true;
                             }
                         }
                     } else {
@@ -17611,7 +17611,7 @@ var Kiwi;
                             this.masterGain.gain.value = this._muteVolume;
                         } else if (this.usingAudioTag) {
                             for (var i = 0; i < this._sounds.length; i++) {
-                                this._sounds[i].mute(false);
+                                this._sounds[i].mute = false;
                             }
                         }
                     }
@@ -17646,7 +17646,7 @@ var Kiwi;
                         } else if (this.usingAudioTag) {
                             for (var i = 0; i < this._sounds.length; i++) {
                                 //for each sound tag to update.
-                                this._sounds[i].volume(this._sounds[i].volume());
+                                this._sounds[i].volume = this._sounds[i].volume;
                             }
                         }
                     }
@@ -21215,10 +21215,8 @@ var Kiwi;
                 this._game.stage.onResize.add(function () {
                     this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
                     gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-                    console.log(this._stageResolution[0], this._stageResolution[1]);
                 }, this);
 
-                //console.log(this._stageResolution[0], this._stageResolution[1]);
                 this._shaders = new Renderers.GLShaders(gl);
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);

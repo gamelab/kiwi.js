@@ -16,6 +16,7 @@ class Looping extends Kiwi.State {
     }
 
     preload() {
+    this.game.stage.resize(800, 250);
         this.addSpriteSheet('cat', 'assets/spritesheets/griffon.png', 150, 117);
     }
 

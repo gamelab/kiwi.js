@@ -15,6 +15,7 @@ class General extends Kiwi.State {
     }
 
     preload() {
+        this.game.stage.resize(800, 350);
         this.addImage('ninja', 'assets/static/ninja.png'); 
     }
     
