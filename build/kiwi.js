@@ -5223,6 +5223,12 @@ var Kiwi;
                     }
                     this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
                 }
+
+                //Signals
+                this.onChange = new Kiwi.Signal();
+                this.onPlay = new Kiwi.Signal();
+                this.onStop = new Kiwi.Signal();
+                this.onUpdate = new Kiwi.Signal();
             }
             Object.defineProperty(AnimationManager.prototype, "isPlaying", {
                 get: /**
@@ -5330,6 +5336,7 @@ var Kiwi;
                     this.currentAnimation.playAt(index); else
                     this.currentAnimation.play();
 
+                this.onPlay.dispatch(this.currentAnimation);
                 this.updateCellIndex();
                 return this.currentAnimation;
             };
@@ -5342,6 +5349,7 @@ var Kiwi;
             AnimationManager.prototype.stop = function () {
                 if (this.isPlaying === true) {
                     this.currentAnimation.stop();
+                    this.onStop.dispatch(this.currentAnimation);
                 }
             };
 
@@ -5364,7 +5372,8 @@ var Kiwi;
             };
 
             /**
-            * Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number.
+            * Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation.
+            * When you switch to a particular animation then
             * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
             * So if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.
             *
@@ -5425,11 +5434,14 @@ var Kiwi;
             * @private
             */
             AnimationManager.prototype._setCurrentAnimation = function (name) {
-                if (this.currentAnimation !== null)
-                    this.currentAnimation.stop();
+                if (this.currentAnimation.name !== name) {
+                    if (this.currentAnimation !== null)
+                        this.currentAnimation.stop();
 
-                if (this._animations[name]) {
-                    this.currentAnimation = this._animations[name];
+                    if (this._animations[name]) {
+                        this.currentAnimation = this._animations[name];
+                        this.onChange.dispatch(name, this.currentAnimation);
+                    }
                 }
             };
 
@@ -5505,18 +5517,9 @@ var Kiwi;
             */
             AnimationManager.prototype.updateCellIndex = function () {
                 if (typeof this.currentAnimation !== "undefined") {
+                    this.onUpdate.dispatch(this.currentAnimation);
                     this.entity.cellIndex = this.currentAnimation.currentCell;
                 }
-            };
-
-            /**
-            * Returns a string representation of this object.
-            * @method toString
-            * @return {string} A string representation of this object.
-            * @public
-            */
-            AnimationManager.prototype.toString = function () {
-                return '[{Animation (x=' + this.active + ')}]';
             };
 
             /**
