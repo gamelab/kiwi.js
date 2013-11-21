@@ -80,7 +80,7 @@ module Kiwi.Textures  {
         * @returns{ Array }
         * @public
         */
-        public generateAtlasCells(): Array {
+        public generateAtlasCells(): Array<any> {
             return [{ x: this.offsetX, y: this.offsetY, w: this.width, h: this.height, hitboxes: [{ x: 0, y: 0, w: this.width, h: this.height }] }];
         }
 

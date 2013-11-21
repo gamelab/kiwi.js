@@ -200,6 +200,17 @@ module Kiwi {
         }
 
         /**
+        * Returns true if debug option is set to Kiwi.DEBUG_ON
+        * @property debug
+        * @type boolean
+        * @public
+        */
+
+        public get debug(): boolean {
+            return this._debugOption === Kiwi.DEBUG_ON;
+        }
+
+        /**
         * Holds the renderer that is being used. This is detiremended based of the _renderMode
         * @property renderer
         * @type IRenderer

@@ -414,7 +414,7 @@ module Kiwi.GameObjects.Tilemap {
         * @return {Array}
         * @public
         */
-        public getTileOverlaps(object: Kiwi.Entity):Array {
+        public getTileOverlaps(object: Kiwi.Entity):Array<any> {
             
             //if the object is within the bounds at all.?
             

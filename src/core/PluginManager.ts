@@ -33,7 +33,7 @@ module Kiwi {
         * @static
         * @private
         */
-        private static _availablePlugins: any[] = new Array();
+        private static _availablePlugins = new Array();
         
 
         /**
@@ -43,7 +43,7 @@ module Kiwi {
         * @static
         * @private
         */
-        public static get availablePlugins():Array {
+        public static get availablePlugins():any {
             var plugins = [];
             for (var i = 0; i < PluginManager._availablePlugins.length; i++) {
                 plugins.push({

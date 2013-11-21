@@ -164,7 +164,7 @@ module Kiwi.Renderers {
         * @type Array
         * @public
         */
-        public mvMatrixStack: Array;
+        public mvMatrixStack: Array<any>;
         
         /**
         *

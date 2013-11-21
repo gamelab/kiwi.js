@@ -8197,6 +8197,9 @@ var Kiwi;
                 if (typeof customFileStore === "undefined") { customFileStore = null; }
                 if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
                 if (typeof timeout === "undefined") { timeout = 2000; }
+                if (this._game.debugOption === Kiwi.DEBUG_ON) {
+                    console.log("attempting to load " + this.fileName);
+                }
                 this.onCompleteCallback = onCompleteCallback;
                 this.onProgressCallback = onProgressCallback;
                 this.maxLoadAttempts = maxLoadAttempts;
@@ -21215,10 +21218,8 @@ var Kiwi;
                 this._game.stage.onResize.add(function () {
                     this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
                     gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-                    console.log(this._stageResolution[0], this._stageResolution[1]);
                 }, this);
 
-                //console.log(this._stageResolution[0], this._stageResolution[1]);
                 this._shaders = new Renderers.GLShaders(gl);
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -26529,6 +26530,7 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+/// <reference path="WebGL.d.ts"/>
 /// <reference path="animations/tweens/easing/Back.ts" />
 /// <reference path="animations/tweens/easing/Bounce.ts" />
 /// <reference path="animations/tweens/easing/Circular.ts" />
@@ -26620,7 +26622,6 @@ var Kiwi;
 /// <reference path="renderers/GLTexture.ts" />
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />
-/// <reference path="renderers/WebGL.d.ts"/>
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />
