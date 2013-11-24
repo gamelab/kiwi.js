@@ -123,9 +123,10 @@ module Kiwi.Textures {
                 height = this._base2Sizes[i];
             }
 
+            var canvas = <HTMLCanvasElement> document.createElement('canvas');
             if (imageFile.data.width !== width || imageFile.data.height !== height) {
 
-                var canvas = <HTMLCanvasElement> document.createElement('canvas');
+                
                 canvas.width = width;
                 canvas.height = height;
                 canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
@@ -146,7 +147,7 @@ module Kiwi.Textures {
                 }
 
                 imageFile.data = image;
-                canvas = null;
+                delete canvas;
                 width = null;
                 height = null;
             }

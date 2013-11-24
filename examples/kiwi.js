@@ -2769,6 +2769,20 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Game.prototype, "debug", {
+            get: /**
+            * Returns true if debug option is set to Kiwi.DEBUG_ON
+            * @property debug
+            * @type boolean
+            * @public
+            */
+            function () {
+                return this._debugOption === Kiwi.DEBUG_ON;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         /**
         * The type of object that the game is.
         * @method objType
@@ -7674,6 +7688,9 @@ var Kiwi;
                 if (this._loadList.length === 0) {
                     //  All files loaded
                     this._complete = true;
+                    if (this._game.debug) {
+                        console.log("All files have loaded");
+                    }
 
                     if (this._onCompleteCallback) {
                         this._onCompleteCallback();
@@ -8197,7 +8214,7 @@ var Kiwi;
                 if (typeof customFileStore === "undefined") { customFileStore = null; }
                 if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
                 if (typeof timeout === "undefined") { timeout = 2000; }
-                if (this._game.debugOption === Kiwi.DEBUG_ON) {
+                if (this._game.debug) {
                     console.log("attempting to load " + this.fileName);
                 }
                 this.onCompleteCallback = onCompleteCallback;
@@ -9484,12 +9501,18 @@ var Kiwi;
                 this.current.loadComplete();
             }
 
+            if (this._game.debug) {
+                console.log("Rebuilding Libraries");
+            }
             this.rebuildLibraries();
 
             this.current.config.isReady = true;
 
             if (this.current.config.hasCreate === true) {
                 this.current.config.isCreated = true;
+                if (this._game.debug) {
+                    console.log("Calling State:Create");
+                }
                 if (this.current.config.createParams) {
                     this.current.create.apply(this.current, this.current.config.createParams);
                 } else {
@@ -9504,19 +9527,37 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.rebuildLibraries = function () {
+            if (this._game.debug) {
+                console.log("Clearing Libraries");
+            }
             this.current.textureLibrary.clear();
             this.current.audioLibrary.clear();
             this.current.dataLibrary.clear();
 
             var fileStoreKeys = this._game.fileStore.keys;
 
+            if (this._game.debug) {
+                console.log("Re-Adding Files");
+            }
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isTexture) {
+                    if (this._game.debug) {
+                        console.log("Adding Texture: " + file.fileName);
+                    }
+                    ;
                     this.current.textureLibrary.add(file);
                 } else if (file.isAudio) {
+                    if (this._game.debug) {
+                        console.log("Adding Audio: " + file.fileName);
+                    }
+                    ;
                     this.current.audioLibrary.add(file);
                 } else if (file.isData) {
+                    if (this._game.debug) {
+                        console.log("Adding Data: " + file.fileName);
+                    }
+                    ;
                     this.current.dataLibrary.add(file);
                 }
             }

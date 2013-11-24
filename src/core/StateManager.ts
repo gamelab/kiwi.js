@@ -403,7 +403,9 @@ module Kiwi {
                 this.current.loadComplete();
             }
 
-           
+            if (this._game.debug) {
+                console.log("Rebuilding Libraries");
+            }
             this.rebuildLibraries();
             
             this.current.config.isReady = true;
@@ -411,6 +413,9 @@ module Kiwi {
             if (this.current.config.hasCreate === true)
             {
                 this.current.config.isCreated = true;
+                if (this._game.debug) {
+                    console.log("Calling State:Create");
+                }
                 if (this.current.config.createParams)
                 {
                     this.current.create.apply(this.current, this.current.config.createParams);
@@ -430,6 +435,9 @@ module Kiwi {
         */
         public rebuildLibraries() {
             
+            if (this._game.debug) {
+                console.log("Clearing Libraries");
+            }
             this.current.textureLibrary.clear();
             this.current.audioLibrary.clear();
             this.current.dataLibrary.clear();
@@ -437,13 +445,19 @@ module Kiwi {
 
             var fileStoreKeys = this._game.fileStore.keys;
             
+            if (this._game.debug) {
+                console.log("Re-Adding Files");
+            }
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
                 if (file.isTexture) {
+                    if (this._game.debug) {console.log("Adding Texture: " + file.fileName )};
                     this.current.textureLibrary.add(file);
                 } else if (file.isAudio) {
+                    if (this._game.debug) { console.log( "Adding Audio: " + file.fileName) };
                     this.current.audioLibrary.add(file);
                 } else if (file.isData) {
+                    if (this._game.debug) { console.log( "Adding Data: " + file.fileName )};
                     this.current.dataLibrary.add(file);
                 }
             }            

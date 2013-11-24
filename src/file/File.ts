@@ -613,7 +613,7 @@ module Kiwi.Files {
         * @public
         */
         public load(onCompleteCallback: any = null, onProgressCallback: any = null, customFileStore: Kiwi.Files.FileStore = null, maxLoadAttempts: number = 1, timeout: number = 2000) {
-            if (this._game.debugOption === Kiwi.DEBUG_ON) {
+            if (this._game.debug) {
                 console.log("attempting to load " + this.fileName);
             }
             this.onCompleteCallback = onCompleteCallback;
