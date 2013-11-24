@@ -2242,6 +2242,40 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Entity.prototype, "rotPointX", {
+            get: /**
+            * The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.
+            * @property rotPointX
+            * @type number
+            * @public
+            */
+            function () {
+                return this.transform.rotPointX;
+            },
+            set: function (value) {
+                this.transform.rotPointX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "rotPointY", {
+            get: /**
+            * The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.
+            * @property rotPointY
+            * @type number
+            * @public
+            */
+            function () {
+                return this.transform.rotPointY;
+            },
+            set: function (value) {
+                this.transform.rotPointY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         /**
         * Returns the type of child that this is.
         * @type Number
@@ -22915,6 +22949,7 @@ var Kiwi;
                             imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
                     }
 
+                    //Assign the new image to the data
                     imageFile.data = image;
 
                     if (Kiwi.TARGET_COCOON == this._game.deviceTargetOption) {

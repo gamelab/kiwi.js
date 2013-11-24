@@ -138,6 +138,32 @@ module Kiwi {
         }
         
         /**
+        * The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.
+        * @property rotPointX
+        * @type number
+        * @public
+        */
+        public get rotPointX(): number {
+            return this.transform.rotPointX;
+        }
+        public set rotPointX(value: number) {
+            this.transform.rotPointX = value;
+        }
+        
+        /**
+        * The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.
+        * @property rotPointY
+        * @type number
+        * @public
+        */
+        public get rotPointY(): number {
+            return this.transform.rotPointY;
+        }
+        public set rotPointY(value: number) {
+            this.transform.rotPointY = value;
+        }
+
+        /**
         * Returns the type of child that this is. 
         * @type Number
         * @return {Number} returns the type of child that the entity is
