@@ -9,7 +9,7 @@
 var Sprite = new Kiwi.State('Sprite');
 
 Sprite.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     // Load out saloon background and ninja
     this.addImage('pirate', 'assets/static/pirate.png');
 }

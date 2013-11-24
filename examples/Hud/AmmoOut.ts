@@ -26,8 +26,7 @@ class AmmoOut extends Kiwi.State {
     menu: Kiwi.HUD.Widget.Menu;
 
     create() {
-        this.game.stage.height = 512;
-        this.game.stage.width = 768;
+        this.game.stage.resize(768, 512);
         
         this.bullets = [];
 

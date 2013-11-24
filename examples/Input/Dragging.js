@@ -4,7 +4,7 @@
 var Dragging = new Kiwi.State('Dragging');
 
 Dragging.preload = function () {
-    this.game.stage.height = 350;
+    this.game.stage.resize(800, 350);
     this.addImage('ninja', 'assets/static/ninja.png');
     this.addImage('pirate', 'assets/static/pirate.png');
 }

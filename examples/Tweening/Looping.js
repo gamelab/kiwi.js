@@ -9,7 +9,7 @@
 var Looping = new Kiwi.State('Looping');
 
 Looping.init = function() {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.playing = false;
     this.direction = 'right';
 }

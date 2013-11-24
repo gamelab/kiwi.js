@@ -4,7 +4,7 @@
 var PlayingInReverse = new Kiwi.State('PlayingInReverse');
     
 PlayingInReverse.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addSpriteSheet('zombie', 'assets/spritesheets/zombie.png', 150, 117);
 }
 

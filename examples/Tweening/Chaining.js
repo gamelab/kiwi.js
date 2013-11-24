@@ -9,7 +9,7 @@
 var Chaining = new Kiwi.State('Chaining');
 
 Chaining.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addImage('bullet', 'assets/static/bullet-rocket.png');
 }
 

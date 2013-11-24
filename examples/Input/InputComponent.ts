@@ -11,6 +11,7 @@ class InputComponent extends Kiwi.State {
     }
 
     preload() {
+        this.game.stage.resize(800, 350);
         this.addImage('ninja', 'assets/static/ninja.png');
         this.addImage('bullet', 'assets/static/bullet-normal.png');
     }

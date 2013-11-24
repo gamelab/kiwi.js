@@ -18,8 +18,7 @@ AmmoOut.preload = function () {
 }
 
 AmmoOut.create = function () {
-    this.game.stage.height = 512;
-    this.game.stage.width = 768;
+    this.game.stage.resize(768, 512);
 
     this.bullets = [];
 

@@ -4,7 +4,7 @@
 var AddingCallbacks = new Kiwi.State('AddingCallbacks');
 
 AddingCallbacks.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addSpriteSheet('zombie', 'assets/spritesheets/zombie.png', 150, 117);
 }
 
@@ -40,6 +40,7 @@ AddingCallbacks.create = function () {
 * This is the method that should be called When one of the animations stops. All it does is switch to the next one.
 **/
 AddingCallbacks.switchAnim = function () {
+	
     if (this.currentAnimation == 'rebuild') {
         this.currentAnimation = 'explode';
         this.zombie.animation.play('explode');

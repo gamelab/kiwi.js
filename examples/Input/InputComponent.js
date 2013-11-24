@@ -4,7 +4,7 @@
 var InputComponent = new Kiwi.State('InputComponent');
     
 InputComponent.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addImage('ninja', 'assets/static/ninja.png');
     this.addImage('bullet', 'assets/static/bullet-normal.png');
 }

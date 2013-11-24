@@ -16,6 +16,7 @@ class Chaining extends Kiwi.State {
     }
 
     preload() {
+    this.game.stage.resize(800, 250);
         this.addImage('bullet', 'assets/static/bullet-rocket.png');
     }
 

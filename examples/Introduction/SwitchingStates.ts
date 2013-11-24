@@ -13,8 +13,7 @@ class SwitchingBetween extends Kiwi.State {
     
     init() {
         this.game.states.addState(NightTime, false);
-        this.game.stage.width = 768;
-        this.game.stage.height = 512;
+        this.game.stage.resize(768, 512);
     }
     
     preload() {

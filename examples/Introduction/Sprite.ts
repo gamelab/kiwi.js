@@ -16,6 +16,7 @@ class Sprite extends Kiwi.State {
     }
      
     preload() {
+        this.game.stage.resize(800, 250);
         // Load out saloon background and ninja 
         this.addImage('pirate', 'assets/static/pirate.png');
     }

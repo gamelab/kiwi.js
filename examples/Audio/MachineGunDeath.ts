@@ -11,6 +11,7 @@ class MachineGunDeath extends Kiwi.State {
     }
 
     preload() {
+        this.game.stage.resize(800, 250);
         this.addAudio('death', 'assets/audio/death.mp3');
         this.addAudio('damage', 'assets/audio/enemy_damage2.mp3');
         this.addAudio('pistol', 'assets/audio/pistol.mp3');

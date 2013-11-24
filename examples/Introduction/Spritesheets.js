@@ -5,7 +5,7 @@ var Spritesheets = new Kiwi.State('Spritesheets');
 
 Spritesheets.preload = function () {
     //Just making the stage smaller
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     // Load our spritesheet we want to use.
     /**
     * When loading spritesheets you have to pass slightly more information.

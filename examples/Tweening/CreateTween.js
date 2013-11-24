@@ -9,7 +9,7 @@
 var CreateTween = new Kiwi.State('CreatingATween');
 
 CreateTween.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addImage('bullet', 'assets/static/bullet-normal.png');
 }
 

@@ -5,7 +5,7 @@ var GroupTransform = new Kiwi.State('GroupTransform');
 
 GroupTransform.init = function() {    
     this.numSnakes = 30;
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.direction = 'right';
 }
 

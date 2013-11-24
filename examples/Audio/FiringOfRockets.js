@@ -4,7 +4,7 @@
 var FiringOfRockets = new Kiwi.State('FiringOfRockets');
     
 FiringOfRockets.preload = function () {
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
     this.addAudio('explode', 'assets/audio/death.mp3');
     this.addSpriteSheet('rpg', 'assets/war/characters/vietcong-sheet-rpg.png', 150, 117);
     this.addImage('rocket', 'assets/static/bullet-rocket.png');

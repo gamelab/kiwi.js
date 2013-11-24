@@ -5218,14 +5218,6 @@ var Kiwi;
                 * @private
                 */
                 this.currentAnimation = null;
-                /**
-                * Indicates whether or not this animation is currently playing or not.
-                * @property _isPlaying
-                * @type boolean
-                * @default false
-                * @private
-                */
-                this._isPlaying = false;
 
                 //get the entity and the animation.
                 this.entity = entity;
@@ -5245,6 +5237,12 @@ var Kiwi;
                     }
                     this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
                 }
+
+                //Signals
+                this.onChange = new Kiwi.Signal();
+                this.onPlay = new Kiwi.Signal();
+                this.onStop = new Kiwi.Signal();
+                this.onUpdate = new Kiwi.Signal();
             }
             Object.defineProperty(AnimationManager.prototype, "isPlaying", {
                 get: /**
@@ -5254,7 +5252,7 @@ var Kiwi;
                 * @public
                 */
                 function () {
-                    return this._isPlaying;
+                    return this.currentAnimation.isPlaying;
                 },
                 enumerable: true,
                 configurable: true
@@ -5302,7 +5300,7 @@ var Kiwi;
             */
             AnimationManager.prototype.createFromSequence = function (sequence, play) {
                 if (typeof play === "undefined") { play = false; }
-                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock);
+                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock, this);
 
                 if (play)
                     this.play(sequence.name);
@@ -5346,15 +5344,14 @@ var Kiwi;
             */
             AnimationManager.prototype._play = function (name, index) {
                 if (typeof index === "undefined") { index = null; }
-                this._isPlaying = true;
                 this._setCurrentAnimation(name);
 
                 if (index !== null)
                     this.currentAnimation.playAt(index); else
                     this.currentAnimation.play();
 
-                this._setCellIndex();
-
+                this.onPlay.dispatch(this.currentAnimation);
+                this.updateCellIndex();
                 return this.currentAnimation;
             };
 
@@ -5366,8 +5363,8 @@ var Kiwi;
             AnimationManager.prototype.stop = function () {
                 if (this.isPlaying === true) {
                     this.currentAnimation.stop();
+                    this.onStop.dispatch(this.currentAnimation);
                 }
-                this._isPlaying = false;
             };
 
             /**
@@ -5377,7 +5374,6 @@ var Kiwi;
             */
             AnimationManager.prototype.pause = function () {
                 this.currentAnimation.pause();
-                this._isPlaying = false;
             };
 
             /**
@@ -5387,11 +5383,11 @@ var Kiwi;
             */
             AnimationManager.prototype.resume = function () {
                 this.currentAnimation.resume();
-                this._isPlaying = true;
             };
 
             /**
-            * Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number.
+            * Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation.
+            * When you switch to a particular animation then
             * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
             * So if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.
             *
@@ -5421,7 +5417,7 @@ var Kiwi;
                 if (play == false && this.isPlaying)
                     this.stop();
 
-                this._setCellIndex();
+                this.updateCellIndex();
             };
 
             /**
@@ -5431,7 +5427,7 @@ var Kiwi;
             */
             AnimationManager.prototype.nextFrame = function () {
                 this.currentAnimation.nextFrame();
-                this._setCellIndex();
+                this.updateCellIndex();
             };
 
             /**
@@ -5441,7 +5437,7 @@ var Kiwi;
             */
             AnimationManager.prototype.prevFrame = function () {
                 this.currentAnimation.prevFrame();
-                this._setCellIndex();
+                this.updateCellIndex();
             };
 
             /**
@@ -5452,10 +5448,14 @@ var Kiwi;
             * @private
             */
             AnimationManager.prototype._setCurrentAnimation = function (name) {
-                if (this.currentAnimation !== null)
-                    this.currentAnimation.stop();
-                if (this._animations[name]) {
-                    this.currentAnimation = this._animations[name];
+                if (this.currentAnimation.name !== name) {
+                    if (this.currentAnimation !== null)
+                        this.currentAnimation.stop();
+
+                    if (this._animations[name]) {
+                        this.currentAnimation = this._animations[name];
+                        this.onChange.dispatch(name, this.currentAnimation);
+                    }
                 }
             };
 
@@ -5465,10 +5465,8 @@ var Kiwi;
             * @public
             */
             AnimationManager.prototype.update = function () {
-                if (this.currentAnimation && this.isPlaying) {
-                    if (this.currentAnimation.update()) {
-                        this._setCellIndex();
-                    }
+                if (this.currentAnimation) {
+                    this.currentAnimation.update();
                 }
             };
 
@@ -5527,32 +5525,23 @@ var Kiwi;
             };
 
             /**
-            * An internal method that is used to set the cell index of the entity. This is how the animation changes.
-            * @method _setCellIndex
-            * @private
+            * An internal method that is used to update the cell index of an entity when an animation says it needs to update.
+            * @method updateCellIndex
+            * @protected
             */
-            AnimationManager.prototype._setCellIndex = function () {
-                if (typeof this.currentAnimation !== "undefined")
+            AnimationManager.prototype.updateCellIndex = function () {
+                if (typeof this.currentAnimation !== "undefined") {
+                    this.onUpdate.dispatch(this.currentAnimation);
                     this.entity.cellIndex = this.currentAnimation.currentCell;
+                }
             };
 
             /**
-            * Returns a string representation of this object.
-            * @method toString
-            * @return {string} A string representation of this object.
-            * @public
-            */
-            AnimationManager.prototype.toString = function () {
-                return '[{Animation (x=' + this.active + ')}]';
-            };
-
-            /**
-            * Destroys the animation component and runs the destroy on all of the anims that it has.
+            * Destroys the animation component and runs the destroy method on all of the anims that it has.
             * @method destroy
             * @public
             */
             AnimationManager.prototype.destroy = function () {
-                this._isPlaying = false;
                 _super.prototype.destroy.call(this);
 
                 for (var key in this._animations) {
@@ -17643,7 +17632,7 @@ var Kiwi;
                             this.masterGain.gain.value = 0;
                         } else if (this.usingAudioTag) {
                             for (var i = 0; i < this._sounds.length; i++) {
-                                this._sounds[i].mute(true);
+                                this._sounds[i].mute = true;
                             }
                         }
                     } else {
@@ -17655,7 +17644,7 @@ var Kiwi;
                             this.masterGain.gain.value = this._muteVolume;
                         } else if (this.usingAudioTag) {
                             for (var i = 0; i < this._sounds.length; i++) {
-                                this._sounds[i].mute(false);
+                                this._sounds[i].mute = false;
                             }
                         }
                     }
@@ -17690,7 +17679,7 @@ var Kiwi;
                         } else if (this.usingAudioTag) {
                             for (var i = 0; i < this._sounds.length; i++) {
                                 //for each sound tag to update.
-                                this._sounds[i].volume(this._sounds[i].volume());
+                                this._sounds[i].volume = this._sounds[i].volume;
                             }
                         }
                     }
@@ -18519,11 +18508,12 @@ var Kiwi;
         * @param name {string} The name of this anim.
         * @param sequences {Sequences} The sequence that this anim will be using to animate.
         * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+        * @param parent {AnimationManager} The animation manager that this animation belongs to.
         * @return {Anim}
         *
         */
         var Animation = (function () {
-            function Animation(name, sequence, clock) {
+            function Animation(name, sequence, clock, parent) {
                 /**
                 * The current frame index that the animation is currently upto.
                 * Note: A frame index is the index of a particular cell in the Sequence.
@@ -18546,17 +18536,48 @@ var Kiwi;
                 * @private
                 */
                 this._reverse = false;
+                /**
+                * If the animation is currently playing or not.
+                * @property _isPlaying
+                * @type boolean
+                * @default false
+                * @private
+                */
+                this._isPlaying = false;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
+                * @property _onStop
+                * @type Signal
+                * @public
+                */
+                this._onStop = null;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has started playing.
+                * @property _onPlay
+                * @type Kiwi.Signal
+                * @public
+                */
+                this._onPlay = null;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
+                * @property _onUpdate
+                * @type Kiwi.Signal
+                * @public
+                */
+                this._onUpdate = null;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
+                * @property _onLoop
+                * @type Kiwi.Signal
+                * @public
+                */
+                this._onLoop = null;
                 this.name = name;
                 this._sequence = sequence;
                 this._speed = sequence.speed;
                 this._loop = sequence.loop;
                 this._clock = clock;
-
-                //Signals - Should be moved to animation manager.
-                this.onUpdate = new Kiwi.Signal();
-                this.onPlay = new Kiwi.Signal();
-                this.onStop = new Kiwi.Signal();
-                this.onLoop = new Kiwi.Signal();
+                this._parent = parent;
             }
             /**
             * The type of object that this is.
@@ -18653,6 +18674,60 @@ var Kiwi;
                 configurable: true
             });
 
+            Object.defineProperty(Animation.prototype, "isPlaying", {
+                get: /**
+                * If the animation is currently playing or not.
+                * @property isPlaying
+                * @type boolean
+                * @private
+                */
+                function () {
+                    return this._isPlaying;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "onStop", {
+                get: function () {
+                    if (this._onStop == null)
+                        this._onStop = new Kiwi.Signal();
+                    return this._onStop;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "onPlay", {
+                get: function () {
+                    if (this._onPlay == null)
+                        this._onPlay = new Kiwi.Signal();
+                    return this._onPlay;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "onUpdate", {
+                get: function () {
+                    if (this._onUpdate == null)
+                        this._onUpdate = new Kiwi.Signal();
+                    return this._onUpdate;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "onLoop", {
+                get: function () {
+                    if (this._onLoop == null)
+                        this._onLoop = new Kiwi.Signal();
+                    return this._onLoop;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             * An Internal method used to start the animation.
             * @method _start
@@ -18664,10 +18739,12 @@ var Kiwi;
                 if (index !== null) {
                     this.frameIndex = index;
                 }
+
                 this._isPlaying = true;
                 this._startTime = this._clock.elapsed();
                 this._tick = this._startTime + this._speed;
-                this.onPlay.dispatch();
+                if (this._onPlay !== null)
+                    this._onPlay.dispatch();
             };
 
             /**
@@ -18720,7 +18797,8 @@ var Kiwi;
             Animation.prototype.stop = function () {
                 if (this._isPlaying) {
                     this._isPlaying = false;
-                    this.onStop.dispatch();
+                    if (this._onStop !== null)
+                        this._onStop.dispatch();
                 }
             };
 
@@ -18749,7 +18827,6 @@ var Kiwi;
             /**
             * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
             * @method update
-            * @return {boolean}
             * @public
             */
             Animation.prototype.update = function () {
@@ -18757,30 +18834,28 @@ var Kiwi;
                     if (this._clock.elapsed() >= this._tick) {
                         this._tick = this._clock.elapsed() + this._speed;
 
-                        if (this._reverse)
-                            this._frameIndex--; else
-                            this._frameIndex++;
-
-                        this.onUpdate.dispatch();
-                        if (!this._validateFrame(this._frameIndex)) {
+                        if (this._validateFrame(this._frameIndex + ((this._reverse == true) ? -1 : 1))) {
+                            this._frameIndex += (this._reverse == true) ? -1 : 1;
+                            this._parent.updateCellIndex();
+                            if (this._onUpdate !== null)
+                                this._onUpdate.dispatch();
+                        } else {
                             if (this._loop) {
                                 if (this._reverse) {
                                     this._frameIndex = this.length - 1;
-                                    this.onLoop.dispatch();
                                 } else {
                                     this._frameIndex = 0;
-                                    this.onLoop.dispatch();
                                 }
+                                this._parent.updateCellIndex();
+                                if (this._onLoop !== null)
+                                    this._onLoop.dispatch();
                             } else {
-                                this._frameIndex--;
-                                this.stop();
+                                //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
+                                this._parent.stop();
                             }
                         }
-
-                        return true;
                     }
                 }
-                return false;
             };
 
             /**
@@ -18816,18 +18891,19 @@ var Kiwi;
                 this._isPlaying = false;
                 delete this._clock;
                 delete this._sequence;
-                if (this.onLoop)
-                    this.onLoop.dispose();
-                if (this.onStop)
-                    this.onStop.dispose();
-                if (this.onPlay)
-                    this.onPlay.dispose();
-                if (this.onUpdate)
-                    this.onUpdate.dispose();
-                delete this.onLoop;
-                delete this.onStop;
-                delete this.onPlay;
-                delete this.onUpdate;
+                delete this._parent;
+                if (this._onLoop)
+                    this._onLoop.dispose();
+                if (this._onStop)
+                    this._onStop.dispose();
+                if (this._onPlay)
+                    this._onPlay.dispose();
+                if (this._onUpdate)
+                    this._onUpdate.dispose();
+                delete this._onLoop;
+                delete this._onStop;
+                delete this._onPlay;
+                delete this._onUpdate;
                 delete this.frameIndex;
                 delete this.loop;
                 delete this._reverse;
@@ -22869,6 +22945,10 @@ var Kiwi;
                     canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
 
                     var image = new Image(width, height);
+
+                    //CocoonJS needs the width/height set as the ImageObject doesn't accept the parameters...
+                    image.width = width;
+                    image.height = height;
                     image.src = canvas.toDataURL("image/png");
 
                     if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
@@ -22880,9 +22960,16 @@ var Kiwi;
                     }
 
                     imageFile.data = image;
-                    canvas = null;
-                    width = null;
-                    height = null;
+
+                    if (Kiwi.TARGET_COCOON == this._game.deviceTargetOption) {
+                        console.log('Warning! "' + imageFile.key + '" was resized to have base-2 dimensions, but in CocoonJS this can remove the alpha channel!' + "\n" + 'Make sure the images have base-2 dimensions before loading and using WEBGL.');
+                    }
+
+                    //Flag the items we just generated for garbage collection
+                    delete image;
+                    delete canvas;
+                    delete width;
+                    delete height;
                 }
 
                 return imageFile;

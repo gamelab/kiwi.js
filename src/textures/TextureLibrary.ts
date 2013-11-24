@@ -123,33 +123,45 @@ module Kiwi.Textures {
                 height = this._base2Sizes[i];
             }
 
-            var canvas = <HTMLCanvasElement> document.createElement('canvas');
             if (imageFile.data.width !== width || imageFile.data.height !== height) {
 
-                
+                var canvas = <HTMLCanvasElement> document.createElement('canvas');
                 canvas.width = width;
                 canvas.height = height;
                 canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
 
+
                 var image = new Image(width, height);
+                //CocoonJS needs the width/height set as the ImageObject doesn't accept the parameters...
+                image.width = width;
+                image.height = height;
                 image.src = canvas.toDataURL("image/png");
 
                 if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
-                    //if no rows were passed then calculate them now.
+                    //If no rows were passed then calculate them now.
                     if (!imageFile.metadata.rows)
                         imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight;
 
-                    //if no columns were passed then calculate them again.
+                    //If no columns were passed then calculate them again.
                     if (!imageFile.metadata.cols)
                         imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
                 
 
                 }
 
+                //Assign the new image to the data
                 imageFile.data = image;
+
+                //CocoonJS Warning...
+                if (Kiwi.TARGET_COCOON == this._game.deviceTargetOption) {
+                    console.log('Warning! "' + imageFile.key + '" was resized to have base-2 dimensions, but in CocoonJS this can remove the alpha channel!'+"\n"+'Make sure the images have base-2 dimensions before loading and using WEBGL.'); 
+                }
+
+                //Flag the items we just generated for garbage collection
+                delete image;
                 delete canvas;
-                width = null;
-                height = null;
+                delete width;
+                delete height;
             }
 
             return imageFile;

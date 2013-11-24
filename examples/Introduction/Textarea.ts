@@ -19,7 +19,7 @@ class Textarea extends Kiwi.State {
 
     create() {
 
-        this.game.stage.height = 250;
+        this.game.stage.resize(800, 250);
 
         /**  
         * Kiwi.GameObjects.Textfield.

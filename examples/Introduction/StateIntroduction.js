@@ -13,8 +13,7 @@ StateIntroduction.init = function () {
     alert('Initialise this state');
 
     //In this case we are setting the width/height of the game.
-    this.game.stage.width = 768;
-    this.game.stage.height = 512;
+    this.game.stage.resize(768, 512);
 };
 
 /**

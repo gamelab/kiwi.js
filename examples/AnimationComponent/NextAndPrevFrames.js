@@ -5,7 +5,7 @@ var NextAndPrevFrames = new Kiwi.State('NextAndPrevFrames');
 
 NextAndPrevFrames.preload = function () {
     //Resize
-    this.game.stage.height = 250;
+    this.game.stage.resize(800, 250);
 
     this.addSpriteSheet('characters', 'assets/spritesheets/characters.png', 150, 117);
 }

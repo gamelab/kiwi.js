@@ -12,6 +12,7 @@ class Spritesheets extends Kiwi.State {
     
     preload() {
         // Load our spritesheet we want to use. 
+        this.game.stage.resize(800, 250);
 
         /**
         * When loading spritesheets you have to pass slightly more information.
