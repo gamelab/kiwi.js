@@ -22901,6 +22901,10 @@ var Kiwi;
                     canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
 
                     var image = new Image(width, height);
+
+                    //CocoonJS needs the width/height set as the ImageObject doesn't accept the parameters...
+                    image.width = width;
+                    image.height = height;
                     image.src = canvas.toDataURL("image/png");
 
                     if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
@@ -22912,9 +22916,16 @@ var Kiwi;
                     }
 
                     imageFile.data = image;
-                    canvas = null;
-                    width = null;
-                    height = null;
+
+                    if (Kiwi.TARGET_COCOON == this._game.deviceTargetOption) {
+                        console.log('Warning! "' + imageFile.key + '" was resized to have base-2 dimensions, but in CocoonJS this can remove the alpha channel!' + "\n" + 'Make sure the images have base-2 dimensions before loading and using WEBGL.');
+                    }
+
+                    //Flag the items we just generated for garbage collection
+                    delete image;
+                    delete canvas;
+                    delete width;
+                    delete height;
                 }
 
                 return imageFile;
