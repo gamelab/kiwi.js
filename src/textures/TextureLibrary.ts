@@ -214,6 +214,29 @@ module Kiwi.Textures {
             var m = imageFile.metadata;
             return new Kiwi.Textures.SingleImage(imageFile.key,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
         }
+
+        /**
+         * Rebuild the library from a fileStore. Clears the library and repopulates it.
+         * @method rebuild
+         * @param {Kiwi.Files.FileStore} fileStore
+         * @param {Kiwi.State} state
+         * @public
+         */
+        public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State) {
+            this.clear();
+            if (this._game.debug) {
+                console.log("Rebuilding Texture Library");
+            }
+
+            var fileStoreKeys = fileStore.keys;
+            for (var i = 0; i < fileStoreKeys.length; i++) {
+                var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
+                if (file.isTexture) {
+                    if (this._game.debug) { console.log("Adding Texture: " + file.fileName) };
+                    state.textureLibrary.add(file);
+                }
+            }
+        }
     }
 
 }

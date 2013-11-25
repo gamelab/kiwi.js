@@ -7807,6 +7807,32 @@ var Kiwi;
                         break;
                 }
             };
+
+            /**
+            * Rebuild the library from a fileStore. Clears the library and repopulates it.
+            * @method rebuild
+            * @param {Kiwi.Files.FileStore} fileStore
+            * @param {Kiwi.State} state
+            * @public
+            */
+            DataLibrary.prototype.rebuild = function (fileStore, state) {
+                this.clear();
+                if (this._game.debug) {
+                    console.log("Rebuilding Data Library");
+                }
+
+                var fileStoreKeys = fileStore.keys;
+                for (var i = 0; i < fileStoreKeys.length; i++) {
+                    var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                    if (file.isData) {
+                        if (this._game.debug) {
+                            console.log("Adding Data: " + file.fileName);
+                        }
+                        ;
+                        state.dataLibrary.add(file);
+                    }
+                }
+            };
             return DataLibrary;
         })();
         Files.DataLibrary = DataLibrary;
@@ -9516,40 +9542,9 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.rebuildLibraries = function () {
-            if (this._game.debug) {
-                console.log("Clearing Libraries");
-            }
-            this.current.textureLibrary.clear();
-            this.current.audioLibrary.clear();
-            this.current.dataLibrary.clear();
-
-            var fileStoreKeys = this._game.fileStore.keys;
-
-            if (this._game.debug) {
-                console.log("Re-Adding Files");
-            }
-            for (var i = 0; i < fileStoreKeys.length; i++) {
-                var file = this._game.fileStore.getFile(fileStoreKeys[i]);
-                if (file.isTexture) {
-                    if (this._game.debug) {
-                        console.log("Adding Texture: " + file.fileName);
-                    }
-                    ;
-                    this.current.textureLibrary.add(file);
-                } else if (file.isAudio) {
-                    if (this._game.debug) {
-                        console.log("Adding Audio: " + file.fileName);
-                    }
-                    ;
-                    this.current.audioLibrary.add(file);
-                } else if (file.isData) {
-                    if (this._game.debug) {
-                        console.log("Adding Data: " + file.fileName);
-                    }
-                    ;
-                    this.current.dataLibrary.add(file);
-                }
-            }
+            this.current.audioLibrary.rebuild(this._game.fileStore, this.current);
+            this.current.dataLibrary.rebuild(this._game.fileStore, this.current);
+            this.current.textureLibrary.rebuild(this._game.fileStore, this.current);
         };
 
         /**
@@ -18467,9 +18462,35 @@ var Kiwi;
             };
 
             /**
+            * Rebuild the library from a fileStore. Clears the library and repopulates it.
+            * @method rebuild
+            * @param {Kiwi.Files.FileStore} fileStore
+            * @param {Kiwi.State} state
+            * @public
+            */
+            AudioLibrary.prototype.rebuild = function (fileStore, state) {
+                this.clear();
+                if (this._game.debug) {
+                    console.log("Rebuilding Audio Library");
+                }
+
+                var fileStoreKeys = fileStore.keys;
+                for (var i = 0; i < fileStoreKeys.length; i++) {
+                    var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                    if (file.isAudio) {
+                        if (this._game.debug) {
+                            console.log("Adding Audio: " + file.fileName);
+                        }
+                        ;
+                        state.audioLibrary.add(file);
+                    }
+                }
+            };
+
+            /**
             * Adds a new audio file to the audio library.
             * @method add
-            * @param {File} imageFile
+            * @param {File} audioFile
             * @public
             */
             AudioLibrary.prototype.add = function (audioFile) {
@@ -22959,6 +22980,7 @@ var Kiwi;
                             imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
                     }
 
+                    //Assign the new image to the data
                     imageFile.data = image;
 
                     if (Kiwi.TARGET_COCOON == this._game.deviceTargetOption) {
@@ -23019,6 +23041,32 @@ var Kiwi;
             TextureLibrary.prototype._buildImage = function (imageFile) {
                 var m = imageFile.metadata;
                 return new Kiwi.Textures.SingleImage(imageFile.key, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
+            };
+
+            /**
+            * Rebuild the library from a fileStore. Clears the library and repopulates it.
+            * @method rebuild
+            * @param {Kiwi.Files.FileStore} fileStore
+            * @param {Kiwi.State} state
+            * @public
+            */
+            TextureLibrary.prototype.rebuild = function (fileStore, state) {
+                this.clear();
+                if (this._game.debug) {
+                    console.log("Rebuilding Texture Library");
+                }
+
+                var fileStoreKeys = fileStore.keys;
+                for (var i = 0; i < fileStoreKeys.length; i++) {
+                    var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                    if (file.isTexture) {
+                        if (this._game.debug) {
+                            console.log("Adding Texture: " + file.fileName);
+                        }
+                        ;
+                        state.textureLibrary.add(file);
+                    }
+                }
             };
             return TextureLibrary;
         })();
