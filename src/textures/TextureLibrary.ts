@@ -125,17 +125,17 @@ module Kiwi.Textures {
 
             if (imageFile.data.width !== width || imageFile.data.height !== height) {
 
-                var canvas = <HTMLCanvasElement> document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
-                canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
-
-
+             
+                this._canvas.width = width;
+                this._canvas.height = height;
+                this._canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
+                
+                
                 var image = new Image(width, height);
                 //CocoonJS needs the width/height set as the ImageObject doesn't accept the parameters...
                 image.width = width;
                 image.height = height;
-                image.src = canvas.toDataURL("image/png");
+                image.src = this._canvas.toDataURL("image/png");
 
                 if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
                     //If no rows were passed then calculate them now.
@@ -159,7 +159,7 @@ module Kiwi.Textures {
 
                 //Flag the items we just generated for garbage collection
                 delete image;
-                delete canvas;
+                
                 delete width;
                 delete height;
             }
@@ -215,6 +215,8 @@ module Kiwi.Textures {
             return new Kiwi.Textures.SingleImage(imageFile.key,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
         }
 
+        private _canvas: HTMLCanvasElement;
+
         /**
          * Rebuild the library from a fileStore. Clears the library and repopulates it.
          * @method rebuild
@@ -227,7 +229,8 @@ module Kiwi.Textures {
             if (this._game.debug) {
                 console.log("Rebuilding Texture Library");
             }
-
+            
+            this._canvas = <HTMLCanvasElement> document.createElement('canvas');
             var fileStoreKeys = fileStore.keys;
             for (var i = 0; i < fileStoreKeys.length; i++) {
                 var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
@@ -236,6 +239,8 @@ module Kiwi.Textures {
                     state.textureLibrary.add(file);
                 }
             }
+
+            this._canvas = null;
         }
     }
 

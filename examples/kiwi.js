@@ -22960,17 +22960,16 @@ var Kiwi;
                 }
 
                 if (imageFile.data.width !== width || imageFile.data.height !== height) {
-                    var canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
+                    this._canvas.width = width;
+                    this._canvas.height = height;
+                    this._canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
 
                     var image = new Image(width, height);
 
                     //CocoonJS needs the width/height set as the ImageObject doesn't accept the parameters...
                     image.width = width;
                     image.height = height;
-                    image.src = canvas.toDataURL("image/png");
+                    image.src = this._canvas.toDataURL("image/png");
 
                     if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
                         if (!imageFile.metadata.rows)
@@ -22989,7 +22988,7 @@ var Kiwi;
 
                     //Flag the items we just generated for garbage collection
                     delete image;
-                    delete canvas;
+
                     delete width;
                     delete height;
                 }
@@ -23056,6 +23055,7 @@ var Kiwi;
                     console.log("Rebuilding Texture Library");
                 }
 
+                this._canvas = document.createElement('canvas');
                 var fileStoreKeys = fileStore.keys;
                 for (var i = 0; i < fileStoreKeys.length; i++) {
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
@@ -23067,6 +23067,8 @@ var Kiwi;
                         state.textureLibrary.add(file);
                     }
                 }
+
+                this._canvas = null;
             };
             return TextureLibrary;
         })();
