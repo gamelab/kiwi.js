@@ -143,7 +143,7 @@ module Kiwi {
     * @default '1.0'
     * @public
     */
-    export var VERSION: string = "0.5.1";
+    export var VERSION: string = "0.5.2";
     
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

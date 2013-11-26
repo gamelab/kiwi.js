@@ -14,7 +14,8 @@ version 0.5.2
 None
     
 ####Bug Fixes and minor changes
-Audio 
+
+- Animation 
   
   - 'isPlaying' property is now a more accurate representation of if an animation isPlaying.
     - Callbacks are now dispatched after the cell on the Sprite updates instead of before. Because of this the way it was being handled has updated.
@@ -126,4 +127,4 @@ Ben Harding
 Richard Davey  
 Ross Kettle  
 
-Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.
+Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.	
