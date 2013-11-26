@@ -2769,6 +2769,20 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Game.prototype, "debug", {
+            get: /**
+            * Returns true if debug option is set to Kiwi.DEBUG_ON
+            * @property debug
+            * @type boolean
+            * @public
+            */
+            function () {
+                return this._debugOption === Kiwi.DEBUG_ON;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         /**
         * The type of object that the game is.
         * @method objType
@@ -7663,6 +7677,9 @@ var Kiwi;
                 if (this._loadList.length === 0) {
                     //  All files loaded
                     this._complete = true;
+                    if (this._game.debug) {
+                        console.log("All files have loaded");
+                    }
 
                     if (this._onCompleteCallback) {
                         this._onCompleteCallback();
@@ -7788,6 +7805,32 @@ var Kiwi;
 
                     default:
                         break;
+                }
+            };
+
+            /**
+            * Rebuild the library from a fileStore. Clears the library and repopulates it.
+            * @method rebuild
+            * @param {Kiwi.Files.FileStore} fileStore
+            * @param {Kiwi.State} state
+            * @public
+            */
+            DataLibrary.prototype.rebuild = function (fileStore, state) {
+                this.clear();
+                if (this._game.debug) {
+                    console.log("Rebuilding Data Library");
+                }
+
+                var fileStoreKeys = fileStore.keys;
+                for (var i = 0; i < fileStoreKeys.length; i++) {
+                    var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                    if (file.isData) {
+                        if (this._game.debug) {
+                            console.log("Adding Data: " + file.fileName);
+                        }
+                        ;
+                        state.dataLibrary.add(file);
+                    }
                 }
             };
             return DataLibrary;
@@ -8186,6 +8229,9 @@ var Kiwi;
                 if (typeof customFileStore === "undefined") { customFileStore = null; }
                 if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
                 if (typeof timeout === "undefined") { timeout = 2000; }
+                if (this._game.debug) {
+                    console.log("attempting to load " + this.fileName);
+                }
                 this.onCompleteCallback = onCompleteCallback;
                 this.onProgressCallback = onProgressCallback;
                 this.maxLoadAttempts = maxLoadAttempts;
@@ -9470,12 +9516,18 @@ var Kiwi;
                 this.current.loadComplete();
             }
 
+            if (this._game.debug) {
+                console.log("Rebuilding Libraries");
+            }
             this.rebuildLibraries();
 
             this.current.config.isReady = true;
 
             if (this.current.config.hasCreate === true) {
                 this.current.config.isCreated = true;
+                if (this._game.debug) {
+                    console.log("Calling State:Create");
+                }
                 if (this.current.config.createParams) {
                     this.current.create.apply(this.current, this.current.config.createParams);
                 } else {
@@ -9490,22 +9542,9 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.rebuildLibraries = function () {
-            this.current.textureLibrary.clear();
-            this.current.audioLibrary.clear();
-            this.current.dataLibrary.clear();
-
-            var fileStoreKeys = this._game.fileStore.keys;
-
-            for (var i = 0; i < fileStoreKeys.length; i++) {
-                var file = this._game.fileStore.getFile(fileStoreKeys[i]);
-                if (file.isTexture) {
-                    this.current.textureLibrary.add(file);
-                } else if (file.isAudio) {
-                    this.current.audioLibrary.add(file);
-                } else if (file.isData) {
-                    this.current.dataLibrary.add(file);
-                }
-            }
+            this.current.audioLibrary.rebuild(this._game.fileStore, this.current);
+            this.current.dataLibrary.rebuild(this._game.fileStore, this.current);
+            this.current.textureLibrary.rebuild(this._game.fileStore, this.current);
         };
 
         /**
@@ -18423,9 +18462,35 @@ var Kiwi;
             };
 
             /**
+            * Rebuild the library from a fileStore. Clears the library and repopulates it.
+            * @method rebuild
+            * @param {Kiwi.Files.FileStore} fileStore
+            * @param {Kiwi.State} state
+            * @public
+            */
+            AudioLibrary.prototype.rebuild = function (fileStore, state) {
+                this.clear();
+                if (this._game.debug) {
+                    console.log("Rebuilding Audio Library");
+                }
+
+                var fileStoreKeys = fileStore.keys;
+                for (var i = 0; i < fileStoreKeys.length; i++) {
+                    var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                    if (file.isAudio) {
+                        if (this._game.debug) {
+                            console.log("Adding Audio: " + file.fileName);
+                        }
+                        ;
+                        state.audioLibrary.add(file);
+                    }
+                }
+            };
+
+            /**
             * Adds a new audio file to the audio library.
             * @method add
-            * @param {File} imageFile
+            * @param {File} audioFile
             * @public
             */
             AudioLibrary.prototype.add = function (audioFile) {
@@ -22895,17 +22960,16 @@ var Kiwi;
                 }
 
                 if (imageFile.data.width !== width || imageFile.data.height !== height) {
-                    var canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
+                    this._canvas.width = width;
+                    this._canvas.height = height;
+                    this._canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
 
                     var image = new Image(width, height);
 
                     //CocoonJS needs the width/height set as the ImageObject doesn't accept the parameters...
                     image.width = width;
                     image.height = height;
-                    image.src = canvas.toDataURL("image/png");
+                    image.src = this._canvas.toDataURL("image/png");
 
                     if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
                         if (!imageFile.metadata.rows)
@@ -22915,6 +22979,7 @@ var Kiwi;
                             imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
                     }
 
+                    //Assign the new image to the data
                     imageFile.data = image;
 
                     if (Kiwi.TARGET_COCOON == this._game.deviceTargetOption) {
@@ -22923,7 +22988,7 @@ var Kiwi;
 
                     //Flag the items we just generated for garbage collection
                     delete image;
-                    delete canvas;
+
                     delete width;
                     delete height;
                 }
@@ -22975,6 +23040,35 @@ var Kiwi;
             TextureLibrary.prototype._buildImage = function (imageFile) {
                 var m = imageFile.metadata;
                 return new Kiwi.Textures.SingleImage(imageFile.key, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
+            };
+
+            /**
+            * Rebuild the library from a fileStore. Clears the library and repopulates it.
+            * @method rebuild
+            * @param {Kiwi.Files.FileStore} fileStore
+            * @param {Kiwi.State} state
+            * @public
+            */
+            TextureLibrary.prototype.rebuild = function (fileStore, state) {
+                this.clear();
+                if (this._game.debug) {
+                    console.log("Rebuilding Texture Library");
+                }
+
+                this._canvas = document.createElement('canvas');
+                var fileStoreKeys = fileStore.keys;
+                for (var i = 0; i < fileStoreKeys.length; i++) {
+                    var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                    if (file.isTexture) {
+                        if (this._game.debug) {
+                            console.log("Adding Texture: " + file.fileName);
+                        }
+                        ;
+                        state.textureLibrary.add(file);
+                    }
+                }
+
+                this._canvas = null;
             };
             return TextureLibrary;
         })();
@@ -26614,6 +26708,7 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+/// <reference path="WebGL.d.ts"/>
 /// <reference path="animations/tweens/easing/Back.ts" />
 /// <reference path="animations/tweens/easing/Bounce.ts" />
 /// <reference path="animations/tweens/easing/Circular.ts" />
@@ -26705,7 +26800,6 @@ var Kiwi;
 /// <reference path="renderers/GLTexture.ts" />
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />
-/// <reference path="renderers/WebGL.d.ts"/>
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />

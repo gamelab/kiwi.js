@@ -1,4 +1,4 @@
-/// <reference path="../src/renderers/WebGL.d.ts" />
+/// <reference path="../src/WebGL.d.ts" />
 /**
 * Contains various methods that can be used when you are wanting to ease a Tween.
 *
@@ -1552,8 +1552,7 @@ declare module Kiwi {
         */
         private _exists;
         /**
-        * Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-        * This method should be over-ridden to handle specific canvas/webgl implementations.
+        * Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.
         * @property exists
         * @type boolean
         * @public
@@ -1658,9 +1657,10 @@ declare module Kiwi {
         /**
         * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public
         */
-        public destroy(): void;
+        public destroy(immediate?: boolean): void;
     }
 }
 /**
@@ -2224,13 +2224,6 @@ declare module Kiwi {
         */
         public update(): void;
         /**
-        * Calls the update method on an alive child
-        * @method processUpdate
-        * @param {IChild}
-        * @public
-        */
-        public processUpdate(child: Kiwi.IChild): void;
-        /**
         * If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
         * @property exists
         * @type boolean
@@ -2336,12 +2329,20 @@ declare module Kiwi {
         */
         public willRender : boolean;
         /**
-        * Removes all children and destroys the Group
+        * Removes all children and destroys the Group.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
         * @public
         */
-        public destroy(destroyChildren?: boolean): void;
+        public destroy(immediate?: boolean, destroyChildren?: boolean): void;
+        /**
+        * A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.
+        * @property _destroyRemoveChildren
+        * @type boolean
+        * @private
+        */
+        private _tempRemoveChildren;
     }
 }
 /**
@@ -2376,7 +2377,7 @@ declare module Kiwi {
         * @static
         * @private
         */
-        static availablePlugins : Array<T>;
+        static availablePlugins : any;
         /**
         * Registers a plugin object as available. Any game instance can choose to use the plugin.
         * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
@@ -3195,6 +3196,7 @@ declare module Kiwi {
         * @property width
         * @type number
         * @public
+        * @readonly
         */
         public width : number;
         /**
@@ -3208,7 +3210,8 @@ declare module Kiwi {
         * The height of the stage
         * @property height
         * @type number
-        * @private
+        * @public
+        * @readonly
         */
         public height : number;
         public onResize: Kiwi.Signal;
@@ -3324,6 +3327,14 @@ declare module Kiwi {
         * @private
         */
         private _createCompositeCanvas();
+        /**
+        * Set the stage width and height
+        * @method resize
+        * @param width {number} new stage width
+        * @param height {number} new stage height
+        * @public
+        */
+        public resize(width: number, height: number): void;
         /**
         * [DESCRIPTION REQUIRED]
         * @method _createDebugCanvas
@@ -6469,13 +6480,6 @@ declare module Kiwi.GameObjects {
         */
         private _tempDirty;
         /**
-        * The HTMLImageElement which has the text rendered as an image once the _tempCanvas has generated it.
-        * @property _textImage
-        * @type HTMLImageElement
-        * @private
-        */
-        private _textImage;
-        /**
         * If rendering process for the text should be optimised or not. Note: That this does not work in Cocoon and thus disabled.
         * The optimization process involves rendering the text to an off-screen canvas, that canvas is then saved as a HTMLImageElement which is rendered instead.
         * @property optimize
@@ -6897,7 +6901,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @returns {Array}
         * @public
         */
-        public getTileOverlaps(object: Kiwi.Entity): Array<T>;
+        public getTileOverlaps(object: Kiwi.Entity): any[];
         /**
         * Adds/Reassign's a tile on the point in the map you specify.
         *
@@ -6958,11 +6962,11 @@ declare module Kiwi.GameObjects.Tilemap {
         public collideGroup(group: Kiwi.Group): void;
         /**
         * Destroys everything.
-        *
         * @method destroy
+        * @param [immediate=false] {Boolean} If the tilemap should be removed right away or if it should be removed next time the update loop executes?
         * @public
         */
-        public destroy(): void;
+        public destroy(immediate?: boolean): void;
     }
 }
 /**
@@ -7238,7 +7242,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {Array}
         * @public
         */
-        public getTileOverlaps(object: Kiwi.Entity): Array<T>;
+        public getTileOverlaps(object: Kiwi.Entity): any[];
         /**
         * Gets a tile's index based on the indexs provided.
         *
@@ -8551,15 +8555,16 @@ declare module Kiwi.Geom {
         /**
         * Get the angle from this Point object to given Point object.
         * @method angleTo
-        * @property target {point} destination Point object.
+        * @param target {point} destination Point object.
         * @return {Number} angle to point
+        * @public
         */
         public angleTo(target: Point): number;
         /**
         * Get the angle from this Point object to given X,Y coordinates.
         * @method angleTo
-        * @property x {number} x value.
-        * @property y {number} y value.
+        * @param x {number} x value.
+        * @param y {number} y value.
         * @return {Number} angle to point.
         */
         public angleToXY(x: number, y: number): number;
@@ -10128,10 +10133,11 @@ declare module Kiwi.HUD.Widget {
     * @param y {number} The cooridnates of this widget on the y-axis.
     * @param [width=120] {number} The width of the widget. Defaults to 120.
     * @param [height=20] {number} The height of the widget. Defaults to 20.
+    * @param [color='#000'] {string} The default color of the inner bar. Defaults to #000 (black).
     * @return {Bar}
     */
     class Bar extends HUD.HUDWidget {
-        constructor(game: Kiwi.Game, current: number, max: number, x: number, y: number, width?: number, height?: number);
+        constructor(game: Kiwi.Game, current: number, max: number, x: number, y: number, width?: number, height?: number, color?: string);
         /**
         * Returns the type of object that this is.
         * @method objType
@@ -14545,7 +14551,7 @@ declare module Kiwi.Renderers {
         * @type Array
         * @public
         */
-        public mvMatrixStack: Array<T>;
+        public mvMatrixStack: any[];
         /**
         *
         * @property _currentTextureAtlas
@@ -14710,16 +14716,7 @@ declare module Kiwi.Renderers {
         * @type Object
         * @public
         */
-        public texture2DProg: {
-            vertexPositionAttribute: null;
-            vertexTexCoordAttribute: null;
-            vertexColorAttribute: null;
-            mvMatrixUniform: null;
-            samplerUniform: null;
-            resolutionUniform: null;
-            textureSizeUniform: null;
-            cameraOffsetUniform: null;
-        };
+        public texture2DProg: any;
         /**
         *
         * @method use
@@ -14734,14 +14731,14 @@ declare module Kiwi.Renderers {
         * @type Array
         * @public
         */
-        public texture2DFrag: Array<T>;
+        public texture2DFrag: any[];
         /**
         *
         * @property texture2DVert
         * @type Array
         * @public
         */
-        public texture2DVert: Array<T>;
+        public texture2DVert: any[];
     }
 }
 /**
@@ -15753,7 +15750,7 @@ declare module Kiwi.Textures {
         * @return {Array}
         * @public
         */
-        public generateAtlasCells(): Array<T>;
+        public generateAtlasCells(): any[];
     }
 }
 /**
@@ -15820,7 +15817,7 @@ declare module Kiwi.Textures {
         * @returns{ Array }
         * @public
         */
-        public generateAtlasCells(): Array<T>;
+        public generateAtlasCells(): any[];
     }
 }
 /**

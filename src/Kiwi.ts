@@ -1,3 +1,4 @@
+/// <reference path="WebGL.d.ts"/>
 
 /// <reference path="animations/tweens/easing/Back.ts" />
 /// <reference path="animations/tweens/easing/Bounce.ts" />
@@ -102,7 +103,7 @@
 /// <reference path="renderers/GLTexture.ts" />
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />
-/// <reference path="renderers/WebGL.d.ts"/>
+
 
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />

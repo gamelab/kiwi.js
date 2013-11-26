@@ -99,7 +99,7 @@ module Kiwi.Renderers {
         * @type Object
         * @public
         */
-        public texture2DProg = {
+        public texture2DProg:any = {
             vertexPositionAttribute: null,
             vertexTexCoordAttribute: null,
             vertexColorAttribute: null,
@@ -144,7 +144,7 @@ module Kiwi.Renderers {
         * @type Array
         * @public
         */
-        public texture2DFrag: Array = [
+        public texture2DFrag: Array<any> = [
             "precision mediump float;",
             "varying vec2 vTextureCoord;",
             "varying float vColor;",
@@ -161,7 +161,7 @@ module Kiwi.Renderers {
         * @type Array
         * @public
         */
-        public texture2DVert: Array = [
+        public texture2DVert: Array<any> = [
             "attribute vec2 aVertexPosition;",
             "attribute vec2 aTextureCoord;",
             "attribute float aColor;",

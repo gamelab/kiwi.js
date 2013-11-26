@@ -85,6 +85,29 @@ module Kiwi.Files {
 
         }
 
+        /**
+       * Rebuild the library from a fileStore. Clears the library and repopulates it.
+       * @method rebuild
+       * @param {Kiwi.Files.FileStore} fileStore
+       * @param {Kiwi.State} state
+       * @public
+       */
+        public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State) {
+            this.clear();
+            if (this._game.debug) {
+                console.log("Rebuilding Data Library");
+            }
+
+            var fileStoreKeys = fileStore.keys;
+            for (var i = 0; i < fileStoreKeys.length; i++) {
+                var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
+                if (file.isData) {
+                    if (this._game.debug) { console.log("Adding Data: " + file.fileName) };
+                    state.dataLibrary.add(file);
+                }
+            }
+        }
+
     
     }
 

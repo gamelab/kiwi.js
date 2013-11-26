@@ -476,7 +476,9 @@ module Kiwi.Files {
             {
                 //  All files loaded
                 this._complete = true;
-
+                if (this._game.debug) {
+                    console.log("All files have loaded");
+                }
                 
                 if (this._onCompleteCallback)
                 {

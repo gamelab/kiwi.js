@@ -403,7 +403,9 @@ module Kiwi {
                 this.current.loadComplete();
             }
 
-           
+            if (this._game.debug) {
+                console.log("Rebuilding Libraries");
+            }
             this.rebuildLibraries();
             
             this.current.config.isReady = true;
@@ -411,6 +413,9 @@ module Kiwi {
             if (this.current.config.hasCreate === true)
             {
                 this.current.config.isCreated = true;
+                if (this._game.debug) {
+                    console.log("Calling State:Create");
+                }
                 if (this.current.config.createParams)
                 {
                     this.current.create.apply(this.current, this.current.config.createParams);
@@ -430,24 +435,9 @@ module Kiwi {
         */
         public rebuildLibraries() {
             
-            this.current.textureLibrary.clear();
-            this.current.audioLibrary.clear();
-            this.current.dataLibrary.clear();
-         
-
-            var fileStoreKeys = this._game.fileStore.keys;
-            
-            for (var i = 0; i < fileStoreKeys.length; i++) {
-                var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
-                if (file.isTexture) {
-                    this.current.textureLibrary.add(file);
-                } else if (file.isAudio) {
-                    this.current.audioLibrary.add(file);
-                } else if (file.isData) {
-                    this.current.dataLibrary.add(file);
-                }
-            }            
-          
+            this.current.audioLibrary.rebuild(this._game.fileStore, this.current);
+            this.current.dataLibrary.rebuild(this._game.fileStore, this.current);
+            this.current.textureLibrary.rebuild(this._game.fileStore, this.current);
             
         }
 

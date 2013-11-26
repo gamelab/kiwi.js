@@ -153,7 +153,7 @@ module Kiwi.Textures  {
         * @return {Array}
         * @public
         */
-        public generateAtlasCells(): Array {
+        public generateAtlasCells(): Array<any> {
 
             var cells = new Array();
             var cellNumeric: number[] = new Array();
