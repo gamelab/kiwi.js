@@ -1,4 +1,4 @@
-Release Notes 0.5.1
+Release Notes 0.5.2
 
 Kiwi.js (BETA)
 =====
@@ -6,38 +6,46 @@ Kiwi.js (BETA)
 ###HTML5 game library written in TypeScript/Javascript
 -----------------------------------------------------------------
 
-version 0.5.1
+version 0.5.2
 
 ###Release notes for this version
 
 ####New Features
-
-* Plugin Infrastructure  
-See plugin documentation for details.
-
-* Build Scripts  
-Gruntfile now has three options:  
-*grunt dev* - compiles typescript and minifies js.  
-*grunt docs* - compiles documentation and copies kiwi logo and css over the top of compiled files.  
-*grunt full* - does both of the above
-	
-####Bug Fixes
+None
+    
+####Bug Fixes and minor changes
 Audio 
   
-* Audio now works in Cocoon (Audio tags only), also works on IPad 2 (Audio Tags) & Ipad 3 (WebAudio) API.
-    
-* On Ipad2 switching between sounds held in multiple audio tags can cause the removal of some audio from memory.
-	
-* ArcadePhysics
-Fixed code inconsistencies
+  - 'isPlaying' property is now a more accurate representation of if an animation isPlaying.
+    - Callbacks are now dispatched after the cell on the Sprite updates instead of before. Because of this the way it was being handled has updated.
+    - The current animation no longer 'resets' to the first frame if the 'switchTo' is told the play the current animation.
 
-Build Scripts  
-A number of typescript files were updated to allow compilation using the node based Typescript compiler 0.9.0.1.
+- Audio
+    - Mute/Volume bug fixed. Left over from removal of the DOM system.
+    - Stop method reorganised. isPlaying set to false before onStop event dispatched to prevent sound playing issues.
+    - Bug with the audio file data not being set in some case's has been fixed. 
+
+- WebGL
+    - Stage now resizing correctly
+
+ 
+- Destroy method by default is executed at the end of the next update loop. Also you can switch the 'exists' property to 'false' to signal that the destroy method should be executed on the next update.
+- To make the destroy method immediately execute you can pass a boolean (true) to the destroy method. This is always the last parameter passed.
+
+- The keyboard manager is now always 'active' and used in Kiwi. Previously was only used if the device didn't support touch but this generated some problems with touch devices that have keyboards.
+
+- how-to-setup-tests.txt replaced/updated with a readme.txt in the examples folder.
+
+- Arcade Physics now use's the x/y of a hitbox when seperation objects. Watch out though as it is now the worldX/Y and as such physics for gameobjects within groups could be affected.
+
 
 ####Changes to API pre-exisiting API in this release
-None - this release contains only bug fixes and new features, games that ran under 0.5.0 should run identically on 0.5.2  
-Note: To run the new grunt build script you'll need to update your node packages by doing npm install 	
+- rotPointX/rotPointY now aliased to Entities (will not affect any existing games)
+- Animation Manager: Added four new signals. onPlay, onStop, onUpdate, onChange
+- new method Kiwi.Stage.resize replaces settable width and height properties due to a WebGL issue. ** NOTE: games that set these properties will need to be updated to use the resize method**
 
+####New Known Issues
+When using CocoonJS and WebGL, non power of 2 sized textures lose the alpha channel resulting in a black background. This is a Cocoon issue. Use power of 2 sized textures to avoid this.
 
 
 -------------------------------------------------------------------
