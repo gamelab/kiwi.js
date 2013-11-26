@@ -18,24 +18,21 @@ module Kiwi.Animations {
     * @param name {string} The name of this anim.
     * @param sequences {Sequences} The sequence that this anim will be using to animate.
     * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @param parent {AnimationManager} The animation manager that this animation belongs to.
     * @return {Anim} 
     * 
     */
     export class Animation {
          
-        constructor(name: string, sequence: Kiwi.Animations.Sequence, clock: Kiwi.Time.Clock) {
+        constructor(name: string, sequence: Kiwi.Animations.Sequence, clock: Kiwi.Time.Clock, parent: Kiwi.Components.AnimationManager) {
             
             this.name = name;
             this._sequence = sequence;
             this._speed = sequence.speed;
             this._loop = sequence.loop;
             this._clock = clock;
+            this._parent = parent;
 
-            //Signals - Should be moved to animation manager.
-            this.onUpdate = new Kiwi.Signal;
-            this.onPlay = new Kiwi.Signal;
-            this.onStop = new Kiwi.Signal;
-            this.onLoop = new Kiwi.Signal;
         }
 
         /**
@@ -47,6 +44,14 @@ module Kiwi.Animations {
         public objType(): string {
             return 'Animation';
         }
+
+        /**
+        * The AnimationManager that this animation is a child of.
+        * @property _parent
+        * @type AnimationManager
+        * @private
+        */
+        private _parent: Kiwi.Components.AnimationManager;
 
         /**
         * The name of this animation.
@@ -117,7 +122,7 @@ module Kiwi.Animations {
         * @public
         */
         public get currentCell(): number {
-            return this._sequence.cells[this.frameIndex];
+            return this._sequence.cells[ this.frameIndex ];
         }
 
         /**
@@ -193,40 +198,70 @@ module Kiwi.Animations {
         * @default false
         * @private
         */
-        private _isPlaying: boolean;
+        private _isPlaying: boolean = false;
+
+        /**
+        * If the animation is currently playing or not.
+        * @property isPlaying
+        * @type boolean
+        * @private
+        */
+        public get isPlaying(): boolean {
+            return this._isPlaying;
+        }
 
         /**
         * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
-        * @property onStop
+        * @property _onStop
         * @type Signal
         * @public
         */
-        public onStop: Kiwi.Signal;
+        private _onStop: Kiwi.Signal = null;
         
+        public get onStop(): Kiwi.Signal {
+            if (this._onStop == null) this._onStop = new Kiwi.Signal; 
+            return this._onStop;
+        }
+
         /**
         * A Kiwi.Signal that dispatches an event when the animation has started playing.
-        * @property onPlay
+        * @property _onPlay
         * @type Kiwi.Signal
         * @public
         */
-        public onPlay: Kiwi.Signal;
+        private _onPlay: Kiwi.Signal = null;
         
+        public get onPlay(): Kiwi.Signal {
+            if (this._onPlay == null) this._onPlay = new Kiwi.Signal;
+            return this._onPlay;
+        }
+
         /**
         * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
-        * @property onUpdate
+        * @property _onUpdate
         * @type Kiwi.Signal
         * @public
         */
-        public onUpdate: Kiwi.Signal;
+        private _onUpdate: Kiwi.Signal = null;
         
+        public get onUpdate(): Kiwi.Signal {
+            if (this._onUpdate == null) this._onUpdate = new Kiwi.Signal;
+            return this._onUpdate;
+        }
+
         /**
         * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
-        * @property onLoop
+        * @property _onLoop
         * @type Kiwi.Signal
         * @public
         */
-        public onLoop: Kiwi.Signal;
-         
+        private _onLoop: Kiwi.Signal = null;
+        
+        public get onLoop(): Kiwi.Signal {
+            if (this._onLoop == null) this._onLoop = new Kiwi.Signal;
+            return this._onLoop;
+        }
+
         /**
         * An Internal method used to start the animation.
         * @method _start
@@ -236,11 +271,12 @@ module Kiwi.Animations {
         private _start(index: number = null) {
             if (index !== null) {
                 this.frameIndex = index;
-            } 
+            }
+
             this._isPlaying = true;
             this._startTime = this._clock.elapsed();
             this._tick = this._startTime + this._speed;
-            this.onPlay.dispatch();
+            if(this._onPlay !== null) this._onPlay.dispatch();
         }
 
         /**
@@ -251,7 +287,7 @@ module Kiwi.Animations {
         public play() {
             //if the animation is at the last frame then start it at the beginning
             if (this._frameIndex === this.length - 1) this.frameIndex = 0; 
-
+            
             this.playAt(this._frameIndex);
         }
 
@@ -293,7 +329,7 @@ module Kiwi.Animations {
         public stop() {
             if (this._isPlaying) {
                 this._isPlaying = false; 
-                this.onStop.dispatch();
+                if(this._onStop !== null) this._onStop.dispatch();
             }
         }
 
@@ -320,39 +356,42 @@ module Kiwi.Animations {
         /**
         * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
         * @method update
-        * @return {boolean}
         * @public
         */
-        public update(): boolean {
+        public update() {
             if (this._isPlaying) {
                 if (this._clock.elapsed() >= this._tick) {
 
                     this._tick = this._clock.elapsed() + this._speed;
+                    //Would it be a valid frame?
+                    if (this._validateFrame(this._frameIndex + ((this._reverse == true) ? -1 : 1))) {
+                        
+                        this._frameIndex += (this._reverse == true) ? -1 : 1;
+                        this._parent.updateCellIndex();
+                        if(this._onUpdate !== null) this._onUpdate.dispatch();
                     
-                    if (this._reverse) this._frameIndex--;
-                    else this._frameIndex++;
+                    } else {
 
-                    this.onUpdate.dispatch();
-                    if (!this._validateFrame(this._frameIndex)) {
-
+                        //Is it looping?
                         if (this._loop) {
                             if (this._reverse) {
                                 this._frameIndex = this.length - 1;
-                                this.onLoop.dispatch();
                             } else {
                                 this._frameIndex = 0;
-                                this.onLoop.dispatch();
                             }
+                            this._parent.updateCellIndex();
+                            if(this._onLoop !== null) this._onLoop.dispatch();
+
+                            //Not Looping, stop animation.
                         } else {
-                            this._frameIndex--;
-                            this.stop();
+                            //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
+                            this._parent.stop();
                         }
+
                     }
 
-                    return true;
                 }
             }
-            return false;
         }
 
         /**
@@ -384,14 +423,15 @@ module Kiwi.Animations {
             this._isPlaying = false;
             delete this._clock;
             delete this._sequence;
-            if(this.onLoop) this.onLoop.dispose();
-            if(this.onStop) this.onStop.dispose();
-            if(this.onPlay) this.onPlay.dispose();
-            if(this.onUpdate) this.onUpdate.dispose();
-            delete this.onLoop;
-            delete this.onStop ;
-            delete this.onPlay ;
-            delete this.onUpdate ;
+            delete this._parent;
+            if(this._onLoop) this._onLoop.dispose();
+            if(this._onStop) this._onStop.dispose();
+            if(this._onPlay) this._onPlay.dispose();
+            if(this._onUpdate) this._onUpdate.dispose();
+            delete this._onLoop;
+            delete this._onStop ;
+            delete this._onPlay ;
+            delete this._onUpdate ;
             delete this.frameIndex ;
             delete this.loop;
             delete this._reverse;

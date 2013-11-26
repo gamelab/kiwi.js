@@ -11,6 +11,7 @@ class PausingAndResuming extends Kiwi.State {
     }
 
     preload() {
+        this.game.stage.resize(800, 250);
         this.addSpriteSheet('zombie', 'assets/spritesheets/zombie.png', 150, 117);
     }
 
@@ -39,3 +40,15 @@ class PausingAndResuming extends Kiwi.State {
     }
 
 }
+
+
+//Create's a new Kiwi.Game.
+/*
+* Param One - DOMID - String - ID of a DOMElement that the game will reside in.
+* Param Two - GameName - String - Name that the game will be given.
+* Param Three - State - Object - The state that is to be loaded by default.
+* Param Four - Options - Object - Optional options that the game will use whilst playing. Currently this is used to to choose the renderer/debugmode/device to target
+*/
+if (typeof gameOptions == "undefined") var gameOptions  = {};
+
+var game = new Kiwi.Game('game', 'KiwiExample', PausingAndResuming, gameOptions );

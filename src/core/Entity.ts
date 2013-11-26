@@ -138,6 +138,32 @@ module Kiwi {
         }
         
         /**
+        * The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.
+        * @property rotPointX
+        * @type number
+        * @public
+        */
+        public get rotPointX(): number {
+            return this.transform.rotPointX;
+        }
+        public set rotPointX(value: number) {
+            this.transform.rotPointX = value;
+        }
+        
+        /**
+        * The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.
+        * @property rotPointY
+        * @type number
+        * @public
+        */
+        public get rotPointY(): number {
+            return this.transform.rotPointY;
+        }
+        public set rotPointY(value: number) {
+            this.transform.rotPointY = value;
+        }
+
+        /**
         * Returns the type of child that this is. 
         * @type Number
         * @return {Number} returns the type of child that the entity is
@@ -280,8 +306,7 @@ module Kiwi {
         private _exists: boolean;
 
         /**
-		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-        * This method should be over-ridden to handle specific canvas/webgl implementations.
+		* Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.
         * @property exists
         * @type boolean
         * @public
@@ -421,7 +446,7 @@ module Kiwi {
         * @public
         */
         public update() {
-        
+            
         }
 
         /**
@@ -438,24 +463,30 @@ module Kiwi {
         /**
         * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public
         */
-        public destroy() {
+        public destroy(immediate: boolean = false) {
             
-            if (this.parent !== null) this.parent.removeChild(this);
-            if(this.state) this.state.removeFromTrackingList(this); 
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            delete this._parent; 
-            delete this.transform;
-            delete this._clock;
-            delete this.state;
-            delete this.game;
-            delete this.atlas;
 
-            if (this.components) this.components.removeAll(true);
-            delete this.components; 
+            if (immediate === true) {
+                
+                if (this.parent !== null) this.parent.removeChild(this);
+                if (this.state) this.state.removeFromTrackingList(this);
+                delete this._parent;
+                delete this.transform;
+                delete this._clock;
+                delete this.state;
+                delete this.game;
+                delete this.atlas;
+
+                if (this.components) this.components.removeAll(true);
+                delete this.components;
+
+            }
         }
 
     }

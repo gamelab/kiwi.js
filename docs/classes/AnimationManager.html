@@ -511,13 +511,6 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                             </li>
                         
                             <li class="index-item method private">
-                                <a href="#method__setCellIndex">_setCellIndex</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
                                 <a href="#method__setCurrentAnimation">_setCurrentAnimation</a>
 
                                 
@@ -629,15 +622,15 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                                 
                             </li>
                         
-                            <li class="index-item method public">
-                                <a href="#method_toString">toString</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_update">update</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public inherited">
-                                <a href="#method_update">update</a>
+                            <li class="index-item method protected">
+                                <a href="#method_updateCellIndex">updateCellIndex</a>
 
                                 
                                 
@@ -669,13 +662,6 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                         
                             <li class="index-item property private">
                                 <a href="#property__currentAnimation">_currentAnimation</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__isPlaying">_isPlaying</a>
 
                                 
                                 
@@ -739,6 +725,34 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
                         
                             <li class="index-item property public inherited">
                                 <a href="#property_name">name</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onChange">onChange</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onPlay">onPlay</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onStop">onStop</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onUpdate">onUpdate</a>
 
                                 
                                 
@@ -819,7 +833,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l174"><code>src\components\AnimationManager.ts:174</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l210"><code>src\components\AnimationManager.ts:210</code></a>
         
         </p>
 
@@ -895,63 +909,6 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
 </div>
 
                 
-                    <div id="method__setCellIndex" class="method item private">
-    <h3 class="name"><code>_setCellIndex</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_AnimationManager.ts.html#l349"><code>src\components\AnimationManager.ts:349</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>An internal method that is used to set the cell index of the entity. This is how the animation changes.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="method__setCurrentAnimation" class="method item private">
     <h3 class="name"><code>_setCurrentAnimation</code></h3>
 
@@ -996,7 +953,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l278"><code>src\components\AnimationManager.ts:278</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l316"><code>src\components\AnimationManager.ts:316</code></a>
         
         </p>
 
@@ -1114,7 +1071,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l113"><code>src\components\AnimationManager.ts:113</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l150"><code>src\components\AnimationManager.ts:150</code></a>
         
         </p>
 
@@ -1294,7 +1251,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l132"><code>src\components\AnimationManager.ts:132</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l169"><code>src\components\AnimationManager.ts:169</code></a>
         
         </p>
 
@@ -1406,7 +1363,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l371"><code>src\components\AnimationManager.ts:371</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l399"><code>src\components\AnimationManager.ts:399</code></a>
         
         </p>
 
@@ -1417,7 +1374,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>Destroys the animation component and runs the destroy on all of the anims that it has.</p>
+        <p>Destroys the animation component and runs the destroy method on all of the anims that it has.</p>
 
     </div>
 
@@ -1477,7 +1434,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l337"><code>src\components\AnimationManager.ts:337</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l375"><code>src\components\AnimationManager.ts:375</code></a>
         
         </p>
 
@@ -1569,7 +1526,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l258"><code>src\components\AnimationManager.ts:258</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l296"><code>src\components\AnimationManager.ts:296</code></a>
         
         </p>
 
@@ -1626,7 +1583,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l103"><code>src\components\AnimationManager.ts:103</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l140"><code>src\components\AnimationManager.ts:140</code></a>
         
         </p>
 
@@ -1683,7 +1640,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l210"><code>src\components\AnimationManager.ts:210</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l245"><code>src\components\AnimationManager.ts:245</code></a>
         
         </p>
 
@@ -1750,7 +1707,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l149"><code>src\components\AnimationManager.ts:149</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l186"><code>src\components\AnimationManager.ts:186</code></a>
         
         </p>
 
@@ -1848,7 +1805,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l161"><code>src\components\AnimationManager.ts:161</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l197"><code>src\components\AnimationManager.ts:197</code></a>
         
         </p>
 
@@ -2054,7 +2011,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l268"><code>src\components\AnimationManager.ts:268</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l306"><code>src\components\AnimationManager.ts:306</code></a>
         
         </p>
 
@@ -2111,7 +2068,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l220"><code>src\components\AnimationManager.ts:220</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l254"><code>src\components\AnimationManager.ts:254</code></a>
         
         </p>
 
@@ -2168,7 +2125,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l198"><code>src\components\AnimationManager.ts:198</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l233"><code>src\components\AnimationManager.ts:233</code></a>
         
         </p>
 
@@ -2241,7 +2198,7 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l230"><code>src\components\AnimationManager.ts:230</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l263"><code>src\components\AnimationManager.ts:263</code></a>
         
         </p>
 
@@ -2252,7 +2209,8 @@ This way you don&#39;t need to create new Animations for a each Sprite that use&
     </div>
 
     <div class="description">
-        <p>Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number. 
+        <p>Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation. 
+When you switch to a particular animation then 
 You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
 So if the animation is currently &#39;playing&#39; then once switched to the animation will play. If not currently playing it will switch to and stop.</p>
 
@@ -2306,81 +2264,6 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
 </div>
 
                 
-                    <div id="method_toString" class="method item public">
-    <h3 class="name"><code>toString</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_AnimationManager.ts.html#l359"><code>src\components\AnimationManager.ts:359</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns a string representation of this object.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                    <p>A string representation of this object.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_update" class="method item public">
     <h3 class="name"><code>update</code></h3>
 
@@ -2415,7 +2298,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l293"><code>src\components\AnimationManager.ts:293</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l334"><code>src\components\AnimationManager.ts:334</code></a>
         
         </p>
 
@@ -2427,6 +2310,63 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
 
     <div class="description">
         <p>The update loop, it only updates the currentAnimation and only if it is playing.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_updateCellIndex" class="method item protected">
+    <h3 class="name"><code>updateCellIndex</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l387"><code>src\components\AnimationManager.ts:387</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>An internal method that is used to update the cell index of an entity when an animation says it needs to update.</p>
 
     </div>
 
@@ -2471,7 +2411,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l67"><code>src\components\AnimationManager.ts:67</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l113"><code>src\components\AnimationManager.ts:113</code></a>
         
         </p>
 
@@ -2518,7 +2458,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l59"><code>src\components\AnimationManager.ts:59</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l105"><code>src\components\AnimationManager.ts:105</code></a>
         
         </p>
 
@@ -2565,7 +2505,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l75"><code>src\components\AnimationManager.ts:75</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l121"><code>src\components\AnimationManager.ts:121</code></a>
         
         </p>
 
@@ -2581,55 +2521,6 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
 
     
         <p><strong>Default:</strong> null</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__isPlaying" class="property item private">
-    <h3 class="name"><code>_isPlaying</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_AnimationManager.ts.html#l84"><code>src\components\AnimationManager.ts:84</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Indicates whether or not this animation is currently playing or not.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
     
 
     
@@ -2709,7 +2600,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l307"><code>src\components\AnimationManager.ts:307</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l345"><code>src\components\AnimationManager.ts:345</code></a>
         
         </p>
 
@@ -2802,7 +2693,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l51"><code>src\components\AnimationManager.ts:51</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l97"><code>src\components\AnimationManager.ts:97</code></a>
         
         </p>
 
@@ -2849,7 +2740,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l317"><code>src\components\AnimationManager.ts:317</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l355"><code>src\components\AnimationManager.ts:355</code></a>
         
         </p>
 
@@ -2940,7 +2831,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l93"><code>src\components\AnimationManager.ts:93</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l130"><code>src\components\AnimationManager.ts:130</code></a>
         
         </p>
 
@@ -2987,7 +2878,7 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
             
         
         
-        <a href="../files/src_components_AnimationManager.ts.html#l327"><code>src\components\AnimationManager.ts:327</code></a>
+        <a href="../files/src_components_AnimationManager.ts.html#l365"><code>src\components\AnimationManager.ts:365</code></a>
         
         </p>
 
@@ -3042,6 +2933,202 @@ So if the animation is currently &#39;playing&#39; then once switched to the ani
 
     <div class="description">
         <p>The name of this component.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onChange" class="property item public">
+    <h3 class="name"><code>onChange</code></h3>
+    <span class="type">Kiwi.Signal</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l86"><code>src\components\AnimationManager.ts:86</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Dispatches callbacks each time the current animation is switched NOT when the cells of a animation change.
+Function&#39;s dispatched from this event have TWO parameters, 
+One - Name of the animation switched to.
+Two - The Animation object that is now the current.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onPlay" class="property item public">
+    <h3 class="name"><code>onPlay</code></h3>
+    <span class="type">Kiwi.Signal</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l57"><code>src\components\AnimationManager.ts:57</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Dispatches callbacks each time an animation is told to play through this AnimationManager.
+Functions dispatched from this signal have ONE parameter.
+One - The Animation object of that is now playing.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onStop" class="property item public">
+    <h3 class="name"><code>onStop</code></h3>
+    <span class="type">Kiwi.Signal</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l67"><code>src\components\AnimationManager.ts:67</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Dispatches callbacks each time an animation stops. 
+Functions dispatched from this signal have ONE parameter.
+One - The current animation.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onUpdate" class="property item public">
+    <h3 class="name"><code>onUpdate</code></h3>
+    <span class="type">Kiwi.Signal</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_AnimationManager.ts.html#l77"><code>src\components\AnimationManager.ts:77</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Dispatches callbacks each time the cell of the Sprite this AnimationManager belongs to updates/changes.
+Note: This method will be dispatching events EVERY time the cell changes, so this will include when changing/switching animations.</p>
 
     </div>
 

@@ -207,12 +207,17 @@ module Kiwi {
         public update() {
             
             this.components.update();
-        
-            for (var i = 0; i < this.members.length; i++)
-            {
-                if (this.members[i].active === true)
-                {
+            
+            for (var i = 0; i < this.members.length; i++) {
+
+                //Should the update loop be executed?
+                if (this.members[i].active === true) {
                     this.members[i].update();
+                
+                }
+                
+                if (this.members[i].exists === false) {
+                    this.members[i].destroy( true );
                 }
             }
             
@@ -410,7 +415,7 @@ module Kiwi {
             if (deleteAll == true) {
                 //destroy all of the tracking list
                 for (var i = 0; i < this._trackingList.length; i++) {
-                    this._trackingList[i].destroy();
+                    this._trackingList[i].destroy( true );
                 }
                 this._trackingList = [];
                 
@@ -436,7 +441,7 @@ module Kiwi {
                     this._destroyChildren(child.members[i]);
                 }
             } 
-            child.destroy();
+            child.destroy( true );
         }
 
     }

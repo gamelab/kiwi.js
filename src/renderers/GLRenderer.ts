@@ -164,7 +164,7 @@ module Kiwi.Renderers {
         * @type Array
         * @public
         */
-        public mvMatrixStack: Array;
+        public mvMatrixStack: Array<any>;
         
         /**
         *
@@ -185,7 +185,9 @@ module Kiwi.Renderers {
                 throw "Invalid popMatrix!";
             }
             this.mvMatrix = this.mvMatrixStack.pop();
-        } */   
+        } */
+
+      
 
         /**
         *
@@ -196,7 +198,13 @@ module Kiwi.Renderers {
 
             var gl: WebGLRenderingContext = this._game.stage.gl;
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-
+            
+            this._game.stage.onResize.add(function () {
+                this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+              
+            },this);
+          
             this._shaders = new GLShaders(gl);
             gl.enable(gl.BLEND);
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -204,6 +212,7 @@ module Kiwi.Renderers {
             this.mvMatrix = mat4.create();
             mat2d.identity(this.mvMatrix);
             
+
             //create buffers
             //dynamic
             this._vertBuffer = new GLArrayBuffer(gl, 2);
@@ -250,9 +259,10 @@ module Kiwi.Renderers {
             this._entityCount = 0;
             this._vertBuffer.clear();
             this._uvBuffer.clear();
-                     
+            
             //clear 
-            gl.clearColor(0, 0, 0, 0);
+            var col = this._game.stage.normalizedColor;
+            gl.clearColor(col.r, col.g, col.b, col.a);
             gl.clear(gl.COLOR_BUFFER_BIT);
 
             

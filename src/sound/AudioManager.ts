@@ -250,7 +250,7 @@ module Kiwi.Sound {
 
                 } else if (this.usingAudioTag) {
                     for (var i = 0; i < this._sounds.length; i++) {
-                        this._sounds[i].mute(true);
+                        this._sounds[i].mute = true;
                     }
                 }
 
@@ -263,7 +263,7 @@ module Kiwi.Sound {
 
                 } else if (this.usingAudioTag) {
                     for (var i = 0; i < this._sounds.length; i++) {
-                        this._sounds[i].mute(false);
+                        this._sounds[i].mute = false;
                     }
                 }
             }
@@ -300,7 +300,7 @@ module Kiwi.Sound {
                 } else if (this.usingAudioTag) {
                     for (var i = 0; i < this._sounds.length; i++) {
                         //for each sound tag to update.
-                        this._sounds[i].volume(this._sounds[i].volume());
+                        this._sounds[i].volume = this._sounds[i].volume;
                     }
                 }
 

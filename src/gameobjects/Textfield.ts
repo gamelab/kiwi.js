@@ -249,14 +249,6 @@ module Kiwi.GameObjects {
         private _tempDirty: boolean = true;
 
         /**
-        * The HTMLImageElement which has the text rendered as an image once the _tempCanvas has generated it. 
-        * @property _textImage
-        * @type HTMLImageElement
-        * @private
-        */
-        private _textImage: HTMLImageElement;
-
-        /**
         * If rendering process for the text should be optimised or not. Note: That this does not work in Cocoon and thus disabled.
         * The optimization process involves rendering the text to an off-screen canvas, that canvas is then saved as a HTMLImageElement which is rendered instead.
         * @property optimize
@@ -292,10 +284,6 @@ module Kiwi.GameObjects {
             //add text
             ctxTemp.fillText(this._text, 0, 0);
 
-            //create the image
-            this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
-            this._textImage.src = this._tempCanvas.toDataURL("image/png");
-
             this._tempDirty = false;
         }
         
@@ -319,7 +307,7 @@ module Kiwi.GameObjects {
                 }
 
                 //if they are using the optmised method.
-                if (this.state.game.deviceTargetOption !== Kiwi.TARGET_COCOON && this.optimize) { 
+                if (this.optimize) {
 
                     //does the text need re-rendering
                     if (this._tempDirty) this._renderText();
@@ -331,10 +319,10 @@ module Kiwi.GameObjects {
                             x = 0;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                            x = this._textImage.width / 2;
+                            x = this._tempCanvas.width / 2;
                             break;
                         case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                            x = this._textImage.width;
+                            x = this._tempCanvas.width;
                             break;
                     }
                     t.x -= x; //add the alignment to the transformation
@@ -342,7 +330,7 @@ module Kiwi.GameObjects {
                     var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
                     ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
                     
-                    ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
+                    ctx.drawImage(this._tempCanvas, 0, 0, this._tempCanvas.width, this._tempCanvas.height, -t.rotPointX, -t.rotPointY, this._tempCanvas.width, this._tempCanvas.height);
                     
                     t.x += x; //remove it again.
 

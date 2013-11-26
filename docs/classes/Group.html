@@ -673,13 +673,6 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_processUpdate">processUpdate</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
                                 <a href="#method_removeChild">removeChild</a>
 
                                 
@@ -774,6 +767,13 @@
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__destroyRemoveChildren">_destroyRemoveChildren</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__dirty">_dirty</a>
 
                                 
@@ -815,14 +815,14 @@
                                 
                             </li>
                         
-                            <li class="index-item property public">
+                            <li class="index-item property private">
                                 <a href="#property_exists">exists</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private">
+                            <li class="index-item property public">
                                 <a href="#property_exists">exists</a>
 
                                 
@@ -1584,7 +1584,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l917"><code>src\core\Group.ts:917</code></a>
+        <a href="../files/src_core_Group.ts.html#l913"><code>src\core\Group.ts:913</code></a>
         
         </p>
 
@@ -1990,7 +1990,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l865"><code>src\core\Group.ts:865</code></a>
+        <a href="../files/src_core_Group.ts.html#l861"><code>src\core\Group.ts:861</code></a>
         
         </p>
 
@@ -2063,7 +2063,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l845"><code>src\core\Group.ts:845</code></a>
+        <a href="../files/src_core_Group.ts.html#l841"><code>src\core\Group.ts:841</code></a>
         
         </p>
 
@@ -2107,6 +2107,12 @@
             
                 <li class="arg">
                     
+                        <code class="optional">[immediate=false]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
                         <code class="optional">[destroyChildren=true]</code>
                     
                 </li>
@@ -2142,7 +2148,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l950"><code>src\core\Group.ts:950</code></a>
+        <a href="../files/src_core_Group.ts.html#l946"><code>src\core\Group.ts:946</code></a>
         
         </p>
 
@@ -2153,7 +2159,7 @@
     </div>
 
     <div class="description">
-        <p>Removes all children and destroys the Group</p>
+        <p>Removes all children and destroys the Group.</p>
 
     </div>
 
@@ -2162,6 +2168,23 @@
             <h4>Parameters:</h4>
 
             <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[immediate=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>If the object should be immediately removed or if it should be removed at the end of the next update loop.</p>
+
+                    </div>
+
+                    
+                </li>
             
                 <li class="param">
                     
@@ -2940,7 +2963,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l808"><code>src\core\Group.ts:808</code></a>
+        <a href="../files/src_core_Group.ts.html#l804"><code>src\core\Group.ts:804</code></a>
         
         </p>
 
@@ -3013,7 +3036,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l826"><code>src\core\Group.ts:826</code></a>
+        <a href="../files/src_core_Group.ts.html#l822"><code>src\core\Group.ts:822</code></a>
         
         </p>
 
@@ -3192,96 +3215,6 @@
                 
             </div>
         </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_processUpdate" class="method item public">
-    <h3 class="name"><code>processUpdate</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>UNKNOWN</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Group.ts.html#l722"><code>src\core\Group.ts:722</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Calls the update method on an alive child</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">UNKNOWN</code>
-                        <span class="type"><a href="..\classes\IChild.html" class="crosslink">IChild</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
     
 
     
@@ -3728,7 +3661,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l795"><code>src\core\Group.ts:795</code></a>
+        <a href="../files/src_core_Group.ts.html#l791"><code>src\core\Group.ts:791</code></a>
         
         </p>
 
@@ -3834,7 +3767,7 @@
             
         
         
-        <a href="../files/src_core_Group.ts.html#l784"><code>src\core\Group.ts:784</code></a>
+        <a href="../files/src_core_Group.ts.html#l780"><code>src\core\Group.ts:780</code></a>
         
         </p>
 
@@ -4630,7 +4563,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l759"><code>src\core\Group.ts:759</code></a>
+        <a href="../files/src_core_Group.ts.html#l755"><code>src\core\Group.ts:755</code></a>
         
         </p>
 
@@ -4646,6 +4579,53 @@ This method never gets called as the render is only worried about rendering enti
 
     
         <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__destroyRemoveChildren" class="property item private">
+    <h3 class="name"><code>_destroyRemoveChildren</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l992"><code>src\core\Group.ts:992</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A temporary property that holds a boolean indicating whether or not the group&#39;s children should be destroyed or not.</p>
+
+    </div>
+
     
 
     
@@ -4773,7 +4753,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l928"><code>src\core\Group.ts:928</code></a>
+        <a href="../files/src_core_Group.ts.html#l924"><code>src\core\Group.ts:924</code></a>
         
         </p>
 
@@ -4820,7 +4800,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l768"><code>src\core\Group.ts:768</code></a>
+        <a href="../files/src_core_Group.ts.html#l764"><code>src\core\Group.ts:764</code></a>
         
         </p>
 
@@ -4939,54 +4919,6 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
 </div>
 
                 
-                    <div id="property_exists" class="property item public">
-    <h3 class="name"><code>exists</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Group.ts.html#l744"><code>src\core\Group.ts:744</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-This method should be over-ridden to handle specific canvas/webgl implementations.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="property_exists" class="property item private">
     <h3 class="name"><code>exists</code></h3>
     <span class="type">Boolean</span>
@@ -5012,7 +4944,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l736"><code>src\core\Group.ts:736</code></a>
+        <a href="../files/src_core_Group.ts.html#l732"><code>src\core\Group.ts:732</code></a>
         
         </p>
 
@@ -5023,6 +4955,54 @@ This method should be over-ridden to handle specific canvas/webgl implementation
 
     <div class="description">
         <p>If an Entity no longer exists it is cleared for garbage collection or pool re-allocation</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_exists" class="property item public">
+    <h3 class="name"><code>exists</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l740"><code>src\core\Group.ts:740</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
+This method should be over-ridden to handle specific canvas/webgl implementations.</p>
 
     </div>
 
@@ -5391,7 +5371,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l936"><code>src\core\Group.ts:936</code></a>
+        <a href="../files/src_core_Group.ts.html#l932"><code>src\core\Group.ts:932</code></a>
         
         </p>
 

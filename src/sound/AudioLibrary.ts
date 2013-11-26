@@ -60,10 +60,34 @@ module Kiwi.Sound {
             }
         }
 
+
+        /**
+        * Rebuild the library from a fileStore. Clears the library and repopulates it.
+        * @method rebuild
+        * @param {Kiwi.Files.FileStore} fileStore
+        * @param {Kiwi.State} state
+        * @public
+        */
+        public rebuild(fileStore:Kiwi.Files.FileStore,state:Kiwi.State) {
+            this.clear();
+            if (this._game.debug) {
+                console.log("Rebuilding Audio Library");
+            }
+
+            var fileStoreKeys = fileStore.keys;
+            for (var i = 0; i < fileStoreKeys.length; i++) {
+                var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
+                if (file.isAudio) {
+                    if (this._game.debug) { console.log("Adding Audio: " + file.fileName) };
+                    state.audioLibrary.add(file);
+                } 
+            }        
+        }
+
         /**
         * Adds a new audio file to the audio library.
         * @method add
-        * @param {File} imageFile
+        * @param {File} audioFile
         * @public
         */
         public add(audioFile: Kiwi.Files.File) {

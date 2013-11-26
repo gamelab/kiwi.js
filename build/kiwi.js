@@ -2242,6 +2242,40 @@ var Kiwi;
             configurable: true
         });
 
+        Object.defineProperty(Entity.prototype, "rotPointX", {
+            get: /**
+            * The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.
+            * @property rotPointX
+            * @type number
+            * @public
+            */
+            function () {
+                return this.transform.rotPointX;
+            },
+            set: function (value) {
+                this.transform.rotPointX = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Entity.prototype, "rotPointY", {
+            get: /**
+            * The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.
+            * @property rotPointY
+            * @type number
+            * @public
+            */
+            function () {
+                return this.transform.rotPointY;
+            },
+            set: function (value) {
+                this.transform.rotPointY = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         /**
         * Returns the type of child that this is.
         * @type Number
@@ -2297,8 +2331,7 @@ var Kiwi;
                 return this._exists;
             },
             set: /**
-            * Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-            * This method should be over-ridden to handle specific canvas/webgl implementations.
+            * Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.
             * @property exists
             * @type boolean
             * @public
@@ -2430,26 +2463,31 @@ var Kiwi;
         /**
         * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @public
         */
-        Entity.prototype.destroy = function () {
-            if (this.parent !== null)
-                this.parent.removeChild(this);
-            if (this.state)
-                this.state.removeFromTrackingList(this);
+        Entity.prototype.destroy = function (immediate) {
+            if (typeof immediate === "undefined") { immediate = false; }
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            delete this._parent;
-            delete this.transform;
-            delete this._clock;
-            delete this.state;
-            delete this.game;
-            delete this.atlas;
 
-            if (this.components)
-                this.components.removeAll(true);
-            delete this.components;
+            if (immediate === true) {
+                if (this.parent !== null)
+                    this.parent.removeChild(this);
+                if (this.state)
+                    this.state.removeFromTrackingList(this);
+                delete this._parent;
+                delete this.transform;
+                delete this._clock;
+                delete this.state;
+                delete this.game;
+                delete this.atlas;
+
+                if (this.components)
+                    this.components.removeAll(true);
+                delete this.components;
+            }
         };
         return Entity;
     })();
@@ -2707,7 +2745,8 @@ var Kiwi;
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (domParent !== '') {
                     if (document.getElementById(domParent))
-                        console.log('Game being created inside ' + domParent + '.'); else
+                        console.log('Game being created inside ' + domParent + '.');
+else
                         console.log('The element "' + domParent + '" could not be found. Appending the game to the body.');
                 } else {
                     console.log('No DOM parent specified. Appending the game to the body.');
@@ -2760,6 +2799,20 @@ var Kiwi;
             */
             function () {
                 return this._debugOption;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Game.prototype, "debug", {
+            get: /**
+            * Returns true if debug option is set to Kiwi.DEBUG_ON
+            * @property debug
+            * @type boolean
+            * @public
+            */
+            function () {
+                return this._debugOption === Kiwi.DEBUG_ON;
             },
             enumerable: true,
             configurable: true
@@ -2921,6 +2974,13 @@ var Kiwi;
             * @private
             */
             this._dirty = true;
+            /**
+            * A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.
+            * @property _destroyRemoveChildren
+            * @type boolean
+            * @private
+            */
+            this._tempRemoveChildren = null;
             if (state !== null) {
                 this.state = state;
                 this.game = this.state.game;
@@ -2976,6 +3036,7 @@ var Kiwi;
                 //if (this.containsDescendant(val) === false) {
                 this.transform.parent = (val !== null) ? val.transform : null;
                 this._parent = val;
+                //}
             },
             enumerable: true,
             configurable: true
@@ -3542,29 +3603,22 @@ var Kiwi;
         * @public
         */
         Group.prototype.update = function () {
-            var _this = this;
             this.components.preUpdate();
 
             this.components.update();
             if (this.members.length > 0) {
-                this.members.forEach(function (child) {
-                    return _this.processUpdate(child);
-                });
+                for (var i = 0; i < this.members.length; i++) {
+                    if (this.members[i].active === true) {
+                        this.members[i].update();
+                    }
+
+                    if (this.members[i].exists === false) {
+                        this.members[i].destroy(true);
+                    }
+                }
             }
 
             this.components.postUpdate();
-        };
-
-        /**
-        * Calls the update method on an alive child
-        * @method processUpdate
-        * @param {IChild}
-        * @public
-        */
-        Group.prototype.processUpdate = function (child) {
-            if (child.active === true) {
-                child.update();
-            }
         };
 
 
@@ -3757,36 +3811,47 @@ var Kiwi;
         });
 
         /**
-        * Removes all children and destroys the Group
+        * Removes all children and destroys the Group.
         * @method destroy
+        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
         * @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
         * @public
         */
-        Group.prototype.destroy = function (destroyChildren) {
+        Group.prototype.destroy = function (immediate, destroyChildren) {
+            if (typeof immediate === "undefined") { immediate = false; }
             if (typeof destroyChildren === "undefined") { destroyChildren = true; }
-            if (destroyChildren == true) {
-                for (var i = 0; i < this.members.length; i++) {
-                    this.members[i].destroy();
-                }
-            } else {
-                this.removeChildren();
-            }
-
-            if (this.parent !== null)
-                this.parent.removeChild(this);
-            if (this.state)
-                this.state.removeFromTrackingList(this);
             this._exists = false;
             this._active = false;
             this._willRender = false;
-            delete this.transform;
-            if (this.components)
-                this.components.removeAll();
-            delete this.components;
-            delete this.name;
-            delete this.members;
-            delete this.game;
-            delete this.state;
+
+            if (immediate === true) {
+                if (this._tempRemoveChildren !== null)
+                    destroyChildren = this._tempRemoveChildren;
+
+                if (destroyChildren == true) {
+                    for (var i = 0; i < this.members.length; i++) {
+                        this.members[i].destroy(true);
+                    }
+                } else {
+                    this.removeChildren();
+                }
+
+                if (this.parent !== null)
+                    this.parent.removeChild(this);
+                if (this.state)
+                    this.state.removeFromTrackingList(this);
+                delete this.transform;
+                if (this.components)
+                    this.components.removeAll();
+                delete this.components;
+                delete this.name;
+                delete this.members;
+                delete this.game;
+                delete this.state;
+                delete this._tempRemoveChildren;
+            } else {
+                this._tempRemoveChildren = destroyChildren;
+            }
         };
         return Group;
     })();
@@ -3970,17 +4035,17 @@ var Kiwi;
     })();
     Kiwi.PluginManager = PluginManager;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+*
+*/
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-/**
-*
-* @module Kiwi
-*
-*/
 var Kiwi;
 (function (Kiwi) {
     /**
@@ -4131,6 +4196,10 @@ var Kiwi;
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].active === true) {
                     this.members[i].update();
+                }
+
+                if (this.members[i].exists === false) {
+                    this.members[i].destroy(true);
                 }
             }
         };
@@ -4308,7 +4377,7 @@ var Kiwi;
             if (typeof deleteAll === "undefined") { deleteAll = true; }
             if (deleteAll == true) {
                 for (var i = 0; i < this._trackingList.length; i++) {
-                    this._trackingList[i].destroy();
+                    this._trackingList[i].destroy(true);
                 }
                 this._trackingList = [];
 
@@ -4332,12 +4401,17 @@ var Kiwi;
                     this._destroyChildren(child.members[i]);
                 }
             }
-            child.destroy();
+            child.destroy(true);
         };
         return State;
     })(Kiwi.Group);
     Kiwi.State = State;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+*
+*/
 /**
 *
 * @module Kiwi
@@ -4875,9 +4949,9 @@ var Kiwi;
             this._x = 0;
             this._y = 0;
 
-            this._width = 800;
-            this._height = 600;
-            this.color = 'white';
+            this._width = Stage.DEFAULT_WIDTH;
+            this._height = Stage.DEFAULT_HEIGHT;
+            this.color = 'ffffff';
 
             this.onResize = new Kiwi.Signal();
         }
@@ -4963,18 +5037,10 @@ var Kiwi;
             * @property width
             * @type number
             * @public
+            * @readonly
             */
             function () {
                 return this._width;
-            },
-            set: function (value) {
-                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.container.style.width = String(value + 'px');
-                }
-
-                this.canvas.width = value;
-                this._width = value;
-                this.onResize.dispatch(this._width, this._height);
             },
             enumerable: true,
             configurable: true
@@ -4985,19 +5051,11 @@ var Kiwi;
             * The height of the stage
             * @property height
             * @type number
-            * @private
+            * @public
+            * @readonly
             */
             function () {
                 return this._height;
-            },
-            set: function (value) {
-                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this.container.style.height = String(value + 'px');
-                }
-
-                this.canvas.height = value;
-                this._height = value;
-                this.onResize.dispatch(this._width, this._height);
             },
             enumerable: true,
             configurable: true
@@ -5005,7 +5063,7 @@ var Kiwi;
 
         Object.defineProperty(Stage.prototype, "color", {
             get: /**
-            * Get the background color of the stage.
+            * Get the background color of the stage. This returns a hex style color string such as "#ffffff"
             * @property color
             * @type string
             * @public
@@ -5014,7 +5072,26 @@ var Kiwi;
                 return this._color;
             },
             set: function (val) {
-                this._color = val;
+                this._color = "#" + val;
+                var bigint = parseInt(val, 16);
+                var r = (bigint >> 16) & 255;
+                var g = (bigint >> 8) & 255;
+                var b = bigint & 255;
+                this._normalizedColor = { r: r, g: g, b: b, a: 1 };
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Stage.prototype, "normalizedColor", {
+            get: /**
+            * Get the normalized background color of the stage. returns a object with rgba values between 0 and 1.
+            * @property color
+            * @type string
+            * @public
+            */
+            function () {
+                return this._normalizedColor;
             },
             enumerable: true,
             configurable: true
@@ -5034,8 +5111,8 @@ var Kiwi;
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = parseInt(this.container.style.width);
-                this._height = parseInt(this.container.style.height);
+                this._width = 1000;
+                this._height = 1000;
             }
 
             this._createCompositeCanvas();
@@ -5052,6 +5129,7 @@ var Kiwi;
         Stage.prototype._createCompositeCanvas = function () {
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                 this.canvas = document.createElement(navigator['isCocoonJS'] ? 'screencanvas' : 'canvas');
+                //otherwise default to normal canvas
             } else {
                 this.canvas = document.createElement("canvas");
             }
@@ -5080,12 +5158,33 @@ var Kiwi;
         };
 
         /**
+        * Set the stage width and height
+        * @method resize
+        * @param width {number} new stage width
+        * @param height {number} new stage height
+        * @public
+        */
+        Stage.prototype.resize = function (width, height) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                this.container.style.height = String(height + 'px');
+                this.container.style.width = String(width + 'px');
+            }
+
+            this.canvas.height = height;
+            this.canvas.width = width;
+            this._height = height;
+            this._width = width;
+            this.onResize.dispatch(this._width, this._height);
+        };
+
+        /**
         * [DESCRIPTION REQUIRED]
         * @method _createDebugCanvas
         * @private
         */
         Stage.prototype._createDebugCanvas = function () {
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                //debug canvas not supported in cocoon, creating canvas and context anyway.
             }
             this.debugCanvas = document.createElement("canvas");
             this.debugCanvas.id = this._game.id + "debugCanvas";
@@ -5121,6 +5220,9 @@ var Kiwi;
         Stage.prototype.toggleDebugCanvas = function () {
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         };
+        Stage.DEFAULT_WIDTH = 800;
+
+        Stage.DEFAULT_HEIGHT = 600;
         return Stage;
     })();
     Kiwi.Stage = Stage;
@@ -5159,14 +5261,6 @@ var Kiwi;
                 * @private
                 */
                 this.currentAnimation = null;
-                /**
-                * Indicates whether or not this animation is currently playing or not.
-                * @property _isPlaying
-                * @type boolean
-                * @default false
-                * @private
-                */
-                this._isPlaying = false;
 
                 //get the entity and the animation.
                 this.entity = entity;
@@ -5179,6 +5273,7 @@ var Kiwi;
 
                 if (this._animations['default']) {
                     this.currentAnimation = this._animations['default'];
+                    //otherwise create one.
                 } else {
                     var defaultCells = [];
                     for (var i = 0; i < this._atlas.cells.length; i++) {
@@ -5186,6 +5281,12 @@ var Kiwi;
                     }
                     this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
                 }
+
+                //Signals
+                this.onChange = new Kiwi.Signal();
+                this.onPlay = new Kiwi.Signal();
+                this.onStop = new Kiwi.Signal();
+                this.onUpdate = new Kiwi.Signal();
             }
             Object.defineProperty(AnimationManager.prototype, "isPlaying", {
                 get: /**
@@ -5195,7 +5296,7 @@ var Kiwi;
                 * @public
                 */
                 function () {
-                    return this._isPlaying;
+                    return this.currentAnimation.isPlaying;
                 },
                 enumerable: true,
                 configurable: true
@@ -5243,7 +5344,7 @@ var Kiwi;
             */
             AnimationManager.prototype.createFromSequence = function (sequence, play) {
                 if (typeof play === "undefined") { play = false; }
-                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock);
+                this._animations[sequence.name] = new Kiwi.Animations.Animation(sequence.name, sequence, this.entity.clock, this);
 
                 if (play)
                     this.play(sequence.name);
@@ -5287,15 +5388,15 @@ var Kiwi;
             */
             AnimationManager.prototype._play = function (name, index) {
                 if (typeof index === "undefined") { index = null; }
-                this._isPlaying = true;
                 this._setCurrentAnimation(name);
 
                 if (index !== null)
-                    this.currentAnimation.playAt(index); else
+                    this.currentAnimation.playAt(index);
+else
                     this.currentAnimation.play();
 
-                this._setCellIndex();
-
+                this.onPlay.dispatch(this.currentAnimation);
+                this.updateCellIndex();
                 return this.currentAnimation;
             };
 
@@ -5307,8 +5408,8 @@ var Kiwi;
             AnimationManager.prototype.stop = function () {
                 if (this.isPlaying === true) {
                     this.currentAnimation.stop();
+                    this.onStop.dispatch(this.currentAnimation);
                 }
-                this._isPlaying = false;
             };
 
             /**
@@ -5318,7 +5419,6 @@ var Kiwi;
             */
             AnimationManager.prototype.pause = function () {
                 this.currentAnimation.pause();
-                this._isPlaying = false;
             };
 
             /**
@@ -5328,11 +5428,11 @@ var Kiwi;
             */
             AnimationManager.prototype.resume = function () {
                 this.currentAnimation.resume();
-                this._isPlaying = true;
             };
 
             /**
-            * Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number.
+            * Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation.
+            * When you switch to a particular animation then
             * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
             * So if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.
             *
@@ -5343,23 +5443,26 @@ var Kiwi;
             */
             AnimationManager.prototype.switchTo = function (val, play) {
                 if (typeof play === "undefined") { play = null; }
+                var switched = false;
                 switch (typeof val) {
                     case "string":
                         if (this.currentAnimation.name !== val) {
                             this._setCurrentAnimation(val);
+                            switched = true;
                         }
                         break;
                     case "number":
                         this.currentAnimation.frameIndex = val;
+                        switched = true;
                         break;
                 }
 
-                if (play || play === null && this.isPlaying)
+                if (play || play === null && this.isPlaying && switched)
                     this.play();
                 if (play == false && this.isPlaying)
                     this.stop();
 
-                this._setCellIndex();
+                this.updateCellIndex();
             };
 
             /**
@@ -5369,7 +5472,7 @@ var Kiwi;
             */
             AnimationManager.prototype.nextFrame = function () {
                 this.currentAnimation.nextFrame();
-                this._setCellIndex();
+                this.updateCellIndex();
             };
 
             /**
@@ -5379,7 +5482,7 @@ var Kiwi;
             */
             AnimationManager.prototype.prevFrame = function () {
                 this.currentAnimation.prevFrame();
-                this._setCellIndex();
+                this.updateCellIndex();
             };
 
             /**
@@ -5390,10 +5493,14 @@ var Kiwi;
             * @private
             */
             AnimationManager.prototype._setCurrentAnimation = function (name) {
-                if (this.currentAnimation !== null)
-                    this.currentAnimation.stop();
-                if (this._animations[name]) {
-                    this.currentAnimation = this._animations[name];
+                if (this.currentAnimation.name !== name) {
+                    if (this.currentAnimation !== null)
+                        this.currentAnimation.stop();
+
+                    if (this._animations[name]) {
+                        this.currentAnimation = this._animations[name];
+                        this.onChange.dispatch(name, this.currentAnimation);
+                    }
                 }
             };
 
@@ -5403,10 +5510,8 @@ var Kiwi;
             * @public
             */
             AnimationManager.prototype.update = function () {
-                if (this.currentAnimation && this.isPlaying) {
-                    if (this.currentAnimation.update()) {
-                        this._setCellIndex();
-                    }
+                if (this.currentAnimation) {
+                    this.currentAnimation.update();
                 }
             };
 
@@ -5465,32 +5570,23 @@ var Kiwi;
             };
 
             /**
-            * An internal method that is used to set the cell index of the entity. This is how the animation changes.
-            * @method _setCellIndex
-            * @private
+            * An internal method that is used to update the cell index of an entity when an animation says it needs to update.
+            * @method updateCellIndex
+            * @protected
             */
-            AnimationManager.prototype._setCellIndex = function () {
-                if (typeof this.currentAnimation !== "undefined")
+            AnimationManager.prototype.updateCellIndex = function () {
+                if (typeof this.currentAnimation !== "undefined") {
+                    this.onUpdate.dispatch(this.currentAnimation);
                     this.entity.cellIndex = this.currentAnimation.currentCell;
+                }
             };
 
             /**
-            * Returns a string representation of this object.
-            * @method toString
-            * @return {string} A string representation of this object.
-            * @public
-            */
-            AnimationManager.prototype.toString = function () {
-                return '[{Animation (x=' + this.active + ')}]';
-            };
-
-            /**
-            * Destroys the animation component and runs the destroy on all of the anims that it has.
+            * Destroys the animation component and runs the destroy method on all of the anims that it has.
             * @method destroy
             * @public
             */
             AnimationManager.prototype.destroy = function () {
-                this._isPlaying = false;
                 _super.prototype.destroy.call(this);
 
                 for (var key in this._animations) {
@@ -6713,7 +6809,8 @@ var Kiwi;
             ArcadePhysics.prototype.solid = function (value) {
                 if (value !== undefined) {
                     if (value)
-                        this.allowCollisions = ArcadePhysics.ANY; else
+                        this.allowCollisions = ArcadePhysics.ANY;
+else
                         this.allowCollisions = ArcadePhysics.NONE;
                 }
 
@@ -6890,13 +6987,13 @@ var Kiwi;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
                     //where they were before
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.worldX - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.box.hitbox.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.box.hitbox.height);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.box.hitbox.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.box.hitbox.height);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.hitbox.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.box.hitbox.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.box.hitbox.height);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.hitbox.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.box.hitbox.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.box.hitbox.height);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.worldX + phys1.box.hitbox.width - phys2.transform.worldX;
+                            overlap = phys1.box.hitbox.x + phys1.box.hitbox.width - phys2.box.hitbox.x;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
                                 overlap = 0;
                             } else {
@@ -6904,7 +7001,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.LEFT;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.worldX - phys2.box.hitbox.width - phys2.transform.worldX;
+                            overlap = phys1.box.hitbox.x - phys2.box.hitbox.width - phys2.box.hitbox.x;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
                                 overlap = 0;
                             } else {
@@ -6973,13 +7070,14 @@ var Kiwi;
                     //Check if the Y hulls actually overlap
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.transform.worldX, phys1.transform.worldY - ((obj1delta > 0) ? obj1delta : 0), phys1.box.hitbox.width, phys1.box.hitbox.height + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.transform.worldX, phys2.transform.worldY - ((obj2delta > 0) ? obj2delta : 0), phys2.box.hitbox.width, phys2.box.hitbox.height + obj2deltaAbs);
+
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.hitbox.x, phys1.box.hitbox.y - ((obj1delta > 0) ? obj1delta : 0), phys1.box.hitbox.width, phys1.box.hitbox.height + obj1deltaAbs);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.hitbox.x, phys2.box.hitbox.y - ((obj2delta > 0) ? obj2delta : 0), phys2.box.hitbox.width, phys2.box.hitbox.height + obj2deltaAbs);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.transform.worldY + phys1.box.hitbox.height - phys2.transform.worldY;
+                            overlap = phys1.box.hitbox.y + phys1.box.hitbox.height - phys2.box.hitbox.y;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
                                 overlap = 0;
                             } else {
@@ -6987,7 +7085,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.UP;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.transform.worldY - phys2.box.hitbox.height - phys2.transform.worldY;
+                            overlap = phys1.box.hitbox.y - phys2.box.hitbox.height - phys2.box.hitbox.y;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
                                 overlap = 0;
                             } else {
@@ -7047,16 +7145,20 @@ var Kiwi;
                 if (typeof drag === "undefined") { drag = 0; }
                 if (typeof max === "undefined") { max = 10000; }
                 if (acceleration != 0)
-                    velocity += acceleration * ArcadePhysics.updateInterval; else if (drag != 0) {
+                    velocity += acceleration * ArcadePhysics.updateInterval;
+else if (drag != 0) {
                     drag = drag * ArcadePhysics.updateInterval;
                     if (velocity - drag > 0)
-                        velocity = velocity - drag; else if (velocity + drag < 0)
-                        velocity += drag; else
+                        velocity = velocity - drag;
+else if (velocity + drag < 0)
+                        velocity += drag;
+else
                         velocity = 0;
                 }
                 if ((velocity != 0) && (max != 10000)) {
                     if (velocity > max)
-                        velocity = max; else if (velocity < -max)
+                        velocity = max;
+else if (velocity < -max)
                         velocity = -max;
                 }
                 return velocity;
@@ -7188,8 +7290,8 @@ var Kiwi;
             */
             ArcadePhysics.prototype.update = function () {
                 //Flixel preupdate
-                this.last.x = this.transform.worldX;
-                this.last.y = this.transform.worldY;
+                this.last.x = this.box.hitbox.x;
+                this.last.y = this.box.hitbox.y;
 
                 if (this.moves)
                     this.updateMotion();
@@ -7625,6 +7727,9 @@ var Kiwi;
                 if (this._loadList.length === 0) {
                     //  All files loaded
                     this._complete = true;
+                    if (this._game.debug) {
+                        console.log("All files have loaded");
+                    }
 
                     if (this._onCompleteCallback) {
                         this._onCompleteCallback();
@@ -7750,6 +7855,32 @@ var Kiwi;
 
                     default:
                         break;
+                }
+            };
+
+            /**
+            * Rebuild the library from a fileStore. Clears the library and repopulates it.
+            * @method rebuild
+            * @param {Kiwi.Files.FileStore} fileStore
+            * @param {Kiwi.State} state
+            * @public
+            */
+            DataLibrary.prototype.rebuild = function (fileStore, state) {
+                this.clear();
+                if (this._game.debug) {
+                    console.log("Rebuilding Data Library");
+                }
+
+                var fileStoreKeys = fileStore.keys;
+                for (var i = 0; i < fileStoreKeys.length; i++) {
+                    var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                    if (file.isData) {
+                        if (this._game.debug) {
+                            console.log("Adding Data: " + file.fileName);
+                        }
+                        ;
+                        state.dataLibrary.add(file);
+                    }
                 }
             };
             return DataLibrary;
@@ -8148,6 +8279,9 @@ var Kiwi;
                 if (typeof customFileStore === "undefined") { customFileStore = null; }
                 if (typeof maxLoadAttempts === "undefined") { maxLoadAttempts = 1; }
                 if (typeof timeout === "undefined") { timeout = 2000; }
+                if (this._game.debug) {
+                    console.log("attempting to load " + this.fileName);
+                }
                 this.onCompleteCallback = onCompleteCallback;
                 this.onProgressCallback = onProgressCallback;
                 this.maxLoadAttempts = maxLoadAttempts;
@@ -9382,6 +9516,9 @@ var Kiwi;
         */
         StateManager.prototype.checkPreload = function () {
             var _this = this;
+            //Rebuild the Libraries before the preload is executed
+            this.rebuildLibraries();
+
             if (this.current.config.hasPreloader === true) {
                 this._game.loader.init(function (percent, bytes, file) {
                     return _this.onLoadProgress(percent, bytes, file);
@@ -9429,12 +9566,18 @@ var Kiwi;
                 this.current.loadComplete();
             }
 
+            if (this._game.debug) {
+                console.log("Rebuilding Libraries");
+            }
             this.rebuildLibraries();
 
             this.current.config.isReady = true;
 
             if (this.current.config.hasCreate === true) {
                 this.current.config.isCreated = true;
+                if (this._game.debug) {
+                    console.log("Calling State:Create");
+                }
                 if (this.current.config.createParams) {
                     this.current.create.apply(this.current, this.current.config.createParams);
                 } else {
@@ -9449,22 +9592,9 @@ var Kiwi;
         * @private
         */
         StateManager.prototype.rebuildLibraries = function () {
-            this.current.textureLibrary.clear();
-            this.current.audioLibrary.clear();
-            this.current.dataLibrary.clear();
-
-            var fileStoreKeys = this._game.fileStore.keys;
-
-            for (var i = 0; i < fileStoreKeys.length; i++) {
-                var file = this._game.fileStore.getFile(fileStoreKeys[i]);
-                if (file.isTexture) {
-                    this.current.textureLibrary.add(file);
-                } else if (file.isAudio) {
-                    this.current.audioLibrary.add(file);
-                } else if (file.isData) {
-                    this.current.dataLibrary.add(file);
-                }
-            }
+            this.current.audioLibrary.rebuild(this._game.fileStore, this.current);
+            this.current.dataLibrary.rebuild(this._game.fileStore, this.current);
+            this.current.textureLibrary.rebuild(this._game.fileStore, this.current);
         };
 
         /**
@@ -9912,10 +10042,6 @@ var Kiwi;
                 //add text
                 ctxTemp.fillText(this._text, 0, 0);
 
-                //create the image
-                this._textImage = new Image(this._tempCanvas.width, this._tempCanvas.height);
-                this._textImage.src = this._tempCanvas.toDataURL("image/png");
-
                 this._tempDirty = false;
             };
 
@@ -9936,7 +10062,7 @@ var Kiwi;
                         ctx.globalAlpha = this.alpha;
                     }
 
-                    if (this.state.game.deviceTargetOption !== Kiwi.TARGET_COCOON && this.optimize) {
+                    if (this.optimize) {
                         if (this._tempDirty)
                             this._renderText();
 
@@ -9947,10 +10073,10 @@ var Kiwi;
                                 x = 0;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
-                                x = this._textImage.width / 2;
+                                x = this._tempCanvas.width / 2;
                                 break;
                             case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
-                                x = this._textImage.width;
+                                x = this._tempCanvas.width;
                                 break;
                         }
                         t.x -= x;
@@ -9958,7 +10084,7 @@ var Kiwi;
                         var m = t.getConcatenatedMatrix();
                         ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
 
-                        ctx.drawImage(this._textImage, 0, 0, this._textImage.width, this._textImage.height, -t.rotPointX, -t.rotPointY, this._textImage.width, this._textImage.height);
+                        ctx.drawImage(this._tempCanvas, 0, 0, this._tempCanvas.width, this._tempCanvas.height, -t.rotPointX, -t.rotPointY, this._tempCanvas.width, this._tempCanvas.height);
 
                         t.x += x;
                     } else {
@@ -10515,34 +10641,39 @@ var Kiwi;
                 */
                 TileMap.prototype.collideGroup = function (group) {
                     for (var i = 0; i < group.members.length; i++) {
+                        //this.collideSingle(group.members[i]);
                     }
                 };
 
                 /**
                 * Destroys everything.
-                *
                 * @method destroy
+                * @param [immediate=false] {Boolean} If the tilemap should be removed right away or if it should be removed next time the update loop executes?
                 * @public
                 */
-                TileMap.prototype.destroy = function () {
-                    _super.prototype.destroy.call(this);
-                    delete this.tiles;
-                    if (this.layers) {
-                        for (var i = 0; i < this.layers.length; i++) {
-                            this.layers[i].destroy();
-                            delete this.layers[i];
+                TileMap.prototype.destroy = function (immediate) {
+                    if (typeof immediate === "undefined") { immediate = false; }
+                    _super.prototype.destroy.call(this, immediate);
+
+                    if (immediate === true) {
+                        delete this.tiles;
+                        if (this.layers) {
+                            for (var i = 0; i < this.layers.length; i++) {
+                                this.layers[i].destroy();
+                                delete this.layers[i];
+                            }
                         }
-                    }
-                    if (this.tiles) {
-                        for (var i = 0; i < this.tiles.length; i++) {
-                            this.tiles[i].destroy();
-                            delete this.tiles[i];
+                        if (this.tiles) {
+                            for (var i = 0; i < this.tiles.length; i++) {
+                                this.tiles[i].destroy();
+                                delete this.tiles[i];
+                            }
                         }
+                        delete this.tiles;
+                        delete this.layers;
+                        delete this._tileMapDataKey;
+                        delete this._atlas;
                     }
-                    delete this.tiles;
-                    delete this.layers;
-                    delete this._tileMapDataKey;
-                    delete this._atlas;
                 };
                 TileMap.FORMAT_CSV = 0;
 
@@ -11542,6 +11673,7 @@ var Kiwi;
                 if (typeof output === "undefined") { output = new Geom.Point(); }
                 if (asDegrees === true) {
                     angle = angle * (Math.PI / 180);
+                    //angle = angle * (180 / Math.PI); // Degrees to Radians
                 }
 
                 output.x = this.x + this._radius * Math.cos(angle);
@@ -11789,6 +11921,7 @@ var Kiwi;
                     if (Math.atan2(y - this.y1, x - this.x1) == Math.atan2(this.y2 - this.y1, this.x2 - this.x1)) {
                         return true;
                     }
+                    //  return true;
                 }
 
                 return false;
@@ -12535,7 +12668,8 @@ var Kiwi;
             */
             Line.prototype.getY = function (x) {
                 if (this.x1 == this.x2)
-                    return null; else
+                    return null;
+else
                     return this.slope * x + this.yIntercept;
             };
 
@@ -13266,8 +13400,9 @@ var Kiwi;
             /**
             * Get the angle from this Point object to given Point object.
             * @method angleTo
-            * @property target {point} destination Point object.
+            * @param target {point} destination Point object.
             * @return {Number} angle to point
+            * @public
             */
             Point.prototype.angleTo = function (target) {
                 return Math.atan2(target.x - this.x, target.y - this.y);
@@ -13276,8 +13411,8 @@ var Kiwi;
             /**
             * Get the angle from this Point object to given X,Y coordinates.
             * @method angleTo
-            * @property x {number} x value.
-            * @property y {number} y value.
+            * @param x {number} x value.
+            * @param y {number} y value.
             * @return {Number} angle to point.
             */
             Point.prototype.angleToXY = function (x, y) {
@@ -14422,6 +14557,7 @@ var Kiwi;
                 function (value) {
                     this._scaleX = value;
                     this._scaleY = value;
+                    //this.owner.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -15597,6 +15733,7 @@ var Kiwi;
                 if (this.onCoordsUpdate)
                     this.onCoordsUpdate.dispose();
                 delete this.onCoordsUpdate;
+                //remove the elements....
             };
             return HUDWidget;
         })();
@@ -15816,13 +15953,15 @@ var Kiwi;
             * @param y {number} The cooridnates of this widget on the y-axis.
             * @param [width=120] {number} The width of the widget. Defaults to 120.
             * @param [height=20] {number} The height of the widget. Defaults to 20.
+            * @param [color='#000'] {string} The default color of the inner bar. Defaults to #000 (black).
             * @return {Bar}
             */
             var Bar = (function (_super) {
                 __extends(Bar, _super);
-                function Bar(game, current, max, x, y, width, height) {
+                function Bar(game, current, max, x, y, width, height, color) {
                     if (typeof width === "undefined") { width = 120; }
                     if (typeof height === "undefined") { height = 20; }
+                    if (typeof color === "undefined") { color = '#000'; }
                     _super.call(this, game, "bar", x, y);
                     this._horizontal = true;
                     this.class = 'kiwi-bar-widget kiwi-widget';
@@ -15831,6 +15970,7 @@ var Kiwi;
                         if (this._device == Kiwi.TARGET_BROWSER) {
                             this._bar = document.createElement('div');
                             this._bar.className = 'kiwi-innerbar-widget';
+                            this._bar.style.backgroundColor = color;
                             this.bar = this._bar;
                             this.container.appendChild(this.bar);
                         }
@@ -16680,6 +16820,7 @@ var Kiwi;
                         }
 
                         _super.prototype.setTemplate.call(this, main);
+                        //do something with each item
                     }
                 };
 
@@ -17543,7 +17684,7 @@ var Kiwi;
                             this.masterGain.gain.value = 0;
                         } else if (this.usingAudioTag) {
                             for (var i = 0; i < this._sounds.length; i++) {
-                                this._sounds[i].mute(true);
+                                this._sounds[i].mute = true;
                             }
                         }
                     } else {
@@ -17555,7 +17696,7 @@ var Kiwi;
                             this.masterGain.gain.value = this._muteVolume;
                         } else if (this.usingAudioTag) {
                             for (var i = 0; i < this._sounds.length; i++) {
-                                this._sounds[i].mute(false);
+                                this._sounds[i].mute = false;
                             }
                         }
                     }
@@ -17590,7 +17731,7 @@ var Kiwi;
                         } else if (this.usingAudioTag) {
                             for (var i = 0; i < this._sounds.length; i++) {
                                 //for each sound tag to update.
-                                this._sounds[i].volume(this._sounds[i].volume());
+                                this._sounds[i].volume = this._sounds[i].volume;
                             }
                         }
                     }
@@ -17851,29 +17992,33 @@ var Kiwi;
                 if (this._usingWebAudio) {
                     this._setAudio();
 
-                    this.context = this._game.audio.context;
-                    this.masterGainNode = this._game.audio.masterGain;
+                    if (this.ready) {
+                        this.context = this._game.audio.context;
+                        this.masterGainNode = this._game.audio.masterGain;
 
-                    if (typeof this.context.createGain === 'undefined') {
-                        this.gainNode = this.context.createGainNode();
-                    } else {
-                        this.gainNode = this.context.createGain();
+                        if (typeof this.context.createGain === 'undefined') {
+                            this.gainNode = this.context.createGainNode();
+                        } else {
+                            this.gainNode = this.context.createGain();
+                        }
+
+                        //make sure the audio is decoded.
+                        this._decode();
+
+                        this.gainNode.gain.value = this.volume * this._game.audio.volume;
+                        this.gainNode.connect(this.masterGainNode);
                     }
-
-                    //make sure the audio is decoded.
-                    this._decode();
-
-                    this.gainNode.gain.value = this.volume * this._game.audio.volume;
-                    this.gainNode.connect(this.masterGainNode);
                 } else if (this._usingAudioTag) {
                     if (this._playable === true) {
                         this._setAudio();
 
-                        this.totalDuration = this._sound.duration;
-                        this._sound.volume = this.volume * this._game.audio.volume;
+                        if (this.ready) {
+                            this.totalDuration = this._sound.duration;
+                            this._sound.volume = this.volume * this._game.audio.volume;
 
-                        if (isNaN(this.totalDuration))
-                            this._pending = true;
+                            if (isNaN(this.totalDuration))
+                                this._pending = true;
+                        }
                     }
                 }
 
@@ -17903,7 +18048,7 @@ var Kiwi;
                         this._playable = val;
                         this._setAudio();
 
-                        if (this._usingAudioTag) {
+                        if (this.ready && this._usingAudioTag) {
                             this.totalDuration = this._sound.duration;
                             this._sound.volume = this.volume * this._game.audio.volume;
                         }
@@ -17931,6 +18076,9 @@ var Kiwi;
             Audio.prototype._setAudio = function () {
                 this._file = this._game.fileStore.getFile(this.key);
 
+                if (typeof this._file.data == "undefined")
+                    return;
+
                 if (this._usingAudioTag) {
                     //clone the audio node
                     this._sound = this._file.data.cloneNode(true);
@@ -17950,7 +18098,7 @@ var Kiwi;
             * @private
             */
             Audio.prototype._decode = function () {
-                if (this._usingAudioTag || this._file.data.decode == false)
+                if (this.ready == false || this._usingAudioTag)
                     return;
 
                 if (this._file.data.decoded === true && this._file.data.buffer !== null) {
@@ -18081,14 +18229,14 @@ var Kiwi;
 
                 if (forceRestart === true && this._pending === false)
                     this.stop();
-                this.paused = false;
 
-                if (this._markers[marker] == undefined)
+                if (typeof this._markers[marker] == "undefined")
                     return;
 
                 if (this._currentMarker === marker && this.isPlaying && forceRestart == false)
                     return;
 
+                this.paused = false;
                 this._currentMarker = marker;
                 this.duration = this._markers[this._currentMarker].duration * 1000;
                 this._loop = this._markers[this._currentMarker].loop;
@@ -18135,7 +18283,8 @@ var Kiwi;
                             this.duration = this.totalDuration * 1000;
 
                         if (this._muted)
-                            this._sound.volume = 0; else
+                            this._sound.volume = 0;
+else
                             this._sound.volume = this._volume;
 
                         this._sound.currentTime = this._markers[this._currentMarker].start;
@@ -18172,11 +18321,11 @@ var Kiwi;
                         this._sound.currentTime = 0;
                     }
 
+                    this.isPlaying = false;
+
                     if (this.paused == false)
                         this.onStop.dispatch();
                 }
-
-                this.isPlaying = false;
             };
 
             /**
@@ -18235,7 +18384,7 @@ var Kiwi;
                     return;
 
                 if (this._playable && this._pending) {
-                    if (this._decoded === true || this._file.data.decoded) {
+                    if (this._decoded === true || this._file.data && this._file.data.decoded) {
                         this._pending = false;
                         this.play();
                     } else if (this._usingAudioTag && !isNaN(this._sound.duration)) {
@@ -18371,9 +18520,35 @@ var Kiwi;
             };
 
             /**
+            * Rebuild the library from a fileStore. Clears the library and repopulates it.
+            * @method rebuild
+            * @param {Kiwi.Files.FileStore} fileStore
+            * @param {Kiwi.State} state
+            * @public
+            */
+            AudioLibrary.prototype.rebuild = function (fileStore, state) {
+                this.clear();
+                if (this._game.debug) {
+                    console.log("Rebuilding Audio Library");
+                }
+
+                var fileStoreKeys = fileStore.keys;
+                for (var i = 0; i < fileStoreKeys.length; i++) {
+                    var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                    if (file.isAudio) {
+                        if (this._game.debug) {
+                            console.log("Adding Audio: " + file.fileName);
+                        }
+                        ;
+                        state.audioLibrary.add(file);
+                    }
+                }
+            };
+
+            /**
             * Adds a new audio file to the audio library.
             * @method add
-            * @param {File} imageFile
+            * @param {File} audioFile
             * @public
             */
             AudioLibrary.prototype.add = function (audioFile) {
@@ -18412,11 +18587,12 @@ var Kiwi;
         * @param name {string} The name of this anim.
         * @param sequences {Sequences} The sequence that this anim will be using to animate.
         * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+        * @param parent {AnimationManager} The animation manager that this animation belongs to.
         * @return {Anim}
         *
         */
         var Animation = (function () {
-            function Animation(name, sequence, clock) {
+            function Animation(name, sequence, clock, parent) {
                 /**
                 * The current frame index that the animation is currently upto.
                 * Note: A frame index is the index of a particular cell in the Sequence.
@@ -18439,17 +18615,48 @@ var Kiwi;
                 * @private
                 */
                 this._reverse = false;
+                /**
+                * If the animation is currently playing or not.
+                * @property _isPlaying
+                * @type boolean
+                * @default false
+                * @private
+                */
+                this._isPlaying = false;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
+                * @property _onStop
+                * @type Signal
+                * @public
+                */
+                this._onStop = null;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has started playing.
+                * @property _onPlay
+                * @type Kiwi.Signal
+                * @public
+                */
+                this._onPlay = null;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
+                * @property _onUpdate
+                * @type Kiwi.Signal
+                * @public
+                */
+                this._onUpdate = null;
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
+                * @property _onLoop
+                * @type Kiwi.Signal
+                * @public
+                */
+                this._onLoop = null;
                 this.name = name;
                 this._sequence = sequence;
                 this._speed = sequence.speed;
                 this._loop = sequence.loop;
                 this._clock = clock;
-
-                //Signals - Should be moved to animation manager.
-                this.onUpdate = new Kiwi.Signal();
-                this.onPlay = new Kiwi.Signal();
-                this.onStop = new Kiwi.Signal();
-                this.onLoop = new Kiwi.Signal();
+                this._parent = parent;
             }
             /**
             * The type of object that this is.
@@ -18546,6 +18753,60 @@ var Kiwi;
                 configurable: true
             });
 
+            Object.defineProperty(Animation.prototype, "isPlaying", {
+                get: /**
+                * If the animation is currently playing or not.
+                * @property isPlaying
+                * @type boolean
+                * @private
+                */
+                function () {
+                    return this._isPlaying;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "onStop", {
+                get: function () {
+                    if (this._onStop == null)
+                        this._onStop = new Kiwi.Signal();
+                    return this._onStop;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "onPlay", {
+                get: function () {
+                    if (this._onPlay == null)
+                        this._onPlay = new Kiwi.Signal();
+                    return this._onPlay;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "onUpdate", {
+                get: function () {
+                    if (this._onUpdate == null)
+                        this._onUpdate = new Kiwi.Signal();
+                    return this._onUpdate;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Animation.prototype, "onLoop", {
+                get: function () {
+                    if (this._onLoop == null)
+                        this._onLoop = new Kiwi.Signal();
+                    return this._onLoop;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             * An Internal method used to start the animation.
             * @method _start
@@ -18557,10 +18818,12 @@ var Kiwi;
                 if (index !== null) {
                     this.frameIndex = index;
                 }
+
                 this._isPlaying = true;
                 this._startTime = this._clock.elapsed();
                 this._tick = this._startTime + this._speed;
-                this.onPlay.dispatch();
+                if (this._onPlay !== null)
+                    this._onPlay.dispatch();
             };
 
             /**
@@ -18613,7 +18876,8 @@ var Kiwi;
             Animation.prototype.stop = function () {
                 if (this._isPlaying) {
                     this._isPlaying = false;
-                    this.onStop.dispatch();
+                    if (this._onStop !== null)
+                        this._onStop.dispatch();
                 }
             };
 
@@ -18642,7 +18906,6 @@ var Kiwi;
             /**
             * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
             * @method update
-            * @return {boolean}
             * @public
             */
             Animation.prototype.update = function () {
@@ -18650,30 +18913,29 @@ var Kiwi;
                     if (this._clock.elapsed() >= this._tick) {
                         this._tick = this._clock.elapsed() + this._speed;
 
-                        if (this._reverse)
-                            this._frameIndex--; else
-                            this._frameIndex++;
-
-                        this.onUpdate.dispatch();
-                        if (!this._validateFrame(this._frameIndex)) {
+                        if (this._validateFrame(this._frameIndex + ((this._reverse == true) ? -1 : 1))) {
+                            this._frameIndex += (this._reverse == true) ? -1 : 1;
+                            this._parent.updateCellIndex();
+                            if (this._onUpdate !== null)
+                                this._onUpdate.dispatch();
+                        } else {
                             if (this._loop) {
                                 if (this._reverse) {
                                     this._frameIndex = this.length - 1;
-                                    this.onLoop.dispatch();
                                 } else {
                                     this._frameIndex = 0;
-                                    this.onLoop.dispatch();
                                 }
+                                this._parent.updateCellIndex();
+                                if (this._onLoop !== null)
+                                    this._onLoop.dispatch();
+                                //Not Looping, stop animation.
                             } else {
-                                this._frameIndex--;
-                                this.stop();
+                                //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
+                                this._parent.stop();
                             }
                         }
-
-                        return true;
                     }
                 }
-                return false;
             };
 
             /**
@@ -18709,18 +18971,19 @@ var Kiwi;
                 this._isPlaying = false;
                 delete this._clock;
                 delete this._sequence;
-                if (this.onLoop)
-                    this.onLoop.dispose();
-                if (this.onStop)
-                    this.onStop.dispose();
-                if (this.onPlay)
-                    this.onPlay.dispose();
-                if (this.onUpdate)
-                    this.onUpdate.dispose();
-                delete this.onLoop;
-                delete this.onStop;
-                delete this.onPlay;
-                delete this.onUpdate;
+                delete this._parent;
+                if (this._onLoop)
+                    this._onLoop.dispose();
+                if (this._onStop)
+                    this._onStop.dispose();
+                if (this._onPlay)
+                    this._onPlay.dispose();
+                if (this._onUpdate)
+                    this._onUpdate.dispose();
+                delete this._onLoop;
+                delete this._onStop;
+                delete this._onPlay;
+                delete this._onUpdate;
                 delete this.frameIndex;
                 delete this.loop;
                 delete this._reverse;
@@ -19049,6 +19312,7 @@ var Kiwi;
             * @public
             */
             Keyboard.prototype.update = function () {
+                //  Loop through all 'down' keys and update the timers on those still pressed
             };
 
             /**
@@ -19486,8 +19750,12 @@ var Kiwi;
             */
             InputManager.prototype.boot = function () {
                 this._pointers = [];
+
                 this.mouse = new Kiwi.Input.Mouse(this.game);
                 this.mouse.boot();
+
+                this.keyboard = new Kiwi.Input.Keyboard(this.game);
+                this.keyboard.boot();
 
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch = new Kiwi.Input.Touch(this.game);
@@ -19499,8 +19767,6 @@ var Kiwi;
                     this.mouse.onDown.add(this._onDownEvent, this);
                     this.mouse.onUp.add(this._onUpEvent, this);
                     this._pointers.push(this.mouse.cursor);
-                    this.keyboard = new Kiwi.Input.Keyboard(this.game);
-                    this.keyboard.boot();
                 }
 
                 this.isDown = false;
@@ -19574,13 +19840,14 @@ var Kiwi;
             * @public
             */
             InputManager.prototype.update = function () {
+                this.mouse.update();
+                this.keyboard.update();
+
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch.update();
                     this.position.setTo(this.touch.x, this.touch.y);
                     this.isDown = this.touch.isDown;
                 } else {
-                    this.keyboard.update();
-                    this.mouse.update();
                     this.position.setTo(this.mouse.x, this.mouse.y);
                     this.isDown = this.mouse.isDown;
                 }
@@ -19591,11 +19858,11 @@ var Kiwi;
             * @method reset
             */
             InputManager.prototype.reset = function () {
+                this.mouse.reset();
+                this.keyboard.reset();
+
                 if (Kiwi.DEVICE.touch === true) {
                     this.touch.reset();
-                } else {
-                    this.mouse.reset();
-                    this.keyboard.reset();
                 }
             };
 
@@ -21146,6 +21413,11 @@ var Kiwi;
                 var gl = this._game.stage.gl;
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
 
+                this._game.stage.onResize.add(function () {
+                    this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                }, this);
+
                 this._shaders = new Renderers.GLShaders(gl);
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -21198,7 +21470,8 @@ var Kiwi;
                 this._uvBuffer.clear();
 
                 //clear
-                gl.clearColor(0, 0, 0, 0);
+                var col = this._game.stage.normalizedColor;
+                gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 var prog = this._shaders.texture2DProg;
@@ -21940,8 +22213,8 @@ var Kiwi;
                     this.container.id = id;
                 }
 
-                this.container.style.width = '800px';
-                this.container.style.height = '600px';
+                this.container.style.width = Kiwi.Stage.DEFAULT_WIDTH + 'px';
+                this.container.style.height = Kiwi.Stage.DEFAULT_HEIGHT + 'px';
                 this.container.style.position = 'relative';
                 this.container.style.overflow = 'hidden';
             };
@@ -21989,6 +22262,7 @@ var Kiwi;
             * @method boot
             */
             Browser.prototype.boot = function () {
+                //this._game.stage.offset = this.getOffsetPoint(this._game.stage.container);
             };
 
             /**
@@ -22747,13 +23021,16 @@ var Kiwi;
                 }
 
                 if (imageFile.data.width !== width || imageFile.data.height !== height) {
-                    var canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
+                    this._canvas.width = width;
+                    this._canvas.height = height;
+                    this._canvas.getContext("2d").drawImage(imageFile.data, 0, 0);
 
                     var image = new Image(width, height);
-                    image.src = canvas.toDataURL("image/png");
+
+                    //CocoonJS needs the width/height set as the ImageObject doesn't accept the parameters...
+                    image.width = width;
+                    image.height = height;
+                    image.src = this._canvas.toDataURL("image/png");
 
                     if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
                         if (!imageFile.metadata.rows)
@@ -22763,10 +23040,18 @@ var Kiwi;
                             imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
                     }
 
+                    //Assign the new image to the data
                     imageFile.data = image;
-                    canvas = null;
-                    width = null;
-                    height = null;
+
+                    if (Kiwi.TARGET_COCOON == this._game.deviceTargetOption) {
+                        console.log('Warning! "' + imageFile.key + '" was resized to have base-2 dimensions, but in CocoonJS this can remove the alpha channel!' + "\n" + 'Make sure the images have base-2 dimensions before loading and using WEBGL.');
+                    }
+
+                    //Flag the items we just generated for garbage collection
+                    delete image;
+
+                    delete width;
+                    delete height;
                 }
 
                 return imageFile;
@@ -22816,6 +23101,35 @@ var Kiwi;
             TextureLibrary.prototype._buildImage = function (imageFile) {
                 var m = imageFile.metadata;
                 return new Kiwi.Textures.SingleImage(imageFile.key, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
+            };
+
+            /**
+            * Rebuild the library from a fileStore. Clears the library and repopulates it.
+            * @method rebuild
+            * @param {Kiwi.Files.FileStore} fileStore
+            * @param {Kiwi.State} state
+            * @public
+            */
+            TextureLibrary.prototype.rebuild = function (fileStore, state) {
+                this.clear();
+                if (this._game.debug) {
+                    console.log("Rebuilding Texture Library");
+                }
+
+                this._canvas = document.createElement('canvas');
+                var fileStoreKeys = fileStore.keys;
+                for (var i = 0; i < fileStoreKeys.length; i++) {
+                    var file = this._game.fileStore.getFile(fileStoreKeys[i]);
+                    if (file.isTexture) {
+                        if (this._game.debug) {
+                            console.log("Adding Texture: " + file.fileName);
+                        }
+                        ;
+                        state.textureLibrary.add(file);
+                    }
+                }
+
+                this._canvas = null;
             };
             return TextureLibrary;
         })();
@@ -23709,6 +24023,7 @@ var Kiwi;
                 if (this.delta > 0.1) {
                     this.delta = 0.1;
                 }
+                //  Apply time scaling
             };
 
             /**
@@ -24412,6 +24727,7 @@ var Kiwi;
             */
             Canvas.prototype.clear = function () {
                 if (this._clearMode === Canvas.CLEARMODE_NONE) {
+                    //  Do nothing
                 } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
                     //  Clear Rect
                     this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
@@ -24827,7 +25143,8 @@ var Kiwi;
                 max -= min;
 
                 if (!max)
-                    return 0; else
+                    return 0;
+else
                     return val / max;
             };
 
@@ -24842,7 +25159,8 @@ var Kiwi;
             */
             function (n) {
                 if (n)
-                    return n / Math.abs(n); else
+                    return n / Math.abs(n);
+else
                     return 0;
             };
 
@@ -26052,7 +26370,7 @@ var Kiwi;
 
                 var seed;
 
-                for (var i = 0; seed = seeds[i++]; ) {
+                for (var i = 0; seed = seeds[i++];) {
                     this.s0 -= this.hash(seed);
                     this.s0 += ~~(this.s0 < 0);
 
@@ -26455,6 +26773,7 @@ var Kiwi;
     })(Kiwi.Utils || (Kiwi.Utils = {}));
     var Utils = Kiwi.Utils;
 })(Kiwi || (Kiwi = {}));
+/// <reference path="WebGL.d.ts"/>
 /// <reference path="animations/tweens/easing/Back.ts" />
 /// <reference path="animations/tweens/easing/Bounce.ts" />
 /// <reference path="animations/tweens/easing/Circular.ts" />
@@ -26546,7 +26865,6 @@ var Kiwi;
 /// <reference path="renderers/GLTexture.ts" />
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />
-/// <reference path="renderers/WebGL.d.ts"/>
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />
@@ -26580,7 +26898,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.5.1";
+    Kiwi.VERSION = "0.5.2";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

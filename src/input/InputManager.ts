@@ -108,22 +108,24 @@ module Kiwi.Input {
         */
         public boot() {
             this._pointers = [];
+            
             this.mouse = new Kiwi.Input.Mouse(this.game);
             this.mouse.boot();
 
-            if (Kiwi.DEVICE.touch === true)
-            {
+            this.keyboard = new Kiwi.Input.Keyboard(this.game);
+            this.keyboard.boot();
+
+            if (Kiwi.DEVICE.touch === true) {
                 this.touch = new Kiwi.Input.Touch(this.game);
                 this.touch.boot();
                 this.touch.touchDown.add(this._onDownEvent, this);
                 this.touch.touchUp.add(this._onUpEvent, this);
                 this._pointers = this.touch.fingers;
+
             } else {
                 this.mouse.onDown.add(this._onDownEvent, this);
                 this.mouse.onUp.add(this._onUpEvent, this);
                 this._pointers.push(this.mouse.cursor);
-                this.keyboard = new Kiwi.Input.Keyboard(this.game);
-                this.keyboard.boot();
             }
 
             this.isDown = false;
@@ -190,6 +192,8 @@ module Kiwi.Input {
         * @public
         */
         public update() {
+            this.mouse.update();
+            this.keyboard.update();
 
             if (Kiwi.DEVICE.touch === true)
             {
@@ -199,8 +203,6 @@ module Kiwi.Input {
             }
             else
             {
-                this.keyboard.update();
-                this.mouse.update();
                 this.position.setTo(this.mouse.x, this.mouse.y);
                 this.isDown = this.mouse.isDown;
             }
@@ -212,15 +214,12 @@ module Kiwi.Input {
         * @method reset
         */
         public reset() {
+            this.mouse.reset();
+            this.keyboard.reset();
 
             if (Kiwi.DEVICE.touch === true)
             {
                 this.touch.reset();
-            }
-            else
-            {
-                this.mouse.reset();
-                this.keyboard.reset();
             }
 
         }
