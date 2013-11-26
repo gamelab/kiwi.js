@@ -1440,6 +1440,20 @@ declare module Kiwi {
         */
         public rotation : number;
         /**
+        * The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.
+        * @property rotPointX
+        * @type number
+        * @public
+        */
+        public rotPointX : number;
+        /**
+        * The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.
+        * @property rotPointY
+        * @type number
+        * @public
+        */
+        public rotPointY : number;
+        /**
         * Returns the type of child that this is.
         * @type Number
         * @return {Number} returns the type of child that the entity is
@@ -1726,6 +1740,13 @@ declare module Kiwi {
         * @public
         */
         public debugOption : number;
+        /**
+        * Returns true if debug option is set to Kiwi.DEBUG_ON
+        * @property debug
+        * @type boolean
+        * @public
+        */
+        public debug : boolean;
         /**
         * Holds the renderer that is being used. This is detiremended based of the _renderMode
         * @property renderer
@@ -3379,6 +3400,42 @@ declare module Kiwi.Components {
     class AnimationManager extends Kiwi.Component {
         constructor(entity: Kiwi.Entity);
         /**
+        * Dispatches callbacks each time an animation is told to play through this AnimationManager.
+        * Functions dispatched from this signal have ONE parameter.
+        * One - The Animation object of that is now playing.
+        * @property onPlay
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onPlay: Kiwi.Signal;
+        /**
+        * Dispatches callbacks each time an animation stops.
+        * Functions dispatched from this signal have ONE parameter.
+        * One - The current animation.
+        * @property onStop
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onStop: Kiwi.Signal;
+        /**
+        * Dispatches callbacks each time the cell of the Sprite this AnimationManager belongs to updates/changes.
+        * Note: This method will be dispatching events EVERY time the cell changes, so this will include when changing/switching animations.
+        * @property onUpdate
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onUpdate: Kiwi.Signal;
+        /**
+        * Dispatches callbacks each time the current animation is switched NOT when the cells of a animation change.
+        * Function's dispatched from this event have TWO parameters,
+        * One - Name of the animation switched to.
+        * Two - The Animation object that is now the current.
+        * @property onChange
+        * @type Kiwi.Signal
+        * @public
+        */
+        public onChange: Kiwi.Signal;
+        /**
         * The entity that this animation belongs to.
         * @property entity
         * @type Entity
@@ -3407,14 +3464,6 @@ declare module Kiwi.Components {
         * @private
         */
         public currentAnimation: Kiwi.Animations.Animation;
-        /**
-        * Indicates whether or not this animation is currently playing or not.
-        * @property _isPlaying
-        * @type boolean
-        * @default false
-        * @private
-        */
-        private _isPlaying;
         /**
         * Returns a boolean indicating whether or not the current animation is playing. This is READ ONLY.
         * @property isPlaying
@@ -3498,7 +3547,8 @@ declare module Kiwi.Components {
         */
         public resume(): void;
         /**
-        * Either switchs to a particular animation or a particular frame in an animation depending on if you pass a string or a number.
+        * Either switches to a particular animation OR a particular frame in the current animation depending on if you pass the name of an animation that exists on this Manager (as a string) or a number refering to a frame index on the Animation.
+        * When you switch to a particular animation then
         * You can also force the animation to play or to stop by passing a boolean in. But if left as null, the animation will base it off what is currently happening.
         * So if the animation is currently 'playing' then once switched to the animation will play. If not currently playing it will switch to and stop.
         *
@@ -3565,20 +3615,13 @@ declare module Kiwi.Components {
         */
         public getAnimation(name: string): Kiwi.Animations.Animation;
         /**
-        * An internal method that is used to set the cell index of the entity. This is how the animation changes.
-        * @method _setCellIndex
-        * @private
+        * An internal method that is used to update the cell index of an entity when an animation says it needs to update.
+        * @method updateCellIndex
+        * @protected
         */
-        private _setCellIndex();
+        public updateCellIndex(): void;
         /**
-        * Returns a string representation of this object.
-        * @method toString
-        * @return {string} A string representation of this object.
-        * @public
-        */
-        public toString(): string;
-        /**
-        * Destroys the animation component and runs the destroy on all of the anims that it has.
+        * Destroys the animation component and runs the destroy method on all of the anims that it has.
         * @method destroy
         * @public
         */
@@ -5061,6 +5104,14 @@ declare module Kiwi.Files {
         * @public
         */
         public add(dataFile: Files.File): void;
+        /**
+        * Rebuild the library from a fileStore. Clears the library and repopulates it.
+        * @method rebuild
+        * @param {Kiwi.Files.FileStore} fileStore
+        * @param {Kiwi.State} state
+        * @public
+        */
+        public rebuild(fileStore: Files.FileStore, state: Kiwi.State): void;
     }
 }
 /**
@@ -11807,9 +11858,17 @@ declare module Kiwi.Sound {
         */
         public clear(): void;
         /**
+        * Rebuild the library from a fileStore. Clears the library and repopulates it.
+        * @method rebuild
+        * @param {Kiwi.Files.FileStore} fileStore
+        * @param {Kiwi.State} state
+        * @public
+        */
+        public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State): void;
+        /**
         * Adds a new audio file to the audio library.
         * @method add
-        * @param {File} imageFile
+        * @param {File} audioFile
         * @public
         */
         public add(audioFile: Kiwi.Files.File): void;
@@ -11833,11 +11892,12 @@ declare module Kiwi.Animations {
     * @param name {string} The name of this anim.
     * @param sequences {Sequences} The sequence that this anim will be using to animate.
     * @param clock {Clock} A game clock that this anim will be using to keep record of the time between frames.
+    * @param parent {AnimationManager} The animation manager that this animation belongs to.
     * @return {Anim}
     *
     */
     class Animation {
-        constructor(name: string, sequence: Animations.Sequence, clock: Kiwi.Time.Clock);
+        constructor(name: string, sequence: Animations.Sequence, clock: Kiwi.Time.Clock, parent: Kiwi.Components.AnimationManager);
         /**
         * The type of object that this is.
         * @method objType
@@ -11845,6 +11905,13 @@ declare module Kiwi.Animations {
         * @public
         */
         public objType(): string;
+        /**
+        * The AnimationManager that this animation is a child of.
+        * @property _parent
+        * @type AnimationManager
+        * @private
+        */
+        private _parent;
         /**
         * The name of this animation.
         * @property name
@@ -11954,33 +12021,44 @@ declare module Kiwi.Animations {
         */
         private _isPlaying;
         /**
+        * If the animation is currently playing or not.
+        * @property isPlaying
+        * @type boolean
+        * @private
+        */
+        public isPlaying : boolean;
+        /**
         * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
-        * @property onStop
+        * @property _onStop
         * @type Signal
         * @public
         */
-        public onStop: Kiwi.Signal;
+        private _onStop;
+        public onStop : Kiwi.Signal;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has started playing.
-        * @property onPlay
+        * @property _onPlay
         * @type Kiwi.Signal
         * @public
         */
-        public onPlay: Kiwi.Signal;
+        private _onPlay;
+        public onPlay : Kiwi.Signal;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
-        * @property onUpdate
+        * @property _onUpdate
         * @type Kiwi.Signal
         * @public
         */
-        public onUpdate: Kiwi.Signal;
+        private _onUpdate;
+        public onUpdate : Kiwi.Signal;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
-        * @property onLoop
+        * @property _onLoop
         * @type Kiwi.Signal
         * @public
         */
-        public onLoop: Kiwi.Signal;
+        private _onLoop;
+        public onLoop : Kiwi.Signal;
         /**
         * An Internal method used to start the animation.
         * @method _start
@@ -12034,10 +12112,9 @@ declare module Kiwi.Animations {
         /**
         * The update loop. Returns a boolean indicating whether the animation has gone to a new frame or not.
         * @method update
-        * @return {boolean}
         * @public
         */
-        public update(): boolean;
+        public update(): void;
         /**
         * An internal method used to check to see if frame passed is valid or not
         * @method _validateFrame
@@ -15631,6 +15708,15 @@ declare module Kiwi.Textures {
         * @private
         */
         private _buildImage(imageFile);
+        private _canvas;
+        /**
+        * Rebuild the library from a fileStore. Clears the library and repopulates it.
+        * @method rebuild
+        * @param {Kiwi.Files.FileStore} fileStore
+        * @param {Kiwi.State} state
+        * @public
+        */
+        public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State): void;
     }
 }
 /**

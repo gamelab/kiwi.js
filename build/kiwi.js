@@ -2745,7 +2745,8 @@ var Kiwi;
             if (this.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                 if (domParent !== '') {
                     if (document.getElementById(domParent))
-                        console.log('Game being created inside ' + domParent + '.'); else
+                        console.log('Game being created inside ' + domParent + '.');
+else
                         console.log('The element "' + domParent + '" could not be found. Appending the game to the body.');
                 } else {
                     console.log('No DOM parent specified. Appending the game to the body.');
@@ -3035,6 +3036,7 @@ var Kiwi;
                 //if (this.containsDescendant(val) === false) {
                 this.transform.parent = (val !== null) ? val.transform : null;
                 this._parent = val;
+                //}
             },
             enumerable: true,
             configurable: true
@@ -4033,17 +4035,17 @@ var Kiwi;
     })();
     Kiwi.PluginManager = PluginManager;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+*
+*/
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-/**
-*
-* @module Kiwi
-*
-*/
 var Kiwi;
 (function (Kiwi) {
     /**
@@ -4405,6 +4407,11 @@ var Kiwi;
     })(Kiwi.Group);
     Kiwi.State = State;
 })(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+*
+*/
 /**
 *
 * @module Kiwi
@@ -5122,6 +5129,7 @@ var Kiwi;
         Stage.prototype._createCompositeCanvas = function () {
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                 this.canvas = document.createElement(navigator['isCocoonJS'] ? 'screencanvas' : 'canvas');
+                //otherwise default to normal canvas
             } else {
                 this.canvas = document.createElement("canvas");
             }
@@ -5176,6 +5184,7 @@ var Kiwi;
         */
         Stage.prototype._createDebugCanvas = function () {
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                //debug canvas not supported in cocoon, creating canvas and context anyway.
             }
             this.debugCanvas = document.createElement("canvas");
             this.debugCanvas.id = this._game.id + "debugCanvas";
@@ -5264,6 +5273,7 @@ var Kiwi;
 
                 if (this._animations['default']) {
                     this.currentAnimation = this._animations['default'];
+                    //otherwise create one.
                 } else {
                     var defaultCells = [];
                     for (var i = 0; i < this._atlas.cells.length; i++) {
@@ -5381,7 +5391,8 @@ var Kiwi;
                 this._setCurrentAnimation(name);
 
                 if (index !== null)
-                    this.currentAnimation.playAt(index); else
+                    this.currentAnimation.playAt(index);
+else
                     this.currentAnimation.play();
 
                 this.onPlay.dispatch(this.currentAnimation);
@@ -6798,7 +6809,8 @@ var Kiwi;
             ArcadePhysics.prototype.solid = function (value) {
                 if (value !== undefined) {
                     if (value)
-                        this.allowCollisions = ArcadePhysics.ANY; else
+                        this.allowCollisions = ArcadePhysics.ANY;
+else
                         this.allowCollisions = ArcadePhysics.NONE;
                 }
 
@@ -7133,16 +7145,20 @@ var Kiwi;
                 if (typeof drag === "undefined") { drag = 0; }
                 if (typeof max === "undefined") { max = 10000; }
                 if (acceleration != 0)
-                    velocity += acceleration * ArcadePhysics.updateInterval; else if (drag != 0) {
+                    velocity += acceleration * ArcadePhysics.updateInterval;
+else if (drag != 0) {
                     drag = drag * ArcadePhysics.updateInterval;
                     if (velocity - drag > 0)
-                        velocity = velocity - drag; else if (velocity + drag < 0)
-                        velocity += drag; else
+                        velocity = velocity - drag;
+else if (velocity + drag < 0)
+                        velocity += drag;
+else
                         velocity = 0;
                 }
                 if ((velocity != 0) && (max != 10000)) {
                     if (velocity > max)
-                        velocity = max; else if (velocity < -max)
+                        velocity = max;
+else if (velocity < -max)
                         velocity = -max;
                 }
                 return velocity;
@@ -10625,6 +10641,7 @@ var Kiwi;
                 */
                 TileMap.prototype.collideGroup = function (group) {
                     for (var i = 0; i < group.members.length; i++) {
+                        //this.collideSingle(group.members[i]);
                     }
                 };
 
@@ -11656,6 +11673,7 @@ var Kiwi;
                 if (typeof output === "undefined") { output = new Geom.Point(); }
                 if (asDegrees === true) {
                     angle = angle * (Math.PI / 180);
+                    //angle = angle * (180 / Math.PI); // Degrees to Radians
                 }
 
                 output.x = this.x + this._radius * Math.cos(angle);
@@ -11903,6 +11921,7 @@ var Kiwi;
                     if (Math.atan2(y - this.y1, x - this.x1) == Math.atan2(this.y2 - this.y1, this.x2 - this.x1)) {
                         return true;
                     }
+                    //  return true;
                 }
 
                 return false;
@@ -12649,7 +12668,8 @@ var Kiwi;
             */
             Line.prototype.getY = function (x) {
                 if (this.x1 == this.x2)
-                    return null; else
+                    return null;
+else
                     return this.slope * x + this.yIntercept;
             };
 
@@ -14537,6 +14557,7 @@ var Kiwi;
                 function (value) {
                     this._scaleX = value;
                     this._scaleY = value;
+                    //this.owner.dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -15712,6 +15733,7 @@ var Kiwi;
                 if (this.onCoordsUpdate)
                     this.onCoordsUpdate.dispose();
                 delete this.onCoordsUpdate;
+                //remove the elements....
             };
             return HUDWidget;
         })();
@@ -16798,6 +16820,7 @@ var Kiwi;
                         }
 
                         _super.prototype.setTemplate.call(this, main);
+                        //do something with each item
                     }
                 };
 
@@ -18260,7 +18283,8 @@ var Kiwi;
                             this.duration = this.totalDuration * 1000;
 
                         if (this._muted)
-                            this._sound.volume = 0; else
+                            this._sound.volume = 0;
+else
                             this._sound.volume = this._volume;
 
                         this._sound.currentTime = this._markers[this._currentMarker].start;
@@ -18904,6 +18928,7 @@ var Kiwi;
                                 this._parent.updateCellIndex();
                                 if (this._onLoop !== null)
                                     this._onLoop.dispatch();
+                                //Not Looping, stop animation.
                             } else {
                                 //Execute the stop on the parent to allow the isPlaying boolean to remain consistent
                                 this._parent.stop();
@@ -19287,6 +19312,7 @@ var Kiwi;
             * @public
             */
             Keyboard.prototype.update = function () {
+                //  Loop through all 'down' keys and update the timers on those still pressed
             };
 
             /**
@@ -22236,6 +22262,7 @@ var Kiwi;
             * @method boot
             */
             Browser.prototype.boot = function () {
+                //this._game.stage.offset = this.getOffsetPoint(this._game.stage.container);
             };
 
             /**
@@ -23996,6 +24023,7 @@ var Kiwi;
                 if (this.delta > 0.1) {
                     this.delta = 0.1;
                 }
+                //  Apply time scaling
             };
 
             /**
@@ -24699,6 +24727,7 @@ var Kiwi;
             */
             Canvas.prototype.clear = function () {
                 if (this._clearMode === Canvas.CLEARMODE_NONE) {
+                    //  Do nothing
                 } else if (this._clearMode === Canvas.CLEARMODE_CLEARRECT) {
                     //  Clear Rect
                     this.context.clearRect(0, 0, this.domElement.width, this.domElement.height);
@@ -25114,7 +25143,8 @@ var Kiwi;
                 max -= min;
 
                 if (!max)
-                    return 0; else
+                    return 0;
+else
                     return val / max;
             };
 
@@ -25129,7 +25159,8 @@ var Kiwi;
             */
             function (n) {
                 if (n)
-                    return n / Math.abs(n); else
+                    return n / Math.abs(n);
+else
                     return 0;
             };
 
@@ -26339,7 +26370,7 @@ var Kiwi;
 
                 var seed;
 
-                for (var i = 0; seed = seeds[i++]; ) {
+                for (var i = 0; seed = seeds[i++];) {
                     this.s0 -= this.hash(seed);
                     this.s0 += ~~(this.s0 < 0);
 
