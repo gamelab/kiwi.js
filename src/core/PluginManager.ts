@@ -204,6 +204,15 @@ module Kiwi {
 
         }
 
+        public update() {
+           
+            for (var i = 0; i < this._bootObjects.length; i++) {
+                if ("update" in this._bootObjects[i]) {
+                    this._bootObjects[i].update.call(this._bootObjects[i]);
+                }
+            }
+
+        }
         
     }
 }

@@ -244,6 +244,8 @@ module Kiwi.Renderers {
             
         }
 
+        public numDrawCalls: number = 0;
+
         /**
         *
         * @method render
@@ -251,7 +253,7 @@ module Kiwi.Renderers {
         * @public
         */
         public render(camera: Kiwi.Camera) {
-
+            this.numDrawCalls = 0;   
             this._currentCamera = camera;
             var root: IChild[] = this._game.states.current.members;
             var gl: WebGLRenderingContext = this._game.stage.gl;
@@ -442,7 +444,7 @@ module Kiwi.Renderers {
         * @private
         */
         private _draw(gl: WebGLRenderingContext) {
-           
+            this.numDrawCalls ++;   
             gl.drawElements(gl.TRIANGLES, this._entityCount*6, gl.UNSIGNED_SHORT, 0);
             
         }

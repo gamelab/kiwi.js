@@ -2903,8 +2903,8 @@ var Kiwi;
                 this.cameras.update();
                 if (this._deviceTargetOption !== Kiwi.TARGET_COCOON)
                     this.huds.update();
-
                 this.states.update();
+                this.pluginManager.update();
 
                 this.cameras.render();
 
@@ -4025,6 +4025,14 @@ var Kiwi;
                     this._bootObjects[i].boot.call(this._bootObjects[i]);
                 } else {
                     console.log("Warning! No boot function found on boot object");
+                }
+            }
+        };
+
+        PluginManager.prototype.update = function () {
+            for (var i = 0; i < this._bootObjects.length; i++) {
+                if ("update" in this._bootObjects[i]) {
+                    this._bootObjects[i].update.call(this._bootObjects[i]);
                 }
             }
         };
@@ -21212,6 +21220,7 @@ var Kiwi;
         */
         var CanvasRenderer = (function () {
             function CanvasRenderer(game) {
+                this.numDrawCalls = 0;
                 this._game = game;
             }
             /**
@@ -21249,6 +21258,7 @@ var Kiwi;
                         this._recurse((child).members[i]);
                     }
                 } else {
+                    this.numDrawCalls++;
                     child.render(this._currentCamera);
                 }
             };
@@ -21260,6 +21270,7 @@ var Kiwi;
             * @public
             */
             CanvasRenderer.prototype.render = function (camera) {
+                this.numDrawCalls = 0;
                 this._currentCamera = camera;
                 var root = this._game.states.current.members;
 
@@ -21344,6 +21355,7 @@ var Kiwi;
                 * @private
                 */
                 this._currentTextureAtlas = null;
+                this.numDrawCalls = 0;
                 this._game = game;
             }
             /**
@@ -21435,6 +21447,7 @@ var Kiwi;
             * @public
             */
             GLRenderer.prototype.render = function (camera) {
+                this.numDrawCalls = 0;
                 this._currentCamera = camera;
                 var root = this._game.states.current.members;
                 var gl = this._game.stage.gl;
@@ -21618,6 +21631,7 @@ var Kiwi;
             * @private
             */
             GLRenderer.prototype._draw = function (gl) {
+                this.numDrawCalls++;
                 gl.drawElements(gl.TRIANGLES, this._entityCount * 6, gl.UNSIGNED_SHORT, 0);
             };
 
@@ -22604,7 +22618,6 @@ var Kiwi;
                 this.worker = !!window['Worker'];
 
                 if ('ontouchstart' in document.documentElement || window.navigator.msPointerEnabled) {
-                    this.touch = true;
                 }
             };
 
@@ -26867,7 +26880,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.5.1";
+    Kiwi.VERSION = "0.5.2";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
