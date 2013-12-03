@@ -21520,7 +21520,7 @@ var Kiwi;
                     }
                 } else {
                     if (!this._texApplied) {
-                        this._applyTexture(gl, (child).atlas.image);
+                        this._applyTexture(gl, (child).atlas);
                         this._texApplied = true;
                         this._currentTextureAtlas = (child).atlas;
                     }
@@ -21530,7 +21530,7 @@ var Kiwi;
                         this._entityCount = 0;
                         this._vertBuffer.clear();
                         this._uvBuffer.clear();
-                        this._changeTexture(gl, (child).atlas.image);
+                        this._changeTexture(gl, (child).atlas);
                         this._currentTextureAtlas = (child).atlas;
                     }
                     this._compileVertices(gl, child, camera);
@@ -21606,8 +21606,8 @@ var Kiwi;
             * @param image {HTMLImageElement}
             * @private
             */
-            GLRenderer.prototype._applyTexture = function (gl, image) {
-                this._texture = new Renderers.GLTexture(gl, image);
+            GLRenderer.prototype._applyTexture = function (gl, atlas) {
+                this._texture = new Renderers.GLTexture(gl, atlas);
                 gl.activeTexture(gl.TEXTURE0);
                 gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
                 var prog = this._shaders.texture2DProg;
@@ -21621,8 +21621,8 @@ var Kiwi;
             * @param image {HTMLImageElement}
             * @private
             */
-            GLRenderer.prototype._changeTexture = function (gl, image) {
-                this._texture.refresh(gl, image);
+            GLRenderer.prototype._changeTexture = function (gl, atlas) {
+                this._texture.refresh(gl, atlas);
                 gl.activeTexture(gl.TEXTURE0);
                 gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
                 var prog = this._shaders.texture2DProg;
@@ -21852,12 +21852,12 @@ var Kiwi;
         * @return {GLTexture}
         */
         var GLTexture = (function () {
-            function GLTexture(gl, _image) {
+            function GLTexture(gl, atlas) {
                 this.uploaded = false;
                 this.texture = gl.createTexture();
 
-                this.image = _image;
-                this._bytes = _image.width * _image.height * 4;
+                this.image = atlas.image;
+                this._bytes = this.image.width * this.image.height * 4;
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
@@ -21880,8 +21880,10 @@ var Kiwi;
             * @param image {HTMLImageElement}
             * @public
             */
-            GLTexture.prototype.refresh = function (gl, _image) {
-                this.image = _image;
+            GLTexture.prototype.refresh = function (gl, atlas) {
+                this.image = atlas.image;
+                this._bytes = this.image.width * this.image.height * 4;
+
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);

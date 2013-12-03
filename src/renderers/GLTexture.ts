@@ -17,12 +17,12 @@ module Kiwi.Renderers {
     */
     export class GLTexture {
 
-        constructor(gl: WebGLRenderingContext, _image?: HTMLImageElement) {
+        constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
         
             this.texture = gl.createTexture();
             
-            this.image = _image;
-            this._bytes = _image.width * _image.height * 4;
+            this.image = atlas.image;
+            this._bytes = this.image.width * this.image.height * 4;
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
@@ -64,8 +64,11 @@ module Kiwi.Renderers {
         * @param image {HTMLImageElement}
         * @public
         */
-        public refresh(gl: WebGLRenderingContext, _image: HTMLImageElement) {
-            this.image = _image;
+        public refresh(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
+
+            this.image = atlas.image;
+            this._bytes = this.image.width * this.image.height * 4;
+            
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);

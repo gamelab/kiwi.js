@@ -324,7 +324,7 @@ module Kiwi.Renderers {
                 }
             } else {
                 if (!this._texApplied) {
-                    this._applyTexture(gl, (<Entity>child).atlas.image);
+                    this._applyTexture(gl, (<Entity>child).atlas);
                     this._texApplied = true;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 }
@@ -334,7 +334,7 @@ module Kiwi.Renderers {
                     this._entityCount = 0;
                     this._vertBuffer.clear();
                     this._uvBuffer.clear();
-                    this._changeTexture(gl, (<Entity>child).atlas.image);
+                    this._changeTexture(gl, (<Entity>child).atlas);
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
                 this._compileVertices(gl, <Entity>child,camera);
@@ -426,8 +426,8 @@ module Kiwi.Renderers {
         * @param image {HTMLImageElement}
         * @private
         */
-        private _applyTexture(gl: WebGLRenderingContext,image:HTMLImageElement) {
-            this._texture = new GLTexture(gl, image);
+        private _applyTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
+            this._texture = new GLTexture(gl, atlas);
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
             var prog = this._shaders.texture2DProg;
@@ -441,9 +441,9 @@ module Kiwi.Renderers {
         * @param image {HTMLImageElement}
         * @private
         */
-        private _changeTexture(gl: WebGLRenderingContext, image: HTMLImageElement) {
+        private _changeTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
           
-            this._texture.refresh(gl, image);
+            this._texture.refresh(gl, atlas);
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
             var prog = this._shaders.texture2DProg;
