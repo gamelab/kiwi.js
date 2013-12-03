@@ -67,7 +67,6 @@ module Kiwi.Renderers {
         public refresh(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
 
             this.image = atlas.image;
-            this._bytes = this.image.width * this.image.height * 4;
             
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);

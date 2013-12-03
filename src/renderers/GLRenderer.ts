@@ -20,11 +20,10 @@ module Kiwi.Renderers {
 
         constructor(game: Kiwi.Game) {
             this._game = game;
-            this._numTexturesUsed = 0;
-            this.maxTextureMem = GLRenderer.DEFAULT_MAX_TEX_MEM_MB * 1024;
+            
         }
 
-        public static DEFAULT_MAX_TEX_MEM_MB: number = 512; 
+        
 
         /**
         * 
@@ -190,16 +189,6 @@ module Kiwi.Renderers {
             this.mvMatrix = this.mvMatrixStack.pop();
         } */
 
-        public maxTextureMem: number;
-        private _usedTextureMem: number;
-        public get usedTextureMem(): number {
-            return this._usedTextureMem;
-        }     
-
-        private _numTexturesUsed: number;
-        public get numTexturesUsed(): number {
-            return this._numTexturesUsed;
-        }
         
 
         /**

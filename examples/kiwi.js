@@ -21357,8 +21357,6 @@ var Kiwi;
                 this._currentTextureAtlas = null;
                 this.numDrawCalls = 0;
                 this._game = game;
-                this._numTexturesUsed = 0;
-                this.maxTextureMem = GLRenderer.DEFAULT_MAX_TEX_MEM_MB * 1024;
             }
             /**
             *
@@ -21379,22 +21377,19 @@ var Kiwi;
                 return "GLRenderer";
             };
 
-            Object.defineProperty(GLRenderer.prototype, "usedTextureMem", {
-                get: function () {
-                    return this._usedTextureMem;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(GLRenderer.prototype, "numTexturesUsed", {
-                get: function () {
-                    return this._numTexturesUsed;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
+            /*
+            public mvPush() {
+            var copy = mat4.create();
+            mat4.set(this.mvMatrix, copy);
+            this.mvMatrixStack.push(copy);
+            }
+            
+            public mvPop() {
+            if (this.mvMatrixStack.length == 0) {
+            throw "Invalid popMatrix!";
+            }
+            this.mvMatrix = this.mvMatrixStack.pop();
+            } */
             /**
             *
             * @method _initState
@@ -21669,7 +21664,6 @@ var Kiwi;
                 }
                 return cols;
             };
-            GLRenderer.DEFAULT_MAX_TEX_MEM_MB = 512;
             return GLRenderer;
         })();
         Renderers.GLRenderer = GLRenderer;
@@ -21882,7 +21876,6 @@ var Kiwi;
             */
             GLTexture.prototype.refresh = function (gl, atlas) {
                 this.image = atlas.image;
-                this._bytes = this.image.width * this.image.height * 4;
 
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
@@ -21894,6 +21887,56 @@ var Kiwi;
             return GLTexture;
         })();
         Renderers.GLTexture = GLTexture;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    *
+    * @module Kiwi
+    * @submodule Renderers
+    *
+    */
+    (function (Renderers) {
+        /**
+        *
+        * @class GLTexture
+        * @constructor
+        * @param gl {WebGLRenderingContext}
+        * @param [_image] {HTMLImageElement}
+        * @return {GLTexture}
+        */
+        var GLTextureManager = (function () {
+            function GLTextureManager(gl) {
+                this._numTexturesUsed = 0;
+                this.maxTextureMem = GLTextureManager.DEFAULT_MAX_TEX_MEM_MB * 1024;
+            }
+            Object.defineProperty(GLTextureManager.prototype, "usedTextureMem", {
+                get: function () {
+                    return this._usedTextureMem;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLTextureManager.prototype, "numTexturesUsed", {
+                get: function () {
+                    return this._numTexturesUsed;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            GLTextureManager.prototype.addTexture = function (texture) {
+            };
+
+            GLTextureManager.prototype.deleteTexture = function (texture) {
+            };
+            GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 512;
+            return GLTextureManager;
+        })();
+        Renderers.GLTextureManager = GLTextureManager;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -26863,6 +26906,7 @@ var Kiwi;
 /// <reference path="renderers/GLRenderer.ts" />
 /// <reference path="renderers/GLShaders.ts" />
 /// <reference path="renderers/GLTexture.ts" />
+/// <reference path="renderers/GLTextureManager.ts" />
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />
 /// <reference path="system/Bootstrap.ts" />

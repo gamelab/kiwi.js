@@ -109,6 +109,6 @@ class GLTest1 extends Kiwi.State {
 
 
 
-if (typeof gameOptions == "undefined") var gameOptions = {renderer:Kiwi.RENDERER_WEBGL};
+if (typeof gameOptions == "undefined") var gameOptions = {renderer:Kiwi.RENDERER_WEBGL,plugins:["Profiler"]};
 
 var game = new Kiwi.Game('game', 'KiwiExample', GLTest1, gameOptions);

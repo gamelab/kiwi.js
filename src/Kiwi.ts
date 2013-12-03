@@ -101,6 +101,7 @@
 /// <reference path="renderers/GLRenderer.ts" />
 /// <reference path="renderers/GLShaders.ts" />
 /// <reference path="renderers/GLTexture.ts" />
+/// <reference path="renderers/GLTextureManager.ts" />
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />
 
