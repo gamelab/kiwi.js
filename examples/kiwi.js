@@ -17497,7 +17497,6 @@ var Kiwi;
         * @constructor
         * @param game {Game} The game that this audio manager belongs to.
         * @return {AudioManager}
-        *
         */
         var AudioManager = (function () {
             function AudioManager(game) {
@@ -17960,6 +17959,7 @@ var Kiwi;
                 this.duration = 0;
                 this._volume = volume;
                 this._muteVolume = volume;
+                this._muted = this._game.audio.mute;
                 this._loop = loop;
                 this.key = key;
 
@@ -26867,7 +26867,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.5.1";
+    Kiwi.VERSION = "0.5.2";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

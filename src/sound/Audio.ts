@@ -35,6 +35,7 @@ module Kiwi.Sound {
             this.duration = 0;
             this._volume = volume;
             this._muteVolume = volume;
+            this._muted = this._game.audio.mute;
             this._loop = loop;
             this.key = key;
 
