@@ -20,8 +20,9 @@ module Kiwi.Renderers {
         constructor(gl: WebGLRenderingContext, _image?: HTMLImageElement) {
         
             this.texture = gl.createTexture();
-    
+            
             this.image = _image;
+            this._bytes = _image.width * _image.height * 4;
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
@@ -30,6 +31,15 @@ module Kiwi.Renderers {
             gl.bindTexture(gl.TEXTURE_2D, null);
     
         }
+
+        private _textureAtlas: Kiwi.Textures.TextureAtlas;
+
+        private _bytes: number;
+        public get bytes(): number {
+            return this._bytes;
+        }
+
+        public uploaded: boolean = false;
 
         /**
         *

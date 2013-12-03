@@ -21357,6 +21357,8 @@ var Kiwi;
                 this._currentTextureAtlas = null;
                 this.numDrawCalls = 0;
                 this._game = game;
+                this._numTexturesUsed = 0;
+                this.maxTextureMem = GLRenderer.DEFAULT_MAX_TEX_MEM_MB * 1024;
             }
             /**
             *
@@ -21377,19 +21379,22 @@ var Kiwi;
                 return "GLRenderer";
             };
 
-            /*
-            public mvPush() {
-            var copy = mat4.create();
-            mat4.set(this.mvMatrix, copy);
-            this.mvMatrixStack.push(copy);
-            }
-            
-            public mvPop() {
-            if (this.mvMatrixStack.length == 0) {
-            throw "Invalid popMatrix!";
-            }
-            this.mvMatrix = this.mvMatrixStack.pop();
-            } */
+            Object.defineProperty(GLRenderer.prototype, "usedTextureMem", {
+                get: function () {
+                    return this._usedTextureMem;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLRenderer.prototype, "numTexturesUsed", {
+                get: function () {
+                    return this._numTexturesUsed;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             *
             * @method _initState
@@ -21664,6 +21669,7 @@ var Kiwi;
                 }
                 return cols;
             };
+            GLRenderer.DEFAULT_MAX_TEX_MEM_MB = 512;
             return GLRenderer;
         })();
         Renderers.GLRenderer = GLRenderer;
@@ -21847,9 +21853,11 @@ var Kiwi;
         */
         var GLTexture = (function () {
             function GLTexture(gl, _image) {
+                this.uploaded = false;
                 this.texture = gl.createTexture();
 
                 this.image = _image;
+                this._bytes = _image.width * _image.height * 4;
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
                 gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
@@ -21857,6 +21865,14 @@ var Kiwi;
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
                 gl.bindTexture(gl.TEXTURE_2D, null);
             }
+            Object.defineProperty(GLTexture.prototype, "bytes", {
+                get: function () {
+                    return this._bytes;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             *
             * @method refresh
