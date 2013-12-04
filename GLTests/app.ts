@@ -41,7 +41,10 @@ class GLTest1 extends Kiwi.State {
         this.s10241024 = new Kiwi.GameObjects.Sprite(this, this.textures.s10241024, 100, 100);              //create the pirate
         this.s20482048 = new Kiwi.GameObjects.Sprite(this, this.textures.s20482048, 100, 100);              //create the pirate
         
-
+        this.addChild(this.s512512); 
+        this.addChild(this.s256256); 
+        this.addChild(this.s128128); 
+        this.addChild(this.s6464); 
         this.addChild(this.s3232);                                                                   //add it to the state                    
         this.test();
 
@@ -52,7 +55,7 @@ class GLTest1 extends Kiwi.State {
         var gl = this.game.stage.gl;;
         var numTextures = 5;
         for (var i = 0; i < numTextures; i++) {
-            this.uploadTexture(gl,32);
+           // this.uploadTexture(gl,32);
         }
          console.log("bytes = " + this.totalUploaded);
          console.log("kilobytes = " + this.totalUploaded / 1024);

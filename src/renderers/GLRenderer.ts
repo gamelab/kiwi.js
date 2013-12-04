@@ -31,7 +31,8 @@ module Kiwi.Renderers {
         * @public
         */
         public boot() {
-            this._initState();
+            this._init();
+            this._textureManager = new GLTextureManager();
         }
         
         /**
@@ -58,6 +59,9 @@ module Kiwi.Renderers {
         * @type Camera
         * @private
         */
+
+        private _textureManager: GLTextureManager;
+
         private _currentCamera: Kiwi.Camera;
         
         /**
@@ -193,10 +197,10 @@ module Kiwi.Renderers {
 
         /**
         *
-        * @method _initState
+        * @method _init
         * @private
         */
-        private _initState() {
+        private _init() {
 
             var gl: WebGLRenderingContext = this._game.stage.gl;
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -247,6 +251,12 @@ module Kiwi.Renderers {
         }
 
         public numDrawCalls: number = 0;
+
+        public initState(state: Kiwi.State) {
+            console.log("initState");
+          
+            this._textureManager.uploadTextureLibrary(this._game.stage.gl,state.textureLibrary);
+        }
 
         /**
         *
@@ -416,7 +426,7 @@ module Kiwi.Renderers {
         * @private
         */
         private _applyTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
-            this._texture = new GLTexture(gl, atlas);
+            this._texture = new GLTexture(gl, atlas,true);
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
             var prog = this._shaders.texture2DProg;

@@ -6,6 +6,7 @@
 interface IRenderer {
     render(camera: Kiwi.Camera);
     boot();
+    initState(state: Kiwi.State);
     numDrawCalls: number;
 }
 
@@ -92,6 +93,10 @@ module Kiwi.Renderers {
 
         }
         
+        public initState(state:Kiwi.State) {
+
+        }
+
         public numDrawCalls: number = 0;
 
         /**

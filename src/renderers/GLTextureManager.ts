@@ -17,10 +17,11 @@ module Kiwi.Renderers {
     */
     export class GLTextureManager {
 
-        constructor(gl: WebGLRenderingContext) {
+        constructor() {
             this._numTexturesUsed = 0;
+            this._usedTextureMem = 0;
             this.maxTextureMem = GLTextureManager.DEFAULT_MAX_TEX_MEM_MB * 1024;
-
+            this.textureCache = new Array();
         }
 
         public static DEFAULT_MAX_TEX_MEM_MB: number = 512; 
@@ -36,12 +37,37 @@ module Kiwi.Renderers {
             return this._numTexturesUsed;
         }
         
+        public textureCache: GLTexture[];
 
-        public addTexture(texture: GLTexture) {
+
+        public addTextureToCache(texture: GLTexture) {
 
         }
 
-        public deleteTexture(texture: GLTexture) {
+        public deleteTextureFromCache(texture: GLTexture) {
+
+        }
+
+        
+        public removeTexture() {
+            
+        }
+
+        public uploadTextureLibrary(gl:WebGLRenderingContext,textureLibrary:Kiwi.Textures.TextureLibrary) {
+            console.log("uploadTextureLibrary");
+            console.log(textureLibrary.textures);
+            for (var tex in textureLibrary.textures) {
+                var glTexture = new GLTexture(gl, textureLibrary.textures[tex]);
+                this._usedTextureMem += glTexture.upload(gl);
+                this._numTexturesUsed++;
+
+                this.textureCache.push(new GLTexture(gl, textureLibrary.textures[tex]));
+
+            }
+            console.log(this.textureCache);
+        }
+
+        public freeBlock(size: number) {
 
         }
 
