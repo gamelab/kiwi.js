@@ -349,6 +349,7 @@ module Kiwi {
                 var index: number = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
+                child.parent = this;
             }
 
             return child;
@@ -369,6 +370,7 @@ module Kiwi {
                 var index: number = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
+                child.parent = this;
             }
 
             return child;

@@ -3259,6 +3259,7 @@ var Kiwi;
                 var index = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
+                child.parent = this;
             }
 
             return child;
@@ -3277,6 +3278,7 @@ var Kiwi;
                 var index = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
+                child.parent = this;
             }
 
             return child;
