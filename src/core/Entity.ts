@@ -474,7 +474,7 @@ module Kiwi {
 
             if (immediate === true) {
                 
-                if (this.parent !== null) this.parent.removeChild(this);
+                if (this.parent !== null && typeof this.parent !== "undefined") this.parent.removeChild(this);
                 if (this.state) this.state.removeFromTrackingList(this);
                 delete this._parent;
                 delete this.transform;
