@@ -2473,7 +2473,7 @@ var Kiwi;
             this._willRender = false;
 
             if (immediate === true) {
-                if (this.parent !== null)
+                if (this.parent !== null && typeof this.parent !== "undefined")
                     this.parent.removeChild(this);
                 if (this.state)
                     this.state.removeFromTrackingList(this);
@@ -6968,8 +6968,8 @@ var Kiwi;
 
                 //First, get the two object deltas
                 var overlap = 0;
-                var obj1delta = phys1.transform.x - phys1.last.x;
-                var obj2delta = phys2.transform.x - phys2.last.x;
+                var obj1delta = phys1.box.hitbox.x - phys1.last.x;
+                var obj2delta = phys2.box.hitbox.x - phys2.last.x;
 
                 if (obj1delta != obj2delta) {
                     //Check if the X hulls actually overlap
@@ -7053,9 +7053,9 @@ var Kiwi;
                 //First, get the two object deltas
                 var overlap = 0;
 
-                var obj1delta = phys1.transform.y - phys1.last.y;
+                var obj1delta = phys1.box.hitbox.y - phys1.last.y;
 
-                var obj2delta = phys2.transform.y - phys2.last.y;
+                var obj2delta = phys2.box.hitbox.y - phys2.last.y;
                 if (obj1delta != obj2delta) {
                     //Check if the Y hulls actually overlap
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;

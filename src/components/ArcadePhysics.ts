@@ -530,8 +530,8 @@ module Kiwi.Components {
 
             //First, get the two object deltas
             var overlap: number = 0;
-            var obj1delta: number = phys1.transform.x - phys1.last.x;
-            var obj2delta: number = phys2.transform.x - phys2.last.x;
+            var obj1delta: number = phys1.box.hitbox.x - phys1.last.x;
+            var obj2delta: number = phys2.box.hitbox.x - phys2.last.x;
             
             if (obj1delta != obj2delta) { //perhaps remove this section.
 
@@ -626,9 +626,9 @@ module Kiwi.Components {
             //First, get the two object deltas
             var overlap: number = 0;
 
-            var obj1delta: number = phys1.transform.y - phys1.last.y;
+            var obj1delta: number = phys1.box.hitbox.y - phys1.last.y;
 
-            var obj2delta: number = phys2.transform.y - phys2.last.y;
+            var obj2delta: number = phys2.box.hitbox.y - phys2.last.y;
             if (obj1delta != obj2delta) {
                 //Check if the Y hulls actually overlap
                 var obj1deltaAbs: number = (obj1delta > 0) ? obj1delta : -obj1delta;
