@@ -26,9 +26,17 @@ module Kiwi.GameObjects {
 
             super(state, x, y);
 
-            // Set the texture
-            this.name = atlas.name;
+            //Texture atlas error check
+            if (typeof atlas == "undefined") {
+                console.error('A Texture Atlas was not passed when instantiating a new Sprite.');
+                this.willRender = false;
+                this.active = false;
+                return;
+            } 
+
+
             this.atlas = atlas;
+            this.name = this.atlas.name;
             this.cellIndex = this.atlas.cellIndex;
 
             //may need to add an optional other cell frame index here
@@ -36,13 +44,13 @@ module Kiwi.GameObjects {
             this.height = atlas.cells[0].h;
             this.transform.rotPointX = this.width / 2;
             this.transform.rotPointY = this.height / 2;
-            
+                
 
             //Create the components needed
             this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
 
-            
+                
             //Check to see if this sprite could be animated or not
             if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
                 this.animation = null;
@@ -51,7 +59,7 @@ module Kiwi.GameObjects {
                 this.animation = this.components.add(new Kiwi.Components.AnimationManager(this));
                 this._isAnimated = true;
             }
-
+            
         }
 
         /**

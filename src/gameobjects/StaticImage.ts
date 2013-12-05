@@ -25,6 +25,14 @@ module Kiwi.GameObjects {
 
             super(state,x,y);
             
+            //Texture atlas error check.
+            if (typeof atlas == "undefined") {
+                console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
+                this.willRender = false;
+                this.active = false;
+                return;
+            } 
+
             //Set coordinates and texture
             this.atlas = atlas;
             this.cellIndex = this.atlas.cellIndex;

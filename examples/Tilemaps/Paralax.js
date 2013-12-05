@@ -32,6 +32,16 @@ Paralax.update = function () {
             this.tilemap.layers[1].x -= 3;
         }
 
+        if (this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.UP)) {
+            this.tilemap.layers[0].y += 5;
+            this.tilemap.layers[1].y += 3;
+        
+        } else if (this.game.input.keyboard.isDown(Kiwi.Input.Keycodes.DOWN)) {
+            this.tilemap.layers[0].y -= 5;
+            this.tilemap.layers[1].y -= 3;
+
+        }
+
     }
 }
 

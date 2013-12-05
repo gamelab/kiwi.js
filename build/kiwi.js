@@ -2894,8 +2894,8 @@ var Kiwi;
         */
         Game.prototype.loop = function () {
             this._delta = this.raf.currentTime - this._lastTime;
-
             if (this._delta > this._interval) {
+                //Only update if there is a current state
                 this.time.update();
                 this.audio.update();
                 this.input.update();
@@ -2903,12 +2903,12 @@ var Kiwi;
                 this.cameras.update();
                 if (this._deviceTargetOption !== Kiwi.TARGET_COCOON)
                     this.huds.update();
-
                 this.states.update();
 
-                this.cameras.render();
-
-                this.states.postRender();
+                if (this.states.current !== null) {
+                    this.cameras.render();
+                    this.states.postRender();
+                }
 
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);
             }
@@ -9651,9 +9651,15 @@ var Kiwi;
                 if (typeof enableInput === "undefined") { enableInput = false; }
                 _super.call(this, state, x, y);
 
-                // Set the texture
-                this.name = atlas.name;
+                if (typeof atlas == "undefined") {
+                    console.error('A Texture Atlas was not passed when instantiating a new Sprite.');
+                    this.willRender = false;
+                    this.active = false;
+                    return;
+                }
+
                 this.atlas = atlas;
+                this.name = this.atlas.name;
                 this.cellIndex = this.atlas.cellIndex;
 
                 //may need to add an optional other cell frame index here
@@ -9765,6 +9771,13 @@ var Kiwi;
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 _super.call(this, state, x, y);
+
+                if (typeof atlas == "undefined") {
+                    console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
+                    this.willRender = false;
+                    this.active = false;
+                    return;
+                }
 
                 //Set coordinates and texture
                 this.atlas = atlas;

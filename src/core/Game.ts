@@ -452,23 +452,24 @@ module Kiwi {
         * @private
         */
         private loop() {
-    
-            this._delta = this.raf.currentTime - this._lastTime;
             
+            this._delta = this.raf.currentTime - this._lastTime;
             if (this._delta > this._interval) {
+
+                //Only update if there is a current state
                 this.time.update();
                 this.audio.update();
                 this.input.update();
                 this.tweens.update();
                 this.cameras.update();
                 if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds.update();
-                
                 this.states.update();
-                
-                this.cameras.render();
 
-                this.states.postRender();
-                
+                if (this.states.current !== null) {
+                    this.cameras.render();
+                    this.states.postRender();
+                }
+
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);
             }
         }
