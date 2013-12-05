@@ -21615,7 +21615,7 @@ var Kiwi;
             * @private
             */
             GLRenderer.prototype._applyTexture = function (gl, atlas) {
-                this._texture = new Renderers.GLTexture(gl, atlas, true);
+                this._texture = new Renderers.GLTextureWrapper(gl, atlas, true);
                 gl.activeTexture(gl.TEXTURE0);
                 gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
                 var prog = this._shaders.texture2DProg;
@@ -21630,11 +21630,20 @@ var Kiwi;
             * @private
             */
             GLRenderer.prototype._changeTexture = function (gl, atlas) {
+                /*
                 this._texture.refresh(gl, atlas);
                 gl.activeTexture(gl.TEXTURE0);
                 gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
                 var prog = this._shaders.texture2DProg;
                 gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+                */
+                var glTexture = atlas.glTexture;
+
+                gl.activeTexture(gl.TEXTURE0);
+                this._textureManager.useTexture(gl, glTexture);
+                gl.bindTexture(gl.TEXTURE_2D, glTexture.texture);
+
+                gl.uniform2fv(this._shaders.texture2DProg.textureSizeUniform, new Float32Array([glTexture.image.width, glTexture.image.height]));
             };
 
             /**
@@ -21858,37 +21867,55 @@ var Kiwi;
         * @param [_image] {HTMLImageElement}
         * @return {GLTexture}
         */
-        var GLTexture = (function () {
-            function GLTexture(gl, atlas, upload) {
+        var GLTextureWrapper = (function () {
+            function GLTextureWrapper(gl, atlas, upload) {
                 if (typeof upload === "undefined") { upload = false; }
                 this.uploaded = false;
                 console.log("creating texture");
-                console.log(atlas);
 
                 this.texture = gl.createTexture();
                 this._textureAtlas = atlas;
                 this.image = atlas.image;
-                this._bytes = this.image.width * this.image.height * 4;
+                this._numBytes = this.image.width * this.image.height * 4;
                 if (upload)
-                    this.upload(gl);
+                    this.uploadTexture(gl);
             }
-            Object.defineProperty(GLTexture.prototype, "bytes", {
+            Object.defineProperty(GLTextureWrapper.prototype, "numBytes", {
                 get: function () {
-                    return this._bytes;
+                    return this._numBytes;
                 },
                 enumerable: true,
                 configurable: true
             });
 
-            GLTexture.prototype.upload = function (gl) {
-                console.log("uploading texture");
+            //force : if true then other textures will be removed until there is room.
+            GLTextureWrapper.prototype.uploadTexture = function (gl) {
+                console.log("Attempting to upload texture");
+                var success = false;
+                if (this.uploaded) {
+                    console.log("...not uploading:the image is already uploaded");
+                } else {
+                    gl.bindTexture(gl.TEXTURE_2D, this.texture);
+                    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                    gl.bindTexture(gl.TEXTURE_2D, null);
+
+                    //check gl error here
+                    this.uploaded = true;
+                    success = true;
+                    console.log("...texture uploaded successfully");
+                }
+
+                return success;
+            };
+
+            GLTextureWrapper.prototype.deleteTexture = function (gl) {
+                console.log("Attempting to deallocateTexture");
                 gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                gl.bindTexture(gl.TEXTURE_2D, null);
-                return this._bytes;
+                gl.deleteTexture(this.texture);
+                this.uploaded = false;
             };
 
             /**
@@ -21898,14 +21925,14 @@ var Kiwi;
             * @param image {HTMLImageElement}
             * @public
             */
-            GLTexture.prototype.refresh = function (gl, atlas) {
+            GLTextureWrapper.prototype.refresh = function (gl, atlas) {
                 this.image = atlas.image;
 
-                this.upload(gl);
+                this.uploadTexture(gl);
             };
-            return GLTexture;
+            return GLTextureWrapper;
         })();
-        Renderers.GLTexture = GLTexture;
+        Renderers.GLTextureWrapper = GLTextureWrapper;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -21931,7 +21958,7 @@ var Kiwi;
                 this._numTexturesUsed = 0;
                 this._usedTextureMem = 0;
                 this.maxTextureMem = GLTextureManager.DEFAULT_MAX_TEX_MEM_MB * 1024;
-                this.textureCache = new Array();
+                this.textureWrapperCache = new Array();
             }
             Object.defineProperty(GLTextureManager.prototype, "usedTextureMem", {
                 get: function () {
@@ -21949,29 +21976,99 @@ var Kiwi;
                 configurable: true
             });
 
-            GLTextureManager.prototype.addTextureToCache = function (texture) {
+            GLTextureManager.prototype.addTextureToCache = function (glTexture) {
+                this.textureWrapperCache.push(glTexture);
             };
 
-            GLTextureManager.prototype.deleteTextureFromCache = function (texture) {
+            ///********THIS SHOULD PROBABLY DEALLOCATE IT AS WELL
+            GLTextureManager.prototype.deleteTextureFromCache = function (glTextureWrapper) {
+                var texId = this.textureWrapperCache.indexOf(glTextureWrapper);
+                if (texId !== -1) {
+                    this.textureWrapperCache.slice(texId, 1);
+                }
             };
 
-            GLTextureManager.prototype.removeTexture = function () {
+            GLTextureManager.prototype.removeTexture = function (gl, glTextureWrapper) {
+                glTextureWrapper.deleteTexture(gl);
+            };
+
+            GLTextureManager.prototype.removeTextureAt = function (gl, idx) {
+                this.textureWrapperCache[idx].deleteTexture(gl);
             };
 
             GLTextureManager.prototype.uploadTextureLibrary = function (gl, textureLibrary) {
-                console.log("uploadTextureLibrary");
-                console.log(textureLibrary.textures);
+                console.log("Attempting to upload TextureLibrary");
                 for (var tex in textureLibrary.textures) {
-                    var glTexture = new Renderers.GLTexture(gl, textureLibrary.textures[tex]);
-                    this._usedTextureMem += glTexture.upload(gl);
-                    this._numTexturesUsed++;
+                    //create a glTexture
+                    var glTextureWrapper = new Renderers.GLTextureWrapper(gl, textureLibrary.textures[tex]);
 
-                    this.textureCache.push(new Renderers.GLTexture(gl, textureLibrary.textures[tex]));
+                    //store a refence to it
+                    this.addTextureToCache(glTextureWrapper);
+
+                    //create reference on atlas to avoid lookups when switching
+                    textureLibrary.textures[tex].glTexture = glTextureWrapper;
+
+                    if (!this._uploadTexture(gl, glTextureWrapper)) {
+                        console.log("...skipped uploading texture due to allocated texture memory exceeded");
+                    }
                 }
-                console.log(this.textureCache);
             };
 
-            GLTextureManager.prototype.freeBlock = function (size) {
+            GLTextureManager.prototype._uploadTexture = function (gl, glTextureWrapper) {
+                if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
+                    glTextureWrapper.uploadTexture(gl);
+                    this._usedTextureMem += glTextureWrapper.numBytes;
+                    this._numTexturesUsed++;
+                    return true;
+                }
+                return false;
+            };
+
+            GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper) {
+                if (glTextureWrapper.uploaded)
+                    return;
+
+                if (this.freeSpace(gl, glTextureWrapper.numBytes)) {
+                    this._uploadTexture(gl, glTextureWrapper);
+                } else {
+                    console.log("Cannot use texture: Upload failed due to inablit to free texture space");
+                }
+            };
+
+            //1: Try and find texture that is same size to remove
+            //2: Find next smallest to remove
+            //3: Sequentially remove until there is room
+            GLTextureManager.prototype.freeSpace = function (gl, numBytesToRemove) {
+                var nextSmallest = 99999999999;
+                var nextSmalletIndex = -1;
+                for (var i = 0; i < this.textureWrapperCache.length; i++) {
+                    var numTextureBytes = this.textureWrapperCache[i].numBytes;
+                    if (numTextureBytes === numBytesToRemove) {
+                        this.removeTextureAt(gl, i);
+                        return true;
+                    } else if (numTextureBytes > numBytesToRemove && numTextureBytes < nextSmallest) {
+                        nextSmallest = numTextureBytes;
+                        nextSmalletIndex = i;
+                    }
+                }
+
+                if (nextSmalletIndex !== -1) {
+                    this.removeTextureAt(gl, nextSmalletIndex);
+                    return true;
+                } else {
+                    //remove sequentially till there is enough space - is not optimal for space
+                    var numBytesRemoved = 0;
+                    var i = 0;
+
+                    do {
+                        this.removeTextureAt(gl, i);
+                        numBytesRemoved += this.textureWrapperCache[i].numBytes;
+                        i++;
+                    } while(numBytesRemoved < numBytesToRemove);
+                    return true;
+                }
+
+                return false;
             };
             GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 512;
             return GLTextureManager;
@@ -26945,7 +27042,7 @@ var Kiwi;
 /// <reference path="renderers/CanvasRenderer.ts" />
 /// <reference path="renderers/GLRenderer.ts" />
 /// <reference path="renderers/GLShaders.ts" />
-/// <reference path="renderers/GLTexture.ts" />
+/// <reference path="renderers/GLTextureWrapper.ts" />
 /// <reference path="renderers/GLTextureManager.ts" />
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />

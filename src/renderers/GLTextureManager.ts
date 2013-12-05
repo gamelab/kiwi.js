@@ -21,7 +21,7 @@ module Kiwi.Renderers {
             this._numTexturesUsed = 0;
             this._usedTextureMem = 0;
             this.maxTextureMem = GLTextureManager.DEFAULT_MAX_TEX_MEM_MB * 1024;
-            this.textureCache = new Array();
+            this.textureWrapperCache = new Array();
         }
 
         public static DEFAULT_MAX_TEX_MEM_MB: number = 512; 
@@ -37,38 +37,113 @@ module Kiwi.Renderers {
             return this._numTexturesUsed;
         }
         
-        public textureCache: GLTexture[];
+        public textureWrapperCache: GLTextureWrapper[];
 
 
-        public addTextureToCache(texture: GLTexture) {
-
+        public addTextureToCache(glTexture: GLTextureWrapper) {
+            this.textureWrapperCache.push(glTexture);
+         
         }
 
-        public deleteTextureFromCache(texture: GLTexture) {
 
+        ///********THIS SHOULD PROBABLY DEALLOCATE IT AS WELL
+        public deleteTextureFromCache(glTextureWrapper: GLTextureWrapper) {
+            var texId: number = this.textureWrapperCache.indexOf(glTextureWrapper);
+            if (texId !== -1) {
+                this.textureWrapperCache.slice(texId, 1);
+            }
         }
 
         
-        public removeTexture() {
-            
+        public removeTexture(gl: WebGLRenderingContext,glTextureWrapper:GLTextureWrapper) {
+            glTextureWrapper.deleteTexture(gl);
+        }
+
+        public removeTextureAt(gl:WebGLRenderingContext,idx:number) {
+            this.textureWrapperCache[idx].deleteTexture(gl);
         }
 
         public uploadTextureLibrary(gl:WebGLRenderingContext,textureLibrary:Kiwi.Textures.TextureLibrary) {
-            console.log("uploadTextureLibrary");
-            console.log(textureLibrary.textures);
-            for (var tex in textureLibrary.textures) {
-                var glTexture = new GLTexture(gl, textureLibrary.textures[tex]);
-                this._usedTextureMem += glTexture.upload(gl);
-                this._numTexturesUsed++;
-
-                this.textureCache.push(new GLTexture(gl, textureLibrary.textures[tex]));
+            console.log("Attempting to upload TextureLibrary");
+               for (var tex in textureLibrary.textures) {
+                //create a glTexture
+                var glTextureWrapper = new GLTextureWrapper(gl, textureLibrary.textures[tex]);
+                //store a refence to it
+                this.addTextureToCache(glTextureWrapper);
+                //create reference on atlas to avoid lookups when switching
+                textureLibrary.textures[tex].glTexture = glTextureWrapper;
+                
+                //only upload it if it fits
+                if (!this._uploadTexture(gl,glTextureWrapper)) {
+                    console.log("...skipped uploading texture due to allocated texture memory exceeded");
+                }
 
             }
-            console.log(this.textureCache);
+    
         }
 
-        public freeBlock(size: number) {
+        private _uploadTexture(gl, glTextureWrapper: GLTextureWrapper):boolean {
+            //only upload it if it fits
+            if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
+                glTextureWrapper.uploadTexture(gl);
+                this._usedTextureMem += glTextureWrapper.numBytes;
+                this._numTexturesUsed++;
+                return true;
+            }
+            return false;
+                
+        }
 
+        public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper) {
+            if (glTextureWrapper.uploaded) return;
+            // if a texture is not uploaded and has been requested for use, then attempt to upload it
+            // if there is no room then make room.
+            if (this.freeSpace(gl, glTextureWrapper.numBytes)) {
+                this._uploadTexture(gl, glTextureWrapper);
+            } else {
+                console.log("Cannot use texture: Upload failed due to inablit to free texture space");
+            }
+        }
+
+        //1: Try and find texture that is same size to remove
+        //2: Find next smallest to remove
+        //3: Sequentially remove until there is room
+
+        public freeSpace(gl:WebGLRenderingContext,numBytesToRemove: number):boolean {
+            var nextSmallest: number = 99999999999;
+            var nextSmalletIndex: number = -1; 
+            for (var i = 0; i < this.textureWrapperCache.length; i++) {
+                var numTextureBytes: number = this.textureWrapperCache[i].numBytes; 
+                if (numTextureBytes === numBytesToRemove) {
+                    this.removeTextureAt(gl,i);
+                    return true;
+                } else if (numTextureBytes > numBytesToRemove && numTextureBytes < nextSmallest ) {
+                    nextSmallest = numTextureBytes;
+                    nextSmalletIndex = i;
+                }
+            }
+            
+            //have we found a larger one to remove
+            if (nextSmalletIndex !== -1) {
+                this.removeTextureAt(gl,nextSmalletIndex);
+                return true;
+            } else {
+                //remove sequentially till there is enough space - is not optimal for space
+                var numBytesRemoved: number = 0;
+                var i = 0;
+
+                do {
+                    this.removeTextureAt(gl,i);
+                    numBytesRemoved += this.textureWrapperCache[i].numBytes;
+                    i++
+                } while (numBytesRemoved < numBytesToRemove); 
+                return true;
+                
+
+            }
+            
+                        
+            return false;
         }
 
     }

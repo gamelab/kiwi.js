@@ -118,7 +118,7 @@ module Kiwi.Renderers {
         * @type GLTexture
         * @private
         */
-        private _texture: GLTexture;
+        private _texture: GLTextureWrapper;
         
         /**
         *
@@ -426,7 +426,7 @@ module Kiwi.Renderers {
         * @private
         */
         private _applyTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
-            this._texture = new GLTexture(gl, atlas,true);
+            this._texture = new GLTextureWrapper(gl, atlas,true);
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
             var prog = this._shaders.texture2DProg;
@@ -441,12 +441,24 @@ module Kiwi.Renderers {
         * @private
         */
         private _changeTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
-          
-            this._texture.refresh(gl, atlas);
+            
+            /* 
+             this._texture.refresh(gl, atlas);
+             gl.activeTexture(gl.TEXTURE0);
+             gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
+             var prog = this._shaders.texture2DProg;
+             gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+             */
+
+
+            var glTextureWrapper: GLTextureWrapper = atlas.glTextureWrapper;
+
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-            var prog = this._shaders.texture2DProg;
-            gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
+            this._textureManager.useTexture(gl,glTextureWrapper);
+            gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
+            
+            gl.uniform2fv(this._shaders.texture2DProg.textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
+        
         }
 
         /**
