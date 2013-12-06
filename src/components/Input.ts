@@ -583,7 +583,7 @@ module Kiwi.Components {
             //if nothing isdown or what is down is the current pointer
             if (this.isDown === false || this._isDown.id === pointer.id) {
 
-                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
                     if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
                         this._nowEntered = pointer;
                     }
@@ -661,7 +661,7 @@ module Kiwi.Components {
         */
         private _evaluateMousePointer(pointer:Kiwi.Input.MouseCursor) {
 
-            if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+            if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
                 
                 if (this._dragEnabled && this.isDragging === false) {
                     this._distance.x = pointer.x - this._box.worldHitbox.left;

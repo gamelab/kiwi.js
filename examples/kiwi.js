@@ -6422,7 +6422,7 @@ var Kiwi;
             */
             Input.prototype._evaluateTouchPointer = function (pointer) {
                 if (this.isDown === false || this._isDown.id === pointer.id) {
-                    if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                    if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
                         if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
                             this._nowEntered = pointer;
                         }
@@ -6493,7 +6493,7 @@ var Kiwi;
             * @private
             */
             Input.prototype._evaluateMousePointer = function (pointer) {
-                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
                     if (this._dragEnabled && this.isDragging === false) {
                         this._distance.x = pointer.x - this._box.worldHitbox.left;
                         this._distance.y = pointer.y - this._box.worldHitbox.top;
