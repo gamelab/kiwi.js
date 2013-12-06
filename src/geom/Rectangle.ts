@@ -113,11 +113,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * Returns a Point containing the location of the Rectangle's bottom-right corner, determined by the values of the right and bottom properties.
+        * Returns a Point containing the location of the Rectangle's bottom-right corner, determined by the values of the right and bottom properties.
         * @property bottomRight
         * @return {Point} 
         * @public
-        **/
+        */
         public set bottomRight(value: Point) {
             
             if (value)
@@ -136,11 +136,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * The x coordinate of the top-left corner of the rectangle. Changing the left property of a Rectangle object has no effect on the y and height properties. However it does affect the width property, whereas changing the x value does not affect the width property.
+        * The x coordinate of the top-left corner of the rectangle. Changing the left property of a Rectangle object has no effect on the y and height properties. However it does affect the width property, whereas changing the x value does not affect the width property.
         * @property left
         * @return {number} 
         * @public
-        **/
+        */
         public set left(value: number) {
 
             if (value)
@@ -170,11 +170,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * The sum of the x and width properties. Changing the right property of a Rectangle object has no effect on the x, y and height properties. However it does affect the width property.
+        * The sum of the x and width properties. Changing the right property of a Rectangle object has no effect on the x, y and height properties. However it does affect the width property.
         * @property right
         * @return {Number} 
         * @public
-        **/
+        */
         public set right(value: number) {
 
             if (value)
@@ -198,11 +198,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * The size of the Rectangle object, expressed as a Point object with the values of the width and height properties.
-         * @property size
-         * @return {Point} The size of the Rectangle object
-         * @public
-         **/
+        * The size of the Rectangle object, expressed as a Point object with the values of the width and height properties.
+        * @property size
+        * @return {Point} The size of the Rectangle object
+        * @public
+        */
         public get size(): Point {
 
             var output: Point = new Point();
@@ -211,11 +211,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * The volume of the Rectangle object in pixels, derived from width * height
+        * The volume of the Rectangle object in pixels, derived from width * height
         * @property volume
         * @return {Number} 
         * @return
-        **/
+        */
         public get volume(): number {
 
             return this.width * this.height;
@@ -223,11 +223,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * The perimeter size of the Rectangle object in pixels. This is the sum of all 4 sides.
+        * The perimeter size of the Rectangle object in pixels. This is the sum of all 4 sides.
         * @property perimeter
         * @return {Number} 
         * @public
-        **/
+        */
         public get perimeter(): number {
 
             return (this.width * 2) + (this.height * 2);
@@ -235,11 +235,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * The y coordinate of the top-left corner of the rectangle. Changing the top property of a Rectangle object has no effect on the x and width properties. However it does affect the height property, whereas changing the y value does not affect the height property.
+        * The y coordinate of the top-left corner of the rectangle. Changing the top property of a Rectangle object has no effect on the x and width properties. However it does affect the height property, whereas changing the y value does not affect the height property.
         * @method top
         * @return {Number} 
         * @public
-        **/
+        */
         public set top(value: number) {
 
             if (value)
@@ -268,11 +268,11 @@ module Kiwi.Geom {
 
         }
         /**
-         * The location of the Rectangle object's top-left corner, determined by the x and y coordinates of the point.
-         * @property topLeft
+        * The location of the Rectangle object's top-left corner, determined by the x and y coordinates of the point.
+        * @property topLeft
         * @return {Point}
         * @public
-        **/
+        */
         public set topLeft(value: Point) {
 
             if (value)
@@ -620,6 +620,7 @@ module Kiwi.Geom {
                   );
 
         }
+
         /**
         [Requires Description]
         * @method scale
@@ -628,9 +629,7 @@ module Kiwi.Geom {
         * @param translation {Point}
         * @return {Rectangle}
         * @public
-
         **/
-
         public scale(x:number,y:number,translation:Kiwi.Geom.Point): Rectangle {
 
             var trans: Kiwi.Geom.Transform = new Kiwi.Geom.Transform;

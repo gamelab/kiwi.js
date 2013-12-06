@@ -5651,6 +5651,21 @@ var Kiwi;
                 return "Box";
             };
 
+            Object.defineProperty(Box.prototype, "hitboxOffset", {
+                get: /**
+                * Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.
+                * This is without rotation or scaling.
+                * @property hitboxOffset
+                * @type Point
+                * @public
+                */
+                function () {
+                    return this._hitboxOffset;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             Object.defineProperty(Box.prototype, "rawHitbox", {
                 get: /**
                 * Returns the raw hitbox rectangle for the developer to use.
@@ -5694,6 +5709,25 @@ var Kiwi;
 
                     this._rawHitbox.x += this._rawBounds.x;
                     this._rawHitbox.y += this._rawBounds.y;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Box.prototype, "worldHitbox", {
+                get: /**
+                * Returns the transformed hitbox for the entity using its 'world' coordinates.
+                * This is READ ONLY.
+                * @property worldHitbox
+                * @type Rectangle
+                * @public
+                */
+                function () {
+                    if (this.dirty) {
+                        this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
+                    }
+
+                    return this._worldHitbox;
                 },
                 enumerable: true,
                 configurable: true
@@ -5769,7 +5803,6 @@ var Kiwi;
                 */
                 function () {
                     if (this.dirty) {
-                        this._transformedBounds = this.rawBounds.clone();
                         this._transformedBounds = this._rotateRect(this.rawBounds.clone());
                     }
                     return this._transformedBounds;
@@ -5778,35 +5811,67 @@ var Kiwi;
                 configurable: true
             });
 
+            Object.defineProperty(Box.prototype, "worldBounds", {
+                get: /**
+                * Returns the 'transformed' world bounds for this entity.
+                * This is READ ONLY.
+                * @property worldBounds
+                * @type Rectangle
+                * @public
+                */
+                function () {
+                    if (this.dirty) {
+                        this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
+                    }
+                    return this._worldBounds;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
-            * Private internal method only. Used to rotate a rectangle but a set about.
+            * Private internal method only. Used to calculate the transformed bounds after rotation.
             * @method _rotateRect
             * @param rect {Rectangle}
+            * @param [useWorldCoords=false] {Boolean}
             * @return {Rectangle}
             * @private
             */
-            Box.prototype._rotateRect = function (rect) {
+            Box.prototype._rotateRect = function (rect, useWorldCoords) {
+                if (typeof useWorldCoords === "undefined") { useWorldCoords = false; }
                 var out = new Kiwi.Geom.Rectangle();
                 var t = this.entity.transform;
                 var m = t.getConcatenatedMatrix();
-                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+
+                if (useWorldCoords) {
+                    m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
+                } else {
+                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+                }
 
                 out = this.extents(m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY + rect.height }), m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY + rect.height }));
                 return out;
             };
 
             /**
-            * Rotates the hitbox by an set amount.
+            * A private method that is used to calculate the transformed hitbox's coordinates after rotation.
             * @method _rotateHitbox
-            * @param {Rectangle} rect
+            * @param rect {Rectangle}
+            * @param [useWorldCoords=false] {Boolean}
             * @return {Rectangle}
             * @private
             */
-            Box.prototype._rotateHitbox = function (rect) {
+            Box.prototype._rotateHitbox = function (rect, useWorldCoords) {
+                if (typeof useWorldCoords === "undefined") { useWorldCoords = false; }
                 var out = new Kiwi.Geom.Rectangle();
                 var t = this.entity.transform;
                 var m = t.getConcatenatedMatrix();
-                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+
+                if (useWorldCoords) {
+                    m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
+                } else {
+                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+                }
 
                 out = this.extents(m.transformPoint({ x: -t.rotPointX + this._hitboxOffset.x, y: -t.rotPointY + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + rect.width + this._hitboxOffset.x, y: -t.rotPointY + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + rect.width + this._hitboxOffset.x, y: -t.rotPointY + rect.height + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + this._hitboxOffset.x, y: -t.rotPointY + rect.height + this._hitboxOffset.y }));
 
@@ -5836,7 +5901,8 @@ var Kiwi;
 
             /*
             * [REQUIRES COMMENTING]
-            *
+            * @method extents
+            * @return Rectangle
             */
             Box.prototype.extents = function (topLeftPoint, topRightPoint, bottomRightPoint, bottomLeftPoint) {
                 var left = Math.min(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
@@ -6287,8 +6353,8 @@ var Kiwi;
                         this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
                         this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
                     } else {
-                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitbox.width / 2), this._dragDistance);
-                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitbox.height / 2), this._dragDistance);
+                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.worldHitbox.width / 2), this._dragDistance);
+                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.worldHitbox.height / 2), this._dragDistance);
                     }
                 }
             };
@@ -6366,8 +6432,8 @@ var Kiwi;
                         }
 
                         if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
-                            this._distance.x = pointer.x - this._box.hitbox.left;
-                            this._distance.y = pointer.y - this._box.hitbox.top;
+                            this._distance.x = pointer.x - this._box.worldHitbox.left;
+                            this._distance.y = pointer.y - this._box.worldHitbox.top;
                             this._nowDragging = pointer;
                         }
                     } else {
@@ -6429,8 +6495,8 @@ var Kiwi;
             Input.prototype._evaluateMousePointer = function (pointer) {
                 if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
                     if (this._dragEnabled && this.isDragging === false) {
-                        this._distance.x = pointer.x - this._box.hitbox.left;
-                        this._distance.y = pointer.y - this._box.hitbox.top;
+                        this._distance.x = pointer.x - this._box.worldHitbox.left;
+                        this._distance.y = pointer.y - this._box.worldHitbox.top;
                     }
 
                     if (this.withinBounds === false) {
@@ -6968,8 +7034,8 @@ var Kiwi;
 
                 //First, get the two object deltas
                 var overlap = 0;
-                var obj1delta = phys1.box.hitbox.x - phys1.last.x;
-                var obj2delta = phys2.box.hitbox.x - phys2.last.x;
+                var obj1delta = phys1.box.worldHitbox.x - phys1.last.x;
+                var obj2delta = phys2.box.worldHitbox.x - phys2.last.x;
 
                 if (obj1delta != obj2delta) {
                     //Check if the X hulls actually overlap
@@ -6977,13 +7043,13 @@ var Kiwi;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
                     //where they were before
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.hitbox.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.box.hitbox.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.box.hitbox.height);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.hitbox.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.box.hitbox.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.box.hitbox.height);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.worldHitbox.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.box.worldHitbox.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.box.worldHitbox.height);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.worldHitbox.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.box.worldHitbox.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.box.worldHitbox.height);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.box.hitbox.x + phys1.box.hitbox.width - phys2.box.hitbox.x;
+                            overlap = phys1.box.worldHitbox.x + phys1.box.worldHitbox.width - phys2.box.worldHitbox.x;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
                                 overlap = 0;
                             } else {
@@ -6991,7 +7057,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.LEFT;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.box.hitbox.x - phys2.box.hitbox.width - phys2.box.hitbox.x;
+                            overlap = phys1.box.worldHitbox.x - phys2.box.worldHitbox.width - phys2.box.worldHitbox.x;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
                                 overlap = 0;
                             } else {
@@ -7053,21 +7119,21 @@ var Kiwi;
                 //First, get the two object deltas
                 var overlap = 0;
 
-                var obj1delta = phys1.box.hitbox.y - phys1.last.y;
+                var obj1delta = phys1.box.worldHitbox.y - phys1.last.y;
 
-                var obj2delta = phys2.box.hitbox.y - phys2.last.y;
+                var obj2delta = phys2.box.worldHitbox.y - phys2.last.y;
                 if (obj1delta != obj2delta) {
                     //Check if the Y hulls actually overlap
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.hitbox.x, phys1.box.hitbox.y - ((obj1delta > 0) ? obj1delta : 0), phys1.box.hitbox.width, phys1.box.hitbox.height + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.hitbox.x, phys2.box.hitbox.y - ((obj2delta > 0) ? obj2delta : 0), phys2.box.hitbox.width, phys2.box.hitbox.height + obj2deltaAbs);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.worldHitbox.x, phys1.box.worldHitbox.y - ((obj1delta > 0) ? obj1delta : 0), phys1.box.worldHitbox.width, phys1.box.worldHitbox.height + obj1deltaAbs);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.worldHitbox.x, phys2.box.worldHitbox.y - ((obj2delta > 0) ? obj2delta : 0), phys2.box.worldHitbox.width, phys2.box.worldHitbox.height + obj2deltaAbs);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.box.hitbox.y + phys1.box.hitbox.height - phys2.box.hitbox.y;
+                            overlap = phys1.box.worldHitbox.y + phys1.box.worldHitbox.height - phys2.box.worldHitbox.y;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
                                 overlap = 0;
                             } else {
@@ -7075,7 +7141,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.UP;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.box.hitbox.y - phys2.box.hitbox.height - phys2.box.hitbox.y;
+                            overlap = phys1.box.worldHitbox.y - phys2.box.worldHitbox.height - phys2.box.worldHitbox.y;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
                                 overlap = 0;
                             } else {
@@ -7167,7 +7233,7 @@ var Kiwi;
                 var objTransform = gameObject.transform;
                 var box = gameObject.components.getComponent('Box');
 
-                var result = (box.hitbox.x + box.hitbox.width > this.box.hitbox.x) && (box.hitbox.x < this.box.hitbox.x + this.box.hitbox.width) && (box.hitbox.y + box.hitbox.height > this.box.hitbox.y) && (box.hitbox.y < this.box.hitbox.y + this.box.hitbox.height);
+                var result = (box.worldHitbox.x + box.worldHitbox.width > this.box.worldHitbox.x) && (box.worldHitbox.x < this.box.worldHitbox.x + this.box.worldHitbox.width) && (box.worldHitbox.y + box.worldHitbox.height > this.box.worldHitbox.y) && (box.worldHitbox.y < this.box.worldHitbox.y + this.box.worldHitbox.height);
 
                 if (result && separateObjects) {
                     ArcadePhysics.separate(this._parent, gameObject);
@@ -7276,8 +7342,8 @@ var Kiwi;
             */
             ArcadePhysics.prototype.update = function () {
                 //Flixel preupdate
-                this.last.x = this.box.hitbox.x;
-                this.last.y = this.box.hitbox.y;
+                this.last.x = this.box.worldHitbox.x;
+                this.last.y = this.box.worldHitbox.y;
 
                 if (this.moves)
                     this.updateMotion();
@@ -13707,7 +13773,7 @@ var Kiwi;
                 * @property bottomRight
                 * @return {Point}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         this.right = value.x;
@@ -13728,7 +13794,7 @@ var Kiwi;
                 * @property left
                 * @return {number}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         var diff = this.x - value;
@@ -13758,7 +13824,7 @@ var Kiwi;
                 * @property right
                 * @return {Number}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         if (value < this.x) {
@@ -13778,7 +13844,7 @@ var Kiwi;
                 * @property size
                 * @return {Point} The size of the Rectangle object
                 * @public
-                **/
+                */
                 function () {
                     var output = new Geom.Point();
                     return output.setTo(this.width, this.height);
@@ -13793,7 +13859,7 @@ var Kiwi;
                 * @property volume
                 * @return {Number}
                 * @return
-                **/
+                */
                 function () {
                     return this.width * this.height;
                 },
@@ -13807,7 +13873,7 @@ var Kiwi;
                 * @property perimeter
                 * @return {Number}
                 * @public
-                **/
+                */
                 function () {
                     return (this.width * 2) + (this.height * 2);
                 },
@@ -13825,7 +13891,7 @@ var Kiwi;
                 * @method top
                 * @return {Number}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         var diff = this.y - value;
@@ -13856,7 +13922,7 @@ var Kiwi;
                 * @property topLeft
                 * @return {Point}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         this.x = value.x;
@@ -14163,7 +14229,6 @@ var Kiwi;
             * @param translation {Point}
             * @return {Rectangle}
             * @public
-            
             **/
             Rectangle.prototype.scale = function (x, y, translation) {
                 var trans = new Kiwi.Geom.Transform();

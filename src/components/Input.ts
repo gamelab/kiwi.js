@@ -43,7 +43,7 @@ module Kiwi.Components {
              
             this._withinBounds = null;
             this._outsideBounds = true;
-             
+
             this._isUp = true;
             this._isDown = null;
             this._isDragging = null;
@@ -500,8 +500,8 @@ module Kiwi.Components {
                     this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
                     this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
                 } else {
-                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitbox.width / 2), this._dragDistance);
-                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitbox.height / 2), this._dragDistance);
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.worldHitbox.width / 2), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.worldHitbox.height / 2), this._dragDistance);
                 }
             }
         }
@@ -593,8 +593,8 @@ module Kiwi.Components {
                     }
 
                     if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
-                        this._distance.x = pointer.x - this._box.hitbox.left;
-                        this._distance.y = pointer.y - this._box.hitbox.top;
+                        this._distance.x = pointer.x - this._box.worldHitbox.left;
+                        this._distance.y = pointer.y - this._box.worldHitbox.top;
                         this._nowDragging = pointer; 
                     }
                 } else {
@@ -664,8 +664,8 @@ module Kiwi.Components {
             if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
                 
                 if (this._dragEnabled && this.isDragging === false) {
-                    this._distance.x = pointer.x - this._box.hitbox.left;
-                    this._distance.y = pointer.y - this._box.hitbox.top;
+                    this._distance.x = pointer.x - this._box.worldHitbox.left;
+                    this._distance.y = pointer.y - this._box.worldHitbox.top;
                 }
 
                 //  Has it just moved inside?
