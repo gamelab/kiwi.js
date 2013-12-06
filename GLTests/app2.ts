@@ -17,6 +17,8 @@ class GLTest2 extends Kiwi.State {
         this.addImage('s512512', 'assets/s512512.png');
         this.addImage('s10241024', 'assets/s10241024.png');
         this.addImage('s20482048', 'assets/s20482048.png');
+        this.addImage('s20482048a', 'assets/s20482048a.png');
+        this.addImage('s20482048b', 'assets/s20482048b.png');
       
     }
 
@@ -27,6 +29,8 @@ class GLTest2 extends Kiwi.State {
     s512512: Kiwi.GameObjects.Sprite;
     s10241024: Kiwi.GameObjects.Sprite;
     s20482048: Kiwi.GameObjects.Sprite;
+    s20482048a: Kiwi.GameObjects.Sprite;
+    s20482048b: Kiwi.GameObjects.Sprite;
    
    
     create() {
@@ -39,7 +43,13 @@ class GLTest2 extends Kiwi.State {
           this.s128128 = new Kiwi.GameObjects.Sprite(this, this.textures.s128128, 100, 100);              //create the pirate
           this.s512512 = new Kiwi.GameObjects.Sprite(this, this.textures.s512512, 100, 100);              //create the pirate
           this.s10241024 = new Kiwi.GameObjects.Sprite(this, this.textures.s10241024, 100, 100);              //create the pirate
-          this.s20482048 = new Kiwi.GameObjects.Sprite(this, this.textures.s20482048, 100, 100);              //create the pirate
+        this.s20482048 = new Kiwi.GameObjects.Sprite(this, this.textures.s20482048, 0, 0);              //create the pirate
+        this.s20482048a = new Kiwi.GameObjects.Sprite(this, this.textures.s20482048a, 20, 20);              //create the pirate
+        this.s20482048b = new Kiwi.GameObjects.Sprite(this, this.textures.s20482048b, 40, 40);
+        
+        this.addChild(this.s20482048); 
+        this.addChild(this.s20482048a); 
+       this.addChild(this.s20482048b); 
           
         this.addChild(this.s512512); 
         this.addChild(this.s256256); 
@@ -120,3 +130,4 @@ class GLTest2 extends Kiwi.State {
 
 
 var game2 = new Kiwi.Game('game', 'KiwiExample', GLTest2, { renderer: Kiwi.RENDERER_WEBGL, plugins: ["Profiler"] });
+//game2.frameRate = 10;

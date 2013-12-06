@@ -112,14 +112,7 @@ module Kiwi.Renderers {
         */
         private _colorBuffer: GLArrayBuffer;
         
-        /**
-        *
-        * @property _texture
-        * @type GLTexture
-        * @private
-        */
-        private _texture: GLTextureWrapper;
-        
+               
         /**
         *
         * @property _entityCount
@@ -138,15 +131,7 @@ module Kiwi.Renderers {
         */
         private _maxItems: number = 1000;
         
-        /**
-        *
-        * @property _texApplied
-        * @type boolean
-        * @default false
-        * @private
-        */
-        private _texApplied: boolean = false;
-        
+             
         /**
         *
         * @property _firstPass
@@ -201,7 +186,7 @@ module Kiwi.Renderers {
         * @private
         */
         private _init() {
-
+            console.log("Intialising WebGL");
             var gl: WebGLRenderingContext = this._game.stage.gl;
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
             
@@ -253,7 +238,7 @@ module Kiwi.Renderers {
         public numDrawCalls: number = 0;
 
         public initState(state: Kiwi.State) {
-            console.log("initState");
+            console.log("initialising WebGL on State");
           
             this._textureManager.uploadTextureLibrary(this._game.stage.gl,state.textureLibrary);
         }
@@ -269,6 +254,8 @@ module Kiwi.Renderers {
             this._currentCamera = camera;
             var root: IChild[] = this._game.states.current.members;
             var gl: WebGLRenderingContext = this._game.stage.gl;
+
+            this._textureManager.numTextureWrites = 0;
 
             this._entityCount = 0;
             this._vertBuffer.clear();
@@ -322,18 +309,15 @@ module Kiwi.Renderers {
                     this._recurse(gl,(<Kiwi.Group>child).members[i],camera);
                 }
             } else {
-                if (!this._texApplied) {
-                    this._applyTexture(gl, (<Entity>child).atlas);
-                    this._texApplied = true;
-                    this._currentTextureAtlas = (<Entity>child).atlas;
-                }
-
+                
+              
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
                     this._flush(gl);
                     this._entityCount = 0;
                     this._vertBuffer.clear();
                     this._uvBuffer.clear();
-                    this._changeTexture(gl, (<Entity>child).atlas);
+                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._shaders.texture2DProg.textureSizeUniform))
+                        return;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
                 this._compileVertices(gl, <Entity>child,camera);
@@ -416,49 +400,6 @@ module Kiwi.Renderers {
                     c.x + c.w, c.y + c.h,
                     c.x, c.y + c.h);
        
-        }
-
-        /**
-        * 
-        * @method _applyTexture
-        * @param gl {WebGLRenderingContext}
-        * @param image {HTMLImageElement}
-        * @private
-        */
-        private _applyTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
-            this._texture = new GLTextureWrapper(gl, atlas,true);
-            gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-            var prog = this._shaders.texture2DProg;
-            gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
-        }
-
-        /**
-        * 
-        * @method _changeTexture
-        * @param gl {WebGLRenderingContext}
-        * @param image {HTMLImageElement}
-        * @private
-        */
-        private _changeTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
-            
-            /* 
-             this._texture.refresh(gl, atlas);
-             gl.activeTexture(gl.TEXTURE0);
-             gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-             var prog = this._shaders.texture2DProg;
-             gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
-             */
-
-
-            var glTextureWrapper: GLTextureWrapper = atlas.glTextureWrapper;
-
-            gl.activeTexture(gl.TEXTURE0);
-            this._textureManager.useTexture(gl,glTextureWrapper);
-            gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
-            
-            gl.uniform2fv(this._shaders.texture2DProg.textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
-        
         }
 
         /**
