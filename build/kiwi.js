@@ -21340,14 +21340,6 @@ var Kiwi;
                 this._maxItems = 1000;
                 /**
                 *
-                * @property _firstPass
-                * @type boolean
-                * @default true
-                * @private
-                */
-                this._firstPass = true;
-                /**
-                *
                 * @property _currentTextureAtlas
                 * @type TextureAtlas
                 * @private
@@ -21376,19 +21368,6 @@ var Kiwi;
                 return "GLRenderer";
             };
 
-            /*
-            public mvPush() {
-            var copy = mat4.create();
-            mat4.set(this.mvMatrix, copy);
-            this.mvMatrixStack.push(copy);
-            }
-            
-            public mvPop() {
-            if (this.mvMatrixStack.length == 0) {
-            throw "Invalid popMatrix!";
-            }
-            this.mvMatrix = this.mvMatrixStack.pop();
-            } */
             /**
             *
             * @method _init
@@ -21501,8 +21480,6 @@ var Kiwi;
                 }
 
                 this._flush(gl);
-
-                this._firstPass = false;
             };
 
             /**
@@ -22052,7 +22029,7 @@ var Kiwi;
                 */
                 return true;
             };
-            GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 32;
+            GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 1024;
             return GLTextureManager;
         })();
         Renderers.GLTextureManager = GLTextureManager;

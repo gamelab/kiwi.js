@@ -132,14 +132,6 @@ module Kiwi.Renderers {
         private _maxItems: number = 1000;
         
              
-        /**
-        *
-        * @property _firstPass
-        * @type boolean
-        * @default true
-        * @private
-        */
-        private _firstPass: boolean = true;
         
         /**
         *
@@ -149,13 +141,6 @@ module Kiwi.Renderers {
         */
         public mvMatrix: Float32Array;
         
-        /**
-        *
-        * @property mvMatrixStack
-        * @type Array
-        * @public
-        */
-        public mvMatrixStack: Array<any>;
         
         /**
         *
@@ -164,22 +149,7 @@ module Kiwi.Renderers {
         * @private
         */
         private _currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
-        /*
-        public mvPush() {
-            var copy = mat4.create();
-            mat4.set(this.mvMatrix, copy);
-            this.mvMatrixStack.push(copy);
-        }
-
-        public mvPop() {
-            if (this.mvMatrixStack.length == 0) {
-                throw "Invalid popMatrix!";
-            }
-            this.mvMatrix = this.mvMatrixStack.pop();
-        } */
-
-        
-
+       
         /**
         *
         * @method _init
@@ -290,7 +260,7 @@ module Kiwi.Renderers {
 
             this._flush(gl);
            
-            this._firstPass = false;
+           
         }
 
         /**
