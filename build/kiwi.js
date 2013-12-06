@@ -21425,6 +21425,10 @@ var Kiwi;
                 this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
             };
 
+            GLRenderer.prototype.endState = function (state) {
+                console.log("ending WebGL on State");
+            };
+
             /**
             *
             * @method render
@@ -21521,8 +21525,8 @@ var Kiwi;
             * @private
             */
             GLRenderer.prototype._flush = function (gl) {
-                this._vertBuffer.refresh(gl, this._vertBuffer.items);
-                this._uvBuffer.refresh(gl, this._uvBuffer.items);
+                this._vertBuffer.uploadBuffer(gl, this._vertBuffer.items);
+                this._uvBuffer.uploadBuffer(gl, this._uvBuffer.items);
                 this._draw(gl);
             };
 
@@ -21568,7 +21572,6 @@ var Kiwi;
             * @private
             */
             GLRenderer.prototype._compileUVs = function (gl, entity) {
-                var t = entity.transform;
                 var c = entity.atlas.cells[entity.cellIndex];
 
                 this._uvBuffer.items.push(c.x, c.y, c.x + c.w, c.y, c.x + c.w, c.y + c.h, c.x, c.y + c.h);
@@ -22056,13 +22059,14 @@ var Kiwi;
         * @return {GLArrayBuffer}
         */
         var GLArrayBuffer = (function () {
-            function GLArrayBuffer(gl, _itemSize, items, init) {
-                if (typeof init === "undefined") { init = true; }
+            function GLArrayBuffer(gl, _itemSize, items, upload) {
+                if (typeof upload === "undefined") { upload = true; }
                 this.items = items || GLArrayBuffer.squareVertices;
                 this.itemSize = _itemSize || 2;
                 this.numItems = this.items.length / this.itemSize;
-                if (init) {
-                    this.buffer = this.init(gl);
+                this.createBuffer(gl);
+                if (upload) {
+                    this.uploadBuffer(gl, this.items);
                 }
             }
             /**
@@ -22081,31 +22085,23 @@ var Kiwi;
             * @return {WebGLBuffer}
             * @public
             */
-            GLArrayBuffer.prototype.init = function (gl) {
-                var buffer = gl.createBuffer();
-                var f32 = new Float32Array(this.items);
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
+            GLArrayBuffer.prototype.createBuffer = function (gl) {
+                this.buffer = gl.createBuffer();
 
-                return buffer;
+                return true;
             };
 
-            /**
-            *
-            * @method refresh
-            * @param gl {WebGLRenderingContext}
-            * @param items {number[]}
-            * @return {WebGLBuffer}
-            * @public
-            */
-            GLArrayBuffer.prototype.refresh = function (gl, items) {
+            GLArrayBuffer.prototype.uploadBuffer = function (gl, items) {
                 this.items = items;
                 this.numItems = this.items.length / this.itemSize;
                 var f32 = new Float32Array(this.items);
-
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
                 gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
-                return this.buffer;
+                return true;
+            };
+
+            GLArrayBuffer.prototype.deleteBuffer = function (gl) {
+                return true;
             };
 
             GLArrayBuffer.squareVertices = [

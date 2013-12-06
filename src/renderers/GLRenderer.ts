@@ -213,6 +213,12 @@ module Kiwi.Renderers {
             this._textureManager.uploadTextureLibrary(this._game.stage.gl,state.textureLibrary);
         }
 
+        public endState(state: Kiwi.State) {
+            console.log("ending WebGL on State");
+            
+            
+        }
+
         /**
         *
         * @method render
@@ -259,7 +265,7 @@ module Kiwi.Renderers {
             
 
             this._flush(gl);
-           
+            
            
         }
 
@@ -305,8 +311,8 @@ module Kiwi.Renderers {
         * @private
         */
         private _flush(gl: WebGLRenderingContext) {
-            this._vertBuffer.refresh(gl, this._vertBuffer.items);
-            this._uvBuffer.refresh(gl, this._uvBuffer.items);
+            this._vertBuffer.uploadBuffer(gl, this._vertBuffer.items);
+            this._uvBuffer.uploadBuffer(gl, this._uvBuffer.items);
             this._draw(gl);
         }
 
@@ -362,7 +368,6 @@ module Kiwi.Renderers {
         * @private
         */
         private _compileUVs(gl: WebGLRenderingContext, entity: Entity) {
-            var t: Kiwi.Geom.Transform = entity.transform;
             var c = entity.atlas.cells[entity.cellIndex];
            
                 this._uvBuffer.items.push(c.x, c.y,
