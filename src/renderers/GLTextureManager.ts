@@ -21,10 +21,10 @@ module Kiwi.Renderers {
             this._numTexturesUsed = 0;
             this._usedTextureMem = 0;
             this.maxTextureMem = GLTextureManager.DEFAULT_MAX_TEX_MEM_MB * 1024 * 1024;
-            this.textureWrapperCache = new Array();
+            this._textureWrapperCache = new Array();
         }
 
-        public static DEFAULT_MAX_TEX_MEM_MB: number = 1024; 
+        public static DEFAULT_MAX_TEX_MEM_MB: number = 32; 
 
         public maxTextureMem: number;
         private _usedTextureMem: number;
@@ -38,59 +38,39 @@ module Kiwi.Renderers {
         }
         
         public numTextureWrites: number = 0;
+        
+        
 
-        public textureWrapperCache: GLTextureWrapper[];
+        private _textureWrapperCache: GLTextureWrapper[];
 
 
-        public addTextureToCache(glTexture: GLTextureWrapper) {
-            this.textureWrapperCache.push(glTexture);
+        private _addTextureToCache(glTexture: GLTextureWrapper) {
+            this._textureWrapperCache.push(glTexture);
          
         }
-
-
-        ///********THIS SHOULD PROBABLY DEALLOCATE IT AS WELL
-        public deleteTextureFromCache(glTextureWrapper: GLTextureWrapper) {
-            var texId: number = this.textureWrapperCache.indexOf(glTextureWrapper);
+        
+        private _deleteTextureFromCache(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper) {
+            //delete it from g mem
+            glTextureWrapper.deleteTexture(gl);
+            //kill the reference on the atlas
+            glTextureWrapper.textureAtlas.glTextureWrapper = null;
+            var texId: number = this._textureWrapperCache.indexOf(glTextureWrapper);
             if (texId !== -1) {
-                this.textureWrapperCache.slice(texId, 1);
+                this._textureWrapperCache.slice(texId, 1);
             }
         }
 
-        
-        public removeTexture(gl: WebGLRenderingContext,glTextureWrapper:GLTextureWrapper) {
-           // glTextureWrapper.deleteTexture(gl);
-        }
-
-        public removeTextureAt(gl:WebGLRenderingContext,idx:number) {
-            this.textureWrapperCache[idx].deleteTexture(gl);
-            console.log(this._usedTextureMem);
-            this._usedTextureMem -= this.textureWrapperCache[idx].numBytes;
-            console.log("...removed KB: " + this.textureWrapperCache[idx].numBytes / 1024);
-            console.log(this._usedTextureMem);
+                
+        private _deleteTexture(gl:WebGLRenderingContext,idx:number) {
+            
+            this._textureWrapperCache[idx].deleteTexture(gl);
+            this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
+            console.log("...removed KB: " + this._textureWrapperCache[idx].numBytes / 1024);
             console.log("...now using KB: " + this._usedTextureMem / 1024);
             this._numTexturesUsed--;
         }
 
-        public uploadTextureLibrary(gl:WebGLRenderingContext,textureLibrary:Kiwi.Textures.TextureLibrary) {
-            console.log("Attempting to upload TextureLibrary");
-               for (var tex in textureLibrary.textures) {
-                    //create a glTexture
-                    var glTextureWrapper = new GLTextureWrapper(gl, textureLibrary.textures[tex]);
-                    //store a refence to it
-                    this.addTextureToCache(glTextureWrapper);
-                    //create reference on atlas to avoid lookups when switching
-                    textureLibrary.textures[tex].glTextureWrapper = glTextureWrapper;
-                
-                    //only upload it if it fits
-                    if (!this._uploadTexture(gl,glTextureWrapper)) {
-                        console.log("...skipped uploading texture due to allocated texture memory exceeded");
-                    }
-
-               }
-            console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
-            console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem/1024);
-        }
-
+        
         private _uploadTexture(gl, glTextureWrapper: GLTextureWrapper):boolean {
             //only upload it if it fits
             if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
@@ -106,11 +86,37 @@ module Kiwi.Renderers {
                 
         }
 
+        public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary) {
+            console.log("Attempting to upload TextureLibrary");
+            for (var tex in textureLibrary.textures) {
+                //create a glTexture
+                var glTextureWrapper = new GLTextureWrapper(gl, textureLibrary.textures[tex]);
+                //store a refence to it
+                this._addTextureToCache(glTextureWrapper);
+                //create reference on atlas to avoid lookups when switching
+                textureLibrary.textures[tex].glTextureWrapper = glTextureWrapper;
+
+                //only upload it if it fits
+                if (!this._uploadTexture(gl, glTextureWrapper)) {
+                    console.log("...skipped uploading texture due to allocated texture memory exceeded");
+                }
+
+            }
+            console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
+            console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
+        }
+        
+        public clearTextures(gl: WebGLRenderingContext) {
+            while (this._textureWrapperCache.length > 0) {
+                this._deleteTextureFromCache(gl,this._textureWrapperCache[0]);
+            }
+        }
+
         public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper,textureSizeUniform):boolean {
             
             if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
                 if(!this._uploadTexture(gl, glTextureWrapper)) {
-                    this.freeSpace(gl, glTextureWrapper.numBytes);
+                    this._freeSpace(gl, glTextureWrapper.numBytes);
                     this._uploadTexture(gl, glTextureWrapper);
                 }
                 this.numTextureWrites++;
@@ -134,15 +140,15 @@ module Kiwi.Renderers {
         //2: Find next smallest to remove
         //3: Sequentially remove until there is room
 
-        public freeSpace(gl: WebGLRenderingContext, numBytesToRemove: number): boolean {
+        private _freeSpace(gl: WebGLRenderingContext, numBytesToRemove: number): boolean {
            // console.log("Attempting to free texture space");
             var nextSmallest: number = 99999999999;
             var nextSmalletIndex: number = -1; 
-            for (var i = 0; i < this.textureWrapperCache.length; i++) {
-                var numTextureBytes: number = this.textureWrapperCache[i].numBytes; 
-                if (numTextureBytes === numBytesToRemove && this.textureWrapperCache[i].uploaded) {
+            for (var i = 0; i < this._textureWrapperCache.length; i++) {
+                var numTextureBytes: number = this._textureWrapperCache[i].numBytes; 
+                if (numTextureBytes === numBytesToRemove && this._textureWrapperCache[i].uploaded) {
                   //  console.log("..found one same size");
-                    this.removeTextureAt(gl,i);
+                    this._deleteTexture(gl,i);
                     return true;
                 } else if (numTextureBytes > numBytesToRemove && numTextureBytes < nextSmallest ) {
                     nextSmallest = numTextureBytes;

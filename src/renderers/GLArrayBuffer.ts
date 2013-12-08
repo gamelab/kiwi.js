@@ -30,6 +30,17 @@ module Kiwi.Renderers {
             }
         }
 
+
+        private _created: boolean = false;
+        public get created(): boolean {
+            return this._created;
+        }
+
+        private _uploaded: boolean = false;
+        public get uploaded(): boolean {
+            return this._uploaded;
+        }
+
         /**
         * 
         * @property items
@@ -80,7 +91,7 @@ module Kiwi.Renderers {
         */
         public createBuffer(gl: WebGLRenderingContext): boolean {
             this.buffer = gl.createBuffer();
-            
+            this._created = true;
             return true;
         }
 
@@ -90,11 +101,15 @@ module Kiwi.Renderers {
             var f32: Float32Array = new Float32Array(this.items);
             gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
             gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
+            this._uploaded = true;
             return true;
         }
 
         public deleteBuffer(gl: WebGLRenderingContext): boolean {
-            
+            gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);
+            gl.deleteBuffer(this.buffer);   
+            this.uploaded = false;
+            this.created = false;
             return true;
         }
 

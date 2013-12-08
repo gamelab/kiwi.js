@@ -44,8 +44,16 @@ module Kiwi.Renderers {
             return this._numBytes;
         }
 
-        public created: boolean = false;
-        public uploaded: boolean = false;
+        
+        private _created: boolean = false;
+        public get created(): boolean {
+            return this._created;
+        }
+
+        private _uploaded: boolean = false;
+        public get uploaded(): boolean {
+            return this._uploaded;
+        }
 
         /**
         *
@@ -68,7 +76,7 @@ module Kiwi.Renderers {
         public createTexture(gl: WebGLRenderingContext): boolean {
             this.texture = gl.createTexture();
             console.log("...texture created successfully");
-            this.created = true;
+            this._created = true;
             return true;
         }
 
@@ -89,7 +97,7 @@ module Kiwi.Renderers {
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
                 gl.bindTexture(gl.TEXTURE_2D, null);
                 //check gl error here
-                this.uploaded = true;
+                this._uploaded = true;
                 success = true;
                 console.log("...texture uploaded successfully"); 
             
@@ -102,8 +110,8 @@ module Kiwi.Renderers {
             console.log("Attempting to delete texture: " + this.textureAtlas.name);
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
             gl.deleteTexture(this.texture);
-            this.uploaded = false;
-            this.created = false;
+            this._uploaded = false;
+            this._created = false;
             console.log("...texture deleted successfully");
             console.log("...freed kb: " + this.numBytes / 1024);
             return true;
