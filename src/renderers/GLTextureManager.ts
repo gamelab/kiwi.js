@@ -24,7 +24,7 @@ module Kiwi.Renderers {
             this._textureWrapperCache = new Array();
         }
 
-        public static DEFAULT_MAX_TEX_MEM_MB: number = 32; 
+        public static DEFAULT_MAX_TEX_MEM_MB: number = 1024; 
 
         public maxTextureMem: number;
         private _usedTextureMem: number;
@@ -49,16 +49,7 @@ module Kiwi.Renderers {
          
         }
         
-        private _deleteTextureFromCache(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper) {
-            //delete it from g mem
-            glTextureWrapper.deleteTexture(gl);
-            //kill the reference on the atlas
-            glTextureWrapper.textureAtlas.glTextureWrapper = null;
-            var texId: number = this._textureWrapperCache.indexOf(glTextureWrapper);
-            if (texId !== -1) {
-                this._textureWrapperCache.slice(texId, 1);
-            }
-        }
+       
 
                 
         private _deleteTexture(gl:WebGLRenderingContext,idx:number) {
@@ -88,6 +79,9 @@ module Kiwi.Renderers {
 
         public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary) {
             console.log("Attempting to upload TextureLibrary");
+            this._textureWrapperCache = new Array();
+            console.log("...recreated wrapper cache");
+            
             for (var tex in textureLibrary.textures) {
                 //create a glTexture
                 var glTextureWrapper = new GLTextureWrapper(gl, textureLibrary.textures[tex]);
@@ -107,9 +101,15 @@ module Kiwi.Renderers {
         }
         
         public clearTextures(gl: WebGLRenderingContext) {
-            while (this._textureWrapperCache.length > 0) {
-                this._deleteTextureFromCache(gl,this._textureWrapperCache[0]);
-            }
+            console.log("Attempting to clear Textures");
+            for (var i = 0; i < this._textureWrapperCache.length; i++) {
+                //delete it from g mem
+                this._textureWrapperCache[i].deleteTexture(gl);
+                //kill the reference on the atlas
+                this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;
+            }    
+            this._textureWrapperCache = new Array();
+           
         }
 
         public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper,textureSizeUniform):boolean {

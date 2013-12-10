@@ -129,7 +129,7 @@ module Kiwi.Renderers {
         * @default 1000
         * @private
         */
-        private _maxItems: number = 1000;
+        private _maxItems: number = 2000;
         
              
         
@@ -180,7 +180,7 @@ module Kiwi.Renderers {
             this._uvBuffer = new GLArrayBuffer(gl, 2, GLArrayBuffer.squareUVs);
 
             //static
-            this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems));
+            this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
             this._colorBuffer = new GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
 
             //use shaders
@@ -214,6 +214,7 @@ module Kiwi.Renderers {
         }
 
         public endState(state: Kiwi.State) {
+            this._textureManager.clearTextures(this._game.stage.gl);
             console.log("ending WebGL on State");
             
             
@@ -239,7 +240,8 @@ module Kiwi.Renderers {
             
             //clear 
             var col = this._game.stage.normalizedColor;
-            gl.clearColor(col.r, col.g, col.b, col.a);
+            //gl.clearColor(col.r, col.g, col.b, col.a);
+            gl.clearColor(1,0,0,1);
             gl.clear(gl.COLOR_BUFFER_BIT);
 
             

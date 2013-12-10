@@ -17,9 +17,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.css" />
-    <TypeScriptCompile Include="app2.ts" />
+    <None Include="app2.ts" />
     <Content Include="app2.js">
       <DependentUpon>app2.ts</DependentUpon>
+    </Content>
+    <None Include="app3.ts" />
+    <Content Include="app3.js">
+      <DependentUpon>app3.ts</DependentUpon>
     </Content>
     <Content Include="default.htm" />
     <Content Include="app.js">
@@ -27,7 +31,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app.ts" />
+    <None Include="app.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />

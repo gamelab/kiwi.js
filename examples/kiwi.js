@@ -5112,13 +5112,12 @@ var Kiwi;
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = 1000;
-                this._height = 1000;
+                this._width = this.container.clientWidth;
+                this._height = this.container.clientHeight;
             }
 
             this._createCompositeCanvas();
             if (this._game.debugOption === Kiwi.DEBUG_ON) {
-                this._createDebugCanvas();
             }
         };
 
@@ -21269,6 +21268,9 @@ var Kiwi;
             CanvasRenderer.prototype.initState = function (state) {
             };
 
+            CanvasRenderer.prototype.endState = function (state) {
+            };
+
             /**
             * Renders all of the Elements that are on a particular camera.
             * @method render
@@ -21337,7 +21339,7 @@ var Kiwi;
                 * @default 1000
                 * @private
                 */
-                this._maxItems = 1000;
+                this._maxItems = 2000;
                 /**
                 *
                 * @property _currentTextureAtlas
@@ -21396,7 +21398,7 @@ var Kiwi;
                 this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
 
                 //static
-                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems));
+                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
                 this._colorBuffer = new Renderers.GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
 
                 //use shaders
@@ -21426,6 +21428,7 @@ var Kiwi;
             };
 
             GLRenderer.prototype.endState = function (state) {
+                this._textureManager.clearTextures(this._game.stage.gl);
                 console.log("ending WebGL on State");
             };
 
@@ -21449,7 +21452,9 @@ var Kiwi;
 
                 //clear
                 var col = this._game.stage.normalizedColor;
-                gl.clearColor(col.r, col.g, col.b, col.a);
+
+                //gl.clearColor(col.r, col.g, col.b, col.a);
+                gl.clearColor(1, 0, 0, 1);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 var prog = this._shaders.texture2DProg;
@@ -21934,18 +21939,6 @@ var Kiwi;
                 this._textureWrapperCache.push(glTexture);
             };
 
-            GLTextureManager.prototype._deleteTextureFromCache = function (gl, glTextureWrapper) {
-                //delete it from g mem
-                glTextureWrapper.deleteTexture(gl);
-
-                //kill the reference on the atlas
-                glTextureWrapper.textureAtlas.glTextureWrapper = null;
-                var texId = this._textureWrapperCache.indexOf(glTextureWrapper);
-                if (texId !== -1) {
-                    this._textureWrapperCache.slice(texId, 1);
-                }
-            };
-
             GLTextureManager.prototype._deleteTexture = function (gl, idx) {
                 this._textureWrapperCache[idx].deleteTexture(gl);
                 this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
@@ -21969,6 +21962,9 @@ var Kiwi;
 
             GLTextureManager.prototype.uploadTextureLibrary = function (gl, textureLibrary) {
                 console.log("Attempting to upload TextureLibrary");
+                this._textureWrapperCache = new Array();
+                console.log("...recreated wrapper cache");
+
                 for (var tex in textureLibrary.textures) {
                     //create a glTexture
                     var glTextureWrapper = new Renderers.GLTextureWrapper(gl, textureLibrary.textures[tex]);
@@ -21988,9 +21984,15 @@ var Kiwi;
             };
 
             GLTextureManager.prototype.clearTextures = function (gl) {
-                while (this._textureWrapperCache.length > 0) {
-                    this._deleteTextureFromCache(gl, this._textureWrapperCache[0]);
+                console.log("Attempting to clear Textures");
+                for (var i = 0; i < this._textureWrapperCache.length; i++) {
+                    //delete it from g mem
+                    this._textureWrapperCache[i].deleteTexture(gl);
+
+                    //kill the reference on the atlas
+                    this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;
                 }
+                this._textureWrapperCache = new Array();
             };
 
             GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper, textureSizeUniform) {
@@ -22053,7 +22055,7 @@ var Kiwi;
                 */
                 return true;
             };
-            GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 32;
+            GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 1024;
             return GLTextureManager;
         })();
         Renderers.GLTextureManager = GLTextureManager;
