@@ -21348,6 +21348,7 @@ var Kiwi;
                 */
                 this._currentTextureAtlas = null;
                 this.numDrawCalls = 0;
+                this.TESTRENDER = false;
                 this._game = game;
             }
             /**
@@ -21376,55 +21377,63 @@ var Kiwi;
             * @private
             */
             GLRenderer.prototype._init = function () {
-                console.log("Intialising WebGL");
-                var gl = this._game.stage.gl;
-                this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-
-                this._game.stage.onResize.add(function () {
+                if (!this.TESTRENDER) {
+                    console.log("Intialising WebGL");
+                    var gl = this._game.stage.gl;
                     this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+
+                    this._game.stage.onResize.add(function () {
+                        this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+                        gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                    }, this);
+
+                    this._shaders = new Renderers.GLShaders(gl);
+
+                    //gl.enable(gl.BLEND);
+                    //gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                    this.mvMatrix = mat4.create();
+                    mat2d.identity(this.mvMatrix);
+
+                    //create buffers
+                    //dynamic
+                    this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
+                    this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
+
+                    //static
+                    this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+
+                    // this._colorBuffer = new GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
+                    //use shaders
+                    this._shaders.use(gl, this._shaders.shaderProgram);
+
+                    var prog = this._shaders.texture2DProg;
+
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
+                    gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
+                    gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                    //   gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
+                    //  gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                    //Texture
+                    gl.activeTexture(gl.TEXTURE0);
+
+                    //Static Uniforms
+                    gl.uniform1i(prog.samplerUniform, 0);
+
                     gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-                }, this);
-
-                this._shaders = new Renderers.GLShaders(gl);
-                gl.enable(gl.BLEND);
-                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-                this.mvMatrix = mat4.create();
-                mat2d.identity(this.mvMatrix);
-
-                //create buffers
-                //dynamic
-                this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
-                this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
-
-                //static
-                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-                this._colorBuffer = new Renderers.GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
-
-                //use shaders
-                this._shaders.use(gl, this._shaders.shaderProgram);
-
-                var prog = this._shaders.texture2DProg;
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                //Static Uniforms
-                gl.uniform1i(prog.samplerUniform, 0);
-
-                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                } else {
+                    this.mvMatrix = mat4.create();
+                }
             };
 
             GLRenderer.prototype.initState = function (state) {
-                console.log("initialising WebGL on State");
+                if (!this.TESTRENDER) {
+                    console.log("initialising WebGL on State");
 
-                this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
+                    this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
+                }
             };
 
             GLRenderer.prototype.endState = function (state) {
@@ -21439,56 +21448,60 @@ var Kiwi;
             * @public
             */
             GLRenderer.prototype.render = function (camera) {
-                this.numDrawCalls = 0;
-                this._currentCamera = camera;
-                var root = this._game.states.current.members;
-                var gl = this._game.stage.gl;
+                if (this.TESTRENDER) {
+                    frame(this._game.stage.gl, this.mvMatrix);
+                } else {
+                    this.numDrawCalls = 0;
+                    this._currentCamera = camera;
+                    var root = this._game.states.current.members;
+                    var gl = this._game.stage.gl;
 
-                this._textureManager.numTextureWrites = 0;
+                    this._textureManager.numTextureWrites = 0;
 
-                this._entityCount = 0;
-                this._vertBuffer.clear();
-                this._uvBuffer.clear();
+                    this._entityCount = 0;
+                    this._vertBuffer.clear();
+                    this._uvBuffer.clear();
 
-                //clear
-                var col = this._game.stage.normalizedColor;
+                    //clear
+                    var col = this._game.stage.normalizedColor;
 
-                //gl.clearColor(col.r, col.g, col.b, col.a);
-                gl.clearColor(1, 0, 0, 1);
-                gl.clear(gl.COLOR_BUFFER_BIT);
+                    //gl.clearColor(col.r, col.g, col.b, col.a);
+                    gl.clearColor(1, 1, 0, 1);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
 
-                var prog = this._shaders.texture2DProg;
+                    var prog = this._shaders.texture2DProg;
 
-                //set cam matrix uniform
-                var cm = camera.transform.getConcatenatedMatrix();
-                var ct = camera.transform;
-                this.mvMatrix = new Float32Array([
-                    cm.a,
-                    cm.b,
-                    0,
-                    0,
-                    cm.c,
-                    cm.d,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    0,
-                    cm.tx + ct.rotPointX,
-                    cm.ty + ct.rotPointY,
-                    0,
-                    1
-                ]);
+                    //set cam matrix uniform
+                    var cm = camera.transform.getConcatenatedMatrix();
+                    var ct = camera.transform;
+                    this.mvMatrix = new Float32Array([
+                        cm.a,
+                        cm.b,
+                        0,
+                        0,
+                        cm.c,
+                        cm.d,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        cm.tx + ct.rotPointX,
+                        cm.ty + ct.rotPointY,
+                        0,
+                        1
+                    ]);
 
-                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
-                gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
+                    gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
+                    gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
 
-                for (var i = 0; i < root.length; i++) {
-                    this._recurse(gl, root[i], camera);
+                    for (var i = 0; i < root.length; i++) {
+                        this._recurse(gl, root[i], camera);
+                    }
+
+                    this._flush(gl);
                 }
-
-                this._flush(gl);
             };
 
             /**
@@ -21662,7 +21675,7 @@ var Kiwi;
                 this.texture2DProg = {
                     vertexPositionAttribute: null,
                     vertexTexCoordAttribute: null,
-                    vertexColorAttribute: null,
+                    // vertexColorAttribute: null,
                     mvMatrixUniform: null,
                     samplerUniform: null,
                     resolutionUniform: null,
@@ -21682,7 +21695,6 @@ var Kiwi;
                     "uniform sampler2D uSampler;",
                     "void main(void) {",
                     "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-                    "gl_FragColor = gl_FragColor * vColor;",
                     "}"
                 ];
                 /**
@@ -21700,7 +21712,6 @@ var Kiwi;
                     "uniform vec2 uTextureSize;",
                     "uniform vec2 uCameraOffset;",
                     "varying vec2 vTextureCoord;",
-                    "varying float vColor;",
                     "void main(void) {",
                     "vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
                     "transpos =  uMVMatrix * transpos;",
@@ -21709,7 +21720,6 @@ var Kiwi;
                     "vec2 clipSpace = zeroToTwo - 1.0;",
                     "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
                     "vTextureCoord = aTextureCoord / uTextureSize;",
-                    "vColor = aColor;",
                     "}"
                 ];
                 this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);
@@ -21770,9 +21780,9 @@ var Kiwi;
                 gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
                 this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
                 gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
-                this.texture2DProg.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aColor");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexColorAttribute);
 
+                //  this.texture2DProg.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aColor");
+                // gl.enableVertexAttribArray(this.texture2DProg.vertexColorAttribute);
                 //uniforms
                 this.texture2DProg.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
                 this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
@@ -22005,7 +22015,6 @@ var Kiwi;
                 }
 
                 if (glTextureWrapper.created && glTextureWrapper.uploaded) {
-                    gl.activeTexture(gl.TEXTURE0);
                     gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
                     gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
                     return true;

@@ -125,7 +125,7 @@ module Kiwi.Renderers {
                       
             //use texture
             if (glTextureWrapper.created && glTextureWrapper.uploaded) {
-                gl.activeTexture(gl.TEXTURE0);
+                
                 gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
                 gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
                 return true;

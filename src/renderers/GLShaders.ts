@@ -102,7 +102,7 @@ module Kiwi.Renderers {
         public texture2DProg:any = {
             vertexPositionAttribute: null,
             vertexTexCoordAttribute: null,
-            vertexColorAttribute: null,
+           // vertexColorAttribute: null,
             mvMatrixUniform: null,
             samplerUniform: null,
             resolutionUniform: null,
@@ -125,8 +125,6 @@ module Kiwi.Renderers {
             gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
             this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
             gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
-            this.texture2DProg.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aColor");
-            gl.enableVertexAttribArray(this.texture2DProg.vertexColorAttribute);
            
             //uniforms
 
@@ -151,7 +149,6 @@ module Kiwi.Renderers {
             "uniform sampler2D uSampler;",
             "void main(void) {",
             "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-            "gl_FragColor = gl_FragColor * vColor;",
             "}"
         ];
 
@@ -170,7 +167,6 @@ module Kiwi.Renderers {
             "uniform vec2 uTextureSize;",
             "uniform vec2 uCameraOffset;",
             "varying vec2 vTextureCoord;",
-            "varying float vColor;",
             "void main(void) {",
                 "vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
                 "transpos =  uMVMatrix * transpos;",
@@ -179,9 +175,7 @@ module Kiwi.Renderers {
                 "vec2 zeroToTwo = zeroToOne * 2.0;",
                 "vec2 clipSpace = zeroToTwo - 1.0;",
                 "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                //"gl_Position = vec4(uMVMatrix * vec3(clipSpace * vec2(1, -1), 0), 1);",
                 "vTextureCoord = aTextureCoord / uTextureSize;",
-                "vColor = aColor;",
             "}"
         ];
 
