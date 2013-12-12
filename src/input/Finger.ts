@@ -12,6 +12,7 @@ module Kiwi.Input {
     *
     * @class Finger
     * @extends Pointer
+    * @namespace Kiwi.Input
     * @constructor
     * @param game {Game} The game that this finger belongs to.
     * @return Finger

@@ -11,6 +11,7 @@ module Kiwi.GameObjects.Tilemap {
     * Maintains information about a single two dimensional TileMap (saved in the property mapData) and is created on TileMap. This class should generally never be directly instantiated as the creation of TileMapLayers are handled through a TileMap. 
     * 
     * @class TileMapLayer
+    * @namespace Kiwi.GameObjects.Tilemap
     * @extends Entity
     * @constructor
     * @param state {State} The state that this tilemap belongs to. 

@@ -8,7 +8,8 @@
 module Kiwi.Components {
      
     /**
-    * Ported from Flixel, most functions operation identically to the original flixel functions, though some
+    * Arcade Physics is an Optional Component that can be used when you are wanting to do basic physics collisions. 
+    * These have been ported from Flixel, so most function operate identically to the original flixel functions, though some
     * have been split into multiple functions. Generally where functions originally accepted
     * either groups or gameobjects within the same argument, the ported functions one or the other.
     * http://www.flixel.org/
@@ -16,6 +17,7 @@ module Kiwi.Components {
     *
     * @class ArcadePhysics
     * @constructor
+    * @namespace Kiwi.Components
     * @param entity {Entity}
     * @param box {Box}
     * @return {ArcadePhysics}
@@ -391,7 +393,7 @@ module Kiwi.Components {
         * @return {boolean}
         * @public
         */
-        public static collideGroup(gameObject: Entity, group: any, seperate: boolean = true): boolean {
+        public static collideGroup(gameObject: Entity, group: Kiwi.Group, seperate: boolean = true): boolean {
 
             return ArcadePhysics.overlapsObjectGroup(gameObject, group, seperate);
         }
@@ -406,7 +408,7 @@ module Kiwi.Components {
         * @param [seperate=true] {boolean}
         * @return {boolean}
         */
-        public static collideGroupGroup(group1: any, group2: any, seperate: boolean = true): boolean {
+        public static collideGroupGroup(group1: Kiwi.Group, group2: Kiwi.Group, seperate: boolean = true): boolean {
 
             return ArcadePhysics.overlapsGroupGroup(group1, group2, seperate);
         }
@@ -437,13 +439,13 @@ module Kiwi.Components {
         *
         * @method overlapsObjectGroup
         * @static
-        * @param gameObject {Kiwi.GameObjects.Entity}
-        * @param group {Any} 
+        * @param gameObject {Entity}
+        * @param group {Group} 
         * @param [seperateObjects=true] {boolean} If they overlap should the seperate or not
         * @return {boolean}
         * @public
         */
-        public static overlapsObjectGroup(gameObject: Entity, group: any, separateObjects: boolean = true): boolean {
+        public static overlapsObjectGroup(gameObject: Entity, group: Kiwi.Group, separateObjects: boolean = true): boolean {
 
             var objPhysics: ArcadePhysics = gameObject.components.getComponent("ArcadePhysics");
             return objPhysics.overlapsGroup(group, separateObjects);
@@ -454,39 +456,59 @@ module Kiwi.Components {
         *
         * @method overlaps
         * @static
-        * @param group1 {Any}
+        * @param group1 {Group} The first 
         * @param group2 {Any}
         * @param [seperate=true] {boolean} If they overlap should the seperate or not
         * @return {boolean}
         * @public
         */
-        public static overlapsGroupGroup(group1: any, group2: any, separateObjects: boolean = true): boolean {
+        public static overlapsGroupGroup(group1: Kiwi.Group, group2: Kiwi.Group, separateObjects: boolean = true): boolean {
+
+            var result: boolean = false;
+
+            var members: IChild[] = group1.members;
+            var i: number = 0;
             
-            var result: boolean = false; 
+            while (i < group1.members.length) {
+                if (members[i].childType() == Kiwi.GROUP) {
+                    if (ArcadePhysics.overlapsGroupGroup(<Kiwi.Group>members[i++], group2, separateObjects)) result = true;
 
-            if (group1.childType !== undefined && group1.childType() === Kiwi.GROUP) {
-                //if group1 is a type of group...
+                } else {
+                    if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>members[i++], group2, separateObjects)) result = true;
 
-                var members: IChild[] = group1.members;
-                var i: number = 0;
-                
-                while (i < group1.members.length) {
-                    if (members[i].childType() == Kiwi.GROUP) {
-                        if (ArcadePhysics.overlapsGroupGroup(<Kiwi.Group>members[i++], group2, separateObjects)) result = true;
-                    } else {
-                        if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>members[i++], group2, separateObjects)) result = true;
-                    }
                 }
-            } else if (Object.prototype.toString.call(group1) == '[object Array]') {
-                //loop through the array 
-                for (var i = 0; i < group1.length; i++) {
-                    if (group1[i].childType !== undefined && group1[i].childType() === Kiwi.ENTITY) {
-                        if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>group1[i], group2, separateObjects)) 
+            }
+
+            return result;
+        }
+
+        /**
+        * A Statuc method that checks to see if any objects from an Array collide with a Kiwi Group members.
+        * 
+        * @method overlapsArrayGroup
+        * @param array {Array} An array you want to check collide.
+        * @param group {Group} A group of objects you want to check overlaps.
+        * @param [seperateObjects=true] {Boolean} If when a collision is found the objects should seperate out.
+        * @return {Boolean} 
+        */
+        public static overlapsArrayGroup(array: Array, group: Kiwi.Group, separateObjects: boolean = true) {
+
+            var result: boolean = false;
+
+            //loop through the array 
+            for (var i = 0; i < array.length; i++) {
+                if (typeof array[i].childType !== "undefined") {
+
+                    if (array[i].childType() === Kiwi.ENTITY) {
+                        if (ArcadePhysics.overlapsObjectGroup(<Kiwi.Entity>array[i], group, separateObjects))
+                            result = true;
+                    } else if (array[i].childType() === Kiwi.GROUP) {
+                        if (ArcadePhysics.overlapsGroupGroup(<Kiwi.Group>array[i], group, separateObjects))
                             result = true;
                     }
-                }
 
-            } 
+                }
+            }
 
             return result;
         }
@@ -765,53 +787,61 @@ module Kiwi.Components {
         }
 
         /**
-        * A method to check to see if the parent of this physics component overlaps with another group of objects
+        * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
         * 
         * @method overlapsGroup
         * @param group {Kiwi.Group}
         * @param [seperateObjects=false] {boolean} 
         * @return { boolean }
         */
-        public overlapsGroup(group: any, separateObjects: boolean = false): boolean {
-            
-            //if the group is a Kiwi.Group
+        public overlapsGroup(group: Kiwi.Group, separateObjects: boolean = false): boolean {
+
             var results: boolean = false;
-            
-            if (group.childType !== undefined && group.childType() === Kiwi.GROUP) {
 
-                for (var i = 0; i < group.members.length; i++) {
+            for (var i = 0; i < group.members.length; i++) {
 
-                    if (group.members[i].childType() === Kiwi.GROUP) {
-                        //recursively check overlap
-                        this.overlapsGroup(<Kiwi.Group>group.members[i], separateObjects);
+                if (group.members[i].childType() === Kiwi.GROUP) {
+                    //recursively check overlap
+                    this.overlapsGroup(<Kiwi.Group>group.members[i], separateObjects);
 
-                    } else {
-                        //otherwise its an entity
+                } else {
+                    //otherwise its an entity
 
-                        if (this.overlaps(<Kiwi.Entity>group.members[i], separateObjects)) {
-                            if (this._callbackContext !== null && this._callbackFunction !== null)
-                                this._callbackFunction.call(this._callbackContext, this._parent, group.members[i]);
-                            results = true;
-                        }
-
+                    if (this.overlaps(<Kiwi.Entity>group.members[i], separateObjects)) {
+                        if (this._callbackContext !== null && this._callbackFunction !== null)
+                            this._callbackFunction.call(this._callbackContext, this._parent, group.members[i]);
+                        results = true;
                     }
-                }
-            } else if (Object.prototype.toString.call(group) == '[object Array]') {
-                //loop through the array
 
-                for (var i = 0; i < group.length; i++) {
-                    if (group[i].childType !== undefined && group[i].childType() === Kiwi.ENTITY) {
-                        if (this.overlaps(<Kiwi.Entity>group[i], separateObjects)) {
-                            this._callbackFunction.call(this._callbackContext, this._parent, group[i]);
-                            results = true;
-                        }
-                    }
                 }
-
-            } 
+            }
 
             return results;
+        }
 
+        /**
+        * A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.
+        * @method overlapsArray
+        * @param array {Array} The array of GameObjects you want to check.
+        * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
+        * @return {boolean} If a collision was detected or not.
+        */ 
+        public overlapsArray(array: Array, separateObjects: boolean = false): boolean {
+            
+            var results: boolean = false;
+
+            for (var i = 0; i < array.length; i++) {
+
+                if (typeof array[i].childType !== "undefined" && array[i].childType() === Kiwi.ENTITY) {
+                    if (this.overlaps(<Kiwi.Entity>array[i], separateObjects)) {
+                        this._callbackFunction.call(this._callbackContext, this._parent, array[i]);
+                        results = true;
+                    }
+                }
+
+            }
+            
+            return results;
         }
 
         /**
@@ -824,18 +854,20 @@ module Kiwi.Components {
             var delta: number;
             var velocityDelta: number;
             
-            
+            //Update the motion calculated from rotation.
             velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
             this.angularVelocity += velocityDelta;
             this.angle += this.angularVelocity * ArcadePhysics.updateInterval;
             this.angularVelocity += velocityDelta;
            
+            //Update the motion on the x-axis.
             velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
             this.velocity.x += velocityDelta;
             delta = this.velocity.x * ArcadePhysics.updateInterval;
             this.velocity.x += velocityDelta;
             this.transform.x = this.transform.x + delta;
 
+            //Update the motion on the y-axis.
             velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
             this.velocity.y += velocityDelta;
             delta = this.velocity.y * ArcadePhysics.updateInterval;

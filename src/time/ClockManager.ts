@@ -12,6 +12,7 @@ module Kiwi.Time {
     * Handles the generation and tracking of Clocks and Time related applications for a single game. 
     * 
     * @class ClockManager
+    * @namespace Kiwi.Time
     * @constructor
     * @param {Game} game.
     * @return {ClockManager} This Object.

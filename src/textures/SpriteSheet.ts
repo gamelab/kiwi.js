@@ -12,6 +12,7 @@ module Kiwi.Textures  {
     *
     * @class SpriteSheet
     * @extends TextureAtlas
+    * @namespace Kiwi.Textures
     * @constructor
     * @param name {string} The name of the spritesheet.
     * @param texture {HTMLImageElement} The image that is being used for the spritesheet.

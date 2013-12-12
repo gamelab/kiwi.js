@@ -15,6 +15,7 @@ module Kiwi.Geom {
     * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
     * 
     * @class Matrix
+    * @namespace Kiwi.Geom
     * @constructor
     * @param [a = 1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
     * @param [b = 0] {Number}  position 0,1 of the matrix, affects scaling and rotation.

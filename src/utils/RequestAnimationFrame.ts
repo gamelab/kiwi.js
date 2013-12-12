@@ -11,6 +11,7 @@ module Kiwi.Utils {
     *
     * @class RequestAnimationFrame
     * @constructor
+    * @namespace Kiwi.Utils
     * @param callback {Any}
     * @return {RequestAnimationFrame} This object.
     *

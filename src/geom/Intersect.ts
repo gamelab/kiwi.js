@@ -10,6 +10,7 @@ module Kiwi.Geom {
     * A collection of methods to help determine and return intersection between geometric objects.
     *
     * @class Intersect
+    * @namespace Kiwi.Geom
     *
     */
     export class Intersect {

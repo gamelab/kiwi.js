@@ -10,7 +10,7 @@ module Kiwi.Geom {
     * A two dimensional vector object for storing and manipulating x and y vector components.
     *
     * @class Vector2
-    * @class Vector2
+    * @namespace Kiwi.Geom
     * @constructor
     * @param {Number} x The x component of the vector.
     * @param {Number} y The y component of the vector.

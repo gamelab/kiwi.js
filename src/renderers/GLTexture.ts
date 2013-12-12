@@ -10,6 +10,7 @@ module Kiwi.Renderers {
     /**
     *
     * @class GLTexture
+    * @namespace Kiwi.Renderers
     * @constructor
     * @param gl {WebGLRenderingContext}
     * @param [_image] {HTMLImageElement}

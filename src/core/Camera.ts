@@ -10,6 +10,7 @@ module Kiwi {
     * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
     *
     * @class Camera
+    * @namespace Kiwi
     * @constructor
     * @param game {Game} The game that this camera belongs to.
     * @param id {Number} A unique ID for this camera 

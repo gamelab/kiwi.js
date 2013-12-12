@@ -11,6 +11,7 @@ module Kiwi.Geom {
     *
     * @class Point
     * @constructor
+    * @namespace Kiwi.Geom
     * @param x {Number} x One-liner. Default is ?.
     * @param y {Number} y One-liner. Default is ?.
     *

@@ -9,6 +9,7 @@ module Kiwi.Renderers {
     /**
     *
     * @class GLShaders
+    * @namespace Kiwi.Renderers
     * @constructor
     * @param gl {WebGLRenderingContext}
     * @return {GLShaders}

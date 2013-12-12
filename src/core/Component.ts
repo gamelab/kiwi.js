@@ -10,6 +10,7 @@ module Kiwi {
     * The base class that all components extend from and thus contains all of the common functionality that is required of every Component. 
     *
     * @class Component
+    * @namespace Kiwi
     * @constructor
     * @param owner {IChild} The IChild that this component belongs to.
     * @param componentName {String} The name of this component.

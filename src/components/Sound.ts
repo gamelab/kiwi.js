@@ -12,6 +12,7 @@ module Kiwi.Components {
     * 
     * @class Sound
     * @extends Component
+    * @namespace Kiwi.Components
     * @constructor
     * @param parent {Any} Who the sound component belongs to.
     * @return {Sound}

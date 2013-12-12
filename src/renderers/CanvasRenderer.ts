@@ -22,6 +22,7 @@ module Kiwi.Renderers {
     * @class CanvasRenderer
     * @extends IRenderer
     * @constructor 
+    * @namespace Kiwi.Renderers
     * @param game {Game} The game that this canvas renderer belongs to.
     * @return {CanvasRenderer}
     *

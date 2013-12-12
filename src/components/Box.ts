@@ -17,6 +17,7 @@ module Kiwi.Components {
     *
     * @class Box
     * @extends Component
+    * @namespace Kiwi.Components
     * @constructor
     * @param parent {Entity} The entity that this box belongs to.
     * @param [x=0] {Number} Its position on the x axis

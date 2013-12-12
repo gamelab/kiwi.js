@@ -11,8 +11,9 @@ module Kiwi.GameObjects.Tilemap {
     * Defines a particular type of tile that is used on a TileMap. A TileType object should never be directly instantiated by a developer, but instead referenced through the TileMap that it belongs to. A new TileType is created for each cell that exists on the SpriteSheet that is parse when creating a TileMap. Note: There is always a TileType (at index of -1) generated which you can use when no tile will be placed in that spot.
     * 
     * @class TileType
+    * @namespace Kiwi.GameObjects.Tilemap
     * @constructor
-    * @param gmae {Game} The game that this type of tile belongs to.
+    * @param game {Game} The game that this type of tile belongs to.
     * @param tilemap {TileMap} The TileMap that this type of tile is on.
     * @param index {number} The unique index that this tile has associated with it.
     * @param width {number} The width of this tile. Only used for collision detection.

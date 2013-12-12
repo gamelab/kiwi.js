@@ -20,6 +20,7 @@ module Kiwi.HUD.HUDComponents {
     *
     * @class Time
     * @extends Component
+    * @namespace Kiwi.HUD.HUDComponents
     * @constructor
     * @param owner {any} The object that this component belongs to.
     * @param [format=''] {string} The format that the time is to be displayed in. Leave blank for the default time.

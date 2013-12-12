@@ -11,6 +11,7 @@ module Kiwi {
     * which outlines the methods/properties that objects which are intended to be added as a child of a Stage or Group must have in order to work.
     * 
     * @class IChild
+    * @namespace Kiwi
     */
     export interface IChild {
         render(camera:Kiwi.Camera);

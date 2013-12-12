@@ -10,6 +10,7 @@ module Kiwi.Geom {
     * An area defined by its position, as indicated by its top-left corner (x,y) and width and height
     *
     * @class Rectangle
+    * @namespace Kiwi.Geom
     * @constructor
     * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
     * @param y {Number} y The y coordinate of the top-left corner of the rectangle.

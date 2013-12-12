@@ -11,6 +11,7 @@ module Kiwi.Files {
     * Holds a reference to all of the data Files (json, xml, e.t.c) that are accessible on the State that this DataLibrary is on.
     *
     * @class DataLibrary
+    * @namespace Kiwi.Files
     * @constructor
     * @param game {Game} The game that this DataLibrary belongs to.
     * @return {DataLibrary}

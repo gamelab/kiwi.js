@@ -12,6 +12,7 @@ module Kiwi.Textures  {
     * 
     * @class SingleImage
     * @extends TextureAtlas
+    * @namespace Kiwi.Textures
     * @constructor
     * @param name {string} The name of the single image
     * @param image {HTMLImageElement} the image that is being used.

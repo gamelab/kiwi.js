@@ -10,6 +10,7 @@ module Kiwi.Animations.Tweens.Easing {
     /**
     * 
     * @class Cubic
+    * @namespace Kiwi.Animations.Tweens.Easing
     *
     */
     export class Cubic {

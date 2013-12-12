@@ -15,6 +15,7 @@ module Kiwi.HUD.Widget {
     * 
     * @class Time
     * @extends TextField
+    * @namespace Kiwi.HUD.Widget
     * @constructor
     * @param game {Game} The game that this object belongs to.
     * @param format {string} The format that you want the time to be displayed in. Leave it empty to display as normal.

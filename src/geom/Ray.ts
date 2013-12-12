@@ -10,6 +10,7 @@ module Kiwi.Geom {
     * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
     *
     * @class Ray
+    * @namespace Kiwi.Geom
     * @constructor
     * @param x1 {Number} x1
     * @param y1 {Number} y1

@@ -12,6 +12,7 @@ module Kiwi.GameObjects.Tilemap { //namespace needs to be changed...
     * A GameObject that can be used when wanting to generate and use TileMaps in a game and the job of it is to handle the creation and management of TileMapLayers/Tiles on the whole map. Each TileMap (once created) will contain at least one TileMapLayer, which will hold the information about the map generated, but more TileMapLayers can be generated on a single TileMap. 
     * 
     * @class TileMap
+    * @namespace Kiwi.GameObjects.Tilemap
     * @extends Entity
     * @constructor 
     * @param state {State} The state that this Tilemap is on.

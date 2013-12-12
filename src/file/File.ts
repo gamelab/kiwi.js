@@ -11,6 +11,7 @@ module Kiwi.Files {
     * Handles the loading of an external data file via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
     *
     * @class File
+    * @namespace Kiwi.Files
     * @constructor
     * @param game {Game} The game that this file belongs to.
     * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.

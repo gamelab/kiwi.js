@@ -13,6 +13,7 @@ module Kiwi.HUD.Widget {
     *
     * @class Icon
     * @extends HUDWidget
+    * @namespace Kiwi.HUD.Widget
     * @constructor
     * @param game {Game} The game that this icon belongs to.
     * @param atlas {TextureAtlas} The image that you would like displayed.

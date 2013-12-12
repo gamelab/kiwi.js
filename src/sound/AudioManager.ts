@@ -14,6 +14,7 @@ module Kiwi.Sound {
     * 
     * @class AudioManager
     * @constructor
+    * @namespace Kiwi.Sound
     * @param game {Game} The game that this audio manager belongs to.
     * @return {AudioManager}
     */

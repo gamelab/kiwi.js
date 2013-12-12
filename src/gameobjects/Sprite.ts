@@ -11,6 +11,7 @@ module Kiwi.GameObjects {
     * A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn't a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.
     *
     * @class Sprite
+    * @namespace Kiwi.GameObjects
     * @extends Entity
     * @constructor
     * @param state {State} The state that this sprite belongs to

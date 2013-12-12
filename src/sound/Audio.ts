@@ -12,6 +12,7 @@ module Kiwi.Sound {
     *
     * @class Audio
     * @constructor
+    * @namespace Kiwi.Sound
     * @param game {Game} The game that this piece of audio belongs to.
     * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
     * @param volume {number} A number between 0 (silence) and 1 (loud).

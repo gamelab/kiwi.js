@@ -13,6 +13,7 @@ module Kiwi.Input {
     * 
     * @class InputManager
     * @constructor
+    * @namespace Kiwi.Input
     * @param game {Game} The game that this object belongs to.
     * @return {InputManager} This object.
     *

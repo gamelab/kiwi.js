@@ -12,6 +12,7 @@ module Kiwi.Input {
     * 
     * @class Touch
     * @constructor
+    * @namespace Kiwi.Input
     * @param game {Game} the game that this touch manager belongs to.
     * @return {Touch} This object.
     *

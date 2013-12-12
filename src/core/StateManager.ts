@@ -10,6 +10,7 @@ module Kiwi {
     * The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.
     *
     * @class StateManager
+    * @namespace Kiwi
     * @constructor
     * @param game {Game} The game that this statemanager belongs to.
     * @return {StateMananger} This Object

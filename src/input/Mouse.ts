@@ -12,6 +12,7 @@ module Kiwi.Input {
     *
     * @class Mouse
     * @constructor
+    * @namespace Kiwi.Input
     * @param game {Game} The game that this mouse manager belongs to.
     * @return {Mouse} 
     *

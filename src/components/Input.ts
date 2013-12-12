@@ -16,6 +16,7 @@ module Kiwi.Components {
     *
     * @class Input
     * @extends Component
+    * @namespace Kiwi.Components
     * @constructor
     * @param owner {IChild} The IChild that owns this Input.
     * @param box {Box} The box that is to be used for the event firing.

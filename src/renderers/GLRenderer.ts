@@ -12,6 +12,7 @@ module Kiwi.Renderers {
     *
     * @class GLRenderer
     * @extends IRenderer
+    * @namespace Kiwi.Renderers
     * @constructor
     * @param game {Game} The game that this renderer belongs to.
     * @return {GLRenderer}

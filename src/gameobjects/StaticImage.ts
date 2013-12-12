@@ -11,6 +11,7 @@ module Kiwi.GameObjects {
     * A light weight game object for displaying static images that would have little or no interaction with other GameObjects. An Example of this would be a background image. Note: Since a StaticImage is lightweight it doesn't have any AnimationManager to handle the switching of cells (If you were using a SpriteSheet/TextureAtlas). In order to switch cells you can change the value of the cellIndex property.
     *
     * @class StaticImage
+    * @namespace Kiwi.GameObjects
     * @extends Entity
     * @constructor
     * @param state {State} The state that this static image belongs to 

@@ -16,6 +16,7 @@ module Kiwi.Animations {
     *
     * @class Tween
     * @constructor
+    * @namespace Kiwi.Animations
     * @param object {Any} The object that this tween is taking affect on.
     * @param game {Game} The game that this tween is for.
     * @return {Tween} This tween.

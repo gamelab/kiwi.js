@@ -11,6 +11,7 @@ module Kiwi {
     * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
     *
     * @class Stage
+    * @namespace Kiwi
     * @constructor
     * @param game {Kiwi.Game}
     * @param name {String}

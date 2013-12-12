@@ -12,6 +12,7 @@ module Kiwi.Animations {
     * Sequences are generally used with the AnimationManager/Animation sections as a way to initially create Animations on GameObjects that use the same TextureAtlas.
     * 
     * @class Sequence
+    * @namespace Kiwi.Animations
     * @constructor
     * @param name {String} The name of this sequence. This is not unique.
     * @param cells {Number[]} The cells that are in this animation.

@@ -283,6 +283,7 @@ module Kiwi {
     * The GameManager is used to maintain mulitple instances of Kiwi games within a single document.
     *  
     * @class GameManager
+    * @namespace Kiwi
     * @static
     */
     export class GameManager {

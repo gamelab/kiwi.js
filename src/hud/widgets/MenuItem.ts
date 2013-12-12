@@ -11,7 +11,7 @@ module Kiwi.HUD.Widget {
     *
     * @class MenuItem
     * @extends HUDWidget
-    *
+    * @namespace Kiwi.HUD.Widget
     * @contructor
     * @param game {Game} The game that this MenuItem belongs to.
     * @param text {string} The text that is to be inside the menuitem.

@@ -12,6 +12,7 @@ module Kiwi {
     * http://millermedeiros.github.com/js-signals/
     * 
     * @class SignalBinding
+    * @namespace Kiwi
     * 
     * @author Miller Medeiros, JS Signals
     * @constructor

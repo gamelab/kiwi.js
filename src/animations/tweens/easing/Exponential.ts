@@ -11,6 +11,7 @@ module Kiwi.Animations.Tweens.Easing {
     *
     *
     * @class Exponential
+    * @namespace Kiwi.Animations.Tweens.Easing
     *
     */
     export class Exponential {

@@ -16,6 +16,7 @@ module Kiwi.HUD.Widget {
     *
     * @class TextField
     * @extends HUDWidget
+    * @namespace Kiwi.HUD.Widget
     * @constructor
     * @param game {Game} The game that this textfield belongs to.
     * @param text {string} The text on this textfield.

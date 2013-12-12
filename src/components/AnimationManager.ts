@@ -16,6 +16,7 @@ module Kiwi.Components {
     *
     * @class AnimationManager
     * @extends Component
+    * @namespace Kiwi.Components
     * @constructor
     * @param entity {Entity} The entity that this animation component belongs to.
     * @return {AnimationManager}

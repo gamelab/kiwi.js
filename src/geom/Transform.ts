@@ -13,6 +13,7 @@ module Kiwi.Geom {
     * - A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
     *
     * @class Transform
+    * @namespace Kiwi.Geom
     * @constructor
     * @param x {Number} x. X position of the transform.
     * @param y {Number} y. Y position of the transform.

@@ -12,6 +12,7 @@ module Kiwi {
     * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
     * 
     * @class Entity
+    * @namespace Kiwi
     * @constructor
     * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param x {Number} The entities position on the x axis.

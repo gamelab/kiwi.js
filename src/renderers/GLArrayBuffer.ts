@@ -11,6 +11,7 @@ module Kiwi.Renderers {
     *
     * @class GLArrayBuffer
     * @constructor
+    * @namespace Kiwi.Renderers
     * @param gl {WebGLRenderingContext} 
     * @param [_itemSize] {number}
     * @param [items] {number[]}

@@ -12,6 +12,7 @@ module Kiwi.Animations.Tweens.Easing {
     *
     *
     * @class Quadratic
+    * @namespace Kiwi.Animations.Tweens.Easing
     *
     */
     export class Quadratic {

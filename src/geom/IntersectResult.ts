@@ -10,6 +10,7 @@ module Kiwi.Geom {
     * A light result object to hold the results of an intersection
     *
     * @class IntersectResult
+    * @namespace Kiwi.Geom
     *
     */
     export class IntersectResult {

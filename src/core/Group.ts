@@ -10,6 +10,7 @@ module Kiwi {
     * Is a class the implements the IChild structure who's purpose is to contain multiple children/members, those of which also implement the IChild interface. The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
     * 
     * @class Group
+    * @namespace Kiwi
     * @constructor
     * @param state {State} The State that this Group is a part of.
     * @param [name=''] {String} The name of this group. 

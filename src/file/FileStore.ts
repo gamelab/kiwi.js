@@ -11,6 +11,7 @@ module Kiwi.Files {
     * Holds all of the Files (regardless of the file type) that have been loaded throughout a game/are accessable at a particular point in time. Contains methods for dealing with files. Note: Each time the state is switched the file store will remove all references to files that have not been flagged as global. 
     * 
     * @class FileStore
+    * @namespace Kiwi.Files
     * @constructor
     * @param game {Game} The game that this FileStore belongs to.
     * @return {FilesStore}

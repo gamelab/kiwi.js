@@ -10,6 +10,7 @@ module Kiwi {
     * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
     *
     * @class Game
+    * @namespace Kiwi
     * @constructor
     * @param [domParent=''] {String} The ID of a DOM element that the game should use as its 'container'. If you are targeting Cocoon then you don't need to worry about this and can leave it blank.
     * @param [name='KiwiGame'] {String} The name of the game that is being created. 
