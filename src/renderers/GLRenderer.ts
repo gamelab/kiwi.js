@@ -105,14 +105,7 @@ module Kiwi.Renderers {
         */
         private _uvBuffer: GLArrayBuffer;
         
-        /**
-        *
-        * @property _colorBuffer
-        * @type GLArrayBuffer
-        * @private
-        */
-        private _colorBuffer: GLArrayBuffer;
-        
+     
                
         /**
         *
@@ -162,15 +155,12 @@ module Kiwi.Renderers {
                 var gl: WebGLRenderingContext = this._game.stage.gl;
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
 
-                this._game.stage.onResize.add(function () {
-                    this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-
-                }, this);
+                gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
+               
 
                 this._shaders = new GLShaders(gl);
-                //gl.enable(gl.BLEND);
-                //gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
@@ -183,8 +173,7 @@ module Kiwi.Renderers {
 
                 //static
                 this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-               // this._colorBuffer = new GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
-
+             
                 //use shaders
                 this._shaders.use(gl, this._shaders.shaderProgram);
 
@@ -196,17 +185,23 @@ module Kiwi.Renderers {
                 gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
                 gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-             //   gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
-              //  gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
+           
                 //Texture
                 gl.activeTexture(gl.TEXTURE0);
 
                 //Static Uniforms
-
+                //sampler
                 gl.uniform1i(prog.samplerUniform, 0);
-
+                //stage res needs update on stage resize
+             
                 gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                this._game.stage.onResize.add(function (width, height) {
+                    this._stageResolution = new Float32Array([width, height]);
+                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                    gl.viewport(0, 0, width,height);
+                },this);
+
+
             } else {
                 this.mvMatrix = mat4.create();
             }
@@ -256,8 +251,7 @@ module Kiwi.Renderers {
                 
                 //clear 
                 var col = this._game.stage.normalizedColor;
-                //gl.clearColor(col.r, col.g, col.b, col.a);
-                gl.clearColor(1,1, 0, 1);
+                gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 
@@ -265,13 +259,15 @@ module Kiwi.Renderers {
                 //set cam matrix uniform
                 var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
                 var ct: Kiwi.Geom.Transform = camera.transform;
+                this.mvMatrix = mat4.create();
+                /*
                 this.mvMatrix = new Float32Array([
                     cm.a, cm.b, 0, 0,
                     cm.c, cm.d, 0, 0,
                     0, 0, 1, 0,
                     cm.tx + ct.rotPointX, cm.ty + ct.rotPointY, 0, 1
                 ]);
-
+                */
                 gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
                 gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
                 
@@ -424,20 +420,7 @@ module Kiwi.Renderers {
 
         }
 
-        /**
-        *
-        * @method _generateColors
-        * @param numVerts {number}
-        * @return number[]
-        * @private
-        */
-        private _generateColors(numVerts: number): number[] {
-            var cols: number[] = new Array();
-            for (var i = 0; i < numVerts; i++) {
-                cols.push(1);
-            }
-            return cols;
-        }
+       
 
 
     }

@@ -21382,15 +21382,12 @@ var Kiwi;
                     var gl = this._game.stage.gl;
                     this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
 
-                    this._game.stage.onResize.add(function () {
-                        this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-                        gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-                    }, this);
+                    gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
 
                     this._shaders = new Renderers.GLShaders(gl);
+                    gl.enable(gl.BLEND);
+                    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-                    //gl.enable(gl.BLEND);
-                    //gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
                     this.mvMatrix = mat4.create();
                     mat2d.identity(this.mvMatrix);
 
@@ -21402,7 +21399,6 @@ var Kiwi;
                     //static
                     this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
-                    // this._colorBuffer = new GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
                     //use shaders
                     this._shaders.use(gl, this._shaders.shaderProgram);
 
@@ -21414,15 +21410,20 @@ var Kiwi;
                     gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
                     gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-                    //   gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
-                    //  gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
                     //Texture
                     gl.activeTexture(gl.TEXTURE0);
 
                     //Static Uniforms
+                    //sampler
                     gl.uniform1i(prog.samplerUniform, 0);
 
+                    //stage res needs update on stage resize
                     gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                    this._game.stage.onResize.add(function (width, height) {
+                        this._stageResolution = new Float32Array([width, height]);
+                        gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                        gl.viewport(0, 0, width, height);
+                    }, this);
                 } else {
                     this.mvMatrix = mat4.create();
                 }
@@ -21464,9 +21465,7 @@ var Kiwi;
 
                     //clear
                     var col = this._game.stage.normalizedColor;
-
-                    //gl.clearColor(col.r, col.g, col.b, col.a);
-                    gl.clearColor(1, 1, 0, 1);
+                    gl.clearColor(col.r, col.g, col.b, col.a);
                     gl.clear(gl.COLOR_BUFFER_BIT);
 
                     var prog = this._shaders.texture2DProg;
@@ -21474,25 +21473,16 @@ var Kiwi;
                     //set cam matrix uniform
                     var cm = camera.transform.getConcatenatedMatrix();
                     var ct = camera.transform;
-                    this.mvMatrix = new Float32Array([
-                        cm.a,
-                        cm.b,
-                        0,
-                        0,
-                        cm.c,
-                        cm.d,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        cm.tx + ct.rotPointX,
-                        cm.ty + ct.rotPointY,
-                        0,
-                        1
-                    ]);
+                    this.mvMatrix = mat4.create();
 
+                    /*
+                    this.mvMatrix = new Float32Array([
+                    cm.a, cm.b, 0, 0,
+                    cm.c, cm.d, 0, 0,
+                    0, 0, 1, 0,
+                    cm.tx + ct.rotPointX, cm.ty + ct.rotPointY, 0, 1
+                    ]);
+                    */
                     gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
                     gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
 
@@ -21620,21 +21610,6 @@ var Kiwi;
                 }
                 return quads;
             };
-
-            /**
-            *
-            * @method _generateColors
-            * @param numVerts {number}
-            * @return number[]
-            * @private
-            */
-            GLRenderer.prototype._generateColors = function (numVerts) {
-                var cols = new Array();
-                for (var i = 0; i < numVerts; i++) {
-                    cols.push(1);
-                }
-                return cols;
-            };
             return GLRenderer;
         })();
         Renderers.GLRenderer = GLRenderer;
@@ -21691,7 +21666,6 @@ var Kiwi;
                 this.texture2DFrag = [
                     "precision mediump float;",
                     "varying vec2 vTextureCoord;",
-                    "varying float vColor;",
                     "uniform sampler2D uSampler;",
                     "void main(void) {",
                     "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
@@ -21713,7 +21687,7 @@ var Kiwi;
                     "uniform vec2 uCameraOffset;",
                     "varying vec2 vTextureCoord;",
                     "void main(void) {",
-                    "vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
+                    "vec4 transpos = vec4(aVertexPosition,0,1); ",
                     "transpos =  uMVMatrix * transpos;",
                     "vec2 zeroToOne = transpos.xy / uResolution;",
                     "vec2 zeroToTwo = zeroToOne * 2.0;",
@@ -21781,8 +21755,6 @@ var Kiwi;
                 this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
                 gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
 
-                //  this.texture2DProg.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aColor");
-                // gl.enableVertexAttribArray(this.texture2DProg.vertexColorAttribute);
                 //uniforms
                 this.texture2DProg.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
                 this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
