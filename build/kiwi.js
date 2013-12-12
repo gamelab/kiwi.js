@@ -21394,7 +21394,7 @@ var Kiwi;
                     //create buffers
                     //dynamic
                     this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
-                    this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
+                    this._uvBuffer = new Renderers.GLArrayBuffer(gl, 3, Renderers.GLArrayBuffer.squareUVs);
 
                     //static
                     this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
@@ -21582,7 +21582,7 @@ var Kiwi;
             GLRenderer.prototype._compileUVs = function (gl, entity) {
                 var c = entity.atlas.cells[entity.cellIndex];
 
-                this._uvBuffer.items.push(c.x, c.y, c.x + c.w, c.y, c.x + c.w, c.y + c.h, c.x, c.y + c.h);
+                this._uvBuffer.items.push(c.x, c.y, entity.alpha, c.x + c.w, c.y, entity.alpha, c.x + c.w, c.y + c.h, entity.alpha, c.x, c.y + c.h, entity.alpha);
             };
 
             /**
@@ -21666,9 +21666,11 @@ var Kiwi;
                 this.texture2DFrag = [
                     "precision mediump float;",
                     "varying vec2 vTextureCoord;",
+                    "varying float vAlpha;",
                     "uniform sampler2D uSampler;",
                     "void main(void) {",
                     "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
+                    "gl_FragColor.a *= vAlpha;",
                     "}"
                 ];
                 /**
@@ -21679,13 +21681,13 @@ var Kiwi;
                 */
                 this.texture2DVert = [
                     "attribute vec2 aVertexPosition;",
-                    "attribute vec2 aTextureCoord;",
-                    "attribute float aColor;",
+                    "attribute vec3 aTextureCoord;",
                     "uniform mat4 uMVMatrix;",
                     "uniform vec2 uResolution;",
                     "uniform vec2 uTextureSize;",
                     "uniform vec2 uCameraOffset;",
                     "varying vec2 vTextureCoord;",
+                    "varying float vAlpha;",
                     "void main(void) {",
                     "vec4 transpos = vec4(aVertexPosition,0,1); ",
                     "transpos =  uMVMatrix * transpos;",
@@ -21693,7 +21695,8 @@ var Kiwi;
                     "vec2 zeroToTwo = zeroToOne * 2.0;",
                     "vec2 clipSpace = zeroToTwo - 1.0;",
                     "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                    "vTextureCoord = aTextureCoord / uTextureSize;",
+                    "vTextureCoord = aTextureCoord.xy / uTextureSize;",
+                    "vAlpha = aTextureCoord.z;",
                     "}"
                 ];
                 this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);

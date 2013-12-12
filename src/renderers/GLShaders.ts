@@ -145,9 +145,11 @@ module Kiwi.Renderers {
         public texture2DFrag: Array<any> = [
             "precision mediump float;",
             "varying vec2 vTextureCoord;",
+            "varying float vAlpha;",
             "uniform sampler2D uSampler;",
             "void main(void) {",
             "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
+            "gl_FragColor.a *= vAlpha;", 
             "}"
         ];
 
@@ -159,13 +161,13 @@ module Kiwi.Renderers {
         */
         public texture2DVert: Array<any> = [
             "attribute vec2 aVertexPosition;",
-            "attribute vec2 aTextureCoord;",
-            "attribute float aColor;",
+            "attribute vec3 aTextureCoord;",
             "uniform mat4 uMVMatrix;",
             "uniform vec2 uResolution;",
             "uniform vec2 uTextureSize;",
             "uniform vec2 uCameraOffset;",
             "varying vec2 vTextureCoord;",
+            "varying float vAlpha;",
             "void main(void) {",
             //"vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
             "vec4 transpos = vec4(aVertexPosition,0,1); ",
@@ -175,7 +177,8 @@ module Kiwi.Renderers {
                 "vec2 zeroToTwo = zeroToOne * 2.0;",
                 "vec2 clipSpace = zeroToTwo - 1.0;",
                 "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                "vTextureCoord = aTextureCoord / uTextureSize;",
+            "vTextureCoord = aTextureCoord.xy / uTextureSize;",
+            "vAlpha = aTextureCoord.z;",
             "}"
         ];
 

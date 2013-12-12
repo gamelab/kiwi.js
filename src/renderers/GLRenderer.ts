@@ -169,7 +169,7 @@ module Kiwi.Renderers {
                 //create buffers
                 //dynamic
                 this._vertBuffer = new GLArrayBuffer(gl, 2);
-                this._uvBuffer = new GLArrayBuffer(gl, 2, GLArrayBuffer.squareUVs);
+                this._uvBuffer = new GLArrayBuffer(gl, 3, GLArrayBuffer.squareUVs);
 
                 //static
                 this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
@@ -384,10 +384,10 @@ module Kiwi.Renderers {
         private _compileUVs(gl: WebGLRenderingContext, entity: Entity) {
             var c = entity.atlas.cells[entity.cellIndex];
            
-                this._uvBuffer.items.push(c.x, c.y,
-                    c.x + c.w, c.y,
-                    c.x + c.w, c.y + c.h,
-                    c.x, c.y + c.h);
+                this._uvBuffer.items.push(c.x, c.y,entity.alpha,
+                    c.x + c.w, c.y, entity.alpha,
+                    c.x + c.w, c.y + c.h, entity.alpha,
+                    c.x, c.y + c.h, entity.alpha);
        
         }
 
