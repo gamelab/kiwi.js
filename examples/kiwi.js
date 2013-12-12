@@ -21393,8 +21393,8 @@ var Kiwi;
 
                     //create buffers
                     //dynamic
-                    this._vertBuffer = new Renderers.GLArrayBuffer(gl, 4);
-                    this._uvBuffer = new Renderers.GLArrayBuffer(gl, 1, Renderers.GLArrayBuffer.squareUVs);
+                    this._xyuvBuffer = new Renderers.GLArrayBuffer(gl, 4);
+                    this._alphaBuffer = new Renderers.GLArrayBuffer(gl, 1, Renderers.GLArrayBuffer.squareUVs);
 
                     //static
                     this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
@@ -21404,11 +21404,11 @@ var Kiwi;
 
                     var prog = this._shaders.texture2DProg;
 
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
-                    gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this._xyuvBuffer.buffer);
+                    gl.vertexAttribPointer(prog.vertexXYUVAttribute, this._xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
-                    gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this._alphaBuffer.buffer);
+                    gl.vertexAttribPointer(prog.vertexAlphaAttribute, this._alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
                     //Texture
                     gl.activeTexture(gl.TEXTURE0);
@@ -21460,8 +21460,8 @@ var Kiwi;
                     this._textureManager.numTextureWrites = 0;
 
                     this._entityCount = 0;
-                    this._vertBuffer.clear();
-                    this._uvBuffer.clear();
+                    this._xyuvBuffer.clear();
+                    this._alphaBuffer.clear();
 
                     //clear
                     var col = this._game.stage.normalizedColor;
@@ -21514,13 +21514,13 @@ var Kiwi;
                     if ((child).atlas !== this._currentTextureAtlas) {
                         this._flush(gl);
                         this._entityCount = 0;
-                        this._vertBuffer.clear();
-                        this._uvBuffer.clear();
+                        this._xyuvBuffer.clear();
+                        this._alphaBuffer.clear();
                         if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._shaders.texture2DProg.textureSizeUniform))
                             return;
                         this._currentTextureAtlas = (child).atlas;
                     }
-                    this._compileVertices(gl, child, camera);
+                    this._collateVertexAttributeArrays(gl, child, camera);
 
                     //  this._compileUVs(gl, <Entity>child);
                     this._entityCount++;
@@ -21534,8 +21534,8 @@ var Kiwi;
             * @private
             */
             GLRenderer.prototype._flush = function (gl) {
-                this._vertBuffer.uploadBuffer(gl, this._vertBuffer.items);
-                this._uvBuffer.uploadBuffer(gl, this._uvBuffer.items);
+                this._xyuvBuffer.uploadBuffer(gl, this._xyuvBuffer.items);
+                this._alphaBuffer.uploadBuffer(gl, this._alphaBuffer.items);
                 this._draw(gl);
             };
 
@@ -21547,7 +21547,7 @@ var Kiwi;
             * @param camera {Camera}
             * @private
             */
-            GLRenderer.prototype._compileVertices = function (gl, entity, camera) {
+            GLRenderer.prototype._collateVertexAttributeArrays = function (gl, entity, camera) {
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();
                 var ct = camera.transform;
@@ -21570,26 +21570,8 @@ var Kiwi;
                 t.x + cell.w, t.y + cell.h,
                 t.x, t.y + cell.h);
                 */
-                this._vertBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
-                this._uvBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
-            };
-
-            /**
-            *
-            * @method _compileUVs
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
-            * @private
-            */
-            GLRenderer.prototype._compileUVs = function (gl, entity) {
-                var c = entity.atlas.cells[entity.cellIndex];
-
-                /* this._uvBuffer.items.push(c.x, c.y,entity.alpha,
-                c.x + c.w, c.y, entity.alpha,
-                c.x + c.w, c.y + c.h, entity.alpha,
-                c.x, c.y + c.h, entity.alpha);
-                */
-                this._uvBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+                this._xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
+                this._alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
 
             /**
@@ -21655,8 +21637,8 @@ var Kiwi;
                 * @public
                 */
                 this.texture2DProg = {
-                    vertexPositionAttribute: null,
-                    vertexTexCoordAttribute: null,
+                    vertexXYUVAttribute: null,
+                    vertexAlphaAttribute: null,
                     // vertexColorAttribute: null,
                     mvMatrixUniform: null,
                     samplerUniform: null,
@@ -21687,8 +21669,8 @@ var Kiwi;
                 * @public
                 */
                 this.texture2DVert = [
-                    "attribute vec4 aVertexPosition;",
-                    "attribute float aTextureCoord;",
+                    "attribute vec4 aXYUV;",
+                    "attribute float aAlpha;",
                     "uniform mat4 uMVMatrix;",
                     "uniform vec2 uResolution;",
                     "uniform vec2 uTextureSize;",
@@ -21696,14 +21678,13 @@ var Kiwi;
                     "varying vec2 vTextureCoord;",
                     "varying float vAlpha;",
                     "void main(void) {",
-                    "vec4 transpos = vec4(aVertexPosition.xy,0,1); ",
+                    "vec4 transpos = vec4(aXYUV.xy,0,1); ",
                     "transpos =  uMVMatrix * transpos;",
-                    "vec2 zeroToOne = transpos.xy / uResolution;",
-                    "vec2 zeroToTwo = zeroToOne * 2.0;",
-                    "vec2 clipSpace = zeroToTwo - 1.0;",
+                    "transpos =  uMVMatrix * transpos;",
+                    "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
                     "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                    "vTextureCoord = aVertexPosition.zw / uTextureSize;",
-                    "vAlpha = aTextureCoord;",
+                    "vTextureCoord = aXYUV.zw / uTextureSize;",
+                    "vAlpha = aAlpha;",
                     "}"
                 ];
                 this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);
@@ -21760,10 +21741,10 @@ var Kiwi;
                 gl.useProgram(this.shaderProgram);
 
                 //attributes
-                this.texture2DProg.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
-                this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
+                this.texture2DProg.vertexXYUVAttribute = gl.getAttribLocation(shaderProgram, "aXYUV");
+                gl.enableVertexAttribArray(this.texture2DProg.vertexXYUVAttribute);
+                this.texture2DProg.vertexAlphaAttribute = gl.getAttribLocation(shaderProgram, "aAlpha");
+                gl.enableVertexAttribArray(this.texture2DProg.vertexAlphaAttribute);
 
                 //uniforms
                 this.texture2DProg.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");

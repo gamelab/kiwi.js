@@ -87,7 +87,7 @@ module Kiwi.Renderers {
         * @type GLArrayBuffer
         * @private
         */
-        private _vertBuffer: GLArrayBuffer;
+        private _xyuvBuffer: GLArrayBuffer;
         
         /**
         *
@@ -103,7 +103,7 @@ module Kiwi.Renderers {
         * @type GLArrayBuffer
         * @private
         */
-        private _uvBuffer: GLArrayBuffer;
+        private _alphaBuffer: GLArrayBuffer;
         
      
                
@@ -168,8 +168,8 @@ module Kiwi.Renderers {
 
                 //create buffers
                 //dynamic
-                this._vertBuffer = new GLArrayBuffer(gl, 4);
-                this._uvBuffer = new GLArrayBuffer(gl, 1, GLArrayBuffer.squareUVs);
+                this._xyuvBuffer = new GLArrayBuffer(gl, 4);
+                this._alphaBuffer = new GLArrayBuffer(gl, 1, GLArrayBuffer.squareUVs);
 
                 //static
                 this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
@@ -179,11 +179,11 @@ module Kiwi.Renderers {
 
                 var prog = this._shaders.texture2DProg;
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._xyuvBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexXYUVAttribute, this._xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this._alphaBuffer.buffer);
+                gl.vertexAttribPointer(prog.vertexAlphaAttribute, this._alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
            
                 //Texture
@@ -246,8 +246,8 @@ module Kiwi.Renderers {
                 this._textureManager.numTextureWrites = 0;
 
                 this._entityCount = 0;
-                this._vertBuffer.clear();
-                this._uvBuffer.clear();
+                this._xyuvBuffer.clear();
+                this._alphaBuffer.clear();
                 
                 //clear 
                 var col = this._game.stage.normalizedColor;
@@ -304,13 +304,13 @@ module Kiwi.Renderers {
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
                     this._flush(gl);
                     this._entityCount = 0;
-                    this._vertBuffer.clear();
-                    this._uvBuffer.clear();
+                    this._xyuvBuffer.clear();
+                    this._alphaBuffer.clear();
                     if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._shaders.texture2DProg.textureSizeUniform))
                         return;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
-                this._compileVertices(gl, <Entity>child,camera);
+                this._collateVertexAttributeArrays(gl, <Entity>child,camera);
               //  this._compileUVs(gl, <Entity>child);
                 this._entityCount++;
                 
@@ -325,8 +325,8 @@ module Kiwi.Renderers {
         * @private
         */
         private _flush(gl: WebGLRenderingContext) {
-            this._vertBuffer.uploadBuffer(gl, this._vertBuffer.items);
-            this._uvBuffer.uploadBuffer(gl, this._uvBuffer.items);
+            this._xyuvBuffer.uploadBuffer(gl, this._xyuvBuffer.items);
+            this._alphaBuffer.uploadBuffer(gl, this._alphaBuffer.items);
             this._draw(gl);
         }
 
@@ -338,7 +338,7 @@ module Kiwi.Renderers {
         * @param camera {Camera}
         * @private
         */
-        private _compileVertices(gl: WebGLRenderingContext, entity: Entity,camera:Kiwi.Camera) {
+        private _collateVertexAttributeArrays(gl: WebGLRenderingContext, entity: Entity,camera:Kiwi.Camera) {
             var t: Kiwi.Geom.Transform = entity.transform;
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
             var ct: Kiwi.Geom.Transform = camera.transform;
@@ -363,35 +363,18 @@ module Kiwi.Renderers {
                 t.x + cell.w, t.y + cell.h,
                 t.x, t.y + cell.h);
             */
-            this._vertBuffer.items.push(
+            this._xyuvBuffer.items.push(
                 pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,
                 pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,
                 pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h,
                 pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h
                 );
-            this._uvBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+            this._alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
 
             
         }
 
-        /**
-        *
-        * @method _compileUVs
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
-        * @private
-        */
-        private _compileUVs(gl: WebGLRenderingContext, entity: Entity) {
-            var c = entity.atlas.cells[entity.cellIndex];
-            
-            /* this._uvBuffer.items.push(c.x, c.y,entity.alpha,
-                 c.x + c.w, c.y, entity.alpha,
-                 c.x + c.w, c.y + c.h, entity.alpha,
-                 c.x, c.y + c.h, entity.alpha);
-    */
-            this._uvBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
-                
-        }
+       
 
         /**
         * 

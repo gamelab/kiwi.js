@@ -100,8 +100,8 @@ module Kiwi.Renderers {
         * @public
         */
         public texture2DProg:any = {
-            vertexPositionAttribute: null,
-            vertexTexCoordAttribute: null,
+            vertexXYUVAttribute: null,
+            vertexAlphaAttribute: null,
            // vertexColorAttribute: null,
             mvMatrixUniform: null,
             samplerUniform: null,
@@ -121,10 +121,10 @@ module Kiwi.Renderers {
             gl.useProgram(this.shaderProgram);
           
             //attributes
-            this.texture2DProg.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-            gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
-            this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-            gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
+            this.texture2DProg.vertexXYUVAttribute = gl.getAttribLocation(shaderProgram, "aXYUV");
+            gl.enableVertexAttribArray(this.texture2DProg.vertexXYUVAttribute);
+            this.texture2DProg.vertexAlphaAttribute = gl.getAttribLocation(shaderProgram, "aAlpha");
+            gl.enableVertexAttribArray(this.texture2DProg.vertexAlphaAttribute);
            
             //uniforms
 
@@ -160,8 +160,8 @@ module Kiwi.Renderers {
         * @public
         */
         public texture2DVert: Array<any> = [
-            "attribute vec4 aVertexPosition;",
-            "attribute float aTextureCoord;",
+            "attribute vec4 aXYUV;",
+            "attribute float aAlpha;",
             "uniform mat4 uMVMatrix;",
             "uniform vec2 uResolution;",
             "uniform vec2 uTextureSize;",
@@ -169,16 +169,14 @@ module Kiwi.Renderers {
             "varying vec2 vTextureCoord;",
             "varying float vAlpha;",
             "void main(void) {",
-            //"vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
-            "vec4 transpos = vec4(aVertexPosition.xy,0,1); ",
+            "vec4 transpos = vec4(aXYUV.xy,0,1); ",
                 "transpos =  uMVMatrix * transpos;",
-                
-                "vec2 zeroToOne = transpos.xy / uResolution;",
-                "vec2 zeroToTwo = zeroToOne * 2.0;",
-                "vec2 clipSpace = zeroToTwo - 1.0;",
+            
+                "transpos =  uMVMatrix * transpos;",
+                "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
                 "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-            "vTextureCoord = aVertexPosition.zw / uTextureSize;",
-            "vAlpha = aTextureCoord;",
+                "vTextureCoord = aXYUV.zw / uTextureSize;",
+                "vAlpha = aAlpha;",
             "}"
         ];
 
