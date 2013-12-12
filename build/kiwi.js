@@ -21393,8 +21393,8 @@ var Kiwi;
 
                     //create buffers
                     //dynamic
-                    this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
-                    this._uvBuffer = new Renderers.GLArrayBuffer(gl, 3, Renderers.GLArrayBuffer.squareUVs);
+                    this._vertBuffer = new Renderers.GLArrayBuffer(gl, 4);
+                    this._uvBuffer = new Renderers.GLArrayBuffer(gl, 1, Renderers.GLArrayBuffer.squareUVs);
 
                     //static
                     this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
@@ -21521,7 +21521,8 @@ var Kiwi;
                         this._currentTextureAtlas = (child).atlas;
                     }
                     this._compileVertices(gl, child, camera);
-                    this._compileUVs(gl, child);
+
+                    //  this._compileUVs(gl, <Entity>child);
                     this._entityCount++;
                 }
             };
@@ -21569,7 +21570,8 @@ var Kiwi;
                 t.x + cell.w, t.y + cell.h,
                 t.x, t.y + cell.h);
                 */
-                this._vertBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, pt2.x + t.rotPointX, pt2.y + t.rotPointY, pt3.x + t.rotPointX, pt3.y + t.rotPointY, pt4.x + t.rotPointX, pt4.y + t.rotPointY);
+                this._vertBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
+                this._uvBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
 
             /**
@@ -21582,7 +21584,12 @@ var Kiwi;
             GLRenderer.prototype._compileUVs = function (gl, entity) {
                 var c = entity.atlas.cells[entity.cellIndex];
 
-                this._uvBuffer.items.push(c.x, c.y, entity.alpha, c.x + c.w, c.y, entity.alpha, c.x + c.w, c.y + c.h, entity.alpha, c.x, c.y + c.h, entity.alpha);
+                /* this._uvBuffer.items.push(c.x, c.y,entity.alpha,
+                c.x + c.w, c.y, entity.alpha,
+                c.x + c.w, c.y + c.h, entity.alpha,
+                c.x, c.y + c.h, entity.alpha);
+                */
+                this._uvBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
 
             /**
@@ -21680,8 +21687,8 @@ var Kiwi;
                 * @public
                 */
                 this.texture2DVert = [
-                    "attribute vec2 aVertexPosition;",
-                    "attribute vec3 aTextureCoord;",
+                    "attribute vec4 aVertexPosition;",
+                    "attribute float aTextureCoord;",
                     "uniform mat4 uMVMatrix;",
                     "uniform vec2 uResolution;",
                     "uniform vec2 uTextureSize;",
@@ -21689,14 +21696,14 @@ var Kiwi;
                     "varying vec2 vTextureCoord;",
                     "varying float vAlpha;",
                     "void main(void) {",
-                    "vec4 transpos = vec4(aVertexPosition,0,1); ",
+                    "vec4 transpos = vec4(aVertexPosition.xy,0,1); ",
                     "transpos =  uMVMatrix * transpos;",
                     "vec2 zeroToOne = transpos.xy / uResolution;",
                     "vec2 zeroToTwo = zeroToOne * 2.0;",
                     "vec2 clipSpace = zeroToTwo - 1.0;",
                     "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                    "vTextureCoord = aTextureCoord.xy / uTextureSize;",
-                    "vAlpha = aTextureCoord.z;",
+                    "vTextureCoord = aVertexPosition.zw / uTextureSize;",
+                    "vAlpha = aTextureCoord;",
                     "}"
                 ];
                 this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);

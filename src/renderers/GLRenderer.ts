@@ -168,8 +168,8 @@ module Kiwi.Renderers {
 
                 //create buffers
                 //dynamic
-                this._vertBuffer = new GLArrayBuffer(gl, 2);
-                this._uvBuffer = new GLArrayBuffer(gl, 3, GLArrayBuffer.squareUVs);
+                this._vertBuffer = new GLArrayBuffer(gl, 4);
+                this._uvBuffer = new GLArrayBuffer(gl, 1, GLArrayBuffer.squareUVs);
 
                 //static
                 this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
@@ -311,7 +311,7 @@ module Kiwi.Renderers {
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
                 this._compileVertices(gl, <Entity>child,camera);
-                this._compileUVs(gl, <Entity>child);
+              //  this._compileUVs(gl, <Entity>child);
                 this._entityCount++;
                 
             }
@@ -364,12 +364,12 @@ module Kiwi.Renderers {
                 t.x, t.y + cell.h);
             */
             this._vertBuffer.items.push(
-                pt1.x + t.rotPointX, pt1.y + t.rotPointY,
-                pt2.x + t.rotPointX, pt2.y + t.rotPointY,
-                pt3.x + t.rotPointX, pt3.y + t.rotPointY,
-                pt4.x + t.rotPointX, pt4.y + t.rotPointY
+                pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,
+                pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,
+                pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h,
+                pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h
                 );
-
+            this._uvBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
 
             
         }
@@ -383,12 +383,14 @@ module Kiwi.Renderers {
         */
         private _compileUVs(gl: WebGLRenderingContext, entity: Entity) {
             var c = entity.atlas.cells[entity.cellIndex];
-           
-                this._uvBuffer.items.push(c.x, c.y,entity.alpha,
-                    c.x + c.w, c.y, entity.alpha,
-                    c.x + c.w, c.y + c.h, entity.alpha,
-                    c.x, c.y + c.h, entity.alpha);
-       
+            
+            /* this._uvBuffer.items.push(c.x, c.y,entity.alpha,
+                 c.x + c.w, c.y, entity.alpha,
+                 c.x + c.w, c.y + c.h, entity.alpha,
+                 c.x, c.y + c.h, entity.alpha);
+    */
+            this._uvBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+                
         }
 
         /**

@@ -160,8 +160,8 @@ module Kiwi.Renderers {
         * @public
         */
         public texture2DVert: Array<any> = [
-            "attribute vec2 aVertexPosition;",
-            "attribute vec3 aTextureCoord;",
+            "attribute vec4 aVertexPosition;",
+            "attribute float aTextureCoord;",
             "uniform mat4 uMVMatrix;",
             "uniform vec2 uResolution;",
             "uniform vec2 uTextureSize;",
@@ -170,15 +170,15 @@ module Kiwi.Renderers {
             "varying float vAlpha;",
             "void main(void) {",
             //"vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
-            "vec4 transpos = vec4(aVertexPosition,0,1); ",
+            "vec4 transpos = vec4(aVertexPosition.xy,0,1); ",
                 "transpos =  uMVMatrix * transpos;",
                 
                 "vec2 zeroToOne = transpos.xy / uResolution;",
                 "vec2 zeroToTwo = zeroToOne * 2.0;",
                 "vec2 clipSpace = zeroToTwo - 1.0;",
                 "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-            "vTextureCoord = aTextureCoord.xy / uTextureSize;",
-            "vAlpha = aTextureCoord.z;",
+            "vTextureCoord = aVertexPosition.zw / uTextureSize;",
+            "vAlpha = aTextureCoord;",
             "}"
         ];
 
