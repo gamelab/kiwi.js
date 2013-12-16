@@ -62,6 +62,8 @@ module Kiwi.Renderers {
         */
 
         private _textureManager: GLTextureManager;
+        
+
 
         private _currentCamera: Kiwi.Camera;
         
@@ -79,7 +81,7 @@ module Kiwi.Renderers {
         * @type GLShaders
         * @private
         */
-        private _shaders: GLShaders;
+        private _shaders: Texture2D;
         
         /**
         *
@@ -150,17 +152,24 @@ module Kiwi.Renderers {
         * @private
         */
         private _init() {
-            if (!this.TESTRENDER) {
+           
                 console.log("Intialising WebGL");
+
                 var gl: WebGLRenderingContext = this._game.stage.gl;
+
+                //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-
                 gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
-               
+            
 
-                this._shaders = new GLShaders(gl);
+                this._shaders = new Texture2D();
+                this._shaders.init(gl);
+
+                
+                //set default state
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
 
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
@@ -177,7 +186,7 @@ module Kiwi.Renderers {
                 //use shaders
                 this._shaders.use(gl, this._shaders.shaderProgram);
 
-                var prog = this._shaders.texture2DProg;
+                var prog = this._shaders.descriptor;
 
                 gl.bindBuffer(gl.ARRAY_BUFFER, this._xyuvBuffer.buffer);
                 gl.vertexAttribPointer(prog.vertexXYUVAttribute, this._xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -202,19 +211,17 @@ module Kiwi.Renderers {
                 },this);
 
 
-            } else {
-                this.mvMatrix = mat4.create();
-            }
+         
         }
 
         public numDrawCalls: number = 0;
 
         public initState(state: Kiwi.State) {
-            if (!this.TESTRENDER) {
+           
                 console.log("initialising WebGL on State");
                 
                 this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
-            }
+           
         }
 
         public endState(state: Kiwi.State) {
@@ -224,7 +231,7 @@ module Kiwi.Renderers {
             
         }
 
-        public TESTRENDER: boolean = false;
+     
 
         /**
         *
@@ -233,10 +240,7 @@ module Kiwi.Renderers {
         * @public
         */
         public render(camera: Kiwi.Camera) {
-            if (this.TESTRENDER) {
-
-                frame(this._game.stage.gl,this.mvMatrix)
-            } else {
+          
 
                 this.numDrawCalls = 0;
                 this._currentCamera = camera;
@@ -255,7 +259,7 @@ module Kiwi.Renderers {
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
                 
-                var prog = this._shaders.texture2DProg;
+                var prog = this._shaders.descriptor;
                 //set cam matrix uniform
                 var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
                 var ct: Kiwi.Geom.Transform = camera.transform;
@@ -280,7 +284,7 @@ module Kiwi.Renderers {
 
                 this._flush(gl);
 
-            }
+           
         }
 
         /**
@@ -306,7 +310,7 @@ module Kiwi.Renderers {
                     this._entityCount = 0;
                     this._xyuvBuffer.clear();
                     this._alphaBuffer.clear();
-                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._shaders.texture2DProg.textureSizeUniform))
+                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._shaders.descriptor.textureSizeUniform))
                         return;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 

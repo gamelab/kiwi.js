@@ -99,12 +99,12 @@
 
 /// <reference path="renderers/CanvasRenderer.ts" />
 /// <reference path="renderers/GLRenderer.ts" />
-/// <reference path="renderers/GLShaders.ts" />
+/// <reference path="renderers/GLShaderPair.ts" />
 /// <reference path="renderers/GLTextureWrapper.ts" />
 /// <reference path="renderers/GLTextureManager.ts" />
 /// <reference path="renderers/GLArrayBuffer.ts" />
 /// <reference path="renderers/GLElementArrayBuffer.ts" />
-
+/// <reference path="renderers/shaders/Texture2D.ts" />
 
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />

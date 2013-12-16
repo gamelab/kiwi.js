@@ -13,16 +13,21 @@ module Kiwi.Renderers {
     * @param gl {WebGLRenderingContext}
     * @return {GLShaders}
     */
-    export class GLShaders {
+    export class GLShaderPair {
 
-        constructor(gl:WebGLRenderingContext) {
-            this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);
-            this.fragShader = this.compile(gl, this.texture2DFrag.join("\n"), gl.FRAGMENT_SHADER);
+        constructor() {
+      
+            
+        }
+
+        public init(gl: WebGLRenderingContext) {
+            this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+            this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
             this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
             this.use(gl, this.shaderProgram);
             this.ready = true;
-
         }
+        
 
         /**
         *
@@ -99,16 +104,7 @@ module Kiwi.Renderers {
         * @type Object
         * @public
         */
-        public texture2DProg:any = {
-            vertexXYUVAttribute: null,
-            vertexAlphaAttribute: null,
-           // vertexColorAttribute: null,
-            mvMatrixUniform: null,
-            samplerUniform: null,
-            resolutionUniform: null,
-            textureSizeUniform: null,
-            cameraOffsetUniform: null
-        };
+        public descriptor: any;
 
         /**
         *
@@ -118,22 +114,7 @@ module Kiwi.Renderers {
         * @public
         */
         public use(gl: WebGLRenderingContext, shaderProgram: WebGLProgram) {
-            gl.useProgram(this.shaderProgram);
-          
-            //attributes
-            this.texture2DProg.vertexXYUVAttribute = gl.getAttribLocation(shaderProgram, "aXYUV");
-            gl.enableVertexAttribArray(this.texture2DProg.vertexXYUVAttribute);
-            this.texture2DProg.vertexAlphaAttribute = gl.getAttribLocation(shaderProgram, "aAlpha");
-            gl.enableVertexAttribArray(this.texture2DProg.vertexAlphaAttribute);
            
-            //uniforms
-
-            this.texture2DProg.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-            this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
-            this.texture2DProg.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-            this.texture2DProg.textureSizeUniform = gl.getUniformLocation(shaderProgram, "uTextureSize");
-            this.texture2DProg.cameraOffsetUniform = gl.getUniformLocation(shaderProgram, "uCameraOffset");
-
         }
 
         /**
@@ -142,16 +123,7 @@ module Kiwi.Renderers {
         * @type Array
         * @public
         */
-        public texture2DFrag: Array<any> = [
-            "precision mediump float;",
-            "varying vec2 vTextureCoord;",
-            "varying float vAlpha;",
-            "uniform sampler2D uSampler;",
-            "void main(void) {",
-            "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-            "gl_FragColor.a *= vAlpha;", 
-            "}"
-        ];
+        public fragSource: Array<any>;
 
         /**
         *
@@ -159,26 +131,7 @@ module Kiwi.Renderers {
         * @type Array
         * @public
         */
-        public texture2DVert: Array<any> = [
-            "attribute vec4 aXYUV;",
-            "attribute float aAlpha;",
-            "uniform mat4 uMVMatrix;",
-            "uniform vec2 uResolution;",
-            "uniform vec2 uTextureSize;",
-            "uniform vec2 uCameraOffset;",
-            "varying vec2 vTextureCoord;",
-            "varying float vAlpha;",
-            "void main(void) {",
-            "vec4 transpos = vec4(aXYUV.xy,0,1); ",
-                "transpos =  uMVMatrix * transpos;",
-            
-                "transpos =  uMVMatrix * transpos;",
-                "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
-                "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                "vTextureCoord = aXYUV.zw / uTextureSize;",
-                "vAlpha = aAlpha;",
-            "}"
-        ];
+        public vertSource: Array<any>;
 
     }
 

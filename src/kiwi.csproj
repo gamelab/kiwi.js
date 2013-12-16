@@ -39,10 +39,12 @@
     </Content>
     <Content Include="renderers\GLArrayBuffer.ts" />
     <Content Include="renderers\GLElementArrayBuffer.ts" />
+    <Content Include="renderers\GLProgramManager.ts" />
     <Content Include="renderers\GLRenderer.ts" />
-    <Content Include="renderers\GLShaders.ts" />
+    <Content Include="renderers\GLShaderPair.ts" />
     <Content Include="renderers\GLTextureWrapper.ts" />
     <Content Include="renderers\GLTextureManager.ts" />
+    <Content Include="renderers\shaders\Texture2D.ts" />
     <Content Include="WebGL.d.ts" />
     <Content Include="sound\AudioLibrary.ts" />
     <Content Include="textures\TextureAtlas.ts" />
