@@ -17,11 +17,11 @@
         }
 
         /**
-*
-* @property texture2DFrag
-* @type Array
-* @public
-*/
+        *
+        * @property texture2DFrag
+        * @type Array
+        * @public
+        */
         public fragSource: Array<string> = [
             "precision mediump float;",
             "varying vec2 vTextureCoord;",

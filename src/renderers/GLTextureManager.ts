@@ -7,13 +7,11 @@
 
 module Kiwi.Renderers {
 
-    /**
-    *
-    * @class GLTexture
+     /**
+    * Manages GL Texture objects, including creation, uploading, destruction and memory management
+    * @class GLTextureManager
     * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @param [_image] {HTMLImageElement}
-    * @return {GLTexture}
+    * @return {GLTextureManager}
     */
     export class GLTextureManager {
 
@@ -24,34 +22,79 @@ module Kiwi.Renderers {
             this._textureWrapperCache = new Array();
         }
 
+        /**
+        * The default maximum amount of texture memory to use before swapping textures
+        * @property DEFAULT_MAX_TEX_MEM_MB
+        * @type number
+        * @public
+        * @static
+        */
         public static DEFAULT_MAX_TEX_MEM_MB: number = 1024; 
 
+        /**
+        * The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB
+        * @property maxTextureMem
+        * @type number
+        * @public
+        */
         public maxTextureMem: number;
+     
+        /**
+        * The amount of texture memory currently uplaoded
+        * @property usedTextureMem
+        * @type number
+        * @public
+        */
         private _usedTextureMem: number;
         public get usedTextureMem(): number {
             return this._usedTextureMem;
         }
 
+        /**
+        * The number of textures currently uplaoded
+        * @property usedTextureMem
+        * @type number
+        * @public
+        */
         private _numTexturesUsed: number;
         public get numTexturesUsed(): number {
             return this._numTexturesUsed;
         }
         
+        /**
+        * The number of textures uploads in the last frame
+        * @property numTextureWrites
+        * @type number
+        * @public
+        */
         public numTextureWrites: number = 0;
         
         
-
+        /**
+        * An array of references to all texture wrappers
+        * @property _textureWrapperCache
+        * @type GLTextureWrapper[]
+        * @private
+        */
         private _textureWrapperCache: GLTextureWrapper[];
 
-
+        /**
+        * Adds a texture wrapper to the cache
+        * @method _addTextureToCache
+        * @param glTexture {GLTextureWrapper}
+        * @private
+        */
         private _addTextureToCache(glTexture: GLTextureWrapper) {
             this._textureWrapperCache.push(glTexture);
-         
         }
         
-       
-
-                
+        /**
+        * Deletes a texture from memory and removes the wrapper from the cache
+        * @method _deleteTexture
+        * @param gl {WebGLRenderingContext}
+        * @param idx {number}
+        * @private
+        */
         private _deleteTexture(gl:WebGLRenderingContext,idx:number) {
             
             this._textureWrapperCache[idx].deleteTexture(gl);
@@ -61,8 +104,15 @@ module Kiwi.Renderers {
             this._numTexturesUsed--;
         }
 
-        
-        private _uploadTexture(gl, glTextureWrapper: GLTextureWrapper):boolean {
+        /**
+        * Uploads a texture to video memory 
+        * @method _uploadTexture
+        * @param gl {WebGLRenderingContext}
+        * @param glTextureWrapper {GLTextureWrapper}
+        * @return boolean
+        * @private
+        */
+        private _uploadTexture(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper):boolean {
             //only upload it if it fits
             if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
                 glTextureWrapper.uploadTexture(gl);
@@ -77,6 +127,13 @@ module Kiwi.Renderers {
                 
         }
 
+        /**
+        * Uploads a texture library to video memory 
+        * @method uploadTextureLibrary
+        * @param gl {WebGLRenderingContext}
+        * @param textureLibrary {Kiwi.Textures.TextureLibrary}
+        * @public
+        */
         public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary) {
             console.log("Attempting to upload TextureLibrary");
             this._textureWrapperCache = new Array();
@@ -100,6 +157,13 @@ module Kiwi.Renderers {
             console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
         }
         
+
+        /**
+        * Removes all textures from video memory and clears the wrapper cache
+        * @method clearTextures
+        * @param gl {WebGLRenderingContext}
+        * @public
+        */
         public clearTextures(gl: WebGLRenderingContext) {
             console.log("Attempting to clear Textures");
             for (var i = 0; i < this._textureWrapperCache.length; i++) {
@@ -112,6 +176,16 @@ module Kiwi.Renderers {
            
         }
 
+
+        /**
+        * Binds the texture ready for use, uploads it if it isn't already
+        * @method useTexture
+        * @param gl {WebGLRenderingContext}
+        * @param glTextureWrapper {GLTextureWrappery}
+        * @param textureSizeUniform {number}
+        * @return boolean
+        * @public
+        */
         public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper,textureSizeUniform):boolean {
             
             if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
@@ -121,8 +195,7 @@ module Kiwi.Renderers {
                 }
                 this.numTextureWrites++;
             }
-
-                      
+                
             //use texture
             if (glTextureWrapper.created && glTextureWrapper.uploaded) {
                 
@@ -132,13 +205,21 @@ module Kiwi.Renderers {
 
             }
             
-            
             return false;
         }
-
-        //1: Try and find texture that is same size to remove
-        //2: Find next smallest to remove
-        //3: Sequentially remove until there is room
+        
+        /**
+        * Attemps to free space for to uplaod a texture.
+        * 1: Try and find texture that is same size to remove
+        * 2: Find next smallest to remove (not yet implemented)
+        * 3: Sequentially remove until there is room (not yet implemented)
+        * @method _freeSpace
+        * @param gl {WebGLRenderingContext}
+        * @param numBytesToRemove {number}
+        * @return boolean
+        * @public
+        */
+       
 
         private _freeSpace(gl: WebGLRenderingContext, numBytesToRemove: number): boolean {
            // console.log("Attempting to free texture space");

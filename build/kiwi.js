@@ -21315,7 +21315,7 @@ var Kiwi;
     */
     (function (Renderers) {
         /**
-        *
+        * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
         * @class GLRenderer
         * @extends IRenderer
         * @constructor
@@ -21325,7 +21325,7 @@ var Kiwi;
         var GLRenderer = (function () {
             function GLRenderer(game) {
                 /**
-                *
+                * Tally of number of entities rendered per frame
                 * @property _entityCount
                 * @type number
                 * @default 0
@@ -21333,7 +21333,15 @@ var Kiwi;
                 */
                 this._entityCount = 0;
                 /**
-                *
+                * Tally of number ofdraw calls per frame
+                * @property numDrawCalls
+                * @type number
+                * @default 0
+                * @public
+                */
+                this.numDrawCalls = 0;
+                /**
+                * Maximum allowable sprites to render per frame
                 * @property _maxItems
                 * @type number
                 * @default 1000
@@ -21341,17 +21349,19 @@ var Kiwi;
                 */
                 this._maxItems = 2000;
                 /**
-                *
+                * The most recently bound texture atlas used for sprite rendering
                 * @property _currentTextureAtlas
                 * @type TextureAtlas
                 * @private
                 */
                 this._currentTextureAtlas = null;
-                this.numDrawCalls = 0;
                 this._game = game;
+                if (typeof mat4 === "undefined") {
+                    throw "ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix";
+                }
             }
             /**
-            *
+            * Initialises all WebGL rendering services
             * @method boot
             * @public
             */
@@ -21371,7 +21381,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Performs initialisation required for single game instance - happens once
             * @method _init
             * @private
             */
@@ -21384,8 +21394,8 @@ var Kiwi;
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
                 gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
 
-                this._shaders = new Renderers.Texture2D();
-                this._shaders.init(gl);
+                this._texture2DShaderPair = new Renderers.Texture2D();
+                this._texture2DShaderPair.init(gl);
 
                 //set default state
                 gl.enable(gl.BLEND);
@@ -21403,9 +21413,9 @@ var Kiwi;
                 this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this._shaders.use(gl, this._shaders.shaderProgram);
+                this._texture2DShaderPair.use(gl, this._texture2DShaderPair.shaderProgram);
 
-                var prog = this._shaders.descriptor;
+                var prog = this._texture2DShaderPair.descriptor;
 
                 gl.bindBuffer(gl.ARRAY_BUFFER, this._xyuvBuffer.buffer);
                 gl.vertexAttribPointer(prog.vertexXYUVAttribute, this._xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -21429,19 +21439,29 @@ var Kiwi;
                 }, this);
             };
 
+            /**
+            * Performs initialisation required when switching to a different state
+            * @method initState
+            * @public
+            */
             GLRenderer.prototype.initState = function (state) {
                 console.log("initialising WebGL on State");
-
                 this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
             };
 
+            /**
+            * Performs cleanup required before switching to a different state
+            * @method initState
+            * @param state {Kiwi.State}
+            * @public
+            */
             GLRenderer.prototype.endState = function (state) {
                 this._textureManager.clearTextures(this._game.stage.gl);
                 console.log("ending WebGL on State");
             };
 
             /**
-            *
+            * Manages rendering of the scene graph
             * @method render
             * @param camera {Camera}
             * @public
@@ -21463,7 +21483,7 @@ var Kiwi;
                 gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
-                var prog = this._shaders.descriptor;
+                var prog = this._texture2DShaderPair.descriptor;
 
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
@@ -21485,11 +21505,11 @@ var Kiwi;
                     this._recurse(gl, root[i], camera);
                 }
 
-                this._flush(gl);
+                this._uploadBuffers(gl);
             };
 
             /**
-            *
+            * Recursively renders scene graph tree
             * @method _recurse
             * @param gl {WebGLRenderingContext}
             * @param child {IChild}
@@ -21506,11 +21526,11 @@ var Kiwi;
                     }
                 } else {
                     if ((child).atlas !== this._currentTextureAtlas) {
-                        this._flush(gl);
+                        this._uploadBuffers(gl);
                         this._entityCount = 0;
                         this._xyuvBuffer.clear();
                         this._alphaBuffer.clear();
-                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._shaders.descriptor.textureSizeUniform))
+                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._texture2DShaderPair.descriptor.textureSizeUniform))
                             return;
                         this._currentTextureAtlas = (child).atlas;
                     }
@@ -21522,20 +21542,20 @@ var Kiwi;
             };
 
             /**
-            *
-            * @method _flush
+            * Move buffers from system to video memory
+            * @method _uploadBuffers
             * @param gl {WebGLRenderingContext}
             * @private
             */
-            GLRenderer.prototype._flush = function (gl) {
+            GLRenderer.prototype._uploadBuffers = function (gl) {
                 this._xyuvBuffer.uploadBuffer(gl, this._xyuvBuffer.items);
                 this._alphaBuffer.uploadBuffer(gl, this._alphaBuffer.items);
                 this._draw(gl);
             };
 
             /**
-            *
-            * @method _compileVertices
+            * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
+            * @method _collateVertexAttributeArrays
             * @param gl {WebGLRenderingContext}
             * @param entity {Entity}
             * @param camera {Camera}
@@ -21559,17 +21579,12 @@ var Kiwi;
                 pt3 = m.transformPoint(pt3);
                 pt4 = m.transformPoint(pt4);
 
-                /*this._vertBuffer.items.push(t.x, t.y,
-                t.x + cell.w, t.y,
-                t.x + cell.w, t.y + cell.h,
-                t.x, t.y + cell.h);
-                */
                 this._xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
                 this._alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
 
             /**
-            *
+            * Draw buffers
             * @method _draw
             * @param gl {WebGLRenderingContext}
             * @private
@@ -21580,7 +21595,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Create prebaked indices for drawing quads
             * @method _generateIndices
             * @param numQuads {number}
             * @return number[]
@@ -21803,15 +21818,19 @@ var Kiwi;
     */
     (function (Renderers) {
         /**
-        *
-        * @class GLTexture
+        * Manages GL Texture objects, including creation, uploading, destruction and memory management
+        * @class GLTextureManager
         * @constructor
-        * @param gl {WebGLRenderingContext}
-        * @param [_image] {HTMLImageElement}
-        * @return {GLTexture}
+        * @return {GLTextureManager}
         */
         var GLTextureManager = (function () {
             function GLTextureManager() {
+                /**
+                * The number of textures uploads in the last frame
+                * @property numTextureWrites
+                * @type number
+                * @public
+                */
                 this.numTextureWrites = 0;
                 this._numTexturesUsed = 0;
                 this._usedTextureMem = 0;
@@ -21834,10 +21853,23 @@ var Kiwi;
                 configurable: true
             });
 
+            /**
+            * Adds a texture wrapper to the cache
+            * @method _addTextureToCache
+            * @param glTexture {GLTextureWrapper}
+            * @private
+            */
             GLTextureManager.prototype._addTextureToCache = function (glTexture) {
                 this._textureWrapperCache.push(glTexture);
             };
 
+            /**
+            * Deletes a texture from memory and removes the wrapper from the cache
+            * @method _deleteTexture
+            * @param gl {WebGLRenderingContext}
+            * @param idx {number}
+            * @private
+            */
             GLTextureManager.prototype._deleteTexture = function (gl, idx) {
                 this._textureWrapperCache[idx].deleteTexture(gl);
                 this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
@@ -21846,6 +21878,14 @@ var Kiwi;
                 this._numTexturesUsed--;
             };
 
+            /**
+            * Uploads a texture to video memory
+            * @method _uploadTexture
+            * @param gl {WebGLRenderingContext}
+            * @param glTextureWrapper {GLTextureWrapper}
+            * @return boolean
+            * @private
+            */
             GLTextureManager.prototype._uploadTexture = function (gl, glTextureWrapper) {
                 if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
                     glTextureWrapper.uploadTexture(gl);
@@ -21859,6 +21899,13 @@ var Kiwi;
                 return false;
             };
 
+            /**
+            * Uploads a texture library to video memory
+            * @method uploadTextureLibrary
+            * @param gl {WebGLRenderingContext}
+            * @param textureLibrary {Kiwi.Textures.TextureLibrary}
+            * @public
+            */
             GLTextureManager.prototype.uploadTextureLibrary = function (gl, textureLibrary) {
                 console.log("Attempting to upload TextureLibrary");
                 this._textureWrapperCache = new Array();
@@ -21882,6 +21929,12 @@ var Kiwi;
                 console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
             };
 
+            /**
+            * Removes all textures from video memory and clears the wrapper cache
+            * @method clearTextures
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
             GLTextureManager.prototype.clearTextures = function (gl) {
                 console.log("Attempting to clear Textures");
                 for (var i = 0; i < this._textureWrapperCache.length; i++) {
@@ -21894,6 +21947,15 @@ var Kiwi;
                 this._textureWrapperCache = new Array();
             };
 
+            /**
+            * Binds the texture ready for use, uploads it if it isn't already
+            * @method useTexture
+            * @param gl {WebGLRenderingContext}
+            * @param glTextureWrapper {GLTextureWrappery}
+            * @param textureSizeUniform {number}
+            * @return boolean
+            * @public
+            */
             GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper, textureSizeUniform) {
                 if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
                     if (!this._uploadTexture(gl, glTextureWrapper)) {
@@ -21912,9 +21974,17 @@ var Kiwi;
                 return false;
             };
 
-            //1: Try and find texture that is same size to remove
-            //2: Find next smallest to remove
-            //3: Sequentially remove until there is room
+            /**
+            * Attemps to free space for to uplaod a texture.
+            * 1: Try and find texture that is same size to remove
+            * 2: Find next smallest to remove (not yet implemented)
+            * 3: Sequentially remove until there is room (not yet implemented)
+            * @method _freeSpace
+            * @param gl {WebGLRenderingContext}
+            * @param numBytesToRemove {number}
+            * @return boolean
+            * @public
+            */
             GLTextureManager.prototype._freeSpace = function (gl, numBytesToRemove) {
                 // console.log("Attempting to free texture space");
                 var nextSmallest = 99999999999;
