@@ -153,7 +153,11 @@ module Kiwi.GameObjects {
                     
             }
 
-    
+        
+        }
+
+        public renderGL(camera: Kiwi.Camera) {
+
         }
 
 

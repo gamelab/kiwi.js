@@ -91,7 +91,7 @@ module Kiwi.Renderers {
         * @type GLShaders
         * @private
         */
-        private _texture2DShaderPair: Texture2D;
+        private _texture2DShaderPair: Texture2DShader;
         
         /**
         * Storage for the xy (position) and uv(texture) coordinates that are generated each frame
@@ -201,7 +201,7 @@ module Kiwi.Renderers {
             
             
             //use shaders
-            this._texture2DShaderPair = new Texture2D();
+            this._texture2DShaderPair = new Texture2DShader();
             this._texture2DShaderPair.init(gl); 
             this._texture2DShaderPair.use(gl);
             this._texture2DShaderPair.aXYUV(gl, this._xyuvBuffer);
@@ -250,7 +250,7 @@ module Kiwi.Renderers {
         }
         
         /**
-        * Manages rendering of the scene graph
+        * Manages rendering of the scene graph - performs per frame setup
         * @method render
         * @param camera {Camera}
         * @public
@@ -265,15 +265,15 @@ module Kiwi.Renderers {
                 this._textureManager.numTextureWrites = 0;
 
                 this._entityCount = 0;
-                this._xyuvBuffer.clear();
-                this._alphaBuffer.clear();
-                
+               
                 //clear 
                 var col = this._game.stage.normalizedColor;
                 gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
-               
+                this._xyuvBuffer.clear();
+                this._alphaBuffer.clear();
+                
              
                 //set cam matrix uniform
                 var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();

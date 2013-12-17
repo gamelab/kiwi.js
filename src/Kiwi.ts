@@ -97,14 +97,15 @@
 
 /// <reference path="plugins/Plugins.ts" />
 
-/// <reference path="renderers/CanvasRenderer.ts" />
-/// <reference path="renderers/GLRenderer.ts" />
-/// <reference path="renderers/GLShaderPair.ts" />
-/// <reference path="renderers/GLTextureWrapper.ts" />
-/// <reference path="renderers/GLTextureManager.ts" />
-/// <reference path="renderers/GLArrayBuffer.ts" />
-/// <reference path="renderers/GLElementArrayBuffer.ts" />
-/// <reference path="renderers/shaders/Texture2D.ts" />
+/// <reference path="render/CanvasRenderer.ts" />
+/// <reference path="render/GLRenderer.ts" />
+/// <reference path="render/GLShaderPair.ts" />
+/// <reference path="render/GLTextureWrapper.ts" />
+/// <reference path="render/GLTextureManager.ts" />
+/// <reference path="render/GLArrayBuffer.ts" />
+/// <reference path="render/GLElementArrayBuffer.ts" />
+/// <reference path="render/renderers/Texture2DRenderer.ts" />
+/// <reference path="render/shaders/Texture2DShader.ts" />
 
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />

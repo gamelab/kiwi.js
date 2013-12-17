@@ -8,7 +8,7 @@
 
     module Kiwi.Renderers {
 
-    export class Texture2D extends GLShaderPair {
+    export class Texture2DShader extends GLShaderPair {
 
         constructor() {
             super();
