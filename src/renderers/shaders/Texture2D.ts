@@ -53,7 +53,6 @@
             "vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); ",
             "transpos =  uMVMatrix * transpos;",
 
-            "transpos =  uMVMatrix * transpos;",
             "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
             "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
             "vTextureCoord = aXYUV.zw / uTextureSize;",

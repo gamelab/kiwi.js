@@ -21491,8 +21491,8 @@ var Kiwi;
                     0,
                     1,
                     0,
-                    cm.tx + ct.rotPointX,
-                    cm.ty + ct.rotPointY,
+                    ct.rotPointX - cm.tx,
+                    ct.rotPointY - cm.ty,
                     0,
                     1
                 ]);
@@ -22283,7 +22283,6 @@ var Kiwi;
                     "varying float vAlpha;",
                     "void main(void) {",
                     "vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); ",
-                    "transpos =  uMVMatrix * transpos;",
                     "transpos =  uMVMatrix * transpos;",
                     "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
                     "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",

@@ -283,7 +283,7 @@ module Kiwi.Renderers {
                     cm.a, cm.b, 0, 0,
                     cm.c, cm.d, 0, 0,
                     0, 0, 1, 0,
-                    cm.tx + ct.rotPointX, cm.ty + ct.rotPointY, 0, 1
+                    ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
                 ]);
             
                 this._texture2DShaderPair.uMVMatrix(gl,this.mvMatrix);
