@@ -21394,9 +21394,6 @@ var Kiwi;
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
                 gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
 
-                this._texture2DShaderPair = new Renderers.Texture2D();
-                this._texture2DShaderPair.init(gl);
-
                 //set default state
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -21407,34 +21404,28 @@ var Kiwi;
                 //create buffers
                 //dynamic
                 this._xyuvBuffer = new Renderers.GLArrayBuffer(gl, 4);
-                this._alphaBuffer = new Renderers.GLArrayBuffer(gl, 1, Renderers.GLArrayBuffer.squareUVs);
+                this._alphaBuffer = new Renderers.GLArrayBuffer(gl, 1);
 
                 //static
                 this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this._texture2DShaderPair.use(gl, this._texture2DShaderPair.shaderProgram);
-
-                var prog = this._texture2DShaderPair.descriptor;
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._xyuvBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexXYUVAttribute, this._xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._alphaBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexAlphaAttribute, this._alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                this._texture2DShaderPair = new Renderers.Texture2D();
+                this._texture2DShaderPair.init(gl);
+                this._texture2DShaderPair.use(gl);
+                this._texture2DShaderPair.aXYUV(gl, this._xyuvBuffer);
+                this._texture2DShaderPair.aAlpha(gl, this._alphaBuffer);
 
                 //Texture
                 gl.activeTexture(gl.TEXTURE0);
 
-                //Static Uniforms
-                //sampler
-                gl.uniform1i(prog.samplerUniform, 0);
+                this._texture2DShaderPair.uSampler(gl, 0);
 
                 //stage res needs update on stage resize
-                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                this._texture2DShaderPair.uResolution(gl, this._stageResolution);
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
-                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                    this._texture2DShaderPair.uResolution(gl, this._stageResolution);
                     gl.viewport(0, 0, width, height);
                 }, this);
             };
@@ -21483,23 +21474,13 @@ var Kiwi;
                 gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
-                var prog = this._texture2DShaderPair.descriptor;
-
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
                 this.mvMatrix = mat4.create();
 
-                /*
-                this.mvMatrix = new Float32Array([
-                cm.a, cm.b, 0, 0,
-                cm.c, cm.d, 0, 0,
-                0, 0, 1, 0,
-                cm.tx + ct.rotPointX, cm.ty + ct.rotPointY, 0, 1
-                ]);
-                */
-                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
-                gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
+                this._texture2DShaderPair.uMVMatrix(gl, this.mvMatrix);
+                this._texture2DShaderPair.uCameraOffset(gl, new Float32Array([ct.rotPointX, ct.rotPointY]));
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i], camera);
@@ -21530,7 +21511,7 @@ var Kiwi;
                         this._entityCount = 0;
                         this._xyuvBuffer.clear();
                         this._alphaBuffer.clear();
-                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._texture2DShaderPair.descriptor.textureSizeUniform))
+                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._texture2DShaderPair.uniforms.uTextureSize))
                             return;
                         this._currentTextureAtlas = (child).atlas;
                     }
@@ -21591,7 +21572,9 @@ var Kiwi;
             */
             GLRenderer.prototype._draw = function (gl) {
                 this.numDrawCalls++;
-                gl.drawElements(gl.TRIANGLES, this._entityCount * 6, gl.UNSIGNED_SHORT, 0);
+
+                // gl.drawElements(gl.TRIANGLES, , gl.UNSIGNED_SHORT, 0);
+                this._texture2DShaderPair.draw(gl, this._entityCount * 6);
             };
 
             /**
@@ -21644,7 +21627,7 @@ var Kiwi;
                 this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
                 this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
                 this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-                this.use(gl, this.shaderProgram);
+                this.use(gl);
                 this.ready = true;
             };
 
@@ -21692,7 +21675,7 @@ var Kiwi;
             * @param shaderProrgram {WebGLProgram}
             * @public
             */
-            GLShaderPair.prototype.use = function (gl, shaderProgram) {
+            GLShaderPair.prototype.use = function (gl) {
             };
             return GLShaderPair;
         })();
@@ -22290,16 +22273,48 @@ var Kiwi;
                     "vAlpha = aAlpha;",
                     "}"
                 ];
-                this.descriptor = {
-                    vertexXYUVAttribute: null,
-                    vertexAlphaAttribute: null,
-                    mvMatrixUniform: null,
-                    samplerUniform: null,
-                    resolutionUniform: null,
-                    textureSizeUniform: null,
-                    cameraOffsetUniform: null
+                this.attributes = {
+                    aXYUV: null,
+                    aAlpha: null
+                };
+                this.uniforms = {
+                    uMVMatrix: null,
+                    uSampler: null,
+                    uResolution: null,
+                    uTextureSize: null,
+                    uCameraOffset: null
                 };
             }
+            Texture2D.prototype.uMVMatrix = function (gl, uMVMatrixVal) {
+                gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false, uMVMatrixVal);
+            };
+
+            Texture2D.prototype.uSampler = function (gl, uSamplerVal) {
+                gl.uniform1i(this.uniforms.samplerUniform, uSamplerVal);
+            };
+
+            Texture2D.prototype.uResolution = function (gl, uResolutionVal) {
+                gl.uniform2fv(this.uniforms.uResolution, uResolutionVal);
+            };
+
+            Texture2D.prototype.uTextureSize = function (gl, uTextureSizeVal) {
+                gl.uniform2fv(this.uniforms.uTextureSize, uTextureSizeVal);
+            };
+
+            Texture2D.prototype.uCameraOffset = function (gl, uCameraOffsetVal) {
+                gl.uniform2fv(this.uniforms.uCameraOffset, uCameraOffsetVal);
+            };
+
+            Texture2D.prototype.aXYUV = function (gl, aXYUVVal) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, aXYUVVal.buffer);
+                gl.vertexAttribPointer(this.attributes.aXYUV, aXYUVVal.itemSize, gl.FLOAT, false, 0, 0);
+            };
+
+            Texture2D.prototype.aAlpha = function (gl, aAlphaVal) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
+                gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
+            };
+
             /**
             *
             * @method use
@@ -22307,21 +22322,25 @@ var Kiwi;
             * @param shaderProrgram {WebGLProgram}
             * @public
             */
-            Texture2D.prototype.use = function (gl, shaderProgram) {
+            Texture2D.prototype.use = function (gl) {
                 gl.useProgram(this.shaderProgram);
 
                 //attributes
-                this.descriptor.vertexXYUVAttribute = gl.getAttribLocation(shaderProgram, "aXYUV");
-                gl.enableVertexAttribArray(this.descriptor.vertexXYUVAttribute);
-                this.descriptor.vertexAlphaAttribute = gl.getAttribLocation(shaderProgram, "aAlpha");
-                gl.enableVertexAttribArray(this.descriptor.vertexAlphaAttribute);
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+                gl.enableVertexAttribArray(this.attributes.aXYUV);
+                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+                gl.enableVertexAttribArray(this.attributes.aAlpha);
 
                 //uniforms
-                this.descriptor.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-                this.descriptor.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
-                this.descriptor.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-                this.descriptor.textureSizeUniform = gl.getUniformLocation(shaderProgram, "uTextureSize");
-                this.descriptor.cameraOffsetUniform = gl.getUniformLocation(shaderProgram, "uCameraOffset");
+                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
+                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
+                this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
+                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+            };
+
+            Texture2D.prototype.draw = function (gl, numElements) {
+                gl.drawElements(gl.TRIANGLES, numElements, gl.UNSIGNED_SHORT, 0);
             };
             return Texture2D;
         })(Renderers.GLShaderPair);

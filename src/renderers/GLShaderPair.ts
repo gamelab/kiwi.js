@@ -24,7 +24,7 @@ module Kiwi.Renderers {
             this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
             this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
             this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-            this.use(gl, this.shaderProgram);
+            this.use(gl);
             this.ready = true;
         }
         
@@ -113,7 +113,7 @@ module Kiwi.Renderers {
         * @param shaderProrgram {WebGLProgram}
         * @public
         */
-        public use(gl: WebGLRenderingContext, shaderProgram: WebGLProgram) {
+        public use(gl: WebGLRenderingContext) {
            
         }
 

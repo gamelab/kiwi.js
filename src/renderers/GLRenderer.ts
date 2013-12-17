@@ -173,66 +173,57 @@ module Kiwi.Renderers {
         */
         private _init() {
            
-                console.log("Intialising WebGL");
+            console.log("Intialising WebGL");
 
-                var gl: WebGLRenderingContext = this._game.stage.gl;
+            var gl: WebGLRenderingContext = this._game.stage.gl;
 
-                //init stage and viewport
-                this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-                gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
+            //init stage and viewport
+            this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+            gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
             
-
-                this._texture2DShaderPair = new Texture2D();
-                this._texture2DShaderPair.init(gl);
-
                 
-                //set default state
-                gl.enable(gl.BLEND);
-                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            //set default state
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
 
-                this.mvMatrix = mat4.create();
-                mat2d.identity(this.mvMatrix);
+            this.mvMatrix = mat4.create();
+            mat2d.identity(this.mvMatrix);
 
 
-                //create buffers
-                //dynamic
-                this._xyuvBuffer = new GLArrayBuffer(gl, 4);
-                this._alphaBuffer = new GLArrayBuffer(gl, 1, GLArrayBuffer.squareUVs);
+            //create buffers
+            //dynamic
+            this._xyuvBuffer = new GLArrayBuffer(gl, 4);
+            this._alphaBuffer = new GLArrayBuffer(gl, 1);
 
-                //static
-                this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-             
-                //use shaders
-                this._texture2DShaderPair.use(gl, this._texture2DShaderPair.shaderProgram);
+            //static
+            this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+            
+            
+            //use shaders
+            this._texture2DShaderPair = new Texture2D();
+            this._texture2DShaderPair.init(gl); 
+            this._texture2DShaderPair.use(gl);
+            this._texture2DShaderPair.aXYUV(gl, this._xyuvBuffer);
+            this._texture2DShaderPair.aAlpha(gl, this._alphaBuffer);
+            
+            //Texture
+            gl.activeTexture(gl.TEXTURE0);
 
-                var prog = this._texture2DShaderPair.descriptor;
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._xyuvBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexXYUVAttribute, this._xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._alphaBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexAlphaAttribute, this._alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-           
-                //Texture
-                gl.activeTexture(gl.TEXTURE0);
-
-                //Static Uniforms
-                //sampler
-                gl.uniform1i(prog.samplerUniform, 0);
-                //stage res needs update on stage resize
-             
-                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-                this._game.stage.onResize.add(function (width, height) {
-                    this._stageResolution = new Float32Array([width, height]);
-                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-                    gl.viewport(0, 0, width,height);
-                },this);
+            this._texture2DShaderPair.uSampler(gl, 0);
+            
+            //stage res needs update on stage resize
+        
+            this._texture2DShaderPair.uResolution(gl,this._stageResolution);
+            this._game.stage.onResize.add(function (width, height) {
+                this._stageResolution = new Float32Array([width, height]);
+                this._texture2DShaderPair.uResolution(gl, this._stageResolution);
+                gl.viewport(0, 0, width,height);
+            },this);
 
 
          
-        }
+       }
 
         
         /**
@@ -282,22 +273,16 @@ module Kiwi.Renderers {
                 gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
-                
-                var prog = this._texture2DShaderPair.descriptor;
+               
+             
                 //set cam matrix uniform
                 var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
                 var ct: Kiwi.Geom.Transform = camera.transform;
                 this.mvMatrix = mat4.create();
-                /*
-                this.mvMatrix = new Float32Array([
-                    cm.a, cm.b, 0, 0,
-                    cm.c, cm.d, 0, 0,
-                    0, 0, 1, 0,
-                    cm.tx + ct.rotPointX, cm.ty + ct.rotPointY, 0, 1
-                ]);
-                */
-                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
-                gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
+            
+                this._texture2DShaderPair.uMVMatrix(gl,this.mvMatrix);
+                this._texture2DShaderPair.uCameraOffset(gl,new Float32Array([ct.rotPointX, ct.rotPointY]));
+             
                 
                 //iterate
                 
@@ -334,7 +319,7 @@ module Kiwi.Renderers {
                     this._entityCount = 0;
                     this._xyuvBuffer.clear();
                     this._alphaBuffer.clear();
-                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._texture2DShaderPair.descriptor.textureSizeUniform))
+                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._texture2DShaderPair.uniforms.uTextureSize))
                         return;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
@@ -402,7 +387,8 @@ module Kiwi.Renderers {
         */
         private _draw(gl: WebGLRenderingContext) {
             this.numDrawCalls ++;   
-            gl.drawElements(gl.TRIANGLES, this._entityCount*6, gl.UNSIGNED_SHORT, 0);
+           // gl.drawElements(gl.TRIANGLES, , gl.UNSIGNED_SHORT, 0);
+            this._texture2DShaderPair.draw(gl, this._entityCount * 6);
             
         }
         
