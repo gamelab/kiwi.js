@@ -278,7 +278,13 @@ module Kiwi.Renderers {
                 //set cam matrix uniform
                 var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
                 var ct: Kiwi.Geom.Transform = camera.transform;
-                this.mvMatrix = mat4.create();
+          
+                this.mvMatrix = new Float32Array([
+                    cm.a, cm.b, 0, 0,
+                    cm.c, cm.d, 0, 0,
+                    0, 0, 1, 0,
+                    cm.tx + ct.rotPointX, cm.ty + ct.rotPointY, 0, 1
+                ]);
             
                 this._texture2DShaderPair.uMVMatrix(gl,this.mvMatrix);
                 this._texture2DShaderPair.uCameraOffset(gl,new Float32Array([ct.rotPointX, ct.rotPointY]));

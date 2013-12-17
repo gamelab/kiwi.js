@@ -21477,7 +21477,25 @@ var Kiwi;
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
-                this.mvMatrix = mat4.create();
+
+                this.mvMatrix = new Float32Array([
+                    cm.a,
+                    cm.b,
+                    0,
+                    0,
+                    cm.c,
+                    cm.d,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    cm.tx + ct.rotPointX,
+                    cm.ty + ct.rotPointY,
+                    0,
+                    1
+                ]);
 
                 this._texture2DShaderPair.uMVMatrix(gl, this.mvMatrix);
                 this._texture2DShaderPair.uCameraOffset(gl, new Float32Array([ct.rotPointX, ct.rotPointY]));
@@ -22264,7 +22282,7 @@ var Kiwi;
                     "varying vec2 vTextureCoord;",
                     "varying float vAlpha;",
                     "void main(void) {",
-                    "vec4 transpos = vec4(aXYUV.xy,0,1); ",
+                    "vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); ",
                     "transpos =  uMVMatrix * transpos;",
                     "transpos =  uMVMatrix * transpos;",
                     "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",

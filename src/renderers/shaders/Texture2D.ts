@@ -50,7 +50,7 @@
             "varying vec2 vTextureCoord;",
             "varying float vAlpha;",
             "void main(void) {",
-            "vec4 transpos = vec4(aXYUV.xy,0,1); ",
+            "vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); ",
             "transpos =  uMVMatrix * transpos;",
 
             "transpos =  uMVMatrix * transpos;",
