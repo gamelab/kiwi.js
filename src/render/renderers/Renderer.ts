@@ -1,18 +1,19 @@
 interface IRenderer {
-    init(gl: WebGLRenderingContext);
+    init(gl: WebGLRenderingContext, params: any);
     clear(gl: WebGLRenderingContext, params: any);
-    draw(gl: WebGLRenderingContext, params: any)
+    draw(gl: WebGLRenderingContext, params: any);
+    updateStageResolution(gl: WebGLRenderingContext,res: Float32Array);
 }
 
 
 module Kiwi.Renderers {
 
 
-    export class Renderer implements IRenderer {
+    export class Renderer  {
 
 
         constructor() {
-
+           
         }
 
         /**
@@ -30,7 +31,10 @@ module Kiwi.Renderers {
         * @type Float32Array
         * @public
         */
+        
+
         public stageResolution: Float32Array;
+
 
         /**
       * Shader pair for standard 2d sprite rendering
@@ -42,17 +46,7 @@ module Kiwi.Renderers {
 
         public cameraOffset: Float32Array;
 
-        public init(gl: WebGLRenderingContext) {
-
-        }
-
-        public clear(gl: WebGLRenderingContext, params: any) {
-
-        }
-
-        public draw(gl: WebGLRenderingContext, params: any) {
-
-        }
+       
 
     }
 

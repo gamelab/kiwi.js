@@ -16,7 +16,7 @@ module Kiwi.Renderers {
             super();
         }
 
-        public init(gl:WebGLRenderingContext) {
+        public init(gl: WebGLRenderingContext, params: any) {
             //create buffers
             //dynamic
             this.xyuvBuffer = new GLArrayBuffer(gl, 4);
@@ -35,6 +35,13 @@ module Kiwi.Renderers {
             //Texture
             gl.activeTexture(gl.TEXTURE0);
             this.shaderPair.uSampler(gl, 0);
+
+            //stage res
+            this.updateStageResolution(gl, params.stageResolution);
+
+           
+
+
         }
 
 
@@ -104,6 +111,12 @@ module Kiwi.Renderers {
             }
             return quads;
 
+        }
+
+
+        public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
+            this.stageResolution = res;
+            this.shaderPair.uResolution(gl, res);
         }
     }
 }

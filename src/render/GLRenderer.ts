@@ -148,6 +148,8 @@ module Kiwi.Renderers {
             var gl: WebGLRenderingContext = this._game.stage.gl;
             
             this._currentRenderer = new Texture2DRenderer;
+       
+
 
             //init stage and viewport
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -162,16 +164,18 @@ module Kiwi.Renderers {
             this.mvMatrix = mat4.create();
             mat2d.identity(this.mvMatrix);
 
-            this._currentRenderer.init(gl);
+            var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
+            renderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
        
             //stage res needs update on stage resize
             
-            this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
+           // this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
             
             
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
-                this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
+                renderer.updateStageResolution(gl, this._stageResolution);
+             //   this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
                 gl.viewport(0, 0, width,height);
             },this);
 
@@ -238,7 +242,8 @@ module Kiwi.Renderers {
                     ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
                 ]);
                 this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
-                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:  this._cameraOffset});
+                var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
+                renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
                
                 
                 //iterate
@@ -248,7 +253,7 @@ module Kiwi.Renderers {
                 }
             
                 //draw anything left over
-                this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+                renderer.draw(gl, { entityCount: this._entityCount });
 
            
         }
@@ -264,18 +269,20 @@ module Kiwi.Renderers {
         private _recurse(gl: WebGLRenderingContext, child: IChild, camera: Kiwi.Camera) {
             if (!child.willRender) return;
 
+
             if (child.childType() === Kiwi.GROUP) {
                 for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
                     this._recurse(gl,(<Kiwi.Group>child).members[i],camera);
                 }
             } else {
                 
-              
+                
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
-                    this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+                    var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
+                    renderer.draw(gl, { entityCount: this._entityCount });
                     this.numDrawCalls++;
                     this._entityCount = 0;
-                    this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
+                    renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
 
                    
                     if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize))

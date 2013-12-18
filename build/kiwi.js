@@ -21406,14 +21406,16 @@ var Kiwi;
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
 
-                this._currentRenderer.init(gl);
+                var renderer = this._currentRenderer;
+                renderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
                 //stage res needs update on stage resize
-                this._currentRenderer.shaderPair.uResolution(gl, this._stageResolution);
-
+                // this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
-                    this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
+                    renderer.updateStageResolution(gl, this._stageResolution);
+
+                    //   this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
                     gl.viewport(0, 0, width, height);
                 }, this);
             };
@@ -21483,14 +21485,15 @@ var Kiwi;
                     1
                 ]);
                 this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
-                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+                var renderer = this._currentRenderer;
+                renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i], camera);
                 }
 
                 //draw anything left over
-                this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+                renderer.draw(gl, { entityCount: this._entityCount });
             };
 
             /**
@@ -21511,10 +21514,11 @@ var Kiwi;
                     }
                 } else {
                     if ((child).atlas !== this._currentTextureAtlas) {
-                        this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+                        var renderer = this._currentRenderer;
+                        renderer.draw(gl, { entityCount: this._entityCount });
                         this.numDrawCalls++;
                         this._entityCount = 0;
-                        this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+                        renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
                         if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize))
                             return;
@@ -22191,14 +22195,6 @@ var Kiwi;
         var Renderer = (function () {
             function Renderer() {
             }
-            Renderer.prototype.init = function (gl) {
-            };
-
-            Renderer.prototype.clear = function (gl, params) {
-            };
-
-            Renderer.prototype.draw = function (gl, params) {
-            };
             return Renderer;
         })();
         Renderers.Renderer = Renderer;
@@ -22227,7 +22223,7 @@ var Kiwi;
                 */
                 this._maxItems = 2000;
             }
-            Texture2DRenderer.prototype.init = function (gl) {
+            Texture2DRenderer.prototype.init = function (gl, params) {
                 //create buffers
                 //dynamic
                 this.xyuvBuffer = new Renderers.GLArrayBuffer(gl, 4);
@@ -22246,6 +22242,9 @@ var Kiwi;
                 //Texture
                 gl.activeTexture(gl.TEXTURE0);
                 this.shaderPair.uSampler(gl, 0);
+
+                //stage res
+                this.updateStageResolution(gl, params.stageResolution);
             };
 
             Texture2DRenderer.prototype.clear = function (gl, params) {
@@ -22274,6 +22273,11 @@ var Kiwi;
                     quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
                 }
                 return quads;
+            };
+
+            Texture2DRenderer.prototype.updateStageResolution = function (gl, res) {
+                this.stageResolution = res;
+                this.shaderPair.uResolution(gl, res);
             };
             return Texture2DRenderer;
         })(Renderers.Renderer);
