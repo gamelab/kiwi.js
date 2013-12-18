@@ -19,38 +19,38 @@ module Kiwi.Renderers {
         public init(gl:WebGLRenderingContext) {
             //create buffers
             //dynamic
-            this._xyuvBuffer = new GLArrayBuffer(gl, 4);
-            this._alphaBuffer = new GLArrayBuffer(gl, 1);
+            this.xyuvBuffer = new GLArrayBuffer(gl, 4);
+            this.alphaBuffer = new GLArrayBuffer(gl, 1);
 
             //static
-            this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+            this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
             
             //use shaders
-            this._texture2DShaderPair = new Texture2DShader();
-            this._texture2DShaderPair.init(gl);
-            this._texture2DShaderPair.use(gl);
-            this._texture2DShaderPair.aXYUV(gl, this._xyuvBuffer);
-            this._texture2DShaderPair.aAlpha(gl, this._alphaBuffer);
+            this.texture2DShaderPair = new Texture2DShader();
+            this.texture2DShaderPair.init(gl);
+            this.texture2DShaderPair.use(gl);
+            this.texture2DShaderPair.aXYUV(gl, this.xyuvBuffer);
+            this.texture2DShaderPair.aAlpha(gl, this.alphaBuffer);
 
             //Texture
             gl.activeTexture(gl.TEXTURE0);
-            this._texture2DShaderPair.uSampler(gl, 0);
+            this.texture2DShaderPair.uSampler(gl, 0);
         }
 
 
        
-        public use(gl: WebGLRenderingContext,params:any) {
-            this._xyuvBuffer.clear();
-            this._alphaBuffer.clear();
-            this._texture2DShaderPair.uMVMatrix(gl, params.mvMatrix);
-            this._texture2DShaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
+        public clear(gl: WebGLRenderingContext,params:any) {
+            this.xyuvBuffer.clear();
+            this.alphaBuffer.clear();
+            this.texture2DShaderPair.uMVMatrix(gl, params.mvMatrix);
+            this.texture2DShaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
         
         }
 
         public draw(gl: WebGLRenderingContext, params: any) {
-            this._xyuvBuffer.uploadBuffer(gl, this._xyuvBuffer.items);
-            this._alphaBuffer.uploadBuffer(gl, this._alphaBuffer.items);
-            this._texture2DShaderPair.draw(gl, params._entityCount * 6);
+            this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
+            this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+            this.texture2DShaderPair.draw(gl, params.entityCount * 6);
         }
 
         /**
@@ -68,7 +68,7 @@ module Kiwi.Renderers {
        * @type GLShaders
        * @private
        */
-        private _texture2DShaderPair: Texture2DShader;
+        public texture2DShaderPair: Texture2DShader;
 
         /**
        * Storage for the xy (position) and uv(texture) coordinates that are generated each frame
@@ -76,7 +76,7 @@ module Kiwi.Renderers {
        * @type GLArrayBuffer
        * @private
        */
-        private _xyuvBuffer: GLArrayBuffer;
+        public xyuvBuffer: GLArrayBuffer;
 
         /**
         * Storage for the polygon indices, pre generated to a length based on max items
@@ -84,7 +84,7 @@ module Kiwi.Renderers {
         * @type GLElementArrayBuffer
         * @private 
         */
-        private _indexBuffer: GLElementArrayBuffer;
+        public indexBuffer: GLElementArrayBuffer;
 
         /**
         * Storage for alpha values for each vertex on a sprite
@@ -92,7 +92,7 @@ module Kiwi.Renderers {
         * @type GLArrayBuffer
         * @private
         */
-        private _alphaBuffer: GLArrayBuffer;
+        public alphaBuffer: GLArrayBuffer;
 
 
         /**

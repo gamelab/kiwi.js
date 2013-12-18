@@ -21417,6 +21417,8 @@ var Kiwi;
 
                 var gl = this._game.stage.gl;
 
+                this._texture2DRenderer = new Renderers.Texture2DRenderer();
+
                 //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
                 gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
@@ -21428,31 +21430,13 @@ var Kiwi;
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
 
-                //create buffers
-                //dynamic
-                this._xyuvBuffer = new Renderers.GLArrayBuffer(gl, 4);
-                this._alphaBuffer = new Renderers.GLArrayBuffer(gl, 1);
-
-                //static
-                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-
-                //use shaders
-                this._texture2DShaderPair = new Renderers.Texture2DShader();
-                this._texture2DShaderPair.init(gl);
-                this._texture2DShaderPair.use(gl);
-                this._texture2DShaderPair.aXYUV(gl, this._xyuvBuffer);
-                this._texture2DShaderPair.aAlpha(gl, this._alphaBuffer);
-
-                //Texture
-                gl.activeTexture(gl.TEXTURE0);
-
-                this._texture2DShaderPair.uSampler(gl, 0);
+                this._texture2DRenderer.init(gl);
 
                 //stage res needs update on stage resize
-                this._texture2DShaderPair.uResolution(gl, this._stageResolution);
+                this._texture2DRenderer.texture2DShaderPair.uResolution(gl, this._stageResolution);
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
-                    this._texture2DShaderPair.uResolution(gl, this._stageResolution);
+                    this._texture2DRenderer.texture2DShaderPair.uResolution(gl, this._stageResolution);
                     gl.viewport(0, 0, width, height);
                 }, this);
             };
@@ -21499,9 +21483,6 @@ var Kiwi;
                 gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
-                this._xyuvBuffer.clear();
-                this._alphaBuffer.clear();
-
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
@@ -21524,15 +21505,14 @@ var Kiwi;
                     0,
                     1
                 ]);
-
-                this._texture2DShaderPair.uMVMatrix(gl, this.mvMatrix);
-                this._texture2DShaderPair.uCameraOffset(gl, new Float32Array([ct.rotPointX, ct.rotPointY]));
+                this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
+                this._texture2DRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i], camera);
                 }
 
-                this._uploadBuffers(gl);
+                this._draw(gl);
             };
 
             /**
@@ -21553,11 +21533,15 @@ var Kiwi;
                     }
                 } else {
                     if ((child).atlas !== this._currentTextureAtlas) {
-                        this._uploadBuffers(gl);
+                        //this._uploadBuffers(gl);
+                        this._texture2DRenderer.draw(gl, { entityCount: this._entityCount });
                         this._entityCount = 0;
-                        this._xyuvBuffer.clear();
-                        this._alphaBuffer.clear();
-                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._texture2DShaderPair.uniforms.uTextureSize))
+                        this._texture2DRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+
+                        this._draw(gl);
+                        this._texture2DRenderer.xyuvBuffer.clear();
+                        this._texture2DRenderer.alphaBuffer.clear();
+                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._texture2DRenderer.texture2DShaderPair.uniforms.uTextureSize))
                             return;
                         this._currentTextureAtlas = (child).atlas;
                     }
@@ -21566,18 +21550,6 @@ var Kiwi;
                     //  this._compileUVs(gl, <Entity>child);
                     this._entityCount++;
                 }
-            };
-
-            /**
-            * Move buffers from system to video memory
-            * @method _uploadBuffers
-            * @param gl {WebGLRenderingContext}
-            * @private
-            */
-            GLRenderer.prototype._uploadBuffers = function (gl) {
-                this._xyuvBuffer.uploadBuffer(gl, this._xyuvBuffer.items);
-                this._alphaBuffer.uploadBuffer(gl, this._alphaBuffer.items);
-                this._draw(gl);
             };
 
             /**
@@ -21606,8 +21578,8 @@ var Kiwi;
                 pt3 = m.transformPoint(pt3);
                 pt4 = m.transformPoint(pt4);
 
-                this._xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
-                this._alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+                this._texture2DRenderer.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
+                this._texture2DRenderer.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
 
             /**
@@ -21620,7 +21592,9 @@ var Kiwi;
                 this.numDrawCalls++;
 
                 // gl.drawElements(gl.TRIANGLES, , gl.UNSIGNED_SHORT, 0);
-                this._texture2DShaderPair.draw(gl, this._entityCount * 6);
+                this._texture2DRenderer.xyuvBuffer.uploadBuffer(gl, this._texture2DRenderer.xyuvBuffer.items);
+                this._texture2DRenderer.alphaBuffer.uploadBuffer(gl, this._texture2DRenderer.alphaBuffer.items);
+                this._texture2DRenderer.texture2DShaderPair.draw(gl, this._entityCount * 6);
             };
 
             /**
@@ -22287,35 +22261,35 @@ var Kiwi;
             Texture2DRenderer.prototype.init = function (gl) {
                 //create buffers
                 //dynamic
-                this._xyuvBuffer = new Renderers.GLArrayBuffer(gl, 4);
-                this._alphaBuffer = new Renderers.GLArrayBuffer(gl, 1);
+                this.xyuvBuffer = new Renderers.GLArrayBuffer(gl, 4);
+                this.alphaBuffer = new Renderers.GLArrayBuffer(gl, 1);
 
                 //static
-                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+                this.indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this._texture2DShaderPair = new Renderers.Texture2DShader();
-                this._texture2DShaderPair.init(gl);
-                this._texture2DShaderPair.use(gl);
-                this._texture2DShaderPair.aXYUV(gl, this._xyuvBuffer);
-                this._texture2DShaderPair.aAlpha(gl, this._alphaBuffer);
+                this.texture2DShaderPair = new Renderers.Texture2DShader();
+                this.texture2DShaderPair.init(gl);
+                this.texture2DShaderPair.use(gl);
+                this.texture2DShaderPair.aXYUV(gl, this.xyuvBuffer);
+                this.texture2DShaderPair.aAlpha(gl, this.alphaBuffer);
 
                 //Texture
                 gl.activeTexture(gl.TEXTURE0);
-                this._texture2DShaderPair.uSampler(gl, 0);
+                this.texture2DShaderPair.uSampler(gl, 0);
             };
 
-            Texture2DRenderer.prototype.use = function (gl, params) {
-                this._xyuvBuffer.clear();
-                this._alphaBuffer.clear();
-                this._texture2DShaderPair.uMVMatrix(gl, params.mvMatrix);
-                this._texture2DShaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
+            Texture2DRenderer.prototype.clear = function (gl, params) {
+                this.xyuvBuffer.clear();
+                this.alphaBuffer.clear();
+                this.texture2DShaderPair.uMVMatrix(gl, params.mvMatrix);
+                this.texture2DShaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
             };
 
             Texture2DRenderer.prototype.draw = function (gl, params) {
-                this._xyuvBuffer.uploadBuffer(gl, this._xyuvBuffer.items);
-                this._alphaBuffer.uploadBuffer(gl, this._alphaBuffer.items);
-                this._texture2DShaderPair.draw(gl, params._entityCount * 6);
+                this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
+                this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+                this.texture2DShaderPair.draw(gl, params.entityCount * 6);
             };
 
             /**

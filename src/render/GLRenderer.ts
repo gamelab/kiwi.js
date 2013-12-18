@@ -85,40 +85,10 @@ module Kiwi.Renderers {
         */
         private _stageResolution: Float32Array;
 
-        /**
-        * Shader pair for standard 2d sprite rendering
-        * @property _texture2DShaderPair
-        * @type GLShaders
-        * @private
-        */
-        private _texture2DShaderPair: Texture2DShader;
+        private _texture2DRenderer: Texture2DRenderer;
         
-        /**
-        * Storage for the xy (position) and uv(texture) coordinates that are generated each frame
-        * @property _xyuvBuffer
-        * @type GLArrayBuffer
-        * @private
-        */
-        private _xyuvBuffer: GLArrayBuffer;
-        
-        /**
-        * Storage for the polygon indices, pre generated to a length based on max items
-        * @property _indexBuffer
-        * @type GLElementArrayBuffer
-        * @private 
-        */
-        private _indexBuffer: GLElementArrayBuffer;
-        
-        /**
-        * Storage for alpha values for each vertex on a sprite
-        * @property _alphaBuffer
-        * @type GLArrayBuffer
-        * @private
-        */
-        private _alphaBuffer: GLArrayBuffer;
-        
-        
-        
+        private _cameraOffset: Float32Array;
+     
         /**
         * Tally of number of entities rendered per frame
         * @property _entityCount
@@ -176,6 +146,8 @@ module Kiwi.Renderers {
             console.log("Intialising WebGL");
 
             var gl: WebGLRenderingContext = this._game.stage.gl;
+            
+            this._texture2DRenderer = new Texture2DRenderer;
 
             //init stage and viewport
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -190,34 +162,14 @@ module Kiwi.Renderers {
             this.mvMatrix = mat4.create();
             mat2d.identity(this.mvMatrix);
 
-
-            //create buffers
-            //dynamic
-            this._xyuvBuffer = new GLArrayBuffer(gl, 4);
-            this._alphaBuffer = new GLArrayBuffer(gl, 1);
-
-            //static
-            this._indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-            
-            
-            //use shaders
-            this._texture2DShaderPair = new Texture2DShader();
-            this._texture2DShaderPair.init(gl); 
-            this._texture2DShaderPair.use(gl);
-            this._texture2DShaderPair.aXYUV(gl, this._xyuvBuffer);
-            this._texture2DShaderPair.aAlpha(gl, this._alphaBuffer);
-            
-            //Texture
-            gl.activeTexture(gl.TEXTURE0);
-
-            this._texture2DShaderPair.uSampler(gl, 0);
-            
+            this._texture2DRenderer.init(gl);
+       
             //stage res needs update on stage resize
-        
-            this._texture2DShaderPair.uResolution(gl,this._stageResolution);
+            
+            this._texture2DRenderer.texture2DShaderPair.uResolution(gl,this._stageResolution);
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
-                this._texture2DShaderPair.uResolution(gl, this._stageResolution);
+                this._texture2DRenderer.texture2DShaderPair.uResolution(gl, this._stageResolution);
                 gl.viewport(0, 0, width,height);
             },this);
 
@@ -271,8 +223,6 @@ module Kiwi.Renderers {
                 gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
-                this._xyuvBuffer.clear();
-                this._alphaBuffer.clear();
                 
              
                 //set cam matrix uniform
@@ -285,10 +235,9 @@ module Kiwi.Renderers {
                     0, 0, 1, 0,
                     ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
                 ]);
-            
-                this._texture2DShaderPair.uMVMatrix(gl,this.mvMatrix);
-                this._texture2DShaderPair.uCameraOffset(gl,new Float32Array([ct.rotPointX, ct.rotPointY]));
-             
+                this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
+                this._texture2DRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:  this._cameraOffset});
+               
                 
                 //iterate
                 
@@ -296,8 +245,8 @@ module Kiwi.Renderers {
                     this._recurse(gl, root[i], camera);
                 }
                 
-
-                this._uploadBuffers(gl);
+                //draw anything left over
+                this._draw(gl);
 
            
         }
@@ -321,11 +270,13 @@ module Kiwi.Renderers {
                 
               
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
-                    this._uploadBuffers(gl);
+                    this._texture2DRenderer.draw(gl, { entityCount: this._entityCount });
+                    this.numDrawCalls++;
                     this._entityCount = 0;
-                    this._xyuvBuffer.clear();
-                    this._alphaBuffer.clear();
-                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._texture2DShaderPair.uniforms.uTextureSize))
+                    this._texture2DRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
+
+                   
+                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._texture2DRenderer.texture2DShaderPair.uniforms.uTextureSize))
                         return;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
@@ -337,17 +288,7 @@ module Kiwi.Renderers {
         
         }
         
-        /**
-        * Move buffers from system to video memory
-        * @method _uploadBuffers
-        * @param gl {WebGLRenderingContext}
-        * @private
-        */
-        private _uploadBuffers(gl: WebGLRenderingContext) {
-            this._xyuvBuffer.uploadBuffer(gl, this._xyuvBuffer.items);
-            this._alphaBuffer.uploadBuffer(gl, this._alphaBuffer.items);
-            this._draw(gl);
-        }
+      
 
         /**
         * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
@@ -375,46 +316,17 @@ module Kiwi.Renderers {
             pt3 = m.transformPoint(pt3);
             pt4 = m.transformPoint(pt4);
 
-            this._xyuvBuffer.items.push(
+            this._texture2DRenderer.xyuvBuffer.items.push(
                 pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,
                 pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,
                 pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h,
                 pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h
                 );
-            this._alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+            this._texture2DRenderer.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
 
         }
 
-        /**
-        * Draw buffers
-        * @method _draw
-        * @param gl {WebGLRenderingContext}
-        * @private
-        */
-        private _draw(gl: WebGLRenderingContext) {
-            this.numDrawCalls ++;   
-           // gl.drawElements(gl.TRIANGLES, , gl.UNSIGNED_SHORT, 0);
-            this._texture2DShaderPair.draw(gl, this._entityCount * 6);
-            
-        }
-        
-        /**
-        * Create prebaked indices for drawing quads 
-        * @method _generateIndices
-        * @param numQuads {number}
-        * @return number[]
-        * @private
-        */
-        private _generateIndices(numQuads: number): number[]{
        
-            var quads: number[] = new Array();
-            for (var i = 0; i < numQuads; i++) {
-                quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
-            }
-            return quads;
-
-        }
-
        
 
 
