@@ -13,6 +13,7 @@
                 /**
                 *
                 * @class Back
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Back = (function () {
@@ -92,6 +93,7 @@ var Kiwi;
                 /**
                 *
                 * @class Bounce
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Bounce = (function () {
@@ -177,6 +179,7 @@ var Kiwi;
                 *
                 *
                 * @class Circular
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Circular = (function () {
@@ -250,6 +253,7 @@ var Kiwi;
                 /**
                 *
                 * @class Cubic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Cubic = (function () {
@@ -326,6 +330,7 @@ var Kiwi;
                 *
                 *
                 * @class Elastic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Elastic = (function () {
@@ -431,6 +436,7 @@ var Kiwi;
                 *
                 *
                 * @class Exponential
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Exponential = (function () {
@@ -511,6 +517,7 @@ var Kiwi;
                 /**
                 *
                 * @class Linear
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Linear = (function () {
@@ -561,6 +568,7 @@ var Kiwi;
                 *
                 *
                 * @class Quadratic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Quadratic = (function () {
@@ -637,6 +645,7 @@ var Kiwi;
                 /**
                 *
                 * @class Quartic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Quartic = (function () {
@@ -713,6 +722,7 @@ var Kiwi;
                 /**
                 *
                 * @class Quintic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Quintic = (function () {
@@ -789,6 +799,7 @@ var Kiwi;
                 /**
                 *
                 * @class Sinusoidal
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Sinusoidal = (function () {
@@ -867,6 +878,7 @@ var Kiwi;
             * https://github.com/sole/tween.js
             *
             * @class TweenManager
+            * @namespace Kiwi.Animations.Tweens
             * @constructor
             * @param game {Game}
             * @return {TweenManager}
@@ -1008,6 +1020,7 @@ var Kiwi;
         *
         * @class Tween
         * @constructor
+        * @namespace Kiwi.Animations
         * @param object {Any} The object that this tween is taking affect on.
         * @param game {Game} The game that this tween is for.
         * @return {Tween} This tween.
@@ -1463,6 +1476,7 @@ var Kiwi;
     * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
     *
     * @class Camera
+    * @namespace Kiwi
     * @constructor
     * @param game {Game} The game that this camera belongs to.
     * @param id {Number} A unique ID for this camera
@@ -1584,6 +1598,7 @@ var Kiwi;
     * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager.
     *
     * @class CameraManager
+    * @namespace Kiwi
     * @constructor
     * @param {Game} game
     * @return {CameraManager}
@@ -1707,6 +1722,7 @@ var Kiwi;
     * The base class that all components extend from and thus contains all of the common functionality that is required of every Component.
     *
     * @class Component
+    * @namespace Kiwi
     * @constructor
     * @param owner {IChild} The IChild that this component belongs to.
     * @param componentName {String} The name of this component.
@@ -1798,6 +1814,7 @@ var Kiwi;
     * Or when updating components you can tell the component manager to update and all of the components will update as well.
     *
     * @class ComponentManager
+    * @namespace Kiwi
     * @constructor
     * @param type {number} - The type of object that this component manager's owner is.
     * @param owner {IChild} - The owner of this component manager.
@@ -2050,6 +2067,7 @@ var Kiwi;
     * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
     *
     * @class Entity
+    * @namespace Kiwi
     * @constructor
     * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param x {Number} The entities position on the x axis.
@@ -2509,6 +2527,7 @@ var Kiwi;
     * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
     *
     * @class Game
+    * @namespace Kiwi
     * @constructor
     * @param [domParent=''] {String} The ID of a DOM element that the game should use as its 'container'. If you are targeting Cocoon then you don't need to worry about this and can leave it blank.
     * @param [name='KiwiGame'] {String} The name of the game that is being created.
@@ -2934,6 +2953,7 @@ var Kiwi;
     * Is a class the implements the IChild structure who's purpose is to contain multiple children/members, those of which also implement the IChild interface. The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
     *
     * @class Group
+    * @namespace Kiwi
     * @constructor
     * @param state {State} The State that this Group is a part of.
     * @param [name=''] {String} The name of this group.
@@ -3873,6 +3893,7 @@ var Kiwi;
     /**
     *
     * @class PluginManager
+    * @namespace Kiwi
     * @constructor
     * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param plugins {string[]} The entities position on the x axis.
@@ -4066,6 +4087,7 @@ var Kiwi;
     *
     *
     * @class State
+    * @namespace Kiwi
     * @extends Group
     * @constructor
     * @param name {String}
@@ -4434,6 +4456,7 @@ var Kiwi;
     * http://millermedeiros.github.com/js-signals/
     *
     * @class Signal
+    * @namespace Kiwi
     *
     * @author Miller Medeiros, JS Signals
     */
@@ -4763,6 +4786,7 @@ var Kiwi;
     * http://millermedeiros.github.com/js-signals/
     *
     * @class SignalBinding
+    * @namespace Kiwi
     *
     * @author Miller Medeiros, JS Signals
     * @constructor
@@ -4924,6 +4948,7 @@ var Kiwi;
     * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
     *
     * @class Stage
+    * @namespace Kiwi
     * @constructor
     * @param game {Kiwi.Game}
     * @param name {String}
@@ -5251,6 +5276,7 @@ var Kiwi;
         *
         * @class AnimationManager
         * @extends Component
+        * @namespace Kiwi.Components
         * @constructor
         * @param entity {Entity} The entity that this animation component belongs to.
         * @return {AnimationManager}
@@ -5626,6 +5652,7 @@ var Kiwi;
         *
         * @class Box
         * @extends Component
+        * @namespace Kiwi.Components
         * @constructor
         * @param parent {Entity} The entity that this box belongs to.
         * @param [x=0] {Number} Its position on the x axis
@@ -5959,6 +5986,7 @@ var Kiwi;
         *
         * @class Input
         * @extends Component
+        * @namespace Kiwi.Components
         * @constructor
         * @param owner {IChild} The IChild that owns this Input.
         * @param box {Box} The box that is to be used for the event firing.
@@ -6619,6 +6647,7 @@ var Kiwi;
         *
         * @class Sound
         * @extends Component
+        * @namespace Kiwi.Components
         * @constructor
         * @param parent {Any} Who the sound component belongs to.
         * @return {Sound}
@@ -6805,6 +6834,7 @@ var Kiwi;
         *
         * @class ArcadePhysics
         * @constructor
+        * @namespace Kiwi.Components
         * @param entity {Entity}
         * @param box {Box}
         * @return {ArcadePhysics}
@@ -7451,6 +7481,7 @@ var Kiwi;
         * Used for the loading of files and game assets. This usually happens when a State is at the 'loading' stage (executing the 'preload' method).
         *
         * @class Loader
+        * @namespace Kiwi.Files
         * @constructor
         * @param game {Game} The game that this loader belongs to.
         * @return {Loader} This Object
@@ -7905,6 +7936,7 @@ var Kiwi;
         * Holds a reference to all of the data Files (json, xml, e.t.c) that are accessible on the State that this DataLibrary is on.
         *
         * @class DataLibrary
+        * @namespace Kiwi.Files
         * @constructor
         * @param game {Game} The game that this DataLibrary belongs to.
         * @return {DataLibrary}
@@ -8000,6 +8032,7 @@ var Kiwi;
         * Handles the loading of an external data file via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
         *
         * @class File
+        * @namespace Kiwi.Files
         * @constructor
         * @param game {Game} The game that this file belongs to.
         * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
@@ -8921,6 +8954,7 @@ var Kiwi;
         * Holds all of the Files (regardless of the file type) that have been loaded throughout a game/are accessable at a particular point in time. Contains methods for dealing with files. Note: Each time the state is switched the file store will remove all references to files that have not been flagged as global.
         *
         * @class FileStore
+        * @namespace Kiwi.Files
         * @constructor
         * @param game {Game} The game that this FileStore belongs to.
         * @return {FilesStore}
@@ -9112,6 +9146,7 @@ var Kiwi;
     /**
     * [WHOLE THING REQUIRES DESCRIPTION]
     * @class StateConfig
+    * @namespace Kiwi
     * @constructor
     * @param {State} parent
     * @param {String} name
@@ -9356,6 +9391,7 @@ var Kiwi;
     * The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.
     *
     * @class StateManager
+    * @namespace Kiwi
     * @constructor
     * @param game {Game} The game that this statemanager belongs to.
     * @return {StateMananger} This Object
@@ -9749,6 +9785,7 @@ var Kiwi;
         * A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn't a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.
         *
         * @class Sprite
+        * @namespace Kiwi.GameObjects
         * @extends Entity
         * @constructor
         * @param state {State} The state that this sprite belongs to
@@ -9856,7 +9893,7 @@ var Kiwi;
 
             Sprite.prototype.renderGL = function (gl, renderer, camera, params) {
                 if (typeof params === "undefined") { params = null; }
-                (renderer).collateVertexAttributeArrays(gl, this, camera);
+                (renderer).addToBatch(gl, this, camera);
             };
             return Sprite;
         })(Kiwi.Entity);
@@ -9877,6 +9914,7 @@ var Kiwi;
         * A light weight game object for displaying static images that would have little or no interaction with other GameObjects. An Example of this would be a background image. Note: Since a StaticImage is lightweight it doesn't have any AnimationManager to handle the switching of cells (If you were using a SpriteSheet/TextureAtlas). In order to switch cells you can change the value of the cellIndex property.
         *
         * @class StaticImage
+        * @namespace Kiwi.GameObjects
         * @extends Entity
         * @constructor
         * @param state {State} The state that this static image belongs to
@@ -9969,6 +10007,7 @@ var Kiwi;
         * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
         *
         * @class Textfield
+        * @namespace Kiwi.GameObjects
         * @extends Entity
         * @constructor
         * @param state {State} The state that this Textfield belongs to
@@ -10246,6 +10285,7 @@ var Kiwi;
             * A single Tile that exists on the mapData property inside of a TileMapLayer. A Tile should never be directly created by a user but instead reference through its TileMapLayer which would have created it. Each Tile has an ArcadePhysics component that can be used for collision detection.
             *
             * @class Tile
+            * @namespace Kiwi.GameObjects.Tilemap
             * @extends Entity
             * @constructor
             * @param state {State} The state that this Tile is on.
@@ -10316,8 +10356,9 @@ var Kiwi;
             * Defines a particular type of tile that is used on a TileMap. A TileType object should never be directly instantiated by a developer, but instead referenced through the TileMap that it belongs to. A new TileType is created for each cell that exists on the SpriteSheet that is parse when creating a TileMap. Note: There is always a TileType (at index of -1) generated which you can use when no tile will be placed in that spot.
             *
             * @class TileType
+            * @namespace Kiwi.GameObjects.Tilemap
             * @constructor
-            * @param gmae {Game} The game that this type of tile belongs to.
+            * @param game {Game} The game that this type of tile belongs to.
             * @param tilemap {TileMap} The TileMap that this type of tile is on.
             * @param index {number} The unique index that this tile has associated with it.
             * @param width {number} The width of this tile. Only used for collision detection.
@@ -10376,6 +10417,7 @@ var Kiwi;
             * A GameObject that can be used when wanting to generate and use TileMaps in a game and the job of it is to handle the creation and management of TileMapLayers/Tiles on the whole map. Each TileMap (once created) will contain at least one TileMapLayer, which will hold the information about the map generated, but more TileMapLayers can be generated on a single TileMap.
             *
             * @class TileMap
+            * @namespace Kiwi.GameObjects.Tilemap
             * @extends Entity
             * @constructor
             * @param state {State} The state that this Tilemap is on.
@@ -10818,6 +10860,7 @@ var Kiwi;
             * Maintains information about a single two dimensional TileMap (saved in the property mapData) and is created on TileMap. This class should generally never be directly instantiated as the creation of TileMapLayers are handled through a TileMap.
             *
             * @class TileMapLayer
+            * @namespace Kiwi.GameObjects.Tilemap
             * @extends Entity
             * @constructor
             * @param state {State} The state that this tilemap belongs to.
@@ -11283,6 +11326,7 @@ var Kiwi;
         * An object representation of an axis-aligned bounding box.
         *
         * @class AABB
+        * @namespace Kiwi.Geom
         * @constructor
         * @param cx {Number}
         * @param cy {Number}
@@ -11449,6 +11493,7 @@ var Kiwi;
         * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
         *
         * @class Circle
+        * @namespace Kiwi.Geom
         * @constructor
         * @param x {Number} The x coordinate of the center of the circle.
         * @param y {Number} The y coordinate of the center of the circle.
@@ -11872,6 +11917,7 @@ var Kiwi;
         * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
         *
         * @class Ray
+        * @namespace Kiwi.Geom
         * @constructor
         * @param x1 {Number} x1
         * @param y1 {Number} y1
@@ -12069,6 +12115,7 @@ var Kiwi;
         * A collection of methods to help determine and return intersection between geometric objects.
         *
         * @class Intersect
+        * @namespace Kiwi.Geom
         *
         */
         var Intersect = (function () {
@@ -12584,6 +12631,7 @@ var Kiwi;
         * A light result object to hold the results of an intersection
         *
         * @class IntersectResult
+        * @namespace Kiwi.Geom
         *
         */
         var IntersectResult = (function () {
@@ -12650,6 +12698,7 @@ var Kiwi;
         * A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
         *
         * @class Line
+        * @namespace Kiwi.Geom
         * @constructor
         * @param [x1 = 0] {Number} x1 x component of first point.
         * @param [y1 = 0]{Number} y1 y component of first point.
@@ -12952,6 +13001,7 @@ var Kiwi;
         * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
         *
         * @class Matrix
+        * @namespace Kiwi.Geom
         * @constructor
         * @param [a = 1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
         * @param [b = 0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
@@ -13344,6 +13394,7 @@ var Kiwi;
         *
         * @class Point
         * @constructor
+        * @namespace Kiwi.Geom
         * @param x {Number} x One-liner. Default is ?.
         * @param y {Number} y One-liner. Default is ?.
         *
@@ -13720,6 +13771,7 @@ var Kiwi;
         * An area defined by its position, as indicated by its top-left corner (x,y) and width and height
         *
         * @class Rectangle
+        * @namespace Kiwi.Geom
         * @constructor
         * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
         * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
@@ -14330,6 +14382,7 @@ var Kiwi;
         * - A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
         *
         * @class Transform
+        * @namespace Kiwi.Geom
         * @constructor
         * @param x {Number} x. X position of the transform.
         * @param y {Number} y. Y position of the transform.
@@ -14883,7 +14936,7 @@ var Kiwi;
         * A two dimensional vector object for storing and manipulating x and y vector components.
         *
         * @class Vector2
-        * @class Vector2
+        * @namespace Kiwi.Geom
         * @constructor
         * @param {Number} x The x component of the vector.
         * @param {Number} y The y component of the vector.
@@ -15225,6 +15278,7 @@ var Kiwi;
         * Each game can contain multiple HUDDisplay's and each HUDDisplay can contain multiple HUDWidgets.
         *
         * @class HUDDisplay
+        * @namespace Kiwi.HUD
         * @constructor
         * @param game {Game} The game that this HUD Display belongs to.
         * @param name {string} The name of this display.
@@ -15411,6 +15465,7 @@ var Kiwi;
         *
         *
         * @class HUDManager
+        * @namespace Kiwi.HUD
         * @constructor
         * @param game {Game} game
         * @return {HUDManager}
@@ -15640,6 +15695,7 @@ var Kiwi;
         * This class is designed to be extended from and thus objects should not directly instantiate it.
         *
         * @class HUDWidget
+        * @namespace Kiwi.HUD
         * @constructor
         * @param game {Game}  The game that this HUDWidget belongs to.
         * @param name {string} Name of the type of HUDWidget.
@@ -15872,6 +15928,7 @@ var Kiwi;
             *
             * @class TextField
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this textfield belongs to.
             * @param text {string} The text on this textfield.
@@ -16057,6 +16114,7 @@ var Kiwi;
             *
             * @class Bar
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this bar belongs to.
             * @param current {number} The current value of the bar.
@@ -16262,6 +16320,7 @@ var Kiwi;
             *
             * @class Icon
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this icon belongs to.
             * @param atlas {TextureAtlas} The image that you would like displayed.
@@ -16427,6 +16486,7 @@ var Kiwi;
             *
             * @class IconBar
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this icon bar belongs to.
             * @param atlas {TextureAtlas} The texture atlas that the icons will have.
@@ -16592,6 +16652,7 @@ var Kiwi;
             *
             * @class BasicScore
             * @extends TextField
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this BasicScore belongs to.
             * @param x {number} The cooridnates of the game on the x-axis.
@@ -16651,6 +16712,7 @@ var Kiwi;
             *
             * @class Button
             * @extends TextField
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {game} The game that this belongs to.
             * @param text {string} The text that you want to display inside the button.
@@ -16703,6 +16765,7 @@ var Kiwi;
             *
             * @class Time
             * @extends TextField
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this object belongs to.
             * @param format {string} The format that you want the time to be displayed in. Leave it empty to display as normal.
@@ -16799,6 +16862,7 @@ var Kiwi;
             *
             * @class Menu
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this Menu belongs to.
             * @param x {number} Its position on the x-axis.
@@ -16976,7 +17040,7 @@ var Kiwi;
             *
             * @class MenuItem
             * @extends HUDWidget
-            *
+            * @namespace Kiwi.HUD.Widget
             * @contructor
             * @param game {Game} The game that this MenuItem belongs to.
             * @param text {string} The text that is to be inside the menuitem.
@@ -17026,6 +17090,7 @@ var Kiwi;
             *
             * @class Counter
             * @extends Component
+            * @namespace Kiwi.HUD.HUDComponents
             * @constructor
             * @param owner {any} The object that this Component belongs to.
             * @param current {number} The current value.
@@ -17201,6 +17266,7 @@ var Kiwi;
             *
             * @class WidgetInput
             * @extends Component
+            * @namespace Kiwi.HUD.HUDComponents
             * @constructor
             * @param owner {any} The object that this WidgetInput belongs to.
             * @param container {HTMLElement} The HTMLElement that the events will occur on/to.
@@ -17355,6 +17421,7 @@ var Kiwi;
             *
             * @class Time
             * @extends Component
+            * @namespace Kiwi.HUD.HUDComponents
             * @constructor
             * @param owner {any} The object that this component belongs to.
             * @param [format=''] {string} The format that the time is to be displayed in. Leave blank for the default time.
@@ -17629,6 +17696,7 @@ var Kiwi;
         *
         * @class AudioManager
         * @constructor
+        * @namespace Kiwi.Sound
         * @param game {Game} The game that this audio manager belongs to.
         * @return {AudioManager}
         */
@@ -18027,6 +18095,7 @@ var Kiwi;
         *
         * @class Audio
         * @constructor
+        * @namespace Kiwi.Sound
         * @param game {Game} The game that this piece of audio belongs to.
         * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
         * @param volume {number} A number between 0 (silence) and 1 (loud).
@@ -18600,6 +18669,7 @@ var Kiwi;
         *
         * @class AudioLibrary
         * @constructor
+        * @namespace Kiwi.Sound
         * @param game {Game} The game that this audio library is a member of.
         * @return {AudioLibrary}
         */
@@ -18693,6 +18763,7 @@ var Kiwi;
         * but if you do ever modify the information held in this Animation the corresponding Sequence will not be updated.
         *
         * @class Animation
+        * @namespace Kiwi.Animations
         * @constructor
         * @param name {string} The name of this anim.
         * @param sequences {Sequences} The sequence that this anim will be using to animate.
@@ -19118,6 +19189,7 @@ var Kiwi;
         * Sequences are generally used with the AnimationManager/Animation sections as a way to initially create Animations on GameObjects that use the same TextureAtlas.
         *
         * @class Sequence
+        * @namespace Kiwi.Animations
         * @constructor
         * @param name {String} The name of this sequence. This is not unique.
         * @param cells {Number[]} The cells that are in this animation.
@@ -19155,6 +19227,7 @@ var Kiwi;
         *
         * @class Key
         * @constructor
+        * @namespace Kiwi.Input
         * @param manager {Keyboard} The keyboard manager that this key belongs to.
         * @param keycode {Number} The keycode that this key is.
         * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.
@@ -19349,6 +19422,7 @@ var Kiwi;
         *
         * @class Keyboard
         * @constructor
+        * @namespace Kiwi.Input
         * @param game {Game}
         * @return {Keyboard} This object.
         *
@@ -19588,6 +19662,7 @@ var Kiwi;
         * A Static class which has a property associated with all all of the character codes on a typical keyboard. While you don't need this class for your game to work, it is quite handy to use as it can speed up the development process.
         *
         * @class Keycodes
+        * @namespace Kiwi.Input
         * @static
         */
         var Keycodes = (function () {
@@ -19819,6 +19894,7 @@ var Kiwi;
         *
         * @class InputManager
         * @constructor
+        * @namespace Kiwi.Input
         * @param game {Game} The game that this object belongs to.
         * @return {InputManager} This object.
         *
@@ -20021,6 +20097,7 @@ var Kiwi;
         *
         * @class Mouse
         * @constructor
+        * @namespace Kiwi.Input
         * @param game {Game} The game that this mouse manager belongs to.
         * @return {Mouse}
         *
@@ -20423,6 +20500,7 @@ var Kiwi;
         *
         * @class Touch
         * @constructor
+        * @namespace Kiwi.Input
         * @param game {Game} the game that this touch manager belongs to.
         * @return {Touch} This object.
         *
@@ -20848,6 +20926,7 @@ var Kiwi;
         *
         * @class Pointer
         * @constructor
+        * @namespace Kiwi.Input
         * @param {Game} game
         * @return Pointer
         *
@@ -21162,6 +21241,7 @@ var Kiwi;
         * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
         *
         * @class MouseCursor
+        * @namespace Kiwi.Input
         * @extends Pointer
         */
         var MouseCursor = (function (_super) {
@@ -21260,6 +21340,7 @@ var Kiwi;
         *
         * @class Finger
         * @extends Pointer
+        * @namespace Kiwi.Input
         * @constructor
         * @param game {Game} The game that this finger belongs to.
         * @return Finger
@@ -21340,6 +21421,7 @@ var Kiwi;
         * @class CanvasRenderer
         * @extends IRenderer
         * @constructor
+        * @namespace Kiwi.Renderers
         * @param game {Game} The game that this canvas renderer belongs to.
         * @return {CanvasRenderer}
         *
@@ -22087,6 +22169,7 @@ var Kiwi;
         *
         * @class GLArrayBuffer
         * @constructor
+        * @namespace Kiwi.Renderers
         * @param gl {WebGLRenderingContext}
         * @param [_itemSize] {number}
         * @param [items] {number[]}
@@ -22209,6 +22292,7 @@ var Kiwi;
         *
         * @class GLElementArrayBuffer
         * @constructor
+        * @namespace Kiwi.Renderers
         * @param gl {WebGLRenderingContent}
         * @param [_itemSize] {number}
         * @param [_indices] {number[]}
@@ -22378,7 +22462,7 @@ var Kiwi;
             * @param camera {Camera}
             * @public
             */
-            Texture2DRenderer.prototype.collateVertexAttributeArrays = function (gl, entity, camera) {
+            Texture2DRenderer.prototype.addToBatch = function (gl, entity, camera) {
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();
                 var ct = camera.transform;
@@ -22547,6 +22631,7 @@ var Kiwi;
         * DOM Boot and Ready functions (based on those used by jQuery)
         *
         * @class Bootstrap
+        * @namespace Kiwi.System
         *
         */
         var Bootstrap = (function () {
@@ -22693,6 +22778,7 @@ var Kiwi;
         *
         * @class Browser
         * @constructor
+        * @namespace Kiwi.System
         * @param {Game} game
         * @return {StateMananger} This Object
         *
@@ -22757,6 +22843,7 @@ var Kiwi;
         *
         * @class Device
         * @constructor
+        * @namespace Kiwi.System
         *
         * @author mrdoob
         * @author Modernizr team
@@ -23275,6 +23362,7 @@ var Kiwi;
         * A TextureAtlas is the base class that is created for each image that is loaded in through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
         *
         * @class TextureAtlas
+        * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
         * @param type {number} The type of texture atlas that this is. There are currently only three types.
@@ -23383,6 +23471,7 @@ var Kiwi;
         * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on.
         *
         * @class TextureLibrary
+        * @namespace Kiwi.Textures
         * @constructor
         * @param game {Game} The game that this texture library belongs to.
         * @return {TextureLibrary}
@@ -23603,6 +23692,7 @@ var Kiwi;
         *
         * @class SpriteSheet
         * @extends TextureAtlas
+        * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} The name of the spritesheet.
         * @param texture {HTMLImageElement} The image that is being used for the spritesheet.
@@ -23737,6 +23827,7 @@ var Kiwi;
         *
         * @class SingleImage
         * @extends TextureAtlas
+        * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} The name of the single image
         * @param image {HTMLImageElement} the image that is being used.
@@ -23800,6 +23891,7 @@ var Kiwi;
         * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
         *
         * @class Clock
+        * @namespace Kiwi.Time
         * @constructor
         * @param manager {ClockManager} The ClockManager that this clock belongs to. .
         * @param master {MasterClock} The MasterClock that it is getting the time in relation to.
@@ -24277,6 +24369,7 @@ var Kiwi;
         * Handles the generation and tracking of Clocks and Time related applications for a single game.
         *
         * @class ClockManager
+        * @namespace Kiwi.Time
         * @constructor
         * @param {Game} game.
         * @return {ClockManager} This Object.
@@ -24399,6 +24492,7 @@ var Kiwi;
         * You should not access it directly, use the Clock and Timer classes instead.
         *
         * @class MasterClock
+        * @namespace Kiwi.Time
         * @constructor
         * @return {MasterClock} This Object.
         *
@@ -24528,6 +24622,7 @@ var Kiwi;
         * Timer objects can run once or repeat at specified intervals to execute code on a schedule.
         *
         * @class Timer
+        * @namespace Kiwi.Time
         * @constructor
         * @param name {string} The name of the timer.
         * @param clock {Clock} The game clock instance this Timer is based on.
@@ -24918,6 +25013,7 @@ var Kiwi;
         * A TimerEvent hooks into a Timer and is an object that is generated when you are wanting to executed a callback at a specific point in time.
         *
         * @class TimerEvent
+        * @namespace Kiwi.Time
         * @constructor
         * @param type {Number} The type of TimerEvent that this is.
         * @param callback {Any} The method that is to be executed when the event occurs.
@@ -24987,6 +25083,7 @@ var Kiwi;
         * Creates and the manages a Canvas DOMElement.
         *
         * @class Canvas
+        * @namespace Kiwi.Utils
         * @constructor
         * @param width {Number} The width of the canvas.
         * @param height {Number} The height of the canvas.
@@ -25241,6 +25338,7 @@ var Kiwi;
         * His work is licensed under the Apache License, Version 2.0 (the "License")
         *
         * @class Common
+        * @namespace Kiwi.Utils
         * @static
         *
         * @author Mauricio Santos
@@ -25434,6 +25532,7 @@ var Kiwi;
         * Includes some methods written by Dylan Engelman.
         *
         * @class GameMath
+        * @namespace Kiwi.Utils
         * @static
         *
         * @author Richard Davey
@@ -26601,6 +26700,7 @@ var Kiwi;
         *
         * @class RandomDataGenerator
         * @constructor
+        * @namespace Kiwi.Utils
         * @param [seeds=[]] {String[]}
         * @return {RandomDataGenerator}
         *
@@ -27038,6 +27138,7 @@ var Kiwi;
         *
         * @class RequestAnimationFrame
         * @constructor
+        * @namespace Kiwi.Utils
         * @param callback {Any}
         * @return {RequestAnimationFrame} This object.
         *
@@ -27489,6 +27590,7 @@ var Kiwi;
     * The GameManager is used to maintain mulitple instances of Kiwi games within a single document.
     *
     * @class GameManager
+    * @namespace Kiwi
     * @static
     */
     var GameManager = (function () {
