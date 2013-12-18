@@ -2059,6 +2059,7 @@ var Kiwi;
     */
     var Entity = (function () {
         function Entity(state, x, y) {
+            this.requiredRenderers = ["Texture2DRenderer"];
             /**
             * The group that this entity belongs to. If added onto the state then this is the state.
             * @property _parent
@@ -2458,6 +2459,10 @@ var Kiwi;
         * @public
         */
         Entity.prototype.render = function (camera) {
+        };
+
+        Entity.prototype.renderGL = function (gl, renderer, camera, params) {
+            if (typeof params === "undefined") { params = null; }
         };
 
         /**
@@ -9741,7 +9746,9 @@ var Kiwi;
                 }
             };
 
-            Sprite.prototype.renderGL = function (camera) {
+            Sprite.prototype.renderGL = function (gl, renderer, camera, params) {
+                if (typeof params === "undefined") { params = null; }
+                (renderer).collateVertexAttributeArrays(gl, this, camera);
             };
             return Sprite;
         })(Kiwi.Entity);
@@ -21507,6 +21514,7 @@ var Kiwi;
             GLRenderer.prototype._recurse = function (gl, child, camera) {
                 if (!child.willRender)
                     return;
+                var renderer = this._currentRenderer;
 
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < (child).members.length; i++) {
@@ -21514,7 +21522,6 @@ var Kiwi;
                     }
                 } else {
                     if ((child).atlas !== this._currentTextureAtlas) {
-                        var renderer = this._currentRenderer;
                         renderer.draw(gl, { entityCount: this._entityCount });
                         this.numDrawCalls++;
                         this._entityCount = 0;
@@ -21524,43 +21531,12 @@ var Kiwi;
                             return;
                         this._currentTextureAtlas = (child).atlas;
                     }
-                    this._collateVertexAttributeArrays(gl, child, camera);
 
-                    //  this._compileUVs(gl, <Entity>child);
+                    //"render"
+                    //renderer.collateVertexAttributeArrays(gl, <Entity>child, camera);
+                    (child).renderGL(gl, renderer, camera);
                     this._entityCount++;
                 }
-            };
-
-            /**
-            * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
-            * @method _collateVertexAttributeArrays
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
-            * @param camera {Camera}
-            * @private
-            */
-            GLRenderer.prototype._collateVertexAttributeArrays = function (gl, entity, camera) {
-                var t = entity.transform;
-                var m = t.getConcatenatedMatrix();
-                var ct = camera.transform;
-                var cm = ct.getConcatenatedMatrix();
-
-                var cell = entity.atlas.cells[entity.cellIndex];
-
-                var pt1 = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
-                var pt2 = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
-                var pt3 = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
-                var pt4 = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
-
-                pt1 = m.transformPoint(pt1);
-                pt2 = m.transformPoint(pt2);
-                pt3 = m.transformPoint(pt3);
-                pt4 = m.transformPoint(pt4);
-
-                var renderer = this._currentRenderer;
-
-                renderer.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
-                renderer.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
             return GLRenderer;
         })();
@@ -22278,6 +22254,36 @@ var Kiwi;
             Texture2DRenderer.prototype.updateStageResolution = function (gl, res) {
                 this.stageResolution = res;
                 this.shaderPair.uResolution(gl, res);
+            };
+
+            /**
+            * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
+            * @method _collateVertexAttributeArrays
+            * @param gl {WebGLRenderingContext}
+            * @param entity {Entity}
+            * @param camera {Camera}
+            * @public
+            */
+            Texture2DRenderer.prototype.collateVertexAttributeArrays = function (gl, entity, camera) {
+                var t = entity.transform;
+                var m = t.getConcatenatedMatrix();
+                var ct = camera.transform;
+                var cm = ct.getConcatenatedMatrix();
+
+                var cell = entity.atlas.cells[entity.cellIndex];
+
+                var pt1 = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
+                var pt2 = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
+                var pt3 = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
+                var pt4 = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
+
+                pt1 = m.transformPoint(pt1);
+                pt2 = m.transformPoint(pt2);
+                pt3 = m.transformPoint(pt3);
+                pt4 = m.transformPoint(pt4);
+
+                this.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
+                this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
             return Texture2DRenderer;
         })(Renderers.Renderer);

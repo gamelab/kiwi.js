@@ -268,7 +268,7 @@ module Kiwi.Renderers {
         */
         private _recurse(gl: WebGLRenderingContext, child: IChild, camera: Kiwi.Camera) {
             if (!child.willRender) return;
-
+            var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
 
             if (child.childType() === Kiwi.GROUP) {
                 for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
@@ -276,9 +276,9 @@ module Kiwi.Renderers {
                 }
             } else {
                 
-                
+                //draw and switch to different texture if need be
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
-                    var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
+                   
                     renderer.draw(gl, { entityCount: this._entityCount });
                     this.numDrawCalls++;
                     this._entityCount = 0;
@@ -289,8 +289,10 @@ module Kiwi.Renderers {
                         return;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
-                this._collateVertexAttributeArrays(gl, <Entity>child,camera);
-              //  this._compileUVs(gl, <Entity>child);
+                
+                //"render"
+                //renderer.collateVertexAttributeArrays(gl, <Entity>child, camera);
+                (<Kiwi.Entity>child).renderGL(gl, renderer, camera);
                 this._entityCount++;
                 
             }
@@ -299,43 +301,7 @@ module Kiwi.Renderers {
         
       
 
-        /**
-        * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
-        * @method _collateVertexAttributeArrays
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Entity}
-        * @param camera {Camera}
-        * @private
-        */
-        private _collateVertexAttributeArrays(gl: WebGLRenderingContext, entity: Entity,camera:Kiwi.Camera) {
-            var t: Kiwi.Geom.Transform = entity.transform;
-            var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-            var ct: Kiwi.Geom.Transform = camera.transform;
-            var cm: Kiwi.Geom.Matrix = ct.getConcatenatedMatrix();
-
-            var cell = entity.atlas.cells[entity.cellIndex];
-            
-            var pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
-            var pt2: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
-            var pt3: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
-            var pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY) ;
-
-            pt1 = m.transformPoint(pt1);
-            pt2 = m.transformPoint(pt2);
-            pt3 = m.transformPoint(pt3);
-            pt4 = m.transformPoint(pt4);
-            
-            var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
-
-            renderer.xyuvBuffer.items.push(
-                pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,
-                pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,
-                pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h,
-                pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h
-                );
-            renderer.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
-
-        }
+     
 
        
        

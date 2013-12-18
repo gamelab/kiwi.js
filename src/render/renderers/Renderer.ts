@@ -16,6 +16,7 @@ module Kiwi.Renderers {
            
         }
 
+       
         /**
         * GL-Matrix.js provided 4x4 matrix used for matrix uniform
         * @property mvMatrix

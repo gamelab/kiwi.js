@@ -156,10 +156,9 @@ module Kiwi.GameObjects {
         
         }
 
-        public renderGL(camera: Kiwi.Camera) {
-
+        public renderGL(gl: WebGLRenderingContext, renderer:Kiwi.Renderers.Renderer,camera: Kiwi.Camera, params: any = null) {
+            (<Kiwi.Renderers.Texture2DRenderer>renderer).addToBatch(gl, this, camera);
         }
-
 
     }
 
