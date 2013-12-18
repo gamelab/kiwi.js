@@ -9,11 +9,11 @@
 module Kiwi.Renderers {
 
 
-    export class Texture2DRenderer {
+    export class Texture2DRenderer extends Renderer implements IRenderer {
 
 
         constructor() {
-
+            super();
         }
 
         public init(gl:WebGLRenderingContext) {
@@ -26,15 +26,15 @@ module Kiwi.Renderers {
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
             
             //use shaders
-            this.texture2DShaderPair = new Texture2DShader();
-            this.texture2DShaderPair.init(gl);
-            this.texture2DShaderPair.use(gl);
-            this.texture2DShaderPair.aXYUV(gl, this.xyuvBuffer);
-            this.texture2DShaderPair.aAlpha(gl, this.alphaBuffer);
+            this.shaderPair = new Texture2DShader();
+            this.shaderPair.init(gl);
+            this.shaderPair.use(gl);
+            this.shaderPair.aXYUV(gl, this.xyuvBuffer);
+            this.shaderPair.aAlpha(gl, this.alphaBuffer);
 
             //Texture
             gl.activeTexture(gl.TEXTURE0);
-            this.texture2DShaderPair.uSampler(gl, 0);
+            this.shaderPair.uSampler(gl, 0);
         }
 
 
@@ -42,15 +42,15 @@ module Kiwi.Renderers {
         public clear(gl: WebGLRenderingContext,params:any) {
             this.xyuvBuffer.clear();
             this.alphaBuffer.clear();
-            this.texture2DShaderPair.uMVMatrix(gl, params.mvMatrix);
-            this.texture2DShaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
+            this.shaderPair.uMVMatrix(gl, params.mvMatrix);
+            this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
         
         }
 
         public draw(gl: WebGLRenderingContext, params: any) {
             this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
             this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
-            this.texture2DShaderPair.draw(gl, params.entityCount * 6);
+            this.shaderPair.draw(gl, params.entityCount * 6);
         }
 
         /**
@@ -62,13 +62,7 @@ module Kiwi.Renderers {
        */
         private _maxItems: number = 2000;
 
-        /**
-       * Shader pair for standard 2d sprite rendering
-       * @property _texture2DShaderPair
-       * @type GLShaders
-       * @private
-       */
-        public texture2DShaderPair: Texture2DShader;
+       
 
         /**
        * Storage for the xy (position) and uv(texture) coordinates that are generated each frame

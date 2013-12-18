@@ -3,7 +3,7 @@
 * which outlines the methods/properties that are required any Renderer. 
 * @class IRenderer
 */
-interface IRenderer {
+interface IRenderManager {
     render(camera: Kiwi.Camera);
     boot();
     initState(state: Kiwi.State);
@@ -29,7 +29,7 @@ module Kiwi.Renderers {
     * @return {CanvasRenderer}
     *
     */
-    export class CanvasRenderer implements IRenderer {
+    export class CanvasRenderer implements IRenderManager {
          
         constructor(game: Kiwi.Game) {
             this._game = game;

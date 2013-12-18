@@ -1,25 +1,59 @@
-// Interface
-interface IPoint {
-    getDist(): number;
+interface IRenderer {
+    init(gl: WebGLRenderingContext);
+    clear(gl: WebGLRenderingContext, params: any);
+    draw(gl: WebGLRenderingContext, params: any)
 }
 
-// Module
-module Shapes {
 
-    // Class
-    export class Point implements IPoint {
-        // Constructor
-        constructor (public x: number, public y: number) { }
+module Kiwi.Renderers {
 
-        // Instance member
-        getDist() { return Math.sqrt(this.x * this.x + this.y * this.y); }
 
-        // Static member
-        static origin = new Point(0, 0);
+    export class Renderer implements IRenderer {
+
+
+        constructor() {
+
+        }
+
+        /**
+        * GL-Matrix.js provided 4x4 matrix used for matrix uniform
+        * @property mvMatrix
+        * @type Float32Array
+        * @public
+        */
+        public mvMatrix: Float32Array;
+
+
+        /**
+        * The stage resolution in pixels
+        * @property _stageResolution
+        * @type Float32Array
+        * @public
+        */
+        public stageResolution: Float32Array;
+
+        /**
+      * Shader pair for standard 2d sprite rendering
+      * @property _texture2DShaderPair
+      * @type GLShaders
+      * @private
+      */
+        public shaderPair: Texture2DShader;
+
+        public cameraOffset: Float32Array;
+
+        public init(gl: WebGLRenderingContext) {
+
+        }
+
+        public clear(gl: WebGLRenderingContext, params: any) {
+
+        }
+
+        public draw(gl: WebGLRenderingContext, params: any) {
+
+        }
+
     }
 
 }
-
-// Local variables
-var p: IPoint = new Shapes.Point(3, 4);
-var dist = p.getDist();

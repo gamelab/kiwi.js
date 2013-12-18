@@ -213,10 +213,10 @@ module Kiwi {
         /**
         * Holds the renderer that is being used. This is detiremended based of the _renderMode
         * @property renderer
-        * @type IRenderer
+        * @type IRenderManager
         * @public
         */
-        public renderer: IRenderer;
+        public renderer: IRenderManager;
 
         /**
         * Holds the hud manager.

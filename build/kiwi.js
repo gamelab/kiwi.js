@@ -1,28 +1,4 @@
-﻿// Module
-var Shapes;
-(function (Shapes) {
-    // Class
-    var Point = (function () {
-        // Constructor
-        function Point(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-        // Instance member
-        Point.prototype.getDist = function () {
-            return Math.sqrt(this.x * this.x + this.y * this.y);
-        };
-
-        Point.origin = new Point(0, 0);
-        return Point;
-    })();
-    Shapes.Point = Point;
-})(Shapes || (Shapes = {}));
-
-// Local variables
-var p = new Shapes.Point(3, 4);
-var dist = p.getDist();
-var Kiwi;
+﻿var Kiwi;
 (function (Kiwi) {
     (function (Animations) {
         (function (Tweens) {
@@ -21417,7 +21393,7 @@ var Kiwi;
 
                 var gl = this._game.stage.gl;
 
-                this._texture2DRenderer = new Renderers.Texture2DRenderer();
+                this._currentRenderer = new Renderers.Texture2DRenderer();
 
                 //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -21430,13 +21406,14 @@ var Kiwi;
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
 
-                this._texture2DRenderer.init(gl);
+                this._currentRenderer.init(gl);
 
                 //stage res needs update on stage resize
-                this._texture2DRenderer.texture2DShaderPair.uResolution(gl, this._stageResolution);
+                this._currentRenderer.shaderPair.uResolution(gl, this._stageResolution);
+
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
-                    this._texture2DRenderer.texture2DShaderPair.uResolution(gl, this._stageResolution);
+                    this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
                     gl.viewport(0, 0, width, height);
                 }, this);
             };
@@ -21506,13 +21483,14 @@ var Kiwi;
                     1
                 ]);
                 this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
-                this._texture2DRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i], camera);
                 }
 
-                this._draw(gl);
+                //draw anything left over
+                this._currentRenderer.draw(gl, { entityCount: this._entityCount });
             };
 
             /**
@@ -21533,15 +21511,12 @@ var Kiwi;
                     }
                 } else {
                     if ((child).atlas !== this._currentTextureAtlas) {
-                        //this._uploadBuffers(gl);
-                        this._texture2DRenderer.draw(gl, { entityCount: this._entityCount });
+                        this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+                        this.numDrawCalls++;
                         this._entityCount = 0;
-                        this._texture2DRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+                        this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
-                        this._draw(gl);
-                        this._texture2DRenderer.xyuvBuffer.clear();
-                        this._texture2DRenderer.alphaBuffer.clear();
-                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._texture2DRenderer.texture2DShaderPair.uniforms.uTextureSize))
+                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize))
                             return;
                         this._currentTextureAtlas = (child).atlas;
                     }
@@ -21578,38 +21553,10 @@ var Kiwi;
                 pt3 = m.transformPoint(pt3);
                 pt4 = m.transformPoint(pt4);
 
-                this._texture2DRenderer.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
-                this._texture2DRenderer.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
-            };
+                var renderer = this._currentRenderer;
 
-            /**
-            * Draw buffers
-            * @method _draw
-            * @param gl {WebGLRenderingContext}
-            * @private
-            */
-            GLRenderer.prototype._draw = function (gl) {
-                this.numDrawCalls++;
-
-                // gl.drawElements(gl.TRIANGLES, , gl.UNSIGNED_SHORT, 0);
-                this._texture2DRenderer.xyuvBuffer.uploadBuffer(gl, this._texture2DRenderer.xyuvBuffer.items);
-                this._texture2DRenderer.alphaBuffer.uploadBuffer(gl, this._texture2DRenderer.alphaBuffer.items);
-                this._texture2DRenderer.texture2DShaderPair.draw(gl, this._entityCount * 6);
-            };
-
-            /**
-            * Create prebaked indices for drawing quads
-            * @method _generateIndices
-            * @param numQuads {number}
-            * @return number[]
-            * @private
-            */
-            GLRenderer.prototype._generateIndices = function (numQuads) {
-                var quads = new Array();
-                for (var i = 0; i < numQuads; i++) {
-                    quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
-                }
-                return quads;
+                renderer.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
+                renderer.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
             return GLRenderer;
         })();
@@ -22240,6 +22187,26 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Renderers) {
+        var Renderer = (function () {
+            function Renderer() {
+            }
+            Renderer.prototype.init = function (gl) {
+            };
+
+            Renderer.prototype.clear = function (gl, params) {
+            };
+
+            Renderer.prototype.draw = function (gl, params) {
+            };
+            return Renderer;
+        })();
+        Renderers.Renderer = Renderer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     /**
     *
     * @module Kiwi
@@ -22247,8 +22214,10 @@ var Kiwi;
     *
     */
     (function (Renderers) {
-        var Texture2DRenderer = (function () {
+        var Texture2DRenderer = (function (_super) {
+            __extends(Texture2DRenderer, _super);
             function Texture2DRenderer() {
+                _super.call(this);
                 /**
                 * Maximum allowable sprites to render per frame
                 * @property _maxItems
@@ -22268,28 +22237,28 @@ var Kiwi;
                 this.indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.texture2DShaderPair = new Renderers.Texture2DShader();
-                this.texture2DShaderPair.init(gl);
-                this.texture2DShaderPair.use(gl);
-                this.texture2DShaderPair.aXYUV(gl, this.xyuvBuffer);
-                this.texture2DShaderPair.aAlpha(gl, this.alphaBuffer);
+                this.shaderPair = new Renderers.Texture2DShader();
+                this.shaderPair.init(gl);
+                this.shaderPair.use(gl);
+                this.shaderPair.aXYUV(gl, this.xyuvBuffer);
+                this.shaderPair.aAlpha(gl, this.alphaBuffer);
 
                 //Texture
                 gl.activeTexture(gl.TEXTURE0);
-                this.texture2DShaderPair.uSampler(gl, 0);
+                this.shaderPair.uSampler(gl, 0);
             };
 
             Texture2DRenderer.prototype.clear = function (gl, params) {
                 this.xyuvBuffer.clear();
                 this.alphaBuffer.clear();
-                this.texture2DShaderPair.uMVMatrix(gl, params.mvMatrix);
-                this.texture2DShaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
+                this.shaderPair.uMVMatrix(gl, params.mvMatrix);
+                this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
             };
 
             Texture2DRenderer.prototype.draw = function (gl, params) {
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
-                this.texture2DShaderPair.draw(gl, params.entityCount * 6);
+                this.shaderPair.draw(gl, params.entityCount * 6);
             };
 
             /**
@@ -22307,7 +22276,7 @@ var Kiwi;
                 return quads;
             };
             return Texture2DRenderer;
-        })();
+        })(Renderers.Renderer);
         Renderers.Texture2DRenderer = Texture2DRenderer;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
@@ -27221,6 +27190,7 @@ var Kiwi;
 /// <reference path="render/GLTextureManager.ts" />
 /// <reference path="render/GLArrayBuffer.ts" />
 /// <reference path="render/GLElementArrayBuffer.ts" />
+/// <reference path="render/renderers/Renderer.ts" />
 /// <reference path="render/renderers/Texture2DRenderer.ts" />
 /// <reference path="render/shaders/Texture2DShader.ts" />
 /// <reference path="system/Bootstrap.ts" />

@@ -44,10 +44,7 @@
     <Content Include="render\GLShaderPair.ts" />
     <Content Include="render\GLTextureWrapper.ts" />
     <Content Include="render\GLTextureManager.ts" />
-    <TypeScriptCompile Include="render\renderers\Renderer.ts" />
-    <Content Include="render\renderers\Renderer.js">
-      <DependentUpon>Renderer.ts</DependentUpon>
-    </Content>
+    <Content Include="render\renderers\Renderer.ts" />
     <Content Include="render\renderers\Texture2DRenderer.ts" />
     <Content Include="render\shaders\Texture2DShader.ts" />
     <Content Include="WebGL.d.ts" />

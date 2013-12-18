@@ -21,7 +21,7 @@ module Kiwi.Renderers {
     * @param game {Game} The game that this renderer belongs to.
     * @return {GLRenderer}
     */
-    export class GLRenderer implements IRenderer {
+    export class GLRenderer implements IRenderManager {
 
        
         constructor(game: Kiwi.Game) {
@@ -85,7 +85,7 @@ module Kiwi.Renderers {
         */
         private _stageResolution: Float32Array;
 
-        private _texture2DRenderer: Texture2DRenderer;
+        private _currentRenderer: Renderer;
         
         private _cameraOffset: Float32Array;
      
@@ -147,7 +147,7 @@ module Kiwi.Renderers {
 
             var gl: WebGLRenderingContext = this._game.stage.gl;
             
-            this._texture2DRenderer = new Texture2DRenderer;
+            this._currentRenderer = new Texture2DRenderer;
 
             //init stage and viewport
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -162,14 +162,16 @@ module Kiwi.Renderers {
             this.mvMatrix = mat4.create();
             mat2d.identity(this.mvMatrix);
 
-            this._texture2DRenderer.init(gl);
+            this._currentRenderer.init(gl);
        
             //stage res needs update on stage resize
             
-            this._texture2DRenderer.texture2DShaderPair.uResolution(gl,this._stageResolution);
+            this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
+            
+            
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
-                this._texture2DRenderer.texture2DShaderPair.uResolution(gl, this._stageResolution);
+                this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
                 gl.viewport(0, 0, width,height);
             },this);
 
@@ -236,7 +238,7 @@ module Kiwi.Renderers {
                     ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
                 ]);
                 this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
-                this._texture2DRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:  this._cameraOffset});
+                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:  this._cameraOffset});
                
                 
                 //iterate
@@ -244,9 +246,9 @@ module Kiwi.Renderers {
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i], camera);
                 }
-                
+            
                 //draw anything left over
-                this._draw(gl);
+                this._currentRenderer.draw(gl, { entityCount: this._entityCount });
 
            
         }
@@ -270,13 +272,13 @@ module Kiwi.Renderers {
                 
               
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
-                    this._texture2DRenderer.draw(gl, { entityCount: this._entityCount });
+                    this._currentRenderer.draw(gl, { entityCount: this._entityCount });
                     this.numDrawCalls++;
                     this._entityCount = 0;
-                    this._texture2DRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
+                    this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
 
                    
-                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._texture2DRenderer.texture2DShaderPair.uniforms.uTextureSize))
+                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize))
                         return;
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
@@ -315,14 +317,16 @@ module Kiwi.Renderers {
             pt2 = m.transformPoint(pt2);
             pt3 = m.transformPoint(pt3);
             pt4 = m.transformPoint(pt4);
+            
+            var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
 
-            this._texture2DRenderer.xyuvBuffer.items.push(
+            renderer.xyuvBuffer.items.push(
                 pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,
                 pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,
                 pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h,
                 pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h
                 );
-            this._texture2DRenderer.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+            renderer.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
 
         }
 
