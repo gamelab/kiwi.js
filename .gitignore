@@ -38,3 +38,4 @@ _ReSharper*/
 !/build/*.js
 !/examples/*/.js
 /node_modules
+/GLTests
