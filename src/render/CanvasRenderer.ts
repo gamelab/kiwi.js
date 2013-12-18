@@ -3,9 +3,12 @@
 * which outlines the methods/properties that are required any Renderer. 
 * @class IRenderer
 */
-interface IRenderer {
+interface IRenderManager {
     render(camera: Kiwi.Camera);
     boot();
+    initState(state: Kiwi.State);
+    endState(state: Kiwi.State);
+    numDrawCalls: number;
 }
 
 /**
@@ -27,7 +30,7 @@ module Kiwi.Renderers {
     * @return {CanvasRenderer}
     *
     */
-    export class CanvasRenderer implements IRenderer {
+    export class CanvasRenderer implements IRenderManager {
          
         constructor(game: Kiwi.Game) {
             this._game = game;
@@ -76,7 +79,7 @@ module Kiwi.Renderers {
         * @param child {IChild} The child that is being checked.
         * @private
         */
-        private _recurse(child: IChild) {
+        public _recurse(child: IChild) {
 
             if (!child.willRender) return;
 
@@ -85,13 +88,23 @@ module Kiwi.Renderers {
                     this._recurse((<Kiwi.Group>child).members[i]);
                 }
             } else {
-                
+                this.numDrawCalls++;
                 child.render(this._currentCamera);
 
             }
 
         }
         
+        public initState(state:Kiwi.State) {
+
+        }
+
+        public endState(state: Kiwi.State) {
+
+        }
+
+        public numDrawCalls: number = 0;
+
         /**
         * Renders all of the Elements that are on a particular camera.
         * @method render
@@ -99,7 +112,7 @@ module Kiwi.Renderers {
         * @public
         */
         public render(camera: Kiwi.Camera) {
-
+            this.numDrawCalls = 0;    
             this._currentCamera = camera;
             var root: IChild[] = this._game.states.current.members;
             

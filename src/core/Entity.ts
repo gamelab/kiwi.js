@@ -38,7 +38,13 @@ module Kiwi {
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
             this.transform.y = y; 
+
+            
         }
+
+        public requiredRenderers: string[] = ["Texture2DRenderer"];
+        public renderer: Kiwi.Renderers.Renderer;
+
 
         /**
         * Represents the position, scale, rotation and registration of this Entity.
@@ -458,7 +464,12 @@ module Kiwi {
         * @public
         */
         public render(camera:Kiwi.Camera) {
-            
+        
+        }
+
+        
+        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params: any = null) {
+        
         }
 
         /**

@@ -408,6 +408,9 @@ module Kiwi {
                 console.log("Rebuilding Libraries");
             }
             this.rebuildLibraries();
+            if (this._game.renderOption = Kiwi.RENDERER_WEBGL) {
+                this._game.renderer.initState(this.current);
+            }
             
             this.current.config.isReady = true;
 

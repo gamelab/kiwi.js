@@ -336,13 +336,13 @@ module Kiwi {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = 1000;//parseInt(this.container.style.width);
-                this._height = 1000;//parseInt(this.container.style.height);
+                this._width = this.container.clientWidth;
+                this._height =this.container.clientHeight;
             }
             
             this._createCompositeCanvas();
             if (this._game.debugOption === DEBUG_ON) {
-                this._createDebugCanvas();
+                //this._createDebugCanvas();
             }
         }
 

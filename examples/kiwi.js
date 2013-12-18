@@ -2059,6 +2059,7 @@ var Kiwi;
     */
     var Entity = (function () {
         function Entity(state, x, y) {
+            this.requiredRenderers = ["Texture2DRenderer"];
             /**
             * The group that this entity belongs to. If added onto the state then this is the state.
             * @property _parent
@@ -2458,6 +2459,10 @@ var Kiwi;
         * @public
         */
         Entity.prototype.render = function (camera) {
+        };
+
+        Entity.prototype.renderGL = function (gl, renderer, camera, params) {
+            if (typeof params === "undefined") { params = null; }
         };
 
         /**
@@ -2904,6 +2909,7 @@ var Kiwi;
                 if (this._deviceTargetOption !== Kiwi.TARGET_COCOON)
                     this.huds.update();
                 this.states.update();
+                this.pluginManager.update();
 
                 if (this.states.current !== null) {
                     this.cameras.render();
@@ -4030,6 +4036,14 @@ var Kiwi;
                 }
             }
         };
+
+        PluginManager.prototype.update = function () {
+            for (var i = 0; i < this._bootObjects.length; i++) {
+                if ("update" in this._bootObjects[i]) {
+                    this._bootObjects[i].update.call(this._bootObjects[i]);
+                }
+            }
+        };
         PluginManager._availablePlugins = new Array();
         return PluginManager;
     })();
@@ -5106,13 +5120,12 @@ var Kiwi;
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = 1000;
-                this._height = 1000;
+                this._width = this.container.clientWidth;
+                this._height = this.container.clientHeight;
             }
 
             this._createCompositeCanvas();
             if (this._game.debugOption === Kiwi.DEBUG_ON) {
-                this._createDebugCanvas();
             }
         };
 
@@ -9655,6 +9668,9 @@ var Kiwi;
                 console.log("Rebuilding Libraries");
             }
             this.rebuildLibraries();
+            if (this._game.renderOption = Kiwi.RENDERER_WEBGL) {
+                this._game.renderer.initState(this.current);
+            }
 
             this.current.config.isReady = true;
 
@@ -9836,6 +9852,11 @@ var Kiwi;
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                     ctx.restore();
                 }
+            };
+
+            Sprite.prototype.renderGL = function (gl, renderer, camera, params) {
+                if (typeof params === "undefined") { params = null; }
+                (renderer).collateVertexAttributeArrays(gl, this, camera);
             };
             return Sprite;
         })(Kiwi.Entity);
@@ -21325,6 +21346,7 @@ var Kiwi;
         */
         var CanvasRenderer = (function () {
             function CanvasRenderer(game) {
+                this.numDrawCalls = 0;
                 this._game = game;
             }
             /**
@@ -21362,8 +21384,15 @@ var Kiwi;
                         this._recurse((child).members[i]);
                     }
                 } else {
+                    this.numDrawCalls++;
                     child.render(this._currentCamera);
                 }
+            };
+
+            CanvasRenderer.prototype.initState = function (state) {
+            };
+
+            CanvasRenderer.prototype.endState = function (state) {
             };
 
             /**
@@ -21373,6 +21402,7 @@ var Kiwi;
             * @public
             */
             CanvasRenderer.prototype.render = function (camera) {
+                this.numDrawCalls = 0;
                 this._currentCamera = camera;
                 var root = this._game.states.current.members;
 
@@ -21409,7 +21439,7 @@ var Kiwi;
     */
     (function (Renderers) {
         /**
-        *
+        * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
         * @class GLRenderer
         * @extends IRenderer
         * @constructor
@@ -21419,7 +21449,7 @@ var Kiwi;
         var GLRenderer = (function () {
             function GLRenderer(game) {
                 /**
-                *
+                * Tally of number of entities rendered per frame
                 * @property _entityCount
                 * @type number
                 * @default 0
@@ -21427,45 +21457,41 @@ var Kiwi;
                 */
                 this._entityCount = 0;
                 /**
-                *
+                * Tally of number ofdraw calls per frame
+                * @property numDrawCalls
+                * @type number
+                * @default 0
+                * @public
+                */
+                this.numDrawCalls = 0;
+                /**
+                * Maximum allowable sprites to render per frame
                 * @property _maxItems
                 * @type number
                 * @default 1000
                 * @private
                 */
-                this._maxItems = 1000;
+                this._maxItems = 2000;
                 /**
-                *
-                * @property _texApplied
-                * @type boolean
-                * @default false
-                * @private
-                */
-                this._texApplied = false;
-                /**
-                *
-                * @property _firstPass
-                * @type boolean
-                * @default true
-                * @private
-                */
-                this._firstPass = true;
-                /**
-                *
+                * The most recently bound texture atlas used for sprite rendering
                 * @property _currentTextureAtlas
                 * @type TextureAtlas
                 * @private
                 */
                 this._currentTextureAtlas = null;
                 this._game = game;
+                if (typeof mat4 === "undefined") {
+                    throw "ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix";
+                }
             }
             /**
-            *
+            * Initialises all WebGL rendering services
             * @method boot
             * @public
             */
             GLRenderer.prototype.boot = function () {
-                this._initState();
+                this._init();
+                this._textureManager = new Renderers.GLTextureManager();
             };
 
             /**
@@ -21478,94 +21504,89 @@ var Kiwi;
                 return "GLRenderer";
             };
 
-            /*
-            public mvPush() {
-            var copy = mat4.create();
-            mat4.set(this.mvMatrix, copy);
-            this.mvMatrixStack.push(copy);
-            }
-            
-            public mvPop() {
-            if (this.mvMatrixStack.length == 0) {
-            throw "Invalid popMatrix!";
-            }
-            this.mvMatrix = this.mvMatrixStack.pop();
-            } */
             /**
-            *
-            * @method _initState
+            * Performs initialisation required for single game instance - happens once
+            * @method _init
             * @private
             */
-            GLRenderer.prototype._initState = function () {
+            GLRenderer.prototype._init = function () {
+                console.log("Intialising WebGL");
+
                 var gl = this._game.stage.gl;
+
+                this._currentRenderer = new Renderers.Texture2DRenderer();
+
+                //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+                gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
 
-                this._game.stage.onResize.add(function () {
-                    this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-                }, this);
-
-                this._shaders = new Renderers.GLShaders(gl);
+                //set default state
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
 
-                //create buffers
-                //dynamic
-                this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
-                this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
+                var renderer = this._currentRenderer;
+                renderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
-                //static
-                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems));
-                this._colorBuffer = new Renderers.GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
+                //stage res needs update on stage resize
+                // this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
+                this._game.stage.onResize.add(function (width, height) {
+                    this._stageResolution = new Float32Array([width, height]);
+                    renderer.updateStageResolution(gl, this._stageResolution);
 
-                //use shaders
-                this._shaders.use(gl, this._shaders.shaderProgram);
-
-                var prog = this._shaders.texture2DProg;
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                //Static Uniforms
-                gl.uniform1i(prog.samplerUniform, 0);
-
-                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                    //   this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
+                    gl.viewport(0, 0, width, height);
+                }, this);
             };
 
             /**
-            *
+            * Performs initialisation required when switching to a different state
+            * @method initState
+            * @public
+            */
+            GLRenderer.prototype.initState = function (state) {
+                console.log("initialising WebGL on State");
+                this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
+            };
+
+            /**
+            * Performs cleanup required before switching to a different state
+            * @method initState
+            * @param state {Kiwi.State}
+            * @public
+            */
+            GLRenderer.prototype.endState = function (state) {
+                this._textureManager.clearTextures(this._game.stage.gl);
+                console.log("ending WebGL on State");
+            };
+
+            /**
+            * Manages rendering of the scene graph - performs per frame setup
             * @method render
             * @param camera {Camera}
             * @public
             */
             GLRenderer.prototype.render = function (camera) {
+                this.numDrawCalls = 0;
                 this._currentCamera = camera;
                 var root = this._game.states.current.members;
                 var gl = this._game.stage.gl;
 
+                this._textureManager.numTextureWrites = 0;
+
                 this._entityCount = 0;
-                this._vertBuffer.clear();
-                this._uvBuffer.clear();
 
                 //clear
                 var col = this._game.stage.normalizedColor;
                 gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
-                var prog = this._shaders.texture2DProg;
-
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
+
                 this.mvMatrix = new Float32Array([
                     cm.a,
                     cm.b,
@@ -21579,26 +21600,25 @@ var Kiwi;
                     0,
                     1,
                     0,
-                    cm.tx + ct.rotPointX,
-                    cm.ty + ct.rotPointY,
+                    ct.rotPointX - cm.tx,
+                    ct.rotPointY - cm.ty,
                     0,
                     1
                 ]);
-
-                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
-                gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
+                this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
+                var renderer = this._currentRenderer;
+                renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i], camera);
                 }
 
-                this._flush(gl);
-
-                this._firstPass = false;
+                //draw anything left over
+                renderer.draw(gl, { entityCount: this._entityCount });
             };
 
             /**
-            *
+            * Recursively renders scene graph tree
             * @method _recurse
             * @param gl {WebGLRenderingContext}
             * @param child {IChild}
@@ -21608,160 +21628,29 @@ var Kiwi;
             GLRenderer.prototype._recurse = function (gl, child, camera) {
                 if (!child.willRender)
                     return;
+                var renderer = this._currentRenderer;
 
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < (child).members.length; i++) {
                         this._recurse(gl, (child).members[i], camera);
                     }
                 } else {
-                    if (!this._texApplied) {
-                        this._applyTexture(gl, (child).atlas.image);
-                        this._texApplied = true;
+                    if ((child).atlas !== this._currentTextureAtlas) {
+                        renderer.draw(gl, { entityCount: this._entityCount });
+                        this.numDrawCalls++;
+                        this._entityCount = 0;
+                        renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+
+                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize))
+                            return;
                         this._currentTextureAtlas = (child).atlas;
                     }
 
-                    if ((child).atlas !== this._currentTextureAtlas) {
-                        this._flush(gl);
-                        this._entityCount = 0;
-                        this._vertBuffer.clear();
-                        this._uvBuffer.clear();
-                        this._changeTexture(gl, (child).atlas.image);
-                        this._currentTextureAtlas = (child).atlas;
-                    }
-                    this._compileVertices(gl, child, camera);
-                    this._compileUVs(gl, child);
+                    //"render"
+                    //renderer.collateVertexAttributeArrays(gl, <Entity>child, camera);
+                    (child).renderGL(gl, renderer, camera);
                     this._entityCount++;
                 }
-            };
-
-            /**
-            *
-            * @method _flush
-            * @param gl {WebGLRenderingContext}
-            * @private
-            */
-            GLRenderer.prototype._flush = function (gl) {
-                this._vertBuffer.refresh(gl, this._vertBuffer.items);
-                this._uvBuffer.refresh(gl, this._uvBuffer.items);
-                this._draw(gl);
-            };
-
-            /**
-            *
-            * @method _compileVertices
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
-            * @param camera {Camera}
-            * @private
-            */
-            GLRenderer.prototype._compileVertices = function (gl, entity, camera) {
-                var t = entity.transform;
-                var m = t.getConcatenatedMatrix();
-                var ct = camera.transform;
-                var cm = ct.getConcatenatedMatrix();
-
-                var cell = entity.atlas.cells[entity.cellIndex];
-
-                var pt1 = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
-                var pt2 = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
-                var pt3 = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
-                var pt4 = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
-
-                pt1 = m.transformPoint(pt1);
-                pt2 = m.transformPoint(pt2);
-                pt3 = m.transformPoint(pt3);
-                pt4 = m.transformPoint(pt4);
-
-                /*this._vertBuffer.items.push(t.x, t.y,
-                t.x + cell.w, t.y,
-                t.x + cell.w, t.y + cell.h,
-                t.x, t.y + cell.h);
-                */
-                this._vertBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, pt2.x + t.rotPointX, pt2.y + t.rotPointY, pt3.x + t.rotPointX, pt3.y + t.rotPointY, pt4.x + t.rotPointX, pt4.y + t.rotPointY);
-            };
-
-            /**
-            *
-            * @method _compileUVs
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
-            * @private
-            */
-            GLRenderer.prototype._compileUVs = function (gl, entity) {
-                var t = entity.transform;
-                var c = entity.atlas.cells[entity.cellIndex];
-
-                this._uvBuffer.items.push(c.x, c.y, c.x + c.w, c.y, c.x + c.w, c.y + c.h, c.x, c.y + c.h);
-            };
-
-            /**
-            *
-            * @method _applyTexture
-            * @param gl {WebGLRenderingContext}
-            * @param image {HTMLImageElement}
-            * @private
-            */
-            GLRenderer.prototype._applyTexture = function (gl, image) {
-                this._texture = new Renderers.GLTexture(gl, image);
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-                var prog = this._shaders.texture2DProg;
-                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
-            };
-
-            /**
-            *
-            * @method _changeTexture
-            * @param gl {WebGLRenderingContext}
-            * @param image {HTMLImageElement}
-            * @private
-            */
-            GLRenderer.prototype._changeTexture = function (gl, image) {
-                this._texture.refresh(gl, image);
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-                var prog = this._shaders.texture2DProg;
-                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
-            };
-
-            /**
-            *
-            * @method _draw
-            * @param gl {WebGLRenderingContext}
-            * @private
-            */
-            GLRenderer.prototype._draw = function (gl) {
-                gl.drawElements(gl.TRIANGLES, this._entityCount * 6, gl.UNSIGNED_SHORT, 0);
-            };
-
-            /**
-            *
-            * @method _generateIndices
-            * @param numQuads {number}
-            * @return number[]
-            * @private
-            */
-            GLRenderer.prototype._generateIndices = function (numQuads) {
-                var quads = new Array();
-                for (var i = 0; i < numQuads; i++) {
-                    quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
-                }
-                return quads;
-            };
-
-            /**
-            *
-            * @method _generateColors
-            * @param numVerts {number}
-            * @return number[]
-            * @private
-            */
-            GLRenderer.prototype._generateColors = function (numVerts) {
-                var cols = new Array();
-                for (var i = 0; i < numVerts; i++) {
-                    cols.push(1);
-                }
-                return cols;
             };
             return GLRenderer;
         })();
@@ -21785,8 +21674,8 @@ var Kiwi;
         * @param gl {WebGLRenderingContext}
         * @return {GLShaders}
         */
-        var GLShaders = (function () {
-            function GLShaders(gl) {
+        var GLShaderPair = (function () {
+            function GLShaderPair() {
                 /**
                 *
                 * @property ready
@@ -21794,71 +21683,15 @@ var Kiwi;
                 * @public
                 */
                 this.ready = false;
-                /**
-                *
-                * @property texture2DProg
-                * @type Object
-                * @public
-                */
-                this.texture2DProg = {
-                    vertexPositionAttribute: null,
-                    vertexTexCoordAttribute: null,
-                    vertexColorAttribute: null,
-                    mvMatrixUniform: null,
-                    samplerUniform: null,
-                    resolutionUniform: null,
-                    textureSizeUniform: null,
-                    cameraOffsetUniform: null
-                };
-                /**
-                *
-                * @property texture2DFrag
-                * @type Array
-                * @public
-                */
-                this.texture2DFrag = [
-                    "precision mediump float;",
-                    "varying vec2 vTextureCoord;",
-                    "varying float vColor;",
-                    "uniform sampler2D uSampler;",
-                    "void main(void) {",
-                    "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-                    "gl_FragColor = gl_FragColor * vColor;",
-                    "}"
-                ];
-                /**
-                *
-                * @property texture2DVert
-                * @type Array
-                * @public
-                */
-                this.texture2DVert = [
-                    "attribute vec2 aVertexPosition;",
-                    "attribute vec2 aTextureCoord;",
-                    "attribute float aColor;",
-                    "uniform mat4 uMVMatrix;",
-                    "uniform vec2 uResolution;",
-                    "uniform vec2 uTextureSize;",
-                    "uniform vec2 uCameraOffset;",
-                    "varying vec2 vTextureCoord;",
-                    "varying float vColor;",
-                    "void main(void) {",
-                    "vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
-                    "transpos =  uMVMatrix * transpos;",
-                    "vec2 zeroToOne = transpos.xy / uResolution;",
-                    "vec2 zeroToTwo = zeroToOne * 2.0;",
-                    "vec2 clipSpace = zeroToTwo - 1.0;",
-                    "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                    "vTextureCoord = aTextureCoord / uTextureSize;",
-                    "vColor = aColor;",
-                    "}"
-                ];
-                this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);
-                this.fragShader = this.compile(gl, this.texture2DFrag.join("\n"), gl.FRAGMENT_SHADER);
-                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-                this.use(gl, this.shaderProgram);
-                this.ready = true;
             }
+            GLShaderPair.prototype.init = function (gl) {
+                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                this.use(gl);
+                this.ready = true;
+            };
+
             /**
             *
             * @method attach
@@ -21868,7 +21701,7 @@ var Kiwi;
             * @return {WebGLProgram}
             * @public
             */
-            GLShaders.prototype.attach = function (gl, vertShader, fragShader) {
+            GLShaderPair.prototype.attach = function (gl, vertShader, fragShader) {
                 var shaderProgram = gl.createProgram();
                 gl.attachShader(shaderProgram, fragShader);
                 gl.attachShader(shaderProgram, vertShader);
@@ -21885,7 +21718,7 @@ var Kiwi;
             * @return {WebGLShader}
             * @public
             */
-            GLShaders.prototype.compile = function (gl, src, shaderType) {
+            GLShaderPair.prototype.compile = function (gl, src, shaderType) {
                 var shader = gl.createShader(shaderType);
                 gl.shaderSource(shader, src);
                 gl.compileShader(shader);
@@ -21903,27 +21736,11 @@ var Kiwi;
             * @param shaderProrgram {WebGLProgram}
             * @public
             */
-            GLShaders.prototype.use = function (gl, shaderProgram) {
-                gl.useProgram(this.shaderProgram);
-
-                //attributes
-                this.texture2DProg.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
-                this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
-                this.texture2DProg.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aColor");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexColorAttribute);
-
-                //uniforms
-                this.texture2DProg.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-                this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
-                this.texture2DProg.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-                this.texture2DProg.textureSizeUniform = gl.getUniformLocation(shaderProgram, "uTextureSize");
-                this.texture2DProg.cameraOffsetUniform = gl.getUniformLocation(shaderProgram, "uCameraOffset");
+            GLShaderPair.prototype.use = function (gl) {
             };
-            return GLShaders;
+            return GLShaderPair;
         })();
-        Renderers.GLShaders = GLShaders;
+        Renderers.GLShaderPair = GLShaderPair;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -21944,37 +21761,316 @@ var Kiwi;
         * @param [_image] {HTMLImageElement}
         * @return {GLTexture}
         */
-        var GLTexture = (function () {
-            function GLTexture(gl, _image) {
-                this.texture = gl.createTexture();
+        var GLTextureWrapper = (function () {
+            function GLTextureWrapper(gl, atlas, upload) {
+                if (typeof upload === "undefined") { upload = false; }
+                this._created = false;
+                this._uploaded = false;
+                console.log("Creating texture: " + atlas.name);
 
-                this.image = _image;
-                gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                gl.bindTexture(gl.TEXTURE_2D, null);
+                this.textureAtlas = atlas;
+                this.image = atlas.image;
+                this._numBytes = this.image.width * this.image.height * 4;
+                console.log("...texture requires kb: " + this._numBytes / 1024);
+
+                this.createTexture(gl);
+
+                if (upload)
+                    this.uploadTexture(gl);
             }
+            Object.defineProperty(GLTextureWrapper.prototype, "numBytes", {
+                get: function () {
+                    return this._numBytes;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLTextureWrapper.prototype, "created", {
+                get: function () {
+                    return this._created;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLTextureWrapper.prototype, "uploaded", {
+                get: function () {
+                    return this._uploaded;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            //force : if true then other textures will be removed until there is room.
+            GLTextureWrapper.prototype.createTexture = function (gl) {
+                this.texture = gl.createTexture();
+                console.log("...texture created successfully");
+                this._created = true;
+                return true;
+            };
+
+            GLTextureWrapper.prototype.uploadTexture = function (gl) {
+                console.log("Attempting to upload texture: " + this.textureAtlas.name);
+                var success = false;
+                if (!this.created) {
+                    this.createTexture(gl);
+                }
+
+                if (this.uploaded) {
+                    console.log("...not uploading:the image is already uploaded");
+                } else {
+                    gl.bindTexture(gl.TEXTURE_2D, this.texture);
+                    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                    gl.bindTexture(gl.TEXTURE_2D, null);
+
+                    //check gl error here
+                    this._uploaded = true;
+                    success = true;
+                    console.log("...texture uploaded successfully");
+                }
+
+                return success;
+            };
+
+            GLTextureWrapper.prototype.deleteTexture = function (gl) {
+                console.log("Attempting to delete texture: " + this.textureAtlas.name);
+                gl.bindTexture(gl.TEXTURE_2D, this.texture);
+                gl.deleteTexture(this.texture);
+                this._uploaded = false;
+                this._created = false;
+                console.log("...texture deleted successfully");
+                console.log("...freed kb: " + this.numBytes / 1024);
+                return true;
+            };
+            return GLTextureWrapper;
+        })();
+        Renderers.GLTextureWrapper = GLTextureWrapper;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    *
+    * @module Kiwi
+    * @submodule Renderers
+    *
+    */
+    (function (Renderers) {
+        /**
+        * Manages GL Texture objects, including creation, uploading, destruction and memory management
+        * @class GLTextureManager
+        * @constructor
+        * @return {GLTextureManager}
+        */
+        var GLTextureManager = (function () {
+            function GLTextureManager() {
+                /**
+                * The number of textures uploads in the last frame
+                * @property numTextureWrites
+                * @type number
+                * @public
+                */
+                this.numTextureWrites = 0;
+                this._numTexturesUsed = 0;
+                this._usedTextureMem = 0;
+                this.maxTextureMem = GLTextureManager.DEFAULT_MAX_TEX_MEM_MB * 1024 * 1024;
+                this._textureWrapperCache = new Array();
+            }
+            Object.defineProperty(GLTextureManager.prototype, "usedTextureMem", {
+                get: function () {
+                    return this._usedTextureMem;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLTextureManager.prototype, "numTexturesUsed", {
+                get: function () {
+                    return this._numTexturesUsed;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
-            *
-            * @method refresh
+            * Adds a texture wrapper to the cache
+            * @method _addTextureToCache
+            * @param glTexture {GLTextureWrapper}
+            * @private
+            */
+            GLTextureManager.prototype._addTextureToCache = function (glTexture) {
+                this._textureWrapperCache.push(glTexture);
+            };
+
+            /**
+            * Deletes a texture from memory and removes the wrapper from the cache
+            * @method _deleteTexture
             * @param gl {WebGLRenderingContext}
-            * @param image {HTMLImageElement}
+            * @param idx {number}
+            * @private
+            */
+            GLTextureManager.prototype._deleteTexture = function (gl, idx) {
+                this._textureWrapperCache[idx].deleteTexture(gl);
+                this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
+                console.log("...removed KB: " + this._textureWrapperCache[idx].numBytes / 1024);
+                console.log("...now using KB: " + this._usedTextureMem / 1024);
+                this._numTexturesUsed--;
+            };
+
+            /**
+            * Uploads a texture to video memory
+            * @method _uploadTexture
+            * @param gl {WebGLRenderingContext}
+            * @param glTextureWrapper {GLTextureWrapper}
+            * @return boolean
+            * @private
+            */
+            GLTextureManager.prototype._uploadTexture = function (gl, glTextureWrapper) {
+                if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
+                    glTextureWrapper.uploadTexture(gl);
+                    this._usedTextureMem += glTextureWrapper.numBytes;
+                    console.log("Total uploaded KB: " + this._usedTextureMem / 1024);
+                    this._numTexturesUsed++;
+                    console.log("Total textures uploaded: " + this._numTexturesUsed);
+
+                    return true;
+                }
+                return false;
+            };
+
+            /**
+            * Uploads a texture library to video memory
+            * @method uploadTextureLibrary
+            * @param gl {WebGLRenderingContext}
+            * @param textureLibrary {Kiwi.Textures.TextureLibrary}
             * @public
             */
-            GLTexture.prototype.refresh = function (gl, _image) {
-                this.image = _image;
-                gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                gl.bindTexture(gl.TEXTURE_2D, null);
+            GLTextureManager.prototype.uploadTextureLibrary = function (gl, textureLibrary) {
+                console.log("Attempting to upload TextureLibrary");
+                this._textureWrapperCache = new Array();
+                console.log("...recreated wrapper cache");
+
+                for (var tex in textureLibrary.textures) {
+                    //create a glTexture
+                    var glTextureWrapper = new Renderers.GLTextureWrapper(gl, textureLibrary.textures[tex]);
+
+                    //store a refence to it
+                    this._addTextureToCache(glTextureWrapper);
+
+                    //create reference on atlas to avoid lookups when switching
+                    textureLibrary.textures[tex].glTextureWrapper = glTextureWrapper;
+
+                    if (!this._uploadTexture(gl, glTextureWrapper)) {
+                        console.log("...skipped uploading texture due to allocated texture memory exceeded");
+                    }
+                }
+                console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
+                console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
             };
-            return GLTexture;
+
+            /**
+            * Removes all textures from video memory and clears the wrapper cache
+            * @method clearTextures
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
+            GLTextureManager.prototype.clearTextures = function (gl) {
+                console.log("Attempting to clear Textures");
+                for (var i = 0; i < this._textureWrapperCache.length; i++) {
+                    //delete it from g mem
+                    this._textureWrapperCache[i].deleteTexture(gl);
+
+                    //kill the reference on the atlas
+                    this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;
+                }
+                this._textureWrapperCache = new Array();
+            };
+
+            /**
+            * Binds the texture ready for use, uploads it if it isn't already
+            * @method useTexture
+            * @param gl {WebGLRenderingContext}
+            * @param glTextureWrapper {GLTextureWrappery}
+            * @param textureSizeUniform {number}
+            * @return boolean
+            * @public
+            */
+            GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper, textureSizeUniform) {
+                if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
+                    if (!this._uploadTexture(gl, glTextureWrapper)) {
+                        this._freeSpace(gl, glTextureWrapper.numBytes);
+                        this._uploadTexture(gl, glTextureWrapper);
+                    }
+                    this.numTextureWrites++;
+                }
+
+                if (glTextureWrapper.created && glTextureWrapper.uploaded) {
+                    gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
+                    gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
+                    return true;
+                }
+
+                return false;
+            };
+
+            /**
+            * Attemps to free space for to uplaod a texture.
+            * 1: Try and find texture that is same size to remove
+            * 2: Find next smallest to remove (not yet implemented)
+            * 3: Sequentially remove until there is room (not yet implemented)
+            * @method _freeSpace
+            * @param gl {WebGLRenderingContext}
+            * @param numBytesToRemove {number}
+            * @return boolean
+            * @public
+            */
+            GLTextureManager.prototype._freeSpace = function (gl, numBytesToRemove) {
+                // console.log("Attempting to free texture space");
+                var nextSmallest = 99999999999;
+                var nextSmalletIndex = -1;
+                for (var i = 0; i < this._textureWrapperCache.length; i++) {
+                    var numTextureBytes = this._textureWrapperCache[i].numBytes;
+                    if (numTextureBytes === numBytesToRemove && this._textureWrapperCache[i].uploaded) {
+                        //  console.log("..found one same size");
+                        this._deleteTexture(gl, i);
+                        return true;
+                    } else if (numTextureBytes > numBytesToRemove && numTextureBytes < nextSmallest) {
+                        nextSmallest = numTextureBytes;
+                        nextSmalletIndex = i;
+                    }
+                }
+
+                /*
+                //have we found a larger one to remove
+                if (nextSmalletIndex !== -1) {
+                this.removeTextureAt(gl,nextSmalletIndex);
+                return true;
+                } else {
+                //remove sequentially till there is enough space - is not optimal for space
+                var numBytesRemoved: number = 0;
+                var i = 0;
+                
+                do {
+                this.removeTextureAt(gl,i);
+                numBytesRemoved += this.textureWrapperCache[i].numBytes;
+                i++
+                } while (numBytesRemoved < numBytesToRemove);
+                return true;
+                
+                
+                }
+                */
+                return true;
+            };
+            GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 1024;
+            return GLTextureManager;
         })();
-        Renderers.GLTexture = GLTexture;
+        Renderers.GLTextureManager = GLTextureManager;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -21998,15 +22094,34 @@ var Kiwi;
         * @return {GLArrayBuffer}
         */
         var GLArrayBuffer = (function () {
-            function GLArrayBuffer(gl, _itemSize, items, init) {
-                if (typeof init === "undefined") { init = true; }
+            function GLArrayBuffer(gl, _itemSize, items, upload) {
+                if (typeof upload === "undefined") { upload = true; }
+                this._created = false;
+                this._uploaded = false;
                 this.items = items || GLArrayBuffer.squareVertices;
                 this.itemSize = _itemSize || 2;
                 this.numItems = this.items.length / this.itemSize;
-                if (init) {
-                    this.buffer = this.init(gl);
+                this.createBuffer(gl);
+                if (upload) {
+                    this.uploadBuffer(gl, this.items);
                 }
             }
+            Object.defineProperty(GLArrayBuffer.prototype, "created", {
+                get: function () {
+                    return this._created;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLArrayBuffer.prototype, "uploaded", {
+                get: function () {
+                    return this._uploaded;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             *
             * @method clear
@@ -22023,31 +22138,28 @@ var Kiwi;
             * @return {WebGLBuffer}
             * @public
             */
-            GLArrayBuffer.prototype.init = function (gl) {
-                var buffer = gl.createBuffer();
-                var f32 = new Float32Array(this.items);
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
-
-                return buffer;
+            GLArrayBuffer.prototype.createBuffer = function (gl) {
+                this.buffer = gl.createBuffer();
+                this._created = true;
+                return true;
             };
 
-            /**
-            *
-            * @method refresh
-            * @param gl {WebGLRenderingContext}
-            * @param items {number[]}
-            * @return {WebGLBuffer}
-            * @public
-            */
-            GLArrayBuffer.prototype.refresh = function (gl, items) {
+            GLArrayBuffer.prototype.uploadBuffer = function (gl, items) {
                 this.items = items;
                 this.numItems = this.items.length / this.itemSize;
                 var f32 = new Float32Array(this.items);
-
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
                 gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
-                return this.buffer;
+                this._uploaded = true;
+                return true;
+            };
+
+            GLArrayBuffer.prototype.deleteBuffer = function (gl) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+                gl.deleteBuffer(this.buffer);
+                this.uploaded = false;
+                this.created = false;
+                return true;
             };
 
             GLArrayBuffer.squareVertices = [
@@ -22164,6 +22276,261 @@ var Kiwi;
             return GLElementArrayBuffer;
         })();
         Renderers.GLElementArrayBuffer = GLElementArrayBuffer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var Renderer = (function () {
+            function Renderer() {
+            }
+            return Renderer;
+        })();
+        Renderers.Renderer = Renderer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    *
+    * @module Kiwi
+    * @submodule Renderers
+    *
+    */
+    (function (Renderers) {
+        var Texture2DRenderer = (function (_super) {
+            __extends(Texture2DRenderer, _super);
+            function Texture2DRenderer() {
+                _super.call(this);
+                /**
+                * Maximum allowable sprites to render per frame
+                * @property _maxItems
+                * @type number
+                * @default 1000
+                * @private
+                */
+                this._maxItems = 2000;
+            }
+            Texture2DRenderer.prototype.init = function (gl, params) {
+                //create buffers
+                //dynamic
+                this.xyuvBuffer = new Renderers.GLArrayBuffer(gl, 4);
+                this.alphaBuffer = new Renderers.GLArrayBuffer(gl, 1);
+
+                //static
+                this.indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+
+                //use shaders
+                this.shaderPair = new Renderers.Texture2DShader();
+                this.shaderPair.init(gl);
+                this.shaderPair.use(gl);
+                this.shaderPair.aXYUV(gl, this.xyuvBuffer);
+                this.shaderPair.aAlpha(gl, this.alphaBuffer);
+
+                //Texture
+                gl.activeTexture(gl.TEXTURE0);
+                this.shaderPair.uSampler(gl, 0);
+
+                //stage res
+                this.updateStageResolution(gl, params.stageResolution);
+            };
+
+            Texture2DRenderer.prototype.clear = function (gl, params) {
+                this.xyuvBuffer.clear();
+                this.alphaBuffer.clear();
+                this.shaderPair.uMVMatrix(gl, params.mvMatrix);
+                this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
+            };
+
+            Texture2DRenderer.prototype.draw = function (gl, params) {
+                this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
+                this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+                this.shaderPair.draw(gl, params.entityCount * 6);
+            };
+
+            /**
+            * Create prebaked indices for drawing quads
+            * @method _generateIndices
+            * @param numQuads {number}
+            * @return number[]
+            * @private
+            */
+            Texture2DRenderer.prototype._generateIndices = function (numQuads) {
+                var quads = new Array();
+                for (var i = 0; i < numQuads; i++) {
+                    quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
+                }
+                return quads;
+            };
+
+            Texture2DRenderer.prototype.updateStageResolution = function (gl, res) {
+                this.stageResolution = res;
+                this.shaderPair.uResolution(gl, res);
+            };
+
+            /**
+            * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
+            * @method _collateVertexAttributeArrays
+            * @param gl {WebGLRenderingContext}
+            * @param entity {Entity}
+            * @param camera {Camera}
+            * @public
+            */
+            Texture2DRenderer.prototype.collateVertexAttributeArrays = function (gl, entity, camera) {
+                var t = entity.transform;
+                var m = t.getConcatenatedMatrix();
+                var ct = camera.transform;
+                var cm = ct.getConcatenatedMatrix();
+
+                var cell = entity.atlas.cells[entity.cellIndex];
+
+                var pt1 = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
+                var pt2 = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
+                var pt3 = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
+                var pt4 = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
+
+                pt1 = m.transformPoint(pt1);
+                pt2 = m.transformPoint(pt2);
+                pt3 = m.transformPoint(pt3);
+                pt4 = m.transformPoint(pt4);
+
+                this.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
+                this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+            };
+            return Texture2DRenderer;
+        })(Renderers.Renderer);
+        Renderers.Texture2DRenderer = Texture2DRenderer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    *
+    * @class GLShaders
+    * @constructor
+    * @param gl {WebGLRenderingContext}
+    * @return {GLShaders}
+    */
+    (function (Renderers) {
+        var Texture2DShader = (function (_super) {
+            __extends(Texture2DShader, _super);
+            function Texture2DShader() {
+                _super.call(this);
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "varying vec2 vTextureCoord;",
+                    "varying float vAlpha;",
+                    "uniform sampler2D uSampler;",
+                    "void main(void) {",
+                    "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
+                    "gl_FragColor.a *= vAlpha;",
+                    "}"
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "attribute float aAlpha;",
+                    "uniform mat4 uMVMatrix;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec2 uTextureSize;",
+                    "uniform vec2 uCameraOffset;",
+                    "varying vec2 vTextureCoord;",
+                    "varying float vAlpha;",
+                    "void main(void) {",
+                    "vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); ",
+                    "transpos =  uMVMatrix * transpos;",
+                    "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
+                    "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
+                    "vTextureCoord = aXYUV.zw / uTextureSize;",
+                    "vAlpha = aAlpha;",
+                    "}"
+                ];
+                this.attributes = {
+                    aXYUV: null,
+                    aAlpha: null
+                };
+                this.uniforms = {
+                    uMVMatrix: null,
+                    uSampler: null,
+                    uResolution: null,
+                    uTextureSize: null,
+                    uCameraOffset: null
+                };
+            }
+            Texture2DShader.prototype.uMVMatrix = function (gl, uMVMatrixVal) {
+                gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false, uMVMatrixVal);
+            };
+
+            Texture2DShader.prototype.uSampler = function (gl, uSamplerVal) {
+                gl.uniform1i(this.uniforms.samplerUniform, uSamplerVal);
+            };
+
+            Texture2DShader.prototype.uResolution = function (gl, uResolutionVal) {
+                gl.uniform2fv(this.uniforms.uResolution, uResolutionVal);
+            };
+
+            Texture2DShader.prototype.uTextureSize = function (gl, uTextureSizeVal) {
+                gl.uniform2fv(this.uniforms.uTextureSize, uTextureSizeVal);
+            };
+
+            Texture2DShader.prototype.uCameraOffset = function (gl, uCameraOffsetVal) {
+                gl.uniform2fv(this.uniforms.uCameraOffset, uCameraOffsetVal);
+            };
+
+            Texture2DShader.prototype.aXYUV = function (gl, aXYUVVal) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, aXYUVVal.buffer);
+                gl.vertexAttribPointer(this.attributes.aXYUV, aXYUVVal.itemSize, gl.FLOAT, false, 0, 0);
+            };
+
+            Texture2DShader.prototype.aAlpha = function (gl, aAlphaVal) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
+                gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
+            };
+
+            /**
+            *
+            * @method use
+            * @param gl {WebGLRenderingContext}
+            * @param shaderProrgram {WebGLProgram}
+            * @public
+            */
+            Texture2DShader.prototype.use = function (gl) {
+                gl.useProgram(this.shaderProgram);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+                gl.enableVertexAttribArray(this.attributes.aXYUV);
+                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+                gl.enableVertexAttribArray(this.attributes.aAlpha);
+
+                //uniforms
+                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
+                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
+                this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
+                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+            };
+
+            Texture2DShader.prototype.draw = function (gl, numElements) {
+                gl.drawElements(gl.TRIANGLES, numElements, gl.UNSIGNED_SHORT, 0);
+            };
+            return Texture2DShader;
+        })(Renderers.GLShaderPair);
+        Renderers.Texture2DShader = Texture2DShader;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -22717,7 +23084,6 @@ var Kiwi;
                 this.worker = !!window['Worker'];
 
                 if ('ontouchstart' in document.documentElement || window.navigator.msPointerEnabled) {
-                    this.touch = true;
                 }
             };
 
@@ -26941,12 +27307,16 @@ var Kiwi;
 /// <reference path="input/MouseCursor.ts" />
 /// <reference path="input/Finger.ts" />
 /// <reference path="plugins/Plugins.ts" />
-/// <reference path="renderers/CanvasRenderer.ts" />
-/// <reference path="renderers/GLRenderer.ts" />
-/// <reference path="renderers/GLShaders.ts" />
-/// <reference path="renderers/GLTexture.ts" />
-/// <reference path="renderers/GLArrayBuffer.ts" />
-/// <reference path="renderers/GLElementArrayBuffer.ts" />
+/// <reference path="render/CanvasRenderer.ts" />
+/// <reference path="render/GLRenderer.ts" />
+/// <reference path="render/GLShaderPair.ts" />
+/// <reference path="render/GLTextureWrapper.ts" />
+/// <reference path="render/GLTextureManager.ts" />
+/// <reference path="render/GLArrayBuffer.ts" />
+/// <reference path="render/GLElementArrayBuffer.ts" />
+/// <reference path="render/renderers/Renderer.ts" />
+/// <reference path="render/renderers/Texture2DRenderer.ts" />
+/// <reference path="render/shaders/Texture2DShader.ts" />
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />

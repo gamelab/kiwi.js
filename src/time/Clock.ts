@@ -114,6 +114,7 @@ module Kiwi.Time {
             if (this._elapsedState === 0)
             {
                 return (this._timeLastStarted) ? ((this.master.elapsed() - this._timeLastStarted) - this._totalPaused) / this.units : null;
+            
             }
             else if (this._elapsedState === 1)
             {

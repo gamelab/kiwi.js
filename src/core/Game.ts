@@ -214,10 +214,10 @@ module Kiwi {
         /**
         * Holds the renderer that is being used. This is detiremended based of the _renderMode
         * @property renderer
-        * @type IRenderer
+        * @type IRenderManager
         * @public
         */
-        public renderer: IRenderer;
+        public renderer: IRenderManager;
 
         /**
         * Holds the hud manager.
@@ -465,6 +465,7 @@ module Kiwi {
                 this.cameras.update();
                 if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) this.huds.update();
                 this.states.update();
+                this.pluginManager.update();    
 
                 if (this.states.current !== null) {
                     this.cameras.render();

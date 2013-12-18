@@ -2466,6 +2466,7 @@ declare module Kiwi {
         * @public
         */
         public boot(): void;
+        public update(): void;
     }
 }
 /**
@@ -14425,6 +14426,8 @@ declare module Kiwi.Input {
 interface IRenderer {
     render(camera: Kiwi.Camera);
     boot();
+    initState(state: Kiwi.State);
+    numDrawCalls: number;
 }
 /**
 * Contains the classes which are related to the rendering of GameObjects.
@@ -14480,7 +14483,9 @@ declare module Kiwi.Renderers {
         * @param child {IChild} The child that is being checked.
         * @private
         */
-        private _recurse(child);
+        public _recurse(child: Kiwi.IChild): void;
+        public initState(state: Kiwi.State): void;
+        public numDrawCalls: number;
         /**
         * Renders all of the Elements that are on a particular camera.
         * @method render
@@ -14533,6 +14538,7 @@ declare module Kiwi.Renderers {
         * @type Camera
         * @private
         */
+        private _textureManager;
         private _currentCamera;
         /**
         *
@@ -14578,13 +14584,6 @@ declare module Kiwi.Renderers {
         private _colorBuffer;
         /**
         *
-        * @property _texture
-        * @type GLTexture
-        * @private
-        */
-        private _texture;
-        /**
-        *
         * @property _entityCount
         * @type number
         * @default 0
@@ -14599,14 +14598,6 @@ declare module Kiwi.Renderers {
         * @private
         */
         private _maxItems;
-        /**
-        *
-        * @property _texApplied
-        * @type boolean
-        * @default false
-        * @private
-        */
-        private _texApplied;
         /**
         *
         * @property _firstPass
@@ -14638,10 +14629,12 @@ declare module Kiwi.Renderers {
         private _currentTextureAtlas;
         /**
         *
-        * @method _initState
+        * @method _init
         * @private
         */
-        private _initState();
+        private _init();
+        public numDrawCalls: number;
+        public initState(state: Kiwi.State): void;
         /**
         *
         * @method render
@@ -14682,22 +14675,6 @@ declare module Kiwi.Renderers {
         * @private
         */
         private _compileUVs(gl, entity);
-        /**
-        *
-        * @method _applyTexture
-        * @param gl {WebGLRenderingContext}
-        * @param image {HTMLImageElement}
-        * @private
-        */
-        private _applyTexture(gl, image);
-        /**
-        *
-        * @method _changeTexture
-        * @param gl {WebGLRenderingContext}
-        * @param image {HTMLImageElement}
-        * @private
-        */
-        private _changeTexture(gl, image);
         /**
         *
         * @method _draw
@@ -14833,8 +14810,12 @@ declare module Kiwi.Renderers {
     * @param [_image] {HTMLImageElement}
     * @return {GLTexture}
     */
-    class GLTexture {
-        constructor(gl: WebGLRenderingContext, _image?: HTMLImageElement);
+    class GLTextureWrapper {
+        constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas, upload?: boolean);
+        private _textureAtlas;
+        private _numBytes;
+        public numBytes : number;
+        public uploaded: boolean;
         /**
         *
         * @property texture
@@ -14849,6 +14830,8 @@ declare module Kiwi.Renderers {
         * @public
         */
         public image: HTMLImageElement;
+        public uploadTexture(gl: WebGLRenderingContext): boolean;
+        public deleteTexture(gl: WebGLRenderingContext): void;
         /**
         *
         * @method refresh
@@ -14856,7 +14839,41 @@ declare module Kiwi.Renderers {
         * @param image {HTMLImageElement}
         * @public
         */
-        public refresh(gl: WebGLRenderingContext, _image: HTMLImageElement): void;
+        public refresh(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+*
+*/
+declare module Kiwi.Renderers {
+    /**
+    *
+    * @class GLTexture
+    * @constructor
+    * @param gl {WebGLRenderingContext}
+    * @param [_image] {HTMLImageElement}
+    * @return {GLTexture}
+    */
+    class GLTextureManager {
+        constructor();
+        static DEFAULT_MAX_TEX_MEM_MB: number;
+        public maxTextureMem: number;
+        private _usedTextureMem;
+        public usedTextureMem : number;
+        private _numTexturesUsed;
+        public numTexturesUsed : number;
+        public textureWrapperCache: Renderers.GLTextureWrapper[];
+        public addTextureToCache(glTexture: Renderers.GLTextureWrapper): void;
+        public deleteTextureFromCache(glTextureWrapper: Renderers.GLTextureWrapper): void;
+        public removeTexture(gl: WebGLRenderingContext, glTextureWrapper: Renderers.GLTextureWrapper): void;
+        public removeTextureAt(gl: WebGLRenderingContext, idx: number): void;
+        public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary): void;
+        private _uploadTexture(gl, glTextureWrapper);
+        public useTexture(gl: WebGLRenderingContext, glTextureWrapper: Renderers.GLTextureWrapper, textureSizeUniform): void;
+        public freeSpace(gl: WebGLRenderingContext, numBytesToRemove: number): boolean;
     }
 }
 /**
@@ -15606,6 +15623,7 @@ declare module Kiwi.Textures {
         * @public
         */
         public type : number;
+        public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
         /**
         * Will populate this texture atlas with information based on a JSON file that was passed.
         *

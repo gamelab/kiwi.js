@@ -132,6 +132,9 @@ module Kiwi.Textures {
             return this._type;
         }
         
+
+        public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
+
         /**
         * Will populate this texture atlas with information based on a JSON file that was passed.
         * 

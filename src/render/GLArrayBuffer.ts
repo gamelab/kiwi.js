@@ -20,14 +20,26 @@ module Kiwi.Renderers {
     */
     export class GLArrayBuffer {
 
-        constructor(gl: WebGLRenderingContext, _itemSize?: number, items?: number[], init: boolean = true) {
+        constructor(gl: WebGLRenderingContext, _itemSize?: number, items?: number[], upload: boolean = true) {
 
             this.items = items || GLArrayBuffer.squareVertices;
             this.itemSize = _itemSize || 2;
             this.numItems = this.items.length / this.itemSize;
-            if (init) {
-                this.buffer = this.init(gl);
+            this.createBuffer(gl);
+            if (upload) {
+                this.uploadBuffer(gl,this.items);
             }
+        }
+
+
+        private _created: boolean = false;
+        public get created(): boolean {
+            return this._created;
+        }
+
+        private _uploaded: boolean = false;
+        public get uploaded(): boolean {
+            return this._uploaded;
         }
 
         /**
@@ -78,33 +90,33 @@ module Kiwi.Renderers {
         * @return {WebGLBuffer}
         * @public
         */
-        public init(gl: WebGLRenderingContext): WebGLBuffer {
-            var buffer: WebGLBuffer = gl.createBuffer();
-            var f32: Float32Array = new Float32Array(this.items);
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
-
-            return buffer;
+        public createBuffer(gl: WebGLRenderingContext): boolean {
+            this.buffer = gl.createBuffer();
+            this._created = true;
+            return true;
         }
 
-        /**
-        *
-        * @method refresh 
-        * @param gl {WebGLRenderingContext}
-        * @param items {number[]}
-        * @return {WebGLBuffer}
-        * @public
-        */
-        public refresh(gl: WebGLRenderingContext, items: number[]): WebGLBuffer {
-
+        public uploadBuffer(gl: WebGLRenderingContext, items: number[]): boolean {
             this.items = items;
             this.numItems = this.items.length / this.itemSize;
             var f32: Float32Array = new Float32Array(this.items);
-            
             gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
             gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
-            return this.buffer;
+            this._uploaded = true;
+            return true;
         }
+
+        public deleteBuffer(gl: WebGLRenderingContext): boolean {
+            gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);
+            gl.deleteBuffer(this.buffer);   
+            this.uploaded = false;
+            this.created = false;
+            return true;
+        }
+
+
+
+        
         
         /**
         * 
