@@ -1,4 +1,4 @@
-Release Notes 0.5.2
+Release Notes 0.5.3
 
 Kiwi.js (BETA)
 =====
@@ -6,28 +6,44 @@ Kiwi.js (BETA)
 ###HTML5 game library written in TypeScript/Javascript
 -----------------------------------------------------------------
 
-version 0.5.2
+version 0.5.3
 
 ###Release notes for this version
 
 ####New Features
 None
     
-####Bug Fixes and minor changes
+####Bug Fixes and changes
 
-- Animation 
-  
-  - 'isPlaying' property is now a more accurate representation of if an animation isPlaying.
-    - Callbacks are now dispatched after the cell on the Sprite updates instead of before. Because of this the way it was being handled has updated.
-    - The current animation no longer 'resets' to the first frame if the 'switchTo' is told the play the current animation.
+- Audio Bug Fix - Audio Tag's should no longer be 'unmuted' regardless of the Audio Managers muted state upon instantiation.
 
-- Audio
-    - Mute/Volume bug fixed. Left over from removal of the DOM system.
-    - Stop method reorganised. isPlaying set to false before onStop event dispatched to prevent sound playing issues.
-    - Bug with the audio file data not being set in some case's has been fixed. 
+- Groups Bug Fix - Parents are now set when using 'addChildBefore' and 'addChildAfter' methods. This was producing errors/making the game crash when objects were destroyed. 
+
+- Arcade Physics Update - Seperation code now calculating based off a hitbox.
+
+- Nice Error Messages - Sprite/Static Images now produce 'none' game breaking (and nicer) error messages when a TextureAtlas passes doesn't exist. Previous would 'kill' the game. 
+
+- Creating a game with a State - You can now create a game without passing a state. Previously the game would crash due to the Camera Manager Render method. Where now only executed if there is a current state. 
+
+- Box Component Updates 
+     - Now you can now get the hitbox offsets. 
+     - There are 'two' new read only rectangles.
+          - worldHitbox - a transformed hitbox using 'world' coordinates instead of local ones.
+          - worldBounds - a normal hitbox using 'world' coordinates instead of local ones. 
+     
+- Input/Arcade Physics - Due to the Box Component updates the input/arcade physics have been updated to use world coordinates accordingly.
+
+- API Documentation - namespace attribute added to classes/modules so that yuidocs compilation is now smarter and classes with the same class name but different namespaces don't override one another.
 
 - WebGL
-    - Stage now resizing correctly
+    - WebGL is under intensive development at the moment. A large part of the GL rendering has been refactored. Refactoring is still underway to allow multiple renderer types, using any number of shaders, for custom game objects such tilemaps, particles, bitmap text etc. Currently only Sprites are supported. 
+    - Major change to texture management, including dynamic texture memory management (important for mobile and low spec devices)
+    - Many optimisations.
+    - Many small changes.
+    - Many bugfixes.
+    - Tested successfully via cocoon on Android devices, Ipad2, Ipad3
+    - Commenting is in an inconsistent state due to mid-refactor of some areas.
+    
 
  
 - Destroy method by default is executed at the end of the next update loop. Also you can switch the 'exists' property to 'false' to signal that the destroy method should be executed on the next update.
@@ -41,12 +57,9 @@ None
 
 
 ####Changes to API pre-exisiting API in this release
-- rotPointX/rotPointY now aliased to Entities (will not affect any existing games)
-- Animation Manager: Added four new signals. onPlay, onStop, onUpdate, onChange
-- new method Kiwi.Stage.resize replaces settable width and height properties due to a WebGL issue. ** NOTE: games that set these properties will need to be updated to use the resize method**
+- none
 
-####New Known Issues
-When using CocoonJS and WebGL, non power of 2 sized textures lose the alpha channel resulting in a black background. This is a Cocoon issue. Use power of 2 sized textures to avoid this.
+
 
 
 -------------------------------------------------------------------
