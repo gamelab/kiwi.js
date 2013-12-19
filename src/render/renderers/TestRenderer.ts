@@ -9,14 +9,14 @@
 module Kiwi.Renderers {
 
 
-    export class Texture2DRenderer extends Renderer {
+    export class TestRenderer extends Renderer {
 
 
         constructor() {
             super();
         }
 
-        public static RENDERER_ID: string = "Texture2DRenderer";
+        public static RENDERER_ID: string = "Test2DRenderer";
 
         public init(gl: WebGLRenderingContext, params: any) {
             //create buffers
@@ -26,9 +26,9 @@ module Kiwi.Renderers {
 
             //static
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-            
+
             //use shaders
-            this.shaderPair = new Texture2DShader();
+            this.shaderPair = new TestShader();
             this.shaderPair.init(gl);
             this.shaderPair.use(gl);
             this.shaderPair.aXYUV(gl, this.xyuvBuffer);
@@ -41,19 +41,19 @@ module Kiwi.Renderers {
             //stage res
             this.updateStageResolution(gl, params.stageResolution);
 
-           
+        
 
 
         }
 
-        public shaderPair: Texture2DShader;
-       
-        public clear(gl: WebGLRenderingContext,params:any) {
+        public shaderPair: TestShader;
+        
+        public clear(gl: WebGLRenderingContext, params: any) {
             this.xyuvBuffer.clear();
             this.alphaBuffer.clear();
             this.shaderPair.uMVMatrix(gl, params.mvMatrix);
             this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
-        
+
         }
 
         public draw(gl: WebGLRenderingContext, params: any) {
@@ -71,7 +71,7 @@ module Kiwi.Renderers {
        */
         private _maxItems: number = 2000;
 
-       
+        
 
         /**
        * Storage for the xy (position) and uv(texture) coordinates that are generated each frame
@@ -106,7 +106,7 @@ module Kiwi.Renderers {
       * @private
       */
         private _generateIndices(numQuads: number): number[] {
-            
+
             var quads: number[] = new Array();
             for (var i = 0; i < numQuads; i++) {
                 quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
@@ -152,7 +152,7 @@ module Kiwi.Renderers {
             pt3 = m.transformPoint(pt3);
             pt4 = m.transformPoint(pt4);
 
-           
+            
 
             this.xyuvBuffer.items.push(
                 pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,

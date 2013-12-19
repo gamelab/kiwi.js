@@ -45,6 +45,7 @@
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
 /// <reference path="gameobjects/Textfield.ts" />
+/// <reference path="gameobjects/TestObject.ts" />
 /// <reference path="gameobjects/tilemap/Tile.ts" />
 /// <reference path="gameobjects/tilemap/TileType.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
@@ -98,7 +99,7 @@
 /// <reference path="plugins/Plugins.ts" />
 
 /// <reference path="render/CanvasRenderer.ts" />
-/// <reference path="render/GLRenderer.ts" />
+/// <reference path="render/GLRenderManager.ts" />
 
 /// <reference path="render/GLTextureWrapper.ts" />
 /// <reference path="render/GLTextureManager.ts" />
@@ -106,8 +107,11 @@
 /// <reference path="render/GLElementArrayBuffer.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
 /// <reference path="render/renderers/Texture2DRenderer.ts" />
+/// <reference path="render/renderers/TestRenderer.ts" />
 /// <reference path="render/shaders/ShaderPair.ts" />
 /// <reference path="render/shaders/Texture2DShader.ts" />
+/// <reference path="render/shaders/TestShader.ts" />
+
 
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />

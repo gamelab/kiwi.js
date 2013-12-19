@@ -15,13 +15,13 @@ module Kiwi.Renderers {
     
     /**
     * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
-    * @class GLRenderer
+    * @class GLRenderManager
     * @extends IRenderer
     * @constructor
     * @param game {Game} The game that this renderer belongs to.
     * @return {GLRenderer}
     */
-    export class GLRenderer implements IRenderManager {
+    export class GLRenderManager implements IRenderManager {
 
        
         constructor(game: Kiwi.Game) {
@@ -159,7 +159,8 @@ module Kiwi.Renderers {
            
             console.log("Intialising WebGL");
             this.addRenderer("Texture2DRenderer");
-           
+            this.addRenderer("TestRenderer");
+            console.log(this._renderers);
             var gl: WebGLRenderingContext = this._game.stage.gl;
            
             //init stage and viewport
@@ -175,7 +176,7 @@ module Kiwi.Renderers {
             mat2d.identity(this.mvMatrix);
 
             //initialise default renderer
-            this._currentRenderer = this._renderers.Texture2DRenderer;
+            this._currentRenderer = this._renderers.TestRenderer;
             this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
        
             //stage res needs update on stage resize
@@ -282,16 +283,13 @@ module Kiwi.Renderers {
                     this.numDrawCalls++;
                     this._entityCount = 0;
                     this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
-
                     
-                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize)) {
-                        return;
-                    }
                     this._currentTextureAtlas = (<Entity>child).atlas;
+                    this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
+                    this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper);
                 } 
                 
                 //"render"
-                //renderer.collateVertexAttributeArrays(gl, <Entity>child, camera);
                 (<Kiwi.Entity>child).renderGL(gl, this._currentRenderer, camera);
                 this._entityCount++;
                 
@@ -299,14 +297,6 @@ module Kiwi.Renderers {
         
         }
         
-      
-
-     
-
-       
-       
-
-
     }
 
 }

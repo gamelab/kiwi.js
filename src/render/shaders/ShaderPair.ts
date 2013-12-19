@@ -5,16 +5,7 @@
 * 
 */
 
-interface IShaderPair {
-    init(gl: WebGLRenderingContext);
-    ready: boolean;
-    vertShader: WebGLShader;
-    fragShader: WebGLShader;
-    shaderProgram: WebGLProgram;
-    uniforms: any;
-    attributes: any;
 
-}
 
 module Kiwi.Renderers {
     

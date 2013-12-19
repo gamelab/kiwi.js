@@ -1,17 +1,9 @@
-interface IRenderer {
-    init(gl: WebGLRenderingContext, params: any);
-    clear(gl: WebGLRenderingContext, params: any);
-    draw(gl: WebGLRenderingContext, params: any);
-    updateStageResolution(gl: WebGLRenderingContext, res: Float32Array);
-    updateTextureSize(gl: WebGLRenderingContext, size: Float32Array);
-    mvMatrix: Float32Array;
-}
 
 
 module Kiwi.Renderers {
 
 
-    export class Renderer implements IRenderer {
+    export class Renderer {
 
 
         constructor() {
