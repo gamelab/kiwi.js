@@ -21561,6 +21561,7 @@ var Kiwi;
                 * @private
                 */
                 this._currentTextureAtlas = null;
+                this._renderers = {};
                 this._game = game;
                 if (typeof mat4 === "undefined") {
                     throw "ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix";
@@ -21586,6 +21587,19 @@ var Kiwi;
                 return "GLRenderer";
             };
 
+            GLRenderer.prototype.addRenderer = function (rendererID) {
+                if (Kiwi.Renderers[rendererID]) {
+                    if (!(rendererID in this._renderers)) {
+                        this._renderers[rendererID] = new Kiwi.Renderers[rendererID]();
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            //public removeRenderer(rendererName: string) {
+            //    delete this._renderers[rendererName];
+            //}
             /**
             * Performs initialisation required for single game instance - happens once
             * @method _init
@@ -21593,10 +21607,11 @@ var Kiwi;
             */
             GLRenderer.prototype._init = function () {
                 console.log("Intialising WebGL");
-
+                this.addRenderer("Texture2DRenderer");
+                this.addRenderer("fish");
                 var gl = this._game.stage.gl;
 
-                this._currentRenderer = new Renderers.Texture2DRenderer();
+                this._currentRenderer = this._renderers.Texture2DRenderer;
 
                 //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -21613,12 +21628,9 @@ var Kiwi;
                 renderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
                 //stage res needs update on stage resize
-                // this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
                     renderer.updateStageResolution(gl, this._stageResolution);
-
-                    //   this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
                     gl.viewport(0, 0, width, height);
                 }, this);
             };
@@ -22369,6 +22381,7 @@ var Kiwi;
         var Renderer = (function () {
             function Renderer() {
             }
+            Renderer.RENDERER_ID = "Renderer";
             return Renderer;
         })();
         Renderers.Renderer = Renderer;
@@ -22483,6 +22496,7 @@ var Kiwi;
                 this.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
                 this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
+            Texture2DRenderer.RENDERER_ID = "Texture2DRenderer";
             return Texture2DRenderer;
         })(Renderers.Renderer);
         Renderers.Texture2DRenderer = Texture2DRenderer;
@@ -27451,7 +27465,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.5.2";
+    Kiwi.VERSION = "0.5.3";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

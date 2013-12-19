@@ -68,15 +68,7 @@ module Kiwi.Renderers {
 
         private _textureManager: GLTextureManager;
         
-
-        /**
-        * The current camara that is being rendered
-        * @property _currentCamera
-        * @type Camera
-        * @private
-        */
-        private _currentCamera: Kiwi.Camera;
-        
+       
         /**
         * The stage resolution in pixels
         * @property _stageResolution
@@ -136,6 +128,28 @@ module Kiwi.Renderers {
         */
         private _currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
         
+
+
+        private _renderers: any = {};
+
+    
+        public addRenderer(rendererID:string):boolean {
+            //does renderer exist?
+            if (Kiwi.Renderers[rendererID]) {
+              
+                //already added?
+                if (!(rendererID in this._renderers)) {
+                    this._renderers[rendererID] = new Kiwi.Renderers[rendererID]();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //public removeRenderer(rendererName: string) {
+        //    delete this._renderers[rendererName];
+        //}
+
         /**
         * Performs initialisation required for single game instance - happens once
         * @method _init
@@ -144,43 +158,33 @@ module Kiwi.Renderers {
         private _init() {
            
             console.log("Intialising WebGL");
-
+            this.addRenderer("Texture2DRenderer");
+           
             var gl: WebGLRenderingContext = this._game.stage.gl;
-            
-            this._currentRenderer = new Texture2DRenderer;
-       
-
-
+           
             //init stage and viewport
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
             gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
-            
                 
             //set default state
             gl.enable(gl.BLEND);
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-
+            //create Model View Matrix
             this.mvMatrix = mat4.create();
             mat2d.identity(this.mvMatrix);
 
-            var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
-            renderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+            //initialise default renderer
+            this._currentRenderer = this._renderers.Texture2DRenderer;
+            this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
        
             //stage res needs update on stage resize
-            
-           // this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
-            
-            
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
-                renderer.updateStageResolution(gl, this._stageResolution);
-             //   this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
+                this._currentRenderer.updateStageResolution(gl, this._stageResolution);
                 gl.viewport(0, 0, width,height);
             },this);
 
-
-         
        }
 
         
@@ -214,48 +218,44 @@ module Kiwi.Renderers {
         * @public
         */
         public render(camera: Kiwi.Camera) {
-       
-                this.numDrawCalls = 0;
-                this._currentCamera = camera;
-                var root: IChild[] = this._game.states.current.members;
-                var gl: WebGLRenderingContext = this._game.stage.gl;
-
-                this._textureManager.numTextureWrites = 0;
-
-                this._entityCount = 0;
-               
-                //clear 
-                var col = this._game.stage.normalizedColor;
-                gl.clearColor(col.r, col.g, col.b, col.a);
-                gl.clear(gl.COLOR_BUFFER_BIT);
-
-                
-             
-                //set cam matrix uniform
-                var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
-                var ct: Kiwi.Geom.Transform = camera.transform;
-          
-                this.mvMatrix = new Float32Array([
-                    cm.a, cm.b, 0, 0,
-                    cm.c, cm.d, 0, 0,
-                    0, 0, 1, 0,
-                    ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
-                ]);
-                this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
-                var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
-                renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
-               
-                
-                //iterate
-                
-                for (var i = 0; i < root.length; i++) {
-                    this._recurse(gl, root[i], camera);
-                }
             
-                //draw anything left over
-                renderer.draw(gl, { entityCount: this._entityCount });
+            var gl: WebGLRenderingContext = this._game.stage.gl;
+                                       
+            //reset stats
+            this.numDrawCalls = 0;
+            this._textureManager.numTextureWrites = 0;
+            this._entityCount = 0;
+               
+            //clear stage 
+            var col = this._game.stage.normalizedColor;
+            gl.clearColor(col.r, col.g, col.b, col.a);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            
+            //set cam matrix uniform
+            var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
+            var ct: Kiwi.Geom.Transform = camera.transform;
 
-           
+            //**Optimise me          
+            this.mvMatrix = new Float32Array([
+                cm.a, cm.b, 0, 0,
+                cm.c, cm.d, 0, 0,
+                0, 0, 1, 0,
+                ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
+            ]);
+            this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
+            
+            //clear current renderer ready for a batch
+            this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+            
+            //render the scene graph starting at the root
+            var root: IChild[] = this._game.states.current.members;
+            for (var i = 0; i < root.length; i++) {
+                this._recurse(gl, root[i], camera);
+            }
+            
+            //draw anything left over
+            this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+       
         }
 
         /**
@@ -268,8 +268,7 @@ module Kiwi.Renderers {
         */
         private _recurse(gl: WebGLRenderingContext, child: IChild, camera: Kiwi.Camera) {
             if (!child.willRender) return;
-            var renderer: Texture2DRenderer = <Texture2DRenderer>this._currentRenderer;
-
+          
             if (child.childType() === Kiwi.GROUP) {
                 for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
                     this._recurse(gl,(<Kiwi.Group>child).members[i],camera);
@@ -278,21 +277,22 @@ module Kiwi.Renderers {
                 
                 //draw and switch to different texture if need be
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
-                   
-                    renderer.draw(gl, { entityCount: this._entityCount });
+                    
+                    this._currentRenderer.draw(gl, { entityCount: this._entityCount });
                     this.numDrawCalls++;
                     this._entityCount = 0;
-                    renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
+                    this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
 
-                   
-                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize))
+                    
+                    if (!this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize)) {
                         return;
+                    }
                     this._currentTextureAtlas = (<Entity>child).atlas;
                 } 
                 
                 //"render"
                 //renderer.collateVertexAttributeArrays(gl, <Entity>child, camera);
-                (<Kiwi.Entity>child).renderGL(gl, renderer, camera);
+                (<Kiwi.Entity>child).renderGL(gl, this._currentRenderer, camera);
                 this._entityCount++;
                 
             }

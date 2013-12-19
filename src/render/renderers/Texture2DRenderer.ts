@@ -16,6 +16,8 @@ module Kiwi.Renderers {
             super();
         }
 
+        public static RENDERER_ID: string = "Texture2DRenderer";
+
         public init(gl: WebGLRenderingContext, params: any) {
             //create buffers
             //dynamic
@@ -44,7 +46,7 @@ module Kiwi.Renderers {
 
         }
 
-
+        public shaderPair: Texture2DShader;
        
         public clear(gl: WebGLRenderingContext,params:any) {
             this.xyuvBuffer.clear();
@@ -117,6 +119,11 @@ module Kiwi.Renderers {
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
             this.stageResolution = res;
             this.shaderPair.uResolution(gl, res);
+        }
+
+        public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
+            this.textureSize = size;
+            this.shaderPair.uTextureSize(gl, size);
         }
 
         /**

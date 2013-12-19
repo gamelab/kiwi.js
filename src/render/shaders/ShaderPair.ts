@@ -4,6 +4,18 @@
 * @submodule Renderers
 * 
 */
+
+interface IShaderPair {
+    init(gl: WebGLRenderingContext);
+    ready: boolean;
+    vertShader: WebGLShader;
+    fragShader: WebGLShader;
+    shaderProgram: WebGLProgram;
+    uniforms: any;
+    attributes: any;
+
+}
+
 module Kiwi.Renderers {
     
     /**
@@ -13,7 +25,7 @@ module Kiwi.Renderers {
     * @param gl {WebGLRenderingContext}
     * @return {GLShaders}
     */
-    export class GLShaderPair {
+    export class ShaderPair {
 
         constructor() {
       
@@ -98,13 +110,7 @@ module Kiwi.Renderers {
             return shader;
         }
 
-        /**
-        *
-        * @property texture2DProg
-        * @type Object
-        * @public
-        */
-        public descriptor: any;
+       
 
         /**
         *

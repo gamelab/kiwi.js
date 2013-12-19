@@ -41,7 +41,7 @@
     <Content Include="render\GLElementArrayBuffer.ts" />
     <Content Include="render\GLProgramManager.ts" />
     <Content Include="render\GLRenderer.ts" />
-    <Content Include="render\GLShaderPair.ts" />
+    <Content Include="render\shaders\ShaderPair.ts" />
     <Content Include="render\GLTextureWrapper.ts" />
     <Content Include="render\GLTextureManager.ts" />
     <Content Include="render\renderers\Renderer.ts" />
