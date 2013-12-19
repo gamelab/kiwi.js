@@ -27451,7 +27451,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.5.2";
+    Kiwi.VERSION = "0.5.3";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
