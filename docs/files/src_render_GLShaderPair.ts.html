@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\renderers\GLElementArrayBuffer.ts - Kiwi.js</title>
+    <title>src\render\GLShaderPair.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -40,6 +40,16 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -177,8 +187,6 @@
             
                 <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
             
-                <li><a href="../classes/Kiwi.Input.IRenderer.html">Kiwi.Input.IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
             
                 <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
@@ -200,12 +208,6 @@
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLRenderer.html">Kiwi.Renderers.GLRenderer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLShaders.html">Kiwi.Renderers.GLShaders</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLTexture.html">Kiwi.Renderers.GLTexture</a></li>
             
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
@@ -336,7 +338,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\renderers\GLElementArrayBuffer.ts</h1>
+                        <h1 class="file-heading">File: src\render\GLShaderPair.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -346,121 +348,139 @@
 * @submodule Renderers
 * 
 */
-
 module Kiwi.Renderers {
-
+    
     /**
     *
-    * @class GLElementArrayBuffer
+    * @class GLShaders
     * @constructor
-    * @namespace Kiwi.Renderers
-    * @param gl {WebGLRenderingContent}
-    * @param [_itemSize] {number}
-    * @param [_indices] {number[]}
-    * @param [init=true] {boolean}
-    * @return {GLElementArrayBuffer}
+    * @param gl {WebGLRenderingContext}
+    * @return {GLShaders}
     */
-    export class GLElementArrayBuffer {
+    export class GLShaderPair {
 
-        constructor(gl: WebGLRenderingContext, _itemSize?: number, _indices?: number[], init: boolean = true) {
+        constructor() {
+      
+            
+        }
 
-            this.indices = _indices || GLElementArrayBuffer.square;
-            this.itemSize = _itemSize || 1;
-            this.numItems = this.indices.length / this.itemSize;
-            if (init) {
-                this.buffer = this.init(gl);
+        public init(gl: WebGLRenderingContext) {
+            this.vertShader = this.compile(gl, this.vertSource.join(&quot;\n&quot;), gl.VERTEX_SHADER);
+            this.fragShader = this.compile(gl, this.fragSource.join(&quot;\n&quot;), gl.FRAGMENT_SHADER);
+            this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+            this.use(gl);
+            this.ready = true;
+        }
+        
+
+        /**
+        *
+        * @property ready
+        * @type boolean
+        * @public
+        */
+        public ready: boolean = false;
+        
+        /**
+        *
+        * @property vertShader
+        * @type WebGLShader
+        * @public
+        */
+        public vertShader: WebGLShader;
+        
+        /**
+        *
+        * @property fragShader
+        * @type WebGLShader
+        * @public
+        */
+        public fragShader: WebGLShader;
+        
+        /**
+        *
+        * @property shaderProgram
+        * @type WebGLProgram
+        * @public
+        */
+        public shaderProgram: WebGLProgram;
+        
+        /**
+        *
+        * @method attach
+        * @param gl {WebGLRenderingContext}
+        * @param vertShader {WebGLShader}
+        * @param fragShader {WebGLShader}
+        * @return {WebGLProgram}
+        * @public
+        */
+        public attach(gl: WebGLRenderingContext, vertShader: WebGLShader, fragShader: WebGLShader): WebGLProgram {
+            var shaderProgram: WebGLProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, fragShader);
+            gl.attachShader(shaderProgram, vertShader);
+            gl.linkProgram(shaderProgram);
+            return shaderProgram;
+        }
+        
+        /**
+        *
+        * @method compile
+        * @param gl {WebGLRenderingContext}
+        * @param src {string}
+        * @param shaderType {number}
+        * @return {WebGLShader}
+        * @public
+        */
+        public compile(gl: WebGLRenderingContext, src: string, shaderType: number): WebGLShader {
+            var shader: WebGLShader = gl.createShader(shaderType);
+            gl.shaderSource(shader, src);
+            gl.compileShader(shader);
+
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                return null;
             }
-        }
-        
-        /**
-        * 
-        * @property indices
-        * @type number[]
-        * @public
-        */
-        public indices: number[];
-        
-        /**
-        * 
-        * @property buffer
-        * @type WebGLBuffer
-        * @public
-        */
-        public buffer: WebGLBuffer;
-        
-        /**
-        * 
-        * @property itemSize
-        * @type number
-        * @public
-        */
-        public itemSize: number;
-        
-        /**
-        * 
-        * @property numItems
-        * @type number
-        * @public
-        */
-        public numItems: number;
-        
-        /**
-        * 
-        * @method clear
-        * @public
-        */
-        public clear() {
-            this.indices = new Array();
+            return shader;
         }
 
         /**
         *
-        * @method init
+        * @property texture2DProg
+        * @type Object
+        * @public
+        */
+        public descriptor: any;
+
+        /**
+        *
+        * @method use
         * @param gl {WebGLRenderingContext}
-        * @return {WebGLBuffer}
+        * @param shaderProrgram {WebGLProgram}
         * @public
         */
-        public init(gl: WebGLRenderingContext): WebGLBuffer {
-            var buffer: WebGLBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
-
-            return buffer;
+        public use(gl: WebGLRenderingContext) {
+           
         }
-        
+
         /**
         *
-        * @method refresh
-        * @param gl {WebGLRenderingContext}
-        * @param indices {number[]} 
-        * @return {WebGLBuffer}
+        * @property texture2DFrag
+        * @type Array
         * @public
         */
-        public refresh(gl: WebGLRenderingContext,indices:number[]): WebGLBuffer {
-            this.numItems = this.indices.length / this.itemSize;
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffer);
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.STATIC_DRAW);
+        public fragSource: Array&lt;any&gt;;
 
-            return this.buffer;
-        }
-        
         /**
         *
-        * @property square 
-        * @static
-        * @type number[]
-        * @default [0,1,2,0,2,3]
+        * @property texture2DVert
+        * @type Array
         * @public
         */
-        public static square: number[] = [
-            0, 1, 2,
-            0, 2, 3
-        ];
+        public vertSource: Array&lt;any&gt;;
 
     }
 
-}
 
+}
     </pre>
 </div>
 

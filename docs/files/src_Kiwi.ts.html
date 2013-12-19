@@ -41,6 +41,16 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -177,8 +187,6 @@
             
                 <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
             
-                <li><a href="../classes/Kiwi.Input.IRenderer.html">Kiwi.Input.IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
             
                 <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
@@ -200,12 +208,6 @@
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLRenderer.html">Kiwi.Renderers.GLRenderer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLShaders.html">Kiwi.Renderers.GLShaders</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLTexture.html">Kiwi.Renderers.GLTexture</a></li>
             
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
@@ -439,13 +441,16 @@
 
 /// &lt;reference path=&quot;plugins/Plugins.ts&quot; /&gt;
 
-/// &lt;reference path=&quot;renderers/CanvasRenderer.ts&quot; /&gt;
-/// &lt;reference path=&quot;renderers/GLRenderer.ts&quot; /&gt;
-/// &lt;reference path=&quot;renderers/GLShaders.ts&quot; /&gt;
-/// &lt;reference path=&quot;renderers/GLTexture.ts&quot; /&gt;
-/// &lt;reference path=&quot;renderers/GLArrayBuffer.ts&quot; /&gt;
-/// &lt;reference path=&quot;renderers/GLElementArrayBuffer.ts&quot; /&gt;
-
+/// &lt;reference path=&quot;render/CanvasRenderer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLRenderer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLShaderPair.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLTextureWrapper.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLTextureManager.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLArrayBuffer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/GLElementArrayBuffer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/renderers/Renderer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/renderers/Texture2DRenderer.ts&quot; /&gt;
+/// &lt;reference path=&quot;render/shaders/Texture2DShader.ts&quot; /&gt;
 
 /// &lt;reference path=&quot;system/Bootstrap.ts&quot; /&gt;
 /// &lt;reference path=&quot;system/Browser.ts&quot; /&gt;
@@ -485,7 +490,7 @@ module Kiwi {
     * @default &#x27;1.0&#x27;
     * @public
     */
-    export var VERSION: string = &quot;0.5.2&quot;;
+    export var VERSION: string = &quot;0.5.3&quot;;
     
     //DIFFERENT RENDERER STATIC VARIABLES
     /**

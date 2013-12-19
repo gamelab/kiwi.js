@@ -491,7 +491,7 @@ module Kiwi.Components {
         * @param [seperateObjects=true] {Boolean} If when a collision is found the objects should seperate out.
         * @return {Boolean} 
         */
-        public static overlapsArrayGroup(array: Array, group: Kiwi.Group, separateObjects: boolean = true) {
+        public static overlapsArrayGroup(array: Array<any>, group: Kiwi.Group, separateObjects: boolean = true) {
 
             var result: boolean = false;
 
@@ -826,7 +826,7 @@ module Kiwi.Components {
         * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
         * @return {boolean} If a collision was detected or not.
         */ 
-        public overlapsArray(array: Array, separateObjects: boolean = false): boolean {
+        public overlapsArray(array: Array<any>, separateObjects: boolean = false): boolean {
             
             var results: boolean = false;
 

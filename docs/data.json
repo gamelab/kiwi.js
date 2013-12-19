@@ -921,13 +921,34 @@
                 "Kiwi.Input": 1
             }
         },
-        "src\\renderers\\CanvasRenderer.ts": {
-            "name": "src\\renderers\\CanvasRenderer.ts",
+        "src\\render\\renderers\\Renderer.ts": {
+            "name": "src\\render\\renderers\\Renderer.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\render\\renderers\\Texture2DRenderer.ts": {
+            "name": "src\\render\\renderers\\Texture2DRenderer.ts",
             "modules": {
                 "Renderers": 1
             },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\render\\shaders\\Texture2DShader.ts": {
+            "name": "src\\render\\shaders\\Texture2DShader.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\render\\CanvasRenderer.ts": {
+            "name": "src\\render\\CanvasRenderer.ts",
+            "modules": {},
             "classes": {
-                "Kiwi.Input.IRenderer": 1,
+                "IRenderer": 1,
                 "Kiwi.Renderers.CanvasRenderer": 1
             },
             "fors": {},
@@ -935,8 +956,8 @@
                 "Kiwi.Renderers": 1
             }
         },
-        "src\\renderers\\GLArrayBuffer.ts": {
-            "name": "src\\renderers\\GLArrayBuffer.ts",
+        "src\\render\\GLArrayBuffer.ts": {
+            "name": "src\\render\\GLArrayBuffer.ts",
             "modules": {},
             "classes": {
                 "Kiwi.Renderers.GLArrayBuffer": 1
@@ -946,8 +967,8 @@
                 "Kiwi.Renderers": 1
             }
         },
-        "src\\renderers\\GLElementArrayBuffer.ts": {
-            "name": "src\\renderers\\GLElementArrayBuffer.ts",
+        "src\\render\\GLElementArrayBuffer.ts": {
+            "name": "src\\render\\GLElementArrayBuffer.ts",
             "modules": {},
             "classes": {
                 "Kiwi.Renderers.GLElementArrayBuffer": 1
@@ -957,38 +978,41 @@
                 "Kiwi.Renderers": 1
             }
         },
-        "src\\renderers\\GLRenderer.ts": {
-            "name": "src\\renderers\\GLRenderer.ts",
+        "src\\render\\GLRenderer.ts": {
+            "name": "src\\render\\GLRenderer.ts",
             "modules": {},
             "classes": {
-                "Kiwi.Renderers.GLRenderer": 1
+                "GLRenderer": 1
             },
             "fors": {},
-            "namespaces": {
-                "Kiwi.Renderers": 1
-            }
+            "namespaces": {}
         },
-        "src\\renderers\\GLShaders.ts": {
-            "name": "src\\renderers\\GLShaders.ts",
+        "src\\render\\GLShaderPair.ts": {
+            "name": "src\\render\\GLShaderPair.ts",
             "modules": {},
             "classes": {
-                "Kiwi.Renderers.GLShaders": 1
+                "GLShaders": 1
             },
             "fors": {},
-            "namespaces": {
-                "Kiwi.Renderers": 1
-            }
+            "namespaces": {}
         },
-        "src\\renderers\\GLTexture.ts": {
-            "name": "src\\renderers\\GLTexture.ts",
+        "src\\render\\GLTextureManager.ts": {
+            "name": "src\\render\\GLTextureManager.ts",
             "modules": {},
             "classes": {
-                "Kiwi.Renderers.GLTexture": 1
+                "GLTextureManager": 1
             },
             "fors": {},
-            "namespaces": {
-                "Kiwi.Renderers": 1
-            }
+            "namespaces": {}
+        },
+        "src\\render\\GLTextureWrapper.ts": {
+            "name": "src\\render\\GLTextureWrapper.ts",
+            "modules": {},
+            "classes": {
+                "GLTexture": 1
+            },
+            "fors": {},
+            "namespaces": {}
         },
         "src\\sound\\Audio.ts": {
             "name": "src\\sound\\Audio.ts",
@@ -1385,13 +1409,14 @@
                 "Kiwi.Input.MouseCursor": 1,
                 "Kiwi.Input.Pointer": 1,
                 "Kiwi.Input.Touch": 1,
-                "Kiwi.Input.IRenderer": 1,
+                "GLShaders": 1,
+                "IRenderer": 1,
                 "Kiwi.Renderers.CanvasRenderer": 1,
                 "Kiwi.Renderers.GLArrayBuffer": 1,
                 "Kiwi.Renderers.GLElementArrayBuffer": 1,
-                "Kiwi.Renderers.GLRenderer": 1,
-                "Kiwi.Renderers.GLShaders": 1,
-                "Kiwi.Renderers.GLTexture": 1,
+                "GLRenderer": 1,
+                "GLTextureManager": 1,
+                "GLTexture": 1,
                 "Kiwi.Sound.Audio": 1,
                 "Kiwi.Sound.AudioLibrary": 1,
                 "Kiwi.Sound.AudioManager": 1,
@@ -1433,7 +1458,7 @@
             },
             "tag": "main",
             "file": "src\\Kiwi.ts",
-            "line": 282,
+            "line": 285,
             "description": "Module - Kiwi (Core)\nThe top level namespace in which all core classes and modules are defined.",
             "itemtype": "main"
         },
@@ -1674,13 +1699,14 @@
             "name": "Renderers",
             "submodules": {},
             "classes": {
-                "Kiwi.Input.IRenderer": 1,
+                "GLShaders": 1,
+                "IRenderer": 1,
                 "Kiwi.Renderers.CanvasRenderer": 1,
                 "Kiwi.Renderers.GLArrayBuffer": 1,
                 "Kiwi.Renderers.GLElementArrayBuffer": 1,
-                "Kiwi.Renderers.GLRenderer": 1,
-                "Kiwi.Renderers.GLShaders": 1,
-                "Kiwi.Renderers.GLTexture": 1
+                "GLRenderer": 1,
+                "GLTextureManager": 1,
+                "GLTexture": 1
             },
             "fors": {},
             "is_submodule": 1,
@@ -1689,8 +1715,8 @@
             },
             "module": "Kiwi",
             "namespace": "",
-            "file": "src\\renderers\\GLTexture.ts",
-            "line": 10,
+            "file": "src\\render\\GLTextureWrapper.ts",
+            "line": 12,
             "description": "Contains the classes which are related to the rendering of GameObjects.",
             "tag": "main",
             "itemtype": "main"
@@ -4553,8 +4579,34 @@
                 "type": "Touch"
             }
         },
-        "Kiwi.Input.IRenderer": {
-            "name": "Kiwi.Input.IRenderer",
+        "GLShaders": {
+            "name": "GLShaders",
+            "shortname": "GLShaders",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Kiwi",
+            "namespace": "",
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 9,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "GLShaders"
+            },
+            "submodule": "Renderers"
+        },
+        "IRenderer": {
+            "name": "IRenderer",
             "shortname": "IRenderer",
             "classitems": [],
             "plugins": [],
@@ -4562,8 +4614,8 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "Kiwi",
-            "namespace": "Kiwi.Input",
-            "file": "src\\renderers\\CanvasRenderer.ts",
+            "namespace": "",
+            "file": "src\\render\\CanvasRenderer.ts",
             "line": 1,
             "description": "A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),\nwhich outlines the methods/properties that are required any Renderer.",
             "submodule": "Renderers"
@@ -4579,8 +4631,8 @@
             "module": "Kiwi",
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
-            "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 20,
+            "file": "src\\render\\CanvasRenderer.ts",
+            "line": 23,
             "extends": "IRenderer",
             "is_constructor": 1,
             "params": [
@@ -4606,7 +4658,7 @@
             "module": "Kiwi",
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
-            "file": "src\\renderers\\GLArrayBuffer.ts",
+            "file": "src\\render\\GLArrayBuffer.ts",
             "line": 10,
             "is_constructor": 1,
             "params": [
@@ -4651,7 +4703,7 @@
             "module": "Kiwi",
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
-            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "file": "src\\render\\GLElementArrayBuffer.ts",
             "line": 10,
             "is_constructor": 1,
             "params": [
@@ -4685,9 +4737,9 @@
                 "type": "GLElementArrayBuffer"
             }
         },
-        "Kiwi.Renderers.GLRenderer": {
-            "name": "Kiwi.Renderers.GLRenderer",
-            "shortname": "Kiwi.Renderers.GLRenderer",
+        "GLRenderer": {
+            "name": "GLRenderer",
+            "shortname": "GLRenderer",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4695,9 +4747,10 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers",
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 11,
+            "namespace": "",
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 16,
+            "description": "Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix",
             "extends": "IRenderer",
             "is_constructor": 1,
             "params": [
@@ -4712,9 +4765,9 @@
                 "type": "GLRenderer"
             }
         },
-        "Kiwi.Renderers.GLShaders": {
-            "name": "Kiwi.Renderers.GLShaders",
-            "shortname": "Kiwi.Renderers.GLShaders",
+        "GLTextureManager": {
+            "name": "GLTextureManager",
+            "shortname": "GLTextureManager",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4722,25 +4775,19 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers",
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 9,
+            "namespace": "",
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 10,
+            "description": "Manages GL Texture objects, including creation, uploading, destruction and memory management",
             "is_constructor": 1,
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                }
-            ],
             "return": {
                 "description": "",
-                "type": "GLShaders"
+                "type": "GLTextureManager"
             }
         },
-        "Kiwi.Renderers.GLTexture": {
-            "name": "Kiwi.Renderers.GLTexture",
-            "shortname": "Kiwi.Renderers.GLTexture",
+        "GLTexture": {
+            "name": "GLTexture",
+            "shortname": "GLTexture",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4748,9 +4795,9 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers",
-            "file": "src\\renderers\\GLTexture.ts",
-            "line": 10,
+            "namespace": "",
+            "file": "src\\render\\GLTextureWrapper.ts",
+            "line": 12,
             "is_constructor": 1,
             "params": [
                 {
@@ -5462,7 +5509,7 @@
             "module": "Kiwi",
             "namespace": "Kiwi",
             "file": "src\\Kiwi.ts",
-            "line": 282,
+            "line": 285,
             "description": "The GameManager is used to maintain mulitple instances of Kiwi games within a single document.",
             "static": 1
         }
@@ -11383,7 +11430,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 43,
+            "line": 49,
             "description": "Represents the position, scale, rotation and registration of this Entity.",
             "itemtype": "property",
             "name": "transform",
@@ -11396,7 +11443,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 51,
+            "line": 57,
             "description": "The group that this entity belongs to. If added onto the state then this is the state.",
             "itemtype": "property",
             "name": "_parent",
@@ -11409,7 +11456,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 59,
+            "line": 65,
             "description": "The group that this entity belongs to/is a child of once added to one. If added onto the state then this is the state.",
             "itemtype": "property",
             "name": "parent",
@@ -11429,7 +11476,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 74,
+            "line": 80,
             "description": "X coordinate of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "x",
@@ -11442,7 +11489,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 87,
+            "line": 93,
             "description": "Y coordinate of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "y",
@@ -11455,7 +11502,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 101,
+            "line": 107,
             "description": "Scale X of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "scaleX",
@@ -11468,7 +11515,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 114,
+            "line": 120,
             "description": "Scale Y coordinate of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "scaleY",
@@ -11481,7 +11528,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 128,
+            "line": 134,
             "description": "Rotation of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "rotation",
@@ -11494,7 +11541,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 141,
+            "line": 147,
             "description": "The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.",
             "itemtype": "property",
             "name": "rotPointX",
@@ -11507,7 +11554,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 154,
+            "line": 160,
             "description": "The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.",
             "itemtype": "property",
             "name": "rotPointY",
@@ -11520,7 +11567,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 167,
+            "line": 173,
             "description": "Returns the type of child that this is.",
             "type": "Number",
             "return": {
@@ -11535,7 +11582,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 177,
+            "line": 183,
             "description": "The actual alpha of this entity.",
             "itemtype": "property",
             "name": "_alpha",
@@ -11548,7 +11595,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 185,
+            "line": 191,
             "description": "Alpha of this entity. A number between 0 (invisible) and 1 (completely visible).",
             "itemtype": "property",
             "name": "alpha",
@@ -11561,7 +11608,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 201,
+            "line": 207,
             "description": "A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.",
             "itemtype": "property",
             "name": "_visible",
@@ -11575,7 +11622,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 210,
+            "line": 216,
             "description": "Set the visiblity of this entity. True or False.",
             "itemtype": "property",
             "name": "visibility",
@@ -11589,7 +11636,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 224,
+            "line": 230,
             "description": "The width of the entity in pixels.",
             "itemtype": "property",
             "name": "width",
@@ -11603,7 +11650,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 233,
+            "line": 239,
             "description": "The height of the entity in pixels.",
             "itemtype": "property",
             "name": "height",
@@ -11617,7 +11664,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 242,
+            "line": 248,
             "description": "The texture atlas that is to be used on this entity.",
             "itemtype": "property",
             "name": "atlas",
@@ -11630,7 +11677,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 250,
+            "line": 256,
             "description": "Used as a reference to a single Cell in the atlas that is to be rendered. \nE.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1",
             "itemtype": "property",
             "name": "cellIndex",
@@ -11644,7 +11691,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 260,
+            "line": 266,
             "description": "The Component Manager",
             "itemtype": "property",
             "name": "components",
@@ -11657,7 +11704,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 268,
+            "line": 274,
             "description": "The game this Entity belongs to",
             "itemtype": "property",
             "name": "game",
@@ -11670,7 +11717,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 276,
+            "line": 282,
             "description": "The state this Entity belongs to (either the current game state or a persistent world state)",
             "itemtype": "property",
             "name": "state",
@@ -11683,7 +11730,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 284,
+            "line": 290,
             "description": "A unique identifier for this Entity within the game used internally by the framework. See the name property for a friendly version.",
             "itemtype": "property",
             "name": "id",
@@ -11696,7 +11743,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 292,
+            "line": 298,
             "description": "A name for this Entity. This is not checked for uniqueness within the Game, but is very useful for debugging",
             "itemtype": "property",
             "name": "name",
@@ -11710,7 +11757,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 301,
+            "line": 307,
             "description": "If an Entity no longer exists it is cleared for garbage collection or pool re-allocation",
             "itemtype": "property",
             "name": "_exists",
@@ -11723,7 +11770,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 309,
+            "line": 315,
             "description": "Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.",
             "itemtype": "property",
             "name": "exists",
@@ -11736,7 +11783,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 322,
+            "line": 328,
             "description": "An active Entity is one that has its update method called by its parent.",
             "itemtype": "property",
             "name": "_active",
@@ -11750,7 +11797,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 331,
+            "line": 337,
             "description": "Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.\nThis method should be over-ridden to handle specific dom/canvas/webgl implementations.",
             "itemtype": "property",
             "name": "active",
@@ -11763,7 +11810,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 345,
+            "line": 351,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "_willRender",
@@ -11777,7 +11824,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 354,
+            "line": 360,
             "description": "Toggles if this Entity will be rendered by a canvas layer. Use the visibile component for DOM layers.",
             "itemtype": "property",
             "name": "willRender",
@@ -11791,7 +11838,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 368,
+            "line": 374,
             "description": "If an Entity no longer exists it is cleared for garbage collection or pool re-allocation",
             "itemtype": "property",
             "name": "exists",
@@ -11804,7 +11851,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 376,
+            "line": 382,
             "description": "Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)\nThis method should be over-ridden to handle specific game object implementations.",
             "itemtype": "property",
             "name": "inputEnabled",
@@ -11817,7 +11864,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 390,
+            "line": 396,
             "description": "The clock that this entity use's for time based calculations. This generated by the state on instatiation.",
             "itemtype": "property",
             "name": "_clock",
@@ -11830,7 +11877,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 398,
+            "line": 404,
             "description": "The Clock used to update this all of this Entities components (defaults to the Game MasterClock)",
             "itemtype": "property",
             "name": "clock",
@@ -11843,7 +11890,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 411,
+            "line": 417,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "dirty",
@@ -11856,7 +11903,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 419,
+            "line": 425,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "dirty",
@@ -11869,7 +11916,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 434,
+            "line": 440,
             "description": "The type of this object.",
             "itemtype": "method",
             "name": "objType",
@@ -11885,7 +11932,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 444,
+            "line": 450,
             "description": "This isn't called until the Entity has been added to a Group or a State",
             "itemtype": "method",
             "name": "update",
@@ -11897,7 +11944,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 453,
+            "line": 459,
             "description": "This isn't called until the Entity has been added to a layer.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "render",
@@ -11916,7 +11963,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 464,
+            "line": 475,
             "description": "Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.",
             "itemtype": "method",
             "name": "destroy",
@@ -12032,7 +12079,7 @@
             "description": "Holds the renderer that is being used. This is detiremended based of the _renderMode",
             "itemtype": "property",
             "name": "renderer",
-            "type": "IRenderer",
+            "type": "IRenderManager",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Game",
@@ -15982,7 +16029,7 @@
         },
         {
             "file": "src\\core\\StateManager.ts",
-            "line": 432,
+            "line": 435,
             "description": "Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.",
             "itemtype": "method",
             "name": "rebuildLibraries",
@@ -15994,7 +16041,7 @@
         },
         {
             "file": "src\\core\\StateManager.ts",
-            "line": 445,
+            "line": 448,
             "description": "The update loop that is accessable on the state manager.",
             "itemtype": "method",
             "name": "update",
@@ -16006,7 +16053,7 @@
         },
         {
             "file": "src\\core\\StateManager.ts",
-            "line": 472,
+            "line": 475,
             "description": "postRender - called after all of the Layers have been rendered",
             "itemtype": "method",
             "name": "postRender",
@@ -33247,8 +33294,195 @@
             "namespace": "Kiwi.Input"
         },
         {
-            "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 36,
+            "file": "src\\render\\renderers\\Renderer.ts",
+            "line": 20,
+            "description": "GL-Matrix.js provided 4x4 matrix used for matrix uniform",
+            "itemtype": "property",
+            "name": "mvMatrix",
+            "type": "Float32Array",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src\\render\\renderers\\Renderer.ts",
+            "line": 29,
+            "description": "The stage resolution in pixels",
+            "itemtype": "property",
+            "name": "_stageResolution",
+            "type": "Float32Array",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src\\render\\renderers\\Renderer.ts",
+            "line": 40,
+            "description": "Shader pair for standard 2d sprite rendering",
+            "itemtype": "property",
+            "name": "_texture2DShaderPair",
+            "type": "GLShaders",
+            "access": "private",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src\\render\\renderers\\Texture2DRenderer.ts",
+            "line": 63,
+            "description": "Maximum allowable sprites to render per frame",
+            "itemtype": "property",
+            "name": "_maxItems",
+            "type": "number",
+            "default": "1000",
+            "access": "private",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\renderers\\Texture2DRenderer.ts",
+            "line": 74,
+            "description": "Storage for the xy (position) and uv(texture) coordinates that are generated each frame",
+            "itemtype": "property",
+            "name": "_xyuvBuffer",
+            "type": "GLArrayBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\renderers\\Texture2DRenderer.ts",
+            "line": 82,
+            "description": "Storage for the polygon indices, pre generated to a length based on max items",
+            "itemtype": "property",
+            "name": "_indexBuffer",
+            "type": "GLElementArrayBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\renderers\\Texture2DRenderer.ts",
+            "line": 90,
+            "description": "Storage for alpha values for each vertex on a sprite",
+            "itemtype": "property",
+            "name": "_alphaBuffer",
+            "type": "GLArrayBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\renderers\\Texture2DRenderer.ts",
+            "line": 99,
+            "description": "Create prebaked indices for drawing quads",
+            "itemtype": "method",
+            "name": "_generateIndices",
+            "params": [
+                {
+                    "name": "numQuads",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "number[]"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\renderers\\Texture2DRenderer.ts",
+            "line": 122,
+            "description": "Collates all xy and uv coordinates into a buffer ready for upload to viceo memory",
+            "itemtype": "method",
+            "name": "_collateVertexAttributeArrays",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "entity",
+                    "description": "",
+                    "type": "Entity"
+                },
+                {
+                    "name": "camera",
+                    "description": "",
+                    "type": "Camera"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\shaders\\Texture2DShader.ts",
+            "line": 19,
+            "itemtype": "property",
+            "name": "texture2DFrag",
+            "type": "Array",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\render\\shaders\\Texture2DShader.ts",
+            "line": 37,
+            "itemtype": "property",
+            "name": "texture2DVert",
+            "type": "Array",
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\render\\shaders\\Texture2DShader.ts",
+            "line": 115,
+            "itemtype": "method",
+            "name": "use",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "shaderProrgram",
+                    "description": "",
+                    "type": "WebGLProgram"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "GLShaders",
+            "module": "Kiwi"
+        },
+        {
+            "file": "src\\render\\CanvasRenderer.ts",
+            "line": 39,
             "description": "The boot method is executed when all of the DOM elements that are needed to play the game are ready.",
             "itemtype": "method",
             "name": "boot",
@@ -33260,8 +33494,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 45,
+            "file": "src\\render\\CanvasRenderer.ts",
+            "line": 48,
             "description": "Returns the type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -33277,8 +33511,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 55,
+            "file": "src\\render\\CanvasRenderer.ts",
+            "line": 58,
             "description": "The game that this object belongs to.",
             "itemtype": "property",
             "name": "_game",
@@ -33291,8 +33525,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 63,
+            "file": "src\\render\\CanvasRenderer.ts",
+            "line": 66,
             "description": "The camera that is currently being used to render upon.",
             "itemtype": "property",
             "name": "_currentCamera",
@@ -33305,8 +33539,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 71,
+            "file": "src\\render\\CanvasRenderer.ts",
+            "line": 74,
             "description": "This method recursively goes through a State's members and runs the render method of each member that is a Entity. \nIf it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.",
             "itemtype": "method",
             "name": "_recurse",
@@ -33325,8 +33559,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\CanvasRenderer.ts",
-            "line": 95,
+            "file": "src\\render\\CanvasRenderer.ts",
+            "line": 108,
             "description": "Renders all of the Elements that are on a particular camera.",
             "itemtype": "method",
             "name": "render",
@@ -33345,8 +33579,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 33,
+            "file": "src\\render\\GLArrayBuffer.ts",
+            "line": 45,
             "itemtype": "property",
             "name": "items",
             "type": "number[]",
@@ -33358,8 +33592,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 41,
+            "file": "src\\render\\GLArrayBuffer.ts",
+            "line": 53,
             "itemtype": "property",
             "name": "buffer",
             "type": "WebGLBuffer",
@@ -33371,8 +33605,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 49,
+            "file": "src\\render\\GLArrayBuffer.ts",
+            "line": 61,
             "itemtype": "property",
             "name": "itemSize",
             "type": "number",
@@ -33384,8 +33618,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 57,
+            "file": "src\\render\\GLArrayBuffer.ts",
+            "line": 69,
             "itemtype": "property",
             "name": "numItems",
             "type": "number",
@@ -33397,8 +33631,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 65,
+            "file": "src\\render\\GLArrayBuffer.ts",
+            "line": 77,
             "itemtype": "method",
             "name": "clear",
             "access": "public",
@@ -33409,8 +33643,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 74,
+            "file": "src\\render\\GLArrayBuffer.ts",
+            "line": 86,
             "itemtype": "method",
             "name": "init",
             "params": [
@@ -33432,36 +33666,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 90,
-            "itemtype": "method",
-            "name": "refresh",
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                },
-                {
-                    "name": "items",
-                    "description": "",
-                    "type": "Number[]"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "WebGLBuffer"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLArrayBuffer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 109,
+            "file": "src\\render\\GLArrayBuffer.ts",
+            "line": 121,
             "itemtype": "property",
             "name": "squareVertices",
             "type": "number[]",
@@ -33475,8 +33681,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 124,
+            "file": "src\\render\\GLArrayBuffer.ts",
+            "line": 136,
             "itemtype": "property",
             "name": "squareUVx",
             "type": "number[]",
@@ -33490,8 +33696,8 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLArrayBuffer.ts",
-            "line": 139,
+            "file": "src\\render\\GLArrayBuffer.ts",
+            "line": 151,
             "itemtype": "property",
             "name": "squareCols",
             "type": "number[]",
@@ -33505,7 +33711,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "file": "src\\render\\GLElementArrayBuffer.ts",
             "line": 33,
             "itemtype": "property",
             "name": "indices",
@@ -33518,7 +33724,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "file": "src\\render\\GLElementArrayBuffer.ts",
             "line": 41,
             "itemtype": "property",
             "name": "buffer",
@@ -33531,7 +33737,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "file": "src\\render\\GLElementArrayBuffer.ts",
             "line": 49,
             "itemtype": "property",
             "name": "itemSize",
@@ -33544,7 +33750,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "file": "src\\render\\GLElementArrayBuffer.ts",
             "line": 57,
             "itemtype": "property",
             "name": "numItems",
@@ -33557,7 +33763,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "file": "src\\render\\GLElementArrayBuffer.ts",
             "line": 65,
             "itemtype": "method",
             "name": "clear",
@@ -33569,7 +33775,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "file": "src\\render\\GLElementArrayBuffer.ts",
             "line": 74,
             "itemtype": "method",
             "name": "init",
@@ -33592,7 +33798,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "file": "src\\render\\GLElementArrayBuffer.ts",
             "line": 89,
             "itemtype": "method",
             "name": "refresh",
@@ -33620,7 +33826,7 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLElementArrayBuffer.ts",
+            "file": "src\\render\\GLElementArrayBuffer.ts",
             "line": 105,
             "itemtype": "property",
             "name": "square",
@@ -33635,20 +33841,20 @@
             "namespace": "Kiwi.Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 27,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 34,
+            "description": "Initialises all WebGL rendering services",
             "itemtype": "method",
             "name": "boot",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 36,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 44,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -33658,240 +33864,177 @@
             },
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 46,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 54,
             "description": "The game that this renderer is on.",
             "itemtype": "property",
             "name": "_game",
             "type": "Game",
             "access": "private",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 54,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 62,
+            "description": "The texture manager",
+            "itemtype": "property",
+            "name": "_textureManager",
+            "type": "GLTextureManager",
+            "access": "private",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 72,
             "description": "The current camara that is being rendered",
             "itemtype": "property",
             "name": "_currentCamera",
             "type": "Camera",
             "access": "private",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 62,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 80,
+            "description": "The stage resolution in pixels",
             "itemtype": "property",
             "name": "_stageResolution",
             "type": "Float32Array",
             "access": "private",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 70,
-            "itemtype": "property",
-            "name": "_shaders",
-            "type": "GLShaders",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 78,
-            "itemtype": "property",
-            "name": "_vertBuffer",
-            "type": "GLArrayBuffer",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 86,
-            "itemtype": "property",
-            "name": "_indexBuffer",
-            "type": "GLElementArrayBuffer",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 94,
-            "itemtype": "property",
-            "name": "_uvBuffer",
-            "type": "GLArrayBuffer",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 102,
-            "itemtype": "property",
-            "name": "_colorBuffer",
-            "type": "GLArrayBuffer",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 110,
-            "itemtype": "property",
-            "name": "_texture",
-            "type": "GLTexture",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 118,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 92,
+            "description": "Tally of number of entities rendered per frame",
             "itemtype": "property",
             "name": "_entityCount",
             "type": "number",
             "default": "0",
             "access": "private",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 127,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 102,
+            "description": "Tally of number ofdraw calls per frame",
+            "itemtype": "property",
+            "name": "numDrawCalls",
+            "type": "number",
+            "default": "0",
+            "access": "public",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 111,
+            "description": "Maximum allowable sprites to render per frame",
             "itemtype": "property",
             "name": "_maxItems",
             "type": "number",
             "default": "1000",
             "access": "private",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 136,
-            "itemtype": "property",
-            "name": "_texApplied",
-            "type": "boolean",
-            "default": "false",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 145,
-            "itemtype": "property",
-            "name": "_firstPass",
-            "type": "boolean",
-            "default": "true",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 154,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 122,
+            "description": "GL-Matrix.js provided 4x4 matrix used for matrix uniform",
             "itemtype": "property",
             "name": "mvMatrix",
             "type": "Float32Array",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 162,
-            "itemtype": "property",
-            "name": "mvMatrixStack",
-            "type": "Array",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 170,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 131,
+            "description": "The most recently bound texture atlas used for sprite rendering",
             "itemtype": "property",
             "name": "_currentTextureAtlas",
             "type": "TextureAtlas",
             "access": "private",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 193,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 139,
+            "description": "Performs initialisation required for single game instance - happens once",
             "itemtype": "method",
-            "name": "_initState",
+            "name": "_init",
             "access": "private",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 248,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 187,
+            "description": "Performs initialisation required when switching to a different state",
+            "itemtype": "method",
+            "name": "initState",
+            "access": "public",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 198,
+            "description": "Performs cleanup required before switching to a different state",
+            "itemtype": "method",
+            "name": "initState",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "",
+                    "type": "Kiwi.State"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "GLRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 210,
+            "description": "Manages rendering of the scene graph - performs per frame setup",
             "itemtype": "method",
             "name": "render",
             "params": [
@@ -33903,14 +34046,14 @@
             ],
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 296,
+            "file": "src\\render\\GLRenderer.ts",
+            "line": 261,
+            "description": "Recursively renders scene graph tree",
             "itemtype": "method",
             "name": "_recurse",
             "params": [
@@ -33932,249 +34075,61 @@
             ],
             "access": "private",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
+            "class": "GLRenderer",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 334,
-            "itemtype": "method",
-            "name": "_flush",
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 346,
-            "itemtype": "method",
-            "name": "_compileVertices",
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                },
-                {
-                    "name": "entity",
-                    "description": "",
-                    "type": "Entity"
-                },
-                {
-                    "name": "camera",
-                    "description": "",
-                    "type": "Camera"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 390,
-            "itemtype": "method",
-            "name": "_compileUVs",
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                },
-                {
-                    "name": "entity",
-                    "description": "",
-                    "type": "Entity"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 408,
-            "itemtype": "method",
-            "name": "_applyTexture",
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                },
-                {
-                    "name": "image",
-                    "description": "",
-                    "type": "HTMLImageElement"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 423,
-            "itemtype": "method",
-            "name": "_changeTexture",
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                },
-                {
-                    "name": "image",
-                    "description": "",
-                    "type": "HTMLImageElement"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 439,
-            "itemtype": "method",
-            "name": "_draw",
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 451,
-            "itemtype": "method",
-            "name": "_generateIndices",
-            "params": [
-                {
-                    "name": "numQuads",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "number[]"
-            },
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLRenderer.ts",
-            "line": 468,
-            "itemtype": "method",
-            "name": "_generateColors",
-            "params": [
-                {
-                    "name": "numVerts",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "number[]"
-            },
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Renderers.GLRenderer",
-            "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
-        },
-        {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 28,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 32,
             "itemtype": "property",
             "name": "ready",
             "type": "boolean",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 36,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 40,
             "itemtype": "property",
             "name": "vertShader",
             "type": "WebGLShader",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 44,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 48,
             "itemtype": "property",
             "name": "fragShader",
             "type": "WebGLShader",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 52,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 56,
             "itemtype": "property",
             "name": "shaderProgram",
             "type": "WebGLProgram",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 60,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 64,
             "itemtype": "method",
             "name": "attach",
             "params": [
@@ -34200,14 +34155,13 @@
             },
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 77,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 81,
             "itemtype": "method",
             "name": "compile",
             "params": [
@@ -34233,27 +34187,25 @@
             },
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 97,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 101,
             "itemtype": "property",
             "name": "texture2DProg",
             "type": "Object",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 114,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 109,
             "itemtype": "method",
             "name": "use",
             "params": [
@@ -34270,68 +34222,138 @@
             ],
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 142,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 120,
             "itemtype": "property",
             "name": "texture2DFrag",
             "type": "Array",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLShaders.ts",
-            "line": 159,
+            "file": "src\\render\\GLShaderPair.ts",
+            "line": 128,
             "itemtype": "property",
             "name": "texture2DVert",
             "type": "Array",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLShaders",
+            "class": "GLShaders",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLTexture.ts",
-            "line": 35,
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 25,
+            "description": "The default maximum amount of texture memory to use before swapping textures",
             "itemtype": "property",
-            "name": "texture",
-            "type": "WebGLTexture",
+            "name": "DEFAULT_MAX_TEX_MEM_MB",
+            "type": "number",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLTexture",
+            "static": 1,
+            "class": "GLTextureManager",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLTexture.ts",
-            "line": 43,
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 34,
+            "description": "The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB",
             "itemtype": "property",
-            "name": "image",
-            "type": "HTMLImageElement",
+            "name": "maxTextureMem",
+            "type": "number",
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLTexture",
+            "class": "GLTextureManager",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
         },
         {
-            "file": "src\\renderers\\GLTexture.ts",
-            "line": 51,
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 42,
+            "description": "The amount of texture memory currently uplaoded",
+            "itemtype": "property",
+            "name": "usedTextureMem",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 53,
+            "description": "The number of textures currently uplaoded",
+            "itemtype": "property",
+            "name": "usedTextureMem",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 64,
+            "description": "The number of textures uploads in the last frame",
+            "itemtype": "property",
+            "name": "numTextureWrites",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 73,
+            "description": "An array of references to all texture wrappers",
+            "itemtype": "property",
+            "name": "_textureWrapperCache",
+            "type": "GLTextureWrapper[]",
+            "access": "private",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 81,
+            "description": "Adds a texture wrapper to the cache",
             "itemtype": "method",
-            "name": "refresh",
+            "name": "_addTextureToCache",
+            "params": [
+                {
+                    "name": "glTexture",
+                    "description": "",
+                    "type": "GLTextureWrapper"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 91,
+            "description": "Deletes a texture from memory and removes the wrapper from the cache",
+            "itemtype": "method",
+            "name": "_deleteTexture",
             "params": [
                 {
                     "name": "gl",
@@ -34339,17 +34361,169 @@
                     "type": "WebGLRenderingContext"
                 },
                 {
-                    "name": "image",
+                    "name": "idx",
                     "description": "",
-                    "type": "HTMLImageElement"
+                    "type": "Number"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 107,
+            "description": "Uploads a texture to video memory",
+            "itemtype": "method",
+            "name": "_uploadTexture",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "glTextureWrapper",
+                    "description": "",
+                    "type": "GLTextureWrapper"
+                }
+            ],
+            "return": {
+                "description": "boolean"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 130,
+            "description": "Uploads a texture library to video memory",
+            "itemtype": "method",
+            "name": "uploadTextureLibrary",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "textureLibrary",
+                    "description": "",
+                    "type": "Kiwi.Textures.TextureLibrary"
                 }
             ],
             "access": "public",
             "tagname": "",
-            "class": "Kiwi.Renderers.GLTexture",
+            "class": "GLTextureManager",
             "module": "Kiwi",
-            "submodule": "Renderers",
-            "namespace": "Kiwi.Renderers"
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 161,
+            "description": "Removes all textures from video memory and clears the wrapper cache",
+            "itemtype": "method",
+            "name": "clearTextures",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 180,
+            "description": "Binds the texture ready for use, uploads it if it isn't already",
+            "itemtype": "method",
+            "name": "useTexture",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "glTextureWrapper",
+                    "description": "",
+                    "type": "GLTextureWrappery"
+                },
+                {
+                    "name": "textureSizeUniform",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 211,
+            "description": "Attemps to free space for to uplaod a texture.\n1: Try and find texture that is same size to remove\n2: Find next smallest to remove (not yet implemented)\n3: Sequentially remove until there is room (not yet implemented)",
+            "itemtype": "method",
+            "name": "_freeSpace",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "numBytesToRemove",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "boolean"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureWrapper.ts",
+            "line": 58,
+            "itemtype": "property",
+            "name": "texture",
+            "type": "WebGLTexture",
+            "access": "public",
+            "tagname": "",
+            "class": "GLTexture",
+            "module": "Kiwi",
+            "submodule": "Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureWrapper.ts",
+            "line": 66,
+            "itemtype": "property",
+            "name": "image",
+            "type": "HTMLImageElement",
+            "access": "public",
+            "tagname": "",
+            "class": "GLTexture",
+            "module": "Kiwi",
+            "submodule": "Renderers"
         },
         {
             "file": "src\\sound\\Audio.ts",
@@ -36848,7 +37022,7 @@
         },
         {
             "file": "src\\textures\\TextureAtlas.ts",
-            "line": 135,
+            "line": 138,
             "description": "Will populate this texture atlas with information based on a JSON file that was passed.",
             "itemtype": "method",
             "name": "readJSON",
@@ -37192,7 +37366,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 134,
+            "line": 135,
             "description": "The time the clock was most recently stopped relative to the master clock.",
             "itemtype": "property",
             "name": "_timeLastStopped",
@@ -37207,7 +37381,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 143,
+            "line": 144,
             "description": "The number of clock units elapsed since the clock was most recently stopped.",
             "itemtype": "method",
             "name": "elapsedSinceLastStopped.",
@@ -37224,7 +37398,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 155,
+            "line": 156,
             "description": "The time the clock was most receently paused relative to the master clock.",
             "itemtype": "property",
             "name": "_timeLastPaused",
@@ -37239,7 +37413,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 165,
+            "line": 166,
             "description": "The number of clock units elapsed since the clock was most recently paused.",
             "itemtype": "method",
             "name": "elapsedSinceLastPaused.",
@@ -37256,7 +37430,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 177,
+            "line": 178,
             "description": "The time the clock was most recently unpaused relative to the master clock.",
             "itemtype": "property",
             "name": "_timeLastUnpaused",
@@ -37271,7 +37445,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 187,
+            "line": 188,
             "description": "The number of clock units elapsed since the clock was most recently unpaused.",
             "itemtype": "method",
             "name": "elapsedSinceLastUnpaused.",
@@ -37288,7 +37462,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 199,
+            "line": 200,
             "description": "The total number of milliseconds the clock has been paused since it was last started.",
             "itemtype": "property",
             "name": "_totalPaused",
@@ -37303,7 +37477,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 209,
+            "line": 210,
             "description": "Whether the clock is in a running state.",
             "itemtype": "property",
             "name": "_isRunning",
@@ -37318,7 +37492,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 218,
+            "line": 219,
             "description": "Check if the clock is currently running.",
             "itemtype": "method",
             "name": "isRunning",
@@ -37335,7 +37509,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 230,
+            "line": 231,
             "description": "Whether the clock is in a stopped state.",
             "itemtype": "property",
             "name": "_isStopped",
@@ -37350,7 +37524,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 239,
+            "line": 240,
             "description": "Check if the clock is in the stopped state.",
             "itemtype": "method",
             "name": "isStopped",
@@ -37367,7 +37541,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 251,
+            "line": 252,
             "description": "Whether the clock is in a paused state.",
             "itemtype": "property",
             "name": "_isPaused",
@@ -37382,7 +37556,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 260,
+            "line": 261,
             "description": "Check if the clock is in the paused state.",
             "itemtype": "method",
             "name": "isPaused",
@@ -37399,7 +37573,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 272,
+            "line": 273,
             "description": "An internal reference to the state of the elapsed timer",
             "itemtype": "property",
             "name": "_elapsedState",
@@ -37414,7 +37588,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 281,
+            "line": 282,
             "description": "The time manager that this clock belongs to.",
             "itemtype": "property",
             "name": "manager",
@@ -37428,7 +37602,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 289,
+            "line": 290,
             "description": "The master clock.",
             "itemtype": "property",
             "name": "master",
@@ -37442,7 +37616,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 297,
+            "line": 298,
             "description": "Name of the clock",
             "itemtype": "property",
             "name": "name",
@@ -37456,7 +37630,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 305,
+            "line": 306,
             "description": "The number of milliseconds counted as one unit of time by the clock.",
             "itemtype": "property",
             "name": "units",
@@ -37471,7 +37645,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 314,
+            "line": 315,
             "description": "Add an existing Timer to the Clock.",
             "itemtype": "method",
             "name": "addTimer",
@@ -37495,7 +37669,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 328,
+            "line": 329,
             "description": "Creates a new Timer and adds it to this Clock.",
             "itemtype": "method",
             "name": "createTimer",
@@ -37540,7 +37714,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 350,
+            "line": 351,
             "description": "Remove a Timer from this Clock based on either the Timer object or its name.",
             "itemtype": "method",
             "name": "removeTimer",
@@ -37573,7 +37747,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 393,
+            "line": 394,
             "description": "Check if the Timer already exists on this Clock",
             "itemtype": "method",
             "name": "checkExists",
@@ -37597,7 +37771,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 413,
+            "line": 414,
             "description": "Stop all timers attached to the clock.",
             "itemtype": "method",
             "name": "stopAllTimers",
@@ -37614,7 +37788,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 430,
+            "line": 431,
             "description": "Convert a number to milliseconds based on clock units.",
             "itemtype": "method",
             "name": "toMilliseconds.",
@@ -37631,7 +37805,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 442,
+            "line": 443,
             "description": "Updates all Timers linked to this Clock.",
             "itemtype": "method",
             "name": "update",
@@ -37644,7 +37818,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 456,
+            "line": 457,
             "description": "Start the clock. This resets the clock and starts it running.",
             "itemtype": "method",
             "name": "start",
@@ -37661,7 +37835,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 482,
+            "line": 483,
             "description": "Pause the clock. The clock can only be paused if it is already running.",
             "itemtype": "method",
             "name": "pause",
@@ -37678,7 +37852,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 503,
+            "line": 504,
             "description": "Resume the clock. The clock can only be resumed if it is already paused.",
             "itemtype": "method",
             "name": "resume",
@@ -37695,7 +37869,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 526,
+            "line": 527,
             "description": "Stop the clock. Clock can only be stopped if it is already running or is paused.",
             "itemtype": "method",
             "name": "stop",
@@ -37712,7 +37886,7 @@
         },
         {
             "file": "src\\time\\Clock.ts",
-            "line": 554,
+            "line": 555,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -42477,7 +42651,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 138,
+            "line": 141,
             "description": "The version of Kiwi that is currently being used.",
             "itemtype": "property",
             "name": "VERSION",
@@ -42491,7 +42665,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 149,
+            "line": 152,
             "description": "A Static property that contains the number associated with the CANVAS RENDERER.",
             "itemtype": "property",
             "name": "RENDERER_CANVAS",
@@ -42505,7 +42679,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 159,
+            "line": 162,
             "description": "A Static property that contains the number associated with the WEBGL RENDERER.",
             "itemtype": "property",
             "name": "RENDERER_WEBGL",
@@ -42519,7 +42693,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 170,
+            "line": 173,
             "description": "Contains the number associated with the targetting of browsers.",
             "itemtype": "property",
             "name": "TARGET_BROWSER",
@@ -42533,7 +42707,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 180,
+            "line": 183,
             "description": "Contains the number associated with the targetting of CocoonJS.",
             "itemtype": "property",
             "name": "TARGET_COCOON",
@@ -42547,7 +42721,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 191,
+            "line": 194,
             "description": "Contains the number that is used to turn the Debug options on.",
             "itemtype": "property",
             "name": "DEBUG_ON",
@@ -42561,7 +42735,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 201,
+            "line": 204,
             "description": "Contains the number that is used to turn the Debug options off.",
             "itemtype": "property",
             "name": "DEBUG_OFF",
@@ -42575,7 +42749,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 211,
+            "line": 214,
             "description": "Contains the Device class that is used to detirmine which features are supported by the users browser.",
             "itemtype": "property",
             "name": "DEVICE",
@@ -42588,7 +42762,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 221,
+            "line": 224,
             "description": "Contains a number that is used to identify objects that are a State.",
             "itemtype": "property",
             "name": "STATE",
@@ -42602,7 +42776,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 231,
+            "line": 234,
             "description": "Contains a number that is used to identify objects that are a Group.",
             "itemtype": "property",
             "name": "GROUP",
@@ -42616,7 +42790,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 241,
+            "line": 244,
             "description": "Contains a number that is used to identify objects that are a Entity.",
             "itemtype": "property",
             "name": "ENTITY",
@@ -42630,7 +42804,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 251,
+            "line": 254,
             "description": "Contains a number that is used to identify objects that are a Camera.",
             "itemtype": "property",
             "name": "CAMERA",
@@ -42644,7 +42818,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 261,
+            "line": 264,
             "description": "Contains a number that is used to identify objects that are a HUD Widget.",
             "itemtype": "property",
             "name": "HUD_WIDGET",
@@ -42658,7 +42832,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 271,
+            "line": 274,
             "description": "Contains a number that is used to identify objects that are a TILE_LAYER.",
             "itemtype": "property",
             "name": "TILE_LAYER",
@@ -42672,7 +42846,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 291,
+            "line": 294,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -42688,7 +42862,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 301,
+            "line": 304,
             "description": "A list of all of the games that are currently on this document.",
             "itemtype": "property",
             "name": "_games",
@@ -42702,7 +42876,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 310,
+            "line": 313,
             "description": "Used to register a new Game with this manager. Returns the new number of games that have been registered.",
             "itemtype": "method",
             "name": "register",
@@ -42724,7 +42898,7 @@
         },
         {
             "file": "src\\Kiwi.ts",
-            "line": 323,
+            "line": 326,
             "description": "Returns the total number of game that are currently registered with this GameManager.",
             "itemtype": "method",
             "name": "total",
@@ -42806,7 +42980,7 @@
         },
         {
             "message": "Missing item type\nReturns the type of child that this is.",
-            "line": " src\\core\\Entity.ts:167"
+            "line": " src\\core\\Entity.ts:173"
         },
         {
             "message": "Missing item type\nReturns a member at random from the group.",

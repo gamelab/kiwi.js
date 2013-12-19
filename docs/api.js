@@ -1,6 +1,11 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
+        "GLRenderer",
+        "GLShaders",
+        "GLTexture",
+        "GLTextureManager",
+        "IRenderer",
         "Kiwi.Animations.Animation",
         "Kiwi.Animations.Sequence",
         "Kiwi.Animations.Tween",
@@ -68,7 +73,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.HUD.Widget.Time",
         "Kiwi.IChild",
         "Kiwi.Input.Finger",
-        "Kiwi.Input.IRenderer",
         "Kiwi.Input.InputManager",
         "Kiwi.Input.Key",
         "Kiwi.Input.Keyboard",
@@ -81,9 +85,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.Renderers.CanvasRenderer",
         "Kiwi.Renderers.GLArrayBuffer",
         "Kiwi.Renderers.GLElementArrayBuffer",
-        "Kiwi.Renderers.GLRenderer",
-        "Kiwi.Renderers.GLShaders",
-        "Kiwi.Renderers.GLTexture",
         "Kiwi.Signal",
         "Kiwi.SignalBinding",
         "Kiwi.Sound.Audio",
