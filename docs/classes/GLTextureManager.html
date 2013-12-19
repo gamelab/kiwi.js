@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.Renderers.GLRenderer - Kiwi.js</title>
+    <title>GLTextureManager - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -40,6 +40,16 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -177,8 +187,6 @@
             
                 <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
             
-                <li><a href="../classes/Kiwi.Input.IRenderer.html">Kiwi.Input.IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
             
                 <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
@@ -200,12 +208,6 @@
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLRenderer.html">Kiwi.Renderers.GLRenderer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLShaders.html">Kiwi.Renderers.GLShaders</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLTexture.html">Kiwi.Renderers.GLTexture</a></li>
             
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
@@ -336,19 +338,15 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.Renderers.GLRenderer Class</h1>
+                        <h1>GLTextureManager Class</h1>
 <div class="box meta">
     
 
     
-        <div class="extends">
-            Extends IRenderer
-        </div>
-    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_renderers_GLRenderer.ts.html#l11"><code>src\renderers\GLRenderer.ts:11</code></a>
+            Defined in: <a href="../files/src_render_GLTextureManager.ts.html#l10"><code>src\render\GLTextureManager.ts:10</code></a>
         </div>
     
 
@@ -365,32 +363,23 @@
 
 
 <div class="box intro">
-    
+    <p>Manages GL Texture objects, including creation, uploading, destruction and memory management</p>
+
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Kiwi.Renderers.GLRenderer" class="method item">
-    <h3 class="name"><code>Kiwi.Renderers.GLRenderer</code></h3>
+        <div id="method_GLTextureManager" class="method item">
+    <h3 class="name"><code>GLTextureManager</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>game</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">GLRenderer</span>
+            <span class="type"><a href="..\classes\GLTextureManager.html" class="crosslink">GLTextureManager</a></span>
         </span>
     
 
@@ -417,7 +406,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l11"><code>src\renderers\GLRenderer.ts:11</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l10"><code>src\render\GLTextureManager.ts:10</code></a>
         
         </p>
 
@@ -432,30 +421,6 @@
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">game</code>
-                        <span class="type">Game</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The game that this renderer belongs to.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
 
     
         <div class="returns">
@@ -464,7 +429,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">GLRenderer</span>:
+                        <span class="type"><a href="..\classes\GLTextureManager.html" class="crosslink">GLTextureManager</a></span>:
                     
                 
             </div>
@@ -499,94 +464,52 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                         
                             <li class="index-item method private">
-                                <a href="#method__applyTexture">_applyTexture</a>
+                                <a href="#method__addTextureToCache">_addTextureToCache</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method private">
-                                <a href="#method__changeTexture">_changeTexture</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__compileUVs">_compileUVs</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__compileVertices">_compileVertices</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__draw">_draw</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__flush">_flush</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__generateColors">_generateColors</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__generateIndices">_generateIndices</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__initState">_initState</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__recurse">_recurse</a>
+                                <a href="#method__deleteTexture">_deleteTexture</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_boot">boot</a>
+                                <a href="#method__freeSpace">_freeSpace</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__uploadTexture">_uploadTexture</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
+                                <a href="#method_clearTextures">clearTextures</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_render">render</a>
+                                <a href="#method_uploadTextureLibrary">uploadTextureLibrary</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_useTexture">useTexture</a>
 
                                 
                                 
@@ -600,115 +523,47 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
+                    <ul class="index-list properties">
                         
                             <li class="index-item property private">
-                                <a href="#property__colorBuffer">_colorBuffer</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__currentCamera">_currentCamera</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__currentTextureAtlas">_currentTextureAtlas</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__entityCount">_entityCount</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__firstPass">_firstPass</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__game">_game</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__indexBuffer">_indexBuffer</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__maxItems">_maxItems</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__shaders">_shaders</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__stageResolution">_stageResolution</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__texApplied">_texApplied</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__texture">_texture</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__uvBuffer">_uvBuffer</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__vertBuffer">_vertBuffer</a>
+                                <a href="#property__textureWrapperCache">_textureWrapperCache</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_mvMatrix">mvMatrix</a>
+                                <a href="#property_DEFAULT_MAX_TEX_MEM_MB">DEFAULT_MAX_TEX_MEM_MB</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_maxTextureMem">maxTextureMem</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_mvMatrixStack">mvMatrixStack</a>
+                                <a href="#property_numTextureWrites">numTextureWrites</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_usedTextureMem">usedTextureMem</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_usedTextureMem">usedTextureMem</a>
 
                                 
                                 
@@ -728,8 +583,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__applyTexture" class="method item private">
-    <h3 class="name"><code>_applyTexture</code></h3>
+                    <div id="method__addTextureToCache" class="method item private">
+    <h3 class="name"><code>_addTextureToCache</code></h3>
 
     
         <div class="args">
@@ -737,13 +592,7 @@
             
                 <li class="arg">
                     
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>image</code>
+                        <code>glTexture</code>
                     
                 </li>
             
@@ -778,7 +627,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l408"><code>src\renderers\GLRenderer.ts:408</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l81"><code>src\render\GLTextureManager.ts:81</code></a>
         
         </p>
 
@@ -789,7 +638,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Adds a texture wrapper to the cache</p>
+
     </div>
 
     
@@ -800,23 +650,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">image</code>
-                        <span class="type">HTMLImageElement</span>
+                        <code class="param-name">glTexture</code>
+                        <span class="type">GLTextureWrapper</span>
                     
 
                     
@@ -838,8 +673,8 @@
 </div>
 
                 
-                    <div id="method__changeTexture" class="method item private">
-    <h3 class="name"><code>_changeTexture</code></h3>
+                    <div id="method__deleteTexture" class="method item private">
+    <h3 class="name"><code>_deleteTexture</code></h3>
 
     
         <div class="args">
@@ -853,7 +688,7 @@
             
                 <li class="arg">
                     
-                        <code>image</code>
+                        <code>idx</code>
                     
                 </li>
             
@@ -888,7 +723,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l423"><code>src\renderers\GLRenderer.ts:423</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l91"><code>src\render\GLTextureManager.ts:91</code></a>
         
         </p>
 
@@ -899,7 +734,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Deletes a texture from memory and removes the wrapper from the cache</p>
+
     </div>
 
     
@@ -925,8 +761,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">image</code>
-                        <span class="type">HTMLImageElement</span>
+                        <code class="param-name">idx</code>
+                        <span class="type">Number</span>
                     
 
                     
@@ -948,8 +784,8 @@
 </div>
 
                 
-                    <div id="method__compileUVs" class="method item private">
-    <h3 class="name"><code>_compileUVs</code></h3>
+                    <div id="method__freeSpace" class="method item public">
+    <h3 class="name"><code>_freeSpace</code></h3>
 
     
         <div class="args">
@@ -963,7 +799,7 @@
             
                 <li class="arg">
                     
-                        <code>entity</code>
+                        <code>numBytesToRemove</code>
                     
                 </li>
             
@@ -972,11 +808,15 @@
     
 
     
-
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
     
 
     
-        <span class="flag private">private</span>
+
+    
+        <span class="flag public">public</span>
     
 
     
@@ -998,7 +838,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l390"><code>src\renderers\GLRenderer.ts:390</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l211"><code>src\render\GLTextureManager.ts:211</code></a>
         
         </p>
 
@@ -1009,7 +849,11 @@
     </div>
 
     <div class="description">
-        
+        <p>Attemps to free space for to uplaod a texture.
+1: Try and find texture that is same size to remove
+2: Find next smallest to remove (not yet implemented)
+3: Sequentially remove until there is room (not yet implemented)</p>
+
     </div>
 
     
@@ -1035,8 +879,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">entity</code>
-                        <span class="type">Entity</span>
+                        <code class="param-name">numBytesToRemove</code>
+                        <span class="type">Number</span>
                     
 
                     
@@ -1053,13 +897,25 @@
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                    <p>boolean</p>
+
+                
+            </div>
+        </div>
+    
 
     
 </div>
 
                 
-                    <div id="method__compileVertices" class="method item private">
-    <h3 class="name"><code>_compileVertices</code></h3>
+                    <div id="method__uploadTexture" class="method item private">
+    <h3 class="name"><code>_uploadTexture</code></h3>
 
     
         <div class="args">
@@ -1073,310 +929,7 @@
             
                 <li class="arg">
                     
-                        <code>entity</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>camera</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l346"><code>src\renderers\GLRenderer.ts:346</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">entity</code>
-                        <span class="type">Entity</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">camera</code>
-                        <span class="type">Camera</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__draw" class="method item private">
-    <h3 class="name"><code>_draw</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l439"><code>src\renderers\GLRenderer.ts:439</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__flush" class="method item private">
-    <h3 class="name"><code>_flush</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l334"><code>src\renderers\GLRenderer.ts:334</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__generateColors" class="method item private">
-    <h3 class="name"><code>_generateColors</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>numVerts</code>
+                        <code>glTextureWrapper</code>
                     
                 </li>
             
@@ -1415,7 +968,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l468"><code>src\renderers\GLRenderer.ts:468</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l107"><code>src\render\GLTextureManager.ts:107</code></a>
         
         </p>
 
@@ -1426,281 +979,8 @@
     </div>
 
     <div class="description">
-        
-    </div>
+        <p>Uploads a texture to video memory</p>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">numVerts</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>number[]</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__generateIndices" class="method item private">
-    <h3 class="name"><code>_generateIndices</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>numQuads</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l451"><code>src\renderers\GLRenderer.ts:451</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">numQuads</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>number[]</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__initState" class="method item private">
-    <h3 class="name"><code>_initState</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l193"><code>src\renderers\GLRenderer.ts:193</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__recurse" class="method item private">
-    <h3 class="name"><code>_recurse</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>child</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>camera</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l296"><code>src\renderers\GLRenderer.ts:296</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
     </div>
 
     
@@ -1726,23 +1006,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">child</code>
-                        <span class="type">IChild</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">camera</code>
-                        <span class="type">Camera</span>
+                        <code class="param-name">glTextureWrapper</code>
+                        <span class="type">GLTextureWrapper</span>
                     
 
                     
@@ -1759,131 +1024,14 @@
     
 
     
-
-    
-</div>
-
-                
-                    <div id="method_boot" class="method item public">
-    <h3 class="name"><code>boot</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l27"><code>src\renderers\GLRenderer.ts:27</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l36"><code>src\renderers\GLRenderer.ts:36</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The type of object that this is.</p>
-
-    </div>
-
-    
-
-    
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
-                    
+                    <p>boolean</p>
+
                 
             </div>
         </div>
@@ -1893,8 +1041,8 @@
 </div>
 
                 
-                    <div id="method_render" class="method item public">
-    <h3 class="name"><code>render</code></h3>
+                    <div id="method_clearTextures" class="method item public">
+    <h3 class="name"><code>clearTextures</code></h3>
 
     
         <div class="args">
@@ -1902,7 +1050,7 @@
             
                 <li class="arg">
                     
-                        <code>camera</code>
+                        <code>gl</code>
                     
                 </li>
             
@@ -1937,7 +1085,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l248"><code>src\renderers\GLRenderer.ts:248</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l161"><code>src\render\GLTextureManager.ts:161</code></a>
         
         </p>
 
@@ -1948,7 +1096,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Removes all textures from video memory and clears the wrapper cache</p>
+
     </div>
 
     
@@ -1959,8 +1108,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">camera</code>
-                        <span class="type">Camera</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
@@ -1976,6 +1125,265 @@
         </div>
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method_uploadTextureLibrary" class="method item public">
+    <h3 class="name"><code>uploadTextureLibrary</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>textureLibrary</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureManager.ts.html#l130"><code>src\render\GLTextureManager.ts:130</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Uploads a texture library to video memory</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">textureLibrary</code>
+                        <span class="type"><a href="..\classes\Kiwi.Textures.TextureLibrary.html" class="crosslink">Kiwi.Textures.TextureLibrary</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_useTexture" class="method item public">
+    <h3 class="name"><code>useTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>glTextureWrapper</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>textureSizeUniform</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureManager.ts.html#l180"><code>src\render\GLTextureManager.ts:180</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Binds the texture ready for use, uploads it if it isn&#39;t already</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">glTextureWrapper</code>
+                        <span class="type">GLTextureWrappery</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">textureSizeUniform</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                    <p>boolean</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1990,9 +1398,9 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__colorBuffer" class="property item private">
-    <h3 class="name"><code>_colorBuffer</code></h3>
-    <span class="type">GLArrayBuffer</span>
+                    <div id="property__textureWrapperCache" class="property item private">
+    <h3 class="name"><code>_textureWrapperCache</code></h3>
+    <span class="type">GLTextureWrapper</span>
 
     
 
@@ -2015,7 +1423,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l102"><code>src\renderers\GLRenderer.ts:102</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l73"><code>src\render\GLTextureManager.ts:73</code></a>
         
         </p>
 
@@ -2025,53 +1433,7 @@
     </div>
 
     <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__currentCamera" class="property item private">
-    <h3 class="name"><code>_currentCamera</code></h3>
-    <span class="type">Camera</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l54"><code>src\renderers\GLRenderer.ts:54</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The current camara that is being rendered</p>
+        <p>An array of references to all texture wrappers</p>
 
     </div>
 
@@ -2083,112 +1445,20 @@
 </div>
 
                 
-                    <div id="property__currentTextureAtlas" class="property item private">
-    <h3 class="name"><code>_currentTextureAtlas</code></h3>
-    <span class="type">TextureAtlas</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l170"><code>src\renderers\GLRenderer.ts:170</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__entityCount" class="property item private">
-    <h3 class="name"><code>_entityCount</code></h3>
+                    <div id="property_DEFAULT_MAX_TEX_MEM_MB" class="property item public">
+    <h3 class="name"><code>DEFAULT_MAX_TEX_MEM_MB</code></h3>
     <span class="type">Number</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
 
     
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l118"><code>src\renderers\GLRenderer.ts:118</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__firstPass" class="property item private">
-    <h3 class="name"><code>_firstPass</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
+        <span class="flag static">static</span>
     
 
     <div class="meta">
@@ -2202,7 +1472,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l145"><code>src\renderers\GLRenderer.ts:145</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l25"><code>src\render\GLTextureManager.ts:25</code></a>
         
         </p>
 
@@ -2212,55 +1482,7 @@
     </div>
 
     <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> true</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__game" class="property item private">
-    <h3 class="name"><code>_game</code></h3>
-    <span class="type">Game</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l46"><code>src\renderers\GLRenderer.ts:46</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The game that this renderer is on.</p>
+        <p>The default maximum amount of texture memory to use before swapping textures</p>
 
     </div>
 
@@ -2272,381 +1494,9 @@
 </div>
 
                 
-                    <div id="property__indexBuffer" class="property item private">
-    <h3 class="name"><code>_indexBuffer</code></h3>
-    <span class="type">GLElementArrayBuffer</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l86"><code>src\renderers\GLRenderer.ts:86</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__maxItems" class="property item private">
-    <h3 class="name"><code>_maxItems</code></h3>
+                    <div id="property_maxTextureMem" class="property item public">
+    <h3 class="name"><code>maxTextureMem</code></h3>
     <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l127"><code>src\renderers\GLRenderer.ts:127</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> 1000</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__shaders" class="property item private">
-    <h3 class="name"><code>_shaders</code></h3>
-    <span class="type">GLShaders</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l70"><code>src\renderers\GLRenderer.ts:70</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__stageResolution" class="property item private">
-    <h3 class="name"><code>_stageResolution</code></h3>
-    <span class="type">Float32Array</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l62"><code>src\renderers\GLRenderer.ts:62</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__texApplied" class="property item private">
-    <h3 class="name"><code>_texApplied</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l136"><code>src\renderers\GLRenderer.ts:136</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__texture" class="property item private">
-    <h3 class="name"><code>_texture</code></h3>
-    <span class="type">GLTexture</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l110"><code>src\renderers\GLRenderer.ts:110</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__uvBuffer" class="property item private">
-    <h3 class="name"><code>_uvBuffer</code></h3>
-    <span class="type">GLArrayBuffer</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l94"><code>src\renderers\GLRenderer.ts:94</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__vertBuffer" class="property item private">
-    <h3 class="name"><code>_vertBuffer</code></h3>
-    <span class="type">GLArrayBuffer</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLRenderer.ts.html#l78"><code>src\renderers\GLRenderer.ts:78</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_mvMatrix" class="property item public">
-    <h3 class="name"><code>mvMatrix</code></h3>
-    <span class="type">Float32Array</span>
 
     
 
@@ -2669,7 +1519,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l154"><code>src\renderers\GLRenderer.ts:154</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l34"><code>src\render\GLTextureManager.ts:34</code></a>
         
         </p>
 
@@ -2679,7 +1529,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB</p>
+
     </div>
 
     
@@ -2690,9 +1541,9 @@
 </div>
 
                 
-                    <div id="property_mvMatrixStack" class="property item public">
-    <h3 class="name"><code>mvMatrixStack</code></h3>
-    <span class="type">Array</span>
+                    <div id="property_numTextureWrites" class="property item public">
+    <h3 class="name"><code>numTextureWrites</code></h3>
+    <span class="type">Number</span>
 
     
 
@@ -2715,7 +1566,7 @@
             
         
         
-        <a href="../files/src_renderers_GLRenderer.ts.html#l162"><code>src\renderers\GLRenderer.ts:162</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l64"><code>src\render\GLTextureManager.ts:64</code></a>
         
         </p>
 
@@ -2725,7 +1576,102 @@
     </div>
 
     <div class="description">
+        <p>The number of textures uploads in the last frame</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_usedTextureMem" class="property item public">
+    <h3 class="name"><code>usedTextureMem</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureManager.ts.html#l42"><code>src\render\GLTextureManager.ts:42</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The amount of texture memory currently uplaoded</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_usedTextureMem" class="property item public">
+    <h3 class="name"><code>usedTextureMem</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureManager.ts.html#l53"><code>src\render\GLTextureManager.ts:53</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The number of textures currently uplaoded</p>
+
     </div>
 
     

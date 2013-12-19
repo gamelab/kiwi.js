@@ -41,6 +41,16 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -177,8 +187,6 @@
             
                 <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
             
-                <li><a href="../classes/Kiwi.Input.IRenderer.html">Kiwi.Input.IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
             
                 <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
@@ -200,12 +208,6 @@
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLRenderer.html">Kiwi.Renderers.GLRenderer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLShaders.html">Kiwi.Renderers.GLShaders</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLTexture.html">Kiwi.Renderers.GLTexture</a></li>
             
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
@@ -380,7 +382,13 @@ module Kiwi {
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
             this.transform.y = y; 
+
+            
         }
+
+        public requiredRenderers: string[] = [&quot;Texture2DRenderer&quot;];
+        public renderer: Kiwi.Renderers.Renderer;
+
 
         /**
         * Represents the position, scale, rotation and registration of this Entity.
@@ -800,7 +808,12 @@ module Kiwi {
         * @public
         */
         public render(camera:Kiwi.Camera) {
-            
+        
+        }
+
+        
+        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params: any = null) {
+        
         }
 
         /**

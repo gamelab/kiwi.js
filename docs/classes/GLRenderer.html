@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.Renderers.GLShaders - Kiwi.js</title>
+    <title>GLRenderer - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -40,6 +40,16 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -177,8 +187,6 @@
             
                 <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
             
-                <li><a href="../classes/Kiwi.Input.IRenderer.html">Kiwi.Input.IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
             
                 <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
@@ -200,12 +208,6 @@
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLRenderer.html">Kiwi.Renderers.GLRenderer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLShaders.html">Kiwi.Renderers.GLShaders</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLTexture.html">Kiwi.Renderers.GLTexture</a></li>
             
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
@@ -336,15 +338,19 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.Renderers.GLShaders Class</h1>
+                        <h1>GLRenderer Class</h1>
 <div class="box meta">
     
 
     
+        <div class="extends">
+            Extends <a href="..\classes\IRenderer.html" class="crosslink">IRenderer</a>
+        </div>
+    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_renderers_GLShaders.ts.html#l9"><code>src\renderers\GLShaders.ts:9</code></a>
+            Defined in: <a href="../files/src_render_GLRenderer.ts.html#l16"><code>src\render\GLRenderer.ts:16</code></a>
         </div>
     
 
@@ -361,14 +367,15 @@
 
 
 <div class="box intro">
-    
+    <p>Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  <a href="https://github.com/toji/gl-matrix">https://github.com/toji/gl-matrix</a></p>
+
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Kiwi.Renderers.GLShaders" class="method item">
-    <h3 class="name"><code>Kiwi.Renderers.GLShaders</code></h3>
+        <div id="method_GLRenderer" class="method item">
+    <h3 class="name"><code>GLRenderer</code></h3>
 
     
         <div class="args">
@@ -376,7 +383,7 @@
             
                 <li class="arg">
                     
-                        <code>gl</code>
+                        <code>game</code>
                     
                 </li>
             
@@ -386,7 +393,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">GLShaders</span>
+            <span class="type"><a href="..\classes\GLRenderer.html" class="crosslink">GLRenderer</a></span>
         </span>
     
 
@@ -413,7 +420,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l9"><code>src\renderers\GLShaders.ts:9</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l16"><code>src\render\GLRenderer.ts:16</code></a>
         
         </p>
 
@@ -435,14 +442,15 @@
             
                 <li class="param">
                     
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
+                        <code class="param-name">game</code>
+                        <span class="type">Game</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>The game that this renderer belongs to.</p>
+
                     </div>
 
                     
@@ -459,7 +467,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">GLShaders</span>:
+                        <span class="type"><a href="..\classes\GLRenderer.html" class="crosslink">GLRenderer</a></span>:
                     
                 
             </div>
@@ -494,24 +502,52 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                         
-                            <li class="index-item method public">
-                                <a href="#method_attach">attach</a>
+                            <li class="index-item method private">
+                                <a href="#method__init">_init</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__recurse">_recurse</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_compile">compile</a>
+                                <a href="#method_boot">boot</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_use">use</a>
+                                <a href="#method_initState">initState</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_initState">initState</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_render">render</a>
 
                                 
                                 
@@ -525,52 +561,66 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
-                            <li class="index-item property public">
-                                <a href="#property_fragShader">fragShader</a>
+                            <li class="index-item property private">
+                                <a href="#property__currentCamera">_currentCamera</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__currentTextureAtlas">_currentTextureAtlas</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__entityCount">_entityCount</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__game">_game</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__maxItems">_maxItems</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__stageResolution">_stageResolution</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__textureManager">_textureManager</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_ready">ready</a>
+                                <a href="#property_mvMatrix">mvMatrix</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_shaderProgram">shaderProgram</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_texture2DFrag">texture2DFrag</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_texture2DProg">texture2DProg</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_texture2DVert">texture2DVert</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_vertShader">vertShader</a>
+                                <a href="#property_numDrawCalls">numDrawCalls</a>
 
                                 
                                 
@@ -590,8 +640,65 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_attach" class="method item public">
-    <h3 class="name"><code>attach</code></h3>
+                    <div id="method__init" class="method item private">
+    <h3 class="name"><code>_init</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderer.ts.html#l139"><code>src\render\GLRenderer.ts:139</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Performs initialisation required for single game instance - happens once</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__recurse" class="method item private">
+    <h3 class="name"><code>_recurse</code></h3>
 
     
         <div class="args">
@@ -605,13 +712,13 @@
             
                 <li class="arg">
                     
-                        <code>vertShader</code>
+                        <code>child</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>fragShader</code>
+                        <code>camera</code>
                     
                 </li>
             
@@ -620,8 +727,322 @@
     
 
     
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderer.ts.html#l261"><code>src\render\GLRenderer.ts:261</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Recursively renders scene graph tree</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">IChild</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type">Camera</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_boot" class="method item public">
+    <h3 class="name"><code>boot</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderer.ts.html#l34"><code>src\render\GLRenderer.ts:34</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Initialises all WebGL rendering services</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_initState" class="method item public">
+    <h3 class="name"><code>initState</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderer.ts.html#l187"><code>src\render\GLRenderer.ts:187</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Performs initialisation required when switching to a different state</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_initState" class="method item public">
+    <h3 class="name"><code>initState</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>state</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderer.ts.html#l198"><code>src\render\GLRenderer.ts:198</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Performs cleanup required before switching to a different state</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">state</code>
+                        <span class="type"><a href="..\classes\Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
         <span class="returns-inline">
-            <span class="type">WebGLProgram</span>
+            <span class="type">String</span>
         </span>
     
 
@@ -650,7 +1071,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l60"><code>src\renderers\GLShaders.ts:60</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l44"><code>src\render\GLRenderer.ts:44</code></a>
         
         </p>
 
@@ -661,62 +1082,10 @@
     </div>
 
     <div class="description">
-        
+        <p>The type of object that this is.</p>
+
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">vertShader</code>
-                        <span class="type">WebGLShader</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">fragShader</code>
-                        <span class="type">WebGLShader</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -726,7 +1095,7 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">WebGLProgram</span>:
+                        <span class="type">String</span>:
                     
                 
             </div>
@@ -737,8 +1106,8 @@
 </div>
 
                 
-                    <div id="method_compile" class="method item public">
-    <h3 class="name"><code>compile</code></h3>
+                    <div id="method_render" class="method item public">
+    <h3 class="name"><code>render</code></h3>
 
     
         <div class="args">
@@ -746,160 +1115,7 @@
             
                 <li class="arg">
                     
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>src</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>shaderType</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">WebGLShader</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_renderers_GLShaders.ts.html#l77"><code>src\renderers\GLShaders.ts:77</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">src</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">shaderType</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">WebGLShader</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_use" class="method item public">
-    <h3 class="name"><code>use</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>shaderProrgram</code>
+                        <code>camera</code>
                     
                 </li>
             
@@ -934,7 +1150,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l114"><code>src\renderers\GLShaders.ts:114</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l210"><code>src\render\GLRenderer.ts:210</code></a>
         
         </p>
 
@@ -945,7 +1161,8 @@
     </div>
 
     <div class="description">
-        
+        <p>Manages rendering of the scene graph - performs per frame setup</p>
+
     </div>
 
     
@@ -956,23 +1173,8 @@
             
                 <li class="param">
                     
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">shaderProrgram</code>
-                        <span class="type">WebGLProgram</span>
+                        <code class="param-name">camera</code>
+                        <span class="type">Camera</span>
                     
 
                     
@@ -1002,14 +1204,14 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_fragShader" class="property item public">
-    <h3 class="name"><code>fragShader</code></h3>
-    <span class="type">WebGLShader</span>
+                    <div id="property__currentCamera" class="property item private">
+    <h3 class="name"><code>_currentCamera</code></h3>
+    <span class="type">Camera</span>
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -1027,7 +1229,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l44"><code>src\renderers\GLShaders.ts:44</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l72"><code>src\render\GLRenderer.ts:72</code></a>
         
         </p>
 
@@ -1037,7 +1239,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The current camara that is being rendered</p>
+
     </div>
 
     
@@ -1048,14 +1251,14 @@
 </div>
 
                 
-                    <div id="property_ready" class="property item public">
-    <h3 class="name"><code>ready</code></h3>
-    <span class="type">Boolean</span>
+                    <div id="property__currentTextureAtlas" class="property item private">
+    <h3 class="name"><code>_currentTextureAtlas</code></h3>
+    <span class="type">TextureAtlas</span>
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -1073,7 +1276,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l28"><code>src\renderers\GLShaders.ts:28</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l131"><code>src\render\GLRenderer.ts:131</code></a>
         
         </p>
 
@@ -1083,7 +1286,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The most recently bound texture atlas used for sprite rendering</p>
+
     </div>
 
     
@@ -1094,14 +1298,14 @@
 </div>
 
                 
-                    <div id="property_shaderProgram" class="property item public">
-    <h3 class="name"><code>shaderProgram</code></h3>
-    <span class="type">WebGLProgram</span>
+                    <div id="property__entityCount" class="property item private">
+    <h3 class="name"><code>_entityCount</code></h3>
+    <span class="type">Number</span>
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -1119,7 +1323,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l52"><code>src\renderers\GLShaders.ts:52</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l92"><code>src\render\GLRenderer.ts:92</code></a>
         
         </p>
 
@@ -1129,7 +1333,57 @@
     </div>
 
     <div class="description">
+        <p>Tally of number of entities rendered per frame</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__game" class="property item private">
+    <h3 class="name"><code>_game</code></h3>
+    <span class="type">Game</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderer.ts.html#l54"><code>src\render\GLRenderer.ts:54</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The game that this renderer is on.</p>
+
     </div>
 
     
@@ -1140,14 +1394,14 @@
 </div>
 
                 
-                    <div id="property_texture2DFrag" class="property item public">
-    <h3 class="name"><code>texture2DFrag</code></h3>
-    <span class="type">Array</span>
+                    <div id="property__maxItems" class="property item private">
+    <h3 class="name"><code>_maxItems</code></h3>
+    <span class="type">Number</span>
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -1165,7 +1419,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l142"><code>src\renderers\GLShaders.ts:142</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l111"><code>src\render\GLRenderer.ts:111</code></a>
         
         </p>
 
@@ -1175,7 +1429,57 @@
     </div>
 
     <div class="description">
+        <p>Maximum allowable sprites to render per frame</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 1000</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__stageResolution" class="property item private">
+    <h3 class="name"><code>_stageResolution</code></h3>
+    <span class="type">Float32Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
         
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderer.ts.html#l80"><code>src\render\GLRenderer.ts:80</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The stage resolution in pixels</p>
+
     </div>
 
     
@@ -1186,14 +1490,14 @@
 </div>
 
                 
-                    <div id="property_texture2DProg" class="property item public">
-    <h3 class="name"><code>texture2DProg</code></h3>
-    <span class="type">Object</span>
+                    <div id="property__textureManager" class="property item private">
+    <h3 class="name"><code>_textureManager</code></h3>
+    <span class="type"><a href="..\classes\GLTextureManager.html" class="crosslink">GLTextureManager</a></span>
 
     
 
     
-        <span class="flag public">public</span>
+        <span class="flag private">private</span>
     
 
     
@@ -1211,7 +1515,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l97"><code>src\renderers\GLShaders.ts:97</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l62"><code>src\render\GLRenderer.ts:62</code></a>
         
         </p>
 
@@ -1221,7 +1525,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The texture manager</p>
+
     </div>
 
     
@@ -1232,9 +1537,9 @@
 </div>
 
                 
-                    <div id="property_texture2DVert" class="property item public">
-    <h3 class="name"><code>texture2DVert</code></h3>
-    <span class="type">Array</span>
+                    <div id="property_mvMatrix" class="property item public">
+    <h3 class="name"><code>mvMatrix</code></h3>
+    <span class="type">Float32Array</span>
 
     
 
@@ -1257,7 +1562,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l159"><code>src\renderers\GLShaders.ts:159</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l122"><code>src\render\GLRenderer.ts:122</code></a>
         
         </p>
 
@@ -1267,7 +1572,8 @@
     </div>
 
     <div class="description">
-        
+        <p>GL-Matrix.js provided 4x4 matrix used for matrix uniform</p>
+
     </div>
 
     
@@ -1278,9 +1584,9 @@
 </div>
 
                 
-                    <div id="property_vertShader" class="property item public">
-    <h3 class="name"><code>vertShader</code></h3>
-    <span class="type">WebGLShader</span>
+                    <div id="property_numDrawCalls" class="property item public">
+    <h3 class="name"><code>numDrawCalls</code></h3>
+    <span class="type">Number</span>
 
     
 
@@ -1303,7 +1609,7 @@
             
         
         
-        <a href="../files/src_renderers_GLShaders.ts.html#l36"><code>src\renderers\GLShaders.ts:36</code></a>
+        <a href="../files/src_render_GLRenderer.ts.html#l102"><code>src\render\GLRenderer.ts:102</code></a>
         
         </p>
 
@@ -1313,9 +1619,12 @@
     </div>
 
     <div class="description">
-        
+        <p>Tally of number ofdraw calls per frame</p>
+
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     

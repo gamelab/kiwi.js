@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\renderers\GLTexture.ts - Kiwi.js</title>
+    <title>src\render\CanvasRenderer.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -40,6 +40,16 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -177,8 +187,6 @@
             
                 <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
             
-                <li><a href="../classes/Kiwi.Input.IRenderer.html">Kiwi.Input.IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
             
                 <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
@@ -200,12 +208,6 @@
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLRenderer.html">Kiwi.Renderers.GLRenderer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLShaders.html">Kiwi.Renderers.GLShaders</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLTexture.html">Kiwi.Renderers.GLTexture</a></li>
             
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
@@ -336,79 +338,153 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\renderers\GLTexture.ts</h1>
+                        <h1 class="file-heading">File: src\render\CanvasRenderer.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-*  
+* A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),
+* which outlines the methods/properties that are required any Renderer. 
+* @class IRenderer
+*/
+interface IRenderManager {
+    render(camera: Kiwi.Camera);
+    boot();
+    initState(state: Kiwi.State);
+    endState(state: Kiwi.State);
+    numDrawCalls: number;
+}
+
+/**
+* Contains the classes which are related to the rendering of GameObjects.
+* 
 * @module Kiwi
 * @submodule Renderers
-* 
-*/
-
+* @main
+*/ 
 module Kiwi.Renderers {
-     
+
     /**
     *
-    * @class GLTexture
+    * @class CanvasRenderer
+    * @extends IRenderer
+    * @constructor 
     * @namespace Kiwi.Renderers
-    * @constructor
-    * @param gl {WebGLRenderingContext}
-    * @param [_image] {HTMLImageElement}
-    * @return {GLTexture}
+    * @param game {Game} The game that this canvas renderer belongs to.
+    * @return {CanvasRenderer}
+    *
     */
-    export class GLTexture {
-
-        constructor(gl: WebGLRenderingContext, _image?: HTMLImageElement) {
-        
-            this.texture = gl.createTexture();
-    
-            this.image = _image;
-            gl.bindTexture(gl.TEXTURE_2D, this.texture);
-            gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-            gl.bindTexture(gl.TEXTURE_2D, null);
-    
+    export class CanvasRenderer implements IRenderManager {
+         
+        constructor(game: Kiwi.Game) {
+            this._game = game;
         }
 
         /**
-        *
-        * @property texture
-        * @type WebGLTexture
+        * The boot method is executed when all of the DOM elements that are needed to play the game are ready.
+        * @method boot
         * @public
         */
-        public texture: WebGLTexture;
-        
-        /**
-        *
-        * @property image
-        * @type HTMLImageElement
-        * @public
-        */
-        public image: HTMLImageElement;
+        public boot() {
+
+        }
 
         /**
+        * Returns the type of object that this is.
+        * @method objType
+        * @return {String}
+        * @public
+        */
+        public objType() {
+            return &quot;CanvasRenderer&quot;;
+        }
+
+        /**
+        * The game that this object belongs to.
+        * @property _game
+        * @type Game
+        * @private
+        */
+        private _game: Kiwi.Game;
+
+        /**
+        * The camera that is currently being used to render upon.
+        * @property _currentCamera
+        * @type Camera
+        * @private
+        */
+        private _currentCamera: Kiwi.Camera;
+
+        /**
+        * This method recursively goes through a State&#x27;s members and runs the render method of each member that is a Entity. 
+        * If it is a Group then this method recursively goes through that Groups members the process that happened to the State&#x27;s members happens to the Group&#x27;s members.
         * 
-        * @method refresh
-        * @param gl {WebGLRenderingContext}
-        * @param image {HTMLImageElement}
+        * @method _recurse
+        * @param child {IChild} The child that is being checked.
+        * @private
+        */
+        public _recurse(child: IChild) {
+
+            if (!child.willRender) return;
+
+            if (child.childType() === Kiwi.GROUP) {
+                for (var i = 0; i &lt; (&lt;Kiwi.Group&gt;child).members.length; i++) {
+                    this._recurse((&lt;Kiwi.Group&gt;child).members[i]);
+                }
+            } else {
+                this.numDrawCalls++;
+                child.render(this._currentCamera);
+
+            }
+
+        }
+        
+        public initState(state:Kiwi.State) {
+
+        }
+
+        public endState(state: Kiwi.State) {
+
+        }
+
+        public numDrawCalls: number = 0;
+
+        /**
+        * Renders all of the Elements that are on a particular camera.
+        * @method render
+        * @param camera {Camera}
         * @public
         */
-        public refresh(gl: WebGLRenderingContext, _image: HTMLImageElement) {
-            this.image = _image;
-            gl.bindTexture(gl.TEXTURE_2D, this.texture);
-            gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-            gl.bindTexture(gl.TEXTURE_2D, null);
+        public render(camera: Kiwi.Camera) {
+            this.numDrawCalls = 0;    
+            this._currentCamera = camera;
+            var root: IChild[] = this._game.states.current.members;
+            
+            //clear 
+            this._game.stage.ctx.fillStyle = this._game.stage.color;
+            
+            this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
+
+            //apply camera transform
+            var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
+            var ct: Kiwi.Geom.Transform = camera.transform;
+
+            this._game.stage.ctx.save();
+            this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx + ct.rotPointX, cm.ty + ct.rotPointY);
+
+
+            for (var i = 0; i &lt; root.length; i++) {
+                this._recurse(root[i]);
+            }
+            this._game.stage.ctx.restore();
+
         }
+        
+
     }
 
 }
+
 
     </pre>
 </div>

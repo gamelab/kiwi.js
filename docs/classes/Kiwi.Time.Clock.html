@@ -41,6 +41,16 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
+            
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
@@ -177,8 +187,6 @@
             
                 <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
             
-                <li><a href="../classes/Kiwi.Input.IRenderer.html">Kiwi.Input.IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
             
                 <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
@@ -200,12 +208,6 @@
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLRenderer.html">Kiwi.Renderers.GLRenderer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLShaders.html">Kiwi.Renderers.GLShaders</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLTexture.html">Kiwi.Renderers.GLTexture</a></li>
             
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
@@ -361,13 +363,15 @@
 
 
 <div class="box intro">
-    <p>The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
-- The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
-- An instance of a clock is used to track time in arbitrary units (milliseconds by default)
-- A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.
-- Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
-- If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
-(Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)</p>
+    <p>The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.</p>
+<ul>
+<li>The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.</li>
+<li>An instance of a clock is used to track time in arbitrary units (milliseconds by default)</li>
+<li>A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it.</li>
+<li>Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.</li>
+<li>If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused.
+(Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)</li>
+</ul>
 
 </div>
 
@@ -904,7 +908,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l314"><code>src\time\Clock.ts:314</code></a>
+        <a href="../files/src_time_Clock.ts.html#l315"><code>src\time\Clock.ts:315</code></a>
         
         </p>
 
@@ -1013,7 +1017,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l393"><code>src\time\Clock.ts:393</code></a>
+        <a href="../files/src_time_Clock.ts.html#l394"><code>src\time\Clock.ts:394</code></a>
         
         </p>
 
@@ -1140,7 +1144,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l328"><code>src\time\Clock.ts:328</code></a>
+        <a href="../files/src_time_Clock.ts.html#l329"><code>src\time\Clock.ts:329</code></a>
         
         </p>
 
@@ -1440,7 +1444,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l165"><code>src\time\Clock.ts:165</code></a>
+        <a href="../files/src_time_Clock.ts.html#l166"><code>src\time\Clock.ts:166</code></a>
         
         </p>
 
@@ -1515,7 +1519,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l143"><code>src\time\Clock.ts:143</code></a>
+        <a href="../files/src_time_Clock.ts.html#l144"><code>src\time\Clock.ts:144</code></a>
         
         </p>
 
@@ -1590,7 +1594,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l187"><code>src\time\Clock.ts:187</code></a>
+        <a href="../files/src_time_Clock.ts.html#l188"><code>src\time\Clock.ts:188</code></a>
         
         </p>
 
@@ -1665,7 +1669,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l260"><code>src\time\Clock.ts:260</code></a>
+        <a href="../files/src_time_Clock.ts.html#l261"><code>src\time\Clock.ts:261</code></a>
         
         </p>
 
@@ -1740,7 +1744,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l218"><code>src\time\Clock.ts:218</code></a>
+        <a href="../files/src_time_Clock.ts.html#l219"><code>src\time\Clock.ts:219</code></a>
         
         </p>
 
@@ -1815,7 +1819,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l239"><code>src\time\Clock.ts:239</code></a>
+        <a href="../files/src_time_Clock.ts.html#l240"><code>src\time\Clock.ts:240</code></a>
         
         </p>
 
@@ -1963,7 +1967,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l482"><code>src\time\Clock.ts:482</code></a>
+        <a href="../files/src_time_Clock.ts.html#l483"><code>src\time\Clock.ts:483</code></a>
         
         </p>
 
@@ -2054,7 +2058,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l350"><code>src\time\Clock.ts:350</code></a>
+        <a href="../files/src_time_Clock.ts.html#l351"><code>src\time\Clock.ts:351</code></a>
         
         </p>
 
@@ -2171,7 +2175,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l503"><code>src\time\Clock.ts:503</code></a>
+        <a href="../files/src_time_Clock.ts.html#l504"><code>src\time\Clock.ts:504</code></a>
         
         </p>
 
@@ -2246,7 +2250,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l456"><code>src\time\Clock.ts:456</code></a>
+        <a href="../files/src_time_Clock.ts.html#l457"><code>src\time\Clock.ts:457</code></a>
         
         </p>
 
@@ -2396,7 +2400,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l526"><code>src\time\Clock.ts:526</code></a>
+        <a href="../files/src_time_Clock.ts.html#l527"><code>src\time\Clock.ts:527</code></a>
         
         </p>
 
@@ -2471,7 +2475,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l413"><code>src\time\Clock.ts:413</code></a>
+        <a href="../files/src_time_Clock.ts.html#l414"><code>src\time\Clock.ts:414</code></a>
         
         </p>
 
@@ -2546,7 +2550,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l430"><code>src\time\Clock.ts:430</code></a>
+        <a href="../files/src_time_Clock.ts.html#l431"><code>src\time\Clock.ts:431</code></a>
         
         </p>
 
@@ -2621,7 +2625,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l554"><code>src\time\Clock.ts:554</code></a>
+        <a href="../files/src_time_Clock.ts.html#l555"><code>src\time\Clock.ts:555</code></a>
         
         </p>
 
@@ -2692,7 +2696,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l442"><code>src\time\Clock.ts:442</code></a>
+        <a href="../files/src_time_Clock.ts.html#l443"><code>src\time\Clock.ts:443</code></a>
         
         </p>
 
@@ -2748,7 +2752,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l272"><code>src\time\Clock.ts:272</code></a>
+        <a href="../files/src_time_Clock.ts.html#l273"><code>src\time\Clock.ts:273</code></a>
         
         </p>
 
@@ -2797,7 +2801,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l251"><code>src\time\Clock.ts:251</code></a>
+        <a href="../files/src_time_Clock.ts.html#l252"><code>src\time\Clock.ts:252</code></a>
         
         </p>
 
@@ -2846,7 +2850,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l209"><code>src\time\Clock.ts:209</code></a>
+        <a href="../files/src_time_Clock.ts.html#l210"><code>src\time\Clock.ts:210</code></a>
         
         </p>
 
@@ -2895,7 +2899,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l230"><code>src\time\Clock.ts:230</code></a>
+        <a href="../files/src_time_Clock.ts.html#l231"><code>src\time\Clock.ts:231</code></a>
         
         </p>
 
@@ -2993,7 +2997,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l155"><code>src\time\Clock.ts:155</code></a>
+        <a href="../files/src_time_Clock.ts.html#l156"><code>src\time\Clock.ts:156</code></a>
         
         </p>
 
@@ -3091,7 +3095,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l134"><code>src\time\Clock.ts:134</code></a>
+        <a href="../files/src_time_Clock.ts.html#l135"><code>src\time\Clock.ts:135</code></a>
         
         </p>
 
@@ -3140,7 +3144,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l177"><code>src\time\Clock.ts:177</code></a>
+        <a href="../files/src_time_Clock.ts.html#l178"><code>src\time\Clock.ts:178</code></a>
         
         </p>
 
@@ -3189,7 +3193,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l199"><code>src\time\Clock.ts:199</code></a>
+        <a href="../files/src_time_Clock.ts.html#l200"><code>src\time\Clock.ts:200</code></a>
         
         </p>
 
@@ -3238,7 +3242,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l281"><code>src\time\Clock.ts:281</code></a>
+        <a href="../files/src_time_Clock.ts.html#l282"><code>src\time\Clock.ts:282</code></a>
         
         </p>
 
@@ -3285,7 +3289,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l289"><code>src\time\Clock.ts:289</code></a>
+        <a href="../files/src_time_Clock.ts.html#l290"><code>src\time\Clock.ts:290</code></a>
         
         </p>
 
@@ -3332,7 +3336,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l297"><code>src\time\Clock.ts:297</code></a>
+        <a href="../files/src_time_Clock.ts.html#l298"><code>src\time\Clock.ts:298</code></a>
         
         </p>
 
@@ -3426,7 +3430,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l305"><code>src\time\Clock.ts:305</code></a>
+        <a href="../files/src_time_Clock.ts.html#l306"><code>src\time\Clock.ts:306</code></a>
         
         </p>
 

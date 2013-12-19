@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\renderers\CanvasRenderer.ts - Kiwi.js</title>
+    <title>src\render\GLRenderer.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -40,6 +40,16 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/GLRenderer.html">GLRenderer</a></li>
+            
+                <li><a href="../classes/GLShaders.html">GLShaders</a></li>
+            
+                <li><a href="../classes/GLTexture.html">GLTexture</a></li>
+            
+                <li><a href="../classes/GLTextureManager.html">GLTextureManager</a></li>
+            
+                <li><a href="../classes/IRenderer.html">IRenderer</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -177,8 +187,6 @@
             
                 <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
             
-                <li><a href="../classes/Kiwi.Input.IRenderer.html">Kiwi.Input.IRenderer</a></li>
-            
                 <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
             
                 <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
@@ -200,12 +208,6 @@
                 <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
             
                 <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLRenderer.html">Kiwi.Renderers.GLRenderer</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLShaders.html">Kiwi.Renderers.GLShaders</a></li>
-            
-                <li><a href="../classes/Kiwi.Renderers.GLTexture.html">Kiwi.Renderers.GLTexture</a></li>
             
                 <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
             
@@ -336,66 +338,65 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\renderers\CanvasRenderer.ts</h1>
+                        <h1 class="file-heading">File: src\render\GLRenderer.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/**
-* A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),
-* which outlines the methods/properties that are required any Renderer. 
-* @class IRenderer
-*/
-interface IRenderer {
-    render(camera: Kiwi.Camera);
-    boot();
-}
+
+//used for ts recognition of matrix-gl
+declare var mat2d, mat3, vec2, vec3, mat4;
+
+
 
 /**
-* Contains the classes which are related to the rendering of GameObjects.
-* 
+*  
 * @module Kiwi
 * @submodule Renderers
-* @main
-*/ 
-module Kiwi.Renderers {
+* 
+*/
 
+module Kiwi.Renderers {
+    
     /**
-    *
-    * @class CanvasRenderer
+    * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
+    * @class GLRenderer
     * @extends IRenderer
-    * @constructor 
-    * @namespace Kiwi.Renderers
-    * @param game {Game} The game that this canvas renderer belongs to.
-    * @return {CanvasRenderer}
-    *
+    * @constructor
+    * @param game {Game} The game that this renderer belongs to.
+    * @return {GLRenderer}
     */
-    export class CanvasRenderer implements IRenderer {
-         
+    export class GLRenderer implements IRenderManager {
+
+       
         constructor(game: Kiwi.Game) {
             this._game = game;
+            if (typeof mat4 === &quot;undefined&quot;) {
+                throw &quot;ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix&quot;;
+            }
         }
 
         /**
-        * The boot method is executed when all of the DOM elements that are needed to play the game are ready.
+        * Initialises all WebGL rendering services
         * @method boot
         * @public
         */
         public boot() {
-
+            this._init();
+            this._textureManager = new GLTextureManager();
         }
-
+        
         /**
-        * Returns the type of object that this is.
+        * The type of object that this is.
         * @method objType
         * @return {String}
         * @public
         */
         public objType() {
-            return &quot;CanvasRenderer&quot;;
+            return &quot;GLRenderer&quot;;
         }
 
         /**
-        * The game that this object belongs to.
+        * The game that this renderer is on.
         * @property _game
         * @type Game
         * @private
@@ -403,68 +404,252 @@ module Kiwi.Renderers {
         private _game: Kiwi.Game;
 
         /**
-        * The camera that is currently being used to render upon.
+        * The texture manager
+        * @property _textureManager
+        * @type GLTextureManager
+        * @private
+        */
+
+        private _textureManager: GLTextureManager;
+        
+
+        /**
+        * The current camara that is being rendered
         * @property _currentCamera
         * @type Camera
         * @private
         */
         private _currentCamera: Kiwi.Camera;
-
+        
         /**
-        * This method recursively goes through a State&#x27;s members and runs the render method of each member that is a Entity. 
-        * If it is a Group then this method recursively goes through that Groups members the process that happened to the State&#x27;s members happens to the Group&#x27;s members.
-        * 
-        * @method _recurse
-        * @param child {IChild} The child that is being checked.
+        * The stage resolution in pixels
+        * @property _stageResolution
+        * @type Float32Array
         * @private
         */
-        private _recurse(child: IChild) {
+        private _stageResolution: Float32Array;
 
-            if (!child.willRender) return;
+        private _currentRenderer: Renderer;
+        
+        private _cameraOffset: Float32Array;
+     
+        /**
+        * Tally of number of entities rendered per frame
+        * @property _entityCount
+        * @type number
+        * @default 0
+        * @private
+        */
+        private _entityCount: number = 0;
 
-            if (child.childType() === Kiwi.GROUP) {
-                for (var i = 0; i &lt; (&lt;Kiwi.Group&gt;child).members.length; i++) {
-                    this._recurse((&lt;Kiwi.Group&gt;child).members[i]);
-                }
-            } else {
+
+         /**
+        * Tally of number ofdraw calls per frame
+        * @property numDrawCalls
+        * @type number
+        * @default 0
+        * @public
+        */
+        public numDrawCalls: number = 0;
+        
+        /**
+        * Maximum allowable sprites to render per frame
+        * @property _maxItems
+        * @type number
+        * @default 1000
+        * @private
+        */
+        private _maxItems: number = 2000;
+        
+             
+        
+        /**
+        * GL-Matrix.js provided 4x4 matrix used for matrix uniform
+        * @property mvMatrix
+        * @type Float32Array
+        * @public
+        */
+        public mvMatrix: Float32Array;
+        
+        
+        /**
+        * The most recently bound texture atlas used for sprite rendering
+        * @property _currentTextureAtlas
+        * @type TextureAtlas
+        * @private
+        */
+        private _currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
+        
+        /**
+        * Performs initialisation required for single game instance - happens once
+        * @method _init
+        * @private
+        */
+        private _init() {
+           
+            console.log(&quot;Intialising WebGL&quot;);
+
+            var gl: WebGLRenderingContext = this._game.stage.gl;
+            
+            this._currentRenderer = new Texture2DRenderer;
+       
+
+
+            //init stage and viewport
+            this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+            gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
+            
                 
-                child.render(this._currentCamera);
+            //set default state
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-            }
 
+            this.mvMatrix = mat4.create();
+            mat2d.identity(this.mvMatrix);
+
+            var renderer: Texture2DRenderer = &lt;Texture2DRenderer&gt;this._currentRenderer;
+            renderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+       
+            //stage res needs update on stage resize
+            
+           // this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
+            
+            
+            this._game.stage.onResize.add(function (width, height) {
+                this._stageResolution = new Float32Array([width, height]);
+                renderer.updateStageResolution(gl, this._stageResolution);
+             //   this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
+                gl.viewport(0, 0, width,height);
+            },this);
+
+
+         
+       }
+
+        
+        /**
+        * Performs initialisation required when switching to a different state
+        * @method initState
+        * @public
+        */
+
+        public initState(state: Kiwi.State) {
+            console.log(&quot;initialising WebGL on State&quot;);
+            this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
+        }
+
+        /**
+        * Performs cleanup required before switching to a different state
+        * @method initState
+        * @param state {Kiwi.State}
+        * @public
+        */
+
+        public endState(state: Kiwi.State) {
+            this._textureManager.clearTextures(this._game.stage.gl);
+            console.log(&quot;ending WebGL on State&quot;);
         }
         
         /**
-        * Renders all of the Elements that are on a particular camera.
+        * Manages rendering of the scene graph - performs per frame setup
         * @method render
         * @param camera {Camera}
         * @public
         */
         public render(camera: Kiwi.Camera) {
+       
+                this.numDrawCalls = 0;
+                this._currentCamera = camera;
+                var root: IChild[] = this._game.states.current.members;
+                var gl: WebGLRenderingContext = this._game.stage.gl;
 
-            this._currentCamera = camera;
-            var root: IChild[] = this._game.states.current.members;
+                this._textureManager.numTextureWrites = 0;
+
+                this._entityCount = 0;
+               
+                //clear 
+                var col = this._game.stage.normalizedColor;
+                gl.clearColor(col.r, col.g, col.b, col.a);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                
+             
+                //set cam matrix uniform
+                var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
+                var ct: Kiwi.Geom.Transform = camera.transform;
+          
+                this.mvMatrix = new Float32Array([
+                    cm.a, cm.b, 0, 0,
+                    cm.c, cm.d, 0, 0,
+                    0, 0, 1, 0,
+                    ct.rotPointX - cm.tx, ct.rotPointY - cm.ty, 0, 1
+                ]);
+                this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
+                var renderer: Texture2DRenderer = &lt;Texture2DRenderer&gt;this._currentRenderer;
+                renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+               
+                
+                //iterate
+                
+                for (var i = 0; i &lt; root.length; i++) {
+                    this._recurse(gl, root[i], camera);
+                }
             
-            //clear 
-            this._game.stage.ctx.fillStyle = this._game.stage.color;
-            
-            this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
+                //draw anything left over
+                renderer.draw(gl, { entityCount: this._entityCount });
 
-            //apply camera transform
-            var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
-            var ct: Kiwi.Geom.Transform = camera.transform;
+           
+        }
 
-            this._game.stage.ctx.save();
-            this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx + ct.rotPointX, cm.ty + ct.rotPointY);
+        /**
+        * Recursively renders scene graph tree
+        * @method _recurse
+        * @param gl {WebGLRenderingContext}
+        * @param child {IChild}
+        * @param camera {Camera}
+        * @private
+        */
+        private _recurse(gl: WebGLRenderingContext, child: IChild, camera: Kiwi.Camera) {
+            if (!child.willRender) return;
+            var renderer: Texture2DRenderer = &lt;Texture2DRenderer&gt;this._currentRenderer;
 
+            if (child.childType() === Kiwi.GROUP) {
+                for (var i = 0; i &lt; (&lt;Kiwi.Group&gt;child).members.length; i++) {
+                    this._recurse(gl,(&lt;Kiwi.Group&gt;child).members[i],camera);
+                }
+            } else {
+                
+                //draw and switch to different texture if need be
+                if ((&lt;Entity&gt;child).atlas !== this._currentTextureAtlas) {
+                   
+                    renderer.draw(gl, { entityCount: this._entityCount });
+                    this.numDrawCalls++;
+                    this._entityCount = 0;
+                    renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
 
-            for (var i = 0; i &lt; root.length; i++) {
-                this._recurse(root[i]);
+                   
+                    if (!this._textureManager.useTexture(gl, (&lt;Entity&gt;child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize))
+                        return;
+                    this._currentTextureAtlas = (&lt;Entity&gt;child).atlas;
+                } 
+                
+                //&quot;render&quot;
+                //renderer.collateVertexAttributeArrays(gl, &lt;Entity&gt;child, camera);
+                (&lt;Kiwi.Entity&gt;child).renderGL(gl, renderer, camera);
+                this._entityCount++;
+                
             }
-            this._game.stage.ctx.restore();
-
+        
         }
         
+      
+
+     
+
+       
+       
+
 
     }
 

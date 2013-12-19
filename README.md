@@ -45,15 +45,6 @@ None
     - Commenting is in an inconsistent state due to mid-refactor of some areas.
     
 
- 
-- Destroy method by default is executed at the end of the next update loop. Also you can switch the 'exists' property to 'false' to signal that the destroy method should be executed on the next update.
-- To make the destroy method immediately execute you can pass a boolean (true) to the destroy method. This is always the last parameter passed.
-
-- The keyboard manager is now always 'active' and used in Kiwi. Previously was only used if the device didn't support touch but this generated some problems with touch devices that have keyboards.
-
-- how-to-setup-tests.txt replaced/updated with a readme.txt in the examples folder.
-
-- Arcade Physics now use's the x/y of a hitbox when seperation objects. Watch out though as it is now the worldX/Y and as such physics for gameobjects within groups could be affected.
 
 
 ####Changes to API pre-exisiting API in this release
