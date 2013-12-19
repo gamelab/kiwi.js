@@ -10,6 +10,7 @@ module Kiwi.Geom {
     * A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
     *
     * @class Line
+    * @namespace Kiwi.Geom
     * @constructor
     * @param [x1 = 0] {Number} x1 x component of first point.
     * @param [y1 = 0]{Number} y1 y component of first point.

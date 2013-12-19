@@ -13,6 +13,7 @@ module Kiwi.HUD.HUDComponents {
     *
     * @class WidgetInput
     * @extends Component
+    * @namespace Kiwi.HUD.HUDComponents
     * @constructor
     * @param owner {any} The object that this WidgetInput belongs to.
     * @param container {HTMLElement} The HTMLElement that the events will occur on/to.

@@ -11,6 +11,7 @@ module Kiwi.Input {
     * A Static class which has a property associated with all all of the character codes on a typical keyboard. While you don't need this class for your game to work, it is quite handy to use as it can speed up the development process.
     *
     * @class Keycodes
+    * @namespace Kiwi.Input
     * @static
     */
     export class Keycodes {

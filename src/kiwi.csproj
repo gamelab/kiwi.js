@@ -37,11 +37,16 @@
     <Content Include="plugins\Plugins.js">
       <DependentUpon>Plugins.ts</DependentUpon>
     </Content>
-    <Content Include="renderers\GLArrayBuffer.ts" />
-    <Content Include="renderers\GLElementArrayBuffer.ts" />
-    <Content Include="renderers\GLRenderer.ts" />
-    <Content Include="renderers\GLShaders.ts" />
-    <Content Include="renderers\GLTexture.ts" />
+    <Content Include="render\GLArrayBuffer.ts" />
+    <Content Include="render\GLElementArrayBuffer.ts" />
+    <Content Include="render\GLProgramManager.ts" />
+    <Content Include="render\GLRenderer.ts" />
+    <Content Include="render\GLShaderPair.ts" />
+    <Content Include="render\GLTextureWrapper.ts" />
+    <Content Include="render\GLTextureManager.ts" />
+    <Content Include="render\renderers\Renderer.ts" />
+    <Content Include="render\renderers\Texture2DRenderer.ts" />
+    <Content Include="render\shaders\Texture2DShader.ts" />
     <Content Include="WebGL.d.ts" />
     <Content Include="sound\AudioLibrary.ts" />
     <Content Include="textures\TextureAtlas.ts" />
@@ -118,7 +123,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="time\Clock.ts" />
-    <Content Include="renderers\CanvasRenderer.ts" />
+    <Content Include="render\CanvasRenderer.ts" />
     <Content Include="time\ClockManager.ts" />
     <Content Include="time\MasterClock.ts" />
     <Content Include="time\Timer.ts" />
@@ -176,7 +181,7 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Debug\</IntermediateOutputPath>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsAAD8.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsBD6.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
@@ -184,12 +189,11 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
     <TypeScriptOutFile>../build/kiwi.js</TypeScriptOutFile>
     <IntermediateOutputPath>C:\Users\Benj\AppData\Local\Temp\vs2B63.tmp\Release\</IntermediateOutputPath>
-    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsAAD8.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\ROSSP_~1\AppData\Local\Temp\vsBD6.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)\..\build\kiwi.js $(ProjectDir)\..\examples\
-copy $(ProjectDir)\..\build\kiwi.js c:\code\standoff\lib\
-copy $(ProjectDir)\..\build\kiwi.js c:\code\kiwiplugins\Profiler\examples\js</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

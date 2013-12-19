@@ -12,6 +12,7 @@ module Kiwi {
     * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
     * 
     * @class Entity
+    * @namespace Kiwi
     * @constructor
     * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param x {Number} The entities position on the x axis.
@@ -37,7 +38,13 @@ module Kiwi {
             this.transform = new Kiwi.Geom.Transform();
             this.transform.x = x;
             this.transform.y = y; 
+
+            
         }
+
+        public requiredRenderers: string[] = ["Texture2DRenderer"];
+        public renderer: Kiwi.Renderers.Renderer;
+
 
         /**
         * Represents the position, scale, rotation and registration of this Entity.
@@ -457,7 +464,12 @@ module Kiwi {
         * @public
         */
         public render(camera:Kiwi.Camera) {
-            
+        
+        }
+
+        
+        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params: any = null) {
+        
         }
 
         /**
@@ -474,7 +486,7 @@ module Kiwi {
 
             if (immediate === true) {
                 
-                if (this.parent !== null) this.parent.removeChild(this);
+                if (this.parent !== null && typeof this.parent !== "undefined") this.parent.removeChild(this);
                 if (this.state) this.state.removeFromTrackingList(this);
                 delete this._parent;
                 delete this.transform;

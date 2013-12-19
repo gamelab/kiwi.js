@@ -13,6 +13,7 @@ module Kiwi.Textures {
     * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on. 
     * 
     * @class TextureLibrary
+    * @namespace Kiwi.Textures
     * @constructor
     * @param game {Game} The game that this texture library belongs to.
     * @return {TextureLibrary}

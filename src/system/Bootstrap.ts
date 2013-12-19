@@ -11,6 +11,7 @@ module Kiwi.System {
     * DOM Boot and Ready functions (based on those used by jQuery)
     * 
     * @class Bootstrap
+    * @namespace Kiwi.System
     *
     */
     export class Bootstrap {

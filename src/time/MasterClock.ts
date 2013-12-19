@@ -13,6 +13,7 @@ module Kiwi.Time {
     * You should not access it directly, use the Clock and Timer classes instead.
     *
     * @class MasterClock
+    * @namespace Kiwi.Time
     * @constructor
     * @return {MasterClock} This Object.
     *

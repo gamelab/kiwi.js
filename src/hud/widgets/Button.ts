@@ -12,6 +12,7 @@ module Kiwi.HUD.Widget {
     *
     * @class Button
     * @extends TextField
+    * @namespace Kiwi.HUD.Widget
     * @constructor
     * @param game {game} The game that this belongs to.
     * @param text {string} The text that you want to display inside the button.

@@ -11,6 +11,7 @@ module Kiwi.GameObjects {
     * A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn't a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.
     *
     * @class Sprite
+    * @namespace Kiwi.GameObjects
     * @extends Entity
     * @constructor
     * @param state {State} The state that this sprite belongs to
@@ -26,9 +27,17 @@ module Kiwi.GameObjects {
 
             super(state, x, y);
 
-            // Set the texture
-            this.name = atlas.name;
+            //Texture atlas error check
+            if (typeof atlas == "undefined") {
+                console.error('A Texture Atlas was not passed when instantiating a new Sprite.');
+                this.willRender = false;
+                this.active = false;
+                return;
+            } 
+
+
             this.atlas = atlas;
+            this.name = this.atlas.name;
             this.cellIndex = this.atlas.cellIndex;
 
             //may need to add an optional other cell frame index here
@@ -36,13 +45,13 @@ module Kiwi.GameObjects {
             this.height = atlas.cells[0].h;
             this.transform.rotPointX = this.width / 2;
             this.transform.rotPointY = this.height / 2;
-            
+                
 
             //Create the components needed
             this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
             this.input = this.components.add(new Kiwi.Components.Input(this, this.box, enableInput));
 
-            
+                
             //Check to see if this sprite could be animated or not
             if (this.atlas.type === Kiwi.Textures.TextureAtlas.SINGLE_IMAGE) {
                 this.animation = null;
@@ -51,7 +60,7 @@ module Kiwi.GameObjects {
                 this.animation = this.components.add(new Kiwi.Components.AnimationManager(this));
                 this._isAnimated = true;
             }
-
+            
         }
 
         /**
@@ -153,9 +162,12 @@ module Kiwi.GameObjects {
                     
             }
 
-    
+        
         }
 
+        public renderGL(gl: WebGLRenderingContext, renderer:Kiwi.Renderers.Renderer,camera: Kiwi.Camera, params: any = null) {
+            (<Kiwi.Renderers.Texture2DRenderer>renderer).addToBatch(gl, this, camera);
+        }
 
     }
 

@@ -13,6 +13,7 @@ module Kiwi.System {
     * 
     * @class Browser
     * @constructor
+    * @namespace Kiwi.System
     * @param {Game} game
     * @return {StateMananger} This Object
     *

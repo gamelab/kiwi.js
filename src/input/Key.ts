@@ -12,6 +12,7 @@ module Kiwi.Input {
     *
     * @class Key
     * @constructor
+    * @namespace Kiwi.Input
     * @param manager {Keyboard} The keyboard manager that this key belongs to. 
     * @param keycode {Number} The keycode that this key is. 
     * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.

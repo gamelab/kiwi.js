@@ -11,7 +11,8 @@ module Kiwi.System {
     * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/audio.js
     *
     * @class Device
-    * @constructor 
+    * @constructor
+    * @namespace Kiwi.System 
     *
     * @author mrdoob
     * @author Modernizr team

@@ -11,6 +11,7 @@ module Kiwi {
     * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
     *
     * @class Stage
+    * @namespace Kiwi
     * @constructor
     * @param game {Kiwi.Game}
     * @param name {String}
@@ -335,13 +336,13 @@ module Kiwi {
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = 1000;//parseInt(this.container.style.width);
-                this._height = 1000;//parseInt(this.container.style.height);
+                this._width = this.container.clientWidth;
+                this._height =this.container.clientHeight;
             }
             
             this._createCompositeCanvas();
             if (this._game.debugOption === DEBUG_ON) {
-                this._createDebugCanvas();
+                //this._createDebugCanvas();
             }
         }
 

@@ -10,6 +10,7 @@ module Kiwi.Geom {
      * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
      *	
      * @class Circle
+     * @namespace Kiwi.Geom
      * @constructor
      * @param x {Number} The x coordinate of the center of the circle.
      * @param y {Number} The y coordinate of the center of the circle.

@@ -11,6 +11,7 @@ module Kiwi.GameObjects.Tilemap {
     * A single Tile that exists on the mapData property inside of a TileMapLayer. A Tile should never be directly created by a user but instead reference through its TileMapLayer which would have created it. Each Tile has an ArcadePhysics component that can be used for collision detection.
     * 
     * @class Tile
+    * @namespace Kiwi.GameObjects.Tilemap
     * @extends Entity
     * @constructor
     * @param state {State} The state that this Tile is on.

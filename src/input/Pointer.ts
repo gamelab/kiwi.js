@@ -12,6 +12,7 @@ module Kiwi.Input {
     *
     * @class Pointer
     * @constructor
+    * @namespace Kiwi.Input
     * @param {Game} game
     * @return Pointer
     *

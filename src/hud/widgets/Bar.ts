@@ -12,6 +12,7 @@ module Kiwi.HUD.Widget {
     * 
     * @class Bar
     * @extends HUDWidget
+    * @namespace Kiwi.HUD.Widget
     * @constructor 
     * @param game {Game} The game that this bar belongs to.
     * @param current {number} The current value of the bar.

@@ -12,6 +12,7 @@ module Kiwi.Input {
     *
     * @class Keyboard
     * @constructor
+    * @namespace Kiwi.Input
     * @param game {Game}
     * @return {Keyboard} This object.
     *

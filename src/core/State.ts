@@ -10,6 +10,7 @@ module Kiwi {
     * 
     * 
     * @class State
+    * @namespace Kiwi
     * @extends Group
     * @constructor
     * @param name {String}

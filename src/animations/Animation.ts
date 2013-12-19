@@ -14,6 +14,7 @@ module Kiwi.Animations {
     * but if you do ever modify the information held in this Animation the corresponding Sequence will not be updated.
     * 
     * @class Animation
+    * @namespace Kiwi.Animations
     * @constructor
     * @param name {string} The name of this anim.
     * @param sequences {Sequences} The sequence that this anim will be using to animate.

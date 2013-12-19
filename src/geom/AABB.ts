@@ -12,6 +12,7 @@ module Kiwi.Geom {
     * An object representation of an axis-aligned bounding box. 
     * 
     * @class AABB
+    * @namespace Kiwi.Geom
     * @constructor
     * @param cx {Number}
     * @param cy {Number}

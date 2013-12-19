@@ -11,6 +11,7 @@ module Kiwi.Files {
     * Used for the loading of files and game assets. This usually happens when a State is at the 'loading' stage (executing the 'preload' method).
     * 
     * @class Loader
+    * @namespace Kiwi.Files
     * @constructor
     * @param game {Game} The game that this loader belongs to.
     * @return {Loader} This Object

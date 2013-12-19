@@ -17,6 +17,7 @@ module Kiwi.Time {
     * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
     * 
     * @class Clock
+    * @namespace Kiwi.Time
     * @constructor
     * @param manager {ClockManager} The ClockManager that this clock belongs to. .
     * @param master {MasterClock} The MasterClock that it is getting the time in relation to.

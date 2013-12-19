@@ -11,6 +11,7 @@ module Kiwi.HUD {
     * This class is designed to be extended from and thus objects should not directly instantiate it.
     *
     * @class HUDWidget
+    * @namespace Kiwi.HUD
     * @constructor
     * @param game {Game}  The game that this HUDWidget belongs to.
     * @param name {string} Name of the type of HUDWidget.

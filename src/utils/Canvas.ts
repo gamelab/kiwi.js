@@ -9,6 +9,7 @@ module Kiwi.Utils {
     * Creates and the manages a Canvas DOMElement.
     * 
     * @class Canvas
+    * @namespace Kiwi.Utils
     * @constructor
     * @param width {Number} The width of the canvas.
     * @param height {Number} The height of the canvas.

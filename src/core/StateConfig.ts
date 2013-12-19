@@ -9,6 +9,7 @@ module Kiwi {
     /**
     * [WHOLE THING REQUIRES DESCRIPTION]
     * @class StateConfig
+    * @namespace Kiwi
     * @constructor
     * @param {State} parent
     * @param {String} name

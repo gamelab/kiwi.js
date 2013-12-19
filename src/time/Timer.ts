@@ -13,6 +13,7 @@ module Kiwi.Time {
     * Timer objects can run once or repeat at specified intervals to execute code on a schedule.
     *
     * @class Timer
+    * @namespace Kiwi.Time
     * @constructor
     * @param name {string} The name of the timer.
     * @param clock {Clock} The game clock instance this Timer is based on.

@@ -10,6 +10,7 @@ module Kiwi.Utils {
     * Includes some methods written by Dylan Engelman.
     *
     * @class GameMath
+    * @namespace Kiwi.Utils
     * @static
     *
     * @author Richard Davey

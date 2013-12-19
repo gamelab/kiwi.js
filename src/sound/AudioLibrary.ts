@@ -12,6 +12,7 @@ module Kiwi.Sound {
     * 
     * @class AudioLibrary
     * @constructor
+    * @namespace Kiwi.Sound
     * @param game {Game} The game that this audio library is a member of.
     * @return {AudioLibrary}
     */

@@ -11,6 +11,7 @@ module Kiwi.HUD.Widget {
     * 
     * @class BasicScore
     * @extends TextField
+    * @namespace Kiwi.HUD.Widget
     * @constructor
     * @param game {Game} The game that this BasicScore belongs to.
     * @param x {number} The cooridnates of the game on the x-axis.

@@ -10,6 +10,7 @@ module Kiwi {
     * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager. 
     * 
     * @class CameraManager
+    * @namespace Kiwi
     * @constructor
     * @param {Game} game
     * @return {CameraManager} 

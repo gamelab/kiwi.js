@@ -18,6 +18,7 @@ module Kiwi.HUD {
     * 
     *
     * @class HUDManager
+    * @namespace Kiwi.HUD
     * @constructor
     * @param game {Game} game
     * @return {HUDManager}

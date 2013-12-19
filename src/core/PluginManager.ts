@@ -9,6 +9,7 @@ module Kiwi {
     /**
     * 
     * @class PluginManager
+    * @namespace Kiwi
     * @constructor
     * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param plugins {string[]} The entities position on the x axis.

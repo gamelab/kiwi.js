@@ -13,6 +13,7 @@ module Kiwi.HUD {
     * Each game can contain multiple HUDDisplay's and each HUDDisplay can contain multiple HUDWidgets.
     *
     * @class HUDDisplay
+    * @namespace Kiwi.HUD
     * @constructor
     * @param game {Game} The game that this HUD Display belongs to. 
     * @param name {string} The name of this display.

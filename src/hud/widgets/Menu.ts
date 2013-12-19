@@ -12,6 +12,7 @@ module Kiwi.HUD.Widget {
     * 
     * @class Menu
     * @extends HUDWidget
+    * @namespace Kiwi.HUD.Widget
     * @constructor
     * @param game {Game} The game that this Menu belongs to.
     * @param x {number} Its position on the x-axis.

@@ -11,6 +11,7 @@ module Kiwi.GameObjects {
     * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
     *
     * @class Textfield
+    * @namespace Kiwi.GameObjects
     * @extends Entity
     * @constructor
     * @param state {State} The state that this Textfield belongs to

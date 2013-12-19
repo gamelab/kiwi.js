@@ -13,6 +13,7 @@ module Kiwi.Utils {
     *
     * @class RandomDataGenerator
     * @constructor
+    * @namespace Kiwi.Utils
     * @param [seeds=[]] {String[]}
     * @return {RandomDataGenerator}
     *

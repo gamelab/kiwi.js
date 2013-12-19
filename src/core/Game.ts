@@ -10,6 +10,7 @@ module Kiwi {
     * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
     *
     * @class Game
+    * @namespace Kiwi
     * @constructor
     * @param [domParent=''] {String} The ID of a DOM element that the game should use as its 'container'. If you are targeting Cocoon then you don't need to worry about this and can leave it blank.
     * @param [name='KiwiGame'] {String} The name of the game that is being created. 
@@ -213,10 +214,10 @@ module Kiwi {
         /**
         * Holds the renderer that is being used. This is detiremended based of the _renderMode
         * @property renderer
-        * @type IRenderer
+        * @type IRenderManager
         * @public
         */
-        public renderer: IRenderer;
+        public renderer: IRenderManager;
 
         /**
         * Holds the hud manager.
@@ -452,10 +453,11 @@ module Kiwi {
         * @private
         */
         private loop() {
-    
-            this._delta = this.raf.currentTime - this._lastTime;
             
+            this._delta = this.raf.currentTime - this._lastTime;
             if (this._delta > this._interval) {
+
+                //Only update if there is a current state
                 this.time.update();
                 this.audio.update();
                 this.input.update();
@@ -465,10 +467,11 @@ module Kiwi {
                 this.states.update();
                 this.pluginManager.update();    
 
-                this.cameras.render();
+                if (this.states.current !== null) {
+                    this.cameras.render();
+                    this.states.postRender();
+                }
 
-                this.states.postRender();
-                
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);
             }
         }

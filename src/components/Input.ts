@@ -16,6 +16,7 @@ module Kiwi.Components {
     *
     * @class Input
     * @extends Component
+    * @namespace Kiwi.Components
     * @constructor
     * @param owner {IChild} The IChild that owns this Input.
     * @param box {Box} The box that is to be used for the event firing.
@@ -43,7 +44,7 @@ module Kiwi.Components {
              
             this._withinBounds = null;
             this._outsideBounds = true;
-             
+
             this._isUp = true;
             this._isDown = null;
             this._isDragging = null;
@@ -500,8 +501,8 @@ module Kiwi.Components {
                     this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
                     this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
                 } else {
-                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitbox.width / 2), this._dragDistance);
-                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitbox.height / 2), this._dragDistance);
+                    this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.worldHitbox.width / 2), this._dragDistance);
+                    this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.worldHitbox.height / 2), this._dragDistance);
                 }
             }
         }
@@ -583,7 +584,7 @@ module Kiwi.Components {
             //if nothing isdown or what is down is the current pointer
             if (this.isDown === false || this._isDown.id === pointer.id) {
 
-                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
                     if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
                         this._nowEntered = pointer;
                     }
@@ -593,8 +594,8 @@ module Kiwi.Components {
                     }
 
                     if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
-                        this._distance.x = pointer.x - this._box.hitbox.left;
-                        this._distance.y = pointer.y - this._box.hitbox.top;
+                        this._distance.x = pointer.x - this._box.worldHitbox.left;
+                        this._distance.y = pointer.y - this._box.worldHitbox.top;
                         this._nowDragging = pointer; 
                     }
                 } else {
@@ -661,11 +662,11 @@ module Kiwi.Components {
         */
         private _evaluateMousePointer(pointer:Kiwi.Input.MouseCursor) {
 
-            if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+            if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
                 
                 if (this._dragEnabled && this.isDragging === false) {
-                    this._distance.x = pointer.x - this._box.hitbox.left;
-                    this._distance.y = pointer.y - this._box.hitbox.top;
+                    this._distance.x = pointer.x - this._box.worldHitbox.left;
+                    this._distance.y = pointer.y - this._box.worldHitbox.top;
                 }
 
                 //  Has it just moved inside?

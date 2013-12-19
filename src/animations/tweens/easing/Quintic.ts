@@ -10,6 +10,7 @@ module Kiwi.Animations.Tweens.Easing {
     /**
     * 
     * @class Quintic
+    * @namespace Kiwi.Animations.Tweens.Easing
     * 
     */
     export class Quintic {

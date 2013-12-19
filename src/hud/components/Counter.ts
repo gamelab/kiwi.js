@@ -14,6 +14,7 @@ module Kiwi.HUD.HUDComponents {
     *
     * @class Counter
     * @extends Component
+    * @namespace Kiwi.HUD.HUDComponents
     * @constructor
     * @param owner {any} The object that this Component belongs to.
     * @param current {number} The current value.

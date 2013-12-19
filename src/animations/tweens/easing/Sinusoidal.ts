@@ -10,6 +10,7 @@ module Kiwi.Animations.Tweens.Easing {
     /**
     *
     * @class Sinusoidal
+    * @namespace Kiwi.Animations.Tweens.Easing
     *
     */
     export class Sinusoidal {

@@ -11,6 +11,7 @@ module Kiwi.Time {
     * A TimerEvent hooks into a Timer and is an object that is generated when you are wanting to executed a callback at a specific point in time. 
     *
     * @class TimerEvent
+    * @namespace Kiwi.Time
     * @constructor
     * @param type {Number} The type of TimerEvent that this is. 
     * @param callback {Any} The method that is to be executed when the event occurs.

@@ -13,6 +13,7 @@
                 /**
                 *
                 * @class Back
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Back = (function () {
@@ -92,6 +93,7 @@ var Kiwi;
                 /**
                 *
                 * @class Bounce
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Bounce = (function () {
@@ -177,6 +179,7 @@ var Kiwi;
                 *
                 *
                 * @class Circular
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Circular = (function () {
@@ -250,6 +253,7 @@ var Kiwi;
                 /**
                 *
                 * @class Cubic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Cubic = (function () {
@@ -326,6 +330,7 @@ var Kiwi;
                 *
                 *
                 * @class Elastic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Elastic = (function () {
@@ -431,6 +436,7 @@ var Kiwi;
                 *
                 *
                 * @class Exponential
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Exponential = (function () {
@@ -511,6 +517,7 @@ var Kiwi;
                 /**
                 *
                 * @class Linear
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Linear = (function () {
@@ -561,6 +568,7 @@ var Kiwi;
                 *
                 *
                 * @class Quadratic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Quadratic = (function () {
@@ -637,6 +645,7 @@ var Kiwi;
                 /**
                 *
                 * @class Quartic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Quartic = (function () {
@@ -713,6 +722,7 @@ var Kiwi;
                 /**
                 *
                 * @class Quintic
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Quintic = (function () {
@@ -789,6 +799,7 @@ var Kiwi;
                 /**
                 *
                 * @class Sinusoidal
+                * @namespace Kiwi.Animations.Tweens.Easing
                 *
                 */
                 var Sinusoidal = (function () {
@@ -867,6 +878,7 @@ var Kiwi;
             * https://github.com/sole/tween.js
             *
             * @class TweenManager
+            * @namespace Kiwi.Animations.Tweens
             * @constructor
             * @param game {Game}
             * @return {TweenManager}
@@ -1008,6 +1020,7 @@ var Kiwi;
         *
         * @class Tween
         * @constructor
+        * @namespace Kiwi.Animations
         * @param object {Any} The object that this tween is taking affect on.
         * @param game {Game} The game that this tween is for.
         * @return {Tween} This tween.
@@ -1463,6 +1476,7 @@ var Kiwi;
     * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
     *
     * @class Camera
+    * @namespace Kiwi
     * @constructor
     * @param game {Game} The game that this camera belongs to.
     * @param id {Number} A unique ID for this camera
@@ -1584,6 +1598,7 @@ var Kiwi;
     * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. More Cameras can always be created by used of the create method of a CameraManager.
     *
     * @class CameraManager
+    * @namespace Kiwi
     * @constructor
     * @param {Game} game
     * @return {CameraManager}
@@ -1707,6 +1722,7 @@ var Kiwi;
     * The base class that all components extend from and thus contains all of the common functionality that is required of every Component.
     *
     * @class Component
+    * @namespace Kiwi
     * @constructor
     * @param owner {IChild} The IChild that this component belongs to.
     * @param componentName {String} The name of this component.
@@ -1798,6 +1814,7 @@ var Kiwi;
     * Or when updating components you can tell the component manager to update and all of the components will update as well.
     *
     * @class ComponentManager
+    * @namespace Kiwi
     * @constructor
     * @param type {number} - The type of object that this component manager's owner is.
     * @param owner {IChild} - The owner of this component manager.
@@ -2050,6 +2067,7 @@ var Kiwi;
     * Every entity requires that you pass to it the state that it belongs too, that way when you switch states the appropriate entitys can be deleted.
     *
     * @class Entity
+    * @namespace Kiwi
     * @constructor
     * @param state {State} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param x {Number} The entities position on the x axis.
@@ -2059,6 +2077,7 @@ var Kiwi;
     */
     var Entity = (function () {
         function Entity(state, x, y) {
+            this.requiredRenderers = ["Texture2DRenderer"];
             /**
             * The group that this entity belongs to. If added onto the state then this is the state.
             * @property _parent
@@ -2460,6 +2479,10 @@ var Kiwi;
         Entity.prototype.render = function (camera) {
         };
 
+        Entity.prototype.renderGL = function (gl, renderer, camera, params) {
+            if (typeof params === "undefined") { params = null; }
+        };
+
         /**
         * Used to completely destroy this entity and of its components. Used for garbage collection and developers can also use it as needed.
         * @method destroy
@@ -2473,7 +2496,7 @@ var Kiwi;
             this._willRender = false;
 
             if (immediate === true) {
-                if (this.parent !== null)
+                if (this.parent !== null && typeof this.parent !== "undefined")
                     this.parent.removeChild(this);
                 if (this.state)
                     this.state.removeFromTrackingList(this);
@@ -2504,6 +2527,7 @@ var Kiwi;
     * The base class that is used when you are wanting to create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF which is used for the game loop.
     *
     * @class Game
+    * @namespace Kiwi
     * @constructor
     * @param [domParent=''] {String} The ID of a DOM element that the game should use as its 'container'. If you are targeting Cocoon then you don't need to worry about this and can leave it blank.
     * @param [name='KiwiGame'] {String} The name of the game that is being created.
@@ -2894,8 +2918,8 @@ var Kiwi;
         */
         Game.prototype.loop = function () {
             this._delta = this.raf.currentTime - this._lastTime;
-
             if (this._delta > this._interval) {
+                //Only update if there is a current state
                 this.time.update();
                 this.audio.update();
                 this.input.update();
@@ -2906,9 +2930,10 @@ var Kiwi;
                 this.states.update();
                 this.pluginManager.update();
 
-                this.cameras.render();
-
-                this.states.postRender();
+                if (this.states.current !== null) {
+                    this.cameras.render();
+                    this.states.postRender();
+                }
 
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);
             }
@@ -2928,6 +2953,7 @@ var Kiwi;
     * Is a class the implements the IChild structure who's purpose is to contain multiple children/members, those of which also implement the IChild interface. The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
     *
     * @class Group
+    * @namespace Kiwi
     * @constructor
     * @param state {State} The State that this Group is a part of.
     * @param [name=''] {String} The name of this group.
@@ -3259,6 +3285,7 @@ var Kiwi;
                 var index = this.getChildIndex(beforeChild);
 
                 this.members.splice(index, 0, child);
+                child.parent = this;
             }
 
             return child;
@@ -3277,6 +3304,7 @@ var Kiwi;
                 var index = this.getChildIndex(beforeChild) + 1;
 
                 this.members.splice(index, 0, child);
+                child.parent = this;
             }
 
             return child;
@@ -3865,6 +3893,7 @@ var Kiwi;
     /**
     *
     * @class PluginManager
+    * @namespace Kiwi
     * @constructor
     * @param game {Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
     * @param plugins {string[]} The entities position on the x axis.
@@ -4058,6 +4087,7 @@ var Kiwi;
     *
     *
     * @class State
+    * @namespace Kiwi
     * @extends Group
     * @constructor
     * @param name {String}
@@ -4426,6 +4456,7 @@ var Kiwi;
     * http://millermedeiros.github.com/js-signals/
     *
     * @class Signal
+    * @namespace Kiwi
     *
     * @author Miller Medeiros, JS Signals
     */
@@ -4755,6 +4786,7 @@ var Kiwi;
     * http://millermedeiros.github.com/js-signals/
     *
     * @class SignalBinding
+    * @namespace Kiwi
     *
     * @author Miller Medeiros, JS Signals
     * @constructor
@@ -4916,6 +4948,7 @@ var Kiwi;
     * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
     *
     * @class Stage
+    * @namespace Kiwi
     * @constructor
     * @param game {Kiwi.Game}
     * @param name {String}
@@ -5112,13 +5145,12 @@ var Kiwi;
                 this.offset = this._game.browser.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                this._width = 1000;
-                this._height = 1000;
+                this._width = this.container.clientWidth;
+                this._height = this.container.clientHeight;
             }
 
             this._createCompositeCanvas();
             if (this._game.debugOption === Kiwi.DEBUG_ON) {
-                this._createDebugCanvas();
             }
         };
 
@@ -5244,6 +5276,7 @@ var Kiwi;
         *
         * @class AnimationManager
         * @extends Component
+        * @namespace Kiwi.Components
         * @constructor
         * @param entity {Entity} The entity that this animation component belongs to.
         * @return {AnimationManager}
@@ -5619,6 +5652,7 @@ var Kiwi;
         *
         * @class Box
         * @extends Component
+        * @namespace Kiwi.Components
         * @constructor
         * @param parent {Entity} The entity that this box belongs to.
         * @param [x=0] {Number} Its position on the x axis
@@ -5656,6 +5690,21 @@ var Kiwi;
             Box.prototype.objType = function () {
                 return "Box";
             };
+
+            Object.defineProperty(Box.prototype, "hitboxOffset", {
+                get: /**
+                * Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.
+                * This is without rotation or scaling.
+                * @property hitboxOffset
+                * @type Point
+                * @public
+                */
+                function () {
+                    return this._hitboxOffset;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
             Object.defineProperty(Box.prototype, "rawHitbox", {
                 get: /**
@@ -5700,6 +5749,25 @@ var Kiwi;
 
                     this._rawHitbox.x += this._rawBounds.x;
                     this._rawHitbox.y += this._rawBounds.y;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Box.prototype, "worldHitbox", {
+                get: /**
+                * Returns the transformed hitbox for the entity using its 'world' coordinates.
+                * This is READ ONLY.
+                * @property worldHitbox
+                * @type Rectangle
+                * @public
+                */
+                function () {
+                    if (this.dirty) {
+                        this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
+                    }
+
+                    return this._worldHitbox;
                 },
                 enumerable: true,
                 configurable: true
@@ -5775,7 +5843,6 @@ var Kiwi;
                 */
                 function () {
                     if (this.dirty) {
-                        this._transformedBounds = this.rawBounds.clone();
                         this._transformedBounds = this._rotateRect(this.rawBounds.clone());
                     }
                     return this._transformedBounds;
@@ -5784,35 +5851,67 @@ var Kiwi;
                 configurable: true
             });
 
+            Object.defineProperty(Box.prototype, "worldBounds", {
+                get: /**
+                * Returns the 'transformed' world bounds for this entity.
+                * This is READ ONLY.
+                * @property worldBounds
+                * @type Rectangle
+                * @public
+                */
+                function () {
+                    if (this.dirty) {
+                        this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
+                    }
+                    return this._worldBounds;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
-            * Private internal method only. Used to rotate a rectangle but a set about.
+            * Private internal method only. Used to calculate the transformed bounds after rotation.
             * @method _rotateRect
             * @param rect {Rectangle}
+            * @param [useWorldCoords=false] {Boolean}
             * @return {Rectangle}
             * @private
             */
-            Box.prototype._rotateRect = function (rect) {
+            Box.prototype._rotateRect = function (rect, useWorldCoords) {
+                if (typeof useWorldCoords === "undefined") { useWorldCoords = false; }
                 var out = new Kiwi.Geom.Rectangle();
                 var t = this.entity.transform;
                 var m = t.getConcatenatedMatrix();
-                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+
+                if (useWorldCoords) {
+                    m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
+                } else {
+                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+                }
 
                 out = this.extents(m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY + rect.height }), m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY + rect.height }));
                 return out;
             };
 
             /**
-            * Rotates the hitbox by an set amount.
+            * A private method that is used to calculate the transformed hitbox's coordinates after rotation.
             * @method _rotateHitbox
-            * @param {Rectangle} rect
+            * @param rect {Rectangle}
+            * @param [useWorldCoords=false] {Boolean}
             * @return {Rectangle}
             * @private
             */
-            Box.prototype._rotateHitbox = function (rect) {
+            Box.prototype._rotateHitbox = function (rect, useWorldCoords) {
+                if (typeof useWorldCoords === "undefined") { useWorldCoords = false; }
                 var out = new Kiwi.Geom.Rectangle();
                 var t = this.entity.transform;
                 var m = t.getConcatenatedMatrix();
-                m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+
+                if (useWorldCoords) {
+                    m.setTo(m.a, m.b, m.c, m.d, t.worldX + t.rotPointX, t.worldY + t.rotPointY);
+                } else {
+                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+                }
 
                 out = this.extents(m.transformPoint({ x: -t.rotPointX + this._hitboxOffset.x, y: -t.rotPointY + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + rect.width + this._hitboxOffset.x, y: -t.rotPointY + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + rect.width + this._hitboxOffset.x, y: -t.rotPointY + rect.height + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + this._hitboxOffset.x, y: -t.rotPointY + rect.height + this._hitboxOffset.y }));
 
@@ -5842,7 +5941,8 @@ var Kiwi;
 
             /*
             * [REQUIRES COMMENTING]
-            *
+            * @method extents
+            * @return Rectangle
             */
             Box.prototype.extents = function (topLeftPoint, topRightPoint, bottomRightPoint, bottomLeftPoint) {
                 var left = Math.min(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
@@ -5886,6 +5986,7 @@ var Kiwi;
         *
         * @class Input
         * @extends Component
+        * @namespace Kiwi.Components
         * @constructor
         * @param owner {IChild} The IChild that owns this Input.
         * @param box {Box} The box that is to be used for the event firing.
@@ -6293,8 +6394,8 @@ var Kiwi;
                         this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._distance.x), this._dragDistance);
                         this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._distance.y), this._dragDistance);
                     } else {
-                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.hitbox.width / 2), this._dragDistance);
-                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.hitbox.height / 2), this._dragDistance);
+                        this.owner.transform.x = Kiwi.Utils.GameMath.snapTo((this._isDragging.x - this._box.worldHitbox.width / 2), this._dragDistance);
+                        this.owner.transform.y = Kiwi.Utils.GameMath.snapTo((this._isDragging.y - this._box.worldHitbox.height / 2), this._dragDistance);
                     }
                 }
             };
@@ -6362,7 +6463,7 @@ var Kiwi;
             */
             Input.prototype._evaluateTouchPointer = function (pointer) {
                 if (this.isDown === false || this._isDown.id === pointer.id) {
-                    if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                    if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
                         if (this.isDown === true && this._isDown.id === pointer.id || this.isDown === false && pointer.duration > 1) {
                             this._nowEntered = pointer;
                         }
@@ -6372,8 +6473,8 @@ var Kiwi;
                         }
 
                         if (this._dragEnabled && this.isDragging == false && this.isDown == true) {
-                            this._distance.x = pointer.x - this._box.hitbox.left;
-                            this._distance.y = pointer.y - this._box.hitbox.top;
+                            this._distance.x = pointer.x - this._box.worldHitbox.left;
+                            this._distance.y = pointer.y - this._box.worldHitbox.top;
                             this._nowDragging = pointer;
                         }
                     } else {
@@ -6433,10 +6534,10 @@ var Kiwi;
             * @private
             */
             Input.prototype._evaluateMousePointer = function (pointer) {
-                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.hitbox).result) {
+                if (Kiwi.Geom.Intersect.circleToRectangle(pointer.circle, this._box.worldHitbox).result) {
                     if (this._dragEnabled && this.isDragging === false) {
-                        this._distance.x = pointer.x - this._box.hitbox.left;
-                        this._distance.y = pointer.y - this._box.hitbox.top;
+                        this._distance.x = pointer.x - this._box.worldHitbox.left;
+                        this._distance.y = pointer.y - this._box.worldHitbox.top;
                     }
 
                     if (this.withinBounds === false) {
@@ -6546,6 +6647,7 @@ var Kiwi;
         *
         * @class Sound
         * @extends Component
+        * @namespace Kiwi.Components
         * @constructor
         * @param parent {Any} Who the sound component belongs to.
         * @return {Sound}
@@ -6723,7 +6825,8 @@ var Kiwi;
     */
     (function (Components) {
         /**
-        * Ported from Flixel, most functions operation identically to the original flixel functions, though some
+        * Arcade Physics is an Optional Component that can be used when you are wanting to do basic physics collisions.
+        * These have been ported from Flixel, so most function operate identically to the original flixel functions, though some
         * have been split into multiple functions. Generally where functions originally accepted
         * either groups or gameobjects within the same argument, the ported functions one or the other.
         * http://www.flixel.org/
@@ -6731,6 +6834,7 @@ var Kiwi;
         *
         * @class ArcadePhysics
         * @constructor
+        * @namespace Kiwi.Components
         * @param entity {Entity}
         * @param box {Box}
         * @return {ArcadePhysics}
@@ -6884,8 +6988,8 @@ var Kiwi;
             *
             * @method overlapsObjectGroup
             * @static
-            * @param gameObject {Kiwi.GameObjects.Entity}
-            * @param group {Any}
+            * @param gameObject {Entity}
+            * @param group {Group}
             * @param [seperateObjects=true] {boolean} If they overlap should the seperate or not
             * @return {boolean}
             * @public
@@ -6901,7 +7005,7 @@ var Kiwi;
             *
             * @method overlaps
             * @static
-            * @param group1 {Any}
+            * @param group1 {Group} The first
             * @param group2 {Any}
             * @param [seperate=true] {boolean} If they overlap should the seperate or not
             * @return {boolean}
@@ -6911,24 +7015,42 @@ var Kiwi;
                 if (typeof separateObjects === "undefined") { separateObjects = true; }
                 var result = false;
 
-                if (group1.childType !== undefined && group1.childType() === Kiwi.GROUP) {
-                    //if group1 is a type of group...
-                    var members = group1.members;
-                    var i = 0;
+                var members = group1.members;
+                var i = 0;
 
-                    while (i < group1.members.length) {
-                        if (members[i].childType() == Kiwi.GROUP) {
-                            if (ArcadePhysics.overlapsGroupGroup(members[i++], group2, separateObjects))
-                                result = true;
-                        } else {
-                            if (ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects))
-                                result = true;
-                        }
+                while (i < group1.members.length) {
+                    if (members[i].childType() == Kiwi.GROUP) {
+                        if (ArcadePhysics.overlapsGroupGroup(members[i++], group2, separateObjects))
+                            result = true;
+                    } else {
+                        if (ArcadePhysics.overlapsObjectGroup(members[i++], group2, separateObjects))
+                            result = true;
                     }
-                } else if (Object.prototype.toString.call(group1) == '[object Array]') {
-                    for (var i = 0; i < group1.length; i++) {
-                        if (group1[i].childType !== undefined && group1[i].childType() === Kiwi.ENTITY) {
-                            if (ArcadePhysics.overlapsObjectGroup(group1[i], group2, separateObjects))
+                }
+
+                return result;
+            };
+
+            ArcadePhysics.overlapsArrayGroup = /**
+            * A Statuc method that checks to see if any objects from an Array collide with a Kiwi Group members.
+            *
+            * @method overlapsArrayGroup
+            * @param array {Array} An array you want to check collide.
+            * @param group {Group} A group of objects you want to check overlaps.
+            * @param [seperateObjects=true] {Boolean} If when a collision is found the objects should seperate out.
+            * @return {Boolean}
+            */
+            function (array, group, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = true; }
+                var result = false;
+
+                for (var i = 0; i < array.length; i++) {
+                    if (typeof array[i].childType !== "undefined") {
+                        if (array[i].childType() === Kiwi.ENTITY) {
+                            if (ArcadePhysics.overlapsObjectGroup(array[i], group, separateObjects))
+                                result = true;
+                        } else if (array[i].childType() === Kiwi.GROUP) {
+                            if (ArcadePhysics.overlapsGroupGroup(array[i], group, separateObjects))
                                 result = true;
                         }
                     }
@@ -6974,8 +7096,8 @@ var Kiwi;
 
                 //First, get the two object deltas
                 var overlap = 0;
-                var obj1delta = phys1.transform.x - phys1.last.x;
-                var obj2delta = phys2.transform.x - phys2.last.x;
+                var obj1delta = phys1.box.worldHitbox.x - phys1.last.x;
+                var obj2delta = phys2.box.worldHitbox.x - phys2.last.x;
 
                 if (obj1delta != obj2delta) {
                     //Check if the X hulls actually overlap
@@ -6983,13 +7105,13 @@ var Kiwi;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
                     //where they were before
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.hitbox.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.box.hitbox.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.box.hitbox.height);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.hitbox.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.box.hitbox.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.box.hitbox.height);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.worldHitbox.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y, phys1.box.worldHitbox.width + ((obj1delta > 0) ? obj1delta : -obj1delta), phys1.box.worldHitbox.height);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.worldHitbox.x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y, phys2.box.worldHitbox.width + ((obj2delta > 0) ? obj2delta : -obj2delta), phys2.box.worldHitbox.height);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.box.hitbox.x + phys1.box.hitbox.width - phys2.box.hitbox.x;
+                            overlap = phys1.box.worldHitbox.x + phys1.box.worldHitbox.width - phys2.box.worldHitbox.x;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.RIGHT) || !(phys2.allowCollisions & ArcadePhysics.LEFT)) {
                                 overlap = 0;
                             } else {
@@ -6997,7 +7119,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.LEFT;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.box.hitbox.x - phys2.box.hitbox.width - phys2.box.hitbox.x;
+                            overlap = phys1.box.worldHitbox.x - phys2.box.worldHitbox.width - phys2.box.worldHitbox.x;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.LEFT) || !(phys2.allowCollisions & ArcadePhysics.RIGHT)) {
                                 overlap = 0;
                             } else {
@@ -7059,21 +7181,21 @@ var Kiwi;
                 //First, get the two object deltas
                 var overlap = 0;
 
-                var obj1delta = phys1.transform.y - phys1.last.y;
+                var obj1delta = phys1.box.worldHitbox.y - phys1.last.y;
 
-                var obj2delta = phys2.transform.y - phys2.last.y;
+                var obj2delta = phys2.box.worldHitbox.y - phys2.last.y;
                 if (obj1delta != obj2delta) {
                     //Check if the Y hulls actually overlap
                     var obj1deltaAbs = (obj1delta > 0) ? obj1delta : -obj1delta;
                     var obj2deltaAbs = (obj2delta > 0) ? obj2delta : -obj2delta;
 
-                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.hitbox.x, phys1.box.hitbox.y - ((obj1delta > 0) ? obj1delta : 0), phys1.box.hitbox.width, phys1.box.hitbox.height + obj1deltaAbs);
-                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.hitbox.x, phys2.box.hitbox.y - ((obj2delta > 0) ? obj2delta : 0), phys2.box.hitbox.width, phys2.box.hitbox.height + obj2deltaAbs);
+                    var obj1rect = new Kiwi.Geom.Rectangle(phys1.box.worldHitbox.x, phys1.box.worldHitbox.y - ((obj1delta > 0) ? obj1delta : 0), phys1.box.worldHitbox.width, phys1.box.worldHitbox.height + obj1deltaAbs);
+                    var obj2rect = new Kiwi.Geom.Rectangle(phys2.box.worldHitbox.x, phys2.box.worldHitbox.y - ((obj2delta > 0) ? obj2delta : 0), phys2.box.worldHitbox.width, phys2.box.worldHitbox.height + obj2deltaAbs);
                     if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
                         var maxOverlap = obj1deltaAbs + obj2deltaAbs + ArcadePhysics.OVERLAP_BIAS;
 
                         if (obj1delta > obj2delta) {
-                            overlap = phys1.box.hitbox.y + phys1.box.hitbox.height - phys2.box.hitbox.y;
+                            overlap = phys1.box.worldHitbox.y + phys1.box.worldHitbox.height - phys2.box.worldHitbox.y;
                             if ((overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.DOWN) || !(phys2.allowCollisions & ArcadePhysics.UP)) {
                                 overlap = 0;
                             } else {
@@ -7081,7 +7203,7 @@ var Kiwi;
                                 phys2.touching |= ArcadePhysics.UP;
                             }
                         } else if (obj1delta < obj2delta) {
-                            overlap = phys1.box.hitbox.y - phys2.box.hitbox.height - phys2.box.hitbox.y;
+                            overlap = phys1.box.worldHitbox.y - phys2.box.worldHitbox.height - phys2.box.worldHitbox.y;
                             if ((-overlap > maxOverlap) || !(phys1.allowCollisions & ArcadePhysics.UP) || !(phys2.allowCollisions & ArcadePhysics.DOWN)) {
                                 overlap = 0;
                             } else {
@@ -7173,7 +7295,7 @@ var Kiwi;
                 var objTransform = gameObject.transform;
                 var box = gameObject.components.getComponent('Box');
 
-                var result = (box.hitbox.x + box.hitbox.width > this.box.hitbox.x) && (box.hitbox.x < this.box.hitbox.x + this.box.hitbox.width) && (box.hitbox.y + box.hitbox.height > this.box.hitbox.y) && (box.hitbox.y < this.box.hitbox.y + this.box.hitbox.height);
+                var result = (box.worldHitbox.x + box.worldHitbox.width > this.box.worldHitbox.x) && (box.worldHitbox.x < this.box.worldHitbox.x + this.box.worldHitbox.width) && (box.worldHitbox.y + box.worldHitbox.height > this.box.worldHitbox.y) && (box.worldHitbox.y < this.box.worldHitbox.y + this.box.worldHitbox.height);
 
                 if (result && separateObjects) {
                     ArcadePhysics.separate(this._parent, gameObject);
@@ -7187,7 +7309,7 @@ var Kiwi;
             };
 
             /**
-            * A method to check to see if the parent of this physics component overlaps with another group of objects
+            * A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.
             *
             * @method overlapsGroup
             * @param group {Kiwi.Group}
@@ -7196,29 +7318,40 @@ var Kiwi;
             */
             ArcadePhysics.prototype.overlapsGroup = function (group, separateObjects) {
                 if (typeof separateObjects === "undefined") { separateObjects = false; }
-                //if the group is a Kiwi.Group
                 var results = false;
 
-                if (group.childType !== undefined && group.childType() === Kiwi.GROUP) {
-                    for (var i = 0; i < group.members.length; i++) {
-                        if (group.members[i].childType() === Kiwi.GROUP) {
-                            //recursively check overlap
-                            this.overlapsGroup(group.members[i], separateObjects);
-                        } else {
-                            if (this.overlaps(group.members[i], separateObjects)) {
-                                if (this._callbackContext !== null && this._callbackFunction !== null)
-                                    this._callbackFunction.call(this._callbackContext, this._parent, group.members[i]);
-                                results = true;
-                            }
+                for (var i = 0; i < group.members.length; i++) {
+                    if (group.members[i].childType() === Kiwi.GROUP) {
+                        //recursively check overlap
+                        this.overlapsGroup(group.members[i], separateObjects);
+                    } else {
+                        if (this.overlaps(group.members[i], separateObjects)) {
+                            if (this._callbackContext !== null && this._callbackFunction !== null)
+                                this._callbackFunction.call(this._callbackContext, this._parent, group.members[i]);
+                            results = true;
                         }
                     }
-                } else if (Object.prototype.toString.call(group) == '[object Array]') {
-                    for (var i = 0; i < group.length; i++) {
-                        if (group[i].childType !== undefined && group[i].childType() === Kiwi.ENTITY) {
-                            if (this.overlaps(group[i], separateObjects)) {
-                                this._callbackFunction.call(this._callbackContext, this._parent, group[i]);
-                                results = true;
-                            }
+                }
+
+                return results;
+            };
+
+            /**
+            * A method to check to see if the parent of this physics component overlaps with a Entity that is held in an array.
+            * @method overlapsArray
+            * @param array {Array} The array of GameObjects you want to check.
+            * @param [separateObjects=false] {boolean} If when the objects collide you want them to seperate outwards.
+            * @return {boolean} If a collision was detected or not.
+            */
+            ArcadePhysics.prototype.overlapsArray = function (array, separateObjects) {
+                if (typeof separateObjects === "undefined") { separateObjects = false; }
+                var results = false;
+
+                for (var i = 0; i < array.length; i++) {
+                    if (typeof array[i].childType !== "undefined" && array[i].childType() === Kiwi.ENTITY) {
+                        if (this.overlaps(array[i], separateObjects)) {
+                            this._callbackFunction.call(this._callbackContext, this._parent, array[i]);
+                            results = true;
                         }
                     }
                 }
@@ -7235,17 +7368,20 @@ var Kiwi;
                 var delta;
                 var velocityDelta;
 
+                //Update the motion calculated from rotation.
                 velocityDelta = (ArcadePhysics.computeVelocity(this.angularVelocity, this.angularAcceleration, this.angularDrag, this.maxAngular) - this.angularVelocity) / 2;
                 this.angularVelocity += velocityDelta;
                 this.angle += this.angularVelocity * ArcadePhysics.updateInterval;
                 this.angularVelocity += velocityDelta;
 
+                //Update the motion on the x-axis.
                 velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.x, this.acceleration.x, this.drag.x, this.maxVelocity.x) - this.velocity.x) / 2;
                 this.velocity.x += velocityDelta;
                 delta = this.velocity.x * ArcadePhysics.updateInterval;
                 this.velocity.x += velocityDelta;
                 this.transform.x = this.transform.x + delta;
 
+                //Update the motion on the y-axis.
                 velocityDelta = (ArcadePhysics.computeVelocity(this.velocity.y, this.acceleration.y, this.drag.y, this.maxVelocity.y) - this.velocity.y) / 2;
                 this.velocity.y += velocityDelta;
                 delta = this.velocity.y * ArcadePhysics.updateInterval;
@@ -7282,8 +7418,8 @@ var Kiwi;
             */
             ArcadePhysics.prototype.update = function () {
                 //Flixel preupdate
-                this.last.x = this.box.hitbox.x;
-                this.last.y = this.box.hitbox.y;
+                this.last.x = this.box.worldHitbox.x;
+                this.last.y = this.box.worldHitbox.y;
 
                 if (this.moves)
                     this.updateMotion();
@@ -7345,6 +7481,7 @@ var Kiwi;
         * Used for the loading of files and game assets. This usually happens when a State is at the 'loading' stage (executing the 'preload' method).
         *
         * @class Loader
+        * @namespace Kiwi.Files
         * @constructor
         * @param game {Game} The game that this loader belongs to.
         * @return {Loader} This Object
@@ -7799,6 +7936,7 @@ var Kiwi;
         * Holds a reference to all of the data Files (json, xml, e.t.c) that are accessible on the State that this DataLibrary is on.
         *
         * @class DataLibrary
+        * @namespace Kiwi.Files
         * @constructor
         * @param game {Game} The game that this DataLibrary belongs to.
         * @return {DataLibrary}
@@ -7894,6 +8032,7 @@ var Kiwi;
         * Handles the loading of an external data file via a tag loader or xhr + arraybuffer, and optionally saves to the file store.
         *
         * @class File
+        * @namespace Kiwi.Files
         * @constructor
         * @param game {Game} The game that this file belongs to.
         * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
@@ -8815,6 +8954,7 @@ var Kiwi;
         * Holds all of the Files (regardless of the file type) that have been loaded throughout a game/are accessable at a particular point in time. Contains methods for dealing with files. Note: Each time the state is switched the file store will remove all references to files that have not been flagged as global.
         *
         * @class FileStore
+        * @namespace Kiwi.Files
         * @constructor
         * @param game {Game} The game that this FileStore belongs to.
         * @return {FilesStore}
@@ -9006,6 +9146,7 @@ var Kiwi;
     /**
     * [WHOLE THING REQUIRES DESCRIPTION]
     * @class StateConfig
+    * @namespace Kiwi
     * @constructor
     * @param {State} parent
     * @param {String} name
@@ -9250,6 +9391,7 @@ var Kiwi;
     * The state manager handles the starting, parsing, looping and swapping of game states. Thus there is only ever one state manager per game.
     *
     * @class StateManager
+    * @namespace Kiwi
     * @constructor
     * @param game {Game} The game that this statemanager belongs to.
     * @return {StateMananger} This Object
@@ -9562,6 +9704,9 @@ var Kiwi;
                 console.log("Rebuilding Libraries");
             }
             this.rebuildLibraries();
+            if (this._game.renderOption = Kiwi.RENDERER_WEBGL) {
+                this._game.renderer.initState(this.current);
+            }
 
             this.current.config.isReady = true;
 
@@ -9640,6 +9785,7 @@ var Kiwi;
         * A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn't a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.
         *
         * @class Sprite
+        * @namespace Kiwi.GameObjects
         * @extends Entity
         * @constructor
         * @param state {State} The state that this sprite belongs to
@@ -9657,9 +9803,15 @@ var Kiwi;
                 if (typeof enableInput === "undefined") { enableInput = false; }
                 _super.call(this, state, x, y);
 
-                // Set the texture
-                this.name = atlas.name;
+                if (typeof atlas == "undefined") {
+                    console.error('A Texture Atlas was not passed when instantiating a new Sprite.');
+                    this.willRender = false;
+                    this.active = false;
+                    return;
+                }
+
                 this.atlas = atlas;
+                this.name = this.atlas.name;
                 this.cellIndex = this.atlas.cellIndex;
 
                 //may need to add an optional other cell frame index here
@@ -9738,6 +9890,11 @@ var Kiwi;
                     ctx.restore();
                 }
             };
+
+            Sprite.prototype.renderGL = function (gl, renderer, camera, params) {
+                if (typeof params === "undefined") { params = null; }
+                (renderer).addToBatch(gl, this, camera);
+            };
             return Sprite;
         })(Kiwi.Entity);
         GameObjects.Sprite = Sprite;
@@ -9757,6 +9914,7 @@ var Kiwi;
         * A light weight game object for displaying static images that would have little or no interaction with other GameObjects. An Example of this would be a background image. Note: Since a StaticImage is lightweight it doesn't have any AnimationManager to handle the switching of cells (If you were using a SpriteSheet/TextureAtlas). In order to switch cells you can change the value of the cellIndex property.
         *
         * @class StaticImage
+        * @namespace Kiwi.GameObjects
         * @extends Entity
         * @constructor
         * @param state {State} The state that this static image belongs to
@@ -9771,6 +9929,13 @@ var Kiwi;
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 _super.call(this, state, x, y);
+
+                if (typeof atlas == "undefined") {
+                    console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
+                    this.willRender = false;
+                    this.active = false;
+                    return;
+                }
 
                 //Set coordinates and texture
                 this.atlas = atlas;
@@ -9842,6 +10007,7 @@ var Kiwi;
         * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
         *
         * @class Textfield
+        * @namespace Kiwi.GameObjects
         * @extends Entity
         * @constructor
         * @param state {State} The state that this Textfield belongs to
@@ -10119,6 +10285,7 @@ var Kiwi;
             * A single Tile that exists on the mapData property inside of a TileMapLayer. A Tile should never be directly created by a user but instead reference through its TileMapLayer which would have created it. Each Tile has an ArcadePhysics component that can be used for collision detection.
             *
             * @class Tile
+            * @namespace Kiwi.GameObjects.Tilemap
             * @extends Entity
             * @constructor
             * @param state {State} The state that this Tile is on.
@@ -10189,8 +10356,9 @@ var Kiwi;
             * Defines a particular type of tile that is used on a TileMap. A TileType object should never be directly instantiated by a developer, but instead referenced through the TileMap that it belongs to. A new TileType is created for each cell that exists on the SpriteSheet that is parse when creating a TileMap. Note: There is always a TileType (at index of -1) generated which you can use when no tile will be placed in that spot.
             *
             * @class TileType
+            * @namespace Kiwi.GameObjects.Tilemap
             * @constructor
-            * @param gmae {Game} The game that this type of tile belongs to.
+            * @param game {Game} The game that this type of tile belongs to.
             * @param tilemap {TileMap} The TileMap that this type of tile is on.
             * @param index {number} The unique index that this tile has associated with it.
             * @param width {number} The width of this tile. Only used for collision detection.
@@ -10249,6 +10417,7 @@ var Kiwi;
             * A GameObject that can be used when wanting to generate and use TileMaps in a game and the job of it is to handle the creation and management of TileMapLayers/Tiles on the whole map. Each TileMap (once created) will contain at least one TileMapLayer, which will hold the information about the map generated, but more TileMapLayers can be generated on a single TileMap.
             *
             * @class TileMap
+            * @namespace Kiwi.GameObjects.Tilemap
             * @extends Entity
             * @constructor
             * @param state {State} The state that this Tilemap is on.
@@ -10691,6 +10860,7 @@ var Kiwi;
             * Maintains information about a single two dimensional TileMap (saved in the property mapData) and is created on TileMap. This class should generally never be directly instantiated as the creation of TileMapLayers are handled through a TileMap.
             *
             * @class TileMapLayer
+            * @namespace Kiwi.GameObjects.Tilemap
             * @extends Entity
             * @constructor
             * @param state {State} The state that this tilemap belongs to.
@@ -11156,6 +11326,7 @@ var Kiwi;
         * An object representation of an axis-aligned bounding box.
         *
         * @class AABB
+        * @namespace Kiwi.Geom
         * @constructor
         * @param cx {Number}
         * @param cy {Number}
@@ -11322,6 +11493,7 @@ var Kiwi;
         * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
         *
         * @class Circle
+        * @namespace Kiwi.Geom
         * @constructor
         * @param x {Number} The x coordinate of the center of the circle.
         * @param y {Number} The y coordinate of the center of the circle.
@@ -11745,6 +11917,7 @@ var Kiwi;
         * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
         *
         * @class Ray
+        * @namespace Kiwi.Geom
         * @constructor
         * @param x1 {Number} x1
         * @param y1 {Number} y1
@@ -11942,6 +12115,7 @@ var Kiwi;
         * A collection of methods to help determine and return intersection between geometric objects.
         *
         * @class Intersect
+        * @namespace Kiwi.Geom
         *
         */
         var Intersect = (function () {
@@ -12457,6 +12631,7 @@ var Kiwi;
         * A light result object to hold the results of an intersection
         *
         * @class IntersectResult
+        * @namespace Kiwi.Geom
         *
         */
         var IntersectResult = (function () {
@@ -12523,6 +12698,7 @@ var Kiwi;
         * A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
         *
         * @class Line
+        * @namespace Kiwi.Geom
         * @constructor
         * @param [x1 = 0] {Number} x1 x component of first point.
         * @param [y1 = 0]{Number} y1 y component of first point.
@@ -12825,6 +13001,7 @@ var Kiwi;
         * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
         *
         * @class Matrix
+        * @namespace Kiwi.Geom
         * @constructor
         * @param [a = 1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
         * @param [b = 0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
@@ -13217,6 +13394,7 @@ var Kiwi;
         *
         * @class Point
         * @constructor
+        * @namespace Kiwi.Geom
         * @param x {Number} x One-liner. Default is ?.
         * @param y {Number} y One-liner. Default is ?.
         *
@@ -13593,6 +13771,7 @@ var Kiwi;
         * An area defined by its position, as indicated by its top-left corner (x,y) and width and height
         *
         * @class Rectangle
+        * @namespace Kiwi.Geom
         * @constructor
         * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
         * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
@@ -13700,7 +13879,7 @@ var Kiwi;
                 * @property bottomRight
                 * @return {Point}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         this.right = value.x;
@@ -13721,7 +13900,7 @@ var Kiwi;
                 * @property left
                 * @return {number}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         var diff = this.x - value;
@@ -13751,7 +13930,7 @@ var Kiwi;
                 * @property right
                 * @return {Number}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         if (value < this.x) {
@@ -13771,7 +13950,7 @@ var Kiwi;
                 * @property size
                 * @return {Point} The size of the Rectangle object
                 * @public
-                **/
+                */
                 function () {
                     var output = new Geom.Point();
                     return output.setTo(this.width, this.height);
@@ -13786,7 +13965,7 @@ var Kiwi;
                 * @property volume
                 * @return {Number}
                 * @return
-                **/
+                */
                 function () {
                     return this.width * this.height;
                 },
@@ -13800,7 +13979,7 @@ var Kiwi;
                 * @property perimeter
                 * @return {Number}
                 * @public
-                **/
+                */
                 function () {
                     return (this.width * 2) + (this.height * 2);
                 },
@@ -13818,7 +13997,7 @@ var Kiwi;
                 * @method top
                 * @return {Number}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         var diff = this.y - value;
@@ -13849,7 +14028,7 @@ var Kiwi;
                 * @property topLeft
                 * @return {Point}
                 * @public
-                **/
+                */
                 function (value) {
                     if (value) {
                         this.x = value.x;
@@ -14156,7 +14335,6 @@ var Kiwi;
             * @param translation {Point}
             * @return {Rectangle}
             * @public
-            
             **/
             Rectangle.prototype.scale = function (x, y, translation) {
                 var trans = new Kiwi.Geom.Transform();
@@ -14204,6 +14382,7 @@ var Kiwi;
         * - A concatenated transformation matrix, representing the combined matrices of the transform and its ancestors.
         *
         * @class Transform
+        * @namespace Kiwi.Geom
         * @constructor
         * @param x {Number} x. X position of the transform.
         * @param y {Number} y. Y position of the transform.
@@ -14757,7 +14936,7 @@ var Kiwi;
         * A two dimensional vector object for storing and manipulating x and y vector components.
         *
         * @class Vector2
-        * @class Vector2
+        * @namespace Kiwi.Geom
         * @constructor
         * @param {Number} x The x component of the vector.
         * @param {Number} y The y component of the vector.
@@ -15099,6 +15278,7 @@ var Kiwi;
         * Each game can contain multiple HUDDisplay's and each HUDDisplay can contain multiple HUDWidgets.
         *
         * @class HUDDisplay
+        * @namespace Kiwi.HUD
         * @constructor
         * @param game {Game} The game that this HUD Display belongs to.
         * @param name {string} The name of this display.
@@ -15285,6 +15465,7 @@ var Kiwi;
         *
         *
         * @class HUDManager
+        * @namespace Kiwi.HUD
         * @constructor
         * @param game {Game} game
         * @return {HUDManager}
@@ -15514,6 +15695,7 @@ var Kiwi;
         * This class is designed to be extended from and thus objects should not directly instantiate it.
         *
         * @class HUDWidget
+        * @namespace Kiwi.HUD
         * @constructor
         * @param game {Game}  The game that this HUDWidget belongs to.
         * @param name {string} Name of the type of HUDWidget.
@@ -15746,6 +15928,7 @@ var Kiwi;
             *
             * @class TextField
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this textfield belongs to.
             * @param text {string} The text on this textfield.
@@ -15931,6 +16114,7 @@ var Kiwi;
             *
             * @class Bar
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this bar belongs to.
             * @param current {number} The current value of the bar.
@@ -16136,6 +16320,7 @@ var Kiwi;
             *
             * @class Icon
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this icon belongs to.
             * @param atlas {TextureAtlas} The image that you would like displayed.
@@ -16301,6 +16486,7 @@ var Kiwi;
             *
             * @class IconBar
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this icon bar belongs to.
             * @param atlas {TextureAtlas} The texture atlas that the icons will have.
@@ -16466,6 +16652,7 @@ var Kiwi;
             *
             * @class BasicScore
             * @extends TextField
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this BasicScore belongs to.
             * @param x {number} The cooridnates of the game on the x-axis.
@@ -16525,6 +16712,7 @@ var Kiwi;
             *
             * @class Button
             * @extends TextField
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {game} The game that this belongs to.
             * @param text {string} The text that you want to display inside the button.
@@ -16577,6 +16765,7 @@ var Kiwi;
             *
             * @class Time
             * @extends TextField
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this object belongs to.
             * @param format {string} The format that you want the time to be displayed in. Leave it empty to display as normal.
@@ -16673,6 +16862,7 @@ var Kiwi;
             *
             * @class Menu
             * @extends HUDWidget
+            * @namespace Kiwi.HUD.Widget
             * @constructor
             * @param game {Game} The game that this Menu belongs to.
             * @param x {number} Its position on the x-axis.
@@ -16850,7 +17040,7 @@ var Kiwi;
             *
             * @class MenuItem
             * @extends HUDWidget
-            *
+            * @namespace Kiwi.HUD.Widget
             * @contructor
             * @param game {Game} The game that this MenuItem belongs to.
             * @param text {string} The text that is to be inside the menuitem.
@@ -16900,6 +17090,7 @@ var Kiwi;
             *
             * @class Counter
             * @extends Component
+            * @namespace Kiwi.HUD.HUDComponents
             * @constructor
             * @param owner {any} The object that this Component belongs to.
             * @param current {number} The current value.
@@ -17075,6 +17266,7 @@ var Kiwi;
             *
             * @class WidgetInput
             * @extends Component
+            * @namespace Kiwi.HUD.HUDComponents
             * @constructor
             * @param owner {any} The object that this WidgetInput belongs to.
             * @param container {HTMLElement} The HTMLElement that the events will occur on/to.
@@ -17229,6 +17421,7 @@ var Kiwi;
             *
             * @class Time
             * @extends Component
+            * @namespace Kiwi.HUD.HUDComponents
             * @constructor
             * @param owner {any} The object that this component belongs to.
             * @param [format=''] {string} The format that the time is to be displayed in. Leave blank for the default time.
@@ -17503,9 +17696,9 @@ var Kiwi;
         *
         * @class AudioManager
         * @constructor
+        * @namespace Kiwi.Sound
         * @param game {Game} The game that this audio manager belongs to.
         * @return {AudioManager}
-        *
         */
         var AudioManager = (function () {
             function AudioManager(game) {
@@ -17902,6 +18095,7 @@ var Kiwi;
         *
         * @class Audio
         * @constructor
+        * @namespace Kiwi.Sound
         * @param game {Game} The game that this piece of audio belongs to.
         * @param key {string} The key to which which piece of audio should be loaded from the AudioLibrary.
         * @param volume {number} A number between 0 (silence) and 1 (loud).
@@ -17968,6 +18162,7 @@ var Kiwi;
                 this.duration = 0;
                 this._volume = volume;
                 this._muteVolume = volume;
+                this._muted = this._game.audio.mute;
                 this._loop = loop;
                 this.key = key;
 
@@ -18474,6 +18669,7 @@ var Kiwi;
         *
         * @class AudioLibrary
         * @constructor
+        * @namespace Kiwi.Sound
         * @param game {Game} The game that this audio library is a member of.
         * @return {AudioLibrary}
         */
@@ -18567,6 +18763,7 @@ var Kiwi;
         * but if you do ever modify the information held in this Animation the corresponding Sequence will not be updated.
         *
         * @class Animation
+        * @namespace Kiwi.Animations
         * @constructor
         * @param name {string} The name of this anim.
         * @param sequences {Sequences} The sequence that this anim will be using to animate.
@@ -18992,6 +19189,7 @@ var Kiwi;
         * Sequences are generally used with the AnimationManager/Animation sections as a way to initially create Animations on GameObjects that use the same TextureAtlas.
         *
         * @class Sequence
+        * @namespace Kiwi.Animations
         * @constructor
         * @param name {String} The name of this sequence. This is not unique.
         * @param cells {Number[]} The cells that are in this animation.
@@ -19029,6 +19227,7 @@ var Kiwi;
         *
         * @class Key
         * @constructor
+        * @namespace Kiwi.Input
         * @param manager {Keyboard} The keyboard manager that this key belongs to.
         * @param keycode {Number} The keycode that this key is.
         * @param [event] {KeyboardEvent} The keyboard event (if there was one) when this was created.
@@ -19223,6 +19422,7 @@ var Kiwi;
         *
         * @class Keyboard
         * @constructor
+        * @namespace Kiwi.Input
         * @param game {Game}
         * @return {Keyboard} This object.
         *
@@ -19462,6 +19662,7 @@ var Kiwi;
         * A Static class which has a property associated with all all of the character codes on a typical keyboard. While you don't need this class for your game to work, it is quite handy to use as it can speed up the development process.
         *
         * @class Keycodes
+        * @namespace Kiwi.Input
         * @static
         */
         var Keycodes = (function () {
@@ -19693,6 +19894,7 @@ var Kiwi;
         *
         * @class InputManager
         * @constructor
+        * @namespace Kiwi.Input
         * @param game {Game} The game that this object belongs to.
         * @return {InputManager} This object.
         *
@@ -19895,6 +20097,7 @@ var Kiwi;
         *
         * @class Mouse
         * @constructor
+        * @namespace Kiwi.Input
         * @param game {Game} The game that this mouse manager belongs to.
         * @return {Mouse}
         *
@@ -20297,6 +20500,7 @@ var Kiwi;
         *
         * @class Touch
         * @constructor
+        * @namespace Kiwi.Input
         * @param game {Game} the game that this touch manager belongs to.
         * @return {Touch} This object.
         *
@@ -20722,6 +20926,7 @@ var Kiwi;
         *
         * @class Pointer
         * @constructor
+        * @namespace Kiwi.Input
         * @param {Game} game
         * @return Pointer
         *
@@ -21036,6 +21241,7 @@ var Kiwi;
         * Holds the information about a Mouse Cursor. Such as the position of the cursor, the mouse wheels delta, the button that was used, e.t.c. Note: A mouse cursor is always active.
         *
         * @class MouseCursor
+        * @namespace Kiwi.Input
         * @extends Pointer
         */
         var MouseCursor = (function (_super) {
@@ -21134,6 +21340,7 @@ var Kiwi;
         *
         * @class Finger
         * @extends Pointer
+        * @namespace Kiwi.Input
         * @constructor
         * @param game {Game} The game that this finger belongs to.
         * @return Finger
@@ -21214,6 +21421,7 @@ var Kiwi;
         * @class CanvasRenderer
         * @extends IRenderer
         * @constructor
+        * @namespace Kiwi.Renderers
         * @param game {Game} The game that this canvas renderer belongs to.
         * @return {CanvasRenderer}
         *
@@ -21263,6 +21471,12 @@ var Kiwi;
                 }
             };
 
+            CanvasRenderer.prototype.initState = function (state) {
+            };
+
+            CanvasRenderer.prototype.endState = function (state) {
+            };
+
             /**
             * Renders all of the Elements that are on a particular camera.
             * @method render
@@ -21307,7 +21521,7 @@ var Kiwi;
     */
     (function (Renderers) {
         /**
-        *
+        * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
         * @class GLRenderer
         * @extends IRenderer
         * @constructor
@@ -21317,7 +21531,7 @@ var Kiwi;
         var GLRenderer = (function () {
             function GLRenderer(game) {
                 /**
-                *
+                * Tally of number of entities rendered per frame
                 * @property _entityCount
                 * @type number
                 * @default 0
@@ -21325,46 +21539,41 @@ var Kiwi;
                 */
                 this._entityCount = 0;
                 /**
-                *
+                * Tally of number ofdraw calls per frame
+                * @property numDrawCalls
+                * @type number
+                * @default 0
+                * @public
+                */
+                this.numDrawCalls = 0;
+                /**
+                * Maximum allowable sprites to render per frame
                 * @property _maxItems
                 * @type number
                 * @default 1000
                 * @private
                 */
-                this._maxItems = 1000;
+                this._maxItems = 2000;
                 /**
-                *
-                * @property _texApplied
-                * @type boolean
-                * @default false
-                * @private
-                */
-                this._texApplied = false;
-                /**
-                *
-                * @property _firstPass
-                * @type boolean
-                * @default true
-                * @private
-                */
-                this._firstPass = true;
-                /**
-                *
+                * The most recently bound texture atlas used for sprite rendering
                 * @property _currentTextureAtlas
                 * @type TextureAtlas
                 * @private
                 */
                 this._currentTextureAtlas = null;
-                this.numDrawCalls = 0;
                 this._game = game;
+                if (typeof mat4 === "undefined") {
+                    throw "ERROR: gl-matrix.js is missing - you need to include this javascript to use webgl - https://github.com/toji/gl-matrix";
+                }
             }
             /**
-            *
+            * Initialises all WebGL rendering services
             * @method boot
             * @public
             */
             GLRenderer.prototype.boot = function () {
-                this._initState();
+                this._init();
+                this._textureManager = new Renderers.GLTextureManager();
             };
 
             /**
@@ -21377,71 +21586,66 @@ var Kiwi;
                 return "GLRenderer";
             };
 
-            /*
-            public mvPush() {
-            var copy = mat4.create();
-            mat4.set(this.mvMatrix, copy);
-            this.mvMatrixStack.push(copy);
-            }
-            
-            public mvPop() {
-            if (this.mvMatrixStack.length == 0) {
-            throw "Invalid popMatrix!";
-            }
-            this.mvMatrix = this.mvMatrixStack.pop();
-            } */
             /**
-            *
-            * @method _initState
+            * Performs initialisation required for single game instance - happens once
+            * @method _init
             * @private
             */
-            GLRenderer.prototype._initState = function () {
+            GLRenderer.prototype._init = function () {
+                console.log("Intialising WebGL");
+
                 var gl = this._game.stage.gl;
+
+                this._currentRenderer = new Renderers.Texture2DRenderer();
+
+                //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+                gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
 
-                this._game.stage.onResize.add(function () {
-                    this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
-                    gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
-                }, this);
-
-                this._shaders = new Renderers.GLShaders(gl);
+                //set default state
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
 
-                //create buffers
-                //dynamic
-                this._vertBuffer = new Renderers.GLArrayBuffer(gl, 2);
-                this._uvBuffer = new Renderers.GLArrayBuffer(gl, 2, Renderers.GLArrayBuffer.squareUVs);
+                var renderer = this._currentRenderer;
+                renderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
-                //static
-                this._indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems));
-                this._colorBuffer = new Renderers.GLArrayBuffer(gl, 1, this._generateColors(this._maxItems));
+                //stage res needs update on stage resize
+                // this._currentRenderer.shaderPair.uResolution(gl,this._stageResolution);
+                this._game.stage.onResize.add(function (width, height) {
+                    this._stageResolution = new Float32Array([width, height]);
+                    renderer.updateStageResolution(gl, this._stageResolution);
 
-                //use shaders
-                this._shaders.use(gl, this._shaders.shaderProgram);
-
-                var prog = this._shaders.texture2DProg;
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._vertBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexPositionAttribute, this._vertBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._uvBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexTexCoordAttribute, this._uvBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, this._colorBuffer.buffer);
-                gl.vertexAttribPointer(prog.vertexColorAttribute, this._colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-                //Static Uniforms
-                gl.uniform1i(prog.samplerUniform, 0);
-
-                gl.uniform2fv(prog.resolutionUniform, this._stageResolution);
+                    //   this._texture2DRenderer.shaderPair.uResolution(gl, this._stageResolution);
+                    gl.viewport(0, 0, width, height);
+                }, this);
             };
 
             /**
-            *
+            * Performs initialisation required when switching to a different state
+            * @method initState
+            * @public
+            */
+            GLRenderer.prototype.initState = function (state) {
+                console.log("initialising WebGL on State");
+                this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
+            };
+
+            /**
+            * Performs cleanup required before switching to a different state
+            * @method initState
+            * @param state {Kiwi.State}
+            * @public
+            */
+            GLRenderer.prototype.endState = function (state) {
+                this._textureManager.clearTextures(this._game.stage.gl);
+                console.log("ending WebGL on State");
+            };
+
+            /**
+            * Manages rendering of the scene graph - performs per frame setup
             * @method render
             * @param camera {Camera}
             * @public
@@ -21452,20 +21656,19 @@ var Kiwi;
                 var root = this._game.states.current.members;
                 var gl = this._game.stage.gl;
 
+                this._textureManager.numTextureWrites = 0;
+
                 this._entityCount = 0;
-                this._vertBuffer.clear();
-                this._uvBuffer.clear();
 
                 //clear
                 var col = this._game.stage.normalizedColor;
                 gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
-                var prog = this._shaders.texture2DProg;
-
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
+
                 this.mvMatrix = new Float32Array([
                     cm.a,
                     cm.b,
@@ -21479,26 +21682,25 @@ var Kiwi;
                     0,
                     1,
                     0,
-                    cm.tx + ct.rotPointX,
-                    cm.ty + ct.rotPointY,
+                    ct.rotPointX - cm.tx,
+                    ct.rotPointY - cm.ty,
                     0,
                     1
                 ]);
-
-                gl.uniformMatrix4fv(prog.mvMatrixUniform, false, this.mvMatrix);
-                gl.uniform2fv(prog.cameraOffsetUniform, new Float32Array([ct.rotPointX, ct.rotPointY]));
+                this._cameraOffset = new Float32Array([ct.rotPointX, ct.rotPointY]);
+                var renderer = this._currentRenderer;
+                renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
 
                 for (var i = 0; i < root.length; i++) {
                     this._recurse(gl, root[i], camera);
                 }
 
-                this._flush(gl);
-
-                this._firstPass = false;
+                //draw anything left over
+                renderer.draw(gl, { entityCount: this._entityCount });
             };
 
             /**
-            *
+            * Recursively renders scene graph tree
             * @method _recurse
             * @param gl {WebGLRenderingContext}
             * @param child {IChild}
@@ -21508,161 +21710,29 @@ var Kiwi;
             GLRenderer.prototype._recurse = function (gl, child, camera) {
                 if (!child.willRender)
                     return;
+                var renderer = this._currentRenderer;
 
                 if (child.childType() === Kiwi.GROUP) {
                     for (var i = 0; i < (child).members.length; i++) {
                         this._recurse(gl, (child).members[i], camera);
                     }
                 } else {
-                    if (!this._texApplied) {
-                        this._applyTexture(gl, (child).atlas.image);
-                        this._texApplied = true;
+                    if ((child).atlas !== this._currentTextureAtlas) {
+                        renderer.draw(gl, { entityCount: this._entityCount });
+                        this.numDrawCalls++;
+                        this._entityCount = 0;
+                        renderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+
+                        if (!this._textureManager.useTexture(gl, (child).atlas.glTextureWrapper, this._currentRenderer.shaderPair.uniforms.uTextureSize))
+                            return;
                         this._currentTextureAtlas = (child).atlas;
                     }
 
-                    if ((child).atlas !== this._currentTextureAtlas) {
-                        this._flush(gl);
-                        this._entityCount = 0;
-                        this._vertBuffer.clear();
-                        this._uvBuffer.clear();
-                        this._changeTexture(gl, (child).atlas.image);
-                        this._currentTextureAtlas = (child).atlas;
-                    }
-                    this._compileVertices(gl, child, camera);
-                    this._compileUVs(gl, child);
+                    //"render"
+                    //renderer.collateVertexAttributeArrays(gl, <Entity>child, camera);
+                    (child).renderGL(gl, renderer, camera);
                     this._entityCount++;
                 }
-            };
-
-            /**
-            *
-            * @method _flush
-            * @param gl {WebGLRenderingContext}
-            * @private
-            */
-            GLRenderer.prototype._flush = function (gl) {
-                this._vertBuffer.refresh(gl, this._vertBuffer.items);
-                this._uvBuffer.refresh(gl, this._uvBuffer.items);
-                this._draw(gl);
-            };
-
-            /**
-            *
-            * @method _compileVertices
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
-            * @param camera {Camera}
-            * @private
-            */
-            GLRenderer.prototype._compileVertices = function (gl, entity, camera) {
-                var t = entity.transform;
-                var m = t.getConcatenatedMatrix();
-                var ct = camera.transform;
-                var cm = ct.getConcatenatedMatrix();
-
-                var cell = entity.atlas.cells[entity.cellIndex];
-
-                var pt1 = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
-                var pt2 = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
-                var pt3 = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
-                var pt4 = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
-
-                pt1 = m.transformPoint(pt1);
-                pt2 = m.transformPoint(pt2);
-                pt3 = m.transformPoint(pt3);
-                pt4 = m.transformPoint(pt4);
-
-                /*this._vertBuffer.items.push(t.x, t.y,
-                t.x + cell.w, t.y,
-                t.x + cell.w, t.y + cell.h,
-                t.x, t.y + cell.h);
-                */
-                this._vertBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, pt2.x + t.rotPointX, pt2.y + t.rotPointY, pt3.x + t.rotPointX, pt3.y + t.rotPointY, pt4.x + t.rotPointX, pt4.y + t.rotPointY);
-            };
-
-            /**
-            *
-            * @method _compileUVs
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Entity}
-            * @private
-            */
-            GLRenderer.prototype._compileUVs = function (gl, entity) {
-                var t = entity.transform;
-                var c = entity.atlas.cells[entity.cellIndex];
-
-                this._uvBuffer.items.push(c.x, c.y, c.x + c.w, c.y, c.x + c.w, c.y + c.h, c.x, c.y + c.h);
-            };
-
-            /**
-            *
-            * @method _applyTexture
-            * @param gl {WebGLRenderingContext}
-            * @param image {HTMLImageElement}
-            * @private
-            */
-            GLRenderer.prototype._applyTexture = function (gl, image) {
-                this._texture = new Renderers.GLTexture(gl, image);
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-                var prog = this._shaders.texture2DProg;
-                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
-            };
-
-            /**
-            *
-            * @method _changeTexture
-            * @param gl {WebGLRenderingContext}
-            * @param image {HTMLImageElement}
-            * @private
-            */
-            GLRenderer.prototype._changeTexture = function (gl, image) {
-                this._texture.refresh(gl, image);
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, this._texture.texture);
-                var prog = this._shaders.texture2DProg;
-                gl.uniform2fv(prog.textureSizeUniform, new Float32Array([this._texture.image.width, this._texture.image.height]));
-            };
-
-            /**
-            *
-            * @method _draw
-            * @param gl {WebGLRenderingContext}
-            * @private
-            */
-            GLRenderer.prototype._draw = function (gl) {
-                this.numDrawCalls++;
-                gl.drawElements(gl.TRIANGLES, this._entityCount * 6, gl.UNSIGNED_SHORT, 0);
-            };
-
-            /**
-            *
-            * @method _generateIndices
-            * @param numQuads {number}
-            * @return number[]
-            * @private
-            */
-            GLRenderer.prototype._generateIndices = function (numQuads) {
-                var quads = new Array();
-                for (var i = 0; i < numQuads; i++) {
-                    quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
-                }
-                return quads;
-            };
-
-            /**
-            *
-            * @method _generateColors
-            * @param numVerts {number}
-            * @return number[]
-            * @private
-            */
-            GLRenderer.prototype._generateColors = function (numVerts) {
-                var cols = new Array();
-                for (var i = 0; i < numVerts; i++) {
-                    cols.push(1);
-                }
-                return cols;
             };
             return GLRenderer;
         })();
@@ -21686,8 +21756,8 @@ var Kiwi;
         * @param gl {WebGLRenderingContext}
         * @return {GLShaders}
         */
-        var GLShaders = (function () {
-            function GLShaders(gl) {
+        var GLShaderPair = (function () {
+            function GLShaderPair() {
                 /**
                 *
                 * @property ready
@@ -21695,71 +21765,15 @@ var Kiwi;
                 * @public
                 */
                 this.ready = false;
-                /**
-                *
-                * @property texture2DProg
-                * @type Object
-                * @public
-                */
-                this.texture2DProg = {
-                    vertexPositionAttribute: null,
-                    vertexTexCoordAttribute: null,
-                    vertexColorAttribute: null,
-                    mvMatrixUniform: null,
-                    samplerUniform: null,
-                    resolutionUniform: null,
-                    textureSizeUniform: null,
-                    cameraOffsetUniform: null
-                };
-                /**
-                *
-                * @property texture2DFrag
-                * @type Array
-                * @public
-                */
-                this.texture2DFrag = [
-                    "precision mediump float;",
-                    "varying vec2 vTextureCoord;",
-                    "varying float vColor;",
-                    "uniform sampler2D uSampler;",
-                    "void main(void) {",
-                    "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-                    "gl_FragColor = gl_FragColor * vColor;",
-                    "}"
-                ];
-                /**
-                *
-                * @property texture2DVert
-                * @type Array
-                * @public
-                */
-                this.texture2DVert = [
-                    "attribute vec2 aVertexPosition;",
-                    "attribute vec2 aTextureCoord;",
-                    "attribute float aColor;",
-                    "uniform mat4 uMVMatrix;",
-                    "uniform vec2 uResolution;",
-                    "uniform vec2 uTextureSize;",
-                    "uniform vec2 uCameraOffset;",
-                    "varying vec2 vTextureCoord;",
-                    "varying float vColor;",
-                    "void main(void) {",
-                    "vec4 transpos = vec4(aVertexPosition - uCameraOffset,0,1); ",
-                    "transpos =  uMVMatrix * transpos;",
-                    "vec2 zeroToOne = transpos.xy / uResolution;",
-                    "vec2 zeroToTwo = zeroToOne * 2.0;",
-                    "vec2 clipSpace = zeroToTwo - 1.0;",
-                    "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
-                    "vTextureCoord = aTextureCoord / uTextureSize;",
-                    "vColor = aColor;",
-                    "}"
-                ];
-                this.vertShader = this.compile(gl, this.texture2DVert.join("\n"), gl.VERTEX_SHADER);
-                this.fragShader = this.compile(gl, this.texture2DFrag.join("\n"), gl.FRAGMENT_SHADER);
-                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-                this.use(gl, this.shaderProgram);
-                this.ready = true;
             }
+            GLShaderPair.prototype.init = function (gl) {
+                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                this.use(gl);
+                this.ready = true;
+            };
+
             /**
             *
             * @method attach
@@ -21769,7 +21783,7 @@ var Kiwi;
             * @return {WebGLProgram}
             * @public
             */
-            GLShaders.prototype.attach = function (gl, vertShader, fragShader) {
+            GLShaderPair.prototype.attach = function (gl, vertShader, fragShader) {
                 var shaderProgram = gl.createProgram();
                 gl.attachShader(shaderProgram, fragShader);
                 gl.attachShader(shaderProgram, vertShader);
@@ -21786,7 +21800,7 @@ var Kiwi;
             * @return {WebGLShader}
             * @public
             */
-            GLShaders.prototype.compile = function (gl, src, shaderType) {
+            GLShaderPair.prototype.compile = function (gl, src, shaderType) {
                 var shader = gl.createShader(shaderType);
                 gl.shaderSource(shader, src);
                 gl.compileShader(shader);
@@ -21804,27 +21818,11 @@ var Kiwi;
             * @param shaderProrgram {WebGLProgram}
             * @public
             */
-            GLShaders.prototype.use = function (gl, shaderProgram) {
-                gl.useProgram(this.shaderProgram);
-
-                //attributes
-                this.texture2DProg.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexPositionAttribute);
-                this.texture2DProg.vertexTexCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexTexCoordAttribute);
-                this.texture2DProg.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aColor");
-                gl.enableVertexAttribArray(this.texture2DProg.vertexColorAttribute);
-
-                //uniforms
-                this.texture2DProg.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-                this.texture2DProg.resolutionUniform = gl.getUniformLocation(shaderProgram, "uResolution");
-                this.texture2DProg.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-                this.texture2DProg.textureSizeUniform = gl.getUniformLocation(shaderProgram, "uTextureSize");
-                this.texture2DProg.cameraOffsetUniform = gl.getUniformLocation(shaderProgram, "uCameraOffset");
+            GLShaderPair.prototype.use = function (gl) {
             };
-            return GLShaders;
+            return GLShaderPair;
         })();
-        Renderers.GLShaders = GLShaders;
+        Renderers.GLShaderPair = GLShaderPair;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -21845,37 +21843,316 @@ var Kiwi;
         * @param [_image] {HTMLImageElement}
         * @return {GLTexture}
         */
-        var GLTexture = (function () {
-            function GLTexture(gl, _image) {
-                this.texture = gl.createTexture();
+        var GLTextureWrapper = (function () {
+            function GLTextureWrapper(gl, atlas, upload) {
+                if (typeof upload === "undefined") { upload = false; }
+                this._created = false;
+                this._uploaded = false;
+                console.log("Creating texture: " + atlas.name);
 
-                this.image = _image;
-                gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                gl.bindTexture(gl.TEXTURE_2D, null);
+                this.textureAtlas = atlas;
+                this.image = atlas.image;
+                this._numBytes = this.image.width * this.image.height * 4;
+                console.log("...texture requires kb: " + this._numBytes / 1024);
+
+                this.createTexture(gl);
+
+                if (upload)
+                    this.uploadTexture(gl);
             }
+            Object.defineProperty(GLTextureWrapper.prototype, "numBytes", {
+                get: function () {
+                    return this._numBytes;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLTextureWrapper.prototype, "created", {
+                get: function () {
+                    return this._created;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLTextureWrapper.prototype, "uploaded", {
+                get: function () {
+                    return this._uploaded;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            //force : if true then other textures will be removed until there is room.
+            GLTextureWrapper.prototype.createTexture = function (gl) {
+                this.texture = gl.createTexture();
+                console.log("...texture created successfully");
+                this._created = true;
+                return true;
+            };
+
+            GLTextureWrapper.prototype.uploadTexture = function (gl) {
+                console.log("Attempting to upload texture: " + this.textureAtlas.name);
+                var success = false;
+                if (!this.created) {
+                    this.createTexture(gl);
+                }
+
+                if (this.uploaded) {
+                    console.log("...not uploading:the image is already uploaded");
+                } else {
+                    gl.bindTexture(gl.TEXTURE_2D, this.texture);
+                    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                    gl.bindTexture(gl.TEXTURE_2D, null);
+
+                    //check gl error here
+                    this._uploaded = true;
+                    success = true;
+                    console.log("...texture uploaded successfully");
+                }
+
+                return success;
+            };
+
+            GLTextureWrapper.prototype.deleteTexture = function (gl) {
+                console.log("Attempting to delete texture: " + this.textureAtlas.name);
+                gl.bindTexture(gl.TEXTURE_2D, this.texture);
+                gl.deleteTexture(this.texture);
+                this._uploaded = false;
+                this._created = false;
+                console.log("...texture deleted successfully");
+                console.log("...freed kb: " + this.numBytes / 1024);
+                return true;
+            };
+            return GLTextureWrapper;
+        })();
+        Renderers.GLTextureWrapper = GLTextureWrapper;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    *
+    * @module Kiwi
+    * @submodule Renderers
+    *
+    */
+    (function (Renderers) {
+        /**
+        * Manages GL Texture objects, including creation, uploading, destruction and memory management
+        * @class GLTextureManager
+        * @constructor
+        * @return {GLTextureManager}
+        */
+        var GLTextureManager = (function () {
+            function GLTextureManager() {
+                /**
+                * The number of textures uploads in the last frame
+                * @property numTextureWrites
+                * @type number
+                * @public
+                */
+                this.numTextureWrites = 0;
+                this._numTexturesUsed = 0;
+                this._usedTextureMem = 0;
+                this.maxTextureMem = GLTextureManager.DEFAULT_MAX_TEX_MEM_MB * 1024 * 1024;
+                this._textureWrapperCache = new Array();
+            }
+            Object.defineProperty(GLTextureManager.prototype, "usedTextureMem", {
+                get: function () {
+                    return this._usedTextureMem;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLTextureManager.prototype, "numTexturesUsed", {
+                get: function () {
+                    return this._numTexturesUsed;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
-            *
-            * @method refresh
+            * Adds a texture wrapper to the cache
+            * @method _addTextureToCache
+            * @param glTexture {GLTextureWrapper}
+            * @private
+            */
+            GLTextureManager.prototype._addTextureToCache = function (glTexture) {
+                this._textureWrapperCache.push(glTexture);
+            };
+
+            /**
+            * Deletes a texture from memory and removes the wrapper from the cache
+            * @method _deleteTexture
             * @param gl {WebGLRenderingContext}
-            * @param image {HTMLImageElement}
+            * @param idx {number}
+            * @private
+            */
+            GLTextureManager.prototype._deleteTexture = function (gl, idx) {
+                this._textureWrapperCache[idx].deleteTexture(gl);
+                this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
+                console.log("...removed KB: " + this._textureWrapperCache[idx].numBytes / 1024);
+                console.log("...now using KB: " + this._usedTextureMem / 1024);
+                this._numTexturesUsed--;
+            };
+
+            /**
+            * Uploads a texture to video memory
+            * @method _uploadTexture
+            * @param gl {WebGLRenderingContext}
+            * @param glTextureWrapper {GLTextureWrapper}
+            * @return boolean
+            * @private
+            */
+            GLTextureManager.prototype._uploadTexture = function (gl, glTextureWrapper) {
+                if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
+                    glTextureWrapper.uploadTexture(gl);
+                    this._usedTextureMem += glTextureWrapper.numBytes;
+                    console.log("Total uploaded KB: " + this._usedTextureMem / 1024);
+                    this._numTexturesUsed++;
+                    console.log("Total textures uploaded: " + this._numTexturesUsed);
+
+                    return true;
+                }
+                return false;
+            };
+
+            /**
+            * Uploads a texture library to video memory
+            * @method uploadTextureLibrary
+            * @param gl {WebGLRenderingContext}
+            * @param textureLibrary {Kiwi.Textures.TextureLibrary}
             * @public
             */
-            GLTexture.prototype.refresh = function (gl, _image) {
-                this.image = _image;
-                gl.bindTexture(gl.TEXTURE_2D, this.texture);
-                gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.image);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-                gl.bindTexture(gl.TEXTURE_2D, null);
+            GLTextureManager.prototype.uploadTextureLibrary = function (gl, textureLibrary) {
+                console.log("Attempting to upload TextureLibrary");
+                this._textureWrapperCache = new Array();
+                console.log("...recreated wrapper cache");
+
+                for (var tex in textureLibrary.textures) {
+                    //create a glTexture
+                    var glTextureWrapper = new Renderers.GLTextureWrapper(gl, textureLibrary.textures[tex]);
+
+                    //store a refence to it
+                    this._addTextureToCache(glTextureWrapper);
+
+                    //create reference on atlas to avoid lookups when switching
+                    textureLibrary.textures[tex].glTextureWrapper = glTextureWrapper;
+
+                    if (!this._uploadTexture(gl, glTextureWrapper)) {
+                        console.log("...skipped uploading texture due to allocated texture memory exceeded");
+                    }
+                }
+                console.log("...texture Library uploaded. Using KB: " + this._usedTextureMem / 1024);
+                console.log("...using " + this._usedTextureMem / this.maxTextureMem + " of KB " + this.maxTextureMem / 1024);
             };
-            return GLTexture;
+
+            /**
+            * Removes all textures from video memory and clears the wrapper cache
+            * @method clearTextures
+            * @param gl {WebGLRenderingContext}
+            * @public
+            */
+            GLTextureManager.prototype.clearTextures = function (gl) {
+                console.log("Attempting to clear Textures");
+                for (var i = 0; i < this._textureWrapperCache.length; i++) {
+                    //delete it from g mem
+                    this._textureWrapperCache[i].deleteTexture(gl);
+
+                    //kill the reference on the atlas
+                    this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;
+                }
+                this._textureWrapperCache = new Array();
+            };
+
+            /**
+            * Binds the texture ready for use, uploads it if it isn't already
+            * @method useTexture
+            * @param gl {WebGLRenderingContext}
+            * @param glTextureWrapper {GLTextureWrappery}
+            * @param textureSizeUniform {number}
+            * @return boolean
+            * @public
+            */
+            GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper, textureSizeUniform) {
+                if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
+                    if (!this._uploadTexture(gl, glTextureWrapper)) {
+                        this._freeSpace(gl, glTextureWrapper.numBytes);
+                        this._uploadTexture(gl, glTextureWrapper);
+                    }
+                    this.numTextureWrites++;
+                }
+
+                if (glTextureWrapper.created && glTextureWrapper.uploaded) {
+                    gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
+                    gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
+                    return true;
+                }
+
+                return false;
+            };
+
+            /**
+            * Attemps to free space for to uplaod a texture.
+            * 1: Try and find texture that is same size to remove
+            * 2: Find next smallest to remove (not yet implemented)
+            * 3: Sequentially remove until there is room (not yet implemented)
+            * @method _freeSpace
+            * @param gl {WebGLRenderingContext}
+            * @param numBytesToRemove {number}
+            * @return boolean
+            * @public
+            */
+            GLTextureManager.prototype._freeSpace = function (gl, numBytesToRemove) {
+                // console.log("Attempting to free texture space");
+                var nextSmallest = 99999999999;
+                var nextSmalletIndex = -1;
+                for (var i = 0; i < this._textureWrapperCache.length; i++) {
+                    var numTextureBytes = this._textureWrapperCache[i].numBytes;
+                    if (numTextureBytes === numBytesToRemove && this._textureWrapperCache[i].uploaded) {
+                        //  console.log("..found one same size");
+                        this._deleteTexture(gl, i);
+                        return true;
+                    } else if (numTextureBytes > numBytesToRemove && numTextureBytes < nextSmallest) {
+                        nextSmallest = numTextureBytes;
+                        nextSmalletIndex = i;
+                    }
+                }
+
+                /*
+                //have we found a larger one to remove
+                if (nextSmalletIndex !== -1) {
+                this.removeTextureAt(gl,nextSmalletIndex);
+                return true;
+                } else {
+                //remove sequentially till there is enough space - is not optimal for space
+                var numBytesRemoved: number = 0;
+                var i = 0;
+                
+                do {
+                this.removeTextureAt(gl,i);
+                numBytesRemoved += this.textureWrapperCache[i].numBytes;
+                i++
+                } while (numBytesRemoved < numBytesToRemove);
+                return true;
+                
+                
+                }
+                */
+                return true;
+            };
+            GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 1024;
+            return GLTextureManager;
         })();
-        Renderers.GLTexture = GLTexture;
+        Renderers.GLTextureManager = GLTextureManager;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -21892,6 +22169,7 @@ var Kiwi;
         *
         * @class GLArrayBuffer
         * @constructor
+        * @namespace Kiwi.Renderers
         * @param gl {WebGLRenderingContext}
         * @param [_itemSize] {number}
         * @param [items] {number[]}
@@ -21899,15 +22177,34 @@ var Kiwi;
         * @return {GLArrayBuffer}
         */
         var GLArrayBuffer = (function () {
-            function GLArrayBuffer(gl, _itemSize, items, init) {
-                if (typeof init === "undefined") { init = true; }
+            function GLArrayBuffer(gl, _itemSize, items, upload) {
+                if (typeof upload === "undefined") { upload = true; }
+                this._created = false;
+                this._uploaded = false;
                 this.items = items || GLArrayBuffer.squareVertices;
                 this.itemSize = _itemSize || 2;
                 this.numItems = this.items.length / this.itemSize;
-                if (init) {
-                    this.buffer = this.init(gl);
+                this.createBuffer(gl);
+                if (upload) {
+                    this.uploadBuffer(gl, this.items);
                 }
             }
+            Object.defineProperty(GLArrayBuffer.prototype, "created", {
+                get: function () {
+                    return this._created;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(GLArrayBuffer.prototype, "uploaded", {
+                get: function () {
+                    return this._uploaded;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
             /**
             *
             * @method clear
@@ -21924,31 +22221,28 @@ var Kiwi;
             * @return {WebGLBuffer}
             * @public
             */
-            GLArrayBuffer.prototype.init = function (gl) {
-                var buffer = gl.createBuffer();
-                var f32 = new Float32Array(this.items);
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
-
-                return buffer;
+            GLArrayBuffer.prototype.createBuffer = function (gl) {
+                this.buffer = gl.createBuffer();
+                this._created = true;
+                return true;
             };
 
-            /**
-            *
-            * @method refresh
-            * @param gl {WebGLRenderingContext}
-            * @param items {number[]}
-            * @return {WebGLBuffer}
-            * @public
-            */
-            GLArrayBuffer.prototype.refresh = function (gl, items) {
+            GLArrayBuffer.prototype.uploadBuffer = function (gl, items) {
                 this.items = items;
                 this.numItems = this.items.length / this.itemSize;
                 var f32 = new Float32Array(this.items);
-
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
                 gl.bufferData(gl.ARRAY_BUFFER, f32, gl.DYNAMIC_DRAW);
-                return this.buffer;
+                this._uploaded = true;
+                return true;
+            };
+
+            GLArrayBuffer.prototype.deleteBuffer = function (gl) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+                gl.deleteBuffer(this.buffer);
+                this.uploaded = false;
+                this.created = false;
+                return true;
             };
 
             GLArrayBuffer.squareVertices = [
@@ -21998,6 +22292,7 @@ var Kiwi;
         *
         * @class GLElementArrayBuffer
         * @constructor
+        * @namespace Kiwi.Renderers
         * @param gl {WebGLRenderingContent}
         * @param [_itemSize] {number}
         * @param [_indices] {number[]}
@@ -22070,6 +22365,261 @@ var Kiwi;
 })(Kiwi || (Kiwi = {}));
 var Kiwi;
 (function (Kiwi) {
+    (function (Renderers) {
+        var Renderer = (function () {
+            function Renderer() {
+            }
+            return Renderer;
+        })();
+        Renderers.Renderer = Renderer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    *
+    * @module Kiwi
+    * @submodule Renderers
+    *
+    */
+    (function (Renderers) {
+        var Texture2DRenderer = (function (_super) {
+            __extends(Texture2DRenderer, _super);
+            function Texture2DRenderer() {
+                _super.call(this);
+                /**
+                * Maximum allowable sprites to render per frame
+                * @property _maxItems
+                * @type number
+                * @default 1000
+                * @private
+                */
+                this._maxItems = 2000;
+            }
+            Texture2DRenderer.prototype.init = function (gl, params) {
+                //create buffers
+                //dynamic
+                this.xyuvBuffer = new Renderers.GLArrayBuffer(gl, 4);
+                this.alphaBuffer = new Renderers.GLArrayBuffer(gl, 1);
+
+                //static
+                this.indexBuffer = new Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+
+                //use shaders
+                this.shaderPair = new Renderers.Texture2DShader();
+                this.shaderPair.init(gl);
+                this.shaderPair.use(gl);
+                this.shaderPair.aXYUV(gl, this.xyuvBuffer);
+                this.shaderPair.aAlpha(gl, this.alphaBuffer);
+
+                //Texture
+                gl.activeTexture(gl.TEXTURE0);
+                this.shaderPair.uSampler(gl, 0);
+
+                //stage res
+                this.updateStageResolution(gl, params.stageResolution);
+            };
+
+            Texture2DRenderer.prototype.clear = function (gl, params) {
+                this.xyuvBuffer.clear();
+                this.alphaBuffer.clear();
+                this.shaderPair.uMVMatrix(gl, params.mvMatrix);
+                this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
+            };
+
+            Texture2DRenderer.prototype.draw = function (gl, params) {
+                this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
+                this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+                this.shaderPair.draw(gl, params.entityCount * 6);
+            };
+
+            /**
+            * Create prebaked indices for drawing quads
+            * @method _generateIndices
+            * @param numQuads {number}
+            * @return number[]
+            * @private
+            */
+            Texture2DRenderer.prototype._generateIndices = function (numQuads) {
+                var quads = new Array();
+                for (var i = 0; i < numQuads; i++) {
+                    quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
+                }
+                return quads;
+            };
+
+            Texture2DRenderer.prototype.updateStageResolution = function (gl, res) {
+                this.stageResolution = res;
+                this.shaderPair.uResolution(gl, res);
+            };
+
+            /**
+            * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
+            * @method _collateVertexAttributeArrays
+            * @param gl {WebGLRenderingContext}
+            * @param entity {Entity}
+            * @param camera {Camera}
+            * @public
+            */
+            Texture2DRenderer.prototype.addToBatch = function (gl, entity, camera) {
+                var t = entity.transform;
+                var m = t.getConcatenatedMatrix();
+                var ct = camera.transform;
+                var cm = ct.getConcatenatedMatrix();
+
+                var cell = entity.atlas.cells[entity.cellIndex];
+
+                var pt1 = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
+                var pt2 = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
+                var pt3 = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
+                var pt4 = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
+
+                pt1 = m.transformPoint(pt1);
+                pt2 = m.transformPoint(pt2);
+                pt3 = m.transformPoint(pt3);
+                pt4 = m.transformPoint(pt4);
+
+                this.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
+                this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+            };
+            return Texture2DRenderer;
+        })(Renderers.Renderer);
+        Renderers.Texture2DRenderer = Texture2DRenderer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
+    /**
+    *
+    * @class GLShaders
+    * @constructor
+    * @param gl {WebGLRenderingContext}
+    * @return {GLShaders}
+    */
+    (function (Renderers) {
+        var Texture2DShader = (function (_super) {
+            __extends(Texture2DShader, _super);
+            function Texture2DShader() {
+                _super.call(this);
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "varying vec2 vTextureCoord;",
+                    "varying float vAlpha;",
+                    "uniform sampler2D uSampler;",
+                    "void main(void) {",
+                    "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
+                    "gl_FragColor.a *= vAlpha;",
+                    "}"
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYUV;",
+                    "attribute float aAlpha;",
+                    "uniform mat4 uMVMatrix;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec2 uTextureSize;",
+                    "uniform vec2 uCameraOffset;",
+                    "varying vec2 vTextureCoord;",
+                    "varying float vAlpha;",
+                    "void main(void) {",
+                    "vec4 transpos = vec4(aXYUV.xy - uCameraOffset,0,1); ",
+                    "transpos =  uMVMatrix * transpos;",
+                    "vec2 clipSpace = ((transpos.xy / uResolution) * 2.0) - 1.0;",
+                    "gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);",
+                    "vTextureCoord = aXYUV.zw / uTextureSize;",
+                    "vAlpha = aAlpha;",
+                    "}"
+                ];
+                this.attributes = {
+                    aXYUV: null,
+                    aAlpha: null
+                };
+                this.uniforms = {
+                    uMVMatrix: null,
+                    uSampler: null,
+                    uResolution: null,
+                    uTextureSize: null,
+                    uCameraOffset: null
+                };
+            }
+            Texture2DShader.prototype.uMVMatrix = function (gl, uMVMatrixVal) {
+                gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false, uMVMatrixVal);
+            };
+
+            Texture2DShader.prototype.uSampler = function (gl, uSamplerVal) {
+                gl.uniform1i(this.uniforms.samplerUniform, uSamplerVal);
+            };
+
+            Texture2DShader.prototype.uResolution = function (gl, uResolutionVal) {
+                gl.uniform2fv(this.uniforms.uResolution, uResolutionVal);
+            };
+
+            Texture2DShader.prototype.uTextureSize = function (gl, uTextureSizeVal) {
+                gl.uniform2fv(this.uniforms.uTextureSize, uTextureSizeVal);
+            };
+
+            Texture2DShader.prototype.uCameraOffset = function (gl, uCameraOffsetVal) {
+                gl.uniform2fv(this.uniforms.uCameraOffset, uCameraOffsetVal);
+            };
+
+            Texture2DShader.prototype.aXYUV = function (gl, aXYUVVal) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, aXYUVVal.buffer);
+                gl.vertexAttribPointer(this.attributes.aXYUV, aXYUVVal.itemSize, gl.FLOAT, false, 0, 0);
+            };
+
+            Texture2DShader.prototype.aAlpha = function (gl, aAlphaVal) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
+                gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
+            };
+
+            /**
+            *
+            * @method use
+            * @param gl {WebGLRenderingContext}
+            * @param shaderProrgram {WebGLProgram}
+            * @public
+            */
+            Texture2DShader.prototype.use = function (gl) {
+                gl.useProgram(this.shaderProgram);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+                gl.enableVertexAttribArray(this.attributes.aXYUV);
+                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+                gl.enableVertexAttribArray(this.attributes.aAlpha);
+
+                //uniforms
+                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
+                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
+                this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
+                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+            };
+
+            Texture2DShader.prototype.draw = function (gl, numElements) {
+                gl.drawElements(gl.TRIANGLES, numElements, gl.UNSIGNED_SHORT, 0);
+            };
+            return Texture2DShader;
+        })(Renderers.GLShaderPair);
+        Renderers.Texture2DShader = Texture2DShader;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+var Kiwi;
+(function (Kiwi) {
     /**
     * Kiwi - System
     * @module Kiwi
@@ -22081,6 +22631,7 @@ var Kiwi;
         * DOM Boot and Ready functions (based on those used by jQuery)
         *
         * @class Bootstrap
+        * @namespace Kiwi.System
         *
         */
         var Bootstrap = (function () {
@@ -22227,6 +22778,7 @@ var Kiwi;
         *
         * @class Browser
         * @constructor
+        * @namespace Kiwi.System
         * @param {Game} game
         * @return {StateMananger} This Object
         *
@@ -22291,6 +22843,7 @@ var Kiwi;
         *
         * @class Device
         * @constructor
+        * @namespace Kiwi.System
         *
         * @author mrdoob
         * @author Modernizr team
@@ -22809,6 +23362,7 @@ var Kiwi;
         * A TextureAtlas is the base class that is created for each image that is loaded in through Kiwi. Each TextureAtlas contains a name (the same as the key that the user chose when loading the image in),the HTMLImageElement that it is for and a number of cells.
         *
         * @class TextureAtlas
+        * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} Name of the texture atlas. This is usually defined by the developer when loading the assets.
         * @param type {number} The type of texture atlas that this is. There are currently only three types.
@@ -22917,6 +23471,7 @@ var Kiwi;
         * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on.
         *
         * @class TextureLibrary
+        * @namespace Kiwi.Textures
         * @constructor
         * @param game {Game} The game that this texture library belongs to.
         * @return {TextureLibrary}
@@ -23137,6 +23692,7 @@ var Kiwi;
         *
         * @class SpriteSheet
         * @extends TextureAtlas
+        * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} The name of the spritesheet.
         * @param texture {HTMLImageElement} The image that is being used for the spritesheet.
@@ -23271,6 +23827,7 @@ var Kiwi;
         *
         * @class SingleImage
         * @extends TextureAtlas
+        * @namespace Kiwi.Textures
         * @constructor
         * @param name {string} The name of the single image
         * @param image {HTMLImageElement} the image that is being used.
@@ -23334,6 +23891,7 @@ var Kiwi;
         * (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
         *
         * @class Clock
+        * @namespace Kiwi.Time
         * @constructor
         * @param manager {ClockManager} The ClockManager that this clock belongs to. .
         * @param master {MasterClock} The MasterClock that it is getting the time in relation to.
@@ -23811,6 +24369,7 @@ var Kiwi;
         * Handles the generation and tracking of Clocks and Time related applications for a single game.
         *
         * @class ClockManager
+        * @namespace Kiwi.Time
         * @constructor
         * @param {Game} game.
         * @return {ClockManager} This Object.
@@ -23933,6 +24492,7 @@ var Kiwi;
         * You should not access it directly, use the Clock and Timer classes instead.
         *
         * @class MasterClock
+        * @namespace Kiwi.Time
         * @constructor
         * @return {MasterClock} This Object.
         *
@@ -24062,6 +24622,7 @@ var Kiwi;
         * Timer objects can run once or repeat at specified intervals to execute code on a schedule.
         *
         * @class Timer
+        * @namespace Kiwi.Time
         * @constructor
         * @param name {string} The name of the timer.
         * @param clock {Clock} The game clock instance this Timer is based on.
@@ -24452,6 +25013,7 @@ var Kiwi;
         * A TimerEvent hooks into a Timer and is an object that is generated when you are wanting to executed a callback at a specific point in time.
         *
         * @class TimerEvent
+        * @namespace Kiwi.Time
         * @constructor
         * @param type {Number} The type of TimerEvent that this is.
         * @param callback {Any} The method that is to be executed when the event occurs.
@@ -24521,6 +25083,7 @@ var Kiwi;
         * Creates and the manages a Canvas DOMElement.
         *
         * @class Canvas
+        * @namespace Kiwi.Utils
         * @constructor
         * @param width {Number} The width of the canvas.
         * @param height {Number} The height of the canvas.
@@ -24775,6 +25338,7 @@ var Kiwi;
         * His work is licensed under the Apache License, Version 2.0 (the "License")
         *
         * @class Common
+        * @namespace Kiwi.Utils
         * @static
         *
         * @author Mauricio Santos
@@ -24968,6 +25532,7 @@ var Kiwi;
         * Includes some methods written by Dylan Engelman.
         *
         * @class GameMath
+        * @namespace Kiwi.Utils
         * @static
         *
         * @author Richard Davey
@@ -26135,6 +26700,7 @@ var Kiwi;
         *
         * @class RandomDataGenerator
         * @constructor
+        * @namespace Kiwi.Utils
         * @param [seeds=[]] {String[]}
         * @return {RandomDataGenerator}
         *
@@ -26572,6 +27138,7 @@ var Kiwi;
         *
         * @class RequestAnimationFrame
         * @constructor
+        * @namespace Kiwi.Utils
         * @param callback {Any}
         * @return {RequestAnimationFrame} This object.
         *
@@ -26841,12 +27408,16 @@ var Kiwi;
 /// <reference path="input/MouseCursor.ts" />
 /// <reference path="input/Finger.ts" />
 /// <reference path="plugins/Plugins.ts" />
-/// <reference path="renderers/CanvasRenderer.ts" />
-/// <reference path="renderers/GLRenderer.ts" />
-/// <reference path="renderers/GLShaders.ts" />
-/// <reference path="renderers/GLTexture.ts" />
-/// <reference path="renderers/GLArrayBuffer.ts" />
-/// <reference path="renderers/GLElementArrayBuffer.ts" />
+/// <reference path="render/CanvasRenderer.ts" />
+/// <reference path="render/GLRenderer.ts" />
+/// <reference path="render/GLShaderPair.ts" />
+/// <reference path="render/GLTextureWrapper.ts" />
+/// <reference path="render/GLTextureManager.ts" />
+/// <reference path="render/GLArrayBuffer.ts" />
+/// <reference path="render/GLElementArrayBuffer.ts" />
+/// <reference path="render/renderers/Renderer.ts" />
+/// <reference path="render/renderers/Texture2DRenderer.ts" />
+/// <reference path="render/shaders/Texture2DShader.ts" />
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />
@@ -26880,7 +27451,7 @@ var Kiwi;
     * @default '1.0'
     * @public
     */
-    Kiwi.VERSION = "0.5.2";
+    Kiwi.VERSION = "0.5.3";
 
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
@@ -27019,6 +27590,7 @@ var Kiwi;
     * The GameManager is used to maintain mulitple instances of Kiwi games within a single document.
     *
     * @class GameManager
+    * @namespace Kiwi
     * @static
     */
     var GameManager = (function () {

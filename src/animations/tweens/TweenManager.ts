@@ -15,6 +15,7 @@ module Kiwi.Animations.Tweens {
     * https://github.com/sole/tween.js
     *
     * @class TweenManager
+    * @namespace Kiwi.Animations.Tweens
     * @constructor
     * @param game {Game}
     * @return {TweenManager}

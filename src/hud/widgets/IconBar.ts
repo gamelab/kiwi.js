@@ -13,6 +13,7 @@ module Kiwi.HUD.Widget {
     *
     * @class IconBar
     * @extends HUDWidget
+    * @namespace Kiwi.HUD.Widget
     * @constructor
     * @param game {Game} The game that this icon bar belongs to.
     * @param atlas {TextureAtlas} The texture atlas that the icons will have.

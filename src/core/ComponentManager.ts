@@ -12,6 +12,7 @@ module Kiwi {
     * Or when updating components you can tell the component manager to update and all of the components will update as well.
     *
     * @class ComponentManager
+    * @namespace Kiwi
     * @constructor
     * @param type {number} - The type of object that this component manager's owner is.
     * @param owner {IChild} - The owner of this component manager.
