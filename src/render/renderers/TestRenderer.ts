@@ -18,7 +18,7 @@ module Kiwi.Renderers {
 
         public static RENDERER_ID: string = "TestRenderer";
 
-        public init(gl: WebGLRenderingContext, params: any) {
+        public init(gl: WebGLRenderingContext, params: any = null) {
             //create buffers
             //dynamic
             this.xyuvBuffer = new GLArrayBuffer(gl, 4);
@@ -32,6 +32,17 @@ module Kiwi.Renderers {
             
             this.shaderPair.init(gl);
             
+           
+           
+          
+            
+            
+        }
+
+        public enable(gl: WebGLRenderingContext, params: any = null) {
+            gl.useProgram(this.shaderPair.shaderProgram);
+
+            this.shaderPair.enableAttributes(gl);
             this.shaderPair.aXYUV(gl, this.xyuvBuffer);
             this.shaderPair.aAlpha(gl, this.alphaBuffer);
             
@@ -39,14 +50,14 @@ module Kiwi.Renderers {
             gl.activeTexture(gl.TEXTURE0);
             this.shaderPair.uSampler(gl, 0);
 
-            //stage res
-            this.updateStageResolution(gl, params.stageResolution);
-            
+            //Other uniforms
+            this.shaderPair.uResolution(gl, params.stageResolution);
+            this.shaderPair.uCameraOffset(gl, params.cameraOffset);
+            this.shaderPair.uMVMatrix(gl, params.mvMatrix);
         }
 
-        public use(gl: WebGLRenderingContext) {
-           
-            this.shaderPair.use(gl);
+        public disable(gl: WebGLRenderingContext) {
+            this.shaderPair.disableAttributes(gl);
         }
 
         public shaderPair: TestShader;
@@ -121,12 +132,11 @@ module Kiwi.Renderers {
 
 
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
-            this.stageResolution = res;
+         
             this.shaderPair.uResolution(gl, res);
         }
 
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
-            this.textureSize = size;
             this.shaderPair.uTextureSize(gl, size);
         }
 

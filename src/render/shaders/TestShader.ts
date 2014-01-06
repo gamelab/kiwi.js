@@ -16,14 +16,14 @@ module Kiwi.Renderers {
         }
 
         public init(gl: WebGLRenderingContext) {
-            super.init(gl,true);
+            super.init(gl);
             
             
             //attributes
             this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-            gl.enableVertexAttribArray(this.attributes.aXYUV);
+            //gl.enableVertexAttribArray(this.attributes.aXYUV);
             this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-            gl.enableVertexAttribArray(this.attributes.aAlpha);
+            //gl.enableVertexAttribArray(this.attributes.aAlpha);
 
             //uniforms
 
@@ -32,9 +32,16 @@ module Kiwi.Renderers {
             this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
             this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
             this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
-            console.log(this.attributes);
-            console.log(this.uniforms);
+        }
 
+        public enableAttributes(gl: WebGLRenderingContext) {
+            gl.enableVertexAttribArray(this.attributes.aXYUV);
+            gl.enableVertexAttribArray(this.attributes.aAlpha);
+        }
+
+        public disableAttributes(gl: WebGLRenderingContext) {
+            gl.disableVertexAttribArray(this.attributes.aXYUV);
+            gl.disableVertexAttribArray(this.attributes.aAlpha);
         }
 
 
@@ -132,22 +139,6 @@ module Kiwi.Renderers {
         public aAlpha(gl: WebGLRenderingContext, aAlphaVal: GLArrayBuffer) {
             gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
             gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
-        }
-
-
-
-
-        /**
-        *
-        * @method use
-        * @param gl {WebGLRenderingContext}
-        * @param shaderProrgram {WebGLProgram}
-        * @public
-        */
-        public use(gl: WebGLRenderingContext) {
-            gl.useProgram(this.shaderProgram);
-         
-
         }
 
         public draw(gl: WebGLRenderingContext, numElements: number) {

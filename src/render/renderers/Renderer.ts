@@ -28,20 +28,10 @@ module Kiwi.Renderers {
         * @public
         */
 
-
-        public stageResolution: Float32Array;
-        public textureSize: Float32Array;
-
-
-        
-
-        public cameraOffset: Float32Array;
-
-
-        public init(gl: WebGLRenderingContext, params: any) {
+        public init(gl: WebGLRenderingContext, params: any = null) {
         }
 
-        public use(gl: WebGLRenderingContext) {
+        public enable(gl: WebGLRenderingContext, params: any = null) {
             
         }
 

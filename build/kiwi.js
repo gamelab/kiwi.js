@@ -21883,6 +21883,8 @@ var Kiwi;
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
                 gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
 
+                this._cameraOffset = new Float32Array([0, 0]);
+
                 //set default state
                 gl.enable(gl.BLEND);
                 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -21892,14 +21894,14 @@ var Kiwi;
                 mat2d.identity(this.mvMatrix);
 
                 //initialise default renderer
-                this._currentRenderer = this._renderers.Texture2DRenderer;
-                this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-                this._renderers.TestRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-                this._currentRenderer = this._renderers.TestRenderer;
-                this._currentRenderer.use(gl);
+                this._renderers.Texture2DRenderer.init(gl);
+                this._renderers.TestRenderer.init(gl);
+                this._renderers.TestRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
-                //this._currentRenderer = this._renderers.Texture2DRenderer;
-                //this._currentRenderer.use(gl);
+                this._renderers.Texture2DRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+
+                this._currentRenderer = this._renderers.Texture2DRenderer;
+
                 //stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
@@ -22546,10 +22548,18 @@ var Kiwi;
         var Renderer = (function () {
             function Renderer() {
             }
+            /**
+            * The stage resolution in pixels
+            * @property _stageResolution
+            * @type Float32Array
+            * @public
+            */
             Renderer.prototype.init = function (gl, params) {
+                if (typeof params === "undefined") { params = null; }
             };
 
-            Renderer.prototype.use = function (gl) {
+            Renderer.prototype.enable = function (gl, params) {
+                if (typeof params === "undefined") { params = null; }
             };
 
             Renderer.prototype.clear = function (gl, params) {
@@ -22591,6 +22601,7 @@ var Kiwi;
                 this._maxItems = 2000;
             }
             Texture2DRenderer.prototype.init = function (gl, params) {
+                if (typeof params === "undefined") { params = null; }
                 //create buffers
                 //dynamic
                 this.xyuvBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 4);
@@ -22600,9 +22611,16 @@ var Kiwi;
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.shaderPair = new Kiwi.Renderers.Texture2DShader();
+                this.shaderPair = new Kiwi.Renderers.TestShader();
+
                 this.shaderPair.init(gl);
-                this.shaderPair.use(gl);
+            };
+
+            Texture2DRenderer.prototype.enable = function (gl, params) {
+                if (typeof params === "undefined") { params = null; }
+                gl.useProgram(this.shaderPair.shaderProgram);
+
+                this.shaderPair.enableAttributes(gl);
                 this.shaderPair.aXYUV(gl, this.xyuvBuffer);
                 this.shaderPair.aAlpha(gl, this.alphaBuffer);
 
@@ -22610,12 +22628,14 @@ var Kiwi;
                 gl.activeTexture(gl.TEXTURE0);
                 this.shaderPair.uSampler(gl, 0);
 
-                //stage res
-                this.updateStageResolution(gl, params.stageResolution);
+                //Other uniforms
+                this.shaderPair.uResolution(gl, params.stageResolution);
+                this.shaderPair.uCameraOffset(gl, params.cameraOffset);
+                this.shaderPair.uMVMatrix(gl, params.mvMatrix);
             };
 
-            Texture2DRenderer.prototype.use = function (gl) {
-                this.shaderPair.use(gl);
+            Texture2DRenderer.prototype.disable = function (gl) {
+                this.shaderPair.disableAttributes(gl);
             };
 
             Texture2DRenderer.prototype.clear = function (gl, params) {
@@ -22648,12 +22668,10 @@ var Kiwi;
             };
 
             Texture2DRenderer.prototype.updateStageResolution = function (gl, res) {
-                this.stageResolution = res;
                 this.shaderPair.uResolution(gl, res);
             };
 
             Texture2DRenderer.prototype.updateTextureSize = function (gl, size) {
-                this.textureSize = size;
                 this.shaderPair.uTextureSize(gl, size);
             };
 
@@ -22716,6 +22734,7 @@ var Kiwi;
                 this._maxItems = 2000;
             }
             TestRenderer.prototype.init = function (gl, params) {
+                if (typeof params === "undefined") { params = null; }
                 //create buffers
                 //dynamic
                 this.xyuvBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 4);
@@ -22728,7 +22747,13 @@ var Kiwi;
                 this.shaderPair = new Kiwi.Renderers.TestShader();
 
                 this.shaderPair.init(gl);
+            };
 
+            TestRenderer.prototype.enable = function (gl, params) {
+                if (typeof params === "undefined") { params = null; }
+                gl.useProgram(this.shaderPair.shaderProgram);
+
+                this.shaderPair.enableAttributes(gl);
                 this.shaderPair.aXYUV(gl, this.xyuvBuffer);
                 this.shaderPair.aAlpha(gl, this.alphaBuffer);
 
@@ -22736,12 +22761,14 @@ var Kiwi;
                 gl.activeTexture(gl.TEXTURE0);
                 this.shaderPair.uSampler(gl, 0);
 
-                //stage res
-                this.updateStageResolution(gl, params.stageResolution);
+                //Other uniforms
+                this.shaderPair.uResolution(gl, params.stageResolution);
+                this.shaderPair.uCameraOffset(gl, params.cameraOffset);
+                this.shaderPair.uMVMatrix(gl, params.mvMatrix);
             };
 
-            TestRenderer.prototype.use = function (gl) {
-                this.shaderPair.use(gl);
+            TestRenderer.prototype.disable = function (gl) {
+                this.shaderPair.disableAttributes(gl);
             };
 
             TestRenderer.prototype.clear = function (gl, params) {
@@ -22774,12 +22801,10 @@ var Kiwi;
             };
 
             TestRenderer.prototype.updateStageResolution = function (gl, res) {
-                this.stageResolution = res;
                 this.shaderPair.uResolution(gl, res);
             };
 
             TestRenderer.prototype.updateTextureSize = function (gl, size) {
-                this.textureSize = size;
                 this.shaderPair.uTextureSize(gl, size);
             };
 
@@ -22837,29 +22862,11 @@ var Kiwi;
         */
         var ShaderPair = (function () {
             function ShaderPair() {
-                /**
-                *
-                * @property ready
-                * @type boolean
-                * @public
-                */
-                this.ready = false;
             }
-            ShaderPair.prototype.init = function (gl, test) {
-                if (typeof test === "undefined") { test = false; }
-                if (!test) {
-                    this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
-                    this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
-                    this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-                    //this.ready = true;
-                    //gl.useProgram(this.shaderProgram);
-                } else {
-                    this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
-                    this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
-                    this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-                    //this.ready = true;
-                    //gl.useProgram(this.shaderProgram);
-                }
+            ShaderPair.prototype.init = function (gl) {
+                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
             };
 
             /**
@@ -22897,16 +22904,6 @@ var Kiwi;
                     return null;
                 }
                 return shader;
-            };
-
-            /**
-            *
-            * @method use
-            * @param gl {WebGLRenderingContext}
-            * @param shaderProrgram {WebGLProgram}
-            * @public
-            */
-            ShaderPair.prototype.use = function (gl) {
             };
             return ShaderPair;
         })();
@@ -22985,18 +22982,27 @@ var Kiwi;
 
                 //attributes
                 this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-                gl.enableVertexAttribArray(this.attributes.aXYUV);
-                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-                gl.enableVertexAttribArray(this.attributes.aAlpha);
 
+                //gl.enableVertexAttribArray(this.attributes.aXYUV);
+                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+
+                //gl.enableVertexAttribArray(this.attributes.aAlpha);
                 //uniforms
                 this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
                 this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
                 this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
                 this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
                 this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
-                console.log(this.attributes);
-                console.log(this.uniforms);
+            };
+
+            Texture2DShader.prototype.enableAttributes = function (gl) {
+                gl.enableVertexAttribArray(this.attributes.aXYUV);
+                gl.enableVertexAttribArray(this.attributes.aAlpha);
+            };
+
+            Texture2DShader.prototype.disableAttributes = function (gl) {
+                gl.disableVertexAttribArray(this.attributes.aXYUV);
+                gl.disableVertexAttribArray(this.attributes.aAlpha);
             };
 
             Texture2DShader.prototype.uMVMatrix = function (gl, uMVMatrixVal) {
@@ -23027,17 +23033,6 @@ var Kiwi;
             Texture2DShader.prototype.aAlpha = function (gl, aAlphaVal) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
                 gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
-            };
-
-            /**
-            *
-            * @method use
-            * @param gl {WebGLRenderingContext}
-            * @param shaderProrgram {WebGLProgram}
-            * @public
-            */
-            Texture2DShader.prototype.use = function (gl) {
-                gl.useProgram(this.shaderProgram);
             };
 
             Texture2DShader.prototype.draw = function (gl, numElements) {
@@ -23117,22 +23112,31 @@ var Kiwi;
                 };
             }
             TestShader.prototype.init = function (gl) {
-                _super.prototype.init.call(this, gl, true);
+                _super.prototype.init.call(this, gl);
 
                 //attributes
                 this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-                gl.enableVertexAttribArray(this.attributes.aXYUV);
-                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-                gl.enableVertexAttribArray(this.attributes.aAlpha);
 
+                //gl.enableVertexAttribArray(this.attributes.aXYUV);
+                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+
+                //gl.enableVertexAttribArray(this.attributes.aAlpha);
                 //uniforms
                 this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
                 this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
                 this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
                 this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
                 this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
-                console.log(this.attributes);
-                console.log(this.uniforms);
+            };
+
+            TestShader.prototype.enableAttributes = function (gl) {
+                gl.enableVertexAttribArray(this.attributes.aXYUV);
+                gl.enableVertexAttribArray(this.attributes.aAlpha);
+            };
+
+            TestShader.prototype.disableAttributes = function (gl) {
+                gl.disableVertexAttribArray(this.attributes.aXYUV);
+                gl.disableVertexAttribArray(this.attributes.aAlpha);
             };
 
             TestShader.prototype.uMVMatrix = function (gl, uMVMatrixVal) {
@@ -23163,17 +23167,6 @@ var Kiwi;
             TestShader.prototype.aAlpha = function (gl, aAlphaVal) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
                 gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
-            };
-
-            /**
-            *
-            * @method use
-            * @param gl {WebGLRenderingContext}
-            * @param shaderProrgram {WebGLProgram}
-            * @public
-            */
-            TestShader.prototype.use = function (gl) {
-                gl.useProgram(this.shaderProgram);
             };
 
             TestShader.prototype.draw = function (gl, numElements) {

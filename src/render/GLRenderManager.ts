@@ -166,7 +166,9 @@ module Kiwi.Renderers {
             //init stage and viewport
             this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
             gl.viewport(0, 0, this._game.stage.width, this._game.stage.height);
-                
+
+            this._cameraOffset = new Float32Array([0,0]);
+
             //set default state
             gl.enable(gl.BLEND);
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -176,16 +178,14 @@ module Kiwi.Renderers {
             mat2d.identity(this.mvMatrix);
 
             //initialise default renderer
+            this._renderers.Texture2DRenderer.init(gl);
            
+            this._renderers.Texture2DRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+
             this._currentRenderer = this._renderers.Texture2DRenderer;
-            this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-            this._renderers.TestRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-            this._currentRenderer = this._renderers.TestRenderer;          
-            this._currentRenderer.use(gl);
-            //this._currentRenderer = this._renderers.Texture2DRenderer;
-            //this._currentRenderer.use(gl);
-            
-                  //stage res needs update on stage resize
+                        
+             
+            //stage res needs update on stage resize
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
                 this._currentRenderer.updateStageResolution(gl, this._stageResolution);

@@ -18,7 +18,7 @@ module Kiwi.Renderers {
 
         public static RENDERER_ID: string = "Texture2DRenderer";
 
-        public init(gl: WebGLRenderingContext, params: any) {
+        public init(gl: WebGLRenderingContext, params: any = null) {
             //create buffers
             //dynamic
             this.xyuvBuffer = new GLArrayBuffer(gl, 4);
@@ -26,11 +26,18 @@ module Kiwi.Renderers {
 
             //static
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-            
+
             //use shaders
-            this.shaderPair = new Texture2DShader();
+            this.shaderPair = new TestShader();
+
             this.shaderPair.init(gl);
-            this.shaderPair.use(gl);
+
+        }
+
+        public enable(gl: WebGLRenderingContext, params: any = null) {
+            gl.useProgram(this.shaderPair.shaderProgram);
+
+            this.shaderPair.enableAttributes(gl);
             this.shaderPair.aXYUV(gl, this.xyuvBuffer);
             this.shaderPair.aAlpha(gl, this.alphaBuffer);
 
@@ -38,24 +45,24 @@ module Kiwi.Renderers {
             gl.activeTexture(gl.TEXTURE0);
             this.shaderPair.uSampler(gl, 0);
 
-            //stage res
-            this.updateStageResolution(gl, params.stageResolution);
-
+            //Other uniforms
+            this.shaderPair.uResolution(gl, params.stageResolution);
+            this.shaderPair.uCameraOffset(gl, params.cameraOffset);
+            this.shaderPair.uMVMatrix(gl, params.mvMatrix);
         }
 
-        public use(gl: WebGLRenderingContext) {
-            
-            this.shaderPair.use(gl);
+        public disable(gl: WebGLRenderingContext) {
+            this.shaderPair.disableAttributes(gl);
         }
 
-        public shaderPair: Texture2DShader;
-       
-        public clear(gl: WebGLRenderingContext,params:any) {
+        public shaderPair: TestShader;
+
+        public clear(gl: WebGLRenderingContext, params: any) {
             this.xyuvBuffer.clear();
             this.alphaBuffer.clear();
             this.shaderPair.uMVMatrix(gl, params.mvMatrix);
             this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
-        
+
         }
 
         public draw(gl: WebGLRenderingContext, params: any) {
@@ -74,7 +81,7 @@ module Kiwi.Renderers {
        */
         private _maxItems: number = 2000;
 
-       
+
 
         /**
        * Storage for the xy (position) and uv(texture) coordinates that are generated each frame
@@ -109,7 +116,7 @@ module Kiwi.Renderers {
       * @private
       */
         private _generateIndices(numQuads: number): number[] {
-            
+
             var quads: number[] = new Array();
             for (var i = 0; i < numQuads; i++) {
                 quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
@@ -120,12 +127,11 @@ module Kiwi.Renderers {
 
 
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {
-            this.stageResolution = res;
+
             this.shaderPair.uResolution(gl, res);
         }
 
         public updateTextureSize(gl: WebGLRenderingContext, size: Float32Array) {
-            this.textureSize = size;
             this.shaderPair.uTextureSize(gl, size);
         }
 
@@ -155,7 +161,7 @@ module Kiwi.Renderers {
             pt3 = m.transformPoint(pt3);
             pt4 = m.transformPoint(pt4);
 
-           
+
 
             this.xyuvBuffer.items.push(
                 pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,
