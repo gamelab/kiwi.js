@@ -41,6 +41,10 @@ module Kiwi.Renderers {
         public init(gl: WebGLRenderingContext, params: any) {
         }
 
+        public use(gl: WebGLRenderingContext) {
+            
+        }
+
         public clear(gl: WebGLRenderingContext, params: any) {
         }
         public draw(gl: WebGLRenderingContext, params: any) {

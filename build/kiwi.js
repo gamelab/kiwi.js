@@ -21892,9 +21892,14 @@ var Kiwi;
                 mat2d.identity(this.mvMatrix);
 
                 //initialise default renderer
-                this._currentRenderer = this._renderers.TestRenderer;
+                this._currentRenderer = this._renderers.Texture2DRenderer;
                 this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+                this._renderers.TestRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+                this._currentRenderer = this._renderers.TestRenderer;
+                this._currentRenderer.use(gl);
 
+                //this._currentRenderer = this._renderers.Texture2DRenderer;
+                //this._currentRenderer.use(gl);
                 //stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
@@ -22544,6 +22549,9 @@ var Kiwi;
             Renderer.prototype.init = function (gl, params) {
             };
 
+            Renderer.prototype.use = function (gl) {
+            };
+
             Renderer.prototype.clear = function (gl, params) {
             };
             Renderer.prototype.draw = function (gl, params) {
@@ -22606,6 +22614,10 @@ var Kiwi;
                 this.updateStageResolution(gl, params.stageResolution);
             };
 
+            Texture2DRenderer.prototype.use = function (gl) {
+                this.shaderPair.use(gl);
+            };
+
             Texture2DRenderer.prototype.clear = function (gl, params) {
                 this.xyuvBuffer.clear();
                 this.alphaBuffer.clear();
@@ -22616,6 +22628,7 @@ var Kiwi;
             Texture2DRenderer.prototype.draw = function (gl, params) {
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
                 this.shaderPair.draw(gl, params.entityCount * 6);
             };
 
@@ -22713,8 +22726,9 @@ var Kiwi;
 
                 //use shaders
                 this.shaderPair = new Kiwi.Renderers.TestShader();
+
                 this.shaderPair.init(gl);
-                this.shaderPair.use(gl);
+
                 this.shaderPair.aXYUV(gl, this.xyuvBuffer);
                 this.shaderPair.aAlpha(gl, this.alphaBuffer);
 
@@ -22724,6 +22738,10 @@ var Kiwi;
 
                 //stage res
                 this.updateStageResolution(gl, params.stageResolution);
+            };
+
+            TestRenderer.prototype.use = function (gl) {
+                this.shaderPair.use(gl);
             };
 
             TestRenderer.prototype.clear = function (gl, params) {
@@ -22736,6 +22754,7 @@ var Kiwi;
             TestRenderer.prototype.draw = function (gl, params) {
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
                 this.shaderPair.draw(gl, params.entityCount * 6);
             };
 
@@ -22793,7 +22812,7 @@ var Kiwi;
                 this.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
                 this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
-            TestRenderer.RENDERER_ID = "Test2DRenderer";
+            TestRenderer.RENDERER_ID = "TestRenderer";
             return TestRenderer;
         })(Kiwi.Renderers.Renderer);
         Renderers.TestRenderer = TestRenderer;
@@ -22826,12 +22845,21 @@ var Kiwi;
                 */
                 this.ready = false;
             }
-            ShaderPair.prototype.init = function (gl) {
-                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
-                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
-                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-                this.use(gl);
-                this.ready = true;
+            ShaderPair.prototype.init = function (gl, test) {
+                if (typeof test === "undefined") { test = false; }
+                if (!test) {
+                    this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+                    this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+                    this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                    //this.ready = true;
+                    //gl.useProgram(this.shaderProgram);
+                } else {
+                    this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+                    this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+                    this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                    //this.ready = true;
+                    //gl.useProgram(this.shaderProgram);
+                }
             };
 
             /**
@@ -22952,6 +22980,25 @@ var Kiwi;
                     uCameraOffset: null
                 };
             }
+            Texture2DShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+                gl.enableVertexAttribArray(this.attributes.aXYUV);
+                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+                gl.enableVertexAttribArray(this.attributes.aAlpha);
+
+                //uniforms
+                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
+                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
+                this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
+                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+                console.log(this.attributes);
+                console.log(this.uniforms);
+            };
+
             Texture2DShader.prototype.uMVMatrix = function (gl, uMVMatrixVal) {
                 gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false, uMVMatrixVal);
             };
@@ -22991,19 +23038,6 @@ var Kiwi;
             */
             Texture2DShader.prototype.use = function (gl) {
                 gl.useProgram(this.shaderProgram);
-
-                //attributes
-                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-                gl.enableVertexAttribArray(this.attributes.aXYUV);
-                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-                gl.enableVertexAttribArray(this.attributes.aAlpha);
-
-                //uniforms
-                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
-                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
-                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
-                this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
-                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
             };
 
             Texture2DShader.prototype.draw = function (gl, numElements) {
@@ -23082,6 +23116,25 @@ var Kiwi;
                     uCameraOffset: null
                 };
             }
+            TestShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl, true);
+
+                //attributes
+                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+                gl.enableVertexAttribArray(this.attributes.aXYUV);
+                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+                gl.enableVertexAttribArray(this.attributes.aAlpha);
+
+                //uniforms
+                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
+                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
+                this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
+                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+                console.log(this.attributes);
+                console.log(this.uniforms);
+            };
+
             TestShader.prototype.uMVMatrix = function (gl, uMVMatrixVal) {
                 gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false, uMVMatrixVal);
             };
@@ -23121,19 +23174,6 @@ var Kiwi;
             */
             TestShader.prototype.use = function (gl) {
                 gl.useProgram(this.shaderProgram);
-
-                //attributes
-                this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-                gl.enableVertexAttribArray(this.attributes.aXYUV);
-                this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-                gl.enableVertexAttribArray(this.attributes.aAlpha);
-
-                //uniforms
-                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
-                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
-                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
-                this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
-                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
             };
 
             TestShader.prototype.draw = function (gl, numElements) {

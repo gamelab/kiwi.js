@@ -41,9 +41,11 @@ module Kiwi.Renderers {
             //stage res
             this.updateStageResolution(gl, params.stageResolution);
 
-           
+        }
 
-
+        public use(gl: WebGLRenderingContext) {
+            
+            this.shaderPair.use(gl);
         }
 
         public shaderPair: Texture2DShader;
@@ -59,6 +61,7 @@ module Kiwi.Renderers {
         public draw(gl: WebGLRenderingContext, params: any) {
             this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
             this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
             this.shaderPair.draw(gl, params.entityCount * 6);
         }
 

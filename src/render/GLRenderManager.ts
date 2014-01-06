@@ -176,10 +176,16 @@ module Kiwi.Renderers {
             mat2d.identity(this.mvMatrix);
 
             //initialise default renderer
-            this._currentRenderer = this._renderers.TestRenderer;
+           
+            this._currentRenderer = this._renderers.Texture2DRenderer;
             this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-       
-            //stage res needs update on stage resize
+            this._renderers.TestRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+            this._currentRenderer = this._renderers.TestRenderer;          
+            this._currentRenderer.use(gl);
+            //this._currentRenderer = this._renderers.Texture2DRenderer;
+            //this._currentRenderer.use(gl);
+            
+                  //stage res needs update on stage resize
             this._game.stage.onResize.add(function (width, height) {
                 this._stageResolution = new Float32Array([width, height]);
                 this._currentRenderer.updateStageResolution(gl, this._stageResolution);

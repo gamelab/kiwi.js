@@ -15,7 +15,26 @@
             
           
         }
+        public init(gl: WebGLRenderingContext) {
+            super.init(gl);
 
+
+            //attributes
+            this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
+            gl.enableVertexAttribArray(this.attributes.aXYUV);
+            this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
+            gl.enableVertexAttribArray(this.attributes.aAlpha);
+
+            //uniforms
+
+            this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+            this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
+            this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
+            this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
+            this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+            console.log(this.attributes);
+            console.log(this.uniforms);
+        }
         /**
         *
         * @property texture2DFrag
@@ -123,20 +142,7 @@
             
             gl.useProgram(this.shaderProgram);
             
-            //attributes
-            this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-            gl.enableVertexAttribArray(this.attributes.aXYUV);
-            this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-            gl.enableVertexAttribArray(this.attributes.aAlpha);
-            
-            //uniforms
-
-            this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
-            this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
-            this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
-            this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
-            this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
-
+         
         }
 
         public draw(gl: WebGLRenderingContext, numElements: number) {

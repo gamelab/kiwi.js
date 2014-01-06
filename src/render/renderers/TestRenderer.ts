@@ -16,7 +16,7 @@ module Kiwi.Renderers {
             super();
         }
 
-        public static RENDERER_ID: string = "Test2DRenderer";
+        public static RENDERER_ID: string = "TestRenderer";
 
         public init(gl: WebGLRenderingContext, params: any) {
             //create buffers
@@ -26,24 +26,27 @@ module Kiwi.Renderers {
 
             //static
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-
+            
             //use shaders
             this.shaderPair = new TestShader();
+            
             this.shaderPair.init(gl);
-            this.shaderPair.use(gl);
+            
             this.shaderPair.aXYUV(gl, this.xyuvBuffer);
             this.shaderPair.aAlpha(gl, this.alphaBuffer);
-
+            
             //Texture
             gl.activeTexture(gl.TEXTURE0);
             this.shaderPair.uSampler(gl, 0);
 
             //stage res
             this.updateStageResolution(gl, params.stageResolution);
+            
+        }
 
-        
-
-
+        public use(gl: WebGLRenderingContext) {
+           
+            this.shaderPair.use(gl);
         }
 
         public shaderPair: TestShader;
@@ -59,6 +62,7 @@ module Kiwi.Renderers {
         public draw(gl: WebGLRenderingContext, params: any) {
             this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
             this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
             this.shaderPair.draw(gl, params.entityCount * 6);
         }
 

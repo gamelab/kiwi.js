@@ -23,12 +23,20 @@ module Kiwi.Renderers {
             
         }
 
-        public init(gl: WebGLRenderingContext) {
-            this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
-            this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
-            this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
-            this.use(gl);
-            this.ready = true;
+        public init(gl: WebGLRenderingContext, test: boolean = false) {
+            if (!test) {
+                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                //this.ready = true;
+                //gl.useProgram(this.shaderProgram);
+            } else {
+                this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
+                this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
+                this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                //this.ready = true;
+                //gl.useProgram(this.shaderProgram);
+            }
         }
         
 
