@@ -43,7 +43,7 @@ module Kiwi {
         }
 
         public requiredRenderers: string[] = ["Texture2DRenderer"];
-        public renderer: Kiwi.Renderers.Renderer;
+        public glRenderer: Kiwi.Renderers.Renderer;
 
 
         /**

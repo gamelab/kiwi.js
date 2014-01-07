@@ -141,10 +141,8 @@ module Kiwi.Renderers {
             gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
         }
 
-        public draw(gl: WebGLRenderingContext, numElements: number) {
-            gl.drawElements(gl.TRIANGLES, numElements, gl.UNSIGNED_SHORT, 0);
-        }
-
+       
+       
 
 
     }

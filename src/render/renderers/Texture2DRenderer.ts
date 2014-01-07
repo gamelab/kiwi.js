@@ -69,7 +69,7 @@ module Kiwi.Renderers {
             this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
             this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-            this.shaderPair.draw(gl, params.entityCount * 6);
+            gl.drawElements(gl.TRIANGLES, params.entityCount * 6, gl.UNSIGNED_SHORT, 0);
         }
 
         /**

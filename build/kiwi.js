@@ -9892,6 +9892,8 @@ var Kiwi;
                     return;
                 }
 
+                this.glRenderer = this.game.renderer.getRenderer(this.requiredRenderers[0]);
+
                 this.atlas = atlas;
                 this.name = this.atlas.name;
                 this.cellIndex = this.atlas.cellIndex;
@@ -10398,6 +10400,8 @@ var Kiwi;
                     this.active = false;
                     return;
                 }
+                this.requiredRenderers.push("TestRenderer");
+                this.glRenderer = this.game.renderer.getRenderer(this.requiredRenderers[1]);
 
                 this.atlas = atlas;
                 this.name = this.atlas.name;
@@ -21735,6 +21739,11 @@ var Kiwi;
                 }
             };
 
+            //for gl compatibility - refactor me
+            CanvasRenderer.prototype.getRenderer = function (rendererID) {
+                return null;
+            };
+
             CanvasRenderer.prototype.initState = function (state) {
             };
 
@@ -21864,6 +21873,15 @@ var Kiwi;
                 return false;
             };
 
+            GLRenderManager.prototype.getRenderer = function (rendererID) {
+                var renderer = Kiwi.Renderers[rendererID];
+                if (renderer) {
+                    return renderer;
+                } else {
+                    console.log("no renderer called " + rendererID);
+                }
+            };
+
             //public removeRenderer(rendererName: string) {
             //    delete this._renderers[rendererName];
             //}
@@ -21895,8 +21913,6 @@ var Kiwi;
 
                 //initialise default renderer
                 this._renderers.Texture2DRenderer.init(gl);
-                this._renderers.TestRenderer.init(gl);
-                this._renderers.TestRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
                 this._renderers.Texture2DRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
@@ -21993,6 +22009,10 @@ var Kiwi;
                         this._recurse(gl, child.members[i], camera);
                     }
                 } else {
+                    if (child.glRenderer !== this._currentRenderer) {
+                        console.log("renderer switched");
+                    }
+
                     //draw and switch to different texture if need be
                     if (child.atlas !== this._currentTextureAtlas) {
                         this._currentRenderer.draw(gl, { entityCount: this._entityCount });
@@ -22649,7 +22669,7 @@ var Kiwi;
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-                this.shaderPair.draw(gl, params.entityCount * 6);
+                gl.drawElements(gl.TRIANGLES, params.entityCount * 6, gl.UNSIGNED_SHORT, 0);
             };
 
             /**
@@ -22745,7 +22765,6 @@ var Kiwi;
 
                 //use shaders
                 this.shaderPair = new Kiwi.Renderers.TestShader();
-
                 this.shaderPair.init(gl);
             };
 
@@ -22782,7 +22801,7 @@ var Kiwi;
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-                this.shaderPair.draw(gl, params.entityCount * 6);
+                gl.drawElements(gl.TRIANGLES, params.entityCount * 6, gl.UNSIGNED_SHORT, 0);
             };
 
             /**
@@ -23034,10 +23053,6 @@ var Kiwi;
                 gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
                 gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
             };
-
-            Texture2DShader.prototype.draw = function (gl, numElements) {
-                gl.drawElements(gl.TRIANGLES, numElements, gl.UNSIGNED_SHORT, 0);
-            };
             return Texture2DShader;
         })(Kiwi.Renderers.ShaderPair);
         Renderers.Texture2DShader = Texture2DShader;
@@ -23167,10 +23182,6 @@ var Kiwi;
             TestShader.prototype.aAlpha = function (gl, aAlphaVal) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
                 gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
-            };
-
-            TestShader.prototype.draw = function (gl, numElements) {
-                gl.drawElements(gl.TRIANGLES, numElements, gl.UNSIGNED_SHORT, 0);
             };
             return TestShader;
         })(Kiwi.Renderers.ShaderPair);

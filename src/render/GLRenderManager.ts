@@ -146,6 +146,15 @@ module Kiwi.Renderers {
             return false;
         }
 
+        public getRenderer(rendererID: string): Kiwi.Renderers.Renderer {
+            var renderer: Kiwi.Renderers.Renderer = Kiwi.Renderers[rendererID];
+            if (renderer) {
+                return renderer;
+            } else {
+                console.log("no renderer called " + rendererID);
+            }
+        }
+
         //public removeRenderer(rendererName: string) {
         //    delete this._renderers[rendererName];
         //}
@@ -281,7 +290,10 @@ module Kiwi.Renderers {
                     this._recurse(gl,(<Kiwi.Group>child).members[i],camera);
                 }
             } else {
+                if ((<Entity>child).glRenderer !== this._currentRenderer) {
+                  //  console.log("renderer switched");
                 
+                }
                 //draw and switch to different texture if need be
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
                     
