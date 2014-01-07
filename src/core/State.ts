@@ -416,7 +416,9 @@ module Kiwi {
             if (deleteAll == true) {
                 //destroy all of the tracking list
                 for (var i = 0; i < this._trackingList.length; i++) {
-                    this._trackingList[i].destroy( true );
+
+                    //If the item is a group then we don't want it to destory it's children, as this method will do that eventually anyway.
+                    this._trackingList[i].destroy( true , false ); 
                 }
                 this._trackingList = [];
                 
