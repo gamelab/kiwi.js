@@ -529,15 +529,15 @@ module Kiwi.GameObjects.Tilemap {
             var t: Kiwi.Geom.Transform = this.transform;
             var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
             
-            ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+            ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - camera.transform.rotPointX, m.ty + t.rotPointY - camera.transform.rotPointY);
 
             //  Work out how many tiles we can fit into our camera and round it up for the edges
             this._maxX = Math.min(Math.ceil(camera.width / this.tileWidth) + 1,this.widthInTiles);
             this._maxY = Math.min(Math.ceil(camera.height / this.tileHeight) + 1,this.heightInTiles);
             
             //  And now work out where in the tilemap the camera actually is
-            this._startX = Math.floor((camera.transform.x - t.x) / this.tileWidth);
-            this._startY = Math.floor((camera.transform.y - t.y) / this.tileHeight);
+            this._startX = Math.floor((-camera.transform.x - t.x) / this.tileWidth);
+            this._startY = Math.floor((-camera.transform.y - t.y) / this.tileHeight);
             
             //boundaries check 
             if (this._startX < 0) {
@@ -570,8 +570,8 @@ module Kiwi.GameObjects.Tilemap {
                             this._columnData[tile].tileType.cellIndex.y,
                             this._columnData[tile].tileType.cellIndex.w,
                             this._columnData[tile].tileType.cellIndex.h,
-                            this._columnData[tile].x,
-                            this._columnData[tile].y,
+                            this._columnData[tile].x - t.rotPointX,
+                            this._columnData[tile].y - t.rotPointY,
                             this.tileWidth,
                             this.tileHeight
                             );
