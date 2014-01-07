@@ -147,7 +147,7 @@ module Kiwi.Renderers {
         }
 
         public getRenderer(rendererID: string): Kiwi.Renderers.Renderer {
-            var renderer: Kiwi.Renderers.Renderer = Kiwi.Renderers[rendererID];
+            var renderer: Kiwi.Renderers.Renderer = this._renderers[rendererID];
             if (renderer) {
                 return renderer;
             } else {
@@ -188,6 +188,7 @@ module Kiwi.Renderers {
 
             //initialise default renderer
             this._renderers.Texture2DRenderer.init(gl);
+            this._renderers.TestRenderer.init(gl);
            
             this._renderers.Texture2DRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
@@ -271,7 +272,7 @@ module Kiwi.Renderers {
             
             //draw anything left over
             this._currentRenderer.draw(gl, { entityCount: this._entityCount });
-       
+            this.numDrawCalls++;
         }
 
         /**
@@ -292,19 +293,17 @@ module Kiwi.Renderers {
             } else {
                 if ((<Entity>child).glRenderer !== this._currentRenderer) {
                   //  console.log("renderer switched");
-                
+                    this._flushBatch(gl);
+
+                    this._switchProgram(gl, <Entity>child);
+
+                    //force texture switch
+                    this._switchTexture(gl, <Entity>child);
                 }
                 //draw and switch to different texture if need be
                 if ((<Entity>child).atlas !== this._currentTextureAtlas) {
-                    
-                    this._currentRenderer.draw(gl, { entityCount: this._entityCount });
-                    this.numDrawCalls++;
-                    this._entityCount = 0;
-                    this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset:this._cameraOffset });
-                    
-                    this._currentTextureAtlas = (<Entity>child).atlas;
-                    this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
-                    this._textureManager.useTexture(gl, (<Entity>child).atlas.glTextureWrapper);
+                    this._flushBatch(gl);
+                    this._switchTexture(gl, <Entity>child);
                 } 
                 
                 //"render"
@@ -313,6 +312,28 @@ module Kiwi.Renderers {
                 
             }
         
+        }
+
+        private _flushBatch(gl: WebGLRenderingContext) {
+            this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+            this.numDrawCalls++;
+            this._entityCount = 0;
+            this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+        }
+
+        private _switchProgram(gl: WebGLRenderingContext, entity: Entity) {
+            //console.log("switching program");
+            this._currentRenderer.disable(gl);
+            this._currentRenderer = entity.glRenderer;
+            this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+        }
+
+        private _switchTexture(gl: WebGLRenderingContext, entity: Entity) {
+         
+            this._currentTextureAtlas = entity.atlas;
+            this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
+            this._textureManager.useTexture(gl,  entity.atlas.glTextureWrapper);
+               
         }
         
     }

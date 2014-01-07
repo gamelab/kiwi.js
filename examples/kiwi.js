@@ -21874,7 +21874,7 @@ var Kiwi;
             };
 
             GLRenderManager.prototype.getRenderer = function (rendererID) {
-                var renderer = Kiwi.Renderers[rendererID];
+                var renderer = this._renderers[rendererID];
                 if (renderer) {
                     return renderer;
                 } else {
@@ -21913,6 +21913,7 @@ var Kiwi;
 
                 //initialise default renderer
                 this._renderers.Texture2DRenderer.init(gl);
+                this._renderers.TestRenderer.init(gl);
 
                 this._renderers.Texture2DRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
@@ -21990,6 +21991,7 @@ var Kiwi;
 
                 //draw anything left over
                 this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+                this.numDrawCalls++;
             };
 
             /**
@@ -22010,25 +22012,45 @@ var Kiwi;
                     }
                 } else {
                     if (child.glRenderer !== this._currentRenderer) {
-                        console.log("renderer switched");
+                        //  console.log("renderer switched");
+                        this._flushBatch(gl);
+
+                        this._switchProgram(gl, child);
+
+                        //force texture switch
+                        this._switchTexture(gl, child);
                     }
 
                     //draw and switch to different texture if need be
                     if (child.atlas !== this._currentTextureAtlas) {
-                        this._currentRenderer.draw(gl, { entityCount: this._entityCount });
-                        this.numDrawCalls++;
-                        this._entityCount = 0;
-                        this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
-
-                        this._currentTextureAtlas = child.atlas;
-                        this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
-                        this._textureManager.useTexture(gl, child.atlas.glTextureWrapper);
+                        this._flushBatch(gl);
+                        this._switchTexture(gl, child);
                     }
 
                     //"render"
                     child.renderGL(gl, this._currentRenderer, camera);
                     this._entityCount++;
                 }
+            };
+
+            GLRenderManager.prototype._flushBatch = function (gl) {
+                this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+                this.numDrawCalls++;
+                this._entityCount = 0;
+                this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
+            };
+
+            GLRenderManager.prototype._switchProgram = function (gl, entity) {
+                //console.log("switching program");
+                this._currentRenderer.disable(gl);
+                this._currentRenderer = entity.glRenderer;
+                this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+            };
+
+            GLRenderManager.prototype._switchTexture = function (gl, entity) {
+                this._currentTextureAtlas = entity.atlas;
+                this._currentRenderer.updateTextureSize(gl, new Float32Array([this._currentTextureAtlas.glTextureWrapper.image.width, this._currentTextureAtlas.glTextureWrapper.image.height]));
+                this._textureManager.useTexture(gl, entity.atlas.glTextureWrapper);
             };
             return GLRenderManager;
         })();
@@ -22582,6 +22604,9 @@ var Kiwi;
                 if (typeof params === "undefined") { params = null; }
             };
 
+            Renderer.prototype.disable = function (gl) {
+            };
+
             Renderer.prototype.clear = function (gl, params) {
             };
             Renderer.prototype.draw = function (gl, params) {
@@ -22631,7 +22656,7 @@ var Kiwi;
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.shaderPair = new Kiwi.Renderers.TestShader();
+                this.shaderPair = new Kiwi.Renderers.Texture2DShader();
 
                 this.shaderPair.init(gl);
             };

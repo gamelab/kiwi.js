@@ -28,7 +28,7 @@ module Kiwi.Renderers {
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
             //use shaders
-            this.shaderPair = new TestShader();
+            this.shaderPair = new Texture2DShader();
 
             this.shaderPair.init(gl);
 
