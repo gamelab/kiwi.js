@@ -10015,6 +10015,7 @@ var Kiwi;
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 _super.call(this, state, x, y);
+                this.glRenderer = this.game.renderer.getRenderer(this.requiredRenderers[0]);
 
                 //Texture atlas error check.
                 if (typeof atlas == "undefined") {
@@ -10075,6 +10076,11 @@ var Kiwi;
                     ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
                     ctx.restore();
                 }
+            };
+
+            StaticImage.prototype.renderGL = function (gl, renderer, camera, params) {
+                if (typeof params === "undefined") { params = null; }
+                renderer.addToBatch(gl, this, camera);
             };
             return StaticImage;
         })(Kiwi.Entity);

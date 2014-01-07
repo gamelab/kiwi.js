@@ -25,7 +25,7 @@ module Kiwi.GameObjects {
         constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
 
             super(state,x,y);
-            
+            this.glRenderer = this.game.renderer.getRenderer(this.requiredRenderers[0]);
             //Texture atlas error check.
             if (typeof atlas == "undefined") {
                 console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
@@ -99,6 +99,10 @@ module Kiwi.GameObjects {
                 ctx.restore();
             
             }
+        }
+
+        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params: any = null) {
+            (<Kiwi.Renderers.TestRenderer>renderer).addToBatch(gl, this, camera);
         }
 
 
