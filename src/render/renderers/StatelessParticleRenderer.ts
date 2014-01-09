@@ -12,8 +12,8 @@ module Kiwi.Renderers {
     export class StatelessParticleRenderer extends Renderer {
 
 
-        constructor() {
-            super();
+        constructor(shaderManager:Kiwi.Shaders.ShaderManager) {
+            super(shaderManager);
         }
 
 

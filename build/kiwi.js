@@ -21946,8 +21946,9 @@ var Kiwi;
             * @public
             */
             GLRenderManager.prototype.boot = function () {
-                this._init();
                 this._textureManager = new Kiwi.Renderers.GLTextureManager();
+                this._shaderManager = new Kiwi.Shaders.ShaderManager();
+                this._init();
             };
 
             /**
@@ -21965,7 +21966,7 @@ var Kiwi;
                 if (Kiwi.Renderers[rendererID]) {
                     //already added?
                     if (!(rendererID in this._renderers)) {
-                        this._renderers[rendererID] = new Kiwi.Renderers[rendererID]();
+                        this._renderers[rendererID] = new Kiwi.Renderers[rendererID](this._shaderManager);
                         return true;
                     }
                 }
@@ -22009,6 +22010,9 @@ var Kiwi;
                 //create Model View Matrix
                 this.mvMatrix = mat4.create();
                 mat2d.identity(this.mvMatrix);
+
+                //shader manager
+                this._shaderManager.init(gl, "TextureAtlasShader");
 
                 //initialise default renderer
                 this._renderers.TextureAtlasRenderer.init(gl);
@@ -22165,11 +22169,6 @@ var Kiwi;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
-//load
-//unload
-//track
-//get current
-//set current
 var Kiwi;
 (function (Kiwi) {
     (function (Shaders) {
@@ -22177,7 +22176,55 @@ var Kiwi;
             function ShaderManager() {
                 this._shaderPairs = {};
             }
-            ShaderManager.prototype.addShader = function (gl, shaderPair) {
+            ShaderManager.prototype.init = function (gl, defaultShaderID) {
+                this._currentShader = this.requestShader(gl, defaultShaderID);
+            };
+
+            ShaderManager.prototype.requestShader = function (gl, shaderID) {
+                var shader;
+
+                //in list already?
+                if (shaderID in this._shaderPairs) {
+                    shader = this._shaderPairs[shaderID];
+                    if (!shader.loaded) {
+                        this._loadShader(gl, shader);
+                    }
+                    this._useShader(gl, shader);
+                    return shader;
+                } else {
+                    //not in list, does it exist?
+                    if (this.shaderExists) {
+                        shader = this.addShader(gl, shaderID);
+                        this._loadShader(gl, shader);
+                        this._useShader(gl, shader);
+                        return shader;
+                    } else {
+                        console.log("Shader " + shaderID + " does not exist");
+                    }
+                }
+
+                //unsuccessful request
+                return null;
+            };
+
+            ShaderManager.prototype.shaderExists = function (gl, shaderID) {
+                return shaderID in Kiwi.Shaders;
+            };
+
+            ShaderManager.prototype.addShader = function (gl, shaderID) {
+                this._shaderPairs[shaderID] = new Kiwi.Shaders[shaderID]();
+                return this._shaderPairs[shaderID];
+            };
+
+            ShaderManager.prototype._loadShader = function (gl, shader) {
+                shader.init(gl);
+            };
+
+            ShaderManager.prototype._useShader = function (gl, shader) {
+                if (shader !== this._currentShader) {
+                    this._currentShader = shader;
+                    gl.useProgram(shader.shaderProgram);
+                }
             };
             return ShaderManager;
         })();
@@ -22715,9 +22762,11 @@ var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         var Renderer = (function () {
-            function Renderer() {
+            function Renderer(shaderManager) {
+                this.shaderManager = shaderManager;
             }
             /**
+            
             * The stage resolution in pixels
             * @property _stageResolution
             * @type Float32Array
@@ -22761,8 +22810,8 @@ var Kiwi;
     (function (Renderers) {
         var TextureAtlasRenderer = (function (_super) {
             __extends(TextureAtlasRenderer, _super);
-            function TextureAtlasRenderer() {
-                _super.call(this);
+            function TextureAtlasRenderer(shaderManager) {
+                _super.call(this, shaderManager);
                 /**
                 * Maximum allowable sprites to render per frame
                 * @property _maxItems
@@ -22783,15 +22832,13 @@ var Kiwi;
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.shaderPair = new Kiwi.Shaders.TextureAtlasShader();
-
-                this.shaderPair.init(gl);
+                this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
             };
 
             TextureAtlasRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
-                gl.useProgram(this.shaderPair.shaderProgram);
-
+                //gl.useProgram(this.shaderPair.shaderProgram);
+                this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
                 gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
                 gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -22906,8 +22953,8 @@ var Kiwi;
     (function (Renderers) {
         var TestRenderer = (function (_super) {
             __extends(TestRenderer, _super);
-            function TestRenderer() {
-                _super.call(this);
+            function TestRenderer(shaderManager) {
+                _super.call(this, shaderManager);
                 /**
                 * Maximum allowable sprites to render per frame
                 * @property _maxItems
@@ -22928,13 +22975,15 @@ var Kiwi;
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.shaderPair = new Kiwi.Shaders.TestShader();
-                this.shaderPair.init(gl);
+                this.shaderPair = this.shaderManager.requestShader(gl, "TestShader");
+                //this.shaderPair = new Kiwi.Shaders.TestShader();
+                //this.shaderPair.init(gl);
             };
 
             TestRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
-                gl.useProgram(this.shaderPair.shaderProgram);
+                //gl.useProgram(this.shaderPair.shaderProgram);
+                this.shaderPair = this.shaderManager.requestShader(gl, "TestShader");
 
                 this.shaderPair.enableAttributes(gl);
                 this.shaderPair.aXYUV(gl, this.xyuvBuffer);
@@ -23036,8 +23085,8 @@ var Kiwi;
     (function (Renderers) {
         var StatelessParticleRenderer = (function (_super) {
             __extends(StatelessParticleRenderer, _super);
-            function StatelessParticleRenderer() {
-                _super.call(this);
+            function StatelessParticleRenderer(shaderManager) {
+                _super.call(this, shaderManager);
                 /**
                 * Maximum allowable sprites to render per frame
                 * @property _maxItems
@@ -23195,11 +23244,13 @@ var Kiwi;
         */
         var ShaderPair = (function () {
             function ShaderPair() {
+                this.loaded = false;
             }
             ShaderPair.prototype.init = function (gl) {
                 this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
                 this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
                 this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                this.loaded = true;
             };
 
             /**

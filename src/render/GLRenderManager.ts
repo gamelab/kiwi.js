@@ -37,8 +37,10 @@ module Kiwi.Renderers {
         * @public
         */
         public boot() {
-            this._init();
             this._textureManager = new GLTextureManager();
+            this._shaderManager = new Kiwi.Shaders.ShaderManager();
+            this._init();
+            
         }
         
         /**
@@ -132,6 +134,7 @@ module Kiwi.Renderers {
 
         private _renderers: any = {};
 
+        private _shaderManager: Kiwi.Shaders.ShaderManager;
     
         public addRenderer(rendererID:string):boolean {
             //does renderer exist?
@@ -139,7 +142,7 @@ module Kiwi.Renderers {
               
                 //already added?
                 if (!(rendererID in this._renderers)) {
-                    this._renderers[rendererID] = new Kiwi.Renderers[rendererID]();
+                    this._renderers[rendererID] = new Kiwi.Renderers[rendererID](this._shaderManager);
                     return true;
                 }
             }
@@ -185,6 +188,9 @@ module Kiwi.Renderers {
             //create Model View Matrix
             this.mvMatrix = mat4.create();
             mat2d.identity(this.mvMatrix);
+
+            //shader manager
+            this._shaderManager.init(gl, "TextureAtlasShader");
 
             //initialise default renderer
             this._renderers.TextureAtlasRenderer.init(gl);

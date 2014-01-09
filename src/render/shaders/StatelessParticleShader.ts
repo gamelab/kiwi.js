@@ -31,7 +31,7 @@ module Kiwi.Shaders {
             this.uniforms.uEndColor = gl.getUniformLocation(this.shaderProgram, "uEndColor");
             this.uniforms.uT = gl.getUniformLocation(this.shaderProgram, "uT");
             this.uniforms.uGravity = gl.getUniformLocation(this.shaderProgram, "uGravity");
-           
+            
         }
 
 

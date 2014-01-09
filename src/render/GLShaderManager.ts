@@ -1,22 +1,20 @@
 
-//load 
-//unload
-//track
-//get current
-//set current
-
 
 module Kiwi.Shaders {
 
 
     export class ShaderManager {
 
-        constructor(gl: WebGLRenderingContext,defaultShaderID:string) {
-            this._currentShader = this.requestShader(gl, defaultShaderID);
+        constructor() {
+            
         }
-
+        
         private _shaderPairs: any = {};
         private _currentShader: ShaderPair;
+
+        public init(gl: WebGLRenderingContext, defaultShaderID: string) {
+            this._currentShader = this.requestShader(gl, defaultShaderID);
+        }
 
         public requestShader(gl: WebGLRenderingContext,shaderID: string):ShaderPair {
 
@@ -28,13 +26,17 @@ module Kiwi.Shaders {
                     this._loadShader(gl, shader);
                 }
                 this._useShader(gl, shader);
+                return shader;
             } else {
                 //not in list, does it exist?
                 if (this.shaderExists) {
                     shader = this.addShader(gl, shaderID);
                     this._loadShader(gl, shader);
                     this._useShader(gl, shader);
-                } 
+                    return shader;
+                } else {
+                    console.log("Shader " + shaderID + " does not exist");
+                }
             }
             //unsuccessful request
             return null;
@@ -50,11 +52,14 @@ module Kiwi.Shaders {
         }
 
         private _loadShader(gl: WebGLRenderingContext,shader:ShaderPair) {
-
+            shader.init(gl);
         }
 
         private _useShader(gl: WebGLRenderingContext, shader: ShaderPair) {
-
+            if (shader !== this._currentShader) {
+                this._currentShader = shader;
+                gl.useProgram(shader.shaderProgram);
+            }
         }
 
 

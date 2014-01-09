@@ -12,8 +12,8 @@ module Kiwi.Renderers {
     export class TestRenderer extends Renderer {
 
 
-        constructor() {
-            super();
+        constructor(shaderManager: Kiwi.Shaders.ShaderManager) {
+            super(shaderManager);
         }
 
         public static RENDERER_ID: string = "TestRenderer";
@@ -28,13 +28,12 @@ module Kiwi.Renderers {
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
             
             //use shaders
-            this.shaderPair = new Kiwi.Shaders.TestShader();
-            this.shaderPair.init(gl);
+            this.shaderPair = <Kiwi.Shaders.TestShader>this.shaderManager.requestShader(gl, "TestShader");
             
         }
 
         public enable(gl: WebGLRenderingContext, params: any = null) {
-            gl.useProgram(this.shaderPair.shaderProgram);
+            this.shaderPair = <Kiwi.Shaders.TestShader>this.shaderManager.requestShader(gl, "TestShader");
 
             this.shaderPair.enableAttributes(gl);
             this.shaderPair.aXYUV(gl, this.xyuvBuffer);

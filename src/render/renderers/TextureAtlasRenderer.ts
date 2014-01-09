@@ -12,8 +12,8 @@ module Kiwi.Renderers {
     export class TextureAtlasRenderer extends Renderer {
 
 
-        constructor() {
-            super();
+        constructor(shaderManager: Kiwi.Shaders.ShaderManager) {
+            super(shaderManager);
         }
 
         
@@ -30,15 +30,13 @@ module Kiwi.Renderers {
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
             //use shaders
-            this.shaderPair = new Kiwi.Shaders.TextureAtlasShader();
-
-            this.shaderPair.init(gl);
+            this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl,"TextureAtlasShader");
 
         }
 
         public enable(gl: WebGLRenderingContext, params: any = null) {
-            gl.useProgram(this.shaderPair.shaderProgram);
-
+            //gl.useProgram(this.shaderPair.shaderProgram);
+            this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "TextureAtlasShader");
             gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
             gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
             gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);

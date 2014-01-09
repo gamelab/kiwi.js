@@ -29,6 +29,7 @@ module Kiwi.Shaders {
                 this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
                 this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
                 this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
+                this.loaded = true;
         }
 
         public loaded: boolean = false;

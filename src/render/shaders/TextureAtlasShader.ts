@@ -28,6 +28,7 @@ module Kiwi.Shaders {
             this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
             this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
             this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+           
         }
 
         public attributes: any = {

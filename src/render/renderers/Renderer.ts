@@ -6,8 +6,8 @@ module Kiwi.Renderers {
     export class Renderer {
 
 
-        constructor() {
-        
+        constructor(shaderManager:Kiwi.Shaders.ShaderManager) {
+            this.shaderManager = shaderManager;
         }
 
         public static RENDERER_ID: string = "Renderer";
@@ -21,7 +21,10 @@ module Kiwi.Renderers {
         public mvMatrix: Float32Array;
 
 
+        public shaderManager: Kiwi.Shaders.ShaderManager;
+
         /**
+
         * The stage resolution in pixels
         * @property _stageResolution
         * @type Float32Array
