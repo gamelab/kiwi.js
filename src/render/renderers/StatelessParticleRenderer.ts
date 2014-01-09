@@ -30,7 +30,7 @@ module Kiwi.Renderers {
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
             //use shaders
-            this.shaderPair = new StatelessParticlesShader();
+            this.shaderPair = new Kiwi.Shaders.StatelessParticlesShader();
 
             this.shaderPair.init(gl);
 
@@ -69,7 +69,7 @@ module Kiwi.Renderers {
             gl.disableVertexAttribArray(this.shaderPair.attributes.aBirthLifespan);
         }
 
-        public shaderPair: TextureAtlasShader;
+        public shaderPair: Kiwi.Shaders.TextureAtlasShader;
 
         public clear(gl: WebGLRenderingContext, params: any) {
             this.aXYVxVyBuffer.clear();

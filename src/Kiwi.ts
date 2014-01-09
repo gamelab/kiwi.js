@@ -101,6 +101,7 @@
 
 /// <reference path="render/CanvasRenderer.ts" />
 /// <reference path="render/GLRenderManager.ts" />
+/// <reference path="render/GLShaderManager.ts" />
 
 /// <reference path="render/GLTextureWrapper.ts" />
 /// <reference path="render/GLTextureManager.ts" />

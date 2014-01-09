@@ -42,6 +42,7 @@
     <Content Include="render\GLArrayBuffer.ts" />
     <Content Include="render\GLElementArrayBuffer.ts" />
     <Content Include="render\GLRenderManager.ts" />
+    <Content Include="render\GLShaderManager.ts" />
     <Content Include="render\renderers\StatelessParticleRenderer.ts" />
     <Content Include="render\renderers\TestRenderer.ts" />
     <Content Include="render\shaders\ShaderPair.ts" />

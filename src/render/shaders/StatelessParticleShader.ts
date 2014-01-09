@@ -6,7 +6,7 @@
 * @return {GLShaders}
 */
 
-module Kiwi.Renderers {
+module Kiwi.Shaders {
 
     export class StatelessParticlesShader extends ShaderPair {
 

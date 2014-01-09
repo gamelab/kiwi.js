@@ -11575,6 +11575,8 @@ var Kiwi;
                 if (typeof x === "undefined") { x = 0; }
                 if (typeof y === "undefined") { y = 0; }
                 _super.call(this, state, x, y);
+                this.numParticles = 100;
+                this.gravity = 0.2;
                 this.requiredRenderers[0] = "StatelessParticleRenderer";
                 this.glRenderer = this.game.renderer.getRenderer(this.requiredRenderers[0]);
 
@@ -11603,7 +11605,19 @@ var Kiwi;
             * @public
             */
             StatelessParticles.prototype.objType = function () {
-                return "Sprite";
+                return "StatelessParticles";
+            };
+
+            StatelessParticles.prototype.init = function () {
+                this._posVel = new Array();
+                this._startTimeLifeSpan = new Array();
+                for (var i = 0; i < this.numParticles; i++) {
+                    this._posVel.push(200, 200, Math.random() * 100 - 50, Math.random() * 100 - 50);
+                    this._startTimeLifeSpan.push(Math.random(), Math.random() * 5);
+                }
+            };
+
+            StatelessParticles.prototype.start = function () {
             };
 
             /**
@@ -11614,29 +11628,6 @@ var Kiwi;
             */
             StatelessParticles.prototype.render = function (camera) {
                 _super.prototype.render.call(this, camera);
-
-                //if it is would even be visible.
-                if (this.alpha > 0 && this.visibility) {
-                    var ctx = this.game.stage.ctx;
-                    ctx.save();
-
-                    if (this.alpha > 0 && this.alpha <= 1) {
-                        ctx.globalAlpha = this.alpha;
-                    }
-
-                    //get entity/view matrix
-                    var t = this.transform;
-                    var m = t.getConcatenatedMatrix();
-
-                    var ct = camera.transform;
-
-                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
-
-                    var cell = this.atlas.cells[this.cellIndex];
-                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
-                    ctx.restore();
-                }
             };
 
             StatelessParticles.prototype.renderGL = function (gl, camera, params) {
@@ -22021,8 +22012,8 @@ var Kiwi;
 
                 //initialise default renderer
                 this._renderers.TextureAtlasRenderer.init(gl);
+                this._renderers.TestRenderer.init(gl);
 
-                // this._renderers.TestRenderer.init(gl);
                 this._renderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
                 this._currentRenderer = this._renderers.TextureAtlasRenderer;
@@ -22119,26 +22110,32 @@ var Kiwi;
                         this._recurse(gl, child.members[i], camera);
                     }
                 } else {
-                    if (child.glRenderer !== this._currentRenderer) {
-                        //  console.log("renderer switched");
-                        this._flushBatch(gl);
-
-                        this._switchProgram(gl, child);
-
-                        //force texture switch
-                        this._switchTexture(gl, child);
-                    }
-
-                    //draw and switch to different texture if need be
-                    if (child.atlas !== this._currentTextureAtlas) {
-                        this._flushBatch(gl);
-                        this._switchTexture(gl, child);
-                    }
-
-                    //"render"
-                    child.renderGL(gl, camera);
-                    this._entityCount++;
+                    this._processEntity(gl, child, camera);
                 }
+            };
+
+            GLRenderManager.prototype._processEntity = function (gl, entity, camera) {
+                //is the entity's required renderer active?
+                if (entity.glRenderer !== this._currentRenderer) {
+                    this._flushBatch(gl);
+
+                    this._switchRenderer(gl, entity);
+
+                    //force texture switch
+                    this._switchTexture(gl, entity);
+                }
+
+                //assert: required renderer is now active
+                //are the entity's texture requirements met?
+                if (entity.atlas !== this._currentTextureAtlas) {
+                    this._flushBatch(gl);
+                    this._switchTexture(gl, entity);
+                }
+
+                //assert: texture requirements are met
+                //"render"
+                entity.renderGL(gl, camera);
+                this._entityCount++;
             };
 
             GLRenderManager.prototype._flushBatch = function (gl) {
@@ -22148,10 +22145,12 @@ var Kiwi;
                 this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
             };
 
-            GLRenderManager.prototype._switchProgram = function (gl, entity) {
+            GLRenderManager.prototype._switchRenderer = function (gl, entity) {
                 //console.log("switching program");
                 this._currentRenderer.disable(gl);
                 this._currentRenderer = entity.glRenderer;
+
+                //check shader rquirements met
                 this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
             };
 
@@ -22165,6 +22164,26 @@ var Kiwi;
         Renderers.GLRenderManager = GLRenderManager;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+//load
+//unload
+//track
+//get current
+//set current
+var Kiwi;
+(function (Kiwi) {
+    (function (Shaders) {
+        var ShaderManager = (function () {
+            function ShaderManager() {
+                this._shaderPairs = {};
+            }
+            ShaderManager.prototype.addShader = function (gl, shaderPair) {
+            };
+            return ShaderManager;
+        })();
+        Shaders.ShaderManager = ShaderManager;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
 /**
 *
@@ -22764,7 +22783,7 @@ var Kiwi;
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.shaderPair = new Kiwi.Renderers.TextureAtlasShader();
+                this.shaderPair = new Kiwi.Shaders.TextureAtlasShader();
 
                 this.shaderPair.init(gl);
             };
@@ -22909,7 +22928,7 @@ var Kiwi;
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.shaderPair = new Kiwi.Renderers.TestShader();
+                this.shaderPair = new Kiwi.Shaders.TestShader();
                 this.shaderPair.init(gl);
             };
 
@@ -22946,7 +22965,7 @@ var Kiwi;
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-                gl.drawElements(gl.TRIANGLES, (this.xyuvBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
+                gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
             };
 
             /**
@@ -23039,7 +23058,7 @@ var Kiwi;
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.shaderPair = new Kiwi.Renderers.StatelessParticlesShader();
+                this.shaderPair = new Kiwi.Shaders.StatelessParticlesShader();
 
                 this.shaderPair.init(gl);
             };
@@ -23166,7 +23185,7 @@ var Kiwi;
 */
 var Kiwi;
 (function (Kiwi) {
-    (function (Renderers) {
+    (function (Shaders) {
         /**
         *
         * @class GLShaders
@@ -23219,11 +23238,12 @@ var Kiwi;
                 }
                 return shader;
             };
+            ShaderPair.RENDERER_ID = "ShaderPair";
             return ShaderPair;
         })();
-        Renderers.ShaderPair = ShaderPair;
-    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
-    var Renderers = Kiwi.Renderers;
+        Shaders.ShaderPair = ShaderPair;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
 /**
 *
@@ -23234,7 +23254,7 @@ var Kiwi;
 */
 var Kiwi;
 (function (Kiwi) {
-    (function (Renderers) {
+    (function (Shaders) {
         var TextureAtlasShader = (function (_super) {
             __extends(TextureAtlasShader, _super);
             function TextureAtlasShader() {
@@ -23306,10 +23326,10 @@ var Kiwi;
                 this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
             };
             return TextureAtlasShader;
-        })(Kiwi.Renderers.ShaderPair);
-        Renderers.TextureAtlasShader = TextureAtlasShader;
-    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
-    var Renderers = Kiwi.Renderers;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.TextureAtlasShader = TextureAtlasShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
 /**
 *
@@ -23320,7 +23340,7 @@ var Kiwi;
 */
 var Kiwi;
 (function (Kiwi) {
-    (function (Renderers) {
+    (function (Shaders) {
         var TestShader = (function (_super) {
             __extends(TestShader, _super);
             function TestShader() {
@@ -23436,10 +23456,10 @@ var Kiwi;
                 gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
             };
             return TestShader;
-        })(Kiwi.Renderers.ShaderPair);
-        Renderers.TestShader = TestShader;
-    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
-    var Renderers = Kiwi.Renderers;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.TestShader = TestShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
 /**
 *
@@ -23450,7 +23470,7 @@ var Kiwi;
 */
 var Kiwi;
 (function (Kiwi) {
-    (function (Renderers) {
+    (function (Shaders) {
         var StatelessParticlesShader = (function (_super) {
             __extends(StatelessParticlesShader, _super);
             function StatelessParticlesShader() {
@@ -23541,10 +23561,10 @@ var Kiwi;
                 this.uniforms.uGravity = gl.getUniformLocation(this.shaderProgram, "uGravity");
             };
             return StatelessParticlesShader;
-        })(Kiwi.Renderers.ShaderPair);
-        Renderers.StatelessParticlesShader = StatelessParticlesShader;
-    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
-    var Renderers = Kiwi.Renderers;
+        })(Kiwi.Shaders.ShaderPair);
+        Shaders.StatelessParticlesShader = StatelessParticlesShader;
+    })(Kiwi.Shaders || (Kiwi.Shaders = {}));
+    var Shaders = Kiwi.Shaders;
 })(Kiwi || (Kiwi = {}));
 /**
 * Kiwi - System
@@ -28275,6 +28295,7 @@ var Kiwi;
 /// <reference path="plugins/Plugins.ts" />
 /// <reference path="render/CanvasRenderer.ts" />
 /// <reference path="render/GLRenderManager.ts" />
+/// <reference path="render/GLShaderManager.ts" />
 /// <reference path="render/GLTextureWrapper.ts" />
 /// <reference path="render/GLTextureManager.ts" />
 /// <reference path="render/GLArrayBuffer.ts" />

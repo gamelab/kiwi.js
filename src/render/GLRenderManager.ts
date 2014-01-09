@@ -188,7 +188,7 @@ module Kiwi.Renderers {
 
             //initialise default renderer
             this._renderers.TextureAtlasRenderer.init(gl);
-           // this._renderers.TestRenderer.init(gl);
+            this._renderers.TestRenderer.init(gl);
            
             this._renderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
@@ -291,26 +291,37 @@ module Kiwi.Renderers {
                     this._recurse(gl,(<Kiwi.Group>child).members[i],camera);
                 }
             } else {
-                if ((<Entity>child).glRenderer !== this._currentRenderer) {
-                  //  console.log("renderer switched");
-                    this._flushBatch(gl);
-
-                    this._switchProgram(gl, <Entity>child);
-
-                    //force texture switch
-                    this._switchTexture(gl, <Entity>child);
-                }
-                //draw and switch to different texture if need be
-                if ((<Entity>child).atlas !== this._currentTextureAtlas) {
-                    this._flushBatch(gl);
-                    this._switchTexture(gl, <Entity>child);
-                } 
-                
-                //"render"
-                (<Kiwi.Entity>child).renderGL(gl, camera);
-                this._entityCount++;
-                
+                this._processEntity(gl, <Entity>child, camera);
             }
+        
+        }
+
+        private _processEntity(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera) {
+            
+            //is the entity's required renderer active?
+            if (entity.glRenderer !== this._currentRenderer) {
+                this._flushBatch(gl);
+
+                this._switchRenderer(gl, entity);
+
+                //force texture switch
+                this._switchTexture(gl, entity);
+            }
+
+            //assert: required renderer is now active
+
+            //are the entity's texture requirements met?
+            if (entity.atlas !== this._currentTextureAtlas) {
+                this._flushBatch(gl);
+                this._switchTexture(gl, entity);
+            }
+
+            //assert: texture requirements are met
+
+            
+            //"render"
+            entity.renderGL(gl, camera);
+            this._entityCount++;
         
         }
 
@@ -321,10 +332,13 @@ module Kiwi.Renderers {
             this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
         }
 
-        private _switchProgram(gl: WebGLRenderingContext, entity: Entity) {
+        private _switchRenderer(gl: WebGLRenderingContext, entity: Entity) {
             //console.log("switching program");
             this._currentRenderer.disable(gl);
             this._currentRenderer = entity.glRenderer;
+
+            //check shader rquirements met
+
             this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
         }
 

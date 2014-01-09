@@ -6,7 +6,7 @@
 * @return {GLShaders}
 */
 
-module Kiwi.Renderers {
+module Kiwi.Shaders {
 
     export class TestShader extends ShaderPair {
 
@@ -131,12 +131,12 @@ module Kiwi.Renderers {
             gl.uniform2fv(this.uniforms.uCameraOffset, uCameraOffsetVal);
         }
 
-        public aXYUV(gl: WebGLRenderingContext, aXYUVVal: GLArrayBuffer) {
+        public aXYUV(gl: WebGLRenderingContext, aXYUVVal: Kiwi.Renderers.GLArrayBuffer) {
             gl.bindBuffer(gl.ARRAY_BUFFER, aXYUVVal.buffer);
             gl.vertexAttribPointer(this.attributes.aXYUV, aXYUVVal.itemSize, gl.FLOAT, false, 0, 0);
         }
 
-        public aAlpha(gl: WebGLRenderingContext, aAlphaVal: GLArrayBuffer) {
+        public aAlpha(gl: WebGLRenderingContext, aAlphaVal: Kiwi.Renderers.GLArrayBuffer) {
             gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
             gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
         }

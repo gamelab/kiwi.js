@@ -28,7 +28,7 @@ module Kiwi.Renderers {
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
             
             //use shaders
-            this.shaderPair = new TestShader();
+            this.shaderPair = new Kiwi.Shaders.TestShader();
             this.shaderPair.init(gl);
             
         }
@@ -54,7 +54,7 @@ module Kiwi.Renderers {
             this.shaderPair.disableAttributes(gl);
         }
 
-        public shaderPair: TestShader;
+        public shaderPair: Kiwi.Shaders.TestShader;
         
         public clear(gl: WebGLRenderingContext, params: any) {
             this.xyuvBuffer.clear();
@@ -68,7 +68,7 @@ module Kiwi.Renderers {
             this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
             this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-            gl.drawElements(gl.TRIANGLES, (this.xyuvBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
+            gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
         }
 
         /**

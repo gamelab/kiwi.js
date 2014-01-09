@@ -7,7 +7,7 @@
 
 
 
-module Kiwi.Renderers {
+module Kiwi.Shaders {
     
     /**
     *
@@ -23,13 +23,15 @@ module Kiwi.Renderers {
             
         }
 
+        public static RENDERER_ID: string = "ShaderPair";
+
         public init(gl: WebGLRenderingContext) {
                 this.vertShader = this.compile(gl, this.vertSource.join("\n"), gl.VERTEX_SHADER);
                 this.fragShader = this.compile(gl, this.fragSource.join("\n"), gl.FRAGMENT_SHADER);
                 this.shaderProgram = this.attach(gl, this.vertShader, this.fragShader);
         }
-        
 
+        public loaded: boolean = false;
         
         /**
         *
