@@ -50,6 +50,7 @@
 /// <reference path="gameobjects/tilemap/TileType.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
 /// <reference path="gameobjects/tilemap/TileMapLayer.ts" />
+/// <reference path="gameobjects/StatelessParticles.ts" />
 
 /// <reference path="geom/AABB.ts" />
 /// <reference path="geom/Circle.ts" />
@@ -106,11 +107,13 @@
 /// <reference path="render/GLArrayBuffer.ts" />
 /// <reference path="render/GLElementArrayBuffer.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
-/// <reference path="render/renderers/Texture2DRenderer.ts" />
+/// <reference path="render/renderers/TextureAtlasRenderer.ts" />
 /// <reference path="render/renderers/TestRenderer.ts" />
+/// <reference path="render/renderers/StatelessParticleRenderer.ts" />
 /// <reference path="render/shaders/ShaderPair.ts" />
-/// <reference path="render/shaders/Texture2DShader.ts" />
+/// <reference path="render/shaders/TextureAtlasShader.ts" />
 /// <reference path="render/shaders/TestShader.ts" />
+/// <reference path="render/shaders/StatelessParticleShader.ts" />
 
 
 /// <reference path="system/Bootstrap.ts" />

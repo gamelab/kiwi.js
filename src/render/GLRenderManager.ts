@@ -167,7 +167,7 @@ module Kiwi.Renderers {
         private _init() {
            
             console.log("Intialising WebGL");
-            this.addRenderer("Texture2DRenderer");
+            this.addRenderer("TextureAtlasRenderer");
             this.addRenderer("TestRenderer");
             console.log(this._renderers);
             var gl: WebGLRenderingContext = this._game.stage.gl;
@@ -187,12 +187,12 @@ module Kiwi.Renderers {
             mat2d.identity(this.mvMatrix);
 
             //initialise default renderer
-            this._renderers.Texture2DRenderer.init(gl);
-            this._renderers.TestRenderer.init(gl);
+            this._renderers.TextureAtlasRenderer.init(gl);
+           // this._renderers.TestRenderer.init(gl);
            
-            this._renderers.Texture2DRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+            this._renderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
-            this._currentRenderer = this._renderers.Texture2DRenderer;
+            this._currentRenderer = this._renderers.TextureAtlasRenderer;
                         
              
             //stage res needs update on stage resize
@@ -271,7 +271,7 @@ module Kiwi.Renderers {
             }
             
             //draw anything left over
-            this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+            this._currentRenderer.draw(gl);
             this.numDrawCalls++;
         }
 
@@ -307,7 +307,7 @@ module Kiwi.Renderers {
                 } 
                 
                 //"render"
-                (<Kiwi.Entity>child).renderGL(gl, this._currentRenderer, camera);
+                (<Kiwi.Entity>child).renderGL(gl, camera);
                 this._entityCount++;
                 
             }
@@ -315,7 +315,7 @@ module Kiwi.Renderers {
         }
 
         private _flushBatch(gl: WebGLRenderingContext) {
-            this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+            this._currentRenderer.draw(gl);
             this.numDrawCalls++;
             this._entityCount = 0;
             this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });

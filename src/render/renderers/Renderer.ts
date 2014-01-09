@@ -41,7 +41,7 @@ module Kiwi.Renderers {
 
         public clear(gl: WebGLRenderingContext, params: any) {
         }
-        public draw(gl: WebGLRenderingContext, params: any) {
+        public draw(gl: WebGLRenderingContext) {
         }
 
         public updateStageResolution(gl: WebGLRenderingContext, res: Float32Array) {

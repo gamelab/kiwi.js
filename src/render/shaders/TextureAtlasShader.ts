@@ -8,7 +8,7 @@
 
     module Kiwi.Renderers {
 
-    export class Texture2DShader extends ShaderPair {
+    export class TextureAtlasShader extends ShaderPair {
 
         constructor() {
             super();
@@ -19,10 +19,8 @@
 
             //attributes
             this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-            //gl.enableVertexAttribArray(this.attributes.aXYUV);
             this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
-            //gl.enableVertexAttribArray(this.attributes.aAlpha);
-
+           
             //uniforms
 
             this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
@@ -32,17 +30,19 @@
             this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
         }
 
-        public enableAttributes(gl: WebGLRenderingContext) {
-            gl.enableVertexAttribArray(this.attributes.aXYUV);
-            gl.enableVertexAttribArray(this.attributes.aAlpha);
+        public attributes: any = {
+            aXYUV: null,
+            aAlpha: null,
+
+        };
+
+        public uniforms: any = {
+            uMVMatrix: null,
+            uSampler: null,
+            uResolution: null,
+            uTextureSize: null,
+            uCameraOffset: null
         }
-
-        public disableAttributes(gl: WebGLRenderingContext) {
-            gl.disableVertexAttribArray(this.attributes.aXYUV);
-            gl.disableVertexAttribArray(this.attributes.aAlpha);
-        }
-
-
 
         /**
         *
@@ -88,56 +88,6 @@
             "}"
         ];
 
-
-
-        public attributes: any = {
-            aXYUV: null,
-            aAlpha: null,
-
-        };
-
-        public uniforms: any = {
-            uMVMatrix: null,
-            uSampler: null,
-            uResolution: null,
-            uTextureSize: null,
-            uCameraOffset: null
-        }
-
-
-
-
-        public uMVMatrix(gl: WebGLRenderingContext, uMVMatrixVal: Float32Array) {
-            gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false, uMVMatrixVal);
-        }
-
-        public uSampler(gl: WebGLRenderingContext, uSamplerVal: number) {
-            gl.uniform1i(this.uniforms.samplerUniform, uSamplerVal);
-        }
-
-        public uResolution(gl: WebGLRenderingContext, uResolutionVal: Float32Array) {
-            gl.uniform2fv(this.uniforms.uResolution, uResolutionVal);
-        }
-
-        public uTextureSize(gl: WebGLRenderingContext, uTextureSizeVal: Float32Array) {
-            gl.uniform2fv(this.uniforms.uTextureSize, uTextureSizeVal);
-        }
-
-        public uCameraOffset(gl: WebGLRenderingContext, uCameraOffsetVal: Float32Array) {
-            gl.uniform2fv(this.uniforms.uCameraOffset, uCameraOffsetVal);
-        }
-
-        public aXYUV(gl: WebGLRenderingContext, aXYUVVal: GLArrayBuffer) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, aXYUVVal.buffer);
-            gl.vertexAttribPointer(this.attributes.aXYUV, aXYUVVal.itemSize, gl.FLOAT, false, 0, 0);
-        }
-
-        public aAlpha(gl: WebGLRenderingContext, aAlphaVal: GLArrayBuffer) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
-            gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
-        }
-
-      
 
         }
 

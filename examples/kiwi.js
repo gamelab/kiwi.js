@@ -2081,7 +2081,7 @@ var Kiwi;
     */
     var Entity = (function () {
         function Entity(state, x, y) {
-            this.requiredRenderers = ["Texture2DRenderer"];
+            this.requiredRenderers = ["TextureAtlasRenderer"];
             /**
             * The group that this entity belongs to. If added onto the state then this is the state.
             * @property _parent
@@ -2483,7 +2483,7 @@ var Kiwi;
         Entity.prototype.render = function (camera) {
         };
 
-        Entity.prototype.renderGL = function (gl, renderer, camera, params) {
+        Entity.prototype.renderGL = function (gl, camera, params) {
             if (typeof params === "undefined") { params = null; }
         };
 
@@ -9977,9 +9977,9 @@ var Kiwi;
                 }
             };
 
-            Sprite.prototype.renderGL = function (gl, renderer, camera, params) {
+            Sprite.prototype.renderGL = function (gl, camera, params) {
                 if (typeof params === "undefined") { params = null; }
-                renderer.addToBatch(gl, this, camera);
+                this.glRenderer.addToBatch(gl, this, camera);
             };
             return Sprite;
         })(Kiwi.Entity);
@@ -10078,9 +10078,9 @@ var Kiwi;
                 }
             };
 
-            StaticImage.prototype.renderGL = function (gl, renderer, camera, params) {
+            StaticImage.prototype.renderGL = function (gl, camera, params) {
                 if (typeof params === "undefined") { params = null; }
-                renderer.addToBatch(gl, this, camera);
+                this.glRenderer.addToBatch(gl, this, camera);
             };
             return StaticImage;
         })(Kiwi.Entity);
@@ -10492,9 +10492,9 @@ var Kiwi;
                 }
             };
 
-            TestObject.prototype.renderGL = function (gl, renderer, camera, params) {
+            TestObject.prototype.renderGL = function (gl, camera, params) {
                 if (typeof params === "undefined") { params = null; }
-                renderer.addToBatch(gl, this, camera);
+                this.glRenderer.addToBatch(gl, this, camera);
             };
             return TestObject;
         })(Kiwi.Entity);
@@ -11544,6 +11544,108 @@ var Kiwi;
             Tilemap.TileMapLayer = TileMapLayer;
         })(GameObjects.Tilemap || (GameObjects.Tilemap = {}));
         var Tilemap = GameObjects.Tilemap;
+    })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
+    var GameObjects = Kiwi.GameObjects;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule GameObjects
+*
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (GameObjects) {
+        /**
+        * A light weight game object for displaying static images that would have little or no interaction with other GameObjects. An Example of this would be a background image. Note: Since a StaticImage is lightweight it doesn't have any AnimationManager to handle the switching of cells (If you were using a SpriteSheet/TextureAtlas). In order to switch cells you can change the value of the cellIndex property.
+        *
+        * @class StaticImage
+        * @namespace Kiwi.GameObjects
+        * @extends Entity
+        * @constructor
+        * @param state {State} The state that this static image belongs to
+        * @param atlas {TextureAtlas} The texture atlas to use as the image.
+        * @param [x=0] {Number} Its coordinates on the x axis
+        * @param [y=0] {Number} The coordinates on the y axis
+        * @return {StaticImage}
+        */
+        var StatelessParticles = (function (_super) {
+            __extends(StatelessParticles, _super);
+            function StatelessParticles(state, atlas, x, y) {
+                if (typeof x === "undefined") { x = 0; }
+                if (typeof y === "undefined") { y = 0; }
+                _super.call(this, state, x, y);
+                this.requiredRenderers[0] = "StatelessParticleRenderer";
+                this.glRenderer = this.game.renderer.getRenderer(this.requiredRenderers[0]);
+
+                //Texture atlas error check.
+                if (typeof atlas == "undefined") {
+                    console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
+                    this.willRender = false;
+                    this.active = false;
+                    return;
+                }
+
+                //Set coordinates and texture
+                this.atlas = atlas;
+                this.cellIndex = this.atlas.cellIndex;
+                this.width = atlas.cells[0].w;
+                this.height = atlas.cells[0].h;
+                this.transform.rotPointX = this.width / 2;
+                this.transform.rotPointY = this.height / 2;
+
+                this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
+            }
+            /**
+            * Returns the type of object that this is.
+            * @method objType
+            * @return {string}
+            * @public
+            */
+            StatelessParticles.prototype.objType = function () {
+                return "Sprite";
+            };
+
+            /**
+            * Called by the Layer to which this Game Object is attached
+            * @method render
+            * @param {Camara} camera
+            * @public
+            */
+            StatelessParticles.prototype.render = function (camera) {
+                _super.prototype.render.call(this, camera);
+
+                //if it is would even be visible.
+                if (this.alpha > 0 && this.visibility) {
+                    var ctx = this.game.stage.ctx;
+                    ctx.save();
+
+                    if (this.alpha > 0 && this.alpha <= 1) {
+                        ctx.globalAlpha = this.alpha;
+                    }
+
+                    //get entity/view matrix
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
+
+                    var ct = camera.transform;
+
+                    //ctx.setTransform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX, m.ty + t.rotPointY);
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx + t.rotPointX - ct.rotPointX, m.ty + t.rotPointY - ct.rotPointY);
+
+                    var cell = this.atlas.cells[this.cellIndex];
+                    ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, -t.rotPointX, -t.rotPointY, cell.w, cell.h);
+                    ctx.restore();
+                }
+            };
+
+            StatelessParticles.prototype.renderGL = function (gl, camera, params) {
+                if (typeof params === "undefined") { params = null; }
+                this.glRenderer.addToBatch(gl, this, camera);
+            };
+            return StatelessParticles;
+        })(Kiwi.Entity);
+        GameObjects.StatelessParticles = StatelessParticles;
     })(Kiwi.GameObjects || (Kiwi.GameObjects = {}));
     var GameObjects = Kiwi.GameObjects;
 })(Kiwi || (Kiwi = {}));
@@ -21898,7 +22000,7 @@ var Kiwi;
             */
             GLRenderManager.prototype._init = function () {
                 console.log("Intialising WebGL");
-                this.addRenderer("Texture2DRenderer");
+                this.addRenderer("TextureAtlasRenderer");
                 this.addRenderer("TestRenderer");
                 console.log(this._renderers);
                 var gl = this._game.stage.gl;
@@ -21918,12 +22020,12 @@ var Kiwi;
                 mat2d.identity(this.mvMatrix);
 
                 //initialise default renderer
-                this._renderers.Texture2DRenderer.init(gl);
-                this._renderers.TestRenderer.init(gl);
+                this._renderers.TextureAtlasRenderer.init(gl);
 
-                this._renderers.Texture2DRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+                // this._renderers.TestRenderer.init(gl);
+                this._renderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
 
-                this._currentRenderer = this._renderers.Texture2DRenderer;
+                this._currentRenderer = this._renderers.TextureAtlasRenderer;
 
                 //stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
@@ -21996,7 +22098,7 @@ var Kiwi;
                 }
 
                 //draw anything left over
-                this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+                this._currentRenderer.draw(gl);
                 this.numDrawCalls++;
             };
 
@@ -22034,13 +22136,13 @@ var Kiwi;
                     }
 
                     //"render"
-                    child.renderGL(gl, this._currentRenderer, camera);
+                    child.renderGL(gl, camera);
                     this._entityCount++;
                 }
             };
 
             GLRenderManager.prototype._flushBatch = function (gl) {
-                this._currentRenderer.draw(gl, { entityCount: this._entityCount });
+                this._currentRenderer.draw(gl);
                 this.numDrawCalls++;
                 this._entityCount = 0;
                 this._currentRenderer.clear(gl, { mvMatrix: this.mvMatrix, uCameraOffset: this._cameraOffset });
@@ -22615,7 +22717,7 @@ var Kiwi;
 
             Renderer.prototype.clear = function (gl, params) {
             };
-            Renderer.prototype.draw = function (gl, params) {
+            Renderer.prototype.draw = function (gl) {
             };
 
             Renderer.prototype.updateStageResolution = function (gl, res) {
@@ -22638,9 +22740,9 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
-        var Texture2DRenderer = (function (_super) {
-            __extends(Texture2DRenderer, _super);
-            function Texture2DRenderer() {
+        var TextureAtlasRenderer = (function (_super) {
+            __extends(TextureAtlasRenderer, _super);
+            function TextureAtlasRenderer() {
                 _super.call(this);
                 /**
                 * Maximum allowable sprites to render per frame
@@ -22651,56 +22753,63 @@ var Kiwi;
                 */
                 this._maxItems = 2000;
             }
-            Texture2DRenderer.prototype.init = function (gl, params) {
+            TextureAtlasRenderer.prototype.init = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
                 //create buffers
                 //dynamic
                 this.xyuvBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 4);
                 this.alphaBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 1);
 
-                //static
+                //6 verts per quad
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
-                this.shaderPair = new Kiwi.Renderers.Texture2DShader();
+                this.shaderPair = new Kiwi.Renderers.TextureAtlasShader();
 
                 this.shaderPair.init(gl);
             };
 
-            Texture2DRenderer.prototype.enable = function (gl, params) {
+            TextureAtlasRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
                 gl.useProgram(this.shaderPair.shaderProgram);
 
-                this.shaderPair.enableAttributes(gl);
-                this.shaderPair.aXYUV(gl, this.xyuvBuffer);
-                this.shaderPair.aAlpha(gl, this.alphaBuffer);
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.xyuvBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.xyuvBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.alphaBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.alphaBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
                 //Texture
                 gl.activeTexture(gl.TEXTURE0);
-                this.shaderPair.uSampler(gl, 0);
+                gl.uniform1i(this.shaderPair.uniforms.samplerUniform, 0);
 
                 //Other uniforms
-                this.shaderPair.uResolution(gl, params.stageResolution);
-                this.shaderPair.uCameraOffset(gl, params.cameraOffset);
-                this.shaderPair.uMVMatrix(gl, params.mvMatrix);
+                gl.uniform2fv(this.shaderPair.uniforms.uResolution, params.stageResolution);
+                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, params.cameraOffset);
+                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
             };
 
-            Texture2DRenderer.prototype.disable = function (gl) {
-                this.shaderPair.disableAttributes(gl);
+            TextureAtlasRenderer.prototype.disable = function (gl) {
+                gl.disableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+                gl.disableVertexAttribArray(this.shaderPair.attributes.aAlpha);
             };
 
-            Texture2DRenderer.prototype.clear = function (gl, params) {
+            TextureAtlasRenderer.prototype.clear = function (gl, params) {
                 this.xyuvBuffer.clear();
                 this.alphaBuffer.clear();
-                this.shaderPair.uMVMatrix(gl, params.mvMatrix);
-                this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
+                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
+                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, new Float32Array(params.uCameraOffset));
             };
 
-            Texture2DRenderer.prototype.draw = function (gl, params) {
+            TextureAtlasRenderer.prototype.draw = function (gl) {
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-                gl.drawElements(gl.TRIANGLES, params.entityCount * 6, gl.UNSIGNED_SHORT, 0);
+
+                //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
+                gl.drawElements(gl.TRIANGLES, (this.alphaBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
             };
 
             /**
@@ -22710,7 +22819,7 @@ var Kiwi;
             * @return number[]
             * @private
             */
-            Texture2DRenderer.prototype._generateIndices = function (numQuads) {
+            TextureAtlasRenderer.prototype._generateIndices = function (numQuads) {
                 var quads = new Array();
                 for (var i = 0; i < numQuads; i++) {
                     quads.push(i * 4 + 0, i * 4 + 1, i * 4 + 2, i * 4 + 0, i * 4 + 2, i * 4 + 3);
@@ -22718,12 +22827,14 @@ var Kiwi;
                 return quads;
             };
 
-            Texture2DRenderer.prototype.updateStageResolution = function (gl, res) {
-                this.shaderPair.uResolution(gl, res);
+            TextureAtlasRenderer.prototype.updateStageResolution = function (gl, res) {
+                //this.shaderPair.uResolution(gl, res);
+                gl.uniform2fv(this.shaderPair.uniforms.uResolution, res);
             };
 
-            Texture2DRenderer.prototype.updateTextureSize = function (gl, size) {
-                this.shaderPair.uTextureSize(gl, size);
+            TextureAtlasRenderer.prototype.updateTextureSize = function (gl, size) {
+                //this.shaderPair.uTextureSize(gl, size);
+                gl.uniform2fv(this.shaderPair.uniforms.uTextureSize, size);
             };
 
             /**
@@ -22734,11 +22845,9 @@ var Kiwi;
             * @param camera {Camera}
             * @public
             */
-            Texture2DRenderer.prototype.addToBatch = function (gl, entity, camera) {
+            TextureAtlasRenderer.prototype.addToBatch = function (gl, entity, camera) {
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();
-                var ct = camera.transform;
-                var cm = ct.getConcatenatedMatrix();
 
                 var cell = entity.atlas.cells[entity.cellIndex];
 
@@ -22755,10 +22864,15 @@ var Kiwi;
                 this.xyuvBuffer.items.push(pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y, pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y, pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h);
                 this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
             };
-            Texture2DRenderer.RENDERER_ID = "Texture2DRenderer";
-            return Texture2DRenderer;
+
+            TextureAtlasRenderer.prototype.concatBatch = function (xyuvItems, alphaItems) {
+                this.xyuvBuffer.items = this.xyuvBuffer.items.concat(xyuvItems);
+                this.alphaBuffer.items = this.alphaBuffer.items.concat(alphaItems);
+            };
+            TextureAtlasRenderer.RENDERER_ID = "TextureAtlasRenderer";
+            return TextureAtlasRenderer;
         })(Kiwi.Renderers.Renderer);
-        Renderers.Texture2DRenderer = Texture2DRenderer;
+        Renderers.TextureAtlasRenderer = TextureAtlasRenderer;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -22828,11 +22942,11 @@ var Kiwi;
                 this.shaderPair.uCameraOffset(gl, new Float32Array(params.uCameraOffset));
             };
 
-            TestRenderer.prototype.draw = function (gl, params) {
+            TestRenderer.prototype.draw = function (gl) {
                 this.xyuvBuffer.uploadBuffer(gl, this.xyuvBuffer.items);
                 this.alphaBuffer.uploadBuffer(gl, this.alphaBuffer.items);
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
-                gl.drawElements(gl.TRIANGLES, params.entityCount * 6, gl.UNSIGNED_SHORT, 0);
+                gl.drawElements(gl.TRIANGLES, (this.xyuvBuffer.items.length / 4) * 6, gl.UNSIGNED_SHORT, 0);
             };
 
             /**
@@ -22869,8 +22983,6 @@ var Kiwi;
             TestRenderer.prototype.addToBatch = function (gl, entity, camera) {
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();
-                var ct = camera.transform;
-                var cm = ct.getConcatenatedMatrix();
 
                 var cell = entity.atlas.cells[entity.cellIndex];
 
@@ -22891,6 +23003,158 @@ var Kiwi;
             return TestRenderer;
         })(Kiwi.Renderers.Renderer);
         Renderers.TestRenderer = TestRenderer;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Renderers
+*
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var StatelessParticleRenderer = (function (_super) {
+            __extends(StatelessParticleRenderer, _super);
+            function StatelessParticleRenderer() {
+                _super.call(this);
+                /**
+                * Maximum allowable sprites to render per frame
+                * @property _maxItems
+                * @type number
+                * @default 1000
+                * @private
+                */
+                this._maxItems = 2000;
+            }
+            StatelessParticleRenderer.prototype.init = function (gl, params) {
+                if (typeof params === "undefined") { params = null; }
+                //create buffers
+                //dynamic
+                this.aXYVxVyBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 4);
+                this.aBirthLifespanBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 2);
+
+                //6 verts per quad
+                this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+
+                //use shaders
+                this.shaderPair = new Kiwi.Renderers.StatelessParticlesShader();
+
+                this.shaderPair.init(gl);
+            };
+
+            StatelessParticleRenderer.prototype.enable = function (gl, params) {
+                if (typeof params === "undefined") { params = null; }
+                gl.useProgram(this.shaderPair.shaderProgram);
+
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.aXYVxVyBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.aXYVxVyBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.aBirthLifespanBuffer.buffer);
+                gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.aBirthLifespanBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+                //Texture
+                gl.activeTexture(gl.TEXTURE0);
+                gl.uniform1i(this.shaderPair.uniforms.samplerUniform, 0);
+
+                //Other uniforms
+                gl.uniform2fv(this.shaderPair.uniforms.uResolution, params.stageResolution);
+                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, params.cameraOffset);
+                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
+
+                gl.uniform4fv(this.shaderPair.uniforms.uStartColor, new Float32Array[1, 1, 1, 1]);
+                gl.uniform4fv(this.shaderPair.uniforms.uEndColor, new Float32Array[1, 1, 1, 1]);
+                gl.uniform1f(this.shaderPair.uniforms.uT, 0);
+                gl.uniform1f(this.shaderPair.uniforms.uGravity, 0.2);
+            };
+
+            StatelessParticleRenderer.prototype.disable = function (gl) {
+                gl.disableVertexAttribArray(this.shaderPair.attributes.aXYVxVy);
+                gl.disableVertexAttribArray(this.shaderPair.attributes.aBirthLifespan);
+            };
+
+            StatelessParticleRenderer.prototype.clear = function (gl, params) {
+                this.aXYVxVyBuffer.clear();
+                this.aBirthLifespanBuffer.clear();
+                gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
+                gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, new Float32Array(params.uCameraOffset));
+            };
+
+            StatelessParticleRenderer.prototype.draw = function (gl) {
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
+
+                //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
+                gl.drawElements(gl.POINTS, 1, gl.UNSIGNED_SHORT, 0);
+            };
+
+            /**
+            * Create prebaked indices for drawing quads
+            * @method _generateIndices
+            * @param numQuads {number}
+            * @return number[]
+            * @private
+            */
+            StatelessParticleRenderer.prototype._generateIndices = function (numParticles) {
+                var indices = new Array();
+                for (var i = 0; i < numParticles; i++) {
+                    indices.push(i);
+                }
+                return indices;
+            };
+
+            StatelessParticleRenderer.prototype.updateStageResolution = function (gl, res) {
+                gl.uniform2fv(this.shaderPair.uniforms.uResolution, res);
+            };
+
+            StatelessParticleRenderer.prototype.updateTextureSize = function (gl, size) {
+                gl.uniform2fv(this.shaderPair.uniforms.uTextureSize, size);
+            };
+
+            /**
+            * Collates all xy and uv coordinates into a buffer ready for upload to viceo memory
+            * @method _collateVertexAttributeArrays
+            * @param gl {WebGLRenderingContext}
+            * @param entity {Entity}
+            * @param camera {Camera}
+            * @public
+            */
+            StatelessParticleRenderer.prototype.addToBatch = function (gl, entity, camera) {
+                /*   var t: Kiwi.Geom.Transform = entity.transform;
+                var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+                
+                var cell = entity.atlas.cells[entity.cellIndex];
+                
+                var pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
+                var pt2: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
+                var pt3: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
+                var pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
+                
+                pt1 = m.transformPoint(pt1);
+                pt2 = m.transformPoint(pt2);
+                pt3 = m.transformPoint(pt3);
+                pt4 = m.transformPoint(pt4);
+                
+                this.xyuvBuffer.items.push(
+                pt1.x + t.rotPointX, pt1.y + t.rotPointY, cell.x, cell.y,
+                pt2.x + t.rotPointX, pt2.y + t.rotPointY, cell.x + cell.w, cell.y,
+                pt3.x + t.rotPointX, pt3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h,
+                pt4.x + t.rotPointX, pt4.y + t.rotPointY, cell.x, cell.y + cell.h
+                );
+                this.alphaBuffer.items.push(entity.alpha, entity.alpha, entity.alpha, entity.alpha);
+                */
+            };
+
+            StatelessParticleRenderer.prototype.concatBatch = function (xyuvItems, alphaItems) {
+                //this.xyuvBuffer.items = this.xyuvBuffer.items.concat(xyuvItems);
+                //this.alphaBuffer.items = this.alphaBuffer.items.concat(alphaItems);
+            };
+            StatelessParticleRenderer.RENDERER_ID = "StatelessParticleRenderer";
+            return StatelessParticleRenderer;
+        })(Kiwi.Renderers.Renderer);
+        Renderers.StatelessParticleRenderer = StatelessParticleRenderer;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -22971,10 +23235,21 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
-        var Texture2DShader = (function (_super) {
-            __extends(Texture2DShader, _super);
-            function Texture2DShader() {
+        var TextureAtlasShader = (function (_super) {
+            __extends(TextureAtlasShader, _super);
+            function TextureAtlasShader() {
                 _super.call(this);
+                this.attributes = {
+                    aXYUV: null,
+                    aAlpha: null
+                };
+                this.uniforms = {
+                    uMVMatrix: null,
+                    uSampler: null,
+                    uResolution: null,
+                    uTextureSize: null,
+                    uCameraOffset: null
+                };
                 /**
                 *
                 * @property texture2DFrag
@@ -23015,28 +23290,14 @@ var Kiwi;
                     "vAlpha = aAlpha;",
                     "}"
                 ];
-                this.attributes = {
-                    aXYUV: null,
-                    aAlpha: null
-                };
-                this.uniforms = {
-                    uMVMatrix: null,
-                    uSampler: null,
-                    uResolution: null,
-                    uTextureSize: null,
-                    uCameraOffset: null
-                };
             }
-            Texture2DShader.prototype.init = function (gl) {
+            TextureAtlasShader.prototype.init = function (gl) {
                 _super.prototype.init.call(this, gl);
 
                 //attributes
                 this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, "aXYUV");
-
-                //gl.enableVertexAttribArray(this.attributes.aXYUV);
                 this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, "aAlpha");
 
-                //gl.enableVertexAttribArray(this.attributes.aAlpha);
                 //uniforms
                 this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
                 this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
@@ -23044,49 +23305,9 @@ var Kiwi;
                 this.uniforms.uTextureSize = gl.getUniformLocation(this.shaderProgram, "uTextureSize");
                 this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
             };
-
-            Texture2DShader.prototype.enableAttributes = function (gl) {
-                gl.enableVertexAttribArray(this.attributes.aXYUV);
-                gl.enableVertexAttribArray(this.attributes.aAlpha);
-            };
-
-            Texture2DShader.prototype.disableAttributes = function (gl) {
-                gl.disableVertexAttribArray(this.attributes.aXYUV);
-                gl.disableVertexAttribArray(this.attributes.aAlpha);
-            };
-
-            Texture2DShader.prototype.uMVMatrix = function (gl, uMVMatrixVal) {
-                gl.uniformMatrix4fv(this.uniforms.uMVMatrix, false, uMVMatrixVal);
-            };
-
-            Texture2DShader.prototype.uSampler = function (gl, uSamplerVal) {
-                gl.uniform1i(this.uniforms.samplerUniform, uSamplerVal);
-            };
-
-            Texture2DShader.prototype.uResolution = function (gl, uResolutionVal) {
-                gl.uniform2fv(this.uniforms.uResolution, uResolutionVal);
-            };
-
-            Texture2DShader.prototype.uTextureSize = function (gl, uTextureSizeVal) {
-                gl.uniform2fv(this.uniforms.uTextureSize, uTextureSizeVal);
-            };
-
-            Texture2DShader.prototype.uCameraOffset = function (gl, uCameraOffsetVal) {
-                gl.uniform2fv(this.uniforms.uCameraOffset, uCameraOffsetVal);
-            };
-
-            Texture2DShader.prototype.aXYUV = function (gl, aXYUVVal) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, aXYUVVal.buffer);
-                gl.vertexAttribPointer(this.attributes.aXYUV, aXYUVVal.itemSize, gl.FLOAT, false, 0, 0);
-            };
-
-            Texture2DShader.prototype.aAlpha = function (gl, aAlphaVal) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, aAlphaVal.buffer);
-                gl.vertexAttribPointer(this.attributes.aAlpha, aAlphaVal.itemSize, gl.FLOAT, false, 0, 0);
-            };
-            return Texture2DShader;
+            return TextureAtlasShader;
         })(Kiwi.Renderers.ShaderPair);
-        Renderers.Texture2DShader = Texture2DShader;
+        Renderers.TextureAtlasShader = TextureAtlasShader;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -23217,6 +23438,111 @@ var Kiwi;
             return TestShader;
         })(Kiwi.Renderers.ShaderPair);
         Renderers.TestShader = TestShader;
+    })(Kiwi.Renderers || (Kiwi.Renderers = {}));
+    var Renderers = Kiwi.Renderers;
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @class GLShaders
+* @constructor
+* @param gl {WebGLRenderingContext}
+* @return {GLShaders}
+*/
+var Kiwi;
+(function (Kiwi) {
+    (function (Renderers) {
+        var StatelessParticlesShader = (function (_super) {
+            __extends(StatelessParticlesShader, _super);
+            function StatelessParticlesShader() {
+                _super.call(this);
+                this.attributes = {
+                    aXYVxVy: null,
+                    aBirthLifespan: null
+                };
+                this.uniforms = {
+                    uMVMatrix: null,
+                    uSampler: null,
+                    uResolution: null,
+                    uStartColor: null,
+                    uEndColor: null,
+                    uT: null,
+                    uGravity: null
+                };
+                /**
+                *
+                * @property texture2DFrag
+                * @type Array
+                * @public
+                */
+                this.fragSource = [
+                    "precision mediump float;",
+                    "uniform sampler2D uSampler;",
+                    "uniform vec4 uStartColor;",
+                    "uniform vec4 uEndColor;",
+                    "varying float vLerp;",
+                    "void main(void) {",
+                    "gl_FragColor = texture2D(uSampler, gl_PointCoord);",
+                    "gl_FragColor.a *= 1.0 - vLerp;",
+                    "gl_FragColor.rgb = mix(gl_FragColor.rgb,uEndColor.rgb,vLerp);",
+                    "}"
+                ];
+                /**
+                *
+                * @property texture2DVert
+                * @type Array
+                * @public
+                */
+                this.vertSource = [
+                    "attribute vec4 aXYVxVy;",
+                    "attribute vec2 aBirthLifespan;",
+                    "uniform mat4 uMVMatrix;",
+                    "uniform vec2 uResolution;",
+                    "uniform vec2 uCameraOffset;",
+                    "uniform float uT;",
+                    "uniform float uGravity;",
+                    "varying float vLerp;",
+                    "varying float vAlpha;",
+                    "void main(void) {",
+                    "float birthTime = aBirthLifespan.x;",
+                    "float lifespan = aBirthLifespan.y;",
+                    "float deathTime = birthTime+lifespan;",
+                    "float age = uT - birthTime;",
+                    "vLerp =  age / lifespan;",
+                    "gl_PointSize = mix(5.0,20.0,vLerp);",
+                    "if (uT < birthTime || uT > deathTime) {",
+                    "gl_Position = vec4(0);",
+                    "} else {",
+                    "vec4 transpos = vec4(aXYVxVy.xy,0,1); ",
+                    "vec4 transpos = vec4(aXYVxVy.xy - uCameraOffset,0,1); ",
+                    "vec2 pos = ((transpos.xy / uResolution) * 2.0) - 1.0;",
+                    "vec2 vel = aXYVxVy.zw / uResolution;",
+                    "pos += age * vel;",
+                    "pos.y += 0.5 * uGravity * age * age;",
+                    "gl_Position = vec4(pos * vec2(1, -1), 0, 1);",
+                    "} ",
+                    "}"
+                ];
+            }
+            StatelessParticlesShader.prototype.init = function (gl) {
+                _super.prototype.init.call(this, gl);
+
+                //attributes
+                this.attributes.aXYVxVy = gl.getAttribLocation(this.shaderProgram, "aXYVxVy");
+                this.attributes.aBirthLifespan = gl.getAttribLocation(this.shaderProgram, "aBirthLifespan");
+
+                //uniforms
+                this.uniforms.uMVMatrix = gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+                this.uniforms.uResolution = gl.getUniformLocation(this.shaderProgram, "uResolution");
+                this.uniforms.uSampler = gl.getUniformLocation(this.shaderProgram, "uSampler");
+                this.uniforms.uCameraOffset = gl.getUniformLocation(this.shaderProgram, "uCameraOffset");
+                this.uniforms.uStartColor = gl.getUniformLocation(this.shaderProgram, "uStartColor");
+                this.uniforms.uEndColor = gl.getUniformLocation(this.shaderProgram, "uEndColor");
+                this.uniforms.uT = gl.getUniformLocation(this.shaderProgram, "uT");
+                this.uniforms.uGravity = gl.getUniformLocation(this.shaderProgram, "uGravity");
+            };
+            return StatelessParticlesShader;
+        })(Kiwi.Renderers.ShaderPair);
+        Renderers.StatelessParticlesShader = StatelessParticlesShader;
     })(Kiwi.Renderers || (Kiwi.Renderers = {}));
     var Renderers = Kiwi.Renderers;
 })(Kiwi || (Kiwi = {}));
@@ -27905,6 +28231,7 @@ var Kiwi;
 /// <reference path="gameobjects/tilemap/TileType.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
 /// <reference path="gameobjects/tilemap/TileMapLayer.ts" />
+/// <reference path="gameobjects/StatelessParticles.ts" />
 /// <reference path="geom/AABB.ts" />
 /// <reference path="geom/Circle.ts" />
 /// <reference path="geom/Ray.ts" />
@@ -27953,11 +28280,13 @@ var Kiwi;
 /// <reference path="render/GLArrayBuffer.ts" />
 /// <reference path="render/GLElementArrayBuffer.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
-/// <reference path="render/renderers/Texture2DRenderer.ts" />
+/// <reference path="render/renderers/TextureAtlasRenderer.ts" />
 /// <reference path="render/renderers/TestRenderer.ts" />
+/// <reference path="render/renderers/StatelessParticleRenderer.ts" />
 /// <reference path="render/shaders/ShaderPair.ts" />
-/// <reference path="render/shaders/Texture2DShader.ts" />
+/// <reference path="render/shaders/TextureAtlasShader.ts" />
 /// <reference path="render/shaders/TestShader.ts" />
+/// <reference path="render/shaders/StatelessParticleShader.ts" />
 /// <reference path="system/Bootstrap.ts" />
 /// <reference path="system/Browser.ts" />
 /// <reference path="system/Device.ts" />

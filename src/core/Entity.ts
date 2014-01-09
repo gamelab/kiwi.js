@@ -42,7 +42,7 @@ module Kiwi {
             
         }
 
-        public requiredRenderers: string[] = ["Texture2DRenderer"];
+        public requiredRenderers: string[] = ["TextureAtlasRenderer"];
         public glRenderer: Kiwi.Renderers.Renderer;
 
 
@@ -468,7 +468,7 @@ module Kiwi {
         }
 
         
-        public renderGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, camera: Kiwi.Camera, params: any = null) {
+        public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
         
         }
 
