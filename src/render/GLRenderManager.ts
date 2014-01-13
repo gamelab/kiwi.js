@@ -69,7 +69,6 @@ module Kiwi.Renderers {
         */
 
         private _textureManager: GLTextureManager;
-        
        
         /**
         * The stage resolution in pixels
@@ -132,47 +131,59 @@ module Kiwi.Renderers {
         
 
 
-        private _renderers: any = {};
+        private _sharedRenderers: any = {};
 
         private _shaderManager: Kiwi.Shaders.ShaderManager;
     
-        public addRenderer(rendererID:string):boolean {
+        public addSharedRenderer(rendererID:string):boolean {
             //does renderer exist?
             if (Kiwi.Renderers[rendererID]) {
               
                 //already added?
-                if (!(rendererID in this._renderers)) {
-                    this._renderers[rendererID] = new Kiwi.Renderers[rendererID](this._shaderManager);
+                if (!(rendererID in this._sharedRenderers)) {
+                    this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._shaderManager);
+                    this._sharedRenderers[rendererID].init(this._game.stage.gl);
                     return true;
                 }
             }
             return false;
         }
 
-        public getRenderer(rendererID: string): Kiwi.Renderers.Renderer {
-            var renderer: Kiwi.Renderers.Renderer = this._renderers[rendererID];
+        public requestRendererInstance(rendererID: string): Kiwi.Renderers.Renderer {
+            if (rendererID in Kiwi.Renderers) {
+                var renderer = new Kiwi.Renderers[rendererID](this._shaderManager); 
+                renderer.init(this._game.stage.gl);
+        
+                return renderer
+            } else {
+                console.log("No renderer with id " + rendererID + " exists");
+            }
+        } 
+
+        public requestSharedRenderer(rendererID: string): Kiwi.Renderers.Renderer {
+            var renderer: Kiwi.Renderers.Renderer = this._sharedRenderers[rendererID];
             if (renderer) {
                 return renderer;
             } else {
-                console.log("no renderer called " + rendererID);
+                if (this.addSharedRenderer(rendererID)) {
+                    return this._sharedRenderers[rendererID];
+                } else {
+                    console.log("no renderer called " + rendererID);
+                }
             }
+            //failed request
+            return null;
+
         }
 
-        //public removeRenderer(rendererName: string) {
-        //    delete this._renderers[rendererName];
-        //}
-
+      
         /**
         * Performs initialisation required for single game instance - happens once
         * @method _init
         * @private
         */
         private _init() {
-           
             console.log("Intialising WebGL");
-            this.addRenderer("TextureAtlasRenderer");
-            this.addRenderer("TestRenderer");
-            console.log(this._renderers);
             var gl: WebGLRenderingContext = this._game.stage.gl;
            
             //init stage and viewport
@@ -193,13 +204,9 @@ module Kiwi.Renderers {
             this._shaderManager.init(gl, "TextureAtlasShader");
 
             //initialise default renderer
-            this._renderers.TextureAtlasRenderer.init(gl);
-            this._renderers.TestRenderer.init(gl);
-           
-            this._renderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-
-            this._currentRenderer = this._renderers.TextureAtlasRenderer;
-                        
+            this.requestSharedRenderer("TextureAtlasRenderer");
+            this._sharedRenderers.TextureAtlasRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+            this._currentRenderer = this._sharedRenderers.TextureAtlasRenderer;
              
             //stage res needs update on stage resize
             this._game.stage.onResize.add(function (width, height) {
@@ -303,15 +310,16 @@ module Kiwi.Renderers {
         }
 
         private _processEntity(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera) {
-            
-            //is the entity's required renderer active?
-            if (entity.glRenderer !== this._currentRenderer) {
+
+            //is the entity's required renderer active and using the correct shader? If not then flush and re-enable renderer
+            //this is to allow the same renderer to use different shaders on different objects - renderer can be configured on a per object basis
+            //this needs thorough testing - also the text property lookups may need refactoring
+            if (entity.glRenderer !== this._currentRenderer || entity.glRenderer["shaderPair"] !== this._shaderManager.currentShader) {
                 this._flushBatch(gl);
-
                 this._switchRenderer(gl, entity);
-
                 //force texture switch
                 this._switchTexture(gl, entity);
+               
             }
 
             //assert: required renderer is now active
@@ -324,8 +332,6 @@ module Kiwi.Renderers {
 
             //assert: texture requirements are met
 
-            
-            //"render"
             entity.renderGL(gl, camera);
             this._entityCount++;
         
@@ -342,8 +348,10 @@ module Kiwi.Renderers {
             //console.log("switching program");
             this._currentRenderer.disable(gl);
             this._currentRenderer = entity.glRenderer;
-
-            //check shader rquirements met
+            if (!this._currentRenderer.loaded) {    // could be done at instantiation time?
+                this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+            }
+           
 
             this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
         }

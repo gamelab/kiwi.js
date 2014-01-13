@@ -79,6 +79,7 @@ module Kiwi.Shaders {
         * @type Array
         * @public
         */
+       
         public vertSource: Array<string> = [
             "attribute vec4 aXYVxVy;",
             "attribute vec2 aBirthLifespan;",
@@ -97,20 +98,21 @@ module Kiwi.Shaders {
             "float deathTime = birthTime+lifespan;",
             "float age = uT - birthTime;",
             "vLerp =  age / lifespan;",
-            "gl_PointSize = mix(5.0,20.0,vLerp);",
+            "gl_PointSize = mix(50.0,5.0,vLerp);",
 
             "if (uT < birthTime || uT > deathTime) {",
-            "gl_Position = vec4(0);",
-            "} else {",
-            "vec4 transpos = vec4(aXYVxVy.xy,0,1); ",
-            "vec4 transpos = vec4(aXYVxVy.xy - uCameraOffset,0,1); ",
-            "vec2 pos = ((transpos.xy / uResolution) * 2.0) - 1.0;",
-            "vec2 vel = aXYVxVy.zw / uResolution;",
+                    "gl_Position = vec4(0);",
+                "} else {",
+                    "vec4 transpos = vec4(aXYVxVy.xy - uCameraOffset,0,1); ",
+                    "transpos =  uMVMatrix * transpos;",
+                    "vec2 pos = ((transpos.xy / uResolution) * 2.0) - 1.0;",
+                    "vec2 vel = aXYVxVy.zw / uResolution;",
 
-            "pos += age * vel;",
-            "pos.y += 0.5 * uGravity * age * age;",
-            "gl_Position = vec4(pos * vec2(1, -1), 0, 1);",
-            "} ",
+                    "pos += age * vel;",
+                    "pos.y += 0.5 * uGravity * age * age;",
+                    "gl_Position = vec4(pos * vec2(1, -1), 0, 1);",
+                    //"gl_Position = vec4(0,0, 0, 1);",
+                "} ",
             "}"
         ];
 

@@ -16,13 +16,20 @@ module Kiwi.Renderers {
             super(shaderManager);
         }
 
-
+        public gl: WebGLRenderingContext;
 
         public static RENDERER_ID: string = "StatelessParticleRenderer";
 
+        
+        public startTime: number;
+
         public init(gl: WebGLRenderingContext, params: any = null) {
+            super.init(gl, params);
+            console.log("init renderer");
+            this.gl = gl;
             //create buffers
             //dynamic
+            console.log("AAA");
             this.aXYVxVyBuffer = new GLArrayBuffer(gl, 4);
             this.aBirthLifespanBuffer = new GLArrayBuffer(gl, 2);
 
@@ -30,36 +37,40 @@ module Kiwi.Renderers {
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
             //use shaders
-            this.shaderPair = new Kiwi.Shaders.StatelessParticlesShader();
+            this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "StatelessParticlesShader");
+//            this.shaderPair = new Kiwi.Shaders.StatelessParticlesShader();
 
-            this.shaderPair.init(gl);
-
+  //          this.shaderPair.init(gl);
+            this.startTime = Date.now();
         }
 
         public enable(gl: WebGLRenderingContext, params: any = null) {
-            gl.useProgram(this.shaderPair.shaderProgram);
+            this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "StatelessParticlesShader");
 
-            gl.enableVertexAttribArray(this.shaderPair.attributes.aXYUV);
+            console.log("enabled");
+            
+            gl.enableVertexAttribArray(this.shaderPair.attributes.aXYVxVy);
             gl.bindBuffer(gl.ARRAY_BUFFER, this.aXYVxVyBuffer.buffer);
-            gl.vertexAttribPointer(this.shaderPair.attributes.aXYUV, this.aXYVxVyBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer(this.shaderPair.attributes.aXYVxVy, this.aXYVxVyBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            gl.enableVertexAttribArray(this.shaderPair.attributes.aAlpha);
+            gl.enableVertexAttribArray(this.shaderPair.attributes.aBirthLifespan);
             gl.bindBuffer(gl.ARRAY_BUFFER, this.aBirthLifespanBuffer.buffer);
-            gl.vertexAttribPointer(this.shaderPair.attributes.aAlpha, this.aBirthLifespanBuffer.itemSize, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer(this.shaderPair.attributes.aBirthLifespan, this.aBirthLifespanBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
             //Texture
             gl.activeTexture(gl.TEXTURE0);
             gl.uniform1i(this.shaderPair.uniforms.samplerUniform, 0);
 
-            //Other uniforms
+            //Standard uniforms
             gl.uniform2fv(this.shaderPair.uniforms.uResolution, params.stageResolution);
             gl.uniform2fv(this.shaderPair.uniforms.uCameraOffset, params.cameraOffset);
             gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
             
-            gl.uniform4fv(this.shaderPair.uniforms.uStartColor, new Float32Array[1,1,1,1]);
-            gl.uniform4fv(this.shaderPair.uniforms.uEndColor, new Float32Array[1, 1, 1, 1]);
-            gl.uniform1f(this.shaderPair.uniforms.uT, 0);
-            gl.uniform1f(this.shaderPair.uniforms.uGravity, 0.2);
+            //Particle uniforms
+            gl.uniform4fv(this.shaderPair.uniforms.uStartColor, new Float32Array([1,1,1,1]));
+            gl.uniform4fv(this.shaderPair.uniforms.uEndColor, new Float32Array([1, 0, 0, 1]));
+            gl.uniform1f(this.shaderPair.uniforms.uT, 0.0);
+            gl.uniform1f(this.shaderPair.uniforms.uGravity, 0.1);
            
 
         }
@@ -80,9 +91,22 @@ module Kiwi.Renderers {
         }
 
         public draw(gl: WebGLRenderingContext) {
-             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
+            var t = Date.now() - this.startTime;
+
+            gl.uniform1f(this.shaderPair.uniforms.uT, t/1000);
+            
+            gl.enableVertexAttribArray(this.shaderPair.attributes.aXYVxVy);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.aXYVxVyBuffer.buffer);
+            gl.vertexAttribPointer(this.shaderPair.attributes.aXYVxVy, this.aXYVxVyBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            gl.enableVertexAttribArray(this.shaderPair.attributes.aBirthLifespan);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.aBirthLifespanBuffer.buffer);
+            gl.vertexAttribPointer(this.shaderPair.attributes.aBirthLifespan, this.aBirthLifespanBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
             //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
-            gl.drawElements(gl.POINTS, 1, gl.UNSIGNED_SHORT, 0);
+            gl.drawElements(gl.POINTS, 500, gl.UNSIGNED_SHORT, 0);
         }
 
         /**
@@ -181,9 +205,13 @@ module Kiwi.Renderers {
             */
         }
 
-        public concatBatch(xyuvItems: Array<number>, alphaItems: Array<number>) {
-            //this.xyuvBuffer.items = this.xyuvBuffer.items.concat(xyuvItems);
-            //this.alphaBuffer.items = this.alphaBuffer.items.concat(alphaItems);
+        public initBatch(aXYVxVyItems: Array<number>, ageItems: Array<number>) {
+            console.log("init batch");
+            this.aXYVxVyBuffer.items = aXYVxVyItems;
+            this.aBirthLifespanBuffer.items = ageItems;
+            this.aXYVxVyBuffer.uploadBuffer(this.gl, this.aXYVxVyBuffer.items);
+            this.aBirthLifespanBuffer.uploadBuffer(this.gl, this.aBirthLifespanBuffer.items);
+            
         }
 
     }

@@ -10,6 +10,9 @@ module Kiwi.Shaders {
         }
         
         private _shaderPairs: any = {};
+        public get currentShader(): ShaderPair {
+            return this._currentShader;
+        }
         private _currentShader: ShaderPair;
 
         public init(gl: WebGLRenderingContext, defaultShaderID: string) {

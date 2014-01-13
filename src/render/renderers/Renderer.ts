@@ -8,6 +8,7 @@ module Kiwi.Renderers {
 
         constructor(shaderManager:Kiwi.Shaders.ShaderManager) {
             this.shaderManager = shaderManager;
+       
         }
 
         public static RENDERER_ID: string = "Renderer";
@@ -21,6 +22,8 @@ module Kiwi.Renderers {
         public mvMatrix: Float32Array;
 
 
+        public loaded: boolean = false;
+
         public shaderManager: Kiwi.Shaders.ShaderManager;
 
         /**
@@ -32,6 +35,7 @@ module Kiwi.Renderers {
         */
 
         public init(gl: WebGLRenderingContext, params: any = null) {
+            this.loaded = true;
         }
 
         public enable(gl: WebGLRenderingContext, params: any = null) {

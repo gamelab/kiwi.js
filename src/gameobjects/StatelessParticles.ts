@@ -22,19 +22,22 @@ module Kiwi.GameObjects {
     */
     export class StatelessParticles extends Kiwi.Entity {
 
-        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0) {
+        constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0,config:any = null) {
 
             super(state, x, y);
-            this.requiredRenderers[0] = "StatelessParticleRenderer";
-            this.glRenderer = this.game.renderer.getRenderer(this.requiredRenderers[0]);
-            
+            if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                //Create own renderer
+                this.glRenderer = <Kiwi.Renderers.StatelessParticleRenderer>this.game.renderer.requestRendererInstance("StatelessParticleRenderer");
+            }
             //Texture atlas error check.
             if (typeof atlas == "undefined") {
-                console.error('A Texture Atlas was not passed when instantiating a new Static Image.');
+                console.error('A Texture Atlas was not passed when instantiating a new StatelessParticles.');
                 this.willRender = false;
                 this.active = false;
                 return;
             }
+
+            this.config = config;
 
             //Set coordinates and texture
             this.atlas = atlas;
@@ -45,9 +48,14 @@ module Kiwi.GameObjects {
             this.transform.rotPointY = this.height / 2;
 
             this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
-
+            this.init();
         }
 
+        public config: any;
+
+        public glRenderer: Kiwi.Renderers.StatelessParticleRenderer;
+
+        
         /**
         * Returns the type of object that this is.
         * @method objType
@@ -68,16 +76,19 @@ module Kiwi.GameObjects {
 
         private _posVel: Array<number>;
         private _startTimeLifeSpan: Array<number>;
-        public numParticles: number = 100;
-        public gravity: number = 0.2;
+        public numParticles: number = 1000;
+        public gravity: number = 0.1;
 
         public init() {
+            console.log("init parts");
             this._posVel = new Array<number>();
             this._startTimeLifeSpan = new Array<number>();
             for (var i = 0; i < this.numParticles; i++) {
-                this._posVel.push(200, 200, Math.random() * 100 - 50, Math.random() * 100 - 50);
-                this._startTimeLifeSpan.push(Math.random(), Math.random() * 5);
+                this._posVel.push(200, 200, Math.random() * 100 - 50, Math.random() * 200 - 100);
+                this._startTimeLifeSpan.push(Math.random()*5, Math.random() * 8);
             }
+            this.glRenderer.initBatch(this._posVel,this._startTimeLifeSpan);
+            
         }
 
         public start() {
@@ -100,7 +111,7 @@ module Kiwi.GameObjects {
         }
 
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
-            (<Kiwi.Renderers.StatelessParticleRenderer>this.glRenderer).addToBatch(gl, this, camera);
+            //(<Kiwi.Renderers.StatelessParticleRenderer>this.glRenderer).addToBatch(gl, this, camera);
         }
 
 

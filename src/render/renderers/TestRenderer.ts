@@ -19,6 +19,7 @@ module Kiwi.Renderers {
         public static RENDERER_ID: string = "TestRenderer";
 
         public init(gl: WebGLRenderingContext, params: any = null) {
+            super.init(gl, params);
             //create buffers
             //dynamic
             this.xyuvBuffer = new GLArrayBuffer(gl, 4);

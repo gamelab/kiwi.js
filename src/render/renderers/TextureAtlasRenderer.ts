@@ -21,6 +21,7 @@ module Kiwi.Renderers {
         public static RENDERER_ID: string = "TextureAtlasRenderer";
 
         public init(gl: WebGLRenderingContext, params: any = null) {
+            super.init(gl, params);
             //create buffers
             //dynamic
             this.xyuvBuffer = new GLArrayBuffer(gl, 4);
@@ -180,6 +181,7 @@ module Kiwi.Renderers {
         public concatBatch(xyuvItems: Array<number>, alphaItems: Array<number>) {
             this.xyuvBuffer.items = this.xyuvBuffer.items.concat(xyuvItems);
             this.alphaBuffer.items = this.alphaBuffer.items.concat(alphaItems);
+
         }
     }
 }

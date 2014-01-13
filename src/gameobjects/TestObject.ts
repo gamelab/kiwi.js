@@ -34,8 +34,10 @@ module Kiwi.GameObjects {
                 this.active = false;
                 return;
             }
-            this.requiredRenderers.push("TestRenderer");
-            this.glRenderer = this.game.renderer.getRenderer(this.requiredRenderers[1]);
+
+            if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                this.glRenderer = this.game.renderer.requestSharedRenderer("TestRenderer");
+            }
 
             this.atlas = atlas;
             this.name = this.atlas.name;

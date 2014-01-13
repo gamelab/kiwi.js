@@ -42,7 +42,6 @@ module Kiwi {
             
         }
 
-        public requiredRenderers: string[] = ["TextureAtlasRenderer"];
         public glRenderer: Kiwi.Renderers.Renderer;
 
 
