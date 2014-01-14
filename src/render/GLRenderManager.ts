@@ -135,13 +135,13 @@ module Kiwi.Renderers {
 
         private _shaderManager: Kiwi.Shaders.ShaderManager;
     
-        public addSharedRenderer(rendererID:string):boolean {
+        public addSharedRenderer(rendererID:string,params:any = null):boolean {
             //does renderer exist?
             if (Kiwi.Renderers[rendererID]) {
               
                 //already added?
                 if (!(rendererID in this._sharedRenderers)) {
-                    this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._shaderManager);
+                    this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._shaderManager,params);
                     this._sharedRenderers[rendererID].init(this._game.stage.gl);
                     return true;
                 }
@@ -160,12 +160,12 @@ module Kiwi.Renderers {
             }
         } 
 
-        public requestSharedRenderer(rendererID: string): Kiwi.Renderers.Renderer {
+        public requestSharedRenderer(rendererID: string,params:any = null): Kiwi.Renderers.Renderer {
             var renderer: Kiwi.Renderers.Renderer = this._sharedRenderers[rendererID];
             if (renderer) {
                 return renderer;
             } else {
-                if (this.addSharedRenderer(rendererID)) {
+                if (this.addSharedRenderer(rendererID,params:any = null)) {
                     return this._sharedRenderers[rendererID];
                 } else {
                     console.log("no renderer called " + rendererID);

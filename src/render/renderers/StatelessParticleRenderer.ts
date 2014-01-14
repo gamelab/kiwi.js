@@ -67,11 +67,23 @@ module Kiwi.Renderers {
             gl.uniformMatrix4fv(this.shaderPair.uniforms.uMVMatrix, false, params.mvMatrix);
             
             //Particle uniforms
-            gl.uniform4fv(this.shaderPair.uniforms.uStartColor, new Float32Array([1,1,1,1]));
-            gl.uniform4fv(this.shaderPair.uniforms.uEndColor, new Float32Array([1, 0, 0, 1]));
+
             gl.uniform1f(this.shaderPair.uniforms.uT, 0.0);
             gl.uniform1f(this.shaderPair.uniforms.uGravity, 0.1);
+            gl.uniform2fv(this.shaderPair.uniforms.uPointSizeRange, new Float32Array([5,10]));
+            gl.uniform4fv(this.shaderPair.uniforms.uAttackColor, new Float32Array([1, 0, 0, 1]));
+            gl.uniform4fv(this.shaderPair.uniforms.uDecayColor, new Float32Array([1, 0, 1, 1]));
+            gl.uniform4fv(this.shaderPair.uniforms.uSustainColor, new Float32Array([0, 1, 1, 1]));
+            gl.uniform4fv(this.shaderPair.uniforms.uReleaseColor, new Float32Array([1, 1, 0, 1]));
+            gl.uniform3fv(this.shaderPair.uniforms.uADSR, new Float32Array([0.3,0.5,0.7]));
+            gl.uniform1f(this.shaderPair.uniforms.uAlpha, 1.0);
+            gl.uniform1f(this.shaderPair.uniforms.uLoop, 1);
            
+
+         
+        }
+
+        public configure(cfg: any) {
 
         }
 
