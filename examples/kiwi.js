@@ -11595,14 +11595,15 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * A Circle object is an area defined by its position, as indicated by its center point (x,y) and diameter.
+        * A Circle object is an area defined by its position,
+        * as indicated by its center point (x,y) and diameter.
         *
         * @class Circle
         * @namespace Kiwi.Geom
         * @constructor
-        * @param x {Number} The x coordinate of the center of the circle.
-        * @param y {Number} The y coordinate of the center of the circle.
-        * @param diameter {number} The diameter of the circle.
+        * @param [x = 0] {Number} The x coordinate of the center of the circle.
+        * @param [y = 0] {Number} The y coordinate of the center of the circle.
+        * @param [diameter = 0] {number} The diameter of the circle.
         * @return {Circle} This circle object
         *
         */
@@ -11663,7 +11664,6 @@ var Kiwi;
                 * The diameter of the circle. The largest distance between any two points on the circle. The same as the radius * 2.
                 * @property diameter
                 * @type number
-                * @default 0
                 * @public
                 */
                 set: function (value) {
@@ -12025,11 +12025,11 @@ var Kiwi;
         * @class Ray
         * @namespace Kiwi.Geom
         * @constructor
-        * @param x1 {Number} x1
-        * @param y1 {Number} y1
-        * @param x2 {Number} x2
-        * @param y2 {Number} y2
-        * @return {Kiwi.Geom.Ray} This Object
+        * @param [x1 = 0] {Number} x1
+        * @param [y1 = 0] {Number} y1
+        * @param [x2 = 0] {Number} x2
+        * @param [y2 = 0] {Number} y2
+        * @return {Ray} This Object
         *
         */
         var Ray = (function () {
@@ -12079,7 +12079,8 @@ var Kiwi;
             };
 
             /**
-            *
+            * Makes a copy of this Ray either as a new Ray object or,
+            * makes a passed Ray a copy of this one.
             * @method clone
             * @param [output = Ray] {Ray}
             * @return {Ray}
@@ -12091,7 +12092,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Makes this Ray the same as a passed Ray.
             * @method copyFrom
             * @param source {Ray}
             * @return {Ray}
@@ -12102,7 +12103,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Makes a passed Ray the same as this Ray object.
             * @method copyTo
             * @param target {Ray}
             * @return {Ray}
@@ -12113,7 +12114,7 @@ var Kiwi;
             };
 
             /**
-            *
+            * Sets the origin and the direction of this Ray.
             * @method setTo
             * @param x1{Number}
             * @param y1{Number}
@@ -12179,7 +12180,7 @@ var Kiwi;
             });
 
             /**
-            * Check if a the ray passes through a point.
+            * Check if the Ray passes through a point.
             * @method isPointOnRay
             * @param {Number} x
             * @param {Number} y
@@ -12190,7 +12191,6 @@ var Kiwi;
                     if (Math.atan2(y - this.y1, x - this.x1) == Math.atan2(this.y2 - this.y1, this.x2 - this.x1)) {
                         return true;
                     }
-                    //  return true;
                 }
 
                 return false;
@@ -12219,11 +12219,11 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * A collection of methods to help determine and return intersection between geometric objects.
+        * Contains a collection of STATIC methods to help determine and return intersection between geometric objects.
         *
         * @class Intersect
         * @namespace Kiwi.Geom
-        *
+        * @static
         */
         var Intersect = (function () {
             function Intersect() {
@@ -12244,27 +12244,31 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            *
+            * Returns the distance between two sets of coordinates that you specify.
             * @method distance
-            * @param {Number} x1
-            * @param {Number} y1
-            * @param {Number} x2
-            * @param {Number} y2
-            * @return {Number}
+            * @param x1 {Number} The x position of the first coordinate.
+            * @param y1 {Number} The y position of the first coordinate.
+            * @param x2 {Number} The x position of the second coordinate.
+            * @param y2 {Number} The y position of the second coordinate.
+            * @return {Number} The distance between the two points.
+            * @public
+            * @static
             **/
             Intersect.distance = function (x1, y1, x2, y2) {
                 return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
             };
 
             /**
-            *
+            * Returns the distance squared between two sets of coordinates that you specify.
             * @method distanceSquared
-            * @param {Number} x1
-            * @param {Number} y1
-            * @param {Number} x2
-            * @param {Number} y2
-            * @return {Number}
-            **/
+            * @param x1 {Number} The x position of the first coordinate.
+            * @param y1 {Number} The y position of the first coordinate.
+            * @param x2 {Number} The x position of the second coordinate.
+            * @param y2 {Number} The y position of the second coordinate.
+            * @return {Number} The distance between the two points squared.
+            * @public
+            * @static
+            */
             Intersect.distanceSquared = function (x1, y1, x2, y2) {
                 return (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
             };
@@ -12275,13 +12279,16 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Check if the two given Line objects intersect
+            * Check to see if any two Lines intersect at any point.
+            * Both lines are treated as if they extend infintely through space.
             * @method lineToLine
-            * @param {Kiwi.Geom.Line} The first line object to check
-            * @param {Kiwi.Geom.Line} The second line object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param line1 {Line} The first line object to check
+            * @param line2 {Line} The second line object to check
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in. (One is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @public
+            * @static
+            */
             Intersect.lineToLine = function (line1, line2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line1.x1 - line1.x2) * (line2.y1 - line2.y2) - (line1.y1 - line1.y2) * (line2.x1 - line2.x2);
@@ -12296,13 +12303,17 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line and Line Segment intersects
+            * Check to see if a Line and a Line Segment intersect at any point.
+            * Note: The first line passed is treated as if it extends infinately though space,
+            * The second is treated as if it only exists between its two points.
             * @method lineToLineSegment
-            * @param {Kiwi.Geom.Line} The line object to check
-            * @param {Kiwi.Geom.Line} The line segment object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param line1 {Line} The first line to check. This is the one that will extend through space infinately.
+            * @param seg {Line} The second line to check. This is the one that will only exist between its two coordinates.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection.
+            * @public
+            * @static
+            */
             Intersect.lineToLineSegment = function (line1, seg, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line1.x1 - line1.x2) * (seg.y1 - seg.y2) - (line1.y1 - line1.y2) * (seg.x1 - seg.x2);
@@ -12326,16 +12337,20 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line and Line Segment intersects
-            * @method lineToLineSegment
-            * @param {Kiwi.Geom.Line} The line object to check
-            * @param {number} The x1 value
-            * @param {number} The y1 value
-            * @param {number} The x2 value
-            * @param {number} The y2 value
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * Checks to see if a Line that is passed, intersects at any point another Line that is made by passing a set of coordinates to this method.
+            * Note: The first line will extend infinately through space.
+            * And the second line will only exist between the two points passed.
+            * @method lineToRawSegment
+            * @param line {Line} The line object that extends infinatly through space.
+            * @param x1 {number} The x coordinate of the first point in the second line.
+            * @param y1 {number} The y coordinate of the first point in the second line.
+            * @param x2 {number} The x coordinate of the second point in the second line.
+            * @param y2 {number} The y coordinate of the second point in the second line.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @static
+            * @public
+            */
             Intersect.lineToRawSegment = function (line, x1, y1, x2, y2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line.x1 - line.x2) * (y1 - y2) - (line.y1 - line.y2) * (x1 - x2);
@@ -12358,13 +12373,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line and Ray intersects
+            * Checks to see if a Line and Ray object intersects at any point.
+            * Note: The line in this case extends infinately through space.
             * @method lineToRay
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Line} The Ray object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param line1 {Line} The Line object that extends infinatly through space.
+            * @param ray {Ray} The Ray object that you want to check it against.
+            * @param {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @public
+            * @static
+            */
             Intersect.lineToRay = function (line1, ray, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var denom = (line1.x1 - line1.x2) * (ray.y1 - ray.y2) - (line1.y1 - line1.y2) * (ray.x1 - ray.x2);
@@ -12387,13 +12405,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line and Circle intersects
+            * Checks to see if a Line and a Circle intersect at any point.
+            * Note: The line passed is assumed to extend infinately through space.
             * @method lineToCircle
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Circle} The Circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param line {Line} The Line object that you want to check it against.
+            * @param circle {Circle} The Circle object to check.
+            * @param [output=Intersect] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.lineToCircle = function (line, circle, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 //  Get a perpendicular line running to the center of the circle
@@ -12405,13 +12426,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line intersects each side of the Rectangle
+            * Check if the Line intersects with each side of a Rectangle.
+            * Note: The Line is assumned to extend infinately through space.
             * @method lineToRectangle
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Rectangle} The Rectangle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param line {Line} The Line object to check
+            * @param rectangle {Rectangle} The Rectangle object to check
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.lineToRectangle = function (line, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 //  Top of the Rectangle vs the Line
@@ -12447,13 +12471,16 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Check if Line1 intersects with Line2
+            * Checks to see if two Line Segments intersect at any point in space.
+            * Note: Both lines are treated as if they only exist between their two line coordinates.
             * @method lineSegmentToLineSegment
-            * @param {Kiwi.Geom.Line} The first line object to check
-            * @param {Kiwi.Geom.Line} The second line object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param line1 {Line} The first line object to check.
+            * @param line2 {Line} The second line object to check.
+            * @param [output=IntersectResult]{IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+            * @public
+            * @static
+            */
             Intersect.lineSegmentToLineSegment = function (line1, line2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 Intersect.lineToLineSegment(line1, line2, output);
@@ -12468,13 +12495,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line Segment intersects with the Ray
+            * Check if the Line Segment intersects with the Ray.
+            * Note: The Line only exists between its two points.
             * @method lineSegmentToRay
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Line} The Line Ray object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @param line1 {Line} The Line object to check.
+            * @param ray {Line} The Ray object to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
             * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @public
+            * @static
+            */
             Intersect.lineSegmentToRay = function (line1, ray, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 Intersect.lineToRay(line1, ray, output);
@@ -12489,13 +12519,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line Segment intersects with the Circle
+            * Check if the Line Segment intersects with the Circle.
+            * Note the Line only exists between its point points.
             * @method lineSegmentToCircle
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Circle} The Circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param seg {Line} The Line object to check
+            * @param circle {Circle} The Circle object to check
+            * @param [ouput=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @public
+            * @static
+            */
             Intersect.lineSegmentToCircle = function (seg, circle, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var perp = seg.perp(circle.x, circle.y);
@@ -12521,13 +12554,16 @@ var Kiwi;
             };
 
             /**
-            * Check if the Line Segment intersects with the Rectangle
+            * Check if the Line Segment intersects with any side of a Rectangle.
+            * Note: The Line only exists between its two points.
             * @method lineSegmentToCircle
-            * @param {Kiwi.Geom.Line} The Line object to check
-            * @param {Kiwi.Geom.Circle} The Circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
-            **/
+            * @param seg {Line} The Line object to check.
+            * @param rect {Rectangle} The Rectangle object to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given).
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+            * @public
+            * @static
+            */
             Intersect.lineSegmentToRectangle = function (seg, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 if (rect.contains(seg.x1, seg.y1) && rect.contains(seg.x2, seg.y2)) {
@@ -12569,13 +12605,15 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Check if the two given Circle objects intersect
-            * @method circleToCircle
-            * @param {Kiwi.Geom.Circle} The first circle object to check
-            * @param {Kiwi.Geom.Circle} The second circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * Check to see if a Ray intersects at any point with a Rectangle.
+            * @method rayToRectangle
+            * @param ray {Ray} The Ray object to check.
+            * @param rect {Rectangle} The Rectangle to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.rayToRectangle = function (ray, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 //  Currently just finds first intersection - might not be closest to ray pt1
@@ -12585,20 +12623,22 @@ var Kiwi;
             };
 
             /**
-            * Check whether a ray intersects a line segment, returns the parametric value where the intersection occurs.
+            * Check whether a Ray intersects a Line segment, returns the parametric value where the intersection occurs.
+            * Note: The Line only exists between its two points.
             * @method rayToLineSegment
             * @static
-            * @param {Number} rayx1. The origin x of the ray.
-            * @param {Number} rayy1. The origin y of the ray.
-            * @param {Number} rayx2. The direction x of the ray.
-            * @param {Number} rayy2. The direction y of the ray.
-            * @param {Number} linex1. The x of the first point of the line segment.
-            * @param {Number} liney1. The y of the first point of the line segment.
-            * @param {Number} linex2. The x of the second point of the line segment.
-            * @param {Number} liney2. The y of the second point of the line segment.
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection stored in x
-            **/
+            * @param rayx1 {Number} The origin point of the ray on the x axis.
+            * @param rayy1 {Number} The origin point of the ray on the y axis.
+            * @param rayx2 {Number} The direction of the ray on the x axis.
+            * @param rayy2 {Number} The direction of the ray on the y axis.
+            * @param linex1 {Number} The x of the first point of the line segment.
+            * @param liney1 {Number} The y of the first point of the line segment.
+            * @param linex2 {Number} The x of the second point of the line segment.
+            * @param liney2 {Number} The y of the second point of the line segment.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection stored in x
+            * @public
+            */
             Intersect.rayToLineSegment = function (rayx1, rayy1, rayx2, rayy2, linex1, liney1, linex2, liney2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var r, s, d;
@@ -12629,13 +12669,15 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Check if the two given Circle objects intersect
+            * Check if the two given Circle objects intersect at any point.
             * @method circleToCircle
-            * @param {Kiwi.Geom.Circle} The first circle object to check
-            * @param {Kiwi.Geom.Circle} The second circle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param circle1 {Circle} The first circle object to check.
+            * @param circle2 {Circle} The second circle object to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.circleToCircle = function (circle1, circle2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 output.result = ((circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) >= Intersect.distanceSquared(circle1.x, circle1.y, circle2.x, circle2.y);
@@ -12644,13 +12686,15 @@ var Kiwi;
             };
 
             /**
-            * Check if the given Rectangle intersects with the given Circle
+            * Check if a Circle and a Rectangle intersect with each other at any point.
             * @method circleToRectangle
-            * @param {Kiwi.Geom.Circle} The circle object to check
-            * @param {Kiwi.Geom.Rectangle} The Rectangle object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param circle {Circle} The circle object to check.
+            * @param rect {Rectangle} The Rectangle object to check.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.circleToRectangle = function (circle, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var inflatedRect = rect.clone();
@@ -12663,13 +12707,15 @@ var Kiwi;
             };
 
             /**
-            * Check if the given Point is found within the given Circle
+            * Check if the given Point is found within the given Circle.
             * @method circleContainsPoint
-            * @param {Kiwi.Geom.Circle} The circle object to check
-            * @param {Kiwi.Geom.Point} The point object to check
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection
-            **/
+            * @param circle {Circle} The circle object to check
+            * @param point {Point} The point object to check
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection
+            * @public
+            * @static
+            */
             Intersect.circleContainsPoint = function (circle, point, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 output.result = circle.radius * circle.radius >= Intersect.distanceSquared(circle.x, circle.y, point.x, point.y);
@@ -12683,12 +12729,15 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
-            * Determines whether the specified point is contained within the rectangular region defined the Rectangle object.
+            * Determines whether the specified point is contained within a given Rectangle object.
             * @method pointToRectangle
-            * @param {Point} point The point object being checked.
-            * @param {Rectangle} rect The rectangle object being checked.
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/result
-            **/
+            * @param point {Point} The point object being checked.
+            * @param rect {Rectangle} The rectangle object being checked.
+            * @param [output=Intersect] {IntersectResult}  An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y/result
+            * @public
+            * @static
+            */
             Intersect.pointToRectangle = function (point, rect, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 output.setTo(point.x, point.y);
@@ -12701,11 +12750,13 @@ var Kiwi;
             /**
             * Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.
             * @method rectangleToRectangle
-            * @param {Kiwi.Geom.Rectangle} The first Rectangle object
-            * @param {Kiwi.Geom.Rectangle} The second Rectangle object
-            * @param {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y/width/height
-            **/
+            * @param rect1 {Rectangle} The first Rectangle object.
+            * @param rect2 {Rectangle} The second Rectangle object.
+            * @param [output=IntersectResult] {IntersectResult} An optional IntersectResult object to store the intersection values in (one is created if none given)
+            * @return {IntersectResult} An IntersectResult object containing the results of this intersection in x/y/width/height
+            * @public
+            * @static
+            */
             Intersect.rectangleToRectangle = function (rect1, rect2, output) {
                 if (typeof output === "undefined") { output = new Kiwi.Geom.IntersectResult; }
                 var leftX = Math.max(rect1.x, rect2.x);
@@ -12739,18 +12790,21 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * A light result object to hold the results of an intersection
+        * A Lightweight object to hold the results of an Intersection.
+        * Used in combination with the STATIC methods on the Intersect class.
         *
         * @class IntersectResult
         * @namespace Kiwi.Geom
-        *
+        * @constructor
         */
         var IntersectResult = (function () {
             function IntersectResult() {
                 /**
-                * [REQUIRES DESCRIPTION]
+                * Holds the result of an Intersection between two geometric items.
+                * TRUE means an Intersection did occur and FALSE means not.
                 * @property result
                 * @type boolean
+                * @default false
                 */
                 this.result = false;
             }
@@ -12765,14 +12819,14 @@ var Kiwi;
             };
 
             /**
-            *
+            * Sets the coordinates of the points based on the parameters passed.
             * @method setTo
             * @param {Number} x1
             * @param {Number} y1
-            * @param {Number} [x2]
-            * @param {Number} [y2]
-            * @param {Number} [width]
-            * @param {Number} [height]
+            * @param {Number} [x2=0]
+            * @param {Number} [y2=0]
+            * @param {Number} [width=0]
+            * @param {Number} [height=0]
             */
             IntersectResult.prototype.setTo = function (x1, y1, x2, y2, width, height) {
                 if (typeof x2 === "undefined") { x2 = 0; }
@@ -12806,7 +12860,9 @@ var Kiwi;
 (function (Kiwi) {
     (function (Geom) {
         /**
-        * A line object is an infinte line through space. The two sets of x/y coordinates define the Line Segment.
+        * A Kiwi Line object has two meanings depending on the situation you need.
+        * Either an infinte line through space (this is the normal meaning of a Line)
+        * OR it can be a Line Segment which just exists between the TWO points you specify.
         *
         * @class Line
         * @namespace Kiwi.Geom
@@ -12815,7 +12871,7 @@ var Kiwi;
         * @param [y1 = 0]{Number} y1 y component of first point.
         * @param [x2 = 0]{Number} x2 x component of second point.
         * @param [y2 = 0]{Number} y2 y component of second point.
-        * @return {Kiwi.Geom.Line} This Object
+        * @return {Line} This Object
         *
         */
         var Line = (function () {
@@ -12825,14 +12881,14 @@ var Kiwi;
                 if (typeof x2 === "undefined") { x2 = 0; }
                 if (typeof y2 === "undefined") { y2 = 0; }
                 /**
-                * x component of first point.
+                * X position of first point in your line.
                 * @property x1
                 * @type Number
                 * @public
                 */
                 this.x1 = 0;
                 /**
-                * y component of first point.
+                * Y position of first point in your line.
                 * @property y1
                 * @type Number
                 * @public
@@ -12865,7 +12921,9 @@ var Kiwi;
             };
 
             /**
-            * Return a clone of the line.
+            * Makes a clone of this Line.
+            * The clone will either be a new Line Object,
+            * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
             * @method clone
             * @param [output = Line] {Line}
             * @return {Line}
@@ -12877,7 +12935,7 @@ var Kiwi;
             };
 
             /**
-            * Copy the line from another existing line.
+            * Make this Line a copy of another passed Line.
             * @method copyFrom
             * @param source {Line} source
             * @return {Line}
@@ -12888,7 +12946,7 @@ var Kiwi;
             };
 
             /**
-            * Copy the line to another existing line.
+            * Make another passed Line a copy of this one.
             * @method copyTo
             * @param target {Line} target
             * @return {Line}
@@ -12899,13 +12957,13 @@ var Kiwi;
             };
 
             /**
-            * Set all components on the line.
+            * Used to set all components on the line.
             * @method setTo
-            * @param [x1 = 0]{Number} x1 x component of first point.
-            * @param [y1 = 0]{Number} y1 y component of first point.
-            * @param [x2 = 0]{Number} x2 x component of second point.
-            * @param [y2 = 0]{Number} y2 y component of second point.
-            * @return {Kiwi.Geom.Line}
+            * @param [x1 = 0]{Number} X component of first point.
+            * @param [y1 = 0]{Number} Y component of first point.
+            * @param [x2 = 0]{Number} X component of second point.
+            * @param [y2 = 0]{Number} Y component of second point.
+            * @return {Line}
             * @public
             */
             Line.prototype.setTo = function (x1, y1, x2, y2) {
@@ -12923,7 +12981,7 @@ var Kiwi;
 
             Object.defineProperty(Line.prototype, "length", {
                 /**
-                * Get the length of the line as a line segment.
+                * Get the length of the Line as a Line Segment.
                 * @property length
                 * @type number
                 * @public
@@ -13042,10 +13100,11 @@ var Kiwi;
             };
 
             /**
-            * [REQUIRES DESCRIPTION]
+            * Check to see if this Line object intersects at any point with a passed Line.
+            * Note: Both are treated as extending infinately through space.
             * @method intersectLineLine
-            * @param line {Any} line
-            * @return {Any}
+            * @param line {Line} The line you want to check for a Intersection with.
+            * @return {IntersectResult} The Intersect Result containing the collision information.
             * @public
             */
             Line.prototype.intersectLineLine = function (line) {
@@ -13057,7 +13116,7 @@ var Kiwi;
             * @method perp
             * @param x {Number}
             * @param y {Number}
-            * @param [output = Line]{Line}
+            * @param [output = Line] {Line}
             * @return {Line}
             * @public
             */
@@ -13885,10 +13944,10 @@ var Kiwi;
         * @class Rectangle
         * @namespace Kiwi.Geom
         * @constructor
-        * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
-        * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
-        * @param width {Number} width The width of the rectangle in pixels.
-        * @param height {Number} height The height of the rectangle in pixels.
+        * @param [x = 0] {Number} The x coordinate of the top-left corner of the rectangle.
+        * @param [y = 0] {Number} The y coordinate of the top-left corner of the rectangle.
+        * @param [width = 0] {Number} width The width of the rectangle in pixels.
+        * @param [height = 0] {Number} height The height of the rectangle in pixels.
         * @return {Rectangle} This rectangle object
         *
         */
@@ -14403,7 +14462,7 @@ var Kiwi;
             };
 
             /**
-            * Sets the members of Rectangle to the specified values.
+            * Sets the properties of Rectangle to the specified values.
             * @method setTo
             * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
             * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
@@ -14441,7 +14500,7 @@ var Kiwi;
             };
 
             /**
-            [Requires Description]
+            * [DESCRIPTION REQUIRED]
             * @method scale
             * @param x {number}
             * @param y {number}

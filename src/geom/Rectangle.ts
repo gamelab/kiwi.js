@@ -12,10 +12,10 @@ module Kiwi.Geom {
     * @class Rectangle
     * @namespace Kiwi.Geom
     * @constructor
-    * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
-    * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
-    * @param width {Number} width The width of the rectangle in pixels.
-    * @param height {Number} height The height of the rectangle in pixels.
+    * @param [x = 0] {Number} The x coordinate of the top-left corner of the rectangle.
+    * @param [y = 0] {Number} The y coordinate of the top-left corner of the rectangle.
+    * @param [width = 0] {Number} width The width of the rectangle in pixels.
+    * @param [height = 0] {Number} height The height of the rectangle in pixels.
     * @return {Rectangle} This rectangle object
     * 
     */
@@ -41,43 +41,43 @@ module Kiwi.Geom {
         }
 
         /** 
-         * The x coordinate of the top-left corner of the rectangle
+        * The x coordinate of the top-left corner of the rectangle
         * @property x
         * @type Number
         * @public
-         **/
+        **/
         public x: number = 0;
 
         /** 
-         * The y coordinate of the top-left corner of the rectangle
+        * The y coordinate of the top-left corner of the rectangle
         * @property y
         * @type Number
         * @public
-         **/
+        **/
         public y: number = 0;
 
         /** 
-         * The width of the rectangle in pixels
+        * The width of the rectangle in pixels
         * @property width
         * @type Number
         * @public
-         **/
+        **/
         public width: number = 0;
 
         /** 
-         * The height of the rectangle in pixels
+        * The height of the rectangle in pixels
         * @property height
         * @type Number
         * @public
-         **/
+        **/
         public height: number = 0;
 
         /**
-         * The sum of the y and height properties. Changing the bottom property of a Rectangle object has no effect on the x, y and width properties, but does change the height property.
+        * The sum of the y and height properties. Changing the bottom property of a Rectangle object has no effect on the x, y and width properties, but does change the height property.
         * @property bottom
         * @return {Number}
         * @public
-         **/
+        **/
         public set bottom(value: number) {
 
             if (value)
@@ -292,12 +292,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * Returns a new Rectangle object with the same values for the x, y, width, and height properties as the original Rectangle object.
-         * @method clone
-         * @param [output = Rectangle] {Rectangle} Optional Rectangle object. If given the values will be set into the object, otherwise a brand new Rectangle object will be created and returned.
-         * @return {Rectangle}
-         * @public
-         **/
+        * Returns a new Rectangle object with the same values for the x, y, width, and height properties as the original Rectangle object.
+        * @method clone
+        * @param [output = Rectangle] {Rectangle} Optional Rectangle object. If given the values will be set into the object, otherwise a brand new Rectangle object will be created and returned.
+        * @return {Rectangle}
+        * @public
+        **/
         public clone(output: Rectangle = new Rectangle): Rectangle {
 
             return output.setTo(this.x, this.y, this.width, this.height);
@@ -305,12 +305,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * Determines whether the specified coordinates are contained within the region defined by this Rectangle object.
-         * @method contains
-         * @param {Number} x The x coordinate of the point to test.
-         * @param {Number} y The y coordinate of the point to test.
-         * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
-         **/
+        * Determines whether the specified coordinates are contained within the region defined by this Rectangle object.
+        * @method contains
+        * @param {Number} x The x coordinate of the point to test.
+        * @param {Number} y The y coordinate of the point to test.
+        * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
+        **/
         public contains(x: number, y: number): boolean {
 
             if (x >= this.x && x <= this.right && y >= this.y && y <= this.bottom)
@@ -323,11 +323,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * Determines whether the specified point is contained within the rectangular region defined by this Rectangle object. This method is similar to the Rectangle.contains() method, except that it takes a Point object as a parameter.
-         * @method containsPoint
-         * @param {Point} point The point object being checked. Can be Kiwi.Geom.Point or any object with .x and .y values.
-         * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
-         **/
+        * Determines whether the specified point is contained within the rectangular region defined by this Rectangle object. This method is similar to the Rectangle.contains() method, except that it takes a Point object as a parameter.
+        * @method containsPoint
+        * @param {Point} point The point object being checked. Can be Kiwi.Geom.Point or any object with .x and .y values.
+        * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
+        **/
         public containsPoint(point: Point): boolean {
 
             return this.contains(point.x, point.y);
@@ -335,12 +335,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * Determines whether the Rectangle object specified by the rect parameter is contained within this Rectangle object. A Rectangle object is said to contain another if the second Rectangle object falls entirely within the boundaries of the first.
-         * @method containsRect
-         * @param rect {Rectangle} The rectangle object being checked.
-         * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
-         * @public
-         **/
+        * Determines whether the Rectangle object specified by the rect parameter is contained within this Rectangle object. A Rectangle object is said to contain another if the second Rectangle object falls entirely within the boundaries of the first.
+        * @method containsRect
+        * @param rect {Rectangle} The rectangle object being checked.
+        * @return {boolean} A value of true if the Rectangle object contains the specified point; otherwise false.
+        * @public
+        **/
         public containsRect(rect: Rectangle): boolean {
 
             //	If the given rect has a larger volume than this one then it can never contain it
@@ -359,12 +359,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * Copies all of rectangle data from the source Rectangle object into the calling Rectangle object.
-         * @method copyFrom
-         * @param source {Rectangle} The source rectangle object to copy from
-         * @return {Rectangle} This rectangle object
-         * @public
-         **/
+        * Copies all of rectangle data from the source Rectangle object into the calling Rectangle object.
+        * @method copyFrom
+        * @param source {Rectangle} The source rectangle object to copy from
+        * @return {Rectangle} This rectangle object
+        * @public
+        **/
         public copyFrom(source: Rectangle): Rectangle {
 
             return this.setTo(source.x, source.y, source.width, source.height);
@@ -372,12 +372,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * Copies all the rectangle data from this Rectangle object into the destination Rectangle object.
-         * @method copyTo
-         * @param target {Rectangle} The destination rectangle object to copy in to
-         * @return {Rectangle} The destination rectangle object
-         * @public
-         **/
+        * Copies all the rectangle data from this Rectangle object into the destination Rectangle object.
+        * @method copyTo
+        * @param target {Rectangle} The destination rectangle object to copy in to
+        * @return {Rectangle} The destination rectangle object
+        * @public
+        **/
         public copyTo(target: Rectangle): Rectangle {
 
             return target.copyFrom(this);
@@ -385,12 +385,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * Determines whether the object specified in the toCompare parameter is equal to this Rectangle object. This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.
-         * @method equals
-         * @param  toCompare {Rectangle} toCompare The rectangle to compare to this Rectangle object.
-         * @return {boolean} A value of true if the object has exactly the same values for the x, y, width, and height properties as this Rectangle object; otherwise false.
-         * @public
-         **/
+        * Determines whether the object specified in the toCompare parameter is equal to this Rectangle object. This method compares the x, y, width, and height properties of an object against the same properties of this Rectangle object.
+        * @method equals
+        * @param  toCompare {Rectangle} toCompare The rectangle to compare to this Rectangle object.
+        * @return {boolean} A value of true if the object has exactly the same values for the x, y, width, and height properties as this Rectangle object; otherwise false.
+        * @public
+        **/
         public equals(toCompare: Rectangle): boolean {
 
             if (this.x === toCompare.x && this.y === toCompare.y && this.width === toCompare.width && this.height === toCompare.height)
@@ -403,13 +403,13 @@ module Kiwi.Geom {
         }
 
         /**
-         * Increases the size of the Rectangle object by the specified amounts, in pixels. The center point of the Rectangle object stays the same, and its size increases to the left and right by the dx value, and to the top and the bottom by the dy value.
-         * @method inflate
-         * @param dx {Number} dx The amount to be added to the left side of this Rectangle.
-         * @param dy {Number} dy The amount to be added to the bottom side of this Rectangle.
-         * @return {Rectangle} This Rectangle object.
-         * @public
-         **/
+        * Increases the size of the Rectangle object by the specified amounts, in pixels. The center point of the Rectangle object stays the same, and its size increases to the left and right by the dx value, and to the top and the bottom by the dy value.
+        * @method inflate
+        * @param dx {Number} dx The amount to be added to the left side of this Rectangle.
+        * @param dy {Number} dy The amount to be added to the bottom side of this Rectangle.
+        * @return {Rectangle} This Rectangle object.
+        * @public
+        **/
         public inflate(dx: number, dy: number): Rectangle {
 
             if (!isNaN(dx) && !isNaN(dy))
@@ -426,12 +426,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * Increases the size of the Rectangle object. This method is similar to the Rectangle.inflate() method except it takes a Point object as a parameter.
-         * @method inflatePoint
-         * @param point {Point} The x property of this Point object is used to increase the horizontal dimension of the Rectangle object. The y property is used to increase the vertical dimension of the Rectangle object.
-         * @return {Rectangle} This Rectangle object.
-         * @public
-         **/
+        * Increases the size of the Rectangle object. This method is similar to the Rectangle.inflate() method except it takes a Point object as a parameter.
+        * @method inflatePoint
+        * @param point {Point} The x property of this Point object is used to increase the horizontal dimension of the Rectangle object. The y property is used to increase the vertical dimension of the Rectangle object.
+        * @return {Rectangle} This Rectangle object.
+        * @public
+        **/
         public inflatePoint(point: Point): Rectangle {
 
             return this.inflate(point.x, point.y);
@@ -439,12 +439,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * If the Rectangle object specified in the toIntersect parameter intersects with this Rectangle object, returns the area of intersection as a Rectangle object. If the rectangles do not intersect, this method returns an empty Rectangle object with its properties set to 0.
-         * @method intersection
-         * @param toIntersect {Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
-         * @param output {Rectangle} Optional Rectangle object. If given the intersection values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
-         * @return {Rectangle} A Rectangle object that equals the area of intersection. If the rectangles do not intersect, this method returns an empty Rectangle object; that is, a rectangle with its x, y, width, and height properties set to 0.
-         **/
+        * If the Rectangle object specified in the toIntersect parameter intersects with this Rectangle object, returns the area of intersection as a Rectangle object. If the rectangles do not intersect, this method returns an empty Rectangle object with its properties set to 0.
+        * @method intersection
+        * @param toIntersect {Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
+        * @param output {Rectangle} Optional Rectangle object. If given the intersection values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
+        * @return {Rectangle} A Rectangle object that equals the area of intersection. If the rectangles do not intersect, this method returns an empty Rectangle object; that is, a rectangle with its x, y, width, and height properties set to 0.
+        **/
         public intersection(toIntersect: Rectangle, output: Rectangle = new Rectangle): Rectangle {
 
             if (this.intersects(toIntersect) === true)
@@ -460,12 +460,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * Determines whether the object specified in the toIntersect parameter intersects with this Rectangle object. This method checks the x, y, width, and height properties of the specified Rectangle object to see if it intersects with this Rectangle object.
-         * @method intersects
-         * @param toIntersect {Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
-         * @return {boolean} A value of true if the specified object intersects with this Rectangle object; otherwise false.
-         * @public
-         **/
+        * Determines whether the object specified in the toIntersect parameter intersects with this Rectangle object. This method checks the x, y, width, and height properties of the specified Rectangle object to see if it intersects with this Rectangle object.
+        * @method intersects
+        * @param toIntersect {Rectangle} The Rectangle object to compare against to see if it intersects with this Rectangle object.
+        * @return {boolean} A value of true if the specified object intersects with this Rectangle object; otherwise false.
+        * @public
+        **/
         public intersects(toIntersect: Rectangle): boolean {
 
             if (toIntersect.x > this.right - 1) {
@@ -489,13 +489,13 @@ module Kiwi.Geom {
         }
 
         /**
-         * Checks for overlaps between this Rectangle and the given Rectangle. Returns an object with boolean values for each check.
-         * @method overlap
-         * @param rect {Rectangle} 
-         * @return {Object} An object containing the overlapping details between the two Rectangles
-         * @todo Move to an IntersectResult? Do not want to be generating all of these values each time this is called
-         * @public
-         **/
+        * Checks for overlaps between this Rectangle and the given Rectangle. Returns an object with boolean values for each check.
+        * @method overlap
+        * @param rect {Rectangle} 
+        * @return {Object} An object containing the overlapping details between the two Rectangles
+        * @todo Move to an IntersectResult? Do not want to be generating all of these values each time this is called
+        * @public
+        **/
         public overlap(rect: Rectangle): any {
 
             var result = { top: false, bottom: false, left: false, right: false, contains: false, contained: false };
@@ -514,11 +514,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * Determines whether or not this Rectangle object is empty.
-         * @method isEmpty
-         * @return {boolean} A value of true if the Rectangle object's width or height is less than or equal to 0; otherwise false.
-         * @public
-         **/
+        * Determines whether or not this Rectangle object is empty.
+        * @method isEmpty
+        * @return {boolean} A value of true if the Rectangle object's width or height is less than or equal to 0; otherwise false.
+        * @public
+        **/
         public isEmpty(): boolean {
 
             if (this.width < 1 || this.height < 1)
@@ -531,13 +531,13 @@ module Kiwi.Geom {
         }
 
         /**
-         * Adjusts the location of the Rectangle object, as determined by its top-left corner, by the specified amounts.
-         * @method offset
-         * @param dx {Number} Moves the x value of the Rectangle object by this amount.
-         * @param dy {Number} Moves the y value of the Rectangle object by this amount.
-         * @return {Rectangle} This Rectangle object.
-         * @public
-         **/
+        * Adjusts the location of the Rectangle object, as determined by its top-left corner, by the specified amounts.
+        * @method offset
+        * @param dx {Number} Moves the x value of the Rectangle object by this amount.
+        * @param dy {Number} Moves the y value of the Rectangle object by this amount.
+        * @return {Rectangle} This Rectangle object.
+        * @public
+        **/
         public offset(dx: number, dy: number): Rectangle {
 
             if (!isNaN(dx) && !isNaN(dy))
@@ -551,11 +551,11 @@ module Kiwi.Geom {
         }
 
         /**
-         * Adjusts the location of the Rectangle object using a Point object as a parameter. This method is similar to the Rectangle.offset() method, except that it takes a Point object as a parameter.
-         * @method offsetPoint
-         * @param point {Point} A Point object to use to offset this Rectangle object.
-         * @return {Rectangle} This Rectangle object.
-         **/
+        * Adjusts the location of the Rectangle object using a Point object as a parameter. This method is similar to the Rectangle.offset() method, except that it takes a Point object as a parameter.
+        * @method offsetPoint
+        * @param point {Point} A Point object to use to offset this Rectangle object.
+        * @return {Rectangle} This Rectangle object.
+        **/
         public offsetPoint(point: Point): Rectangle {
 
             return this.offset(point.x, point.y);
@@ -563,10 +563,10 @@ module Kiwi.Geom {
         }
 
         /**
-         * Sets all of the Rectangle object's properties to 0. A Rectangle object is empty if its width or height is less than or equal to 0.
-         * @method setEmpty
-         * @return {Rectangle} This rectangle object
-         **/
+        * Sets all of the Rectangle object's properties to 0. A Rectangle object is empty if its width or height is less than or equal to 0.
+        * @method setEmpty
+        * @return {Rectangle} This rectangle object
+        **/
         public setEmpty() {
 
             return this.setTo(0, 0, 0, 0);
@@ -574,14 +574,14 @@ module Kiwi.Geom {
         }
 
         /**
-         * Sets the members of Rectangle to the specified values.
-         * @method setTo
-         * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
-         * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
-         * @param width {Number} width The width of the rectangle in pixels.
-         * @param height {Number} height The height of the rectangle in pixels.
-         * @return {Rectangle} This rectangle object
-         **/
+        * Sets the properties of Rectangle to the specified values.
+        * @method setTo
+        * @param x {Number} x The x coordinate of the top-left corner of the rectangle.
+        * @param y {Number} y The y coordinate of the top-left corner of the rectangle.
+        * @param width {Number} width The width of the rectangle in pixels.
+        * @param height {Number} height The height of the rectangle in pixels.
+        * @return {Rectangle} This rectangle object
+        **/
         public setTo(x: number, y: number, width: number, height: number): Rectangle {
 
             if (!isNaN(x) && !isNaN(y) && !isNaN(width) && !isNaN(height))
@@ -605,12 +605,12 @@ module Kiwi.Geom {
         }
 
         /**
-         * Adds two rectangles together to create a new Rectangle object, by filling in the horizontal and vertical space between the two rectangles.
-         * @method union
-         * @param toUnion{Rectangle} toUnion A Rectangle object to add to this Rectangle object.
-         * @param [output = Rectangle] {Rectangle} output Optional Rectangle object. If given the new values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
-         * @return {Rectangle} A Rectangle object that is the union of the two rectangles.
-         **/
+        * Adds two rectangles together to create a new Rectangle object, by filling in the horizontal and vertical space between the two rectangles.
+        * @method union
+        * @param toUnion{Rectangle} toUnion A Rectangle object to add to this Rectangle object.
+        * @param [output = Rectangle] {Rectangle} output Optional Rectangle object. If given the new values will be set into this object, otherwise a brand new Rectangle object will be created and returned.
+        * @return {Rectangle} A Rectangle object that is the union of the two rectangles.
+        **/
         public union(toUnion: Rectangle, output: Rectangle = new Rectangle): Rectangle {
 
             return output.setTo(
@@ -623,7 +623,7 @@ module Kiwi.Geom {
         }
 
         /**
-        [Requires Description]
+        * [DESCRIPTION REQUIRED]
         * @method scale
         * @param x {number}
         * @param y {number}
@@ -650,10 +650,10 @@ module Kiwi.Geom {
         }
 
         /**
-         * Returns a string representation of this object.
-         * @method toString
-         * @return {string} a string representation of the instance.
-         **/
+        * Returns a string representation of this object.
+        * @method toString
+        * @return {string} a string representation of the instance.
+        **/
         public toString(): string {
 
             return "[{Rectangle (x=" + this.x + " y=" + this.y + " width=" + this.width + " height=" + this.height + " isEmpty=" + this.isEmpty() + ")}]";
