@@ -293,7 +293,7 @@ module Kiwi.Components {
 
         /**
         * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.
-        * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
+        * Use bitwise operators to check the values stored here, or use isTouching(), justStartedTouching(), etc.
         * You can even use them broadly as boolean values if you're feeling saucy!
         * @property wasTouching
         * @type number
@@ -347,9 +347,21 @@ module Kiwi.Components {
         private _callbackContext: any = null;
 
         /**
-		* Whether the object collides or not.  For more control over what directions
-		* the object will collide from, use collision constants (like LEFT, FLOOR, etc)
-		* to set the value of allowCollisions directly.
+        * Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.
+        * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
+        * @method touching
+        * @param value [number] The collision constant of the side you want to check against.
+        * @return boolean 
+        * @public
+        */
+        public isTouching(value: number): boolean {
+            return (this.touching & value) == value;
+        }
+
+        /**
+		* Whether the object collides or not.  
+        * For more control over what directions the object will collide from, use collision constants (like LEFT, FLOOR, etc)
+		* and set the value of allowCollisions directly.
         * @method solid
         * @param [value] {boolean} If left empty, this will then just toggle between ANY and NONE.
         * @return boolean
@@ -362,7 +374,7 @@ module Kiwi.Components {
                     this.allowCollisions = ArcadePhysics.NONE;
             }
 
-                return (this.allowCollisions & ArcadePhysics.ANY) > ArcadePhysics.NONE;
+             return (this.allowCollisions & ArcadePhysics.ANY) > ArcadePhysics.NONE;
         }
 
         ////////Static functions/////////

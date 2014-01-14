@@ -6948,9 +6948,21 @@ var Kiwi;
             };
 
             /**
-            * Whether the object collides or not.  For more control over what directions
-            * the object will collide from, use collision constants (like LEFT, FLOOR, etc)
-            * to set the value of allowCollisions directly.
+            * Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.
+            * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
+            * @method touching
+            * @param value [number] The collision constant of the side you want to check against.
+            * @return boolean
+            * @public
+            */
+            ArcadePhysics.prototype.isTouching = function (value) {
+                return (this.touching & value) == value;
+            };
+
+            /**
+            * Whether the object collides or not.
+            * For more control over what directions the object will collide from, use collision constants (like LEFT, FLOOR, etc)
+            * and set the value of allowCollisions directly.
             * @method solid
             * @param [value] {boolean} If left empty, this will then just toggle between ANY and NONE.
             * @return boolean
