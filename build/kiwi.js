@@ -11582,11 +11582,11 @@ var Kiwi;
                 if (typeof y === "undefined") { y = 0; }
                 if (typeof config === "undefined") { config = null; }
                 _super.call(this, state, x, y);
-                this.numParticles = 1000;
+                this.numParticles = 100;
                 this.gravity = 0.1;
                 if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
                     //Create own renderer
-                    this.glRenderer = this.game.renderer.requestRendererInstance("StatelessParticleRenderer");
+                    this.glRenderer = this.game.renderer.requestRendererInstance("StatelessParticleRenderer", { config: config });
                 }
 
                 //Texture atlas error check.
@@ -11625,7 +11625,7 @@ var Kiwi;
                 this._posVel = new Array();
                 this._startTimeLifeSpan = new Array();
                 for (var i = 0; i < this.numParticles; i++) {
-                    this._posVel.push(200, 200, Math.random() * 100 - 50, Math.random() * 200 - 100);
+                    this._posVel.push(0, 0, Math.random() * 100 - 50, Math.random() * 200 - 100);
                     this._startTimeLifeSpan.push(Math.random() * 5, Math.random() * 8);
                 }
                 this.glRenderer.initBatch(this._posVel, this._startTimeLifeSpan);
@@ -21853,11 +21853,13 @@ var Kiwi;
             };
 
             //for gl compatibility - refactor me
-            CanvasRenderer.prototype.requestRendererInstance = function (rendererID) {
+            CanvasRenderer.prototype.requestRendererInstance = function (rendererID, params) {
+                if (typeof params === "undefined") { params = null; }
                 return null;
             };
 
-            CanvasRenderer.prototype.requestSharedRenderer = function (rendererID) {
+            CanvasRenderer.prototype.requestSharedRenderer = function (rendererID, params) {
+                if (typeof params === "undefined") { params = null; }
                 return null;
             };
 
@@ -21979,36 +21981,37 @@ var Kiwi;
                 return "GLRenderer";
             };
 
-            GLRenderManager.prototype.addSharedRenderer = function (rendererID) {
+            GLRenderManager.prototype.addSharedRenderer = function (rendererID, params) {
+                if (typeof params === "undefined") { params = null; }
                 //does renderer exist?
                 if (Kiwi.Renderers[rendererID]) {
                     //already added?
                     if (!(rendererID in this._sharedRenderers)) {
-                        this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._shaderManager);
-                        this._sharedRenderers[rendererID].init(this._game.stage.gl);
+                        this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
                         return true;
                     }
                 }
                 return false;
             };
 
-            GLRenderManager.prototype.requestRendererInstance = function (rendererID) {
+            GLRenderManager.prototype.requestRendererInstance = function (rendererID, params) {
+                if (typeof params === "undefined") { params = null; }
                 if (rendererID in Kiwi.Renderers) {
-                    var renderer = new Kiwi.Renderers[rendererID](this._shaderManager);
-                    renderer.init(this._game.stage.gl);
-
+                    var renderer = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
                     return renderer;
                 } else {
                     console.log("No renderer with id " + rendererID + " exists");
                 }
+                return null;
             };
 
-            GLRenderManager.prototype.requestSharedRenderer = function (rendererID) {
+            GLRenderManager.prototype.requestSharedRenderer = function (rendererID, params) {
+                if (typeof params === "undefined") { params = null; }
                 var renderer = this._sharedRenderers[rendererID];
                 if (renderer) {
                     return renderer;
                 } else {
-                    if (this.addSharedRenderer(rendererID)) {
+                    if (this.addSharedRenderer(rendererID, params)) {
                         return this._sharedRenderers[rendererID];
                     } else {
                         console.log("no renderer called " + rendererID);
@@ -22181,10 +22184,10 @@ var Kiwi;
                 //console.log("switching program");
                 this._currentRenderer.disable(gl);
                 this._currentRenderer = entity.glRenderer;
-                if (!this._currentRenderer.loaded) {
-                    this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-                }
 
+                // if (!this._currentRenderer.loaded) {    // could be done at instantiation time?
+                //     this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+                // }
                 this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
             };
 
@@ -22800,9 +22803,10 @@ var Kiwi;
 (function (Kiwi) {
     (function (Renderers) {
         var Renderer = (function () {
-            function Renderer(shaderManager) {
+            function Renderer(gl, shaderManager) {
                 this.loaded = false;
                 this.shaderManager = shaderManager;
+                this.loaded = true;
             }
             /**
             
@@ -22811,11 +22815,9 @@ var Kiwi;
             * @type Float32Array
             * @public
             */
-            Renderer.prototype.init = function (gl, params) {
-                if (typeof params === "undefined") { params = null; }
-                this.loaded = true;
-            };
-
+            //public init(gl: WebGLRenderingContext, params: any = null) {
+            //    this.loaded = true;
+            //}
             Renderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
             };
@@ -22850,8 +22852,9 @@ var Kiwi;
     (function (Renderers) {
         var TextureAtlasRenderer = (function (_super) {
             __extends(TextureAtlasRenderer, _super);
-            function TextureAtlasRenderer(shaderManager) {
-                _super.call(this, shaderManager);
+            function TextureAtlasRenderer(gl, shaderManager, params) {
+                if (typeof params === "undefined") { params = null; }
+                _super.call(this, gl, shaderManager);
                 /**
                 * Maximum allowable sprites to render per frame
                 * @property _maxItems
@@ -22860,10 +22863,6 @@ var Kiwi;
                 * @private
                 */
                 this._maxItems = 2000;
-            }
-            TextureAtlasRenderer.prototype.init = function (gl, params) {
-                if (typeof params === "undefined") { params = null; }
-                _super.prototype.init.call(this, gl, params);
 
                 //create buffers
                 //dynamic
@@ -22875,8 +22874,7 @@ var Kiwi;
 
                 //use shaders
                 this.shaderPair = this.shaderManager.requestShader(gl, "TextureAtlasShader");
-            };
-
+            }
             TextureAtlasRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
                 //gl.useProgram(this.shaderPair.shaderProgram);
@@ -22995,8 +22993,9 @@ var Kiwi;
     (function (Renderers) {
         var TestRenderer = (function (_super) {
             __extends(TestRenderer, _super);
-            function TestRenderer(shaderManager) {
-                _super.call(this, shaderManager);
+            function TestRenderer(gl, shaderManager, params) {
+                if (typeof params === "undefined") { params = null; }
+                _super.call(this, gl, shaderManager);
                 /**
                 * Maximum allowable sprites to render per frame
                 * @property _maxItems
@@ -23005,10 +23004,6 @@ var Kiwi;
                 * @private
                 */
                 this._maxItems = 2000;
-            }
-            TestRenderer.prototype.init = function (gl, params) {
-                if (typeof params === "undefined") { params = null; }
-                _super.prototype.init.call(this, gl, params);
 
                 //create buffers
                 //dynamic
@@ -23020,8 +23015,7 @@ var Kiwi;
 
                 //use shaders
                 this.shaderPair = this.shaderManager.requestShader(gl, "TestShader");
-            };
-
+            }
             TestRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
                 this.shaderPair = this.shaderManager.requestShader(gl, "TestShader");
@@ -23126,8 +23120,9 @@ var Kiwi;
     (function (Renderers) {
         var StatelessParticleRenderer = (function (_super) {
             __extends(StatelessParticleRenderer, _super);
-            function StatelessParticleRenderer(shaderManager) {
-                _super.call(this, shaderManager);
+            function StatelessParticleRenderer(gl, shaderManager, params) {
+                if (typeof params === "undefined") { params = null; }
+                _super.call(this, gl, shaderManager);
                 /**
                 * Maximum allowable sprites to render per frame
                 * @property _maxItems
@@ -23136,20 +23131,20 @@ var Kiwi;
                 * @private
                 */
                 this._maxItems = 2000;
-            }
-            StatelessParticleRenderer.prototype.init = function (gl, params) {
-                if (typeof params === "undefined") { params = null; }
-                _super.prototype.init.call(this, gl, params);
                 console.log("init renderer");
                 this.gl = gl;
 
+                this._config = params.config;
+                if (!this._config) {
+                    console.log("no particle configuration supplied");
+                }
+
                 //create buffers
                 //dynamic
-                console.log("AAA");
                 this.aXYVxVyBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 4);
                 this.aBirthLifespanBuffer = new Kiwi.Renderers.GLArrayBuffer(gl, 2);
 
-                //6 verts per quad
+                //6 verts per quad **************************fix
                 this.indexBuffer = new Kiwi.Renderers.GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
 
                 //use shaders
@@ -23158,13 +23153,11 @@ var Kiwi;
                 //            this.shaderPair = new Kiwi.Shaders.StatelessParticlesShader();
                 //          this.shaderPair.init(gl);
                 this.startTime = Date.now();
-            };
-
+            }
             StatelessParticleRenderer.prototype.enable = function (gl, params) {
                 if (typeof params === "undefined") { params = null; }
                 this.shaderPair = this.shaderManager.requestShader(gl, "StatelessParticlesShader");
-
-                console.log("enabled");
+                var cfg = this._config;
 
                 gl.enableVertexAttribArray(this.shaderPair.attributes.aXYVxVy);
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.aXYVxVyBuffer.buffer);
@@ -23185,15 +23178,15 @@ var Kiwi;
 
                 //Particle uniforms
                 gl.uniform1f(this.shaderPair.uniforms.uT, 0.0);
-                gl.uniform1f(this.shaderPair.uniforms.uGravity, 0.1);
-                gl.uniform2fv(this.shaderPair.uniforms.uPointSizeRange, new Float32Array([5, 10]));
-                gl.uniform4fv(this.shaderPair.uniforms.uAttackColor, new Float32Array([1, 0, 0, 1]));
-                gl.uniform4fv(this.shaderPair.uniforms.uDecayColor, new Float32Array([1, 0, 1, 1]));
-                gl.uniform4fv(this.shaderPair.uniforms.uSustainColor, new Float32Array([0, 1, 1, 1]));
-                gl.uniform4fv(this.shaderPair.uniforms.uReleaseColor, new Float32Array([1, 1, 0, 1]));
-                gl.uniform3fv(this.shaderPair.uniforms.uADSR, new Float32Array([0.3, 0.5, 0.7]));
-                gl.uniform1f(this.shaderPair.uniforms.uAlpha, 1.0);
-                gl.uniform1f(this.shaderPair.uniforms.uLoop, 1);
+                gl.uniform1f(this.shaderPair.uniforms.uGravity, cfg.gravity);
+                gl.uniform2fv(this.shaderPair.uniforms.uPointSizeRange, new Float32Array([cfg.startSize, cfg.endSize]));
+                gl.uniform4fv(this.shaderPair.uniforms.uAttackColor, new Float32Array(cfg.attackCol));
+                gl.uniform4fv(this.shaderPair.uniforms.uDecayColor, new Float32Array(cfg.decayCol));
+                gl.uniform4fv(this.shaderPair.uniforms.uSustainColor, new Float32Array(cfg.sustainCol));
+                gl.uniform4fv(this.shaderPair.uniforms.uReleaseColor, new Float32Array(cfg.releaseCol));
+                gl.uniform3fv(this.shaderPair.uniforms.uADSR, new Float32Array(cfg.DSR));
+                gl.uniform1f(this.shaderPair.uniforms.uAlpha, cfg.alpha);
+                gl.uniform1f(this.shaderPair.uniforms.uLoop, (cfg.loop) ? 1 : 0);
             };
 
             StatelessParticleRenderer.prototype.disable = function (gl) {
@@ -23224,7 +23217,7 @@ var Kiwi;
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
 
                 //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
-                gl.drawElements(gl.POINTS, 500, gl.UNSIGNED_SHORT, 0);
+                gl.drawElements(gl.POINTS, 100, gl.UNSIGNED_SHORT, 0);
             };
 
             /**

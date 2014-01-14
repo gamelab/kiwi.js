@@ -12,43 +12,47 @@ module Kiwi.Renderers {
     export class StatelessParticleRenderer extends Renderer {
 
 
-        constructor(shaderManager:Kiwi.Shaders.ShaderManager) {
-            super(shaderManager);
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params: any = null) {
+            super(gl, shaderManager);
+            console.log("init renderer");
+            this.gl = gl;
+
+            this._config = params.config;
+            if (!this._config) {
+                console.log("no particle configuration supplied");
+            }
+            //create buffers
+            //dynamic
+        
+            this.aXYVxVyBuffer = new GLArrayBuffer(gl, 4);
+            this.aBirthLifespanBuffer = new GLArrayBuffer(gl, 2);
+
+            //6 verts per quad **************************fix
+            this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
+
+            //use shaders
+            this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "StatelessParticlesShader");
+            //            this.shaderPair = new Kiwi.Shaders.StatelessParticlesShader();
+
+            //          this.shaderPair.init(gl);
+            this.startTime = Date.now();
         }
 
         public gl: WebGLRenderingContext;
+
+
+        private _config: any;
 
         public static RENDERER_ID: string = "StatelessParticleRenderer";
 
         
         public startTime: number;
 
-        public init(gl: WebGLRenderingContext, params: any = null) {
-            super.init(gl, params);
-            console.log("init renderer");
-            this.gl = gl;
-            //create buffers
-            //dynamic
-            console.log("AAA");
-            this.aXYVxVyBuffer = new GLArrayBuffer(gl, 4);
-            this.aBirthLifespanBuffer = new GLArrayBuffer(gl, 2);
-
-            //6 verts per quad
-            this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-
-            //use shaders
-            this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "StatelessParticlesShader");
-//            this.shaderPair = new Kiwi.Shaders.StatelessParticlesShader();
-
-  //          this.shaderPair.init(gl);
-            this.startTime = Date.now();
-        }
-
+       
         public enable(gl: WebGLRenderingContext, params: any = null) {
             this.shaderPair = <Kiwi.Shaders.TextureAtlasShader>this.shaderManager.requestShader(gl, "StatelessParticlesShader");
+            var cfg = this._config;
 
-            console.log("enabled");
-            
             gl.enableVertexAttribArray(this.shaderPair.attributes.aXYVxVy);
             gl.bindBuffer(gl.ARRAY_BUFFER, this.aXYVxVyBuffer.buffer);
             gl.vertexAttribPointer(this.shaderPair.attributes.aXYVxVy, this.aXYVxVyBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -69,23 +73,21 @@ module Kiwi.Renderers {
             //Particle uniforms
 
             gl.uniform1f(this.shaderPair.uniforms.uT, 0.0);
-            gl.uniform1f(this.shaderPair.uniforms.uGravity, 0.1);
-            gl.uniform2fv(this.shaderPair.uniforms.uPointSizeRange, new Float32Array([5,10]));
-            gl.uniform4fv(this.shaderPair.uniforms.uAttackColor, new Float32Array([1, 0, 0, 1]));
-            gl.uniform4fv(this.shaderPair.uniforms.uDecayColor, new Float32Array([1, 0, 1, 1]));
-            gl.uniform4fv(this.shaderPair.uniforms.uSustainColor, new Float32Array([0, 1, 1, 1]));
-            gl.uniform4fv(this.shaderPair.uniforms.uReleaseColor, new Float32Array([1, 1, 0, 1]));
-            gl.uniform3fv(this.shaderPair.uniforms.uADSR, new Float32Array([0.3,0.5,0.7]));
-            gl.uniform1f(this.shaderPair.uniforms.uAlpha, 1.0);
-            gl.uniform1f(this.shaderPair.uniforms.uLoop, 1);
+            gl.uniform1f(this.shaderPair.uniforms.uGravity, cfg.gravity);
+            gl.uniform2fv(this.shaderPair.uniforms.uPointSizeRange, new Float32Array([cfg.startSize,cfg.endSize]));
+            gl.uniform4fv(this.shaderPair.uniforms.uAttackColor, new Float32Array(cfg.attackCol));
+            gl.uniform4fv(this.shaderPair.uniforms.uDecayColor, new Float32Array(cfg.decayCol));
+            gl.uniform4fv(this.shaderPair.uniforms.uSustainColor, new Float32Array(cfg.sustainCol));
+            gl.uniform4fv(this.shaderPair.uniforms.uReleaseColor, new Float32Array(cfg.releaseCol));
+            gl.uniform3fv(this.shaderPair.uniforms.uADSR, new Float32Array(cfg.DSR));
+            gl.uniform1f(this.shaderPair.uniforms.uAlpha, cfg.alpha);
+            gl.uniform1f(this.shaderPair.uniforms.uLoop, (cfg.loop) ? 1:0);
            
 
          
         }
 
-        public configure(cfg: any) {
-
-        }
+    
 
         public disable(gl: WebGLRenderingContext) {
             gl.disableVertexAttribArray(this.shaderPair.attributes.aXYVxVy);
@@ -118,7 +120,7 @@ module Kiwi.Renderers {
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer.buffer);
             //4 components per attributes, 6 verts per quad - used to work out how many elements to draw
-            gl.drawElements(gl.POINTS, 500, gl.UNSIGNED_SHORT, 0);
+            gl.drawElements(gl.POINTS,100, gl.UNSIGNED_SHORT, 0);
         }
 
         /**

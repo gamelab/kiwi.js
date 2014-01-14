@@ -6,8 +6,9 @@ module Kiwi.Renderers {
     export class Renderer {
 
 
-        constructor(shaderManager:Kiwi.Shaders.ShaderManager) {
+        constructor(gl: WebGLRenderingContext,shaderManager:Kiwi.Shaders.ShaderManager) {
             this.shaderManager = shaderManager;
+            this.loaded = true;
        
         }
 
@@ -34,9 +35,9 @@ module Kiwi.Renderers {
         * @public
         */
 
-        public init(gl: WebGLRenderingContext, params: any = null) {
-            this.loaded = true;
-        }
+        //public init(gl: WebGLRenderingContext, params: any = null) {
+        //    this.loaded = true;
+        //}
 
         public enable(gl: WebGLRenderingContext, params: any = null) {
             

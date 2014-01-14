@@ -12,14 +12,8 @@ module Kiwi.Renderers {
     export class TestRenderer extends Renderer {
 
 
-        constructor(shaderManager: Kiwi.Shaders.ShaderManager) {
-            super(shaderManager);
-        }
-
-        public static RENDERER_ID: string = "TestRenderer";
-
-        public init(gl: WebGLRenderingContext, params: any = null) {
-            super.init(gl, params);
+        constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, params: any = null) {
+            super(gl, shaderManager);
             //create buffers
             //dynamic
             this.xyuvBuffer = new GLArrayBuffer(gl, 4);
@@ -27,12 +21,14 @@ module Kiwi.Renderers {
 
             //static
             this.indexBuffer = new GLElementArrayBuffer(gl, 1, this._generateIndices(this._maxItems * 6));
-            
+
             //use shaders
             this.shaderPair = <Kiwi.Shaders.TestShader>this.shaderManager.requestShader(gl, "TestShader");
-            
         }
 
+        public static RENDERER_ID: string = "TestRenderer";
+
+       
         public enable(gl: WebGLRenderingContext, params: any = null) {
             this.shaderPair = <Kiwi.Shaders.TestShader>this.shaderManager.requestShader(gl, "TestShader");
 

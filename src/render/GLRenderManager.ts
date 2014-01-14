@@ -141,23 +141,21 @@ module Kiwi.Renderers {
               
                 //already added?
                 if (!(rendererID in this._sharedRenderers)) {
-                    this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._shaderManager,params);
-                    this._sharedRenderers[rendererID].init(this._game.stage.gl);
+                    this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._game.stage.gl,this._shaderManager,params);
                     return true;
                 }
             }
             return false;
         }
 
-        public requestRendererInstance(rendererID: string): Kiwi.Renderers.Renderer {
+        public requestRendererInstance(rendererID: string,params:any = null): Kiwi.Renderers.Renderer {
             if (rendererID in Kiwi.Renderers) {
-                var renderer = new Kiwi.Renderers[rendererID](this._shaderManager); 
-                renderer.init(this._game.stage.gl);
-        
+                var renderer = new Kiwi.Renderers[rendererID](this._game.stage.gl,this._shaderManager,params); 
                 return renderer
             } else {
                 console.log("No renderer with id " + rendererID + " exists");
             }
+            return null; //fail
         } 
 
         public requestSharedRenderer(rendererID: string,params:any = null): Kiwi.Renderers.Renderer {
@@ -165,7 +163,7 @@ module Kiwi.Renderers {
             if (renderer) {
                 return renderer;
             } else {
-                if (this.addSharedRenderer(rendererID,params:any = null)) {
+                if (this.addSharedRenderer(rendererID,params)) {
                     return this._sharedRenderers[rendererID];
                 } else {
                     console.log("no renderer called " + rendererID);
@@ -348,9 +346,9 @@ module Kiwi.Renderers {
             //console.log("switching program");
             this._currentRenderer.disable(gl);
             this._currentRenderer = entity.glRenderer;
-            if (!this._currentRenderer.loaded) {    // could be done at instantiation time?
-                this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
-            }
+           // if (!this._currentRenderer.loaded) {    // could be done at instantiation time?
+           //     this._currentRenderer.init(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });
+           // }
            
 
             this._currentRenderer.enable(gl, { mvMatrix: this.mvMatrix, stageResolution: this._stageResolution, cameraOffset: this._cameraOffset });

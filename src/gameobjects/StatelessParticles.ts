@@ -27,7 +27,7 @@ module Kiwi.GameObjects {
             super(state, x, y);
             if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
                 //Create own renderer
-                this.glRenderer = <Kiwi.Renderers.StatelessParticleRenderer>this.game.renderer.requestRendererInstance("StatelessParticleRenderer");
+                this.glRenderer = <Kiwi.Renderers.StatelessParticleRenderer>this.game.renderer.requestRendererInstance("StatelessParticleRenderer", { config: config });
             }
             //Texture atlas error check.
             if (typeof atlas == "undefined") {
@@ -76,7 +76,7 @@ module Kiwi.GameObjects {
 
         private _posVel: Array<number>;
         private _startTimeLifeSpan: Array<number>;
-        public numParticles: number = 1000;
+        public numParticles: number = 100;
         public gravity: number = 0.1;
 
         public init() {
@@ -84,7 +84,7 @@ module Kiwi.GameObjects {
             this._posVel = new Array<number>();
             this._startTimeLifeSpan = new Array<number>();
             for (var i = 0; i < this.numParticles; i++) {
-                this._posVel.push(200, 200, Math.random() * 100 - 50, Math.random() * 200 - 100);
+                this._posVel.push(0, 0, Math.random() * 100 - 50, Math.random() * 200 - 100);
                 this._startTimeLifeSpan.push(Math.random()*5, Math.random() * 8);
             }
             this.glRenderer.initBatch(this._posVel,this._startTimeLifeSpan);
